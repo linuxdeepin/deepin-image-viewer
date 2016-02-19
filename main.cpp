@@ -1,4 +1,4 @@
-#include "mainwidget.h"
+#include "frame/mainwidget.h"
 #include <QApplication>
 #include <DLog>
 

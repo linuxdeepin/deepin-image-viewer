@@ -16,7 +16,19 @@ TARGET = deepin-viewer
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwidget.cpp
+SOURCES += main.cpp \
+    frame/blureframe.cpp \
+    frame/mainwidget.cpp \
+    frame/toptoolbar.cpp \
+    frame/bottomtoolbar.cpp
 
-HEADERS  += mainwidget.h
+HEADERS += \
+    frame/blureframe.h \
+    frame/mainwidget.h \
+    frame/toptoolbar.h \
+    frame/bottomtoolbar.h
+
+
+
+RESOURCES += \
+    resources.qrc
