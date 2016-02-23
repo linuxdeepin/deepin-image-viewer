@@ -4,6 +4,7 @@
 #include <QFrame>
 #include "toptoolbar.h"
 #include "bottomtoolbar.h"
+#include "signalmanager.h"
 
 class MainWidget : public QFrame
 {
@@ -27,8 +28,9 @@ private:
 
 private:
     QWidget *m_centerContent;
-    TopToolbar *m_TopToolbar;
-    BottomToolbar *m_BottomToolbar;
+    TopToolbar *m_topToolbar;
+    BottomToolbar *m_bottomToolbar;
+    SignalManager *m_signalManager = SignalManager::instance();
 };
 
 #endif // MAINWIDGET_H

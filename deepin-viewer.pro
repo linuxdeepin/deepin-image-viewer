@@ -20,13 +20,15 @@ SOURCES += main.cpp \
     frame/blureframe.cpp \
     frame/mainwidget.cpp \
     frame/toptoolbar.cpp \
-    frame/bottomtoolbar.cpp
+    frame/bottomtoolbar.cpp \
+    signalmanager.cpp
 
 HEADERS += \
     frame/blureframe.h \
     frame/mainwidget.h \
     frame/toptoolbar.h \
-    frame/bottomtoolbar.h
+    frame/bottomtoolbar.h \
+    signalmanager.h
 
 
 

@@ -1,6 +1,7 @@
 #include "toptoolbar.h"
 #include <QDebug>
 #include <QGradient>
+#include <QResizeEvent>
 #include <QApplication>
 #include <QStackedWidget>
 
@@ -24,6 +25,23 @@ void TopToolbar::setLeftContent(QWidget *content)
     }
 
     m_leftLayout->addWidget(content);
+}
+
+void TopToolbar::setMiddleContent(QWidget *content)
+{
+    QLayoutItem *child;
+    while ((child = m_middleLayout->takeAt(0)) != 0) {
+        delete child;
+    }
+
+    m_middleLayout->addWidget(content);
+}
+
+void TopToolbar::resizeEvent(QResizeEvent *e)
+{
+    m_leftContent->setFixedWidth(e->size().width() / 3);
+    m_middleContent->setFixedWidth(e->size().width() / 3);
+    m_rightContent->setFixedWidth(e->size().width() / 3);
 }
 
 void TopToolbar::initWidgets()
@@ -64,19 +82,27 @@ void TopToolbar::initWidgets()
     DWindowCloseButton *cb = new DWindowCloseButton;
     connect(cb, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
 
-    QHBoxLayout *rightLayout = new QHBoxLayout;
+    m_rightContent = new QWidget;
+    QHBoxLayout *rightLayout = new QHBoxLayout(m_rightContent);
     rightLayout->setContentsMargins(0, 0, 0, 0);
     rightLayout->setSpacing(0);
+    rightLayout->addStretch(1);
     rightLayout->addWidget(ob);
     rightLayout->addWidget(minb);
     rightLayout->addWidget(sw);
     rightLayout->addWidget(cb);
 
-    m_leftLayout = new QHBoxLayout;
+    m_leftContent = new QWidget;
+    m_leftLayout = new QHBoxLayout(m_leftContent);
     m_leftLayout->setContentsMargins(0, 0, 0, 0);
     m_leftLayout->setSpacing(0);
 
-    mainLayout->addLayout(m_leftLayout);
-    mainLayout->addStretch(1);
-    mainLayout->addLayout(rightLayout);
+    m_middleContent = new QWidget;
+    m_middleLayout = new QHBoxLayout(m_middleContent);
+    m_middleLayout->setContentsMargins(0, 0, 0, 0);
+    m_middleLayout->setSpacing(0);
+
+    mainLayout->addWidget(m_leftContent);
+    mainLayout->addWidget(m_middleContent);
+    mainLayout->addWidget(m_rightContent);
 }

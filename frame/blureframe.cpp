@@ -1,9 +1,13 @@
 #include "blureframe.h"
+#include <QDebug>
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsBlurEffect>
-#include <QDebug>
+#include <QPropertyAnimation>
+
+const int ANIMATION_DURATION = 200;
+const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::OutQuad;
 
 BlureFrame::BlureFrame(QWidget *parent, QWidget *source)
     : QFrame(parent), m_sourceWidget(source)
@@ -28,6 +32,11 @@ void BlureFrame::setBlureRadius(int radius)
     update();
 }
 
+void BlureFrame::setPos(const QPoint &pos)
+{
+    QFrame::move(pos);
+}
+
 void BlureFrame::paintEvent(QPaintEvent *)
 {
     if (!parentWidget() || parentWidget() == m_sourceWidget)
@@ -44,6 +53,17 @@ void BlureFrame::paintEvent(QPaintEvent *)
     p.drawPixmap(0, 0, width(), height(), bp);
     p.fillRect(0, 0, width(), height(), m_coverBrush);
     p.end();
+}
+
+void BlureFrame::move(int x, int y)
+{
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+    animation->setDuration(ANIMATION_DURATION);
+    animation->setEasingCurve(ANIMATION_EASING_CURVE);
+    animation->setStartValue(pos());
+    animation->setEndValue(QPoint(x, y));
+    animation->start();
+    connect(animation, &QPropertyAnimation::finished, animation, &QPropertyAnimation::deleteLater);
 }
 
 QImage BlureFrame::applyEffectToImage(QImage src, QGraphicsEffect *effect, int extent)

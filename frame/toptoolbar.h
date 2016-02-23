@@ -17,12 +17,20 @@ class TopToolbar : public BlureFrame
 public:
     TopToolbar(QWidget *parent, QWidget *source);
     void setLeftContent(QWidget *content);
+    void setMiddleContent(QWidget *content);
+
+protected:
+    void resizeEvent(QResizeEvent *e);
 
 private:
     void initWidgets();
 
 private:
     QHBoxLayout *m_leftLayout;
+    QHBoxLayout *m_middleLayout;
+    QWidget *m_leftContent;
+    QWidget *m_middleContent;
+    QWidget *m_rightContent;
 };
 
 #endif // TOPTOOLBAR_H
