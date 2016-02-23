@@ -5,6 +5,7 @@
 #include "toptoolbar.h"
 #include "bottomtoolbar.h"
 #include "signalmanager.h"
+#include "extensionpanel.h"
 
 class MainWidget : public QFrame
 {
@@ -21,15 +22,18 @@ private:
     void initCenterContent();
     void initTopToolbar();
     void initBottomToolbar();
+    void initExtensionPanel();
     void initStyleSheet();
 
     void updateTopToolbarPosition();
     void updateBottomToolbarPosition();
+    void updateExtensionPanelPosition();
 
 private:
     QWidget *m_centerContent;
     TopToolbar *m_topToolbar;
     BottomToolbar *m_bottomToolbar;
+    ExtensionPanel *m_extensionPanel;
     SignalManager *m_signalManager = SignalManager::instance();
 };
 

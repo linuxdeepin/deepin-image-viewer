@@ -17,6 +17,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);
+    QPixmap getResultPixmap();
 
 private:
     QImage applyEffectToImage(QImage src, QGraphicsEffect *effect, int extent = 0);

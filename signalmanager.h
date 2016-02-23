@@ -14,10 +14,13 @@ signals:
     void updateTopToolbarLeftContent(QWidget *content);
     void updateTopToolbarMiddleContent(QWidget *content);
     void updateBottomToolbarContent(QWidget *content);
+    void updateExtensionPanelContent(QWidget *content);
     void showTopToolbar();
     void hideTopToolbar();
     void showBottomToolbar();
     void hideBottomToolbar();
+    void showExtensionPanel();
+    void hideExtensionPanel();
 
 private:
     explicit SignalManager(QObject *parent = 0);

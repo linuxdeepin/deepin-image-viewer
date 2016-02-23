@@ -6,8 +6,8 @@
 #include <QGraphicsBlurEffect>
 #include <QPropertyAnimation>
 
-const int ANIMATION_DURATION = 200;
-const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::OutQuad;
+const int ANIMATION_DURATION = 500;
+const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::OutQuint;
 
 BlureFrame::BlureFrame(QWidget *parent, QWidget *source)
     : QFrame(parent), m_sourceWidget(source)
@@ -39,8 +39,16 @@ void BlureFrame::setPos(const QPoint &pos)
 
 void BlureFrame::paintEvent(QPaintEvent *)
 {
+    QPainter p(this);
+    p.drawPixmap(0, 0, width(), height(), getResultPixmap());
+    p.fillRect(0, 0, width(), height(), m_coverBrush);
+    p.end();
+}
+
+QPixmap BlureFrame::getResultPixmap()
+{
     if (!parentWidget() || parentWidget() == m_sourceWidget)
-        return;
+        return QPixmap();
 
     QGraphicsBlurEffect *effect = new QGraphicsBlurEffect(this);
     effect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
@@ -49,10 +57,7 @@ void BlureFrame::paintEvent(QPaintEvent *)
     bp.convertFromImage(applyEffectToImage(m_sourceWidget->grab().toImage(), effect));
     bp = bp.copy(geometry());//Crop effective area
 
-    QPainter p(this);
-    p.drawPixmap(0, 0, width(), height(), bp);
-    p.fillRect(0, 0, width(), height(), m_coverBrush);
-    p.end();
+    return bp;
 }
 
 void BlureFrame::move(int x, int y)

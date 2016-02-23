@@ -11,6 +11,7 @@ using namespace Dtk::Widget;
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 24;
+const int EXTENSION_PANEL_WIDTH = 240;
 
 MainWidget::MainWidget(QWidget *parent)
     : QFrame(parent)
@@ -24,6 +25,7 @@ MainWidget::MainWidget(QWidget *parent)
     move((dw.geometry().width() - ww) / 2, (dw.geometry().height() - wh) / 4);
 
     initCenterContent();
+    initExtensionPanel();
     initTopToolbar();
     initBottomToolbar();
 }
@@ -40,6 +42,9 @@ void MainWidget::resizeEvent(QResizeEvent *)
     }
     if (m_bottomToolbar) {
         updateBottomToolbarPosition();
+    }
+    if (m_extensionPanel) {
+        updateExtensionPanelPosition();
     }
 }
 
@@ -97,6 +102,21 @@ void MainWidget::initBottomToolbar()
     });
 }
 
+void MainWidget::initExtensionPanel()
+{
+    m_extensionPanel = new ExtensionPanel(this, m_centerContent);
+    updateExtensionPanelPosition();
+    connect(m_signalManager, &SignalManager::updateExtensionPanelContent, this, [=](QWidget *c) {
+        m_extensionPanel->setContent(c);
+    });
+    connect(m_signalManager, &SignalManager::showExtensionPanel, this, [=] {
+        m_extensionPanel->move(0, 0);
+    });
+    connect(m_signalManager, &SignalManager::hideExtensionPanel, this, [=] {
+        m_extensionPanel->move(- EXTENSION_PANEL_WIDTH, 0);
+    });
+}
+
 void MainWidget::initStyleSheet()
 {
     QFile sf(":/qss/resources/qss/default.qss");
@@ -119,4 +139,10 @@ void MainWidget::updateBottomToolbarPosition()
 {
     m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT);
+}
+
+void MainWidget::updateExtensionPanelPosition()
+{
+    m_extensionPanel->resize(EXTENSION_PANEL_WIDTH, height());
+    m_extensionPanel->move(0, 0);
 }

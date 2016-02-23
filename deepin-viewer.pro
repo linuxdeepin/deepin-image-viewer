@@ -21,14 +21,16 @@ SOURCES += main.cpp \
     frame/mainwidget.cpp \
     frame/toptoolbar.cpp \
     frame/bottomtoolbar.cpp \
-    signalmanager.cpp
+    signalmanager.cpp \
+    frame/extensionpanel.cpp
 
 HEADERS += \
     frame/blureframe.h \
     frame/mainwidget.h \
     frame/toptoolbar.h \
     frame/bottomtoolbar.h \
-    signalmanager.h
+    signalmanager.h \
+    frame/extensionpanel.h
 
 
 
