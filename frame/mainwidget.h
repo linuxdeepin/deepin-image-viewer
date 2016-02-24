@@ -4,7 +4,7 @@
 #include <QFrame>
 #include "toptoolbar.h"
 #include "bottomtoolbar.h"
-#include "signalmanager.h"
+#include "controller/signalmanager.h"
 #include "extensionpanel.h"
 
 class MainWidget : public QFrame

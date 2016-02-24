@@ -1,6 +1,6 @@
 #include "extensionpanel.h"
 #include "darrowbutton.h"
-#include "signalmanager.h"
+#include "controller/signalmanager.h"
 #include <QPainter>
 
 using namespace Dtk::Widget;

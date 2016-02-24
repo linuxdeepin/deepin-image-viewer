@@ -1,10 +1,10 @@
-# HACKING guide for Deepin Viewer
+# HACKING guide for Deepin Image Viewer
 
 ## Project layout
 
 ### Coding layout
 
-Deepin Viewer developed by Qt(QWidget).
+Deepin Image Viewer developed by Qt(QWidget).
 
 ### Others
 
