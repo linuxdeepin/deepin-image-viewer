@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     frame/toptoolbar.cpp \
     frame/bottomtoolbar.cpp \
     frame/extensionpanel.cpp \
-    controller/signalmanager.cpp
+    controller/signalmanager.cpp \
+    controller/databasemanager.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -30,7 +31,8 @@ HEADERS += \
     frame/toptoolbar.h \
     frame/bottomtoolbar.h \
     frame/extensionpanel.h \
-    controller/signalmanager.h
+    controller/signalmanager.h \
+    controller/databasemanager.h
 
 
 

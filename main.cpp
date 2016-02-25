@@ -1,6 +1,7 @@
 #include "frame/mainwidget.h"
 #include <QApplication>
 #include <DLog>
+#include "controller/databasemanager.h"
 
 using namespace Dtk::Util;
 
@@ -9,8 +10,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     a.setOrganizationName("deepin");
-    a.setApplicationName("deepin-viewer");
-    a.setApplicationDisplayName("Deepin Viewer");
+    a.setApplicationName("deepin-image-viewer");
+    a.setApplicationDisplayName("Deepin Image Viewer");
 
 //    // install translators
 //    QTranslator translator;
