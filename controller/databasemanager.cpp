@@ -14,16 +14,6 @@ const QString IMAGE_TABLE_NAME = "ImageTable";
 const QString ALBUM_TABLE_NAME = "AlbumTable";
 const QString DATETIME_FORMAT = "dd.MM.yyyy";
 
-DatabaseManager *DatabaseManager::m_databaseManager = NULL;
-DatabaseManager *DatabaseManager::instance()
-{
-    if (!m_databaseManager) {
-        m_databaseManager = new DatabaseManager;
-    }
-
-    return m_databaseManager;
-}
-
 void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
 {
     QSqlDatabase db = getDatabase();
@@ -47,7 +37,6 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
             qWarning() << "Insert image into database failed: " << query.lastError();
         }
     }
-    db.close();
 }
 
 void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
@@ -73,7 +62,6 @@ void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
             qWarning() << "Update image database failed: " << query.lastError();
         }
     }
-    db.close();
 }
 
 DatabaseManager::ImageInfo DatabaseManager::getImageInfoByAlbum(const QString &album)
@@ -102,7 +90,6 @@ void DatabaseManager::removeImage(const QString &name)
             qWarning() << "Remove image record from database failed: " << query.lastError();
         }
     }
-    db.close();
 }
 
 bool DatabaseManager::imageExist(const QString &name)
@@ -110,15 +97,16 @@ bool DatabaseManager::imageExist(const QString &name)
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("SELECT * FROM %1 WHERE filename = :name").arg( IMAGE_TABLE_NAME ) );
+        query.prepare( QString("SELECT COUNT(*) FROM %1 WHERE filename = :name").arg( IMAGE_TABLE_NAME ) );
         query.bindValue( ":name", name );
-        if (query.record().count() > 0) {
-            db.close();
-            return true;
+        if (query.exec()) {
+            query.first();
+            if (query.value(0).toInt() > 0) {
+                return true;
+            }
         }
     }
 
-    db.close();
     return false;
 }
 
@@ -141,7 +129,6 @@ void DatabaseManager::insertAlbumInfo(const DatabaseManager::AlbumInfo &info)
             qWarning() << "Insert album into database failed: " << query.lastError();
         }
     }
-    db.close();
 }
 
 void DatabaseManager::updateAlbumInfo(const DatabaseManager::AlbumInfo &info)
@@ -163,7 +150,6 @@ void DatabaseManager::updateAlbumInfo(const DatabaseManager::AlbumInfo &info)
             qWarning() << "Update AlbumInfo failed: " << query.lastError();
         }
     }
-    db.close();
 }
 
 DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
@@ -178,7 +164,6 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
         query.bindValue( ":name", name );
         if (!query.exec()) {
             qWarning() << "Get Album from database failed: " << query.lastError();
-            db.close();
             return info;
         }
         else {
@@ -193,12 +178,10 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
             info.createTime = QDateTime::fromString( query.value(3).toString(), DATETIME_FORMAT );
             info.earliestTime = QDateTime::fromString( query.value(4).toString(), DATETIME_FORMAT );
             info.latestTime = QDateTime::fromString( query.value(5).toString(), DATETIME_FORMAT );
-            db.close();
             return info;
         }
     }
 
-    db.close();
     return info;
 }
 
@@ -213,7 +196,6 @@ void DatabaseManager::removeAlbum(const QString &name)
             qWarning() << "Remove album record from database failed: " << query.lastError();
         }
     }
-    db.close();
 }
 
 bool DatabaseManager::albumExist(const QString &name)
@@ -223,13 +205,14 @@ bool DatabaseManager::albumExist(const QString &name)
         QSqlQuery query( db );
         query.prepare( QString("SELECT * FROM %1 WHERE albumname = :name").arg(ALBUM_TABLE_NAME) );
         query.bindValue( ":name", name );
-        if (query.record().count() > 0) {
-            db.close();
-            return true;
+        if (query.exec()) {
+            query.first();
+            if (query.value(0).toInt() > 0) {
+                return true;
+            }
         }
     }
 
-    db.close();
     return false;
 }
 
@@ -251,7 +234,6 @@ QStringList DatabaseManager::getAlbumNameList()
         }
     }
 
-    db.close();
     return list;
 }
 
@@ -273,13 +255,21 @@ QStringList DatabaseManager::getTimeLineList()
         }
     }
 
-    db.close();
     return list;
 }
 
-DatabaseManager::DatabaseManager(QObject *parent) : QObject(parent)
+DatabaseManager::DatabaseManager(const QString &connectionName, QObject *parent)
+    : QObject(parent),m_connectionName(connectionName)
 {
     checkDatabase();
+}
+
+DatabaseManager::~DatabaseManager()
+{
+    QSqlDatabase db = getDatabase();
+    if (db.isOpen()) {
+        db.close();
+    }
 }
 
 DatabaseManager::ImageInfo DatabaseManager::getImageInfo(const QString &key, const QString &value)
@@ -295,7 +285,6 @@ DatabaseManager::ImageInfo DatabaseManager::getImageInfo(const QString &key, con
         query.bindValue( ":value", value );
         if (!query.exec()) {
             qWarning() << "Get Image from database failed: " << query.lastError();
-            db.close();
             return info;
         }
         else {
@@ -310,26 +299,32 @@ DatabaseManager::ImageInfo DatabaseManager::getImageInfo(const QString &key, con
             info.labels = query.value(3).toStringList();
             info.time = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT);
             info.thumbnail.loadFromData(query.value(5).toByteArray());
-            db.close();
             return info;
         }
     }
 
-    db.close();
     return info;
 }
 
 QSqlDatabase DatabaseManager::getDatabase()
 {
-    //if database not exist, create it.
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");//not dbConnection
-    db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
-    if (!db.open()) {
-        qWarning()<< "Open database error:" << db.lastError();
-        return QSqlDatabase();
+    if( QSqlDatabase::contains(m_connectionName) )
+    {
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        return db;
     }
     else {
-        return db;
+        //if database not open, open it.
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", m_connectionName);//not dbConnection
+        db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
+        if (!db.open()) {
+            qWarning()<< "Open database error:" << db.lastError();
+            return QSqlDatabase();
+        }
+        else {
+//            qDebug() << "Database Opended!";
+            return db;
+        }
     }
 }
 
@@ -346,7 +341,7 @@ void DatabaseManager::checkDatabase()
         return;
     }
 
-    QSqlQuery query;
+    QSqlQuery query(db);
     //image_file
     query.exec( QString("CREATE TABLE IF NOT EXISTS %1 ( "
                         "filename TEXT primary key, "
@@ -363,5 +358,4 @@ void DatabaseManager::checkDatabase()
                         "createtime TEXT, "
                         "earliesttime TEXT,"
                         "latesttime TEXT )").arg(ALBUM_TABLE_NAME) );
-    db.close();
 }

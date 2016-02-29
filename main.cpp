@@ -1,7 +1,6 @@
 #include "frame/mainwidget.h"
 #include <QApplication>
 #include <DLog>
-#include "controller/databasemanager.h"
 
 using namespace Dtk::Util;
 

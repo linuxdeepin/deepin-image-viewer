@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 #include (cutelogger/cutelogger.pri)
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += dtkwidget dtkutil dtkbase
+PKGCONFIG += dtkwidget dtkutil dtkbase libexif
 
 TARGET = deepin-image-viewer
 TEMPLATE = app
@@ -23,7 +23,9 @@ SOURCES += main.cpp \
     frame/bottomtoolbar.cpp \
     frame/extensionpanel.cpp \
     controller/signalmanager.cpp \
-    controller/databasemanager.cpp
+    controller/databasemanager.cpp \
+    module/importandexport/importer.cpp \
+    module/importandexport/importthread.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -32,7 +34,9 @@ HEADERS += \
     frame/bottomtoolbar.h \
     frame/extensionpanel.h \
     controller/signalmanager.h \
-    controller/databasemanager.h
+    controller/databasemanager.h \
+    module/importandexport/importer.h \
+    module/importandexport/importthread.h
 
 
 
