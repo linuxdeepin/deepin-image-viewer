@@ -110,6 +110,23 @@ bool DatabaseManager::imageExist(const QString &name)
     return false;
 }
 
+bool DatabaseManager::hasImage()
+{
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString("SELECT COUNT(*) FROM %1").arg( IMAGE_TABLE_NAME ) );
+        if (query.exec()) {
+            query.first();
+            if (query.value(0).toInt() > 0) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 void DatabaseManager::insertAlbumInfo(const DatabaseManager::AlbumInfo &info)
 {
     QSqlDatabase db = getDatabase();

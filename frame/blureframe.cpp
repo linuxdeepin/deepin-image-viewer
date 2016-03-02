@@ -60,7 +60,7 @@ QPixmap BlureFrame::getResultPixmap()
     return bp;
 }
 
-void BlureFrame::move(int x, int y)
+void BlureFrame::moveWithAnimation(int x, int y)
 {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
     animation->setDuration(ANIMATION_DURATION);

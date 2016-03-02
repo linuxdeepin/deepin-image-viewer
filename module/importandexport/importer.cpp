@@ -7,9 +7,25 @@
 #include <QDebug>
 #include <QDir>
 
-Importer::Importer(QObject *parent) : QObject(parent)
+Importer::Importer(QObject *parent)
+    : QObject(parent),m_readCount(0),m_progress(1)
 {
 
+}
+
+Importer *Importer::m_importer = NULL;
+Importer *Importer::instance()
+{
+    if (!m_importer) {
+        m_importer = new Importer();
+    }
+
+    return m_importer;
+}
+
+double Importer::getProgress() const
+{
+    return m_progress;
 }
 
 void Importer::importFromPath(const QString &path)
@@ -68,5 +84,7 @@ void Importer::importSingleFile(const QString &filePath)
 void Importer::importThreadFinish(const QString &filePath)
 {
     m_importList.removeAll(filePath);
-    qDebug() << "Import Progress: " << (1 - m_importList.count() / (double)m_readCount);
+    m_progress = QString::number((1 - (double)m_importList.count() / m_readCount), 'g', 2).toDouble();
+
+    emit importProgressChanged(m_readCount - m_importList.count(), m_progress);
 }

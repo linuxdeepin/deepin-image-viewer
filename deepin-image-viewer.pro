@@ -25,7 +25,9 @@ SOURCES += main.cpp \
     controller/signalmanager.cpp \
     controller/databasemanager.cpp \
     module/importandexport/importer.cpp \
-    module/importandexport/importthread.cpp
+    module/importandexport/importthread.cpp \
+    module/album/albumpanel.cpp \
+    module/timeline/timelinepanel.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -36,7 +38,10 @@ HEADERS += \
     controller/signalmanager.h \
     controller/databasemanager.h \
     module/importandexport/importer.h \
-    module/importandexport/importthread.h
+    module/importandexport/importthread.h \
+    module/album/albumpanel.h \
+    module/timeline/timelinepanel.h \
+    module/modulepanel.h
 
 
 

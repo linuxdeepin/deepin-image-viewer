@@ -6,6 +6,8 @@
 #include <QHBoxLayout>
 #include <QApplication>
 #include <QDesktopWidget>
+#include "module/album/albumpanel.h"
+#include "module/timeline/timelinepanel.h"
 
 using namespace Dtk::Widget;
 
@@ -24,7 +26,7 @@ MainWidget::MainWidget(QWidget *parent)
     setMinimumSize(700, 500);
     move((dw.geometry().width() - ww) / 2, (dw.geometry().height() - wh) / 4);
 
-    initCenterContent();
+    initPanelStack();
     initExtensionPanel();
     initTopToolbar();
     initBottomToolbar();
@@ -38,41 +40,37 @@ MainWidget::~MainWidget()
 void MainWidget::resizeEvent(QResizeEvent *)
 {
     if (m_topToolbar) {
-        updateTopToolbarPosition();
+        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+//        m_topToolbar->move(0, 0);
     }
     if (m_bottomToolbar) {
-        updateBottomToolbarPosition();
+        m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
+        m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT);
     }
     if (m_extensionPanel) {
-        updateExtensionPanelPosition();
+        m_extensionPanel->resize(EXTENSION_PANEL_WIDTH, height());
     }
 }
 
-void MainWidget::initCenterContent()
+void MainWidget::initPanelStack()
 {
-    m_centerContent = new QWidget(this);
-    m_centerContent->setObjectName("CenterContent");
-    QHBoxLayout *cl = new QHBoxLayout(m_centerContent);
-    cl->setContentsMargins(0, 0, 0, 0);
-    cl->setSpacing(0);
-    connect(m_signalManager, &SignalManager::updateCenterContent, this, [=](QWidget *c) {
-        QLayoutItem *child;
-        if ((child = cl->takeAt(0)) != 0) {
-            delete child;
-        }
+    m_panelStack = new QStackedWidget(this);
+    m_panelStack->setObjectName("PanelStack");
 
-        cl->addWidget(c);
-    });
+    //Makesure the initialization sequence are same as enum Panel
+    initTimelinePanel();
+    initAlbumPanel();
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
-    mainLayout->addWidget(m_centerContent);
+    mainLayout->addWidget(m_panelStack);
 }
 
 void MainWidget::initTopToolbar()
 {
-    m_topToolbar = new TopToolbar(this, m_centerContent);
-    updateTopToolbarPosition();
+    m_topToolbar = new TopToolbar(this, m_panelStack);
+    m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+    m_topToolbar->moveWithAnimation(0, 0);
     connect(m_signalManager, &SignalManager::updateTopToolbarLeftContent, this, [=](QWidget *c) {
         m_topToolbar->setLeftContent(c);
     });
@@ -80,40 +78,41 @@ void MainWidget::initTopToolbar()
         m_topToolbar->setMiddleContent(c);
     });
     connect(m_signalManager, &SignalManager::showTopToolbar, this, [=] {
-        m_topToolbar->move(0, 0);
+        m_topToolbar->moveWithAnimation(0, 0);
     });
     connect(m_signalManager, &SignalManager::hideTopToolbar, this, [=] {
-        m_topToolbar->move(0, - TOP_TOOLBAR_HEIGHT);
+        m_topToolbar->moveWithAnimation(0, - TOP_TOOLBAR_HEIGHT);
     });
 }
 
 void MainWidget::initBottomToolbar()
 {
-    m_bottomToolbar = new BottomToolbar(this, m_centerContent);
-    updateBottomToolbarPosition();
+    m_bottomToolbar = new BottomToolbar(this, m_panelStack);
+    m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
+    m_bottomToolbar->moveWithAnimation(0, height() - BOTTOM_TOOLBAR_HEIGHT);
     connect(m_signalManager, &SignalManager::updateBottomToolbarContent, this, [=](QWidget *c) {
         m_bottomToolbar->setContent(c);
     });
     connect(m_signalManager, &SignalManager::showBottomToolbar, this, [=] {
-        m_bottomToolbar->move(0, 0);
+        m_bottomToolbar->moveWithAnimation(0, 0);
     });
     connect(m_signalManager, &SignalManager::hideBottomToolbar, this, [=] {
-        m_bottomToolbar->move(0, - BOTTOM_TOOLBAR_HEIGHT);
+        m_bottomToolbar->moveWithAnimation(0, - BOTTOM_TOOLBAR_HEIGHT);
     });
 }
 
 void MainWidget::initExtensionPanel()
 {
-    m_extensionPanel = new ExtensionPanel(this, m_centerContent);
-    updateExtensionPanelPosition();
+    m_extensionPanel = new ExtensionPanel(this, m_panelStack);
+    m_extensionPanel->move(- EXTENSION_PANEL_WIDTH, 0);
     connect(m_signalManager, &SignalManager::updateExtensionPanelContent, this, [=](QWidget *c) {
         m_extensionPanel->setContent(c);
     });
     connect(m_signalManager, &SignalManager::showExtensionPanel, this, [=] {
-        m_extensionPanel->move(0, 0);
+        m_extensionPanel->moveWithAnimation(0, 0);
     });
     connect(m_signalManager, &SignalManager::hideExtensionPanel, this, [=] {
-        m_extensionPanel->move(- EXTENSION_PANEL_WIDTH, 0);
+        m_extensionPanel->moveWithAnimation(- EXTENSION_PANEL_WIDTH, 0);
     });
 }
 
@@ -129,20 +128,14 @@ void MainWidget::initStyleSheet()
     sf.close();
 }
 
-void MainWidget::updateTopToolbarPosition()
+void MainWidget::initTimelinePanel()
 {
-    m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
-    m_topToolbar->move(0, 0);
+    TimelinePanel *tp = new TimelinePanel;
+    m_panelStack->addWidget(tp);
 }
 
-void MainWidget::updateBottomToolbarPosition()
+void MainWidget::initAlbumPanel()
 {
-    m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
-    m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT);
-}
-
-void MainWidget::updateExtensionPanelPosition()
-{
-    m_extensionPanel->resize(EXTENSION_PANEL_WIDTH, height());
-    m_extensionPanel->move(0, 0);
+    AlbumPanel *ap = new AlbumPanel;
+    m_panelStack->addWidget(ap);
 }

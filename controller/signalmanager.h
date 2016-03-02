@@ -10,7 +10,6 @@ public:
     static SignalManager *instance();
 
 signals:
-    void updateCenterContent(QWidget *content);
     void updateTopToolbarLeftContent(QWidget *content);
     void updateTopToolbarMiddleContent(QWidget *content);
     void updateBottomToolbarContent(QWidget *content);
@@ -21,6 +20,7 @@ signals:
     void hideBottomToolbar();
     void showExtensionPanel();
     void hideExtensionPanel();
+    void backToMainWindow();
 
 private:
     explicit SignalManager(QObject *parent = 0);

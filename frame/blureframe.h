@@ -13,7 +13,7 @@ public:
     void setCoverBrush(const QBrush &brush);
     void setBlureRadius(int radius);
     void setPos(const QPoint &pos);
-    void move(int x, int y);
+    void moveWithAnimation(int x, int y);
 
 protected:
     void paintEvent(QPaintEvent *);

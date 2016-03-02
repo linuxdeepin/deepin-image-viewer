@@ -37,6 +37,7 @@ public:
     void updateImageInfo(const ImageInfo &info);
     void removeImage(const QString &name);
     bool imageExist(const QString &name);
+    bool hasImage();
     AlbumInfo getAlbumInfo(const QString &name);
     void insertAlbumInfo(const AlbumInfo &info);
     void updateAlbumInfo(const AlbumInfo &info);

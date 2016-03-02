@@ -1,3 +1,29 @@
-QWidget#CenterContent {
+QStackedWidget#PanelStack {
     background: #181818;
+}
+
+QPushButton#ImportFrameButton {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                stop:0 rgba(59,193,255,255), stop:1 rgba(7,157,255,255));
+    border: 1px solid rgba(29, 130, 255, 77);
+    border-radius: 3;
+    padding: 5px 20px 5px 20px;
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+QPushButton#ImportFrameButton:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 rgba(100,201, 255, 255), stop:1 rgba(45,169, 246, 255));
+}
+
+QPushButton#ImportFrameButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 rgba(11, 140, 255, 255), stop:1 rgba(10, 161, 255, 255));
+            color: rgba(255, 255, 255, 179);
+}
+
+QLabel#ImportFrameTooltip {
+    color: #616161;
+    font-size: 12px;
 }
