@@ -30,6 +30,10 @@ MainWidget::MainWidget(QWidget *parent)
     initExtensionPanel();
     initTopToolbar();
     initBottomToolbar();
+
+    //Makesure the initialization sequence are same as enum Panel
+    initTimelinePanel();
+    initAlbumPanel();
 }
 
 MainWidget::~MainWidget()
@@ -56,10 +60,6 @@ void MainWidget::initPanelStack()
 {
     m_panelStack = new QStackedWidget(this);
     m_panelStack->setObjectName("PanelStack");
-
-    //Makesure the initialization sequence are same as enum Panel
-    initTimelinePanel();
-    initAlbumPanel();
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);

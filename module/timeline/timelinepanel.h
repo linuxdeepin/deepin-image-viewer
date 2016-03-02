@@ -2,7 +2,10 @@
 #define TIMELINEPANEL_H
 
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QStackedWidget>
 #include "module/modulepanel.h"
+#include "controller/databasemanager.h"
 
 class TimelinePanel : public ModulePanel
 {
@@ -16,11 +19,18 @@ public:
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
 
 private:
+    void initMainStackWidget();
     void initImportFrame();
+    void initImagesView();
 
 private:
-    QVBoxLayout *m_mainLayout;
-
+    QWidget *m_imagesView = NULL;
+    QWidget *m_importWidget = NULL;
+    QWidget *m_tBottomContent = NULL;
+    QWidget *m_tTopleftContent = NULL;
+    QWidget *m_tTopMiddleContent = NULL;
+    QStackedWidget *m_mainStackWidget = NULL;
+    DatabaseManager *m_databaseManager = NULL;
 };
 
 #endif // TIMELINEPANEL_H

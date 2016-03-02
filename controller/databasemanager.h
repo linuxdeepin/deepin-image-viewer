@@ -37,7 +37,7 @@ public:
     void updateImageInfo(const ImageInfo &info);
     void removeImage(const QString &name);
     bool imageExist(const QString &name);
-    bool hasImage();
+    int imageCount();
     AlbumInfo getAlbumInfo(const QString &name);
     void insertAlbumInfo(const AlbumInfo &info);
     void updateAlbumInfo(const AlbumInfo &info);
@@ -45,6 +45,9 @@ public:
     bool albumExist(const QString &name);
     QStringList getAlbumNameList();
     QStringList getTimeLineList();
+
+signals:
+    void imageCountChange();
 
 private:
 

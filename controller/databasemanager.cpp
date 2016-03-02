@@ -36,6 +36,9 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         if (!query.exec()) {
             qWarning() << "Insert image into database failed: " << query.lastError();
         }
+        else {
+            emit imageCountChange();
+        }
     }
 }
 
@@ -89,6 +92,9 @@ void DatabaseManager::removeImage(const QString &name)
         if (!query.exec()) {
             qWarning() << "Remove image record from database failed: " << query.lastError();
         }
+        else {
+            emit imageCountChange();
+        }
     }
 }
 
@@ -110,7 +116,7 @@ bool DatabaseManager::imageExist(const QString &name)
     return false;
 }
 
-bool DatabaseManager::hasImage()
+int DatabaseManager::imageCount()
 {
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
@@ -118,13 +124,11 @@ bool DatabaseManager::hasImage()
         query.prepare( QString("SELECT COUNT(*) FROM %1").arg( IMAGE_TABLE_NAME ) );
         if (query.exec()) {
             query.first();
-            if (query.value(0).toInt() > 0) {
-                return true;
-            }
+            return query.value(0).toInt();
         }
     }
 
-    return false;
+    return 0;
 }
 
 void DatabaseManager::insertAlbumInfo(const DatabaseManager::AlbumInfo &info)

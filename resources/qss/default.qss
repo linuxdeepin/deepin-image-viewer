@@ -7,7 +7,7 @@ QPushButton#ImportFrameButton {
                 stop:0 rgba(59,193,255,255), stop:1 rgba(7,157,255,255));
     border: 1px solid rgba(29, 130, 255, 77);
     border-radius: 3;
-    padding: 5px 20px 5px 20px;
+    padding: 2px 24px 2px 24px;
     color: #FFFFFF;
     font-size: 12px;
 }
@@ -25,5 +25,10 @@ QPushButton#ImportFrameButton:pressed {
 
 QLabel#ImportFrameTooltip {
     color: #616161;
+    font-size: 12px;
+}
+
+QLabel#CountLabel {
+    color: #FFFFFF;
     font-size: 12px;
 }
