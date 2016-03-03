@@ -1,17 +1,23 @@
+#include <gtk/gtk.h>
 #include "timelinepanel.h"
 #include <dimagebutton.h>
 #include <dslider.h>
 #include <QPushButton>
+#include <QFileDialog>
+#include <QMimeData>
 #include <QLabel>
 #include <QDebug>
-#include <QTimer>
+#include <QUrl>
+#include "module/importandexport/importer.h"
 
 using namespace Dtk::Widget;
 
 TimelinePanel::TimelinePanel(QWidget *parent)
     : ModulePanel(parent)
 {
-    m_databaseManager = new DatabaseManager("database_counting_connection", this);
+    setAcceptDrops(true);
+
+    m_databaseManager = DatabaseManager::instance();//new DatabaseManager("database_counting_connection", this);
 
     initMainStackWidget();
 
@@ -37,26 +43,26 @@ QWidget *TimelinePanel::toolbarBottomContent()
             qDebug() << "Change the view size to: X" << multiple;
         });
 
-        DatabaseManager *dm = new DatabaseManager("database_counting_connection", this);
-        connect(dm, &DatabaseManager::imageCountChange, this, [=] {
-            if (dm->imageCount() <= 1) {
-                countLabel->setText(tr("%1 Image").arg(dm->imageCount()));
+        connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
+            if (m_databaseManager->imageCount() <= 1) {
+                countLabel->setText(tr("%1 Image").arg(m_databaseManager->imageCount()));
             }
             else {
-                countLabel->setText(tr("%1 Images").arg(dm->imageCount()));
+                countLabel->setText(tr("%1 Images").arg(m_databaseManager->imageCount()));
             }
 
-            slider->setVisible(dm->imageCount() > 0);
+            slider->setFixedWidth(m_databaseManager->imageCount() > 0 ? 120 : 1);
         });
 
         //init value
-        if (dm->imageCount() <= 1) {
-            countLabel->setText(tr("%1 Image").arg(dm->imageCount()));
+        if (m_databaseManager->imageCount() <= 1) {
+            countLabel->setText(tr("%1 Image").arg(m_databaseManager->imageCount()));
         }
         else {
-            countLabel->setText(tr("%1 Images").arg(dm->imageCount()));
+            countLabel->setText(tr("%1 Images").arg(m_databaseManager->imageCount()));
         }
-        slider->setVisible(dm->imageCount() > 0);
+        //set width to 1px for layout center
+        slider->setFixedWidth(m_databaseManager->imageCount() > 0 ? 120 : 1);
 
         QHBoxLayout *layout = new QHBoxLayout(m_tBottomContent);
         layout->setContentsMargins(0, 0, 0, 0);
@@ -125,6 +131,30 @@ QWidget *TimelinePanel::extensionPanelContent()
     return NULL;
 }
 
+void TimelinePanel::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (!urls.isEmpty()) {
+        for (QUrl url : urls) {
+            QFileInfo info(url.toLocalFile());
+            if (info.isDir()) {
+                Importer::instance()->importFromPath(url.toLocalFile());
+            }
+            else {
+                if (DatabaseManager::instance()->supportImageType().indexOf(info.suffix()) != 0) {
+                    Importer::instance()->importSingleFile(url.toLocalFile());
+                }
+            }
+        }
+    }
+}
+
+void TimelinePanel::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->setDropAction(Qt::CopyAction);
+    event->accept();
+}
+
 void TimelinePanel::initMainStackWidget()
 {
     initImagesView();
@@ -136,7 +166,7 @@ void TimelinePanel::initMainStackWidget()
     m_mainStackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
     m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
-    connect(m_databaseManager, &DatabaseManager::imageCountChange, [=] {
+    connect(m_signalManager, &SignalManager::imageCountChanged, [=] {
         m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
     });
 
@@ -153,14 +183,14 @@ void TimelinePanel::initImportFrame()
     QPushButton *ib = new QPushButton(tr("Import"));
     ib->setObjectName("ImportFrameButton");
     connect(ib, &QPushButton::clicked, this, [=] {
-        //TODO, open file select dialog
-        qDebug() << "Select import folder...";
+        importImages();
     });
 
     QLabel *tl = new QLabel(tr("You can also drop folder here to import picture"));
     tl->setObjectName("ImportFrameTooltip");
 
     m_importWidget = new QWidget;
+    m_importWidget->setAcceptDrops(true);
 
     QVBoxLayout *layout = new QVBoxLayout(m_importWidget);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -177,4 +207,14 @@ void TimelinePanel::initImportFrame()
 void TimelinePanel::initImagesView()
 {
     m_imagesView = new QWidget;
+    m_imagesView->setAcceptDrops(true);
+}
+
+void TimelinePanel::importImages()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                    QDir::homePath(),
+                                                    QFileDialog::ShowDirsOnly
+                                                    | QFileDialog::DontResolveSymlinks);
+    Importer::instance()->importFromPath(dir);
 }

@@ -3,7 +3,6 @@
 #include <QFileInfo>
 #include <QPixmap>
 #include <QImage>
-#include <QTimer>
 #include <QDebug>
 
 const int THUMBNAIL_MAX_SIZE = 160;
@@ -25,13 +24,9 @@ void ImportThread::run()
     imgInfo.labels = QStringList();
     imgInfo.thumbnail = getThumbnail(m_filePath);
 
-    //Note: Use single connection in whole application will cause crash,
-    //so create diffrent connection for eatch thread by filename.
-    DatabaseManager dm(fileInfo.fileName());
-    dm.insertImageInfo(imgInfo);
+    DatabaseManager::instance()->insertImageInfo(imgInfo);
 
     emit importFinish(m_filePath);
-    QSqlDatabase::removeDatabase(fileInfo.fileName());
 }
 
 QPixmap ImportThread::getThumbnail(const QString &filePath)
@@ -42,12 +37,12 @@ QPixmap ImportThread::getThumbnail(const QString &filePath)
         //Make sure the image had a thumbnail before trying to write it
         if (ed->data && ed->size) {
             pixmap.loadFromData(ed->data, ed->size);
+            //Free the EXIF data
+            exif_data_unref(ed);
         } else {
             qDebug() << QString("NO Exif thumbnail in file %1!").arg(filePath);
             pixmap = scaleImage(filePath);
         }
-        //Free the EXIF data
-        exif_data_unref(ed);
     }
     else {
         pixmap = scaleImage(filePath);

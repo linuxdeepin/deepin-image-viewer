@@ -1,6 +1,5 @@
 #include "mainwidget.h"
 #include <dimagebutton.h>
-#include <QTimer>
 #include <QFile>
 #include <QDebug>
 #include <QHBoxLayout>

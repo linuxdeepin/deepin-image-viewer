@@ -53,11 +53,9 @@ void Importer::importFromPath(const QString &path)
         QFileInfo fileInfo = dirIterator.fileInfo();
         QString filePath = fileInfo.absoluteFilePath();
 
-        DatabaseManager dm(filePath);
-        if (! dm.imageExist(fileInfo.fileName())) {
+        if (! DatabaseManager::instance()->imageExist(fileInfo.fileName())) {
             m_importList.append(filePath);
         }
-        QSqlDatabase::removeDatabase(filePath);
     }
 
     //for calculate import progress

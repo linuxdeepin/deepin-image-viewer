@@ -4,6 +4,10 @@
 #include <QResizeEvent>
 #include <QApplication>
 #include <QStackedWidget>
+#include <dcircleprogress.h>
+#include "module/importandexport/importer.h"
+
+using namespace Dtk::Widget;
 
 TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     :BlureFrame(parent, source)
@@ -50,6 +54,17 @@ void TopToolbar::initWidgets()
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(0);
 
+    DCircleProgress *importProgress = new DCircleProgress;
+    importProgress->setValue(0);
+    importProgress->setFixedSize(21, 21);
+    importProgress->setVisible(false);
+    connect(Importer::instance(), &Importer::importProgressChanged,
+            this, [=] (int importedCount, double progress) {
+        Q_UNUSED(importedCount)
+        importProgress->setVisible(progress != 1);
+        importProgress->setValue(progress * 100);
+    });
+
     DWindowOptionButton *ob = new DWindowOptionButton;
     connect(ob, &DWindowOptionButton::clicked, this, [=] {
         if (parentWidget()) {
@@ -87,6 +102,8 @@ void TopToolbar::initWidgets()
     rightLayout->setContentsMargins(0, 0, 0, 0);
     rightLayout->setSpacing(0);
     rightLayout->addStretch(1);
+    rightLayout->addWidget(importProgress);
+    rightLayout->addSpacing(38);
     rightLayout->addWidget(ob);
     rightLayout->addWidget(minb);
     rightLayout->addWidget(sw);

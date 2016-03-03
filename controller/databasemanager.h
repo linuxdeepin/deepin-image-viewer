@@ -27,7 +27,7 @@ public:
         QDateTime latestTime;
     };
 
-    explicit DatabaseManager(const QString &connectionName, QObject *parent = 0);
+    static DatabaseManager *instance();
     ~DatabaseManager();
 
     ImageInfo getImageInfoByAlbum(const QString &album);
@@ -45,16 +45,20 @@ public:
     bool albumExist(const QString &name);
     QStringList getAlbumNameList();
     QStringList getTimeLineList();
+    const QStringList supportImageType();
 
 signals:
     void imageCountChange();
 
 private:
+    explicit DatabaseManager(QObject *parent = 0);
 
     ImageInfo getImageInfo(const QString &key, const QString &value);
     QSqlDatabase getDatabase();
     void checkDatabase();
 
+private:
+    static DatabaseManager *m_databaseManager;
     QString m_connectionName;
 };
 

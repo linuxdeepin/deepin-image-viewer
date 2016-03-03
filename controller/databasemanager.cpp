@@ -1,12 +1,16 @@
 #include "databasemanager.h"
+#include "signalmanager.h"
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlDriver>
 #include <QFileInfo>
 #include <QBuffer>
 #include <QDebug>
 #include <QDir>
+#include <QMutex>
+#include <QMutexLocker>
 
 const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-image-viewer/";
 const QString DATABASE_NAME = "deepinimageviewer.db";
@@ -16,9 +20,18 @@ const QString DATETIME_FORMAT = "dd.MM.yyyy";
 
 void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
 {
+    QMutex mutex;
+//    mutex.lock();
+    QMutexLocker locker(&mutex);
     QSqlDatabase db = getDatabase();
     if (db.isValid() && !imageExist(info.name)) {
         QSqlQuery query( db );
+        /*NOTE: '"BEGIN IMMEDIATE TRANSACTION"' try to avoid the error like "database is locked",
+         * but it not work good
+         * The error "database is locked" is typically happens when someone begins a transaction,
+         * and tries to write to a database while other person is reading from the
+         * database (in another transaction). */
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
         query.prepare( QString("INSERT INTO %1 "
                                "(filename, filepath, album, label, time, thumbnail) "
                                "VALUES (:name, :path, :album, :label, :time, :thumbnail)")
@@ -35,9 +48,11 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         query.bindValue( ":thumbnail", inByteArray);
         if (!query.exec()) {
             qWarning() << "Insert image into database failed: " << query.lastError();
+            query.exec("COMMIT");
         }
         else {
-            emit imageCountChange();
+            query.exec("COMMIT");
+            emit SignalManager::instance()->imageCountChanged();
         }
     }
 }
@@ -93,21 +108,26 @@ void DatabaseManager::removeImage(const QString &name)
             qWarning() << "Remove image record from database failed: " << query.lastError();
         }
         else {
-            emit imageCountChange();
+            emit SignalManager::instance()->imageCountChanged();
         }
     }
 }
 
 bool DatabaseManager::imageExist(const QString &name)
 {
+    QMutex mutex;
+    QMutexLocker locker(&mutex);
+
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
         query.prepare( QString("SELECT COUNT(*) FROM %1 WHERE filename = :name").arg( IMAGE_TABLE_NAME ) );
         query.bindValue( ":name", name );
         if (query.exec()) {
             query.first();
             if (query.value(0).toInt() > 0) {
+                query.exec("COMMIT");
                 return true;
             }
         }
@@ -118,13 +138,19 @@ bool DatabaseManager::imageExist(const QString &name)
 
 int DatabaseManager::imageCount()
 {
+    QMutex mutex;
+    QMutexLocker locker(&mutex);
+
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
         query.prepare( QString("SELECT COUNT(*) FROM %1").arg( IMAGE_TABLE_NAME ) );
         if (query.exec()) {
             query.first();
-            return query.value(0).toInt();
+            int count = query.value(0).toInt();
+            query.exec("COMMIT");
+            return count;
         }
     }
 
@@ -279,10 +305,52 @@ QStringList DatabaseManager::getTimeLineList()
     return list;
 }
 
-DatabaseManager::DatabaseManager(const QString &connectionName, QObject *parent)
-    : QObject(parent),m_connectionName(connectionName)
+const QStringList DatabaseManager::supportImageType()
+{
+    QStringList origin;
+    origin<< "BMP";
+    origin<< "GIF";
+    origin<< "JPG";
+    origin<< "PNG";
+    origin<< "PBM";
+    origin<< "PGM";
+    origin<< "PPM";
+    origin<< "XBM";
+    origin<< "XPM";
+    origin<< "SVG";
+
+    origin<< "DDS";
+    origin<< "ICNS";
+    origin<< "JP2";
+    origin<< "MNG";
+    origin<< "TGA";
+    origin<< "TIFF";
+    origin<< "WBMP";
+    origin<< "WEBP";
+
+    QStringList list;
+    for (QString v : origin) {
+        list << v.toLower();
+    }
+    list += origin;
+
+    return list;
+}
+
+DatabaseManager::DatabaseManager(QObject *parent)
+    : QObject(parent),m_connectionName("default_connection")
 {
     checkDatabase();
+}
+
+DatabaseManager *DatabaseManager::m_databaseManager = NULL;
+DatabaseManager *DatabaseManager::instance()
+{
+    if (!m_databaseManager) {
+        m_databaseManager = new DatabaseManager;
+    }
+
+    return m_databaseManager;
 }
 
 DatabaseManager::~DatabaseManager()

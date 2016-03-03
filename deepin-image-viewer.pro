@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 #include (cutelogger/cutelogger.pri)
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += dtkwidget dtkutil dtkbase libexif
+PKGCONFIG += gtk+-2.0 dtkwidget dtkutil dtkbase libexif
 
 TARGET = deepin-image-viewer
 TEMPLATE = app
