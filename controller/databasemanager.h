@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QDateTime>
 #include <QSqlDatabase>
+const QString DATETIME_FORMAT = "dd.MM.yyyy";
 
 class DatabaseManager : public QObject
 {
@@ -30,8 +31,8 @@ public:
     static DatabaseManager *instance();
     ~DatabaseManager();
 
-    ImageInfo getImageInfoByAlbum(const QString &album);
-    ImageInfo getImageInfoByTime(const QDateTime &time);
+    QList<ImageInfo> getImageInfoByAlbum(const QString &album);
+    QList<ImageInfo> getImageInfoByTime(const QDateTime &time);
     ImageInfo getImageInfoByName(const QString &name);
     void insertImageInfo(const ImageInfo &info);
     void updateImageInfo(const ImageInfo &info);
@@ -47,13 +48,10 @@ public:
     QStringList getTimeLineList();
     const QStringList supportImageType();
 
-signals:
-    void imageCountChange();
-
 private:
     explicit DatabaseManager(QObject *parent = 0);
 
-    ImageInfo getImageInfo(const QString &key, const QString &value);
+    QList<ImageInfo> getImageInfos(const QString &key, const QString &value);
     QSqlDatabase getDatabase();
     void checkDatabase();
 

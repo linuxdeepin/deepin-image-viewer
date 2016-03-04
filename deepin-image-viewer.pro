@@ -27,7 +27,10 @@ SOURCES += main.cpp \
     module/importandexport/importer.cpp \
     module/importandexport/importthread.cpp \
     module/album/albumpanel.cpp \
-    module/timeline/timelinepanel.cpp
+    module/timeline/timelinepanel.cpp \
+    module/timeline/timelineviewframe.cpp \
+    module/timeline/timelineimageview.cpp \
+    widgets/thumbnaillistview.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -41,7 +44,10 @@ HEADERS += \
     module/importandexport/importthread.h \
     module/album/albumpanel.h \
     module/timeline/timelinepanel.h \
-    module/modulepanel.h
+    module/modulepanel.h \
+    module/timeline/timelineviewframe.h \
+    module/timeline/timelineimageview.h \
+    widgets/thumbnaillistview.h
 
 
 

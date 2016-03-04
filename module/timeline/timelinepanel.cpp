@@ -21,9 +21,7 @@ TimelinePanel::TimelinePanel(QWidget *parent)
 
     initMainStackWidget();
 
-    emit updateTopToolbarLeftContent(toolbarTopLeftContent());
-    emit updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-    emit updateBottomToolbarContent(toolbarBottomContent());
+    updateToolbarContent();
 }
 
 QWidget *TimelinePanel::toolbarBottomContent()
@@ -131,6 +129,13 @@ QWidget *TimelinePanel::extensionPanelContent()
     return NULL;
 }
 
+void TimelinePanel::updateToolbarContent()
+{
+    emit updateTopToolbarLeftContent(toolbarTopLeftContent());
+    emit updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+    emit updateBottomToolbarContent(toolbarBottomContent());
+}
+
 void TimelinePanel::dropEvent(QDropEvent *event)
 {
     QList<QUrl> urls = event->mimeData()->urls();
@@ -206,7 +211,7 @@ void TimelinePanel::initImportFrame()
 
 void TimelinePanel::initImagesView()
 {
-    m_imagesView = new QWidget;
+    m_imagesView = new TimelineImageView;
     m_imagesView->setAcceptDrops(true);
 }
 

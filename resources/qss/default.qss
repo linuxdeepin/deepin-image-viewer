@@ -1,5 +1,22 @@
+QScrollArea {
+    background: #181818;
+}
+
 QStackedWidget#PanelStack {
     background: #181818;
+}
+
+QListView {
+    background: #181818;
+    border:none;
+}
+
+QListView::item:selected {border: 1px solid #567dbc;
+    selection-background-color: red;outline: none;
+}
+
+QFrame {
+    border:none;
 }
 
 QPushButton#ImportFrameButton {
@@ -31,4 +48,16 @@ QLabel#ImportFrameTooltip {
 QLabel#CountLabel {
     color: #FFFFFF;
     font-size: 12px;
+}
+
+QLabel#TimelineFrameTitle {
+    background: transparent;
+    color: #616161;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+ThumbnailListView {
+    margin-left: 20px;
+    margin-right: 20px;
 }

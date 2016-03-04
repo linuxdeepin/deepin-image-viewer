@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QStackedWidget>
+#include "timelineimageview.h"
 #include "module/modulepanel.h"
 #include "controller/signalmanager.h"
 #include "controller/databasemanager.h"
@@ -20,6 +21,8 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
 
+    void updateToolbarContent();
+
 protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
@@ -31,7 +34,7 @@ private:
     void importImages();
 
 private:
-    QWidget *m_imagesView = NULL;
+    TimelineImageView *m_imagesView = NULL;
     QWidget *m_importWidget = NULL;
     QWidget *m_tBottomContent = NULL;
     QWidget *m_tTopleftContent = NULL;

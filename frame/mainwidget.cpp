@@ -5,14 +5,14 @@
 #include <QHBoxLayout>
 #include <QApplication>
 #include <QDesktopWidget>
-#include "module/album/albumpanel.h"
-#include "module/timeline/timelinepanel.h"
 
 using namespace Dtk::Widget;
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 24;
 const int EXTENSION_PANEL_WIDTH = 240;
+const int MAINWIDGET_MINIMUN_WIDTH = 700;
+const int MAINWIDGET_MINIMUN_HEIGHT = 500;
 
 MainWidget::MainWidget(QWidget *parent)
     : QFrame(parent)
@@ -22,7 +22,7 @@ MainWidget::MainWidget(QWidget *parent)
     int ww = dw.geometry().width() * 0.8 < 700 ? 700 : dw.geometry().width() * 0.8;
     int wh = dw.geometry().height() * 0.8 < 500 ? 500 : dw.geometry().height() * 0.8;
     resize(ww, wh);
-    setMinimumSize(700, 500);
+    setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     move((dw.geometry().width() - ww) / 2, (dw.geometry().height() - wh) / 4);
 
     initPanelStack();
@@ -30,9 +30,13 @@ MainWidget::MainWidget(QWidget *parent)
     initTopToolbar();
     initBottomToolbar();
 
-    //Makesure the initialization sequence are same as enum Panel
     initTimelinePanel();
     initAlbumPanel();
+
+    connect(m_signalManager, &SignalManager::backToMainWindow, this, [=] {
+        m_panelStack->setCurrentWidget(m_timelinePanel);
+        m_timelinePanel->updateToolbarContent();
+    });
 }
 
 MainWidget::~MainWidget()
@@ -88,7 +92,7 @@ void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this, m_panelStack);
     m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
-    m_bottomToolbar->moveWithAnimation(0, height() - BOTTOM_TOOLBAR_HEIGHT);
+    m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT);
     connect(m_signalManager, &SignalManager::updateBottomToolbarContent, this, [=](QWidget *c) {
         m_bottomToolbar->setContent(c);
     });
@@ -129,12 +133,12 @@ void MainWidget::initStyleSheet()
 
 void MainWidget::initTimelinePanel()
 {
-    TimelinePanel *tp = new TimelinePanel;
-    m_panelStack->addWidget(tp);
+    m_timelinePanel = new TimelinePanel;
+    m_panelStack->addWidget(m_timelinePanel);
 }
 
 void MainWidget::initAlbumPanel()
 {
-    AlbumPanel *ap = new AlbumPanel;
-    m_panelStack->addWidget(ap);
+    m_albumPanel = new AlbumPanel;
+    m_panelStack->addWidget(m_albumPanel);
 }

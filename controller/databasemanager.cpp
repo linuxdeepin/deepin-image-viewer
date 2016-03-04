@@ -16,12 +16,11 @@ const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-im
 const QString DATABASE_NAME = "deepinimageviewer.db";
 const QString IMAGE_TABLE_NAME = "ImageTable";
 const QString ALBUM_TABLE_NAME = "AlbumTable";
-const QString DATETIME_FORMAT = "dd.MM.yyyy";
 
 void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
 {
     QMutex mutex;
-//    mutex.lock();
+    //    mutex.lock();
     QMutexLocker locker(&mutex);
     QSqlDatabase db = getDatabase();
     if (db.isValid() && !imageExist(info.name)) {
@@ -44,7 +43,9 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         QByteArray inByteArray;
         QBuffer inBuffer( &inByteArray );
         inBuffer.open( QIODevice::WriteOnly );
-        info.thumbnail.save( &inBuffer ); // write inPixmap into inByteArray
+        if ( !info.thumbnail.save( &inBuffer, "JPG" )) { // write inPixmap into inByteArray
+            qDebug() << "Write pixmap to buffer error!" << info.name;
+        }
         query.bindValue( ":thumbnail", inByteArray);
         if (!query.exec()) {
             qWarning() << "Insert image into database failed: " << query.lastError();
@@ -82,19 +83,25 @@ void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
     }
 }
 
-DatabaseManager::ImageInfo DatabaseManager::getImageInfoByAlbum(const QString &album)
+QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfoByAlbum(const QString &album)
 {
-    return getImageInfo("album", album);
+    return getImageInfos("album", album);
 }
 
-DatabaseManager::ImageInfo DatabaseManager::getImageInfoByTime(const QDateTime &time)
+QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfoByTime(const QDateTime &time)
 {
-    return getImageInfo("time", time.toString(DATETIME_FORMAT));
+    return getImageInfos("time", time.toString(DATETIME_FORMAT));
 }
 
 DatabaseManager::ImageInfo DatabaseManager::getImageInfoByName(const QString &name)
 {
-    return getImageInfo("filename", name);
+    QList<ImageInfo> list = getImageInfos("filename", name);
+    if (list.count() != 1) {
+        return ImageInfo();
+    }
+    else {
+        return list.first();
+    }
 }
 
 void DatabaseManager::removeImage(const QString &name)
@@ -290,7 +297,7 @@ QStringList DatabaseManager::getTimeLineList()
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("SELECT DISTINCT time FROM %1").arg(IMAGE_TABLE_NAME) );
+        query.prepare( QString("SELECT DISTINCT time FROM %1 ORDER BY time").arg(IMAGE_TABLE_NAME) );
         if ( !query.exec() ) {
             qWarning() << "Get TimeLine failed: " << query.lastError();
         }
@@ -361,38 +368,36 @@ DatabaseManager::~DatabaseManager()
     }
 }
 
-DatabaseManager::ImageInfo DatabaseManager::getImageInfo(const QString &key, const QString &value)
+QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfos(const QString &key, const QString &value)
 {
+    QList<ImageInfo> infoList;
     QSqlDatabase db = getDatabase();
-    ImageInfo info;
-    if (db.isValid() && imageExist(info.name)) {
+    if (db.isValid()) {
         QSqlQuery query( db );
         query.prepare( QString("SELECT "
-                               "filename, filepath, album, label, time, thumbnail"
-                               "FROM %1 WHERE %2 = :value")
-                       .arg( IMAGE_TABLE_NAME ).arg( key ) );
-        query.bindValue( ":value", value );
+                               "filename, filepath, album, label, time, thumbnail "
+                               "FROM %1 WHERE %2 = \'%3\' ORDER BY filename")
+                       .arg( IMAGE_TABLE_NAME ).arg( key ).arg( value ) );
         if (!query.exec()) {
             qWarning() << "Get Image from database failed: " << query.lastError();
-            return info;
+            return infoList;
         }
         else {
-            if (query.record().count() > 1) {
-                qWarning() << "Got duplicate data!";
-                return info;
+            while (query.next()) {
+                ImageInfo info;
+                info.name = query.value(0).toString();
+                info.path = query.value(1).toString();
+                info.albums = query.value(2).toStringList();
+                info.labels = query.value(3).toStringList();
+                info.time = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT);
+                info.thumbnail.loadFromData(query.value(5).toByteArray());
+
+                infoList << info;
             }
-            query.first();
-            info.name = query.value(0).toString();
-            info.path = query.value(1).toString();
-            info.albums = query.value(2).toStringList();
-            info.labels = query.value(3).toStringList();
-            info.time = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT);
-            info.thumbnail.loadFromData(query.value(5).toByteArray());
-            return info;
         }
     }
 
-    return info;
+    return infoList;
 }
 
 QSqlDatabase DatabaseManager::getDatabase()
@@ -411,7 +416,7 @@ QSqlDatabase DatabaseManager::getDatabase()
             return QSqlDatabase();
         }
         else {
-//            qDebug() << "Database Opended!";
+            //            qDebug() << "Database Opended!";
             return db;
         }
     }

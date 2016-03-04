@@ -2,23 +2,19 @@
 #define MAINWIDGET_H
 
 #include <QFrame>
+#include <QStackedWidget>
 #include "toptoolbar.h"
 #include "bottomtoolbar.h"
-#include "controller/signalmanager.h"
 #include "extensionpanel.h"
-#include <QStackedWidget>
+#include "controller/signalmanager.h"
+#include "module/album/albumpanel.h"
+#include "module/timeline/timelinepanel.h"
 
 class MainWidget : public QFrame
 {
     Q_OBJECT
 
 public:
-    enum Panel {
-        PanelTimeline = 0,
-        PanelAlbum = 1,
-        PanelEdit = 2
-    };
-
     MainWidget(QWidget *parent = 0);
     ~MainWidget();
 
@@ -42,6 +38,9 @@ private:
     ExtensionPanel *m_extensionPanel;
     SignalManager *m_signalManager = SignalManager::instance();
     QStackedWidget *m_panelStack;
+
+    TimelinePanel *m_timelinePanel;
+    AlbumPanel *m_albumPanel;
 };
 
 #endif // MAINWIDGET_H

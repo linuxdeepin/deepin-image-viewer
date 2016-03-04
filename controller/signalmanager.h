@@ -21,7 +21,10 @@ signals:
     void showExtensionPanel();
     void hideExtensionPanel();
     void backToMainWindow();
+
     void imageCountChanged();
+
+    void viewImage(const QString &path);
 
 private:
     explicit SignalManager(QObject *parent = 0);
