@@ -1,4 +1,3 @@
-#include <gtk/gtk.h>
 #include "timelinepanel.h"
 #include <dimagebutton.h>
 #include <dslider.h>

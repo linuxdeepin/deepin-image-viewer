@@ -9,6 +9,8 @@
 #include "controller/signalmanager.h"
 #include "module/album/albumpanel.h"
 #include "module/timeline/timelinepanel.h"
+#include "module/edit/EditPanel.h"
+#include "module/view/viewpanel.h"
 
 class MainWidget : public QFrame
 {
@@ -31,6 +33,8 @@ private:
     //panel
     void initTimelinePanel();
     void initAlbumPanel();
+    void initEditPanel();
+    void initViewPanel();
 
 private:
     TopToolbar *m_topToolbar;
@@ -41,6 +45,8 @@ private:
 
     TimelinePanel *m_timelinePanel;
     AlbumPanel *m_albumPanel;
+    EditPanel *m_editPanel;
+    ViewPanel *m_viewPanel;
 };
 
 #endif // MAINWIDGET_H

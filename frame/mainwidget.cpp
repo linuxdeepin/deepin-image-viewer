@@ -32,6 +32,8 @@ MainWidget::MainWidget(QWidget *parent)
 
     initTimelinePanel();
     initAlbumPanel();
+    initViewPanel();
+    initEditPanel();
 
     connect(m_signalManager, &SignalManager::backToMainWindow, this, [=] {
         m_panelStack->setCurrentWidget(m_timelinePanel);
@@ -145,4 +147,16 @@ void MainWidget::initAlbumPanel()
 {
     m_albumPanel = new AlbumPanel;
     m_panelStack->addWidget(m_albumPanel);
+}
+
+void MainWidget::initViewPanel()
+{
+    m_viewPanel = new ViewPanel();
+    m_panelStack->addWidget(m_viewPanel);
+}
+
+void MainWidget::initEditPanel()
+{
+    m_editPanel = new EditPanel();
+    m_panelStack->addWidget(m_editPanel);
 }

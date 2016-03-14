@@ -5,13 +5,12 @@
 #-------------------------------------------------
 
 QT       += core gui sql
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+CONFIG -= app_bundle
 #include (cutelogger/cutelogger.pri)
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += gtk+-2.0 dtkwidget dtkutil dtkbase libexif
-
+PKGCONFIG +=  dtkwidget dtkutil dtkbase libexif
+#gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
 
@@ -49,7 +48,31 @@ HEADERS += \
     module/timeline/timelineimageview.h \
     widgets/thumbnaillistview.h
 
+#view
+SOURCES += module/view/viewpanel.cpp \
+        module/view/imagewidget.cpp
 
+HEADERS += module/view/viewpanel.h \
+        module/view/imagewidget.h
+#edit
+SOURCES += \
+    module/edit/EditPanel.cpp \
+    module/edit/filters/Filters.cpp \
+    module/edit/filters/RationalColorTransform.cpp \
+    module/edit/filters/ColorTransforms.cpp \
+    module/edit/filters/Filter2D.cpp \
+    module/edit/filters/FilterObj.cpp
+
+HEADERS += \
+    module/edit/EditPanel.h \
+    module/edit/filters/Filter2D.h \
+    module/edit/filters/ConvolutionSampler.h \
+    module/edit/filters/Filters.h \
+    module/edit/filters/Samplers.h \
+    module/edit/filters/RationalColorTransform.h \
+    module/edit/filters/ColorTransforms.h \
+    module/edit/filters/FilterObj.h \
+    module/edit/filters/FilterId.h
 
 RESOURCES += \
     resources.qrc
