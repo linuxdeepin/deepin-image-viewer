@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+class ModulePanel;
 class SignalManager : public QObject
 {
     Q_OBJECT
@@ -21,10 +22,12 @@ signals:
     void showExtensionPanel();
     void hideExtensionPanel();
     void backToMainWindow();
+    void gotoPanel(ModulePanel* panel);
 
     void imageCountChanged();
 
     void viewImage(const QString &path);
+    void editImage(const QString &path);
 
 private:
     explicit SignalManager(QObject *parent = 0);
