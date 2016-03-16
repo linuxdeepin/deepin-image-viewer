@@ -4,7 +4,9 @@
 #include <QLabel>
 #include <QDebug>
 #include "controller/signalmanager.h"
+#include "module/edit/FilterSetup.h"
 
+FilterSetup* filter_view;
 using namespace Dtk::Widget;
 
 ViewPanel::ViewPanel(QWidget *parent)
@@ -15,6 +17,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     QHBoxLayout *hl = new QHBoxLayout();
     setLayout(hl);
     hl->addWidget(m_view);
+    filter_view = new FilterSetup(this);
 }
 
 QWidget *ViewPanel::toolbarBottomContent()
@@ -46,7 +49,9 @@ void ViewPanel::updateToolbarContent()
 
 void ViewPanel::openImage(const QString &path)
 {
-    qDebug("view");
     Q_EMIT SignalManager::instance()->gotoPanel(this);
     m_view->setImage(path);
+    filter_view->resize(240, height() - 30);
+    filter_view->show();
+    filter_view->setImage(path);
 }

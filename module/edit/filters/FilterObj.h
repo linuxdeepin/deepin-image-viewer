@@ -2,6 +2,7 @@
 #define FILTEROBJ_H
 
 #include <QObject>
+#include <QVector>
 #include "Filter2D.h"
 
 namespace filter2d {
@@ -12,6 +13,7 @@ class FilterObj : public QObject, public virtual Filter2DBase // virtual: use im
     Q_PROPERTY(qreal indensity READ indensity WRITE setIndensity NOTIFY indensityChanged)
 public:
     static FilterObj* create(int id);
+    static QVector<int> filters();
 Q_SIGNALS:
     void indensityChanged() override;
 };

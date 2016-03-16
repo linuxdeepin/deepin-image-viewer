@@ -23,6 +23,7 @@ enum {
     kSaturation,
     kHue,
     kEQ,
+    kEnd
 };
 } //namespace filter2d
 #endif // FILTERID_H

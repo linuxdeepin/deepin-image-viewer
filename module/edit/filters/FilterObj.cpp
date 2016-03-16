@@ -86,6 +86,14 @@ FilterObj* FilterObj::create(int id)
     }
     return NULL;
 }
+
+QVector<int> FilterObj::filters()
+{
+    QVector<int> ids;
+    for (int i = 0; i < kEnd; ++i)
+        ids.append(i);
+    return ids;
+}
 } //namespace filter2d
 
 #include "FilterObj.moc"

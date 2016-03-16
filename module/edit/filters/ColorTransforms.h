@@ -89,7 +89,7 @@ class ColorTransform_Brightness : public virtual LinearColorTransform
 public:
     /*!
      * \brief brightness
-     * 0~1
+     * 0~1 //TODO: 0~2(multiply) or -1~1(add)
      */
     qreal brightness() const {return mValue;}
     void setBrightness(qreal value) {mValue = value;}

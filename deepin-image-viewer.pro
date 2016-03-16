@@ -56,6 +56,8 @@ HEADERS += module/view/viewpanel.h \
         module/view/imagewidget.h
 #edit
 SOURCES += \
+    module/edit/FilterSetup.cpp \
+    module/edit/FiltersPreview.cpp \
     module/edit/EditPanel.cpp \
     module/edit/filters/Filters.cpp \
     module/edit/filters/RationalColorTransform.cpp \
@@ -64,6 +66,8 @@ SOURCES += \
     module/edit/filters/FilterObj.cpp
 
 HEADERS += \
+    module/edit/FilterSetup.h \
+    module/edit/FiltersPreview.h \
     module/edit/EditPanel.h \
     module/edit/filters/Filter2D.h \
     module/edit/filters/ConvolutionSampler.h \
