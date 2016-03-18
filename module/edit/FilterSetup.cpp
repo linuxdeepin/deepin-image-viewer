@@ -28,6 +28,9 @@ FilterSetup::FilterSetup(QWidget *parent)
     setLayout(vb);
     vb->addWidget(mTab);
     vb->addLayout(hb);
+
+    connect(m_preview, &FiltersPreview::filterIdSelected, this, &FilterSetup::filterIdChanged);
+    connect(m_preview, &FiltersPreview::indensityChanged, this, &FilterSetup::filterIndensityChanged);
 }
 
 void FilterSetup::setImage(const QString &path)

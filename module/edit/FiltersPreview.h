@@ -23,6 +23,7 @@ public:
     qreal indensity() const;
 Q_SIGNALS:
     void filterIdSelected(int id);
+    void indensityChanged(qreal);
 
 private Q_SLOTS:
     void applyIndensity(int value);

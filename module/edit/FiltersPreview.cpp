@@ -90,6 +90,7 @@ void FiltersPreview::applyIndensity(int value)
     if (m_image.isNull())
         return;
     const qreal k = qreal(value)/qreal(kIndensityMax);
+    Q_EMIT indensityChanged(k);
     for (int i = 0; i < m_filter.size(); ++i) {
         FilterObj* f = m_filter[i];
         f->setIndensity(k);

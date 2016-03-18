@@ -9,6 +9,8 @@ public:
     FilterSetup(QWidget* parent = 0);
     void setImage(const QString& path);
 Q_SIGNALS:
+    void filterIdChanged(int);
+    void filterIndensityChanged(qreal);
 
 private:
     FiltersPreview *m_preview;
