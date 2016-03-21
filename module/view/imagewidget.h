@@ -22,6 +22,10 @@ public Q_SLOTS:
 protected:
     void paintEvent(QPaintEvent *);
     //void resizeEvent(QResizeEvent *);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 private:
     void updateTransform();
 
@@ -31,4 +35,6 @@ private:
     QImage m_image;
     QPixmap m_pixmap;
     QTransform m_mat;
+
+    QPoint m_pos, m_posG;
 };
