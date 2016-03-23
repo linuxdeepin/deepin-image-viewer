@@ -18,7 +18,11 @@ Q_SIGNALS:
     void scaleValueChanged(qreal);
 public Q_SLOTS:
     void setScaleValue(qreal value);
-
+    void rotateClockWise() {rotate(m_rot-90);}
+    void rotateAntiClockWise() {rotate(m_rot+90);}
+    void rotate(int deg);
+    void flipX();
+    void flipY();
 protected:
     void paintEvent(QPaintEvent *);
     //void resizeEvent(QResizeEvent *);
@@ -29,6 +33,9 @@ protected:
 private:
     void updateTransform();
 
+    int m_flipX = 1;
+    int m_flipY = 1;
+    int m_rot = 0;
     qreal m_scale = 0; // when an image is loaded to fit widget, m_scale is not 1.0
     qreal m_scale_requested = 0;
     QPoint m_o_img, m_o_dev;

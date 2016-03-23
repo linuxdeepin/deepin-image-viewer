@@ -22,6 +22,8 @@ void ImageWidget::setImage(const QImage &image)
     const QSize s = m_image.size().scaled(rect().size(), Qt::KeepAspectRatio);
     m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
     m_scale = qreal(s.width())/qreal(m_image.size().width());
+    m_flipX = m_flipY = 1;
+    m_rot = 0;
     updateTransform();
     update(); //assume we are in main thread
 }
@@ -30,6 +32,24 @@ void ImageWidget::setScaleValue(qreal value)
 {
     m_scale_requested = value;
     m_scale = value;
+    updateTransform();
+}
+
+void ImageWidget::rotate(int deg)
+{
+    m_rot = deg%360;
+    updateTransform();
+}
+
+void ImageWidget::flipX()
+{
+    m_flipX = -m_flipX;
+    updateTransform();
+}
+
+void ImageWidget::flipY()
+{
+    m_flipY = -m_flipY;
     updateTransform();
 }
 
@@ -81,7 +101,6 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
     setTransformOrigin(m_o_img, m_o_dev + dp);
     m_pos = me->pos();
     m_posG = me->globalPos();
-    update();
 }
 
 void ImageWidget::wheelEvent(QWheelEvent *event)
@@ -94,9 +113,10 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
         zoom += deg*3.14/180.0;
     else
         zoom += dp.y()/100.0;
+    if (zoom < 0.5 || zoom > 10)
+        return;
     setScaleValue(zoom);
-    //qDebug("zoom: %.3f", zoom);
-    update();
+    qDebug("zoom: %.3f", zoom);
 }
 
 void ImageWidget::updateTransform()
@@ -106,7 +126,11 @@ void ImageWidget::updateTransform()
     m_scale = qreal(s.width())/qreal(m_image.size().width());
     //qDebug() << s << m_image.size();
     m_mat.reset();
-    m_mat.translate(m_o_dev.x() - (qreal)m_o_img.x()*m_scale, m_o_dev.y() - (qreal)m_o_img.y()*m_scale);
-    m_mat.scale(m_scale, m_scale);
+    QPoint img_o = QTransform().rotate(m_rot).scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
+    m_mat.translate(m_o_dev.x() - (qreal)img_o.x(), m_o_dev.y() - (qreal)img_o.y());
+    m_mat.rotate(m_rot);
+    m_mat.scale(m_scale*m_flipX, m_scale*m_flipY);
     //qDebug() << m_o_dev << m_mat.inverted().map(m_o_dev);
+    //qDebug() << m_mat;
+    update();
 }
