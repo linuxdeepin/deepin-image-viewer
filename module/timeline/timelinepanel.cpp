@@ -19,120 +19,103 @@ TimelinePanel::TimelinePanel(QWidget *parent)
     m_databaseManager = DatabaseManager::instance();//new DatabaseManager("database_counting_connection", this);
 
     initMainStackWidget();
-
-    updateToolbarContent();
 }
 
 QWidget *TimelinePanel::toolbarBottomContent()
 {
-    if ( !m_tBottomContent ) {
-        m_tBottomContent = new QWidget;
+    QWidget *m_tBottomContent = new QWidget;
 
-        QLabel *countLabel = new QLabel;
-        countLabel->setObjectName("CountLabel");
+    QLabel *countLabel = new QLabel;
+    countLabel->setObjectName("CountLabel");
 
-        DSlider *slider = new DSlider(Qt::Horizontal);
-        slider->setMinimum(1);
-        slider->setMaximum(5);
-        slider->setValue(1);
-        slider->setFixedWidth(120);
-        connect(slider, &DSlider::valueChanged, this, [=] (int multiple) {
-            qDebug() << "Change the view size to: X" << multiple;
-        });
+    DSlider *slider = new DSlider(Qt::Horizontal);
+    slider->setMinimum(1);
+    slider->setMaximum(5);
+    slider->setValue(1);
+    slider->setFixedWidth(120);
+    connect(slider, &DSlider::valueChanged, this, [=] (int multiple) {
+        qDebug() << "Change the view size to: X" << multiple;
+    });
 
-        connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
-            if (m_databaseManager->imageCount() <= 1) {
-                countLabel->setText(tr("%1 Image").arg(m_databaseManager->imageCount()));
-            }
-            else {
-                countLabel->setText(tr("%1 Images").arg(m_databaseManager->imageCount()));
-            }
-
-            slider->setFixedWidth(m_databaseManager->imageCount() > 0 ? 120 : 1);
-        });
-
-        //init value
+    connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
         if (m_databaseManager->imageCount() <= 1) {
             countLabel->setText(tr("%1 Image").arg(m_databaseManager->imageCount()));
         }
         else {
             countLabel->setText(tr("%1 Images").arg(m_databaseManager->imageCount()));
         }
-        //set width to 1px for layout center
-        slider->setFixedWidth(m_databaseManager->imageCount() > 0 ? 120 : 1);
 
-        QHBoxLayout *layout = new QHBoxLayout(m_tBottomContent);
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->setSpacing(0);
-        layout->addStretch(1);
-        layout->addWidget(countLabel, 1, Qt::AlignHCenter);
-        layout->addWidget(slider, 1, Qt::AlignRight);
-        layout->addSpacing(16);
+        slider->setFixedWidth(m_databaseManager->imageCount() > 0 ? 120 : 1);
+    });
+
+    //init value
+    if (m_databaseManager->imageCount() <= 1) {
+        countLabel->setText(tr("%1 Image").arg(m_databaseManager->imageCount()));
     }
+    else {
+        countLabel->setText(tr("%1 Images").arg(m_databaseManager->imageCount()));
+    }
+    //set width to 1px for layout center
+    slider->setFixedWidth(m_databaseManager->imageCount() > 0 ? 120 : 1);
+
+    QHBoxLayout *layout = new QHBoxLayout(m_tBottomContent);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+    layout->addStretch(1);
+    layout->addWidget(countLabel, 1, Qt::AlignHCenter);
+    layout->addWidget(slider, 1, Qt::AlignRight);
+    layout->addSpacing(16);
 
     return m_tBottomContent;
 }
 
 QWidget *TimelinePanel::toolbarTopLeftContent()
 {
-    if ( !m_tTopleftContent ){
-        m_tTopleftContent = new QWidget;
-        QLabel *label = new QLabel;
-        label->setPixmap(QPixmap(":/images/icons/resources/images/icons/filter-active.png"));
-        QHBoxLayout *layout = new QHBoxLayout(m_tTopleftContent);
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->addSpacing(8);
-        layout->addWidget(label, 1, Qt::AlignLeft | Qt::AlignVCenter);
-    }
-
+    QWidget *m_tTopleftContent = new QWidget;
+    QLabel *label = new QLabel;
+    label->setPixmap(QPixmap(":/images/icons/resources/images/icons/filter-active.png"));
+    QHBoxLayout *layout = new QHBoxLayout(m_tTopleftContent);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addSpacing(8);
+    layout->addWidget(label, 1, Qt::AlignLeft | Qt::AlignVCenter);
     return m_tTopleftContent;
 }
 
 QWidget *TimelinePanel::toolbarTopMiddleContent()
 {
-    if ( !m_tTopMiddleContent ) {
-        m_tTopMiddleContent = new QWidget;
+    QWidget *m_tTopMiddleContent = new QWidget;
 
-        QLabel *timelineButton = new QLabel();
-        timelineButton->setPixmap(QPixmap(":/images/icons/resources/images/icons/timeline-active.png"));
+    QLabel *timelineButton = new QLabel();
+    timelineButton->setPixmap(QPixmap(":/images/icons/resources/images/icons/timeline-active.png"));
 
-        DImageButton *albumButton = new DImageButton();
-        albumButton->setNormalPic(":/images/icons/resources/images/icons/album-normal.png");
-        albumButton->setHoverPic(":/images/icons/resources/images/icons/album-hover.png");
-        connect(albumButton, &DImageButton::clicked, this, [=] {
-            qDebug() << "Change to Album Panel...";
-        });
+    DImageButton *albumButton = new DImageButton();
+    albumButton->setNormalPic(":/images/icons/resources/images/icons/album-normal.png");
+    albumButton->setHoverPic(":/images/icons/resources/images/icons/album-hover.png");
+    connect(albumButton, &DImageButton::clicked, this, [=] {
+        qDebug() << "Change to Album Panel...";
+    });
 
-        DImageButton *searchButton = new DImageButton();
-        searchButton->setNormalPic(":/images/icons/resources/images/icons/search-normal-24px.png");
-        searchButton->setHoverPic(":/images/icons/resources/images/icons/search-hover-24px.png");
-        connect(searchButton, &DImageButton::clicked, this, [=] {
-            qDebug() << "Change to Search Panel...";
-        });
+    DImageButton *searchButton = new DImageButton();
+    searchButton->setNormalPic(":/images/icons/resources/images/icons/search-normal-24px.png");
+    searchButton->setHoverPic(":/images/icons/resources/images/icons/search-hover-24px.png");
+    connect(searchButton, &DImageButton::clicked, this, [=] {
+        qDebug() << "Change to Search Panel...";
+    });
 
-        QHBoxLayout *layout = new QHBoxLayout(m_tTopMiddleContent);
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->setSpacing(20);
-        layout->addStretch(1);
-        layout->addWidget(timelineButton);
-        layout->addWidget(albumButton);
-        layout->addWidget(searchButton);
-        layout->addStretch(1);
-    }
-
+    QHBoxLayout *layout = new QHBoxLayout(m_tTopMiddleContent);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(20);
+    layout->addStretch(1);
+    layout->addWidget(timelineButton);
+    layout->addWidget(albumButton);
+    layout->addWidget(searchButton);
+    layout->addStretch(1);
     return m_tTopMiddleContent;
 }
 
 QWidget *TimelinePanel::extensionPanelContent()
 {
     return NULL;
-}
-
-void TimelinePanel::updateToolbarContent()
-{
-    emit updateTopToolbarLeftContent(toolbarTopLeftContent());
-    emit updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-    emit updateBottomToolbarContent(toolbarBottomContent());
 }
 
 void TimelinePanel::dropEvent(QDropEvent *event)

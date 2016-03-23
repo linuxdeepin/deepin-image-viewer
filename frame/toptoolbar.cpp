@@ -25,9 +25,10 @@ void TopToolbar::setLeftContent(QWidget *content)
 {
     QLayoutItem *child;
     while ((child = m_leftLayout->takeAt(0)) != 0) {
+        if (child->widget())
+            child->widget()->deleteLater();
         delete child;
     }
-
     m_leftLayout->addWidget(content);
 }
 
@@ -35,6 +36,8 @@ void TopToolbar::setMiddleContent(QWidget *content)
 {
     QLayoutItem *child;
     while ((child = m_middleLayout->takeAt(0)) != 0) {
+        if (child->widget())
+            child->widget()->deleteLater();
         delete child;
     }
 

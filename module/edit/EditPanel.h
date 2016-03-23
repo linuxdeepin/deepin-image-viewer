@@ -17,7 +17,6 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
 
-    void updateToolbarContent(); 
 public Q_SLOTS:
     void setFilterId(int value);
     void setFilterIndensity(qreal value);

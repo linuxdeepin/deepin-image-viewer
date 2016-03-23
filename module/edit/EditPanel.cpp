@@ -3,6 +3,8 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QDebug>
+#include <dimagebutton.h>
+#include <dtextbutton.h>
 #include "controller/signalmanager.h"
 #include "FilterSetup.h"
 #include "filters/FilterObj.h"
@@ -29,24 +31,77 @@ QWidget *EditPanel::toolbarBottomContent()
 
 QWidget *EditPanel::toolbarTopLeftContent()
 {
-    return NULL;
+    QWidget *w = new QWidget();
+    QHBoxLayout *hb = new QHBoxLayout();
+    hb->setContentsMargins(0, 0, 0, 0);
+    hb->setSpacing(0);
+    w->setLayout(hb);
+    DImageButton *btn = new DImageButton();
+    btn->setNormalPic(":/images/icons/resources/images/icons/previous-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/previous-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/previous-press.png");
+    hb->addWidget(btn);
+    connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
+    DTextButton *btn1 = new DTextButton(tr("Back"));
+    hb->addWidget(btn1);
+    connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
+    btn1 = new DTextButton(tr("Revert"));
+    hb->addWidget(btn1);
+    hb->addStretch();
+    return w;
 }
 
 QWidget *EditPanel::toolbarTopMiddleContent()
 {
-    return NULL;
+    QWidget *w = new QWidget();
+    QHBoxLayout *hb = new QHBoxLayout();
+    hb->setContentsMargins(0, 0, 0, 0);
+    hb->setSpacing(0);
+    w->setLayout(hb);
+    hb->addStretch();
+    DImageButton *btn = new DImageButton();
+    btn->setNormalPic(":/images/icons/resources/images/icons/contrarotate-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/contrarotate-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/contrarotate-press.png");
+    hb->addWidget(btn);
+
+    btn = new DImageButton();
+    btn->setNormalPic(":/images/icons/resources/images/icons/clockwise-rotation-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/clockwise-rotation-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/clockwise-rotation-press.png");
+    hb->addWidget(btn);
+
+    btn = new DImageButton();
+    btn->setNormalPic(":/images/icons/resources/images/icons/filter-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/filter-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/filter-active.png");
+    hb->addWidget(btn);
+
+    btn = new DImageButton();
+    btn->setNormalPic(":/images/icons/resources/images/icons/cutting-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/cutting-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/cutting-active.png");
+    hb->addWidget(btn);
+
+    btn = new DImageButton();
+    btn->setNormalPic(":/images/icons/resources/images/icons/flip-horizontal-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/flip-horizontal-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/flip-horizontal-press.png");
+    hb->addWidget(btn);
+
+    btn = new DImageButton();
+    btn->setNormalPic(":/images/icons/resources/images/icons/flip-vertical-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/flip-vertical-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/flip-vertical-press.png");
+    hb->addWidget(btn);
+
+    hb->addStretch();
+    return w;
 }
 
 QWidget *EditPanel::extensionPanelContent()
 {
     return NULL;
-}
-
-void EditPanel::updateToolbarContent()
-{
-    emit updateTopToolbarLeftContent(toolbarTopLeftContent());
-    emit updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-    emit updateBottomToolbarContent(toolbarBottomContent());
 }
 
 void EditPanel::setFilterId(int value)

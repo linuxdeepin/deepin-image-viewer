@@ -50,6 +50,12 @@ signals:
     void updateTopToolbarMiddleContent(QWidget *content);
     void updateBottomToolbarContent(QWidget *content);
     void updateExtensionPanelContent(QWidget *content);
+protected:
+    virtual void showEvent(QShowEvent* ) {
+        emit updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        emit updateBottomToolbarContent(toolbarBottomContent());
+    }
 };
 
 #endif // MODULEPANEL_H

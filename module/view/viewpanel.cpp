@@ -37,13 +37,6 @@ QWidget *ViewPanel::extensionPanelContent()
     return NULL;
 }
 
-void ViewPanel::updateToolbarContent()
-{
-    emit updateTopToolbarLeftContent(toolbarTopLeftContent());
-    emit updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-    emit updateBottomToolbarContent(toolbarBottomContent());
-}
-
 void ViewPanel::openImage(const QString &path)
 {
     Q_EMIT SignalManager::instance()->gotoPanel(this);
