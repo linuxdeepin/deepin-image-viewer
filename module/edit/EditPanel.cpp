@@ -3,22 +3,29 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QDebug>
+#include <QStackedWidget>
 #include <dimagebutton.h>
 #include <dtextbutton.h>
 #include "controller/signalmanager.h"
 #include "FilterSetup.h"
 #include "filters/FilterObj.h"
+#include "Cut.h"
 
 using namespace Dtk::Widget;
 
 EditPanel::EditPanel(QWidget *parent)
     : ModulePanel(parent)
 {
+    m_stack = new QStackedWidget(this); // why need a parent to avoid cutwidget crash?
     connect(SignalManager::instance(), &SignalManager::editImage, this, &EditPanel::openImage);
     m_view = new ImageWidget();
+    m_cut = new CutWidget();
+    m_stack->addWidget(m_view);
+    m_stack->addWidget(m_cut);
+    m_stack->setCurrentWidget(m_view);
     QHBoxLayout *hl = new QHBoxLayout();
     setLayout(hl);
-    hl->addWidget(m_view);
+    hl->addWidget(m_stack);
     m_filterSetup = new FilterSetup(this);
     connect(m_filterSetup, &FilterSetup::filterIdChanged, this, &EditPanel::setFilterId);
     connect(m_filterSetup, &FilterSetup::filterIndensityChanged, this, &EditPanel::setFilterIndensity);
@@ -84,6 +91,14 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/icons/resources/images/icons/cutting-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/cutting-active.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::clicked, [this](){
+        if (m_stack->currentWidget() == m_view) {
+            m_cut->setImage(m_image);
+            m_stack->setCurrentWidget(m_cut);
+        } else {
+            m_stack->setCurrentWidget(m_view);
+        }
+    });
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/flip-horizontal-normal.png");
@@ -151,6 +166,7 @@ void EditPanel::openImage(const QString &path)
 {
     m_image = QImage(path);
     Q_EMIT SignalManager::instance()->gotoPanel(this);
+    m_stack->setCurrentWidget(m_view);
     m_view->setImage(m_image);
     m_filterSetup->resize(240, height() - 30);
     m_filterSetup->show();

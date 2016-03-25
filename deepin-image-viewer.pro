@@ -56,6 +56,7 @@ HEADERS += module/view/viewpanel.h \
         module/view/imagewidget.h
 #edit
 SOURCES += \
+    module/edit/Cut.cpp \
     module/edit/FilterSetup.cpp \
     module/edit/FiltersPreview.cpp \
     module/edit/EditPanel.cpp \
@@ -66,6 +67,7 @@ SOURCES += \
     module/edit/filters/FilterObj.cpp
 
 HEADERS += \
+    module/edit/Cut.h \
     module/edit/FilterSetup.h \
     module/edit/FiltersPreview.h \
     module/edit/EditPanel.h \
