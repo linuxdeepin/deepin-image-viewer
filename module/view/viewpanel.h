@@ -14,7 +14,6 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
 
-
 private Q_SLOTS:
     void openImage(const QString& path);
 

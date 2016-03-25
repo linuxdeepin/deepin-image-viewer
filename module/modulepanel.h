@@ -23,15 +23,6 @@ public:
                 SignalManager::instance(), &SignalManager::showExtensionPanel);
         connect(this, &ModulePanel::backToMainWindow,
                 SignalManager::instance(), &SignalManager::backToMainWindow);
-
-        connect(this, &ModulePanel::updateTopToolbarLeftContent,
-                SignalManager::instance(), &SignalManager::updateTopToolbarLeftContent);
-        connect(this, &ModulePanel::updateTopToolbarMiddleContent,
-                SignalManager::instance(), &SignalManager::updateTopToolbarMiddleContent);
-        connect(this, &ModulePanel::updateBottomToolbarContent,
-                SignalManager::instance(), &SignalManager::updateBottomToolbarContent);
-        connect(this, &ModulePanel::updateExtensionPanelContent,
-                SignalManager::instance(), &SignalManager::updateExtensionPanelContent);
     }
     virtual QWidget *toolbarTopLeftContent() = 0;
     virtual QWidget *toolbarTopMiddleContent() = 0;
@@ -46,15 +37,12 @@ signals:
     void hideExtensionPanel();
     void showExtensionPanel();
     void backToMainWindow();
-    void updateTopToolbarLeftContent(QWidget *content);
-    void updateTopToolbarMiddleContent(QWidget *content);
-    void updateBottomToolbarContent(QWidget *content);
-    void updateExtensionPanelContent(QWidget *content);
 protected:
     virtual void showEvent(QShowEvent* ) {
-        emit updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-        emit updateBottomToolbarContent(toolbarBottomContent());
+        Q_EMIT SignalManager::instance()->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        Q_EMIT SignalManager::instance()->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        Q_EMIT SignalManager::instance()->updateBottomToolbarContent(toolbarBottomContent());
+        Q_EMIT SignalManager::instance()->updateExtensionPanelContent(extensionPanelContent());
     }
 };
 

@@ -23,9 +23,8 @@ QWidget *ViewPanel::toolbarBottomContent()
     QWidget *w = new QWidget();
     QHBoxLayout *hb = new QHBoxLayout();
     hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(0);
+    hb->setSpacing(10);
     w->setLayout(hb);
-    hb->addStretch();
     DImageButton *btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/info-normal.png");
     btn->setHoverPic(":/images/icons/resources/images/icons/info-hover.png");
@@ -38,14 +37,12 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/icons/resources/images/icons/collect-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/collect-active.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/previous-normal.png");
     btn->setHoverPic(":/images/icons/resources/images/icons/previous-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/previous-press.png");
     hb->addWidget(btn);
-
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/slideshow-normal.png");
@@ -58,7 +55,6 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/icons/resources/images/icons/next-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/next-press.png");
     hb->addWidget(btn);
-
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/edit-normal.png");
@@ -100,7 +96,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     QWidget *w = new QWidget();
     QHBoxLayout *hb = new QHBoxLayout();
     hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(0);
+    hb->setSpacing(10);
     w->setLayout(hb);
     hb->addStretch();
     DImageButton *btn = new DImageButton();
@@ -118,18 +114,18 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/collect-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/collect-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/collect-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/adapt-image-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/adapt-image-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/adapt-image-active.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
-
+    //
+#if 0
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/previous-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/previous-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/previous-active.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/share-normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/share-hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/share-active.png");
     hb->addWidget(btn);
-
+#endif
     hb->addStretch();
     return w;
 }

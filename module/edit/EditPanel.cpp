@@ -26,14 +26,45 @@ EditPanel::EditPanel(QWidget *parent)
     QHBoxLayout *hl = new QHBoxLayout();
     setLayout(hl);
     hl->addWidget(m_stack);
-    m_filterSetup = new FilterSetup(this);
+    m_filterSetup = new FilterSetup();
     connect(m_filterSetup, &FilterSetup::filterIdChanged, this, &EditPanel::setFilterId);
     connect(m_filterSetup, &FilterSetup::filterIndensityChanged, this, &EditPanel::setFilterIndensity);
 }
 
 QWidget *EditPanel::toolbarBottomContent()
 {
-    return NULL;
+    if (m_stack->currentWidget() == m_view)
+        return NULL;
+    QWidget *w = new QWidget();
+    QHBoxLayout *hb = new QHBoxLayout();
+    hb->setContentsMargins(0, 0, 0, 0);
+    hb->setSpacing(0);
+    w->setLayout(hb);
+    DTextButton *btn = new DTextButton("4:3");
+    hb->addWidget(btn);
+    btn = new DTextButton("8:5");
+    hb->addWidget(btn);
+    btn = new DTextButton("16:9");
+    hb->addWidget(btn);
+    btn = new DTextButton("3:4");
+    hb->addWidget(btn);
+    btn = new DTextButton("5:8");
+    hb->addWidget(btn);
+    btn = new DTextButton("1:1");
+    hb->addWidget(btn);
+    btn = new DTextButton("16:9");
+    hb->addWidget(btn);
+    btn = new DTextButton(tr("Custom"));
+    hb->addWidget(btn);
+    hb->addStretch();
+
+
+    btn = new DTextButton(tr("Cancel"));
+    hb->addWidget(btn);
+
+    btn = new DTextButton(tr("Cut"));
+    hb->addWidget(btn);
+    return w;
 }
 
 QWidget *EditPanel::toolbarTopLeftContent()
@@ -49,8 +80,11 @@ QWidget *EditPanel::toolbarTopLeftContent()
     btn->setPressPic(":/images/icons/resources/images/icons/previous-press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
+    connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::hideExtensionPanel);
     DTextButton *btn1 = new DTextButton(tr("Back"));
     hb->addWidget(btn1);
+    connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::hideExtensionPanel);
+
     connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
     btn1 = new DTextButton(tr("Revert"));
     hb->addWidget(btn1);
@@ -63,7 +97,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     QWidget *w = new QWidget();
     QHBoxLayout *hb = new QHBoxLayout();
     hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(0);
+    hb->setSpacing(10);
     w->setLayout(hb);
     hb->addStretch();
     DImageButton *btn = new DImageButton();
@@ -85,6 +119,13 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/icons/resources/images/icons/filter-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/filter-active.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::clicked, [this](){
+        if (m_filterSetup->imagePath() != m_path) {
+            m_filterSetup->setImage(m_path);
+        }
+        m_filterSetup->resize(240, height() - 30);
+        Q_EMIT SignalManager::instance()->showExtensionPanel();
+    });
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/cutting-normal.png");
@@ -98,6 +139,8 @@ QWidget *EditPanel::toolbarTopMiddleContent()
         } else {
             m_stack->setCurrentWidget(m_view);
         }
+        Q_EMIT SignalManager::instance()->hideExtensionPanel();
+        Q_EMIT SignalManager::instance()->updateBottomToolbarContent(toolbarBottomContent());
     });
 
     btn = new DImageButton();
@@ -121,7 +164,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
 
 QWidget *EditPanel::extensionPanelContent()
 {
-    return NULL;
+    return m_filterSetup;
 }
 
 void EditPanel::setFilterId(int value)
@@ -169,7 +212,4 @@ void EditPanel::openImage(const QString &path)
     Q_EMIT SignalManager::instance()->gotoPanel(this);
     m_stack->setCurrentWidget(m_view);
     m_view->setImage(m_image);
-    m_filterSetup->resize(240, height() - 30);
-    m_filterSetup->show();
-    m_filterSetup->setImage(path);
 }

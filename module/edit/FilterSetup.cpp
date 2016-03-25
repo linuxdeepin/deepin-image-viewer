@@ -35,5 +35,11 @@ FilterSetup::FilterSetup(QWidget *parent)
 
 void FilterSetup::setImage(const QString &path)
 {
+    m_path = path;
     m_preview->setImage(QImage(path));
+}
+
+QString FilterSetup::imagePath() const
+{
+    return m_path;
 }
