@@ -164,6 +164,7 @@ void EditPanel::applyFilter()
 
 void EditPanel::openImage(const QString &path)
 {
+    m_path = path;
     m_image = QImage(path);
     Q_EMIT SignalManager::instance()->gotoPanel(this);
     m_stack->setCurrentWidget(m_view);

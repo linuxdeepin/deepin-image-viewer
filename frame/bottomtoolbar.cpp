@@ -14,6 +14,8 @@ void BottomToolbar::setContent(QWidget *content)
 {
     QLayoutItem *child;
     while ((child = m_mainLayout->takeAt(0)) != 0) {
+        if (child->widget())
+            child->widget()->deleteLater();
         delete child;
     }
 

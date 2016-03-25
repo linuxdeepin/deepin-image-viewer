@@ -11,10 +11,17 @@ ImageWidget::ImageWidget(QWidget *parent)
 void ImageWidget::setImage(const QString &path)
 {
     setImage(QImage(path));
+    m_path = path;
+}
+
+QString ImageWidget::imagePath() const
+{
+    return m_path;
 }
 
 void ImageWidget::setImage(const QImage &image)
 {
+    m_path = QString();
     m_image = image;
     m_pixmap = QPixmap::fromImage(m_image);
     //m_scale = 0.4;

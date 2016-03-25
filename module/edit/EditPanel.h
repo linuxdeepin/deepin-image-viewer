@@ -34,6 +34,7 @@ private:
     int m_filterId = 0;
     qreal m_filterIndensity = 0;
     filter2d::FilterObj* m_filter = NULL;
+    QString m_path;
     QImage m_image;
     CutWidget *m_cut;
     QStackedWidget *m_stack;

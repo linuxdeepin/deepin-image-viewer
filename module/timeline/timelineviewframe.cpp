@@ -29,7 +29,7 @@ void TimelineViewFrame::initListView()
     m_listView->setIconSize(QSize(96, 96));
     m_listView->setModel( &m_standardModel );
     connect(m_listView, &ThumbnailListView::doubleClicked, this, [=] (const QModelIndex & index) {
-        emit SignalManager::instance()->editImage(index.data(Qt::UserRole).toString());
+        emit SignalManager::instance()->viewImage(index.data(Qt::UserRole).toString());
     });
 
     //add data
