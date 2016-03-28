@@ -3,6 +3,7 @@
 #include "module/modulepanel.h"
 #include "module/view/imagewidget.h"
 #include <QStackedWidget>
+#include "FilterSetup.h"
 
 namespace filter2d {
 class FilterObj;
@@ -30,7 +31,7 @@ private Q_SLOTS:
 
 private:
     ImageWidget *m_view = NULL;
-    FilterSetup* m_filterSetup;
+    QScopedPointer<FilterSetup> m_filterSetup;
     int m_filterId = 0;
     qreal m_filterIndensity = 0;
     filter2d::FilterObj* m_filter = NULL;

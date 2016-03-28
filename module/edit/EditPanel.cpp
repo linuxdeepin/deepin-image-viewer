@@ -7,7 +7,6 @@
 #include <dimagebutton.h>
 #include <dtextbutton.h>
 #include "controller/signalmanager.h"
-#include "FilterSetup.h"
 #include "filters/FilterObj.h"
 #include "Cut.h"
 
@@ -26,9 +25,9 @@ EditPanel::EditPanel(QWidget *parent)
     QHBoxLayout *hl = new QHBoxLayout();
     setLayout(hl);
     hl->addWidget(m_stack);
-    m_filterSetup = new FilterSetup();
-    connect(m_filterSetup, &FilterSetup::filterIdChanged, this, &EditPanel::setFilterId);
-    connect(m_filterSetup, &FilterSetup::filterIndensityChanged, this, &EditPanel::setFilterIndensity);
+    m_filterSetup.reset(new FilterSetup());
+    connect(m_filterSetup.data(), &FilterSetup::filterIdChanged, this, &EditPanel::setFilterId);
+    connect(m_filterSetup.data(), &FilterSetup::filterIndensityChanged, this, &EditPanel::setFilterIndensity);
 }
 
 QWidget *EditPanel::toolbarBottomContent()
@@ -164,7 +163,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
 
 QWidget *EditPanel::extensionPanelContent()
 {
-    return m_filterSetup;
+    return m_filterSetup.data();
 }
 
 void EditPanel::setFilterId(int value)

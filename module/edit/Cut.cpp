@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QtDebug>
 #include <QCoreApplication>
+#include <QtMath>
 
 void CutWidget::setAspectRatio(qreal value)
 {
@@ -15,7 +16,11 @@ void CutWidget::setAspectRatio(qreal value)
 
 void CutWidget::setImage(const QImage &img)
 {
+    m_rotating = false;
+    m_rot = 0;
     m_pixmap = QPixmap::fromImage(img);
+    m_rect = QRect(rect().center() - QPoint(100, 50), rect().center() + QPoint(100, 50));
+    m_clip = QRegion(rect()) - m_rect;
     updateTransform();
 }
 
@@ -33,8 +38,7 @@ void CutWidget::mousePressEvent(QMouseEvent *event)
     if (m_rect.contains(event->pos())) {
 
     } else {
-        m_clip = rect();
-        m_rect = QRect();
+        m_rotating = true;
     }
 
     updateTransform();
@@ -47,7 +51,7 @@ void CutWidget::mouseMoveEvent(QMouseEvent *event)
     const int dy = event->globalPos().y() - m_posG.y();
     m_pos1 = event->pos();
     const QRect r = m_rect.adjusted(dx, dy, dx, dy);
-    if (r.contains(m_pos)) {
+    if (r.contains(m_pos) && !m_rotating) {
         const QPoint p = m_pos - m_rect.topLeft();
         if (p.x() < m_rect.width()/3) {
             if (p.y() < m_rect.height()/3) {
@@ -75,7 +79,21 @@ void CutWidget::mouseMoveEvent(QMouseEvent *event)
             }
         }
     } else {
-        m_rect = QRect(m_pos0, m_pos1).normalized();
+        if (m_rotating) {
+            const QVector2D v(QPoint(0, 1));
+            const QVector2D v0(m_pos0 - rect().center());
+            const QVector2D v1(m_pos1 - rect().center());
+            const qreal cos0 = QVector2D::dotProduct(v0, v)/v.length()/v0.length();
+            const qreal cos1 = QVector2D::dotProduct(v1, v)/v.length()/v1.length();
+            const qreal dAngle = 180.0*(qAcos(cos1) - qAcos(cos0))/M_PI;
+            if (m_pos0.x() < rect().center().x())
+                m_rot = m_rot0 + dAngle;
+            else
+                m_rot = m_rot0 - dAngle;
+            m_rot %= 360;
+        } else {
+            //m_rect = QRect(m_pos0, m_pos1).normalized();
+        }
     }
     if (m_ar > 0) {
         const int h = (qreal)m_rect.width()/m_ar;
@@ -85,6 +103,12 @@ void CutWidget::mouseMoveEvent(QMouseEvent *event)
     m_pos = event->pos();
     m_posG = event->globalPos();
     updateTransform();
+}
+
+void CutWidget::mouseReleaseEvent(QMouseEvent *)
+{
+    m_rotating = false;
+    m_rot0 = m_rot;
 }
 
 void CutWidget::paintEvent(QPaintEvent *)
@@ -147,8 +171,9 @@ void CutWidget::updateTransform()
     QSize ss = m_pixmap.size().scaled(width(), height(), Qt::KeepAspectRatio);
     const qreal s = (qreal)ss.width()/(qreal)m_pixmap.width();
     m_mat.reset();
-    QPoint img_o = QTransform().scale(s, s).map(QPoint(m_pixmap.width()/2, m_pixmap.height()/2));
+    QPoint img_o = QTransform().rotate(m_rot).scale(s, s).map(QPoint(m_pixmap.width()/2, m_pixmap.height()/2));
     m_mat.translate(rect().center().x() - (qreal)img_o.x(), rect().center().y() - (qreal)img_o.y());
+    m_mat.rotate(m_rot);
     m_mat.scale(s, s);
     update();
 }
