@@ -35,6 +35,8 @@ void ExtensionPanel::setContent(QWidget *content)
 {
     QLayoutItem *child;
     if ((child = m_contentLayout->takeAt(0)) != 0) {
+        if (child->widget())
+            child->widget()->deleteLater();
         delete child;
     }
 

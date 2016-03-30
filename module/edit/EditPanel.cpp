@@ -8,6 +8,7 @@
 #include <dtextbutton.h>
 #include "controller/signalmanager.h"
 #include "filters/FilterObj.h"
+#include "FilterSetup.h"
 #include "Cut.h"
 
 using namespace Dtk::Widget;
@@ -25,9 +26,6 @@ EditPanel::EditPanel(QWidget *parent)
     QHBoxLayout *hl = new QHBoxLayout();
     setLayout(hl);
     hl->addWidget(m_stack);
-    m_filterSetup.reset(new FilterSetup());
-    connect(m_filterSetup.data(), &FilterSetup::filterIdChanged, this, &EditPanel::setFilterId);
-    connect(m_filterSetup.data(), &FilterSetup::filterIndensityChanged, this, &EditPanel::setFilterIndensity);
 }
 
 QWidget *EditPanel::toolbarBottomContent()
@@ -79,11 +77,8 @@ QWidget *EditPanel::toolbarTopLeftContent()
     btn->setPressPic(":/images/icons/resources/images/icons/previous-press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
-    connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::hideExtensionPanel);
     DTextButton *btn1 = new DTextButton(tr("Back"));
     hb->addWidget(btn1);
-    connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::hideExtensionPanel);
-
     connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
     btn1 = new DTextButton(tr("Revert"));
     hb->addWidget(btn1);
@@ -119,10 +114,13 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setPressPic(":/images/icons/resources/images/icons/filter-active.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
-        if (m_filterSetup->imagePath() != m_path) {
-            m_filterSetup->setImage(m_path);
+        if (m_filterSetup) {
+            if (m_filterSetup->imagePath() != m_path) {
+                m_filterSetup->setImage(m_path);
+            }
+            m_filterSetup->resize(240, height() - 30);
         }
-        m_filterSetup->resize(240, height() - 30);
+
         Q_EMIT SignalManager::instance()->showExtensionPanel();
     });
 
@@ -163,7 +161,14 @@ QWidget *EditPanel::toolbarTopMiddleContent()
 
 QWidget *EditPanel::extensionPanelContent()
 {
-    return m_filterSetup.data();
+    m_filterSetup = new FilterSetup();
+    connect(m_filterSetup, &FilterSetup::filterIdChanged, this, &EditPanel::setFilterId);
+    connect(m_filterSetup, &FilterSetup::filterIndensityChanged, this, &EditPanel::setFilterIndensity);
+    if (m_filterSetup->imagePath() != m_path) {
+        m_filterSetup->setImage(m_path);
+    }
+    m_filterSetup->resize(240, height() - 30);
+    return m_filterSetup;
 }
 
 void EditPanel::setFilterId(int value)

@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QDebug>
 #include "controller/signalmanager.h"
+#include "imageinfowidget.h"
 
 using namespace Dtk::Widget;
 
@@ -31,6 +32,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setPressPic(":/images/icons/resources/images/icons/info-active.png");
     hb->addWidget(btn);
     hb->addStretch();
+    connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::showExtensionPanel);
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/collect-normal.png");
@@ -132,11 +134,16 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 
 QWidget *ViewPanel::extensionPanelContent()
 {
-    return NULL;
+    m_info = new ImageInfoWidget();
+    m_info->setImagePath(m_view->imagePath());
+    return m_info;
 }
 
 void ViewPanel::openImage(const QString &path)
 {
     Q_EMIT SignalManager::instance()->gotoPanel(this);
     m_view->setImage(path);
+    qDebug() << "view path: " << m_view->imagePath();
+    if (m_info)
+        m_info->setImagePath(path);
 }

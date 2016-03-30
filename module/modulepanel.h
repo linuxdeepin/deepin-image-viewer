@@ -44,6 +44,9 @@ protected:
         Q_EMIT SignalManager::instance()->updateBottomToolbarContent(toolbarBottomContent());
         Q_EMIT SignalManager::instance()->updateExtensionPanelContent(extensionPanelContent());
     }
+    virtual void hideEvent(QHideEvent*) {
+        Q_EMIT SignalManager::instance()->hideExtensionPanel();
+    }
 };
 
 #endif // MODULEPANEL_H

@@ -2,6 +2,7 @@
 
 #include "module/modulepanel.h"
 #include "imagewidget.h"
+#include "imageinfowidget.h"
 
 class ViewPanel : public ModulePanel
 {
@@ -19,4 +20,5 @@ private Q_SLOTS:
 
 private:
     ImageWidget *m_view = NULL;
+    ImageInfoWidget *m_info = NULL;
 };
