@@ -163,7 +163,7 @@ QWidget *EditPanel::extensionPanelContent()
 {
     m_filterSetup = new FilterSetup();
     connect(m_filterSetup, &FilterSetup::filterIdChanged, this, &EditPanel::setFilterId);
-    connect(m_filterSetup, &FilterSetup::filterIndensityChanged, this, &EditPanel::setFilterIndensity);
+    connect(m_filterSetup, &FilterSetup::filterIntensityChanged, this, &EditPanel::setFilterIntensity);
     if (m_filterSetup->imagePath() != m_path) {
         m_filterSetup->setImage(m_path);
     }
@@ -185,11 +185,11 @@ void EditPanel::setFilterId(int value)
     applyFilter();
 }
 
-void EditPanel::setFilterIndensity(qreal value)
+void EditPanel::setFilterIntensity(qreal value)
 {
-    if (m_filterIndensity == value)
+    if (m_filterIntensity == value)
         return;
-    m_filterIndensity = value;
+    m_filterIntensity = value;
     applyFilter();
 }
 
@@ -201,8 +201,8 @@ void EditPanel::applyFilter()
     m_filter->setProperty("hue", 0.6);
     m_filter->setProperty("contrast", 0.6);
     m_filter->setProperty("saturation", 0.6);
-    qDebug("set indensity: %.3f", m_filterIndensity);
-    m_filter->setIndensity(m_filterIndensity);
+    qDebug("set intensity: %.3f", m_filterIntensity);
+    m_filter->setIntensity(m_filterIntensity);
     QImage img(m_image);
     if (img.isNull())
         return;

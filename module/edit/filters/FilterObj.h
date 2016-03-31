@@ -10,12 +10,12 @@ namespace filter2d {
 class FilterObj : public QObject, public virtual Filter2DBase // virtual: use implemention in XXXFilter
 {
     Q_OBJECT
-    Q_PROPERTY(qreal indensity READ indensity WRITE setIndensity NOTIFY indensityChanged)
+    Q_PROPERTY(qreal intensity READ intensity WRITE setIntensity NOTIFY intensityChanged)
 public:
     static FilterObj* create(int id);
     static QVector<int> filters();
 Q_SIGNALS:
-    void indensityChanged() override;
+    void intensityChanged() override;
 };
 
 }//namespace filter2d {

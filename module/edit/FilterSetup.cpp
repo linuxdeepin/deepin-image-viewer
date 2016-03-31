@@ -30,7 +30,7 @@ FilterSetup::FilterSetup(QWidget *parent)
     vb->addLayout(hb);
 
     connect(m_preview, &FiltersPreview::filterIdSelected, this, &FilterSetup::filterIdChanged);
-    connect(m_preview, &FiltersPreview::indensityChanged, this, &FilterSetup::filterIndensityChanged);
+    connect(m_preview, &FiltersPreview::intensityChanged, this, &FilterSetup::filterIntensityChanged);
 }
 
 void FilterSetup::setImage(const QString &path)

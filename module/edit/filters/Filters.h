@@ -18,8 +18,8 @@ public:
             for (int x = 0; x < src.width(); ++x) {
                 pt(&x, &y);
                 QRgb c = pp(ct(s(x, y, src)));
-                if (indensity() < 1.0) {
-                    c = mix(indensity(), c, src.pixel(x, y));
+                if (intensity() < 1.0) {
+                    c = mix(intensity(), c, src.pixel(x, y));
                 }
                 out.setPixel(x, y, c); //img[x,y] = c;
             }

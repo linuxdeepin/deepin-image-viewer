@@ -55,22 +55,22 @@ class Filter2DBase {
 public:
     virtual ~Filter2DBase() {}
     /*!
-     * \brief indensity
+     * \brief intensity
      * 0~1
      */
-    qreal indensity() const {return m_indensity;}
-    void setIndensity(qreal value) {
+    qreal intensity() const {return m_intensity;}
+    void setIntensity(qreal value) {
         assert(value >= 0 && value <= 1);
-        if (m_indensity == value)
+        if (m_intensity == value)
             return;
-        m_indensity = value;
-        Q_EMIT indensityChanged();
+        m_intensity = value;
+        Q_EMIT intensityChanged();
     }
 
     virtual QImage apply(const QImage& src) = 0;
-    virtual void indensityChanged() {}
+    virtual void intensityChanged() {}
 private:
-    qreal m_indensity = 1.0;
+    qreal m_intensity = 1.0;
 };
 } //namespace filter2d
 #endif // FILTER2D_H

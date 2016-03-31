@@ -20,13 +20,13 @@ class FiltersPreview : public QWidget
 public:
     explicit FiltersPreview(QWidget *parent = 0);
     void setImage(const QImage& img);
-    qreal indensity() const;
+    qreal intensity() const;
 Q_SIGNALS:
     void filterIdSelected(int id);
-    void indensityChanged(qreal);
+    void intensityChanged(qreal);
 
 private Q_SLOTS:
-    void applyIndensity(int value);
+    void applyIntensity(int value);
 
 private:
     QVector<QLabel*> m_label;
@@ -36,7 +36,7 @@ private:
 #else
     QListWidget *m_list;
 #endif
-    DSlider *m_indensity;
+    DSlider *m_intensity;
     QImage m_image;
 };
 

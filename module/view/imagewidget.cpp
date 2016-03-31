@@ -24,20 +24,28 @@ void ImageWidget::setImage(const QImage &image)
     m_path = QString();
     m_image = image;
     m_pixmap = QPixmap::fromImage(m_image);
+    resetTransform();
+    updateTransform();
+    update(); //assume we are in main thread
+}
+
+void ImageWidget::resetTransform()
+{
     //m_scale = 0.4;
     m_o_dev = rect().center();
+    m_flipX = m_flipY = 1;
+    m_rot = 0;
+    if (m_image.isNull())
+        return;
     const QSize s = m_image.size().scaled(rect().size(), Qt::KeepAspectRatio);
     m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
     m_scale = qreal(s.width())/qreal(m_image.size().width());
-    m_flipX = m_flipY = 1;
-    m_rot = 0;
     updateTransform();
     update(); //assume we are in main thread
 }
 
 void ImageWidget::setScaleValue(qreal value)
 {
-    m_scale_requested = value;
     m_scale = value;
     updateTransform();
 }
@@ -120,7 +128,7 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
         zoom += deg*3.14/180.0;
     else
         zoom += dp.y()/100.0;
-    if (zoom < 0.5 || zoom > 10)
+    if (zoom < 0.1 || zoom > 10)
         return;
     setScaleValue(zoom);
     qDebug("zoom: %.3f", zoom);

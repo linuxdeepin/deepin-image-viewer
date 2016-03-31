@@ -22,7 +22,7 @@ public:
 
 public Q_SLOTS:
     void setFilterId(int value);
-    void setFilterIndensity(qreal value);
+    void setFilterIntensity(qreal value);
 
 private Q_SLOTS:
     void openImage(const QString& path);
@@ -32,7 +32,7 @@ private:
     ImageWidget *m_view = NULL;
     FilterSetup *m_filterSetup;
     int m_filterId = 0;
-    qreal m_filterIndensity = 0;
+    qreal m_filterIntensity = 0;
     filter2d::FilterObj* m_filter = NULL;
     QString m_path;
     QImage m_image;

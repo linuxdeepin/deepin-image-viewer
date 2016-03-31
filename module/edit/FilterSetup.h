@@ -11,7 +11,7 @@ public:
     QString imagePath() const;
 Q_SIGNALS:
     void filterIdChanged(int);
-    void filterIndensityChanged(qreal);
+    void filterIntensityChanged(qreal);
 
 private:
     FiltersPreview *m_preview;

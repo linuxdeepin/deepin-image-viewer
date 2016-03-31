@@ -120,6 +120,10 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/icons/resources/images/icons/adapt-image-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/adapt-image-active.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::clicked, [this](){
+        m_view->resetTransform();
+        m_view->setScaleValue(1);
+    });
     //
 #if 0
     btn = new DImageButton();

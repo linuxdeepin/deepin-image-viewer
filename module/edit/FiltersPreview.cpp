@@ -5,7 +5,7 @@
 using namespace filter2d;
 static const int kW = 180;
 static const int kH = 90;
-static const int kIndensityMax = 20;
+static const int kIntensityMax = 20;
 #define QSS(x) #x
 
 static const char kListViewQSS[] = QSS(
@@ -61,39 +61,39 @@ FiltersPreview::FiltersPreview(QWidget *parent) : QWidget(parent)
     m_list->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_list->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    m_indensity = new DSlider();
-    m_indensity->setRange(0, kIndensityMax);
-    m_indensity->setOrientation(Qt::Horizontal);
-    connect(m_indensity, &DSlider::valueChanged, this, &FiltersPreview::applyIndensity);
-    m_indensity->setValue(0.8*kIndensityMax);
+    m_intensity = new DSlider();
+    m_intensity->setRange(0, kIntensityMax);
+    m_intensity->setOrientation(Qt::Horizontal);
+    connect(m_intensity, &DSlider::valueChanged, this, &FiltersPreview::applyIntensity);
+    m_intensity->setValue(0.8*kIntensityMax);
 
     QVBoxLayout *vb = new QVBoxLayout();
     setLayout(vb);
     vb->addWidget(m_list);
-    vb->addWidget(m_indensity);
+    vb->addWidget(m_intensity);
 }
 
 void FiltersPreview::setImage(const QImage &img)
 {
     qDebug() << m_list->visualItemRect(m_list->item(0));
     m_image = img.scaled(kW, kH, Qt::KeepAspectRatioByExpanding);
-    applyIndensity(m_indensity->value());
+    applyIntensity(m_intensity->value());
 }
 
-qreal FiltersPreview::indensity() const
+qreal FiltersPreview::intensity() const
 {
-    return qreal(m_indensity->value())/qreal(kIndensityMax);
+    return qreal(m_intensity->value())/qreal(kIntensityMax);
 }
 
-void FiltersPreview::applyIndensity(int value)
+void FiltersPreview::applyIntensity(int value)
 {
     if (m_image.isNull())
         return;
-    const qreal k = qreal(value)/qreal(kIndensityMax);
-    Q_EMIT indensityChanged(k);
+    const qreal k = qreal(value)/qreal(kIntensityMax);
+    Q_EMIT intensityChanged(k);
     for (int i = 0; i < m_filter.size(); ++i) {
         FilterObj* f = m_filter[i];
-        f->setIndensity(k);
+        f->setIntensity(k);
 #ifdef USE_DLISTWIDGET
         QLabel* label = (QLabel*)m_list->getWidget(i);
 #else
