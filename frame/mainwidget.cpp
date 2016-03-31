@@ -100,10 +100,10 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->setContent(c);
     });
     connect(m_signalManager, &SignalManager::showBottomToolbar, this, [=] {
-        m_bottomToolbar->moveWithAnimation(0, 0);
+        m_bottomToolbar->moveWithAnimation(0, height() - BOTTOM_TOOLBAR_HEIGHT);
     });
     connect(m_signalManager, &SignalManager::hideBottomToolbar, this, [=] {
-        m_bottomToolbar->moveWithAnimation(0, - BOTTOM_TOOLBAR_HEIGHT);
+        m_bottomToolbar->moveWithAnimation(0, height() + BOTTOM_TOOLBAR_HEIGHT);
     });
 }
 
