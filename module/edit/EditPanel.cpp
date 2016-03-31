@@ -1,6 +1,7 @@
 #include "EditPanel.h"
 #include <dimagebutton.h>
 #include <QBoxLayout>
+#include <QButtonGroup>
 #include <QLabel>
 #include <QDebug>
 #include <QStackedWidget>
@@ -32,35 +33,55 @@ QWidget *EditPanel::toolbarBottomContent()
 {
     if (m_stack->currentWidget() == m_view)
         return NULL;
-    QWidget *w = new QWidget();
+    struct {
+        qreal value;
+        const char* text;
+    } ratios[] = {
+    {1.0, "1:1"},
+    {4.0/3.0, "4:3"},
+    {8.0/5.0, "8:5"},
+    {16.0/9.0, "16:9"},
+    {3.0/4.0, "3:4"},
+    {5.0/8.0, "5:8"},
+    {9.0/16.0, "9:16"},
+    {0, "Custom"},
+    {-1, NULL}
+    };
+    QWidget *w = new QWidget();    
     QHBoxLayout *hb = new QHBoxLayout();
     hb->setContentsMargins(0, 0, 0, 0);
     hb->setSpacing(0);
     w->setLayout(hb);
-    DTextButton *btn = new DTextButton("4:3");
-    hb->addWidget(btn);
-    btn = new DTextButton("8:5");
-    hb->addWidget(btn);
-    btn = new DTextButton("16:9");
-    hb->addWidget(btn);
-    btn = new DTextButton("3:4");
-    hb->addWidget(btn);
-    btn = new DTextButton("5:8");
-    hb->addWidget(btn);
-    btn = new DTextButton("1:1");
-    hb->addWidget(btn);
-    btn = new DTextButton("16:9");
-    hb->addWidget(btn);
-    btn = new DTextButton(tr("Custom"));
-    hb->addWidget(btn);
+    QButtonGroup *bg = new QButtonGroup(w);
+    connect(bg, (void (QButtonGroup::*)(int))&QButtonGroup::buttonClicked, [=](int id){
+        m_cut->setAspectRatio(ratios[id].value);
+    });
+    for (int i = 0; ratios[i].text; ++i) {
+        DTextButton *btn = new DTextButton(ratios[i].text);
+        btn->setCheckable(true);
+        btn->setChecked(ratios[i].value == 0);
+        hb->addWidget(btn);
+        bg->addButton(btn, i);
+    }
     hb->addStretch();
 
-
-    btn = new DTextButton(tr("Cancel"));
+    DTextButton *btn = new DTextButton(tr("Cancel"));
     hb->addWidget(btn);
-
+    connect(btn, &DTextButton::clicked, [this](){
+        m_stack->setCurrentWidget(m_view);
+    });
     btn = new DTextButton(tr("Cut"));
     hb->addWidget(btn);
+    connect(btn, &DTextButton::clicked, [&](){
+        m_cut->setImage(m_image.copy(m_cut->cutRect()));
+    });
+
+    connect(m_stack, &QStackedWidget::currentChanged, [&](int){
+        if (m_stack->currentWidget() == m_cut)
+            SignalManager::instance()->showBottomToolbar();
+        else
+            SignalManager::instance()->hideBottomToolbar();
+    });
     return w;
 }
 
@@ -81,6 +102,12 @@ QWidget *EditPanel::toolbarTopLeftContent()
     hb->addWidget(btn1);
     connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
     btn1 = new DTextButton(tr("Revert"));
+    connect(btn1, &DTextButton::clicked, [this](){
+        if (m_stack->currentWidget() == m_view)
+            m_view->setImage(m_image);
+        else
+            m_cut->setImage(m_image);
+    });
     hb->addWidget(btn1);
     hb->addStretch();
     return w;
@@ -114,6 +141,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setPressPic(":/images/icons/resources/images/icons/filter-active.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
+        m_stack->setCurrentWidget(m_view);
         if (m_filterSetup) {
             if (m_filterSetup->imagePath() != m_path) {
                 m_filterSetup->setImage(m_path);

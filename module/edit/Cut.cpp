@@ -12,6 +12,12 @@ void CutWidget::setAspectRatio(qreal value)
     if (m_ar == value)
         return;
     m_ar = value;
+    if (m_ar > 0) {
+        const int h = (qreal)m_rect.width()/m_ar;
+        m_rect.setHeight(h);
+        m_clip = QRegion(rect()) - m_rect;
+    }
+    updateTransform();
 }
 
 void CutWidget::setImage(const QImage &img)
