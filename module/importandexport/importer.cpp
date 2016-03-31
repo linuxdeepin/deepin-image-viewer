@@ -1,5 +1,5 @@
 #include "importer.h"
-#include "importthread.h"
+#include "utils/imgutil.h"
 #include "controller/databasemanager.h"
 #include <libexif/exif-data.h>
 #include <QDirIterator>
@@ -8,9 +8,35 @@
 #include <QDir>
 
 Importer::Importer(QObject *parent)
-    : QObject(parent),m_readCount(0),m_progress(1)
+    : QObject(parent),m_progress(1),m_imagesCount(0)
 {
+    connect(&m_futureWatcher, SIGNAL(finished()),
+            this, SLOT(onFutureWatcherFinish()));
+    connect(&m_futureWatcher, SIGNAL(resultReadyAt(int)),
+            this, SLOT(onFutureResultReady(int)));
+}
 
+QString insertImage(const QString &path)
+{
+    QFileInfo fileInfo(path);
+    DatabaseManager::ImageInfo imgInfo;
+    imgInfo.name = fileInfo.fileName();
+    imgInfo.path = fileInfo.absoluteFilePath();
+    imgInfo.time = utils::getCreateDateTime(path);
+    imgInfo.albums = QStringList();
+    imgInfo.labels = QStringList();
+    imgInfo.thumbnail = utils::getThumbnail(path);
+
+    DatabaseManager::instance()->insertImageInfo(imgInfo);
+
+    return path;
+}
+
+void Importer::loadCacheImages()
+{
+    QStringList pathList = m_cacheImportList;
+    QFuture<QString> future = QtConcurrent::mapped(pathList, insertImage);
+    m_futureWatcher.setFuture(future);
 }
 
 Importer *Importer::m_importer = NULL;
@@ -35,13 +61,14 @@ void Importer::importFromPath(const QString &path)
         return;
     }
 
+    m_futureWatcher.setPaused(true);
     QStringList filters;
     filters << QString("*.jpeg")
             <<QString("*.jpg")
            <<QString("*.png")
           <<QString("*.tiff")
          <<QString("*.gif")
-       <<QString("*.bmp");
+        <<QString("*.bmp");
 
     QDirIterator dirIterator(path,
                              filters,
@@ -54,35 +81,44 @@ void Importer::importFromPath(const QString &path)
         QString filePath = fileInfo.absoluteFilePath();
 
         if (! DatabaseManager::instance()->imageExist(fileInfo.fileName())) {
-            m_importList.append(filePath);
+            m_cacheImportList.append(filePath);
         }
+
+        m_imagesCount ++;
     }
 
-    //for calculate import progress
-    m_readCount = m_importList.count();
-    for (QString path : m_importList) {
-        ImportThread *t = new ImportThread(path, "", this);
-        connect(t, &ImportThread::finished, t, &ImportThread::deleteLater);
-        connect(t, &ImportThread::importFinish, this, &Importer::importThreadFinish);
-        t->start();
+    m_futureWatcher.setPaused(false);
+    if (!m_futureWatcher.isRunning()) {
+        loadCacheImages();
     }
 }
 
 void Importer::importSingleFile(const QString &filePath)
 {
-    m_importList << filePath;
-    m_readCount = m_importList.count();
-
-    ImportThread *t = new ImportThread(filePath, "", this);
-    connect(t, &ImportThread::finished, t, &ImportThread::deleteLater);
-    connect(t, &ImportThread::importFinish, this, &Importer::importThreadFinish);
-    t->start();
+    m_cacheImportList << filePath;
+    m_imagesCount ++;
+    if (!m_futureWatcher.isRunning()) {
+        loadCacheImages();
+    }
 }
 
-void Importer::importThreadFinish(const QString &filePath)
+void Importer::onFutureWatcherFinish()
 {
-    m_importList.removeAll(filePath);
-    m_progress = QString::number((1 - (double)m_importList.count() / m_readCount), 'g', 2).toDouble();
+    // Imported finish
+    if (m_cacheImportList.isEmpty()) {
+        qDebug() << "Imported finish, no more cache!";
+        m_imagesCount = 0;
+        m_progress = 1;
+        emit importProgressChanged(m_progress);
+    }
+    else {
+        loadCacheImages();
+    }
+}
 
-    emit importProgressChanged(m_readCount - m_importList.count(), m_progress);
+void Importer::onFutureResultReady(int index)
+{
+    m_cacheImportList.removeAll(m_futureWatcher.resultAt(index));
+    m_progress = 1 - (1.0 * m_cacheImportList.count() / m_imagesCount);
+    emit importProgressChanged(m_progress);
 }

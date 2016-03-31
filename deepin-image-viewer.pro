@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql concurrent
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 #include (cutelogger/cutelogger.pri)
@@ -24,12 +24,12 @@ SOURCES += main.cpp \
     controller/signalmanager.cpp \
     controller/databasemanager.cpp \
     module/importandexport/importer.cpp \
-    module/importandexport/importthread.cpp \
     module/album/albumpanel.cpp \
     module/timeline/timelinepanel.cpp \
     module/timeline/timelineviewframe.cpp \
     module/timeline/timelineimageview.cpp \
-    widgets/thumbnaillistview.cpp
+    widgets/thumbnaillistview.cpp \
+    utils/imgutil.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -40,13 +40,13 @@ HEADERS += \
     controller/signalmanager.h \
     controller/databasemanager.h \
     module/importandexport/importer.h \
-    module/importandexport/importthread.h \
     module/album/albumpanel.h \
     module/timeline/timelinepanel.h \
     module/modulepanel.h \
     module/timeline/timelineviewframe.h \
     module/timeline/timelineimageview.h \
-    widgets/thumbnaillistview.h
+    widgets/thumbnaillistview.h \
+    utils/imgutil.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \

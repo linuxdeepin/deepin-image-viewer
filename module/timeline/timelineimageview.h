@@ -15,7 +15,7 @@ protected:
     void resizeEvent(QResizeEvent *e);
 private:
     void inserFrame(const QString &timeline);
-    void removeFrame(const QString &tileline);
+    void removeFrame(const QString &timeline);
 
 private:
     QVBoxLayout *m_contentLayout;
