@@ -1,9 +1,12 @@
 #ifndef TIMELINEIMAGEVIEW_H
 #define TIMELINEIMAGEVIEW_H
 
+#include <QMap>
 #include <QWidget>
 #include <QScrollArea>
 #include <QVBoxLayout>
+
+class TimelineViewFrame;
 
 class TimelineImageView : public QScrollArea
 {
@@ -20,6 +23,8 @@ private:
 private:
     QVBoxLayout *m_contentLayout;
     QFrame *m_contentFrame;
+    QMap<QString, TimelineViewFrame *> m_frames;
+    bool m_ascending;
 };
 
 #endif // TIMELINEIMAGEVIEW_H

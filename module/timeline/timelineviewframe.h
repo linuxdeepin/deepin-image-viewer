@@ -16,14 +16,14 @@ class TimelineViewFrame : public QFrame
     Q_OBJECT
 public:
     explicit TimelineViewFrame(const QString &timeline, QWidget *parent = 0);
+    void insertItem(const DatabaseManager::ImageInfo &info);
+    void removeItem(const QString &name);
 
 protected:
     void resizeEvent(QResizeEvent *e);
 
 private:
     void initListView();
-    void insertItem(const DatabaseManager::ImageInfo &info);
-    void removeItem(const QString &name);
 
 private:
     QString m_timeline;

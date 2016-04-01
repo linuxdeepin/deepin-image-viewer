@@ -1,6 +1,7 @@
 #ifndef SIGNALMANAGER_H
 #define SIGNALMANAGER_H
 
+#include "databasemanager.h"
 #include <QObject>
 
 class ModulePanel;
@@ -25,6 +26,7 @@ signals:
     void gotoPanel(ModulePanel* panel);
 
     void imageCountChanged();
+    void imageInserted(const DatabaseManager::ImageInfo &info);
 
     void viewImage(const QString &path);
     void editImage(const QString &path);

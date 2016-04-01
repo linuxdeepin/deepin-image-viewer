@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <QSqlDatabase>
 #include <QMutex>
+
 const QString DATETIME_FORMAT = "yyyy.MM.dd";
 
 class DatabaseManager : public QObject
