@@ -33,14 +33,16 @@ ExtensionPanel::ExtensionPanel(QWidget *parent, QWidget *source)
 
 void ExtensionPanel::setContent(QWidget *content)
 {
-    QLayoutItem *child;
-    if ((child = m_contentLayout->takeAt(0)) != 0) {
-        if (child->widget())
-            child->widget()->deleteLater();
-        delete child;
-    }
+    if (content) {
+        QLayoutItem *child;
+        if ((child = m_contentLayout->takeAt(0)) != 0) {
+            if (child->widget())
+                child->widget()->deleteLater();
+            delete child;
+        }
 
-    m_contentLayout->addWidget(content);
+        m_contentLayout->addWidget(content);
+    }
 }
 
 void ExtensionPanel::paintEvent(QPaintEvent *)

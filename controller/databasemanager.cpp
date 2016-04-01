@@ -276,7 +276,6 @@ QStringList DatabaseManager::getAlbumNameList()
             qWarning() << "Get AlbumNames failed: " << query.lastError();
         }
         else {
-            QSqlRecord rec = query.record();
             for ( int i = 0; query.next(); i ++ ) {
                 list << query.value(0).toString();
             }
@@ -286,18 +285,19 @@ QStringList DatabaseManager::getAlbumNameList()
     return list;
 }
 
-QStringList DatabaseManager::getTimeLineList()
+QStringList DatabaseManager::getTimeLineList(bool ascending)
 {
     QStringList list;
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("SELECT DISTINCT time FROM %1 ORDER BY time").arg(IMAGE_TABLE_NAME) );
+        query.prepare(QString("SELECT DISTINCT time FROM %1 ORDER BY time %2").
+                      arg(IMAGE_TABLE_NAME).
+                      arg(ascending ? "ASC" : "DESC"));
         if ( !query.exec() ) {
             qWarning() << "Get TimeLine failed: " << query.lastError();
         }
         else {
-            QSqlRecord rec = query.record();
             for ( int i = 0; query.next(); i ++ ) {
                 list << query.value(0).toString();
             }

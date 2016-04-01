@@ -6,7 +6,7 @@
 #include <QDateTime>
 #include <QSqlDatabase>
 #include <QMutex>
-const QString DATETIME_FORMAT = "dd.MM.yyyy";
+const QString DATETIME_FORMAT = "yyyy.MM.dd";
 
 class DatabaseManager : public QObject
 {
@@ -46,7 +46,7 @@ public:
     void removeAlbum(const QString &name);
     bool albumExist(const QString &name);
     QStringList getAlbumNameList();
-    QStringList getTimeLineList();
+    QStringList getTimeLineList(bool ascending = true);
     const QStringList supportImageType();
 
 private:
