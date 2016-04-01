@@ -38,7 +38,7 @@ void ThumbnailListView::fixedViewPortSize()
             && height() - verticalMargin == contentsSize().height())
         return;
 
-    setFixedWidth(contentsRect().width());
+//    setFixedWidth(contentsRect().width());
     setFixedHeight(contentsSize().height());
 }
 
