@@ -19,10 +19,10 @@ const QString ALBUM_TABLE_NAME = "AlbumTable";
 
 void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
 {
-    QMutex mutex;
-    //    mutex.lock();
-    QMutexLocker locker(&mutex);
+    QMutexLocker locker(&m_mutex);
+
     QSqlDatabase db = getDatabase();
+
     if (db.isValid() && !imageExist(info.name)) {
         QSqlQuery query( db );
         /*NOTE: '"BEGIN IMMEDIATE TRANSACTION"' try to avoid the error like "database is locked",
@@ -53,9 +53,10 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         }
         else {
             query.exec("COMMIT");
-            emit SignalManager::instance()->imageCountChanged();
+//            emit SignalManager::instance()->imageCountChanged();
         }
     }
+
 }
 
 void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
@@ -122,9 +123,6 @@ void DatabaseManager::removeImage(const QString &name)
 
 bool DatabaseManager::imageExist(const QString &name)
 {
-    QMutex mutex;
-    QMutexLocker locker(&mutex);
-
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
@@ -145,9 +143,6 @@ bool DatabaseManager::imageExist(const QString &name)
 
 int DatabaseManager::imageCount()
 {
-    QMutex mutex;
-    QMutexLocker locker(&mutex);
-
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );

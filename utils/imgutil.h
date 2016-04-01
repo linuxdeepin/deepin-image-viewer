@@ -1,0 +1,18 @@
+#ifndef IMGUTIL_H
+#define IMGUTIL_H
+
+#include <libexif/exif-data.h>
+#include <libexif/exif-entry.h>
+#include <libexif/exif-tag.h>
+#include <QPixmap>
+#include <QDateTime>
+
+namespace utils {
+
+QPixmap getThumbnail(const QString &filePath);
+QPixmap scaleImage(const QString &filePath);
+QDateTime getCreateDateTime(const QString &filePath);
+QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag);
+
+}  // namespace utils
+#endif // IMGUTIL_H

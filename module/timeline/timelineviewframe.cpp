@@ -57,5 +57,5 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
 
 void TimelineViewFrame::removeItem(const QString &name)
 {
-
+    Q_UNUSED(name)
 }

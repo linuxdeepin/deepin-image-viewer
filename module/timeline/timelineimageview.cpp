@@ -32,12 +32,12 @@ void TimelineImageView::resizeEvent(QResizeEvent *e)
 
 void TimelineImageView::inserFrame(const QString &timeline)
 {
-    qDebug() << "New Timeline: " << timeline;
+//    qDebug() << "New Timeline: " << timeline;
     TimelineViewFrame *frame = new TimelineViewFrame(timeline);
     m_contentLayout->addWidget(frame);
 }
 
-void TimelineImageView::removeFrame(const QString &tileline)
+void TimelineImageView::removeFrame(const QString &timeline)
 {
-
+    Q_UNUSED(timeline)
 }

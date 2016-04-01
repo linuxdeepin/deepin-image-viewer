@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QDateTime>
 #include <QSqlDatabase>
+#include <QMutex>
 const QString DATETIME_FORMAT = "dd.MM.yyyy";
 
 class DatabaseManager : public QObject
@@ -58,6 +59,7 @@ private:
 private:
     static DatabaseManager *m_databaseManager;
     QString m_connectionName;
+    QMutex m_mutex;
 };
 
 #endif // DATABASEMANAGER_H

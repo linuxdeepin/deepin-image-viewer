@@ -62,8 +62,7 @@ void TopToolbar::initWidgets()
     importProgress->setFixedSize(21, 21);
     importProgress->setVisible(false);
     connect(Importer::instance(), &Importer::importProgressChanged,
-            this, [=] (int importedCount, double progress) {
-        Q_UNUSED(importedCount)
+            this, [=] (double progress) {
         importProgress->setVisible(progress != 1);
         importProgress->setValue(progress * 100);
     });
