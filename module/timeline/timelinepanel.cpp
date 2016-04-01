@@ -38,15 +38,16 @@ QWidget *TimelinePanel::toolbarBottomContent()
     });
 
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
+        int count = m_databaseManager->imageCount();
         if (m_databaseManager->imageCount() <= 1) {
-            countLabel->setText(tr("%1 Image").arg(m_databaseManager->imageCount()));
+            countLabel->setText(tr("%1 Image").arg(count));
         }
         else {
-            countLabel->setText(tr("%1 Images").arg(m_databaseManager->imageCount()));
+            countLabel->setText(tr("%1 Images").arg(count));
         }
 
-        slider->setFixedWidth(m_databaseManager->imageCount() > 0 ? 120 : 1);
-    });
+        slider->setFixedWidth(count > 0 ? 120 : 1);
+    }, Qt::DirectConnection);
 
     //init value
     if (m_databaseManager->imageCount() <= 1) {
@@ -153,9 +154,9 @@ void TimelinePanel::initMainStackWidget()
     m_mainStackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
     m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
-    connect(m_signalManager, &SignalManager::imageCountChanged, [=] {
+    connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
         m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
-    });
+    }, Qt::DirectConnection);
 
     QLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

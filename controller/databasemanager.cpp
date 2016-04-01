@@ -53,7 +53,7 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         }
         else {
             query.exec("COMMIT");
-//            emit SignalManager::instance()->imageCountChanged();
+            emit SignalManager::instance()->imageCountChanged();
         }
     }
 
