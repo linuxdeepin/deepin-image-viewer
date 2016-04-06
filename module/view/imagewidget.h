@@ -23,6 +23,7 @@ Q_SIGNALS:
     void scaleValueChanged(qreal);
     void transformChanged(const QTransform&);
 public Q_SLOTS:
+    void setImageMove(int x, int y);
     void setScaleValue(qreal value);
     void rotateClockWise() {rotate(m_rot-90);}
     void rotateAntiClockWise() {rotate(m_rot+90);}

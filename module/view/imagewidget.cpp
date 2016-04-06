@@ -44,6 +44,12 @@ void ImageWidget::resetTransform()
     update(); //assume we are in main thread
 }
 
+void ImageWidget::setImageMove(int x, int y)
+{
+    setTransformOrigin(QPoint(x, y), QPoint());
+    updateTransform();
+}
+
 void ImageWidget::setScaleValue(qreal value)
 {
     m_scale = value;
@@ -87,7 +93,7 @@ QRect ImageWidget::mapToImage(const QRect& r) const
 
 QRect ImageWidget::visibleImageRect() const
 {
-    mapToImage(rect()) & QRect(0, 0, m_image.width(), m_image.height());
+    return mapToImage(rect()) & QRect(0, 0, m_image.width(), m_image.height());
 }
 
 void ImageWidget::paintEvent(QPaintEvent *)
@@ -146,6 +152,8 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
 
 void ImageWidget::updateTransform()
 {
+    if (m_image.isNull())
+        return;
     //Q_EMIT scaleValueChanged(value); //TODO: emit only when scaled image is rendered
     const QSize s = m_image.size()*m_scale;//.scaled(rect().size(), Qt::KeepAspectRatio);
     m_scale = qreal(s.width())/qreal(m_image.size().width());

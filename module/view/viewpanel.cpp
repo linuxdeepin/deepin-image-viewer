@@ -2,6 +2,7 @@
 #include <dimagebutton.h>
 #include <QBoxLayout>
 #include <QLabel>
+#include <QResizeEvent>
 #include <QDebug>
 #include "controller/signalmanager.h"
 #include "imageinfowidget.h"
@@ -18,11 +19,12 @@ ViewPanel::ViewPanel(QWidget *parent)
     hl->addWidget(m_view);
 
     m_nav = new NavigationWidget(this);
-    m_nav->show();
     m_nav->resize(200, 200);
-    m_nav->move(100, 100);
     connect(m_view, &ImageWidget::transformChanged, [this](){
         m_nav->setRectInImage(m_view->visibleImageRect());
+    });
+    connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
+        m_view->setImageMove(x, y);
     });
 }
 
@@ -149,6 +151,11 @@ QWidget *ViewPanel::extensionPanelContent()
     m_info = new ImageInfoWidget();
     m_info->setImagePath(m_view->imagePath());
     return m_info;
+}
+
+void ViewPanel::resizeEvent(QResizeEvent *e)
+{
+    m_nav->move(e->size().width() - m_nav->width() - 10, e->size().height() - m_nav->height());
 }
 
 void ViewPanel::openImage(const QString &path)
