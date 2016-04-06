@@ -28,7 +28,6 @@ protected:
 
 private:
     void initListView();
-    void updateIconSize();
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
 
 private:

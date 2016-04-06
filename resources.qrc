@@ -4,6 +4,7 @@
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/default.qss</file>
+        <file>resources/qss/timeline.qss</file>
     </qresource>
     <qresource prefix="/images/icons">
         <file>resources/images/icons/adapt-image-active.png</file>

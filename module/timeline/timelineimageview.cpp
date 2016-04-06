@@ -9,7 +9,7 @@ TimelineImageView::TimelineImageView(QWidget *parent)
     : QScrollArea(parent), m_ascending(false)
 {
     m_contentFrame = new QFrame;
-    m_contentFrame->setStyleSheet("QFrame{background: transparent;border:none;}");
+    m_contentFrame->setObjectName("TimelinesContent");
     m_contentFrame->setAutoFillBackground(true);
     m_contentLayout = new QVBoxLayout(m_contentFrame);
     m_contentLayout->setContentsMargins(0, 50, 0, 10);

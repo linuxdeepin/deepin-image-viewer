@@ -29,6 +29,7 @@ private:
     void initMainStackWidget();
     void initImportFrame();
     void initImagesView();
+    void initStyleSheet();
     void importImages();
 
 private:

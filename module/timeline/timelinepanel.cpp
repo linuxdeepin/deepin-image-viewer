@@ -19,6 +19,7 @@ TimelinePanel::TimelinePanel(QWidget *parent)
     m_databaseManager = DatabaseManager::instance();//new DatabaseManager("database_counting_connection", this);
 
     initMainStackWidget();
+    initStyleSheet();
 }
 
 QWidget *TimelinePanel::toolbarBottomContent()
@@ -196,6 +197,18 @@ void TimelinePanel::initImagesView()
 {
     m_imagesView = new TimelineImageView;
     m_imagesView->setAcceptDrops(true);
+}
+
+void TimelinePanel::initStyleSheet()
+{
+    QFile sf(":/qss/resources/qss/timeline.qss");
+    if (!sf.open(QIODevice::ReadOnly)) {
+        qWarning() << "Open style-sheet file error:" << sf.errorString();
+        return;
+    }
+
+    this->setStyleSheet(QString(sf.readAll()));
+    sf.close();
 }
 
 void TimelinePanel::importImages()

@@ -10,6 +10,9 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline, bool multiselectio
 {
     QLabel *title = new QLabel(timeline);
     title->setObjectName("TimelineFrameTitle");
+    QLabel *separator = new QLabel();
+    separator->setObjectName("TimelineSeparator");
+    separator->setFixedHeight(1);
 
     initListView();
 
@@ -17,6 +20,7 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline, bool multiselectio
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(title);
     layout->addWidget(m_listView);
+    layout->addWidget(separator);
 }
 
 void TimelineViewFrame::resizeEvent(QResizeEvent *e)
@@ -48,11 +52,6 @@ void TimelineViewFrame::initListView()
     for (DatabaseManager::ImageInfo info : list) {
         insertItem(info);
     }
-}
-
-void TimelineViewFrame::updateIconSize()
-{
-    m_listView->setIconSize(m_iconSize);
 }
 
 QPixmap TimelineViewFrame::generateSelectedThumanail(const QPixmap &pixmap)
