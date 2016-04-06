@@ -11,7 +11,7 @@ QListView {
     border:none;
 }
 
-QListView::item:selected {border: 1px solid #567dbc;
+QListView::item:selected {border: 2px solid #01bdff;
     selection-background-color: red;outline: none;
 }
 
@@ -24,6 +24,7 @@ QPushButton#ImportFrameButton {
                 stop:0 rgba(59,193,255,255), stop:1 rgba(7,157,255,255));
     border: 1px solid rgba(29, 130, 255, 77);
     border-radius: 3;
+    outline: none;
     padding: 2px 24px 2px 24px;
     color: #FFFFFF;
     font-size: 12px;

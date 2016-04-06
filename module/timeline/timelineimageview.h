@@ -13,6 +13,8 @@ class TimelineImageView : public QScrollArea
     Q_OBJECT
 public:
     explicit TimelineImageView(QWidget *parent = 0);
+    void setIconSize(const QSize &iconSize);
+    QStringList selectedImages();
 
 protected:
     void resizeEvent(QResizeEvent *e);

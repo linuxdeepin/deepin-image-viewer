@@ -38,6 +38,23 @@ TimelineImageView::TimelineImageView(QWidget *parent)
     }, Qt::QueuedConnection);
 }
 
+void TimelineImageView::setIconSize(const QSize &iconSize)
+{
+    for (TimelineViewFrame * frame : m_frames.values()) {
+        frame->setIconSize(iconSize);
+    }
+}
+
+QStringList TimelineImageView::selectedImages()
+{
+    QStringList names;
+    for (TimelineViewFrame * frame : m_frames.values()) {
+        names << frame->selectedImages();
+    }
+
+    return names;
+}
+
 void TimelineImageView::resizeEvent(QResizeEvent *e)
 {
     QScrollArea::resizeEvent(e);

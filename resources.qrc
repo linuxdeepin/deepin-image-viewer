@@ -81,5 +81,6 @@
         <file>resources/images/icons/timeline-active.png</file>
         <file>resources/images/icons/timeline-hover.png</file>
         <file>resources/images/icons/timeline-normal.png</file>
+        <file>resources/images/icons/item-selected.png</file>
     </qresource>
 </RCC>

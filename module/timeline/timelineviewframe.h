@@ -15,17 +15,25 @@ class TimelineViewFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit TimelineViewFrame(const QString &timeline, QWidget *parent = 0);
+    explicit TimelineViewFrame(const QString &timeline, bool multiselection = false, QWidget *parent = 0);
     void insertItem(const DatabaseManager::ImageInfo &info);
     void removeItem(const QString &name);
+    QStringList selectedImages();
+
+    QSize iconSize() const;
+    void setIconSize(const QSize &iconSize);
 
 protected:
     void resizeEvent(QResizeEvent *e);
 
 private:
     void initListView();
+    void updateIconSize();
+    QPixmap generateSelectedThumanail(const QPixmap &pixmap);
 
 private:
+    bool m_multiselection;
+    QSize m_iconSize;
     QString m_timeline;
     ThumbnailListView *m_listView;
     QStandardItemModel m_standardModel;
