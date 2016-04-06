@@ -75,9 +75,19 @@ void ImageWidget::setTransformOrigin(const QPoint& imageP, const QPoint& deviceP
     updateTransform();
 }
 
-QPoint ImageWidget::mapToImage(const QPoint &p)
+QPoint ImageWidget::mapToImage(const QPoint &p) const
 {
     return m_mat.inverted().map(p);
+}
+
+QRect ImageWidget::mapToImage(const QRect& r) const
+{
+    return m_mat.inverted().mapRect(r);
+}
+
+QRect ImageWidget::visibleImageRect() const
+{
+    mapToImage(rect()) & QRect(0, 0, m_image.width(), m_image.height());
 }
 
 void ImageWidget::paintEvent(QPaintEvent *)
@@ -148,4 +158,5 @@ void ImageWidget::updateTransform()
     //qDebug() << m_o_dev << m_mat.inverted().map(m_o_dev);
     //qDebug() << m_mat;
     update();
+    Q_EMIT transformChanged(m_mat);
 }

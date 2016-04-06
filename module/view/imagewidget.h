@@ -11,13 +11,17 @@ public:
 
     void setImage(const QString& path);
     void setImage(const QImage& image);
+    QImage image() const {return m_image;}
     QString imagePath() const;
     void resetTransform();
     qreal scaleValue() const {return m_scale;}
     void setTransformOrigin(const QPoint& imageP, const QPoint& deviceP);
-    QPoint mapToImage(const QPoint& p);
+    QPoint mapToImage(const QPoint& p) const;
+    QRect mapToImage(const QRect& r) const;
+    QRect visibleImageRect() const;
 Q_SIGNALS:
     void scaleValueChanged(qreal);
+    void transformChanged(const QTransform&);
 public Q_SLOTS:
     void setScaleValue(qreal value);
     void rotateClockWise() {rotate(m_rot-90);}

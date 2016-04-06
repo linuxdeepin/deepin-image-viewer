@@ -51,10 +51,12 @@ HEADERS += \
 #view
 SOURCES += module/view/viewpanel.cpp \
         module/view/imageinfowidget.cpp \
+    module/view/navigationwidget.cpp \
         module/view/imagewidget.cpp
 
 HEADERS += module/view/viewpanel.h \
         module/view/imageinfowidget.h \
+    module/view/navigationwidget.h \
         module/view/imagewidget.h
 #edit
 SOURCES += \

@@ -16,6 +16,14 @@ ViewPanel::ViewPanel(QWidget *parent)
     QHBoxLayout *hl = new QHBoxLayout();
     setLayout(hl);
     hl->addWidget(m_view);
+
+    m_nav = new NavigationWidget(this);
+    m_nav->show();
+    m_nav->resize(200, 200);
+    m_nav->move(100, 100);
+    connect(m_view, &ImageWidget::transformChanged, [this](){
+        m_nav->setRectInImage(m_view->visibleImageRect());
+    });
 }
 
 QWidget *ViewPanel::toolbarBottomContent()
@@ -147,6 +155,7 @@ void ViewPanel::openImage(const QString &path)
 {
     Q_EMIT SignalManager::instance()->gotoPanel(this);
     m_view->setImage(path);
+    m_nav->setImage(m_view->image());
     qDebug() << "view path: " << m_view->imagePath();
     if (m_info)
         m_info->setImagePath(path);
