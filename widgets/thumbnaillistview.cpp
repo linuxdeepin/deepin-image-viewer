@@ -3,7 +3,7 @@
 #include <QEvent>
 #include <QDebug>
 
-const int ITEM_SPACING = 10;
+const int ITEM_SPACING = 4;
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent)
 {
@@ -41,4 +41,3 @@ void ThumbnailListView::fixedViewPortSize()
 //    setFixedWidth(contentsRect().width());
     setFixedHeight(contentsSize().height());
 }
-

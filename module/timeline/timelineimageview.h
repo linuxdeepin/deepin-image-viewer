@@ -21,12 +21,15 @@ protected:
 private:
     void inserFrame(const QString &timeline);
     void removeFrame(const QString &timeline);
+    void updateContentRect();
+    int getMinContentsWidth();
 
 private:
     QVBoxLayout *m_contentLayout;
     QFrame *m_contentFrame;
     QMap<QString, TimelineViewFrame *> m_frames;
     bool m_ascending;
+    QSize m_iconSize;
 };
 
 #endif // TIMELINEIMAGEVIEW_H

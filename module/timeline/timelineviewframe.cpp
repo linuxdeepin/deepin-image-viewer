@@ -5,6 +5,8 @@
 #include <QFileInfo>
 #include <QPainter>
 
+const int THUMBNAIL_MAX_SCALE_SIZE = 384;
+
 TimelineViewFrame::TimelineViewFrame(const QString &timeline, bool multiselection, QWidget *parent)
     : QFrame(parent), m_multiselection(multiselection), m_iconSize(96, 96), m_timeline(timeline)
 {
@@ -60,16 +62,31 @@ QPixmap TimelineViewFrame::generateSelectedThumanail(const QPixmap &pixmap)
         QPixmap target = pixmap;
         QPainter painter(&target);
         QPixmap icon(":/images/icons/resources/images/icons/item-selected.png");
-
-        painter.drawPixmap((target.width() - icon.width()) / 2,
-                           (target.height() - icon.height()) / 2,
-                           icon.width(), icon.height(), icon);
+        int selectIconSize = 80;
+        painter.drawPixmap((target.width() - selectIconSize) / 2,
+                           (target.height() - selectIconSize) / 2,
+                           selectIconSize, selectIconSize, icon);
 
         return target;
     }
     else {
         return pixmap;
     }
+}
+
+QPixmap TimelineViewFrame::increaseThumbnail(const QPixmap &pixmap)
+{
+    QSize targetSize;
+    if (pixmap.width() > pixmap.height()) {
+        targetSize = QSize(THUMBNAIL_MAX_SCALE_SIZE,
+                           (double)THUMBNAIL_MAX_SCALE_SIZE / pixmap.width() *
+                           pixmap.height());
+    }
+    else {
+        targetSize = QSize((double)THUMBNAIL_MAX_SCALE_SIZE / pixmap.height() *
+                           pixmap.width(), THUMBNAIL_MAX_SCALE_SIZE);
+    }
+    return pixmap.scaled(targetSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
 QSize TimelineViewFrame::iconSize() const
@@ -87,8 +104,9 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     QStandardItem *item = new QStandardItem();
     item->setData(info.path, Qt::UserRole);
     QIcon icon;
-    icon.addPixmap(info.thumbnail, QIcon::Normal);
-    icon.addPixmap(generateSelectedThumanail(info.thumbnail), QIcon::Selected);
+    QPixmap thumbnail = increaseThumbnail(info.thumbnail);
+    icon.addPixmap(thumbnail, QIcon::Normal);
+    icon.addPixmap(generateSelectedThumanail(thumbnail), QIcon::Selected);
     item->setIcon(icon);
     item->setToolTip(info.name);
 

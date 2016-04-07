@@ -9,6 +9,7 @@
 #include <QUrl>
 #include "module/importandexport/importer.h"
 
+const int MIN_ICON_SIZE = 96;
 using namespace Dtk::Widget;
 
 TimelinePanel::TimelinePanel(QWidget *parent)
@@ -16,7 +17,7 @@ TimelinePanel::TimelinePanel(QWidget *parent)
 {
     setAcceptDrops(true);
 
-    m_databaseManager = DatabaseManager::instance();//new DatabaseManager("database_counting_connection", this);
+    m_databaseManager = DatabaseManager::instance();
 
     initMainStackWidget();
     initStyleSheet();
@@ -30,12 +31,14 @@ QWidget *TimelinePanel::toolbarBottomContent()
     countLabel->setObjectName("CountLabel");
 
     DSlider *slider = new DSlider(Qt::Horizontal);
-    slider->setMinimum(1);
-    slider->setMaximum(5);
-    slider->setValue(1);
+    slider->setMinimum(0);
+    slider->setMaximum(9);
+    slider->setValue(0);
     slider->setFixedWidth(120);
     connect(slider, &DSlider::valueChanged, this, [=] (int multiple) {
         qDebug() << "Change the view size to: X" << multiple;
+        int newSize = MIN_ICON_SIZE + multiple * 32;
+        m_imagesView->setIconSize(QSize(newSize, newSize));
     });
 
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {

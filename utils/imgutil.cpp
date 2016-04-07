@@ -4,7 +4,7 @@
 
 namespace {
 
-const int THUMBNAIL_MAX_SIZE = 160;
+const int THUMBNAIL_MAX_SIZE = 384;
 
 }  // namespace
 namespace utils {

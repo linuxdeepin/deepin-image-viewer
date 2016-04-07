@@ -14,6 +14,7 @@ protected:
 
 private:
     void fixedViewPortSize();
+
 };
 
 #endif // THUMBNAILLISTVIEW_H

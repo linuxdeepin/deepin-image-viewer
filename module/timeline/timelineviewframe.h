@@ -29,6 +29,7 @@ protected:
 private:
     void initListView();
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
+    QPixmap increaseThumbnail(const QPixmap &pixmap);
 
 private:
     bool m_multiselection;

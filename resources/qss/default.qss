@@ -20,6 +20,6 @@ QFrame {
 }
 
 ThumbnailListView {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 14px;
+    margin-right: 14px;
 }

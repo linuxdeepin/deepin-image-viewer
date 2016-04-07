@@ -1,3 +1,4 @@
+#include <math.h>
 #include "timelineimageview.h"
 #include "timelineviewframe.h"
 #include "controller/databasemanager.h"
@@ -6,7 +7,7 @@
 #include <QDebug>
 
 TimelineImageView::TimelineImageView(QWidget *parent)
-    : QScrollArea(parent), m_ascending(false)
+    : QScrollArea(parent), m_ascending(false), m_iconSize(96, 96)
 {
     m_contentFrame = new QFrame;
     m_contentFrame->setObjectName("TimelinesContent");
@@ -43,6 +44,9 @@ void TimelineImageView::setIconSize(const QSize &iconSize)
     for (TimelineViewFrame * frame : m_frames.values()) {
         frame->setIconSize(iconSize);
     }
+
+    m_iconSize = iconSize;
+    updateContentRect();
 }
 
 QStringList TimelineImageView::selectedImages()
@@ -58,7 +62,7 @@ QStringList TimelineImageView::selectedImages()
 void TimelineImageView::resizeEvent(QResizeEvent *e)
 {
     QScrollArea::resizeEvent(e);
-    m_contentFrame->setFixedWidth(width());
+    updateContentRect();
 }
 
 template <typename T>
@@ -71,7 +75,6 @@ QList<T> reversed( const QList<T> & in ) {
 
 void TimelineImageView::inserFrame(const QString &timeline)
 {
-//    qDebug() << "New Timeline: " << timeline;
     TimelineViewFrame *frame = new TimelineViewFrame(timeline);
     m_frames.insert(timeline, frame);
     QStringList timelines = m_frames.keys();
@@ -84,4 +87,19 @@ void TimelineImageView::inserFrame(const QString &timeline)
 void TimelineImageView::removeFrame(const QString &timeline)
 {
     Q_UNUSED(timeline)
+}
+
+void TimelineImageView::updateContentRect()
+{
+    int hMargin = (width() - getMinContentsWidth()) / 2;
+    m_contentLayout->setContentsMargins(hMargin, 50, hMargin, 10);
+    m_contentFrame->setFixedWidth(width());
+}
+
+int TimelineImageView::getMinContentsWidth()
+{
+    int itemSpacing = 10;
+    int viewHMargin = 14 * 2;
+    int holdCount = floor((double)(width() - itemSpacing - viewHMargin) / (m_iconSize.width() + itemSpacing));
+    return (m_iconSize.width() + itemSpacing) * holdCount + itemSpacing + viewHMargin;
 }
