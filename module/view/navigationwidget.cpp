@@ -1,12 +1,25 @@
 #include "navigationwidget.h"
 #include <QPainter>
+#include <dwindowclosebutton.h>
 #include <QMouseEvent>
 #include <QtDebug>
 
+using namespace Dtk::Widget;
 NavigationWidget::NavigationWidget(QWidget *parent)
     : QWidget(parent)
 {
+    resize(200, 150);
+    DWindowCloseButton *b = new DWindowCloseButton(this);
+    connect(b, &DWindowCloseButton::clicked, [this](){
+        setAlwaysHidden(true);
+    });
+}
 
+void NavigationWidget::setAlwaysHidden(bool value)
+{
+    m_hide = value;
+    if (isAlwaysHidden())
+        hide();
 }
 
 void NavigationWidget::setImage(const QImage &img)
@@ -66,6 +79,7 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     p.fillRect(QRect(0, 0, m_img.width(), m_img.height()), QColor(0, 0, 0, 100));
     p.end();
     p.begin(this);
+    p.fillRect(rect(), QColor(0, 0, 0, 100));
     p.drawImage((width()-m_img.width())/2, (height()-m_img.height())/2, img);
     p.end();
 }

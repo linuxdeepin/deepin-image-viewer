@@ -19,6 +19,7 @@ public:
     QPoint mapToImage(const QPoint& p) const;
     QRect mapToImage(const QRect& r) const;
     QRect visibleImageRect() const;
+    bool isWholeImageVisible() const;
 Q_SIGNALS:
     void scaleValueChanged(qreal);
     void transformChanged(const QTransform&);

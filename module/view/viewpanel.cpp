@@ -19,8 +19,10 @@ ViewPanel::ViewPanel(QWidget *parent)
     hl->addWidget(m_view);
 
     m_nav = new NavigationWidget(this);
-    m_nav->resize(200, 200);
     connect(m_view, &ImageWidget::transformChanged, [this](){
+        // TODO: check user settings
+        if (!m_nav->isAlwaysHidden())
+            m_nav->setVisible(!m_view->isWholeImageVisible());
         m_nav->setRectInImage(m_view->visibleImageRect());
     });
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
@@ -155,7 +157,7 @@ QWidget *ViewPanel::extensionPanelContent()
 
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
-    m_nav->move(e->size().width() - m_nav->width() - 10, e->size().height() - m_nav->height());
+    m_nav->move(e->size().width() - m_nav->width() - 10, e->size().height() - m_nav->height() -10);
 }
 
 void ViewPanel::openImage(const QString &path)

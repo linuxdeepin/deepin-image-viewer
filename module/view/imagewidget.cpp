@@ -96,6 +96,11 @@ QRect ImageWidget::visibleImageRect() const
     return mapToImage(rect()) & QRect(0, 0, m_image.width(), m_image.height());
 }
 
+bool ImageWidget::isWholeImageVisible() const
+{
+    return visibleImageRect().size() == m_image.size();
+}
+
 void ImageWidget::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
