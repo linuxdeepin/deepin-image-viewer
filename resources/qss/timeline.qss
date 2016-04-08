@@ -47,3 +47,10 @@ QFrame#TimelinesContent {
     background: transparent;
     border:none;
 }
+ScaleSlider {
+    qproperty-penColor: rgba(255, 255, 255, 51);
+}
+
+QSlider::handle:vertical  {
+    image: url(:/images/icons/resources/images/icons/handle.svg)
+}

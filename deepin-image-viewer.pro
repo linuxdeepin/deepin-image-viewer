@@ -29,7 +29,9 @@ SOURCES += main.cpp \
     module/timeline/timelineviewframe.cpp \
     module/timeline/timelineimageview.cpp \
     widgets/thumbnaillistview.cpp \
-    utils/imgutil.cpp
+    utils/imgutil.cpp \
+    module/timeline/scaleslider.cpp \
+    module/timeline/sliderframe.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -46,7 +48,9 @@ HEADERS += \
     module/timeline/timelineviewframe.h \
     module/timeline/timelineimageview.h \
     widgets/thumbnaillistview.h \
-    utils/imgutil.h
+    utils/imgutil.h \
+    module/timeline/scaleslider.h \
+    module/timeline/sliderframe.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \

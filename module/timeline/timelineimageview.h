@@ -1,6 +1,7 @@
 #ifndef TIMELINEIMAGEVIEW_H
 #define TIMELINEIMAGEVIEW_H
 
+#include "sliderframe.h"
 #include <QMap>
 #include <QWidget>
 #include <QScrollArea>
@@ -18,13 +19,16 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *e);
+
 private:
     void inserFrame(const QString &timeline);
     void removeFrame(const QString &timeline);
+    void updateSliderFrmaeRect();
     void updateContentRect();
     int getMinContentsWidth();
 
 private:
+    SliderFrame *m_sliderFrame;
     QVBoxLayout *m_contentLayout;
     QFrame *m_contentFrame;
     QMap<QString, TimelineViewFrame *> m_frames;

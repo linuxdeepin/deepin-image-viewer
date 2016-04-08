@@ -4,11 +4,21 @@
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include <QPushButton>
+#include <QScrollBar>
 #include <QDebug>
 
 TimelineImageView::TimelineImageView(QWidget *parent)
     : QScrollArea(parent), m_ascending(false), m_iconSize(96, 96)
 {
+    m_sliderFrame = new SliderFrame(this);
+    connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
+        verticalScrollBar()->setValue((1 - perc) * (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
+    });
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this](int value){
+        m_sliderFrame->setValue((double)value /
+                                (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
+    });
+
     m_contentFrame = new QFrame;
     m_contentFrame->setObjectName("TimelinesContent");
     m_contentFrame->setAutoFillBackground(true);
@@ -19,6 +29,8 @@ TimelineImageView::TimelineImageView(QWidget *parent)
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    verticalScrollBar()->setMaximum(25);
+    verticalScrollBar()->setMinimum(0);
 
     // Read all timelines for initialization
     QStringList timelines = DatabaseManager::instance()->getTimeLineList(m_ascending);
@@ -63,6 +75,7 @@ void TimelineImageView::resizeEvent(QResizeEvent *e)
 {
     QScrollArea::resizeEvent(e);
     updateContentRect();
+    updateSliderFrmaeRect();
 }
 
 template <typename T>
@@ -87,6 +100,12 @@ void TimelineImageView::inserFrame(const QString &timeline)
 void TimelineImageView::removeFrame(const QString &timeline)
 {
     Q_UNUSED(timeline)
+}
+
+void TimelineImageView::updateSliderFrmaeRect()
+{
+    m_sliderFrame->move(0, 0);
+    m_sliderFrame->resize(130, height());
 }
 
 void TimelineImageView::updateContentRect()
