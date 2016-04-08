@@ -19,6 +19,9 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
+
+    // For expand all items
+    QMetaObject::invokeMethod(this, "fixedViewPortSize", Qt::QueuedConnection);
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
@@ -38,6 +41,8 @@ void ThumbnailListView::fixedViewPortSize()
             && height() - verticalMargin == contentsSize().height())
         return;
 
-//    setFixedWidth(contentsRect().width());
-    setFixedHeight(contentsSize().height());
+    if (contentsSize().isValid()) {
+        //    setFixedWidth(contentsRect().width());
+        setFixedHeight(contentsSize().height());
+    }
 }

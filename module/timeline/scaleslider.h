@@ -14,7 +14,7 @@ public:
     void setPenColor(const QColor &penColor);
 
 protected:
-    void paintEvent(QPaintEvent *e);
+    void paintEvent(QPaintEvent *e) override;
     QColor m_penColor;
 };
 

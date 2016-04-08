@@ -1,12 +1,17 @@
 #include "sliderframe.h"
 #include "scaleslider.h"
+#include "widgets/tooltip.h"
 #include <QVBoxLayout>
-#include <qdebug.h>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QDebug>
 
 const int MAXIMUM = 25;
 const int MINIMUM = 0;
+const int SLIDER_HEIGHT = 313;
+
 SliderFrame::SliderFrame(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), m_setValueTimes(0)
 {
     m_slider = new ScaleSlider();
     m_slider->setOrientation(Qt::Vertical);
@@ -14,17 +19,103 @@ SliderFrame::SliderFrame(QWidget *parent)
     m_slider->setMinimum(0);
     m_slider->setTickInterval(1);
     m_slider->setTickPosition(QSlider::TicksRight);
-    m_slider->setFixedSize(16, 313);
+    m_slider->setFixedSize(16, SLIDER_HEIGHT);
     connect(m_slider, &ScaleSlider::valueChanged, [this](int value) {
-        emit valueChanged((double)value / (MAXIMUM - MINIMUM));
+        double perc = (double)value / (MAXIMUM - MINIMUM);
+        int handlHeight = 16;
+        m_tooltip->move(m_tooltip->x(),
+                        (this->height() - SLIDER_HEIGHT) / 2
+                        + handlHeight / 2
+                        + (SLIDER_HEIGHT - handlHeight) * (1 - perc)
+                        - m_tooltip->height() / 2);
+        emit valueChanged(perc);
     });
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(3, 0, 0, 0);
     layout->addWidget(m_slider, 0, Qt::AlignLeft | Qt::AlignVCenter);
+
+    initTooltip();
+    initTimer();
+
+    m_slider->setValue(MAXIMUM);
 }
 
 void SliderFrame::setValue(double perc)
 {
     m_slider->setValue((1 - perc) * (MAXIMUM - MINIMUM));
+    if (! m_showTimer->isActive()) {
+        m_showTimer->start();
+    }
+    m_setValueTimes ++;
+}
+
+void SliderFrame::setCurrentInfo(const QString &month, int count)
+{
+    m_timelineLabel->setText(month);
+    m_countLabel->setText(tr("%1 Images").arg(QString::number(count)));
+}
+
+void SliderFrame::initTooltip()
+{
+    m_tooltip = new Tooltip(this);
+    m_tooltip->setFixedSize(112, 39);
+    m_tooltip->move(21, 100);
+    m_tooltip->show();
+
+    m_timelineLabel = new QLabel();
+    m_timelineLabel->setObjectName("TooltipTimelineLabel");
+    m_timelineLabel->setFixedSize(64, 19);
+
+    m_countLabel = new QLabel();
+    m_countLabel->setObjectName("TooltipCountLabel");
+    m_countLabel->setFixedSize(37, 9);
+
+    QVBoxLayout *lLayout = new QVBoxLayout();
+    lLayout->setContentsMargins(20, 2, 0, 9);
+    lLayout->addWidget(m_timelineLabel);
+    lLayout->addWidget(m_countLabel);
+
+    QPushButton *button = new QPushButton();
+    button->setObjectName("TooltipMoveButton");
+    button->setFixedSize(10, 18);
+    button->setText("三");
+
+    QHBoxLayout *mainLayout = new QHBoxLayout(m_tooltip);
+    mainLayout->setContentsMargins(0, 0, 10, 0);
+    mainLayout->addLayout(lLayout);
+    mainLayout->addWidget(button);
+
+    setCurrentInfo("2016.4", 0);//NEED REMOVE
+}
+
+void SliderFrame::initTimer()
+{
+    m_showTimer = new QTimer(this);
+    m_showTimer->setSingleShot(true);
+    m_showTimer->setInterval(500);
+    connect(m_showTimer, &QTimer::timeout, this, [this] {
+       if (m_setValueTimes > 7) {
+           this->show();
+           m_hideTimer->start();
+       }
+       m_setValueTimes = 0;
+    });
+
+    m_hideTimer = new QTimer(this);
+    m_hideTimer->setInterval(2000);
+    connect(m_hideTimer, &QTimer::timeout, this, [this] {
+        // Check Slider
+        QRect sliderRect = m_slider->geometry();
+        sliderRect.moveTopLeft(m_slider->parentWidget()->mapToGlobal(sliderRect.topLeft()));
+
+        // Check Tooltip
+        QRect tooltipRect = m_tooltip->geometry();
+        tooltipRect.moveTopLeft(this->mapToGlobal(tooltipRect.topLeft()));
+
+        if (! sliderRect.contains(QCursor::pos()) && ! tooltipRect.contains(QCursor::pos())) {
+            hide();
+            m_hideTimer->stop();
+        }
+    });
 }

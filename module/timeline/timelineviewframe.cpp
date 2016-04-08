@@ -128,3 +128,13 @@ QStringList TimelineViewFrame::selectedImages()
 
     return names;
 }
+
+QString TimelineViewFrame::timeline() const
+{
+    return m_timeline;
+}
+
+QSize TimelineViewFrame::viewSize() const
+{
+    return m_listView->childrenRect().size();
+}

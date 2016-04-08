@@ -13,11 +13,13 @@ TimelineImageView::TimelineImageView(QWidget *parent)
     m_sliderFrame = new SliderFrame(this);
     connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
         verticalScrollBar()->setValue((1 - perc) * (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
+        QString month = currentMonth();
+        m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
     });
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this](int value){
-        m_sliderFrame->setValue((double)value /
-                                (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
+        m_sliderFrame->setValue(scrollingPercent());
     });
+    m_sliderFrame->hide();
 
     m_contentFrame = new QFrame;
     m_contentFrame->setObjectName("TimelinesContent");
@@ -28,7 +30,7 @@ TimelineImageView::TimelineImageView(QWidget *parent)
     setWidget(m_contentFrame);
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     verticalScrollBar()->setMaximum(25);
     verticalScrollBar()->setMinimum(0);
 
@@ -69,6 +71,11 @@ QStringList TimelineImageView::selectedImages()
     }
 
     return names;
+}
+
+QString TimelineImageView::currentMonth()
+{
+    return getMonthByTimeline(currentTimeline());
 }
 
 void TimelineImageView::resizeEvent(QResizeEvent *e)
@@ -121,4 +128,28 @@ int TimelineImageView::getMinContentsWidth()
     int viewHMargin = 14 * 2;
     int holdCount = floor((double)(width() - itemSpacing - viewHMargin) / (m_iconSize.width() + itemSpacing));
     return (m_iconSize.width() + itemSpacing) * holdCount + itemSpacing + viewHMargin;
+}
+
+QString TimelineImageView::currentTimeline()
+{
+    int currentY = verticalScrollBar()->maximum() * scrollingPercent() + contentsMargins().top();
+    QString timeline = m_frames.last()->timeline();
+    for (TimelineViewFrame *frame : m_frames) {
+        if (frame->geometry().contains(frame->x(), currentY)) {
+            timeline = frame->timeline();
+            break;
+        }
+    }
+    return timeline;
+}
+
+QString TimelineImageView::getMonthByTimeline(const QString &timeline)
+{
+    return QDateTime::fromString(timeline, DATETIME_FORMAT).toString("yyyy.MM");
+}
+
+double TimelineImageView::scrollingPercent()
+{
+    return (double)(verticalScrollBar()->value())
+            / (verticalScrollBar()->maximum() - verticalScrollBar()->minimum());
 }
