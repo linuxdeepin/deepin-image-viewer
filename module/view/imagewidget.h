@@ -23,6 +23,7 @@ public:
 Q_SIGNALS:
     void scaleValueChanged(qreal);
     void transformChanged(const QTransform&);
+    void doubleClicked();
 public Q_SLOTS:
     void setImageMove(int x, int y);
     void setScaleValue(qreal value);
@@ -38,6 +39,10 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
+    void mouseDoubleClickEvent(QMouseEvent *) {
+        Q_EMIT doubleClicked();
+    }
+
 private:
     void updateTransform();
 

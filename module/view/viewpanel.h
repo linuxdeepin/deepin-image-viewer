@@ -18,9 +18,10 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent *) Q_DECL_OVERRIDE;
 private Q_SLOTS:
     void openImage(const QString& path);
-
+    void toggleFullScreen();
 private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;

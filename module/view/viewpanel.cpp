@@ -3,10 +3,11 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QResizeEvent>
+#include <QMenu>
 #include <QDebug>
 #include "controller/signalmanager.h"
 #include "imageinfowidget.h"
-
+#include <darrowrectangle.h>
 using namespace Dtk::Widget;
 
 ViewPanel::ViewPanel(QWidget *parent)
@@ -25,6 +26,7 @@ ViewPanel::ViewPanel(QWidget *parent)
             m_nav->setVisible(!m_view->isWholeImageVisible());
         m_nav->setRectInImage(m_view->visibleImageRect());
     });
+    connect(m_view, &ImageWidget::doubleClicked, this, &ViewPanel::toggleFullScreen);
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
         m_view->setImageMove(x, y);
     });
@@ -32,7 +34,6 @@ ViewPanel::ViewPanel(QWidget *parent)
 
 QWidget *ViewPanel::toolbarBottomContent()
 {
-
     QWidget *w = new QWidget();
     QHBoxLayout *hb = new QHBoxLayout();
     hb->setContentsMargins(0, 0, 0, 0);
@@ -131,6 +132,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setNormalPic(":/images/icons/resources/images/icons/adapt-image-normal.png");
     btn->setHoverPic(":/images/icons/resources/images/icons/adapt-image-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/adapt-image-active.png");
+    btn->setToolTip(tr("1:1 Size"));
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
         m_view->resetTransform();
@@ -158,6 +160,27 @@ QWidget *ViewPanel::extensionPanelContent()
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
     m_nav->move(e->size().width() - m_nav->width() - 10, e->size().height() - m_nav->height() -10);
+}
+
+void ViewPanel::contextMenuEvent(QContextMenuEvent *e)
+{
+    QMenu m;
+    m.addAction(window()->isFullScreen() ? tr("Exit fullscreen") : tr("Fullscreen"), this, SLOT(toggleFullScreen()));
+    m.exec(e->globalPos());
+}
+
+void ViewPanel::toggleFullScreen()
+{
+    if (window()->isFullScreen()) {
+        window()->showNormal();
+        Q_EMIT SignalManager::instance()->showBottomToolbar();
+        Q_EMIT SignalManager::instance()->showTopToolbar();
+    } else {
+        window()->showFullScreen(); //full screen then hide bars because hide animation depends on height()
+        Q_EMIT SignalManager::instance()->hideBottomToolbar();
+        Q_EMIT SignalManager::instance()->hideExtensionPanel();
+        Q_EMIT SignalManager::instance()->hideTopToolbar();
+    }
 }
 
 void ViewPanel::openImage(const QString &path)
