@@ -4,6 +4,7 @@
 #include "imagewidget.h"
 #include "imageinfowidget.h"
 #include "navigationwidget.h"
+#include "controller/databasemanager.h"
 
 class ViewPanel : public ModulePanel
 {
@@ -22,8 +23,12 @@ protected:
 private Q_SLOTS:
     void openImage(const QString& path);
     void toggleFullScreen();
+
 private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
+
+    QList<DatabaseManager::ImageInfo> m_infos;
+    QList<DatabaseManager::ImageInfo>::ConstIterator m_current;
 };

@@ -106,6 +106,17 @@ DatabaseManager::ImageInfo DatabaseManager::getImageInfoByName(const QString &na
     }
 }
 
+DatabaseManager::ImageInfo DatabaseManager::getImageInfoByPath(const QString &path)
+{
+    QList<ImageInfo> list = getImageInfos("filepath", path);
+    if (list.count() != 1) {
+        return ImageInfo();
+    }
+    else {
+        return list.first();
+    }
+}
+
 void DatabaseManager::removeImage(const QString &name)
 {
     QSqlDatabase db = getDatabase();

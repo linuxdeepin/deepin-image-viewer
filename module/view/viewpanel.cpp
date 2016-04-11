@@ -13,7 +13,12 @@ using namespace Dtk::Widget;
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
 {
-    connect(SignalManager::instance(), &SignalManager::viewImage, this, &ViewPanel::openImage);
+    connect(SignalManager::instance(), &SignalManager::viewImage, [this](QString path) {
+        openImage(path);
+        DatabaseManager::ImageInfo info = DatabaseManager::instance()->getImageInfoByPath(path);
+        m_infos = DatabaseManager::instance()->getImageInfoByTime(info.time);
+        m_current = std::find_if(m_infos.cbegin(), m_infos.cend(), [&](const DatabaseManager::ImageInfo info){ return info.path == path;});
+    });
     m_view = new ImageWidget();
     QHBoxLayout *hl = new QHBoxLayout();
     setLayout(hl);
@@ -58,6 +63,12 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/icons/resources/images/icons/previous-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/previous-press.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::clicked, [this]() {
+        if (m_current == m_infos.cbegin())
+            return;
+        --m_current;
+        openImage(m_current->path);
+    });
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/slideshow-normal.png");
@@ -70,6 +81,16 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/icons/resources/images/icons/next-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/next-press.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::clicked, [this]() {
+        if (m_current == m_infos.cend())
+            return;
+        ++m_current;
+        if (m_current == m_infos.cend()) {
+            --m_current;
+            return;
+        }
+        openImage(m_current->path);
+    });
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/edit-normal.png");

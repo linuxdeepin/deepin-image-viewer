@@ -36,6 +36,7 @@ public:
     QList<ImageInfo> getImageInfoByAlbum(const QString &album);
     QList<ImageInfo> getImageInfoByTime(const QDateTime &time);
     ImageInfo getImageInfoByName(const QString &name);
+    ImageInfo getImageInfoByPath(const QString &path);
     void insertImageInfo(const ImageInfo &info);
     void updateImageInfo(const ImageInfo &info);
     void removeImage(const QString &name);
