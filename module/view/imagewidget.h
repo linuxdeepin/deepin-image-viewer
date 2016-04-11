@@ -33,6 +33,7 @@ public Q_SLOTS:
     void flipX();
     void flipY();
 protected:
+    void timerEvent(QTimerEvent* e);
     void paintEvent(QPaintEvent *);
     //void resizeEvent(QResizeEvent *);
     void mousePressEvent(QMouseEvent *event);
@@ -49,6 +50,8 @@ private:
     int m_flipX = 1;
     int m_flipY = 1;
     int m_rot = 0;
+    bool m_scaling = false;
+    int m_tid = 0;
     qreal m_scale = 0; // when an image is loaded to fit widget, m_scale is not 1.0
     QPoint m_o_img, m_o_dev;
     QString m_path;

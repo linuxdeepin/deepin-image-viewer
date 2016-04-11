@@ -101,11 +101,29 @@ bool ImageWidget::isWholeImageVisible() const
     return visibleImageRect().size() == m_image.size();
 }
 
+void ImageWidget::timerEvent(QTimerEvent *e)
+{
+    if (e->timerId() != m_tid)
+        return;
+    m_scaling = false;
+    update();
+}
+
 void ImageWidget::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
+    p.save();
     p.setTransform(m_mat);
     p.drawPixmap(0, 0, m_pixmap);
+    p.restore();
+    if (!m_scaling)
+        return;
+    static const int kTipWidth = 60;
+    static const int kTipHeight = 30;
+    p.translate(width() - kTipWidth, 100);
+    p.fillRect(0, 0, kTipWidth, kTipHeight, QColor(0, 10, 0, 168));
+    p.setPen(Qt::white);
+    p.drawText(QRect(0, 0, kTipWidth, kTipHeight), QString("%1%").arg(int(m_scale*100.0)), QTextOption(Qt::AlignCenter));
 }
 
 void ImageWidget::mousePressEvent(QMouseEvent *event)
@@ -141,6 +159,9 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 
 void ImageWidget::wheelEvent(QWheelEvent *event)
 {
+    m_scaling = true;
+    killTimer(m_tid);
+    m_tid = startTimer(500);
     setTransformOrigin(mapToImage(event->pos()), event->pos());
     qreal deg = event->angleDelta().y()/8;
     QPoint dp = event->pixelDelta();
@@ -152,7 +173,6 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
     if (zoom < 0.1 || zoom > 10)
         return;
     setScaleValue(zoom);
-    qDebug("zoom: %.3f", zoom);
 }
 
 void ImageWidget::updateTransform()

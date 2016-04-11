@@ -30,7 +30,7 @@ void ScaleSlider::paintEvent(QPaintEvent *e)
     if (tickPosition() != NoTicks) {
         for (int i = minimum(); i <= maximum(); i += interval) {
             if (orientation() == Qt::Horizontal) {
-                int x = round((double)(((double)(i - minimum()) / (maximum() - minimum())) *
+                int x = qRound((double)(((double)(i - minimum()) / (maximum() - minimum())) *
                                        (double)(width() - handle.width()) + (handle.width() / 2.0))) - 1;
                 int h = i % 2 == 0 ? 8 : 4;
                 if (tickPosition() == TicksBothSides || tickPosition() == TicksAbove) {
@@ -44,7 +44,7 @@ void ScaleSlider::paintEvent(QPaintEvent *e)
                 }
             }
             else {
-                int y = round((double)(((double)(i - minimum()) / (maximum() - minimum())) *
+                int y = qRound((double)(((double)(i - minimum()) / (maximum() - minimum())) *
                                        (double)(height() - handle.height()) + (handle.height() / 2.0))) - 1;
                 int w = i % 2 == 0 ? 8 : 4;
                 if (tickPosition() == TicksBothSides || tickPosition() == TicksLeft) {
