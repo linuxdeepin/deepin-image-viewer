@@ -1,7 +1,10 @@
 #include "utils/imgutil.h"
 #include <QDebug>
 #include <QFileInfo>
-
+#include <QBuffer>
+extern "C" {
+#include "libjpeg/jpeg-data.h"
+}
 namespace {
 
 const int THUMBNAIL_MAX_SIZE = 384;
@@ -82,6 +85,80 @@ QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag)
     }
 
     return QString();
+}
+
+/* raw EXIF header data */
+const unsigned char kExifHeader[] = {
+  0xff, 0xd8, 0xff, 0xe1
+};
+
+void saveImageWithExif(const QImage &image, const QString &path, const QString &sourcePath)
+{
+    if (sourcePath.isEmpty() || !path.endsWith(".jpg", Qt::CaseInsensitive) || path.endsWith(".jpeg", Qt::CaseInsensitive)) {
+        image.save(path);
+        return;
+    }
+    ExifData *ed = exif_data_new_from_file(sourcePath.toUtf8().constData());
+    if (!ed) {
+        image.save(path);
+        return;
+    }
+    const ExifByteOrder bo = exif_data_get_byte_order(ed);
+    ExifData *exif = exif_data_new();
+    /* Set the image options */
+    exif_data_set_option(exif, EXIF_DATA_OPTION_FOLLOW_SPECIFICATION);
+    exif_data_set_data_type(exif, exif_data_get_data_type(ed));
+    exif_data_set_byte_order(exif, bo);
+    /* Create the mandatory EXIF fields with default data */
+    exif_data_fix(exif);
+    ExifEntry *e = exif_content_get_entry(ed->ifd[EXIF_IFD_EXIF], EXIF_TAG_X_RESOLUTION);
+    if (e)
+        exif_set_long(e->data, bo, image.width());
+    e = exif_content_get_entry(ed->ifd[EXIF_IFD_EXIF], EXIF_TAG_Y_RESOLUTION);
+    if (e)
+        exif_set_long(e->data, bo, image.height());
+
+    e = exif_content_get_entry(ed->ifd[EXIF_IFD_EXIF], EXIF_TAG_PIXEL_X_DIMENSION);
+    if (e)
+        exif_set_long(e->data, bo, image.width());
+    e = exif_content_get_entry(ed->ifd[EXIF_IFD_EXIF], EXIF_TAG_PIXEL_Y_DIMENSION);
+    if (e)
+        exif_set_long(e->data, bo, image.height());
+
+    unsigned char *exif_data;
+    unsigned int exif_data_len;
+    exif_data_save_data(ed, &exif_data, &exif_data_len);
+    if (exif_data_len) {
+        free(exif_data);
+        if (exif_data_len > 0xffff)
+            qWarning("Too much exif data");
+    }
+    QFile f(path);
+    if (!f.open(QIODevice::WriteOnly)) {
+        exif_data_unref(ed);
+        qWarning() << "Failed to open image: " << f.errorString();
+        return;
+    }
+    QByteArray data;
+    QBuffer buffer(&data);
+    buffer.open(QIODevice::WriteOnly);
+    if (!image.save(&buffer, sourcePath.mid( sourcePath.lastIndexOf('.')+1).toLatin1().constData())) {
+        qWarning("save image error");
+        exif_data_unref(ed);
+        return;
+    }
+
+    JPEGData *jdata = jpeg_data_new();
+    jpeg_data_load_data(jdata, (const unsigned char*)data.constData(), data.size());
+    jpeg_data_set_exif_data(jdata, ed);
+
+    unsigned char *d = NULL;
+    unsigned int s = 0;
+    jpeg_data_save_data(jdata, &d, &s);
+    f.write((const char*)d, s);
+    f.close();
+    exif_data_unref(ed);
+    jpeg_data_unref(jdata);
 }
 
 }

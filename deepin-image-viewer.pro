@@ -13,7 +13,7 @@ PKGCONFIG +=  dtkwidget dtkutil dtkbase libexif
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
-
+INCLUDEPATH += utils
 
 SOURCES += main.cpp \
     frame/blureframe.cpp \
@@ -30,6 +30,8 @@ SOURCES += main.cpp \
     module/timeline/timelineimageview.cpp \
     widgets/thumbnaillistview.cpp \
     utils/imgutil.cpp \
+    utils/libjpeg/jpeg-marker.c \
+    utils/libjpeg/jpeg-data.c \
     module/timeline/scaleslider.cpp \
     module/timeline/sliderframe.cpp
 
@@ -49,6 +51,8 @@ HEADERS += \
     module/timeline/timelineimageview.h \
     widgets/thumbnaillistview.h \
     utils/imgutil.h \
+    utils/libjpeg/jpeg-marker.h \
+    utils/libjpeg/jpeg-data.h \
     module/timeline/scaleslider.h \
     module/timeline/sliderframe.h
 

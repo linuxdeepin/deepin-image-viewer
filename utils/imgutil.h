@@ -13,6 +13,10 @@ QPixmap getThumbnail(const QString &filePath);
 QPixmap scaleImage(const QString &filePath);
 QDateTime getCreateDateTime(const QString &filePath);
 QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag);
-
+/*!
+ * \brief saveImageWithExif
+ * Read exif from sourcePath.
+ */
+void saveImageWithExif(const QImage& image, const QString& path, const QString& sourcePath = QString());
 }  // namespace utils
 #endif // IMGUTIL_H
