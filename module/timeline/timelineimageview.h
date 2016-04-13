@@ -16,6 +16,7 @@ public:
     explicit TimelineImageView(QWidget *parent = 0);
     void setIconSize(const QSize &iconSize);
     QStringList selectedImages();
+    QString currentMonth();
 
 protected:
     void resizeEvent(QResizeEvent *e);
@@ -26,6 +27,9 @@ private:
     void updateSliderFrmaeRect();
     void updateContentRect();
     int getMinContentsWidth();
+    QString currentTimeline();
+    QString getMonthByTimeline(const QString &timeline);
+    double scrollingPercent();
 
 private:
     SliderFrame *m_sliderFrame;

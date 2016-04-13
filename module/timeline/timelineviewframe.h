@@ -19,7 +19,9 @@ public:
     void insertItem(const DatabaseManager::ImageInfo &info);
     void removeItem(const QString &name);
     QStringList selectedImages();
+    QString timeline() const;
 
+    QSize viewSize() const;
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
 

@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/images">
         <file>resources/images/timeline_import_backimg.png</file>
+        <file>resources/images/tooltip.svg</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/default.qss</file>

@@ -12,7 +12,7 @@ public:
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
 
-private:
+private slots:
     void fixedViewPortSize();
 
 };

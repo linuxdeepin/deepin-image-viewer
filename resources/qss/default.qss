@@ -23,3 +23,7 @@ ThumbnailListView {
     margin-left: 14px;
     margin-right: 14px;
 }
+
+Tooltip {
+    border-image: url(:/images/resources/images/tooltip.svg) stretch;
+}

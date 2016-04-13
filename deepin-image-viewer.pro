@@ -33,7 +33,8 @@ SOURCES += main.cpp \
     utils/libjpeg/jpeg-marker.c \
     utils/libjpeg/jpeg-data.c \
     module/timeline/scaleslider.cpp \
-    module/timeline/sliderframe.cpp
+    module/timeline/sliderframe.cpp \
+    widgets/tooltip.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -54,7 +55,8 @@ HEADERS += \
     utils/libjpeg/jpeg-marker.h \
     utils/libjpeg/jpeg-data.h \
     module/timeline/scaleslider.h \
-    module/timeline/sliderframe.h
+    module/timeline/sliderframe.h \
+    widgets/tooltip.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \

@@ -171,6 +171,24 @@ int DatabaseManager::imageCount()
     return 0;
 }
 
+int DatabaseManager::getImagesCountByMonth(const QString &month)
+{
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString("SELECT COUNT(*) FROM %1 WHERE time LIKE \'%2%\'")
+                       .arg( IMAGE_TABLE_NAME ).arg( month ) );
+        if (query.exec()) {
+            query.first();
+            int count = query.value(0).toInt();
+            query.exec("COMMIT");
+            return count;
+        }
+    }
+
+    return 0;
+}
+
 void DatabaseManager::insertAlbumInfo(const DatabaseManager::AlbumInfo &info)
 {
     QSqlDatabase db = getDatabase();

@@ -42,6 +42,7 @@ public:
     void removeImage(const QString &name);
     bool imageExist(const QString &name);
     int imageCount();
+    int getImagesCountByMonth(const QString &month);
     AlbumInfo getAlbumInfo(const QString &name);
     void insertAlbumInfo(const AlbumInfo &info);
     void updateAlbumInfo(const AlbumInfo &info);
