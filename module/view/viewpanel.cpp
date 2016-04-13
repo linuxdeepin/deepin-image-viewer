@@ -8,6 +8,8 @@
 #include "controller/signalmanager.h"
 #include "imageinfowidget.h"
 #include <darrowrectangle.h>
+#include "utils/imgutil.h"
+
 using namespace Dtk::Widget;
 
 ViewPanel::ViewPanel(QWidget *parent)
@@ -23,6 +25,16 @@ ViewPanel::ViewPanel(QWidget *parent)
     QHBoxLayout *hl = new QHBoxLayout();
     setLayout(hl);
     hl->addWidget(m_view);
+    connect(m_view, &ImageWidget::rotated, [this](int degree) {
+        const QTransform t = QTransform().rotate(degree);
+        QImage img = m_view->image().transformed(t);
+        utils::saveImageWithExif(img, m_view->imagePath(), m_view->imagePath(), t);
+    });
+    connect(m_view, &ImageWidget::fliped, [this](bool x, bool y) {
+        const QTransform t = QTransform().scale(x ? -1 : 1, y ? -1 : 1);
+        QImage img = m_view->image().transformed(t);
+        utils::saveImageWithExif(img, m_view->imagePath(), m_view->imagePath(), t);
+    });
 
     m_nav = new NavigationWidget(this);
     connect(m_view, &ImageWidget::transformChanged, [this](){

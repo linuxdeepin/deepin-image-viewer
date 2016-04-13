@@ -60,18 +60,21 @@ void ImageWidget::rotate(int deg)
 {
     m_rot = deg%360;
     updateTransform();
+    Q_EMIT rotated(deg);
 }
 
 void ImageWidget::flipX()
 {
     m_flipX = -m_flipX;
     updateTransform();
+    Q_EMIT fliped(m_flipX < 0, m_flipY < 0);
 }
 
 void ImageWidget::flipY()
 {
     m_flipY = -m_flipY;
     updateTransform();
+    Q_EMIT fliped(m_flipX < 0, m_flipY < 0);
 }
 
 void ImageWidget::setTransformOrigin(const QPoint& imageP, const QPoint& deviceP)

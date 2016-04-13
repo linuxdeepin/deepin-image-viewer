@@ -24,6 +24,8 @@ Q_SIGNALS:
     void scaleValueChanged(qreal);
     void transformChanged(const QTransform&);
     void doubleClicked();
+    void rotated(int degree);
+    void fliped(bool x, bool y);
 public Q_SLOTS:
     void setImageMove(int x, int y);
     void setScaleValue(qreal value);
