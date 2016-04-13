@@ -92,7 +92,7 @@ const unsigned char kExifHeader[] = {
   0xff, 0xd8, 0xff, 0xe1
 };
 
-void saveImageWithExif(const QImage &image, const QString &path, const QString &sourcePath)
+void saveImageWithExif(const QImage &image, const QString &path, const QString &sourcePath, const QTransform &mat)
 {
     if (sourcePath.isEmpty() || !path.endsWith(".jpg", Qt::CaseInsensitive) || path.endsWith(".jpeg", Qt::CaseInsensitive)) {
         image.save(path);
@@ -104,13 +104,6 @@ void saveImageWithExif(const QImage &image, const QString &path, const QString &
         return;
     }
     const ExifByteOrder bo = exif_data_get_byte_order(ed);
-    ExifData *exif = exif_data_new();
-    /* Set the image options */
-    exif_data_set_option(exif, EXIF_DATA_OPTION_FOLLOW_SPECIFICATION);
-    exif_data_set_data_type(exif, exif_data_get_data_type(ed));
-    exif_data_set_byte_order(exif, bo);
-    /* Create the mandatory EXIF fields with default data */
-    exif_data_fix(exif);
     ExifEntry *e = exif_content_get_entry(ed->ifd[EXIF_IFD_EXIF], EXIF_TAG_X_RESOLUTION);
     if (e)
         exif_set_long(e->data, bo, image.width());
@@ -125,6 +118,24 @@ void saveImageWithExif(const QImage &image, const QString &path, const QString &
     if (e)
         exif_set_long(e->data, bo, image.height());
 
+    if (ed->data && !mat.isIdentity()) {
+        QImage thumb = QImage::fromData(ed->data, ed->size);
+        thumb = thumb.transformed(mat);
+        free(ed->data);
+        ed->data = 0;
+        ed->size = 0;
+        QByteArray data;
+        QBuffer buffer(&data);
+        buffer.open(QIODevice::WriteOnly);
+        if (!thumb.save(&buffer, sourcePath.mid( sourcePath.lastIndexOf('.')+1).toLatin1().constData())) {
+            qWarning("save thumbnail error");
+        } else {
+            ed->data = (unsigned char*)malloc(data.size());
+            ed->size = data.size();
+            memcpy(ed->data, data.constData(), data.size());
+        }
+        buffer.close();
+    }
     unsigned char *exif_data;
     unsigned int exif_data_len;
     exif_data_save_data(ed, &exif_data, &exif_data_len);
@@ -147,7 +158,7 @@ void saveImageWithExif(const QImage &image, const QString &path, const QString &
         exif_data_unref(ed);
         return;
     }
-
+    buffer.close();
     JPEGData *jdata = jpeg_data_new();
     jpeg_data_load_data(jdata, (const unsigned char*)data.constData(), data.size());
     jpeg_data_set_exif_data(jdata, ed);

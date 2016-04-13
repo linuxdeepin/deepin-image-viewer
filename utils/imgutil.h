@@ -17,6 +17,6 @@ QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag);
  * \brief saveImageWithExif
  * Read exif from sourcePath.
  */
-void saveImageWithExif(const QImage& image, const QString& path, const QString& sourcePath = QString());
+void saveImageWithExif(const QImage& image, const QString& path, const QString& sourcePath = QString(), const QTransform& mat = QTransform());
 }  // namespace utils
 #endif // IMGUTIL_H
