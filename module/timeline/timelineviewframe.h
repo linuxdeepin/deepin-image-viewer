@@ -7,9 +7,33 @@
 #include <QListView>
 #include <QStandardItem>
 #include <QVBoxLayout>
+#include <QJsonValue>
+#include <QJsonObject>
+
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include "widgets/thumbnaillistview.h"
+
+namespace {
+enum MenuItemId {
+    IdView,
+    IdFullScreen,
+    IdSlideShow,
+    IdAddToAlbum,
+    IdCopy,
+    IdDelete,
+    IdEdit,
+    IdCollect,
+    IdClockwiseRotation,
+    IdAnticlockwiseRotation,
+    IdLabel,
+    IdSetAsWallpaper,
+    IdOpenInFileManager,
+    IdAttributes,
+    IdSubMenu,
+    IdSeparator
+};
+}  // namaspace
 
 class TimelineViewFrame : public QFrame
 {
@@ -18,7 +42,8 @@ public:
     explicit TimelineViewFrame(const QString &timeline, bool multiselection = false, QWidget *parent = 0);
     void insertItem(const DatabaseManager::ImageInfo &info);
     void removeItem(const QString &name);
-    QStringList selectedImages();
+    QStringList selectedImagesNameList();
+    QStringList selectedImagesPathList();
     QString timeline() const;
 
     QSize viewSize() const;
@@ -32,6 +57,13 @@ private:
     void initListView();
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
     QPixmap increaseThumbnail(const QPixmap &pixmap);
+    QString createMenuContent();
+    QJsonObject createItemObj(const MenuItemId id,
+                              const QString &text,
+                              const bool isSeparator = false,
+                              const QString &shortcut = "",
+                              const QJsonObject &subMenu = QJsonObject());
+    void onMenuItemClicked(int menuId);
 
 private:
     bool m_multiselection;

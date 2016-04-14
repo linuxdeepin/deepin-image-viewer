@@ -1,11 +1,15 @@
 #include "timelineviewframe.h"
+#include "controller/popupmenumanager.h"
 #include <QResizeEvent>
 #include <QDateTime>
 #include <QDebug>
 #include <QFileInfo>
 #include <QPainter>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 const int THUMBNAIL_MAX_SCALE_SIZE = 384;
+const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
 TimelineViewFrame::TimelineViewFrame(const QString &timeline, bool multiselection, QWidget *parent)
     : QFrame(parent), m_multiselection(multiselection), m_iconSize(96, 96), m_timeline(timeline)
@@ -23,6 +27,8 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline, bool multiselectio
     layout->addWidget(title);
     layout->addWidget(m_listView);
     layout->addWidget(separator);
+
+    connect(PopupMenuManager::instance(), &PopupMenuManager::menuItemClicked, this, &TimelineViewFrame::onMenuItemClicked);
 }
 
 void TimelineViewFrame::resizeEvent(QResizeEvent *e)
@@ -34,6 +40,7 @@ void TimelineViewFrame::resizeEvent(QResizeEvent *e)
 void TimelineViewFrame::initListView()
 {
     m_listView = new ThumbnailListView();
+    m_listView->setContextMenuPolicy(Qt::CustomContextMenu);
     m_listView->setIconSize(m_iconSize);
     m_listView->setModel( &m_standardModel );
     if (m_multiselection) {
@@ -45,6 +52,9 @@ void TimelineViewFrame::initListView()
 
     connect(m_listView, &ThumbnailListView::doubleClicked, this, [=] (const QModelIndex & index) {
         emit SignalManager::instance()->viewImage(index.data(Qt::UserRole).toString());
+    });
+    connect(m_listView, &ThumbnailListView::customContextMenuRequested, [this] {
+        PopupMenuManager::instance()->showMenu(createMenuContent());
     });
 
     //add data
@@ -89,6 +99,105 @@ QPixmap TimelineViewFrame::increaseThumbnail(const QPixmap &pixmap)
     return pixmap.scaled(targetSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
+QString TimelineViewFrame::createMenuContent()
+{
+    QJsonArray items;
+    items.append(QJsonValue(createItemObj(IdView, tr("View"))));
+    items.append(QJsonValue(createItemObj(IdFullScreen, tr("Fullscreen"), false, "Ctrl+Alt+F")));
+    items.append(QJsonValue(createItemObj(IdSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P")));
+    // TODO add album list
+    QJsonObject albumObj;
+    QJsonArray arry;arry.append(QJsonValue(createItemObj(IdSubMenu, "Favorites")));
+    albumObj[""] = QJsonValue(arry);
+    items.append(QJsonValue(createItemObj(IdAddToAlbum, tr("Add to album"), false, "", albumObj)));
+
+    items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
+    items.append(QJsonValue(createItemObj(IdCopy, tr("Copy"), false, "Ctrl+C")));
+    items.append(QJsonValue(createItemObj(IdDelete, tr("Delete"), false, "Ctrl+Delete")));
+    items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
+    items.append(QJsonValue(createItemObj(IdEdit, tr("Edit"))));
+    items.append(QJsonValue(createItemObj(IdCollect, tr("Add to favorites"), false, "/")));
+    items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
+    items.append(QJsonValue(createItemObj(IdClockwiseRotation, tr("Rotate clockwise"), false, "Ctrl+R")));
+    items.append(QJsonValue(createItemObj(IdAnticlockwiseRotation, tr("Rotate counterclockwise"), false, "Ctrl+L")));
+    items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
+    items.append(QJsonValue(createItemObj(IdLabel, tr("Text tag"))));
+    items.append(QJsonValue(createItemObj(IdSetAsWallpaper, tr("Set as wallpaper"))));
+    items.append(QJsonValue(createItemObj(IdOpenInFileManager, tr("Display in file manager"))));
+    items.append(QJsonValue(createItemObj(IdAttributes, tr("Image info"), false, "Ctrl+I")));
+
+    QJsonObject contentObj;
+    contentObj["x"] = 0;
+    contentObj["y"] = 0;
+    contentObj["items"] = QJsonValue(items);
+
+    QJsonDocument document(contentObj);
+
+    return QString(document.toJson());
+}
+
+QJsonObject TimelineViewFrame::createItemObj(const MenuItemId id,
+                                             const QString &text,
+                                             const bool isSeparator,
+                                             const QString &shortcut,
+                                             const QJsonObject &subMenu)
+{
+    QJsonObject obj;
+    obj["itemId"] = QJsonValue(int(id));
+    obj["itemIcon"] = QJsonValue(QString());
+    obj["itemIconHover"] = QJsonValue(QString());
+    obj["itemIconInactive"] = QJsonValue(QString());
+    obj["itemText"] = QJsonValue(text + SHORTCUT_SPLIT_FLAG);
+    obj["shortcut"] = QJsonValue(shortcut);
+    obj["isSeparator"] = QJsonValue(isSeparator);
+    obj["isActive"] = QJsonValue(true);
+    obj["checked"] = QJsonValue(false);
+    obj["itemSubMenu"] = QJsonValue(subMenu);
+    return obj;
+}
+
+void TimelineViewFrame::onMenuItemClicked(int menuId)
+{
+    if (selectedImagesPathList().isEmpty()) {
+        return;
+    }
+
+    switch (MenuItemId(menuId)) {
+    case IdView:
+        SignalManager::instance()->viewImage(selectedImagesPathList().first());
+        break;
+    case IdFullScreen:
+        break;
+    case IdSlideShow:
+        break;
+    case IdAddToAlbum:
+        break;
+    case IdCopy:
+        break;
+    case IdDelete:
+        break;
+    case IdEdit:
+        SignalManager::instance()->editImage(selectedImagesPathList().first());
+        break;
+    case IdCollect:
+        break;
+    case IdClockwiseRotation:
+        break;
+    case IdAnticlockwiseRotation:
+        break;
+    case IdLabel:
+        break;
+    case IdSetAsWallpaper:
+        break;
+    case IdOpenInFileManager:
+        break;
+    case IdAttributes:
+        break;
+    default:
+        break;
+    }
+}
+
 QSize TimelineViewFrame::iconSize() const
 {
     return m_listView->iconSize();
@@ -118,15 +227,25 @@ void TimelineViewFrame::removeItem(const QString &name)
     Q_UNUSED(name)
 }
 
-QStringList TimelineViewFrame::selectedImages()
+QStringList TimelineViewFrame::selectedImagesNameList()
 {
-    QStringList names;;
+    QStringList names;
     for (QModelIndex index : m_listView->selectionModel()->selectedIndexes()) {
         QString path = index.data(Qt::UserRole).toString();
         names << QFileInfo(path).fileName();
     }
 
     return names;
+}
+
+QStringList TimelineViewFrame::selectedImagesPathList()
+{
+    QStringList paths;
+    for (QModelIndex index : m_listView->selectionModel()->selectedIndexes()) {
+        paths << index.data(Qt::UserRole).toString();
+    }
+
+    return paths;
 }
 
 QString TimelineViewFrame::timeline() const

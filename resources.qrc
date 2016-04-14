@@ -86,4 +86,8 @@
         <file>resources/images/icons/item-selected.png</file>
         <file>resources/images/icons/handle.svg</file>
     </qresource>
+    <qresource prefix="/images/menu">
+        <file>resources/images/menu/sub_menu_hover.png</file>
+        <file>resources/images/menu/sub_menu_normal.png</file>
+    </qresource>
 </RCC>

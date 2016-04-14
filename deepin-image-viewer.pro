@@ -35,7 +35,9 @@ SOURCES += main.cpp \
     module/timeline/scaleslider.cpp \
     module/timeline/sliderframe.cpp \
     widgets/tooltip.cpp \
-    module/timeline/toptimelinetips.cpp
+    module/timeline/toptimelinetips.cpp \
+    widgets/popupmenustyle.cpp \
+    controller/popupmenumanager.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -58,7 +60,9 @@ HEADERS += \
     module/timeline/scaleslider.h \
     module/timeline/sliderframe.h \
     widgets/tooltip.h \
-    module/timeline/toptimelinetips.h
+    module/timeline/toptimelinetips.h \
+    widgets/popupmenustyle.h \
+    controller/popupmenumanager.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \

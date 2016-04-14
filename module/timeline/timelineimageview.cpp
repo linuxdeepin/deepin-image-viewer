@@ -55,7 +55,7 @@ QStringList TimelineImageView::selectedImages()
 {
     QStringList names;
     for (TimelineViewFrame * frame : m_frames.values()) {
-        names << frame->selectedImages();
+        names << frame->selectedImagesNameList();
     }
 
     return names;
