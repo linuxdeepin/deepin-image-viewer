@@ -34,7 +34,8 @@ SOURCES += main.cpp \
     utils/libjpeg/jpeg-data.c \
     module/timeline/scaleslider.cpp \
     module/timeline/sliderframe.cpp \
-    widgets/tooltip.cpp
+    widgets/tooltip.cpp \
+    module/timeline/toptimelinetips.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -56,7 +57,8 @@ HEADERS += \
     utils/libjpeg/jpeg-data.h \
     module/timeline/scaleslider.h \
     module/timeline/sliderframe.h \
-    widgets/tooltip.h
+    widgets/tooltip.h \
+    module/timeline/toptimelinetips.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \

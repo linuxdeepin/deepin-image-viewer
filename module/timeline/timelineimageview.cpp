@@ -7,32 +7,20 @@
 #include <QScrollBar>
 #include <QDebug>
 
+const int SLIDER_FRAME_WIDTH = 130;
+const int TOP_TOOLBAR_HEIGHT = 40;
+
 TimelineImageView::TimelineImageView(QWidget *parent)
     : QScrollArea(parent), m_ascending(false), m_iconSize(96, 96)
 {
-    m_sliderFrame = new SliderFrame(this);
-    connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
-        verticalScrollBar()->setValue((1 - perc) * (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
-        QString month = currentMonth();
-        m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
-    });
-    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this](int value){
-        m_sliderFrame->setValue(scrollingPercent());
-    });
-    m_sliderFrame->hide();
+    initSliderFrame();
+    initTopTips();
+    initContents();
 
-    m_contentFrame = new QFrame;
-    m_contentFrame->setObjectName("TimelinesContent");
-    m_contentFrame->setAutoFillBackground(true);
-    m_contentLayout = new QVBoxLayout(m_contentFrame);
-    m_contentLayout->setContentsMargins(0, 50, 0, 10);
-
-    setWidget(m_contentFrame);
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    verticalScrollBar()->setMaximum(25);
-    verticalScrollBar()->setMinimum(0);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // Read all timelines for initialization
     QStringList timelines = DatabaseManager::instance()->getTimeLineList(m_ascending);
@@ -83,6 +71,49 @@ void TimelineImageView::resizeEvent(QResizeEvent *e)
     QScrollArea::resizeEvent(e);
     updateContentRect();
     updateSliderFrmaeRect();
+    updateTopTipsRect();
+}
+
+void TimelineImageView::initSliderFrame()
+{
+    m_sliderFrame = new SliderFrame(this);
+    connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
+        if (m_sliderFrame->isVisible()) {
+            verticalScrollBar()->setValue((1 - perc) * (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
+            QString month = currentMonth();
+            m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
+        }
+    });
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
+        m_sliderFrame->setValue(scrollingPercent());
+    });
+    m_sliderFrame->hide();
+}
+
+void TimelineImageView::initTopTips()
+{
+    m_topTips = new TopTimelineTips(this);
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
+        if (scrollingPercent() == 0) {
+            m_topTips->hide();
+        }
+        else {
+            m_topTips->setText(currentTimeline());
+            m_topTips->show();
+        }
+    });
+    m_topTips->hide();
+}
+
+void TimelineImageView::initContents()
+{
+    m_contentFrame = new QFrame;
+    m_contentFrame->setObjectName("TimelinesContent");
+    m_contentFrame->setAutoFillBackground(true);
+    m_contentLayout = new QVBoxLayout(m_contentFrame);
+    m_contentLayout->setContentsMargins(0, 50, 0, 10);
+
+    setWidget(m_contentFrame);
 }
 
 template <typename T>
@@ -112,7 +143,7 @@ void TimelineImageView::removeFrame(const QString &timeline)
 void TimelineImageView::updateSliderFrmaeRect()
 {
     m_sliderFrame->move(0, 0);
-    m_sliderFrame->resize(130, height());
+    m_sliderFrame->resize(SLIDER_FRAME_WIDTH, height());
 }
 
 void TimelineImageView::updateContentRect()
@@ -120,6 +151,12 @@ void TimelineImageView::updateContentRect()
     int hMargin = (width() - getMinContentsWidth()) / 2;
     m_contentLayout->setContentsMargins(hMargin, 50, hMargin, 10);
     m_contentFrame->setFixedWidth(width());
+}
+
+void TimelineImageView::updateTopTipsRect()
+{
+    m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
+    m_topTips->resize(width(), m_topTips->height());
 }
 
 int TimelineImageView::getMinContentsWidth()
