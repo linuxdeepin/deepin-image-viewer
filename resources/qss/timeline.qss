@@ -62,11 +62,6 @@ TopTimelineTips {
                 stop:0 rgba(24, 24, 24, 230), stop:1 rgba(24, 24, 24, 153));
 }
 
-QPushButton#TooltipMoveButton {
-    color: #ffffff;
-    background: transparent;
-}
-
 QFrame#TimelinesContent {
     background: transparent;
     border:none;

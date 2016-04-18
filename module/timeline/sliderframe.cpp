@@ -72,21 +72,17 @@ void SliderFrame::initTooltip()
     m_countLabel->setFixedSize(37, 9);
 
     QVBoxLayout *lLayout = new QVBoxLayout();
-    lLayout->setContentsMargins(20, 2, 0, 9);
+    lLayout->setContentsMargins(22, 2, 0, 7);
     lLayout->addWidget(m_timelineLabel);
     lLayout->addWidget(m_countLabel);
 
-    QPushButton *button = new QPushButton();
-    button->setObjectName("TooltipMoveButton");
-    button->setFixedSize(10, 18);
-    button->setText("三");
+    QLabel *handleLabel = new QLabel();
+    handleLabel->setPixmap(QPixmap(":/images/resources/images/drag_handle.png"));
 
     QHBoxLayout *mainLayout = new QHBoxLayout(m_tooltip);
-    mainLayout->setContentsMargins(0, 0, 10, 0);
+    mainLayout->setContentsMargins(0, 0, 10, 3);
     mainLayout->addLayout(lLayout);
-    mainLayout->addWidget(button);
-
-    setCurrentInfo("2016.4", 0);//NEED REMOVE
+    mainLayout->addWidget(handleLabel, 0, Qt::AlignVCenter | Qt::AlignRight);
 }
 
 void SliderFrame::initTimer()
