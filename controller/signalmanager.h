@@ -28,8 +28,21 @@ signals:
     void imageCountChanged();
     void imageInserted(const DatabaseManager::ImageInfo &info);
 
-    void viewImage(const QString &path);
+    void viewImage(const QString &path, const QString &album = "");
     void editImage(const QString &path);
+
+    void fullScreen(const QString &path);   // TODO wangbin
+    void startSlideShow(const QStringList &paths);  // TODO wangbin, NOTE: Data may be repeated
+    void addToAlbum(const QStringList &names);
+    void removeFromAlbum(const QString &name, const QString &album);
+    void copyImage(const QString &path);
+    void deleteImage(const QString &path);
+    void addToFavorites(const QString &name);
+    void rotateClockwise(const QString &path);  // TODO wangbin
+    void updateLabels(const QStringList &labels);
+    void setAsWallpaper(const QString &path);  // TODO wangbin
+    void displayInFileManager(const QString &path);  // TODO wangbin
+    void showImageInfo(const QString &path);  // TODO wangbin
 
 private:
     explicit SignalManager(QObject *parent = 0);

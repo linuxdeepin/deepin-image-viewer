@@ -82,6 +82,7 @@ void PopupMenuManager::constructMenu(QMenu* menu, const QJsonArray& content)
         }
         else {
             QMenu* subMenu = new QMenu();
+            subMenu->setAttribute(Qt::WA_TranslucentBackground);
             subMenu->setStyle(new PopupMenuStyle());
             QAction* action = menu->addMenu(subMenu);
             action->setIcon(icon);

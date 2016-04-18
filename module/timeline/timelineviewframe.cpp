@@ -104,7 +104,7 @@ QString TimelineViewFrame::createMenuContent()
     QJsonArray items;
     items.append(QJsonValue(createItemObj(IdView, tr("View"))));
     items.append(QJsonValue(createItemObj(IdFullScreen, tr("Fullscreen"), false, "Ctrl+Alt+F")));
-    items.append(QJsonValue(createItemObj(IdSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P")));
+    items.append(QJsonValue(createItemObj(IdStartSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P")));
     // TODO add album list
     QJsonObject albumObj;
     QJsonArray arry;arry.append(QJsonValue(createItemObj(IdSubMenu, "Favorites")));
@@ -116,15 +116,15 @@ QString TimelineViewFrame::createMenuContent()
     items.append(QJsonValue(createItemObj(IdDelete, tr("Delete"), false, "Ctrl+Delete")));
     items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
     items.append(QJsonValue(createItemObj(IdEdit, tr("Edit"))));
-    items.append(QJsonValue(createItemObj(IdCollect, tr("Add to favorites"), false, "/")));
+    items.append(QJsonValue(createItemObj(IdAddToFavorites, tr("Add to favorites"), false, "/")));
     items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
-    items.append(QJsonValue(createItemObj(IdClockwiseRotation, tr("Rotate clockwise"), false, "Ctrl+R")));
-    items.append(QJsonValue(createItemObj(IdAnticlockwiseRotation, tr("Rotate counterclockwise"), false, "Ctrl+L")));
+    items.append(QJsonValue(createItemObj(IdRotateClockwise, tr("Rotate clockwise"), false, "Ctrl+R")));
+    items.append(QJsonValue(createItemObj(IdRotateCounterclockwise, tr("Rotate counterclockwise"), false, "Ctrl+L")));
     items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
     items.append(QJsonValue(createItemObj(IdLabel, tr("Text tag"))));
     items.append(QJsonValue(createItemObj(IdSetAsWallpaper, tr("Set as wallpaper"))));
-    items.append(QJsonValue(createItemObj(IdOpenInFileManager, tr("Display in file manager"))));
-    items.append(QJsonValue(createItemObj(IdAttributes, tr("Image info"), false, "Ctrl+I")));
+    items.append(QJsonValue(createItemObj(IdDisplayInFileManager, tr("Display in file manager"))));
+    items.append(QJsonValue(createItemObj(IdImageInfo, tr("Image info"), false, "Ctrl+I")));
 
     QJsonObject contentObj;
     contentObj["x"] = 0;
@@ -168,7 +168,7 @@ void TimelineViewFrame::onMenuItemClicked(int menuId)
         break;
     case IdFullScreen:
         break;
-    case IdSlideShow:
+    case IdStartSlideShow:
         break;
     case IdAddToAlbum:
         break;
@@ -179,19 +179,19 @@ void TimelineViewFrame::onMenuItemClicked(int menuId)
     case IdEdit:
         SignalManager::instance()->editImage(selectedImagesPathList().first());
         break;
-    case IdCollect:
+    case IdAddToFavorites:
         break;
-    case IdClockwiseRotation:
+    case IdRotateClockwise:
         break;
-    case IdAnticlockwiseRotation:
+    case IdRotateCounterclockwise:
         break;
     case IdLabel:
         break;
     case IdSetAsWallpaper:
         break;
-    case IdOpenInFileManager:
+    case IdDisplayInFileManager:
         break;
-    case IdAttributes:
+    case IdImageInfo:
         break;
     default:
         break;
