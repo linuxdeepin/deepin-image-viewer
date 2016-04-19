@@ -91,6 +91,8 @@ void Importer::importFromPath(const QString &path)
     if (!m_futureWatcher.isRunning()) {
         loadCacheImages();
     }
+
+    DatabaseManager::instance()->clearRecentImported();
 }
 
 void Importer::importSingleFile(const QString &filePath)
@@ -100,6 +102,8 @@ void Importer::importSingleFile(const QString &filePath)
     if (!m_futureWatcher.isRunning()) {
         loadCacheImages();
     }
+
+    DatabaseManager::instance()->clearRecentImported();
 }
 
 void Importer::onFutureWatcherFinish()

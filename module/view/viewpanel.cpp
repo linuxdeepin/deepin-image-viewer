@@ -18,7 +18,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     connect(SignalManager::instance(), &SignalManager::viewImage, [this](QString path) {
         openImage(path);
         DatabaseManager::ImageInfo info = DatabaseManager::instance()->getImageInfoByPath(path);
-        m_infos = DatabaseManager::instance()->getImageInfoByTime(info.time);
+        m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
         m_current = std::find_if(m_infos.cbegin(), m_infos.cend(), [&](const DatabaseManager::ImageInfo info){ return info.path == path;});
     });
     m_view = new ImageWidget();

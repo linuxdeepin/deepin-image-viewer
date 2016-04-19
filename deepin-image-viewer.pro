@@ -37,7 +37,10 @@ SOURCES += main.cpp \
     widgets/tooltip.cpp \
     module/timeline/toptimelinetips.cpp \
     widgets/popupmenustyle.cpp \
-    controller/popupmenumanager.cpp
+    controller/popupmenumanager.cpp \
+    widgets/importframe.cpp \
+    module/album/imagesview.cpp \
+    module/album/albumsview.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -62,7 +65,10 @@ HEADERS += \
     widgets/tooltip.h \
     module/timeline/toptimelinetips.h \
     widgets/popupmenustyle.h \
-    controller/popupmenumanager.h
+    controller/popupmenumanager.h \
+    widgets/importframe.h \
+    module/album/imagesview.h \
+    module/album/albumsview.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \

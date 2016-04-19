@@ -38,7 +38,7 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         query.bindValue( ":name", info.name );
         query.bindValue( ":path", info.path );
         query.bindValue( ":album", info.albums );
-        query.bindValue( ":label", info.labels );
+        query.bindValue( ":label", info.labels );   // TODO not support QStringList
         query.bindValue( ":time", info.time.toString(DATETIME_FORMAT) );
         QByteArray inByteArray;
         QBuffer inBuffer( &inByteArray );
@@ -55,6 +55,9 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
             query.exec("COMMIT");
             emit SignalManager::instance()->imageInserted(info);
             emit SignalManager::instance()->imageCountChanged();
+
+            // All new image should add to the album "Recent imported"
+            insertIntoAlbum(tr("Recent imported"), info.name, info.time.toString(DATETIME_FORMAT));
         }
     }
 
@@ -85,12 +88,34 @@ void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
     }
 }
 
-QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfoByAlbum(const QString &album)
+QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(const QString &album)
 {
-    return getImageInfos("album", album);
+    QList<DatabaseManager::ImageInfo> infoList;
+    QStringList nameList;
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString("SELECT DISTINCT filename FROM %1 "
+                               "WHERE albumname = %2 ORDER BY filename")
+                       .arg(ALBUM_TABLE_NAME).arg(album) );
+        if ( !query.exec() ) {
+            qWarning() << "Get images from AlbumTable failed: " << query.lastError();
+        }
+        else {
+            while (query.next()) {
+                nameList << query.value(0).toString();
+            }
+        }
+    }
+
+    for (const QString name : nameList) {
+        infoList << getImageInfoByName(name);
+    }
+
+    return infoList;
 }
 
-QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfoByTime(const QDateTime &time)
+QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByTime(const QDateTime &time)
 {
     return getImageInfos("time", time.toString(DATETIME_FORMAT));
 }
@@ -189,76 +214,60 @@ int DatabaseManager::getImagesCountByMonth(const QString &month)
     return 0;
 }
 
-void DatabaseManager::insertAlbumInfo(const DatabaseManager::AlbumInfo &info)
+void DatabaseManager::insertIntoAlbum(const QString &albumname,
+                                      const QString &filename,
+                                      const QString &time)
 {
+    //insert into test(albumname, filename, time)
+    //select "album4", "file4", "2016.1.2"
+    //where not exists(
+    //select * from test where albumname="album4" and filename="file4");
     QSqlDatabase db = getDatabase();
-    if (db.isValid() && !albumExist(info.name)) {
+    if (db.isValid()) {
+        const QString queryStr = QString( "INSERT INTO %1 "
+                                          "(albumname, filename, time) "
+                                          "SELECT '%2', '%3', '%4' "
+                                          "WHERE NOT EXISTS ( "
+                                          "SELECT * FROM %5 "
+                                          "WHERE albumname='%6' "
+                                          "AND filename='%7')" )
+                                 .arg(ALBUM_TABLE_NAME)
+                                 .arg(albumname).arg(filename).arg(time)
+                                 .arg(ALBUM_TABLE_NAME).arg(albumname)
+                                 .arg(filename);
         QSqlQuery query( db );
-        query.prepare( QString( "INSERT INTO %1 "
-                                "(albumname, count, size, createtime, earliesttime, latesttime) "
-                                "VALUES (:name, :count, :size, :createtime, :earliesttime, :latesttime)" )
-                       .arg(ALBUM_TABLE_NAME) );
-        query.bindValue( ":name", info.name );
-        query.bindValue( ":count", info.count );
-        query.bindValue( ":size", info.size );
-        query.bindValue( ":createtime", info.createTime.toString(DATETIME_FORMAT) );
-        query.bindValue( ":earliesttime", info.earliestTime.toString(DATETIME_FORMAT) );
-        query.bindValue( ":latesttime", info.latestTime.toString(DATETIME_FORMAT));
+        query.prepare(queryStr);
         if (!query.exec()) {
-            qWarning() << "Insert album into database failed: " << query.lastError();
-        }
-    }
-}
-
-void DatabaseManager::updateAlbumInfo(const DatabaseManager::AlbumInfo &info)
-{
-    QSqlDatabase db = getDatabase();
-    if (db.isValid() && !albumExist(info.name)) {
-        QSqlQuery query( db );
-        query.prepare( QString("UPDATE %1 SET"
-                               "count = :count, size = :size, createtime = :createtime, earliesttime = :earliesttime, latesttime = :latesttime"
-                               "WHERE albumname = :name")
-                       .arg( ALBUM_TABLE_NAME ) );
-        query.bindValue( ":count", info.count );
-        query.bindValue( ":size", info.size );
-        query.bindValue( ":createtime", info.createTime.toString(DATETIME_FORMAT) );
-        query.bindValue( ":earliesttime", info.earliestTime.toString(DATETIME_FORMAT) );
-        query.bindValue( ":latesttime", info.latestTime.toString(DATETIME_FORMAT));
-        query.bindValue( ":name", info.name );
-        if (!query.exec()) {
-            qWarning() << "Update AlbumInfo failed: " << query.lastError();
+            qWarning() << "Insert into album failed: " << query.lastError();
         }
     }
 }
 
 DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
 {
-    QSqlDatabase db = getDatabase();
     AlbumInfo info;
-    if (db.isValid() && albumExist(info.name)) {
+    info.name = name;
+    info.count = getImagesCountByAlbum(name);
+
+    QStringList nameList;
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("SELECT "
-                               "albumname, count, size, createtime, earliesttime, latesttime "
-                               "FROM %1 WHERE albumname = :name ORDER BY :name ").arg(ALBUM_TABLE_NAME) );
-        query.bindValue( ":name", name );
-        if (!query.exec()) {
-            qWarning() << "Get Album from database failed: " << query.lastError();
-            return info;
+        query.prepare( QString("SELECT DISTINCT filename FROM %1 "
+                               "WHERE albumname = %2 ORDER BY time")
+                       .arg(ALBUM_TABLE_NAME).arg(name) );
+        if ( !query.exec() ) {
+            qWarning() << "Get images from AlbumTable failed: " << query.lastError();
         }
         else {
-            if (query.record().count() > 1) {
-                qWarning() << "Got duplicate data!";
-                return info;
+            while (query.next()) {
+                nameList << query.value(0).toString();
             }
-            query.first();
-            info.name = query.value(0).toString();
-            info.count = query.value(1).toInt();
-            info.size = query.value(2).toString();
-            info.createTime = QDateTime::fromString( query.value(3).toString(), DATETIME_FORMAT );
-            info.earliestTime = QDateTime::fromString( query.value(4).toString(), DATETIME_FORMAT );
-            info.latestTime = QDateTime::fromString( query.value(5).toString(), DATETIME_FORMAT );
-            return info;
         }
+    }
+    if (nameList.count() >= 2) {
+        info.earliestTime = getImageInfoByName(nameList.first()).time;
+        info.latestTime = getImageInfoByName(nameList.last()).time;
     }
 
     return info;
@@ -269,30 +278,19 @@ void DatabaseManager::removeAlbum(const QString &name)
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("DELETE FROM %1 WHERE albumname = :name").arg(ALBUM_TABLE_NAME) );
+        query.prepare( QString("DELETE FROM %1 WHERE albumname = :name")
+                       .arg(ALBUM_TABLE_NAME) );
         query.bindValue( ":name", name );
         if (!query.exec()) {
-            qWarning() << "Remove album record from database failed: " << query.lastError();
+            qWarning() << "Remove album from database failed: " << query.lastError();
         }
     }
 }
 
-bool DatabaseManager::albumExist(const QString &name)
+void DatabaseManager::clearRecentImported()
 {
-    QSqlDatabase db = getDatabase();
-    if (db.isValid()) {
-        QSqlQuery query( db );
-        query.prepare( QString("SELECT * FROM %1 WHERE albumname = :name").arg(ALBUM_TABLE_NAME) );
-        query.bindValue( ":name", name );
-        if (query.exec()) {
-            query.first();
-            if (query.value(0).toInt() > 0) {
-                return true;
-            }
-        }
-    }
-
-    return false;
+    removeAlbum("Recent imported");
+    removeAlbum(tr("Recent imported"));
 }
 
 QStringList DatabaseManager::getAlbumNameList()
@@ -301,18 +299,58 @@ QStringList DatabaseManager::getAlbumNameList()
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("SELECT DISTINCT album FROM %1").arg(IMAGE_TABLE_NAME) );
+        query.prepare( QString("SELECT DISTINCT albumname FROM %1")
+                       .arg(ALBUM_TABLE_NAME) );
         if ( !query.exec() ) {
             qWarning() << "Get AlbumNames failed: " << query.lastError();
         }
         else {
-            for ( int i = 0; query.next(); i ++ ) {
+            while (query.next()) {
                 list << query.value(0).toString();
             }
         }
     }
 
     return list;
+}
+
+int DatabaseManager::albumsCount()
+{
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
+        query.prepare( QString("SELECT COUNT(DISTINCT albumname) FROM %1")
+                       .arg( ALBUM_TABLE_NAME ) );
+        if (query.exec()) {
+            query.first();
+            int count = query.value(0).toInt();
+            query.exec("COMMIT");
+            return count;
+        }
+    }
+
+    return 0;
+}
+
+int DatabaseManager::getImagesCountByAlbum(const QString &album)
+{
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
+        query.prepare( QString("SELECT COUNT(*) FROM %1"
+                               "WHERE albumname = %2")
+                       .arg(ALBUM_TABLE_NAME).arg(album) );
+        if (query.exec()) {
+            query.first();
+            int count = query.value(0).toInt();
+            query.exec("COMMIT");
+            return count;
+        }
+    }
+
+    return 0;
 }
 
 QStringList DatabaseManager::getTimeLineList(bool ascending)
@@ -461,6 +499,11 @@ void DatabaseManager::checkDatabase()
     }
 
     QSqlQuery query(db);
+    //////////////////////////////////////////////////////////////////////////
+    //filename              | filepath | album | label | time | thumbnail   //
+    //TEXT primari key      | TEXT     | TEXT  | TEXT  | TEXT | BLOB        //
+    //////////////////////////////////////////////////////////////////////////
+
     //image_file
     query.exec( QString("CREATE TABLE IF NOT EXISTS %1 ( "
                         "filename TEXT primary key, "
@@ -469,12 +512,16 @@ void DatabaseManager::checkDatabase()
                         "label TEXT,"       //array
                         "time TEXT, "
                         "thumbnail BLOB )").arg(IMAGE_TABLE_NAME) );
+
+    //////////////////////////////////////////////////////////////////////////
+    //albumid             | albumname         | filename      | time        //
+    //INTEGER primari key | TEXT              | TEXT          | TEXT        //
+    //////////////////////////////////////////////////////////////////////////
+
     //album
     query.exec( QString("CREATE TABLE IF NOT EXISTS %1 ( "
-                        "albumname TEXT primary key, "
-                        "count INTEGER, "
-                        "size TEXT,"
-                        "createtime TEXT, "
-                        "earliesttime TEXT,"
-                        "latesttime TEXT )").arg(ALBUM_TABLE_NAME) );
+                        "albumid INTEGER primary key, "
+                        "albumname TEXT, "
+                        "filename TEXT, "
+                        "time TEXT )").arg(ALBUM_TABLE_NAME) );
 }

@@ -138,12 +138,26 @@ void MainWidget::initTimelinePanel()
 {
     m_timelinePanel = new TimelinePanel;
     m_panelStack->addWidget(m_timelinePanel);
+
+    connect(m_timelinePanel, &TimelinePanel::needGotoAlbumPanel, this, [=] {
+        emit m_signalManager->gotoPanel(m_albumPanel);
+        emit m_signalManager->updateBottomToolbarContent(m_albumPanel->toolbarBottomContent());
+        emit m_signalManager->updateTopToolbarLeftContent(m_albumPanel->toolbarTopLeftContent());
+        emit m_signalManager->updateTopToolbarMiddleContent(m_albumPanel->toolbarTopMiddleContent());
+    });
 }
 
 void MainWidget::initAlbumPanel()
 {
     m_albumPanel = new AlbumPanel;
     m_panelStack->addWidget(m_albumPanel);
+
+    connect(m_albumPanel, &AlbumPanel::needGotoTimelinePanel, this, [=] {
+        emit m_signalManager->gotoPanel(m_timelinePanel);
+        emit m_signalManager->updateBottomToolbarContent(m_timelinePanel->toolbarBottomContent());
+        emit m_signalManager->updateTopToolbarLeftContent(m_timelinePanel->toolbarTopLeftContent());
+        emit m_signalManager->updateTopToolbarMiddleContent(m_timelinePanel->toolbarTopMiddleContent());
+    });
 }
 
 void MainWidget::initViewPanel()

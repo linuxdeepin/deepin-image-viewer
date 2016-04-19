@@ -16,16 +16,14 @@ public:
     struct ImageInfo {
         QString name;
         QString path;
-        QStringList albums;
+        QStringList albums; // Discard
         QStringList labels;
         QDateTime time;
         QPixmap thumbnail;
     };
     struct AlbumInfo {
         QString name;
-        QString size;
         int count;
-        QDateTime createTime;
         QDateTime earliestTime;
         QDateTime latestTime;
     };
@@ -33,23 +31,29 @@ public:
     static DatabaseManager *instance();
     ~DatabaseManager();
 
-    QList<ImageInfo> getImageInfoByAlbum(const QString &album);
-    QList<ImageInfo> getImageInfoByTime(const QDateTime &time);
+    QList<ImageInfo> getImageInfosByAlbum(const QString &album);
+    QList<ImageInfo> getImageInfosByTime(const QDateTime &time);
     ImageInfo getImageInfoByName(const QString &name);
     ImageInfo getImageInfoByPath(const QString &path);
     void insertImageInfo(const ImageInfo &info);
     void updateImageInfo(const ImageInfo &info);
     void removeImage(const QString &name);
     bool imageExist(const QString &name);
-    int imageCount();
     int getImagesCountByMonth(const QString &month);
+    int imageCount();
+
     AlbumInfo getAlbumInfo(const QString &name);
-    void insertAlbumInfo(const AlbumInfo &info);
-    void updateAlbumInfo(const AlbumInfo &info);
-    void removeAlbum(const QString &name);
-    bool albumExist(const QString &name);
     QStringList getAlbumNameList();
+    void insertIntoAlbum(const QString &albumname,
+                         const QString &filename,
+                         const QString &time);
+    void removeAlbum(const QString &name);
+    void clearRecentImported();
+    int getImagesCountByAlbum(const QString &album);
+    int albumsCount();
+
     QStringList getTimeLineList(bool ascending = true);
+
     const QStringList supportImageType();
 
 private:

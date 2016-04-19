@@ -59,7 +59,7 @@ void TimelineViewFrame::initListView()
 
     //add data
     QList<DatabaseManager::ImageInfo> list
-            = DatabaseManager::instance()->getImageInfoByTime(
+            = DatabaseManager::instance()->getImageInfosByTime(
                 QDateTime::fromString(m_timeline, DATETIME_FORMAT));
     for (DatabaseManager::ImageInfo info : list) {
         insertItem(info);
