@@ -96,7 +96,7 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(const QS
     if (db.isValid()) {
         QSqlQuery query( db );
         query.prepare( QString("SELECT DISTINCT filename FROM %1 "
-                               "WHERE albumname = %2 ORDER BY filename")
+                               "WHERE albumname = '%2' ORDER BY filename")
                        .arg(ALBUM_TABLE_NAME).arg(album) );
         if ( !query.exec() ) {
             qWarning() << "Get images from AlbumTable failed: " << query.lastError();
@@ -254,7 +254,7 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
     if (db.isValid()) {
         QSqlQuery query( db );
         query.prepare( QString("SELECT DISTINCT filename FROM %1 "
-                               "WHERE albumname = %2 ORDER BY time")
+                               "WHERE albumname = '%2' ORDER BY time")
                        .arg(ALBUM_TABLE_NAME).arg(name) );
         if ( !query.exec() ) {
             qWarning() << "Get images from AlbumTable failed: " << query.lastError();

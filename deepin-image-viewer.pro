@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql concurrent
+QT       += core gui sql concurrent svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 #include (cutelogger/cutelogger.pri)
@@ -40,7 +40,8 @@ SOURCES += main.cpp \
     controller/popupmenumanager.cpp \
     widgets/importframe.cpp \
     module/album/imagesview.cpp \
-    module/album/albumsview.cpp
+    module/album/albumsview.cpp \
+    module/album/albumdelegate.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -68,7 +69,8 @@ HEADERS += \
     controller/popupmenumanager.h \
     widgets/importframe.h \
     module/album/imagesview.h \
-    module/album/albumsview.h
+    module/album/albumsview.h \
+    module/album/albumdelegate.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \

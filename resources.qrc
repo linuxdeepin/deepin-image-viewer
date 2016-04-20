@@ -3,6 +3,7 @@
         <file>resources/images/timeline_import_backimg.png</file>
         <file>resources/images/tooltip.svg</file>
         <file>resources/images/drag_handle.png</file>
+        <file>resources/images/album_bg_normal.svg</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/default.qss</file>

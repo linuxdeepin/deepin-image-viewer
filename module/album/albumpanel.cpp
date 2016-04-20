@@ -163,6 +163,10 @@ void AlbumPanel::initMainStackWidget()
 void AlbumPanel::initAlbumsView()
 {
     m_albumsView = new AlbumsView(this);
+    QStringList albums = m_databaseManager->getAlbumNameList();
+    for (const QString name : albums) {
+        m_albumsView->addAlbum(m_databaseManager->getAlbumInfo(name));
+    }
 }
 
 void AlbumPanel::initImagesView()
