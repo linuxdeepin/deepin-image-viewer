@@ -57,7 +57,7 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
             emit SignalManager::instance()->imageCountChanged();
 
             // All new image should add to the album "Recent imported"
-            insertIntoAlbum(tr("Recent imported"), info.name, info.time.toString(DATETIME_FORMAT));
+            insertIntoAlbum("Recent imported", info.name, info.time.toString(DATETIME_FORMAT));
         }
     }
 
@@ -90,23 +90,8 @@ void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
 
 QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(const QString &album)
 {
+    QStringList nameList = getImageNamesByAlbum(album);
     QList<DatabaseManager::ImageInfo> infoList;
-    QStringList nameList;
-    QSqlDatabase db = getDatabase();
-    if (db.isValid()) {
-        QSqlQuery query( db );
-        query.prepare( QString("SELECT DISTINCT filename FROM %1 "
-                               "WHERE albumname = '%2' ORDER BY filename")
-                       .arg(ALBUM_TABLE_NAME).arg(album) );
-        if ( !query.exec() ) {
-            qWarning() << "Get images from AlbumTable failed: " << query.lastError();
-        }
-        else {
-            while (query.next()) {
-                nameList << query.value(0).toString();
-            }
-        }
-    }
 
     for (const QString name : nameList) {
         infoList << getImageInfoByName(name);
@@ -290,7 +275,6 @@ void DatabaseManager::removeAlbum(const QString &name)
 void DatabaseManager::clearRecentImported()
 {
     removeAlbum("Recent imported");
-    removeAlbum(tr("Recent imported"));
 }
 
 QStringList DatabaseManager::getAlbumNameList()
@@ -312,6 +296,29 @@ QStringList DatabaseManager::getAlbumNameList()
     }
 
     return list;
+}
+
+QStringList DatabaseManager::getImageNamesByAlbum(const QString &album)
+{
+    QStringList nameList;
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString("SELECT DISTINCT filename FROM %1 "
+                               "WHERE albumname = '%2' ORDER BY filename")
+                       .arg(ALBUM_TABLE_NAME).arg(album) );
+        if ( !query.exec() ) {
+            qWarning() << "Get images from AlbumTable failed: "
+                       << query.lastError();
+        }
+        else {
+            while (query.next()) {
+                nameList << query.value(0).toString();
+            }
+        }
+    }
+
+    return nameList;
 }
 
 int DatabaseManager::albumsCount()

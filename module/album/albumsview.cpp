@@ -13,35 +13,38 @@ const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 AlbumsView::AlbumsView(QWidget *parent)
     : QListView(parent)
 {
+    setMouseTracking(true);
     setItemDelegate(new AlbumDelegate(this));
     m_itemModel = new QStandardItemModel(this);
     setModel(m_itemModel);
 
-    setMovement(QListView::Free);
-    setFrameStyle(QFrame::NoFrame);
+    setEditTriggers(QAbstractItemView::DoubleClicked);
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);
-    setFlow(QListView::LeftToRight);
     setSelectionMode(QAbstractItemView::SingleSelection);
     setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
-//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setDragEnabled(false);
+
+    // Aways has Favorites album
+    DatabaseManager::instance()->insertIntoAlbum("Favorites", "Favorites", "");
 }
 
 void AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
 {
-    // AlbumName ImageCount EarliestTime LatestTime Thumbnail
-    QList<DatabaseManager::ImageInfo> imgInfos =
-            DatabaseManager::instance()->getImageInfosByAlbum(info.name);
-    if (imgInfos.isEmpty()) {
+    // AlbumName ImageCount BeginTime EndTime Thumbnail
+    QStringList imgNames =
+            DatabaseManager::instance()->getImageNamesByAlbum(info.name);
+    if (imgNames.isEmpty()) {
         return;
     }
     QByteArray thumbnailByteArray;
     QBuffer inBuffer( &thumbnailByteArray );
     inBuffer.open( QIODevice::WriteOnly );
     // write inPixmap into inByteArray
-    if ( ! imgInfos.first().thumbnail.save( &inBuffer, "JPG" )) {
+    if ( ! DatabaseManager::instance()->getImageInfoByName(imgNames.first())
+         .thumbnail.save( &inBuffer, "JPG" )) {
         qDebug() << "Write pixmap to buffer error!" << info.name;
     }
 
@@ -55,12 +58,12 @@ void AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     QStandardItem *item = new QStandardItem();
     QList<QStandardItem *> items;
     items.append(item);
-    m_itemModel->appendColumn(items);
+    m_itemModel->appendRow(items);
 
-    QModelIndex index = m_itemModel->index(0, m_itemModel->columnCount() - 1, QModelIndex());
+    QModelIndex index = m_itemModel->index(m_itemModel->rowCount() - 1, 0, QModelIndex());
+//    m_itemModel->setData(index, QVariant(info.name), Qt::EditRole);
     m_itemModel->setData(index, QVariant(datas), Qt::DisplayRole);
     m_itemModel->setData(index, QVariant(ITEM_DEFAULT_SIZE), Qt::SizeHintRole);
-
 }
 
 QSize AlbumsView::itemSize() const

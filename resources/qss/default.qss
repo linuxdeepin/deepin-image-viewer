@@ -25,5 +25,5 @@ ThumbnailListView {
 }
 
 Tooltip {
-    border-image: url(:/images/resources/images/tooltip.svg) stretch;
+    border-image: url(:/images/timeline/resources/images/timeline/tooltip.svg) stretch;
 }

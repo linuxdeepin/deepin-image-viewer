@@ -12,7 +12,7 @@ ImportFrame::ImportFrame(QWidget *parent) : QWidget(parent)
     this->setAcceptDrops(true);
 
     QLabel *bgLabel = new QLabel();
-    bgLabel->setPixmap(QPixmap(":/images/resources/images/timeline_import_backimg.png"));
+    bgLabel->setPixmap(QPixmap(":/images/timeline/resources/images/timeline/timeline_import_backimg.png"));
 
     QPushButton *importButton = new QPushButton(tr("Import"));
     importButton->setObjectName("ImportFrameButton");

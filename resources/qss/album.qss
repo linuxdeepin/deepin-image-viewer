@@ -73,3 +73,11 @@ ScaleSlider {
 QSlider::handle:vertical  {
     image: url(:/images/icons/resources/images/icons/handle.svg)
 }
+
+QLineEdit#AlbumNameLineEdit {
+    border: 1px solid #01bdff;
+    border-radius: 3;
+    color: #ffffff;
+    selection-background-color: #01bdff;
+    background: transparent;
+}

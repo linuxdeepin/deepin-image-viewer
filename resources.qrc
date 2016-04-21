@@ -1,10 +1,4 @@
 <RCC>
-    <qresource prefix="/images">
-        <file>resources/images/timeline_import_backimg.png</file>
-        <file>resources/images/tooltip.svg</file>
-        <file>resources/images/drag_handle.png</file>
-        <file>resources/images/album_bg_normal.svg</file>
-    </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/default.qss</file>
         <file>resources/qss/timeline.qss</file>
@@ -92,5 +86,17 @@
     <qresource prefix="/images/menu">
         <file>resources/images/menu/sub_menu_hover.png</file>
         <file>resources/images/menu/sub_menu_normal.png</file>
+    </qresource>
+    <qresource prefix="/images/album">
+        <file>resources/images/album/album_bg_normal.png</file>
+        <file>resources/images/album/album_bg_selected.png</file>
+        <file>resources/images/album/album_favorites.png</file>
+        <file>resources/images/album/album_recent_imported.png</file>
+        <file>resources/images/album/thumbnail_default.svg</file>
+    </qresource>
+    <qresource prefix="/images/timeline">
+        <file>resources/images/timeline/drag_handle.png</file>
+        <file>resources/images/timeline/timeline_import_backimg.png</file>
+        <file>resources/images/timeline/tooltip.svg</file>
     </qresource>
 </RCC>

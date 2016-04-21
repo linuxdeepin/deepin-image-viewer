@@ -18,6 +18,8 @@ public:
                        const QModelIndex& index) const Q_DECL_OVERRIDE;
     void setEditorData(QWidget* editor,
                        const QModelIndex& index) const Q_DECL_OVERRIDE;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                      const QModelIndex &index) const Q_DECL_OVERRIDE;
     void updateEditorGeometry(QWidget* editor,
                               const QStyleOptionViewItem& option,
                               const QModelIndex& index) const Q_DECL_OVERRIDE;
@@ -29,8 +31,14 @@ public:
 
 private:
     void drawBG(const QStyleOptionViewItem &option, QPainter *painter) const;
-    QPixmap getCompoundPixmap(const QDateTime &begin, const QDateTime &end,
-                              const QPixmap &thumbnail) const;
+    void drawTitle(const QStyleOptionViewItem &option,
+                   const QModelIndex& index,
+                   QPainter *painter) const;
+    QPixmap getCompoundPixmap(const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const;
+
+private:
+    mutable QModelIndex m_editingIndex;
 };
 
 #endif // ALBUMDELEGATE_H
