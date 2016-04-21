@@ -20,6 +20,9 @@ ViewPanel::ViewPanel(QWidget *parent)
     connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
         m_current += steps;
     });
+    connect(m_slide, &SlideEffectPlayer::currentImageChanged, [this](const QString& path){
+        m_nav->setImage(QImage(path).scaled(m_slide->frameSize(), Qt::KeepAspectRatio)); //slide image size is widget size
+    });
     connect(m_slide, &SlideEffectPlayer::frameReady, [this](const QImage& image) {
         m_view->setImage(image);
     });
@@ -84,6 +87,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setPressPic(":/images/icons/resources/images/icons/previous-press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this]() {
+        m_slide->stop();
         if (m_current == m_infos.cbegin())
             return;
         --m_current;
@@ -115,6 +119,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setPressPic(":/images/icons/resources/images/icons/next-press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this]() {
+        m_slide->stop();
         if (m_current == m_infos.cend())
             return;
         ++m_current;

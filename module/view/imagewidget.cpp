@@ -25,8 +25,6 @@ void ImageWidget::setImage(const QImage &image)
     m_image = image;
     m_pixmap = QPixmap::fromImage(m_image);
     resetTransform();
-    updateTransform();
-    update(); //assume we are in main thread
 }
 
 void ImageWidget::resetTransform()
@@ -41,23 +39,25 @@ void ImageWidget::resetTransform()
     m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
     m_scale = qreal(s.width())/qreal(m_image.size().width());
     updateTransform();
-    update(); //assume we are in main thread
 }
 
 void ImageWidget::setImageMove(int x, int y)
 {
     setTransformOrigin(QPoint(x, y), QPoint());
-    updateTransform();
 }
 
 void ImageWidget::setScaleValue(qreal value)
 {
+    if (m_scale == value)
+        return;
     m_scale = value;
     updateTransform();
 }
 
 void ImageWidget::rotate(int deg)
 {
+    if (m_rot == deg%360)
+        return;
     m_rot = deg%360;
     updateTransform();
     Q_EMIT rotated(deg);
@@ -79,6 +79,8 @@ void ImageWidget::flipY()
 
 void ImageWidget::setTransformOrigin(const QPoint& imageP, const QPoint& deviceP)
 {
+    if (m_o_dev == deviceP && m_o_img == imageP)
+        return;
     m_o_dev = deviceP;
     m_o_img = imageP;
     updateTransform();
@@ -182,10 +184,11 @@ void ImageWidget::updateTransform()
 {
     if (m_image.isNull())
         return;
+    const QTransform old = m_mat;
     //Q_EMIT scaleValueChanged(value); //TODO: emit only when scaled image is rendered
     const QSize s = m_image.size()*m_scale;//.scaled(rect().size(), Qt::KeepAspectRatio);
     m_scale = qreal(s.width())/qreal(m_image.size().width());
-    //qDebug() << s << m_image.size();
+    //qDebug() << s << m_image.size() << m_scale;
     m_mat.reset();
     QPoint img_o = QTransform().rotate(m_rot).scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
     m_mat.translate(m_o_dev.x() - (qreal)img_o.x(), m_o_dev.y() - (qreal)img_o.y());
@@ -194,5 +197,6 @@ void ImageWidget::updateTransform()
     //qDebug() << m_o_dev << m_mat.inverted().map(m_o_dev);
     //qDebug() << m_mat;
     update();
-    Q_EMIT transformChanged(m_mat);
+    if (m_mat != old)
+        Q_EMIT transformChanged(m_mat);
 }

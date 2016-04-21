@@ -8,6 +8,7 @@ class SlideEffectPlayer : public QObject
 public:
     SlideEffectPlayer(QObject* parent = 0);
     void setFrameSize(int width, int height);
+    QSize frameSize() const { return QSize(m_w, m_h);}
     // call setCurrentImage later
     void setImagePaths(const QStringList& paths);
     // invalid path: black image+1st image
