@@ -9,17 +9,25 @@
 #include "imageinfowidget.h"
 #include <darrowrectangle.h>
 #include "utils/imgutil.h"
+#include "module/slideeffect/slideeffectplayer.h"
 
 using namespace Dtk::Widget;
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
 {
+    m_slide = new SlideEffectPlayer(this);
+    connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
+        m_current += steps;
+    });
+    connect(m_slide, &SlideEffectPlayer::frameReady, [this](const QImage& image) {
+        m_view->setImage(image);
+    });
     connect(SignalManager::instance(), &SignalManager::viewImage, [this](QString path) {
-        openImage(path);
         DatabaseManager::ImageInfo info = DatabaseManager::instance()->getImageInfoByPath(path);
         m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
         m_current = std::find_if(m_infos.cbegin(), m_infos.cend(), [&](const DatabaseManager::ImageInfo info){ return info.path == path;});
+        openImage(path);
     });
     m_view = new ImageWidget();
     QHBoxLayout *hl = new QHBoxLayout();
@@ -28,12 +36,12 @@ ViewPanel::ViewPanel(QWidget *parent)
     connect(m_view, &ImageWidget::rotated, [this](int degree) {
         const QTransform t = QTransform().rotate(degree);
         QImage img = m_view->image().transformed(t);
-        utils::saveImageWithExif(img, m_view->imagePath(), m_view->imagePath(), t);
+        utils::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
     connect(m_view, &ImageWidget::fliped, [this](bool x, bool y) {
         const QTransform t = QTransform().scale(x ? -1 : 1, y ? -1 : 1);
         QImage img = m_view->image().transformed(t);
-        utils::saveImageWithExif(img, m_view->imagePath(), m_view->imagePath(), t);
+        utils::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
 
     m_nav = new NavigationWidget(this);
@@ -87,6 +95,19 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/icons/resources/images/icons/slideshow-hover.png");
     btn->setPressPic(":/images/icons/resources/images/icons/slideshow-press.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::clicked, [this](){
+        if (m_slide->isRunning()) {
+            m_slide->stop();
+            return;
+        }
+        QStringList paths;
+        foreach (const DatabaseManager::ImageInfo& info, m_infos) {
+            paths << info.path;
+        }
+        m_slide->setImagePaths(paths);
+        m_slide->setCurrentImage(m_current->path);
+        m_slide->start();
+    });
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/icons/resources/images/icons/next-normal.png");
@@ -110,7 +131,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setPressPic(":/images/icons/resources/images/icons/edit-press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
-        Q_EMIT SignalManager::instance()->editImage(m_view->imagePath());
+        Q_EMIT SignalManager::instance()->editImage(m_current->path);
     });
 
     hb->addStretch();
@@ -186,13 +207,14 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 QWidget *ViewPanel::extensionPanelContent()
 {
     m_info = new ImageInfoWidget();
-    m_info->setImagePath(m_view->imagePath());
+    m_info->setImagePath(m_current->path);
     return m_info;
 }
 
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
     m_nav->move(e->size().width() - m_nav->width() - 10, e->size().height() - m_nav->height() -10);
+    m_slide->setFrameSize(e->size().width(), e->size().height());
 }
 
 void ViewPanel::contextMenuEvent(QContextMenuEvent *e)

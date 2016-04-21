@@ -6,6 +6,7 @@
 #include "navigationwidget.h"
 #include "controller/databasemanager.h"
 
+class SlideEffectPlayer;
 class ViewPanel : public ModulePanel
 {
     Q_OBJECT
@@ -28,6 +29,7 @@ private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
+    SlideEffectPlayer *m_slide = NULL;
 
     QList<DatabaseManager::ImageInfo> m_infos;
     QList<DatabaseManager::ImageInfo>::ConstIterator m_current;
