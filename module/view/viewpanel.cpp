@@ -26,6 +26,9 @@ ViewPanel::ViewPanel(QWidget *parent)
     connect(m_slide, &SlideEffectPlayer::frameReady, [this](const QImage& image) {
         m_view->setImage(image);
     });
+    connect(SignalManager::instance(), &SignalManager::gotoPanel, [this](){
+        m_slide->stop();
+    });
     connect(SignalManager::instance(), &SignalManager::viewImage, [this](QString path) {
         DatabaseManager::ImageInfo info = DatabaseManager::instance()->getImageInfoByPath(path);
         m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
