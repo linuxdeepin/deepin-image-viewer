@@ -22,6 +22,8 @@ ViewPanel::ViewPanel(QWidget *parent)
     });
     connect(m_slide, &SlideEffectPlayer::currentImageChanged, [this](const QString& path){
         m_nav->setImage(QImage(path).scaled(m_slide->frameSize(), Qt::KeepAspectRatio)); //slide image size is widget size
+        if (m_info)
+            m_info->setImagePath(path);
     });
     connect(m_slide, &SlideEffectPlayer::frameReady, [this](const QImage& image) {
         m_view->setImage(image);
