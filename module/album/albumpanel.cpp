@@ -37,10 +37,16 @@ QWidget *AlbumPanel::toolbarBottomContent()
     m_slider->setFixedWidth(120);
     connect(m_slider, &DSlider::valueChanged, this, [=] (int multiple) {
         int newSize = MIN_ICON_SIZE + multiple * 32;
-        //            m_imagesView->setIconSize(QSize(newSize, newSize));
+        if (m_mainStackWidget->currentWidget() == m_imagesView) {
+            m_imagesView->setIconSize(QSize(newSize, newSize));
+        }
+        else {
+            m_albumsView->setItemSize(QSize(newSize, newSize));
+        }
     });
 
     m_countLabel = new QLabel;
+    m_countLabel->setAlignment(Qt::AlignLeft);
     m_countLabel->setObjectName("CountLabel");
 
     updateBottomToolbarContent();
@@ -49,12 +55,11 @@ QWidget *AlbumPanel::toolbarBottomContent()
             this, &AlbumPanel::updateBottomToolbarContent, Qt::DirectConnection);
 
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(13, 0, 5, 0);
     layout->setSpacing(0);
+    layout->addWidget(m_countLabel, 1, Qt::AlignLeft);
     layout->addStretch(1);
-    layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
     layout->addWidget(m_slider, 1, Qt::AlignRight);
-    layout->addSpacing(16);
 
     return tBottomContent;
 }
@@ -62,12 +67,36 @@ QWidget *AlbumPanel::toolbarBottomContent()
 QWidget *AlbumPanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
-    QLabel *label = new QLabel;
-    label->setPixmap(QPixmap(":/images/icons/resources/images/icons/filter-active.png"));
+    QLabel *icon = new QLabel;
+    icon->setPixmap(QPixmap(":/images/icons/resources/images/icons/filter-active.png"));
+
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addSpacing(8);
-    layout->addWidget(label, 1, Qt::AlignLeft | Qt::AlignVCenter);
+    layout->setContentsMargins(8, 0, 0, 0);
+
+    if (m_mainStackWidget->currentWidget() == m_imagesView) {
+
+        DImageButton *returnButton = new DImageButton();
+        returnButton->setNormalPic(":/images/icons/resources/images/icons/return-normal.png");
+        returnButton->setHoverPic(":/images/icons/resources/images/icons/return-hover.png");
+        returnButton->setPressPic(":/images/icons/resources/images/icons/return-press.png");
+        connect(returnButton, &DImageButton::clicked, this, [=] {
+            m_mainStackWidget->setCurrentWidget(m_albumsView);
+        });
+
+        QLabel *rt = new QLabel();
+        // FIXME: the style sheet not work for rt if set in .qss file
+        rt->setStyleSheet("color: #ffffff; font-size: 12px;");
+        rt->setText(tr("Return"));
+
+        layout->addWidget(icon);
+        layout->addWidget(returnButton);
+        layout->addWidget(rt);
+        layout->addStretch(1);
+    }
+    else {
+        layout->addWidget(icon);
+        layout->addStretch(1);
+    }
 
     return tTopleftContent;
 }
@@ -150,6 +179,8 @@ void AlbumPanel::initMainStackWidget()
     m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
     connect(m_mainStackWidget, &QStackedWidget::currentChanged, this, [=] {
         updateBottomToolbarContent();
+        emit SignalManager::instance()->
+                updateTopToolbarLeftContent(toolbarTopLeftContent());
     });
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
         m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
@@ -167,6 +198,7 @@ void AlbumPanel::initAlbumsView()
     for (const QString name : albums) {
         m_albumsView->addAlbum(m_databaseManager->getAlbumInfo(name));
     }
+    connect(m_albumsView, &AlbumsView::openAlbum, this, &AlbumPanel::onOpenAlbum);
 }
 
 void AlbumPanel::initImagesView()
@@ -193,7 +225,7 @@ void AlbumPanel::updateBottomToolbarContent()
     }
 
     const int albumCount = m_databaseManager->albumsCount();
-    const int imagesCount = m_databaseManager->imageCount();
+    const int imagesCount = m_databaseManager->getImagesCountByAlbum(m_currentAlbum);
     const bool inAlbumsFrame = m_mainStackWidget->currentIndex() == 1;
     const int count = inAlbumsFrame ? albumCount : imagesCount;
 
@@ -210,5 +242,13 @@ void AlbumPanel::updateBottomToolbarContent()
 
     //set width to 1px for layout center
     m_slider->setFixedWidth(count > 0 ? 120 : 1);
+}
+
+void AlbumPanel::onOpenAlbum(const QString &album)
+{
+    qDebug() << "Open Album : " << album;
+    m_currentAlbum = album;
+    m_mainStackWidget->setCurrentIndex(2);
+    m_imagesView->setAlbum(album);
 }
 

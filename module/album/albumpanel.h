@@ -39,7 +39,11 @@ private:
 
     void updateBottomToolbarContent();
 
+private slots:
+    void onOpenAlbum(const QString &album);
+
 private:
+    QString m_currentAlbum;
     QLabel *m_countLabel = NULL;
     DSlider *m_slider = NULL;
 

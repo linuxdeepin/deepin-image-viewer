@@ -2,6 +2,7 @@
 #include <QPaintEvent>
 #include <QEvent>
 #include <QDebug>
+#include <QTimer>
 
 const int ITEM_SPACING = 4;
 ThumbnailListView::ThumbnailListView(QWidget *parent)
@@ -13,7 +14,7 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setViewMode(QListView::IconMode);
     setFlow(QListView::LeftToRight);
     setSelectionMode(QAbstractItemView::SingleSelection);
-    setUniformItemSizes(true);
+//    setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setDragEnabled(false);

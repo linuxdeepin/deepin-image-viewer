@@ -1,5 +1,6 @@
 #include "albumsview.h"
 #include "albumdelegate.h"
+#include "controller/signalmanager.h"
 #include <QDebug>
 #include <QBuffer>
 
@@ -18,7 +19,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     m_itemModel = new QStandardItemModel(this);
     setModel(m_itemModel);
 
-    setEditTriggers(QAbstractItemView::DoubleClicked);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);
     setSelectionMode(QAbstractItemView::SingleSelection);
@@ -28,7 +29,9 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     // Aways has Favorites album
-    DatabaseManager::instance()->insertIntoAlbum("Favorites", "Favorites", "");
+    DatabaseManager::instance()->insertIntoAlbum("Favorites", "", "");
+
+    connect(this, &AlbumsView::doubleClicked, this, &AlbumsView::onDoubleClicked);
 }
 
 void AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
@@ -78,4 +81,15 @@ void AlbumsView::setItemSize(const QSize &itemSize)
         QModelIndex index = m_itemModel->index(0, column, QModelIndex());
         m_itemModel->setData(index, QVariant(itemSize), Qt::SizeHintRole);
     }
+}
+
+void AlbumsView::onDoubleClicked(const QModelIndex &index)
+{
+    QString albumName = "";
+    QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+    if (! datas.isEmpty()) {
+        albumName = datas[0].toString();
+    }
+
+    emit openAlbum(albumName);
 }

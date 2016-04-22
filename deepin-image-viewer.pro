@@ -41,7 +41,8 @@ SOURCES += main.cpp \
     widgets/importframe.cpp \
     module/album/imagesview.cpp \
     module/album/albumsview.cpp \
-    module/album/albumdelegate.cpp
+    module/album/albumdelegate.cpp \
+    module/album/topalbumtips.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -70,7 +71,8 @@ HEADERS += \
     widgets/importframe.h \
     module/album/imagesview.h \
     module/album/albumsview.h \
-    module/album/albumdelegate.h
+    module/album/albumdelegate.h \
+    module/album/topalbumtips.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \

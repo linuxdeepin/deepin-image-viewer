@@ -1,8 +1,28 @@
+QWidget#ImagesViewContent {
+    background: #181818;
+}
+
 QLabel#TimelineFrameTitle {
     background: transparent;
     color: #616161;
     font-size: 14px;
     margin-left: 10px;
+}
+
+QPushButton#ImportFromTimelineButton {
+    font-size: 12px;
+    color: #52abff;
+    outline: none;
+    background: transparent;
+    border: none;
+}
+
+QPushButton#ImportFromTimelineButton:hover {
+    color: #54D7FF;
+}
+
+QPushButton#ImportFromTimelineButton:pressed {
+    color: #01BDFF;
 }
 
 QPushButton#ImportFrameButton {
@@ -24,7 +44,7 @@ QPushButton#ImportFrameButton:hover {
 QPushButton#ImportFrameButton:pressed {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
             stop:0 rgba(11, 140, 255, 255), stop:1 rgba(10, 161, 255, 255));
-            color: rgba(255, 255, 255, 179);
+    color: rgba(255, 255, 255, 179);
 }
 
 QLabel#ImportFrameTooltip {
@@ -80,4 +100,15 @@ QLineEdit#AlbumNameLineEdit {
     color: #ffffff;
     selection-background-color: #01bdff;
     background: transparent;
+}
+
+QLabel#AlbumInfoTipsLabel {
+    font-size: 12px;
+    color: #b4b4b4;
+}
+
+TopAlbumTips {
+    height: 24px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                stop:0 rgba(24, 24, 24, 230), stop:1 rgba(24, 24, 24, 153));
 }

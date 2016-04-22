@@ -15,6 +15,12 @@ public:
     QSize itemSize() const;
     void setItemSize(const QSize &itemSize);
 
+signals:
+    void openAlbum(const QString &album);
+
+private:
+    void onDoubleClicked(const QModelIndex &index);
+
 private:
     QStandardItemModel *m_itemModel;
     QSize m_itemSize;

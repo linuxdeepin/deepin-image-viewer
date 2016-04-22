@@ -346,14 +346,17 @@ int DatabaseManager::getImagesCountByAlbum(const QString &album)
     if (db.isValid()) {
         QSqlQuery query( db );
         query.exec("BEGIN IMMEDIATE TRANSACTION");
-        query.prepare( QString("SELECT COUNT(*) FROM %1"
-                               "WHERE albumname = %2")
+        query.prepare( QString("SELECT COUNT(*) FROM %1 "
+                               "WHERE albumname = '%2' AND filename IS NOT NULL")
                        .arg(ALBUM_TABLE_NAME).arg(album) );
         if (query.exec()) {
             query.first();
             int count = query.value(0).toInt();
             query.exec("COMMIT");
             return count;
+        }
+        else {
+            qDebug() << "Get images count error :" << query.lastError();
         }
     }
 
