@@ -323,6 +323,7 @@ void SlideEffect::renderFrame()
 {
     Q_ASSERT(frame_image);
     QPainter p(frame_image);
+    frame_image->fill(Qt::transparent);
 /*
     Tell me why!
     if draw the next frame_image first, then it will flick for FromBottom, CoverBottom effect!

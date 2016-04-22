@@ -114,7 +114,10 @@ SOURCES += module/slideeffect/slideeffect.cpp \
            module/slideeffect/slideeffectplayer.cpp \
            module/slideeffect/slideeffect_blinds.cpp \
            module/slideeffect/slideeffect_center.cpp \
-           module/slideeffect/slideeffect_enter.cpp
+           module/slideeffect/slideeffect_enter.cpp \
+           module/slideeffect/slideeffect_fade.cpp \
+           module/slideeffect/slideeffect_tile.cpp
+
 
 RESOURCES += \
     resources.qrc

@@ -26,15 +26,13 @@ static const EffectId kHorizontalOpen = "horizontal_open";
 static const EffectId kHorizontalClose = "horizontal_close";
 static const EffectId kVerticalOpen = "vertical_open";
 static const EffectId kVerticalClose = "vertical_close";
-static const EffectId kDiamondOpen = "diamond_open";
-static const EffectId kDiamondClose = "diamond_close";
 class SlideEffect_Center : public SlideEffect
 {
 public:
     SlideEffect_Center();
     virtual bool prepare();
     virtual QVector<EffectId> supportedTypes() const {
-        return QVector<EffectId>() << kEllipseClose << kEllipseOpen << kDiamondOpen << kDiamondClose
+        return QVector<EffectId>() << kEllipseClose << kEllipseOpen
                 << kHorizontalOpen << kHorizontalClose << kVerticalOpen << kVerticalClose;
     }
 
@@ -45,8 +43,6 @@ protected:
 private:
     bool prepareFrameAt_EllipseOpen(int frame);
     bool prepareFrameAt_EllipseClose(int frame);
-    bool prepareFrameAt_DiamondOpen(int frame);
-    bool prepareFrameAt_DiamondClose(int frame);
     bool prepareFrameAt_HorizontalOpen(int frame);
     bool prepareFrameAt_HorizontalClose(int frame);
     bool prepareFrameAt_VerticalOpen(int frame);
@@ -72,10 +68,6 @@ bool SlideEffect_Center::prepare()
         func = &SlideEffect_Center::prepareFrameAt_EllipseOpen;
     } else if (effect_type == kEllipseClose) {
         func = &SlideEffect_Center::prepareFrameAt_EllipseClose;
-    } else if (effect_type == kDiamondOpen) {
-        func = &SlideEffect_Center::prepareFrameAt_DiamondOpen;
-    } else if (effect_type == kDiamondClose) {
-        func = &SlideEffect_Center::prepareFrameAt_DiamondClose;
     } else if (effect_type == kHorizontalOpen) {
         func = &SlideEffect_Center::prepareFrameAt_HorizontalOpen;
     } else if (effect_type == kHorizontalClose) {
@@ -155,40 +147,6 @@ bool SlideEffect_Center::prepareFrameAt_EllipseClose(int frame)
 	m.translate(-width*0.5, -height*0.5);
 	E = m.map(E);
 	current_clip_region = E & QRegion(0, 0, width, height);//the initial current_clip_region is null
-	next_clip_region = QRegion(0, 0, width, height) - current_clip_region;
-	return true;
-}
-
-bool SlideEffect_Center::prepareFrameAt_DiamondOpen(int frame)
-{
-	if (isEndFrame(frame))
-		return false;
-	//qreal k = (qreal)current_frame/(qreal)frames_total*3.1416; //*3.1416 to speed up
-	qreal k = easing_.valueForProgress(progress_);
-	QPolygon polygon(4);
-	polygon.setPoint(0, width*(0.5-k), height*0.5);
-	polygon.setPoint(1, width*0.5, height*(0.5-k));
-	polygon.setPoint(2, width*(0.5+k), height*0.5);
-	polygon.setPoint(3, width*0.5, height*(0.5+k));
-	QRegion polyregion = QRegion(polygon);
-	next_clip_region = (polyregion & QRegion(0, 0, width, height)) - next_clip_region;//the changed region
-	current_clip_region = QRegion(0, 0, width, height) - polyregion;
-	return true;
-}
-
-bool SlideEffect_Center::prepareFrameAt_DiamondClose(int frame)
-{
-	if (isEndFrame(frame))
-		return false;
-	//qreal k = (qreal)current_frame/(qreal)frames_total*3.1416; //*3.1416 to speed up
-	qreal k = easing_.valueForProgress(progress_);
-	QPolygon polygon(4);
-	polygon.setPoint(0, -width*(0.5-k), height*0.5);
-	polygon.setPoint(1, width*0.5, -height*(0.5-k));
-	polygon.setPoint(2, width*(1.5-k), height*0.5);
-	polygon.setPoint(3, width*0.5, height*(1.5-k));
-	QRegion polyregion = QRegion(polygon);
-	current_clip_region = polyregion & QRegion(0, 0, width, height);//the initial current_clip_region is null
 	next_clip_region = QRegion(0, 0, width, height) - current_clip_region;
 	return true;
 }
