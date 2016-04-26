@@ -93,6 +93,7 @@
         <file>resources/images/album/album_favorites.png</file>
         <file>resources/images/album/album_recent_imported.png</file>
         <file>resources/images/album/thumbnail_default.svg</file>
+        <file>resources/images/album/album_bg_hover.png</file>
     </qresource>
     <qresource prefix="/images/timeline">
         <file>resources/images/timeline/drag_handle.png</file>

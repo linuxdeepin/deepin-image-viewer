@@ -121,8 +121,8 @@ void AlbumDelegate::paint(QPainter *painter,
         //        painter->setRenderHint(QPainter::Antialiasing);
         QRect rect = option.rect;
 
-        // Draw background
-        drawBG(option, painter);
+//        // Draw background
+//        drawBG(option, painter);
 
         // Draw compound thumbnail
         QPixmap pixmap = getCompoundPixmap(option, index);
@@ -235,7 +235,11 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     bgSize.setWidth(option.rect.width() - THUMBNAIL_BG_MARGIN * 2);
     bgSize.setHeight(bgSize.width());
     QString bgFilePath = ":/images/album/resources/images/album/album_bg_normal.png";
-    if (option.state & QStyle::State_Selected && m_editingIndex != index) {
+    if ((option.state & QStyle::State_MouseOver) &&
+            (option.state & QStyle::State_Selected) == 0) {
+        bgFilePath = ":/images/album/resources/images/album/album_bg_hover.png";
+    }
+    else if (option.state & QStyle::State_Selected && m_editingIndex != index) {
         bgFilePath = ":/images/album/resources/images/album/album_bg_selected.png";
     }
     QPixmap bgPixmap = QPixmap(bgFilePath).scaled(bgSize,
