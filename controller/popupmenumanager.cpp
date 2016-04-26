@@ -38,6 +38,27 @@ PopupMenuManager::~PopupMenuManager()
     delete m_menu;
 }
 
+
+QJsonObject PopupMenuManager::createItemObj(const int id,
+                                      const QString &text,
+                                      const bool isSeparator,
+                                      const QString &shortcut,
+                                      const QJsonObject &subMenu)
+{
+    QJsonObject obj;
+    obj["itemId"] = QJsonValue(int(id));
+    obj["itemIcon"] = QJsonValue(QString());
+    obj["itemIconHover"] = QJsonValue(QString());
+    obj["itemIconInactive"] = QJsonValue(QString());
+    obj["itemText"] = QJsonValue(text + SHORTCUT_SPLIT_FLAG);
+    obj["shortcut"] = QJsonValue(shortcut);
+    obj["isSeparator"] = QJsonValue(isSeparator);
+    obj["isActive"] = QJsonValue(true);
+    obj["checked"] = QJsonValue(false);
+    obj["itemSubMenu"] = QJsonValue(subMenu);
+    return obj;
+}
+
 void PopupMenuManager::handleMenuActionTriggered(QAction* action)
 {
     const int menu_id = action->data().toInt();

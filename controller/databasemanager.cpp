@@ -68,8 +68,12 @@ void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
     QSqlDatabase db = getDatabase();
     if (db.isValid() && !imageExist(info.name)) {
         QSqlQuery query( db );
-        query.prepare( QString("UPDATE %1 SET"
-                               "filepath = :path, album = :album, label = :label, time = :time, thumbnail = :thumbnail"
+        query.prepare( QString("UPDATE %1 SET "
+                               "filepath = :path, "
+                               "album = :album, "
+                               "label = :label, "
+                               "time = :time, "
+                               "thumbnail = :thumbnail "
                                "WHERE filename = :name")
                        .arg( IMAGE_TABLE_NAME ) );
         query.bindValue( ":path", info.path );
@@ -132,10 +136,12 @@ void DatabaseManager::removeImage(const QString &name)
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString( "DELETE FROM %1 WHERE filename = :name" ).arg(IMAGE_TABLE_NAME) );
+        query.prepare( QString( "DELETE FROM %1 WHERE filename = :name" )
+                       .arg(IMAGE_TABLE_NAME) );
         query.bindValue( ":name", name );
         if (!query.exec()) {
-            qWarning() << "Remove image record from database failed: " << query.lastError();
+            qWarning() << "Remove image record from database failed: "
+                       << query.lastError();
         }
         else {
             emit SignalManager::instance()->imageCountChanged();
@@ -149,7 +155,8 @@ bool DatabaseManager::imageExist(const QString &name)
     if (db.isValid()) {
         QSqlQuery query( db );
         query.exec("BEGIN IMMEDIATE TRANSACTION");
-        query.prepare( QString("SELECT COUNT(*) FROM %1 WHERE filename = :name").arg( IMAGE_TABLE_NAME ) );
+        query.prepare( QString("SELECT COUNT(*) FROM %1 WHERE filename = :name")
+                       .arg( IMAGE_TABLE_NAME ) );
         query.bindValue( ":name", name );
         if (query.exec()) {
             query.first();
@@ -242,7 +249,8 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
                                "WHERE albumname = '%2' ORDER BY time")
                        .arg(ALBUM_TABLE_NAME).arg(name) );
         if ( !query.exec() ) {
-            qWarning() << "Get images from AlbumTable failed: " << query.lastError();
+            qWarning() << "Get images from AlbumTable failed: "
+                       << query.lastError();
         }
         else {
             while (query.next()) {
@@ -267,7 +275,25 @@ void DatabaseManager::removeAlbum(const QString &name)
                        .arg(ALBUM_TABLE_NAME) );
         query.bindValue( ":name", name );
         if (!query.exec()) {
-            qWarning() << "Remove album from database failed: " << query.lastError();
+            qWarning() << "Remove album from database failed: "
+                       << query.lastError();
+        }
+    }
+}
+
+void DatabaseManager::renameAlbum(const QString &oldName, const QString &newName)
+{
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString("UPDATE %1 SET "
+                               "albumname = :newName "
+                               "WHERE albumname = :oldName ")
+                       .arg( ALBUM_TABLE_NAME ) );
+        query.bindValue( ":newName", newName );
+        query.bindValue( ":oldName", oldName );
+        if (!query.exec()) {
+            qWarning() << "Update album name failed: " << query.lastError();
         }
     }
 }

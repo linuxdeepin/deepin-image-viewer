@@ -49,6 +49,7 @@ public:
                          const QString &filename,
                          const QString &time);
     void removeAlbum(const QString &name);
+    void renameAlbum(const QString &oldName, const QString &newName);
     void clearRecentImported();
     int getImagesCountByAlbum(const QString &album);
     int albumsCount();

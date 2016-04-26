@@ -102,29 +102,29 @@ QPixmap TimelineViewFrame::increaseThumbnail(const QPixmap &pixmap)
 QString TimelineViewFrame::createMenuContent()
 {
     QJsonArray items;
-    items.append(QJsonValue(createItemObj(IdView, tr("View"))));
-    items.append(QJsonValue(createItemObj(IdFullScreen, tr("Fullscreen"), false, "Ctrl+Alt+F")));
-    items.append(QJsonValue(createItemObj(IdStartSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P")));
+    items.append(createMenuItem(IdView, tr("View")));
+    items.append(createMenuItem(IdFullScreen, tr("Fullscreen"), false, "Ctrl+Alt+F"));
+    items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P"));
     // TODO add album list
     QJsonObject albumObj;
-    QJsonArray arry;arry.append(QJsonValue(createItemObj(IdSubMenu, "Favorites")));
+    QJsonArray arry;arry.append(createMenuItem(IdSubMenu, "My favorites"));
     albumObj[""] = QJsonValue(arry);
-    items.append(QJsonValue(createItemObj(IdAddToAlbum, tr("Add to album"), false, "", albumObj)));
+    items.append(createMenuItem(IdAddToAlbum, tr("Add to album"), false, "", albumObj));
 
-    items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
-    items.append(QJsonValue(createItemObj(IdCopy, tr("Copy"), false, "Ctrl+C")));
-    items.append(QJsonValue(createItemObj(IdDelete, tr("Delete"), false, "Ctrl+Delete")));
-    items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
-    items.append(QJsonValue(createItemObj(IdEdit, tr("Edit"))));
-    items.append(QJsonValue(createItemObj(IdAddToFavorites, tr("Add to favorites"), false, "/")));
-    items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
-    items.append(QJsonValue(createItemObj(IdRotateClockwise, tr("Rotate clockwise"), false, "Ctrl+R")));
-    items.append(QJsonValue(createItemObj(IdRotateCounterclockwise, tr("Rotate counterclockwise"), false, "Ctrl+L")));
-    items.append(QJsonValue(createItemObj(IdSeparator, "", true)));
-    items.append(QJsonValue(createItemObj(IdLabel, tr("Text tag"))));
-    items.append(QJsonValue(createItemObj(IdSetAsWallpaper, tr("Set as wallpaper"))));
-    items.append(QJsonValue(createItemObj(IdDisplayInFileManager, tr("Display in file manager"))));
-    items.append(QJsonValue(createItemObj(IdImageInfo, tr("Image info"), false, "Ctrl+I")));
+    items.append(createMenuItem(IdSeparator, "", true));
+    items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
+    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
+    items.append(createMenuItem(IdSeparator, "", true));
+    items.append(createMenuItem(IdEdit, tr("Edit")));
+    items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"), false, "/"));
+    items.append(createMenuItem(IdSeparator, "", true));
+    items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"), false, "Ctrl+R"));
+    items.append(createMenuItem(IdRotateCounterclockwise, tr("Rotate counterclockwise"), false, "Ctrl+L"));
+    items.append(createMenuItem(IdSeparator, "", true));
+    items.append(createMenuItem(IdLabel, tr("Text tag")));
+    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper")));
+    items.append(createMenuItem(IdDisplayInFileManager, tr("Display in file manager")));
+    items.append(createMenuItem(IdImageInfo, tr("Image info"), false, "Ctrl+I"));
 
     QJsonObject contentObj;
     contentObj["x"] = 0;
@@ -136,24 +136,17 @@ QString TimelineViewFrame::createMenuContent()
     return QString(document.toJson());
 }
 
-QJsonObject TimelineViewFrame::createItemObj(const MenuItemId id,
+QJsonValue TimelineViewFrame::createMenuItem(const MenuItemId id,
                                              const QString &text,
                                              const bool isSeparator,
                                              const QString &shortcut,
                                              const QJsonObject &subMenu)
 {
-    QJsonObject obj;
-    obj["itemId"] = QJsonValue(int(id));
-    obj["itemIcon"] = QJsonValue(QString());
-    obj["itemIconHover"] = QJsonValue(QString());
-    obj["itemIconInactive"] = QJsonValue(QString());
-    obj["itemText"] = QJsonValue(text + SHORTCUT_SPLIT_FLAG);
-    obj["shortcut"] = QJsonValue(shortcut);
-    obj["isSeparator"] = QJsonValue(isSeparator);
-    obj["isActive"] = QJsonValue(true);
-    obj["checked"] = QJsonValue(false);
-    obj["itemSubMenu"] = QJsonValue(subMenu);
-    return obj;
+    return QJsonValue(PopupMenuManager::instance()->createItemObj(id,
+                                                                  text,
+                                                                  isSeparator,
+                                                                  shortcut,
+                                                                  subMenu));
 }
 
 void TimelineViewFrame::onMenuItemClicked(int menuId)

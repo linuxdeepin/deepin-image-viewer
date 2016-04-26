@@ -1,4 +1,5 @@
 #include "albumdelegate.h"
+#include "controller/databasemanager.h"
 #include <QDateTime>
 #include <QLineEdit>
 #include <QPainter>
@@ -54,6 +55,9 @@ QWidget *AlbumDelegate::createEditor(QWidget *parent,
     font.setPixelSize(TITLE_FONT_SIZE);
     lineEdit->setFont(font);
     lineEdit->setAlignment(Qt::AlignCenter);
+    lineEdit->setFocus();
+    connect(lineEdit, &QLineEdit::editingFinished,
+            this, &AlbumDelegate::onEditFinished);
 
     m_editingIndex = index;
     return lineEdit;
@@ -94,6 +98,11 @@ void AlbumDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
         for (int i = 1; i < olds.length(); i ++) {
             datas.append(olds.at(i));
         }
+
+        // Update database
+        DatabaseManager::instance()->renameAlbum(olds.first().toString(),
+                                                 lineEdit->text());
+
         model->setData(index, QVariant(datas), Qt::DisplayRole);
     }
 }
@@ -192,8 +201,8 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         if (albumName == "Recent imported") {
             albumName = tr("Recent imported");
         }
-        else if (albumName == "Favorites") {
-            albumName = tr("Favorites");
+        else if (albumName == "My favorites") {
+            albumName = tr("My favorites");
         }
 
         QSize ts(qMin(fm.width(albumName) + 20, rect.width()), fm.height() + 2);
@@ -268,7 +277,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
                            thumbnailRect.y() + (thumbnailSize - markSize) / 2,
                            markSize, markSize, p);
     }
-    else if (albumName == "Favorites") {
+    else if (albumName == "My favorites") {
         QPixmap p = QPixmap(":/images/album/resources/images/album/album_favorites.png")
                 .scaled(markSize, markSize,
                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -294,4 +303,11 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
                      QTextOption(Qt::AlignVCenter | Qt::AlignRight));
 
     return bgPixmap;
+}
+
+void AlbumDelegate::onEditFinished()
+{
+    QWidget *editor = qobject_cast<QWidget *>(sender());
+    emit closeEditor(editor);
+    emit editingFinished(m_editingIndex);
 }

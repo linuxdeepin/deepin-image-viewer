@@ -29,6 +29,9 @@ public:
     QSize sizeHint(const QStyleOptionViewItem& option,
                    const QModelIndex& index) const Q_DECL_OVERRIDE;
 
+signals:
+    void editingFinished(const QModelIndex &index);
+
 private:
     void drawBG(const QStyleOptionViewItem &option, QPainter *painter) const;
     void drawTitle(const QStyleOptionViewItem &option,
@@ -36,6 +39,7 @@ private:
                    QPainter *painter) const;
     QPixmap getCompoundPixmap(const QStyleOptionViewItem &option,
                               const QModelIndex &index) const;
+    void onEditFinished();
 
 private:
     mutable QModelIndex m_editingIndex;

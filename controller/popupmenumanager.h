@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QPoint>
+#include <QJsonObject>
 
 class QAction;
 class QMenu;
@@ -16,6 +17,12 @@ public:
     static PopupMenuManager *instance();
     ~PopupMenuManager();
 
+
+    QJsonObject createItemObj(const int id,
+                              const QString &text,
+                              const bool isSeparator = false,
+                              const QString &shortcut = "",
+                              const QJsonObject &subMenu = QJsonObject());
     //    {
     //      "x": 0,
     //      "y": 0,

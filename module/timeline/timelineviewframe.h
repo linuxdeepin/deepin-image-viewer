@@ -14,27 +14,6 @@
 #include "controller/signalmanager.h"
 #include "widgets/thumbnaillistview.h"
 
-namespace {
-enum MenuItemId {
-    IdView,
-    IdFullScreen,
-    IdStartSlideShow,
-    IdAddToAlbum,
-    IdCopy,
-    IdDelete,
-    IdEdit,
-    IdAddToFavorites,
-    IdRotateClockwise,
-    IdRotateCounterclockwise,
-    IdLabel,
-    IdSetAsWallpaper,
-    IdDisplayInFileManager,
-    IdImageInfo,
-    IdSubMenu,
-    IdSeparator
-};
-}  // namaspace
-
 class TimelineViewFrame : public QFrame
 {
     Q_OBJECT
@@ -54,11 +33,30 @@ protected:
     void resizeEvent(QResizeEvent *e);
 
 private:
+    enum MenuItemId {
+        IdView,
+        IdFullScreen,
+        IdStartSlideShow,
+        IdAddToAlbum,
+        IdCopy,
+        IdDelete,
+        IdEdit,
+        IdAddToFavorites,
+        IdRotateClockwise,
+        IdRotateCounterclockwise,
+        IdLabel,
+        IdSetAsWallpaper,
+        IdDisplayInFileManager,
+        IdImageInfo,
+        IdSubMenu,
+        IdSeparator
+    };
+
     void initListView();
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
     QPixmap increaseThumbnail(const QPixmap &pixmap);
     QString createMenuContent();
-    QJsonObject createItemObj(const MenuItemId id,
+    QJsonValue createMenuItem(const MenuItemId id,
                               const QString &text,
                               const bool isSeparator = false,
                               const QString &shortcut = "",
