@@ -1,5 +1,6 @@
 #include "topalbumtips.h"
 #include "controller/databasemanager.h"
+#include "controller/signalmanager.h"
 #include <QLabel>
 #include <QPushButton>
 #include <QHBoxLayout>
@@ -15,7 +16,7 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
     m_importButton = new QPushButton(tr("Add image"));
     m_importButton->setObjectName("ImportFromTimelineButton");
     connect(m_importButton, &QPushButton::clicked, this, [=] {
-        emit needImportFromTimeline(m_album);
+        emit SignalManager::instance()->selectImageFromTimeline(m_album);
         qDebug() << "Importing images to album: " << m_album;
     });
 

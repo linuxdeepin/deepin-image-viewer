@@ -10,14 +10,14 @@
 #include <QUrl>
 
 const int MIN_ICON_SIZE = 96;
-using namespace Dtk::Widget;
+//using namespace Dtk::Widget;
 
 TimelinePanel::TimelinePanel(QWidget *parent)
     : ModulePanel(parent)
 {
     setAcceptDrops(true);
 
-    m_databaseManager = DatabaseManager::instance();
+    m_dbManager = DatabaseManager::instance();
 
     initMainStackWidget();
     initStyleSheet();
@@ -26,33 +26,77 @@ TimelinePanel::TimelinePanel(QWidget *parent)
 QWidget *TimelinePanel::toolbarBottomContent()
 {
     QWidget *tBottomContent = new QWidget;
-
-    m_slider = new DSlider(Qt::Horizontal);
-    m_slider->setMinimum(0);
-    m_slider->setMaximum(9);
-    m_slider->setValue(0);
-    m_slider->setFixedWidth(120);
-    connect(m_slider, &DSlider::valueChanged, this, [=] (int multiple) {
-        qDebug() << "Change the view size to: X" << multiple;
-        int newSize = MIN_ICON_SIZE + multiple * 32;
-        m_imagesView->setIconSize(QSize(newSize, newSize));
-    });
-
-    m_countLabel = new QLabel;
-    m_countLabel->setObjectName("CountLabel");
-
-    updateBottomToolbarContent();
-
-    connect(m_signalManager, &SignalManager::imageCountChanged,
-        this, &TimelinePanel::updateBottomToolbarContent, Qt::DirectConnection);
-
+    tBottomContent->setStyleSheet(this->styleSheet());
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(14, 0, 14, 0);
     layout->setSpacing(0);
-    layout->addStretch(1);
-    layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
-    layout->addWidget(m_slider, 1, Qt::AlignRight);
-    layout->addSpacing(16);
+
+    if (m_targetAlbum.isEmpty()) {
+        m_slider = new Dtk::Widget::DSlider(Qt::Horizontal);
+        m_slider->setMinimum(0);
+        m_slider->setMaximum(9);
+        m_slider->setValue(0);
+        m_slider->setFixedWidth(120);
+        connect(m_slider, &Dtk::Widget::DSlider::valueChanged, this, [=] (int multiple) {
+            qDebug() << "Change the view size to: X" << multiple;
+            int newSize = MIN_ICON_SIZE + multiple * 32;
+            m_imagesView->setIconSize(QSize(newSize, newSize));
+        });
+
+        m_countLabel = new QLabel;
+        m_countLabel->setObjectName("CountLabel");
+
+        updateBottomToolbarContent();
+
+        connect(m_signalManager, &SignalManager::imageCountChanged,
+            this, &TimelinePanel::updateBottomToolbarContent, Qt::DirectConnection);
+
+        layout->addStretch(1);
+        layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
+        layout->addWidget(m_slider, 1, Qt::AlignRight);
+        layout->addSpacing(16);
+    }
+    else {  // For import images to an album
+        QLabel *label = new QLabel;
+        label->setObjectName("AddToAlbumTitle");
+        label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        label->setText(tr("Add to \"%1\" album").arg(m_targetAlbum));
+
+        QPushButton *cancelButton = new QPushButton(tr("Cancel"));
+        cancelButton->setObjectName("AddToAlbumCancel");
+        connect(cancelButton, &QPushButton::clicked, this, [=] {
+            m_targetAlbum = "";
+            m_mainStackWidget->setCurrentWidget(m_imagesView);
+            m_selectionView->clearSelection();
+            emit m_signalManager->updateBottomToolbarContent(toolbarBottomContent());
+            emit needGotoAlbumPanel();
+        });
+
+        QPushButton *addButton = new QPushButton(tr("Add"));
+        addButton->setObjectName("AddToAlbumAdd");
+        connect(addButton, &QPushButton::clicked, this, [=] {
+            QStringList images = m_selectionView->selectedImages();
+            for (QString image : images) {
+                // TODO improve performance
+                DatabaseManager::ImageInfo info
+                        = m_dbManager->getImageInfoByName(image);
+                m_dbManager->insertIntoAlbum(m_targetAlbum, image,
+                                             info.time.toString(DATETIME_FORMAT));
+            }
+
+            m_targetAlbum = "";
+            m_mainStackWidget->setCurrentWidget(m_imagesView);
+            m_selectionView->clearSelection();
+            emit m_signalManager->updateBottomToolbarContent(toolbarBottomContent());
+            emit needGotoAlbumPanel();
+        });
+
+        layout->addWidget(label);
+        layout->addStretch(1);
+        layout->addWidget(cancelButton);
+        layout->addSpacing(10);
+        layout->addWidget(addButton);
+    }
 
     return tBottomContent;
 }
@@ -77,18 +121,18 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     QLabel *timelineButton = new QLabel();
     timelineButton->setPixmap(QPixmap(":/images/icons/resources/images/icons/timeline-active.png"));
 
-    DImageButton *albumButton = new DImageButton();
+    Dtk::Widget::DImageButton *albumButton = new Dtk::Widget::DImageButton();
     albumButton->setNormalPic(":/images/icons/resources/images/icons/album-normal.png");
     albumButton->setHoverPic(":/images/icons/resources/images/icons/album-hover.png");
-    connect(albumButton, &DImageButton::clicked, this, [=] {
+    connect(albumButton, &Dtk::Widget::DImageButton::clicked, this, [=] {
         qDebug() << "Change to Album Panel...";
         emit needGotoAlbumPanel();
     });
 
-    DImageButton *searchButton = new DImageButton();
+    Dtk::Widget::DImageButton *searchButton = new Dtk::Widget::DImageButton();
     searchButton->setNormalPic(":/images/icons/resources/images/icons/search-normal-24px.png");
     searchButton->setHoverPic(":/images/icons/resources/images/icons/search-hover-24px.png");
-    connect(searchButton, &DImageButton::clicked, this, [=] {
+    connect(searchButton, &Dtk::Widget::DImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
         emit needGotoSearchPanel();
     });
@@ -137,16 +181,26 @@ void TimelinePanel::dragEnterEvent(QDragEnterEvent *event)
 void TimelinePanel::initMainStackWidget()
 {
     initImagesView();
+    initSelectionView();
 
     m_mainStackWidget = new QStackedWidget;
     m_mainStackWidget->setContentsMargins(0, 0, 0, 0);
     m_mainStackWidget->addWidget(new ImportFrame(this));
     m_mainStackWidget->addWidget(m_imagesView);
+    m_mainStackWidget->addWidget(m_selectionView);
     //show import frame if no images in database
-    m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
+    m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
+
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
-        m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
+        m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
     }, Qt::DirectConnection);
+    connect(m_signalManager, &SignalManager::selectImageFromTimeline,
+            this, [=] (const QString &targetAlbum) {
+        m_targetAlbum = targetAlbum;
+        m_mainStackWidget->setCurrentWidget(m_selectionView);
+        emit m_signalManager->gotoPanel(this);
+        emit m_signalManager->updateBottomToolbarContent(toolbarBottomContent(), true);
+    });
 
     QLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -157,6 +211,12 @@ void TimelinePanel::initImagesView()
 {
     m_imagesView = new TimelineImageView;
     m_imagesView->setAcceptDrops(true);
+}
+
+void TimelinePanel::initSelectionView()
+{
+    m_selectionView = new TimelineImageView(true);
+    m_selectionView->setAcceptDrops(false);
 }
 
 void TimelinePanel::initStyleSheet()
@@ -177,7 +237,7 @@ void TimelinePanel::updateBottomToolbarContent()
         return;
     }
 
-    int count = m_databaseManager->imageCount();
+    int count = m_dbManager->imageCount();
     if (count <= 1) {
         m_countLabel->setText(tr("%1 Image").arg(count));
     }

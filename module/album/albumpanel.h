@@ -50,7 +50,7 @@ private:
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;
     QStackedWidget *m_mainStackWidget = NULL;
-    DatabaseManager *m_databaseManager = DatabaseManager::instance();
+    DatabaseManager *m_dbManager = DatabaseManager::instance();
     SignalManager *m_signalManager = SignalManager::instance();
 };
 

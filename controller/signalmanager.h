@@ -14,7 +14,7 @@ public:
 signals:
     void updateTopToolbarLeftContent(QWidget *content);
     void updateTopToolbarMiddleContent(QWidget *content);
-    void updateBottomToolbarContent(QWidget *content);
+    void updateBottomToolbarContent(QWidget *content, bool wideMode = false);
     void updateExtensionPanelContent(QWidget *content);
     void showTopToolbar();
     void hideTopToolbar();
@@ -27,6 +27,8 @@ signals:
 
     void imageCountChanged();
     void imageInserted(const DatabaseManager::ImageInfo &info);
+
+    void selectImageFromTimeline(const QString &targetAlbum);
 
     void viewImage(const QString &path, const QString &album = "");
     void editImage(const QString &path);

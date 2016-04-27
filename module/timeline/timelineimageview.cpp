@@ -10,7 +10,7 @@
 const int SLIDER_FRAME_WIDTH = 130;
 const int TOP_TOOLBAR_HEIGHT = 40;
 
-TimelineImageView::TimelineImageView(QWidget *parent)
+TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     : QScrollArea(parent), m_ascending(false), m_iconSize(96, 96)
 {
     initSliderFrame();
@@ -25,7 +25,7 @@ TimelineImageView::TimelineImageView(QWidget *parent)
     // Read all timelines for initialization
     QStringList timelines = DatabaseManager::instance()->getTimeLineList(m_ascending);
     for (QString timeline : timelines) {
-        inserFrame(timeline);
+        inserFrame(timeline, multiselection);
     }
 
     qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
@@ -39,6 +39,13 @@ TimelineImageView::TimelineImageView(QWidget *parent)
         }
         m_frames.value(timeLine)->insertItem(info);
     }, Qt::QueuedConnection);
+}
+
+void TimelineImageView::clearSelection()
+{
+    for (TimelineViewFrame * frame : m_frames.values()) {
+        frame->setSelectionModel(new QItemSelectionModel(frame->model()));
+    }
 }
 
 void TimelineImageView::setIconSize(const QSize &iconSize)
@@ -124,9 +131,9 @@ QList<T> reversed( const QList<T> & in ) {
     return result;
 }
 
-void TimelineImageView::inserFrame(const QString &timeline)
+void TimelineImageView::inserFrame(const QString &timeline, bool multiselection)
 {
-    TimelineViewFrame *frame = new TimelineViewFrame(timeline);
+    TimelineViewFrame *frame = new TimelineViewFrame(timeline, multiselection);
     m_frames.insert(timeline, frame);
     QStringList timelines = m_frames.keys();
     if (!m_ascending) {

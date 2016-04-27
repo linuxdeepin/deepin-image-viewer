@@ -11,7 +11,7 @@
 #include <QHBoxLayout>
 #include <QStackedWidget>
 
-using namespace Dtk::Widget;
+//using namespace Dtk::Widget;
 
 class TimelinePanel : public ModulePanel
 {
@@ -35,17 +35,20 @@ protected:
 private:
     void initMainStackWidget();
     void initImagesView();
+    void initSelectionView();
     void initStyleSheet();
 
     void updateBottomToolbarContent();
 
 private:
+    QString m_targetAlbum;  // For import images to an album
     QLabel *m_countLabel = NULL;
-    DSlider *m_slider = NULL;
+    Dtk::Widget::DSlider *m_slider = NULL;
 
     TimelineImageView *m_imagesView = NULL;
+    TimelineImageView *m_selectionView = NULL;
     QStackedWidget *m_mainStackWidget = NULL;
-    DatabaseManager *m_databaseManager = NULL;
+    DatabaseManager *m_dbManager = NULL;
     SignalManager *m_signalManager = SignalManager::instance();
 };
 

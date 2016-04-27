@@ -59,7 +59,16 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     QBuffer inBuffer( &thumbnailByteArray );
     inBuffer.open( QIODevice::WriteOnly );
     // write inPixmap into inByteArray
-    if ( ! m_dbManager->getImageInfoByName(imgNames.first())
+    QString imageName = imgNames.first();
+    if (info.name != "My favorites" && imageName.isEmpty()) {
+        for (QString name : imgNames) {
+            if (! name.isEmpty()) {
+                imageName = name;
+                break;
+            }
+        }
+    }
+    if ( ! m_dbManager->getImageInfoByName(imageName)
          .thumbnail.save( &inBuffer, "JPG" )) {
         qDebug() << "Write pixmap to buffer error!" << info.name;
     }

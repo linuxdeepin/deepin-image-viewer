@@ -29,6 +29,7 @@ AlbumPanel::AlbumPanel(QWidget *parent)
 QWidget *AlbumPanel::toolbarBottomContent()
 {
     QWidget *tBottomContent = new QWidget;
+    tBottomContent->setStyleSheet(this->styleSheet());
 
     m_slider = new DSlider(Qt::Horizontal);
     m_slider->setMinimum(0);
@@ -53,6 +54,10 @@ QWidget *AlbumPanel::toolbarBottomContent()
 
     connect(m_signalManager, &SignalManager::imageCountChanged,
             this, &AlbumPanel::updateBottomToolbarContent, Qt::DirectConnection);
+    connect(m_signalManager, &SignalManager::selectImageFromTimeline, this, [=] {
+        emit m_signalManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit m_signalManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+    });
 
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
     layout->setContentsMargins(13, 0, 5, 0);
@@ -67,6 +72,7 @@ QWidget *AlbumPanel::toolbarBottomContent()
 QWidget *AlbumPanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
+    tTopleftContent->setStyleSheet(this->styleSheet());
     QLabel *icon = new QLabel;
     icon->setPixmap(QPixmap(":/images/icons/resources/images/icons/filter-active.png"));
 
@@ -81,11 +87,13 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
         returnButton->setPressPic(":/images/icons/resources/images/icons/return-press.png");
         connect(returnButton, &DImageButton::clicked, this, [=] {
             m_mainStackWidget->setCurrentWidget(m_albumsView);
+            // Make sure top toolbar content still show as album content
+            // during adding images from timeline
+            emit m_signalManager->gotoPanel(this);
         });
 
         QLabel *rt = new QLabel();
-        // FIXME: the style sheet not work for rt if set in .qss file
-        rt->setStyleSheet("color: #ffffff; font-size: 12px;");
+        rt->setObjectName("ReturnLabel");
         rt->setText(tr("Return"));
 
         layout->addWidget(icon);
@@ -151,7 +159,7 @@ void AlbumPanel::dropEvent(QDropEvent *event)
                 Importer::instance()->importFromPath(url.toLocalFile());
             }
             else {
-                if (DatabaseManager::instance()->supportImageType().indexOf(info.suffix()) != 0) {
+                if (m_dbManager->supportImageType().indexOf(info.suffix()) != 0) {
                     Importer::instance()->importSingleFile(url.toLocalFile());
                 }
             }
@@ -176,14 +184,14 @@ void AlbumPanel::initMainStackWidget()
     m_mainStackWidget->addWidget(m_albumsView);
     m_mainStackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
-    m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
+    m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
     connect(m_mainStackWidget, &QStackedWidget::currentChanged, this, [=] {
         updateBottomToolbarContent();
         emit SignalManager::instance()->
                 updateTopToolbarLeftContent(toolbarTopLeftContent());
     });
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
-        m_mainStackWidget->setCurrentIndex(m_databaseManager->imageCount() > 0 ? 1 : 0);
+        m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
     }, Qt::DirectConnection);
 
     QLayout *layout = new QHBoxLayout(this);
@@ -194,9 +202,9 @@ void AlbumPanel::initMainStackWidget()
 void AlbumPanel::initAlbumsView()
 {
     m_albumsView = new AlbumsView(this);
-    QStringList albums = m_databaseManager->getAlbumNameList();
+    QStringList albums = m_dbManager->getAlbumNameList();
     for (const QString name : albums) {
-        m_albumsView->addAlbum(m_databaseManager->getAlbumInfo(name));
+        m_albumsView->addAlbum(m_dbManager->getAlbumInfo(name));
     }
     connect(m_albumsView, &AlbumsView::openAlbum, this, &AlbumPanel::onOpenAlbum);
 }
@@ -224,8 +232,8 @@ void AlbumPanel::updateBottomToolbarContent()
         return;
     }
 
-    const int albumCount = m_databaseManager->albumsCount();
-    const int imagesCount = m_databaseManager->getImagesCountByAlbum(m_currentAlbum);
+    const int albumCount = m_dbManager->albumsCount();
+    const int imagesCount = m_dbManager->getImagesCountByAlbum(m_currentAlbum);
     const bool inAlbumsFrame = m_mainStackWidget->currentIndex() == 1;
     const int count = inAlbumsFrame ? albumCount : imagesCount;
 

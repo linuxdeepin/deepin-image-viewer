@@ -246,7 +246,8 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
     if (db.isValid()) {
         QSqlQuery query( db );
         query.prepare( QString("SELECT DISTINCT filename FROM %1 "
-                               "WHERE albumname = '%2' ORDER BY time")
+                               "WHERE albumname = '%2' AND filename != \"\" "
+                               "ORDER BY time")
                        .arg(ALBUM_TABLE_NAME).arg(name) );
         if ( !query.exec() ) {
             qWarning() << "Get images from AlbumTable failed: "
@@ -258,7 +259,12 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
             }
         }
     }
-    if (nameList.count() >= 2) {
+
+    if (nameList.length() == 1) {
+        info.earliestTime = getImageInfoByName(nameList.first()).time;
+        info.latestTime = info.earliestTime;
+    }
+    else if (nameList.length() > 1) {
         info.earliestTime = getImageInfoByName(nameList.first()).time;
         info.latestTime = getImageInfoByName(nameList.last()).time;
     }
@@ -331,7 +337,8 @@ QStringList DatabaseManager::getImageNamesByAlbum(const QString &album)
     if (db.isValid()) {
         QSqlQuery query( db );
         query.prepare( QString("SELECT DISTINCT filename FROM %1 "
-                               "WHERE albumname = '%2' ORDER BY filename")
+                               "WHERE albumname = '%2' "
+                               "ORDER BY filename")
                        .arg(ALBUM_TABLE_NAME).arg(album) );
         if ( !query.exec() ) {
             qWarning() << "Get images from AlbumTable failed: "
@@ -373,7 +380,7 @@ int DatabaseManager::getImagesCountByAlbum(const QString &album)
         QSqlQuery query( db );
         query.exec("BEGIN IMMEDIATE TRANSACTION");
         query.prepare( QString("SELECT COUNT(*) FROM %1 "
-                               "WHERE albumname = '%2' AND filename IS NOT NULL")
+                               "WHERE albumname = '%2' AND filename != \"\" ")
                        .arg(ALBUM_TABLE_NAME).arg(album) );
         if (query.exec()) {
             query.first();

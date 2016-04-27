@@ -54,8 +54,8 @@ void MainWidget::resizeEvent(QResizeEvent *)
 //        m_topToolbar->move(0, 0);
     }
     if (m_bottomToolbar) {
-        m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
-        m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT);
+        m_bottomToolbar->resize(width(), m_bottomToolbar->height());
+        m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     }
     if (m_extensionPanel) {
         m_extensionPanel->resize(EXTENSION_PANEL_WIDTH, height());
@@ -95,15 +95,23 @@ void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this, m_panelStack);
     m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
-    m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT);
-    connect(m_signalManager, &SignalManager::updateBottomToolbarContent, this, [=](QWidget *c) {
+    m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
+    connect(m_signalManager, &SignalManager::updateBottomToolbarContent,
+            this, [=](QWidget *c, bool wideMode) {
         m_bottomToolbar->setContent(c);
+        if (wideMode) {
+            m_bottomToolbar->setFixedHeight(38);
+        }
+        else {
+            m_bottomToolbar->setFixedHeight(24);
+        }
+        m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     });
     connect(m_signalManager, &SignalManager::showBottomToolbar, this, [=] {
-        m_bottomToolbar->moveWithAnimation(0, height() - BOTTOM_TOOLBAR_HEIGHT);
+        m_bottomToolbar->moveWithAnimation(0, height() - m_bottomToolbar->height());
     });
     connect(m_signalManager, &SignalManager::hideBottomToolbar, this, [=] {
-        m_bottomToolbar->moveWithAnimation(0, height() + BOTTOM_TOOLBAR_HEIGHT);
+        m_bottomToolbar->moveWithAnimation(0, height());
     });
 }
 
@@ -111,7 +119,8 @@ void MainWidget::initExtensionPanel()
 {
     m_extensionPanel = new ExtensionPanel(this, m_panelStack);
     m_extensionPanel->move(- EXTENSION_PANEL_WIDTH, 0);
-    connect(m_signalManager, &SignalManager::updateExtensionPanelContent, this, [=](QWidget *c) {
+    connect(m_signalManager, &SignalManager::updateExtensionPanelContent,
+            this, [=](QWidget *c) {
         m_extensionPanel->setContent(c);
     });
     connect(m_signalManager, &SignalManager::showExtensionPanel, this, [=] {

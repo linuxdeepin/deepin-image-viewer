@@ -201,6 +201,11 @@ void TimelineViewFrame::setIconSize(const QSize &iconSize)
     m_listView->setIconSize(iconSize);
 }
 
+void TimelineViewFrame::setSelectionModel(QItemSelectionModel *selectionModel)
+{
+    m_listView->setSelectionModel(selectionModel);
+}
+
 void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
 {
     QStandardItem *item = new QStandardItem();
@@ -218,6 +223,11 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
 void TimelineViewFrame::removeItem(const QString &name)
 {
     Q_UNUSED(name)
+}
+
+QAbstractItemModel *TimelineViewFrame::model() const
+{
+    return m_listView->model();
 }
 
 QStringList TimelineViewFrame::selectedImagesNameList()

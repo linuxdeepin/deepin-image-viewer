@@ -18,9 +18,14 @@ class TimelineViewFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit TimelineViewFrame(const QString &timeline, bool multiselection = false, QWidget *parent = 0);
+    explicit TimelineViewFrame(const QString &timeline,
+                               bool multiselection = false,
+                               QWidget *parent = 0);
     void insertItem(const DatabaseManager::ImageInfo &info);
     void removeItem(const QString &name);
+
+    QAbstractItemModel * model() const;
+
     QStringList selectedImagesNameList();
     QStringList selectedImagesPathList();
     QString timeline() const;
@@ -28,6 +33,7 @@ public:
     QSize viewSize() const;
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
+    void setSelectionModel(QItemSelectionModel *selectionModel);
 
 protected:
     void resizeEvent(QResizeEvent *e);

@@ -12,9 +12,6 @@ public:
     explicit TopAlbumTips(QWidget *parent = 0);
     void setAlbum(const QString &album);
 
-signals:
-    void needImportFromTimeline(const QString &album);
-
 private:
     QString m_album;
     QLabel *m_infoLabel;

@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QScrollArea>
 #include <QVBoxLayout>
+#include <QItemSelectionModel>
 
 class TimelineViewFrame;
 
@@ -14,7 +15,8 @@ class TimelineImageView : public QScrollArea
 {
     Q_OBJECT
 public:
-    explicit TimelineImageView(QWidget *parent = 0);
+    explicit TimelineImageView(bool multiselection = false, QWidget *parent = 0);
+    void clearSelection();
     void setIconSize(const QSize &iconSize);
     QStringList selectedImages();
     QString currentMonth();
@@ -27,7 +29,7 @@ private:
     void initTopTips();
     void initContents();
 
-    void inserFrame(const QString &timeline);
+    void inserFrame(const QString &timeline, bool multiselection = false);
     void removeFrame(const QString &timeline);
     void updateSliderFrmaeRect();
     void updateContentRect();
