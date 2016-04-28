@@ -93,9 +93,9 @@ QWidget *EditPanel::toolbarTopLeftContent()
     hb->setSpacing(0);
     w->setLayout(hb);
     DImageButton *btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/previous-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/previous-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/previous-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/previous_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/previous_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/previous_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
     DTextButton *btn1 = new DTextButton(tr("Back"));
@@ -122,23 +122,23 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     w->setLayout(hb);
     hb->addStretch();
     DImageButton *btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/contrarotate-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/contrarotate-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/contrarotate-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/contrarotate_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/contrarotate_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/contrarotate_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateAntiClockWise);
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/clockwise-rotation-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/clockwise-rotation-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/clockwise-rotation-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/clockwise_rotation_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/clockwise_rotation_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/clockwise_rotation_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/filter-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/filter-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/filter-active.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/filter_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/filter_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/filter_active.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
         m_stack->setCurrentWidget(m_view);
@@ -153,9 +153,9 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     });
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/cutting-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/cutting-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/cutting-active.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/cutting_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/cutting_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/cutting_active.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
         if (m_stack->currentWidget() == m_view) {
@@ -169,16 +169,16 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     });
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/flip-horizontal-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/flip-horizontal-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/flip-horizontal-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/flip_horizontal_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/flip_horizontal_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/flip_horizontal_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::flipX);
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/flip-vertical-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/flip-vertical-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/flip-vertical-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/flip_vertical_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/flip_vertical_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/flip_vertical_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::flipY);
 

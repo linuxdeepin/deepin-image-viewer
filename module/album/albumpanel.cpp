@@ -74,7 +74,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
     QWidget *tTopleftContent = new QWidget;
     tTopleftContent->setStyleSheet(this->styleSheet());
     QLabel *icon = new QLabel;
-    icon->setPixmap(QPixmap(":/images/icons/resources/images/icons/filter-active.png"));
+    icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
 
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
     layout->setContentsMargins(8, 0, 0, 0);
@@ -82,9 +82,9 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
     if (m_mainStackWidget->currentWidget() == m_imagesView) {
 
         DImageButton *returnButton = new DImageButton();
-        returnButton->setNormalPic(":/images/icons/resources/images/icons/return-normal.png");
-        returnButton->setHoverPic(":/images/icons/resources/images/icons/return-hover.png");
-        returnButton->setPressPic(":/images/icons/resources/images/icons/return-press.png");
+        returnButton->setNormalPic(":/images/icons/resources/images/icons/return_normal.png");
+        returnButton->setHoverPic(":/images/icons/resources/images/icons/return_hover.png");
+        returnButton->setPressPic(":/images/icons/resources/images/icons/return_press.png");
         connect(returnButton, &DImageButton::clicked, this, [=] {
             m_mainStackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
@@ -114,19 +114,19 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     QWidget *tTopMiddleContent = new QWidget;
 
     DImageButton *timelineButton = new DImageButton();
-    timelineButton->setNormalPic(":/images/icons/resources/images/icons/timeline-normal.png");
-    timelineButton->setHoverPic(":/images/icons/resources/images/icons/timeline-hover.png");
+    timelineButton->setNormalPic(":/images/icons/resources/images/icons/timeline_normal.png");
+    timelineButton->setHoverPic(":/images/icons/resources/images/icons/timeline_hover.png");
     connect(timelineButton, &DImageButton::clicked, this, [=] {
         qDebug() << "Change to Timeline Panel...";
         emit needGotoTimelinePanel();
     });
 
     QLabel *albumLabel = new QLabel();
-    albumLabel->setPixmap(QPixmap(":/images/icons/resources/images/icons/album-active.png"));
+    albumLabel->setPixmap(QPixmap(":/images/icons/resources/images/icons/album_active.png"));
 
     DImageButton *searchButton = new DImageButton();
-    searchButton->setNormalPic(":/images/icons/resources/images/icons/search-normal-24px.png");
-    searchButton->setHoverPic(":/images/icons/resources/images/icons/search-hover-24px.png");
+    searchButton->setNormalPic(":/images/icons/resources/images/icons/search_normal_24px.png");
+    searchButton->setHoverPic(":/images/icons/resources/images/icons/search_hover_24px.png");
     connect(searchButton, &DImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
         emit needGotoSearchPanel();

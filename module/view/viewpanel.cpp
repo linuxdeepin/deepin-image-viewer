@@ -73,23 +73,23 @@ QWidget *ViewPanel::toolbarBottomContent()
     hb->setSpacing(10);
     w->setLayout(hb);
     DImageButton *btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/info-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/info-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/info-active.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/info_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/info_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/info_active.png");
     hb->addWidget(btn);
     hb->addStretch();
     connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::showExtensionPanel);
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/collect-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/collect-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/collect-active.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/collect_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/collect_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/collect_active.png");
     hb->addWidget(btn);
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/previous-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/previous-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/previous-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/previous_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/previous_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/previous_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this]() {
         m_slide->stop();
@@ -100,9 +100,9 @@ QWidget *ViewPanel::toolbarBottomContent()
     });
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/slideshow-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/slideshow-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/slideshow-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/slideshow_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/slideshow_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/slideshow_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
         if (m_slide->isRunning()) {
@@ -119,9 +119,9 @@ QWidget *ViewPanel::toolbarBottomContent()
     });
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/next-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/next-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/next-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/next_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/next_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/next_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this]() {
         m_slide->stop();
@@ -136,9 +136,9 @@ QWidget *ViewPanel::toolbarBottomContent()
     });
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/edit-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/edit-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/edit-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/edit_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/edit_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/edit_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
         Q_EMIT SignalManager::instance()->editImage(m_current->path);
@@ -147,9 +147,9 @@ QWidget *ViewPanel::toolbarBottomContent()
     hb->addStretch();
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/delete-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/delete-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/delete-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/delete_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/delete_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/delete_press.png");
     hb->addWidget(btn);
     return w;
 }
@@ -162,9 +162,9 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     hb->setSpacing(0);
     w->setLayout(hb);
     DImageButton *btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/album-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/album-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/album-active.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/album_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/album_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/album_active.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
     return w;
@@ -179,23 +179,23 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     w->setLayout(hb);
     hb->addStretch();
     DImageButton *btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/contrarotate-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/contrarotate-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/contrarotate-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/contrarotate_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/contrarotate_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/contrarotate_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateAntiClockWise);
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/clockwise-rotation-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/clockwise-rotation-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/clockwise-rotation-press.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/clockwise_rotation_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/clockwise_rotation_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/clockwise_rotation_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
 
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/adapt-image-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/adapt-image-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/adapt-image-active.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/adapt_image_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/adapt_image_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/adapt_image_active.png");
     btn->setToolTip(tr("1:1 Size"));
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
@@ -205,9 +205,9 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     //
 #if 0
     btn = new DImageButton();
-    btn->setNormalPic(":/images/icons/resources/images/icons/share-normal.png");
-    btn->setHoverPic(":/images/icons/resources/images/icons/share-hover.png");
-    btn->setPressPic(":/images/icons/resources/images/icons/share-active.png");
+    btn->setNormalPic(":/images/icons/resources/images/icons/share_normal.png");
+    btn->setHoverPic(":/images/icons/resources/images/icons/share_hover.png");
+    btn->setPressPic(":/images/icons/resources/images/icons/share_active.png");
     hb->addWidget(btn);
 #endif
     hb->addStretch();

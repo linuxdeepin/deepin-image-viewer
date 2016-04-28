@@ -106,5 +106,5 @@ ScaleSlider {
 }
 
 QSlider::handle:vertical  {
-    image: url(:/images/icons/resources/images/icons/handle.svg)
+    image: url(:/images/timeline/resources/images/timeline/slider_handle.svg)
 }

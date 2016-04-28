@@ -105,7 +105,7 @@ QWidget *TimelinePanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
     QLabel *label = new QLabel;
-    label->setPixmap(QPixmap(":/images/icons/resources/images/icons/filter-active.png"));
+    label->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addSpacing(8);
@@ -119,19 +119,19 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     QWidget *tTopMiddleContent = new QWidget;
 
     QLabel *timelineButton = new QLabel();
-    timelineButton->setPixmap(QPixmap(":/images/icons/resources/images/icons/timeline-active.png"));
+    timelineButton->setPixmap(QPixmap(":/images/icons/resources/images/icons/timeline_active.png"));
 
     Dtk::Widget::DImageButton *albumButton = new Dtk::Widget::DImageButton();
-    albumButton->setNormalPic(":/images/icons/resources/images/icons/album-normal.png");
-    albumButton->setHoverPic(":/images/icons/resources/images/icons/album-hover.png");
+    albumButton->setNormalPic(":/images/icons/resources/images/icons/album_normal.png");
+    albumButton->setHoverPic(":/images/icons/resources/images/icons/album_hover.png");
     connect(albumButton, &Dtk::Widget::DImageButton::clicked, this, [=] {
         qDebug() << "Change to Album Panel...";
         emit needGotoAlbumPanel();
     });
 
     Dtk::Widget::DImageButton *searchButton = new Dtk::Widget::DImageButton();
-    searchButton->setNormalPic(":/images/icons/resources/images/icons/search-normal-24px.png");
-    searchButton->setHoverPic(":/images/icons/resources/images/icons/search-hover-24px.png");
+    searchButton->setNormalPic(":/images/icons/resources/images/icons/search_normal_24px.png");
+    searchButton->setHoverPic(":/images/icons/resources/images/icons/search_hover_24px.png");
     connect(searchButton, &Dtk::Widget::DImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
         emit needGotoSearchPanel();
