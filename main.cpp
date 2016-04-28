@@ -1,4 +1,4 @@
-#include "frame/mainwidget.h"
+#include "frame/mainwindow.h"
 #include <QApplication>
 #include <DLog>
 
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     DLogManager::registerFileAppender();
     dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
 
-    MainWidget w;
+    MainWindow w;
     w.show();
 
     return a.exec();

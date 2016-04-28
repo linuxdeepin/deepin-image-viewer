@@ -6,6 +6,7 @@
 #include <QStackedWidget>
 #include <dcircleprogress.h>
 #include "module/importandexport/importer.h"
+#include "frame/mainwindow.h"
 
 using namespace Dtk::Widget;
 
@@ -19,6 +20,8 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     setCoverBrush(QBrush(linearGrad));
 
     initWidgets();
+
+    connect(this, SIGNAL(moving()), parentWidget()->parentWidget(), SLOT(startMoving()));
 }
 
 void TopToolbar::setLeftContent(QWidget *content)
@@ -51,6 +54,12 @@ void TopToolbar::resizeEvent(QResizeEvent *e)
     m_rightContent->setFixedWidth(e->size().width() / 3);
 }
 
+void TopToolbar::mouseMoveEvent(QMouseEvent *event)
+{
+    qDebug() << "startMoving";
+    emit moving();
+}
+
 void TopToolbar::initWidgets()
 {
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -74,23 +83,21 @@ void TopToolbar::initWidgets()
         }
     });
     DWindowMinButton *minb = new DWindowMinButton;
-    connect(minb, &DWindowMinButton::clicked, this, [=] {
-        if (parentWidget()) {
-            parentWidget()->showMinimized();
-        }
-    });
+    connect(minb, SIGNAL(clicked()), parentWidget()->parentWidget(), SLOT(showMinimized()));
+
     QStackedWidget *sw = new QStackedWidget;
     DWindowMaxButton *maxb = new DWindowMaxButton;
+
     connect(maxb, &DWindowMaxButton::clicked, this, [=] {
         if (parentWidget()) {
-            parentWidget()->showMaximized();
+            parentWidget()->parentWidget()->showMaximized();
             sw->setCurrentIndex(1);
         }
     });
     DWindowRestoreButton *rb = new DWindowRestoreButton;
     connect(rb, &DWindowRestoreButton::clicked, this, [=] {
         if (parentWidget()) {
-            parentWidget()->showNormal();
+            parentWidget()->parentWidget()->showNormal();
             sw->setCurrentIndex(0);
         }
     });
