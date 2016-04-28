@@ -21,6 +21,9 @@ public:
 signals:
     void openAlbum(const QString &album);
 
+protected:
+    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+
 private:
     enum MenuItemId {
         IdCreate,
@@ -36,7 +39,7 @@ private:
 
     QString getAlbumName(const QModelIndex &index);
     QString getNewAlbumName() const;
-    QString createMenuContent();
+    QString createMenuContent(const QModelIndex &index);
 
     QJsonValue createMenuItem(const MenuItemId id,
                               const QString &text,

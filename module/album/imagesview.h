@@ -20,6 +20,7 @@ public:
 
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
+    QString selectedImagePath() const;
 
 protected:
     void resizeEvent(QResizeEvent *e);

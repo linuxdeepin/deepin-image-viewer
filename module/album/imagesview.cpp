@@ -147,44 +147,45 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
 
 void ImagesView::onMenuItemClicked(int menuId)
 {
-//    if (selectedImagesPathList().isEmpty()) {
-//        return;
-//    }
+    const QString selectedImage = selectedImagePath();
+    if (selectedImage.isEmpty()) {
+        return;
+    }
 
-//    switch (MenuItemId(menuId)) {
-//    case IdView:
-//        SignalManager::instance()->viewImage(selectedImagesPathList().first());
-//        break;
-//    case IdFullScreen:
-//        break;
-//    case IdStartSlideShow:
-//        break;
-//    case IdAddToAlbum:
-//        break;
-//    case IdCopy:
-//        break;
-//    case IdDelete:
-//        break;
-//    case IdEdit:
-//        SignalManager::instance()->editImage(selectedImagesPathList().first());
-//        break;
-//    case IdAddToFavorites:
-//        break;
-//    case IdRotateClockwise:
-//        break;
-//    case IdRotateCounterclockwise:
-//        break;
-//    case IdLabel:
-//        break;
-//    case IdSetAsWallpaper:
-//        break;
-//    case IdDisplayInFileManager:
-//        break;
-//    case IdImageInfo:
-//        break;
-//    default:
-//        break;
-//    }
+    switch (MenuItemId(menuId)) {
+    case IdView:
+        SignalManager::instance()->viewImage(selectedImage);
+        break;
+    case IdFullScreen:
+        break;
+    case IdStartSlideShow:
+        break;
+    case IdAddToAlbum:
+        break;
+    case IdCopy:
+        break;
+    case IdDelete:
+        break;
+    case IdEdit:
+        SignalManager::instance()->editImage(selectedImage);
+        break;
+    case IdAddToFavorites:
+        break;
+    case IdRotateClockwise:
+        break;
+    case IdRotateCounterclockwise:
+        break;
+    case IdLabel:
+        break;
+    case IdSetAsWallpaper:
+        break;
+    case IdDisplayInFileManager:
+        break;
+    case IdImageInfo:
+        break;
+    default:
+        break;
+    }
 }
 
 void ImagesView::updateContentRect()
@@ -219,6 +220,17 @@ QSize ImagesView::iconSize() const
 void ImagesView::setIconSize(const QSize &iconSize)
 {
     m_listView->setIconSize(iconSize);
+}
+
+QString ImagesView::selectedImagePath() const
+{
+    QModelIndexList indexList = m_listView->selectionModel()->selectedIndexes();
+    if (indexList.isEmpty()) {
+        return QString();
+    }
+    else {
+        return indexList.first().data(Qt::UserRole).toString();
+    }
 }
 
 void ImagesView::resizeEvent(QResizeEvent *e)

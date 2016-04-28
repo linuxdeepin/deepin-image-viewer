@@ -5,9 +5,12 @@
 #include <QDebug>
 #include <QBuffer>
 #include <QJsonDocument>
+#include <QMouseEvent>
 
 namespace {
 
+const QString MY_FAVORITES_ALBUM = "My favorites";
+const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const int ITEM_SPACING = 58;
 const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 
@@ -43,8 +46,9 @@ AlbumsView::AlbumsView(QWidget *parent)
 
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
-    connect(this, &AlbumsView::customContextMenuRequested, this, [=] {
-        m_popupMenu->showMenu(createMenuContent());
+    connect(this, &AlbumsView::customContextMenuRequested,
+            this, [=] (const QPoint &pos) {
+        m_popupMenu->showMenu(createMenuContent(indexAt(pos)));
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &AlbumsView::onMenuItemClicked);
@@ -109,6 +113,15 @@ void AlbumsView::setItemSize(const QSize &itemSize)
     }
 }
 
+void AlbumsView::mousePressEvent(QMouseEvent *e)
+{
+    if (! indexAt(e->pos()).isValid()) {
+        this->selectionModel()->clearSelection();
+    }
+
+    QListView::mousePressEvent(e);
+}
+
 QString AlbumsView::getAlbumName(const QModelIndex &index)
 {
     QString albumName = "";
@@ -148,19 +161,34 @@ QString AlbumsView::getNewAlbumName() const
     }
 }
 
-QString AlbumsView::createMenuContent()
+QString AlbumsView::createMenuContent(const QModelIndex &index)
 {
     QJsonArray items;
-    items.append(createMenuItem(IdCreate, tr("Create Album")));
-    items.append(createMenuItem(IdSeparator, "", true));
-    items.append(createMenuItem(IdView, tr("View")));
-    items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P"));
-    items.append(createMenuItem(IdSeparator, "", true));
-    items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
-    items.append(createMenuItem(IdSeparator, "", true));
-    items.append(createMenuItem(IdExport, tr("Export")));
-    items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false, "Ctrl+I"));
+    if (index.isValid()) {
+        bool isSpecial = false;
+        QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+        if (! datas.isEmpty()) {
+            const QString albumName = datas[0].toString();
+            if (albumName == MY_FAVORITES_ALBUM
+                    || albumName == RECENT_IMPORTED_ALBUM) {
+                isSpecial = true;
+            }
+        }
+
+        items.append(createMenuItem(IdSeparator, "", true));
+        items.append(createMenuItem(IdView, tr("View")));
+        items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P"));
+        items.append(createMenuItem(IdSeparator, "", true));
+        items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
+        if (! isSpecial)
+            items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
+        items.append(createMenuItem(IdSeparator, "", true));
+        items.append(createMenuItem(IdExport, tr("Export")));
+        items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false, "Ctrl+I"));
+    }
+    else {
+        items.append(createMenuItem(IdCreate, tr("Create Album")));
+    }
 
     QJsonObject contentObj;
     contentObj["x"] = 0;

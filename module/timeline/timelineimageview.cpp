@@ -44,7 +44,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
 void TimelineImageView::clearSelection()
 {
     for (TimelineViewFrame * frame : m_frames.values()) {
-        frame->setSelectionModel(new QItemSelectionModel(frame->model()));
+        frame->clearSelection();
     }
 }
 
