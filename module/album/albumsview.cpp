@@ -14,7 +14,9 @@ const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 }  // namespace
 
 AlbumsView::AlbumsView(QWidget *parent)
-    : QListView(parent), m_dbManager(DatabaseManager::instance())
+    : QListView(parent),
+      m_dbManager(DatabaseManager::instance()),
+      m_popupMenu(new PopupMenuManager(this))
 {
     setMouseTracking(true);
     AlbumDelegate *delegate = new AlbumDelegate(this);
@@ -42,9 +44,9 @@ AlbumsView::AlbumsView(QWidget *parent)
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
     connect(this, &AlbumsView::customContextMenuRequested, this, [=] {
-        PopupMenuManager::instance()->showMenu(createMenuContent());
+        m_popupMenu->showMenu(createMenuContent());
     });
-    connect(PopupMenuManager::instance(), &PopupMenuManager::menuItemClicked,
+    connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &AlbumsView::onMenuItemClicked);
 }
 
@@ -176,7 +178,7 @@ QJsonValue AlbumsView::createMenuItem(const MenuItemId id,
                                       const QString &shortcut,
                                       const QJsonObject &subMenu)
 {
-    return QJsonValue(PopupMenuManager::instance()->createItemObj(id,
+    return QJsonValue(m_popupMenu->createItemObj(id,
                                                                   text,
                                                                   isSeparator,
                                                                   shortcut,

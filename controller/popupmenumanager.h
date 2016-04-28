@@ -14,7 +14,7 @@ class PopupMenuManager : public QObject {
     Q_OBJECT
 
 public:
-    static PopupMenuManager *instance();
+    explicit PopupMenuManager(QObject *parent = 0);
     ~PopupMenuManager();
 
 
@@ -61,13 +61,11 @@ signals:
     void menuItemClicked(int menuId);
 
 private:
-    explicit PopupMenuManager();
     void initConnections();
     void handleMenuActionTriggered(QAction* action);
     void constructMenu(QMenu* menu, const QJsonArray& content);
 
 private:
-    static PopupMenuManager *m_manager;
     QMenu* m_menu;
 };
 

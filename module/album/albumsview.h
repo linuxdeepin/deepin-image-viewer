@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QStandardItemModel>
 
+class PopupMenuManager;
 class AlbumsView : public QListView
 {
     Q_OBJECT
@@ -49,6 +50,7 @@ private:
     QStandardItemModel *m_itemModel;
     QSize m_itemSize;
     DatabaseManager *m_dbManager;
+    PopupMenuManager *m_popupMenu;
 };
 
 #endif // ALBUMSVIEW_H

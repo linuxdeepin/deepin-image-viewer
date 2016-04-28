@@ -11,8 +11,14 @@
 const int THUMBNAIL_MAX_SCALE_SIZE = 384;
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
-TimelineViewFrame::TimelineViewFrame(const QString &timeline, bool multiselection, QWidget *parent)
-    : QFrame(parent), m_multiselection(multiselection), m_iconSize(96, 96), m_timeline(timeline)
+TimelineViewFrame::TimelineViewFrame(const QString &timeline,
+                                     bool multiselection,
+                                     QWidget *parent)
+    : QFrame(parent),
+      m_multiselection(multiselection),
+      m_iconSize(96, 96),
+      m_timeline(timeline),
+      m_popupMenu(new PopupMenuManager(this))
 {
     QLabel *title = new QLabel(timeline);
     title->setObjectName("TimelineFrameTitle");
@@ -28,7 +34,7 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline, bool multiselectio
     layout->addWidget(m_listView);
     layout->addWidget(separator);
 
-    connect(PopupMenuManager::instance(), &PopupMenuManager::menuItemClicked, this, &TimelineViewFrame::onMenuItemClicked);
+    connect(m_popupMenu, &PopupMenuManager::menuItemClicked, this, &TimelineViewFrame::onMenuItemClicked);
 }
 
 void TimelineViewFrame::resizeEvent(QResizeEvent *e)
@@ -54,7 +60,7 @@ void TimelineViewFrame::initListView()
         emit SignalManager::instance()->viewImage(index.data(Qt::UserRole).toString());
     });
     connect(m_listView, &ThumbnailListView::customContextMenuRequested, [this] {
-        PopupMenuManager::instance()->showMenu(createMenuContent());
+        m_popupMenu->showMenu(createMenuContent());
     });
 
     //add data
@@ -142,7 +148,7 @@ QJsonValue TimelineViewFrame::createMenuItem(const MenuItemId id,
                                              const QString &shortcut,
                                              const QJsonObject &subMenu)
 {
-    return QJsonValue(PopupMenuManager::instance()->createItemObj(id,
+    return QJsonValue(m_popupMenu->createItemObj(id,
                                                                   text,
                                                                   isSeparator,
                                                                   shortcut,

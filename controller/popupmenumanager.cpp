@@ -11,18 +11,8 @@
 #include <QKeySequence>
 #include <QMenu>
 
-PopupMenuManager *PopupMenuManager::m_manager = NULL;
-PopupMenuManager *PopupMenuManager::instance()
-{
-    if (!m_manager) {
-        m_manager = new PopupMenuManager();
-    }
-
-    return m_manager;
-}
-
-PopupMenuManager::PopupMenuManager()
-    : QObject()
+PopupMenuManager::PopupMenuManager(QObject *parent)
+    : QObject(parent)
 {
     m_menu = new QMenu();
     m_menu->setAttribute(Qt::WA_TranslucentBackground);
@@ -37,7 +27,6 @@ PopupMenuManager::~PopupMenuManager()
 {
     delete m_menu;
 }
-
 
 QJsonObject PopupMenuManager::createItemObj(const int id,
                                       const QString &text,

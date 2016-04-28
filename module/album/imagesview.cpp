@@ -17,7 +17,7 @@ const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 }
 
 ImagesView::ImagesView(QWidget *parent)
-    : QScrollArea(parent)
+    : QScrollArea(parent), m_popupMenu(new PopupMenuManager(this))
 {
     initContent();
 
@@ -26,7 +26,7 @@ ImagesView::ImagesView(QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    connect(PopupMenuManager::instance(), &PopupMenuManager::menuItemClicked,
+    connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ImagesView::onMenuItemClicked);
 }
 
@@ -76,7 +76,7 @@ void ImagesView::initListView()
         emit SignalManager::instance()->viewImage(index.data(Qt::UserRole).toString(), m_currentAlbum);
     });
     connect(m_listView, &ThumbnailListView::customContextMenuRequested, [this] {
-        PopupMenuManager::instance()->showMenu(createMenuContent());
+        m_popupMenu->showMenu(createMenuContent());
     });
 }
 
@@ -138,7 +138,7 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
                                       const QString &shortcut,
                                       const QJsonObject &subMenu)
 {
-    return QJsonValue(PopupMenuManager::instance()->createItemObj(id,
+    return QJsonValue(m_popupMenu->createItemObj(id,
                                                                   text,
                                                                   isSeparator,
                                                                   shortcut,

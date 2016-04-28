@@ -8,6 +8,7 @@
 #include <QStandardItemModel>
 #include <QVBoxLayout>
 
+class PopupMenuManager;
 class ThumbnailListView;
 class QStandardItemModel;
 class ImagesView : public QScrollArea
@@ -68,6 +69,7 @@ private:
     QStandardItemModel m_standardModel;
     QVBoxLayout *m_contentLayout;
     QWidget *m_contentWidget;
+    PopupMenuManager *m_popupMenu;
 };
 
 #endif // IMAGESVIEW_H

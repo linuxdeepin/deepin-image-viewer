@@ -14,6 +14,7 @@
 #include "controller/signalmanager.h"
 #include "widgets/thumbnaillistview.h"
 
+class PopupMenuManager;
 class TimelineViewFrame : public QFrame
 {
     Q_OBJECT
@@ -75,6 +76,7 @@ private:
     QString m_timeline;
     ThumbnailListView *m_listView;
     QStandardItemModel m_standardModel;
+    PopupMenuManager *m_popupMenu;
 };
 
 #endif // TIMELINEVIEWFRAME_H
