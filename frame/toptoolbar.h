@@ -19,8 +19,13 @@ public:
     void setLeftContent(QWidget *content);
     void setMiddleContent(QWidget *content);
 
+signals:
+    void moving();
+
 protected:
     void resizeEvent(QResizeEvent *e);
+
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
     void initWidgets();

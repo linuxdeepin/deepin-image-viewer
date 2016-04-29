@@ -11,20 +11,11 @@ using namespace Dtk::Widget;
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 24;
 const int EXTENSION_PANEL_WIDTH = 240;
-const int MAINWIDGET_MINIMUN_WIDTH = 700;
-const int MAINWIDGET_MINIMUN_HEIGHT = 500;
 
 MainWidget::MainWidget(QWidget *parent)
     : QFrame(parent)
 {
     initStyleSheet();
-    QDesktopWidget dw;
-    int ww = dw.geometry().width() * 0.8 < 700 ? 700 : dw.geometry().width() * 0.8;
-    int wh = dw.geometry().height() * 0.8 < 500 ? 500 : dw.geometry().height() * 0.8;
-    resize(ww, wh);
-    setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
-    move((dw.geometry().width() - ww) / 2, (dw.geometry().height() - wh) / 4);
-
     initPanelStack();
     initExtensionPanel();
     initTopToolbar();

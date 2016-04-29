@@ -4,12 +4,12 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql concurrent svg
+QT       += core gui sql concurrent svg x11extras
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 #include (cutelogger/cutelogger.pri)
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG +=  dtkwidget dtkutil dtkbase libexif
+PKGCONFIG +=  dtkwidget dtkutil dtkbase libexif x11 xext
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
@@ -42,7 +42,9 @@ SOURCES += main.cpp \
     module/album/imagesview.cpp \
     module/album/albumsview.cpp \
     module/album/albumdelegate.cpp \
-    module/album/topalbumtips.cpp
+    module/album/topalbumtips.cpp \
+    widgets/dwindowframe.cpp \
+    frame/mainwindow.cpp
 
 HEADERS += \
     frame/blureframe.h \
@@ -72,7 +74,9 @@ HEADERS += \
     module/album/imagesview.h \
     module/album/albumsview.h \
     module/album/albumdelegate.h \
-    module/album/topalbumtips.h
+    module/album/topalbumtips.h \
+    widgets/dwindowframe.h \
+    frame/mainwindow.h
 
 #view
 SOURCES += module/view/viewpanel.cpp \
