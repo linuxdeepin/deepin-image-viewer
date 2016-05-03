@@ -216,15 +216,14 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked,
-            m_view, &ImageWidget::rotateAntiClockWise);
+    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
     btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
+    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateAntiClockWise);
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
