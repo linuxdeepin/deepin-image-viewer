@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>resources/images/adapt_image_active.png</file>
+        <file>resources/images/adapt_image_hover.png</file>
+        <file>resources/images/adapt_image_normal.png</file>
+        <file>resources/images/album_active.png</file>
+        <file>resources/images/album_hover.png</file>
+        <file>resources/images/album_normal.png</file>
+        <file>resources/images/clockwise_rotation_hover.png</file>
+        <file>resources/images/clockwise_rotation_normal.png</file>
+        <file>resources/images/clockwise_rotation_press.png</file>
+        <file>resources/images/collect_active.png</file>
+        <file>resources/images/collect_hover.png</file>
+        <file>resources/images/collect_normal.png</file>
+        <file>resources/images/contrarotate_hover.png</file>
+        <file>resources/images/contrarotate_normal.png</file>
+        <file>resources/images/contrarotate_press.png</file>
+        <file>resources/images/delete_hover.png</file>
+        <file>resources/images/delete_normal.png</file>
+        <file>resources/images/delete_press.png</file>
+        <file>resources/images/edit_hover.png</file>
+        <file>resources/images/edit_normal.png</file>
+        <file>resources/images/edit_press.png</file>
+        <file>resources/images/info_active.png</file>
+        <file>resources/images/info_hover.png</file>
+        <file>resources/images/info_normal.png</file>
+        <file>resources/images/next_hover.png</file>
+        <file>resources/images/next_normal.png</file>
+        <file>resources/images/next_press.png</file>
+        <file>resources/images/previous_hover.png</file>
+        <file>resources/images/previous_normal.png</file>
+        <file>resources/images/previous_press.png</file>
+        <file>resources/images/slideshow_hover.png</file>
+        <file>resources/images/slideshow_normal.png</file>
+        <file>resources/images/slideshow_press.png</file>
+    </qresource>
+</RCC>

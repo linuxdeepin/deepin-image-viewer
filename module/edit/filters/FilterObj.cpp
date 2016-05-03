@@ -53,7 +53,6 @@ class EQFilterObj : public FilterObj, public EQFilter
 {
     Q_OBJECT
     Q_PROPERTY(qreal contrast READ contrast WRITE setContrast NOTIFY contrastChanged)
-    Q_PROPERTY(qreal contrast READ contrast WRITE setContrast NOTIFY contrastChanged)
     Q_PROPERTY(qreal hue READ hue WRITE setHue NOTIFY hueChanged)
     Q_PROPERTY(qreal saturation READ saturation WRITE setSaturation NOTIFY saturationChanged)
     DEFINE_PROPERTY_CT(qreal, brightness, setBrightness, brightnessChanged)

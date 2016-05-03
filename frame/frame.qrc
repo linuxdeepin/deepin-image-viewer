@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images"/>
+    <qresource prefix="/qss">
+        <file>resources/qss/frame.qss</file>
+    </qresource>
+</RCC>

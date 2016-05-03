@@ -2,12 +2,15 @@
 #include <QPaintEvent>
 #include <QEvent>
 #include <QDebug>
+#include <QFile>
 #include <QTimer>
 
 const int ITEM_SPACING = 4;
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent)
 {
+    initStyleSheet();
+
     setMovement(QListView::Free);
     setFrameStyle(QFrame::NoFrame);
     setResizeMode(QListView::Adjust);
@@ -46,4 +49,16 @@ void ThumbnailListView::fixedViewPortSize()
         //    setFixedWidth(contentsRect().width());
         setFixedHeight(contentsSize().height());
     }
+}
+
+void ThumbnailListView::initStyleSheet()
+{
+    QFile sf(":/qss/resources/qss/ThumbnailListView.qss");
+    if (!sf.open(QIODevice::ReadOnly)) {
+        qWarning() << "Open style-sheet file error:" << sf.errorString();
+        return;
+    }
+
+    this->setStyleSheet(QString(sf.readAll()));
+    sf.close();
 }

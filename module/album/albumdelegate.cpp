@@ -236,20 +236,20 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     QPixmap thumbnail;
     thumbnail.loadFromData(datas[4].toByteArray());
     if (thumbnail.isNull()) {
-        thumbnail.load(":/images/album/resources/images/album/thumbnail_default.svg");
+        thumbnail.load(":/images/resources/images/thumbnail_default.svg");
     }
 
     // Render background
     QSize bgSize;
     bgSize.setWidth(option.rect.width() - THUMBNAIL_BG_MARGIN * 2);
     bgSize.setHeight(bgSize.width());
-    QString bgFilePath = ":/images/album/resources/images/album/album_bg_normal.png";
+    QString bgFilePath = ":/images/resources/images/album_bg_normal.png";
     if ((option.state & QStyle::State_MouseOver) &&
             (option.state & QStyle::State_Selected) == 0) {
-        bgFilePath = ":/images/album/resources/images/album/album_bg_hover.png";
+        bgFilePath = ":/images/resources/images/album_bg_hover.png";
     }
     else if (option.state & QStyle::State_Selected && m_editingIndex != index) {
-        bgFilePath = ":/images/album/resources/images/album/album_bg_selected.png";
+        bgFilePath = ":/images/resources/images/album_bg_selected.png";
     }
     QPixmap bgPixmap = QPixmap(bgFilePath).scaled(bgSize,
                                                   Qt::KeepAspectRatio,
@@ -270,7 +270,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     // Draw special mark
     int markSize = thumbnailSize * 0.38;
     if (albumName == "Recent imported") {
-        QPixmap p = QPixmap(":/images/album/resources/images/album/album_recent_imported.png")
+        QPixmap p = QPixmap(":/images/resources/images/album_recent_imported.png")
                 .scaled(markSize, markSize,
                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
         painter.drawPixmap(thumbnailRect.x() + (thumbnailSize - markSize) / 2,
@@ -278,7 +278,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
                            markSize, markSize, p);
     }
     else if (albumName == "My favorites") {
-        QPixmap p = QPixmap(":/images/album/resources/images/album/album_favorites.png")
+        QPixmap p = QPixmap(":/images/resources/images/album_favorites.png")
                 .scaled(markSize, markSize,
                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
         painter.drawPixmap(thumbnailRect.x() + (thumbnailSize - markSize) / 2,

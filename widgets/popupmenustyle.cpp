@@ -9,9 +9,9 @@
 namespace {
 
 const QString SUB_MENU_NORMAL_ICON =
-        ":/images/menu/resources/images/menu/sub_menu_normal.png";
+        ":/images/resources/images/sub_menu_normal.png";
 const QString SUB_MENU_HOVER_ICON =
-        ":/images/menu/resources/images/menu/sub_menu_hover.png";
+        ":/images/resources/images/sub_menu_hover.png";
 
 const int FRAME_BORDER_WIDTH = 1;
 const int FRAME_BORDER_RADIUS = 4;
@@ -21,7 +21,7 @@ const int ICON_LEFT_MARGIN = 4;
 const int TEXT_LEFT_MARGIN = 4;
 const int SEPARATOR_HEIGHT = 9;
 const int SEPARATOR_LEFT_MARGIN = 11;
-const int SEPARATOR_RIGHT_MARGIN = 9.5;
+const int SEPARATOR_RIGHT_MARGIN = 10;
 const int TEXT_FONT_PIXEL_SIZE = 12;
 const int SHORTCUT_FONT_PIXEL_SIZE = 10;
 

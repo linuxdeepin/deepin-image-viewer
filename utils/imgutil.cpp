@@ -172,4 +172,4 @@ void saveImageWithExif(const QImage &image, const QString &path, const QString &
     jpeg_data_unref(jdata);
 }
 
-}
+}  //namespace utils

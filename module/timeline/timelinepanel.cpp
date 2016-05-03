@@ -1,5 +1,5 @@
 #include "timelinepanel.h"
-#include "module/importandexport/importer.h"
+#include "controller/importer.h"
 #include "widgets/importframe.h"
 #include <dimagebutton.h>
 #include <QPushButton>
@@ -119,19 +119,19 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     QWidget *tTopMiddleContent = new QWidget;
 
     QLabel *timelineButton = new QLabel();
-    timelineButton->setPixmap(QPixmap(":/images/icons/resources/images/icons/timeline_active.png"));
+    timelineButton->setPixmap(QPixmap(":/images/resources/images/timeline_active.png"));
 
     Dtk::Widget::DImageButton *albumButton = new Dtk::Widget::DImageButton();
-    albumButton->setNormalPic(":/images/icons/resources/images/icons/album_normal.png");
-    albumButton->setHoverPic(":/images/icons/resources/images/icons/album_hover.png");
+    albumButton->setNormalPic(":/images/resources/images/album_normal.png");
+    albumButton->setHoverPic(":/images/resources/images/album_hover.png");
     connect(albumButton, &Dtk::Widget::DImageButton::clicked, this, [=] {
         qDebug() << "Change to Album Panel...";
         emit needGotoAlbumPanel();
     });
 
     Dtk::Widget::DImageButton *searchButton = new Dtk::Widget::DImageButton();
-    searchButton->setNormalPic(":/images/icons/resources/images/icons/search_normal_24px.png");
-    searchButton->setHoverPic(":/images/icons/resources/images/icons/search_hover_24px.png");
+    searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
+    searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
     connect(searchButton, &Dtk::Widget::DImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
         emit needGotoSearchPanel();

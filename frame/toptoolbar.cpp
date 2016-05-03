@@ -5,7 +5,7 @@
 #include <QApplication>
 #include <QStackedWidget>
 #include <dcircleprogress.h>
-#include "module/importandexport/importer.h"
+#include "controller/importer.h"
 #include "frame/mainwindow.h"
 
 using namespace Dtk::Widget;
@@ -56,6 +56,7 @@ void TopToolbar::resizeEvent(QResizeEvent *e)
 
 void TopToolbar::mouseMoveEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event);
     qDebug() << "startMoving";
     emit moving();
 }

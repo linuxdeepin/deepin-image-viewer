@@ -1,6 +1,6 @@
 #include "albumpanel.h"
 #include "controller/databasemanager.h"
-#include "module/importandexport/importer.h"
+#include "controller/importer.h"
 #include "widgets/importframe.h"
 #include <dimagebutton.h>
 #include <QFileInfo>
@@ -74,6 +74,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
     QWidget *tTopleftContent = new QWidget;
     tTopleftContent->setStyleSheet(this->styleSheet());
     QLabel *icon = new QLabel;
+    // TODO update icon path
     icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
 
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
@@ -82,9 +83,9 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
     if (m_mainStackWidget->currentWidget() == m_imagesView) {
 
         DImageButton *returnButton = new DImageButton();
-        returnButton->setNormalPic(":/images/icons/resources/images/icons/return_normal.png");
-        returnButton->setHoverPic(":/images/icons/resources/images/icons/return_hover.png");
-        returnButton->setPressPic(":/images/icons/resources/images/icons/return_press.png");
+        returnButton->setNormalPic(":/images/resources/images/return_normal.png");
+        returnButton->setHoverPic(":/images/resources/images/return_hover.png");
+        returnButton->setPressPic(":/images/resources/images/return_press.png");
         connect(returnButton, &DImageButton::clicked, this, [=] {
             m_mainStackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
@@ -114,19 +115,20 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     QWidget *tTopMiddleContent = new QWidget;
 
     DImageButton *timelineButton = new DImageButton();
-    timelineButton->setNormalPic(":/images/icons/resources/images/icons/timeline_normal.png");
-    timelineButton->setHoverPic(":/images/icons/resources/images/icons/timeline_hover.png");
+    timelineButton->setNormalPic(":/images/resources/images/timeline_normal.png");
+    timelineButton->setHoverPic(":/images/resources/images/timeline_hover.png");
     connect(timelineButton, &DImageButton::clicked, this, [=] {
         qDebug() << "Change to Timeline Panel...";
         emit needGotoTimelinePanel();
     });
 
     QLabel *albumLabel = new QLabel();
-    albumLabel->setPixmap(QPixmap(":/images/icons/resources/images/icons/album_active.png"));
+    albumLabel->setPixmap(QPixmap(":/images/resources/images/album_active.png"));
 
     DImageButton *searchButton = new DImageButton();
-    searchButton->setNormalPic(":/images/icons/resources/images/icons/search_normal_24px.png");
-    searchButton->setHoverPic(":/images/icons/resources/images/icons/search_hover_24px.png");
+    searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
+    searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
+    searchButton->setPressPic(":/images/resources/images/search_press_24px.png");
     connect(searchButton, &DImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
         emit needGotoSearchPanel();

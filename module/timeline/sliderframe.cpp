@@ -77,7 +77,7 @@ void SliderFrame::initTooltip()
     lLayout->addWidget(m_countLabel);
 
     QLabel *handleLabel = new QLabel();
-    handleLabel->setPixmap(QPixmap(":/images/timeline/resources/images/timeline/drag_handle.png"));
+    handleLabel->setPixmap(QPixmap(":/images/resources/images/drag_handle.png"));
 
     QHBoxLayout *mainLayout = new QHBoxLayout(m_tooltip);
     mainLayout->setContentsMargins(0, 0, 10, 3);

@@ -15,6 +15,9 @@ protected:
 private slots:
     void fixedViewPortSize();
 
+private:
+    void initStyleSheet();
+
 };
 
 #endif // THUMBNAILLISTVIEW_H

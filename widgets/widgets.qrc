@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>resources/images/timeline_import_backimg.png</file>
+        <file>resources/images/tooltip.svg</file>
+        <file>resources/images/sub_menu_hover.png</file>
+        <file>resources/images/sub_menu_normal.png</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file>resources/qss/ThumbnailListView.qss</file>
+        <file>resources/qss/Tooltip.qss</file>
+    </qresource>
+</RCC>

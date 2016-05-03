@@ -124,7 +124,7 @@ void MainWidget::initExtensionPanel()
 
 void MainWidget::initStyleSheet()
 {
-    QFile sf(":/qss/resources/qss/default.qss");
+    QFile sf(":/qss/resources/qss/frame.qss");
     if (!sf.open(QIODevice::ReadOnly)) {
         qWarning() << "Open style-sheet file error:" << sf.errorString();
         return;

@@ -1,0 +1,11 @@
+QScrollArea {
+    background: #181818;
+}
+
+QStackedWidget#PanelStack {
+    background: #181818;
+}
+
+QFrame {
+    border:none;
+}

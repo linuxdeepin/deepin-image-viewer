@@ -143,6 +143,7 @@ void ImageWidget::mousePressEvent(QMouseEvent *event)
 
 void ImageWidget::mouseReleaseEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event);
     //QMouseEvent *me = static_cast<QMouseEvent*>(event);
     //Qt::MouseButton mbt = me->button();
     //if (mbt != Qt::LeftButton)

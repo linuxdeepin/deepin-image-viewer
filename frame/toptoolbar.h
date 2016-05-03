@@ -23,7 +23,7 @@ signals:
     void moving();
 
 protected:
-    void resizeEvent(QResizeEvent *e);
+    void resizeEvent(QResizeEvent *e) override;
 
     void mouseMoveEvent(QMouseEvent *event) override;
 

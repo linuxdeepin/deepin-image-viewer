@@ -77,7 +77,7 @@ QPixmap TimelineViewFrame::generateSelectedThumanail(const QPixmap &pixmap)
     if (m_multiselection) {
         QPixmap target = pixmap;
         QPainter painter(&target);
-        QPixmap icon(":/images/icons/resources/images/icons/item_selected.png");
+        QPixmap icon(":/images/resources/images/item_selected.png");
         int selectIconSize = 80;
         painter.drawPixmap((target.width() - selectIconSize) / 2,
                            (target.height() - selectIconSize) / 2,
