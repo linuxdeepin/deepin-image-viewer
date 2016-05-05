@@ -5,8 +5,11 @@
 #include "imageinfowidget.h"
 #include "navigationwidget.h"
 #include "controller/databasemanager.h"
+#include "controller/signalmanager.h"
+#include <QJsonObject>
 
 class SlideEffectPlayer;
+class PopupMenuManager;
 class ViewPanel : public ModulePanel
 {
     Q_OBJECT
@@ -20,16 +23,51 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-    void contextMenuEvent(QContextMenuEvent *) Q_DECL_OVERRIDE;
+
 private Q_SLOTS:
     void openImage(const QString& path);
     void toggleFullScreen();
+
+private:
+    enum MenuItemId {
+        IdFullScreen,
+        IdStartSlideShow,
+        IdAddToAlbum,
+        IdExport,
+        IdCopy,
+        IdDelete,
+        IdRemoveFromAlbum,
+        IdEdit,
+        IdAddToFavorites,
+        IdRemoveFromFavorites,
+        IdShowNavigationWindow,
+        IdHideNavigationWindow,
+        IdRotateClockwise,
+        IdRotateCounterclockwise,
+        IdLabel,
+        IdSetAsWallpaper,
+        IdDisplayInFileManager,
+        IdImageInfo,
+        IdSubMenu,
+        IdSeparator
+    };
+
+    QString createMenuContent();
+
+    QJsonValue createMenuItem(const MenuItemId id,
+                              const QString &text,
+                              const bool isSeparator = false,
+                              const QString &shortcut = "",
+                              const QJsonObject &subMenu = QJsonObject());
+    void onMenuItemClicked(int menuId);
 
 private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
     SlideEffectPlayer *m_slide = NULL;
+    PopupMenuManager *m_popupMenu;
+    SignalManager *m_signalManager;
 
     QList<DatabaseManager::ImageInfo> m_infos;
     QList<DatabaseManager::ImageInfo>::ConstIterator m_current;

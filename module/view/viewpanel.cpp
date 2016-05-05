@@ -1,20 +1,25 @@
 #include "viewpanel.h"
+#include "imageinfowidget.h"
+#include "utils/imgutil.h"
+#include "controller/signalmanager.h"
+#include "slideeffect/slideeffectplayer.h"
+#include "controller/popupmenumanager.h"
+#include <darrowrectangle.h>
 #include <dimagebutton.h>
 #include <QBoxLayout>
 #include <QLabel>
 #include <QResizeEvent>
 #include <QMenu>
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QDebug>
-#include "controller/signalmanager.h"
-#include "imageinfowidget.h"
-#include <darrowrectangle.h>
-#include "utils/imgutil.h"
-#include "slideeffect/slideeffectplayer.h"
 
 using namespace Dtk::Widget;
 
 ViewPanel::ViewPanel(QWidget *parent)
-    : ModulePanel(parent)
+    : ModulePanel(parent),
+      m_popupMenu(new PopupMenuManager(this)),
+      m_signalManager(SignalManager::instance())
 {
     m_slide = new SlideEffectPlayer(this);
     connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
@@ -34,11 +39,10 @@ ViewPanel::ViewPanel(QWidget *parent)
             [this](const QImage& image) {
         m_view->setImage(image);
     });
-    connect(SignalManager::instance(), &SignalManager::gotoPanel, [this](){
+    connect(m_signalManager, &SignalManager::gotoPanel, [this](){
         m_slide->stop();
     });
-    connect(SignalManager::instance(), &SignalManager::viewImage,
-            [this](QString path) {
+    connect(m_signalManager, &SignalManager::viewImage, [this](QString path) {
         DatabaseManager::ImageInfo info =
                 DatabaseManager::instance()->getImageInfoByPath(path);
         m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
@@ -76,6 +80,13 @@ ViewPanel::ViewPanel(QWidget *parent)
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
         m_view->setImageMove(x, y);
     });
+
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
+        m_popupMenu->showMenu(createMenuContent());
+    });
+    connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
+            this, &ViewPanel::onMenuItemClicked);
 }
 
 QWidget *ViewPanel::toolbarBottomContent()
@@ -92,7 +103,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     hb->addWidget(btn);
     hb->addStretch();
     connect(btn, &DImageButton::clicked,
-            SignalManager::instance(), &SignalManager::showExtensionPanel);
+            m_signalManager, &SignalManager::showExtensionPanel);
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/collect_normal.png");
@@ -155,7 +166,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setPressPic(":/images/resources/images/edit_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, [this](){
-        Q_EMIT SignalManager::instance()->editImage(m_current->path);
+        Q_EMIT m_signalManager->editImage(m_current->path);
     });
 
     hb->addStretch();
@@ -181,7 +192,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     btn->setPressPic(":/images/resources/images/album_active.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked,
-            SignalManager::instance(), &SignalManager::backToMainWindow);
+            m_signalManager, &SignalManager::backToMainWindow);
     return w;
 }
 
@@ -244,34 +255,146 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     m_slide->setFrameSize(e->size().width(), e->size().height());
 }
 
-void ViewPanel::contextMenuEvent(QContextMenuEvent *e)
-{
-    QMenu m;
-    m.addAction(window()->isFullScreen() ?
-                    tr("Exit fullscreen") :
-                    tr("Fullscreen"), this, SLOT(toggleFullScreen()));
-    m.exec(e->globalPos());
-}
-
 void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
         window()->showNormal();
-        Q_EMIT SignalManager::instance()->showBottomToolbar();
-        Q_EMIT SignalManager::instance()->showTopToolbar();
+        Q_EMIT m_signalManager->showBottomToolbar();
+        Q_EMIT m_signalManager->showTopToolbar();
     } else {
         // Full screen then hide bars because hide animation depends on height()
         window()->showFullScreen();
-        Q_EMIT SignalManager::instance()->hideBottomToolbar();
-        Q_EMIT SignalManager::instance()->hideExtensionPanel();
-        Q_EMIT SignalManager::instance()->hideTopToolbar();
+        Q_EMIT m_signalManager->hideBottomToolbar();
+        Q_EMIT m_signalManager->hideExtensionPanel();
+        Q_EMIT m_signalManager->hideTopToolbar();
+    }
+}
+
+QString ViewPanel::createMenuContent()
+{
+    QJsonArray items;
+    items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
+                                false, "Ctrl+Alt+F"));
+    items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
+                                false, "Ctrl+Alt+P"));
+    // TODO add album list
+    QJsonObject albumObj;
+    QJsonArray arry;arry.append(createMenuItem(IdSubMenu, "My favorites"));
+    albumObj[""] = QJsonValue(arry);
+    items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
+                                false, "", albumObj));
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+//    items.append(createMenuItem(IdCopy, tr("Export"), false, "Ctrl+C"));
+    items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
+    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
+    items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
+                                false, "Delete"));
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    items.append(createMenuItem(IdEdit, tr("Edit")));
+    items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"),
+                                false, "/"));
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    items.append(createMenuItem(IdRotateClockwise,
+                                tr("Show navigation window")));
+//    items.append(createMenuItem(IdRotateClockwise,
+//                                tr("Hide navigation window")));
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
+                                false, "Ctrl+R"));
+    items.append(createMenuItem(IdRotateCounterclockwise,
+                                tr("Rotate counterclockwise"),
+                                false, "Ctrl+L"));
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    items.append(createMenuItem(IdLabel, tr("Text tag")));
+    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper")));
+    items.append(createMenuItem(IdDisplayInFileManager,
+                                tr("Display in file manager")));
+    items.append(createMenuItem(IdImageInfo, tr("Image info"),
+                                false, "Ctrl+I"));
+
+    QJsonObject contentObj;
+    contentObj["x"] = 0;
+    contentObj["y"] = 0;
+    contentObj["items"] = QJsonValue(items);
+
+    QJsonDocument document(contentObj);
+
+    return QString(document.toJson());
+}
+
+QJsonValue ViewPanel::createMenuItem(const ViewPanel::MenuItemId id,
+                                     const QString &text,
+                                     const bool isSeparator,
+                                     const QString &shortcut,
+                                     const QJsonObject &subMenu)
+{
+    return QJsonValue(m_popupMenu->createItemObj(id,
+                                                 text,
+                                                 isSeparator,
+                                                 shortcut,
+                                                 subMenu));
+}
+
+void ViewPanel::onMenuItemClicked(int menuId)
+{
+
+    switch (MenuItemId(menuId)) {
+    case IdFullScreen:
+        break;
+    case IdStartSlideShow:
+        break;
+    case IdAddToAlbum:
+        break;
+//    case IdExport:
+//        break;
+    case IdCopy:
+        break;
+    case IdDelete:
+        break;
+    case IdRemoveFromAlbum:
+        break;
+    case IdEdit:
+        m_signalManager->editImage(m_view->imagePath());
+        break;
+    case IdAddToFavorites:
+        break;
+    case IdRemoveFromFavorites:
+        break;
+    case IdShowNavigationWindow:
+        break;
+    case IdHideNavigationWindow:
+        break;
+    case IdRotateClockwise:
+        break;
+    case IdRotateCounterclockwise:
+        break;
+    case IdLabel:
+        break;
+    case IdSetAsWallpaper:
+        break;
+    case IdDisplayInFileManager:
+        break;
+    case IdImageInfo:
+        break;
+    default:
+        break;
     }
 }
 
 void ViewPanel::openImage(const QString &path)
 {
-    Q_EMIT SignalManager::instance()->gotoPanel(this);
-    Q_EMIT SignalManager::instance()->updateBottomToolbarContent(
+    Q_EMIT m_signalManager->gotoPanel(this);
+    Q_EMIT m_signalManager->updateBottomToolbarContent(
                 toolbarBottomContent(), true);
     m_view->setImage(path);
     m_nav->setImage(m_view->image());
