@@ -20,26 +20,38 @@ ViewPanel::ViewPanel(QWidget *parent)
     connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
         m_current += steps;
     });
-    connect(m_slide, &SlideEffectPlayer::currentImageChanged, [this](const QString& path){
-        m_nav->setImage(QImage(path).scaled(m_slide->frameSize(), Qt::KeepAspectRatio)); //slide image size is widget size
-        if (m_info)
+    connect(m_slide, &SlideEffectPlayer::currentImageChanged,
+            [this](const QString& path){
+        // Slide image size is widget size
+        m_nav->setImage(QImage(path).scaled(m_slide->frameSize(),
+                                            Qt::KeepAspectRatio,
+                                            Qt::SmoothTransformation));
+        if (m_info) {
             m_info->setImagePath(path);
+        }
     });
-    connect(m_slide, &SlideEffectPlayer::frameReady, [this](const QImage& image) {
+    connect(m_slide, &SlideEffectPlayer::frameReady,
+            [this](const QImage& image) {
         m_view->setImage(image);
     });
     connect(SignalManager::instance(), &SignalManager::gotoPanel, [this](){
         m_slide->stop();
     });
-    connect(SignalManager::instance(), &SignalManager::viewImage, [this](QString path) {
-        DatabaseManager::ImageInfo info = DatabaseManager::instance()->getImageInfoByPath(path);
+    connect(SignalManager::instance(), &SignalManager::viewImage,
+            [this](QString path) {
+        DatabaseManager::ImageInfo info =
+                DatabaseManager::instance()->getImageInfoByPath(path);
         m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
-        m_current = std::find_if(m_infos.cbegin(), m_infos.cend(), [&](const DatabaseManager::ImageInfo info){ return info.path == path;});
+        m_current = std::find_if(m_infos.cbegin(), m_infos.cend(),
+                                 [&](const DatabaseManager::ImageInfo info){
+            return info.path == path;}
+        );
         openImage(path);
     });
+
     m_view = new ImageWidget();
-    QHBoxLayout *hl = new QHBoxLayout();
-    setLayout(hl);
+    QHBoxLayout *hl = new QHBoxLayout(this);
+    hl->setContentsMargins(0, 0, 0, 0);
     hl->addWidget(m_view);
     connect(m_view, &ImageWidget::rotated, [this](int degree) {
         const QTransform t = QTransform().rotate(degree);
@@ -59,7 +71,8 @@ ViewPanel::ViewPanel(QWidget *parent)
             m_nav->setVisible(!m_view->isWholeImageVisible());
         m_nav->setRectInImage(m_view->visibleImageRect());
     });
-    connect(m_view, &ImageWidget::doubleClicked, this, &ViewPanel::toggleFullScreen);
+    connect(m_view, &ImageWidget::doubleClicked,
+            this, &ViewPanel::toggleFullScreen);
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
         m_view->setImageMove(x, y);
     });
@@ -78,7 +91,8 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setPressPic(":/images/resources/images/info_active.png");
     hb->addWidget(btn);
     hb->addStretch();
-    connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::showExtensionPanel);
+    connect(btn, &DImageButton::clicked,
+            SignalManager::instance(), &SignalManager::showExtensionPanel);
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/collect_normal.png");
@@ -166,7 +180,8 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     btn->setHoverPic(":/images/resources/images/album_hover.png");
     btn->setPressPic(":/images/resources/images/album_active.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
+    connect(btn, &DImageButton::clicked,
+            SignalManager::instance(), &SignalManager::backToMainWindow);
     return w;
 }
 
@@ -183,7 +198,8 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateAntiClockWise);
+    connect(btn, &DImageButton::clicked,
+            m_view, &ImageWidget::rotateAntiClockWise);
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
@@ -223,14 +239,17 @@ QWidget *ViewPanel::extensionPanelContent()
 
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
-    m_nav->move(e->size().width() - m_nav->width() - 10, e->size().height() - m_nav->height() -10);
+    m_nav->move(e->size().width() - m_nav->width() - 10,
+                e->size().height() - m_nav->height() -10);
     m_slide->setFrameSize(e->size().width(), e->size().height());
 }
 
 void ViewPanel::contextMenuEvent(QContextMenuEvent *e)
 {
     QMenu m;
-    m.addAction(window()->isFullScreen() ? tr("Exit fullscreen") : tr("Fullscreen"), this, SLOT(toggleFullScreen()));
+    m.addAction(window()->isFullScreen() ?
+                    tr("Exit fullscreen") :
+                    tr("Fullscreen"), this, SLOT(toggleFullScreen()));
     m.exec(e->globalPos());
 }
 
@@ -241,7 +260,8 @@ void ViewPanel::toggleFullScreen()
         Q_EMIT SignalManager::instance()->showBottomToolbar();
         Q_EMIT SignalManager::instance()->showTopToolbar();
     } else {
-        window()->showFullScreen(); //full screen then hide bars because hide animation depends on height()
+        // Full screen then hide bars because hide animation depends on height()
+        window()->showFullScreen();
         Q_EMIT SignalManager::instance()->hideBottomToolbar();
         Q_EMIT SignalManager::instance()->hideExtensionPanel();
         Q_EMIT SignalManager::instance()->hideTopToolbar();
@@ -251,9 +271,12 @@ void ViewPanel::toggleFullScreen()
 void ViewPanel::openImage(const QString &path)
 {
     Q_EMIT SignalManager::instance()->gotoPanel(this);
+    Q_EMIT SignalManager::instance()->updateBottomToolbarContent(
+                toolbarBottomContent(), true);
     m_view->setImage(path);
     m_nav->setImage(m_view->image());
     qDebug() << "view path: " << m_view->imagePath();
-    if (m_info)
+    if (m_info) {
         m_info->setImagePath(path);
+    }
 }

@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QtDebug>
 #include <QMouseEvent>
+#include <utils/imgutil.h>
 
 ImageWidget::ImageWidget(QWidget *parent)
     : QWidget(parent)
@@ -118,6 +119,9 @@ void ImageWidget::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
     p.save();
+
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHint(QPainter::SmoothPixmapTransform);
     p.setTransform(m_mat);
     p.drawPixmap(0, 0, m_pixmap);
     p.restore();
@@ -128,7 +132,9 @@ void ImageWidget::paintEvent(QPaintEvent *)
     p.translate(width() - kTipWidth, 100);
     p.fillRect(0, 0, kTipWidth, kTipHeight, QColor(0, 10, 0, 168));
     p.setPen(Qt::white);
-    p.drawText(QRect(0, 0, kTipWidth, kTipHeight), QString("%1%").arg(int(m_scale*100.0)), QTextOption(Qt::AlignCenter));
+    p.drawText(QRect(0, 0, kTipWidth, kTipHeight),
+               QString("%1%").arg(int(m_scale*100.0)),
+               QTextOption(Qt::AlignCenter));
 }
 
 void ImageWidget::mousePressEvent(QMouseEvent *event)
@@ -136,7 +142,7 @@ void ImageWidget::mousePressEvent(QMouseEvent *event)
     QMouseEvent *me = static_cast<QMouseEvent*>(event);
     //Qt::MouseButton mbt = me->button();
     //if (mbt != Qt::LeftButton)
-      //  return;
+    //  return;
     m_pos = me->pos();
     m_posG = me->globalPos();
 }
@@ -147,7 +153,7 @@ void ImageWidget::mouseReleaseEvent(QMouseEvent *event)
     //QMouseEvent *me = static_cast<QMouseEvent*>(event);
     //Qt::MouseButton mbt = me->button();
     //if (mbt != Qt::LeftButton)
-      //  return;
+    //  return;
     m_pos = m_posG = QPoint();
 }
 
@@ -156,7 +162,7 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
     QMouseEvent *me = static_cast<QMouseEvent*>(event);
     //Qt::MouseButton mbt = me->button();
     //if (mbt != Qt::LeftButton)
-      //  return;
+    //  return;
     QPoint dp = event->globalPos() - m_posG;
     setTransformOrigin(m_o_img, m_o_dev + dp);
     m_pos = me->pos();

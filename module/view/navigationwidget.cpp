@@ -75,6 +75,8 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     }
     QImage img(m_img);
     QPainter p(&img);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHint(QPainter::SmoothPixmapTransform);
     p.setClipRegion(QRegion(0, 0, img.width(), img.height()) - m_r);
     p.fillRect(QRect(0, 0, m_img.width(), m_img.height()), QColor(0, 0, 0, 100));
     p.end();
