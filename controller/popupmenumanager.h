@@ -17,7 +17,6 @@ public:
     explicit PopupMenuManager(QObject *parent = 0);
     ~PopupMenuManager();
 
-
     QJsonObject createItemObj(const int id,
                               const QString &text,
                               const bool isSeparator = false,
@@ -58,7 +57,7 @@ public:
 
 signals:
     void menuHided();
-    void menuItemClicked(int menuId);
+    void menuItemClicked(int menuId, const QString &text);
 
 private:
     void initConnections();

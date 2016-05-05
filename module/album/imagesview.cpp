@@ -12,7 +12,6 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int THUMBNAIL_MAX_SCALE_SIZE = 384;
-const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
 }
 

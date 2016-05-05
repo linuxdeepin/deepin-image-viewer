@@ -16,10 +16,17 @@
 
 using namespace Dtk::Widget;
 
+namespace {
+
+const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
+
+}  // namespace
+
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent),
       m_popupMenu(new PopupMenuManager(this)),
-      m_signalManager(SignalManager::instance())
+      m_signalManager(SignalManager::instance()),
+      m_dbManager(DatabaseManager::instance())
 {
     m_slide = new SlideEffectPlayer(this);
     connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
@@ -277,12 +284,8 @@ QString ViewPanel::createMenuContent()
                                 false, "Ctrl+Alt+F"));
     items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
                                 false, "Ctrl+Alt+P"));
-    // TODO add album list
-    QJsonObject albumObj;
-    QJsonArray arry;arry.append(createMenuItem(IdSubMenu, "My favorites"));
-    albumObj[""] = QJsonValue(arry);
     items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
-                                false, "", albumObj));
+                                false, "", createAlbumMenuObj()));
 
     items.append(createMenuItem(IdSeparator, "", true));
 
@@ -332,6 +335,21 @@ QString ViewPanel::createMenuContent()
     return QString(document.toJson());
 }
 
+QJsonObject ViewPanel::createAlbumMenuObj()
+{
+    const QStringList albums = DatabaseManager::instance()->getAlbumNameList();
+
+    QJsonArray items;
+    for (const QString album : albums) {
+        items.append(createMenuItem(IdAddToAlbum, album));
+    }
+
+    QJsonObject contentObj;
+    contentObj[""] = QJsonValue(items);
+
+    return contentObj;
+}
+
 QJsonValue ViewPanel::createMenuItem(const ViewPanel::MenuItemId id,
                                      const QString &text,
                                      const bool isSeparator,
@@ -345,8 +363,12 @@ QJsonValue ViewPanel::createMenuItem(const ViewPanel::MenuItemId id,
                                                  subMenu));
 }
 
-void ViewPanel::onMenuItemClicked(int menuId)
+void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 {
+    const QString imgPath = m_view->imagePath();
+    const QStringList mtl = text.split(SHORTCUT_SPLIT_FLAG);
+    const QString albumName = mtl.isEmpty() ? "" : mtl.first();
+    DatabaseManager::ImageInfo info = m_dbManager->getImageInfoByPath(imgPath);
 
     switch (MenuItemId(menuId)) {
     case IdFullScreen:
@@ -354,6 +376,8 @@ void ViewPanel::onMenuItemClicked(int menuId)
     case IdStartSlideShow:
         break;
     case IdAddToAlbum:
+        m_dbManager->insertIntoAlbum(albumName, info.name,
+                                     info.time.toString(DATETIME_FORMAT));
         break;
 //    case IdExport:
 //        break;

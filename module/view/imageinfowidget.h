@@ -13,9 +13,7 @@ class ImageInfoWidget : public QWidget
 public:
     explicit ImageInfoWidget(QWidget *parent = 0);
     void setImagePath(const QString& path);
-signals:
 
-public slots:
 
 private:
     QString m_path;

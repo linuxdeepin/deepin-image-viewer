@@ -54,12 +54,13 @@ private:
 
     QString createMenuContent();
 
+    QJsonObject createAlbumMenuObj();
     QJsonValue createMenuItem(const MenuItemId id,
                               const QString &text,
                               const bool isSeparator = false,
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
-    void onMenuItemClicked(int menuId);
+    void onMenuItemClicked(int menuId, const QString &text);
 
 private:
     ImageWidget *m_view = NULL;
@@ -68,6 +69,7 @@ private:
     SlideEffectPlayer *m_slide = NULL;
     PopupMenuManager *m_popupMenu;
     SignalManager *m_signalManager;
+    DatabaseManager *m_dbManager;
 
     QList<DatabaseManager::ImageInfo> m_infos;
     QList<DatabaseManager::ImageInfo>::ConstIterator m_current;

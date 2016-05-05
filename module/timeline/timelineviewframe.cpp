@@ -9,7 +9,6 @@
 #include <QJsonDocument>
 
 const int THUMBNAIL_MAX_SCALE_SIZE = 384;
-const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
 TimelineViewFrame::TimelineViewFrame(const QString &timeline,
                                      bool multiselection,

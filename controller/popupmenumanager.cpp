@@ -50,8 +50,9 @@ QJsonObject PopupMenuManager::createItemObj(const int id,
 
 void PopupMenuManager::handleMenuActionTriggered(QAction* action)
 {
-    const int menu_id = action->data().toInt();
-    emit menuItemClicked(menu_id);
+    const int menuId = action->data().toInt();
+    const QString menuText = action->text();
+    emit menuItemClicked(menuId, menuText);
 }
 
 // Construct menu or submenu based on its configuration.
