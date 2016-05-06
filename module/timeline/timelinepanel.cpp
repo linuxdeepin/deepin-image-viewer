@@ -80,7 +80,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
                 // TODO improve performance
                 DatabaseManager::ImageInfo info
                         = m_dbManager->getImageInfoByName(image);
-                m_dbManager->insertIntoAlbum(m_targetAlbum, image,
+                m_dbManager->insertImageIntoAlbum(m_targetAlbum, image,
                                              info.time.toString(DATETIME_FORMAT));
             }
 

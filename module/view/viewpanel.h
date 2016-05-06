@@ -52,7 +52,7 @@ private:
 
     QString createMenuContent();
 
-    QJsonObject createAlbumMenuObj();
+    QJsonObject createAlbumMenuObj(bool isRemove);
     QJsonValue createMenuItem(const MenuItemId id,
                               const QString &text,
                               const bool isSeparator = false,

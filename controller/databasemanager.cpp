@@ -57,7 +57,7 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
             emit SignalManager::instance()->imageCountChanged();
 
             // All new image should add to the album "Recent imported"
-            insertIntoAlbum("Recent imported", info.name, info.time.toString(DATETIME_FORMAT));
+            insertImageIntoAlbum("Recent imported", info.name, info.time.toString(DATETIME_FORMAT));
         }
     }
 
@@ -206,9 +206,9 @@ int DatabaseManager::getImagesCountByMonth(const QString &month)
     return 0;
 }
 
-void DatabaseManager::insertIntoAlbum(const QString &albumname,
-                                      const QString &filename,
-                                      const QString &time)
+void DatabaseManager::insertImageIntoAlbum(const QString &albumname,
+                                           const QString &filename,
+                                           const QString &time)
 {
     //insert into test(albumname, filename, time)
     //select "album4", "file4", "2016.1.2"
@@ -223,14 +223,32 @@ void DatabaseManager::insertIntoAlbum(const QString &albumname,
                                           "SELECT * FROM %5 "
                                           "WHERE albumname='%6' "
                                           "AND filename='%7')" )
-                                 .arg(ALBUM_TABLE_NAME)
-                                 .arg(albumname).arg(filename).arg(time)
-                                 .arg(ALBUM_TABLE_NAME).arg(albumname)
-                                 .arg(filename);
+                .arg(ALBUM_TABLE_NAME)
+                .arg(albumname).arg(filename).arg(time)
+                .arg(ALBUM_TABLE_NAME).arg(albumname)
+                .arg(filename);
         QSqlQuery query( db );
         query.prepare(queryStr);
         if (!query.exec()) {
             qWarning() << "Insert into album failed: " << query.lastError();
+        }
+    }
+}
+
+void DatabaseManager::removeImageFromAlbum(const QString &albumname,
+                                           const QString &filename)
+{
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString( "DELETE FROM %1 WHERE albumname = :albumname "
+                                "AND filename = :filename" )
+                       .arg(ALBUM_TABLE_NAME) );
+        query.bindValue( ":albumname", albumname );
+        query.bindValue( ":filename", filename );
+        if (!query.exec()) {
+            qWarning() << "Remove image record from album failed: "
+                       << query.lastError();
         }
     }
 }

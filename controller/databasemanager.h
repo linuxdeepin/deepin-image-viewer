@@ -45,9 +45,10 @@ public:
     AlbumInfo getAlbumInfo(const QString &name);
     QStringList getAlbumNameList();
     QStringList getImageNamesByAlbum(const QString &album);
-    void insertIntoAlbum(const QString &albumname,
-                         const QString &filename,
-                         const QString &time);
+    void insertImageIntoAlbum(const QString &albumname,
+                              const QString &filename,
+                              const QString &time);
+    void removeImageFromAlbum(const QString &albumname, const QString &filename);
     void removeAlbum(const QString &name);
     void renameAlbum(const QString &oldName, const QString &newName);
     void clearRecentImported();

@@ -42,7 +42,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     // Aways has Favorites album
-    m_dbManager->insertIntoAlbum("My favorites", "", "");
+    m_dbManager->insertImageIntoAlbum("My favorites", "", "");
 
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
@@ -220,7 +220,7 @@ void AlbumsView::onMenuItemClicked(int menuId)
     const QString currentAlbumName = getAlbumName(currentIndex());
     switch (MenuItemId(menuId)) {
     case IdCreate:
-        m_dbManager->insertIntoAlbum(newAlbumName, "", "");
+        m_dbManager->insertImageIntoAlbum(newAlbumName, "", "");
         index = addAlbum(m_dbManager->getAlbumInfo(newAlbumName));
         openPersistentEditor(index);
         break;

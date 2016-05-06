@@ -12,6 +12,7 @@
 #include <QMenu>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QRegularExpression>
 #include <QDebug>
 
 using namespace Dtk::Widget;
@@ -285,16 +286,22 @@ QString ViewPanel::createMenuContent()
                                 false, "Ctrl+Alt+F"));
     items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
                                 false, "Ctrl+Alt+P"));
-    items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
-                                false, "", createAlbumMenuObj()));
+    const QJsonObject objF = createAlbumMenuObj(false);
+    if (! objF.isEmpty()) {
+        items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
+                                    false, "", objF));
+    }
 
     items.append(createMenuItem(IdSeparator, "", true));
 
 //    items.append(createMenuItem(IdCopy, tr("Export"), false, "Ctrl+C"));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
     items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
-    items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
-                                false, "Delete"));
+    const QJsonObject objT = createAlbumMenuObj(true);
+    if (! objT.isEmpty()) {
+        items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
+                                    false, "", objT));
+    }
 
     items.append(createMenuItem(IdSeparator, "", true));
 
@@ -340,17 +347,33 @@ QString ViewPanel::createMenuContent()
     return QString(document.toJson());
 }
 
-QJsonObject ViewPanel::createAlbumMenuObj()
+QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
 {
     const QStringList albums = DatabaseManager::instance()->getAlbumNameList();
 
     QJsonArray items;
-    for (const QString album : albums) {
-        items.append(createMenuItem(IdAddToAlbum, album));
+    for (QString album : albums) {
+        if (album == "My favorites" || album == "Recent imported") {
+            continue;
+        }
+        const QStringList names = m_dbManager->getImageNamesByAlbum(album);
+        if (isRemove) {
+            if (names.indexOf(m_current->name) != -1) {
+                album = tr("Remove from <<%1>>").arg(album);
+                items.append(createMenuItem(IdRemoveFromAlbum, album));
+            }
+        }
+        else {
+            if (names.indexOf(m_current->name) == -1) {
+                items.append(createMenuItem(IdAddToAlbum, album));
+            }
+        }
     }
 
     QJsonObject contentObj;
-    contentObj[""] = QJsonValue(items);
+    if (! items.isEmpty()) {
+        contentObj[""] = QJsonValue(items);
+    }
 
     return contentObj;
 }
@@ -370,10 +393,8 @@ QJsonValue ViewPanel::createMenuItem(const ViewPanel::MenuItemId id,
 
 void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 {
-    const QString imgPath = m_view->imagePath();
     const QStringList mtl = text.split(SHORTCUT_SPLIT_FLAG);
-    const QString albumName = mtl.isEmpty() ? "" : mtl.first();
-    DatabaseManager::ImageInfo info = m_dbManager->getImageInfoByPath(imgPath);
+    QString albumName = mtl.isEmpty() ? "" : mtl.first();
 
     switch (MenuItemId(menuId)) {
     case IdFullScreen:
@@ -381,8 +402,8 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdStartSlideShow:
         break;
     case IdAddToAlbum:
-        m_dbManager->insertIntoAlbum(albumName, info.name,
-                                     info.time.toString(DATETIME_FORMAT));
+        m_dbManager->insertImageIntoAlbum(albumName, m_current->name,
+                                     m_current->time.toString(DATETIME_FORMAT));
         break;
 //    case IdExport:
 //        break;
@@ -391,12 +412,17 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdDelete:
         break;
     case IdRemoveFromAlbum:
+        m_dbManager->removeImageFromAlbum(
+                    albumName.replace(QRegularExpression("^.*<<"), "")
+                    .replace(QRegularExpression(">>.*$"), ""),
+                    m_current->name);
         break;
     case IdEdit:
         m_signalManager->editImage(m_view->imagePath());
         break;
     case IdAddToFavorites:
-        qDebug() << "add to Favorites";
+        m_dbManager->insertImageIntoAlbum("My favorites", m_current->name,
+                                     m_current->time.toString(DATETIME_FORMAT));
         break;
     case IdRemoveFromFavorites:
         break;
