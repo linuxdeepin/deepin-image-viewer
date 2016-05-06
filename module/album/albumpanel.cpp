@@ -1,5 +1,6 @@
 #include "albumpanel.h"
 #include "controller/databasemanager.h"
+#include "widgets/icontooltip.h"
 #include "controller/importer.h"
 #include "widgets/importframe.h"
 #include <dimagebutton.h>
@@ -16,7 +17,8 @@ const int MIN_ICON_SIZE = 96;
 }   // namespace
 
 using namespace Dtk::Widget;
-
+const int TOOLTIP_MIDDLE_MARGIN = 280;
+const int TOOLTIP_TOP_MARGIN = 30;
 AlbumPanel::AlbumPanel(QWidget *parent)
     : ModulePanel(parent)
 {
@@ -113,7 +115,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 QWidget *AlbumPanel::toolbarTopMiddleContent()
 {
     QWidget *tTopMiddleContent = new QWidget;
-
+    IconTooltip* m_iconTooltip = new IconTooltip(tr(""), this);
     DImageButton *timelineButton = new DImageButton();
     timelineButton->setNormalPic(":/images/resources/images/timeline_normal.png");
     timelineButton->setHoverPic(":/images/resources/images/timeline_hover.png");
@@ -121,7 +123,16 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
         qDebug() << "Change to Timeline Panel...";
         emit needGotoTimelinePanel();
     });
-
+    connect(timelineButton, &DImageButton::stateChanged, [=]{
+        if (timelineButton->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Timeline"));
+            m_iconTooltip->move(mapToGlobal(QPoint(timelineButton->x() + TOOLTIP_MIDDLE_MARGIN,
+                                                   timelineButton->y() - TOOLTIP_TOP_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     QLabel *albumLabel = new QLabel();
     albumLabel->setPixmap(QPixmap(":/images/resources/images/album_active.png"));
 
@@ -133,7 +144,16 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
         qDebug() << "Change to Search Panel...";
         emit needGotoSearchPanel();
     });
-
+    connect(searchButton, &DImageButton::stateChanged, [=]{
+        if (searchButton->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Search"));
+            m_iconTooltip->move(mapToGlobal(QPoint(searchButton->x() + TOOLTIP_MIDDLE_MARGIN,
+                                                   searchButton->y() - TOOLTIP_TOP_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(20);

@@ -11,9 +11,11 @@
 #include "filters/FilterObj.h"
 #include "FilterSetup.h"
 #include "Cut.h"
-
+#include "widgets/icontooltip.h"
 using namespace Dtk::Widget;
 
+const int TOOLTIP_BOTTOM_MIDDLE_MARGIN = 270;
+const int TOOLTIP_BOTTOM_MARGIN = 30;
 EditPanel::EditPanel(QWidget *parent)
     : ModulePanel(parent)
 {
@@ -121,20 +123,40 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     hb->setSpacing(10);
     w->setLayout(hb);
     hb->addStretch();
+    IconTooltip* m_iconTooltip = new IconTooltip(tr(""), this);
+    m_iconTooltip->hide();
     DImageButton *btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/contrarotate_normal.png");
     btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Anticlockwise rotate"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
     btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateAntiClockWise);
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Clockwise rotate"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/filter_normal.png");
     btn->setHoverPic(":/images/resources/images/filter_hover.png");
@@ -151,7 +173,16 @@ QWidget *EditPanel::toolbarTopMiddleContent()
 
         Q_EMIT SignalManager::instance()->showExtensionPanel();
     });
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Filter effect"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/cutting_normal.png");
     btn->setHoverPic(":/images/resources/images/cutting_hover.png");
@@ -167,21 +198,48 @@ QWidget *EditPanel::toolbarTopMiddleContent()
         Q_EMIT SignalManager::instance()->hideExtensionPanel();
         Q_EMIT SignalManager::instance()->updateBottomToolbarContent(toolbarBottomContent());
     });
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Cutting"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/flip_horizontal_normal.png");
     btn->setHoverPic(":/images/resources/images/flip_horizontal_hover.png");
     btn->setPressPic(":/images/resources/images/flip_horizontal_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::flipX);
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Flip horizontal"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/flip_vertical_normal.png");
     btn->setHoverPic(":/images/resources/images/flip_vertical_hover.png");
     btn->setPressPic(":/images/resources/images/flip_vertical_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::flipY);
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Flip vertical"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
 
     hb->addStretch();
     return w;

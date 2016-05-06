@@ -11,8 +11,6 @@
 #include <QHBoxLayout>
 #include <QStackedWidget>
 
-//using namespace Dtk::Widget;
-
 class TimelinePanel : public ModulePanel
 {
     Q_OBJECT

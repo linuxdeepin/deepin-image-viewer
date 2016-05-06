@@ -6,6 +6,8 @@
 #include "navigationwidget.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
+#include "widgets/icontooltip.h"
+
 #include <QJsonObject>
 
 class SlideEffectPlayer;
@@ -61,6 +63,7 @@ private:
     void onMenuItemClicked(int menuId, const QString &text);
     void initConnect();
 private:
+    IconTooltip* m_iconTooltip = NULL;
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;

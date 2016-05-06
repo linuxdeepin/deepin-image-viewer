@@ -23,6 +23,11 @@ const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
 }  // namespace
 
+const int TOOLTIP_TOPLEFT_MARGIN = 210;
+const int TOOLTIP_TOP_MIDDLE_MARGIN = 280;
+const int TOOLTIP_BOTTOM_MIDDLE_MARGIN = 220;
+const int TOOLTIP_BOTTOM_MARGIN = 720;
+const int TOOLTIP_TOP_MARGIN = 30;
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent),
       m_popupMenu(new PopupMenuManager(this)),
@@ -37,6 +42,7 @@ ViewPanel::ViewPanel(QWidget *parent)
 
     m_nav = new NavigationWidget(this);
     setContextMenuPolicy(Qt::CustomContextMenu);
+    m_iconTooltip = new IconTooltip(tr(""), this);
     initConnect();
 }
 
@@ -114,12 +120,31 @@ QWidget *ViewPanel::toolbarBottomContent()
     hb->addStretch();
     connect(btn, &DImageButton::clicked,
             m_signalManager, &SignalManager::showExtensionPanel);
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Image info"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_TOPLEFT_MARGIN,
+                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/collect_normal.png");
     btn->setHoverPic(":/images/resources/images/collect_hover.png");
     btn->setPressPic(":/images/resources/images/collect_active.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Collect"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/previous_normal.png");
@@ -132,6 +157,16 @@ QWidget *ViewPanel::toolbarBottomContent()
             return;
         --m_current;
         openImage(m_current->path);
+    });
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Previous"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
     });
 
     btn = new DImageButton();
@@ -152,6 +187,16 @@ QWidget *ViewPanel::toolbarBottomContent()
         m_slide->setCurrentImage(m_current->path);
         m_slide->start();
     });
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Slide show"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/next_normal.png");
@@ -169,6 +214,16 @@ QWidget *ViewPanel::toolbarBottomContent()
         }
         openImage(m_current->path);
     });
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Next"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN,
+                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
 
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/edit_normal.png");
@@ -178,6 +233,16 @@ QWidget *ViewPanel::toolbarBottomContent()
     connect(btn, &DImageButton::clicked, [this](){
         Q_EMIT m_signalManager->editImage(m_current->path);
     });
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Edit"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN + 5,
+                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
 
     hb->addStretch();
 
@@ -186,6 +251,16 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/resources/images/delete_hover.png");
     btn->setPressPic(":/images/resources/images/delete_press.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Delete"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN - 25,
+                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     return w;
 }
 
@@ -203,6 +278,16 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked,
             m_signalManager, &SignalManager::backToMainWindow);
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Back to Album"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_TOPLEFT_MARGIN,
+                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     return w;
 }
 
@@ -214,20 +299,39 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     hb->setSpacing(10);
     w->setLayout(hb);
     hb->addStretch();
+    IconTooltip* m_iconTooltip = new IconTooltip(tr(""), this);
     DImageButton *btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/contrarotate_normal.png");
     btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Anticlockwise rotate"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
     btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
     hb->addWidget(btn);
     connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateAntiClockWise);
-
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Clockwise rotate"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
     btn->setHoverPic(":/images/resources/images/adapt_image_hover.png");
@@ -238,6 +342,16 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         m_view->resetTransform();
         m_view->setScaleValue(1);
     });
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Adapt"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
     //
 #if 0
     btn = new DImageButton();
@@ -245,6 +359,16 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/resources/images/share_hover.png");
     btn->setPressPic(":/images/resources/images/share_active.png");
     hb->addWidget(btn);
+    connect(btn, &DImageButton::stateChanged, [=]{
+        if (btn->getState() == DImageButton::Hover) {
+            m_iconTooltip->setIconName(tr("Share"));
+            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
+                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
+            m_iconTooltip->show();
+        } else {
+            m_iconTooltip->hide();
+        }
+    });
 #endif
     hb->addStretch();
     return w;
