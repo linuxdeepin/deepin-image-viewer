@@ -29,6 +29,17 @@ ViewPanel::ViewPanel(QWidget *parent)
       m_dbManager(DatabaseManager::instance())
 {
     m_slide = new SlideEffectPlayer(this);
+    m_view = new ImageWidget();
+    QHBoxLayout *hl = new QHBoxLayout(this);
+    hl->setContentsMargins(0, 0, 0, 0);
+    hl->addWidget(m_view);
+
+    m_nav = new NavigationWidget(this);
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    initConnect();
+}
+
+void ViewPanel::initConnect() {
     connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
         m_current += steps;
     });
@@ -59,11 +70,6 @@ ViewPanel::ViewPanel(QWidget *parent)
         );
         openImage(path);
     });
-
-    m_view = new ImageWidget();
-    QHBoxLayout *hl = new QHBoxLayout(this);
-    hl->setContentsMargins(0, 0, 0, 0);
-    hl->addWidget(m_view);
     connect(m_view, &ImageWidget::rotated, [this](int degree) {
         const QTransform t = QTransform().rotate(degree);
         QImage img = m_view->image().transformed(t);
@@ -74,8 +80,6 @@ ViewPanel::ViewPanel(QWidget *parent)
         QImage img = m_view->image().transformed(t);
         utils::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
-
-    m_nav = new NavigationWidget(this);
     connect(m_view, &ImageWidget::transformChanged, [this](){
         // TODO: check user settings
         if (!m_nav->isAlwaysHidden())
@@ -87,8 +91,6 @@ ViewPanel::ViewPanel(QWidget *parent)
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
         m_view->setImageMove(x, y);
     });
-
-    setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         m_popupMenu->showMenu(createMenuContent());
     });
@@ -301,9 +303,13 @@ QString ViewPanel::createMenuContent()
                                 false, "/"));
 
     items.append(createMenuItem(IdSeparator, "", true));
-
-    items.append(createMenuItem(IdRotateClockwise,
-                                tr("Show navigation window")));
+    if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+        items.append(createMenuItem(IdShowNavigationWindow,
+                                    tr("Show navigation window")));
+    } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+        items.append(createMenuItem(IdHideNavigationWindow,
+                                    tr("Hide navigation window")));
+    }
 //    items.append(createMenuItem(IdRotateClockwise,
 //                                tr("Hide navigation window")));
 
@@ -390,12 +396,15 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         m_signalManager->editImage(m_view->imagePath());
         break;
     case IdAddToFavorites:
+        qDebug() << "add to Favorites";
         break;
     case IdRemoveFromFavorites:
         break;
     case IdShowNavigationWindow:
+        m_nav->setAlwaysHidden(false);
         break;
     case IdHideNavigationWindow:
+        m_nav->setAlwaysHidden(true);
         break;
     case IdRotateClockwise:
         break;

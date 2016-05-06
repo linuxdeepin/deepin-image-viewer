@@ -20,6 +20,8 @@ void NavigationWidget::setAlwaysHidden(bool value)
     m_hide = value;
     if (isAlwaysHidden())
         hide();
+    else
+        show();
 }
 
 void NavigationWidget::setImage(const QImage &img)

@@ -23,11 +23,9 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-
 private Q_SLOTS:
     void openImage(const QString& path);
     void toggleFullScreen();
-
 private:
     enum MenuItemId {
         IdFullScreen,
@@ -61,7 +59,7 @@ private:
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
     void onMenuItemClicked(int menuId, const QString &text);
-
+    void initConnect();
 private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
