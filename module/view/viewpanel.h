@@ -28,6 +28,7 @@ protected:
 private Q_SLOTS:
     void openImage(const QString& path);
     void toggleFullScreen();
+
 private:
     enum MenuItemId {
         IdFullScreen,
@@ -62,6 +63,9 @@ private:
                               const QJsonObject &subMenu = QJsonObject());
     void onMenuItemClicked(int menuId, const QString &text);
     void initConnect();
+
+    void toggleSlideShow();
+
 private:
     IconTooltip* m_iconTooltip = NULL;
     ImageWidget *m_view = NULL;

@@ -130,7 +130,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
+    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateCounterclockwise);
     connect(btn, &DImageButton::stateChanged, [=]{
         if (btn->getState() == DImageButton::Hover) {
             m_iconTooltip->setIconName(tr("Anticlockwise rotate"));
@@ -141,12 +141,13 @@ QWidget *EditPanel::toolbarTopMiddleContent()
             m_iconTooltip->hide();
         }
     });
+
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
     btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateAntiClockWise);
+    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
     connect(btn, &DImageButton::stateChanged, [=]{
         if (btn->getState() == DImageButton::Hover) {
             m_iconTooltip->setIconName(tr("Clockwise rotate"));
@@ -157,6 +158,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
             m_iconTooltip->hide();
         }
     });
+
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/filter_normal.png");
     btn->setHoverPic(":/images/resources/images/filter_hover.png");

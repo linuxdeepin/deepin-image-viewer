@@ -105,6 +105,21 @@ void ViewPanel::initConnect() {
             this, &ViewPanel::onMenuItemClicked);
 }
 
+void ViewPanel::toggleSlideShow()
+{
+    if (m_slide->isRunning()) {
+        m_slide->stop();
+        return;
+    }
+    QStringList paths;
+    for (const DatabaseManager::ImageInfo& info : m_infos) {
+        paths << info.path;
+    }
+    m_slide->setImagePaths(paths);
+    m_slide->setCurrentImage(m_current->path);
+    m_slide->start();
+}
+
 QWidget *ViewPanel::toolbarBottomContent()
 {
     QWidget *w = new QWidget();
@@ -174,19 +189,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/resources/images/slideshow_hover.png");
     btn->setPressPic(":/images/resources/images/slideshow_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, [this](){
-        if (m_slide->isRunning()) {
-            m_slide->stop();
-            return;
-        }
-        QStringList paths;
-        foreach (const DatabaseManager::ImageInfo& info, m_infos) {
-            paths << info.path;
-        }
-        m_slide->setImagePaths(paths);
-        m_slide->setCurrentImage(m_current->path);
-        m_slide->start();
-    });
+    connect(btn, &DImageButton::clicked, this, &ViewPanel::toggleSlideShow);
     connect(btn, &DImageButton::stateChanged, [=]{
         if (btn->getState() == DImageButton::Hover) {
             m_iconTooltip->setIconName(tr("Slide show"));
@@ -305,7 +308,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
+    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateCounterclockwise);
     connect(btn, &DImageButton::stateChanged, [=]{
         if (btn->getState() == DImageButton::Hover) {
             m_iconTooltip->setIconName(tr("Anticlockwise rotate"));
@@ -316,12 +319,13 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
             m_iconTooltip->hide();
         }
     });
+
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
     btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateAntiClockWise);
+    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
     connect(btn, &DImageButton::stateChanged, [=]{
         if (btn->getState() == DImageButton::Hover) {
             m_iconTooltip->setIconName(tr("Clockwise rotate"));
@@ -332,6 +336,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
             m_iconTooltip->hide();
         }
     });
+
     btn = new DImageButton();
     btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
     btn->setHoverPic(":/images/resources/images/adapt_image_hover.png");
@@ -396,10 +401,10 @@ void ViewPanel::toggleFullScreen()
         Q_EMIT m_signalManager->showTopToolbar();
     } else {
         // Full screen then hide bars because hide animation depends on height()
-        window()->showFullScreen();
         Q_EMIT m_signalManager->hideBottomToolbar();
         Q_EMIT m_signalManager->hideExtensionPanel();
         Q_EMIT m_signalManager->hideTopToolbar();
+        window()->showFullScreen();
     }
 }
 
@@ -408,7 +413,9 @@ QString ViewPanel::createMenuContent()
     QJsonArray items;
     items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
                                 false, "Ctrl+Alt+F"));
-    items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
+    items.append(createMenuItem(IdStartSlideShow,
+                                m_slide->isRunning() ? tr("Stop slide show")
+                                                     : tr("Start slide show"),
                                 false, "Ctrl+Alt+P"));
     const QJsonObject objF = createAlbumMenuObj(false);
     if (! objF.isEmpty()) {
@@ -522,8 +529,10 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 
     switch (MenuItemId(menuId)) {
     case IdFullScreen:
+        toggleFullScreen();
         break;
     case IdStartSlideShow:
+        toggleSlideShow();
         break;
     case IdAddToAlbum:
         m_dbManager->insertImageIntoAlbum(albumName, m_current->name,
@@ -557,8 +566,10 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         m_nav->setAlwaysHidden(true);
         break;
     case IdRotateClockwise:
+        m_view->rotateClockWise();
         break;
     case IdRotateCounterclockwise:
+        m_view->rotateCounterclockwise();
         break;
     case IdLabel:
         break;
@@ -567,6 +578,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdDisplayInFileManager:
         break;
     case IdImageInfo:
+        emit m_signalManager->showExtensionPanel();
         break;
     default:
         break;
