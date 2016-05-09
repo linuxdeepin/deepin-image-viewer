@@ -1,9 +1,8 @@
 #include "albumpanel.h"
 #include "controller/databasemanager.h"
-#include "widgets/icontooltip.h"
 #include "controller/importer.h"
 #include "widgets/importframe.h"
-#include <dimagebutton.h>
+#include "widgets/imagebutton.h"
 #include <QFileInfo>
 #include <QDropEvent>
 #include <QPushButton>
@@ -16,9 +15,6 @@ const int MIN_ICON_SIZE = 96;
 
 }   // namespace
 
-using namespace Dtk::Widget;
-const int TOOLTIP_MIDDLE_MARGIN = 280;
-const int TOOLTIP_TOP_MARGIN = 30;
 AlbumPanel::AlbumPanel(QWidget *parent)
     : ModulePanel(parent)
 {
@@ -84,11 +80,11 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 
     if (m_mainStackWidget->currentWidget() == m_imagesView) {
 
-        DImageButton *returnButton = new DImageButton();
+        ImageButton *returnButton = new ImageButton();
         returnButton->setNormalPic(":/images/resources/images/return_normal.png");
         returnButton->setHoverPic(":/images/resources/images/return_hover.png");
         returnButton->setPressPic(":/images/resources/images/return_press.png");
-        connect(returnButton, &DImageButton::clicked, this, [=] {
+        connect(returnButton, &ImageButton::clicked, this, [=] {
             m_mainStackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
             // during adding images from timeline
@@ -115,45 +111,29 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 QWidget *AlbumPanel::toolbarTopMiddleContent()
 {
     QWidget *tTopMiddleContent = new QWidget;
-    IconTooltip* m_iconTooltip = new IconTooltip(tr(""), this);
-    DImageButton *timelineButton = new DImageButton();
+
+    ImageButton *timelineButton = new ImageButton();
     timelineButton->setNormalPic(":/images/resources/images/timeline_normal.png");
     timelineButton->setHoverPic(":/images/resources/images/timeline_hover.png");
-    connect(timelineButton, &DImageButton::clicked, this, [=] {
+    connect(timelineButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Timeline Panel...";
         emit needGotoTimelinePanel();
     });
-    connect(timelineButton, &DImageButton::stateChanged, [=]{
-        if (timelineButton->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Timeline"));
-            m_iconTooltip->move(mapToGlobal(QPoint(timelineButton->x() + TOOLTIP_MIDDLE_MARGIN,
-                                                   timelineButton->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    timelineButton->setToolTip("Timeline");
+
     QLabel *albumLabel = new QLabel();
     albumLabel->setPixmap(QPixmap(":/images/resources/images/album_active.png"));
 
-    DImageButton *searchButton = new DImageButton();
+    ImageButton *searchButton = new ImageButton();
     searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
     searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
     searchButton->setPressPic(":/images/resources/images/search_press_24px.png");
-    connect(searchButton, &DImageButton::clicked, this, [=] {
+    connect(searchButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
         emit needGotoSearchPanel();
     });
-    connect(searchButton, &DImageButton::stateChanged, [=]{
-        if (searchButton->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Search"));
-            m_iconTooltip->move(mapToGlobal(QPoint(searchButton->x() + TOOLTIP_MIDDLE_MARGIN,
-                                                   searchButton->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    searchButton->setToolTip("Search");
+
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(20);

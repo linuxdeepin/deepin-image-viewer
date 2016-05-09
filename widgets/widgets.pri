@@ -4,7 +4,7 @@ HEADERS += \
     $$PWD/popupmenustyle.h \
     $$PWD/thumbnaillistview.h \
     $$PWD/tooltip.h \
-    $$PWD/icontooltip.h
+    $$PWD/imagebutton.h
 
 SOURCES += \
     $$PWD/dwindowframe.cpp \
@@ -12,7 +12,7 @@ SOURCES += \
     $$PWD/popupmenustyle.cpp \
     $$PWD/thumbnaillistview.cpp \
     $$PWD/tooltip.cpp \
-    $$PWD/icontooltip.cpp
+    $$PWD/imagebutton.cpp
 
 RESOURCES += \
     $$PWD/widgets.qrc

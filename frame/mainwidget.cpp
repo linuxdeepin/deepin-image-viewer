@@ -1,5 +1,4 @@
 #include "mainwidget.h"
-#include <dimagebutton.h>
 #include <QFile>
 #include <QDebug>
 #include <QHBoxLayout>

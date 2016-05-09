@@ -3,7 +3,6 @@
 #include <QTabWidget>
 #include <QBoxLayout>
 #include <dbasebutton.h>
-#include <dimagebutton.h>
 
 using namespace Dtk::Widget;
 

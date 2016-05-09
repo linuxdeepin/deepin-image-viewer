@@ -1,8 +1,7 @@
 #include "timelinepanel.h"
 #include "controller/importer.h"
 #include "widgets/importframe.h"
-#include "widgets/icontooltip.h"
-#include <dimagebutton.h>
+#include "widgets/imagebutton.h"
 #include <QPushButton>
 #include <QFileDialog>
 #include <QMimeData>
@@ -13,8 +12,6 @@
 const int MIN_ICON_SIZE = 96;
 using namespace Dtk::Widget;
 
-const int TOOLTIP_TOP_MIDDLE_MARGIN = 285;
-const int TOOLTIP_TOP_MARGIN = 30;
 TimelinePanel::TimelinePanel(QWidget *parent)
     : ModulePanel(parent)
 {
@@ -124,42 +121,24 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     QLabel *timelineButton = new QLabel();
 
     timelineButton->setPixmap(QPixmap(":/images/resources/images/timeline_active.png"));
-    IconTooltip* m_iconTooltip = new IconTooltip(tr(""), this);
 
-    Dtk::Widget::DImageButton *albumButton = new Dtk::Widget::DImageButton();
+    ImageButton *albumButton = new ImageButton();
     albumButton->setNormalPic(":/images/resources/images/album_normal.png");
     albumButton->setHoverPic(":/images/resources/images/album_hover.png");
-    connect(albumButton, &Dtk::Widget::DImageButton::clicked, this, [=] {
+    connect(albumButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Album Panel...";
         emit needGotoAlbumPanel();
     });
-    connect(albumButton, &DImageButton::stateChanged, [=]{
-        if (albumButton->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Album"));
-            m_iconTooltip->move(mapToGlobal(QPoint(albumButton->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
-                                                   albumButton->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
-    Dtk::Widget::DImageButton *searchButton = new Dtk::Widget::DImageButton();
+    albumButton->setToolTip("Album");
+    ImageButton *searchButton = new ImageButton();
     searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
     searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
-    connect(searchButton, &Dtk::Widget::DImageButton::clicked, this, [=] {
+    connect(searchButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
         emit needGotoSearchPanel();
     });
-    connect(searchButton, &DImageButton::stateChanged, [=]{
-        if (searchButton->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Search"));
-            m_iconTooltip->move(mapToGlobal(QPoint(searchButton->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
-                                                   searchButton->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    searchButton->setToolTip("Search");
+
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(20);

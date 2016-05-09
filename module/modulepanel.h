@@ -2,6 +2,8 @@
 #define MODULEPANEL_H
 
 #include <QFrame>
+#include <QDebug>
+#include <QFile>
 #include "controller/signalmanager.h"
 
 class ModulePanel : public QFrame
@@ -37,6 +39,7 @@ signals:
     void hideExtensionPanel();
     void showExtensionPanel();
     void backToMainWindow();
+
 protected:
     virtual void showEvent(QShowEvent* ) {
         Q_EMIT SignalManager::instance()->updateTopToolbarLeftContent(toolbarTopLeftContent());

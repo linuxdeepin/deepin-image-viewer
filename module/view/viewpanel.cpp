@@ -1,11 +1,12 @@
 #include "viewpanel.h"
 #include "imageinfowidget.h"
 #include "utils/imgutil.h"
-#include "controller/signalmanager.h"
 #include "slideeffect/slideeffectplayer.h"
+#include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
+#include "widgets/imagebutton.h"
+#include "widgets/imagebutton.h"
 #include <darrowrectangle.h>
-#include <dimagebutton.h>
 #include <QBoxLayout>
 #include <QLabel>
 #include <QResizeEvent>
@@ -27,11 +28,6 @@ const int SHOW_TOOLBAR_INTERVAL = 200;
 
 }  // namespace
 
-const int TOOLTIP_TOPLEFT_MARGIN = 210;
-const int TOOLTIP_TOP_MIDDLE_MARGIN = 280;
-const int TOOLTIP_BOTTOM_MIDDLE_MARGIN = 220;
-const int TOOLTIP_BOTTOM_MARGIN = 720;
-const int TOOLTIP_TOP_MARGIN = 30;
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent),
       m_popupMenu(new PopupMenuManager(this)),
@@ -46,7 +42,7 @@ ViewPanel::ViewPanel(QWidget *parent)
 
     m_nav = new NavigationWidget(this);
     setContextMenuPolicy(Qt::CustomContextMenu);
-    m_iconTooltip = new IconTooltip(tr(""), this);
+
     initConnect();
     setMouseTracking(true);
 }
@@ -145,86 +141,51 @@ QWidget *ViewPanel::toolbarBottomContent()
     hb->setContentsMargins(0, 0, 0, 0);
     hb->setSpacing(10);
     w->setLayout(hb);
-    DImageButton *btn = new DImageButton();
+    ImageButton *btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/info_normal.png");
     btn->setHoverPic(":/images/resources/images/info_hover.png");
     btn->setPressPic(":/images/resources/images/info_active.png");
     hb->addWidget(btn);
     hb->addStretch();
-    connect(btn, &DImageButton::clicked,
+    connect(btn, &ImageButton::clicked,
             m_signalManager, &SignalManager::showExtensionPanel);
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Image info"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_TOPLEFT_MARGIN,
-                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
-    btn = new DImageButton();
+    btn->setToolTip("Image info");
+
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/collect_normal.png");
     btn->setHoverPic(":/images/resources/images/collect_hover.png");
     btn->setPressPic(":/images/resources/images/collect_active.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Collect"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN,
-                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    btn->setToolTip("Collect");
 
-    btn = new DImageButton();
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/previous_normal.png");
     btn->setHoverPic(":/images/resources/images/previous_hover.png");
     btn->setPressPic(":/images/resources/images/previous_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, [this]() {
+    connect(btn, &ImageButton::clicked, [this]() {
         m_slide->stop();
         if (m_current == m_infos.cbegin())
             return;
         --m_current;
         openImage(m_current->path);
     });
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Previous"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN,
-                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    btn->setToolTip(tr("Previous"));
 
-    btn = new DImageButton();
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/slideshow_normal.png");
     btn->setHoverPic(":/images/resources/images/slideshow_hover.png");
     btn->setPressPic(":/images/resources/images/slideshow_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, this, &ViewPanel::toggleSlideShow);
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Slide show"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN,
-                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    connect(btn, &ImageButton::clicked, this, &ViewPanel::toggleSlideShow);
+    btn->setToolTip(tr("Slide show"));
 
-    btn = new DImageButton();
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/next_normal.png");
     btn->setHoverPic(":/images/resources/images/next_hover.png");
     btn->setPressPic(":/images/resources/images/next_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, [this]() {
+    connect(btn, &ImageButton::clicked, [this]() {
         m_slide->stop();
         if (m_current == m_infos.cend())
             return;
@@ -235,53 +196,27 @@ QWidget *ViewPanel::toolbarBottomContent()
         }
         openImage(m_current->path);
     });
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Next"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN,
-                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    btn->setToolTip(tr("Next"));
 
-    btn = new DImageButton();
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/edit_normal.png");
     btn->setHoverPic(":/images/resources/images/edit_hover.png");
     btn->setPressPic(":/images/resources/images/edit_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, [this](){
+    connect(btn, &ImageButton::clicked, [this](){
         Q_EMIT m_signalManager->editImage(m_current->path);
     });
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Edit"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN + 5,
-                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    btn->setToolTip(tr("Edit"));
 
     hb->addStretch();
 
-    btn = new DImageButton();
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/delete_normal.png");
     btn->setHoverPic(":/images/resources/images/delete_hover.png");
     btn->setPressPic(":/images/resources/images/delete_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Delete"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_BOTTOM_MIDDLE_MARGIN - 25,
-                                                   btn->y() + TOOLTIP_BOTTOM_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    btn->setToolTip(tr("Delete"));
+
     return w;
 }
 
@@ -292,23 +227,15 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     hb->setContentsMargins(0, 0, 0, 0);
     hb->setSpacing(0);
     w->setLayout(hb);
-    DImageButton *btn = new DImageButton();
+    ImageButton *btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/album_normal.png");
     btn->setHoverPic(":/images/resources/images/album_hover.png");
     btn->setPressPic(":/images/resources/images/album_active.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked,
+    connect(btn, &ImageButton::clicked,
             m_signalManager, &SignalManager::backToMainWindow);
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Back to Album"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() - TOOLTIP_TOPLEFT_MARGIN,
-                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    btn->setToolTip(tr("Back"));
+
     return w;
 }
 
@@ -320,78 +247,43 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     hb->setSpacing(10);
     w->setLayout(hb);
     hb->addStretch();
-    IconTooltip* m_iconTooltip = new IconTooltip(tr(""), this);
-    DImageButton *btn = new DImageButton();
+
+    ImageButton *btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/contrarotate_normal.png");
     btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateCounterclockwise);
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Anticlockwise rotate"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
-                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    connect(btn, &ImageButton::clicked, m_view, &ImageWidget::rotateCounterclockwise);
+    btn->setToolTip(tr("Anticlockwise rotate"));
 
-    btn = new DImageButton();
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
     btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Clockwise rotate"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
-                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    connect(btn, &ImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
+    btn->setToolTip(tr("Clockwise rotate"));
 
-    btn = new DImageButton();
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
     btn->setHoverPic(":/images/resources/images/adapt_image_hover.png");
     btn->setPressPic(":/images/resources/images/adapt_image_active.png");
     btn->setToolTip(tr("1:1 Size"));
     hb->addWidget(btn);
-    connect(btn, &DImageButton::clicked, [this](){
+    connect(btn, &ImageButton::clicked, [this](){
         m_view->resetTransform();
         m_view->setScaleValue(1);
     });
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Adapt"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
-                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    btn->setToolTip(tr("Adapt"));
+
     //
 #if 0
-    btn = new DImageButton();
+    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/share_normal.png");
     btn->setHoverPic(":/images/resources/images/share_hover.png");
     btn->setPressPic(":/images/resources/images/share_active.png");
     hb->addWidget(btn);
-    connect(btn, &DImageButton::stateChanged, [=]{
-        if (btn->getState() == DImageButton::Hover) {
-            m_iconTooltip->setIconName(tr("Share"));
-            m_iconTooltip->move(mapToGlobal(QPoint(btn->x() + TOOLTIP_TOP_MIDDLE_MARGIN,
-                                                   btn->y() - TOOLTIP_TOP_MARGIN)));
-            m_iconTooltip->show();
-        } else {
-            m_iconTooltip->hide();
-        }
-    });
+    btn->setToolTip(tr("Share"));
 #endif
     hb->addStretch();
     return w;
