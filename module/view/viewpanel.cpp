@@ -104,6 +104,14 @@ void ViewPanel::initConnect() {
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ViewPanel::onMenuItemClicked);
+
+    connect(m_signalManager, &SignalManager::gotoPanel,
+            this, [=] (ModulePanel *p){
+        if (p != this) {
+            emit m_signalManager->showTopToolbar();
+            emit m_signalManager->showBottomToolbar();
+        }
+    });
 }
 
 void ViewPanel::toggleSlideShow()

@@ -249,4 +249,5 @@ void EditPanel::openImage(const QString &path)
     Q_EMIT SignalManager::instance()->gotoPanel(this);
     m_stack->setCurrentWidget(m_view);
     m_view->setImage(m_image);
+    Q_EMIT SignalManager::instance()->hideBottomToolbar();
 }

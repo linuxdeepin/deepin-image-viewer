@@ -27,7 +27,8 @@ MainWidget::MainWidget(QWidget *parent)
     connect(m_signalManager, &SignalManager::backToMainWindow, this, [=] {
         m_panelStack->setCurrentWidget(m_timelinePanel);
     });
-    connect(m_signalManager, &SignalManager::gotoPanel, [this](ModulePanel* panel){
+    connect(m_signalManager, &SignalManager::gotoPanel,
+            [this](ModulePanel* panel){
         m_panelStack->setCurrentWidget(panel);
     });
 }
