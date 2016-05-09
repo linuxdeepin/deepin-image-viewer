@@ -20,6 +20,8 @@ public:
     QRect mapToImage(const QRect& r) const;
     QRect visibleImageRect() const;
     bool isWholeImageVisible() const;
+    bool isMoving() const;
+
 Q_SIGNALS:
     void scaleValueChanged(qreal);
     void transformChanged(const QTransform&);
@@ -35,14 +37,14 @@ public Q_SLOTS:
     void flipX();
     void flipY();
 protected:
-    void timerEvent(QTimerEvent* e);
-    void paintEvent(QPaintEvent *);
+    void timerEvent(QTimerEvent* e) override;
+    void paintEvent(QPaintEvent *) override;
     //void resizeEvent(QResizeEvent *);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *event);
-    void mouseDoubleClickEvent(QMouseEvent *) {
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *) override {
         Q_EMIT doubleClicked();
     }
 
@@ -52,8 +54,9 @@ private:
     int m_flipX = 1;
     int m_flipY = 1;
     int m_rot = 0;
-    bool m_scaling = false;
     int m_tid = 0;
+    bool m_scaling = false;
+    bool m_moving = false;
     qreal m_scale = 0; // when an image is loaded to fit widget, m_scale is not 1.0
     QPoint m_o_img, m_o_dev;
     QString m_path;

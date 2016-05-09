@@ -7,6 +7,7 @@
 ImageWidget::ImageWidget(QWidget *parent)
     : QWidget(parent)
 {
+    setMouseTracking(true);
 }
 
 void ImageWidget::setImage(const QString &path)
@@ -107,6 +108,11 @@ bool ImageWidget::isWholeImageVisible() const
     return visibleImageRect().size() == m_image.size();
 }
 
+bool ImageWidget::isMoving() const
+{
+    return m_moving;
+}
+
 void ImageWidget::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() != m_tid)
@@ -139,34 +145,28 @@ void ImageWidget::paintEvent(QPaintEvent *)
 
 void ImageWidget::mousePressEvent(QMouseEvent *event)
 {
-    QMouseEvent *me = static_cast<QMouseEvent*>(event);
-    //Qt::MouseButton mbt = me->button();
-    //if (mbt != Qt::LeftButton)
-    //  return;
-    m_pos = me->pos();
-    m_posG = me->globalPos();
+    m_pos = event->pos();
+    m_posG = event->globalPos();
+    m_moving = true;
 }
 
 void ImageWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
-    //QMouseEvent *me = static_cast<QMouseEvent*>(event);
-    //Qt::MouseButton mbt = me->button();
-    //if (mbt != Qt::LeftButton)
-    //  return;
     m_pos = m_posG = QPoint();
+    m_moving = false;
 }
 
 void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    QMouseEvent *me = static_cast<QMouseEvent*>(event);
-    //Qt::MouseButton mbt = me->button();
-    //if (mbt != Qt::LeftButton)
-    //  return;
-    QPoint dp = event->globalPos() - m_posG;
-    setTransformOrigin(m_o_img, m_o_dev + dp);
-    m_pos = me->pos();
-    m_posG = me->globalPos();
+    if (m_moving) {
+        QPoint dp = event->globalPos() - m_posG;
+        setTransformOrigin(m_o_img, m_o_dev + dp);
+        m_pos = event->pos();
+        m_posG = event->globalPos();
+    }
+
+    QWidget::mouseMoveEvent(event);
 }
 
 void ImageWidget::wheelEvent(QWheelEvent *event)

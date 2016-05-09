@@ -25,6 +25,9 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
+
 private Q_SLOTS:
     void openImage(const QString& path);
     void toggleFullScreen();
@@ -65,6 +68,7 @@ private:
     void initConnect();
 
     void toggleSlideShow();
+    void showToolbar(bool isTop);
 
 private:
     IconTooltip* m_iconTooltip = NULL;

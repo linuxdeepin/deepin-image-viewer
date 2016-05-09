@@ -13,6 +13,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QRegularExpression>
+#include <QTimer>
 #include <QDebug>
 
 using namespace Dtk::Widget;
@@ -20,6 +21,9 @@ using namespace Dtk::Widget;
 namespace {
 
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
+const int TOP_TOOLBAR_HEIGHT = 40;
+const int BOTTOM_TOOLBAR_HEIGHT = 24;
+const int SHOW_TOOLBAR_INTERVAL = 200;
 
 }  // namespace
 
@@ -44,6 +48,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     m_iconTooltip = new IconTooltip(tr(""), this);
     initConnect();
+    setMouseTracking(true);
 }
 
 void ViewPanel::initConnect() {
@@ -118,6 +123,19 @@ void ViewPanel::toggleSlideShow()
     m_slide->setImagePaths(paths);
     m_slide->setCurrentImage(m_current->path);
     m_slide->start();
+}
+
+void ViewPanel::showToolbar(bool isTop)
+{
+    QTimer *t = new QTimer(this);
+    connect(t, &QTimer::timeout, this, [=] {
+       if (isTop)
+           emit m_signalManager->showTopToolbar();
+       else
+           emit m_signalManager->showBottomToolbar();
+    });
+    connect(t, &QTimer::timeout, t, &QTimer::deleteLater);
+    t->start(SHOW_TOOLBAR_INTERVAL);
 }
 
 QWidget *ViewPanel::toolbarBottomContent()
@@ -393,6 +411,34 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     m_slide->setFrameSize(e->size().width(), e->size().height());
 }
 
+void ViewPanel::mouseMoveEvent(QMouseEvent *e)
+{
+    if (m_view->isMoving()) {
+        ModulePanel::mouseMoveEvent(e);
+        return;
+    }
+
+    const QRect topToolbarRect(0, 0, width(), TOP_TOOLBAR_HEIGHT);
+    const QRect bottomToolbarRect(0, height() - BOTTOM_TOOLBAR_HEIGHT, width(),
+                                  BOTTOM_TOOLBAR_HEIGHT);
+    if (topToolbarRect.contains(e->pos())) {
+        showToolbar(true);
+    }
+    else if (bottomToolbarRect.contains(e->pos())) {
+        showToolbar(false);
+    }
+
+    ModulePanel::mouseMoveEvent(e);
+}
+
+void ViewPanel::enterEvent(QEvent *e)
+{
+    // Leave from toolbar and enter inside panel
+    Q_UNUSED(e);
+    Q_EMIT m_signalManager->hideBottomToolbar();
+    Q_EMIT m_signalManager->hideTopToolbar();
+}
+
 void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
@@ -588,8 +634,11 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 void ViewPanel::openImage(const QString &path)
 {
     Q_EMIT m_signalManager->gotoPanel(this);
-    Q_EMIT m_signalManager->updateBottomToolbarContent(
-                toolbarBottomContent(), true);
+    Q_EMIT m_signalManager->updateBottomToolbarContent(toolbarBottomContent(),
+                                                       true);
+    Q_EMIT m_signalManager->hideBottomToolbar();
+    Q_EMIT m_signalManager->hideTopToolbar();
+
     m_view->setImage(path);
     m_nav->setImage(m_view->image());
     qDebug() << "view path: " << m_view->imagePath();
