@@ -156,6 +156,10 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/resources/images/collect_hover.png");
     btn->setPressPic(":/images/resources/images/collect_active.png");
     hb->addWidget(btn);
+    connect(btn, &ImageButton::clicked, [this](){
+        m_dbManager->insertImageIntoAlbum("My favorites", m_current->name,
+                                     m_current->time.toString(DATETIME_FORMAT));
+    });
     btn->setToolTip("Collect");
 
     btn = new ImageButton();
