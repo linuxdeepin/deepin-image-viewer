@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=Graphics;GTK;
+Comment=Deepin Image Viewer
+Encoding=UTF-8
+Exec=/usr/bin/deepin-image-viewer
+Icon=/usr/share/deepin-image-viewer/icons/logo/deepin_image_viewer.svg
+Name=Deepin Image Viewer
+StartupNotify=false
+Type=Application
+

@@ -22,5 +22,17 @@ include (controller/controller.pri)
 
 SOURCES += main.cpp
 
+PREFIX = /usr
+binary.path = $${PREFIX}/bin
+binary.files = deepin-image-viewer
+
+desktop.path = $${PREFIX}/share/applications/
+desktop.files =  deepin-image-viewer.desktop
+
+icons.path = $${PREFIX}/share/deepin-image-viewer/icons
+icons.files = resources/images/*
+
+INSTALLS = binary desktop icons
+
 RESOURCES += \
     resources.qrc
