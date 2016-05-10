@@ -96,6 +96,7 @@ void ViewPanel::initConnect() {
     });
     connect(m_view, &ImageWidget::doubleClicked,
             this, &ViewPanel::toggleFullScreen);
+
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
         m_view->setImageMove(x, y);
     });
@@ -352,12 +353,13 @@ void ViewPanel::toggleFullScreen()
         Q_EMIT m_signalManager->showTopToolbar();
     } else {
         // Full screen then hide bars because hide animation depends on height()
-        Q_EMIT m_signalManager->hideBottomToolbar();
-        Q_EMIT m_signalManager->hideExtensionPanel();
-        Q_EMIT m_signalManager->hideTopToolbar();
         window()->showFullScreen();
         window()->setFixedSize(qApp->desktop()->screenGeometry().size());
         m_view->setFullScreen(window()->size());
+
+        Q_EMIT m_signalManager->hideExtensionPanel();
+        Q_EMIT m_signalManager->hideTopToolbar();
+        Q_EMIT m_signalManager->hideBottomToolbar();
     }
 }
 

@@ -101,8 +101,9 @@ void MainWidget::initBottomToolbar()
     connect(m_signalManager, &SignalManager::showBottomToolbar, this, [=] {
         m_bottomToolbar->moveWithAnimation(0, height() - m_bottomToolbar->height());
     });
+
     connect(m_signalManager, &SignalManager::hideBottomToolbar, this, [=] {
-        m_bottomToolbar->moveWithAnimation(0, height());
+        QTimer::singleShot(2000, [=]{ m_bottomToolbar->moveWithAnimation(0, height());});
     });
 }
 
