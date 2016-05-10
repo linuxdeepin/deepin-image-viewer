@@ -36,6 +36,7 @@ public Q_SLOTS:
     void rotate(int deg);
     void flipX();
     void flipY();
+    void setFullScreen(QSize fullSize);
 protected:
     void timerEvent(QTimerEvent* e) override;
     void paintEvent(QPaintEvent *) override;

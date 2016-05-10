@@ -169,6 +169,13 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
     QWidget::mouseMoveEvent(event);
 }
 
+void ImageWidget::setFullScreen(QSize fullSize) {
+    this->setFixedSize(fullSize);
+    m_image = m_image.scaled(fullSize, Qt::IgnoreAspectRatio,
+                             Qt::SmoothTransformation);
+    setImage(m_image);
+}
+
 void ImageWidget::wheelEvent(QWheelEvent *event)
 {
     m_scaling = true;

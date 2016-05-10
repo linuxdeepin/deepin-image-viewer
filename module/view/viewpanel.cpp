@@ -16,6 +16,7 @@
 #include <QRegularExpression>
 #include <QTimer>
 #include <QDebug>
+#include <QApplication>
 
 using namespace Dtk::Widget;
 
@@ -42,7 +43,6 @@ ViewPanel::ViewPanel(QWidget *parent)
 
     m_nav = new NavigationWidget(this);
     setContextMenuPolicy(Qt::CustomContextMenu);
-
     initConnect();
     setMouseTracking(true);
 }
@@ -149,6 +149,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     hb->setContentsMargins(0, 0, 0, 0);
     hb->setSpacing(10);
     w->setLayout(hb);
+
     ImageButton *btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/info_normal.png");
     btn->setHoverPic(":/images/resources/images/info_hover.png");
@@ -355,6 +356,8 @@ void ViewPanel::toggleFullScreen()
         Q_EMIT m_signalManager->hideExtensionPanel();
         Q_EMIT m_signalManager->hideTopToolbar();
         window()->showFullScreen();
+        window()->setFixedSize(qApp->desktop()->screenGeometry().size());
+        m_view->setFullScreen(window()->size());
     }
 }
 
