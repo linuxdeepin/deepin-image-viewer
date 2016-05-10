@@ -49,7 +49,7 @@ void MainWidget::resizeEvent(QResizeEvent *)
         m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     }
     if (m_extensionPanel) {
-        m_extensionPanel->resize(EXTENSION_PANEL_WIDTH, height());
+        m_extensionPanel->resize(m_extensionPanel->width(), height());
     }
 }
 
@@ -115,11 +115,21 @@ void MainWidget::initExtensionPanel()
             this, [=](QWidget *c) {
         m_extensionPanel->setContent(c);
     });
+    connect(m_signalManager, &SignalManager::updateExtensionPanelRect, this, [=] {
+        m_extensionPanel->updateRectWithContent();
+    });
     connect(m_signalManager, &SignalManager::showExtensionPanel, this, [=] {
-        m_extensionPanel->moveWithAnimation(0, 0);
+        // Is visible
+        if (m_extensionPanel->pos() == QPoint(0, 0)) {
+            m_extensionPanel->moveWithAnimation(- m_extensionPanel->width(), 0);
+        }
+        else {
+            m_extensionPanel->moveWithAnimation(0, 0);
+        }
     });
     connect(m_signalManager, &SignalManager::hideExtensionPanel, this, [=] {
-        m_extensionPanel->moveWithAnimation(- EXTENSION_PANEL_WIDTH, 0);
+        m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+                                                   EXTENSION_PANEL_WIDTH), 0);
     });
 }
 

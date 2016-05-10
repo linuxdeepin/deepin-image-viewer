@@ -65,6 +65,7 @@ private:
                               const QJsonObject &subMenu = QJsonObject());
     void onMenuItemClicked(int menuId, const QString &text);
     void initConnect();
+    void initStyleSheet();
 
     void toggleSlideShow();
     void showToolbar(bool isTop);

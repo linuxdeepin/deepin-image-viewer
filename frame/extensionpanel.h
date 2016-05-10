@@ -10,11 +10,13 @@ class ExtensionPanel : public BlureFrame
 public:
     explicit ExtensionPanel(QWidget *parent, QWidget *source);
     void setContent(QWidget *content);
+    void updateRectWithContent();
 
 protected:
     void paintEvent(QPaintEvent *);
 
 private:
+    QWidget *m_content;
     QHBoxLayout *m_contentLayout;
 };
 

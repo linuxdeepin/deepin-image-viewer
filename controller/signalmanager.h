@@ -16,6 +16,7 @@ signals:
     void updateTopToolbarMiddleContent(QWidget *content);
     void updateBottomToolbarContent(QWidget *content, bool wideMode = false);
     void updateExtensionPanelContent(QWidget *content);
+    void updateExtensionPanelRect();
     void showTopToolbar();
     void hideTopToolbar();
     void showBottomToolbar();

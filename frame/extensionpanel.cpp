@@ -5,9 +5,13 @@
 
 using namespace Dtk::Widget;
 
+namespace {
+
 const int CONTROL_BUTTON_WIDTH = 20;
 const int CONTROL_BUTTON_HEIGHT = 60;
 const int CONTROL_BUTTON_CUBIC_LENGTH = 30;
+
+}  // namespace
 
 ExtensionPanel::ExtensionPanel(QWidget *parent, QWidget *source)
     : BlureFrame(parent, source)
@@ -41,7 +45,16 @@ void ExtensionPanel::setContent(QWidget *content)
             delete child;
         }
 
+        m_content = content;
+        resize(content->sizeHint().width(), this->height());
         m_contentLayout->addWidget(content);
+    }
+}
+
+void ExtensionPanel::updateRectWithContent()
+{
+    if (m_content) {
+        resize(m_content->sizeHint().width(), height());
     }
 }
 
@@ -53,22 +66,25 @@ void ExtensionPanel::paintEvent(QPaintEvent *)
     path.lineTo(width() - CONTROL_BUTTON_WIDTH, 0);//top right
     int cubicStep = 5;
     //cubic 1
-    QPoint cubic1StartPoint(width() - CONTROL_BUTTON_WIDTH, (height() - CONTROL_BUTTON_HEIGHT) / 2 - cubicStep);
-    QPoint cubic1EndPoint(width(), cubic1StartPoint.y() + CONTROL_BUTTON_CUBIC_LENGTH);
-    path.lineTo(cubic1StartPoint);//start point of cubicTo
+    QPoint cubic1StartPoint(width() - CONTROL_BUTTON_WIDTH,
+                            (height() - CONTROL_BUTTON_HEIGHT) / 2 - cubicStep);
+    QPoint cubic1EndPoint(width(),
+                          cubic1StartPoint.y() + CONTROL_BUTTON_CUBIC_LENGTH);
+    path.lineTo(cubic1StartPoint); //start point of cubicTo
     path.cubicTo(QPoint(cubic1StartPoint.x(), cubic1EndPoint.y() - cubicStep),
-                 QPoint(width(), cubic1StartPoint.y() + cubicStep),
-                 cubic1EndPoint);
+        QPoint(width(), cubic1StartPoint.y() + cubicStep), cubic1EndPoint);
     //cubic 2
-    QPoint cubic2StartPoint(width(), cubic1EndPoint.y() + (CONTROL_BUTTON_HEIGHT - CONTROL_BUTTON_CUBIC_LENGTH) / 2);
-    QPoint cubic2EndPoint(width() - CONTROL_BUTTON_WIDTH, cubic2StartPoint.y() + CONTROL_BUTTON_CUBIC_LENGTH);
+    QPoint cubic2StartPoint(width(), cubic1EndPoint.y() + (CONTROL_BUTTON_HEIGHT
+        - CONTROL_BUTTON_CUBIC_LENGTH) / 2);
+    QPoint cubic2EndPoint(width() - CONTROL_BUTTON_WIDTH,
+                          cubic2StartPoint.y() + CONTROL_BUTTON_CUBIC_LENGTH);
     path.lineTo(cubic2StartPoint);
     path.cubicTo(QPoint(cubic2StartPoint.x(), cubic2EndPoint.y() - cubicStep),
                  QPoint(cubic2EndPoint.x(), cubic2StartPoint.y() + cubicStep),
                  cubic2EndPoint);
-    path.lineTo(width() - CONTROL_BUTTON_WIDTH, height());//right bottom
-    path.lineTo(0, height());//left bottom
-    path.lineTo(0, 0);//back to the start point
+    path.lineTo(width() - CONTROL_BUTTON_WIDTH, height()); // Right bottom
+    path.lineTo(0, height()); // Left bottom
+    path.lineTo(0, 0); // Back to the start point
 
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);

@@ -1,0 +1,62 @@
+ViewSeparator {
+    background: rgba(255, 255, 255, .2);
+}
+
+SimpleFormField {
+    color: rgba(255, 255, 255, 176);
+    font-size: 11px;
+}
+
+SimpleFormLabel {
+    color: rgba(255, 255, 255, 128);
+    font-size: 11px;
+}
+
+QPushButton#ShowExtendInfoButton {
+    font-size: 12px;
+    color: #6097cb;
+    outline: none;
+    background: transparent;
+    border: none;
+}
+
+QPushButton#ShowExtendInfoButton:hover {
+    color: #54D7FF;
+}
+
+QPushButton#ShowExtendInfoButton:pressed {
+    color: #01BDFF;
+}
+
+QScrollBar:vertical {
+    background-color: transparent;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    image: url(:/images/resources/images/scrollbar_handle_v_normal.png);
+}
+
+QScrollBar::handle:vertical:hover {
+    image: url(:/images/resources/images/scrollbar_handle_v_hover.png);
+}
+
+QScrollBar::up-arrow {
+    border: none;
+    background: none;
+}
+
+QScrollBar::down-arrow {
+    border: none;
+    background: none;
+}
+
+QScrollBar::add-line {
+    border: none;
+    background: none;
+}
+
+QScrollBar::sub-line {
+    border: none;
+    background: none;
+}

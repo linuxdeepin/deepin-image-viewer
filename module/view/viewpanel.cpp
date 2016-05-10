@@ -1,13 +1,13 @@
 #include "viewpanel.h"
 #include "imageinfowidget.h"
-#include "utils/imgutil.h"
 #include "slideeffect/slideeffectplayer.h"
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
 #include "widgets/imagebutton.h"
-#include "widgets/imagebutton.h"
+#include "utils/imgutil.h"
 #include <darrowrectangle.h>
 #include <QBoxLayout>
+#include <QFile>
 #include <QLabel>
 #include <QResizeEvent>
 #include <QMenu>
@@ -44,6 +44,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     m_nav = new NavigationWidget(this);
     setContextMenuPolicy(Qt::CustomContextMenu);
     initConnect();
+    initStyleSheet();
     setMouseTracking(true);
 }
 
@@ -65,19 +66,7 @@ void ViewPanel::initConnect() {
             [this](const QImage& image) {
         m_view->setImage(image);
     });
-    connect(m_signalManager, &SignalManager::gotoPanel, [this](){
-        m_slide->stop();
-    });
-    connect(m_signalManager, &SignalManager::viewImage, [this](QString path) {
-        DatabaseManager::ImageInfo info =
-                DatabaseManager::instance()->getImageInfoByPath(path);
-        m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
-        m_current = std::find_if(m_infos.cbegin(), m_infos.cend(),
-                                 [&](const DatabaseManager::ImageInfo info){
-            return info.path == path;}
-        );
-        openImage(path);
-    });
+
     connect(m_view, &ImageWidget::rotated, [this](int degree) {
         const QTransform t = QTransform().rotate(degree);
         QImage img = m_view->image().transformed(t);
@@ -100,6 +89,7 @@ void ViewPanel::initConnect() {
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
         m_view->setImageMove(x, y);
     });
+
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         m_popupMenu->showMenu(createMenuContent());
     });
@@ -113,6 +103,31 @@ void ViewPanel::initConnect() {
             emit m_signalManager->showBottomToolbar();
         }
     });
+    connect(m_signalManager, &SignalManager::gotoPanel, [this](){
+        m_slide->stop();
+    });
+    connect(m_signalManager, &SignalManager::viewImage, [this](QString path) {
+        DatabaseManager::ImageInfo info =
+                DatabaseManager::instance()->getImageInfoByPath(path);
+        m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
+        m_current = std::find_if(m_infos.cbegin(), m_infos.cend(),
+                                 [&](const DatabaseManager::ImageInfo info){
+            return info.path == path;}
+        );
+        openImage(path);
+    });
+}
+
+void ViewPanel::initStyleSheet()
+{
+    QFile sf(":/qss/resources/qss/view.qss");
+    if (sf.open(QIODevice::ReadOnly)) {
+        setStyleSheet(sf.readAll());
+        sf.close();
+    }
+    else {
+        qDebug() << "Set style sheet fot view panel error!";
+    }
 }
 
 void ViewPanel::toggleSlideShow()
@@ -306,6 +321,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 QWidget *ViewPanel::extensionPanelContent()
 {
     m_info = new ImageInfoWidget();
+    m_info->setStyleSheet(styleSheet());
     m_info->setImagePath(m_current->path);
     return m_info;
 }

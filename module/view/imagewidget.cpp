@@ -145,9 +145,11 @@ void ImageWidget::paintEvent(QPaintEvent *)
 
 void ImageWidget::mousePressEvent(QMouseEvent *event)
 {
-    m_pos = event->pos();
-    m_posG = event->globalPos();
-    m_moving = true;
+    if (event->button() == Qt::LeftButton) {
+        m_pos = event->pos();
+        m_posG = event->globalPos();
+        m_moving = true;
+    }
 }
 
 void ImageWidget::mouseReleaseEvent(QMouseEvent *event)

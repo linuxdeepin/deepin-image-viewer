@@ -294,4 +294,63 @@ QImage blure(const QImage &origin) {
     return newImage;
 }
 
+QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
+{
+    QMap<QString, QString> dataMap;
+    qDebug() << "Reading exif from: " << path;
+    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
+    if (! ed) {
+        qWarning("Reading exif from error!");
+        return dataMap;
+    }
+    QFileInfo fi(path);
+    QImage img(path);
+    ExifItem *items = isDetails ? utils::ExifDataDetails : utils::ExifDataBasics;
+
+    for (const ExifItem* i = items; i->tag; ++i) {
+        if (i->ifd != EXIF_IFD_COUNT) {
+            ExifEntry *e = exif_content_get_entry(ed->ifd[i->ifd],
+                    (ExifTag)i->tag);
+            if (!e) {
+                qWarning("no exif entry: %s", i->name);
+                continue;
+            }
+            char buf[1024];
+            memset(buf, 0, sizeof(buf));
+            exif_entry_get_value(e, buf, sizeof(buf));
+            if (*buf) {
+                QString v = QString(buf).trimmed();
+                dataMap.insert(i->name, v);
+            }
+        }
+        else {  // For get extend tag infomation
+            switch (i->tag) {
+            case EXIF_TAG_EXTEND_NAME:
+                dataMap.insert(i->name, fi.baseName());
+                break;
+            case EXIF_TAG_EXTEND_WIDTH:
+                dataMap.insert(i->name, QString::number(img.width()));
+                break;
+            case EXIF_TAG_EXTEND_HEIGHT:
+                dataMap.insert(i->name, QString::number(img.height()));
+                break;
+            case EXIF_TAG_EXTEND_SIZE:
+                dataMap.insert(i->name, QString::number(fi.size()));
+                break;
+            case EXIF_TAG_EXTEND_FLASH_COMPENSATION:
+                // TODO
+                break;
+            case EXIF_TAG_EXTEND_LENS_MODEL:
+                // TODO
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    exif_data_unref(ed);
+    return dataMap;
+}
+
 }  //namespace utils
