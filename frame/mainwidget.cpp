@@ -103,7 +103,7 @@ void MainWidget::initBottomToolbar()
     });
 
     connect(m_signalManager, &SignalManager::hideBottomToolbar, this, [=] {
-        QTimer::singleShot(2000, [=]{ m_bottomToolbar->moveWithAnimation(0, height());});
+        m_bottomToolbar->moveWithAnimation(0, height());
     });
 }
 

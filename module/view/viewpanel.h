@@ -70,6 +70,9 @@ private:
     void toggleSlideShow();
     void showToolbar(bool isTop);
 
+    bool mouseContainsByTopToolbar(const QPoint &pos);
+    bool mouseContainsByBottomToolbar(const QPoint &pos);
+
 private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;

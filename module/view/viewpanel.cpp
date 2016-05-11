@@ -158,6 +158,19 @@ void ViewPanel::showToolbar(bool isTop)
     t->start(SHOW_TOOLBAR_INTERVAL);
 }
 
+bool ViewPanel::mouseContainsByTopToolbar(const QPoint &pos)
+{
+    const QRect rect(0, 0, width(), TOP_TOOLBAR_HEIGHT);
+    return rect.contains(pos);
+}
+
+bool ViewPanel::mouseContainsByBottomToolbar(const QPoint &pos)
+{
+    const QRect rect(0, height() - BOTTOM_TOOLBAR_HEIGHT, width(),
+                     BOTTOM_TOOLBAR_HEIGHT);
+    return rect.contains(pos);
+}
+
 QWidget *ViewPanel::toolbarBottomContent()
 {
     QWidget *w = new QWidget();
@@ -340,13 +353,10 @@ void ViewPanel::mouseMoveEvent(QMouseEvent *e)
         return;
     }
 
-    const QRect topToolbarRect(0, 0, width(), TOP_TOOLBAR_HEIGHT);
-    const QRect bottomToolbarRect(0, height() - BOTTOM_TOOLBAR_HEIGHT, width(),
-                                  BOTTOM_TOOLBAR_HEIGHT);
-    if (topToolbarRect.contains(e->pos())) {
+    if (mouseContainsByTopToolbar(e->pos())) {
         showToolbar(true);
     }
-    else if (bottomToolbarRect.contains(e->pos())) {
+    else if (mouseContainsByBottomToolbar(e->pos())) {
         showToolbar(false);
     }
 
@@ -561,7 +571,9 @@ void ViewPanel::openImage(const QString &path)
     Q_EMIT m_signalManager->gotoPanel(this);
     Q_EMIT m_signalManager->updateBottomToolbarContent(toolbarBottomContent(),
                                                        true);
-    Q_EMIT m_signalManager->hideBottomToolbar();
+    if (! mouseContainsByBottomToolbar(mapFromGlobal(QCursor::pos()))) {
+        Q_EMIT m_signalManager->hideBottomToolbar();
+    }
     Q_EMIT m_signalManager->hideTopToolbar();
 
     m_view->setImage(path);
