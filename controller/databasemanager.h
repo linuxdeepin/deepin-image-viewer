@@ -7,8 +7,6 @@
 #include <QSqlDatabase>
 #include <QMutex>
 
-const QString DATETIME_FORMAT = "yyyy.MM.dd";
-
 class DatabaseManager : public QObject
 {
     Q_OBJECT
@@ -24,8 +22,8 @@ public:
     struct AlbumInfo {
         QString name;
         int count;
-        QDateTime earliestTime;
-        QDateTime latestTime;
+        QDateTime beginTime;
+        QDateTime endTime;
     };
 
     static DatabaseManager *instance();

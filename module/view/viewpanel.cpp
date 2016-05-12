@@ -4,7 +4,8 @@
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
 #include "widgets/imagebutton.h"
-#include "utils/imgutil.h"
+#include "utils/imageutils.h"
+#include "utils/baseutils.h"
 #include <darrowrectangle.h>
 #include <QBoxLayout>
 #include <QFile>
@@ -70,12 +71,12 @@ void ViewPanel::initConnect() {
     connect(m_view, &ImageWidget::rotated, [this](int degree) {
         const QTransform t = QTransform().rotate(degree);
         QImage img = m_view->image().transformed(t);
-        utils::saveImageWithExif(img, m_current->path, m_current->path, t);
+        utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
     connect(m_view, &ImageWidget::fliped, [this](bool x, bool y) {
         const QTransform t = QTransform().scale(x ? -1 : 1, y ? -1 : 1);
         QImage img = m_view->image().transformed(t);
-        utils::saveImageWithExif(img, m_current->path, m_current->path, t);
+        utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
     connect(m_view, &ImageWidget::transformChanged, [this](){
         // TODO: check user settings
@@ -196,7 +197,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, [this](){
         m_dbManager->insertImageIntoAlbum("My favorites", m_current->name,
-                                     m_current->time.toString(DATETIME_FORMAT));
+            utils::base::timeToString(m_current->time));
     });
     btn->setToolTip("Collect");
 
@@ -517,7 +518,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdAddToAlbum:
         m_dbManager->insertImageIntoAlbum(albumName, m_current->name,
-                                     m_current->time.toString(DATETIME_FORMAT));
+            utils::base::timeToString(m_current->time));
         break;
 //    case IdExport:
 //        break;
@@ -536,7 +537,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdAddToFavorites:
         m_dbManager->insertImageIntoAlbum("My favorites", m_current->name,
-                                     m_current->time.toString(DATETIME_FORMAT));
+            utils::base::timeToString(m_current->time));
         break;
     case IdRemoveFromFavorites:
         break;

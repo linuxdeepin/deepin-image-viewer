@@ -1,5 +1,6 @@
 #include "databasemanager.h"
 #include "signalmanager.h"
+#include "utils/baseutils.h"
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QSqlQuery>
@@ -39,7 +40,7 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         query.bindValue( ":path", info.path );
         query.bindValue( ":album", info.albums );
         query.bindValue( ":label", info.labels );   // TODO not support QStringList
-        query.bindValue( ":time", info.time.toString(DATETIME_FORMAT) );
+        query.bindValue( ":time", utils::base::timeToString(info.time) );
         QByteArray inByteArray;
         QBuffer inBuffer( &inByteArray );
         inBuffer.open( QIODevice::WriteOnly );
@@ -57,7 +58,8 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
             emit SignalManager::instance()->imageCountChanged();
 
             // All new image should add to the album "Recent imported"
-            insertImageIntoAlbum("Recent imported", info.name, info.time.toString(DATETIME_FORMAT));
+            insertImageIntoAlbum("Recent imported", info.name,
+                                 utils::base::timeToString(info.time));
         }
     }
 
@@ -79,7 +81,7 @@ void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
         query.bindValue( ":path", info.path );
         query.bindValue( ":album", info.albums );
         query.bindValue( ":label", info.labels );
-        query.bindValue( ":time", info.time.toString(DATETIME_FORMAT) );
+        query.bindValue( ":time", utils::base::timeToString(info.time) );
         QByteArray inByteArray;
         QBuffer inBuffer( &inByteArray );
         inBuffer.open( QIODevice::WriteOnly );
@@ -106,7 +108,7 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(const QS
 
 QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByTime(const QDateTime &time)
 {
-    return getImageInfos("time", time.toString(DATETIME_FORMAT));
+    return getImageInfos("time", utils::base::timeToString(time));
 }
 
 DatabaseManager::ImageInfo DatabaseManager::getImageInfoByName(const QString &name)
@@ -279,12 +281,12 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
     }
 
     if (nameList.length() == 1) {
-        info.earliestTime = getImageInfoByName(nameList.first()).time;
-        info.latestTime = info.earliestTime;
+        info.beginTime = getImageInfoByName(nameList.first()).time;
+        info.endTime = info.beginTime;
     }
     else if (nameList.length() > 1) {
-        info.earliestTime = getImageInfoByName(nameList.first()).time;
-        info.latestTime = getImageInfoByName(nameList.last()).time;
+        info.beginTime = getImageInfoByName(nameList.first()).time;
+        info.endTime = getImageInfoByName(nameList.last()).time;
     }
 
     return info;
@@ -513,7 +515,7 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfos(const QString &
                 info.path = query.value(1).toString();
                 info.albums = query.value(2).toStringList();
                 info.labels = query.value(3).toStringList();
-                info.time = QDateTime::fromString(query.value(4).toString(), DATETIME_FORMAT);
+                info.time = utils::base::stringToDateTime(query.value(4).toString());
                 info.thumbnail.loadFromData(query.value(5).toByteArray());
 
                 infoList << info;

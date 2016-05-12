@@ -1,4 +1,5 @@
 #include "timelinepanel.h"
+#include "utils/baseutils.h"
 #include "controller/importer.h"
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
@@ -81,7 +82,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
                 DatabaseManager::ImageInfo info
                         = m_dbManager->getImageInfoByName(image);
                 m_dbManager->insertImageIntoAlbum(m_targetAlbum, image,
-                                             info.time.toString(DATETIME_FORMAT));
+                    utils::base::timeToString(info.time));
             }
 
             m_targetAlbum = "";

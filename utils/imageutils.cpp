@@ -1,4 +1,5 @@
-#include "utils/imgutil.h"
+#include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include <QDebug>
 #include <QFileInfo>
 #include <QBuffer>
@@ -7,12 +8,56 @@
 extern "C" {
 #include "libjpeg/jpeg-data.h"
 }
+
 namespace {
 
 const int THUMBNAIL_MAX_SIZE = 384;
 
 }  // namespace
+
 namespace utils {
+
+namespace image {
+
+static ExifItem ExifDataBasics[] = {
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME, "Name"},
+    {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL, "Date photoed"},
+    {EXIF_IFD_0, EXIF_TAG_DATE_TIME, "Date modified"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_WIDTH, "Width (pixel)"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_HEIGHT, "Height (pixel)"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE, "File size"},
+    {EXIF_IFD_COUNT, 0, 0}
+};
+
+static ExifItem ExifDataDetails[] = {
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME, "Name"},
+    {EXIF_IFD_0, EXIF_TAG_MAKE, QT_TR_NOOP("Manufacture")},
+    {EXIF_IFD_0, EXIF_TAG_MODEL, QT_TR_NOOP("Model")},
+    {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL, "Date photoed"},
+    {EXIF_IFD_0, EXIF_TAG_DATE_TIME, "Date modified"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_WIDTH, "Width (pixel)"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_HEIGHT, "Height (pixel)"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE, "File size"},
+    {EXIF_IFD_EXIF, EXIF_TAG_COLOR_SPACE, "Colorspace"},
+    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_MODE, QT_TR_NOOP("Exposure mode")},
+    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_PROGRAM, "Exposure program"},
+    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_TIME, "Exposure time"},
+    {EXIF_IFD_EXIF, EXIF_TAG_FLASH, "Flash"},
+    {EXIF_IFD_EXIF, EXIF_TAG_APERTURE_VALUE, "Aperture"},
+    {EXIF_IFD_EXIF, EXIF_TAG_FOCAL_LENGTH, "Focal length"},
+    {EXIF_IFD_EXIF, EXIF_TAG_ISO_SPEED_RATINGS, "ISO"},
+    {EXIF_IFD_EXIF, EXIF_TAG_MAX_APERTURE_VALUE, "Max aperture"},
+    {EXIF_IFD_EXIF, EXIF_TAG_METERING_MODE, "Metering mode"},
+    {EXIF_IFD_EXIF, EXIF_TAG_WHITE_BALANCE, "White balance"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_FLASH_COMPENSATION, "Flash compensation"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_LENS_MODEL, "Lens model"},
+    {EXIF_IFD_COUNT, 0, 0}
+};
+
+ExifItem *getExifItemList(bool isDetails)
+{
+    return isDetails ? ExifDataDetails : ExifDataBasics;
+}
 
 QPixmap getThumbnail(const QString &filePath)
 {
@@ -59,10 +104,8 @@ QDateTime getCreateDateTime(const QString &filePath)
 {
     ExifData *ed = exif_data_new_from_file(filePath.toUtf8().data());
     if (ed) {
-        QDateTime dt;
-        dt = QDateTime::fromString(readExifTag(ed,
-                                               EXIF_IFD_0, EXIF_TAG_DATE_TIME),
-                                   "yyyy:MM:dd HH:mm:ss");
+        QDateTime dt = utils::base::stringToDateTime(
+                    readExifTag(ed, EXIF_IFD_0, EXIF_TAG_DATE_TIME));
         //Free the EXIF data
         exif_data_unref(ed);
         return dt;
@@ -305,7 +348,7 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
     }
     QFileInfo fi(path);
     QImage img(path);
-    ExifItem *items = isDetails ? utils::ExifDataDetails : utils::ExifDataBasics;
+    ExifItem *items = isDetails ? ExifDataDetails : ExifDataBasics;
 
     for (const ExifItem* i = items; i->tag; ++i) {
         if (i->ifd != EXIF_IFD_COUNT) {
@@ -320,7 +363,14 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
             exif_entry_get_value(e, buf, sizeof(buf));
             if (*buf) {
                 QString v = QString(buf).trimmed();
-                dataMap.insert(i->name, v);
+                switch (i->tag) {
+                case EXIF_TAG_DATE_TIME:
+                case EXIF_TAG_DATE_TIME_ORIGINAL:
+                    dataMap.insert(i->name, utils::base::formatExifTimeString(v));
+                    break;
+                default:
+                    dataMap.insert(i->name, v);
+                }
             }
         }
         else {  // For get extend tag infomation
@@ -335,7 +385,7 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
                 dataMap.insert(i->name, QString::number(img.height()));
                 break;
             case EXIF_TAG_EXTEND_SIZE:
-                dataMap.insert(i->name, QString::number(fi.size()));
+                dataMap.insert(i->name, utils::base::sizeToHuman(fi.size()));
                 break;
             case EXIF_TAG_EXTEND_FLASH_COMPENSATION:
                 // TODO
@@ -352,5 +402,7 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
     exif_data_unref(ed);
     return dataMap;
 }
+
+}  // namespace image
 
 }  //namespace utils

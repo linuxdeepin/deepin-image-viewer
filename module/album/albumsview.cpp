@@ -82,8 +82,8 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     QVariantList datas;
     datas.append(QVariant(info.name));
     datas.append(QVariant(info.count));
-    datas.append(QVariant(info.earliestTime));
-    datas.append(QVariant(info.latestTime));
+    datas.append(QVariant(info.beginTime));
+    datas.append(QVariant(info.endTime));
     datas.append(QVariant(thumbnailByteArray));
 
     QStandardItem *item = new QStandardItem();

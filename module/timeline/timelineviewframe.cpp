@@ -1,5 +1,6 @@
 #include "timelineviewframe.h"
 #include "controller/popupmenumanager.h"
+#include "utils/baseutils.h"
 #include <QResizeEvent>
 #include <QDateTime>
 #include <QDebug>
@@ -65,7 +66,7 @@ void TimelineViewFrame::initListView()
     //add data
     QList<DatabaseManager::ImageInfo> list
             = DatabaseManager::instance()->getImageInfosByTime(
-                QDateTime::fromString(m_timeline, DATETIME_FORMAT));
+                utils::base::stringToDateTime(m_timeline));
     for (DatabaseManager::ImageInfo info : list) {
         insertItem(info);
     }

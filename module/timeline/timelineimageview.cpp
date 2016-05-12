@@ -1,8 +1,9 @@
-#include <math.h>
 #include "timelineimageview.h"
 #include "timelineviewframe.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
+#include "utils/baseutils.h"
+#include <math.h>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QDebug>
@@ -32,7 +33,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     // Watching import thread
     connect(SignalManager::instance(), &SignalManager::imageInserted,
             this, [=] (const DatabaseManager::ImageInfo &info) {
-        const QString timeLine = info.time.toString(DATETIME_FORMAT);
+        const QString timeLine = utils::base::timeToString(info.time);
         // TimeLine frame not exist, create one
         if (m_frames.keys().indexOf(timeLine) == -1) {
             inserFrame(timeLine);
@@ -189,7 +190,7 @@ QString TimelineImageView::currentTimeline()
 
 QString TimelineImageView::getMonthByTimeline(const QString &timeline)
 {
-    return QDateTime::fromString(timeline, DATETIME_FORMAT).toString("yyyy.MM");
+    return utils::base::stringToDateTime(timeline).toString("yyyy.MM");
 }
 
 double TimelineImageView::scrollingPercent()

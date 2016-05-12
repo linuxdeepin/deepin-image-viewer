@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QtDebug>
 #include <QMouseEvent>
-#include <utils/imgutil.h>
+#include <utils/imageutils.h>
 
 ImageWidget::ImageWidget(QWidget *parent)
     : QWidget(parent)

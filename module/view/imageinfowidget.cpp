@@ -1,5 +1,5 @@
 #include "imageinfowidget.h"
-#include "utils/imgutil.h"
+#include "utils/imageutils.h"
 #include "controller/signalmanager.h"
 #include <QScrollBar>
 #include <QLabel>
@@ -115,8 +115,9 @@ void ImageInfoWidget::updateInfo()
     int fieldWidth = 0;
 
     QFontMetrics fm(font());
-    auto ei = utils::GetExifFromPath(m_path, m_isDetail);
-    for (const utils::ExifItem* i = utils::ExifDataDetails; i->tag; ++i) {
+    auto ei = utils::image::GetExifFromPath(m_path, m_isDetail);
+    for (const utils::image::ExifItem* i =
+         utils::image::getExifItemList(m_isDetail); i->tag; ++i) {
         const QString v = ei.value(i->name);
         if (v.isEmpty()) {
             continue;
@@ -127,6 +128,6 @@ void ImageInfoWidget::updateInfo()
         m_exifLayout->addRow(new SimpleFormLabel(tr(i->name) + ":"), label);
     }
 
-    m_maxContentWidth = titleWidth + fieldWidth;
+    m_maxContentWidth = titleWidth + fieldWidth + 10;
     m_maxContentWidth += verticalScrollBar()->isVisible() ? -10 : 10;
 }

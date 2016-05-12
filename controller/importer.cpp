@@ -1,5 +1,5 @@
 #include "importer.h"
-#include "utils/imgutil.h"
+#include "utils/imageutils.h"
 #include "controller/databasemanager.h"
 #include <libexif/exif-data.h>
 #include <QDirIterator>
@@ -22,10 +22,10 @@ QString insertImage(const QString &path)
     DatabaseManager::ImageInfo imgInfo;
     imgInfo.name = fileInfo.fileName();
     imgInfo.path = fileInfo.absoluteFilePath();
-    imgInfo.time = utils::getCreateDateTime(path);
+    imgInfo.time = utils::image::getCreateDateTime(path);
     imgInfo.albums = QStringList();
     imgInfo.labels = QStringList();
-    imgInfo.thumbnail = utils::getThumbnail(path);
+    imgInfo.thumbnail = utils::image::getThumbnail(path);
 
     DatabaseManager::instance()->insertImageInfo(imgInfo);
 

@@ -1,6 +1,7 @@
 #include "topalbumtips.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
+#include "utils/baseutils.h"
 #include <QLabel>
 #include <QPushButton>
 #include <QHBoxLayout>
@@ -32,8 +33,8 @@ void TopAlbumTips::setAlbum(const QString &album)
     m_album = album;
     DatabaseManager::AlbumInfo info
             = DatabaseManager::instance()->getAlbumInfo(album);
-    const QString beginTime = info.earliestTime.toString(DATETIME_FORMAT);
-    const QString endTime = info.latestTime.toString(DATETIME_FORMAT);
+    const QString beginTime = utils::base::timeToString(info.beginTime);
+    const QString endTime = utils::base::timeToString(info.endTime);
 
     m_infoLabel->setText(album + "  " + beginTime + "-" + endTime);
 }

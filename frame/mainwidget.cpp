@@ -5,11 +5,13 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-using namespace Dtk::Widget;
+namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 24;
 const int EXTENSION_PANEL_WIDTH = 240;
+
+}  // namespace
 
 MainWidget::MainWidget(QWidget *parent)
     : QFrame(parent)
