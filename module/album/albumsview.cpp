@@ -48,7 +48,8 @@ AlbumsView::AlbumsView(QWidget *parent)
             this, &AlbumsView::onDoubleClicked);
     connect(this, &AlbumsView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
-        m_popupMenu->showMenu(createMenuContent(indexAt(pos)));
+        m_popupMenu->setMenuContent(createMenuContent(indexAt(pos)));
+        m_popupMenu->showMenu();
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &AlbumsView::onMenuItemClicked);

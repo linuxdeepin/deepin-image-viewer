@@ -30,6 +30,8 @@ protected:
 private Q_SLOTS:
     void openImage(const QString& path);
     void toggleFullScreen();
+    void showPrevious();
+    void showNext();
 
 private:
     enum MenuItemId {
@@ -65,6 +67,7 @@ private:
                               const QJsonObject &subMenu = QJsonObject());
     void onMenuItemClicked(int menuId, const QString &text);
     void initConnect();
+    void initShortcut();
     void initStyleSheet();
 
     void toggleSlideShow();

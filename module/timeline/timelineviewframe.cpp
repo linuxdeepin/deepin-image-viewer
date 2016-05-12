@@ -60,7 +60,8 @@ void TimelineViewFrame::initListView()
         emit SignalManager::instance()->viewImage(index.data(Qt::UserRole).toString());
     });
     connect(m_listView, &ThumbnailListView::customContextMenuRequested, [this] {
-        m_popupMenu->showMenu(createMenuContent());
+        m_popupMenu->setMenuContent(createMenuContent());
+        m_popupMenu->showMenu();
     });
 
     //add data

@@ -75,7 +75,8 @@ void ImagesView::initListView()
         emit SignalManager::instance()->viewImage(index.data(Qt::UserRole).toString(), m_currentAlbum);
     });
     connect(m_listView, &ThumbnailListView::customContextMenuRequested, [this] {
-        m_popupMenu->showMenu(createMenuContent());
+        m_popupMenu->setMenuContent(createMenuContent());
+        m_popupMenu->showMenu();
     });
 }
 

@@ -15,6 +15,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QRegularExpression>
+#include <QShortcut>
+#include <QKeySequence>
 #include <QTimer>
 #include <QDebug>
 #include <QApplication>
@@ -45,8 +47,11 @@ ViewPanel::ViewPanel(QWidget *parent)
     m_nav = new NavigationWidget(this);
     setContextMenuPolicy(Qt::CustomContextMenu);
     initConnect();
+    initShortcut();
     initStyleSheet();
     setMouseTracking(true);
+
+    m_popupMenu->setMenuContent(createMenuContent());
 }
 
 void ViewPanel::initConnect() {
@@ -92,7 +97,8 @@ void ViewPanel::initConnect() {
     });
 
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
-        m_popupMenu->showMenu(createMenuContent());
+        m_popupMenu->setMenuContent(createMenuContent());
+        m_popupMenu->showMenu();
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ViewPanel::onMenuItemClicked);
@@ -116,6 +122,38 @@ void ViewPanel::initConnect() {
             return info.path == path;}
         );
         openImage(path);
+    });
+}
+
+void ViewPanel::initShortcut()
+{
+    // Previous
+    QShortcut *sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, &ViewPanel::showPrevious);
+
+    // Next
+    sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, &ViewPanel::showNext);
+
+    // Edit
+    sc = new QShortcut(QKeySequence("Ctrl+E"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        Q_EMIT m_signalManager->editImage(m_current->path);
+    });
+
+    // Esc
+    sc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        if (m_slide->isRunning()) {
+            m_slide->stop();
+        }
+        else {
+            Q_EMIT m_signalManager->backToMainWindow();
+        }
     });
 }
 
@@ -206,13 +244,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/resources/images/previous_hover.png");
     btn->setPressPic(":/images/resources/images/previous_press.png");
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, [this]() {
-        m_slide->stop();
-        if (m_current == m_infos.cbegin())
-            return;
-        --m_current;
-        openImage(m_current->path);
-    });
+    connect(btn, &ImageButton::clicked, this, &ViewPanel::showPrevious);
     btn->setToolTip(tr("Previous"));
 
     btn = new ImageButton();
@@ -228,17 +260,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     btn->setHoverPic(":/images/resources/images/next_hover.png");
     btn->setPressPic(":/images/resources/images/next_press.png");
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, [this]() {
-        m_slide->stop();
-        if (m_current == m_infos.cend())
-            return;
-        ++m_current;
-        if (m_current == m_infos.cend()) {
-            --m_current;
-            return;
-        }
-        openImage(m_current->path);
-    });
+    connect(btn, &ImageButton::clicked, this, &ViewPanel::showNext);
     btn->setToolTip(tr("Next"));
 
     btn = new ImageButton();
@@ -275,8 +297,10 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     btn->setHoverPic(":/images/resources/images/album_hover.png");
     btn->setPressPic(":/images/resources/images/album_active.png");
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked,
-            m_signalManager, &SignalManager::backToMainWindow);
+    connect(btn, &ImageButton::clicked, this, [=] {
+        m_slide->stop();
+        Q_EMIT m_signalManager->backToMainWindow();
+    });
     btn->setToolTip(tr("Back"));
 
     return w;
@@ -390,6 +414,28 @@ void ViewPanel::toggleFullScreen()
     }
 }
 
+void ViewPanel::showPrevious()
+{
+    m_slide->stop();
+    if (m_current == m_infos.cbegin())
+        return;
+    --m_current;
+    openImage(m_current->path);
+}
+
+void ViewPanel::showNext()
+{
+    m_slide->stop();
+    if (m_current == m_infos.cend())
+        return;
+    ++m_current;
+    if (m_current == m_infos.cend()) {
+        --m_current;
+        return;
+    }
+    openImage(m_current->path);
+}
+
 QString ViewPanel::createMenuContent()
 {
     QJsonArray items;
@@ -465,20 +511,22 @@ QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
     const QStringList albums = DatabaseManager::instance()->getAlbumNameList();
 
     QJsonArray items;
-    for (QString album : albums) {
-        if (album == "My favorites" || album == "Recent imported") {
-            continue;
-        }
-        const QStringList names = m_dbManager->getImageNamesByAlbum(album);
-        if (isRemove) {
-            if (names.indexOf(m_current->name) != -1) {
-                album = tr("Remove from <<%1>>").arg(album);
-                items.append(createMenuItem(IdRemoveFromAlbum, album));
+    if (! m_infos.isEmpty()) {
+        for (QString album : albums) {
+            if (album == "My favorites" || album == "Recent imported") {
+                continue;
             }
-        }
-        else {
-            if (names.indexOf(m_current->name) == -1) {
-                items.append(createMenuItem(IdAddToAlbum, album));
+            const QStringList names = m_dbManager->getImageNamesByAlbum(album);
+            if (isRemove) {
+                if (names.indexOf(m_current->name) != -1) {
+                    album = tr("Remove from <<%1>>").arg(album);
+                    items.append(createMenuItem(IdRemoveFromAlbum, album));
+                }
+            }
+            else {
+                if (names.indexOf(m_current->name) == -1) {
+                    items.append(createMenuItem(IdAddToAlbum, album));
+                }
             }
         }
     }

@@ -14,7 +14,7 @@ class PopupMenuManager : public QObject {
     Q_OBJECT
 
 public:
-    explicit PopupMenuManager(QObject *parent = 0);
+    explicit PopupMenuManager(QWidget *parent);
     ~PopupMenuManager();
 
     QJsonObject createItemObj(const int id,
@@ -52,7 +52,10 @@ public:
     //			}
     //       ]
     //    }
-    void showMenu(const QString &menuJsonContent);
+
+    // Note: you should set menu content on initialization for binding shortcut
+    void setMenuContent(const QString &menuJsonContent);
+    void showMenu();
     void hideMenu();
 
 signals:
@@ -65,7 +68,9 @@ private:
     void constructMenu(QMenu* menu, const QJsonArray& content);
 
 private:
+    QPoint m_pos;
     QMenu* m_menu;
+    QWidget *m_parentWidget;
 };
 
 

@@ -11,10 +11,11 @@
 #include <QKeySequence>
 #include <QMenu>
 
-PopupMenuManager::PopupMenuManager(QObject *parent)
-    : QObject(parent)
+PopupMenuManager::PopupMenuManager(QWidget *parent)
+    : QObject(parent),
+      m_parentWidget(parent)
 {
-    m_menu = new QMenu();
+    m_menu = new QMenu(parent);
     m_menu->setAttribute(Qt::WA_TranslucentBackground);
     // Popup frame border-width is 1px
     m_menu->setContentsMargins(1, 1, 1, 1);
@@ -46,6 +47,28 @@ QJsonObject PopupMenuManager::createItemObj(const int id,
     obj["checked"] = QJsonValue(false);
     obj["itemSubMenu"] = QJsonValue(subMenu);
     return obj;
+}
+
+void PopupMenuManager::setMenuContent(const QString &menuJsonContent)
+{
+    m_menu->clear();
+
+    // To avoid shortcut overload
+    for (QAction *ac : m_parentWidget->actions()) {
+       m_parentWidget->removeAction(ac);
+    }
+
+    const QJsonObject obj(QJsonDocument::fromJson(menuJsonContent.toUtf8()).
+                          object());
+    const QJsonArray content(obj["items"].toArray());
+    m_pos = QPoint(obj["x"].toInt(), obj["y"].toInt());
+
+    if (content.isEmpty()) {
+        qDebug() << "Invalid menu content!";
+        return;
+    }
+
+    constructMenu(m_menu, content);
 }
 
 void PopupMenuManager::handleMenuActionTriggered(QAction* action)
@@ -89,7 +112,9 @@ void PopupMenuManager::constructMenu(QMenu* menu, const QJsonArray& content)
             action->setCheckable(true);
             action->setChecked(checked);
             action->setData(itemId);
+            action->setShortcutContext(Qt::WindowShortcut);
             action->setShortcut(QKeySequence(shortcut));
+            m_parentWidget->addAction(action);
         }
         else {
             QMenu* subMenu = new QMenu();
@@ -118,26 +143,13 @@ void PopupMenuManager::hideMenu()
     m_menu->hide();
 }
 
-void PopupMenuManager::showMenu(const QString &menuJsonContent)
+void PopupMenuManager::showMenu()
 {
-    m_menu->clear();
-
-    const QJsonObject obj(QJsonDocument::fromJson(menuJsonContent.toUtf8()).object());
-    const QJsonArray content(obj["items"].toArray());
-    const QPoint pos(obj["x"].toInt(), obj["y"].toInt());
-
-    if (content.isEmpty()) {
-        qDebug() << "Invalid menu content!";
-        return;
-    }
-
-    constructMenu(m_menu, content);
-
-    if (pos.isNull()) {
+    if (m_pos.isNull()) {
         m_menu->popup(QCursor::pos());
     }
     else {
-        m_menu->popup(pos);
+        m_menu->popup(m_pos);
     }
 }
 
