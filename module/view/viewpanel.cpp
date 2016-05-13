@@ -130,7 +130,7 @@ void ViewPanel::initConnect() {
             return info.path == path;}
         );
         m_albumName = album;
-        openImage(path);
+        openImage(path, true);
     });
 }
 
@@ -231,6 +231,7 @@ bool ViewPanel::mouseContainsByBottomToolbar(const QPoint &pos)
 QWidget *ViewPanel::toolbarBottomContent()
 {
     QWidget *w = new QWidget();
+
     QHBoxLayout *hb = new QHBoxLayout();
     hb->setContentsMargins(0, 0, 0, 0);
     hb->setSpacing(10);
@@ -306,6 +307,7 @@ QWidget *ViewPanel::toolbarBottomContent()
 QWidget *ViewPanel::toolbarTopLeftContent()
 {
     QWidget *w = new QWidget();
+
     QHBoxLayout *hb = new QHBoxLayout();
     hb->setContentsMargins(0, 0, 0, 0);
     hb->setSpacing(0);
@@ -628,11 +630,18 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     }
 }
 
-void ViewPanel::openImage(const QString &path)
+void ViewPanel::openImage(const QString &path, bool fromOutside)
 {
     Q_EMIT m_signalManager->gotoPanel(this);
     Q_EMIT m_signalManager->updateBottomToolbarContent(toolbarBottomContent(),
                                                        true);
+
+    if (fromOutside) {
+        Q_EMIT m_signalManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        Q_EMIT m_signalManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        Q_EMIT m_signalManager->updateExtensionPanelContent(extensionPanelContent());
+    }
+
     if (! mouseContainsByBottomToolbar(mapFromGlobal(QCursor::pos()))) {
         Q_EMIT m_signalManager->hideBottomToolbar();
     }

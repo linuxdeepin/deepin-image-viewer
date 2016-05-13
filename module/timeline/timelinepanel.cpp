@@ -28,6 +28,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
 {
     QWidget *tBottomContent = new QWidget;
     tBottomContent->setStyleSheet(this->styleSheet());
+
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
     layout->setContentsMargins(14, 0, 14, 0);
     layout->setSpacing(0);

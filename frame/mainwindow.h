@@ -12,6 +12,7 @@ public:
     MainWindow(QWidget *parent=0);
 
     MainWidget *mainWidget;
+
 };
 
 #endif // MAINWINDOW_H

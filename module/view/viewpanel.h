@@ -22,14 +22,13 @@ public:
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
-
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
-    void openImage(const QString& path);
+    void openImage(const QString& path, bool fromOutside = false);
     void toggleFullScreen();
     void showPrevious();
     void showNext();

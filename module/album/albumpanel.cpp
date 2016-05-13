@@ -124,6 +124,8 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     QLabel *albumLabel = new QLabel();
     albumLabel->setPixmap(QPixmap(":/images/resources/images/album_active.png"));
 
+
+
     ImageButton *searchButton = new ImageButton();
     searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
     searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
@@ -252,6 +254,7 @@ void AlbumPanel::updateBottomToolbarContent()
 
     //set width to 1px for layout center
     m_slider->setFixedWidth(count > 0 ? 120 : 1);
+
 }
 
 void AlbumPanel::onOpenAlbum(const QString &album)

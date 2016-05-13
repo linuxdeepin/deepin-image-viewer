@@ -1,4 +1,6 @@
 #include "frame/mainwindow.h"
+#include "controller/commandline.h"
+
 #include <QApplication>
 #include <DLog>
 
@@ -22,11 +24,14 @@ int main(int argc, char *argv[])
     a.setOrganizationName("deepin");
     a.setApplicationName("deepin-image-viewer");
     a.setApplicationDisplayName("Deepin Image Viewer");
+    a.setApplicationVersion("0.1.0");
 
 //    // install translators
 //    QTranslator translator;
 //    translator.load("/usr/share/deepin-viewer/translations/deepin-viewer_" + QLocale::system().name());
 //    a.installTranslator(&translator);
+
+    CommandLine::instance();
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
@@ -34,6 +39,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
+
 
     return a.exec();
 }

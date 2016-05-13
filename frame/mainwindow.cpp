@@ -18,4 +18,5 @@ MainWindow::MainWindow(QWidget *parent):
 
     mainWidget = new MainWidget(this);
     addContenWidget(mainWidget);
+
 }

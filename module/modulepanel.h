@@ -39,17 +39,6 @@ signals:
     void hideExtensionPanel();
     void showExtensionPanel();
     void backToMainWindow();
-
-protected:
-    virtual void showEvent(QShowEvent* ) {
-        Q_EMIT SignalManager::instance()->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        Q_EMIT SignalManager::instance()->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-        Q_EMIT SignalManager::instance()->updateBottomToolbarContent(toolbarBottomContent());
-        Q_EMIT SignalManager::instance()->updateExtensionPanelContent(extensionPanelContent());
-    }
-    virtual void hideEvent(QHideEvent*) {
-        Q_EMIT SignalManager::instance()->hideExtensionPanel();
-    }
 };
 
 #endif // MODULEPANEL_H

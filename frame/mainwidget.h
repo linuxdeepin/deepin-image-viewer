@@ -23,6 +23,9 @@ public:
 protected:
     void resizeEvent(QResizeEvent *);
 
+private slots:
+    void onGotoPanel(ModulePanel *panel);
+
 private:
     void initPanelStack();
     void initTopToolbar();

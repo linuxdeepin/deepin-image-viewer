@@ -29,12 +29,9 @@ MainWidget::MainWidget(QWidget *parent)
     initEditPanel();
 
     connect(m_signalManager, &SignalManager::backToMainWindow, this, [=] {
-        m_panelStack->setCurrentWidget(m_timelinePanel);
+        onGotoPanel(m_timelinePanel);
     });
-    connect(m_signalManager, &SignalManager::gotoPanel,
-            [this](ModulePanel* panel){
-        m_panelStack->setCurrentWidget(panel);
-    });
+    connect(m_signalManager, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);
 
     connect(m_signalManager, &SignalManager::showInFileManager,
             this, [=] (const QString &path) {
@@ -61,6 +58,15 @@ void MainWidget::resizeEvent(QResizeEvent *)
     if (m_extensionPanel) {
         m_extensionPanel->resize(m_extensionPanel->width(), height());
     }
+}
+
+void MainWidget::onGotoPanel(ModulePanel *panel)
+{
+    m_panelStack->setCurrentWidget(panel);
+    emit m_signalManager->updateTopToolbarLeftContent(panel->toolbarTopLeftContent());
+    emit m_signalManager->updateTopToolbarMiddleContent(panel->toolbarTopMiddleContent());
+    emit m_signalManager->updateBottomToolbarContent(panel->toolbarBottomContent());
+    emit m_signalManager->updateExtensionPanelContent(panel->extensionPanelContent());
 }
 
 void MainWidget::initPanelStack()
@@ -175,10 +181,7 @@ void MainWidget::initTimelinePanel()
     m_panelStack->addWidget(m_timelinePanel);
 
     connect(m_timelinePanel, &TimelinePanel::needGotoAlbumPanel, this, [=] {
-        emit m_signalManager->gotoPanel(m_albumPanel);
-        emit m_signalManager->updateBottomToolbarContent(m_albumPanel->toolbarBottomContent());
-        emit m_signalManager->updateTopToolbarLeftContent(m_albumPanel->toolbarTopLeftContent());
-        emit m_signalManager->updateTopToolbarMiddleContent(m_albumPanel->toolbarTopMiddleContent());
+        onGotoPanel(m_albumPanel);
     });
 }
 
@@ -188,10 +191,7 @@ void MainWidget::initAlbumPanel()
     m_panelStack->addWidget(m_albumPanel);
 
     connect(m_albumPanel, &AlbumPanel::needGotoTimelinePanel, this, [=] {
-        emit m_signalManager->gotoPanel(m_timelinePanel);
-        emit m_signalManager->updateBottomToolbarContent(m_timelinePanel->toolbarBottomContent());
-        emit m_signalManager->updateTopToolbarLeftContent(m_timelinePanel->toolbarTopLeftContent());
-        emit m_signalManager->updateTopToolbarMiddleContent(m_timelinePanel->toolbarTopMiddleContent());
+        onGotoPanel(m_timelinePanel);
     });
 }
 
