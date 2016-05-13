@@ -360,7 +360,6 @@ QWidget *ViewPanel::extensionPanelContent()
 {
     m_info = new ImageInfoWidget();
     m_info->setStyleSheet(styleSheet());
-    m_info->setImagePath(m_current->path);
     return m_info;
 }
 
@@ -606,6 +605,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdSetAsWallpaper:
         break;
     case IdDisplayInFileManager:
+        emit m_signalManager->showInFileManager(m_view->imagePath());
         break;
     case IdImageInfo:
         emit m_signalManager->showExtensionPanel();

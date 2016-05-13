@@ -44,7 +44,7 @@ signals:
     void rotateClockwise(const QString &path);  // TODO wangbin
     void updateLabels(const QStringList &labels);
     void setAsWallpaper(const QString &path);  // TODO wangbin
-    void displayInFileManager(const QString &path);  // TODO wangbin
+    void showInFileManager(const QString &path);
     void showImageInfo(const QString &path);  // TODO wangbin
 
 private:

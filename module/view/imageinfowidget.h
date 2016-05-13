@@ -12,7 +12,7 @@ class ImageInfoWidget : public QScrollArea
     Q_OBJECT
 public:
     explicit ImageInfoWidget(QWidget *parent = 0);
-    void setImagePath(const QString& path);
+    void setImagePath(const QString &path);
     QSize sizeHint() const override;
 
 private:

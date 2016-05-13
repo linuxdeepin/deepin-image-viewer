@@ -1,13 +1,17 @@
 #include "baseutils.h"
 #include <QDateTime>
+#include <QDesktopServices>
 #include <QFontMetrics>
+#include <QFileInfo>
+#include <QUrl>
 #include <QDebug>
 
 namespace utils {
 
 namespace base {
 
-const QString DATETIME_FORMAT = "yyyy.MM.dd";
+const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
+const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 
 QString sizeToHuman(const qlonglong bytes)
 {
@@ -28,13 +32,13 @@ QString sizeToHuman(const qlonglong bytes)
 
 QString timeToString(const QDateTime &time)
 {
-    return time.toString(DATETIME_FORMAT);
+    return time.toString(DATETIME_FORMAT_NORMAL);
 }
 
 QString formatExifTimeString(const QString &exifTimeStr)
 {
-    QDateTime dt = QDateTime::fromString(exifTimeStr, "yyyy:MM:dd HH:mm:ss");
-    return dt.toString(DATETIME_FORMAT);
+    QDateTime dt = QDateTime::fromString(exifTimeStr, DATETIME_FORMAT_EXIF);
+    return dt.toString(DATETIME_FORMAT_NORMAL);
 }
 
 int stringWidth(const QFont &f, const QString &str)
@@ -45,8 +49,17 @@ int stringWidth(const QFont &f, const QString &str)
 
 QDateTime stringToDateTime(const QString &time)
 {
-    QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT);
+    QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT_NORMAL);
+    if (! dt.isValid()) {
+        dt = QDateTime::fromString(time, DATETIME_FORMAT_EXIF);
+    }
     return dt;
+}
+
+void showInFileManager(const QString &path)
+{
+    if (! path.isEmpty())
+        QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).path()));
 }
 
 
