@@ -35,7 +35,7 @@ private Q_SLOTS:
     void toggleFullScreen();
     void showPrevious();
     void showNext();
-
+    void popupDeleteDialog();
 private:
     enum MenuItemId {
         IdFullScreen,
