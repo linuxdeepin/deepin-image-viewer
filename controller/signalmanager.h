@@ -43,7 +43,6 @@ signals:
     void addToFavorites(const QString &name);
     void rotateClockwise(const QString &path);  // TODO wangbin
     void updateLabels(const QStringList &labels);
-    void setAsWallpaper(const QString &path);  // TODO wangbin
     void showInFileManager(const QString &path);
     void showImageInfo(const QString &path);  // TODO wangbin
 

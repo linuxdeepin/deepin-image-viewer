@@ -3,6 +3,7 @@
 #include "slideeffect/slideeffectplayer.h"
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
+#include "controller/wallpapersetter.h"
 #include "widgets/imagebutton.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
@@ -603,6 +604,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdLabel:
         break;
     case IdSetAsWallpaper:
+        WallpaperSetter::instance()->setWallpaper(m_view->imagePath());
         break;
     case IdDisplayInFileManager:
         emit m_signalManager->showInFileManager(m_view->imagePath());
