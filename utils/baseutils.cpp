@@ -1,8 +1,12 @@
 #include "baseutils.h"
+#include <QApplication>
+#include <QClipboard>
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QFontMetrics>
 #include <QFileInfo>
+#include <QImage>
+#include <QMimeData>
 #include <QUrl>
 #include <QDebug>
 
@@ -60,6 +64,28 @@ void showInFileManager(const QString &path)
 {
     if (! path.isEmpty())
         QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).path()));
+}
+
+void copyImageToClipboard(const QString &path)
+{
+    //  Get clipboard
+    QClipboard *cb = QApplication::clipboard();
+
+    // Ownership of the new data is transferred to the clipboard.
+    QMimeData* newMimeData = new QMimeData();
+
+    // Copy old mimedata
+    const QMimeData* oldMimeData = cb->mimeData();
+    for ( const QString &f : oldMimeData->formats())
+        newMimeData->setData(f, oldMimeData->data(f));
+
+    // Copy file (gnome)
+    QByteArray gnomeFormat = QByteArray("copy\n").append(
+                QUrl::fromLocalFile(path).toEncoded());
+    newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
+
+    // Set the mimedata
+    cb->setMimeData(newMimeData);
 }
 
 

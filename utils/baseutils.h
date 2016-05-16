@@ -7,6 +7,7 @@ namespace utils {
 
 namespace base {
 
+void        copyImageToClipboard(const QString &path);
 void        showInFileManager(const QString &path);
 int         stringWidth(const QFont &f, const QString &str);
 

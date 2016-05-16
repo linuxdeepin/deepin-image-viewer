@@ -571,6 +571,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 //    case IdExport:
 //        break;
     case IdCopy:
+        utils::base::copyImageToClipboard(m_current->path);
         break;
     case IdDelete:
         break;
