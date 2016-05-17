@@ -8,6 +8,7 @@
 #include "controller/signalmanager.h"
 
 #include <QJsonObject>
+#include <QKeyEvent>
 
 class SlideEffectPlayer;
 class PopupMenuManager;
@@ -77,6 +78,7 @@ private:
     bool mouseContainsByBottomToolbar(const QPoint &pos);
 
 private:
+    QString m_albumName;    // 用于判断图片是否从相册模块传递过来
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;

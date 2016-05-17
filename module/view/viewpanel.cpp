@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QApplication>
+#include <QLineEdit>
 
 using namespace Dtk::Widget;
 
@@ -114,14 +115,21 @@ void ViewPanel::initConnect() {
     connect(m_signalManager, &SignalManager::gotoPanel, [this](){
         m_slide->stop();
     });
-    connect(m_signalManager, &SignalManager::viewImage, [this](QString path) {
+    connect(m_signalManager, &SignalManager::viewImage,
+            [this](const QString &path, const QString &album ) {
         DatabaseManager::ImageInfo info =
                 DatabaseManager::instance()->getImageInfoByPath(path);
-        m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
+        if (album.isEmpty()) {
+            m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
+        }
+        else {
+            m_infos = DatabaseManager::instance()->getImageInfosByAlbum(album);
+        }
         m_current = std::find_if(m_infos.cbegin(), m_infos.cend(),
                                  [&](const DatabaseManager::ImageInfo info){
             return info.path == path;}
         );
+        m_albumName = album;
         openImage(path);
     });
 }
@@ -138,11 +146,20 @@ void ViewPanel::initShortcut()
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, &ViewPanel::showNext);
 
-    // Edit
-    sc = new QShortcut(QKeySequence("Ctrl+E"), this);
+    // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
+    sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        Q_EMIT m_signalManager->editImage(m_current->path);
+        qreal v = m_view->scaleValue() + 0.01;
+        m_view->setScaleValue(qMin(v, 1.0));
+    });
+
+    // Zoom in
+    sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        qreal v = m_view->scaleValue() - 0.01;
+        m_view->setScaleValue(qMax(v, 0.1));
     });
 
     // Esc
@@ -440,11 +457,11 @@ QString ViewPanel::createMenuContent()
 {
     QJsonArray items;
     items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
-                                false, "Ctrl+Alt+F"));
+                                false, "F11"));
     items.append(createMenuItem(IdStartSlideShow,
                                 m_slide->isRunning() ? tr("Stop slide show")
                                                      : tr("Start slide show"),
-                                false, "Ctrl+Alt+P"));
+                                false, "F5"));
     const QJsonObject objF = createAlbumMenuObj(false);
     if (! objF.isEmpty()) {
         items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
@@ -455,46 +472,44 @@ QString ViewPanel::createMenuContent()
 
 //    items.append(createMenuItem(IdCopy, tr("Export"), false, "Ctrl+C"));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
-    const QJsonObject objT = createAlbumMenuObj(true);
-    if (! objT.isEmpty()) {
+    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Delete"));
+    if (! m_albumName.isEmpty()) {
         items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
-                                    false, "", objT));
+                                    false, "Shift+Delete"));
     }
 
     items.append(createMenuItem(IdSeparator, "", true));
 
-    items.append(createMenuItem(IdEdit, tr("Edit")));
+    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
     items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"),
-                                false, "/"));
+                                false, "Ctrl+K"));
 
     items.append(createMenuItem(IdSeparator, "", true));
+
     if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         items.append(createMenuItem(IdShowNavigationWindow,
-                                    tr("Show navigation window")));
+            tr("Show navigation window"), false, "Ctrl+N"));
     } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         items.append(createMenuItem(IdHideNavigationWindow,
-                                    tr("Hide navigation window")));
+            tr("Hide navigation window"), false, "Ctrl+Shift+N"));
     }
-//    items.append(createMenuItem(IdRotateClockwise,
-//                                tr("Hide navigation window")));
 
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
                                 false, "Ctrl+R"));
     items.append(createMenuItem(IdRotateCounterclockwise,
-                                tr("Rotate counterclockwise"),
-                                false, "Ctrl+L"));
+        tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
 
     items.append(createMenuItem(IdSeparator, "", true));
 
-    items.append(createMenuItem(IdLabel, tr("Text tag")));
-    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper")));
+    items.append(createMenuItem(IdLabel, tr("Text tag"), false, "Ctrl+T"));
+    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"), false,
+                                "Ctrl+F8"));
     items.append(createMenuItem(IdDisplayInFileManager,
-                                tr("Display in file manager")));
-    items.append(createMenuItem(IdImageInfo, tr("Image info"),
-                                false, "Ctrl+I"));
+        tr("Display in file manager"), false, "Ctrl+D"));
+    items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
+                                "Alt+Enter"));
 
     QJsonObject contentObj;
     contentObj["x"] = 0;
@@ -576,10 +591,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdDelete:
         break;
     case IdRemoveFromAlbum:
-        m_dbManager->removeImageFromAlbum(
-                    albumName.replace(QRegularExpression("^.*<<"), "")
-                    .replace(QRegularExpression(">>.*$"), ""),
-                    m_current->name);
+        m_dbManager->removeImageFromAlbum(m_albumName, m_current->name);
         break;
     case IdEdit:
         m_signalManager->editImage(m_view->imagePath());
