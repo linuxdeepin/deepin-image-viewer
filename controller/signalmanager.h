@@ -18,9 +18,9 @@ signals:
     void updateExtensionPanelContent(QWidget *content);
     void updateExtensionPanelRect();
     void showTopToolbar();
-    void hideTopToolbar();
+    void hideTopToolbar(bool immediately = false);
     void showBottomToolbar();
-    void hideBottomToolbar();
+    void hideBottomToolbar(bool immediately = false);
     void showExtensionPanel();
     void hideExtensionPanel();
     void backToMainWindow();

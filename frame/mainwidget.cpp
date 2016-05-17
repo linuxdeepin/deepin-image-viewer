@@ -55,7 +55,8 @@ void MainWidget::resizeEvent(QResizeEvent *)
     }
     if (m_bottomToolbar) {
         m_bottomToolbar->resize(width(), m_bottomToolbar->height());
-        m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
+        if (m_bottomToolbar->isVisible())
+            m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     }
     if (m_extensionPanel) {
         m_extensionPanel->resize(m_extensionPanel->width(), height());
@@ -86,8 +87,14 @@ void MainWidget::initTopToolbar()
     connect(m_signalManager, &SignalManager::showTopToolbar, this, [=] {
         m_topToolbar->moveWithAnimation(0, 0);
     });
-    connect(m_signalManager, &SignalManager::hideTopToolbar, this, [=] {
-        m_topToolbar->moveWithAnimation(0, - TOP_TOOLBAR_HEIGHT);
+    connect(m_signalManager, &SignalManager::hideTopToolbar, this,
+            [=](bool immediately) {
+        if (immediately) {
+            m_topToolbar->move(0, - TOP_TOOLBAR_HEIGHT);
+        }
+        else {
+            m_topToolbar->moveWithAnimation(0, - TOP_TOOLBAR_HEIGHT);
+        }
     });
 }
 
@@ -108,11 +115,19 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     });
     connect(m_signalManager, &SignalManager::showBottomToolbar, this, [=] {
+        m_bottomToolbar->setVisible(true);
         m_bottomToolbar->moveWithAnimation(0, height() - m_bottomToolbar->height());
     });
 
-    connect(m_signalManager, &SignalManager::hideBottomToolbar, this, [=] {
-        m_bottomToolbar->moveWithAnimation(0, height());
+    connect(m_signalManager, &SignalManager::hideBottomToolbar,
+            this, [=](bool immediately) {
+        if (immediately) {
+            m_bottomToolbar->move(0, height());
+            m_bottomToolbar->setVisible(false);
+        }
+        else {
+            m_bottomToolbar->moveWithAnimation(0, height());
+        }
     });
 }
 

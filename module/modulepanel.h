@@ -32,9 +32,9 @@ public:
     virtual QWidget *extensionPanelContent() = 0;
 
 signals:
-    void hideTopToolbar();
+    void hideTopToolbar(bool immediately = false);
     void showTopToolbar();
-    void hideBottomToolbar();
+    void hideBottomToolbar(bool immediately = false);
     void showBottomToolbar();
     void hideExtensionPanel();
     void showExtensionPanel();

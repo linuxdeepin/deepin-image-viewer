@@ -417,8 +417,6 @@ void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
         window()->showNormal();
-        Q_EMIT m_signalManager->showBottomToolbar();
-        Q_EMIT m_signalManager->showTopToolbar();
     } else {
         // Full screen then hide bars because hide animation depends on height()
         window()->showFullScreen();
@@ -426,8 +424,8 @@ void ViewPanel::toggleFullScreen()
         m_view->setFullScreen(window()->size());
 
         Q_EMIT m_signalManager->hideExtensionPanel();
-        Q_EMIT m_signalManager->hideTopToolbar();
-        Q_EMIT m_signalManager->hideBottomToolbar();
+        Q_EMIT m_signalManager->hideTopToolbar(true);
+        Q_EMIT m_signalManager->hideBottomToolbar(true);
     }
 }
 
