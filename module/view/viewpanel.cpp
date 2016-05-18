@@ -496,7 +496,8 @@ void ViewPanel::popupDeleteDialog() {
 
     deleteDialog.setTitle(QString(tr("Are you sure to delete this image ?")));
     QPixmap imageThumbnail = utils::image::getThumbnail(m_view->imagePath());
-    deleteDialog.setIconPixmap(imageThumbnail.scaled(QSize(60, 48), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    deleteDialog.setIconPixmap(imageThumbnail.scaled(QSize(60, 48),
+        Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     QString message = tr("This operation cannot be restored.");
     deleteDialog.setMessage(message);
     qDebug() << "m_current album:" << m_albumName;
@@ -510,7 +511,7 @@ void ViewPanel::popupDeleteDialog() {
                 return;
             }
 
-            QString deleteImageName = m_dbManager->getImageInfoByPath(m_view->imagePath()).name;
+            QString deleteImageName = m_view->imageName();
             m_dbManager->removeImage(deleteImageName);
         });
     } else {
@@ -519,7 +520,7 @@ void ViewPanel::popupDeleteDialog() {
         deleteDialog.addButtons(delImageFromAlbumBtns);
 
         connect(&deleteDialog, &DDialog::buttonClicked, [&](int clickedResult) {
-            QString imageName = m_dbManager->getImageInfoByPath(m_view->imagePath()).name;
+            QString imageName = m_view->imageName();
             if (clickedResult == 0) {
                 return;
             } else if (clickedResult == 1) {
@@ -559,11 +560,15 @@ QString ViewPanel::createMenuContent()
     }
 
     items.append(createMenuItem(IdSeparator, "", true));
-
     items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
-    items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"),
-                                false, "Ctrl+K"));
-
+    //Call on m_current->name will be crashed
+    if (!m_dbManager->imageExistAlbum(m_view->imageName(), FAVORITES_ALBUM_NAME)) {
+        items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"),
+                                    false, "Ctrl+K"));
+    } else {
+        items.append(createMenuItem(IdRemoveFromFavorites,
+            tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+    }
     items.append(createMenuItem(IdSeparator, "", true));
 
     if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
@@ -678,10 +683,15 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         m_signalManager->editImage(m_view->imagePath());
         break;
     case IdAddToFavorites:
-        m_dbManager->insertImageIntoAlbum("My favorites", m_current->name,
+        m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, m_current->name,
             utils::base::timeToString(m_current->time));
+        updateCollectButton();
+        updateMenuContent();
         break;
     case IdRemoveFromFavorites:
+        m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME, m_current->name);
+        updateCollectButton();
+        updateMenuContent();
         break;
     case IdShowNavigationWindow:
         m_nav->setAlwaysHidden(false);
@@ -732,7 +742,7 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
 
     m_view->setImage(path);
     m_nav->setImage(m_view->image());
-    qDebug() << "view path: " << m_view->imagePath();
+
     if (m_info) {
         m_info->setImagePath(path);
     }

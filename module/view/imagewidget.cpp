@@ -1,6 +1,7 @@
 #include "imagewidget.h"
 #include <QPainter>
 #include <QtDebug>
+#include <QFileInfo>
 #include <QMouseEvent>
 #include <utils/imageutils.h>
 
@@ -27,6 +28,11 @@ void ImageWidget::setImage(const QImage &image)
     m_image = image;
     m_pixmap = QPixmap::fromImage(m_image);
     resetTransform();
+}
+
+QString ImageWidget::imageName() const
+{
+    return QFileInfo(m_path).fileName();
 }
 
 void ImageWidget::resetTransform()

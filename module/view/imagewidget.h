@@ -12,6 +12,7 @@ public:
     void setImage(const QString& path);
     void setImage(const QImage& image);
     QImage image() const {return m_image;}
+    QString imageName() const;
     QString imagePath() const;
     void resetTransform();
     qreal scaleValue() const {return m_scale;}
