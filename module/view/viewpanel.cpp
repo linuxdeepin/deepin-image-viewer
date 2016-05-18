@@ -378,7 +378,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, m_view, &ImageWidget::rotateCounterclockwise);
-    btn->setToolTip(tr("Anticlockwise rotate"));
+    btn->setToolTip(tr("Rotate counterclockwise"));
 
     btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
@@ -386,7 +386,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
-    btn->setToolTip(tr("Clockwise rotate"));
+    btn->setToolTip(tr("Rotate clockwise"));
 
     btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
@@ -400,7 +400,6 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     });
     btn->setToolTip(tr("Adapt"));
 
-    //
 #if 0
     btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/share_normal.png");

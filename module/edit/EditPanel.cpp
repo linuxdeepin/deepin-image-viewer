@@ -127,7 +127,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, m_view, &ImageWidget::rotateCounterclockwise);
-    btn->setToolTip("Anticlockwise, rotate");
+    btn->setToolTip(tr("Rotate counterclockwise"));
 
     btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
@@ -135,7 +135,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
-    btn->setToolTip("Clockwise, rotate");
+    btn->setToolTip(tr("Rotate clockwise"));
 
     btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/filter_normal.png");
