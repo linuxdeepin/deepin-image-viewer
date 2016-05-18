@@ -329,6 +329,29 @@ void DatabaseManager::clearRecentImported()
     removeAlbum("Recent imported");
 }
 
+bool DatabaseManager::imageExistAlbum(const QString &name, const QString &album)
+{
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
+        query.prepare( QString("SELECT COUNT(*) FROM %1 WHERE filename = :name "
+                               "AND albumname = :album")
+                       .arg( ALBUM_TABLE_NAME ) );
+        query.bindValue( ":name", name );
+        query.bindValue( ":album", album );
+        if (query.exec()) {
+            query.first();
+            if (query.value(0).toInt() == 1) {
+                query.exec("COMMIT");
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 QStringList DatabaseManager::getAlbumNameList()
 {
     QStringList list;

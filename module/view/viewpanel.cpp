@@ -32,6 +32,8 @@ const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 24;
 const int SHOW_TOOLBAR_INTERVAL = 200;
 
+const QString FAVORITES_ALBUM_NAME = "My favorites";
+
 }  // namespace
 
 ViewPanel::ViewPanel(QWidget *parent)
@@ -188,6 +190,24 @@ void ViewPanel::initStyleSheet()
     }
 }
 
+void ViewPanel::updateCollectButton()
+{
+    if (m_dbManager->imageExistAlbum(m_current->name, FAVORITES_ALBUM_NAME)) {
+        m_collectButton->setToolTip(tr("Remove from Favorites"));
+        m_collectButton->setWhatsThis("RFFButton");
+        m_collectButton->setNormalPic(":/images/resources/images/collect_active.png");
+        m_collectButton->setHoverPic(":/images/resources/images/collect_active.png");
+        m_collectButton->setPressPic(":/images/resources/images/collect_active.png");
+    }
+    else {
+        m_collectButton->setToolTip(tr("Add to Favorites"));
+        m_collectButton->setWhatsThis("ATFButton");
+        m_collectButton->setNormalPic(":/images/resources/images/collect_normal.png");
+        m_collectButton->setHoverPic(":/images/resources/images/collect_hover.png");
+        m_collectButton->setPressPic(":/images/resources/images/collect_hover.png");
+    }
+}
+
 void ViewPanel::updateMenuContent()
 {
     // For update shortcut
@@ -254,16 +274,21 @@ QWidget *ViewPanel::toolbarBottomContent()
             m_signalManager, &SignalManager::showExtensionPanel);
     btn->setToolTip("Image info");
 
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/collect_normal.png");
-    btn->setHoverPic(":/images/resources/images/collect_hover.png");
-    btn->setPressPic(":/images/resources/images/collect_active.png");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, [this](){
-        m_dbManager->insertImageIntoAlbum("My favorites", m_current->name,
-            utils::base::timeToString(m_current->time));
+    m_collectButton = new ImageButton();
+    hb->addWidget(m_collectButton);
+    connect(m_collectButton, &ImageButton::clicked, [=] {
+        if (m_dbManager->imageExistAlbum(m_current->name, FAVORITES_ALBUM_NAME))
+        {
+            m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME,
+                                              m_current->name);
+        }
+        else {
+            m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME,
+                m_current->name, utils::base::timeToString(m_current->time));
+        }
+        updateCollectButton();
     });
-    btn->setToolTip("Collect");
+    updateCollectButton();
 
     btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/previous_normal.png");
@@ -535,7 +560,7 @@ QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
     QJsonArray items;
     if (! m_infos.isEmpty()) {
         for (QString album : albums) {
-            if (album == "My favorites" || album == "Recent imported") {
+            if (album == FAVORITES_ALBUM_NAME || album == "Recent imported") {
                 continue;
             }
             const QStringList names = m_dbManager->getImageNamesByAlbum(album);
@@ -662,4 +687,6 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
     if (m_info) {
         m_info->setImagePath(path);
     }
+
+    updateCollectButton();
 }
