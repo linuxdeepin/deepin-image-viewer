@@ -178,7 +178,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setPressPic(":/images/resources/images/flip_horizontal_press.png");
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, m_view, &ImageWidget::flipX);
-    btn->setToolTip("Flip horizontal");
+    btn->setToolTip("Flip horizontally");
 
     btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/flip_vertical_normal.png");
@@ -186,7 +186,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
     btn->setPressPic(":/images/resources/images/flip_vertical_press.png");
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, m_view, &ImageWidget::flipY);
-    btn->setToolTip("Flip vertical");
+    btn->setToolTip("Flip vertically");
 
     hb->addStretch();
     return w;
