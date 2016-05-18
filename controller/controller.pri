@@ -4,7 +4,8 @@ HEADERS += \
     $$PWD/popupmenumanager.h \
     $$PWD/signalmanager.h \
     $$PWD/wallpapersetter.h \
-    $$PWD/commandline.h
+    $$PWD/commandline.h \
+    $$PWD/configsetter.h
 
 SOURCES += \
     $$PWD/databasemanager.cpp \
@@ -12,4 +13,5 @@ SOURCES += \
     $$PWD/popupmenumanager.cpp \
     $$PWD/signalmanager.cpp \
     $$PWD/wallpapersetter.cpp \
-    $$PWD/commandline.cpp
+    $$PWD/commandline.cpp \
+    $$PWD/configsetter.cpp

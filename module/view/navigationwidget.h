@@ -11,7 +11,7 @@ public:
     void setImage(const QImage& img);
     void setRectInImage(const QRect& r);
     void setAlwaysHidden(bool value);
-    bool isAlwaysHidden() const {return m_hide;}
+    bool isAlwaysHidden() const;
 Q_SIGNALS:
     void requestMove(int x, int y);
 protected:

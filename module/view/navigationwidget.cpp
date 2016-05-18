@@ -1,10 +1,19 @@
 #include "navigationwidget.h"
+#include "controller/configsetter.h"
 #include <QPainter>
 #include <dwindowclosebutton.h>
 #include <QMouseEvent>
 #include <QtDebug>
 
+namespace {
+
+const QString SETTINGS_GROUP = "VIEWPANEL";
+const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
+
+}  // namespace
+
 using namespace Dtk::Widget;
+
 NavigationWidget::NavigationWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -17,11 +26,18 @@ NavigationWidget::NavigationWidget(QWidget *parent)
 
 void NavigationWidget::setAlwaysHidden(bool value)
 {
-    m_hide = value;
+    ConfigSetter::instance()->setValue(SETTINGS_GROUP,
+        SETTINGS_ALWAYSHIDDEN_KEY, QVariant(value));
     if (isAlwaysHidden())
         hide();
     else
         show();
+}
+
+bool NavigationWidget::isAlwaysHidden() const
+{
+    return ConfigSetter::instance()->value(SETTINGS_GROUP,
+               SETTINGS_ALWAYSHIDDEN_KEY, QVariant(false)).toBool();
 }
 
 void NavigationWidget::setImage(const QImage &img)

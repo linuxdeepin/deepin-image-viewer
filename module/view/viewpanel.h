@@ -70,6 +70,7 @@ private:
     void initShortcut();
     void initStyleSheet();
 
+    void updateMenuContent();
     void toggleSlideShow();
     void showToolbar(bool isTop);
 

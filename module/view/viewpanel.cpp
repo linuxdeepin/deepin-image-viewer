@@ -47,13 +47,14 @@ ViewPanel::ViewPanel(QWidget *parent)
     hl->addWidget(m_view);
 
     m_nav = new NavigationWidget(this);
+    m_nav->setVisible(! m_nav->isAlwaysHidden());
     setContextMenuPolicy(Qt::CustomContextMenu);
     initConnect();
     initShortcut();
     initStyleSheet();
     setMouseTracking(true);
 
-    m_popupMenu->setMenuContent(createMenuContent());
+    updateMenuContent();
 }
 
 void ViewPanel::initConnect() {
@@ -99,7 +100,7 @@ void ViewPanel::initConnect() {
     });
 
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
-        m_popupMenu->setMenuContent(createMenuContent());
+        updateMenuContent();
         m_popupMenu->showMenu();
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
@@ -185,6 +186,12 @@ void ViewPanel::initStyleSheet()
     else {
         qDebug() << "Set style sheet fot view panel error!";
     }
+}
+
+void ViewPanel::updateMenuContent()
+{
+    // For update shortcut
+    m_popupMenu->setMenuContent(createMenuContent());
 }
 
 void ViewPanel::toggleSlideShow()
@@ -604,9 +611,11 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdShowNavigationWindow:
         m_nav->setAlwaysHidden(false);
+        updateMenuContent();
         break;
     case IdHideNavigationWindow:
         m_nav->setAlwaysHidden(true);
+        updateMenuContent();
         break;
     case IdRotateClockwise:
         m_view->rotateClockWise();
