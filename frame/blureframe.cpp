@@ -7,7 +7,7 @@
 #include <QPropertyAnimation>
 
 const int ANIMATION_DURATION = 500;
-const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::OutQuint;
+const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 
 BlureFrame::BlureFrame(QWidget *parent, QWidget *source)
     : QFrame(parent), m_sourceWidget(source)
