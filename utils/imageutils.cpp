@@ -340,18 +340,23 @@ QImage blure(const QImage &origin) {
 QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
 {
     QMap<QString, QString> dataMap;
-    qDebug() << "Reading exif from: " << path;
-    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
-    if (! ed) {
-        qWarning("Reading exif from error!");
-        return dataMap;
-    }
+
     QFileInfo fi(path);
     QImage img(path);
-    ExifItem *items = isDetails ? ExifDataDetails : ExifDataBasics;
+    ExifItem *items = getExifItemList(isDetails);
+
+    qDebug() << "Reading exif from: " << path;
+    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
+
+    if (! ed) {
+        dataMap.insert(QObject::tr("Date photoed"),
+                       base::timeToString(fi.created()));
+        dataMap.insert(QObject::tr("Date modified"),
+                       base::timeToString(fi.lastModified()));
+    }
 
     for (const ExifItem* i = items; i->tag; ++i) {
-        if (i->ifd != EXIF_IFD_COUNT) {
+        if (i->ifd != EXIF_IFD_COUNT && ed) {
             ExifEntry *e = exif_content_get_entry(ed->ifd[i->ifd],
                     (ExifTag)i->tag);
             if (!e) {
@@ -366,7 +371,7 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
                 switch (i->tag) {
                 case EXIF_TAG_DATE_TIME:
                 case EXIF_TAG_DATE_TIME_ORIGINAL:
-                    dataMap.insert(i->name, utils::base::formatExifTimeString(v));
+                    dataMap.insert(i->name, base::formatExifTimeString(v));
                     break;
                 default:
                     dataMap.insert(i->name, v);
