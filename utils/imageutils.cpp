@@ -59,6 +59,38 @@ ExifItem *getExifItemList(bool isDetails)
     return isDetails ? ExifDataDetails : ExifDataBasics;
 }
 
+const QStringList supportImageTypes()
+{
+    QStringList origin;
+    origin<< "BMP";
+    origin<< "GIF";
+    origin<< "JPG";
+    origin<< "PNG";
+    origin<< "PBM";
+    origin<< "PGM";
+    origin<< "PPM";
+    origin<< "XBM";
+    origin<< "XPM";
+    origin<< "SVG";
+
+    origin<< "DDS";
+    origin<< "ICNS";
+    origin<< "JP2";
+    origin<< "MNG";
+    origin<< "TGA";
+    origin<< "TIFF";
+    origin<< "WBMP";
+    origin<< "WEBP";
+
+    QStringList list;
+    for (QString v : origin) {
+        list << v.toLower();
+    }
+    list += origin;
+
+    return list;
+}
+
 QPixmap getThumbnail(const QString &filePath)
 {
     QPixmap pixmap;

@@ -4,12 +4,14 @@
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
+#include "controller/divdbuscontroller.h"
 #include "widgets/imagebutton.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include <darrowrectangle.h>
 #include <QBoxLayout>
 #include <QFile>
+#include <QFileInfo>
 #include <QLabel>
 #include <QResizeEvent>
 #include <QMenu>
@@ -121,15 +123,21 @@ void ViewPanel::initConnect() {
         m_slide->stop();
     });
     connect(m_signalManager, &SignalManager::viewImage,
-            [this](const QString &path, const QString &album ) {
-        DatabaseManager::ImageInfo info =
-                DatabaseManager::instance()->getImageInfoByPath(path);
-        if (album.isEmpty()) {
-            m_infos = DatabaseManager::instance()->getImageInfosByTime(info.time);
+    [this](const QString &path, const QString &album, bool fromFileManager ) {
+        if (fromFileManager) {
+            m_infos = readImageInfosFromDir(path);
         }
         else {
-            m_infos = DatabaseManager::instance()->getImageInfosByAlbum(album);
+            DatabaseManager::ImageInfo info =
+                    m_dbManager->getImageInfoByPath(path);
+            if (album.isEmpty()) {
+                m_infos = m_dbManager->getImageInfosByTime(info.time);
+            }
+            else {
+                m_infos = m_dbManager->getImageInfosByAlbum(album);
+            }
         }
+
         m_current = std::find_if(m_infos.cbegin(), m_infos.cend(),
                                  [&](const DatabaseManager::ImageInfo info){
             return info.path == path;}
@@ -257,6 +265,32 @@ bool ViewPanel::mouseContainsByBottomToolbar(const QPoint &pos)
     return rect.contains(pos);
 }
 
+QList<DatabaseManager::ImageInfo> ViewPanel::readImageInfosFromDir(const QString &path)
+{
+    QDir dir = QFileInfo(path).dir();
+    QStringList ol = utils::image::supportImageTypes();
+    QStringList nl;
+    for (QString type : ol) {
+        nl << "*." + type;
+    }
+
+    QList<DatabaseManager::ImageInfo> imageInfos;
+    const QFileInfoList infos = dir.entryInfoList(nl, QDir::Files);
+    for (int i = 0; i < infos.length(); i++) {
+        DatabaseManager::ImageInfo imgInfo;
+        imgInfo.name = infos.at(i).fileName();
+        imgInfo.path = infos.at(i).absoluteFilePath();
+        imgInfo.time = utils::image::getCreateDateTime(path);
+        imgInfo.albums = QStringList();
+        imgInfo.labels = QStringList();
+        imgInfo.thumbnail = utils::image::getThumbnail(path);
+
+        imageInfos << imgInfo;
+    }
+
+    return imageInfos;
+}
+
 QWidget *ViewPanel::toolbarBottomContent()
 {
     QWidget *w = new QWidget();
@@ -356,7 +390,8 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, this, [=] {
         m_slide->stop();
-        Q_EMIT m_signalManager->backToMainWindow();
+        // Use dbus interface to make sure it will always back to the main process
+        DIVDBusController().backToMainWindow();
     });
     btn->setToolTip(tr("Back"));
 
@@ -622,7 +657,7 @@ QString ViewPanel::createMenuContent()
 
 QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
 {
-    const QStringList albums = DatabaseManager::instance()->getAlbumNameList();
+    const QStringList albums = m_dbManager->getAlbumNameList();
 
     QJsonArray items;
     if (! m_infos.isEmpty()) {

@@ -1,5 +1,6 @@
 #include "timelinepanel.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include "controller/importer.h"
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
@@ -168,7 +169,7 @@ void TimelinePanel::dropEvent(QDropEvent *event)
                 Importer::instance()->importFromPath(url.toLocalFile());
             }
             else {
-                if (DatabaseManager::instance()->supportImageType().indexOf(info.suffix()) != 0) {
+                if (utils::image::supportImageTypes().indexOf(info.suffix()) != 0) {
                     Importer::instance()->importSingleFile(url.toLocalFile());
                 }
             }

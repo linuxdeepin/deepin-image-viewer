@@ -1,6 +1,7 @@
 #include "albumpanel.h"
 #include "controller/databasemanager.h"
 #include "controller/importer.h"
+#include "utils/imageutils.h"
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
 #include <QFileInfo>
@@ -163,7 +164,7 @@ void AlbumPanel::dropEvent(QDropEvent *event)
                 Importer::instance()->importFromPath(url.toLocalFile());
             }
             else {
-                if (m_dbManager->supportImageType().indexOf(info.suffix()) != 0) {
+                if (utils::image::supportImageTypes().indexOf(info.suffix()) != 0) {
                     Importer::instance()->importSingleFile(url.toLocalFile());
                 }
             }

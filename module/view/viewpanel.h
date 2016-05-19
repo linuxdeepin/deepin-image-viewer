@@ -81,6 +81,8 @@ private:
     bool mouseContainsByTopToolbar(const QPoint &pos);
     bool mouseContainsByBottomToolbar(const QPoint &pos);
 
+    QList<DatabaseManager::ImageInfo> readImageInfosFromDir(const QString &path);
+
 private:
     QString m_albumName;    // 用于判断图片是否从相册模块传递过来
     ImageButton *m_collectButton;

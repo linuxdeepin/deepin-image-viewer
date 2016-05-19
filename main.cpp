@@ -1,4 +1,3 @@
-#include "frame/mainwindow.h"
 #include "controller/commandline.h"
 
 #include <QApplication>
@@ -31,15 +30,16 @@ int main(int argc, char *argv[])
 //    translator.load("/usr/share/deepin-viewer/translations/deepin-viewer_" + QLocale::system().name());
 //    a.installTranslator(&translator);
 
-    CommandLine::instance();
+    CommandLine *cl = CommandLine::instance();
 
-    DLogManager::registerConsoleAppender();
-    DLogManager::registerFileAppender();
-    dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
+    if (cl->processOption()) {
+        DLogManager::registerConsoleAppender();
+        DLogManager::registerFileAppender();
+        dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
 
-    MainWindow w;
-    w.show();
-
-
-    return a.exec();
+        return a.exec();
+    }
+    else {
+        return 0;
+    }
 }

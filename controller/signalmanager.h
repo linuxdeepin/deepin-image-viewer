@@ -31,17 +31,18 @@ signals:
 
     void selectImageFromTimeline(const QString &targetAlbum);
 
-    void viewImage(const QString &path, const QString &album = "");
+    void viewImage(const QString &path, const QString &album = "",
+                   bool fromFileManager = false);
     void editImage(const QString &path);
 
-    void fullScreen(const QString &path);   // TODO wangbin
+    void fullScreen(const QString &path);
     void startSlideShow(const QStringList &paths);  // TODO wangbin, NOTE: Data may be repeated
     void addToAlbum(const QStringList &names);
     void removeFromAlbum(const QString &name, const QString &album);
     void copyImage(const QString &path);
     void deleteImage(const QString &path);
     void addToFavorites(const QString &name);
-    void rotateClockwise(const QString &path);  // TODO wangbin
+    void rotateClockwise(const QString &path);
     void updateLabels(const QStringList &labels);
     void showInFileManager(const QString &path);
     void showImageInfo(const QString &path);  // TODO wangbin

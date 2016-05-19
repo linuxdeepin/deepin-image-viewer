@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql concurrent svg x11extras
+QT       += core gui sql dbus concurrent svg x11extras
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
@@ -32,7 +32,10 @@ desktop.files =  deepin-image-viewer.desktop
 icons.path = $${PREFIX}/share/deepin-image-viewer/icons
 icons.files = resources/images/*
 
-INSTALLS = binary desktop icons
+dbus_service.files += com.deepin.deepinimageviewer.service
+dbus_service.path = /usr/share/dbus-1/services
+
+INSTALLS = binary desktop icons dbus_service
 
 RESOURCES += \
     resources.qrc

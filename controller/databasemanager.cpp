@@ -461,38 +461,6 @@ QStringList DatabaseManager::getTimeLineList(bool ascending)
     return list;
 }
 
-const QStringList DatabaseManager::supportImageType()
-{
-    QStringList origin;
-    origin<< "BMP";
-    origin<< "GIF";
-    origin<< "JPG";
-    origin<< "PNG";
-    origin<< "PBM";
-    origin<< "PGM";
-    origin<< "PPM";
-    origin<< "XBM";
-    origin<< "XPM";
-    origin<< "SVG";
-
-    origin<< "DDS";
-    origin<< "ICNS";
-    origin<< "JP2";
-    origin<< "MNG";
-    origin<< "TGA";
-    origin<< "TIFF";
-    origin<< "WBMP";
-    origin<< "WEBP";
-
-    QStringList list;
-    for (QString v : origin) {
-        list << v.toLower();
-    }
-    list += origin;
-
-    return list;
-}
-
 DatabaseManager::DatabaseManager(QObject *parent)
     : QObject(parent),m_connectionName("default_connection")
 {

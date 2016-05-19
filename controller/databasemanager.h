@@ -56,8 +56,6 @@ public:
 
     QStringList getTimeLineList(bool ascending = true);
 
-    const QStringList supportImageType();
-
 private:
     explicit DatabaseManager(QObject *parent = 0);
 

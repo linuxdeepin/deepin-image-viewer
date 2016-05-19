@@ -1,10 +1,19 @@
 #include "commandline.h"
+#include "frame/mainwindow.h"
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
-#include <QCommandLineOption>
+#include "controller/divdbuscontroller.h"
 #include <QApplication>
+#include <QCommandLineOption>
+#include <QDBusConnection>
 #include <QDebug>
 
+namespace {
+
+const QString DBUS_PATH = "/com/deepin/deepinimageviewer";
+const QString DBUS_NAME = "com.deepin.deepinimageviewer";
+
+}
 
 struct CMOption {
    QString shortOption;
@@ -48,9 +57,6 @@ CommandLine::CommandLine()
     if (oc > 1) {
         m_cmdParser.showHelp();
     }
-    else {
-        QMetaObject::invokeMethod(this, "processOption", Qt::QueuedConnection);
-    }
 }
 
 CommandLine::~CommandLine() {
@@ -67,39 +73,91 @@ void CommandLine::addOption(const CMOption *option)
     m_cmdParser.addOption(cm);
 }
 
-void CommandLine::processOption()
+bool CommandLine::processOption()
 {
     SignalManager *sm = SignalManager::instance();
+    DeepinImageViewerDBus *dd = new DeepinImageViewerDBus(sm);
+    Q_UNUSED(dd);
+
     QStringList names = m_cmdParser.optionNames();
     if (names.isEmpty()) {
-        emit sm->backToMainWindow();
-        return;
-    }
-    QString name = names.first();
-    QString value = m_cmdParser.value(names.first());
+        if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
+                QDBusConnection::sessionBus().registerObject(DBUS_PATH, sm)) {
+            MainWindow *w = new MainWindow;
+            w->show();
+            emit sm->backToMainWindow();
 
-    if (name == "o" || name == "open") {
-        qDebug() << "Open image file: " << value;
-        emit sm->viewImage(value);
-    }
-    else if (name == "a" || name == "album") {
-        qDebug() << "Enter th album: " << value;
-        // TODO
-    }
-    else if (name == "s" || name == "search") {
-        qDebug() << "Go to search view and search image by: " << value;
-        // TODO
-    }
-    else if (name == "e" || name == "edit") {
-        qDebug() << "Go to edit view and begin editing: " << value;
-        emit sm->editImage(value);
-    }
-    else if (name == "w" || name == "wallpaper") {
-        qDebug() << "Set " << value << " as wallpaper.";
-        WallpaperSetter::instance()->setWallpaper(value);
-        qApp->quit();
+            return true;
+        }
+        else {
+            qDebug() << "Deepin Image Viewer is running...";
+            return false;
+        }
     }
     else {
-        m_cmdParser.showHelp();
+        DIVDBusController *dc = new DIVDBusController(sm);
+
+        QString name = names.first();
+        QString value = m_cmdParser.value(names.first());
+
+        if (name == "o" || name == "open") {
+            qDebug() << "Open image file: " << value;
+            MainWindow *w = new MainWindow;
+            w->show();
+            emit sm->viewImage(value, "", true);
+            return true;
+        }
+        else if (name == "a" || name == "album") {
+            dc->enterAlbum(value);
+        }
+        else if (name == "s" || name == "search") {
+            dc->searchImage(value);
+        }
+        else if (name == "e" || name == "edit") {
+            dc->editImage(value);
+        }
+        else if (name == "w" || name == "wallpaper") {
+            qDebug() << "Set " << value << " as wallpaper.";
+            WallpaperSetter::instance()->setWallpaper(value);
+        }
+        else {
+            m_cmdParser.showHelp();
+        }
+
+        return false;
     }
+}
+
+DeepinImageViewerDBus::DeepinImageViewerDBus(QObject *parent)
+    : QDBusAbstractAdaptor(parent)
+{
+
+}
+
+DeepinImageViewerDBus::~DeepinImageViewerDBus()
+{
+
+}
+
+void DeepinImageViewerDBus::backToMainWindow() const
+{
+    emit SignalManager::instance()->backToMainWindow();
+}
+
+void DeepinImageViewerDBus::enterAlbum(const QString &album)
+{
+    qDebug() << "Enter the album: " << album;
+    // TODO
+}
+
+void DeepinImageViewerDBus::searchImage(const QString &keyWord)
+{
+    qDebug() << "Go to search view and search image by: " << keyWord;
+    // TODO
+}
+
+void DeepinImageViewerDBus::editImage(const QString &path)
+{
+    qDebug() << "Go to edit view and begin editing: " << path;
+    emit SignalManager::instance()->editImage(path);
 }
