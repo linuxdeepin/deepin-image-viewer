@@ -9,6 +9,7 @@
 #include <QMimeData>
 #include <QUrl>
 #include <QDebug>
+#include <QTextStream>
 
 namespace utils {
 
@@ -88,6 +89,28 @@ void copyImageToClipboard(const QString &path)
     cb->setMimeData(newMimeData);
 }
 
+QString getFileContent(const QString &file) {
+    QFile f(file);
+    QString fileContent = "";
+    if (f.open(QFile::ReadOnly))
+    {
+        fileContent = QLatin1String(f.readAll());
+        f.close();
+    }
+    return fileContent;
+}
+
+bool writeTextFile(QString filePath, QString content) {
+    QFile file(filePath);
+    if (file.open(QIODevice::ReadWrite|QIODevice::Text)) {
+        QTextStream in(&file);
+        in << content << endl;
+        file.close();
+        return true;
+    }
+
+    return false;
+}
 
 }  // namespace base
 
