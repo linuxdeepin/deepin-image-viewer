@@ -35,6 +35,9 @@
         <file>resources/images/slideshow_press.png</file>
         <file>resources/images/scrollbar_handle_v_hover.png</file>
         <file>resources/images/scrollbar_handle_v_normal.png</file>
+        <file>resources/images/adapt_screen_active.png</file>
+        <file>resources/images/adapt_screen_hover.png</file>
+        <file>resources/images/adapt_screen_normal.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/view.qss</file>

@@ -393,12 +393,26 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     btn->setHoverPic(":/images/resources/images/adapt_image_hover.png");
     btn->setPressPic(":/images/resources/images/adapt_image_active.png");
     btn->setToolTip(tr("1:1 Size"));
+    btn->setWhatsThis("1:1SizeButton");
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, [this](){
+    connect(btn, &ImageButton::clicked, [this, btn](){
         m_view->resetTransform();
-        m_view->setScaleValue(1);
+        if (btn->whatsThis() == "1:1SizeButton") {
+            btn->setNormalPic(":/images/resources/images/adapt_screen_normal.png");
+            btn->setHoverPic(":/images/resources/images/adapt_screen_hover.png");
+            btn->setPressPic(":/images/resources/images/adapt_screen_active.png");
+            btn->setToolTip(tr("Fit to window"));
+            btn->setWhatsThis("FitToWindowButton");
+            m_view->setScaleValue(1);
+        }
+        else {
+            btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
+            btn->setHoverPic(":/images/resources/images/adapt_image_hover.png");
+            btn->setPressPic(":/images/resources/images/adapt_image_active.png");
+            btn->setToolTip(tr("1:1 Size"));
+            btn->setWhatsThis("1:1SizeButton");
+        }
     });
-    btn->setToolTip(tr("Adapt"));
 
 #if 0
     btn = new ImageButton();
