@@ -22,10 +22,6 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
 
-signals:
-    void needGotoAlbumPanel();
-    void needGotoSearchPanel();
-
 protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;

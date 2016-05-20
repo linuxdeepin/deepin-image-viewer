@@ -8,9 +8,6 @@ class ImportFrame : public QWidget
     Q_OBJECT
 public:
     explicit ImportFrame(QWidget *parent = 0);
-
-private:
-    void importImages();
 };
 
 #endif // IMPORTFRAME_H

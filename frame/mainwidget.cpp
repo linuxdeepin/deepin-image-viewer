@@ -179,10 +179,6 @@ void MainWidget::initTimelinePanel()
 {
     m_timelinePanel = new TimelinePanel;
     m_panelStack->addWidget(m_timelinePanel);
-
-    connect(m_timelinePanel, &TimelinePanel::needGotoAlbumPanel, this, [=] {
-        onGotoPanel(m_albumPanel);
-    });
 }
 
 void MainWidget::initAlbumPanel()
@@ -190,8 +186,14 @@ void MainWidget::initAlbumPanel()
     m_albumPanel = new AlbumPanel;
     m_panelStack->addWidget(m_albumPanel);
 
-    connect(m_albumPanel, &AlbumPanel::needGotoTimelinePanel, this, [=] {
-        onGotoPanel(m_timelinePanel);
+    connect(m_signalManager, &SignalManager::createAlbum,
+            m_albumPanel, &AlbumPanel::onCreateAlbum);
+    connect(m_signalManager, &SignalManager::gotoAlbumPanel,
+            this, [=] (const QString &album) {
+        onGotoPanel(m_albumPanel);
+        if (! album.isEmpty()) {
+            m_albumPanel->onOpenAlbum(album);
+        }
     });
 }
 

@@ -29,6 +29,11 @@ PopupMenuManager::~PopupMenuManager()
     delete m_menu;
 }
 
+const QSize PopupMenuManager::sizeHint() const
+{
+    return m_menu->sizeHint();
+}
+
 QJsonObject PopupMenuManager::createItemObj(const int id,
                                       const QString &text,
                                       const bool isSeparator,

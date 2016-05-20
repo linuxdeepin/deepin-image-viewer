@@ -148,6 +148,9 @@ QString AlbumsView::getNewAlbumName() const
     if (tmpList.isEmpty()) {
         return nan;
     }
+    else if (tmpList.length() == 1) {
+        return nan + QString::number(1);
+    }
     else {
         qSort(tmpList.begin(), tmpList.end());
         for (int i = tmpList.length() - 1; i > 0; i ++) {
@@ -216,14 +219,10 @@ QJsonValue AlbumsView::createMenuItem(const MenuItemId id,
 
 void AlbumsView::onMenuItemClicked(int menuId)
 {
-    QModelIndex index;
-    const QString newAlbumName = getNewAlbumName();
     const QString currentAlbumName = getAlbumName(currentIndex());
     switch (MenuItemId(menuId)) {
     case IdCreate:
-        m_dbManager->insertImageIntoAlbum(newAlbumName, "", "");
-        index = addAlbum(m_dbManager->getAlbumInfo(newAlbumName));
-        openPersistentEditor(index);
+        createAlbum();
         break;
     case IdView:
         emit openAlbum(getAlbumName(currentIndex()));
@@ -249,4 +248,12 @@ void AlbumsView::onMenuItemClicked(int menuId)
 void AlbumsView::onDoubleClicked(const QModelIndex &index)
 {
     emit openAlbum(getAlbumName(index));
+}
+
+void AlbumsView::createAlbum()
+{
+    const QString newAlbumName = getNewAlbumName();
+    m_dbManager->insertImageIntoAlbum(newAlbumName, "", "");
+    QModelIndex index = addAlbum(m_dbManager->getAlbumInfo(newAlbumName));
+    openPersistentEditor(index);
 }

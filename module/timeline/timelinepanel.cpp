@@ -72,7 +72,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
             m_mainStackWidget->setCurrentWidget(m_imagesView);
             m_selectionView->clearSelection();
             emit m_signalManager->updateBottomToolbarContent(toolbarBottomContent());
-            emit needGotoAlbumPanel();
+            emit m_signalManager->gotoAlbumPanel();
         });
 
         QPushButton *addButton = new QPushButton(tr("Add"));
@@ -91,7 +91,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
             m_mainStackWidget->setCurrentWidget(m_imagesView);
             m_selectionView->clearSelection();
             emit m_signalManager->updateBottomToolbarContent(toolbarBottomContent());
-            emit needGotoAlbumPanel();
+            emit m_signalManager->gotoAlbumPanel();
         });
 
         layout->addWidget(label);
@@ -130,7 +130,7 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     albumButton->setHoverPic(":/images/resources/images/album_hover.png");
     connect(albumButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Album Panel...";
-        emit needGotoAlbumPanel();
+        emit m_signalManager->gotoAlbumPanel();
     });
     albumButton->setToolTip("Album");
     ImageButton *searchButton = new ImageButton();
@@ -138,7 +138,7 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
     connect(searchButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
-        emit needGotoSearchPanel();
+        emit m_signalManager->gotoSearchPanel();
     });
     searchButton->setToolTip("Search");
 

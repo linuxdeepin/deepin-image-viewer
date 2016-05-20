@@ -1,14 +1,23 @@
 #include "toptoolbar.h"
+#include "controller/importer.h"
+#include "controller/popupmenumanager.h"
+#include "controller/signalmanager.h"
+#include "controller/importer.h"
+#include "frame/mainwindow.h"
+#include <dcircleprogress.h>
 #include <QDebug>
 #include <QGradient>
 #include <QResizeEvent>
 #include <QApplication>
 #include <QStackedWidget>
-#include <dcircleprogress.h>
-#include "controller/importer.h"
-#include "frame/mainwindow.h"
 
 using namespace Dtk::Widget;
+
+namespace {
+
+const int TOP_TOOLBAR_HEIGHT = 40;
+
+}  // namespace
 
 TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     :BlureFrame(parent, source)
@@ -20,8 +29,10 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     setCoverBrush(QBrush(linearGrad));
 
     initWidgets();
+    initMenu();
 
-    connect(this, SIGNAL(moving()), parentWidget()->parentWidget(), SLOT(startMoving()));
+    connect(this, SIGNAL(moving()),
+            parentWidget()->parentWidget(), SLOT(startMoving()));
 }
 
 void TopToolbar::setLeftContent(QWidget *content)
@@ -80,7 +91,8 @@ void TopToolbar::initWidgets()
     DWindowOptionButton *ob = new DWindowOptionButton;
     connect(ob, &DWindowOptionButton::clicked, this, [=] {
         if (parentWidget()) {
-            qDebug() << "Show option...";
+            m_popupMenu->setMenuContent(createMenuContent());
+            m_popupMenu->showMenu();
         }
     });
     DWindowMinButton *minb = new DWindowMinButton;
@@ -132,4 +144,86 @@ void TopToolbar::initWidgets()
     mainLayout->addWidget(m_leftContent);
     mainLayout->addWidget(m_middleContent);
     mainLayout->addWidget(m_rightContent);
+}
+
+void TopToolbar::initMenu()
+{
+    m_popupMenu = new PopupMenuManager(this);
+    connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
+            this, &TopToolbar::onMenuItemClicked);
+    m_popupMenu->setMenuContent(createMenuContent());
+}
+
+QString TopToolbar::createMenuContent()
+{
+    QJsonArray items;
+    items.append(createMenuItem(IdCreateAlbum, tr("New album"), false,
+                                "Ctrl+Shift+N"));
+    items.append(createMenuItem(IdImport, tr("Import"), false, "Ctrl+I"));
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    items.append(createMenuItem(IdHelp, tr("Help"), false, "F1"));
+    items.append(createMenuItem(IdAbout, tr("About")));
+    items.append(createMenuItem(IdQuick, tr("Exit"), false, "Ctrl+Q"));
+
+    QJsonObject contentObj;
+    const QPoint gp = this->mapToGlobal(QPoint(0, 0));
+    const QSize ms = m_popupMenu->sizeHint();
+    contentObj["x"] = gp.x() + width() - ms.width() - 14;
+    contentObj["y"] = gp.y() + TOP_TOOLBAR_HEIGHT + 14;
+    contentObj["items"] = QJsonValue(items);
+
+    QJsonDocument document(contentObj);
+
+    return QString(document.toJson());
+}
+
+QJsonValue TopToolbar::createMenuItem(const MenuItemId id,
+                                     const QString &text,
+                                     const bool isSeparator,
+                                     const QString &shortcut,
+                                     const QJsonObject &subMenu)
+{
+    return QJsonValue(m_popupMenu->createItemObj(id,
+                                                 text,
+                                                 isSeparator,
+                                                 shortcut,
+                                                 subMenu));
+}
+
+void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
+{
+    Q_UNUSED(text);
+
+    switch (MenuItemId(menuId)) {
+    case IdCreateAlbum:
+        emit SignalManager::instance()->gotoAlbumPanel();
+        emit SignalManager::instance()->createAlbum();
+        break;
+    case IdImport:
+        Importer::instance()->showImportDialog();
+        break;
+    case IdHelp:
+        showManual();
+        break;
+    case IdAbout:
+        // TODO
+        break;
+    case IdQuick:
+        qApp->quit();
+    default:
+        break;
+    }
+}
+
+void TopToolbar::showManual()
+{
+    if (m_manualPro.isNull()) {
+        const QString pro = "dman";
+        const QStringList args("deepin-image-viewer");
+        m_manualPro = new QProcess(this);
+        connect(m_manualPro.data(), SIGNAL(finished(int)), m_manualPro.data(), SLOT(deleteLater()));
+        m_manualPro->start(pro, args);
+    }
 }

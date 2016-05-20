@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QVariant>
 #include <QPoint>
+#include <QJsonArray>
 #include <QJsonObject>
+#include <QJsonDocument>
 
 class QAction;
 class QMenu;
@@ -16,6 +18,7 @@ class PopupMenuManager : public QObject {
 public:
     explicit PopupMenuManager(QWidget *parent);
     ~PopupMenuManager();
+    const QSize sizeHint() const;
 
     QJsonObject createItemObj(const int id,
                               const QString &text,

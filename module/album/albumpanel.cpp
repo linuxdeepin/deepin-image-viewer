@@ -118,7 +118,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     timelineButton->setHoverPic(":/images/resources/images/timeline_hover.png");
     connect(timelineButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Timeline Panel...";
-        emit needGotoTimelinePanel();
+        emit m_signalManager->backToMainWindow();
     });
     timelineButton->setToolTip("Timeline");
 
@@ -133,7 +133,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     searchButton->setPressPic(":/images/resources/images/search_press_24px.png");
     connect(searchButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Search Panel...";
-        emit needGotoSearchPanel();
+        emit m_signalManager->gotoSearchPanel();
     });
     searchButton->setToolTip("Search");
 
@@ -264,5 +264,10 @@ void AlbumPanel::onOpenAlbum(const QString &album)
     m_currentAlbum = album;
     m_mainStackWidget->setCurrentIndex(2);
     m_imagesView->setAlbum(album);
+}
+
+void AlbumPanel::onCreateAlbum()
+{
+    m_albumsView->createAlbum();
 }
 

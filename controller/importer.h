@@ -16,6 +16,7 @@ class Importer : public QObject
 public:
     static Importer *instance();
     double getProgress() const;
+    void showImportDialog();
     void importFromPath(const QString &path);
     void importSingleFile(const QString &filePath);
 

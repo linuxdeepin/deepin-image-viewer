@@ -23,9 +23,9 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
 
-signals:
-    void needGotoTimelinePanel();
-    void needGotoSearchPanel();
+public slots:
+    void onOpenAlbum(const QString &album);
+    void onCreateAlbum();
 
 protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -38,9 +38,6 @@ private:
     void initStyleSheet();
 
     void updateBottomToolbarContent();
-
-private slots:
-    void onOpenAlbum(const QString &album);
 
 private:
     QString m_currentAlbum;

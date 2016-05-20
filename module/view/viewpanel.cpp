@@ -622,10 +622,10 @@ QString ViewPanel::createMenuContent()
 
     if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         items.append(createMenuItem(IdShowNavigationWindow,
-            tr("Show navigation window"), false, "Ctrl+N"));
+            tr("Show navigation window")));
     } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         items.append(createMenuItem(IdHideNavigationWindow,
-            tr("Hide navigation window"), false, "Ctrl+Shift+N"));
+            tr("Hide navigation window")));
     }
 
     items.append(createMenuItem(IdSeparator, "", true));
@@ -637,7 +637,7 @@ QString ViewPanel::createMenuContent()
 
     items.append(createMenuItem(IdSeparator, "", true));
 
-    items.append(createMenuItem(IdLabel, tr("Text tag"), false, "Ctrl+T"));
+    items.append(createMenuItem(IdLabel, tr("Text tag")));
     items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"), false,
                                 "Ctrl+F8"));
     items.append(createMenuItem(IdDisplayInFileManager,

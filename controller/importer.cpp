@@ -4,6 +4,7 @@
 #include <libexif/exif-data.h>
 #include <QDirIterator>
 #include <QFileInfo>
+#include <QFileDialog>
 #include <QDebug>
 #include <QDir>
 
@@ -52,6 +53,15 @@ Importer *Importer::instance()
 double Importer::getProgress() const
 {
     return m_progress;
+}
+
+void Importer::showImportDialog()
+{
+    QString dir = QFileDialog::getExistingDirectory(
+                nullptr, tr("Open Directory"),
+                QDir::homePath(),
+                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    importFromPath(dir);
 }
 
 void Importer::importFromPath(const QString &path)

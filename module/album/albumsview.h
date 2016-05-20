@@ -13,7 +13,8 @@ class AlbumsView : public QListView
     Q_OBJECT
 public:
     explicit AlbumsView(QWidget *parent = 0);
-    QModelIndex addAlbum(const DatabaseManager::AlbumInfo &info);
+    QModelIndex addAlbum(const DatabaseManager::AlbumInfo &info);    
+    void createAlbum();
 
     QSize itemSize() const;
     void setItemSize(const QSize &itemSize);

@@ -24,6 +24,7 @@ signals:
     void showExtensionPanel();
     void hideExtensionPanel();
     void backToMainWindow();
+    void gotoSearchPanel(const QString &keyWord = "");
     void gotoPanel(ModulePanel* panel);
 
     void imageCountChanged();
@@ -31,21 +32,23 @@ signals:
 
     void selectImageFromTimeline(const QString &targetAlbum);
 
-    void viewImage(const QString &path, const QString &album = "",
-                   bool fromFileManager = false);
     void editImage(const QString &path);
-
-    void fullScreen(const QString &path);
-    void startSlideShow(const QStringList &paths);  // TODO wangbin, NOTE: Data may be repeated
-    void addToAlbum(const QStringList &names);
-    void removeFromAlbum(const QString &name, const QString &album);
     void copyImage(const QString &path);
     void deleteImage(const QString &path);
-    void addToFavorites(const QString &name);
-    void rotateClockwise(const QString &path);
+
+    void viewImage(const QString &path, const QString &album = "",
+                   bool fromFileManager = false);
+    void fullScreen(const QString &path);
+    void startSlideShow(const QStringList &paths);  // TODO wangbin, NOTE: Data may be repeated
+
+    void gotoAlbumPanel(const QString &album = "");
+    void createAlbum();
+    void addToAlbum(const QStringList &names);
+    void removeFromAlbum(const QString &name, const QString &album);
+    void rotate(const QString &path, bool clockwise);
     void updateLabels(const QStringList &labels);
     void showInFileManager(const QString &path);
-    void showImageInfo(const QString &path);  // TODO wangbin
+    void showImageInfo(const QString &path);
 
 private:
     explicit SignalManager(QObject *parent = 0);

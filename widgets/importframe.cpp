@@ -1,6 +1,7 @@
 #include "importframe.h"
 #include "controller/importer.h"
 #include "controller/databasemanager.h"
+#include "controller/signalmanager.h"
 #include <QDropEvent>
 #include <QLabel>
 #include <QPushButton>
@@ -17,10 +18,11 @@ ImportFrame::ImportFrame(QWidget *parent) : QWidget(parent)
     QPushButton *importButton = new QPushButton(tr("Import"));
     importButton->setObjectName("ImportFrameButton");
     connect(importButton, &QPushButton::clicked, this, [=] {
-        importImages();
+        Importer::instance()->showImportDialog();
     });
 
-    QLabel *titleLabel = new QLabel(tr("You can also drop folder here to import picture"));
+    QLabel *titleLabel = new QLabel(
+                tr("You can also drop folder here to import picture"));
     titleLabel->setObjectName("ImportFrameTooltip");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -35,11 +37,3 @@ ImportFrame::ImportFrame(QWidget *parent) : QWidget(parent)
     layout->addStretch(1);
 }
 
-void ImportFrame::importImages()
-{
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                    QDir::homePath(),
-                                                    QFileDialog::ShowDirsOnly
-                                                    | QFileDialog::DontResolveSymlinks);
-    Importer::instance()->importFromPath(dir);
-}
