@@ -1,4 +1,5 @@
 #include "controller/commandline.h"
+#include "service/defaultimageviewer.h"
 
 #include <QApplication>
 #include <DLog>
@@ -29,6 +30,9 @@ int main(int argc, char *argv[])
 //    QTranslator translator;
 //    translator.load("/usr/share/deepin-viewer/translations/deepin-viewer_" + QLocale::system().name());
 //    a.installTranslator(&translator);
+    if (!service::isDefaultImageViewer()) {
+        service::setDefaultImageViewer(true);
+    }
 
     CommandLine *cl = CommandLine::instance();
 
@@ -36,7 +40,6 @@ int main(int argc, char *argv[])
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
         dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
-
         return a.exec();
     }
     else {

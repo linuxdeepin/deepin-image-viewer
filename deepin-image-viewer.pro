@@ -19,6 +19,7 @@ include (module/modules.pri)
 include (widgets/widgets.pri)
 include (utils/utils.pri)
 include (controller/controller.pri)
+include (service/service.pri)
 
 SOURCES += main.cpp
 
