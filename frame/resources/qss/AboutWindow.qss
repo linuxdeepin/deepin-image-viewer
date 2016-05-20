@@ -1,0 +1,13 @@
+QLabel {
+    margin: 2px;
+}
+
+QLabel#AppTitleLabel {
+    font-size: 19px;
+    color: white;
+}
+
+QLabel#VersionLabel, QLabel#DescLabel1, QLabel#DescLabel2, QLabel#LicenseLabel {
+    font-size: 12px;
+    color: #b4b4b4;
+}

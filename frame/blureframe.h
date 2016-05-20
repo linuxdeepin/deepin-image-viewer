@@ -15,6 +15,15 @@ public:
     void setPos(const QPoint &pos);
     void moveWithAnimation(int x, int y);
 
+    int getBorderRadius() const;
+    void setBorderRadius(int borderRadius);
+
+    int getBorderWidth() const;
+    void setBorderWidth(int borderWidth);
+
+    QColor getBorderColor() const;
+    void setBorderColor(const QColor &borderColor);
+
 protected:
     void paintEvent(QPaintEvent *);
     QPixmap getResultPixmap();
@@ -27,6 +36,9 @@ private:
     QBrush m_coverBrush = QBrush(QColor(0, 0, 0, 200));
     int m_blureRadius = 13;
     QPoint m_pos;
+    int m_borderRadius = 0;
+    int m_borderWidth = 0;
+    QColor m_borderColor;
 };
 
 #endif // BLUREFRAME_H

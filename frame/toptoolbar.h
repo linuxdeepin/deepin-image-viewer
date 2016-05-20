@@ -2,17 +2,11 @@
 #define TOPTOOLBAR_H
 
 #include "blureframe.h"
-#include "dwindowmaxbutton.h"
-#include "dwindowminbutton.h"
-#include "dwindowclosebutton.h"
-#include "dwindowoptionbutton.h"
-#include "dwindowrestorebutton.h"
+#include "aboutwindow.h"
 #include <QHBoxLayout>
 #include <QJsonObject>
 #include <QProcess>
 #include <QPointer>
-
-using namespace Dtk::Widget;
 
 class PopupMenuManager;
 class TopToolbar : public BlureFrame
@@ -61,6 +55,7 @@ private:
     QWidget *m_leftContent;
     QWidget *m_middleContent;
     QWidget *m_rightContent;
+    AboutWindow *m_about;
     PopupMenuManager *m_popupMenu;
 };
 
