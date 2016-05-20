@@ -4,7 +4,8 @@ HEADERS += \
     $$PWD/extensionpanel.h \
     $$PWD/mainwidget.h \
     $$PWD/mainwindow.h \
-    $$PWD/toptoolbar.h
+    $$PWD/toptoolbar.h \
+    $$PWD/aboutwindow.h
 
 SOURCES += \
     $$PWD/blureframe.cpp \
@@ -12,7 +13,8 @@ SOURCES += \
     $$PWD/extensionpanel.cpp \
     $$PWD/mainwidget.cpp \
     $$PWD/mainwindow.cpp \
-    $$PWD/toptoolbar.cpp
+    $$PWD/toptoolbar.cpp \
+    $$PWD/aboutwindow.cpp
 
 RESOURCES += \
     $$PWD/frame.qrc

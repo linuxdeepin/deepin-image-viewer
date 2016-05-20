@@ -39,9 +39,31 @@ void BlureFrame::setPos(const QPoint &pos)
 
 void BlureFrame::paintEvent(QPaintEvent *)
 {
+
     QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+
+    QPainterPath path;
+    // Draw outside border
+    path.addRoundedRect(this->rect(), m_borderRadius, m_borderRadius);
+    QPen pen(m_borderColor, m_borderWidth);
+    p.setPen(pen);
+    p.drawPath(path);
+
+    // Draw content
+    QRect insideRect;
+    insideRect.setRect(this->rect().x() + m_borderWidth,
+                       this->rect().y() + m_borderWidth,
+                       this->rect().width() - m_borderWidth * 2,
+                       this->rect().height() - m_borderWidth * 2);
+    QPainterPath ip;
+    ip.addRoundedRect(insideRect, m_borderRadius, m_borderRadius);
+    p.setClipPath(ip);
+
     p.drawPixmap(0, 0, width(), height(), getResultPixmap());
     p.fillRect(0, 0, width(), height(), m_coverBrush);
+
+
     p.end();
 }
 
@@ -86,4 +108,34 @@ QImage BlureFrame::applyEffectToImage(QImage src, QGraphicsEffect *effect, int e
     scene.render(&ptr, QRectF(), QRectF( -extent, -extent, src.width()+extent*2, src.height()+extent*2 ) );
 
     return res;
+}
+
+QColor BlureFrame::getBorderColor() const
+{
+    return m_borderColor;
+}
+
+void BlureFrame::setBorderColor(const QColor &borderColor)
+{
+    m_borderColor = borderColor;
+}
+
+int BlureFrame::getBorderWidth() const
+{
+    return m_borderWidth;
+}
+
+void BlureFrame::setBorderWidth(int borderWidth)
+{
+    m_borderWidth = borderWidth;
+}
+
+int BlureFrame::getBorderRadius() const
+{
+    return m_borderRadius;
+}
+
+void BlureFrame::setBorderRadius(int borderRadius)
+{
+    m_borderRadius = borderRadius;
 }

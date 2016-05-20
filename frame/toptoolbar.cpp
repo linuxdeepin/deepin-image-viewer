@@ -5,6 +5,11 @@
 #include "controller/importer.h"
 #include "frame/mainwindow.h"
 #include <dcircleprogress.h>
+#include "dwindowmaxbutton.h"
+#include <dwindowminbutton.h>
+#include <dwindowclosebutton.h>
+#include <dwindowoptionbutton.h>
+#include <dwindowrestorebutton.h>
 #include <QDebug>
 #include <QGradient>
 #include <QResizeEvent>
@@ -27,6 +32,9 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     linearGrad.setColorAt(1, QColor(0, 0, 0, 204));
 
     setCoverBrush(QBrush(linearGrad));
+
+    m_about = new AboutWindow(parent, source);
+    m_about->hide();
 
     initWidgets();
     initMenu();
@@ -164,7 +172,7 @@ QString TopToolbar::createMenuContent()
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdHelp, tr("Help"), false, "F1"));
-    items.append(createMenuItem(IdAbout, tr("About")));
+    items.append(createMenuItem(IdAbout, tr("About"), false, "F10"));
     items.append(createMenuItem(IdQuick, tr("Exit"), false, "Ctrl+Q"));
 
     QJsonObject contentObj;
@@ -208,7 +216,9 @@ void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
         showManual();
         break;
     case IdAbout:
-        // TODO
+        m_about->move((width() - m_about->width()) / 2,
+                      (window()->height() - m_about->height()) / 2);
+        m_about->show();
         break;
     case IdQuick:
         qApp->quit();
