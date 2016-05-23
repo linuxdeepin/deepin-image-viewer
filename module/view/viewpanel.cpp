@@ -8,6 +8,8 @@
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
+#include "controller/databasemanager.h"
+#include "controller/exporter.h"
 #include "widgets/imagebutton.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
@@ -410,7 +412,7 @@ QString ViewPanel::createMenuContent()
 
     items.append(createMenuItem(IdSeparator, "", true));
 
-//    items.append(createMenuItem(IdCopy, tr("Export"), false, "Ctrl+C"));
+    items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
     items.append(createMenuItem(IdDelete, tr("Delete"), false, "Delete"));
     if (! m_albumName.isEmpty()) {
@@ -527,8 +529,13 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         m_dbManager->insertImageIntoAlbum(albumName, m_current->name,
             utils::base::timeToString(m_current->time));
         break;
-//    case IdExport:
-//        break;
+    case IdExport:
+    {
+        QStringList exportFile;
+        exportFile << m_current->path;
+        Exporter::instance()->exportImage(exportFile);
+        break;
+    }
     case IdCopy:
         utils::base::copyImageToClipboard(m_current->path);
         break;

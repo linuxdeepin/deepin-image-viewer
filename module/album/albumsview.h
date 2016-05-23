@@ -30,9 +30,9 @@ private:
         IdCreate,
         IdView,
         IdStartSlideShow,
+        IdExport,
         IdCopy,
         IdDelete,
-        IdExport,
         IdAlbumInfo,
         IdSubMenu,
         IdSeparator

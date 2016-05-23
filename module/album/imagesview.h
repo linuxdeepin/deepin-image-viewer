@@ -7,6 +7,8 @@
 #include <QJsonObject>
 #include <QStandardItemModel>
 #include <QVBoxLayout>
+#include <QKeyEvent>
+#include <QObject>
 
 class PopupMenuManager;
 class ThumbnailListView;
@@ -21,9 +23,10 @@ public:
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
     QString selectedImagePath() const;
-
 protected:
     void resizeEvent(QResizeEvent *e);
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
 
 private:
     enum MenuItemId {
@@ -62,6 +65,7 @@ private:
     void updateContentRect();
     void updateTopTipsRect();
     int getMinContentsWidth();
+
 
 private:
     QString m_currentAlbum;
