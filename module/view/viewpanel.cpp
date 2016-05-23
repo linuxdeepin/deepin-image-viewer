@@ -1,5 +1,8 @@
 #include "viewpanel.h"
 #include "imageinfowidget.h"
+#include "contents/tbcontent.h"
+#include "contents/ttmcontent.h"
+#include "contents/ttlcontent.h"
 #include "slideeffect/slideeffectplayer.h"
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
@@ -8,22 +11,17 @@
 #include "widgets/imagebutton.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
-#include <darrowrectangle.h>
-#include <QBoxLayout>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QFile>
 #include <QFileInfo>
-#include <QLabel>
 #include <QResizeEvent>
-#include <QMenu>
-#include <QJsonArray>
-#include <QJsonDocument>
 #include <QRegularExpression>
 #include <QShortcut>
+#include <QHBoxLayout>
 #include <QKeySequence>
 #include <QTimer>
 #include <QDebug>
-#include <QApplication>
-#include <QLineEdit>
 
 #include <ddialog.h>
 
@@ -46,65 +44,19 @@ ViewPanel::ViewPanel(QWidget *parent)
       m_signalManager(SignalManager::instance()),
       m_dbManager(DatabaseManager::instance())
 {
-    m_slide = new SlideEffectPlayer(this);
-    m_view = new ImageWidget();
-    QHBoxLayout *hl = new QHBoxLayout(this);
-    hl->setContentsMargins(0, 0, 0, 0);
-    hl->addWidget(m_view);
-
-    m_nav = new NavigationWidget(this);
-    m_nav->setVisible(! m_nav->isAlwaysHidden());
-    setContextMenuPolicy(Qt::CustomContextMenu);
+    initViewContent();
+    initSlider();
+    initNavigation();
     initConnect();
     initShortcut();
     initStyleSheet();
     setMouseTracking(true);
 
+    setContextMenuPolicy(Qt::CustomContextMenu);
     updateMenuContent();
 }
 
 void ViewPanel::initConnect() {
-    connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
-        m_current += steps;
-    });
-    connect(m_slide, &SlideEffectPlayer::currentImageChanged,
-            [this](const QString& path){
-        // Slide image size is widget size
-        m_nav->setImage(QImage(path).scaled(m_slide->frameSize(),
-                                            Qt::KeepAspectRatio,
-                                            Qt::SmoothTransformation));
-        if (m_info) {
-            m_info->setImagePath(path);
-        }
-    });
-    connect(m_slide, &SlideEffectPlayer::frameReady,
-            [this](const QImage& image) {
-        m_view->setImage(image);
-    });
-
-    connect(m_view, &ImageWidget::rotated, [this](int degree) {
-        const QTransform t = QTransform().rotate(degree);
-        QImage img = m_view->image().transformed(t);
-        utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
-    });
-    connect(m_view, &ImageWidget::fliped, [this](bool x, bool y) {
-        const QTransform t = QTransform().scale(x ? -1 : 1, y ? -1 : 1);
-        QImage img = m_view->image().transformed(t);
-        utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
-    });
-    connect(m_view, &ImageWidget::transformChanged, [this](){
-        // TODO: check user settings
-        if (!m_nav->isAlwaysHidden())
-            m_nav->setVisible(!m_view->isWholeImageVisible());
-        m_nav->setRectInImage(m_view->visibleImageRect());
-    });
-    connect(m_view, &ImageWidget::doubleClicked,
-            this, &ViewPanel::toggleFullScreen);
-
-    connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
-        m_view->setImageMove(x, y);
-    });
-
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         updateMenuContent();
         m_popupMenu->showMenu();
@@ -200,24 +152,6 @@ void ViewPanel::initStyleSheet()
     }
 }
 
-void ViewPanel::updateCollectButton()
-{
-    if (m_dbManager->imageExistAlbum(m_current->name, FAVORITES_ALBUM_NAME)) {
-        m_collectButton->setToolTip(tr("Remove from Favorites"));
-        m_collectButton->setWhatsThis("RFFButton");
-        m_collectButton->setNormalPic(":/images/resources/images/collect_active.png");
-        m_collectButton->setHoverPic(":/images/resources/images/collect_active.png");
-        m_collectButton->setPressPic(":/images/resources/images/collect_active.png");
-    }
-    else {
-        m_collectButton->setToolTip(tr("Add to Favorites"));
-        m_collectButton->setWhatsThis("ATFButton");
-        m_collectButton->setNormalPic(":/images/resources/images/collect_normal.png");
-        m_collectButton->setHoverPic(":/images/resources/images/collect_hover.png");
-        m_collectButton->setPressPic(":/images/resources/images/collect_hover.png");
-    }
-}
-
 void ViewPanel::updateMenuContent()
 {
     // For update shortcut
@@ -293,172 +227,45 @@ QList<DatabaseManager::ImageInfo> ViewPanel::readImageInfosFromDir(const QString
 
 QWidget *ViewPanel::toolbarBottomContent()
 {
-    QWidget *w = new QWidget();
+    TBContent *tbc = new TBContent;
+    tbc->setStyleSheet(this->styleSheet());
+    connect(this, &ViewPanel::updateCollectButton,
+            tbc, &TBContent::updateCollectButton);
+    connect(this, &ViewPanel::imageChanged, tbc, &TBContent::onImageChanged);
+    connect(tbc, &TBContent::popupDeleteDialog,
+            this, &ViewPanel::popupDeleteDialog);
+    connect(tbc, &TBContent::showNext, this, &ViewPanel::showNext);
+    connect(tbc, &TBContent::showPrevious, this, &ViewPanel::showPrevious);
+    connect(tbc, &TBContent::toggleSlideShow, this, &ViewPanel::toggleSlideShow);
 
-    QHBoxLayout *hb = new QHBoxLayout();
-    hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(10);
-    w->setLayout(hb);
-
-    ImageButton *btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/info_normal.png");
-    btn->setHoverPic(":/images/resources/images/info_hover.png");
-    btn->setPressPic(":/images/resources/images/info_active.png");
-    hb->addWidget(btn);
-    hb->addStretch();
-    connect(btn, &ImageButton::clicked,
-            m_signalManager, &SignalManager::showExtensionPanel);
-    btn->setToolTip("Image info");
-
-    m_collectButton = new ImageButton();
-    hb->addWidget(m_collectButton);
-    connect(m_collectButton, &ImageButton::clicked, [=] {
-        if (m_dbManager->imageExistAlbum(m_current->name, FAVORITES_ALBUM_NAME))
-        {
-            m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME,
-                                              m_current->name);
-        }
-        else {
-            m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME,
-                m_current->name, utils::base::timeToString(m_current->time));
-        }
-        updateCollectButton();
-    });
-    updateCollectButton();
-
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/previous_normal.png");
-    btn->setHoverPic(":/images/resources/images/previous_hover.png");
-    btn->setPressPic(":/images/resources/images/previous_press.png");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &ViewPanel::showPrevious);
-    btn->setToolTip(tr("Previous"));
-
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/slideshow_normal.png");
-    btn->setHoverPic(":/images/resources/images/slideshow_hover.png");
-    btn->setPressPic(":/images/resources/images/slideshow_press.png");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &ViewPanel::toggleSlideShow);
-    btn->setToolTip(tr("Slide show"));
-
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/next_normal.png");
-    btn->setHoverPic(":/images/resources/images/next_hover.png");
-    btn->setPressPic(":/images/resources/images/next_press.png");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &ViewPanel::showNext);
-    btn->setToolTip(tr("Next"));
-
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/edit_normal.png");
-    btn->setHoverPic(":/images/resources/images/edit_hover.png");
-    btn->setPressPic(":/images/resources/images/edit_press.png");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, [this](){
-        Q_EMIT m_signalManager->editImage(m_current->path);
-    });
-    btn->setToolTip(tr("Edit"));
-
-    hb->addStretch();
-
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/delete_normal.png");
-    btn->setHoverPic(":/images/resources/images/delete_hover.png");
-    btn->setPressPic(":/images/resources/images/delete_press.png");
-    hb->addWidget(btn);
-    btn->setToolTip(tr("Delete"));
-    connect(btn, &ImageButton::clicked, [this](){
-       popupDeleteDialog();
-    });
-
-    return w;
+    return tbc;
 }
 
 QWidget *ViewPanel::toolbarTopLeftContent()
 {
-    QWidget *w = new QWidget();
-
-    QHBoxLayout *hb = new QHBoxLayout();
-    hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(0);
-    w->setLayout(hb);
-    ImageButton *btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/album_normal.png");
-    btn->setHoverPic(":/images/resources/images/album_hover.png");
-    btn->setPressPic(":/images/resources/images/album_active.png");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, [=] {
+    TTLContent *ttlc = new TTLContent;
+    connect(ttlc, &TTLContent::backToMain, this, [=] {
         m_slide->stop();
         // Use dbus interface to make sure it will always back to the main process
         DIVDBusController().backToMainWindow();
     });
-    btn->setToolTip(tr("Back"));
-
-    return w;
+    return ttlc;
 }
 
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
-    QWidget *w = new QWidget();
-    QHBoxLayout *hb = new QHBoxLayout();
-    hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(10);
-    w->setLayout(hb);
-    hb->addStretch();
-
-    ImageButton *btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/contrarotate_normal.png");
-    btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
-    btn->setPressPic(":/images/resources/images/contrarotate_press.png");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, m_view, &ImageWidget::rotateCounterclockwise);
-    btn->setToolTip(tr("Rotate counterclockwise"));
-
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
-    btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
-    btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, m_view, &ImageWidget::rotateClockWise);
-    btn->setToolTip(tr("Rotate clockwise"));
-
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
-    btn->setHoverPic(":/images/resources/images/adapt_image_hover.png");
-    btn->setPressPic(":/images/resources/images/adapt_image_active.png");
-    btn->setToolTip(tr("1:1 Size"));
-    btn->setWhatsThis("1:1SizeButton");
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, [this, btn](){
+    TTMContent *ttmc = new TTMContent;
+    connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
         m_view->resetTransform();
-        if (btn->whatsThis() == "1:1SizeButton") {
-            btn->setNormalPic(":/images/resources/images/adapt_screen_normal.png");
-            btn->setHoverPic(":/images/resources/images/adapt_screen_hover.png");
-            btn->setPressPic(":/images/resources/images/adapt_screen_active.png");
-            btn->setToolTip(tr("Fit to window"));
-            btn->setWhatsThis("FitToWindowButton");
+        if (fitWindow) {
             m_view->setScaleValue(1);
         }
-        else {
-            btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
-            btn->setHoverPic(":/images/resources/images/adapt_image_hover.png");
-            btn->setPressPic(":/images/resources/images/adapt_image_active.png");
-            btn->setToolTip(tr("1:1 Size"));
-            btn->setWhatsThis("1:1SizeButton");
-        }
     });
-
-#if 0
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/share_normal.png");
-    btn->setHoverPic(":/images/resources/images/share_hover.png");
-    btn->setPressPic(":/images/resources/images/share_active.png");
-    hb->addWidget(btn);
-    btn->setToolTip(tr("Share"));
-#endif
-    hb->addStretch();
-    return w;
+    connect(ttmc, &TTMContent::rotateClockWise,
+            m_view, &ImageWidget::rotateClockWise);
+    connect(ttmc, &TTMContent::rotateCounterclockwise,
+            m_view, &ImageWidget::rotateCounterclockwise);
+    return ttmc;
 }
 
 QWidget *ViewPanel::extensionPanelContent()
@@ -734,12 +541,12 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdAddToFavorites:
         m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, m_current->name,
             utils::base::timeToString(m_current->time));
-        updateCollectButton();
+        emit updateCollectButton();
         updateMenuContent();
         break;
     case IdRemoveFromFavorites:
         m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME, m_current->name);
-        updateCollectButton();
+        emit updateCollectButton();
         updateMenuContent();
         break;
     case IdShowNavigationWindow:
@@ -772,6 +579,64 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     }
 }
 
+void ViewPanel::initSlider()
+{
+    m_slide = new SlideEffectPlayer(this);
+    connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
+        m_current += steps;
+    });
+    connect(m_slide, &SlideEffectPlayer::currentImageChanged,
+            [this](const QString& path){
+        // Slide image size is widget size
+        m_nav->setImage(QImage(path).scaled(m_slide->frameSize(),
+                                            Qt::KeepAspectRatio,
+                                            Qt::SmoothTransformation));
+        if (m_info) {
+            m_info->setImagePath(path);
+        }
+    });
+    connect(m_slide, &SlideEffectPlayer::frameReady,
+            [this](const QImage& image) {
+        m_view->setImage(image);
+    });
+}
+
+void ViewPanel::initViewContent()
+{
+    m_view = new ImageWidget();
+
+    connect(m_view, &ImageWidget::rotated, [this](int degree) {
+        const QTransform t = QTransform().rotate(degree);
+        QImage img = m_view->image().transformed(t);
+        utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
+    });
+    connect(m_view, &ImageWidget::fliped, [this](bool x, bool y) {
+        const QTransform t = QTransform().scale(x ? -1 : 1, y ? -1 : 1);
+        QImage img = m_view->image().transformed(t);
+        utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
+    });
+    connect(m_view, &ImageWidget::doubleClicked,
+            this, &ViewPanel::toggleFullScreen);
+
+    QHBoxLayout *hl = new QHBoxLayout(this);
+    hl->setContentsMargins(0, 0, 0, 0);
+    hl->addWidget(m_view);
+}
+
+void ViewPanel::initNavigation()
+{
+    m_nav = new NavigationWidget(this);
+    m_nav->setVisible(! m_nav->isAlwaysHidden());
+    connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
+        m_view->setImageMove(x, y);
+    });
+    connect(m_view, &ImageWidget::transformChanged, [this](){
+        if (!m_nav->isAlwaysHidden())
+            m_nav->setVisible(!m_view->isWholeImageVisible());
+        m_nav->setRectInImage(m_view->visibleImageRect());
+    });
+}
+
 void ViewPanel::openImage(const QString &path, bool fromOutside)
 {
     Q_EMIT m_signalManager->gotoPanel(this);
@@ -796,5 +661,6 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
         m_info->setImagePath(path);
     }
 
-    updateCollectButton();
+    emit imageChanged(m_current->name, m_current->path);
+    emit updateCollectButton();
 }

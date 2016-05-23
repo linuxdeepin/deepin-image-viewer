@@ -24,6 +24,9 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
 
+signals:
+    void updateCollectButton();
+    void imageChanged(const QString &name, const QString &path);
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
@@ -36,6 +39,7 @@ private Q_SLOTS:
     void showPrevious();
     void showNext();
     void popupDeleteDialog();
+
 private:
     enum MenuItemId {
         IdFullScreen,
@@ -60,6 +64,13 @@ private:
         IdSeparator
     };
 
+    void initSlider();
+    void initViewContent();
+    void initNavigation();
+    void initConnect();
+    void initShortcut();
+    void initStyleSheet();
+
     QString createMenuContent();
 
     QJsonObject createAlbumMenuObj(bool isRemove);
@@ -69,11 +80,7 @@ private:
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
     void onMenuItemClicked(int menuId, const QString &text);
-    void initConnect();
-    void initShortcut();
-    void initStyleSheet();
 
-    void updateCollectButton();
     void updateMenuContent();
     void toggleSlideShow();
     void showToolbar(bool isTop);
@@ -85,7 +92,6 @@ private:
 
 private:
     QString m_albumName;    // 用于判断图片是否从相册模块传递过来
-    ImageButton *m_collectButton;
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
