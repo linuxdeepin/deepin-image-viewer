@@ -29,6 +29,7 @@ struct ExifItem {
 
 ExifItem *getExifItemList(bool isDetails);
 const QStringList supportImageTypes();
+bool imageIsSupport(const QString &filepath);
 QPixmap getThumbnail(const QString &filePath);
 QPixmap scaleImage(const QString &filePath);
 QDateTime getCreateDateTime(const QString &filePath);

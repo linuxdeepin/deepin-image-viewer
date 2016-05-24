@@ -159,13 +159,13 @@ void AlbumPanel::dropEvent(QDropEvent *event)
     QList<QUrl> urls = event->mimeData()->urls();
     if (!urls.isEmpty()) {
         for (QUrl url : urls) {
-            QFileInfo info(url.toLocalFile());
-            if (info.isDir()) {
-                Importer::instance()->importFromPath(url.toLocalFile());
+            const QString path = url.toLocalFile();
+            if (QFileInfo(path).isDir()) {
+                Importer::instance()->importFromPath(path);
             }
             else {
-                if (utils::image::supportImageTypes().indexOf(info.suffix()) != 0) {
-                    Importer::instance()->importSingleFile(url.toLocalFile());
+                if (utils::image::imageIsSupport(path)) {
+                    Importer::instance()->importSingleFile(path);
                 }
             }
         }

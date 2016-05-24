@@ -1,5 +1,6 @@
 #include "commandline.h"
 #include "frame/mainwindow.h"
+#include "utils/imageutils.h"
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
@@ -99,8 +100,9 @@ bool CommandLine::processOption()
 
         QString name = names.first();
         QString value = m_cmdParser.value(names.first());
+        bool support = utils::image::imageIsSupport(value);
 
-        if (name == "o" || name == "open") {
+        if ((name == "o" || name == "open") && support) {
             qDebug() << "Open image file: " << value;
             MainWindow *w = new MainWindow;
             w->show();
@@ -113,10 +115,10 @@ bool CommandLine::processOption()
         else if (name == "s" || name == "search") {
             dc->searchImage(value);
         }
-        else if (name == "e" || name == "edit") {
+        else if ((name == "e" || name == "edit") && support) {
             dc->editImage(value);
         }
-        else if (name == "w" || name == "wallpaper") {
+        else if ((name == "w" || name == "wallpaper") && support) {
             qDebug() << "Set " << value << " as wallpaper.";
             WallpaperSetter::instance()->setWallpaper(value);
         }
