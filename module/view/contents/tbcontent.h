@@ -20,7 +20,6 @@ signals:
     void showPrevious();
     void toggleSlideShow();
     void showNext();
-    void popupDeleteDialog();
 
 private:
     ImageButton *m_clBT;
