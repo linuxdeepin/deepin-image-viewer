@@ -232,8 +232,6 @@ QWidget *ViewPanel::toolbarBottomContent()
     connect(this, &ViewPanel::updateCollectButton,
             tbc, &TBContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, tbc, &TBContent::onImageChanged);
-    connect(tbc, &TBContent::popupDeleteDialog,
-            this, &ViewPanel::popupDeleteDialog);
     connect(tbc, &TBContent::showNext, this, &ViewPanel::showNext);
     connect(tbc, &TBContent::showPrevious, this, &ViewPanel::showPrevious);
     connect(tbc, &TBContent::toggleSlideShow, this, &ViewPanel::toggleSlideShow);
@@ -343,51 +341,6 @@ void ViewPanel::showNext()
         return;
     }
     openImage(m_current->path);
-}
-
-void ViewPanel::popupDeleteDialog() {
-    DDialog deleteDialog;
-    deleteDialog.setWindowFlags(Qt::Dialog | deleteDialog.windowFlags());
-    deleteDialog.setWindowModality(Qt::WindowModal);
-
-    deleteDialog.setTitle(QString(tr("Are you sure to delete this image ?")));
-    QPixmap imageThumbnail = utils::image::getThumbnail(m_view->imagePath());
-    deleteDialog.setIconPixmap(imageThumbnail.scaled(QSize(60, 48),
-        Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    QString message = tr("This operation cannot be restored.");
-    deleteDialog.setMessage(message);
-    qDebug() << "m_current album:" << m_albumName;
-    if (m_albumName.isEmpty()) {
-        QStringList delImageFromTimelineBtns;
-        delImageFromTimelineBtns << tr("Cancel") << tr("Delete");
-        deleteDialog.addButtons(delImageFromTimelineBtns);
-
-        connect(&deleteDialog, &DDialog::buttonClicked, [&](int clickedResult) {
-            if (clickedResult == 0) {
-                return;
-            }
-
-            QString deleteImageName = m_view->imageName();
-            m_dbManager->removeImage(deleteImageName);
-        });
-    } else {
-        QStringList delImageFromAlbumBtns;
-        delImageFromAlbumBtns << tr("Cancel") << tr("Remove") << tr("Delete");
-        deleteDialog.addButtons(delImageFromAlbumBtns);
-
-        connect(&deleteDialog, &DDialog::buttonClicked, [&](int clickedResult) {
-            QString imageName = m_view->imageName();
-            if (clickedResult == 0) {
-                return;
-            } else if (clickedResult == 1) {
-                m_dbManager->removeImageFromAlbum(m_albumName, imageName);
-            } else {
-                m_dbManager->removeImage(imageName);
-            }
-        });
-    }
-
-    deleteDialog.exec();
 }
 
 QString ViewPanel::createMenuContent()
@@ -530,7 +483,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         utils::base::copyImageToClipboard(m_current->path);
         break;
     case IdDelete:
-        popupDeleteDialog();
+        m_dbManager->removeImage(m_view->imageName());
         break;
     case IdRemoveFromAlbum:
         m_dbManager->removeImageFromAlbum(m_albumName, m_current->name);

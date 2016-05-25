@@ -88,7 +88,9 @@ TBContent::TBContent(QWidget *parent)
     btn->setToolTip(tr("Delete"));
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, [this](){
-        emit popupDeleteDialog();
+        m_dbManager->removeImage(m_imageName);
+        //Todo: show next image, if next image is not exists, show previous one.
+        //Q_EMIT showNext();
     });
 
 }
