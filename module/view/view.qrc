@@ -38,6 +38,9 @@
         <file>resources/images/adapt_screen_active.png</file>
         <file>resources/images/adapt_screen_hover.png</file>
         <file>resources/images/adapt_screen_normal.png</file>
+        <file>resources/images/folder_hover.png</file>
+        <file>resources/images/folder_normal.png</file>
+        <file>resources/images/folder_press.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/view.qss</file>
