@@ -25,6 +25,7 @@ protected:
 
 private slots:
     void onGotoPanel(ModulePanel *panel);
+    void onShowProcessTooltip(const QString &message, bool success);
 
 private:
     void initPanelStack();

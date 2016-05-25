@@ -2,7 +2,7 @@
 #define ABOUTWINDOW_H
 
 #include <QWidget>
-#include "blureframe.h"
+#include "widgets/blureframe.h"
 
 class AboutWindow : public BlureFrame
 {

@@ -1,5 +1,4 @@
 HEADERS += \
-    $$PWD/blureframe.h \
     $$PWD/bottomtoolbar.h \
     $$PWD/extensionpanel.h \
     $$PWD/mainwidget.h \
@@ -8,7 +7,6 @@ HEADERS += \
     $$PWD/aboutwindow.h
 
 SOURCES += \
-    $$PWD/blureframe.cpp \
     $$PWD/bottomtoolbar.cpp \
     $$PWD/extensionpanel.cpp \
     $$PWD/mainwidget.cpp \

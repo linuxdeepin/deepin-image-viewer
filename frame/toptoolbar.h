@@ -1,7 +1,7 @@
 #ifndef TOPTOOLBAR_H
 #define TOPTOOLBAR_H
 
-#include "blureframe.h"
+#include "widgets/blureframe.h"
 #include "aboutwindow.h"
 #include <QHBoxLayout>
 #include <QJsonObject>

@@ -2,7 +2,7 @@
 #define EXTENSIONPANEL_H
 
 #include <QHBoxLayout>
-#include "blureframe.h"
+#include "widgets/blureframe.h"
 
 class ExtensionPanel : public BlureFrame
 {

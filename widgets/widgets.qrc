@@ -4,6 +4,8 @@
         <file>resources/images/tooltip.svg</file>
         <file>resources/images/sub_menu_hover.png</file>
         <file>resources/images/sub_menu_normal.png</file>
+        <file>resources/images/failure_cross.png</file>
+        <file>resources/images/success_tick.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/ThumbnailListView.qss</file>

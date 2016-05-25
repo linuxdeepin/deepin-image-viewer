@@ -1,0 +1,50 @@
+#include "processtooltip.h"
+#include <QLabel>
+#include <QTimer>
+#include <QHBoxLayout>
+#include <QDebug>
+
+namespace {
+
+const int HIDE_INTERVAL = 1000;
+const int TOOLTIP_HEIGHT = 40;
+
+}  // namespace
+
+ProcessTooltip::ProcessTooltip(QWidget *parent, QWidget *source)
+    : BlureFrame(parent, source)
+{
+    setBorderRadius(4);
+    setBorderWidth(1);
+    setBorderColor(QColor(255, 255, 255, 51));
+
+    setFixedHeight(TOOLTIP_HEIGHT);
+
+    m_icon = new QLabel;
+
+    m_message = new QLabel;
+    m_message->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    m_message->setStyleSheet("font-size: 12px;color: white;");
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setContentsMargins(5, 5, 5, 5);
+    layout->setSpacing(12);
+    layout->addWidget(m_icon);
+    layout->addWidget(m_message);
+}
+
+void ProcessTooltip::showTooltip(const QString &message, bool success)
+{
+    if (success) {
+        m_icon->setPixmap(QPixmap(":/images/resources/images/success_tick.png"));
+    }
+    else {
+        m_icon->setPixmap(QPixmap(":/images/resources/images/failure_cross.png"));
+    }
+    m_message->setText(message);
+
+    this->resize(sizeHint().width(), height());
+    this->show();
+
+    QTimer::singleShot(HIDE_INTERVAL, this, SLOT(deleteLater()));
+}

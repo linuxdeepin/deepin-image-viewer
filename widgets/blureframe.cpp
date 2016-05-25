@@ -39,7 +39,6 @@ void BlureFrame::setPos(const QPoint &pos)
 
 void BlureFrame::paintEvent(QPaintEvent *)
 {
-
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
 

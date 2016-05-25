@@ -1,7 +1,7 @@
 #ifndef BOTTOMTOOLBAR_H
 #define BOTTOMTOOLBAR_H
 
-#include "blureframe.h"
+#include "widgets/blureframe.h"
 #include <QHBoxLayout>
 
 class BottomToolbar : public BlureFrame

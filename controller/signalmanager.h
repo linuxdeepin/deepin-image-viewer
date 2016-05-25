@@ -49,6 +49,7 @@ signals:
     void updateLabels(const QStringList &labels);
     void showInFileManager(const QString &path);
     void showImageInfo(const QString &path);
+    void showProcessTooltip(const QString &message, bool success);
 
 private:
     explicit SignalManager(QObject *parent = 0);

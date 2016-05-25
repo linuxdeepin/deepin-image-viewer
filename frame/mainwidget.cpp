@@ -1,5 +1,6 @@
 #include "mainwidget.h"
 #include "utils/baseutils.h"
+#include "widgets/processtooltip.h"
 #include <QFile>
 #include <QDebug>
 #include <QHBoxLayout>
@@ -31,12 +32,15 @@ MainWidget::MainWidget(QWidget *parent)
     connect(m_signalManager, &SignalManager::backToMainWindow, this, [=] {
         onGotoPanel(m_timelinePanel);
     });
-    connect(m_signalManager, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);
+    connect(m_signalManager, &SignalManager::gotoPanel,
+            this, &MainWidget::onGotoPanel);
 
     connect(m_signalManager, &SignalManager::showInFileManager,
             this, [=] (const QString &path) {
         utils::base::showInFileManager(path);
     });
+    connect(m_signalManager, &SignalManager::showProcessTooltip,
+            this, &MainWidget::onShowProcessTooltip);
 }
 
 MainWidget::~MainWidget()
@@ -67,6 +71,13 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     emit m_signalManager->updateTopToolbarMiddleContent(panel->toolbarTopMiddleContent());
     emit m_signalManager->updateBottomToolbarContent(panel->toolbarBottomContent());
     emit m_signalManager->updateExtensionPanelContent(panel->extensionPanelContent());
+}
+
+void MainWidget::onShowProcessTooltip(const QString &message, bool success)
+{
+    ProcessTooltip *t = new ProcessTooltip(this, m_panelStack);
+    t->showTooltip(message, success);
+    t->move((width() - t->width()) / 2, (height() - t->height()) / 2);
 }
 
 void MainWidget::initPanelStack()
