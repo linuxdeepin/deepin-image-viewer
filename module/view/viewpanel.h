@@ -9,6 +9,7 @@
 
 #include <QJsonObject>
 #include <QKeyEvent>
+#include <QFileInfo>
 
 class ImageButton;
 class SlideEffectPlayer;
@@ -32,6 +33,8 @@ protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
     void openImage(const QString& path, bool fromOutside = false);
@@ -87,7 +90,9 @@ private:
     bool mouseContainsByTopToolbar(const QPoint &pos);
     bool mouseContainsByBottomToolbar(const QPoint &pos);
 
-    QList<DatabaseManager::ImageInfo> readImageInfosFromDir(const QString &path);
+    QList<DatabaseManager::ImageInfo> getImageInfos(
+            const QFileInfoList &infos);
+    QFileInfoList getFileInfos(const QString &path);
 
 private:
     QString m_albumName;    // 用于判断图片是否从相册模块传递过来

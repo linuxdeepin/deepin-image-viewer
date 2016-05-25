@@ -14,7 +14,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QFile>
-#include <QFileInfo>
 #include <QResizeEvent>
 #include <QRegularExpression>
 #include <QShortcut>
@@ -52,6 +51,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     initStyleSheet();
     setMouseTracking(true);
 
+    setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
     updateMenuContent();
 }
@@ -77,7 +77,7 @@ void ViewPanel::initConnect() {
     connect(m_signalManager, &SignalManager::viewImage,
     [this](const QString &path, const QString &album, bool fromFileManager ) {
         if (fromFileManager) {
-            m_infos = readImageInfosFromDir(path);
+            m_infos = getImageInfos(getFileInfos(path));
         }
         else {
             DatabaseManager::ImageInfo info =
@@ -199,30 +199,36 @@ bool ViewPanel::mouseContainsByBottomToolbar(const QPoint &pos)
     return rect.contains(pos);
 }
 
-QList<DatabaseManager::ImageInfo> ViewPanel::readImageInfosFromDir(const QString &path)
+QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
+        const QFileInfoList &infos)
 {
-    QDir dir = QFileInfo(path).dir();
+    QList<DatabaseManager::ImageInfo> imageInfos;
+    for (int i = 0; i < infos.length(); i++) {
+        DatabaseManager::ImageInfo imgInfo;
+        imgInfo.name = infos.at(i).fileName();
+        imgInfo.path = infos.at(i).absoluteFilePath();
+        imgInfo.time = utils::image::getCreateDateTime(imgInfo.path);
+        imgInfo.albums = QStringList();
+        imgInfo.labels = QStringList();
+        imgInfo.thumbnail = utils::image::getThumbnail(imgInfo.path);
+
+        imageInfos << imgInfo;
+    }
+
+    return imageInfos;
+}
+
+QFileInfoList ViewPanel::getFileInfos(const QString &path)
+{
+    QFileInfo pinfo(path);
+    QDir dir = pinfo.isDir() ? QDir(path) : pinfo.dir();
     QStringList ol = utils::image::supportImageTypes();
     QStringList nl;
     for (QString type : ol) {
         nl << "*." + type;
     }
 
-    QList<DatabaseManager::ImageInfo> imageInfos;
-    const QFileInfoList infos = dir.entryInfoList(nl, QDir::Files);
-    for (int i = 0; i < infos.length(); i++) {
-        DatabaseManager::ImageInfo imgInfo;
-        imgInfo.name = infos.at(i).fileName();
-        imgInfo.path = infos.at(i).absoluteFilePath();
-        imgInfo.time = utils::image::getCreateDateTime(path);
-        imgInfo.albums = QStringList();
-        imgInfo.labels = QStringList();
-        imgInfo.thumbnail = utils::image::getThumbnail(path);
-
-        imageInfos << imgInfo;
-    }
-
-    return imageInfos;
+    return dir.entryInfoList(nl, QDir::Files);
 }
 
 QWidget *ViewPanel::toolbarBottomContent()
@@ -303,6 +309,50 @@ void ViewPanel::enterEvent(QEvent *e)
     Q_UNUSED(e);
     Q_EMIT m_signalManager->hideBottomToolbar();
     Q_EMIT m_signalManager->hideTopToolbar();
+}
+
+void ViewPanel::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+
+    if (urls.length() == 1) {  // Single file or directory
+        const QString path = urls.first().toLocalFile();
+        m_infos = getImageInfos(getFileInfos(path));
+    }
+    else {  // Multi file or directory
+        m_infos.clear();
+        for (QUrl url : urls) {
+            const QString path = url.toLocalFile();
+            if (QFileInfo(path).isDir()) {
+                m_infos << getImageInfos(getFileInfos(path));
+            }
+            else {
+                if (utils::image::imageIsSupport(path)) {
+                    QFileInfoList finfos;
+                    finfos << QFileInfo(path);
+                    m_infos << getImageInfos(finfos);
+                }
+            }
+        }
+    }
+
+    event->accept();
+    if (m_infos.isEmpty()) {
+        return;
+    }
+
+    m_current = m_infos.cbegin();
+    m_albumName = "";
+    openImage(m_current->path);
+}
+
+void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->setDropAction(Qt::CopyAction);
+    event->accept();
 }
 
 void ViewPanel::toggleFullScreen()
