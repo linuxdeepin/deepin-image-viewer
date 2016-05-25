@@ -44,9 +44,10 @@ CommandLine *CommandLine::instance()
 
 CommandLine::CommandLine()
 {
-    m_cmdParser.setApplicationDescription("Deepin Image Viewer");
     m_cmdParser.addHelpOption();
     m_cmdParser.addVersionOption();
+    m_cmdParser.addPositionalArgument("value", QCoreApplication::translate(
+        "main", "Value that use for options."), "[value]");
 
     for (const CMOption* i = options; ! i->shortOption.isEmpty(); ++i) {
         addOption(i);
@@ -81,7 +82,8 @@ bool CommandLine::processOption()
     Q_UNUSED(dd);
 
     QStringList names = m_cmdParser.optionNames();
-    if (names.isEmpty()) {
+    QStringList pas = m_cmdParser.positionalArguments();
+    if (names.isEmpty() && pas.isEmpty()) {
         if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
                 QDBusConnection::sessionBus().registerObject(DBUS_PATH, sm)) {
             MainWindow *w = new MainWindow;
@@ -98,9 +100,18 @@ bool CommandLine::processOption()
     else {
         DIVDBusController *dc = new DIVDBusController(sm);
 
-        QString name = names.first();
-        QString value = m_cmdParser.value(names.first());
+        QString name;
+        QString value;
+        if (!names.isEmpty()) {
+            name = names.first();
+            value = m_cmdParser.value(name);
+        }
+        else if (!pas.isEmpty() && utils::image::imageIsSupport(pas.first())){
+            name = "o";
+            value = pas.first();
+        }
         bool support = utils::image::imageIsSupport(value);
+
 
         if ((name == "o" || name == "open") && support) {
             qDebug() << "Open image file: " << value;
