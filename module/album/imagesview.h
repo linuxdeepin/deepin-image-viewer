@@ -23,6 +23,8 @@ public:
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
     QString selectedImagePath() const;
+    QString getCurrentAlbum() const;
+
 protected:
     void resizeEvent(QResizeEvent *e);
     void keyPressEvent(QKeyEvent *e);

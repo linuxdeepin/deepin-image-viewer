@@ -224,6 +224,11 @@ int ImagesView::getMinContentsWidth()
     return (iconSize().width() + itemSpacing) * holdCount + itemSpacing + viewHMargin;
 }
 
+QString ImagesView::getCurrentAlbum() const
+{
+    return m_currentAlbum;
+}
+
 QSize ImagesView::iconSize() const
 {
     return m_listView->iconSize();

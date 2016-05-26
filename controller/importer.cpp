@@ -19,16 +19,21 @@ Importer::Importer(QObject *parent)
 
 QString insertImage(const QString &path)
 {
+    const QStringList albums = Importer::instance()->getAlbums(path);
     QFileInfo fileInfo(path);
     DatabaseManager::ImageInfo imgInfo;
     imgInfo.name = fileInfo.fileName();
     imgInfo.path = fileInfo.absoluteFilePath();
     imgInfo.time = utils::image::getCreateDateTime(path);
-    imgInfo.albums = QStringList();
+    imgInfo.albums = albums;
     imgInfo.labels = QStringList();
     imgInfo.thumbnail = utils::image::getThumbnail(path);
 
     DatabaseManager::instance()->insertImageInfo(imgInfo);
+    if (! albums.isEmpty() && !QString(albums.first()).isEmpty()) {
+        DatabaseManager::instance()->insertImageIntoAlbum(
+          albums.first(),imgInfo.name, utils::base::timeToString(imgInfo.time));
+    }
 
     return path;
 }
@@ -38,6 +43,19 @@ void Importer::loadCacheImages()
     QStringList pathList = m_cacheImportList;
     QFuture<QString> future = QtConcurrent::mapped(pathList, insertImage);
     m_futureWatcher.setFuture(future);
+}
+
+QStringList Importer::getAlbums(const QString &path) const
+{
+    const QString album = m_albums.value(path);
+    if (album.isEmpty()) {
+        return QStringList();
+    }
+    else {
+        QStringList l;
+        l << album;
+        return l;
+    }
 }
 
 Importer *Importer::m_importer = NULL;
@@ -64,7 +82,7 @@ void Importer::showImportDialog()
     importFromPath(dir);
 }
 
-void Importer::importFromPath(const QString &path)
+void Importer::importFromPath(const QString &path, const QString &album)
 {
     QDir dir( path );
     if( !dir.exists() ) {
@@ -92,6 +110,7 @@ void Importer::importFromPath(const QString &path)
 
         if (! DatabaseManager::instance()->imageExist(fileInfo.fileName())) {
             m_cacheImportList.append(filePath);
+            m_albums.insert(filePath, album);
         }
 
         m_imagesCount ++;
@@ -105,8 +124,9 @@ void Importer::importFromPath(const QString &path)
     DatabaseManager::instance()->clearRecentImported();
 }
 
-void Importer::importSingleFile(const QString &filePath)
+void Importer::importSingleFile(const QString &filePath, const QString &album)
 {
+    m_albums.insert(filePath, album);
     m_cacheImportList << filePath;
     m_imagesCount ++;
     if (!m_futureWatcher.isRunning()) {
@@ -123,6 +143,7 @@ void Importer::onFutureWatcherFinish()
         qDebug() << "Imported finish, no more cache!";
         m_imagesCount = 0;
         m_progress = 1;
+        m_albums.clear();
         emit importProgressChanged(m_progress);
     }
     else {

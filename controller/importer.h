@@ -8,6 +8,7 @@
 #include <QPixmap>
 #include <QFuture>
 #include <QFutureWatcher>
+#include <QMap>
 #include <QtConcurrent>
 
 class Importer : public QObject
@@ -17,8 +18,10 @@ public:
     static Importer *instance();
     double getProgress() const;
     void showImportDialog();
-    void importFromPath(const QString &path);
-    void importSingleFile(const QString &filePath);
+    void importFromPath(const QString &path, const QString &album = "");
+    void importSingleFile(const QString &filePath, const QString &album = "");
+
+    QStringList getAlbums(const QString &path) const;
 
 signals:
     void importProgressChanged(double progress);
@@ -34,6 +37,7 @@ private:
 private:
     static Importer *m_importer;
     QStringList m_cacheImportList;
+    QMap<QString, QString> m_albums;  // <path, album>
     QFutureWatcher<QString> m_futureWatcher;
     double m_progress;
     int m_imagesCount;

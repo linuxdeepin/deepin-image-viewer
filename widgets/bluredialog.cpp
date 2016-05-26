@@ -50,7 +50,7 @@ void BlureDialog::addButton(const QString &name, int id)
         button->setProperty("FirstButton", true);
     }
     connect(button, &QPushButton::clicked, this, [=] {
-        emit clicked(name, id);
+        emit clicked(id);
     });
     m_buttonsLayout->addWidget(button);
 }

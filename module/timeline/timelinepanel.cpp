@@ -166,7 +166,8 @@ void TimelinePanel::dropEvent(QDropEvent *event)
         for (QUrl url : urls) {
             const QString path = url.toLocalFile();
             if (QFileInfo(path).isDir()) {
-                Importer::instance()->importFromPath(path);
+                // Need popup AlbumCreate dialog
+                emit m_signalManager->importDir(path);
             }
             else {
                 if (utils::image::imageIsSupport(path)) {

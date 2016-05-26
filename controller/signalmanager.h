@@ -45,10 +45,10 @@ signals:
     void addToAlbum(const QStringList &names);
     void removeFromAlbum(const QString &name, const QString &album);
     void rotate(const QString &path, bool clockwise);
-    void updateLabels(const QStringList &labels);
     void showInFileManager(const QString &path);
     void showImageInfo(const QString &path);
     void showProcessTooltip(const QString &message, bool success);
+    void importDir(const QString &dir);
 
 private:
     explicit SignalManager(QObject *parent = 0);

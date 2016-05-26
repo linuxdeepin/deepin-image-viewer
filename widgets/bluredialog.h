@@ -17,7 +17,7 @@ public:
 
 signals:
     void closed();
-    void clicked(QString name, int id);
+    void clicked(int id);
 
 private:
     bool m_first;

@@ -4,6 +4,7 @@
 
 class CreateAlbumDialog : public BlureDialog
 {
+    Q_OBJECT
 public:
     explicit CreateAlbumDialog(QWidget *parent, QWidget *source);
 

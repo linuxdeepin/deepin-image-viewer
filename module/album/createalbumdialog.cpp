@@ -1,6 +1,5 @@
 #include "createalbumdialog.h"
 #include "controller/databasemanager.h"
-#include <dlineedit.h>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -43,9 +42,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
     addButton(tr("Cancel"), 0);
     addButton(tr("OK"), 1);
 
-    connect(this, &CreateAlbumDialog::clicked,
-            this, [=] (const QString &name, int id) {
-        Q_UNUSED(name)
+    connect(this, &CreateAlbumDialog::clicked, this, [=] (int id) {
         if (id == 0) {
             this->close();
         }

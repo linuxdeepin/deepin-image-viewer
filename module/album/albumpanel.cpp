@@ -1,5 +1,6 @@
 #include "albumpanel.h"
 #include "createalbumdialog.h"
+#include "importdirdialog.h"
 #include "controller/databasemanager.h"
 #include "controller/importer.h"
 #include "utils/imageutils.h"
@@ -23,6 +24,9 @@ AlbumPanel::AlbumPanel(QWidget *parent)
     setAcceptDrops(true);
     initMainStackWidget();
     initStyleSheet();
+
+    connect(m_signalManager, &SignalManager::importDir,
+            this, &AlbumPanel::showImportDirDialog);
 }
 
 
@@ -81,7 +85,6 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
     layout->setContentsMargins(8, 0, 0, 0);
 
     if (m_mainStackWidget->currentWidget() == m_imagesView) {
-
         ImageButton *returnButton = new ImageButton();
         returnButton->setNormalPic(":/images/resources/images/return_normal.png");
         returnButton->setHoverPic(":/images/resources/images/return_hover.png");
@@ -162,11 +165,23 @@ void AlbumPanel::dropEvent(QDropEvent *event)
         for (QUrl url : urls) {
             const QString path = url.toLocalFile();
             if (QFileInfo(path).isDir()) {
-                Importer::instance()->importFromPath(path);
+                if (m_mainStackWidget->currentWidget() == m_albumsView) {
+                    showImportDirDialog(path);
+                }
+                else {
+                    Importer::instance()->importFromPath(
+                                path, m_imagesView->getCurrentAlbum());
+                }
             }
             else {
                 if (utils::image::imageIsSupport(path)) {
-                    Importer::instance()->importSingleFile(path);
+                    if (m_mainStackWidget->currentWidget() == m_albumsView) {
+                        Importer::instance()->importSingleFile(path);
+                    }
+                    else {
+                        Importer::instance()->importSingleFile(
+                                    path, m_imagesView->getCurrentAlbum());
+                    }
                 }
             }
         }
@@ -197,7 +212,9 @@ void AlbumPanel::initMainStackWidget()
                 updateTopToolbarLeftContent(toolbarTopLeftContent());
     });
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
-        m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
+        if (m_dbManager->imageCount() > 0
+                && m_mainStackWidget->currentIndex() == 0)
+        m_mainStackWidget->setCurrentIndex(1);
     }, Qt::DirectConnection);
 
     QLayout *layout = new QHBoxLayout(this);
@@ -271,6 +288,20 @@ void AlbumPanel::showCreateDialog()
     d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
             (parentWidget()->height() - d->height()) / 2 + p.y());
     d->show();
+}
+
+void AlbumPanel::showImportDirDialog(const QString &dir)
+{
+    if (! parentWidget()) {
+        return;
+    }
+    ImportDirDialog *d = new ImportDirDialog(this, parentWidget());
+    connect(d, &ImportDirDialog::closed,
+            d, &ImportDirDialog::deleteLater);
+    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
+    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
+            (parentWidget()->height() - d->height()) / 2 + p.y());
+    d->import(dir);
 }
 
 void AlbumPanel::onOpenAlbum(const QString &album)
