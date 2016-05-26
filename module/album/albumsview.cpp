@@ -2,6 +2,7 @@
 #include "albumdelegate.h"
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
+#include "controller/exporter.h"
 #include <QDebug>
 #include <QBuffer>
 #include <QJsonDocument>
@@ -183,11 +184,11 @@ QString AlbumsView::createMenuContent(const QModelIndex &index)
         items.append(createMenuItem(IdView, tr("View")));
         items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P"));
         items.append(createMenuItem(IdSeparator, "", true));
+        items.append(createMenuItem(IdExport, tr("Export")));
         items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
         if (! isSpecial)
             items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
         items.append(createMenuItem(IdSeparator, "", true));
-        items.append(createMenuItem(IdExport, tr("Export")));
         items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false, "Ctrl+I"));
     }
     else {
@@ -228,6 +229,9 @@ void AlbumsView::onMenuItemClicked(int menuId)
         emit openAlbum(getAlbumName(currentIndex()));
         break;
     case IdStartSlideShow:
+        break;
+    case IdExport:
+        Exporter::instance()->exportAlbum(getAlbumName(currentIndex()));
         break;
     case IdCopy:
         break;

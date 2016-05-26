@@ -34,7 +34,7 @@ MainWidget::MainWidget(QWidget *parent)
     });
     connect(m_signalManager, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);
-
+    connect(m_signalManager, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);
     connect(m_signalManager, &SignalManager::showInFileManager,
             this, [=] (const QString &path) {
         utils::base::showInFileManager(path);

@@ -40,7 +40,6 @@ signals:
                    bool fromFileManager = false);
     void fullScreen(const QString &path);
     void startSlideShow(const QStringList &paths);  // TODO wangbin, NOTE: Data may be repeated
-
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum();
     void addToAlbum(const QStringList &names);

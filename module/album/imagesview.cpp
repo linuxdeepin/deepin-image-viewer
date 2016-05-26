@@ -19,11 +19,11 @@ ImagesView::ImagesView(QWidget *parent)
     : QScrollArea(parent), m_popupMenu(new PopupMenuManager(this))
 {
     initContent();
-
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ImagesView::onMenuItemClicked);
@@ -78,6 +78,18 @@ void ImagesView::initListView()
         m_popupMenu->setMenuContent(createMenuContent());
         m_popupMenu->showMenu();
     });
+}
+
+void ImagesView::keyPressEvent(QKeyEvent *e) {
+    if (e->key() == Qt::Key_Control) {
+        m_listView->setSelectionMode(QAbstractItemView::MultiSelection);
+    }
+}
+
+void ImagesView::keyReleaseEvent(QKeyEvent *e) {
+    if (e->key() == Qt::Key_Control) {
+        m_listView->setSelectionMode(QAbstractItemView::SingleSelection);
+    }
 }
 
 void ImagesView::initTopTips()

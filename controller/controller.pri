@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/wallpapersetter.h \
     $$PWD/commandline.h \
     $$PWD/configsetter.h \
-    $$PWD/divdbuscontroller.h
+    $$PWD/divdbuscontroller.h \
+    $$PWD/exporter.h
 
 SOURCES += \
     $$PWD/databasemanager.cpp \
@@ -16,4 +17,5 @@ SOURCES += \
     $$PWD/wallpapersetter.cpp \
     $$PWD/commandline.cpp \
     $$PWD/configsetter.cpp \
-    $$PWD/divdbuscontroller.cpp
+    $$PWD/divdbuscontroller.cpp \
+    $$PWD/exporter.cpp
