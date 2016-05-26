@@ -16,6 +16,10 @@ AboutWindow::AboutWindow(QWidget *parent, QWidget *source)
     setBorderWidth(1);
     setBorderColor(QColor(255, 255, 255, 51));
 
+    setAttribute(Qt::WA_TranslucentBackground);
+    setWindowFlags(Qt::Sheet | Qt::FramelessWindowHint);
+    setWindowModality(Qt::WindowModal);
+
     QLabel *appLogo = new QLabel();
     QPixmap ap = QPixmap(":/images/resources/images/deepin_image_viewer.png");
     ap.scaled(78, 78, Qt::KeepAspectRatio, Qt::SmoothTransformation);

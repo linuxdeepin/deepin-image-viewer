@@ -172,7 +172,7 @@ QString TopToolbar::createMenuContent()
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdHelp, tr("Help"), false, "F1"));
-    items.append(createMenuItem(IdAbout, tr("About"), false, "F10"));
+    items.append(createMenuItem(IdAbout, tr("About")));
     items.append(createMenuItem(IdQuick, tr("Exit"), false, "Ctrl+Q"));
 
     QJsonObject contentObj;
@@ -216,8 +216,10 @@ void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
         showManual();
         break;
     case IdAbout:
-        m_about->move((width() - m_about->width()) / 2,
-                      (window()->height() - m_about->height()) / 2);
+        m_about->move((width() - m_about->width()) / 2 +
+                      mapToGlobal(QPoint(0, 0)).x(),
+                      (window()->height() - m_about->height()) / 2 +
+                      mapToGlobal(QPoint(0, 0)).y());
         m_about->show();
         break;
     case IdQuick:
