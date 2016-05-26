@@ -1,4 +1,5 @@
 #include "albumpanel.h"
+#include "createalbumdialog.h"
 #include "controller/databasemanager.h"
 #include "controller/importer.h"
 #include "utils/imageutils.h"
@@ -258,6 +259,20 @@ void AlbumPanel::updateBottomToolbarContent()
 
 }
 
+void AlbumPanel::showCreateDialog()
+{
+    if (! parentWidget()) {
+        return;
+    }
+    CreateAlbumDialog *d = new CreateAlbumDialog(this, parentWidget());
+    connect(d, &CreateAlbumDialog::closed,
+            d, &CreateAlbumDialog::deleteLater);
+    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
+    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
+            (parentWidget()->height() - d->height()) / 2 + p.y());
+    d->show();
+}
+
 void AlbumPanel::onOpenAlbum(const QString &album)
 {
     qDebug() << "Open Album : " << album;
@@ -268,6 +283,9 @@ void AlbumPanel::onOpenAlbum(const QString &album)
 
 void AlbumPanel::onCreateAlbum()
 {
-    m_albumsView->createAlbum();
+    if (this->isVisible())
+        m_albumsView->createAlbum();
+    else
+        showCreateDialog();
 }
 

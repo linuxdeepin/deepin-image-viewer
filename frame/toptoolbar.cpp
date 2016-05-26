@@ -206,7 +206,6 @@ void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
 
     switch (MenuItemId(menuId)) {
     case IdCreateAlbum:
-        emit SignalManager::instance()->gotoAlbumPanel();
         emit SignalManager::instance()->createAlbum();
         break;
     case IdImport:
