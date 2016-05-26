@@ -1,0 +1,16 @@
+QPushButton {
+    min-height: 28px;
+    color: #b4b4b4;
+    background: transparent;
+    outline: none;
+    border-top: 1px solid rgba(255, 255, 255, 51);
+    border-left: 1px solid rgba(255, 255, 255, 51);
+}
+
+QPushButton[FirstButton="true"] {
+    border-left: none;
+}
+
+QPushButton:hover {
+    color: #FFFFFF;
+}

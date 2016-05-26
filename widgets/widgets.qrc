@@ -11,5 +11,6 @@
         <file>resources/qss/ThumbnailListView.qss</file>
         <file>resources/qss/Tooltip.qss</file>
         <file>resources/qss/ImageButton.qss</file>
+        <file>resources/qss/BlureDialog.qss</file>
     </qresource>
 </RCC>

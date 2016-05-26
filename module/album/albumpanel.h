@@ -38,6 +38,7 @@ private:
     void initStyleSheet();
 
     void updateBottomToolbarContent();
+    void showCreateDialog();
 
 private:
     QString m_currentAlbum;
