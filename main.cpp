@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
 
     // install translators
     QTranslator translator;
-    translator.load(APPSHAREDIR"/translations/deepin-image-viewer_" + QLocale::system().name());
+    translator.load(APPSHAREDIR"/translations/deepin-image-viewer_" + QLocale::system().name() + ".qm");
+
     app.installTranslator(&translator);
 
     if (!service::isDefaultImageViewer()) {
