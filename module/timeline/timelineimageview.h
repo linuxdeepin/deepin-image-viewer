@@ -31,6 +31,7 @@ private:
 
     void inserFrame(const QString &timeline, bool multiselection = false);
     void removeFrame(const QString &timeline);
+    void removeImage(const QString &name);
     void updateSliderFrmaeRect();
     void updateContentRect();
     void updateTopTipsRect();

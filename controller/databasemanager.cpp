@@ -138,16 +138,26 @@ void DatabaseManager::removeImage(const QString &name)
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
+        // TODO remove from labels table
+
+        // Remove from albums table
+        query.prepare( QString( "DELETE FROM %1 WHERE filename = :filename" )
+                       .arg(ALBUM_TABLE_NAME) );
+        query.bindValue( ":filename", name );
+        if (! query.exec()) {
+            qWarning() << "Remove image from album failed: " << query.lastError();
+        }
+
+        // Remove from images table
         query.prepare( QString( "DELETE FROM %1 WHERE filename = :name" )
                        .arg(IMAGE_TABLE_NAME) );
         query.bindValue( ":name", name );
         if (!query.exec()) {
-            qWarning() << "Remove image record from database failed: "
-                       << query.lastError();
+            qWarning() << "Remove image failed: " << query.lastError();
         }
-        else {
-            emit SignalManager::instance()->imageCountChanged();
-        }
+
+        emit SignalManager::instance()->imageCountChanged();
+        emit SignalManager::instance()->imageRemoved(name);
     }
 }
 

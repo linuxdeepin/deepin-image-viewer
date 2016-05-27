@@ -41,6 +41,7 @@
         <file>resources/images/folder_hover.png</file>
         <file>resources/images/folder_normal.png</file>
         <file>resources/images/folder_press.png</file>
+        <file>resources/images/empty_box.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/view.qss</file>

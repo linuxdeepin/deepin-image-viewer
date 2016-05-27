@@ -208,13 +208,17 @@ void AlbumPanel::initMainStackWidget()
     m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
     connect(m_mainStackWidget, &QStackedWidget::currentChanged, this, [=] {
         updateBottomToolbarContent();
-        emit SignalManager::instance()->
-                updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit m_signalManager->updateTopToolbarLeftContent(
+                    toolbarTopLeftContent());
     });
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
         if (m_dbManager->imageCount() > 0
-                && m_mainStackWidget->currentIndex() == 0)
+                && m_mainStackWidget->currentIndex() == 0) {
             m_mainStackWidget->setCurrentIndex(1);
+        }
+        else if (m_dbManager->imageCount() == 0) {
+            m_mainStackWidget->setCurrentIndex(0);
+        }
     }, Qt::DirectConnection);
 
     QLayout *layout = new QHBoxLayout(this);
@@ -244,7 +248,7 @@ void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
-        if (m_imagesView->isVisible()) {
+        if (m_mainStackWidget->currentWidget() == m_imagesView) {
             m_imagesView->updateView();
         }
     });

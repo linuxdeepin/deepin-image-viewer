@@ -87,11 +87,7 @@ TBContent::TBContent(QWidget *parent)
     btn->setPressPic(":/images/resources/images/delete_press.png");
     btn->setToolTip(tr("Delete"));
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, [this](){
-        m_dbManager->removeImage(m_imageName);
-        //Todo: show next image, if next image is not exists, show previous one.
-        //Q_EMIT showNext();
-    });
+    connect(btn, &ImageButton::clicked, this, &TBContent::removed);
 
 }
 

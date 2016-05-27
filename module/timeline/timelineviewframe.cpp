@@ -222,9 +222,16 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     m_standardModel.setItem(m_standardModel.rowCount(), 0, item);
 }
 
-void TimelineViewFrame::removeItem(const QString &name)
+bool TimelineViewFrame::removeItem(const QString &name)
 {
-    Q_UNUSED(name)
+    for (int i = 0; i < m_standardModel.rowCount(); i ++) {
+        if (m_standardModel.item(i, 0)->toolTip() == name) {
+            m_standardModel.removeRow(i);
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void TimelineViewFrame::clearSelection() const
@@ -256,6 +263,11 @@ QStringList TimelineViewFrame::selectedImagesPathList()
 QString TimelineViewFrame::timeline() const
 {
     return m_timeline;
+}
+
+bool TimelineViewFrame::isEmpty() const
+{
+    return m_standardModel.rowCount() == 0;
 }
 
 QSize TimelineViewFrame::viewSize() const

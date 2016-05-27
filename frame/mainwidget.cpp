@@ -31,6 +31,8 @@ MainWidget::MainWidget(QWidget *parent)
 
     connect(m_signalManager, &SignalManager::backToMainWindow, this, [=] {
         onGotoPanel(m_timelinePanel);
+        emit m_signalManager->showTopToolbar();
+        emit m_signalManager->showBottomToolbar();
     });
     connect(m_signalManager, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);

@@ -38,8 +38,12 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
         if (m_frames.keys().indexOf(timeLine) == -1) {
             inserFrame(timeLine);
         }
-        m_frames.value(timeLine)->insertItem(info);
+        else {
+            m_frames.value(timeLine)->insertItem(info);
+        }
     }, Qt::QueuedConnection);
+    connect(SignalManager::instance(), &SignalManager::imageRemoved,
+            this, &TimelineImageView::removeImage);
 }
 
 void TimelineImageView::clearSelection()
@@ -145,7 +149,24 @@ void TimelineImageView::inserFrame(const QString &timeline, bool multiselection)
 
 void TimelineImageView::removeFrame(const QString &timeline)
 {
-    Q_UNUSED(timeline)
+    QWidget *w = m_frames.value(timeline);
+    m_contentLayout->removeWidget(w);
+    m_frames.remove(timeline);
+    w->deleteLater();
+}
+
+void TimelineImageView::removeImage(const QString &name)
+{
+    const QStringList timelines = m_frames.keys();
+    for (QString t : timelines) {
+        if (m_frames.value(t)->removeItem(name)) {
+            // Check if timeline is empty
+            if (m_frames.value(t)->isEmpty()) {
+                removeFrame(t);
+            }
+            break;
+        }
+    }
 }
 
 void TimelineImageView::updateSliderFrmaeRect()

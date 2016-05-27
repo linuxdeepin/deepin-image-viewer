@@ -10,6 +10,7 @@
 #include <QJsonObject>
 #include <QKeyEvent>
 #include <QFileInfo>
+#include <QStackedWidget>
 
 class ImageButton;
 class SlideEffectPlayer;
@@ -39,8 +40,9 @@ protected:
 private Q_SLOTS:
     void openImage(const QString& path, bool fromOutside = false);
     void toggleFullScreen();
-    void showPrevious();
-    void showNext();
+    bool showPrevious();
+    bool showNext();
+    void removeCurrentImage();
 
 private:
     enum MenuItemId {
@@ -66,6 +68,7 @@ private:
         IdSeparator
     };
 
+    void initStack();
     void initSlider();
     void initViewContent();
     void initNavigation();
@@ -103,6 +106,7 @@ private:
     PopupMenuManager *m_popupMenu;
     SignalManager *m_signalManager;
     DatabaseManager *m_dbManager;
+    QStackedWidget *m_stack;
 
     QList<DatabaseManager::ImageInfo> m_infos;
     QList<DatabaseManager::ImageInfo>::ConstIterator m_current;
