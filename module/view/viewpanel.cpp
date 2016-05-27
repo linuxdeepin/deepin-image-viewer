@@ -45,7 +45,7 @@ ViewPanel::ViewPanel(QWidget *parent)
       m_signalManager(SignalManager::instance()),
       m_dbManager(DatabaseManager::instance())
 {
-    initViewContent();
+    initStack();
     initSlider();
     initNavigation();
     initConnect();
@@ -92,11 +92,18 @@ void ViewPanel::initConnect() {
             }
         }
 
-        m_current = std::find_if(m_infos.cbegin(), m_infos.cend(),
-                                 [&](const DatabaseManager::ImageInfo info){
-            return info.path == path;}
-        );
         m_albumName = album;
+        m_current = m_infos.cbegin();
+        for (QList<DatabaseManager::ImageInfo>::ConstIterator i
+             = m_infos.cbegin(); i != m_infos.cend(); i ++) {
+            if (i->path == path) {
+                openImage(path, true);
+                return;
+            }
+        }
+
+        // Not exist in DB, it must from FileManager
+        m_current = m_infos.cbegin();
         openImage(path, true);
     });
 }
@@ -243,6 +250,7 @@ QWidget *ViewPanel::toolbarBottomContent()
     connect(tbc, &TBContent::showNext, this, &ViewPanel::showNext);
     connect(tbc, &TBContent::showPrevious, this, &ViewPanel::showPrevious);
     connect(tbc, &TBContent::toggleSlideShow, this, &ViewPanel::toggleSlideShow);
+    connect(tbc, &TBContent::removed, this, &ViewPanel::removeCurrentImage);
 
     return tbc;
 }
@@ -373,26 +381,80 @@ void ViewPanel::toggleFullScreen()
     }
 }
 
-void ViewPanel::showPrevious()
+bool ViewPanel::showPrevious()
 {
     m_slide->stop();
+    if (m_infos.isEmpty())
+        return false;
     if (m_current == m_infos.cbegin())
-        return;
+        return false;
     --m_current;
     openImage(m_current->path);
+    return true;
 }
 
-void ViewPanel::showNext()
+bool ViewPanel::showNext()
 {
     m_slide->stop();
+    if (m_infos.isEmpty())
+        return false;
     if (m_current == m_infos.cend())
-        return;
+        return false;
     ++m_current;
     if (m_current == m_infos.cend()) {
         --m_current;
-        return;
+        return false;
     }
     openImage(m_current->path);
+    return true;
+}
+
+void ViewPanel::removeCurrentImage()
+{
+    const QString name = m_view->imageName();
+    if (m_dbManager->imageExist(name)) {
+        m_dbManager->removeImage(name);
+    }
+    else {  // If not exist in db, it must from FileManager
+        utils::base::trashFile(m_view->imagePath());
+    }
+
+    for (int i = 0; i < m_infos.length(); i ++) {
+        if (m_infos.at(i).name == name) {
+            m_infos.removeAt(i);
+        }
+    }
+    if (! showNext()) {
+        if (! showPrevious()) {
+            qDebug() << "No images to show!";
+            m_stack->setCurrentIndex(1);
+        }
+    }
+}
+
+void ViewPanel::initStack()
+{
+    m_stack = new QStackedWidget;
+    m_stack->setMouseTracking(true);
+    m_stack->setContentsMargins(0, 0, 0, 0);
+
+    initViewContent();
+    m_stack->addWidget(m_view);
+
+    // Empty frame
+    QFrame *emptyFrame = new QFrame;
+    emptyFrame->setMouseTracking(true);
+    emptyFrame->setAttribute(Qt::WA_TranslucentBackground);
+    QLabel *icon = new QLabel;
+    icon->setPixmap(QPixmap(":/images/resources/images/empty_box.png"));
+    QHBoxLayout *il = new QHBoxLayout(emptyFrame);
+    il->setContentsMargins(0, 0, 0, 0);
+    il->addWidget(icon, 0, Qt::AlignCenter);
+    m_stack->addWidget(emptyFrame);
+
+    QHBoxLayout *hl = new QHBoxLayout(this);
+    hl->setContentsMargins(0, 0, 0, 0);
+    hl->addWidget(m_stack);
 }
 
 QString ViewPanel::createMenuContent()
@@ -540,7 +602,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         utils::base::copyImageToClipboard(m_current->path);
         break;
     case IdDelete:
-        m_dbManager->removeImage(m_view->imageName());
+        removeCurrentImage();
         break;
     case IdRemoveFromAlbum:
         m_dbManager->removeImageFromAlbum(m_albumName, m_current->name);
@@ -627,10 +689,6 @@ void ViewPanel::initViewContent()
     });
     connect(m_view, &ImageWidget::doubleClicked,
             this, &ViewPanel::toggleFullScreen);
-
-    QHBoxLayout *hl = new QHBoxLayout(this);
-    hl->setContentsMargins(0, 0, 0, 0);
-    hl->addWidget(m_view);
 }
 
 void ViewPanel::initNavigation()
@@ -670,6 +728,8 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
     if (m_info) {
         m_info->setImagePath(path);
     }
+
+    m_stack->setCurrentIndex(0);
 
     emit imageChanged(m_current->name, m_current->path);
     emit updateCollectButton();

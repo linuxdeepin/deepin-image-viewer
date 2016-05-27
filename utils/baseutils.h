@@ -17,6 +17,9 @@ QDateTime   stringToDateTime(const QString &time);
 QString     formatExifTimeString(const QString &exifTimeStr);
 QString     getFileContent(const QString &file);
 bool        writeTextFile(QString filePath, QString content);
+
+bool        trashFile(const QString &file);
+
 }  // namespace base
 
 }  // namespace utils

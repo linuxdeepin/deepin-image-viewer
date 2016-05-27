@@ -23,12 +23,13 @@ public:
                                bool multiselection = false,
                                QWidget *parent = 0);
     void insertItem(const DatabaseManager::ImageInfo &info);
-    void removeItem(const QString &name);
+    bool removeItem(const QString &name);
     void clearSelection() const;
 
     QStringList selectedImagesNameList();
     QStringList selectedImagesPathList();
     QString timeline() const;
+    bool isEmpty() const;
 
     QSize viewSize() const;
     QSize iconSize() const;
