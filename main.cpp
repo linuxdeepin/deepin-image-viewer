@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <DLog>
+#include <QTranslator>
 
 using namespace Dtk::Util;
 
@@ -19,17 +20,18 @@ int main(int argc, char *argv[])
     if (qgetenv(kPlatformThemeName).length() == 0) {
       qputenv(kPlatformThemeName, "gtk2");
     }
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    a.setOrganizationName("deepin");
-    a.setApplicationName("deepin-image-viewer");
-    a.setApplicationDisplayName("Deepin Image Viewer");
-    a.setApplicationVersion("0.1.0");
+    app.setOrganizationName("deepin");
+    app.setApplicationName("deepin-image-viewer");
+    app.setApplicationDisplayName("Deepin Image Viewer");
+    app.setApplicationVersion("0.1.0");
 
-//    // install translators
-//    QTranslator translator;
-//    translator.load("/usr/share/deepin-viewer/translations/deepin-viewer_" + QLocale::system().name());
-//    a.installTranslator(&translator);
+    // install translators
+    QTranslator translator;
+    translator.load(APPSHAREDIR"/translations/deepin-image-viewer_" + QLocale::system().name());
+    app.installTranslator(&translator);
+
     if (!service::isDefaultImageViewer()) {
         service::setDefaultImageViewer(true);
     }
@@ -40,7 +42,7 @@ int main(int argc, char *argv[])
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
         dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
-        return a.exec();
+        return app.exec();
     }
     else {
         return 0;

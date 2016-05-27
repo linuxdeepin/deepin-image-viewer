@@ -14,6 +14,10 @@ TARGET = deepin-image-viewer
 TEMPLATE = app
 INCLUDEPATH += utils
 
+isEmpty(PREFIX){
+    PREFIX = /usr
+}
+
 include (frame/frame.pri)
 include (module/modules.pri)
 include (widgets/widgets.pri)
@@ -23,20 +27,31 @@ include (service/service.pri)
 
 SOURCES += main.cpp
 
-PREFIX = /usr
-binary.path = $${PREFIX}/bin
+BINDIR = $$PREFIX/bin
+APPSHAREDIR = $$PREFIX/share/deepin-image-viewer
+DEFINES += APPSHAREDIR=\\\"$$APPSHAREDIR\\\"
+
+binary.path = $$BINDIR
 binary.files = deepin-image-viewer
 
 desktop.path = $${PREFIX}/share/applications/
 desktop.files =  deepin-image-viewer.desktop
 
-icons.path = $${PREFIX}/share/deepin-image-viewer/icons
+icons.path = $$APPSHAREDIR/icons
 icons.files = resources/images/*
 
 dbus_service.files += com.deepin.deepinimageviewer.service
 dbus_service.path = /usr/share/dbus-1/services
 
-INSTALLS = binary desktop icons dbus_service
+# Automating generation .qm files from .ts files
+CONFIG(release, debug|release) {
+    system($$PWD/generate_translations.sh)
+}
+
+translations.path = $$APPSHAREDIR/translations
+translations.files = translations/*.qm
+
+INSTALLS = binary desktop icons dbus_service translations
 
 RESOURCES += \
     resources.qrc
