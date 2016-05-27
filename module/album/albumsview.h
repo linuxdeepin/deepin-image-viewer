@@ -15,6 +15,7 @@ public:
     explicit AlbumsView(QWidget *parent = 0);
     QModelIndex addAlbum(const DatabaseManager::AlbumInfo &info);    
     void createAlbum();
+    void updateView();
 
     QSize itemSize() const;
     void setItemSize(const QSize &itemSize);

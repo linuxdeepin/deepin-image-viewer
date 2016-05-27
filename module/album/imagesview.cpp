@@ -50,6 +50,11 @@ void ImagesView::setAlbum(const QString &album)
     m_currentAlbum = album;
 }
 
+void ImagesView::updateView()
+{
+    setAlbum(m_currentAlbum);
+}
+
 void ImagesView::initContent()
 {
     m_contentWidget = new QWidget();

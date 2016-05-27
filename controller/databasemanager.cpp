@@ -234,6 +234,9 @@ void DatabaseManager::insertImageIntoAlbum(const QString &albumname,
         if (!query.exec()) {
             qWarning() << "Insert into album failed: " << query.lastError();
         }
+
+        // For UI update
+        emit SignalManager::instance()->albumChanged(albumname);
     }
 }
 

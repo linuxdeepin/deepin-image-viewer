@@ -39,16 +39,17 @@ signals:
     void viewImage(const QString &path, const QString &album = "",
                    bool fromFileManager = false);
     void fullScreen(const QString &path);
-    void startSlideShow(const QStringList &paths);  // TODO wangbin, NOTE: Data may be repeated
+    void startSlideShow(const QStringList &paths);
+    void rotate(const QString &path, bool clockwise);
+    void showImageInfo(const QString &path);
+    void showInFileManager(const QString &path);
+
+    // Handle by album
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum();
-    void addToAlbum(const QStringList &names);
-    void removeFromAlbum(const QString &name, const QString &album);
-    void rotate(const QString &path, bool clockwise);
-    void showInFileManager(const QString &path);
-    void showImageInfo(const QString &path);
-    void showProcessTooltip(const QString &message, bool success);
     void importDir(const QString &dir);
+    void showProcessTooltip(const QString &message, bool success);
+    void albumChanged(const QString &album);
 
 private:
     explicit SignalManager(QObject *parent = 0);

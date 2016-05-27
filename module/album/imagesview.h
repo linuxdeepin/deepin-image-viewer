@@ -19,6 +19,7 @@ class ImagesView : public QScrollArea
 public:
     explicit ImagesView(QWidget *parent = 0);
     void setAlbum(const QString &album);
+    void updateView();
 
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);

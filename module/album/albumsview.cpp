@@ -43,7 +43,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     // Aways has Favorites album
-    m_dbManager->insertImageIntoAlbum("My favorites", "", "");
+    m_dbManager->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
 
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
@@ -68,7 +68,7 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     inBuffer.open( QIODevice::WriteOnly );
     // write inPixmap into inByteArray
     QString imageName = imgNames.first();
-    if (info.name != "My favorites" && imageName.isEmpty()) {
+    if (imageName.isEmpty()) {
         for (QString name : imgNames) {
             if (! name.isEmpty()) {
                 imageName = name;
@@ -78,7 +78,7 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     }
     if ( ! m_dbManager->getImageInfoByName(imageName)
          .thumbnail.save( &inBuffer, "JPG" )) {
-        qDebug() << "Write pixmap to buffer error!" << info.name;
+        qDebug() << "Write pixmap to buffer error!" << info.name << imageName;
     }
 
     QVariantList datas;
@@ -236,7 +236,7 @@ void AlbumsView::onMenuItemClicked(int menuId)
     case IdCopy:
         break;
     case IdDelete:
-        if (currentAlbumName != "My favorites"
+        if (currentAlbumName != MY_FAVORITES_ALBUM
                 && currentAlbumName != "Recent imported") {
             m_dbManager->removeAlbum(getAlbumName(currentIndex()));
             m_itemModel->removeRow(currentIndex().row());
@@ -260,4 +260,19 @@ void AlbumsView::createAlbum()
     m_dbManager->insertImageIntoAlbum(newAlbumName, "", "");
     QModelIndex index = addAlbum(m_dbManager->getAlbumInfo(newAlbumName));
     openPersistentEditor(index);
+}
+
+void AlbumsView::updateView()
+{
+    m_itemModel->clear();
+
+    // Make those special album always show at front
+    addAlbum(m_dbManager->getAlbumInfo(MY_FAVORITES_ALBUM));
+    addAlbum(m_dbManager->getAlbumInfo(RECENT_IMPORTED_ALBUM));
+    QStringList albums = m_dbManager->getAlbumNameList();
+    albums.removeAll(MY_FAVORITES_ALBUM);
+    albums.removeAll(RECENT_IMPORTED_ALBUM);
+    for (const QString name : albums) {
+        addAlbum(m_dbManager->getAlbumInfo(name));
+    }
 }
