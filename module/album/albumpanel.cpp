@@ -214,7 +214,7 @@ void AlbumPanel::initMainStackWidget()
     connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
         if (m_dbManager->imageCount() > 0
                 && m_mainStackWidget->currentIndex() == 0)
-        m_mainStackWidget->setCurrentIndex(1);
+            m_mainStackWidget->setCurrentIndex(1);
     }, Qt::DirectConnection);
 
     QLayout *layout = new QHBoxLayout(this);
@@ -225,16 +225,36 @@ void AlbumPanel::initMainStackWidget()
 void AlbumPanel::initAlbumsView()
 {
     m_albumsView = new AlbumsView(this);
-    QStringList albums = m_dbManager->getAlbumNameList();
-    for (const QString name : albums) {
-        m_albumsView->addAlbum(m_dbManager->getAlbumInfo(name));
-    }
+    m_albumsView->updateView();
     connect(m_albumsView, &AlbumsView::openAlbum, this, &AlbumPanel::onOpenAlbum);
+
+    connect(m_signalManager, &SignalManager::imageCountChanged,
+            m_albumsView, &AlbumsView::updateView);
+    connect(m_signalManager, &SignalManager::albumChanged,
+            m_albumsView, &AlbumsView::updateView);
+    connect(Importer::instance(), &Importer::importProgressChanged,
+            this, [=] (double progress) {
+        if (progress == 1) {
+            m_albumsView->updateView();
+        }
+    });
 }
 
 void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
+    connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
+        if (m_imagesView->isVisible()) {
+            m_imagesView->updateView();
+        }
+    });
+    connect(m_signalManager, &SignalManager::albumChanged,
+            this, [=] (const QString &album) {
+        if (m_imagesView->isVisible()
+                && album == m_imagesView->getCurrentAlbum()) {
+            m_imagesView->updateView();
+        }
+    });
 }
 
 void AlbumPanel::initStyleSheet()
@@ -283,6 +303,8 @@ void AlbumPanel::showCreateDialog()
     }
     CreateAlbumDialog *d = new CreateAlbumDialog(this, parentWidget());
     connect(d, &CreateAlbumDialog::closed,
+            m_albumsView, &AlbumsView::updateView);
+    connect(d, &CreateAlbumDialog::closed,
             d, &CreateAlbumDialog::deleteLater);
     const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
     d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
@@ -296,6 +318,8 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
         return;
     }
     ImportDirDialog *d = new ImportDirDialog(this, parentWidget());
+    connect(d, &ImportDirDialog::closed,
+            m_albumsView, &AlbumsView::updateView);
     connect(d, &ImportDirDialog::closed,
             d, &ImportDirDialog::deleteLater);
     const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
