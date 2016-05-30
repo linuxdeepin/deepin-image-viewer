@@ -20,8 +20,8 @@ class TimelineViewFrame : public QFrame
     Q_OBJECT
 public:
     explicit TimelineViewFrame(const QString &timeline,
-                               bool multiselection = false,
-                               QWidget *parent = 0);
+                               bool multiselection,
+                               QWidget *parent);
     void insertItem(const DatabaseManager::ImageInfo &info);
     bool removeItem(const QString &name);
     void clearSelection() const;
@@ -44,10 +44,12 @@ private:
         IdFullScreen,
         IdStartSlideShow,
         IdAddToAlbum,
+        IdExport,
         IdCopy,
         IdDelete,
         IdEdit,
         IdAddToFavorites,
+        IdRemoveFromFavorites,
         IdRotateClockwise,
         IdRotateCounterclockwise,
         IdLabel,
@@ -59,6 +61,9 @@ private:
     };
 
     void initListView();
+
+    DatabaseManager::ImageInfo imageInfo(const QString &name);
+    QString currentSelectOne(bool isPath = true);
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
     QPixmap increaseThumbnail(const QPixmap &pixmap);
     QString createMenuContent();
@@ -67,7 +72,11 @@ private:
                               const bool isSeparator = false,
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
-    void onMenuItemClicked(int menuId);
+    QJsonObject createAlbumMenuObj();
+
+    void updateThumbnail(const QString &name);
+    void updateMenuContents();
+    void onMenuItemClicked(int menuId, const QString &text);
 
 private:
     bool m_multiselection;
@@ -76,6 +85,8 @@ private:
     ThumbnailListView *m_listView;
     QStandardItemModel m_standardModel;
     PopupMenuManager *m_popupMenu;
+    DatabaseManager *m_dbManager;
+    SignalManager *m_sManager;
 };
 
 #endif // TIMELINEVIEWFRAME_H

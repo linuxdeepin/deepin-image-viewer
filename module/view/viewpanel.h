@@ -104,7 +104,7 @@ private:
     NavigationWidget *m_nav = NULL;
     SlideEffectPlayer *m_slide = NULL;
     PopupMenuManager *m_popupMenu;
-    SignalManager *m_signalManager;
+    SignalManager *m_sManager;
     DatabaseManager *m_dbManager;
     QStackedWidget *m_stack;
 

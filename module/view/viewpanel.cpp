@@ -42,7 +42,7 @@ const QString FAVORITES_ALBUM_NAME = "My favorites";
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent),
       m_popupMenu(new PopupMenuManager(this)),
-      m_signalManager(SignalManager::instance()),
+      m_sManager(SignalManager::instance()),
       m_dbManager(DatabaseManager::instance())
 {
     initStack();
@@ -66,17 +66,17 @@ void ViewPanel::initConnect() {
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ViewPanel::onMenuItemClicked);
 
-    connect(m_signalManager, &SignalManager::gotoPanel,
+    connect(m_sManager, &SignalManager::gotoPanel,
             this, [=] (ModulePanel *p){
         if (p != this) {
-            emit m_signalManager->showTopToolbar();
-            emit m_signalManager->showBottomToolbar();
+            emit m_sManager->showTopToolbar();
+            emit m_sManager->showBottomToolbar();
         }
     });
-    connect(m_signalManager, &SignalManager::gotoPanel, [this](){
+    connect(m_sManager, &SignalManager::gotoPanel, [this](){
         m_slide->stop();
     });
-    connect(m_signalManager, &SignalManager::viewImage,
+    connect(m_sManager, &SignalManager::viewImage,
     [this](const QString &path, const QString &album, bool fromFileManager ) {
         if (fromFileManager) {
             m_infos = getImageInfos(getFileInfos(path));
@@ -106,6 +106,10 @@ void ViewPanel::initConnect() {
         m_current = m_infos.cbegin();
         openImage(path, true);
     });
+    connect(m_sManager, &SignalManager::fullScreen,
+            this, &ViewPanel::toggleFullScreen);
+    connect(m_sManager, &SignalManager::startSlideShow,
+            this, &ViewPanel::toggleSlideShow);
 }
 
 void ViewPanel::initShortcut()
@@ -144,7 +148,7 @@ void ViewPanel::initShortcut()
             m_slide->stop();
         }
         else {
-            Q_EMIT m_signalManager->backToMainWindow();
+            Q_EMIT m_sManager->backToMainWindow();
         }
     });
 }
@@ -187,9 +191,9 @@ void ViewPanel::showToolbar(bool isTop)
     QTimer *t = new QTimer(this);
     connect(t, &QTimer::timeout, this, [=] {
        if (isTop)
-           emit m_signalManager->showTopToolbar();
+           emit m_sManager->showTopToolbar();
        else
-           emit m_signalManager->showBottomToolbar();
+           emit m_sManager->showBottomToolbar();
     });
     connect(t, &QTimer::timeout, t, &QTimer::deleteLater);
     t->start(SHOW_TOOLBAR_INTERVAL);
@@ -317,8 +321,8 @@ void ViewPanel::enterEvent(QEvent *e)
 {
     // Leave from toolbar and enter inside panel
     Q_UNUSED(e);
-    Q_EMIT m_signalManager->hideBottomToolbar();
-    Q_EMIT m_signalManager->hideTopToolbar();
+    Q_EMIT m_sManager->hideBottomToolbar();
+    Q_EMIT m_sManager->hideTopToolbar();
 }
 
 void ViewPanel::dropEvent(QDropEvent *event)
@@ -375,9 +379,9 @@ void ViewPanel::toggleFullScreen()
         window()->setFixedSize(qApp->desktop()->screenGeometry().size());
         m_view->setFullScreen(window()->size());
 
-        Q_EMIT m_signalManager->hideExtensionPanel();
-        Q_EMIT m_signalManager->hideTopToolbar(true);
-        Q_EMIT m_signalManager->hideBottomToolbar(true);
+        Q_EMIT m_sManager->hideExtensionPanel();
+        Q_EMIT m_sManager->hideTopToolbar(true);
+        Q_EMIT m_sManager->hideBottomToolbar(true);
     }
 }
 
@@ -608,7 +612,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         m_dbManager->removeImageFromAlbum(m_albumName, m_current->name);
         break;
     case IdEdit:
-        m_signalManager->editImage(m_view->imagePath());
+        m_sManager->editImage(m_view->imagePath());
         break;
     case IdAddToFavorites:
         m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, m_current->name,
@@ -641,10 +645,10 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         WallpaperSetter::instance()->setWallpaper(m_view->imagePath());
         break;
     case IdDisplayInFileManager:
-        emit m_signalManager->showInFileManager(m_view->imagePath());
+        emit m_sManager->showInFileManager(m_view->imagePath());
         break;
     case IdImageInfo:
-        emit m_signalManager->showExtensionPanel();
+        emit m_sManager->showExtensionPanel();
         break;
     default:
         break;
@@ -677,11 +681,6 @@ void ViewPanel::initViewContent()
 {
     m_view = new ImageWidget();
 
-    connect(m_view, &ImageWidget::rotated, [this](int degree) {
-        const QTransform t = QTransform().rotate(degree);
-        QImage img = m_view->image().transformed(t);
-        utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
-    });
     connect(m_view, &ImageWidget::fliped, [this](bool x, bool y) {
         const QTransform t = QTransform().scale(x ? -1 : 1, y ? -1 : 1);
         QImage img = m_view->image().transformed(t);
@@ -707,20 +706,20 @@ void ViewPanel::initNavigation()
 
 void ViewPanel::openImage(const QString &path, bool fromOutside)
 {
-    Q_EMIT m_signalManager->gotoPanel(this);
-    Q_EMIT m_signalManager->updateBottomToolbarContent(toolbarBottomContent(),
+    Q_EMIT m_sManager->gotoPanel(this);
+    Q_EMIT m_sManager->updateBottomToolbarContent(toolbarBottomContent(),
                                                        true);
 
     if (fromOutside) {
-        Q_EMIT m_signalManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        Q_EMIT m_signalManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-        Q_EMIT m_signalManager->updateExtensionPanelContent(extensionPanelContent());
+        Q_EMIT m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        Q_EMIT m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        Q_EMIT m_sManager->updateExtensionPanelContent(extensionPanelContent());
     }
 
     if (! mouseContainsByBottomToolbar(mapFromGlobal(QCursor::pos()))) {
-        Q_EMIT m_signalManager->hideBottomToolbar();
+        Q_EMIT m_sManager->hideBottomToolbar();
     }
-    Q_EMIT m_signalManager->hideTopToolbar();
+    Q_EMIT m_sManager->hideTopToolbar();
 
     m_view->setImage(path);
     m_nav->setImage(m_view->image());

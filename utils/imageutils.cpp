@@ -451,6 +451,12 @@ bool imageIsSupport(const QString &filepath)
     }
 }
 
+void rotate(const QString &path, int degree)
+{
+    const QTransform t = QTransform().rotate(degree);
+    utils::image::saveImageWithExif(QImage(path).transformed(t), path, path, t);
+}
+
 }  // namespace image
 
 }  //namespace utils

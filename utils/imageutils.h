@@ -45,6 +45,7 @@ void saveImageWithExif(const QImage& image,
                        const QString& path,
                        const QString& sourcePath = QString(),
                        const QTransform& mat = QTransform());
+void rotate(const QString &path, int degree);
 
 QImage saturation(int delta, QImage &origin);
 QImage cool(int delta, QImage &origin);

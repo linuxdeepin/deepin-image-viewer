@@ -34,14 +34,11 @@ signals:
     void selectImageFromTimeline(const QString &targetAlbum);
 
     void editImage(const QString &path);
-    void copyImage(const QString &path);
-    void deleteImage(const QString &path);
 
     void viewImage(const QString &path, const QString &album = "",
                    bool fromFileManager = false);
     void fullScreen(const QString &path);
-    void startSlideShow(const QStringList &paths);
-    void rotate(const QString &path, bool clockwise);
+    void startSlideShow(const QString path);
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
 

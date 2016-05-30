@@ -68,7 +68,7 @@ void ImageWidget::rotate(int deg)
         return;
     m_rot = deg%360;
     updateTransform();
-    Q_EMIT rotated(deg);
+    utils::image::rotate(m_path, deg);
 }
 
 void ImageWidget::flipX()
