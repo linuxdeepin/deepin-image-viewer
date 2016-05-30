@@ -1,6 +1,7 @@
 #include "timelineviewframe.h"
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
+#include "controller/signalmanager.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include <QResizeEvent>
@@ -68,6 +69,8 @@ void TimelineViewFrame::initListView()
         m_listView->setSelectionMode(QAbstractItemView::SingleSelection);
     }
 
+    connect(m_listView, &ThumbnailListView::clicked,
+            this, &TimelineViewFrame::clicked);
     connect(m_listView, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         emit m_sManager->viewImage(index.data(Qt::UserRole).toString());
@@ -403,6 +406,11 @@ QString TimelineViewFrame::timeline() const
 bool TimelineViewFrame::isEmpty() const
 {
     return m_standardModel.rowCount() == 0;
+}
+
+bool TimelineViewFrame::contain(const QModelIndex &index) const
+{
+    return index.model() == &m_standardModel;
 }
 
 QSize TimelineViewFrame::viewSize() const

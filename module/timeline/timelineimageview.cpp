@@ -139,6 +139,13 @@ QList<T> reversed( const QList<T> & in ) {
 void TimelineImageView::inserFrame(const QString &timeline, bool multiselection)
 {
     TimelineViewFrame *frame = new TimelineViewFrame(timeline, multiselection, this);
+    connect(frame, &TimelineViewFrame::clicked, this, [=] (const QModelIndex &index) {
+        for (TimelineViewFrame *frame : m_frames) {
+            if (! multiselection && ! frame->contain(index)) {
+                frame->clearSelection();
+            }
+        }
+    });
     m_frames.insert(timeline, frame);
     QStringList timelines = m_frames.keys();
     if (!m_ascending) {

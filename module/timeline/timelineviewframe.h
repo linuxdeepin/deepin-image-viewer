@@ -11,10 +11,10 @@
 #include <QJsonObject>
 
 #include "controller/databasemanager.h"
-#include "controller/signalmanager.h"
 #include "widgets/thumbnaillistview.h"
 
 class PopupMenuManager;
+class SignalManager;
 class TimelineViewFrame : public QFrame
 {
     Q_OBJECT
@@ -30,10 +30,14 @@ public:
     QStringList selectedImagesPathList();
     QString timeline() const;
     bool isEmpty() const;
+    bool contain(const QModelIndex &index) const;
 
     QSize viewSize() const;
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
+
+signals:
+    void clicked(const QModelIndex &index);
 
 protected:
     void resizeEvent(QResizeEvent *e);
