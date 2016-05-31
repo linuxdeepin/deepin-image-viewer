@@ -12,7 +12,10 @@ const int SLIDER_FRAME_WIDTH = 130;
 const int TOP_TOOLBAR_HEIGHT = 40;
 
 TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
-    : QScrollArea(parent), m_ascending(false), m_iconSize(96, 96)
+    : QScrollArea(parent),
+      m_ascending(false),
+      m_multiSelection(multiselection),
+      m_iconSize(96, 96)
 {
     initSliderFrame();
     initTopTips();
@@ -22,12 +25,6 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     setWidgetResizable(true);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    // Read all timelines for initialization
-    QStringList timelines = DatabaseManager::instance()->getTimeLineList(m_ascending);
-    for (QString timeline : timelines) {
-        inserFrame(timeline, multiselection);
-    }
 
     qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
     // Watching import thread
@@ -126,6 +123,15 @@ void TimelineImageView::initContents()
     m_contentLayout->setContentsMargins(0, 50, 0, 10);
 
     setWidget(m_contentFrame);
+}
+
+void TimelineImageView::insertReadyFrames()
+{
+    // Read all timelines for initialization
+    QStringList timelines = DatabaseManager::instance()->getTimeLineList(m_ascending);
+    for (QString timeline : timelines) {
+        inserFrame(timeline, m_multiSelection);
+    }
 }
 
 template <typename T>

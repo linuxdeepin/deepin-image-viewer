@@ -21,6 +21,9 @@ public:
     QStringList selectedImages();
     QString currentMonth();
 
+public slots:
+    void insertReadyFrames();
+
 protected:
     void resizeEvent(QResizeEvent *e);
 
@@ -47,6 +50,7 @@ private:
     QFrame *m_contentFrame;
     QMap<QString, TimelineViewFrame *> m_frames;
     bool m_ascending;
+    bool m_multiSelection;
     QSize m_iconSize;
 };
 

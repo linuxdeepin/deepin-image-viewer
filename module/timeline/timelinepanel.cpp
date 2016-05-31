@@ -217,12 +217,18 @@ void TimelinePanel::initImagesView()
 {
     m_imagesView = new TimelineImageView;
     m_imagesView->setAcceptDrops(true);
+
+    // To make MainWindow load faster
+    QTimer::singleShot(100, m_imagesView, SLOT(insertReadyFrames()));
+//    QMetaObject::invokeMethod(m_imagesView, "insertReadyFrames",
+//                              Qt::QueuedConnection);
 }
 
 void TimelinePanel::initSelectionView()
 {
     m_selectionView = new TimelineImageView(true);
     m_selectionView->setAcceptDrops(false);
+    QTimer::singleShot(100, m_imagesView, SLOT(insertReadyFrames()));
 }
 
 void TimelinePanel::initStyleSheet()
