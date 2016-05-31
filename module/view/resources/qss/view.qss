@@ -28,9 +28,17 @@ QPushButton#ShowExtendInfoButton:pressed {
     color: #01BDFF;
 }
 
-QScrollBar:vertical {
+QScrollBar {
     background-color: transparent;
     border: none;
+}
+
+QScrollBar::handle::horizontal {
+    image: url(:/images/resources/images/scrollbar_handle_h_normal.png);
+}
+
+QScrollBar::handle::horizontal:hover {
+    image: url(:/images/resources/images/scrollbar_handle_h_hover.png);
 }
 
 QScrollBar::handle:vertical {

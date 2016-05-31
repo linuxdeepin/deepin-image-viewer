@@ -94,9 +94,8 @@ void ViewPanel::initConnect() {
 
         m_albumName = album;
         m_current = m_infos.cbegin();
-        for (QList<DatabaseManager::ImageInfo>::ConstIterator i
-             = m_infos.cbegin(); i != m_infos.cend(); i ++) {
-            if (i->path == path) {
+        for (; m_current != m_infos.cend(); m_current ++) {
+            if (m_current->path == path) {
                 openImage(path, true);
                 return;
             }
@@ -293,9 +292,18 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 
 QWidget *ViewPanel::extensionPanelContent()
 {
+    QWidget *w = new QWidget;
+    w->setAttribute(Qt::WA_TranslucentBackground);
+    QVBoxLayout *l = new QVBoxLayout(w);
+    l->setContentsMargins(0, 0, 0, 40);
+
     m_info = new ImageInfoWidget();
     m_info->setStyleSheet(styleSheet());
-    return m_info;
+
+    l->addSpacing(TOP_TOOLBAR_HEIGHT);
+    l->addWidget(m_info);
+
+    return w;
 }
 
 void ViewPanel::resizeEvent(QResizeEvent *e)

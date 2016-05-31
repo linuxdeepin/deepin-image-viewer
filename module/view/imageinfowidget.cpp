@@ -42,7 +42,7 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
     QFrame *content = new QFrame();
     QVBoxLayout *contentLayout = new QVBoxLayout(content);
@@ -95,10 +95,10 @@ void ImageInfoWidget::setImagePath(const QString &path)
     updateInfo();
 }
 
-QSize ImageInfoWidget::sizeHint() const
-{
-    return QSize(m_maxContentWidth, height());
-}
+//QSize ImageInfoWidget::sizeHint() const
+//{
+//    return QSize(m_maxContentWidth, height());
+//}
 
 void ImageInfoWidget::updateInfo()
 {

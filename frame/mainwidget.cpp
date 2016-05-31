@@ -33,6 +33,7 @@ MainWidget::MainWidget(QWidget *parent)
         onGotoPanel(m_timelinePanel);
         emit m_signalManager->showTopToolbar();
         emit m_signalManager->showBottomToolbar();
+        emit m_signalManager->hideExtensionPanel();
     });
     connect(m_signalManager, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);

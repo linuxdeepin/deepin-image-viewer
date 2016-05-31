@@ -11,12 +11,14 @@ const int CONTROL_BUTTON_WIDTH = 20;
 const int CONTROL_BUTTON_HEIGHT = 60;
 const int CONTROL_BUTTON_CUBIC_LENGTH = 30;
 const int EXTENSION_PANEL_WIDTH = 240;
+const int EXTENSION_PANEL_MAX_WIDTH = 340;
 
 }  // namespace
 
 ExtensionPanel::ExtensionPanel(QWidget *parent, QWidget *source)
     : BlureFrame(parent, source)
 {
+    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
     m_contentLayout = new QHBoxLayout();
     m_contentLayout->setContentsMargins(0, 0, 0, 0);
     m_contentLayout->setSpacing(0);
