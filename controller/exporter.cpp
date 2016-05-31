@@ -35,9 +35,13 @@ void Exporter::exportImage(const QStringList imagePaths) {
         QString picLocation = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0);
         QString imageSavePath = QString("%1/%2").arg(picLocation).arg(imageName);
         qDebug() << "imageSavePath:" << imageSavePath;
-
+        QString selectFilter = tr("JPEG(*.bmp *.gif *.jpg;*.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns"
+                                  "*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)");
         QString dialogFilePath = exportDialog.getSaveFileName(nullptr, tr("Save File"),
-                                                             imageSavePath);
+        imageSavePath, tr("All files (*.*);;JPEG (*.jpg *.jpeg);;""TIFF (*.tif);;PNG(*.png);;PBM(*.pbm *.pgm *.ppm *xbm,"
+                          "*.xpm);; SVG(*.svg);;DDS(*.dds);;ICNS(*.icns);;JPG2(*.jp2);;MNG(*.mng);;TGA(*.tga);;WBMP(*wbmp);;WEBP(*.webp)"),
+        &selectFilter, QFileDialog::DontUseNativeDialog);
+
         qDebug() << "dialogFilePath:" << dialogFilePath;
         QPixmap tmpImage(imagePaths.at(0));
         tmpImage.save(dialogFilePath);
