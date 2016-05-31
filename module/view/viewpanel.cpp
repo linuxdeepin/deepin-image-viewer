@@ -69,8 +69,8 @@ void ViewPanel::initConnect() {
     connect(m_sManager, &SignalManager::gotoPanel,
             this, [=] (ModulePanel *p){
         if (p != this) {
-            emit m_sManager->showTopToolbar();
-            emit m_sManager->showBottomToolbar();
+            showToolbar(true);
+            showToolbar(false);
         }
     });
     connect(m_sManager, &SignalManager::gotoPanel, [this](){
@@ -175,8 +175,13 @@ void ViewPanel::toggleSlideShow()
 {
     if (m_slide->isRunning()) {
         m_slide->stop();
+        showToolbar(true);
+        showToolbar(false);
         return;
     }
+
+    emit m_sManager->hideTopToolbar(false);
+    emit m_sManager->hideBottomToolbar(false);
     QStringList paths;
     for (const DatabaseManager::ImageInfo& info : m_infos) {
         paths << info.path;
@@ -321,8 +326,10 @@ void ViewPanel::enterEvent(QEvent *e)
 {
     // Leave from toolbar and enter inside panel
     Q_UNUSED(e);
-    Q_EMIT m_sManager->hideBottomToolbar();
-    Q_EMIT m_sManager->hideTopToolbar();
+    if (m_slide->isRunning() || window()->isFullScreen()) {
+        Q_EMIT m_sManager->hideBottomToolbar();
+        Q_EMIT m_sManager->hideTopToolbar();
+    }
 }
 
 void ViewPanel::dropEvent(QDropEvent *event)
@@ -373,6 +380,8 @@ void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
         window()->showNormal();
+        showToolbar(true);
+        showToolbar(false);
     } else {
         // Full screen then hide bars because hide animation depends on height()
         window()->showFullScreen();
@@ -716,10 +725,10 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
         Q_EMIT m_sManager->updateExtensionPanelContent(extensionPanelContent());
     }
 
-    if (! mouseContainsByBottomToolbar(mapFromGlobal(QCursor::pos()))) {
-        Q_EMIT m_sManager->hideBottomToolbar();
-    }
-    Q_EMIT m_sManager->hideTopToolbar();
+//    if (! mouseContainsByBottomToolbar(mapFromGlobal(QCursor::pos()))) {
+//        Q_EMIT m_sManager->hideBottomToolbar();
+//    }
+//    Q_EMIT m_sManager->hideTopToolbar();
 
     m_view->setImage(path);
     m_nav->setImage(m_view->image());

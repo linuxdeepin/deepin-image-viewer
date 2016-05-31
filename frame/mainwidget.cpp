@@ -135,6 +135,8 @@ void MainWidget::initBottomToolbar()
     });
     connect(m_signalManager, &SignalManager::showBottomToolbar, this, [=] {
         m_bottomToolbar->setVisible(true);
+        // Make the bottom toolbar always stay at the bottom after windows resize
+        m_bottomToolbar->move(0, height());
         m_bottomToolbar->moveWithAnimation(0, height() - m_bottomToolbar->height());
     });
 
