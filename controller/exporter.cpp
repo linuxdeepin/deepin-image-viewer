@@ -44,7 +44,8 @@ void Exporter::exportImage(const QStringList imagePaths) {
 
         qDebug() << "dialogFilePath:" << dialogFilePath;
         QPixmap tmpImage(imagePaths.at(0));
-        tmpImage.save(dialogFilePath);
+        if (!tmpImage.isNull() && utils::image::imageIsSupport(dialogFilePath))
+            tmpImage.save(dialogFilePath);
     } else {
         popupDialogSaveImage(imagePaths);
     }
@@ -74,6 +75,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
             QPixmap tmpImage(imagePaths[j]);
             QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(imagePaths[j])
         .baseName()).arg(QFileInfo(imagePaths[j]).completeSuffix());
+            if (!tmpImage.isNull() && utils::image::imageIsSupport(savePath))
             tmpImage.save(savePath);
         } else {
             continue;
