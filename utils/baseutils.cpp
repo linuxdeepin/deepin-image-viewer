@@ -71,7 +71,7 @@ void showInFileManager(const QString &path)
         QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).path()));
 }
 
-void copyImageToClipboard(const QString &path)
+void copyImageToClipboard(const QStringList &paths)
 {
     //  Get clipboard
     QClipboard *cb = QApplication::clipboard();
@@ -85,8 +85,11 @@ void copyImageToClipboard(const QString &path)
         newMimeData->setData(f, oldMimeData->data(f));
 
     // Copy file (gnome)
-    QByteArray gnomeFormat = QByteArray("copy\n").append(
-                QUrl::fromLocalFile(path).toEncoded());
+    QByteArray gnomeFormat = QByteArray("copy\n");
+    for (QString path : paths) {
+        gnomeFormat.append(QUrl::fromLocalFile(path).toEncoded()).append("\n");
+    }
+    gnomeFormat.remove(gnomeFormat.length() - 1, 1);
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
 
     // Set the mimedata

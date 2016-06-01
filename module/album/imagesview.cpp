@@ -3,6 +3,10 @@
 #include "controller/databasemanager.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
+#include "controller/wallpapersetter.h"
+#include "utils/baseutils.h"
+#include "utils/imageutils.h"
+#include <QFileInfo>
 #include <QStandardItem>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -12,11 +16,15 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int THUMBNAIL_MAX_SCALE_SIZE = 384;
+const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
-}
+}  // namespace
 
 ImagesView::ImagesView(QWidget *parent)
-    : QScrollArea(parent), m_popupMenu(new PopupMenuManager(this))
+    : QScrollArea(parent),
+      m_popupMenu(new PopupMenuManager(this)),
+      m_dbManager(DatabaseManager::instance()),
+      m_sManager(SignalManager::instance())
 {
     initContent();
     setFrameStyle(QFrame::NoFrame);
@@ -24,7 +32,7 @@ ImagesView::ImagesView(QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-
+    updateMenuContents();
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ImagesView::onMenuItemClicked);
 }
@@ -33,7 +41,7 @@ void ImagesView::setAlbum(const QString &album)
 {
     m_standardModel.clear();
     QList<DatabaseManager::ImageInfo> infos
-            = DatabaseManager::instance()->getImageInfosByAlbum(album);
+            = m_dbManager->getImageInfosByAlbum(album);
     for (DatabaseManager::ImageInfo info : infos) {
         QStandardItem *item = new QStandardItem();
         item->setData(info.path, Qt::UserRole);
@@ -77,7 +85,7 @@ void ImagesView::initListView()
     m_contentLayout->addWidget(m_listView);
 
     connect(m_listView, &ThumbnailListView::doubleClicked, this, [=] (const QModelIndex & index) {
-        emit SignalManager::instance()->viewImage(index.data(Qt::UserRole).toString(), m_currentAlbum);
+        emit m_sManager->viewImage(index.data(Qt::UserRole).toString(), m_currentAlbum);
     });
     connect(m_listView, &ThumbnailListView::customContextMenuRequested, [this] {
         m_popupMenu->setMenuContent(createMenuContent());
@@ -102,6 +110,25 @@ void ImagesView::initTopTips()
     m_topTips = new TopAlbumTips(this);
 }
 
+QString ImagesView::currentSelectOne(bool isPath)
+{
+    const QStringList nl = selectedImagesNameList();
+    const QStringList pl = selectedImagesPathList();
+
+    if (isPath) {
+        if (pl.isEmpty())
+            return QString();
+        else
+            return pl.first();
+    }
+    else {
+        if (nl.isEmpty())
+            return QString();
+        else
+            return nl.first();
+    }
+}
+
 QPixmap ImagesView::increaseThumbnail(const QPixmap &pixmap)
 {
     QSize targetSize;
@@ -122,31 +149,42 @@ QString ImagesView::createMenuContent()
 {
     QJsonArray items;
     items.append(createMenuItem(IdView, tr("View")));
-    items.append(createMenuItem(IdFullScreen, tr("Fullscreen"), false, "Ctrl+Alt+F"));
-    items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P"));
+    items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
+                                false, "F11"));
+    items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false,
+                                "F5"));
+
     items.append(createMenuItem(IdSeparator, "", true));
+
+    items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
+    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Delete"));
+
     items.append(createMenuItem(IdSeparator, "", true));
-    items.append(createMenuItem(IdEdit, tr("Edit")));
-    items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"), false, "/"));
+    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
     items.append(createMenuItem(IdSeparator, "", true));
-    items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"), false, "Ctrl+R"));
-    items.append(createMenuItem(IdRotateCounterclockwise, tr("Rotate counterclockwise"), false, "Ctrl+L"));
+
+    items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
+                                false, "Ctrl+R"));
+    items.append(createMenuItem(IdRotateCounterclockwise,
+        tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
+
     items.append(createMenuItem(IdSeparator, "", true));
-    items.append(createMenuItem(IdLabel, tr("Text tag")));
-    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper")));
-    items.append(createMenuItem(IdDisplayInFileManager, tr("Display in file manager")));
-    items.append(createMenuItem(IdImageInfo, tr("Image info"), false, "Ctrl+I"));
+
+//    items.append(createMenuItem(IdLabel, tr("Text tag")));
+    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"), false,
+                                "Ctrl+F8"));
+    items.append(createMenuItem(IdDisplayInFileManager,
+        tr("Display in file manager"), false, "Ctrl+D"));
+    items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
+                                "Alt+Enter"));
 
     QJsonObject contentObj;
     contentObj["x"] = 0;
     contentObj["y"] = 0;
     contentObj["items"] = QJsonValue(items);
 
-    QJsonDocument document(contentObj);
-
-    return QString(document.toJson());
+    return QString(QJsonDocument(contentObj).toJson());
 }
 
 QJsonValue ImagesView::createMenuItem(const MenuItemId id,
@@ -159,44 +197,77 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
                                                                   text,
                                                                   isSeparator,
                                                                   shortcut,
-                                                                  subMenu));
+                                                 subMenu));
+}
+
+void ImagesView::updateThumbnail(const QString &name)
+{
+    for (int i = 0; i < m_standardModel.rowCount(); i ++) {
+        if (m_standardModel.item(i, 0)->toolTip() == name) {
+            DatabaseManager::ImageInfo info =
+                    m_dbManager->getImageInfoByName(name);
+            const QPixmap p = utils::image::getThumbnail(info.path);
+            info.thumbnail = p;
+            m_dbManager->updateImageInfo(info);
+
+            QIcon icon;
+            QPixmap thumbnail = increaseThumbnail(p);
+            icon.addPixmap(thumbnail, QIcon::Normal);
+            m_standardModel.item(i, 0)->setIcon(icon);
+            return;
+        }
+    }
+}
+
+void ImagesView::updateMenuContents()
+{
+    m_popupMenu->setMenuContent(createMenuContent());
 }
 
 void ImagesView::onMenuItemClicked(int menuId)
 {
-    const QString selectedImage = selectedImagePath();
-    if (selectedImage.isEmpty()) {
+    if (currentSelectOne().isEmpty()) {
         return;
     }
 
+    const QString cname = currentSelectOne(false);
+    const QString cpath = currentSelectOne(true);
     switch (MenuItemId(menuId)) {
     case IdView:
-        SignalManager::instance()->viewImage(selectedImage);
+        m_sManager->viewImage(cpath);
         break;
     case IdFullScreen:
+        m_sManager->viewImage(cpath);
+        m_sManager->fullScreen(cpath);
         break;
     case IdStartSlideShow:
-        break;
-    case IdAddToAlbum:
+        m_sManager->viewImage(cpath);
+        m_sManager->startSlideShow(cpath);
         break;
     case IdCopy:
+        utils::base::copyImageToClipboard(QStringList(cpath));
         break;
     case IdDelete:
+        m_dbManager->removeImage(cname);
         break;
     case IdEdit:
-        SignalManager::instance()->editImage(selectedImage);
-        break;
-    case IdAddToFavorites:
+        m_sManager->editImage(cpath);
         break;
     case IdRotateClockwise:
+        utils::image::rotate(cpath, 90);
+        updateThumbnail(cname);
         break;
     case IdRotateCounterclockwise:
+        utils::image::rotate(cpath, -90);
+        updateThumbnail(cname);
         break;
     case IdLabel:
         break;
     case IdSetAsWallpaper:
+        WallpaperSetter::instance()->setWallpaper(cpath);
         break;
     case IdDisplayInFileManager:
+        utils::base::showInFileManager(cpath);
         break;
     case IdImageInfo:
         break;
@@ -244,15 +315,25 @@ void ImagesView::setIconSize(const QSize &iconSize)
     m_listView->setIconSize(iconSize);
 }
 
-QString ImagesView::selectedImagePath() const
+QStringList ImagesView::selectedImagesNameList() const
 {
-    QModelIndexList indexList = m_listView->selectionModel()->selectedIndexes();
-    if (indexList.isEmpty()) {
-        return QString();
+    QStringList names;
+    for (QModelIndex index : m_listView->selectionModel()->selectedIndexes()) {
+        QString path = index.data(Qt::UserRole).toString();
+        names << QFileInfo(path).fileName();
     }
-    else {
-        return indexList.first().data(Qt::UserRole).toString();
+
+    return names;
+}
+
+QStringList ImagesView::selectedImagesPathList() const
+{
+    QStringList paths;
+    for (QModelIndex index : m_listView->selectionModel()->selectedIndexes()) {
+        paths << index.data(Qt::UserRole).toString();
     }
+
+    return paths;
 }
 
 void ImagesView::resizeEvent(QResizeEvent *e)

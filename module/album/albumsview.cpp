@@ -3,6 +3,7 @@
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
 #include "controller/exporter.h"
+#include "utils/baseutils.h"
 #include <QDebug>
 #include <QBuffer>
 #include <QJsonDocument>
@@ -93,8 +94,8 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     items.append(item);
     m_itemModel->appendRow(items);
 
-    QModelIndex index = m_itemModel->index(m_itemModel->rowCount() - 1, 0, QModelIndex());
-//    m_itemModel->setData(index, QVariant(info.name), Qt::EditRole);
+    QModelIndex index = m_itemModel->index(m_itemModel->rowCount() - 1, 0);
+    //    m_itemModel->setData(index, QVariant(info.name), Qt::EditRole);
     m_itemModel->setData(index, QVariant(datas), Qt::DisplayRole);
     m_itemModel->setData(index, QVariant(ITEM_DEFAULT_SIZE), Qt::SizeHintRole);
 
@@ -119,6 +120,9 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
 {
     if (! indexAt(e->pos()).isValid()) {
         this->selectionModel()->clearSelection();
+    }
+    else {
+        m_popupMenu->setMenuContent(createMenuContent(indexAt(e->pos())));
     }
 
     QListView::mousePressEvent(e);
@@ -171,7 +175,8 @@ QString AlbumsView::createMenuContent(const QModelIndex &index)
     QJsonArray items;
     if (index.isValid()) {
         bool isSpecial = false;
-        QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+        QList<QVariant> datas =
+                index.model()->data(index, Qt::DisplayRole).toList();
         if (! datas.isEmpty()) {
             const QString albumName = datas[0].toString();
             if (albumName == MY_FAVORITES_ALBUM
@@ -180,16 +185,18 @@ QString AlbumsView::createMenuContent(const QModelIndex &index)
             }
         }
 
-        items.append(createMenuItem(IdSeparator, "", true));
         items.append(createMenuItem(IdView, tr("View")));
-        items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false, "Ctrl+Alt+P"));
+        items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
+                                    false, "F5"));
         items.append(createMenuItem(IdSeparator, "", true));
         items.append(createMenuItem(IdExport, tr("Export")));
         items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
         if (! isSpecial)
-            items.append(createMenuItem(IdDelete, tr("Delete"), false, "Ctrl+Delete"));
+            items.append(createMenuItem(IdDelete, tr("Delete"), false,
+                                        "Delete"));
         items.append(createMenuItem(IdSeparator, "", true));
-        items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false, "Ctrl+I"));
+        items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false,
+                                    "Ctrl+Alt+Enter"));
     }
     else {
         items.append(createMenuItem(IdCreate, tr("Create Album")));
@@ -212,33 +219,50 @@ QJsonValue AlbumsView::createMenuItem(const MenuItemId id,
                                       const QJsonObject &subMenu)
 {
     return QJsonValue(m_popupMenu->createItemObj(id,
-                                                                  text,
-                                                                  isSeparator,
-                                                                  shortcut,
-                                                                  subMenu));
+                                                 text,
+                                                 isSeparator,
+                                                 shortcut,
+                                                 subMenu));
 }
 
 void AlbumsView::onMenuItemClicked(int menuId)
 {
-    const QString currentAlbumName = getAlbumName(currentIndex());
+    const QString albumName = getAlbumName(currentIndex());
     switch (MenuItemId(menuId)) {
     case IdCreate:
         createAlbum();
         break;
     case IdView:
-        emit openAlbum(getAlbumName(currentIndex()));
+        emit openAlbum(albumName);
         break;
     case IdStartSlideShow:
+    {
+        const QList<DatabaseManager::ImageInfo> infos =
+                m_dbManager->getImageInfosByAlbum(albumName);
+        if (! infos.isEmpty()) {
+            emit SignalManager::instance()->viewImage(infos.first().path);
+            emit SignalManager::instance()->startSlideShow(infos.first().path);
+        }
         break;
+    }
     case IdExport:
-        Exporter::instance()->exportAlbum(getAlbumName(currentIndex()));
+        Exporter::instance()->exportAlbum(albumName);
         break;
     case IdCopy:
+    {
+        const QList<DatabaseManager::ImageInfo> infos =
+                m_dbManager->getImageInfosByAlbum(albumName);
+        QStringList paths;
+        for (int i = 0; i < infos.length(); i ++) {
+            paths << infos[i].path;
+        }
+        utils::base::copyImageToClipboard(paths);
         break;
+    }
     case IdDelete:
-        if (currentAlbumName != MY_FAVORITES_ALBUM
-                && currentAlbumName != "Recent imported") {
-            m_dbManager->removeAlbum(getAlbumName(currentIndex()));
+        if (albumName != MY_FAVORITES_ALBUM
+                && albumName != "Recent imported") {
+            m_dbManager->removeAlbum(albumName);
             m_itemModel->removeRow(currentIndex().row());
         }
         break;

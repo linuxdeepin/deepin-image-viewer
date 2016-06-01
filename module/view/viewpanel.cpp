@@ -143,6 +143,7 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
+        window()->showNormal();
         if (m_slide->isRunning()) {
             m_slide->stop();
         }
@@ -268,6 +269,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     TTLContent *ttlc = new TTLContent;
     connect(ttlc, &TTLContent::backToMain, this, [=] {
         m_slide->stop();
+        window()->showNormal();
         // Use dbus interface to make sure it will always back to the main process
         DIVDBusController().backToMainWindow();
     });
@@ -620,7 +622,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdCopy:
-        utils::base::copyImageToClipboard(m_current->path);
+        utils::base::copyImageToClipboard(QStringList("m_current->path"));
         break;
     case IdDelete:
         removeCurrentImage();

@@ -188,7 +188,7 @@ QString TimelineViewFrame::createMenuContent()
 
     items.append(createMenuItem(IdSeparator, "", true));
 
-    items.append(createMenuItem(IdLabel, tr("Text tag")));
+//    items.append(createMenuItem(IdLabel, tr("Text tag")));
     items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"), false,
                                 "Ctrl+F8"));
     items.append(createMenuItem(IdDisplayInFileManager,
@@ -296,7 +296,7 @@ void TimelineViewFrame::onMenuItemClicked(int menuId, const QString &text)
             cname, utils::base::timeToString(imageInfo(cname).time));
         break;
     case IdCopy:
-        utils::base::copyImageToClipboard(cpath);
+        utils::base::copyImageToClipboard(QStringList(cpath));
         break;
     case IdDelete:
         m_dbManager->removeImage(cname);

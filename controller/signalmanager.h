@@ -38,7 +38,7 @@ signals:
     void viewImage(const QString &path, const QString &album = "",
                    bool fromFileManager = false);
     void fullScreen(const QString &path);
-    void startSlideShow(const QString path);
+    void startSlideShow(const QString &path);
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
 

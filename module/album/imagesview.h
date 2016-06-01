@@ -10,7 +10,9 @@
 #include <QKeyEvent>
 #include <QObject>
 
+class DatabaseManager;
 class PopupMenuManager;
+class SignalManager;
 class ThumbnailListView;
 class QStandardItemModel;
 class ImagesView : public QScrollArea
@@ -23,13 +25,14 @@ public:
 
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
-    QString selectedImagePath() const;
+    QStringList selectedImagesNameList() const;
+    QStringList selectedImagesPathList() const;
     QString getCurrentAlbum() const;
 
 protected:
-    void resizeEvent(QResizeEvent *e);
-    void keyPressEvent(QKeyEvent *e);
-    void keyReleaseEvent(QKeyEvent *e);
+    void resizeEvent(QResizeEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) override;
+    void keyReleaseEvent(QKeyEvent *e) override;
 
 private:
     enum MenuItemId {
@@ -37,6 +40,7 @@ private:
         IdFullScreen,
         IdStartSlideShow,
         IdAddToAlbum,
+        IdExport,
         IdCopy,
         IdDelete,
         IdEdit,
@@ -55,6 +59,7 @@ private:
     void initListView();
     void initTopTips();
 
+    QString currentSelectOne(bool isPath = true);
     QPixmap increaseThumbnail(const QPixmap &pixmap);
     QString createMenuContent();
 
@@ -63,6 +68,9 @@ private:
                               const bool isSeparator = false,
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
+
+    void updateThumbnail(const QString &name);
+    void updateMenuContents();
     void onMenuItemClicked(int menuId);
 
     void updateContentRect();
@@ -78,6 +86,8 @@ private:
     QVBoxLayout *m_contentLayout;
     QWidget *m_contentWidget;
     PopupMenuManager *m_popupMenu;
+    DatabaseManager *m_dbManager;
+    SignalManager *m_sManager;
 };
 
 #endif // IMAGESVIEW_H

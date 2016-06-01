@@ -100,6 +100,8 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(const QS
     QList<DatabaseManager::ImageInfo> infoList;
 
     for (const QString name : nameList) {
+        if (name.isEmpty())
+            continue;
         infoList << getImageInfoByName(name);
     }
 
