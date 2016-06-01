@@ -9,7 +9,9 @@
 class MainWindow : public DWindowFrame
 {
 public:
-    MainWindow(QWidget *parent=0);
+    // If manager is false, the Manager panel(eg.TimelinePanel) will not be
+    // initialize to save resource and avoid DB file lock.
+    MainWindow(bool manager, QWidget *parent=0);
 
     MainWidget *mainWidget;
 

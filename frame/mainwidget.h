@@ -17,11 +17,11 @@ class MainWidget : public QFrame
     Q_OBJECT
 
 public:
-    MainWidget(QWidget *parent = 0);
+    MainWidget(bool manager, QWidget *parent = 0);
     ~MainWidget();
 
 protected:
-    void resizeEvent(QResizeEvent *);
+    void resizeEvent(QResizeEvent *) override;
 
 private slots:
     void onGotoPanel(ModulePanel *panel);

@@ -11,10 +11,10 @@ const QString FAVORITES_ALBUM_NAME = "My favorites";
 
 }  // namespace
 
-TBContent::TBContent(QWidget *parent)
+TBContent::TBContent(bool fromFileManager, QWidget *parent)
     : QWidget(parent),
-      m_signalManager(SignalManager::instance()),
-      m_dbManager(DatabaseManager::instance())
+      m_clBT(nullptr),
+      m_signalManager(SignalManager::instance())
 {
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(0, 0, 0, 0);
@@ -30,21 +30,23 @@ TBContent::TBContent(QWidget *parent)
     connect(btn, &ImageButton::clicked,
             m_signalManager, &SignalManager::showExtensionPanel);
 
-    m_clBT = new ImageButton();
-    hb->addWidget(m_clBT);
-    connect(m_clBT, &ImageButton::clicked, [=] {
-        if (m_dbManager->imageExistAlbum(m_imageName, FAVORITES_ALBUM_NAME)) {
-            m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME,m_imageName);
-        }
-        else {
-            DatabaseManager::ImageInfo info =
-                    m_dbManager->getImageInfoByName(m_imageName);
-            m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME,
-                m_imageName, utils::base::timeToString(info.time));
-        }
+    if (! fromFileManager) {
+        m_clBT = new ImageButton();
+        hb->addWidget(m_clBT);
+        connect(m_clBT, &ImageButton::clicked, [=] {
+            if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM_NAME)) {
+                dbManager()->removeImageFromAlbum(FAVORITES_ALBUM_NAME,m_imageName);
+            }
+            else {
+                DatabaseManager::ImageInfo info =
+                        dbManager()->getImageInfoByName(m_imageName);
+                dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM_NAME,
+                    m_imageName, utils::base::timeToString(info.time));
+            }
+            updateCollectButton();
+        });
         updateCollectButton();
-    });
-    updateCollectButton();
+    }
 
     btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/previous_normal.png");
@@ -93,7 +95,9 @@ TBContent::TBContent(QWidget *parent)
 
 void TBContent::updateCollectButton()
 {
-    if (m_dbManager->imageExistAlbum(m_imageName, FAVORITES_ALBUM_NAME)) {
+    if (! m_clBT)
+        return;
+    if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM_NAME)) {
         m_clBT->setToolTip(tr("Remove from Favorites"));
         m_clBT->setWhatsThis("RFFButton");
         m_clBT->setNormalPic(":/images/resources/images/collect_active.png");
@@ -113,4 +117,11 @@ void TBContent::onImageChanged(const QString &name, const QString &path)
 {
     m_imageName = name;
     m_imagePath = path;
+}
+
+DatabaseManager *TBContent::dbManager() const
+{
+    // Use database will cause db file lock. There is no need to access the db
+    // if view image from file-manager
+    return DatabaseManager::instance();
 }

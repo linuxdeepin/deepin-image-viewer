@@ -41,9 +41,9 @@ const QString FAVORITES_ALBUM_NAME = "My favorites";
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent),
+      m_fromFileManager(true),
       m_popupMenu(new PopupMenuManager(this)),
-      m_sManager(SignalManager::instance()),
-      m_dbManager(DatabaseManager::instance())
+      m_sManager(SignalManager::instance())
 {
     initStack();
     initSlider();
@@ -83,12 +83,12 @@ void ViewPanel::initConnect() {
         }
         else {
             DatabaseManager::ImageInfo info =
-                    m_dbManager->getImageInfoByPath(path);
+                    dbManager()->getImageInfoByPath(path);
             if (album.isEmpty()) {
-                m_infos = m_dbManager->getImageInfosByTime(info.time);
+                m_infos = dbManager()->getImageInfosByTime(info.time);
             }
             else {
-                m_infos = m_dbManager->getImageInfosByAlbum(album);
+                m_infos = dbManager()->getImageInfosByAlbum(album);
             }
         }
 
@@ -96,14 +96,14 @@ void ViewPanel::initConnect() {
         m_current = m_infos.cbegin();
         for (; m_current != m_infos.cend(); m_current ++) {
             if (m_current->path == path) {
-                openImage(path, true);
+                openImage(path, fromFileManager);
                 return;
             }
         }
 
         // Not exist in DB, it must from FileManager
         m_current = m_infos.cbegin();
-        openImage(path, true);
+        openImage(path, fromFileManager);
     });
     connect(m_sManager, &SignalManager::fullScreen,
             this, &ViewPanel::toggleFullScreen);
@@ -249,9 +249,16 @@ QFileInfoList ViewPanel::getFileInfos(const QString &path)
     return dir.entryInfoList(nl, QDir::Files);
 }
 
+DatabaseManager *ViewPanel::dbManager() const
+{
+    // Use database will cause db file lock. There is no need to access the db
+    // if view image from file-manager
+    return DatabaseManager::instance();
+}
+
 QWidget *ViewPanel::toolbarBottomContent()
 {
-    TBContent *tbc = new TBContent;
+    TBContent *tbc = new TBContent(m_fromFileManager);
     tbc->setStyleSheet(this->styleSheet());
     connect(this, &ViewPanel::updateCollectButton,
             tbc, &TBContent::updateCollectButton);
@@ -412,7 +419,7 @@ bool ViewPanel::showPrevious()
     if (m_current == m_infos.cbegin())
         return false;
     --m_current;
-    openImage(m_current->path);
+    openImage(m_current->path, m_fromFileManager);
     return true;
 }
 
@@ -428,15 +435,15 @@ bool ViewPanel::showNext()
         --m_current;
         return false;
     }
-    openImage(m_current->path);
+    openImage(m_current->path, m_fromFileManager);
     return true;
 }
 
 void ViewPanel::removeCurrentImage()
 {
     const QString name = m_view->imageName();
-    if (m_dbManager->imageExist(name)) {
-        m_dbManager->removeImage(name);
+    if (! m_fromFileManager && dbManager()->imageExist(name)) {
+        dbManager()->removeImage(name);
     }
     else {  // If not exist in db, it must from FileManager
         utils::base::trashFile(m_view->imagePath());
@@ -489,10 +496,13 @@ QString ViewPanel::createMenuContent()
                                 m_slide->isRunning() ? tr("Stop slide show")
                                                      : tr("Start slide show"),
                                 false, "F5"));
-    const QJsonObject objF = createAlbumMenuObj(false);
-    if (! objF.isEmpty()) {
-        items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
-                                    false, "", objF));
+
+    if (! m_fromFileManager) {
+        const QJsonObject objF = createAlbumMenuObj(false);
+        if (! objF.isEmpty()) {
+            items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
+                                        false, "", objF));
+        }
     }
 
     items.append(createMenuItem(IdSeparator, "", true));
@@ -507,13 +517,14 @@ QString ViewPanel::createMenuContent()
 
     items.append(createMenuItem(IdSeparator, "", true));
     items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
-    //Call on m_current->name will be crashed
-    if (!m_dbManager->imageExistAlbum(m_view->imageName(), FAVORITES_ALBUM_NAME)) {
-        items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"),
-                                    false, "Ctrl+K"));
-    } else {
-        items.append(createMenuItem(IdRemoveFromFavorites,
-            tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+    if (! m_fromFileManager) {
+        if (!dbManager()->imageExistAlbum(m_current->name, FAVORITES_ALBUM_NAME)) {
+            items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"),
+                                        false, "Ctrl+K"));
+        } else {
+            items.append(createMenuItem(IdRemoveFromFavorites,
+                tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+        }
     }
     items.append(createMenuItem(IdSeparator, "", true));
 
@@ -554,7 +565,10 @@ QString ViewPanel::createMenuContent()
 
 QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
 {
-    const QStringList albums = m_dbManager->getAlbumNameList();
+    if (m_fromFileManager) {
+        return QJsonObject();
+    }
+    const QStringList albums = dbManager()->getAlbumNameList();
 
     QJsonArray items;
     if (! m_infos.isEmpty()) {
@@ -562,7 +576,7 @@ QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
             if (album == FAVORITES_ALBUM_NAME || album == "Recent imported") {
                 continue;
             }
-            const QStringList names = m_dbManager->getImageNamesByAlbum(album);
+            const QStringList names = dbManager()->getImageNamesByAlbum(album);
             if (isRemove) {
                 if (names.indexOf(m_current->name) != -1) {
                     album = tr("Remove from <<%1>>").arg(album);
@@ -611,7 +625,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         toggleSlideShow();
         break;
     case IdAddToAlbum:
-        m_dbManager->insertImageIntoAlbum(albumName, m_current->name,
+        dbManager()->insertImageIntoAlbum(albumName, m_current->name,
             utils::base::timeToString(m_current->time));
         break;
     case IdExport:
@@ -628,19 +642,19 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         removeCurrentImage();
         break;
     case IdRemoveFromAlbum:
-        m_dbManager->removeImageFromAlbum(m_albumName, m_current->name);
+        dbManager()->removeImageFromAlbum(m_albumName, m_current->name);
         break;
     case IdEdit:
         m_sManager->editImage(m_view->imagePath());
         break;
     case IdAddToFavorites:
-        m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, m_current->name,
+        dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, m_current->name,
             utils::base::timeToString(m_current->time));
         emit updateCollectButton();
         updateMenuContent();
         break;
     case IdRemoveFromFavorites:
-        m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME, m_current->name);
+        dbManager()->removeImageFromAlbum(FAVORITES_ALBUM_NAME, m_current->name);
         emit updateCollectButton();
         updateMenuContent();
         break;
@@ -725,6 +739,7 @@ void ViewPanel::initNavigation()
 
 void ViewPanel::openImage(const QString &path, bool fromOutside)
 {
+    m_fromFileManager = fromOutside;
     Q_EMIT m_sManager->gotoPanel(this);
     Q_EMIT m_sManager->updateBottomToolbarContent(toolbarBottomContent(),
                                                        true);

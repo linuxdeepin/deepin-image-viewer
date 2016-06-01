@@ -10,7 +10,7 @@ class TBContent : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TBContent(QWidget *parent = 0);
+    explicit TBContent(bool fromFileManager, QWidget *parent = 0);
     void updateCollectButton();
 
 public slots:
@@ -23,9 +23,11 @@ signals:
     void removed();
 
 private:
+    DatabaseManager *dbManager() const;
+
+private:
     ImageButton *m_clBT;
     SignalManager *m_signalManager;
-    DatabaseManager *m_dbManager;
     QString m_imageName;
     QString m_imagePath;
 };

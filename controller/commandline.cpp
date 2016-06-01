@@ -86,7 +86,7 @@ bool CommandLine::processOption()
     if (names.isEmpty() && pas.isEmpty()) {
         if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
                 QDBusConnection::sessionBus().registerObject(DBUS_PATH, sm)) {
-            MainWindow *w = new MainWindow;
+            MainWindow *w = new MainWindow(true);
             w->show();
             emit sm->backToMainWindow();
 
@@ -115,7 +115,7 @@ bool CommandLine::processOption()
 
         if ((name == "o" || name == "open") && support) {
             qDebug() << "Open image file: " << value;
-            MainWindow *w = new MainWindow;
+            MainWindow *w = new MainWindow(false);
             w->show();
             emit sm->viewImage(value, "", true);
             return true;

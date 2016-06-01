@@ -6,7 +6,7 @@
 const int MAINWIDGET_MINIMUN_WIDTH = 700;
 const int MAINWIDGET_MINIMUN_HEIGHT = 500;
 
-MainWindow::MainWindow(QWidget *parent):
+MainWindow::MainWindow(bool manager, QWidget *parent):
     DWindowFrame(parent)
 {
     QDesktopWidget dw;
@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent):
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     move((dw.geometry().width() - ww) / 2, (dw.geometry().height() - wh) / 4);
 
-    mainWidget = new MainWidget(this);
+    mainWidget = new MainWidget(manager, this);
     addContenWidget(mainWidget);
 
 }

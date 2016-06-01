@@ -96,8 +96,10 @@ private:
     QList<DatabaseManager::ImageInfo> getImageInfos(
             const QFileInfoList &infos);
     QFileInfoList getFileInfos(const QString &path);
+    DatabaseManager *dbManager() const;
 
 private:
+    bool m_fromFileManager;
     QString m_albumName;    // 用于判断图片是否从相册模块传递过来
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
@@ -105,7 +107,6 @@ private:
     SlideEffectPlayer *m_slide = NULL;
     PopupMenuManager *m_popupMenu;
     SignalManager *m_sManager;
-    DatabaseManager *m_dbManager;
     QStackedWidget *m_stack;
 
     QList<DatabaseManager::ImageInfo> m_infos;

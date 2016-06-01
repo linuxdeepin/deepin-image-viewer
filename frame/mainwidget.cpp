@@ -15,7 +15,7 @@ const int EXTENSION_PANEL_WIDTH = 240;
 
 }  // namespace
 
-MainWidget::MainWidget(QWidget *parent)
+MainWidget::MainWidget(bool manager, QWidget *parent)
     : QFrame(parent)
 {
     initStyleSheet();
@@ -24,10 +24,12 @@ MainWidget::MainWidget(QWidget *parent)
     initTopToolbar();
     initBottomToolbar();
 
-    initTimelinePanel();
-    initAlbumPanel();
+    if (manager) {
+        initTimelinePanel();
+        initAlbumPanel();
+        initEditPanel();
+    }
     initViewPanel();
-    initEditPanel();
 
     connect(m_signalManager, &SignalManager::backToMainWindow, this, [=] {
         onGotoPanel(m_timelinePanel);
@@ -69,6 +71,10 @@ void MainWidget::resizeEvent(QResizeEvent *)
 
 void MainWidget::onGotoPanel(ModulePanel *panel)
 {
+    QPointer<ModulePanel> p(panel);
+    if (p.isNull()) {
+        return;
+    }
     m_panelStack->setCurrentWidget(panel);
     emit m_signalManager->updateTopToolbarLeftContent(panel->toolbarTopLeftContent());
     emit m_signalManager->updateTopToolbarMiddleContent(panel->toolbarTopMiddleContent());
