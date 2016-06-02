@@ -739,6 +739,7 @@ void ViewPanel::initNavigation()
 
 void ViewPanel::openImage(const QString &path, bool fromOutside)
 {
+    // TODO signal should emit when mainwidget's panel changed
     m_fromFileManager = fromOutside;
     Q_EMIT m_sManager->gotoPanel(this);
     Q_EMIT m_sManager->updateBottomToolbarContent(toolbarBottomContent(),

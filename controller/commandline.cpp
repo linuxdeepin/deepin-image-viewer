@@ -117,7 +117,13 @@ bool CommandLine::processOption()
             qDebug() << "Open image file: " << value;
             MainWindow *w = new MainWindow(false);
             w->show();
-            emit sm->viewImage(value, "", true);
+            // Load image after all UI elements has been init
+            // BottomToolbar pos not correct on init
+            emit sm->hideBottomToolbar(true);
+            QTimer::singleShot(50, [=] {
+                emit sm->viewImage(value, "", true);
+                emit sm->showBottomToolbar();
+            });
             return true;
         }
         else if (name == "a" || name == "album") {

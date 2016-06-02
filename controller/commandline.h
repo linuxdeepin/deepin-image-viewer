@@ -13,8 +13,6 @@ public:
     bool processOption();
     ~CommandLine();
 
-private slots:
-
 private:
     void addOption(const CMOption *option);
 
