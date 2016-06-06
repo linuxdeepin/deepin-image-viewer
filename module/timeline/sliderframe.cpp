@@ -30,6 +30,8 @@ SliderFrame::SliderFrame(QWidget *parent)
                         - m_tooltip->height() / 2);
         emit valueChanged(perc);
     });
+    connect(m_slider, &ScaleSlider::mousePress, this, [=] {m_pressed = true;});
+    connect(m_slider, &ScaleSlider::mouseRelease, this, [=] {m_pressed = false;});
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(3, 0, 0, 0);
@@ -115,4 +117,9 @@ void SliderFrame::initTimer()
             m_hideTimer->stop();
         }
     });
+}
+
+bool SliderFrame::pressed() const
+{
+    return m_pressed;
 }

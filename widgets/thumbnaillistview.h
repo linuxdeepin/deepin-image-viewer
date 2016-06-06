@@ -9,8 +9,12 @@ class ThumbnailListView : public QListView
 public:
     explicit ThumbnailListView(QWidget *parent = 0);
 
+signals:
+    void mousePress();
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+    void mousePressEvent(QMouseEvent *e) override;
     void wheelEvent(QWheelEvent *e) override;
 
 private slots:

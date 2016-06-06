@@ -63,14 +63,22 @@ void TimelineImageView::setIconSize(const QSize &iconSize)
     updateContentRect();
 }
 
-QStringList TimelineImageView::selectedImages()
+/*!
+    \fn QMap<QString, QString> TimelineImageView::selectedImages() const
+
+    Return the name-path map of all frame's selected items.
+*/
+QMap<QString, QString> TimelineImageView::selectedImages() const
 {
-    QStringList names;
+    QMap<QString, QString> images;
     for (TimelineViewFrame * frame : m_frames.values()) {
-        names << frame->selectedImagesNameList();
+        const QMap<QString, QString> map = frame->selectedImages();
+        for (QString name : map.keys()) {
+            images[name] = map[name];
+        }
     }
 
-    return names;
+    return images;
 }
 
 QString TimelineImageView::currentMonth()
@@ -90,7 +98,7 @@ void TimelineImageView::initSliderFrame()
 {
     m_sliderFrame = new SliderFrame(this);
     connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
-        if (m_sliderFrame->isVisible()) {
+        if (m_sliderFrame->isVisible() && m_sliderFrame->pressed()) {
             verticalScrollBar()->setValue((1 - perc) * (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
             QString month = currentMonth();
             m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
@@ -148,13 +156,15 @@ QList<T> reversed( const QList<T> & in ) {
 void TimelineImageView::inserFrame(const QString &timeline, bool multiselection)
 {
     TimelineViewFrame *frame = new TimelineViewFrame(timeline, multiselection, this);
-    connect(frame, &TimelineViewFrame::clicked, this, [=] (const QModelIndex &index) {
+    connect(frame, &TimelineViewFrame::mousePress, this, [=] {
         for (TimelineViewFrame *frame : m_frames) {
-            if (! multiselection && ! frame->contain(index)) {
+            if (! multiselection && frame != sender()) {
                 frame->clearSelection();
             }
         }
     });
+    connect(frame, &TimelineViewFrame::customContextMenuRequested,
+            this, &TimelineImageView::customContextMenuRequested);
     m_frames.insert(timeline, frame);
     QStringList timelines = m_frames.keys();
     if (!m_ascending) {

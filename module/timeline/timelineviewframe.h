@@ -1,19 +1,15 @@
 #ifndef TIMELINEVIEWFRAME_H
 #define TIMELINEVIEWFRAME_H
 
+#include "controller/databasemanager.h"
+#include "widgets/thumbnaillistview.h"
 #include <QLabel>
 #include <QWidget>
 #include <QFrame>
 #include <QListView>
 #include <QStandardItem>
 #include <QVBoxLayout>
-#include <QJsonValue>
-#include <QJsonObject>
 
-#include "controller/databasemanager.h"
-#include "widgets/thumbnaillistview.h"
-
-class PopupMenuManager;
 class SignalManager;
 class TimelineViewFrame : public QFrame
 {
@@ -26,8 +22,7 @@ public:
     bool removeItem(const QString &name);
     void clearSelection() const;
 
-    QStringList selectedImagesNameList();
-    QStringList selectedImagesPathList();
+    QMap<QString, QString> selectedImages() const;
     QString timeline() const;
     bool isEmpty() const;
     bool contain(const QModelIndex &index) const;
@@ -37,50 +32,21 @@ public:
     void setIconSize(const QSize &iconSize);
 
 signals:
+    void mousePress();
     void clicked(const QModelIndex &index);
 
 protected:
     void resizeEvent(QResizeEvent *e);
 
 private:
-    enum MenuItemId {
-        IdView,
-        IdFullScreen,
-        IdStartSlideShow,
-        IdAddToAlbum,
-        IdExport,
-        IdCopy,
-        IdDelete,
-        IdEdit,
-        IdAddToFavorites,
-        IdRemoveFromFavorites,
-        IdRotateClockwise,
-        IdRotateCounterclockwise,
-        IdLabel,
-        IdSetAsWallpaper,
-        IdDisplayInFileManager,
-        IdImageInfo,
-        IdSubMenu,
-        IdSeparator
-    };
-
     void initListView();
 
     DatabaseManager::ImageInfo imageInfo(const QString &name);
     QString currentSelectOne(bool isPath = true);
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
     QPixmap increaseThumbnail(const QPixmap &pixmap);
-    QString createMenuContent();
-    QJsonValue createMenuItem(const MenuItemId id,
-                              const QString &text,
-                              const bool isSeparator = false,
-                              const QString &shortcut = "",
-                              const QJsonObject &subMenu = QJsonObject());
-    QJsonObject createAlbumMenuObj();
 
     void updateThumbnail(const QString &name);
-    void updateMenuContents();
-    void onMenuItemClicked(int menuId, const QString &text);
 
 private:
     bool m_multiselection;
@@ -88,7 +54,6 @@ private:
     QString m_timeline;
     ThumbnailListView *m_listView;
     QStandardItemModel m_standardModel;
-    PopupMenuManager *m_popupMenu;
     DatabaseManager *m_dbManager;
     SignalManager *m_sManager;
 };

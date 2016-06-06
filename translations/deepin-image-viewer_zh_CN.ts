@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="zh_CN">
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -196,7 +196,7 @@
     <message>
         <location filename="../module/view/imageinfowidget.cpp" line="52"/>
         <source>EXIF Information</source>
-        <translation type="unfinished"></translation>
+        <translation>EXIF 信息</translation>
     </message>
     <message>
         <location filename="../module/view/imageinfowidget.cpp" line="64"/>
@@ -565,12 +565,12 @@
     <message>
         <location filename="../module/view/viewpanel.cpp" line="404"/>
         <source>Stop slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>停止幻灯片</translation>
     </message>
     <message>
         <location filename="../module/view/viewpanel.cpp" line="405"/>
         <source>Start slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>幻灯片放映</translation>
     </message>
     <message>
         <location filename="../module/view/viewpanel.cpp" line="409"/>

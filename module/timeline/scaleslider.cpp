@@ -82,3 +82,15 @@ void ScaleSlider::setPenColor(const QColor &penColor)
 {
     m_penColor = penColor;
 }
+
+void ScaleSlider::mousePressEvent(QMouseEvent *e)
+{
+    emit mousePress();
+    QSlider::mousePressEvent(e);
+}
+
+void ScaleSlider::mouseReleaseEvent(QMouseEvent *e)
+{
+    emit mouseRelease();
+    QSlider::mouseReleaseEvent(e);
+}

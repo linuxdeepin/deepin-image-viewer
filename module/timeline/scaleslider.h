@@ -13,7 +13,13 @@ public:
     QColor penColor() const;
     void setPenColor(const QColor &penColor);
 
+signals:
+    void mousePress();
+    void mouseRelease();
+
 protected:
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
     QColor m_penColor;
 };

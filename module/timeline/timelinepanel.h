@@ -10,7 +10,9 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QStackedWidget>
+#include <QJsonObject>
 
+class PopupMenuManager;
 class TimelinePanel : public ModulePanel
 {
     Q_OBJECT
@@ -27,23 +29,57 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
 private:
+    enum MenuItemId {
+        IdView,
+        IdFullScreen,
+        IdStartSlideShow,
+        IdAddToAlbum,
+        IdExport,
+        IdCopy,
+        IdDelete,
+        IdEdit,
+        IdAddToFavorites,
+        IdRemoveFromFavorites,
+        IdRotateClockwise,
+        IdRotateCounterclockwise,
+        IdLabel,
+        IdSetAsWallpaper,
+        IdDisplayInFileManager,
+        IdImageInfo,
+        IdSubMenu,
+        IdSeparator
+    };
+
+    void initPopupMenu();
     void initMainStackWidget();
     void initImagesView();
     void initSelectionView();
     void initStyleSheet();
 
     void updateBottomToolbarContent();
+    void updateMenuContents();
+    void onMenuItemClicked(int menuId, const QString &text);
+
+    QString createMenuContent();
+    QJsonValue createMenuItem(const MenuItemId id,
+                              const QString &text,
+                              const bool isSeparator = false,
+                              const QString &shortcut = "",
+                              const QJsonObject &subMenu = QJsonObject());
+    QJsonObject createAlbumMenuObj();
+    const DatabaseManager::ImageInfo imageInfo(const QString &name) const;
 
 private:
     QString m_targetAlbum;  // For import images to an album
     QLabel *m_countLabel = NULL;
     Dtk::Widget::DSlider *m_slider = NULL;
 
+    PopupMenuManager *m_popupMenu;
     TimelineImageView *m_imagesView = NULL;
     TimelineImageView *m_selectionView = NULL;
     QStackedWidget *m_mainStackWidget = NULL;
     DatabaseManager *m_dbManager = NULL;
-    SignalManager *m_signalManager = SignalManager::instance();
+    SignalManager *m_sManager = SignalManager::instance();
 };
 
 #endif // TIMELINEPANEL_H
