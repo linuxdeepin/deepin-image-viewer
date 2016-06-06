@@ -91,11 +91,12 @@ void SliderFrame::initTimer()
     m_showTimer->setSingleShot(true);
     m_showTimer->setInterval(500);
     connect(m_showTimer, &QTimer::timeout, this, [this] {
-       if (m_setValueTimes > 7) {
-           this->show();
-           m_hideTimer->start();
-       }
-       m_setValueTimes = 0;
+        // the limit value should change with scroller animation duration
+        if (m_setValueTimes > 20) {
+            this->show();
+            m_hideTimer->start();
+        }
+        m_setValueTimes = 0;
     });
 
     m_hideTimer = new QTimer(this);

@@ -10,7 +10,8 @@ public:
     explicit ThumbnailListView(QWidget *parent = 0);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) override;
+    void wheelEvent(QWheelEvent *e) override;
 
 private slots:
     void fixedViewPortSize();

@@ -37,6 +37,11 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
     return false;
 }
 
+void ThumbnailListView::wheelEvent(QWheelEvent *e)
+{
+    e->ignore();
+}
+
 void ThumbnailListView::fixedViewPortSize()
 {
     int horizontalMargin = contentsMargins().left() + contentsMargins().right();

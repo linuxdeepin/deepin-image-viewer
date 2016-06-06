@@ -1,5 +1,6 @@
 #include "timelineimageview.h"
 #include "timelineviewframe.h"
+#include "widgets/scrollbar.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
@@ -13,6 +14,7 @@ const int TOP_TOOLBAR_HEIGHT = 40;
 
 TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     : QScrollArea(parent),
+      m_vScrollBar(new ScrollBar),
       m_ascending(false),
       m_multiSelection(multiselection),
       m_iconSize(96, 96)
@@ -23,6 +25,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
 
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
+    setVerticalScrollBar(m_vScrollBar);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -93,7 +96,7 @@ void TimelineImageView::initSliderFrame()
             m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
         }
     });
-    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
+    connect(m_vScrollBar, &QScrollBar::valueChanged, this, [this] {
         m_sliderFrame->setValue(scrollingPercent());
     });
     m_sliderFrame->hide();
@@ -102,7 +105,7 @@ void TimelineImageView::initSliderFrame()
 void TimelineImageView::initTopTips()
 {
     m_topTips = new TopTimelineTips(this);
-    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
+    connect(m_vScrollBar, &QScrollBar::valueChanged, this, [this] {
         if (scrollingPercent() == 0) {
             m_topTips->hide();
         }
