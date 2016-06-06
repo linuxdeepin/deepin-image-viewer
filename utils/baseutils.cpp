@@ -1,4 +1,5 @@
 #include "baseutils.h"
+#include <stdio.h>
 #include <fcntl.h>
 #include <fstream>
 #include <linux/fs.h>
@@ -163,12 +164,12 @@ bool trashFile(const QString &file)
         qWarning() << "File doesnt exists, cant move to trash";
         return false;
     }
-//    QString info;
-//    info += "[Trash Info]\nPath=";
-//    info += original.absoluteFilePath();
-//    info += "\nDeletionDate=";
-//    info += QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzzZ");
-//    info += "\n";
+    QString info;
+    info += "[Trash Info]\nPath=";
+    info += original.absoluteFilePath();
+    info += "\nDeletionDate=";
+    info += QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzzZ");
+    info += "\n";
     QString trashname = original.fileName();
     QString infopath = TrashPathInfo + "/" + trashname + ".trashinfo";
     QString filepath = TrashPathFiles + "/" + trashname;
@@ -182,13 +183,21 @@ bool trashFile(const QString &file)
         infopath = TrashPathInfo + "/" + trashname + ".trashinfo";
         filepath = TrashPathFiles + "/" + trashname;
     }
-    QDir dir;
-    if( !dir.rename( original.absoluteFilePath(), filepath ) ){
-        qWarning() << "move to trash failed!";
-        return false;
-    }
 //    File infofile;
 //    infofile.createUtf8( infopath, info );
+    QFile infoFile(infopath);
+    if (infoFile.open(QIODevice::WriteOnly)) {
+        infoFile.write(info.toUtf8());
+        infoFile.close();
+
+        if( !QDir().rename( original.absoluteFilePath(), filepath ) ){
+            qWarning() << "move to trash failed!";
+            return false;
+        }
+    }
+    else {
+        qDebug() << "Move to trash failed! Could not write *.trashinfo!";
+    }
     return true;
 #else
     Q_UNUSED( file );
