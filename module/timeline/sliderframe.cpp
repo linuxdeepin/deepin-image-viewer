@@ -1,5 +1,5 @@
 #include "sliderframe.h"
-#include "scaleslider.h"
+#include "widgets/scaleslider.h"
 #include "widgets/tooltip.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>

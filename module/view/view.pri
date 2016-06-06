@@ -8,7 +8,8 @@ HEADERS += \
     $$PWD/viewpanel.h \
     $$PWD/contents/tbcontent.h \
     $$PWD/contents/ttlcontent.h \
-    $$PWD/contents/ttmcontent.h
+    $$PWD/contents/ttmcontent.h \
+    $$PWD/imagesliderframe.h
 
 SOURCES += \
     $$PWD/imageinfowidget.cpp \
@@ -17,7 +18,8 @@ SOURCES += \
     $$PWD/viewpanel.cpp \
     $$PWD/contents/tbcontent.cpp \
     $$PWD/contents/ttlcontent.cpp \
-    $$PWD/contents/ttmcontent.cpp
+    $$PWD/contents/ttmcontent.cpp \
+    $$PWD/imagesliderframe.cpp
 
 RESOURCES += \
     $$PWD/view.qrc

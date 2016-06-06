@@ -47,6 +47,7 @@ ViewPanel::ViewPanel(QWidget *parent)
 {
     initStack();
     initSlider();
+    initSliderEffectPlay();
     initNavigation();
     initConnect();
     initShortcut();
@@ -697,7 +698,39 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     }
 }
 
-void ViewPanel::initSlider()
+void ViewPanel::initSlider() {
+    m_imageSlider = new ImageSliderFrame(this);
+
+    m_imageSlider->hide();
+    connect(m_view, &ImageWidget::scaleValueChanged, [this](qreal value) {
+        m_imageSlider->setCurrentValue(value*100);
+    });
+
+    qDebug() << "rect size:" << this->rect();
+
+    connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc) {
+        m_view->setScaleValue(perc*950/100);
+        qDebug() << "rect size:" << this->rect() << this->rect().bottomRight();
+
+        m_imageSlider->move(this->rect().right() - m_imageSlider->width() - 20,
+                            this->rect().center().y() - m_imageSlider->height()/2);
+        m_imageSlider->show();
+        Q_EMIT startHideScaleSlider();
+    });
+
+    m_hideSlider = new QTimer(this);
+    m_hideSlider->setInterval(2000);
+    m_hideSlider->setSingleShot(true);
+
+    connect(m_hideSlider, &QTimer::timeout, [this](){
+        m_imageSlider->hide();
+    });
+    connect(this, &ViewPanel::startHideScaleSlider, [this](){
+        m_hideSlider->start();
+    });
+}
+
+void ViewPanel::initSliderEffectPlay()
 {
     m_slide = new SlideEffectPlayer(this);
     connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
@@ -728,8 +761,10 @@ void ViewPanel::initViewContent()
         QImage img = m_view->image().transformed(t);
         utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
-    connect(m_view, &ImageWidget::doubleClicked,
-            this, &ViewPanel::toggleFullScreen);
+    connect(m_view, &ImageWidget::doubleClicked, [this]() {
+        this->toggleFullScreen();
+        m_imageSlider->hide();
+    });
 }
 
 void ViewPanel::initNavigation()

@@ -1,5 +1,4 @@
 HEADERS += \
-    $$PWD/scaleslider.h \
     $$PWD/sliderframe.h \
     $$PWD/timelineimageview.h \
     $$PWD/timelinepanel.h \
@@ -7,7 +6,6 @@ HEADERS += \
     $$PWD/toptimelinetips.h
 
 SOURCES += \
-    $$PWD/scaleslider.cpp \
     $$PWD/sliderframe.cpp \
     $$PWD/timelineimageview.cpp \
     $$PWD/timelinepanel.cpp \

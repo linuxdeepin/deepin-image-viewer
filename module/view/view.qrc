@@ -44,8 +44,13 @@
         <file>resources/images/empty_box.png</file>
         <file>resources/images/scrollbar_handle_h_hover.png</file>
         <file>resources/images/scrollbar_handle_h_normal.png</file>
+        <file>resources/images/lefttooltip.png</file>
+        <file>resources/images/minus.png</file>
+        <file>resources/images/rectangle.png</file>
+        <file>resources/images/add.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/view.qss</file>
+        <file>resources/qss/imageslider.qss</file>
     </qresource>
 </RCC>

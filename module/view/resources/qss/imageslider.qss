@@ -1,0 +1,11 @@
+QSlider::handle:vertical {
+    image: url(:/images/resources/images/rectangle.png);
+}
+
+QLabel#Tooltip {
+    border-image:url(:/images/resources/images/lefttooltip.png) stretch no-repeat;
+}
+
+QLabel#TooltipValueLabel {
+    color: white;
+}

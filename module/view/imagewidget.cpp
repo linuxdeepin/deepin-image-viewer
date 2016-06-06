@@ -58,7 +58,9 @@ void ImageWidget::setScaleValue(qreal value)
 {
     if (m_scale == value)
         return;
+
     m_scale = value;
+    Q_EMIT scaleValueChanged(value);
     updateTransform();
 }
 
@@ -139,14 +141,14 @@ void ImageWidget::paintEvent(QPaintEvent *)
     p.restore();
     if (!m_scaling)
         return;
-    static const int kTipWidth = 60;
-    static const int kTipHeight = 30;
-    p.translate(width() - kTipWidth, 100);
-    p.fillRect(0, 0, kTipWidth, kTipHeight, QColor(0, 10, 0, 168));
-    p.setPen(Qt::white);
-    p.drawText(QRect(0, 0, kTipWidth, kTipHeight),
-               QString("%1%").arg(int(m_scale*100.0)),
-               QTextOption(Qt::AlignCenter));
+//    static const int kTipWidth = 60;
+//    static const int kTipHeight = 30;
+//    p.translate(width() - kTipWidth, 100);
+//    p.fillRect(0, 0, kTipWidth, kTipHeight, QColor(0, 10, 0, 168));
+//    p.setPen(Qt::white);
+//    p.drawText(QRect(0, 0, kTipWidth, kTipHeight),
+//               QString("%1%").arg(int(m_scale*100.0)),
+//               QTextOption(Qt::AlignCenter));
 }
 
 void ImageWidget::mousePressEvent(QMouseEvent *event)
@@ -197,7 +199,7 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
         zoom += deg*3.14/180.0;
     else
         zoom += dp.y()/100.0;
-    if (zoom < 0.1 || zoom > 10)
+    if (zoom < 0.5 || zoom > 10)
         return;
     setScaleValue(zoom);
 }

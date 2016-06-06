@@ -6,6 +6,7 @@
 #include "navigationwidget.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
+#include "imagesliderframe.h"
 
 #include <QJsonObject>
 #include <QKeyEvent>
@@ -29,7 +30,7 @@ public:
 signals:
     void updateCollectButton();
     void imageChanged(const QString &name, const QString &path);
-
+    void startHideScaleSlider();
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
@@ -71,6 +72,7 @@ private:
 
     void initStack();
     void initSlider();
+    void initSliderEffectPlay();
     void initViewContent();
     void initNavigation();
     void initConnect();
@@ -106,9 +108,11 @@ private:
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
     SlideEffectPlayer *m_slide = NULL;
+    ImageSliderFrame *m_imageSlider = NULL;
     PopupMenuManager *m_popupMenu;
     SignalManager *m_sManager;
     QStackedWidget *m_stack;
+    QTimer* m_hideSlider;
 
     QList<DatabaseManager::ImageInfo> m_infos;
     QList<DatabaseManager::ImageInfo>::ConstIterator m_current;
