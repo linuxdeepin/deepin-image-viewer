@@ -251,7 +251,7 @@ void TimelinePanel::initSelectionView()
 {
     m_selectionView = new TimelineImageView(true);
     m_selectionView->setAcceptDrops(false);
-    QTimer::singleShot(100, m_imagesView, SLOT(insertReadyFrames()));
+    QTimer::singleShot(100, m_selectionView, SLOT(insertReadyFrames()));
 }
 
 void TimelinePanel::initStyleSheet()

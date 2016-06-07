@@ -8,6 +8,7 @@ class ThumbnailListView : public QListView
     Q_OBJECT
 public:
     explicit ThumbnailListView(QWidget *parent = 0);
+    const QPixmap increaseThumbnail(const QPixmap &pixmap) const;
 
 signals:
     void mousePress();

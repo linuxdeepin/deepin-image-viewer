@@ -15,7 +15,6 @@
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
-const int THUMBNAIL_MAX_SCALE_SIZE = 384;
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
 }  // namespace
@@ -39,19 +38,19 @@ ImagesView::ImagesView(QWidget *parent)
 
 void ImagesView::setAlbum(const QString &album)
 {
-    m_standardModel.clear();
+    m_model.clear();
     QList<DatabaseManager::ImageInfo> infos
             = m_dbManager->getImageInfosByAlbum(album);
     for (DatabaseManager::ImageInfo info : infos) {
         QStandardItem *item = new QStandardItem();
         item->setData(info.path, Qt::UserRole);
         QIcon icon;
-        QPixmap thumbnail = increaseThumbnail(info.thumbnail);
+        QPixmap thumbnail = m_view->increaseThumbnail(info.thumbnail);
         icon.addPixmap(thumbnail, QIcon::Normal);
         item->setIcon(icon);
         item->setToolTip(info.name);
 
-        m_standardModel.setItem(m_standardModel.rowCount(), 0, item);
+        m_model.setItem(m_model.rowCount(), 0, item);
     }
 
     m_topTips->setAlbum(album);
@@ -77,17 +76,17 @@ void ImagesView::initContent()
 
 void ImagesView::initListView()
 {
-    m_listView = new ThumbnailListView(this);
-    m_listView->setContextMenuPolicy(Qt::CustomContextMenu);
-    m_listView->setIconSize(QSize(96, 96));
-    m_listView->setModel( &m_standardModel );
-    m_listView->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_contentLayout->addWidget(m_listView);
+    m_view = new ThumbnailListView(this);
+    m_view->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_view->setIconSize(QSize(96, 96));
+    m_view->setModel( &m_model );
+    m_view->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_contentLayout->addWidget(m_view);
 
-    connect(m_listView, &ThumbnailListView::doubleClicked, this, [=] (const QModelIndex & index) {
+    connect(m_view, &ThumbnailListView::doubleClicked, this, [=] (const QModelIndex & index) {
         emit m_sManager->viewImage(index.data(Qt::UserRole).toString(), m_currentAlbum);
     });
-    connect(m_listView, &ThumbnailListView::customContextMenuRequested, [this] {
+    connect(m_view, &ThumbnailListView::customContextMenuRequested, [this] {
         m_popupMenu->setMenuContent(createMenuContent());
         m_popupMenu->showMenu();
     });
@@ -95,13 +94,13 @@ void ImagesView::initListView()
 
 void ImagesView::keyPressEvent(QKeyEvent *e) {
     if (e->key() == Qt::Key_Control) {
-        m_listView->setSelectionMode(QAbstractItemView::MultiSelection);
+        m_view->setSelectionMode(QAbstractItemView::MultiSelection);
     }
 }
 
 void ImagesView::keyReleaseEvent(QKeyEvent *e) {
     if (e->key() == Qt::Key_Control) {
-        m_listView->setSelectionMode(QAbstractItemView::SingleSelection);
+        m_view->setSelectionMode(QAbstractItemView::SingleSelection);
     }
 }
 
@@ -127,22 +126,6 @@ QString ImagesView::currentSelectOne(bool isPath)
         else
             return nl.first();
     }
-}
-
-QPixmap ImagesView::increaseThumbnail(const QPixmap &pixmap)
-{
-    QSize targetSize;
-    if (pixmap.width() > pixmap.height()) {
-        targetSize = QSize(THUMBNAIL_MAX_SCALE_SIZE,
-                           (double)THUMBNAIL_MAX_SCALE_SIZE / pixmap.width() *
-                           pixmap.height());
-    }
-    else {
-        targetSize = QSize((double)THUMBNAIL_MAX_SCALE_SIZE / pixmap.height() *
-                           pixmap.width(), THUMBNAIL_MAX_SCALE_SIZE);
-    }
-
-    return pixmap.scaled(targetSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
 QString ImagesView::createMenuContent()
@@ -202,8 +185,8 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
 
 void ImagesView::updateThumbnail(const QString &name)
 {
-    for (int i = 0; i < m_standardModel.rowCount(); i ++) {
-        if (m_standardModel.item(i, 0)->toolTip() == name) {
+    for (int i = 0; i < m_model.rowCount(); i ++) {
+        if (m_model.item(i, 0)->toolTip() == name) {
             DatabaseManager::ImageInfo info =
                     m_dbManager->getImageInfoByName(name);
             const QPixmap p = utils::image::getThumbnail(info.path);
@@ -211,9 +194,9 @@ void ImagesView::updateThumbnail(const QString &name)
             m_dbManager->updateImageInfo(info);
 
             QIcon icon;
-            QPixmap thumbnail = increaseThumbnail(p);
+            QPixmap thumbnail = m_view->increaseThumbnail(p);
             icon.addPixmap(thumbnail, QIcon::Normal);
-            m_standardModel.item(i, 0)->setIcon(icon);
+            m_model.item(i, 0)->setIcon(icon);
             return;
         }
     }
@@ -282,7 +265,7 @@ void ImagesView::updateContentRect()
     int hMargin = (width() - minWidth) / 2;
     m_contentLayout->setContentsMargins(hMargin, 60, hMargin, 10);
     m_contentWidget->setFixedWidth(width());
-    m_listView->setFixedWidth(width());
+    m_view->setFixedWidth(width());
 }
 
 void ImagesView::updateTopTipsRect()
@@ -307,18 +290,18 @@ QString ImagesView::getCurrentAlbum() const
 
 QSize ImagesView::iconSize() const
 {
-    return m_listView->iconSize();
+    return m_view->iconSize();
 }
 
 void ImagesView::setIconSize(const QSize &iconSize)
 {
-    m_listView->setIconSize(iconSize);
+    m_view->setIconSize(iconSize);
 }
 
 QStringList ImagesView::selectedImagesNameList() const
 {
     QStringList names;
-    for (QModelIndex index : m_listView->selectionModel()->selectedIndexes()) {
+    for (QModelIndex index : m_view->selectionModel()->selectedIndexes()) {
         QString path = index.data(Qt::UserRole).toString();
         names << QFileInfo(path).fileName();
     }
@@ -329,7 +312,7 @@ QStringList ImagesView::selectedImagesNameList() const
 QStringList ImagesView::selectedImagesPathList() const
 {
     QStringList paths;
-    for (QModelIndex index : m_listView->selectionModel()->selectedIndexes()) {
+    for (QModelIndex index : m_view->selectionModel()->selectedIndexes()) {
         paths << index.data(Qt::UserRole).toString();
     }
 

@@ -5,7 +5,14 @@
 #include <QFile>
 #include <QTimer>
 
-const int ITEM_SPACING = 4;
+namespace {
+
+const int ITEM_SPACING = 0;  // 4
+const int THUMBNAIL_MAX_SCALE_SIZE = 384;
+
+}  //namespace
+
+
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent)
 {
@@ -17,7 +24,7 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setViewMode(QListView::IconMode);
     setFlow(QListView::LeftToRight);
     setSelectionMode(QAbstractItemView::SingleSelection);
-//    setUniformItemSizes(true);
+    setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setDragEnabled(false);
@@ -26,6 +33,19 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
 
     // For expand all items
     QMetaObject::invokeMethod(this, "fixedViewPortSize", Qt::QueuedConnection);
+}
+
+const QPixmap ThumbnailListView::increaseThumbnail(const QPixmap &pixmap) const
+{
+    QSize size(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+    QImage img = pixmap.toImage().scaled(size,
+                                         Qt::KeepAspectRatioByExpanding,
+                                         Qt::SmoothTransformation);
+
+    img = img.copy((img.width() - size.width()) / 2,
+                   (img.height() - size.height()) / 2,
+                   size.width(), size.height());
+    return QPixmap::fromImage(img);
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)

@@ -60,7 +60,6 @@ private:
     void initTopTips();
 
     QString currentSelectOne(bool isPath = true);
-    QPixmap increaseThumbnail(const QPixmap &pixmap);
     QString createMenuContent();
 
     QJsonValue createMenuItem(const MenuItemId id,
@@ -81,8 +80,8 @@ private:
 private:
     QString m_currentAlbum;
     TopAlbumTips *m_topTips;
-    ThumbnailListView *m_listView;
-    QStandardItemModel m_standardModel;
+    ThumbnailListView *m_view;
+    QStandardItemModel m_model;
     QVBoxLayout *m_contentLayout;
     QWidget *m_contentWidget;
     PopupMenuManager *m_popupMenu;

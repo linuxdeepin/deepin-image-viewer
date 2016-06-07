@@ -44,7 +44,6 @@ private:
     DatabaseManager::ImageInfo imageInfo(const QString &name);
     QString currentSelectOne(bool isPath = true);
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
-    QPixmap increaseThumbnail(const QPixmap &pixmap);
 
     void updateThumbnail(const QString &name);
 
@@ -52,8 +51,8 @@ private:
     bool m_multiselection;
     QSize m_iconSize;
     QString m_timeline;
-    ThumbnailListView *m_listView;
-    QStandardItemModel m_standardModel;
+    ThumbnailListView *m_view;
+    QStandardItemModel m_model;
     DatabaseManager *m_dbManager;
     SignalManager *m_sManager;
 };

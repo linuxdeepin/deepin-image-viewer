@@ -13,7 +13,6 @@
 
 namespace {
 
-const int THUMBNAIL_MAX_SCALE_SIZE = 384;
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
@@ -40,7 +39,7 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline,
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(title);
-    layout->addWidget(m_listView);
+    layout->addWidget(m_view);
     layout->addWidget(separator);
 
     connect(m_sManager, &SignalManager::updateThumbnail,
@@ -50,31 +49,31 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline,
 void TimelineViewFrame::resizeEvent(QResizeEvent *e)
 {
     QFrame::resizeEvent(e);
-    m_listView->setFixedWidth(e->size().width());
+    m_view->setFixedWidth(e->size().width());
 }
 
 void TimelineViewFrame::initListView()
 {
-    m_listView = new ThumbnailListView();
-    m_listView->setContextMenuPolicy(Qt::CustomContextMenu);
-    m_listView->setIconSize(m_iconSize);
-    m_listView->setModel( &m_standardModel );
+    m_view = new ThumbnailListView();
+    m_view->setContextMenuPolicy(Qt::CustomContextMenu);
+    m_view->setIconSize(m_iconSize);
+    m_view->setModel( &m_model );
     if (m_multiselection) {
-        m_listView->setSelectionMode(QAbstractItemView::MultiSelection);
+        m_view->setSelectionMode(QAbstractItemView::MultiSelection);
     }
     else {
-        m_listView->setSelectionMode(QAbstractItemView::SingleSelection);
+        m_view->setSelectionMode(QAbstractItemView::SingleSelection);
     }
 
-    connect(m_listView, &ThumbnailListView::clicked,
+    connect(m_view, &ThumbnailListView::clicked,
             this, &TimelineViewFrame::clicked);
-    connect(m_listView, &ThumbnailListView::mousePress,
+    connect(m_view, &ThumbnailListView::mousePress,
             this, &TimelineViewFrame::mousePress);
-    connect(m_listView, &ThumbnailListView::doubleClicked,
+    connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         emit m_sManager->viewImage(index.data(Qt::UserRole).toString());
     });
-    connect(m_listView, &ThumbnailListView::customContextMenuRequested,
+    connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, &TimelineViewFrame::customContextMenuRequested);
 
     // Ddd data
@@ -128,25 +127,10 @@ QPixmap TimelineViewFrame::generateSelectedThumanail(const QPixmap &pixmap)
     }
 }
 
-QPixmap TimelineViewFrame::increaseThumbnail(const QPixmap &pixmap)
-{
-    QSize targetSize;
-    if (pixmap.width() > pixmap.height()) {
-        targetSize = QSize(THUMBNAIL_MAX_SCALE_SIZE,
-                           (double)THUMBNAIL_MAX_SCALE_SIZE / pixmap.width() *
-                           pixmap.height());
-    }
-    else {
-        targetSize = QSize((double)THUMBNAIL_MAX_SCALE_SIZE / pixmap.height() *
-                           pixmap.width(), THUMBNAIL_MAX_SCALE_SIZE);
-    }
-    return pixmap.scaled(targetSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-}
-
 void TimelineViewFrame::updateThumbnail(const QString &name)
 {
-    for (int i = 0; i < m_standardModel.rowCount(); i ++) {
-        if (m_standardModel.item(i, 0)->toolTip() == name) {
+    for (int i = 0; i < m_model.rowCount(); i ++) {
+        if (m_model.item(i, 0)->toolTip() == name) {
             DatabaseManager::ImageInfo info =
                     m_dbManager->getImageInfoByName(name);
             const QPixmap p = utils::image::getThumbnail(info.path);
@@ -154,10 +138,10 @@ void TimelineViewFrame::updateThumbnail(const QString &name)
             m_dbManager->updateImageInfo(info);
 
             QIcon icon;
-            QPixmap thumbnail = increaseThumbnail(p);
+            QPixmap thumbnail = m_view->increaseThumbnail(p);
             icon.addPixmap(thumbnail, QIcon::Normal);
             icon.addPixmap(generateSelectedThumanail(thumbnail), QIcon::Selected);
-            m_standardModel.item(i, 0)->setIcon(icon);
+            m_model.item(i, 0)->setIcon(icon);
             return;
         }
     }
@@ -165,12 +149,12 @@ void TimelineViewFrame::updateThumbnail(const QString &name)
 
 QSize TimelineViewFrame::iconSize() const
 {
-    return m_listView->iconSize();
+    return m_view->iconSize();
 }
 
 void TimelineViewFrame::setIconSize(const QSize &iconSize)
 {
-    m_listView->setIconSize(iconSize);
+    m_view->setIconSize(iconSize);
 }
 
 void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
@@ -178,20 +162,20 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     QStandardItem *item = new QStandardItem();
     item->setData(info.path, Qt::UserRole);
     QIcon icon;
-    QPixmap thumbnail = increaseThumbnail(info.thumbnail);
+    QPixmap thumbnail = m_view->increaseThumbnail(info.thumbnail);
     icon.addPixmap(thumbnail, QIcon::Normal);
     icon.addPixmap(generateSelectedThumanail(thumbnail), QIcon::Selected);
     item->setIcon(icon);
     item->setToolTip(info.name);
 
-    m_standardModel.setItem(m_standardModel.rowCount(), 0, item);
+    m_model.setItem(m_model.rowCount(), 0, item);
 }
 
 bool TimelineViewFrame::removeItem(const QString &name)
 {
-    for (int i = 0; i < m_standardModel.rowCount(); i ++) {
-        if (m_standardModel.item(i, 0)->toolTip() == name) {
-            m_standardModel.removeRow(i);
+    for (int i = 0; i < m_model.rowCount(); i ++) {
+        if (m_model.item(i, 0)->toolTip() == name) {
+            m_model.removeRow(i);
             return true;
         }
     }
@@ -201,7 +185,7 @@ bool TimelineViewFrame::removeItem(const QString &name)
 
 void TimelineViewFrame::clearSelection() const
 {
-    m_listView->selectionModel()->clearSelection();
+    m_view->selectionModel()->clearSelection();
 }
 
 /*!
@@ -212,7 +196,7 @@ void TimelineViewFrame::clearSelection() const
 QMap<QString, QString> TimelineViewFrame::selectedImages() const
 {
     QMap<QString, QString> images;
-    for (QModelIndex index : m_listView->selectionModel()->selectedIndexes()) {
+    for (QModelIndex index : m_view->selectionModel()->selectedIndexes()) {
         QString path = index.data(Qt::UserRole).toString();
         images.insert(QFileInfo(path).fileName(),
                       index.data(Qt::UserRole).toString());
@@ -228,15 +212,15 @@ QString TimelineViewFrame::timeline() const
 
 bool TimelineViewFrame::isEmpty() const
 {
-    return m_standardModel.rowCount() == 0;
+    return m_model.rowCount() == 0;
 }
 
 bool TimelineViewFrame::contain(const QModelIndex &index) const
 {
-    return index.model() == &m_standardModel;
+    return index.model() == &m_model;
 }
 
 QSize TimelineViewFrame::viewSize() const
 {
-    return m_listView->childrenRect().size();
+    return m_view->childrenRect().size();
 }

@@ -98,8 +98,10 @@ void TimelineImageView::initSliderFrame()
 {
     m_sliderFrame = new SliderFrame(this);
     connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
-        if (m_sliderFrame->isVisible() && m_sliderFrame->pressed()) {
-            verticalScrollBar()->setValue((1 - perc) * (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
+        if (m_sliderFrame->isVisible()) {
+            if (m_sliderFrame->pressed()) {
+                verticalScrollBar()->setValue((1 - perc) * (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
+            }
             QString month = currentMonth();
             m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
         }
