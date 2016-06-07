@@ -32,6 +32,7 @@ ImagesView::ImagesView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     updateMenuContents();
+    installEventFilter(this);
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ImagesView::onMenuItemClicked);
 }
@@ -286,6 +287,18 @@ int ImagesView::getMinContentsWidth()
 QString ImagesView::getCurrentAlbum() const
 {
     return m_currentAlbum;
+}
+
+bool ImagesView::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_UNUSED(obj)
+    if (e->type() == QEvent::Hide) {
+        m_model.clear();
+    }
+    else if (e->type() == QEvent::Show) {
+        updateView();
+    }
+    return false;
 }
 
 QSize ImagesView::iconSize() const

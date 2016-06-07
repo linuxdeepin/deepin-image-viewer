@@ -5,6 +5,7 @@
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
 #include <math.h>
+#include <QEvent>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QDebug>
@@ -44,6 +45,19 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     }, Qt::QueuedConnection);
     connect(SignalManager::instance(), &SignalManager::imageRemoved,
             this, &TimelineImageView::removeImage);
+    installEventFilter(this);
+}
+
+/*!
+ * \brief TimelineImageView::clearImages
+ * Destroy all frame and images to save memory.
+ */
+void TimelineImageView::clearImages()
+{
+    for (TimelineViewFrame * frame : m_frames.values()) {
+        delete frame;
+    }
+    m_frames.clear();
 }
 
 void TimelineImageView::clearSelection()
@@ -61,6 +75,11 @@ void TimelineImageView::setIconSize(const QSize &iconSize)
 
     m_iconSize = iconSize;
     updateContentRect();
+}
+
+bool TimelineImageView::isEmpty() const
+{
+    return m_frames.isEmpty();
 }
 
 /*!
@@ -140,11 +159,30 @@ void TimelineImageView::initContents()
 
 void TimelineImageView::insertReadyFrames()
 {
+    if (! isVisible()) {
+        return;
+    }
+
     // Read all timelines for initialization
     QStringList timelines = DatabaseManager::instance()->getTimeLineList(m_ascending);
     for (QString timeline : timelines) {
         inserFrame(timeline, m_multiSelection);
     }
+}
+
+bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_UNUSED(obj)
+    if (e->type() == QEvent::Hide) {
+        // Make sure the other module is ready(eg.view)
+        QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
+    }
+    else if (e->type() == QEvent::Show) {
+        if (m_frames.isEmpty()) {
+            insertReadyFrames();
+        }
+    }
+    return false;
 }
 
 template <typename T>

@@ -18,14 +18,17 @@ public:
     explicit TimelineImageView(bool multiselection = false, QWidget *parent = 0);
     void clearSelection();
     void setIconSize(const QSize &iconSize);
+    bool isEmpty() const;
     QMap<QString, QString> selectedImages() const;
     QString currentMonth();
 
 public slots:
     void insertReadyFrames();
+    void clearImages();
 
 protected:
-    void resizeEvent(QResizeEvent *e);
+    bool eventFilter(QObject *obj, QEvent *e) override;
+    void resizeEvent(QResizeEvent *e) override;
 
 private:
     void initSliderFrame();

@@ -30,6 +30,7 @@ public:
     QString getCurrentAlbum() const;
 
 protected:
+    bool eventFilter(QObject *obj, QEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
     void keyReleaseEvent(QKeyEvent *e) override;

@@ -71,7 +71,8 @@ void TimelineViewFrame::initListView()
             this, &TimelineViewFrame::mousePress);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
-        emit m_sManager->viewImage(index.data(Qt::UserRole).toString());
+        const QString path = index.data(Qt::UserRole).toString();
+        emit SignalManager::instance()->viewImage(path);
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, &TimelineViewFrame::customContextMenuRequested);
@@ -164,7 +165,8 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     QIcon icon;
     QPixmap thumbnail = m_view->increaseThumbnail(info.thumbnail);
     icon.addPixmap(thumbnail, QIcon::Normal);
-    icon.addPixmap(generateSelectedThumanail(thumbnail), QIcon::Selected);
+    if (m_multiselection)
+        icon.addPixmap(generateSelectedThumanail(thumbnail), QIcon::Selected);
     item->setIcon(icon);
     item->setToolTip(info.name);
 

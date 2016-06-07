@@ -56,6 +56,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
     updateMenuContent();
+    installEventFilter(this);
 }
 
 void ViewPanel::initConnect() {
@@ -72,8 +73,6 @@ void ViewPanel::initConnect() {
             showToolbar(true);
             showToolbar(false);
         }
-    });
-    connect(m_sManager, &SignalManager::gotoPanel, [this](){
         m_slide->stop();
     });
     connect(m_sManager, &SignalManager::viewImage,
@@ -313,6 +312,16 @@ QWidget *ViewPanel::extensionPanelContent()
     l->addWidget(m_info);
 
     return w;
+}
+
+bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_UNUSED(obj)
+    if (e->type() == QEvent::Hide) {
+        m_view->setImage("");
+        m_slide->setImagePaths(QStringList());
+    }
+    return false;
 }
 
 void ViewPanel::resizeEvent(QResizeEvent *e)

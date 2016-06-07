@@ -47,7 +47,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
     if (m_targetAlbum.isEmpty()) {
         m_slider = new Dtk::Widget::DSlider(Qt::Horizontal);
         m_slider->setMinimum(0);
-        m_slider->setMaximum(9);
+        m_slider->setMaximum(3);
         m_slider->setValue(0);
         m_slider->setFixedWidth(120);
         connect(m_slider, &Dtk::Widget::DSlider::valueChanged, this, [=] (int multiple) {
@@ -80,7 +80,6 @@ QWidget *TimelinePanel::toolbarBottomContent()
         connect(cancelButton, &QPushButton::clicked, this, [=] {
             m_targetAlbum = "";
             m_mainStackWidget->setCurrentWidget(m_imagesView);
-            m_selectionView->clearSelection();
             emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
             emit m_sManager->gotoAlbumPanel();
         });
@@ -99,7 +98,6 @@ QWidget *TimelinePanel::toolbarBottomContent()
 
             m_targetAlbum = "";
             m_mainStackWidget->setCurrentWidget(m_imagesView);
-            m_selectionView->clearSelection();
             emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
             emit m_sManager->gotoAlbumPanel();
         });
@@ -240,18 +238,12 @@ void TimelinePanel::initImagesView()
 {
     m_imagesView = new TimelineImageView;
     m_imagesView->setAcceptDrops(true);
-
-    // To make MainWindow load faster
-    QTimer::singleShot(100, m_imagesView, SLOT(insertReadyFrames()));
-//    QMetaObject::invokeMethod(m_imagesView, "insertReadyFrames",
-//                              Qt::QueuedConnection);
 }
 
 void TimelinePanel::initSelectionView()
 {
     m_selectionView = new TimelineImageView(true);
     m_selectionView->setAcceptDrops(false);
-    QTimer::singleShot(100, m_selectionView, SLOT(insertReadyFrames()));
 }
 
 void TimelinePanel::initStyleSheet()
@@ -298,7 +290,6 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
 
     const QString cname = images.keys().first();
     const QString cpath = images.values().first();
-    const DatabaseManager::ImageInfo info = m_dbManager->getImageInfoByName(cname);
     switch (MenuItemId(menuId)) {
     case IdView:
         m_sManager->viewImage(cpath);

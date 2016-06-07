@@ -31,6 +31,7 @@ signals:
     void imageChanged(const QString &name, const QString &path);
 
 protected:
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
