@@ -23,7 +23,8 @@ void ScrollBar::wheelEvent(QWheelEvent *event)
 void ScrollBar::onValueChange(int value)
 {
     if (m_oldValue != 0) {
-        animation->setStartValue(m_oldValue);
+        int cv = animation->currentValue().toInt();
+        animation->setStartValue(cv != 0 ? cv : m_oldValue);
         animation->setEndValue(value);
         m_oldValue = 0;
         animation->start();
