@@ -7,7 +7,7 @@
 
 namespace {
 
-const int ITEM_SPACING = 0;  // 4
+const int ITEM_SPACING = 4;
 const int THUMBNAIL_MAX_SCALE_SIZE = 384;
 
 }  //namespace

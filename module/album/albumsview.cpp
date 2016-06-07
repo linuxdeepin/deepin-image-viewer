@@ -3,6 +3,7 @@
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
 #include "controller/exporter.h"
+#include "controller/importer.h"
 #include "utils/baseutils.h"
 #include <QDebug>
 #include <QBuffer>
@@ -261,7 +262,7 @@ void AlbumsView::onMenuItemClicked(int menuId)
     }
     case IdDelete:
         if (albumName != MY_FAVORITES_ALBUM
-                && albumName != "Recent imported") {
+                && albumName != RECENT_IMPORTED_ALBUM) {
             m_dbManager->removeAlbum(albumName);
             m_itemModel->removeRow(currentIndex().row());
         }
@@ -288,6 +289,10 @@ void AlbumsView::createAlbum()
 
 void AlbumsView::updateView()
 {
+    // DO NOT update during import
+    if (Importer::instance()->getProgress() != 1)
+        return;
+
     m_itemModel->clear();
 
     // Make those special album always show at front
