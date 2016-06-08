@@ -3,6 +3,7 @@
 
 #include "sliderframe.h"
 #include "toptimelinetips.h"
+#include "timelineviewframe.h"
 #include <QMap>
 #include <QWidget>
 #include <QScrollArea>
@@ -10,7 +11,6 @@
 #include <QItemSelectionModel>
 
 class ScrollBar;
-class TimelineViewFrame;
 class TimelineImageView : public QScrollArea
 {
     Q_OBJECT
@@ -25,6 +25,7 @@ public:
 public slots:
     void insertReadyFrames();
     void clearImages();
+    void onImageInserted(const DatabaseManager::ImageInfo &info);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) override;

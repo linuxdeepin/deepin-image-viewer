@@ -18,6 +18,7 @@ public:
     explicit TimelineViewFrame(const QString &timeline,
                                bool multiselection,
                                QWidget *parent);
+    ~TimelineViewFrame();
     void insertItem(const DatabaseManager::ImageInfo &info);
     bool removeItem(const QString &name);
     void clearSelection() const;

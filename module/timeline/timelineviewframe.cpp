@@ -46,6 +46,11 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline,
             this, &TimelineViewFrame::updateThumbnail);
 }
 
+TimelineViewFrame::~TimelineViewFrame()
+{
+
+}
+
 void TimelineViewFrame::resizeEvent(QResizeEvent *e)
 {
     QFrame::resizeEvent(e);

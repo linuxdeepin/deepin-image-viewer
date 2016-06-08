@@ -1,5 +1,4 @@
 #include "timelineimageview.h"
-#include "timelineviewframe.h"
 #include "widgets/scrollbar.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
@@ -33,16 +32,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
     // Watching import thread
     connect(SignalManager::instance(), &SignalManager::imageInserted,
-            this, [=] (const DatabaseManager::ImageInfo &info) {
-        const QString timeLine = utils::base::timeToString(info.time);
-        // TimeLine frame not exist, create one
-        if (m_frames.keys().indexOf(timeLine) == -1) {
-            inserFrame(timeLine);
-        }
-        else {
-            m_frames.value(timeLine)->insertItem(info);
-        }
-    }, Qt::QueuedConnection);
+            this, &TimelineImageView::onImageInserted, Qt::QueuedConnection);
     connect(SignalManager::instance(), &SignalManager::imageRemoved,
             this, &TimelineImageView::removeImage);
     installEventFilter(this);
@@ -55,9 +45,25 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
 void TimelineImageView::clearImages()
 {
     for (TimelineViewFrame * frame : m_frames.values()) {
+        m_contentLayout->removeWidget(frame);
         delete frame;
     }
     m_frames.clear();
+}
+
+void TimelineImageView::onImageInserted(const DatabaseManager::ImageInfo &info)
+{
+    const QString timeLine = utils::base::timeToString(info.time);
+    // TimeLine frame not exist, create one
+    // Note: use m_frames.keys().indexOf(timeLine) will cause[QObject::connect:
+    //       Cannot queue arguments of type 'QList<QPersistentModelIndex>']
+    //       and I do not know why.
+    if (m_frames[timeLine] == nullptr) {
+        inserFrame(timeLine);
+    }
+    else {
+        m_frames.value(timeLine)->insertItem(info);
+    }
 }
 
 void TimelineImageView::clearSelection()
