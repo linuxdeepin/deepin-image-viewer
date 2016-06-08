@@ -14,6 +14,7 @@
         <file>resources/images/timeline_active.png</file>
         <file>resources/images/timeline_hover.png</file>
         <file>resources/images/timeline_normal.png</file>
+        <file>resources/images/timeline_press.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/timeline.qss</file>

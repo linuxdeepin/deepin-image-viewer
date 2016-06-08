@@ -22,6 +22,7 @@ const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 AlbumsView::AlbumsView(QWidget *parent)
     : QListView(parent),
       m_dbManager(DatabaseManager::instance()),
+      m_sManager(SignalManager::instance()),
       m_popupMenu(new PopupMenuManager(this))
 {
     setMouseTracking(true);
@@ -31,8 +32,8 @@ AlbumsView::AlbumsView(QWidget *parent)
         closePersistentEditor(index);
     });
     setItemDelegate(delegate);
-    m_itemModel = new QStandardItemModel(this);
-    setModel(m_itemModel);
+    m_model = new QStandardItemModel(this);
+    setModel(m_model);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -44,8 +45,10 @@ AlbumsView::AlbumsView(QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setDragEnabled(false);
 
+    installEventFilter(this);
     // Aways has Favorites album
     m_dbManager->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
+    m_dbManager->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
 
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
@@ -56,6 +59,10 @@ AlbumsView::AlbumsView(QWidget *parent)
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &AlbumsView::onMenuItemClicked);
+    connect(m_sManager, &SignalManager::imageCountChanged,
+            this, &AlbumsView::updateView);
+    connect(m_sManager, &SignalManager::albumChanged,
+            this, &AlbumsView::updateView);
 }
 
 QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
@@ -93,12 +100,12 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     QStandardItem *item = new QStandardItem();
     QList<QStandardItem *> items;
     items.append(item);
-    m_itemModel->appendRow(items);
+    m_model->appendRow(items);
 
-    QModelIndex index = m_itemModel->index(m_itemModel->rowCount() - 1, 0);
+    QModelIndex index = m_model->index(m_model->rowCount() - 1, 0);
     //    m_itemModel->setData(index, QVariant(info.name), Qt::EditRole);
-    m_itemModel->setData(index, QVariant(datas), Qt::DisplayRole);
-    m_itemModel->setData(index, QVariant(ITEM_DEFAULT_SIZE), Qt::SizeHintRole);
+    m_model->setData(index, QVariant(datas), Qt::DisplayRole);
+    m_model->setData(index, QVariant(ITEM_DEFAULT_SIZE), Qt::SizeHintRole);
 
     return index;
 }
@@ -111,10 +118,22 @@ QSize AlbumsView::itemSize() const
 void AlbumsView::setItemSize(const QSize &itemSize)
 {
     m_itemSize = itemSize;
-    for (int column = 0; column < m_itemModel->columnCount(); column ++) {
-        QModelIndex index = m_itemModel->index(0, column, QModelIndex());
-        m_itemModel->setData(index, QVariant(itemSize), Qt::SizeHintRole);
+    for (int column = 0; column < m_model->columnCount(); column ++) {
+        QModelIndex index = m_model->index(0, column, QModelIndex());
+        m_model->setData(index, QVariant(itemSize), Qt::SizeHintRole);
     }
+}
+
+bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_UNUSED(obj)
+    if (e->type() == QEvent::Hide) {
+        m_model->clear();
+    }
+    else if (e->type() == QEvent::Show) {
+        updateView();
+    }
+    return false;
 }
 
 void AlbumsView::mousePressEvent(QMouseEvent *e)
@@ -241,8 +260,8 @@ void AlbumsView::onMenuItemClicked(int menuId)
         const QList<DatabaseManager::ImageInfo> infos =
                 m_dbManager->getImageInfosByAlbum(albumName);
         if (! infos.isEmpty()) {
-            emit SignalManager::instance()->viewImage(infos.first().path);
-            emit SignalManager::instance()->startSlideShow(infos.first().path);
+            emit m_sManager->viewImage(infos.first().path);
+            emit m_sManager->startSlideShow(infos.first().path);
         }
         break;
     }
@@ -264,7 +283,7 @@ void AlbumsView::onMenuItemClicked(int menuId)
         if (albumName != MY_FAVORITES_ALBUM
                 && albumName != RECENT_IMPORTED_ALBUM) {
             m_dbManager->removeAlbum(albumName);
-            m_itemModel->removeRow(currentIndex().row());
+            m_model->removeRow(currentIndex().row());
         }
         break;
     case IdAlbumInfo:
@@ -290,10 +309,10 @@ void AlbumsView::createAlbum()
 void AlbumsView::updateView()
 {
     // DO NOT update during import
-    if (Importer::instance()->getProgress() != 1)
+    if (Importer::instance()->getProgress() != 1 || ! isVisible())
         return;
 
-    m_itemModel->clear();
+    m_model->clear();
 
     // Make those special album always show at front
     addAlbum(m_dbManager->getAlbumInfo(MY_FAVORITES_ALBUM));

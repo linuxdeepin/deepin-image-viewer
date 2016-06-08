@@ -8,6 +8,7 @@
 #include <QStandardItemModel>
 
 class PopupMenuManager;
+class SignalManager;
 class AlbumsView : public QListView
 {
     Q_OBJECT
@@ -24,6 +25,7 @@ signals:
     void openAlbum(const QString &album);
 
 protected:
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 
 private:
@@ -52,9 +54,10 @@ private:
     void onDoubleClicked(const QModelIndex &index);
 
 private:
-    QStandardItemModel *m_itemModel;
+    QStandardItemModel *m_model;
     QSize m_itemSize;
     DatabaseManager *m_dbManager;
+    SignalManager *m_sManager;
     PopupMenuManager *m_popupMenu;
 };
 

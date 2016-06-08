@@ -131,7 +131,7 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
 
     QLabel *timelineButton = new QLabel();
 
-    timelineButton->setPixmap(QPixmap(":/images/resources/images/timeline_active.png"));
+    timelineButton->setPixmap(QPixmap(":/images/resources/images/timeline_press.png"));
 
     ImageButton *albumButton = new ImageButton();
     albumButton->setNormalPic(":/images/resources/images/album_normal.png");

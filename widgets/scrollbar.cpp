@@ -6,8 +6,8 @@ ScrollBar::ScrollBar(QWidget *parent)
 {
     connect(this, &ScrollBar::valueChanged, this, &ScrollBar::onValueChange);
     animation = new QPropertyAnimation(this, "value");
-    animation->setDuration(500);
-    animation->setEasingCurve(QEasingCurve::OutQuad);
+    animation->setDuration(600);
+    animation->setEasingCurve(QEasingCurve::OutCubic);
 }
 
 void ScrollBar::wheelEvent(QWheelEvent *event)
