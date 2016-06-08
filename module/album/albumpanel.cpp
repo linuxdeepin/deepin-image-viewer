@@ -86,6 +86,8 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 
     if (m_mainStackWidget->currentWidget() == m_imagesView) {
         ImageButton *returnButton = new ImageButton();
+        returnButton->setTooltipVisible(true);
+
         returnButton->setNormalPic(":/images/resources/images/return_normal.png");
         returnButton->setHoverPic(":/images/resources/images/return_hover.png");
         returnButton->setPressPic(":/images/resources/images/return_press.png");
@@ -96,13 +98,8 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
             emit m_signalManager->gotoPanel(this);
         });
 
-        QLabel *rt = new QLabel();
-        rt->setObjectName("ReturnLabel");
-        rt->setText(tr("Return"));
-
         layout->addWidget(icon);
         layout->addWidget(returnButton);
-        layout->addWidget(rt);
         layout->addStretch(1);
     }
     else {

@@ -40,6 +40,14 @@ void ImageButton::initStyleSheet()
     }
 }
 
+void ImageButton::setTooltipVisible(bool visible){
+    m_tooltipVisiable = visible;
+}
+
+bool ImageButton::tooltipVisible() {
+    return m_tooltipVisiable;
+}
+
 void ImageButton::showTooltip(const QPoint &gPos)
 {
     if (m_tooltipVisiable) {

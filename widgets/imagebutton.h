@@ -13,7 +13,8 @@ class ImageButton : public DImageButton
     Q_OBJECT
 public:
     explicit ImageButton(QWidget *parent = 0);
-
+    void setTooltipVisible(bool visible);
+    bool tooltipVisible();
 signals:
     void mouseLeave();
 

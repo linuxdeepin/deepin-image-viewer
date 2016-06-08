@@ -710,7 +710,6 @@ void ViewPanel::initSlider() {
 
     connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc) {
         m_view->setScaleValue(perc*950/100);
-        qDebug() << "rect size:" << this->rect() << this->rect().bottomRight();
 
         m_imageSlider->move(this->rect().right() - m_imageSlider->width() - 20,
                             this->rect().center().y() - m_imageSlider->height()/2);
