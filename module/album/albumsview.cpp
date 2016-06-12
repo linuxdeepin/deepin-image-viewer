@@ -207,6 +207,8 @@ QString AlbumsView::createMenuContent(const QModelIndex &index)
         items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
                                     false, "F5"));
         items.append(createMenuItem(IdSeparator, "", true));
+        if (! isSpecial)
+            items.append(createMenuItem(IdRename, tr("Rename")));
         items.append(createMenuItem(IdExport, tr("Export")));
         items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
         if (! isSpecial)
@@ -263,6 +265,9 @@ void AlbumsView::onMenuItemClicked(int menuId)
         }
         break;
     }
+    case IdRename:
+        openPersistentEditor(this->currentIndex());
+        break;
     case IdExport:
         Exporter::instance()->exportAlbum(albumName);
         break;

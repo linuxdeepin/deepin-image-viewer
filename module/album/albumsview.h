@@ -33,6 +33,7 @@ private:
         IdCreate,
         IdView,
         IdStartSlideShow,
+        IdRename,
         IdExport,
         IdCopy,
         IdDelete,
