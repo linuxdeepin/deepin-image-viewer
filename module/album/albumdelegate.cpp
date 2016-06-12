@@ -287,9 +287,25 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     }
 
     // Draw year label
-    const QString beginStr = beginTime.toString("yyyy");
-    const QString endStr = endTime.toString("yyyy");
-    const QString dateStr = beginStr + "-" + endStr;
+    QString beginStr;
+    QString endStr;
+    QString dateStr;
+    if (beginTime.isValid() && endTime.isValid()) {
+        beginStr = beginTime.toString("yyyy");
+        endStr = endTime.toString("yyyy");
+    }
+    else if (beginTime.isValid() && ! endTime.isValid()) {
+        beginStr = beginTime.toString("yyyy");
+        endStr = beginStr;
+    }
+    else if (! beginTime.isValid() && endTime.isValid()) {
+        endStr = endTime.toString("yyyy");
+        beginStr = endStr;
+    }
+
+    if (! beginStr.isEmpty())
+        dateStr = beginStr + "-" + endStr;
+
     QFont font;
     font.setPixelSize(DATELABEL_FONT_SIZE);
     QFontMetrics fm(font);
