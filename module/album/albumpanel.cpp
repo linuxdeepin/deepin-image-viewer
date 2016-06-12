@@ -64,10 +64,9 @@ QWidget *AlbumPanel::toolbarBottomContent()
     });
 
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
-    layout->setContentsMargins(13, 0, 5, 0);
-    layout->setSpacing(0);
-    layout->addWidget(m_countLabel, 1, Qt::AlignLeft);
+    layout->setContentsMargins(5, 0, 5, 0);
     layout->addStretch(1);
+    layout->addWidget(m_countLabel, 1, Qt::AlignCenter);
     layout->addWidget(m_slider, 1, Qt::AlignRight);
 
     return tBottomContent;
