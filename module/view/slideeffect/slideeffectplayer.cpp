@@ -70,7 +70,7 @@ bool SlideEffectPlayer::startNext()
     if (m_paths.isEmpty())
         return false;
     if (m_current+1 == m_paths.constEnd()) {
-        return false;
+        m_current = m_paths.constBegin();
     }
     m_effect = SlideEffect::create();
     m_effect->setSize(QSize(m_w, m_h));

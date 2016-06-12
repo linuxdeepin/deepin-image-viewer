@@ -454,7 +454,7 @@ bool ViewPanel::showPrevious()
     if (m_infos.isEmpty())
         return false;
     if (m_current == m_infos.cbegin())
-        return false;
+        m_current = m_infos.cend();
     --m_current;
     openImage(m_current->path, m_fromFileManager);
     return true;
@@ -466,12 +466,11 @@ bool ViewPanel::showNext()
     if (m_infos.isEmpty())
         return false;
     if (m_current == m_infos.cend())
-        return false;
+        m_current = m_infos.cbegin();
     ++m_current;
-    if (m_current == m_infos.cend()) {
-        --m_current;
-        return false;
-    }
+    if (m_current == m_infos.cend())
+        m_current = m_infos.cbegin();
+
     openImage(m_current->path, m_fromFileManager);
     return true;
 }
