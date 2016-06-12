@@ -175,6 +175,7 @@ void ViewPanel::toggleSlideShow()
 {
     if (m_slide->isRunning()) {
         m_slide->stop();
+        toggleFullScreen();
         showToolbar(true);
         showToolbar(false);
         return;
@@ -186,6 +187,7 @@ void ViewPanel::toggleSlideShow()
     for (const DatabaseManager::ImageInfo& info : m_infos) {
         paths << info.path;
     }
+    toggleFullScreen();
     m_slide->setImagePaths(paths);
     m_slide->setCurrentImage(m_current->path);
     m_slide->start();
