@@ -142,7 +142,10 @@ QString ImagesView::createMenuContent()
 
     items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Delete"));
+    items.append(createMenuItem(IdMoveToTrash, tr("Move to trash"), false,
+                                "Delete"));
+    items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
+                                false));
 
     items.append(createMenuItem(IdSeparator, "", true));
     items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
@@ -231,8 +234,13 @@ void ImagesView::onMenuItemClicked(int menuId)
     case IdCopy:
         utils::base::copyImageToClipboard(QStringList(cpath));
         break;
-    case IdDelete:
+    case IdMoveToTrash:
+        m_dbManager->removeImageFromAlbum(m_currentAlbum, cname);
         m_dbManager->removeImage(cname);
+        utils::base::trashFile(cpath);
+        break;
+    case IdRemoveFromAlbum:
+        m_dbManager->removeImageFromAlbum(m_currentAlbum, cname);
         break;
     case IdEdit:
         m_sManager->editImage(cpath);

@@ -314,10 +314,15 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     case IdCopy:
         utils::base::copyImageToClipboard(images.values());
         break;
-    case IdDelete:
+    case IdMoveToTrash:
         for (QString name : images.keys()) {
             m_dbManager->removeImage(name);
             utils::base::trashFile(images[name]);
+        }
+        break;
+    case IdRemoveFromTimeline:
+        for (QString name : images.keys()) {
+            m_dbManager->removeImage(name);
         }
         break;
 //    case IdEdit:
@@ -383,7 +388,10 @@ QString TimelinePanel::createMenuContent()
 
     items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Delete"));
+    items.append(createMenuItem(IdMoveToTrash, tr("Move to trash"), false,
+                                "Delete"));
+    items.append(createMenuItem(IdRemoveFromTimeline,
+                                tr("Remove from timeline")));
 
     items.append(createMenuItem(IdSeparator, "", true));
 //    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));

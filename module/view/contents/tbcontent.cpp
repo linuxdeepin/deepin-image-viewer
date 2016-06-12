@@ -87,7 +87,7 @@ TBContent::TBContent(bool fromFileManager, QWidget *parent)
     btn->setNormalPic(":/images/resources/images/delete_normal.png");
     btn->setHoverPic(":/images/resources/images/delete_hover.png");
     btn->setPressPic(":/images/resources/images/delete_press.png");
-    btn->setToolTip(tr("Delete"));
+    btn->setToolTip(tr("Move to trash"));
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, this, &TBContent::removed);
 

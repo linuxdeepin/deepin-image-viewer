@@ -268,7 +268,11 @@ QWidget *ViewPanel::toolbarBottomContent()
     connect(tbc, &TBContent::showNext, this, &ViewPanel::showNext);
     connect(tbc, &TBContent::showPrevious, this, &ViewPanel::showPrevious);
     connect(tbc, &TBContent::toggleSlideShow, this, &ViewPanel::toggleSlideShow);
-    connect(tbc, &TBContent::removed, this, &ViewPanel::removeCurrentImage);
+    connect(tbc, &TBContent::removed, this, [=] {
+        dbManager()->removeImage(m_current->name);
+        utils::base::trashFile(m_current->path);
+        removeCurrentImage();
+    });
 
     return tbc;
 }
@@ -453,14 +457,7 @@ bool ViewPanel::showNext()
 
 void ViewPanel::removeCurrentImage()
 {
-    const QString name = m_view->imageName();
-    if (! m_fromFileManager && dbManager()->imageExist(name)) {
-        dbManager()->removeImage(name);
-    }
-    else {  // If not exist in db, it must from FileManager
-        utils::base::trashFile(m_view->imagePath());
-    }
-
+    const QString name = m_current->name;
     for (int i = 0; i < m_infos.length(); i ++) {
         if (m_infos.at(i).name == name) {
             m_infos.removeAt(i);
@@ -521,10 +518,13 @@ QString ViewPanel::createMenuContent()
 
     items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdDelete, tr("Delete"), false, "Delete"));
+    items.append(createMenuItem(IdMoveToTrash, tr("Move to trash"), false,
+                                "Delete"));
+    items.append(createMenuItem(IdRemoveFromTimeline, tr("Remove from timeline"),
+                                false));
     if (! m_albumName.isEmpty()) {
         items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
-                                    false, "Shift+Delete"));
+                                    false));
     }
 
     items.append(createMenuItem(IdSeparator, "", true));
@@ -648,13 +648,19 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdCopy:
-        utils::base::copyImageToClipboard(QStringList("m_current->path"));
+        utils::base::copyImageToClipboard(QStringList(m_current->path));
         break;
-    case IdDelete:
+    case IdMoveToTrash:
+        dbManager()->removeImage(m_current->name);
+        utils::base::trashFile(m_current->path);
         removeCurrentImage();
         break;
+    case IdRemoveFromTimeline:
+        dbManager()->removeImage(m_current->name);
+        removeCurrentImage();
     case IdRemoveFromAlbum:
         dbManager()->removeImageFromAlbum(m_albumName, m_current->name);
+        m_albumName = "";
         break;
     case IdEdit:
         m_sManager->editImage(m_view->imagePath());
