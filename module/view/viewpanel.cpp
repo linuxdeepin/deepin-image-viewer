@@ -279,12 +279,33 @@ QWidget *ViewPanel::toolbarBottomContent()
 
 QWidget *ViewPanel::toolbarTopLeftContent()
 {
-    TTLContent *ttlc = new TTLContent;
-    connect(ttlc, &TTLContent::backToMain, this, [=] {
+    TTLContent::ImageSource source;
+    if (m_fromFileManager) {
+        source = TTLContent::FromFileManager;
+    }
+    else if (m_albumName.isEmpty()) {
+        source = TTLContent::FromTimeline;
+    }
+    else {
+        source = TTLContent::FromAlbum;
+    }
+    TTLContent *ttlc = new TTLContent(source);
+    connect(ttlc, &TTLContent::clicked, this, [=] (TTLContent::ImageSource s) {
         m_slide->stop();
         window()->showNormal();
-        // Use dbus interface to make sure it will always back to the main process
-        DIVDBusController().backToMainWindow();
+        switch (s) {
+        case TTLContent::FromFileManager:
+        case TTLContent::FromTimeline:
+            // Use dbus interface to make sure it will always back to the
+            // main process
+            DIVDBusController().backToMainWindow();
+            break;
+        case TTLContent::FromAlbum:
+            emit m_sManager->gotoAlbumPanel(m_albumName);
+            break;
+        default:
+            break;
+        }
     });
     return ttlc;
 }

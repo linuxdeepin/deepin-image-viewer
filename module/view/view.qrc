@@ -48,6 +48,9 @@
         <file>resources/images/minus.png</file>
         <file>resources/images/rectangle.png</file>
         <file>resources/images/add.png</file>
+        <file>resources/images/return_hover.png</file>
+        <file>resources/images/return_normal.png</file>
+        <file>resources/images/return_press.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/view.qss</file>

@@ -77,9 +77,6 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
     tTopleftContent->setStyleSheet(this->styleSheet());
-    QLabel *icon = new QLabel;
-    // TODO update icon path
-    icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
 
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
     layout->setContentsMargins(8, 0, 0, 0);
@@ -98,11 +95,14 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
             emit m_signalManager->gotoPanel(this);
         });
 
-        layout->addWidget(icon);
         layout->addWidget(returnButton);
         layout->addStretch(1);
     }
     else {
+        QLabel *icon = new QLabel;
+        // TODO update icon path
+        icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
+
         layout->addWidget(icon);
         layout->addStretch(1);
     }
