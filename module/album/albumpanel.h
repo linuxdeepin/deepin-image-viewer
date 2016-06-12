@@ -10,8 +10,7 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 
-using namespace Dtk::Widget;
-
+class Slider;
 class AlbumPanel : public ModulePanel
 {
     Q_OBJECT
@@ -44,7 +43,7 @@ private:
 private:
     QString m_currentAlbum;
     QLabel *m_countLabel = NULL;
-    DSlider *m_slider = NULL;
+    Slider *m_slider;
 
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;

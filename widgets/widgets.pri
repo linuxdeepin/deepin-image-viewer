@@ -9,7 +9,8 @@ HEADERS += \
     $$PWD/processtooltip.h \
     $$PWD/bluredialog.h \
     $$PWD/scrollbar.h \
-    $$PWD/scaleslider.h
+    $$PWD/scaleslider.h \
+    $$PWD/slider.h
 
 SOURCES += \
     $$PWD/dwindowframe.cpp \
@@ -22,7 +23,8 @@ SOURCES += \
     $$PWD/processtooltip.cpp \
     $$PWD/bluredialog.cpp \
     $$PWD/scrollbar.cpp \
-    $$PWD/scaleslider.cpp
+    $$PWD/scaleslider.cpp \
+    $$PWD/slider.cpp
 
 RESOURCES += \
     $$PWD/widgets.qrc

@@ -6,11 +6,13 @@
         <file>resources/images/sub_menu_normal.png</file>
         <file>resources/images/failure_cross.png</file>
         <file>resources/images/success_tick.png</file>
+        <file>resources/images/slidder_handle.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/ThumbnailListView.qss</file>
         <file>resources/qss/Tooltip.qss</file>
         <file>resources/qss/ImageButton.qss</file>
         <file>resources/qss/BlureDialog.qss</file>
+        <file>resources/qss/Slider.qss</file>
     </qresource>
 </RCC>

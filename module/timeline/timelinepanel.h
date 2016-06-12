@@ -13,6 +13,7 @@
 #include <QJsonObject>
 
 class PopupMenuManager;
+class Slider;
 class TimelinePanel : public ModulePanel
 {
     Q_OBJECT
@@ -72,7 +73,7 @@ private:
 private:
     QString m_targetAlbum;  // For import images to an album
     QLabel *m_countLabel = NULL;
-    Dtk::Widget::DSlider *m_slider = NULL;
+    Slider *m_slider;
 
     PopupMenuManager *m_popupMenu;
     TimelineImageView *m_imagesView = NULL;

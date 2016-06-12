@@ -6,6 +6,7 @@
 #include "utils/imageutils.h"
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
+#include "widgets/slider.h"
 #include <QFileInfo>
 #include <QDropEvent>
 #include <QPushButton>
@@ -35,12 +36,12 @@ QWidget *AlbumPanel::toolbarBottomContent()
     QWidget *tBottomContent = new QWidget;
     tBottomContent->setStyleSheet(this->styleSheet());
 
-    m_slider = new DSlider(Qt::Horizontal);
+    m_slider = new Slider(Qt::Horizontal);
     m_slider->setMinimum(0);
     m_slider->setMaximum(9);
     m_slider->setValue(0);
     m_slider->setFixedWidth(120);
-    connect(m_slider, &DSlider::valueChanged, this, [=] (int multiple) {
+    connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
         int newSize = MIN_ICON_SIZE + multiple * 32;
         if (m_mainStackWidget->currentWidget() == m_imagesView) {
             m_imagesView->setIconSize(QSize(newSize, newSize));

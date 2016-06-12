@@ -6,6 +6,7 @@
 #include "controller/wallpapersetter.h"
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
+#include "widgets/slider.h"
 #include <QPushButton>
 #include <QFileDialog>
 #include <QMimeData>
@@ -45,12 +46,12 @@ QWidget *TimelinePanel::toolbarBottomContent()
     layout->setSpacing(0);
 
     if (m_targetAlbum.isEmpty()) {
-        m_slider = new Dtk::Widget::DSlider(Qt::Horizontal);
+        m_slider = new Slider(Qt::Horizontal);
         m_slider->setMinimum(0);
         m_slider->setMaximum(3);
         m_slider->setValue(0);
         m_slider->setFixedWidth(120);
-        connect(m_slider, &Dtk::Widget::DSlider::valueChanged, this, [=] (int multiple) {
+        connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
             qDebug() << "Change the view size to: X" << multiple;
             int newSize = MIN_ICON_SIZE + multiple * 32;
             m_imagesView->setIconSize(QSize(newSize, newSize));
