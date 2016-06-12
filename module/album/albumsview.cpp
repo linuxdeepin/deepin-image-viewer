@@ -61,8 +61,6 @@ AlbumsView::AlbumsView(QWidget *parent)
             this, &AlbumsView::onMenuItemClicked);
     connect(m_sManager, &SignalManager::imageCountChanged,
             this, &AlbumsView::updateView);
-    connect(m_sManager, &SignalManager::albumChanged,
-            this, &AlbumsView::updateView);
 }
 
 QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
@@ -300,9 +298,9 @@ void AlbumsView::onDoubleClicked(const QModelIndex &index)
 
 void AlbumsView::createAlbum()
 {
-    const QString newAlbumName = getNewAlbumName();
-    m_dbManager->insertImageIntoAlbum(newAlbumName, "", "");
-    QModelIndex index = addAlbum(m_dbManager->getAlbumInfo(newAlbumName));
+    const QString name = getNewAlbumName();
+    m_dbManager->insertImageIntoAlbum(name, "", "");
+    QModelIndex index = addAlbum(m_dbManager->getAlbumInfo(name));
     openPersistentEditor(index);
 }
 
