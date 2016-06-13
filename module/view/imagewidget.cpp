@@ -2,6 +2,8 @@
 #include <QPainter>
 #include <QtDebug>
 #include <QFileInfo>
+#include <QDesktopWidget>
+#include <QApplication>
 #include <QMouseEvent>
 #include "utils/imageutils.h"
 #include "controller/databasemanager.h"
@@ -195,9 +197,26 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 
 void ImageWidget::setFullScreen(QSize fullSize) {
     this->setFixedSize(fullSize);
+    m_imageOriginSize = m_image.size();
     m_image = m_image.scaled(fullSize, Qt::IgnoreAspectRatio,
                              Qt::SmoothTransformation);
     setImage(m_image);
+}
+
+void ImageWidget::resetImageSize() {
+    //TODO: the window's size need to read from QWidget::window()
+    //but the result may get the wrong size,
+    //because the size change from fullScreen is delay!
+
+    QSize origiWSize =  qApp->desktop()->size();
+    int origiw = origiWSize.width() * 0.8 < 700 ? 700 : origiWSize.width() * 0.8;
+    int origih = origiWSize.height() * 0.8 < 500 ? 500 : origiWSize.height() * 0.8;
+
+    this->setFixedSize(origiw, origih);
+    m_image = m_image.scaled(m_imageOriginSize, Qt::IgnoreAspectRatio,
+                             Qt::SmoothTransformation);
+    setImage(m_image);
+    resetTransform();
 }
 
 void ImageWidget::wheelEvent(QWheelEvent *event)

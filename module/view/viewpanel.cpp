@@ -436,6 +436,7 @@ void ViewPanel::toggleFullScreen()
         window()->showNormal();
         showToolbar(true);
         showToolbar(false);
+        m_view->resetImageSize();
     } else {
         // Full screen then hide bars because hide animation depends on height()
         window()->showFullScreen();
@@ -828,6 +829,7 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
 //    Q_EMIT m_sManager->hideTopToolbar();
 
     m_view->setImage(path);
+
     m_nav->setImage(m_view->image());
 
     if (m_info) {

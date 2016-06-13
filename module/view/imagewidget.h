@@ -22,7 +22,6 @@ public:
     QRect visibleImageRect() const;
     bool isWholeImageVisible() const;
     bool isMoving() const;
-
 Q_SIGNALS:
     void scaleValueChanged(qreal);
     void transformChanged(const QTransform&);
@@ -37,6 +36,7 @@ public Q_SLOTS:
     void flipX();
     void flipY();
     void setFullScreen(QSize fullSize);
+    void resetImageSize();
 protected:
     void timerEvent(QTimerEvent* e) override;
     void paintEvent(QPaintEvent *) override;
@@ -62,6 +62,7 @@ private:
     QPoint m_o_img, m_o_dev;
     QString m_path;
     QImage m_image;
+    QSize m_imageOriginSize = QSize();
     QPixmap m_pixmap;
     QTransform m_mat;
 
