@@ -713,10 +713,10 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdLabel:
         break;
     case IdSetAsWallpaper:
-        WallpaperSetter::instance()->setWallpaper(m_view->imagePath());
+        WallpaperSetter::instance()->setWallpaper(m_current->path);
         break;
     case IdDisplayInFileManager:
-        emit m_sManager->showInFileManager(m_view->imagePath());
+        emit m_sManager->showInFileManager(m_current->path);
         break;
     case IdImageInfo:
         emit m_sManager->showExtensionPanel();
@@ -733,8 +733,6 @@ void ViewPanel::initSlider() {
     connect(m_view, &ImageWidget::scaleValueChanged, [this](qreal value) {
         m_imageSlider->setCurrentValue(value*100);
     });
-
-    qDebug() << "rect size:" << this->rect();
 
     connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc) {
         m_view->setScaleValue(perc*950/100);
