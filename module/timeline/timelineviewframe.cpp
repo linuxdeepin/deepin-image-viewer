@@ -41,9 +41,6 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline,
     layout->addWidget(title);
     layout->addWidget(m_view);
     layout->addWidget(separator);
-
-    connect(m_sManager, &SignalManager::updateThumbnail,
-            this, &TimelineViewFrame::updateThumbnail);
 }
 
 TimelineViewFrame::~TimelineViewFrame()
@@ -137,12 +134,9 @@ void TimelineViewFrame::updateThumbnail(const QString &name)
 {
     for (int i = 0; i < m_model.rowCount(); i ++) {
         if (m_model.item(i, 0)->toolTip() == name) {
-            DatabaseManager::ImageInfo info =
-                    m_dbManager->getImageInfoByName(name);
-            const QPixmap p = utils::image::getThumbnail(info.path);
-            info.thumbnail = p;
-            m_dbManager->updateImageInfo(info);
+            m_dbManager->updateThumbnail(name);
 
+            const QPixmap p = m_dbManager->getImageInfoByName(name).thumbnail;
             QIcon icon;
             QPixmap thumbnail = m_view->increaseThumbnail(p);
             icon.addPixmap(thumbnail, QIcon::Normal);

@@ -76,7 +76,6 @@ void TopToolbar::resizeEvent(QResizeEvent *e)
 void TopToolbar::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() << "startMoving";
     emit moving();
 }
 

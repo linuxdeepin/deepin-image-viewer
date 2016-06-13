@@ -1,6 +1,7 @@
 #include "databasemanager.h"
 #include "signalmanager.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QSqlQuery>
@@ -68,7 +69,7 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
 void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
 {
     QSqlDatabase db = getDatabase();
-    if (db.isValid() && !imageExist(info.name)) {
+    if (db.isValid() && imageExist(info.name)) {
         QSqlQuery query( db );
         query.prepare( QString("UPDATE %1 SET "
                                "filepath = :path, "
@@ -85,13 +86,23 @@ void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
         QByteArray inByteArray;
         QBuffer inBuffer( &inByteArray );
         inBuffer.open( QIODevice::WriteOnly );
-        info.thumbnail.save( &inBuffer ); // write inPixmap into inByteArray
+        if ( !info.thumbnail.save( &inBuffer, "JPG" )) { // write inPixmap into inByteArray
+            qDebug() << "Write pixmap to buffer error!" << info.name;
+        }
         query.bindValue( ":thumbnail", inByteArray);
         query.bindValue( ":name", info.name );
         if (!query.exec()) {
             qWarning() << "Update image database failed: " << query.lastError();
         }
     }
+}
+
+void DatabaseManager::updateThumbnail(const QString &name)
+{
+    ImageInfo info = getImageInfoByName(name);
+    const QPixmap p = utils::image::getThumbnail(info.path);
+    info.thumbnail = p;
+    updateImageInfo(info);
 }
 
 QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(const QString &album)

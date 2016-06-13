@@ -35,6 +35,7 @@ public:
     ImageInfo getImageInfoByPath(const QString &path);
     void insertImageInfo(const ImageInfo &info);
     void updateImageInfo(const ImageInfo &info);
+    void updateThumbnail(const QString &name);
     void removeImage(const QString &name);
     bool imageExist(const QString &name);
     int getImagesCountByMonth(const QString &month);

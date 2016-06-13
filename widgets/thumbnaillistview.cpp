@@ -69,6 +69,11 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *e)
     QListView::mousePressEvent(e);
 }
 
+void ThumbnailListView::mouseMoveEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
+}
+
 void ThumbnailListView::wheelEvent(QWheelEvent *e)
 {
     e->ignore();

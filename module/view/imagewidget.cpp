@@ -3,7 +3,8 @@
 #include <QtDebug>
 #include <QFileInfo>
 #include <QMouseEvent>
-#include <utils/imageutils.h>
+#include "utils/imageutils.h"
+#include "controller/databasemanager.h"
 
 ImageWidget::ImageWidget(QWidget *parent)
     : QWidget(parent)
@@ -64,13 +65,26 @@ void ImageWidget::setScaleValue(qreal value)
     updateTransform();
 }
 
+void ImageWidget::rotateClockWise()
+{
+    rotate(m_rot+90);
+    utils::image::rotate(m_path, 90);
+    DatabaseManager::instance()->updateThumbnail(imageName());
+}
+
+void ImageWidget::rotateCounterclockwise()
+{
+    rotate(m_rot-90);
+    utils::image::rotate(m_path, -90);
+    DatabaseManager::instance()->updateThumbnail(imageName());
+}
+
 void ImageWidget::rotate(int deg)
 {
     if (m_rot == deg%360)
         return;
     m_rot = deg%360;
     updateTransform();
-    utils::image::rotate(m_path, deg);
 }
 
 void ImageWidget::flipX()

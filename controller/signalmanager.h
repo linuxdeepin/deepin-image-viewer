@@ -30,7 +30,6 @@ signals:
     void imageCountChanged();
     void imageInserted(const DatabaseManager::ImageInfo &info);
     void imageRemoved(const QString &name);
-    void updateThumbnail(const QString &name);
 
     void selectImageFromTimeline(const QString &targetAlbum);
 

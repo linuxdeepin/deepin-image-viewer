@@ -83,6 +83,13 @@ void TimelineImageView::setIconSize(const QSize &iconSize)
     updateContentRect();
 }
 
+void TimelineImageView::updateThumbnail(const QString &name)
+{
+    for (TimelineViewFrame * frame : m_frames.values()) {
+        frame->updateThumbnail(name);
+    }
+}
+
 bool TimelineImageView::isEmpty() const
 {
     return m_frames.isEmpty();

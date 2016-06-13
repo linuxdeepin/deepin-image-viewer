@@ -31,8 +31,8 @@ Q_SIGNALS:
 public Q_SLOTS:
     void setImageMove(int x, int y);
     void setScaleValue(qreal value);
-    void rotateClockWise() {rotate(m_rot+90);}
-    void rotateCounterclockwise() {rotate(m_rot-90);}
+    void rotateClockWise();
+    void rotateCounterclockwise();
     void rotate(int deg);
     void flipX();
     void flipY();

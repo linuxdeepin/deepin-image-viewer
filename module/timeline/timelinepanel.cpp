@@ -344,13 +344,15 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     case IdRotateClockwise:
         for (QString name : images.keys()) {
             utils::image::rotate(images[name], 90);
-            emit m_sManager->updateThumbnail(name);
+            m_imagesView->updateThumbnail(name);
+            m_selectionView->updateThumbnail(name);
         }
         break;
     case IdRotateCounterclockwise:
         for (QString name : images.keys()) {
             utils::image::rotate(images[name], -90);
-            emit m_sManager->updateThumbnail(name);
+            m_imagesView->updateThumbnail(name);
+            m_selectionView->updateThumbnail(name);
         }
         break;
 //    case IdLabel:

@@ -22,6 +22,7 @@ public:
     void insertItem(const DatabaseManager::ImageInfo &info);
     bool removeItem(const QString &name);
     void clearSelection() const;
+    void updateThumbnail(const QString &name);
 
     QMap<QString, QString> selectedImages() const;
     QString timeline() const;
@@ -46,7 +47,6 @@ private:
     QString currentSelectOne(bool isPath = true);
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
 
-    void updateThumbnail(const QString &name);
 
 private:
     bool m_multiselection;

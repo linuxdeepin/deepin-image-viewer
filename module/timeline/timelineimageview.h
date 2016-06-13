@@ -18,6 +18,7 @@ public:
     explicit TimelineImageView(bool multiselection = false, QWidget *parent = 0);
     void clearSelection();
     void setIconSize(const QSize &iconSize);
+    void updateThumbnail(const QString &name);
     bool isEmpty() const;
     QMap<QString, QString> selectedImages() const;
     QString currentMonth();
