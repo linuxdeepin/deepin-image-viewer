@@ -113,7 +113,7 @@ void ImageSliderFrame::initTooltip()
     m_valueLabel->setFixedSize(50, 30);
 
     QVBoxLayout *lLayout = new QVBoxLayout();
-    lLayout->setContentsMargins(15, 4, 0, 4);
+    lLayout->setContentsMargins(1, 3, 0, 4);
     lLayout->addWidget(m_valueLabel);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(m_tooltip);
