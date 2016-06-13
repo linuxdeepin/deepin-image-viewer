@@ -221,14 +221,14 @@ void ImagesView::onMenuItemClicked(int menuId)
     const QString cpath = currentSelectOne(true);
     switch (MenuItemId(menuId)) {
     case IdView:
-        m_sManager->viewImage(cpath);
+        m_sManager->viewImage(cpath, m_currentAlbum);
         break;
     case IdFullScreen:
-        m_sManager->viewImage(cpath);
+        m_sManager->viewImage(cpath, m_currentAlbum);
         m_sManager->fullScreen(cpath);
         break;
     case IdStartSlideShow:
-        m_sManager->viewImage(cpath);
+        m_sManager->viewImage(cpath, m_currentAlbum);
         m_sManager->startSlideShow(cpath);
         break;
     case IdCopy:

@@ -765,6 +765,8 @@ void ViewPanel::initSliderEffectPlay()
     });
     connect(m_slide, &SlideEffectPlayer::currentImageChanged,
             [this](const QString& path){
+        if (! m_nav->isVisible())
+            return;
         // Slide image size is widget size
         m_nav->setImage(QImage(path).scaled(m_slide->frameSize(),
                                             Qt::KeepAspectRatio,

@@ -14,7 +14,6 @@ public:
     // invalid path: black image+1st image
     void setCurrentImage(const QString& path = QString());
     QString currentImagePath() const;
-    QString nextImagePath() const;
     bool isRunning() const;
 
 Q_SIGNALS:

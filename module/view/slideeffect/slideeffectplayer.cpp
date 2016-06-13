@@ -39,17 +39,8 @@ void SlideEffectPlayer::setCurrentImage(const QString &path)
 QString SlideEffectPlayer::currentImagePath() const
 {
     if (m_current == m_paths.constEnd())
-        return QString();
-    return *m_current;
-}
-
-QString SlideEffectPlayer::nextImagePath() const
-{
-    if (m_current == m_paths.constEnd())
         return *m_paths.constBegin();
-    if (m_current+1 == m_paths.constEnd())
-        return QString();
-    return *(m_current+1);
+    return *m_current;
 }
 
 bool SlideEffectPlayer::isRunning() const
@@ -59,7 +50,7 @@ bool SlideEffectPlayer::isRunning() const
 
 void SlideEffectPlayer::start()
 {
-    if (!startNext())
+    if (m_paths.isEmpty())
         return;
     m_running = true;
     m_tid = startTimer(4000);
@@ -69,21 +60,23 @@ bool SlideEffectPlayer::startNext()
 {
     if (m_paths.isEmpty())
         return false;
-    if (m_current+1 == m_paths.constEnd()) {
+    const QString oldPath = currentImagePath();
+    m_current ++;
+    if (m_current == m_paths.constEnd()) {
         m_current = m_paths.constBegin();
     }
+    const QString newPath = currentImagePath();
     m_effect = SlideEffect::create();
     m_effect->setSize(QSize(m_w, m_h));
-    m_effect->setImages(currentImagePath(), nextImagePath());
-    qDebug() << currentImagePath() << nextImagePath();
-    ++m_current;
+    m_effect->setImages(oldPath, newPath);
     Q_EMIT stepChanged(1);
-    Q_EMIT currentImageChanged(m_current == m_paths.constEnd() ? QString() : *m_current);
+    Q_EMIT currentImageChanged(newPath);
     if (!m_thread.isRunning())
         m_thread.start();
 
     m_effect->moveToThread(&m_thread);
-    connect(m_effect, &SlideEffect::frameReady, this, &SlideEffectPlayer::frameReady, Qt::DirectConnection);
+    connect(m_effect, &SlideEffect::frameReady,
+            this, &SlideEffectPlayer::frameReady, Qt::DirectConnection);
     QMetaObject::invokeMethod(m_effect, "start");
     return true;
 }
