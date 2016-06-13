@@ -175,9 +175,7 @@ void ViewPanel::toggleSlideShow()
 {
     if (m_slide->isRunning()) {
         m_slide->stop();
-        toggleFullScreen();
-        showToolbar(true);
-        showToolbar(false);
+        showNormal();
         return;
     }
 
@@ -187,7 +185,7 @@ void ViewPanel::toggleSlideShow()
     for (const DatabaseManager::ImageInfo& info : m_infos) {
         paths << info.path;
     }
-    toggleFullScreen();
+    showFullScreen();
     m_slide->setImagePaths(paths);
     m_slide->setCurrentImage(m_current->path);
     m_slide->start();
@@ -204,6 +202,26 @@ void ViewPanel::showToolbar(bool isTop)
     });
     connect(t, &QTimer::timeout, t, &QTimer::deleteLater);
     t->start(SHOW_TOOLBAR_INTERVAL);
+}
+
+void ViewPanel::showNormal()
+{
+    window()->showNormal();
+    showToolbar(true);
+    showToolbar(false);
+    m_view->resetImageSize();
+}
+
+void ViewPanel::showFullScreen()
+{
+    // Full screen then hide bars because hide animation depends on height()
+    window()->showFullScreen();
+    window()->setFixedSize(qApp->desktop()->screenGeometry().size());
+    m_view->setFullScreen(window()->size());
+
+    Q_EMIT m_sManager->hideExtensionPanel();
+    Q_EMIT m_sManager->hideTopToolbar(true);
+    Q_EMIT m_sManager->hideBottomToolbar(true);
 }
 
 bool ViewPanel::mouseContainsByTopToolbar(const QPoint &pos)
@@ -433,24 +451,16 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
-        window()->showNormal();
-        showToolbar(true);
-        showToolbar(false);
-        m_view->resetImageSize();
+        showNormal();
     } else {
-        // Full screen then hide bars because hide animation depends on height()
-        window()->showFullScreen();
-        window()->setFixedSize(qApp->desktop()->screenGeometry().size());
-        m_view->setFullScreen(window()->size());
-
-        Q_EMIT m_sManager->hideExtensionPanel();
-        Q_EMIT m_sManager->hideTopToolbar(true);
-        Q_EMIT m_sManager->hideBottomToolbar(true);
+        showFullScreen();
     }
 }
 
 bool ViewPanel::showPrevious()
 {
+    if (m_slide->isRunning())
+        return false;
     m_slide->stop();
     if (m_infos.isEmpty())
         return false;
@@ -463,6 +473,8 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
+    if (m_slide->isRunning())
+        return false;
     m_slide->stop();
     if (m_infos.isEmpty())
         return false;
@@ -520,71 +532,76 @@ void ViewPanel::initStack()
 QString ViewPanel::createMenuContent()
 {
     QJsonArray items;
-    items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
-                                false, "F11"));
-    items.append(createMenuItem(IdStartSlideShow,
-                                m_slide->isRunning() ? tr("Stop slide show")
-                                                     : tr("Start slide show"),
-                                false, "F5"));
+    if (m_slide->isRunning()) {
+        items.append(createMenuItem(IdStartSlideShow, tr("Stop slide show"),
+                                    false, "F5"));
+    }
+    else {
+        items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
+                                    false, "F11"));
+        items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
+                                    false, "F5"));
 
-    if (! m_fromFileManager) {
-        const QJsonObject objF = createAlbumMenuObj(false);
-        if (! objF.isEmpty()) {
-            items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
-                                        false, "", objF));
+        if (! m_fromFileManager) {
+            const QJsonObject objF = createAlbumMenuObj(false);
+            if (! objF.isEmpty()) {
+                items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
+                                            false, "", objF));
+            }
         }
-    }
 
-    items.append(createMenuItem(IdSeparator, "", true));
+        items.append(createMenuItem(IdSeparator, "", true));
 
-    items.append(createMenuItem(IdExport, tr("Export"), false, ""));
-    items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdMoveToTrash, tr("Move to trash"), false,
-                                "Delete"));
-    items.append(createMenuItem(IdRemoveFromTimeline, tr("Remove from timeline"),
-                                false));
-    if (! m_albumName.isEmpty()) {
-        items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
-                                    false));
-    }
-
-    items.append(createMenuItem(IdSeparator, "", true));
-    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
-    if (! m_fromFileManager) {
-        if (!dbManager()->imageExistAlbum(m_current->name, FAVORITES_ALBUM_NAME)) {
-            items.append(createMenuItem(IdAddToFavorites, tr("Add to favorites"),
-                                        false, "Ctrl+K"));
-        } else {
-            items.append(createMenuItem(IdRemoveFromFavorites,
-                tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+        items.append(createMenuItem(IdExport, tr("Export"), false, ""));
+        items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
+        items.append(createMenuItem(IdMoveToTrash, tr("Move to trash"), false,
+                                    "Delete"));
+        items.append(createMenuItem(IdRemoveFromTimeline,
+                                    tr("Remove from timeline")));
+        if (! m_albumName.isEmpty()) {
+            items.append(createMenuItem(IdRemoveFromAlbum,
+                                        tr("Remove from album")));
         }
+
+        items.append(createMenuItem(IdSeparator, "", true));
+        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
+        if (! m_fromFileManager) {
+            if (!dbManager()->imageExistAlbum(m_current->name,
+                                              FAVORITES_ALBUM_NAME)) {
+                items.append(createMenuItem(IdAddToFavorites,
+                    tr("Add to favorites"), false, "Ctrl+K"));
+            } else {
+                items.append(createMenuItem(IdRemoveFromFavorites,
+                    tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+            }
+        }
+        items.append(createMenuItem(IdSeparator, "", true));
+
+        if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+            items.append(createMenuItem(IdShowNavigationWindow,
+                                        tr("Show navigation window")));
+        } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+            items.append(createMenuItem(IdHideNavigationWindow,
+                                        tr("Hide navigation window")));
+        }
+
+        items.append(createMenuItem(IdSeparator, "", true));
+
+        items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
+                                    false, "Ctrl+R"));
+        items.append(createMenuItem(IdRotateCounterclockwise,
+            tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
+
+        items.append(createMenuItem(IdSeparator, "", true));
+
+        items.append(createMenuItem(IdLabel, tr("Text tag")));
+        items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
+                                    false, "Ctrl+F8"));
+        items.append(createMenuItem(IdDisplayInFileManager,
+            tr("Display in file manager"), false, "Ctrl+D"));
+        items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
+                                    "Alt+Enter"));
     }
-    items.append(createMenuItem(IdSeparator, "", true));
-
-    if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
-        items.append(createMenuItem(IdShowNavigationWindow,
-            tr("Show navigation window")));
-    } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
-        items.append(createMenuItem(IdHideNavigationWindow,
-            tr("Hide navigation window")));
-    }
-
-    items.append(createMenuItem(IdSeparator, "", true));
-
-    items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
-                                false, "Ctrl+R"));
-    items.append(createMenuItem(IdRotateCounterclockwise,
-        tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
-
-    items.append(createMenuItem(IdSeparator, "", true));
-
-    items.append(createMenuItem(IdLabel, tr("Text tag")));
-    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"), false,
-                                "Ctrl+F8"));
-    items.append(createMenuItem(IdDisplayInFileManager,
-        tr("Display in file manager"), false, "Ctrl+D"));
-    items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
-                                "Alt+Enter"));
 
     QJsonObject contentObj;
     contentObj["x"] = 0;
@@ -761,6 +778,8 @@ void ViewPanel::initSliderEffectPlay()
     m_slide = new SlideEffectPlayer(this);
     connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
         m_current += steps;
+        if (m_current == m_infos.cend())
+            m_current = m_infos.cbegin();
     });
     connect(m_slide, &SlideEffectPlayer::currentImageChanged,
             [this](const QString& path){

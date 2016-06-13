@@ -93,6 +93,8 @@ private:
     void updateMenuContent();
     void toggleSlideShow();
     void showToolbar(bool isTop);
+    void showNormal();
+    void showFullScreen();
 
     bool mouseContainsByTopToolbar(const QPoint &pos);
     bool mouseContainsByBottomToolbar(const QPoint &pos);
