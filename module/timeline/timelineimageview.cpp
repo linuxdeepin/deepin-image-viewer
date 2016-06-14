@@ -17,6 +17,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
       m_vScrollBar(new ScrollBar),
       m_ascending(false),
       m_multiSelection(multiselection),
+      m_scrollValue(0),
       m_iconSize(96, 96)
 {
     initSliderFrame();
@@ -190,6 +191,7 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Hide) {
+        m_scrollValue = m_vScrollBar->value();
         // Make sure the other module is ready(eg.view)
         QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
     }
@@ -197,6 +199,14 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
         if (m_frames.isEmpty()) {
             insertReadyFrames();
         }
+        // The duration should longer than scrollbar animation's duration
+        QTimer *t = new QTimer(this);
+        t->setSingleShot(true);
+        connect(t, &QTimer::timeout, this, [=] {
+            m_vScrollBar->setValue(m_scrollValue);
+            t->deleteLater();
+        });
+        t->start(700);
     }
     return false;
 }

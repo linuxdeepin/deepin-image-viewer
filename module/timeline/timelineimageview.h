@@ -57,6 +57,7 @@ private:
     QMap<QString, TimelineViewFrame *> m_frames;
     bool m_ascending;
     bool m_multiSelection;
+    int m_scrollValue;
     QSize m_iconSize;
 };
 
