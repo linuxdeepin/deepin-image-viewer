@@ -15,6 +15,7 @@ ImageSliderFrame::ImageSliderFrame(QWidget *parent)
     : QWidget(parent), m_setValueTimes(0)
 {
     this->setFixedSize(105, SLIDER_HEIGHT+ICON_WIDTH*2);
+    setAttribute(Qt::WA_TransparentForMouseEvents);
     m_slider = new ScaleSlider(ScaleSlider::Rect);
 
     m_slider->setOrientation(Qt::Vertical);

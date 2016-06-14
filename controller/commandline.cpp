@@ -87,6 +87,7 @@ bool CommandLine::processOption()
         if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
                 QDBusConnection::sessionBus().registerObject(DBUS_PATH, sm)) {
             MainWindow *w = new MainWindow(true);
+
             w->show();
             emit sm->backToMainWindow();
 

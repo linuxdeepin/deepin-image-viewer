@@ -24,6 +24,8 @@ TTLContent::TTLContent(ImageSource source, QWidget *parent) : QWidget(parent)
         break;
     }
     hb->addWidget(btn);
+    hb->addStretch();
+
     connect(btn, &ImageButton::clicked, this, [=] {
         emit clicked(source);
     });

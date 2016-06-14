@@ -206,6 +206,7 @@ void ViewPanel::showToolbar(bool isTop)
 
 void ViewPanel::showNormal()
 {
+    qDebug() << "showNormal";
     window()->showNormal();
     showToolbar(true);
     showToolbar(false);
@@ -450,6 +451,7 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 
 void ViewPanel::toggleFullScreen()
 {
+    qDebug() << "toggleFullScreen";
     if (window()->isFullScreen()) {
         showNormal();
     } else {
