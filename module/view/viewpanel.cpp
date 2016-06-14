@@ -665,6 +665,8 @@ QJsonValue ViewPanel::createMenuItem(const ViewPanel::MenuItemId id,
 void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 {
     const QStringList mtl = text.split(SHORTCUT_SPLIT_FLAG);
+    const QString name = m_current->name;
+    const QString path = m_current->path;
     QString albumName = mtl.isEmpty() ? "" : mtl.first();
 
     switch (MenuItemId(menuId)) {
@@ -675,42 +677,43 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         toggleSlideShow();
         break;
     case IdAddToAlbum:
-        dbManager()->insertImageIntoAlbum(albumName, m_current->name,
+        dbManager()->insertImageIntoAlbum(albumName, name,
             utils::base::timeToString(m_current->time));
         break;
     case IdExport:
     {
         QStringList exportFile;
-        exportFile << m_current->path;
+        exportFile << path;
         Exporter::instance()->exportImage(exportFile);
         break;
     }
     case IdCopy:
-        utils::base::copyImageToClipboard(QStringList(m_current->path));
+        utils::base::copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash:
-        dbManager()->removeImage(m_current->name);
-        utils::base::trashFile(m_current->path);
+        dbManager()->removeImage(name);
+        utils::base::trashFile(path);
         removeCurrentImage();
         break;
     case IdRemoveFromTimeline:
-        dbManager()->removeImage(m_current->name);
+        dbManager()->removeImage(name);
         removeCurrentImage();
+        break;
     case IdRemoveFromAlbum:
-        dbManager()->removeImageFromAlbum(m_albumName, m_current->name);
+        dbManager()->removeImageFromAlbum(m_albumName, name);
         m_albumName = "";
         break;
     case IdEdit:
         m_sManager->editImage(m_view->imagePath());
         break;
     case IdAddToFavorites:
-        dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, m_current->name,
+        dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name,
             utils::base::timeToString(m_current->time));
         emit updateCollectButton();
         updateMenuContent();
         break;
     case IdRemoveFromFavorites:
-        dbManager()->removeImageFromAlbum(FAVORITES_ALBUM_NAME, m_current->name);
+        dbManager()->removeImageFromAlbum(FAVORITES_ALBUM_NAME, name);
         emit updateCollectButton();
         updateMenuContent();
         break;
@@ -731,10 +734,10 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdLabel:
         break;
     case IdSetAsWallpaper:
-        WallpaperSetter::instance()->setWallpaper(m_current->path);
+        WallpaperSetter::instance()->setWallpaper(path);
         break;
     case IdDisplayInFileManager:
-        emit m_sManager->showInFileManager(m_current->path);
+        emit m_sManager->showInFileManager(path);
         break;
     case IdImageInfo:
         emit m_sManager->showExtensionPanel();

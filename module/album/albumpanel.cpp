@@ -302,6 +302,8 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
 
 void AlbumPanel::onImageCountChanged(int count)
 {
+    if (! isVisible())
+        return;
     updateBottomToolbarContent();
     if (count > 0 && m_mainStackWidget->currentIndex() == 0) {
         m_mainStackWidget->setCurrentIndex(1);
