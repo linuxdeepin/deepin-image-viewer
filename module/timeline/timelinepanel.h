@@ -61,6 +61,7 @@ private:
     void updateBottomToolbarContent();
     void updateMenuContents();
     void onMenuItemClicked(int menuId, const QString &text);
+    void onImageCountChanged(int count);
 
     QString createMenuContent();
     QJsonValue createMenuItem(const MenuItemId id,

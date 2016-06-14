@@ -17,7 +17,7 @@
 namespace {
 
 const int MIN_ICON_SIZE = 96;
-const int THUMBNAIL_MAX_SCALE_SIZE = 384;
+//const int THUMBNAIL_MAX_SCALE_SIZE = 384;
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
@@ -34,6 +34,9 @@ TimelinePanel::TimelinePanel(QWidget *parent)
     initMainStackWidget();
     initStyleSheet();
     initPopupMenu();
+
+    connect(m_sManager, &SignalManager::imageCountChanged,
+        this, &TimelinePanel::onImageCountChanged/*, Qt::DirectConnection*/);
 }
 
 QWidget *TimelinePanel::toolbarBottomContent()
@@ -61,9 +64,6 @@ QWidget *TimelinePanel::toolbarBottomContent()
         m_countLabel->setObjectName("CountLabel");
 
         updateBottomToolbarContent();
-
-        connect(m_sManager, &SignalManager::imageCountChanged,
-            this, &TimelinePanel::updateBottomToolbarContent, Qt::DirectConnection);
 
         layout->addStretch(1);
         layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
@@ -219,9 +219,6 @@ void TimelinePanel::initMainStackWidget()
     //show import frame if no images in database
     m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
 
-    connect(m_sManager, &SignalManager::imageCountChanged, this, [=] {
-        m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
-    }, Qt::DirectConnection);
     connect(m_sManager, &SignalManager::selectImageFromTimeline,
             this, [=] (const QString &targetAlbum) {
         m_targetAlbum = targetAlbum;
@@ -368,6 +365,12 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     default:
         break;
     }
+}
+
+void TimelinePanel::onImageCountChanged(int count)
+{
+    updateBottomToolbarContent();
+    m_mainStackWidget->setCurrentIndex(count > 0 ? 1 : 0);
 }
 
 QString TimelinePanel::createMenuContent()

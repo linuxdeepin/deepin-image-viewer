@@ -56,7 +56,7 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         else {
             query.exec("COMMIT");
             emit SignalManager::instance()->imageInserted(info);
-            emit SignalManager::instance()->imageCountChanged();
+            emit SignalManager::instance()->imageCountChanged(imageCount());
 
             // All new image should add to the album "Recent imported"
             insertImageIntoAlbum("Recent imported", info.name,
@@ -169,7 +169,7 @@ void DatabaseManager::removeImage(const QString &name)
             qWarning() << "Remove image failed: " << query.lastError();
         }
 
-        emit SignalManager::instance()->imageCountChanged();
+        emit SignalManager::instance()->imageCountChanged(imageCount());
         emit SignalManager::instance()->imageRemoved(name);
     }
 }

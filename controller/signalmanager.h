@@ -27,7 +27,7 @@ signals:
     void gotoSearchPanel(const QString &keyWord = "");
     void gotoPanel(ModulePanel* panel);
 
-    void imageCountChanged();
+    void imageCountChanged(int count);
     void imageInserted(const DatabaseManager::ImageInfo &info);
     void imageRemoved(const QString &name);
 

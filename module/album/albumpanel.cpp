@@ -28,6 +28,8 @@ AlbumPanel::AlbumPanel(QWidget *parent)
 
     connect(m_signalManager, &SignalManager::importDir,
             this, &AlbumPanel::showImportDirDialog);
+    connect(m_signalManager, &SignalManager::imageCountChanged,
+            this, &AlbumPanel::onImageCountChanged/*, Qt::DirectConnection*/);
 }
 
 
@@ -57,8 +59,6 @@ QWidget *AlbumPanel::toolbarBottomContent()
 
     updateBottomToolbarContent();
 
-    connect(m_signalManager, &SignalManager::imageCountChanged,
-            this, &AlbumPanel::updateBottomToolbarContent, Qt::DirectConnection);
     connect(m_signalManager, &SignalManager::selectImageFromTimeline, this, [=] {
         emit m_signalManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit m_signalManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
@@ -208,15 +208,6 @@ void AlbumPanel::initMainStackWidget()
         emit m_signalManager->updateTopToolbarLeftContent(
                     toolbarTopLeftContent());
     });
-    connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
-        if (m_dbManager->imageCount() > 0
-                && m_mainStackWidget->currentIndex() == 0) {
-            m_mainStackWidget->setCurrentIndex(1);
-        }
-        else if (m_dbManager->imageCount() == 0) {
-            m_mainStackWidget->setCurrentIndex(0);
-        }
-    }, Qt::DirectConnection);
 
     QLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -233,11 +224,6 @@ void AlbumPanel::initAlbumsView()
 void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
-    connect(m_signalManager, &SignalManager::imageCountChanged, this, [=] {
-        if (m_mainStackWidget->currentWidget() == m_imagesView) {
-            m_imagesView->updateView();
-        }
-    });
     connect(m_signalManager, &SignalManager::albumChanged,
             this, [=] (const QString &album) {
         if (m_imagesView->isVisible()
@@ -312,6 +298,21 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
     d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
             (parentWidget()->height() - d->height()) / 2 + p.y());
     d->import(dir);
+}
+
+void AlbumPanel::onImageCountChanged(int count)
+{
+    updateBottomToolbarContent();
+    if (count > 0 && m_mainStackWidget->currentIndex() == 0) {
+        m_mainStackWidget->setCurrentIndex(1);
+    }
+    else if (count == 0) {
+        m_mainStackWidget->setCurrentIndex(0);
+    }
+
+    if (m_mainStackWidget->currentWidget() == m_imagesView) {
+        m_imagesView->updateView();
+    }
 }
 
 void AlbumPanel::onOpenAlbum(const QString &album)

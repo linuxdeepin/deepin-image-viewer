@@ -39,6 +39,7 @@ private:
     void updateBottomToolbarContent();
     void showCreateDialog();
     void showImportDirDialog(const QString &dir);
+    void onImageCountChanged(int count);
 
 private:
     QString m_currentAlbum;
