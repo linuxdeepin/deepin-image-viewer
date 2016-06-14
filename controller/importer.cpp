@@ -1,6 +1,7 @@
 #include "importer.h"
 #include "utils/imageutils.h"
 #include "controller/databasemanager.h"
+#include "controller/signalmanager.h"
 #include <libexif/exif-data.h>
 #include <QDirIterator>
 #include <QFileInfo>
@@ -145,6 +146,8 @@ void Importer::onFutureWatcherFinish()
         m_progress = 1;
         m_albums.clear();
         emit importProgressChanged(m_progress);
+        emit SignalManager::instance()->showProcessTooltip(
+                    tr("Imported successfully"), true);
     }
     else {
         loadCacheImages();
