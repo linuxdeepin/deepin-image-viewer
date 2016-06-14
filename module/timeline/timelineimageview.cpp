@@ -32,7 +32,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
     // Watching import thread
     connect(SignalManager::instance(), &SignalManager::imageInserted,
-            this, &TimelineImageView::onImageInserted, Qt::QueuedConnection);
+            this, &TimelineImageView::onImageInserted/*, Qt::QueuedConnection*/);
     connect(SignalManager::instance(), &SignalManager::imageRemoved,
             this, &TimelineImageView::removeImage);
     installEventFilter(this);
@@ -53,6 +53,9 @@ void TimelineImageView::clearImages()
 
 void TimelineImageView::onImageInserted(const DatabaseManager::ImageInfo &info)
 {
+    if (! isVisible()) {
+        return;
+    }
     const QString timeLine = utils::base::timeToString(info.time);
     // TimeLine frame not exist, create one
     // Note: use m_frames.keys().indexOf(timeLine) will cause[QObject::connect:

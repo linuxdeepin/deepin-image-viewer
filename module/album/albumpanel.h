@@ -27,6 +27,7 @@ public slots:
     void onCreateAlbum();
 
 protected:
+    void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
@@ -48,9 +49,9 @@ private:
 
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;
-    QStackedWidget *m_mainStackWidget = NULL;
+    QStackedWidget *m_stackWidget = NULL;
     DatabaseManager *m_dbManager = DatabaseManager::instance();
-    SignalManager *m_signalManager = SignalManager::instance();
+    SignalManager *m_sManager = SignalManager::instance();
 };
 
 #endif // ALBUMPANEL_H

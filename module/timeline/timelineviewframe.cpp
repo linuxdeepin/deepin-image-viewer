@@ -88,6 +88,16 @@ void TimelineViewFrame::initListView()
     }
 }
 
+int TimelineViewFrame::indexOf(const QString &name) const
+{
+    for (int i = 0; i < m_model.rowCount(); i ++) {
+        if (m_model.item(i, 0)->toolTip() == name) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 DatabaseManager::ImageInfo TimelineViewFrame::imageInfo(const QString &name)
 {
     return m_dbManager->getImageInfoByName(name);
@@ -159,6 +169,9 @@ void TimelineViewFrame::setIconSize(const QSize &iconSize)
 
 void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
 {
+    // Diffrent thread connection cause duplicate insert
+    if (indexOf(info.name) != -1)
+        return;
     QStandardItem *item = new QStandardItem();
     item->setData(info.path, Qt::UserRole);
     QIcon icon;
@@ -174,12 +187,9 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
 
 bool TimelineViewFrame::removeItem(const QString &name)
 {
-    for (int i = 0; i < m_model.rowCount(); i ++) {
-        if (m_model.item(i, 0)->toolTip() == name) {
-            m_model.removeRow(i);
-            return true;
-        }
-    }
+    const int i = indexOf(name);
+    if (i != -1)
+        m_model.removeRow(i);
 
     return false;
 }

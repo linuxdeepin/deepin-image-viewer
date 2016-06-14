@@ -42,6 +42,7 @@ protected:
 
 private:
     void initListView();
+    int indexOf(const QString &name) const;
 
     DatabaseManager::ImageInfo imageInfo(const QString &name);
     QString currentSelectOne(bool isPath = true);
