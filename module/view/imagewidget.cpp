@@ -209,8 +209,8 @@ void ImageWidget::resetImageSize() {
     //because the size change from fullScreen is delay!
 
     QSize origiWSize =  qApp->desktop()->size();
-    int origiw = origiWSize.width() * 0.8 < 700 ? 700 : origiWSize.width() * 0.8;
-    int origih = origiWSize.height() * 0.8 < 500 ? 500 : origiWSize.height() * 0.8;
+    int origiw = origiWSize.width() * 0.67 < 450 ? 450 : origiWSize.width() * 0.67;
+    int origih = origiWSize.height() * 0.62 < 450 ? 450 : origiWSize.height() * 0.62;
 
     this->setFixedSize(origiw, origih);
     m_image = m_image.scaled(m_imageOriginSize, Qt::IgnoreAspectRatio,
