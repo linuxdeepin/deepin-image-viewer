@@ -109,6 +109,8 @@ void Importer::importFromPath(const QString &path, const QString &album)
         QFileInfo fileInfo = dirIterator.fileInfo();
         QString filePath = fileInfo.absoluteFilePath();
 
+        if (QImage(filePath).isNull())
+            continue;
         if (! DatabaseManager::instance()->imageExist(fileInfo.fileName())) {
             m_cacheImportList.append(filePath);
             m_albums.insert(filePath, album);
@@ -127,6 +129,9 @@ void Importer::importFromPath(const QString &path, const QString &album)
 
 void Importer::importSingleFile(const QString &filePath, const QString &album)
 {
+    //TODO unsupport tooltip
+    if (QImage(filePath).isNull())
+        return;
     m_albums.insert(filePath, album);
     m_cacheImportList << filePath;
     m_imagesCount ++;
