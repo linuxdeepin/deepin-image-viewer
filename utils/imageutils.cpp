@@ -140,12 +140,11 @@ QDateTime getCreateDateTime(const QString &filePath)
                     readExifTag(ed, EXIF_IFD_0, EXIF_TAG_DATE_TIME));
         //Free the EXIF data
         exif_data_unref(ed);
-        return dt;
+        if (dt.isValid())
+            return dt;
     }
-    else {
-        QFileInfo info(filePath);
-        return info.created();
-    }
+    QFileInfo info(filePath);
+    return info.created();
 }
 
 QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag)
