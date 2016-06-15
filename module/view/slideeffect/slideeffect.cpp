@@ -238,22 +238,22 @@ void SlideEffect::setImages(const QImage &currentImage, const QImage &nextImage)
 static void scaleImageToMax(QImage* image, int width, int height)
 {
     Q_ASSERT(image);
-    int w = qMax(image->width(), 1);
-    int h = qMax(image->height(), 1);
-    qreal ir = qreal(w)/qreal(h);
-    qreal r = qreal(width)/qreal(height);
+//    int w = qMax(image->width(), 1);
+//    int h = qMax(image->height(), 1);
+//    qreal ir = qreal(w)/qreal(h);
+//    qreal r = qreal(width)/qreal(height);
 
     //qDebug("image: %f %dx%d, target: %f %dx%d", ir, w, h, r, width, height);
-    if (ir > r) { //too wide, the width is set to the given width, fit height
-        h = int(qreal(width)/ir);
-        if (h == 0)
-            h = image->height();
-    } else { //too high
-        w = int(qreal(height)*ir);
-        if (w == 0)
-            w = image->width();
-    }
-    *image = image->scaled(w, h, Qt::KeepAspectRatio);
+//    if (ir > r) { //too wide, the width is set to the given width, fit height
+//        h = int(qreal(width)/ir);
+//        if (h == 0)
+//            h = image->height();
+//    } else { //too high
+//        w = int(qreal(height)*ir);
+//        if (w == 0)
+//            w = image->width();
+//    }
+    *image = image->scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
 static void addBackground(QImage* image, int width, int height, const QColor& color )
