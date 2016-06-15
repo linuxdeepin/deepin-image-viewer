@@ -42,7 +42,7 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     QFrame *content = new QFrame();
     QVBoxLayout *contentLayout = new QVBoxLayout(content);
@@ -123,6 +123,7 @@ void ImageInfoWidget::updateInfo()
             continue;
         }
         SimpleFormField *label = new SimpleFormField(v);
+        label->setWordWrap(true);
         titleWidth = qMax(titleWidth, fm.width(i->name));
         fieldWidth = qMax(fieldWidth, fm.width(v));
         m_exifLayout->addRow(new SimpleFormLabel(tr(i->name) + ":"), label);
