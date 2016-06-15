@@ -26,7 +26,6 @@ public:
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
-    void toggleFullScreen();
 signals:
     void updateCollectButton();
     void imageChanged(const QString &name, const QString &path);
@@ -41,6 +40,7 @@ protected:
 
 private Q_SLOTS:
     void openImage(const QString& path, bool fromOutside = false);
+    void toggleFullScreen();
     bool showPrevious();
     bool showNext();
     void removeCurrentImage();

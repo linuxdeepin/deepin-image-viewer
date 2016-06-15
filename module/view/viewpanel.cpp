@@ -206,11 +206,9 @@ void ViewPanel::showToolbar(bool isTop)
 
 void ViewPanel::showNormal()
 {
-    qDebug() << "showNormal";
     window()->showNormal();
     showToolbar(true);
     showToolbar(false);
-    m_view->resetImageSize();
 }
 
 void ViewPanel::showFullScreen()
@@ -218,7 +216,6 @@ void ViewPanel::showFullScreen()
     // Full screen then hide bars because hide animation depends on height()
     window()->showFullScreen();
     window()->setFixedSize(qApp->desktop()->screenGeometry().size());
-    m_view->setFullScreen(window()->size());
 
     Q_EMIT m_sManager->hideExtensionPanel();
     Q_EMIT m_sManager->hideTopToolbar(true);
@@ -311,7 +308,8 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     TTLContent *ttlc = new TTLContent(source);
     connect(ttlc, &TTLContent::clicked, this, [=] (TTLContent::ImageSource s) {
         m_slide->stop();
-        window()->showNormal();
+        if (window()->isFullScreen())
+            showNormal();
         switch (s) {
         case TTLContent::FromFileManager:
         case TTLContent::FromTimeline:
@@ -373,6 +371,8 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
+    m_view->resetTransform();
+
     m_nav->move(e->size().width() - m_nav->width() - 10,
                 e->size().height() - m_nav->height() -10);
     m_slide->setFrameSize(e->size().width(), e->size().height());
@@ -451,7 +451,6 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 
 void ViewPanel::toggleFullScreen()
 {
-    qDebug() << "toggleFullScreen";
     if (window()->isFullScreen()) {
         showNormal();
     } else {

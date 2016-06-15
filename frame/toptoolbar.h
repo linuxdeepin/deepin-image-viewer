@@ -19,7 +19,6 @@ public:
 
 signals:
     void moving();
-    void maxiWindow();
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) override;

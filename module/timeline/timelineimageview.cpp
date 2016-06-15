@@ -290,6 +290,8 @@ int TimelineImageView::getMinContentsWidth()
 
 QString TimelineImageView::currentTimeline()
 {
+    if (m_frames.isEmpty())
+        return QString();
     int currentY = verticalScrollBar()->maximum() * scrollingPercent() + contentsMargins().top();
     QString timeline = m_frames.last()->timeline();
     for (TimelineViewFrame *frame : m_frames) {

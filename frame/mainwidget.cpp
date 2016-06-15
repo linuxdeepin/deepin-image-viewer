@@ -45,8 +45,6 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     });
     connect(m_signalManager, &SignalManager::showProcessTooltip,
             this, &MainWidget::onShowProcessTooltip);
-    connect(m_topToolbar, &TopToolbar::maxiWindow,
-            m_viewPanel, &ViewPanel::toggleFullScreen);
 }
 
 MainWidget::~MainWidget()

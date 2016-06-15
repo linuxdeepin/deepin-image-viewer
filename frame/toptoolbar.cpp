@@ -110,7 +110,7 @@ void TopToolbar::initWidgets()
 
     connect(maxb, &DWindowMaxButton::clicked, this, [=] {
         if (parentWidget()) {
-            emit maxiWindow();
+            parentWidget()->parentWidget()->showMaximized();
             sw->setCurrentIndex(1);
 
         }
@@ -118,7 +118,7 @@ void TopToolbar::initWidgets()
     DWindowRestoreButton *rb = new DWindowRestoreButton;
     connect(rb, &DWindowRestoreButton::clicked, this, [=] {
         if (parentWidget()) {
-            emit maxiWindow();
+            parentWidget()->parentWidget()->showNormal();
             sw->setCurrentIndex(0);
         }
     });
