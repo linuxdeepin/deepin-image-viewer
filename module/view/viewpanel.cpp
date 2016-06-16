@@ -148,6 +148,7 @@ void ViewPanel::initShortcut()
         window()->showNormal();
         if (m_slide->isRunning()) {
             m_slide->stop();
+            showToolbar(true);
         }
         else {
             Q_EMIT m_sManager->backToMainWindow();
@@ -512,7 +513,12 @@ void ViewPanel::initStack()
     initViewContent();
     QFrame *vf = new QFrame;
     QVBoxLayout *vl = new QVBoxLayout(vf);
-    vl->setContentsMargins(0, TOP_TOOLBAR_HEIGHT, 0, 0);
+    connect(m_sManager, &SignalManager::showTopToolbar, this, [=] {
+        vl->setContentsMargins(0, TOP_TOOLBAR_HEIGHT, 0, 0);
+    });
+    connect(m_sManager, &SignalManager::hideTopToolbar, this, [=] {
+        vl->setContentsMargins(0, 0, 0, 0);
+    });
     vl->addWidget(m_view);
     m_stack->addWidget(vf);
 
@@ -809,8 +815,10 @@ void ViewPanel::initViewContent()
         utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
     connect(m_view, &ImageWidget::doubleClicked, [this]() {
-        this->toggleFullScreen();
-        m_imageSlider->hide();
+        if (! m_slide->isRunning()) {
+            this->toggleFullScreen();
+            m_imageSlider->hide();
+        }
     });
 }
 
