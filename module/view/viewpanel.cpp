@@ -45,9 +45,10 @@ ViewPanel::ViewPanel(QWidget *parent)
       m_sManager(SignalManager::instance())
 {
     initStack();
+    initNavigation();
     initSlider();
     initSliderEffectPlay();
-    initNavigation();
+
     initConnect();
     initShortcut();
     initStyleSheet();
@@ -107,6 +108,7 @@ void ViewPanel::initConnect() {
         m_current = m_infos.cbegin();
         openImage(path, fromFileManager);
     });
+
     connect(m_sManager, &SignalManager::fullScreen,
             this, &ViewPanel::toggleFullScreen);
     connect(m_sManager, &SignalManager::startSlideShow,
@@ -369,12 +371,13 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
     m_view->resetTransform();
+    m_nav->move(e->size().width() - m_nav->width() - 60,
+                e->size().height() - m_nav->height() -10);
 
     m_imageSlider->move(this->rect().right() - m_imageSlider->width() - 20,
         (m_view->height() - m_imageSlider->height()) / 2 + TOP_TOOLBAR_HEIGHT);
 
-    m_nav->move(e->size().width() - m_nav->width() - 10,
-                e->size().height() - m_nav->height() -10);
+
     m_slide->setFrameSize(e->size().width(), e->size().height());
 }
 
@@ -760,7 +763,6 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 
 void ViewPanel::initSlider() {
     m_imageSlider = new ImageSliderFrame(this);
-
     m_imageSlider->hide();
     connect(m_view, &ImageWidget::scaleValueChanged, [this](qreal value) {
         m_imageSlider->setCurrentValue(value*100);
@@ -824,6 +826,7 @@ void ViewPanel::initViewContent()
 void ViewPanel::initNavigation()
 {
     m_nav = new NavigationWidget(this);
+
     m_nav->setVisible(! m_nav->isAlwaysHidden());
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
         m_view->setImageMove(x, y);

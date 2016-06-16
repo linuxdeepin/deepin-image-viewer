@@ -150,8 +150,11 @@ void ImageWidget::paintEvent(QPaintEvent *)
     QPainter p(this);
     p.save();
 
-    p.setRenderHint(QPainter::Antialiasing);
-    p.setRenderHint(QPainter::SmoothPixmapTransform);
+    if (m_scale < 7) {
+        p.setRenderHint(QPainter::Antialiasing);
+        p.setRenderHint(QPainter::SmoothPixmapTransform);
+    }
+
     p.setTransform(m_mat);
     p.drawPixmap(0, 0, m_pixmap);
     p.restore();
