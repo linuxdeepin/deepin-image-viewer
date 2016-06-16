@@ -22,6 +22,9 @@ public:
     QRect visibleImageRect() const;
     bool isWholeImageVisible() const;
     bool isMoving() const;
+    bool wheelable() const;
+    void setWheelable(bool wheelable);
+
 Q_SIGNALS:
     void scaleValueChanged(qreal);
     void transformChanged(const QTransform&);
@@ -56,6 +59,7 @@ private:
     int m_tid = 0;
     bool m_scaling = false;
     bool m_moving = false;
+    bool m_wheelable = true;
     qreal m_scale = 0; // when an image is loaded to fit widget, m_scale is not 1.0
     QPoint m_o_img, m_o_dev;
     QString m_path;

@@ -147,7 +147,7 @@ void ViewPanel::initShortcut()
     connect(sc, &QShortcut::activated, this, [=] {
         window()->showNormal();
         if (m_slide->isRunning()) {
-            m_slide->stop();
+            toggleSlideShow();
             showToolbar(true);
         }
         else {
@@ -177,6 +177,7 @@ void ViewPanel::updateMenuContent()
 void ViewPanel::toggleSlideShow()
 {
     if (m_slide->isRunning()) {
+        m_view->setWheelable(true);
         m_slide->stop();
         showNormal();
         return;
@@ -189,6 +190,7 @@ void ViewPanel::toggleSlideShow()
         paths << info.path;
     }
     showFullScreen();
+    m_view->setWheelable(false);
     m_slide->setImagePaths(paths);
     m_slide->setCurrentImage(m_current->path);
     m_slide->start();
@@ -795,9 +797,6 @@ void ViewPanel::initSliderEffectPlay()
         m_nav->setImage(QImage(path).scaled(m_slide->frameSize(),
                                             Qt::KeepAspectRatio,
                                             Qt::SmoothTransformation));
-        if (m_info) {
-            m_info->setImagePath(path);
-        }
     });
     connect(m_slide, &SlideEffectPlayer::frameReady,
             [this](const QImage& image) {

@@ -197,6 +197,8 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 
 void ImageWidget::wheelEvent(QWheelEvent *event)
 {
+    if (! m_wheelable)
+        return;
     m_scaling = true;
     killTimer(m_tid);
     m_tid = startTimer(500);
@@ -232,4 +234,14 @@ void ImageWidget::updateTransform()
     update();
     if (m_mat != old)
         Q_EMIT transformChanged(m_mat);
+}
+
+bool ImageWidget::wheelable() const
+{
+    return m_wheelable;
+}
+
+void ImageWidget::setWheelable(bool wheelable)
+{
+    m_wheelable = wheelable;
 }
