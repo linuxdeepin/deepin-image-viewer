@@ -1,6 +1,5 @@
 #include "viewpanel.h"
 #include "imageinfowidget.h"
-#include "contents/tbcontent.h"
 #include "contents/ttmcontent.h"
 #include "contents/ttlcontent.h"
 #include "slideeffect/slideeffectplayer.h"
@@ -73,6 +72,9 @@ void ViewPanel::initConnect() {
         if (p != this) {
             showToolbar(true);
             showToolbar(false);
+        }
+        else {
+            emit m_sManager->hideBottomToolbar(true);
         }
         m_slide->stop();
     });
@@ -180,7 +182,7 @@ void ViewPanel::toggleSlideShow()
     }
 
     emit m_sManager->hideTopToolbar(false);
-    emit m_sManager->hideBottomToolbar(false);
+//    emit m_sManager->hideBottomToolbar(false);
     QStringList paths;
     for (const DatabaseManager::ImageInfo& info : m_infos) {
         paths << info.path;
@@ -197,8 +199,8 @@ void ViewPanel::showToolbar(bool isTop)
     connect(t, &QTimer::timeout, this, [=] {
        if (isTop)
            emit m_sManager->showTopToolbar();
-       else
-           emit m_sManager->showBottomToolbar();
+//       else
+//           emit m_sManager->showBottomToolbar();
     });
     connect(t, &QTimer::timeout, t, &QTimer::deleteLater);
     t->start(SHOW_TOOLBAR_INTERVAL);
@@ -208,7 +210,7 @@ void ViewPanel::showNormal()
 {
     window()->showNormal();
     showToolbar(true);
-    showToolbar(false);
+//    showToolbar(false);
 }
 
 void ViewPanel::showFullScreen()
@@ -219,7 +221,7 @@ void ViewPanel::showFullScreen()
 
     Q_EMIT m_sManager->hideExtensionPanel();
     Q_EMIT m_sManager->hideTopToolbar(true);
-    Q_EMIT m_sManager->hideBottomToolbar(true);
+//    Q_EMIT m_sManager->hideBottomToolbar(true);
 }
 
 bool ViewPanel::mouseContainsByTopToolbar(const QPoint &pos)
@@ -276,21 +278,7 @@ DatabaseManager *ViewPanel::dbManager() const
 
 QWidget *ViewPanel::toolbarBottomContent()
 {
-    TBContent *tbc = new TBContent(m_fromFileManager);
-    tbc->setStyleSheet(this->styleSheet());
-    connect(this, &ViewPanel::updateCollectButton,
-            tbc, &TBContent::updateCollectButton);
-    connect(this, &ViewPanel::imageChanged, tbc, &TBContent::onImageChanged);
-    connect(tbc, &TBContent::showNext, this, &ViewPanel::showNext);
-    connect(tbc, &TBContent::showPrevious, this, &ViewPanel::showPrevious);
-    connect(tbc, &TBContent::toggleSlideShow, this, &ViewPanel::toggleSlideShow);
-    connect(tbc, &TBContent::removed, this, [=] {
-        dbManager()->removeImage(m_current->name);
-        utils::base::trashFile(m_current->path);
-        removeCurrentImage();
-    });
-
-    return tbc;
+    return nullptr;
 }
 
 QWidget *ViewPanel::toolbarTopLeftContent()
@@ -329,17 +317,23 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
-    TTMContent *ttmc = new TTMContent;
+    TTMContent *ttmc = new TTMContent(m_fromFileManager);
+    connect(this, &ViewPanel::updateCollectButton,
+            ttmc, &TTMContent::updateCollectButton);
+    connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::onImageChanged);
+    connect(ttmc, &TTMContent::showNext, this, &ViewPanel::showNext);
+    connect(ttmc, &TTMContent::showPrevious, this, &ViewPanel::showPrevious);
+    connect(ttmc, &TTMContent::removed, this, [=] {
+        dbManager()->removeImage(m_current->name);
+        utils::base::trashFile(m_current->path);
+        removeCurrentImage();
+    });
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
         m_view->resetTransform();
         if (fitWindow) {
             m_view->setScaleValue(1);
         }
     });
-    connect(ttmc, &TTMContent::rotateClockWise,
-            m_view, &ImageWidget::rotateClockWise);
-    connect(ttmc, &TTMContent::rotateCounterclockwise,
-            m_view, &ImageWidget::rotateCounterclockwise);
     return ttmc;
 }
 
@@ -373,6 +367,9 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 {
     m_view->resetTransform();
 
+    m_imageSlider->move(this->rect().right() - m_imageSlider->width() - 20,
+        (m_view->height() - m_imageSlider->height()) / 2 + TOP_TOOLBAR_HEIGHT);
+
     m_nav->move(e->size().width() - m_nav->width() - 10,
                 e->size().height() - m_nav->height() -10);
     m_slide->setFrameSize(e->size().width(), e->size().height());
@@ -388,9 +385,9 @@ void ViewPanel::mouseMoveEvent(QMouseEvent *e)
     if (mouseContainsByTopToolbar(e->pos())) {
         showToolbar(true);
     }
-    else if (mouseContainsByBottomToolbar(e->pos())) {
-        showToolbar(false);
-    }
+//    else if (mouseContainsByBottomToolbar(e->pos())) {
+//        showToolbar(false);
+//    }
 
     ModulePanel::mouseMoveEvent(e);
 }
@@ -400,7 +397,7 @@ void ViewPanel::enterEvent(QEvent *e)
     // Leave from toolbar and enter inside panel
     Q_UNUSED(e);
     if (m_slide->isRunning() || window()->isFullScreen()) {
-        Q_EMIT m_sManager->hideBottomToolbar();
+//        Q_EMIT m_sManager->hideBottomToolbar();
         Q_EMIT m_sManager->hideTopToolbar();
     }
 }
@@ -511,8 +508,13 @@ void ViewPanel::initStack()
     m_stack->setMouseTracking(true);
     m_stack->setContentsMargins(0, 0, 0, 0);
 
+    // View frame
     initViewContent();
-    m_stack->addWidget(m_view);
+    QFrame *vf = new QFrame;
+    QVBoxLayout *vl = new QVBoxLayout(vf);
+    vl->setContentsMargins(0, TOP_TOOLBAR_HEIGHT, 0, 0);
+    vl->addWidget(m_view);
+    m_stack->addWidget(vf);
 
     // Empty frame
     QFrame *emptyFrame = new QFrame;
@@ -758,11 +760,8 @@ void ViewPanel::initSlider() {
 
     connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc) {
         m_view->setScaleValue(perc*950/100);
-
-        m_imageSlider->move(this->rect().right() - m_imageSlider->width() - 20,
-                            this->rect().center().y() - m_imageSlider->height()/2);
         m_imageSlider->show();
-        Q_EMIT startHideScaleSlider();
+        m_hideSlider->start();
     });
 
     m_hideSlider = new QTimer(this);
@@ -771,9 +770,6 @@ void ViewPanel::initSlider() {
 
     connect(m_hideSlider, &QTimer::timeout, [this](){
         m_imageSlider->hide();
-    });
-    connect(this, &ViewPanel::startHideScaleSlider, [this](){
-        m_hideSlider->start();
     });
 }
 
@@ -837,8 +833,6 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
     // TODO signal should emit when mainwidget's panel changed
     m_fromFileManager = fromOutside;
     Q_EMIT m_sManager->gotoPanel(this);
-    Q_EMIT m_sManager->updateBottomToolbarContent(toolbarBottomContent(),
-                                                       true);
 
     if (fromOutside) {
         Q_EMIT m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());

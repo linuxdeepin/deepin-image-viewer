@@ -6,7 +6,6 @@ HEADERS += \
     $$PWD/imagewidget.h \
     $$PWD/navigationwidget.h \
     $$PWD/viewpanel.h \
-    $$PWD/contents/tbcontent.h \
     $$PWD/contents/ttlcontent.h \
     $$PWD/contents/ttmcontent.h \
     $$PWD/imagesliderframe.h
@@ -16,7 +15,6 @@ SOURCES += \
     $$PWD/imagewidget.cpp \
     $$PWD/navigationwidget.cpp \
     $$PWD/viewpanel.cpp \
-    $$PWD/contents/tbcontent.cpp \
     $$PWD/contents/ttlcontent.cpp \
     $$PWD/contents/ttmcontent.cpp \
     $$PWD/imagesliderframe.cpp

@@ -1,8 +1,19 @@
 #include "ttmcontent.h"
+#include "controller/databasemanager.h"
+#include "controller/signalmanager.h"
 #include "widgets/imagebutton.h"
+#include "utils/baseutils.h"
 #include <QBoxLayout>
 
-TTMContent::TTMContent(QWidget *parent) : QWidget(parent)
+namespace {
+
+const QString FAVORITES_ALBUM = "My favorites";
+
+}  // namespace
+
+TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
+    : QWidget(parent),
+      m_sManager(SignalManager::instance())
 {
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(0, 0, 0, 0);
@@ -10,30 +21,12 @@ TTMContent::TTMContent(QWidget *parent) : QWidget(parent)
     hb->addStretch();
 
     ImageButton *btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/contrarotate_normal.png");
-    btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
-    btn->setPressPic(":/images/resources/images/contrarotate_press.png");
-    btn->setToolTip(tr("Rotate counterclockwise"));
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked,
-            this, &TTMContent::rotateCounterclockwise);
-
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
-    btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
-    btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
-    hb->addWidget(btn);
-    btn->setToolTip(tr("Rotate clockwise"));
-    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateClockWise);
-
-    btn = new ImageButton();
     btn->setNormalPic(":/images/resources/images/adapt_image_normal.png");
     btn->setHoverPic(":/images/resources/images/adapt_image_hover.png");
     btn->setPressPic(":/images/resources/images/adapt_image_active.png");
     btn->setToolTip(tr("1:1 Size"));
     btn->setWhatsThis("1:1SizeButton");
     hb->addWidget(btn);
-    hb->addStretch();
     connect(btn, &ImageButton::clicked, [this, btn](){
         if (btn->whatsThis() == "1:1SizeButton") {
             btn->setNormalPic(":/images/resources/images/adapt_screen_normal.png");
@@ -52,4 +45,78 @@ TTMContent::TTMContent(QWidget *parent) : QWidget(parent)
             emit resetTransform(false);
         }
     });
+
+    btn = new ImageButton();
+    btn->setNormalPic(":/images/resources/images/previous_normal.png");
+    btn->setHoverPic(":/images/resources/images/previous_hover.png");
+    btn->setPressPic(":/images/resources/images/previous_press.png");
+    btn->setToolTip(tr("Previous"));
+    hb->addWidget(btn);
+    connect(btn, &ImageButton::clicked, this, &TTMContent::showPrevious);
+
+    if (! fromFileManager) {
+        m_clBT = new ImageButton();
+        hb->addWidget(m_clBT);
+        connect(m_clBT, &ImageButton::clicked, [=] {
+            if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
+                dbManager()->removeImageFromAlbum(FAVORITES_ALBUM,m_imageName);
+            }
+            else {
+                DatabaseManager::ImageInfo info =
+                        dbManager()->getImageInfoByName(m_imageName);
+                dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM,
+                    m_imageName, utils::base::timeToString(info.time));
+            }
+            updateCollectButton();
+        });
+        updateCollectButton();
+    }
+
+    btn = new ImageButton();
+    btn->setNormalPic(":/images/resources/images/next_normal.png");
+    btn->setHoverPic(":/images/resources/images/next_hover.png");
+    btn->setPressPic(":/images/resources/images/next_press.png");
+    btn->setToolTip(tr("Next"));
+    hb->addWidget(btn);
+    connect(btn, &ImageButton::clicked, this, &TTMContent::showNext);
+
+    btn = new ImageButton();
+    btn->setNormalPic(":/images/resources/images/delete_normal.png");
+    btn->setHoverPic(":/images/resources/images/delete_hover.png");
+    btn->setPressPic(":/images/resources/images/delete_press.png");
+    btn->setToolTip(tr("Move to trash"));
+    hb->addWidget(btn);
+    connect(btn, &ImageButton::clicked, this, &TTMContent::removed);
+
+    hb->addStretch();
+}
+
+void TTMContent::onImageChanged(const QString &name, const QString &path)
+{
+    m_imageName = name;
+    m_imagePath = path;
+}
+
+DatabaseManager *TTMContent::dbManager() const
+{
+    return DatabaseManager::instance();
+}
+void TTMContent::updateCollectButton()
+{
+    if (! m_clBT)
+        return;
+    if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
+        m_clBT->setToolTip(tr("Remove from Favorites"));
+        m_clBT->setWhatsThis("RFFButton");
+        m_clBT->setNormalPic(":/images/resources/images/collect_active.png");
+        m_clBT->setHoverPic(":/images/resources/images/collect_active.png");
+        m_clBT->setPressPic(":/images/resources/images/collect_active.png");
+    }
+    else {
+        m_clBT->setToolTip(tr("Add to Favorites"));
+        m_clBT->setWhatsThis("ATFButton");
+        m_clBT->setNormalPic(":/images/resources/images/collect_normal.png");
+        m_clBT->setHoverPic(":/images/resources/images/collect_hover.png");
+        m_clBT->setPressPic(":/images/resources/images/collect_hover.png");
+    }
 }

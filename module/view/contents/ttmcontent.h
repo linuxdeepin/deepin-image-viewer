@@ -3,16 +3,33 @@
 
 #include <QWidget>
 
+class DatabaseManager;
+class SignalManager;
+class ImageButton;
 class TTMContent : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TTMContent(QWidget *parent = 0);
+    explicit TTMContent(bool fromFileManager, QWidget *parent = 0);
+
+public slots:
+    void onImageChanged(const QString &name, const QString &path);
+    void updateCollectButton();
 
 signals:
-    void rotateCounterclockwise();
-    void rotateClockWise();
     void resetTransform(bool fitWindow);
+    void showPrevious();
+    void showNext();
+    void removed();
+
+private:
+    DatabaseManager *dbManager() const;
+
+private:
+    ImageButton *m_clBT;
+    SignalManager *m_sManager;
+    QString m_imageName;
+    QString m_imagePath;
 };
 
 #endif // TTMCONTENT_H

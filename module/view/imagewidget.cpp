@@ -209,8 +209,6 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
     else
         zoom += dp.y()/100.0;
 
-    qDebug() << "zoom:" << zoom;
-
     zoom = qBound(qreal(0.5), zoom, qreal(10));
     setScaleValue(zoom);
 }
