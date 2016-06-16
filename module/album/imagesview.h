@@ -22,6 +22,7 @@ public:
     explicit ImagesView(QWidget *parent = 0);
     void setAlbum(const QString &album);
     void updateView();
+    bool removeItem(const QString &name);
 
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
@@ -32,8 +33,6 @@ public:
 protected:
     bool eventFilter(QObject *obj, QEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
-    void keyPressEvent(QKeyEvent *e) override;
-    void keyReleaseEvent(QKeyEvent *e) override;
 
 private:
     enum MenuItemId {
@@ -70,13 +69,14 @@ private:
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
 
-    void updateThumbnail(const QString &name);
+    void updateThumbnail(const QString &path);
     void updateMenuContents();
     void onMenuItemClicked(int menuId);
 
     void updateContentRect();
     void updateTopTipsRect();
     int getMinContentsWidth();
+    int indexOf(const QString &name) const;
 
 
 private:

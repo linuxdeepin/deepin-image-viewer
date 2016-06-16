@@ -63,6 +63,15 @@ void ImagesView::updateView()
     setAlbum(m_currentAlbum);
 }
 
+bool ImagesView::removeItem(const QString &name)
+{
+    const int i = indexOf(name);
+    if (i != -1)
+        m_model.removeRow(i);
+
+    return false;
+}
+
 void ImagesView::initContent()
 {
     m_contentWidget = new QWidget();
@@ -91,18 +100,6 @@ void ImagesView::initListView()
         m_popupMenu->setMenuContent(createMenuContent());
         m_popupMenu->showMenu();
     });
-}
-
-void ImagesView::keyPressEvent(QKeyEvent *e) {
-    if (e->key() == Qt::Key_Control) {
-        m_view->setSelectionMode(QAbstractItemView::MultiSelection);
-    }
-}
-
-void ImagesView::keyReleaseEvent(QKeyEvent *e) {
-    if (e->key() == Qt::Key_Control) {
-        m_view->setSelectionMode(QAbstractItemView::SingleSelection);
-    }
 }
 
 void ImagesView::initTopTips()
@@ -148,7 +145,7 @@ QString ImagesView::createMenuContent()
                                 false));
 
     items.append(createMenuItem(IdSeparator, "", true));
-    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
+//    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
@@ -187,19 +184,19 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
                                                  subMenu));
 }
 
-void ImagesView::updateThumbnail(const QString &name)
+void ImagesView::updateThumbnail(const QString &path)
 {
-    for (int i = 0; i < m_model.rowCount(); i ++) {
-        if (m_model.item(i, 0)->toolTip() == name) {
-            m_dbManager->updateThumbnail(name);
+    const QString name = QFileInfo(path).fileName();
+    const int i = indexOf(name);
+    if (i != -1) {
+        m_dbManager->updateThumbnail(name);
 
-            const QPixmap p = m_dbManager->getImageInfoByName(name).thumbnail;
-            QIcon icon;
-            QPixmap thumbnail = m_view->increaseThumbnail(p);
-            icon.addPixmap(thumbnail, QIcon::Normal);
-            m_model.item(i, 0)->setIcon(icon);
-            return;
-        }
+        const QPixmap p = m_dbManager->getImageInfoByName(name).thumbnail;
+        QIcon icon;
+        QPixmap thumbnail = m_view->increaseThumbnail(p);
+        icon.addPixmap(thumbnail, QIcon::Normal);
+        m_model.item(i, 0)->setIcon(icon);
+        return;
     }
 }
 
@@ -214,6 +211,8 @@ void ImagesView::onMenuItemClicked(int menuId)
         return;
     }
 
+    const QStringList nList = selectedImagesNameList();
+    const QStringList pList = selectedImagesPathList();
     const QString cname = currentSelectOne(false);
     const QString cpath = currentSelectOne(true);
     switch (MenuItemId(menuId)) {
@@ -229,29 +228,41 @@ void ImagesView::onMenuItemClicked(int menuId)
         m_sManager->startSlideShow(cpath);
         break;
     case IdCopy:
-        utils::base::copyImageToClipboard(QStringList(cpath));
+        utils::base::copyImageToClipboard(pList);
         break;
-    case IdMoveToTrash:
-        m_dbManager->removeImageFromAlbum(m_currentAlbum, cname);
-        m_dbManager->removeImage(cname);
-        utils::base::trashFile(cpath);
+    case IdMoveToTrash: {
+        for (QString path : pList) {
+            const QString name = QFileInfo(path).fileName();
+            m_dbManager->removeImageFromAlbum(m_currentAlbum, name);
+            m_dbManager->removeImage(name);
+            removeItem(name);
+            utils::base::trashFile(path);
+        }
         break;
+    }
     case IdRemoveFromAlbum:
-        m_dbManager->removeImageFromAlbum(m_currentAlbum, cname);
+        for (QString name : nList) {
+            m_dbManager->removeImageFromAlbum(m_currentAlbum, name);
+            removeItem(name);
+        }
         break;
-    case IdEdit:
-        m_sManager->editImage(cpath);
-        break;
+//    case IdEdit:
+//        m_sManager->editImage(cpath);
+//        break;
     case IdRotateClockwise:
-        utils::image::rotate(cpath, 90);
-        updateThumbnail(cname);
+        for (QString path : pList) {
+            utils::image::rotate(path, 90);
+            updateThumbnail(path);
+        }
         break;
     case IdRotateCounterclockwise:
-        utils::image::rotate(cpath, -90);
-        updateThumbnail(cname);
+        for (QString path : pList) {
+            utils::image::rotate(path, -90);
+            updateThumbnail(path);
+        }
         break;
-    case IdLabel:
-        break;
+//    case IdLabel:
+//        break;
     case IdSetAsWallpaper:
         WallpaperSetter::instance()->setWallpaper(cpath);
         break;
@@ -287,6 +298,16 @@ int ImagesView::getMinContentsWidth()
     int holdCount = floor((double)(width() - itemSpacing - viewHMargin)
                           / (iconSize().width() + itemSpacing));
     return (iconSize().width() + itemSpacing) * holdCount + itemSpacing + viewHMargin;
+}
+
+int ImagesView::indexOf(const QString &name) const
+{
+    for (int i = 0; i < m_model.rowCount(); i ++) {
+        if (m_model.item(i, 0)->toolTip() == name) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 QString ImagesView::getCurrentAlbum() const
