@@ -23,8 +23,7 @@ public:
 public slots:
     void setCurrentValue(int val);
     int currentValue();
-    void addCurrentValue();
-    void minusCurrentValue();
+
 signals:
     void valueChanged(double perc);
 
@@ -41,8 +40,6 @@ private:
     QTimer *m_hideTimer;
     int m_setValueTimes;
 
-    DImageButton* m_addBtn;
-    DImageButton* m_minusBtn;
 };
 
 #endif // IMAGESLIDERFRAME_H

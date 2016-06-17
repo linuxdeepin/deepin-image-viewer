@@ -10,11 +10,11 @@ const int MAXIMUM = 1000;
 const int MINIMUM = 50;
 const int SLIDER_HEIGHT = 322;
 const int SCALE_VALUE = 10;
-const int ICON_WIDTH = 28;
+
 ImageSliderFrame::ImageSliderFrame(QWidget *parent)
     : QWidget(parent), m_setValueTimes(0)
 {
-    this->setFixedSize(105, SLIDER_HEIGHT+ICON_WIDTH*2);
+    this->setFixedSize(105, SLIDER_HEIGHT+20);
     setAttribute(Qt::WA_TransparentForMouseEvents);
     m_slider = new ScaleSlider(ScaleSlider::Rect);
 
@@ -25,17 +25,6 @@ ImageSliderFrame::ImageSliderFrame(QWidget *parent)
     m_slider->setBrushColor(QColor(255, 255, 255, 75));
     m_slider->setFixedSize(22, SLIDER_HEIGHT);
 
-
-    m_addBtn = new DImageButton(this);
-    m_addBtn->setFixedSize(ICON_WIDTH, ICON_WIDTH);
-    m_addBtn->setNormalPic(":/images/resources/images/add.png");
-
-    m_minusBtn = new DImageButton(this);
-    m_minusBtn->setFixedSize(ICON_WIDTH, ICON_WIDTH);
-    m_minusBtn->setNormalPic(":/images/resources/images/minus.png");
-
-    m_addBtn->move(77, 0);
-    m_minusBtn->move(77, this->y() + this->height() - m_minusBtn->height());
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(80, 0, 0, 0);
     layout->addWidget(m_slider);
@@ -60,27 +49,16 @@ ImageSliderFrame::ImageSliderFrame(QWidget *parent)
         m_tooltip->raise();
     });
 
-    connect(m_addBtn, &DImageButton::clicked,  this, &ImageSliderFrame::addCurrentValue);
-    connect(m_minusBtn, &DImageButton::clicked,  this, &ImageSliderFrame::minusCurrentValue);
 }
 
 int ImageSliderFrame::currentValue() {
     return m_currentValue;
 }
+
 void ImageSliderFrame::setCurrentValue(int val) {
     m_currentValue = val;
     m_slider->setValue(val);
     m_valueLabel->setText(tr("%1%").arg(QString::number(val)));
-}
-
-void ImageSliderFrame::addCurrentValue() {
-    if ((m_slider->value() + SCALE_VALUE) <= MAXIMUM )
-        m_slider->setValue(m_slider->value() + SCALE_VALUE);
-}
-
-void ImageSliderFrame::minusCurrentValue() {
-    if ((m_slider->value() - SCALE_VALUE) >= MINIMUM)
-        m_slider->setValue(m_slider->value() - SCALE_VALUE);
 }
 
 void ImageSliderFrame::setValue(double perc)
@@ -104,6 +82,7 @@ ImageSliderFrame::~ImageSliderFrame() {
 void ImageSliderFrame::initTooltip()
 {
     m_tooltip = new QLabel(this);
+
     m_tooltip->setObjectName("Tooltip");
     m_tooltip->setFixedSize(74, 38);
     m_tooltip->move(5, 100);
