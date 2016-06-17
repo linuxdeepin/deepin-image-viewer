@@ -26,12 +26,7 @@ const QColor TITLE_SELECTED_COLOR = QColor("#2ca7f8");
 const int TITLE_EDIT_MARGIN = 20;
 
 const int THUMBNAIL_BG_MARGIN = 8;
-const int THUMBNAIL_LEFT_MARGIN = 6 + THUMBNAIL_BG_MARGIN;
-const int THUMBNAIL_TOP_MARGIN = 6 + THUMBNAIL_BG_MARGIN;
-const int THUMBNAIL_RIGHT_MARGIN = 18 + THUMBNAIL_BG_MARGIN;
 
-const int DATELABEL_RIGHT_MARGIN = 20 + 5;
-const int DATELABEL_BOTTOM_MARGIN = 2 + 8;
 const int DATELABEL_FONT_SIZE = 9;
 const QColor DATELABEL_COLOR = QColor("#000000");
 
@@ -133,11 +128,7 @@ void AlbumDelegate::paint(QPainter *painter,
     QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
     if (! datas.isEmpty()) {
         //        painter->setRenderHint(QPainter::Antialiasing);
-        QRect rect = option.rect;
-
-//        // Draw background
-//        drawBG(option, painter);
-
+        const QRect rect = option.rect;
         // Draw compound thumbnail
         QPixmap pixmap = getCompoundPixmap(option, index);
         const int pixmapSize = rect.width() - THUMBNAIL_BG_MARGIN * 2;
@@ -263,67 +254,85 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     painter.setRenderHint(QPainter::Antialiasing);
 
     // Draw thumbnail in bg
-    const int thumbnailSize = bgSize.width()
-            - THUMBNAIL_LEFT_MARGIN - THUMBNAIL_RIGHT_MARGIN;
-    QPixmap scalePixmp = thumbnail.scaled(thumbnailSize, thumbnailSize,
+    const QRect tRect = thumbnailRect(bgSize);
+    QPixmap scalePixmp = thumbnail.scaled(tRect.size(),
                                           Qt::KeepAspectRatioByExpanding,
                                           Qt::SmoothTransformation);
-    QRect thumbnailRect(THUMBNAIL_LEFT_MARGIN, THUMBNAIL_TOP_MARGIN,
-                        thumbnailSize, thumbnailSize);
-    painter.drawPixmap(thumbnailRect, scalePixmp);
+    painter.drawPixmap(tRect, scalePixmp);
 
     // Draw special mark
-    int markSize = thumbnailSize * 0.38;
+    int markSize = tRect.width() * 0.38;
     if (albumName == "Recent imported") {
         QPixmap p = QPixmap(":/images/resources/images/album_recent_imported.png")
                 .scaled(markSize, markSize,
                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        painter.drawPixmap(thumbnailRect.x() + (thumbnailSize - markSize) / 2,
-                           thumbnailRect.y() + (thumbnailSize - markSize) / 2,
+        painter.drawPixmap(tRect.x() + (tRect.width() - markSize) / 2,
+                           tRect.y() + (tRect.height() - markSize) / 2,
                            markSize, markSize, p);
     }
     else if (albumName == "My favorites") {
         QPixmap p = QPixmap(":/images/resources/images/album_favorites.png")
                 .scaled(markSize, markSize,
                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        painter.drawPixmap(thumbnailRect.x() + (thumbnailSize - markSize) / 2,
-                           thumbnailRect.y() + (thumbnailSize - markSize) / 2,
+        painter.drawPixmap(tRect.x() + (tRect.width() - markSize) / 2,
+                           tRect.y() + (tRect.height() - markSize) / 2,
                            markSize, markSize, p);
     }
 
     // Draw year label
+    const QString title = yearTitle(beginTime, endTime);
+    QFont font;
+    font.setPixelSize(DATELABEL_FONT_SIZE);
+    QPen titlePen(DATELABEL_COLOR);
+    painter.setFont(font);
+    painter.setPen(titlePen);
+    painter.drawText(yearTitleRect(bgSize, title), title,
+                     QTextOption(Qt::AlignVCenter | Qt::AlignRight));
+
+    return bgPixmap;
+}
+
+const QRect AlbumDelegate::thumbnailRect(const QSize &bgSize) const
+{
+    const int s = 0.7286 * bgSize.width();
+    const int lm = 0.0857 * bgSize.width();
+    const int tm = 0.0929 * bgSize.height();
+
+    return QRect(lm, tm, s, s);
+}
+
+const QRect AlbumDelegate::yearTitleRect(const QSize &bgSize, const QString &title) const
+{
+    QFont font;
+    font.setPixelSize(DATELABEL_FONT_SIZE);
+    QFontMetrics fm(font);
+    QRect rect(bgSize.width() - bgSize.width() * 0.1857 - fm.width(title),
+                    bgSize.height() - bgSize.height() * 0.07 - fm.height(),
+                    fm.width(title), fm.height());
+    return rect;
+}
+
+const QString AlbumDelegate::yearTitle(const QDateTime &b, const QDateTime &e) const
+{
     QString beginStr;
     QString endStr;
     QString dateStr;
-    if (beginTime.isValid() && endTime.isValid()) {
-        beginStr = beginTime.toString("yyyy");
-        endStr = endTime.toString("yyyy");
+    if (b.isValid() && e.isValid()) {
+        beginStr = b.toString("yyyy");
+        endStr = e.toString("yyyy");
     }
-    else if (beginTime.isValid() && ! endTime.isValid()) {
-        beginStr = beginTime.toString("yyyy");
+    else if (b.isValid() && ! e.isValid()) {
+        beginStr = b.toString("yyyy");
         endStr = beginStr;
     }
-    else if (! beginTime.isValid() && endTime.isValid()) {
-        endStr = endTime.toString("yyyy");
+    else if (! b.isValid() && e.isValid()) {
+        endStr = e.toString("yyyy");
         beginStr = endStr;
     }
 
     if (! beginStr.isEmpty())
         dateStr = beginStr + "-" + endStr;
-
-    QFont font;
-    font.setPixelSize(DATELABEL_FONT_SIZE);
-    QFontMetrics fm(font);
-    QPen titlePen(DATELABEL_COLOR);
-    painter.setFont(font);
-    painter.setPen(titlePen);
-    QRect titleRect(bgPixmap.width() - DATELABEL_RIGHT_MARGIN - fm.width(dateStr),
-                    bgPixmap.height() - DATELABEL_BOTTOM_MARGIN - fm.height(),
-                    fm.width(dateStr), fm.height());
-    painter.drawText(titleRect, dateStr,
-                     QTextOption(Qt::AlignVCenter | Qt::AlignRight));
-
-    return bgPixmap;
+    return dateStr;
 }
 
 void AlbumDelegate::onEditFinished()

@@ -39,6 +39,9 @@ private:
                    QPainter *painter) const;
     QPixmap getCompoundPixmap(const QStyleOptionViewItem &option,
                               const QModelIndex &index) const;
+    const QRect thumbnailRect(const QSize &bgSize) const;
+    const QRect yearTitleRect(const QSize &bgSize, const QString &title) const;
+    const QString yearTitle(const QDateTime &b, const QDateTime &e) const;
     void onEditFinished();
 
 private:
