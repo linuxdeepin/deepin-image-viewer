@@ -79,6 +79,16 @@ void TopToolbar::mouseMoveEvent(QMouseEvent *event)
     emit moving();
 }
 
+void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton) {
+        if (window()->isMaximized())
+            window()->showNormal();
+        else if (! window()->isFullScreen())  // It would be normal state
+            window()->showMaximized();
+    }
+}
+
 void TopToolbar::initWidgets()
 {
     QHBoxLayout *mainLayout = new QHBoxLayout(this);

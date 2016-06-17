@@ -22,6 +22,7 @@ signals:
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
 
 private:
     enum MenuItemId {
