@@ -2,6 +2,7 @@
 #define EXPORTER_H
 
 #include <QObject>
+#include <QMap>
 
 class Exporter : public QObject {
     Q_OBJECT
@@ -15,6 +16,10 @@ public slots:
 private:
     explicit Exporter(QObject *parent = 0);
     static Exporter *m_exporter;
+    QMap<QString, QString> m_picFormatMap;
+
+    void initValidFormatMap();
+    QString getOrderFormat(QString defaultFormat);
 };
 
 #endif // EXPORTER_H

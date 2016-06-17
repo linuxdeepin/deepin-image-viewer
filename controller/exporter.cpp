@@ -27,19 +27,23 @@ void Exporter::exportImage(const QStringList imagePaths) {
     if (imagePaths.isEmpty()) {
         return;
     } else if (imagePaths.length() == 1) {
+        initValidFormatMap();
         QFileDialog exportDialog;
+
         //Todo: need to filter the format of images.
         QString imagePath = imagePaths.at(0);
         QString imageName = QString("%1.%2").arg(QFileInfo(imagePath).baseName())
                 .arg(QFileInfo(imagePath).completeSuffix());
         QString picLocation = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0);
+
         QString imageSavePath = QString("%1/%2").arg(picLocation).arg(imageName);
+
+        qDebug() << "Exporter:" << QFileInfo(imagePath).baseName() << QFileInfo(imagePath).completeSuffix();
         qDebug() << "imageSavePath:" << imageSavePath;
-        QString selectFilter = tr("JPEG(*.bmp *.gif *.jpg;*.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns"
+        QString selectFilter = tr("JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns"
                                   "*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)");
         QString dialogFilePath = exportDialog.getSaveFileName(nullptr, tr("Save File"),
-        imageSavePath, tr("All files (*.*);;JPEG (*.jpg *.jpeg);;""TIFF (*.tif);;PNG(*.png);;PBM(*.pbm *.pgm *.ppm *xbm,"
-                          "*.xpm);; SVG(*.svg);;DDS(*.dds);;ICNS(*.icns);;JPG2(*.jp2);;MNG(*.mng);;TGA(*.tga);;WBMP(*wbmp);;WEBP(*.webp)"),
+        imageSavePath, getOrderFormat(QFileInfo(imagePath).completeSuffix()),
         &selectFilter, QFileDialog::DontUseNativeDialog);
 
         qDebug() << "dialogFilePath:" << dialogFilePath;
@@ -81,4 +85,35 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
             continue;
         }
     }
+}
+
+void Exporter::initValidFormatMap() {
+    m_picFormatMap.insert("jpeg", "JPEG (*.jpeg)");
+    m_picFormatMap.insert("jpg", "JPG (*.jpg)");
+    m_picFormatMap.insert("bmp", "BMP (*.bmp)");
+    m_picFormatMap.insert("png", "PNG (*.png)");
+
+    m_picFormatMap.insert("ppm", "PGM (*.ppm)");
+    m_picFormatMap.insert("xbm", "XBM (*.xbm)");
+    m_picFormatMap.insert("xpm", "XPM (*.xpm)");
+
+}
+
+QString Exporter::getOrderFormat(QString defaultFormat) {
+    QString allFormat = "";
+    QMap<QString, QString>::const_iterator i = m_picFormatMap.constBegin();
+    while (i != m_picFormatMap.constEnd()) {
+        if (i.key() == defaultFormat)
+            allFormat = QString("%1;;%2").arg(m_picFormatMap.value(defaultFormat)).arg(allFormat);
+        else
+            if (i == m_picFormatMap.constEnd() - 1)
+                allFormat = QString("%1%2").arg(allFormat).arg(i.value());
+            else
+               allFormat = QString("%1%2;;").arg(allFormat).arg(i.value());
+
+        qDebug() << i.key() << ": " << i.value();
+        ++i;
+    }
+
+    return allFormat;
 }
