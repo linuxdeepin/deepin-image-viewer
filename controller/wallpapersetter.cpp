@@ -1,4 +1,6 @@
 #include "wallpapersetter.h"
+#include <QTimer>
+#include <QFile>
 #include <QProcess>
 #include <QDebug>
 
@@ -20,25 +22,38 @@ WallpaperSetter::WallpaperSetter(QObject *parent) : QObject(parent)
 void WallpaperSetter::setWallpaper(const QString &path)
 {
     DE de = getDE();
+    // gsettings unsupported unicode character
+    qDebug() << "SettingWallpaper: " << de << path;
+    const QString tmpImg = "/tmp/DIVTMP.jpg";
+    QFile(path).copy(tmpImg);
     switch (de) {
     case Deepin:
-        setDeepinWallpaper(path);
+        setDeepinWallpaper(tmpImg);
         break;
     case KDE:
-        setKDEWallpaper(path);
+        setKDEWallpaper(tmpImg);
         break;
     case GNOME:
-        setGNOMEWallpaper(path);
+        setGNOMEWallpaper(tmpImg);
         break;
     case LXDE:
-        setLXDEWallpaper(path);
+        setLXDEWallpaper(tmpImg);
         break;
     case Xfce:
-        setXfaceWallpaper(path);
+        setXfaceWallpaper(tmpImg);
         break;
     default:
-        setGNOMEShellWallpaper(path);
+        setGNOMEShellWallpaper(tmpImg);
     }
+
+    // Remove the tmp file
+    QTimer *t = new QTimer(this);
+    t->setSingleShot(true);
+    connect(t, &QTimer::timeout, this, [t, tmpImg] {
+        QFile(tmpImg).remove();
+        t->deleteLater();
+    });
+    t->start(1000);
 }
 
 void WallpaperSetter::setDeepinWallpaper(const QString &path)
@@ -107,8 +122,10 @@ bool WallpaperSetter::testDE(const QString &app)
     bool v;
     QProcess p;
     p.start(QString("ps -A"));
-    while (p.waitForReadyRead(3000))
+    while (p.waitForReadyRead(3000)) {
         v = QString(p.readAllStandardOutput()).contains(app);
+        p.kill();
+    }
 
     return v;
 }
