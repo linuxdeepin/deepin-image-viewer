@@ -30,8 +30,6 @@ SliderFrame::SliderFrame(QWidget *parent)
                         - m_tooltip->height() / 2);
         emit valueChanged(perc);
     });
-    connect(m_slider, &ScaleSlider::mousePress, this, [=] {m_pressed = true;});
-    connect(m_slider, &ScaleSlider::mouseRelease, this, [=] {m_pressed = false;});
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(3, 0, 0, 0);
@@ -112,14 +110,17 @@ void SliderFrame::initTimer()
         QRect tooltipRect = m_tooltip->geometry();
         tooltipRect.moveTopLeft(this->mapToGlobal(tooltipRect.topLeft()));
 
-        if (! sliderRect.contains(QCursor::pos()) && ! tooltipRect.contains(QCursor::pos())) {
+        if (! sliderRect.contains(QCursor::pos()) &&
+                ! tooltipRect.contains(QCursor::pos())) {
             hide();
             m_hideTimer->stop();
         }
     });
 }
 
-bool SliderFrame::pressed() const
+bool SliderFrame::containsMouse() const
 {
-    return m_pressed;
+    const QPoint gp = this->mapToGlobal(QPoint(0, 0));
+    const QRect r(gp, size());
+    return r.contains(QCursor::pos());
 }

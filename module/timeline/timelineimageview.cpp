@@ -17,7 +17,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
       m_vScrollBar(new ScrollBar),
       m_ascending(false),
       m_multiSelection(multiselection),
-      m_scrollValue(0),
+      m_scrollPerc(0.0),
       m_iconSize(96, 96)
 {
     initSliderFrame();
@@ -135,15 +135,18 @@ void TimelineImageView::initSliderFrame()
     m_sliderFrame = new SliderFrame(this);
     connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
         if (m_sliderFrame->isVisible()) {
-            if (m_sliderFrame->pressed()) {
-                verticalScrollBar()->setValue((1 - perc) * (verticalScrollBar()->maximum() - verticalScrollBar()->minimum()));
+            if (m_sliderFrame->containsMouse()) {
+                m_vScrollBar->setValue((1 - perc) * (m_vScrollBar->maximum() - m_vScrollBar->minimum()));
             }
-            QString month = currentMonth();
-            m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
         }
     });
-    connect(m_vScrollBar, &QScrollBar::valueChanged, this, [this] {
+    connect(m_vScrollBar, &ScrollBar::valueChanged, this, [this] {
+//        qDebug() << m_vScrollBar->value()
+//                 << m_vScrollBar->maximum()
+//                 << m_vScrollBar->minimum();
         m_sliderFrame->setValue(scrollingPercent());
+        QString month = currentMonth();
+        m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
     });
     m_sliderFrame->hide();
 }
@@ -176,7 +179,7 @@ void TimelineImageView::initContents()
 
 void TimelineImageView::insertReadyFrames()
 {
-    if (! isVisible()) {
+    if (! isVisible() || ! m_frames.isEmpty()) {
         return;
     }
 
@@ -185,28 +188,25 @@ void TimelineImageView::insertReadyFrames()
     for (QString timeline : timelines) {
         inserFrame(timeline, m_multiSelection);
     }
+    // Delay for viewport expanded
+    QTimer::singleShot(100, this, [=] {
+        m_vScrollBar->setValue(m_vScrollBar->maximum() * m_scrollPerc);
+    });
 }
 
 bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Hide) {
-        m_scrollValue = m_vScrollBar->value();
+        m_scrollPerc = 1.0 * m_vScrollBar->value() / m_vScrollBar->maximum();
         // Make sure the other module is ready(eg.view)
         QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
     }
     else if (e->type() == QEvent::Show) {
-        if (m_frames.isEmpty()) {
-            insertReadyFrames();
-        }
-        // The duration should longer than scrollbar animation's duration
-        QTimer *t = new QTimer(this);
-        t->setSingleShot(true);
-        connect(t, &QTimer::timeout, this, [=] {
-            m_vScrollBar->setValue(m_scrollValue);
-            t->deleteLater();
-        });
-        t->start(700);
+        // Fix me: if not delay insert, the scroller will always scroll back to
+        // top after scrolled by m_sliderFrame
+        if (m_frames.isEmpty())
+            QTimer::singleShot(100, this, SLOT(insertReadyFrames()));
     }
     return false;
 }

@@ -5,16 +5,21 @@ ScrollBar::ScrollBar(QWidget *parent)
     : QScrollBar(parent)
 {
     connect(this, &ScrollBar::valueChanged, this, &ScrollBar::onValueChange);
-    animation = new QPropertyAnimation(this, "value");
-    animation->setDuration(600);
-    animation->setEasingCurve(QEasingCurve::OutCubic);
+    m_animation = new QPropertyAnimation(this, "value");
+    m_animation->setDuration(600);
+    m_animation->setEasingCurve(QEasingCurve::OutCubic);
 }
 
 void ScrollBar::wheelEvent(QWheelEvent *event)
 {
-    if (animation->state() == QPropertyAnimation::Running) {
-        setValue(animation->endValue().toInt());
-        animation->stop();
+    // Fix me: the maximum() will change during wheel, i don't know why
+    if (m_animation->state() == QPropertyAnimation::Running) {
+        setValue(m_animation->endValue().toInt());
+        m_animation->stop();
+        m_setFromOutside = true;
+    }
+    else {
+        m_setFromOutside = false;
     }
     m_oldValue = this->value();
     QScrollBar::wheelEvent(event);
@@ -23,11 +28,12 @@ void ScrollBar::wheelEvent(QWheelEvent *event)
 void ScrollBar::onValueChange(int value)
 {
     if (m_oldValue != 0) {
-        int cv = animation->currentValue().toInt();
-        animation->setStartValue(cv != 0 ? cv : m_oldValue);
-        animation->setEndValue(value);
+        int cv = m_animation->currentValue().toInt();
+        // If value set from outside before, it should not use the cv for start value
+        m_animation->setStartValue(m_setFromOutside ? cv : m_oldValue);
+        m_animation->setEndValue(value);
         m_oldValue = 0;
-        animation->start();
+        m_animation->start();
     }
 }
 
