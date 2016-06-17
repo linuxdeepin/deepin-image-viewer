@@ -163,7 +163,7 @@ QString AlbumsView::getNewAlbumName() const
     const QStringList albums = m_dbManager->getAlbumNameList();
     QStringList tmpList;
     for (QString album : albums) {
-        if (album.startsWith("New Album")) {
+        if (album.startsWith(nan)) {
             tmpList << album;
         }
     }
@@ -176,11 +176,13 @@ QString AlbumsView::getNewAlbumName() const
     }
     else {
         qSort(tmpList.begin(), tmpList.end());
-        for (int i = tmpList.length() - 1; i > 0; i ++) {
-            const int count
+        for (int i = tmpList.length() - 1; i > 0; i --) {
+            int count
                     = QString(QString(tmpList.at(i)).split(nan).last()).toInt();
             if (count >= 0) {
-                return nan + QString::number(i + 1);
+                while (tmpList.indexOf(nan + QString::number(++count)) == -1) {
+                    return nan + QString::number(count);
+                }
             }
         }
 

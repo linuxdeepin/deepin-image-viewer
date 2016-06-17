@@ -94,14 +94,19 @@ void AlbumDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     if (lineEdit) {
         QList<QVariant> olds = model->data(index, Qt::DisplayRole).toList();
         QList<QVariant> datas;
-        datas.append(QVariant(lineEdit->text()));
+        const QStringList l = DatabaseManager::instance()->getAlbumNameList();
+        QString nName = lineEdit->text().trimmed();
+        if (l.indexOf(nName) != -1) {
+            // Name is already exit in DB, do not rename by LineEdit's text
+            nName = olds.first().toString();
+        }
+        datas.append(QVariant(nName));
         for (int i = 1; i < olds.length(); i ++) {
             datas.append(olds.at(i));
         }
 
         // Update database
-        DatabaseManager::instance()->renameAlbum(olds.first().toString(),
-                                                 lineEdit->text());
+        DatabaseManager::instance()->renameAlbum(olds.first().toString(), nName);
 
         model->setData(index, QVariant(datas), Qt::DisplayRole);
     }
