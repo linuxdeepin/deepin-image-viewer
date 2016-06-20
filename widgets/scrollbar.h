@@ -18,8 +18,9 @@ private:
     void onValueChange(int value);
 
 private:
-    QPropertyAnimation *animation;
+    QPropertyAnimation *m_animation;
     int m_oldValue;
+    bool m_setFromOutside;
 };
 
 #endif // SCROLLBAR_H

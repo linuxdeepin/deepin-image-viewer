@@ -15,7 +15,7 @@ public:
     explicit SliderFrame(QWidget *parent = 0);
     void setValue(double perc);
     void setCurrentInfo(const QString &month, int count);
-    bool pressed() const;
+    bool containsMouse() const;
 
 
 signals:
@@ -33,7 +33,6 @@ private:
     QTimer *m_showTimer;
     QTimer *m_hideTimer;
     int m_setValueTimes;
-    bool m_pressed;
 };
 
 #endif // SLIDERFRAME_H
