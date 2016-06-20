@@ -34,7 +34,7 @@ public:
     void setIconSize(const QSize &iconSize);
 
 signals:
-    void mousePress();
+    void mousePress(QMouseEvent *e);
     void clicked(const QModelIndex &index);
 
 protected:

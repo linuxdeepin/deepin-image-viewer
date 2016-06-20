@@ -96,9 +96,12 @@ void ImagesView::initListView()
     connect(m_view, &ThumbnailListView::doubleClicked, this, [=] (const QModelIndex & index) {
         emit m_sManager->viewImage(index.data(Qt::UserRole).toString(), m_currentAlbum);
     });
-    connect(m_view, &ThumbnailListView::customContextMenuRequested, [this] {
-        m_popupMenu->setMenuContent(createMenuContent());
-        m_popupMenu->showMenu();
+    connect(m_view, &ThumbnailListView::mousePress, this, [=] (QMouseEvent *e) {
+        if (e->button() == Qt::RightButton &&
+                m_view->indexAt(e->pos()).isValid()) {
+            m_popupMenu->setMenuContent(createMenuContent());
+            m_popupMenu->showMenu();
+        }
     });
 }
 

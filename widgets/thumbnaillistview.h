@@ -11,7 +11,7 @@ public:
     const QPixmap increaseThumbnail(const QPixmap &pixmap) const;
 
 signals:
-    void mousePress();
+    void mousePress(QMouseEvent *e);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
