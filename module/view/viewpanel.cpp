@@ -844,11 +844,6 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
     m_fromFileManager = fromOutside;
     Q_EMIT m_sManager->gotoPanel(this);
 
-    if (fromOutside) {
-        Q_EMIT m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        Q_EMIT m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-        Q_EMIT m_sManager->updateExtensionPanelContent(extensionPanelContent());
-    }
 
 //    if (! mouseContainsByBottomToolbar(mapFromGlobal(QCursor::pos()))) {
 //        Q_EMIT m_sManager->hideBottomToolbar();
@@ -866,5 +861,14 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
     m_stack->setCurrentIndex(0);
 
     emit imageChanged(m_current->name, m_current->path);
-    emit updateCollectButton();
+    if (fromOutside) {
+        emit m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        emit m_sManager->updateExtensionPanelContent(extensionPanelContent());
+        emit m_sManager->showTopToolbar();
+        emit m_sManager->hideBottomToolbar(true);
+    }
+    else {
+        emit updateCollectButton();
+    }
 }

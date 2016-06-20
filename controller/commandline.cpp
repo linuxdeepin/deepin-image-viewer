@@ -123,7 +123,6 @@ bool CommandLine::processOption()
             emit sm->hideBottomToolbar(true);
             QTimer::singleShot(50, [=] {
                 emit sm->viewImage(value, "", true);
-                emit sm->showBottomToolbar();
             });
             return true;
         }
