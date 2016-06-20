@@ -218,7 +218,7 @@ QString AlbumsView::createMenuContent(const QModelIndex &index)
                                         "Delete"));
         items.append(createMenuItem(IdSeparator, "", true));
         items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false,
-                                    "Ctrl+Alt+Enter"));
+                                    "Ctrl+Alt+Return"));
     }
     else {
         items.append(createMenuItem(IdCreate, tr("Create Album")));

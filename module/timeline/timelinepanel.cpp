@@ -425,7 +425,7 @@ QString TimelinePanel::createMenuContent()
         items.append(createMenuItem(IdDisplayInFileManager,
             tr("Display in file manager"), false, "Ctrl+D"));
         items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
-                                    "Alt+Enter"));
+                                    "Alt+Return"));
     }
 
     QJsonObject contentObj;
