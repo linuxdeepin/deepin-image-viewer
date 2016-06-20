@@ -19,7 +19,7 @@ public:
     void updateView();
 
     QSize itemSize() const;
-    void setItemSize(const QSize &itemSize);
+    void setItemSizeMultiple(int multiple);
 
 signals:
     void openAlbum(const QString &album);

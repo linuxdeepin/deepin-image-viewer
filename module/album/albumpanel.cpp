@@ -40,16 +40,16 @@ QWidget *AlbumPanel::toolbarBottomContent()
 
     m_slider = new Slider(Qt::Horizontal);
     m_slider->setMinimum(0);
-    m_slider->setMaximum(9);
+    m_slider->setMaximum(3);
     m_slider->setValue(0);
     m_slider->setFixedWidth(120);
     connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
-        int newSize = MIN_ICON_SIZE + multiple * 32;
         if (m_stackWidget->currentWidget() == m_imagesView) {
+            int newSize = MIN_ICON_SIZE + multiple * 32;
             m_imagesView->setIconSize(QSize(newSize, newSize));
         }
         else {
-            m_albumsView->setItemSize(QSize(newSize, newSize));
+            m_albumsView->setItemSizeMultiple(multiple);
         }
     });
 

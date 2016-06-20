@@ -21,6 +21,7 @@ const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 
 AlbumsView::AlbumsView(QWidget *parent)
     : QListView(parent),
+      m_itemSize(ITEM_DEFAULT_SIZE),
       m_dbManager(DatabaseManager::instance()),
       m_sManager(SignalManager::instance()),
       m_popupMenu(new PopupMenuManager(this))
@@ -83,7 +84,7 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
             }
         }
     }
-    if ( ! m_dbManager->getImageInfoByName(imageName)
+    if (! imageName.isEmpty() &&  ! m_dbManager->getImageInfoByName(imageName)
          .thumbnail.save( &inBuffer, "JPG" )) {
         qDebug() << "Write pixmap to buffer error!" << info.name << imageName;
     }
@@ -103,7 +104,7 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     QModelIndex index = m_model->index(m_model->rowCount() - 1, 0);
     //    m_itemModel->setData(index, QVariant(info.name), Qt::EditRole);
     m_model->setData(index, QVariant(datas), Qt::DisplayRole);
-    m_model->setData(index, QVariant(ITEM_DEFAULT_SIZE), Qt::SizeHintRole);
+    m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
 
     return index;
 }
@@ -113,13 +114,12 @@ QSize AlbumsView::itemSize() const
     return m_itemSize;
 }
 
-void AlbumsView::setItemSize(const QSize &itemSize)
+void AlbumsView::setItemSizeMultiple(int multiple)
 {
-    m_itemSize = itemSize;
-    for (int column = 0; column < m_model->columnCount(); column ++) {
-        QModelIndex index = m_model->index(0, column, QModelIndex());
-        m_model->setData(index, QVariant(itemSize), Qt::SizeHintRole);
-    }
+    const int w = ITEM_DEFAULT_SIZE.width() + multiple * 32;
+    const int h = (1.0 *ITEM_DEFAULT_SIZE.height() / ITEM_DEFAULT_SIZE.width()) * w;
+    m_itemSize = QSize(w, h);
+    updateView();
 }
 
 bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
