@@ -48,7 +48,8 @@ void ImageWidget::resetTransform()
         return;
     const QSize s = m_image.size().scaled(rect().size(), Qt::KeepAspectRatio);
     m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
-    m_scale = qreal(s.width())/qreal(m_image.size().width());
+    m_scale = m_image.width() > width() ? 1 :
+        (qreal(s.width())/qreal(m_image.size().width()));
     updateTransform();
 }
 
@@ -150,10 +151,8 @@ void ImageWidget::paintEvent(QPaintEvent *)
     QPainter p(this);
     p.save();
 
-    if (m_scale < 7) {
-        p.setRenderHint(QPainter::Antialiasing);
-        p.setRenderHint(QPainter::SmoothPixmapTransform);
-    }
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHint(QPainter::SmoothPixmapTransform);
 
     p.setTransform(m_mat);
     p.drawPixmap(0, 0, m_pixmap);
@@ -225,13 +224,17 @@ void ImageWidget::updateTransform()
     const QTransform old = m_mat;
     //Q_EMIT scaleValueChanged(value); //TODO: emit only when scaled image is rendered
     const QSize s = m_image.size()*m_scale;//.scaled(rect().size(), Qt::KeepAspectRatio);
-    m_scale = qreal(s.width())/qreal(m_image.size().width());
+    m_scale = qreal(s.width())/qreal(m_image.width());
+    // With respect to the scaling of the window
+    const qreal wrs = m_image.width() > width() ?
+                (m_scale * this->width() / m_image.width()) :
+                m_scale;
     //qDebug() << s << m_image.size() << m_scale;
     m_mat.reset();
-    QPoint img_o = QTransform().rotate(m_rot).scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
+    QPoint img_o = QTransform().rotate(m_rot).scale(wrs*m_flipX, wrs*m_flipY).map(m_o_img);
     m_mat.translate(m_o_dev.x() - (qreal)img_o.x(), m_o_dev.y() - (qreal)img_o.y());
     m_mat.rotate(m_rot);
-    m_mat.scale(m_scale*m_flipX, m_scale*m_flipY);
+    m_mat.scale(wrs*m_flipX, wrs*m_flipY);
     //qDebug() << m_o_dev << m_mat.inverted().map(m_o_dev);
     //qDebug() << m_mat;
     update();
