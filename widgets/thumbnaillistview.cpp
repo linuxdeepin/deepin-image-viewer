@@ -63,9 +63,9 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *e)
         setSelectionMode(QAbstractItemView::MultiSelection);
     }
     else if (e->button() == Qt::LeftButton){
-        emit mousePress();
         setSelectionMode(QAbstractItemView::SingleSelection);
     }
+    emit mousePress(e);
     QListView::mousePressEvent(e);
 }
 

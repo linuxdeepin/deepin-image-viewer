@@ -7,6 +7,7 @@
 #include <QEvent>
 #include <QPushButton>
 #include <QScrollBar>
+#include <QMouseEvent>
 #include <QDebug>
 
 const int SLIDER_FRAME_WIDTH = 130;
@@ -222,7 +223,9 @@ QList<T> reversed( const QList<T> & in ) {
 void TimelineImageView::inserFrame(const QString &timeline, bool multiselection)
 {
     TimelineViewFrame *frame = new TimelineViewFrame(timeline, multiselection, this);
-    connect(frame, &TimelineViewFrame::mousePress, this, [=] {
+    connect(frame, &TimelineViewFrame::mousePress, this, [=] (QMouseEvent *e){
+        if (e->button() != Qt::LeftButton)
+            return;
         for (TimelineViewFrame *frame : m_frames) {
             if (! multiselection && frame != sender()) {
                 frame->clearSelection();
