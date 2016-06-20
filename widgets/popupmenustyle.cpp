@@ -263,14 +263,15 @@ void PopupMenuStyle::drawMenuItemCheckedIcon(const QStyleOptionMenuItem* menuIte
 QSize PopupMenuStyle::getItemSize(const QStyleOption* option,
                                   const QSize& size) const
 {
+    const int m = SEPARATOR_LEFT_MARGIN + SEPARATOR_RIGHT_MARGIN;
     if (const QStyleOptionMenuItem* menuItem =
             qstyleoption_cast<const QStyleOptionMenuItem* >(option)) {
         switch (menuItem->menuItemType) {
         case QStyleOptionMenuItem::Separator:
-            return QSize(size.width() / 2, SEPARATOR_HEIGHT);
+            return QSize(size.width() / 2 + m, SEPARATOR_HEIGHT);
         case QStyleOptionMenuItem::Normal:
         case QStyleOptionMenuItem::SubMenu:
-            return QSize(size.width() / 2, ITEM_HEIGHT);
+            return QSize(size.width() / 2 + m, ITEM_HEIGHT);
         default:
             return size;
         }

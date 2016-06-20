@@ -578,7 +578,7 @@ QString ViewPanel::createMenuContent()
         }
 
         items.append(createMenuItem(IdSeparator, "", true));
-        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
+//        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
         if (! m_fromFileManager) {
             if (!dbManager()->imageExistAlbum(m_current->name,
                                               FAVORITES_ALBUM_NAME)) {
@@ -608,7 +608,7 @@ QString ViewPanel::createMenuContent()
 
         items.append(createMenuItem(IdSeparator, "", true));
 
-        items.append(createMenuItem(IdLabel, tr("Text tag")));
+//        items.append(createMenuItem(IdLabel, tr("Text tag")));
         items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
                                     false, "Ctrl+F8"));
         items.append(createMenuItem(IdDisplayInFileManager,
