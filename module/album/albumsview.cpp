@@ -309,6 +309,7 @@ void AlbumsView::createAlbum()
     m_dbManager->insertImageIntoAlbum(name, "", "");
     QModelIndex index = addAlbum(m_dbManager->getAlbumInfo(name));
     openPersistentEditor(index);
+    scrollTo(index);
 }
 
 void AlbumsView::updateView()
