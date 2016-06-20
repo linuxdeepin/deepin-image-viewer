@@ -65,6 +65,7 @@ const QStringList supportImageTypes()
     origin<< "BMP";
     origin<< "GIF";
     origin<< "JPG";
+    origin<< "JPEG";
     origin<< "PNG";
     origin<< "PBM";
     origin<< "PGM";
