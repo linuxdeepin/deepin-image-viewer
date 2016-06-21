@@ -131,16 +131,16 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        qreal v = m_view->scaleValue() + 0.01;
-        m_view->setScaleValue(qMin(v, 1.0));
+        qreal v = m_view->scaleValue() + 0.1;
+        m_view->setScaleValue(qMin(v, 10.0));
     });
 
     // Zoom in
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        qreal v = m_view->scaleValue() - 0.01;
-        m_view->setScaleValue(qMax(v, 0.1));
+        qreal v = m_view->scaleValue() - 0.1;
+        m_view->setScaleValue(qMax(v, 0.5));
     });
 
     // Esc
