@@ -1,0 +1,13 @@
+SimpleFormField {
+    color: rgba(255, 255, 255, 176);
+    font-size: 11px;
+}
+
+SimpleFormLabel {
+    color: rgba(255, 255, 255, 128);
+    font-size: 11px;
+}
+
+QFrame#InfoTopContent {
+    border: 1px solid black;
+}

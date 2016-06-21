@@ -361,6 +361,7 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         utils::base::showInFileManager(cpath);
         break;
     case IdImageInfo:
+        m_sManager->showImageInfo(cpath);
         break;
     default:
         break;

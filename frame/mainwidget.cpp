@@ -1,6 +1,7 @@
 #include "mainwidget.h"
 #include "utils/baseutils.h"
 #include "widgets/processtooltip.h"
+#include "imageinfodialog.h"
 #include <QFile>
 #include <QDebug>
 #include <QHBoxLayout>
@@ -45,6 +46,8 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     });
     connect(m_signalManager, &SignalManager::showProcessTooltip,
             this, &MainWidget::onShowProcessTooltip);
+    connect(m_signalManager, &SignalManager::showImageInfo,
+            this, &MainWidget::onShowImageInfo);
 }
 
 MainWidget::~MainWidget()
@@ -86,6 +89,21 @@ void MainWidget::onShowProcessTooltip(const QString &message, bool success)
     ProcessTooltip *t = new ProcessTooltip(this, m_panelStack);
     t->showTooltip(message, success);
     t->move((width() - t->width()) / 2, (height() - t->height()) / 2);
+}
+
+void MainWidget::onShowImageInfo(const QString &path)
+{
+    ImageInfoDialog *info = new ImageInfoDialog(this, m_panelStack);
+    info->setPath(path);
+    info->move((width() - info->width()) / 2, (height() - info->height()) / 2);
+    info->show();
+    connect(info, &ImageInfoDialog::closed, info, &ImageInfoDialog::deleteLater);
+    connect(m_signalManager, &SignalManager::gotoPanel,
+            info, &ImageInfoDialog::close);
+    connect(m_signalManager, &SignalManager::gotoAlbumPanel,
+            info, &ImageInfoDialog::close);
+    connect(m_signalManager, &SignalManager::backToMainWindow,
+            info, &ImageInfoDialog::close);
 }
 
 void MainWidget::initPanelStack()
