@@ -128,7 +128,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     btn->setNormalPic(":/images/resources/images/delete_normal.png");
     btn->setHoverPic(":/images/resources/images/delete_hover.png");
     btn->setPressPic(":/images/resources/images/delete_press.png");
-    btn->setToolTip(tr("Move to trash"));
+    btn->setToolTip(tr("Throw to trash"));
     hb->addWidget(btn);
     connect(btn, &ImageButton::clicked, this, &TTMContent::removed);
     connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {

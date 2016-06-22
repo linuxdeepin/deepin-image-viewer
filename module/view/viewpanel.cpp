@@ -569,13 +569,10 @@ QString ViewPanel::createMenuContent()
 
         items.append(createMenuItem(IdExport, tr("Export"), false, ""));
         items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-        items.append(createMenuItem(IdMoveToTrash, tr("Move to trash"), false,
-                                    "Delete"));
-        items.append(createMenuItem(IdRemoveFromTimeline,
-                                    tr("Remove from timeline")));
+        items.append(createMenuItem(IdMoveToTrash, tr("Throw to trash")));
         if (! m_albumName.isEmpty()) {
             items.append(createMenuItem(IdRemoveFromAlbum,
-                                        tr("Remove from album")));
+                tr("Remove from album"), false, "Delete"));
         }
 
         items.append(createMenuItem(IdSeparator, "", true));
