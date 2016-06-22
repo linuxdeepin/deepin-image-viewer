@@ -15,6 +15,7 @@ namespace {
 
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
+const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }  //namespace
 
@@ -148,7 +149,8 @@ void TimelineViewFrame::updateThumbnail(const QString &name)
 
             const QPixmap p = m_dbManager->getImageInfoByName(name).thumbnail;
             QIcon icon;
-            QPixmap thumbnail = m_view->increaseThumbnail(p);
+            QPixmap thumbnail = utils::image::cutSquareImage(p,
+                QSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE));
             icon.addPixmap(thumbnail, QIcon::Normal);
             icon.addPixmap(generateSelectedThumanail(thumbnail), QIcon::Selected);
             m_model.item(i, 0)->setIcon(icon);
@@ -175,7 +177,8 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     QStandardItem *item = new QStandardItem();
     item->setData(info.path, Qt::UserRole);
     QIcon icon;
-    QPixmap thumbnail = m_view->increaseThumbnail(info.thumbnail);
+    QPixmap thumbnail = utils::image::cutSquareImage(info.thumbnail,
+        QSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE));
     icon.addPixmap(thumbnail, QIcon::Normal);
     if (m_multiselection)
         icon.addPixmap(generateSelectedThumanail(thumbnail), QIcon::Selected);

@@ -23,8 +23,7 @@ static ExifItem ExifDataBasics[] = {
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME, "Name"},
     {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL, "Date photoed"},
     {EXIF_IFD_0, EXIF_TAG_DATE_TIME, "Date modified"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_WIDTH, "Width (pixel)"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_HEIGHT, "Height (pixel)"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION, "Resolution"},
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE, "File size"},
     {EXIF_IFD_COUNT, 0, 0}
 };
@@ -35,8 +34,7 @@ static ExifItem ExifDataDetails[] = {
     {EXIF_IFD_0, EXIF_TAG_MODEL, QT_TR_NOOP("Model")},
     {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL, "Date photoed"},
     {EXIF_IFD_0, EXIF_TAG_DATE_TIME, "Date modified"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_WIDTH, "Width (pixel)"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_HEIGHT, "Height (pixel)"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION, "Resolution"},
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE, "File size"},
     {EXIF_IFD_EXIF, EXIF_TAG_COLOR_SPACE, "Colorspace"},
     {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_MODE, QT_TR_NOOP("Exposure mode")},
@@ -415,11 +413,9 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
             case EXIF_TAG_EXTEND_NAME:
                 dataMap.insert(i->name, fi.baseName());
                 break;
-            case EXIF_TAG_EXTEND_WIDTH:
-                dataMap.insert(i->name, QString::number(img.width()));
-                break;
-            case EXIF_TAG_EXTEND_HEIGHT:
-                dataMap.insert(i->name, QString::number(img.height()));
+            case EXIF_TAG_EXTEND_RESOLUTION:
+                dataMap.insert(i->name, QString::number(img.width()) + "x" +
+                               QString::number(img.height()));
                 break;
             case EXIF_TAG_EXTEND_SIZE:
                 dataMap.insert(i->name, utils::base::sizeToHuman(fi.size()));
@@ -455,6 +451,18 @@ void rotate(const QString &path, int degree)
 {
     const QTransform t = QTransform().rotate(degree);
     utils::image::saveImageWithExif(QImage(path).transformed(t), path, path, t);
+}
+
+QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
+{
+    QImage img = pixmap.toImage().scaled(size,
+                                                Qt::KeepAspectRatioByExpanding,
+                                                Qt::SmoothTransformation);
+
+    img = img.copy((img.width() - size.width()) / 2,
+                   (img.height() - size.height()) / 2,
+                   size.width(), size.height());
+    return QPixmap::fromImage(img);
 }
 
 }  // namespace image

@@ -14,5 +14,7 @@
         <file>resources/qss/ImageButton.qss</file>
         <file>resources/qss/BlureDialog.qss</file>
         <file>resources/qss/Slider.qss</file>
+        <file>resources/qss/Separator.qss</file>
+        <file>resources/qss/BlureInfoFrame.qss</file>
     </qresource>
 </RCC>

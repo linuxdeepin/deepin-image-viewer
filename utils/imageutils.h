@@ -14,11 +14,10 @@ namespace image {
 
 enum ExifExtendTag {
     EXIF_TAG_EXTEND_NAME = EXIF_TAG_PADDING << 1,
-    EXIF_TAG_EXTEND_WIDTH  = EXIF_TAG_PADDING << 2,
-    EXIF_TAG_EXTEND_HEIGHT  = EXIF_TAG_PADDING << 3,
-    EXIF_TAG_EXTEND_SIZE  = EXIF_TAG_PADDING << 4,
-    EXIF_TAG_EXTEND_FLASH_COMPENSATION  = EXIF_TAG_PADDING << 5,  // Contain by MakerNote
-    EXIF_TAG_EXTEND_LENS_MODEL  = EXIF_TAG_PADDING << 6 // Contain by MakerNote
+    EXIF_TAG_EXTEND_SIZE  = EXIF_TAG_PADDING << 2,
+    EXIF_TAG_EXTEND_RESOLUTION = EXIF_TAG_PADDING << 3,
+    EXIF_TAG_EXTEND_FLASH_COMPENSATION  = EXIF_TAG_PADDING << 4,  // Contain by MakerNote
+    EXIF_TAG_EXTEND_LENS_MODEL  = EXIF_TAG_PADDING << 5 // Contain by MakerNote
 };
 
 struct ExifItem {
@@ -47,6 +46,7 @@ void saveImageWithExif(const QImage& image,
                        const QTransform& mat = QTransform());
 void rotate(const QString &path, int degree);
 
+QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size);
 QImage saturation(int delta, QImage &origin);
 QImage cool(int delta, QImage &origin);
 QImage warm(int delta, QImage &origin);

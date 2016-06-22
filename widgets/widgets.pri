@@ -10,7 +10,9 @@ HEADERS += \
     $$PWD/bluredialog.h \
     $$PWD/scrollbar.h \
     $$PWD/scaleslider.h \
-    $$PWD/slider.h
+    $$PWD/slider.h \
+    $$PWD/blureinfoframe.h \
+    $$PWD/separator.h
 
 SOURCES += \
     $$PWD/dwindowframe.cpp \
@@ -24,7 +26,9 @@ SOURCES += \
     $$PWD/bluredialog.cpp \
     $$PWD/scrollbar.cpp \
     $$PWD/scaleslider.cpp \
-    $$PWD/slider.cpp
+    $$PWD/slider.cpp \
+    $$PWD/blureinfoframe.cpp \
+    $$PWD/separator.cpp
 
 RESOURCES += \
     $$PWD/widgets.qrc

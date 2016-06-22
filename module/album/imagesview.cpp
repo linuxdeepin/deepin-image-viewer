@@ -15,6 +15,7 @@
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
+const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
 }  // namespace
@@ -46,7 +47,8 @@ void ImagesView::setAlbum(const QString &album)
         QStandardItem *item = new QStandardItem();
         item->setData(info.path, Qt::UserRole);
         QIcon icon;
-        QPixmap thumbnail = m_view->increaseThumbnail(info.thumbnail);
+        QPixmap thumbnail = utils::image::cutSquareImage(info.thumbnail,
+            QSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE));
         icon.addPixmap(thumbnail, QIcon::Normal);
         item->setIcon(icon);
         item->setToolTip(info.name);
@@ -196,7 +198,8 @@ void ImagesView::updateThumbnail(const QString &path)
 
         const QPixmap p = m_dbManager->getImageInfoByName(name).thumbnail;
         QIcon icon;
-        QPixmap thumbnail = m_view->increaseThumbnail(p);
+        QPixmap thumbnail = utils::image::cutSquareImage(p,
+            QSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE));
         icon.addPixmap(thumbnail, QIcon::Normal);
         m_model.item(i, 0)->setIcon(icon);
         return;
@@ -273,6 +276,7 @@ void ImagesView::onMenuItemClicked(int menuId)
         utils::base::showInFileManager(cpath);
         break;
     case IdImageInfo:
+        m_sManager->showImageInfo(cpath);
         break;
     default:
         break;
