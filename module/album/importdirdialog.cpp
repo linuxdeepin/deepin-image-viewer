@@ -43,6 +43,7 @@ ImportDirDialog::ImportDirDialog(QWidget *parent, QWidget *source)
     addButton(tr("OK"), 2);
 
     connect(this, &ImportDirDialog::clicked, this, [=] (int id) {
+        this->close();
         if(id == 1){
             Importer::instance()->importFromPath(m_dir);
         }
@@ -51,7 +52,6 @@ ImportDirDialog::ImportDirDialog(QWidget *parent, QWidget *source)
             DatabaseManager::instance()->insertImageIntoAlbum(album, "", "");
             Importer::instance()->importFromPath(m_dir, album);
         }
-        this->close();
     });
 }
 

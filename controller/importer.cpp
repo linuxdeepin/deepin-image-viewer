@@ -29,6 +29,11 @@ QString insertImage(const QString &path)
     imgInfo.albums = albums;
     imgInfo.labels = QStringList();
     imgInfo.thumbnail = utils::image::getThumbnail(path);
+    if (imgInfo.thumbnail.isNull()) {
+        // Clear the invalid(eg.Empty image) image
+        DatabaseManager::instance()->removeImage(imgInfo.name);
+        return path;
+    }
 
     DatabaseManager::instance()->insertImageInfo(imgInfo);
     if (! albums.isEmpty() && !QString(albums.first()).isEmpty()) {
@@ -109,8 +114,6 @@ void Importer::importFromPath(const QString &path, const QString &album)
         QFileInfo fileInfo = dirIterator.fileInfo();
         QString filePath = fileInfo.absoluteFilePath();
 
-        if (QImage(filePath).isNull())
-            continue;
         if (! DatabaseManager::instance()->imageExist(fileInfo.fileName())) {
             m_cacheImportList.append(filePath);
             m_albums.insert(filePath, album);
@@ -124,7 +127,8 @@ void Importer::importFromPath(const QString &path, const QString &album)
         loadCacheImages();
     }
 
-    DatabaseManager::instance()->clearRecentImported();
+    if (m_cacheImportList.isEmpty())
+        DatabaseManager::instance()->clearRecentImported();
 }
 
 void Importer::importSingleFile(const QString &filePath, const QString &album)
@@ -139,7 +143,8 @@ void Importer::importSingleFile(const QString &filePath, const QString &album)
         loadCacheImages();
     }
 
-    DatabaseManager::instance()->clearRecentImported();
+    if (m_cacheImportList.isEmpty())
+        DatabaseManager::instance()->clearRecentImported();
 }
 
 void Importer::onFutureWatcherFinish()

@@ -115,6 +115,8 @@ QPixmap getThumbnail(const QString &filePath)
 QPixmap scaleImage(const QString &filePath)
 {
     QImage img(filePath);
+    if (img.isNull())
+        return QPixmap();
     QSize targetSize;
     if (img.width() > img.height()) {
         targetSize = QSize(THUMBNAIL_MAX_SIZE,
