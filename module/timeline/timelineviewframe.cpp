@@ -191,8 +191,10 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
 bool TimelineViewFrame::removeItem(const QString &name)
 {
     const int i = indexOf(name);
-    if (i != -1)
+    if (i != -1) {
         m_model.removeRow(i);
+        return true;
+    }
 
     return false;
 }
