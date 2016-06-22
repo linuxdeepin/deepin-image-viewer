@@ -85,7 +85,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         m_clBT = new ImageButton();
         hb->addWidget(m_clBT);
         connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
-            setDisabled(v);
+            m_clBT->setDisabled(v);
             updateCollectButton();
         });
         connect(m_clBT, &ImageButton::clicked, [=] {
@@ -171,7 +171,7 @@ void TTMContent::updateCollectButton()
         m_clBT->setHoverPic(":/images/resources/images/collect_disable.png");
         m_clBT->setPressPic(":/images/resources/images/collect_disable.png");
     }
-    if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
+    else if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
         m_clBT->setToolTip(tr("Remove from Favorites"));
         m_clBT->setWhatsThis("RFFButton");
         m_clBT->setNormalPic(":/images/resources/images/collect_active.png");
