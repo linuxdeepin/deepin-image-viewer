@@ -407,8 +407,11 @@ QString TimelinePanel::createMenuContent()
                 tr("Add to favorites"), false, "Ctrl+K"));
             break;
         }
-        items.append(createMenuItem(IdRemoveFromFavorites,
-            tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+        else {
+            items.append(createMenuItem(IdRemoveFromFavorites,
+                tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+            break;
+        }
     }
     items.append(createMenuItem(IdSeparator, "", true));
 
