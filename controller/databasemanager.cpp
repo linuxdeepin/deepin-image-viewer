@@ -352,7 +352,10 @@ void DatabaseManager::renameAlbum(const QString &oldName, const QString &newName
 
 void DatabaseManager::clearRecentImported()
 {
-    removeAlbum("Recent imported");
+    const QString a = "Recent imported";
+    removeAlbum(a);
+    // Make sure Recent imported always show in UI
+    insertImageIntoAlbum(a, "", "");
 }
 
 bool DatabaseManager::imageExistAlbum(const QString &name, const QString &album)

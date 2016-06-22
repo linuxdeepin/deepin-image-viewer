@@ -47,7 +47,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     installEventFilter(this);
-    // Aways has Favorites album
+    // Aways has Favorites and RecentImport album
     m_dbManager->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
     m_dbManager->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
 
