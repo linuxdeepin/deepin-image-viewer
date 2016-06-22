@@ -21,6 +21,7 @@ signals:
     void showPrevious();
     void showNext();
     void removed();
+    void imageEmpty(bool v);
 
 private:
     DatabaseManager *dbManager() const;

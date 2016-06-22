@@ -503,6 +503,7 @@ void ViewPanel::removeCurrentImage()
     if (! showNext()) {
         if (! showPrevious()) {
             qDebug() << "No images to show!";
+            emit imageChanged("", "");
             m_stack->setCurrentIndex(1);
         }
     }
