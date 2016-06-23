@@ -224,7 +224,7 @@ void AlbumPanel::initAlbumsView()
 void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
-    connect(m_sManager, &SignalManager::albumChanged,
+    connect(m_sManager, &SignalManager::insertIntoAlbum,
             this, [=] (const QString &album) {
         if (m_imagesView->isVisible()
                 && album == m_imagesView->getCurrentAlbum()) {

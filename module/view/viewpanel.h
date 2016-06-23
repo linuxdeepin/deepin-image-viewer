@@ -39,6 +39,8 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
+    void onViewImage(const QString &path, const QString &album,
+                     bool fromFileManager);
     void openImage(const QString& path, bool fromOutside = false);
     void toggleFullScreen();
     bool showPrevious();

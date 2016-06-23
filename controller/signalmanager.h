@@ -47,7 +47,8 @@ signals:
     void createAlbum();
     void importDir(const QString &dir);
     void showProcessTooltip(const QString &message, bool success);
-    void albumChanged(const QString &album);
+    void insertIntoAlbum(const QString &album, const QString &name);
+    void removeFromAlbum(const QString &album, const QString &name);
 
 private:
     explicit SignalManager(QObject *parent = 0);

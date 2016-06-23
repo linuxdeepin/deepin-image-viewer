@@ -80,39 +80,13 @@ void ViewPanel::initConnect() {
         m_slide->stop();
     });
     connect(m_sManager, &SignalManager::viewImage,
-    [this](const QString &path, const QString &album, bool fromFileManager ) {
-        if (fromFileManager) {
-            m_infos = getImageInfos(getFileInfos(path));
-        }
-        else {
-            DatabaseManager::ImageInfo info =
-                    dbManager()->getImageInfoByPath(path);
-            if (album.isEmpty()) {
-                m_infos = dbManager()->getImageInfosByTime(info.time);
-            }
-            else {
-                m_infos = dbManager()->getImageInfosByAlbum(album);
-            }
-        }
-
-        m_albumName = album;
-        m_current = m_infos.cbegin();
-        for (; m_current != m_infos.cend(); m_current ++) {
-            if (m_current->path == path) {
-                openImage(path, fromFileManager);
-                return;
-            }
-        }
-
-        // Not exist in DB, it must from FileManager
-        m_current = m_infos.cbegin();
-        openImage(path, fromFileManager);
-    });
-
+            this, &ViewPanel::onViewImage);
     connect(m_sManager, &SignalManager::fullScreen,
             this, &ViewPanel::toggleFullScreen);
     connect(m_sManager, &SignalManager::startSlideShow,
             this, &ViewPanel::toggleSlideShow);
+    connect(m_sManager, &SignalManager::removeFromAlbum,
+            this, &ViewPanel::removeCurrentImage);
 }
 
 void ViewPanel::initShortcut()
@@ -454,6 +428,37 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
     event->accept();
 }
 
+void ViewPanel::onViewImage(const QString &path, const QString &album,
+                            bool fromFileManager)
+{
+    if (fromFileManager) {
+        m_infos = getImageInfos(getFileInfos(path));
+    }
+    else {
+        DatabaseManager::ImageInfo info =
+                dbManager()->getImageInfoByPath(path);
+        if (album.isEmpty()) {
+            m_infos = dbManager()->getImageInfosByTime(info.time);
+        }
+        else {
+            m_infos = dbManager()->getImageInfosByAlbum(album);
+        }
+    }
+
+    m_albumName = album;
+    m_current = m_infos.cbegin();
+    for (; m_current != m_infos.cend(); m_current ++) {
+        if (m_current->path == path) {
+            openImage(path, fromFileManager);
+            return;
+        }
+    }
+
+    // Not exist in DB, it must from FileManager
+    m_current = m_infos.cbegin();
+    openImage(path, fromFileManager);
+}
+
 void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
@@ -717,7 +722,6 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdRemoveFromAlbum:
         dbManager()->removeImageFromAlbum(m_albumName, name);
-        m_albumName = "";
         break;
     case IdEdit:
         m_sManager->editImage(m_view->imagePath());

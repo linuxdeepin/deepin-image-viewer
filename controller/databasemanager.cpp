@@ -259,7 +259,7 @@ void DatabaseManager::insertImageIntoAlbum(const QString &albumname,
         }
 
         // For UI update
-        emit SignalManager::instance()->albumChanged(albumname);
+        emit SignalManager::instance()->insertIntoAlbum(albumname, filename);
     }
 }
 
@@ -279,6 +279,9 @@ void DatabaseManager::removeImageFromAlbum(const QString &albumname,
                        << query.lastError();
         }
     }
+
+    // For UI update
+    emit SignalManager::instance()->removeFromAlbum(albumname, filename);
 }
 
 DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
