@@ -330,8 +330,10 @@ QWidget *ViewPanel::extensionPanelContent()
     QVBoxLayout *l = new QVBoxLayout(w);
     l->setContentsMargins(0, 0, 0, 40);
 
-    m_info = new ImageInfoWidget();
-    m_info->setStyleSheet(styleSheet());
+    if (! m_info) {
+        m_info = new ImageInfoWidget();
+        m_info->setStyleSheet(styleSheet());
+    }
 
     l->addSpacing(TOP_TOOLBAR_HEIGHT);
     l->addWidget(m_info);
