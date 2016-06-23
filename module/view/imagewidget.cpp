@@ -187,7 +187,7 @@ void ImageWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (m_moving) {
+    if (m_moving && ! m_inSlideShow) {
         QPoint dp = event->globalPos() - m_posG;
         setTransformOrigin(m_o_img, m_o_dev + dp);
         m_pos = event->pos();
@@ -199,7 +199,7 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 
 void ImageWidget::wheelEvent(QWheelEvent *event)
 {
-    if (! m_wheelable)
+    if (m_inSlideShow)
         return;
     m_scaling = true;
     killTimer(m_tid);
@@ -242,12 +242,12 @@ void ImageWidget::updateTransform()
         Q_EMIT transformChanged(m_mat);
 }
 
-bool ImageWidget::wheelable() const
+bool ImageWidget::inSlideShow() const
 {
-    return m_wheelable;
+    return m_inSlideShow;
 }
 
-void ImageWidget::setWheelable(bool wheelable)
+void ImageWidget::setInSlideShow(bool inSlideShow)
 {
-    m_wheelable = wheelable;
+    m_inSlideShow = inSlideShow;
 }

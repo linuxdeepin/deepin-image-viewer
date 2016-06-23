@@ -153,23 +153,25 @@ void ViewPanel::updateMenuContent()
 void ViewPanel::toggleSlideShow()
 {
     if (m_slide->isRunning()) {
-        m_view->setWheelable(true);
+        m_view->setInSlideShow(false);
         m_slide->stop();
         showNormal();
-        return;
+        updateMenuContent();
     }
-
-    emit m_sManager->hideTopToolbar(false);
-//    emit m_sManager->hideBottomToolbar(false);
-    QStringList paths;
-    for (const DatabaseManager::ImageInfo& info : m_infos) {
-        paths << info.path;
+    else {
+        emit m_sManager->hideTopToolbar(false);
+        //    emit m_sManager->hideBottomToolbar(false);
+        QStringList paths;
+        for (const DatabaseManager::ImageInfo& info : m_infos) {
+            paths << info.path;
+        }
+        showFullScreen();
+        m_view->setInSlideShow(true);
+        m_slide->setImagePaths(paths);
+        m_slide->setCurrentImage(m_current->path);
+        m_slide->start();
+        updateMenuContent();
     }
-    showFullScreen();
-    m_view->setWheelable(false);
-    m_slide->setImagePaths(paths);
-    m_slide->setCurrentImage(m_current->path);
-    m_slide->start();
 }
 
 void ViewPanel::showToolbar(bool isTop)
@@ -733,6 +735,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         updateMenuContent();
         break;
     case IdRemoveFromFavorites:
+        qDebug() << "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
         dbManager()->removeImageFromAlbum(FAVORITES_ALBUM_NAME, name);
         emit updateCollectButton();
         updateMenuContent();
