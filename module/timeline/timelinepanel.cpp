@@ -2,6 +2,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "controller/importer.h"
+#include "controller/exporter.h"
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
 #include "widgets/importframe.h"
@@ -300,6 +301,7 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         m_sManager->viewImage(cpath);
         m_sManager->startSlideShow(cpath);
         break;
+
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
         for (QString name : images.keys()) {
@@ -308,6 +310,9 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         }
         break;
     }
+    case IdExport:
+        Exporter::instance()->exportImage(m_imagesView->selectedImages().values());
+        break;
     case IdCopy:
         utils::base::copyImageToClipboard(images.values());
         break;

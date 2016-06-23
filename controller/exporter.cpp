@@ -23,6 +23,9 @@ Exporter::Exporter(QObject *parent)
 {
 }
 
+//TODO: if some format is valid to read, but can't support to export, should add some process ?
+//Such as: gif, svg, pbm, pgm
+
 void Exporter::exportImage(const QStringList imagePaths) {
     if (imagePaths.isEmpty()) {
         return;
@@ -46,9 +49,10 @@ void Exporter::exportImage(const QStringList imagePaths) {
         imageSavePath, getOrderFormat(QFileInfo(imagePath).completeSuffix()),
         &selectFilter, QFileDialog::DontUseNativeDialog);
 
+
         qDebug() << "dialogFilePath:" << dialogFilePath;
         QPixmap tmpImage(imagePaths.at(0));
-        if (!tmpImage.isNull() && utils::image::imageIsSupport(dialogFilePath))
+        if (!tmpImage.isNull() && !dialogFilePath.isEmpty())
             tmpImage.save(dialogFilePath);
     } else {
         popupDialogSaveImage(imagePaths);
@@ -79,7 +83,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
             QPixmap tmpImage(imagePaths[j]);
             QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(imagePaths[j])
         .baseName()).arg(QFileInfo(imagePaths[j]).completeSuffix());
-            if (!tmpImage.isNull() && utils::image::imageIsSupport(savePath))
+            if (!tmpImage.isNull() && !savePath.isEmpty())
             tmpImage.save(savePath);
         } else {
             continue;
