@@ -15,6 +15,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QFile>
+#include <QFileInfo>
 #include <QResizeEvent>
 #include <QRegularExpression>
 #include <QShortcut>
@@ -480,8 +481,8 @@ bool ViewPanel::showPrevious()
     if (m_current == m_infos.cbegin())
         m_current = m_infos.cend();
     --m_current;
-    openImage(m_current->path, m_fromFileManager);
 
+    openImage(m_current->path, m_fromFileManager);
     return true;
 }
 
@@ -499,7 +500,6 @@ bool ViewPanel::showNext()
         m_current = m_infos.cbegin();
 
     openImage(m_current->path, m_fromFileManager);
-
     return true;
 }
 
@@ -849,6 +849,10 @@ void ViewPanel::initNavigation()
 
 void ViewPanel::openImage(const QString &path, bool fromOutside)
 {
+    if (! QFileInfo(path).exists()) {
+        removeCurrentImage();
+        return;
+    }
     // TODO signal should emit when mainwidget's panel changed
     m_fromFileManager = fromOutside;
     Q_EMIT m_sManager->gotoPanel(this);
