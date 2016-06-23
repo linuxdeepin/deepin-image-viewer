@@ -50,8 +50,8 @@ private:
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;
     QStackedWidget *m_stackWidget = NULL;
-    DatabaseManager *m_dbManager = DatabaseManager::instance();
-    SignalManager *m_sManager = SignalManager::instance();
+    DatabaseManager *m_dbManager;
+    SignalManager *m_sManager;
 };
 
 #endif // ALBUMPANEL_H

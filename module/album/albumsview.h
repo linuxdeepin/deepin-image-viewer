@@ -23,6 +23,7 @@ public:
 
 signals:
     void openAlbum(const QString &album);
+    void albumCreated();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
