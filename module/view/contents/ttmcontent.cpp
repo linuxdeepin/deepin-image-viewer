@@ -77,7 +77,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         else {
             btn->setNormalPic(":/images/resources/images/previous_normal.png");
             btn->setHoverPic(":/images/resources/images/previous_hover.png");
-            btn->setPressPic(":/images/resources/images/previous_active.png");
+            btn->setPressPic(":/images/resources/images/previous_press.png");
         }
     });
 
@@ -120,7 +120,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         else {
             btn->setNormalPic(":/images/resources/images/next_normal.png");
             btn->setHoverPic(":/images/resources/images/next_hover.png");
-            btn->setPressPic(":/images/resources/images/next_active.png");
+            btn->setPressPic(":/images/resources/images/next_press.png");
         }
     });
 
@@ -141,7 +141,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         else {
             btn->setNormalPic(":/images/resources/images/delete_normal.png");
             btn->setHoverPic(":/images/resources/images/delete_hover.png");
-            btn->setPressPic(":/images/resources/images/delete_active.png");
+            btn->setPressPic(":/images/resources/images/delete_press.png");
         }
     });
 

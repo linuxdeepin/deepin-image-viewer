@@ -86,8 +86,10 @@ void ViewPanel::initConnect() {
             this, &ViewPanel::toggleFullScreen);
     connect(m_sManager, &SignalManager::startSlideShow,
             this, &ViewPanel::toggleSlideShow);
-    connect(m_sManager, &SignalManager::removeFromAlbum,
-            this, &ViewPanel::removeCurrentImage);
+    connect(m_sManager, &SignalManager::removeFromAlbum, this, [=] {
+        if (! m_albumName.isEmpty())
+            removeCurrentImage();
+    });
 }
 
 void ViewPanel::initShortcut()
@@ -735,7 +737,6 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         updateMenuContent();
         break;
     case IdRemoveFromFavorites:
-        qDebug() << "FFFFFFFFFFFFFFFFFFFFFFFFFFFF";
         dbManager()->removeImageFromAlbum(FAVORITES_ALBUM_NAME, name);
         emit updateCollectButton();
         updateMenuContent();
