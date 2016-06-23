@@ -338,6 +338,8 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         if (fitWindow) {
             m_view->setScaleValue(1);
         }
+
+        m_imageSlider->setCurrentValue(m_view->scaleValue()*100);;
     });
     return ttmc;
 }
@@ -472,6 +474,7 @@ bool ViewPanel::showPrevious()
         m_current = m_infos.cend();
     --m_current;
     openImage(m_current->path, m_fromFileManager);
+
     return true;
 }
 
@@ -489,6 +492,7 @@ bool ViewPanel::showNext()
         m_current = m_infos.cbegin();
 
     openImage(m_current->path, m_fromFileManager);
+
     return true;
 }
 
@@ -849,8 +853,9 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
 //    Q_EMIT m_sManager->hideTopToolbar();
 
     m_view->setImage(path);
-
     m_nav->setImage(m_view->image());
+
+    m_imageSlider->setCurrentValue(m_view->scaleValue()*100);
 
     if (m_info) {
         m_info->setImagePath(path);
