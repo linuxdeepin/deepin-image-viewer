@@ -21,7 +21,8 @@ bool ImageButton::event(QEvent *e)
             return false;
         }
     }
-    else if (e->type() == QEvent::Leave) {
+    else if (e->type() == QEvent::Leave ||
+             e->type() == QEvent::MouseButtonPress) {
         emit mouseLeave();
     }
 
@@ -62,7 +63,7 @@ void ImageButton::showTooltip(const QPoint &gPos)
     tf->setWindowFlags(Qt::ToolTip);
     tf->setAttribute(Qt::WA_TranslucentBackground);
     QLabel *tl = new QLabel(tf);
-    tl->setContentsMargins(2, 2, 2, 2);
+    tl->setContentsMargins(8, 2, 8, 2);
     tl->setObjectName("ButtonTooltip");
     tl->setText(toolTip());
     QHBoxLayout *layout = new QHBoxLayout(tf);
