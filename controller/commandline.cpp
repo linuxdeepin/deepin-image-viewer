@@ -121,6 +121,7 @@ bool CommandLine::processOption()
             // Load image after all UI elements has been init
             // BottomToolbar pos not correct on init
             emit sm->hideBottomToolbar(true);
+            emit sm->enableMainMenu(false);
             QTimer::singleShot(50, [=] {
                 emit sm->viewImage(value, "", true);
             });

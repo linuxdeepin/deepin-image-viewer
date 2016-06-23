@@ -12,6 +12,7 @@ public:
     static SignalManager *instance();
 
 signals:
+    void enableMainMenu(bool enable);
     void updateTopToolbarLeftContent(QWidget *content);
     void updateTopToolbarMiddleContent(QWidget *content);
     void updateBottomToolbarContent(QWidget *content, bool wideMode = false);

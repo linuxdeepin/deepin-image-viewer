@@ -112,6 +112,11 @@ void TopToolbar::initWidgets()
             m_popupMenu->showMenu();
         }
     });
+    connect(SignalManager::instance(), &SignalManager::enableMainMenu,
+            this, [=] (bool enable) {
+        ob->setVisible(enable);
+        ob->setEnabled(enable);
+        });
     DWindowMinButton *minb = new DWindowMinButton;
     connect(minb, SIGNAL(clicked()), parentWidget()->parentWidget(), SLOT(showMinimized()));
 
