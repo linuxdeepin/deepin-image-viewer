@@ -129,16 +129,16 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     albumLabel->setPixmap(QPixmap(":/images/resources/images/album_active.png"));
 
 
-
-    ImageButton *searchButton = new ImageButton();
-    searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
-    searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
-    searchButton->setPressPic(":/images/resources/images/search_press_24px.png");
-    connect(searchButton, &ImageButton::clicked, this, [=] {
-        qDebug() << "Change to Search Panel...";
-        emit m_sManager->gotoSearchPanel();
-    });
-    searchButton->setToolTip("Search");
+    // hide search button
+//    ImageButton *searchButton = new ImageButton();
+//    searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
+//    searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
+//    searchButton->setPressPic(":/images/resources/images/search_press_24px.png");
+//    connect(searchButton, &ImageButton::clicked, this, [=] {
+//        qDebug() << "Change to Search Panel...";
+//        emit m_sManager->gotoSearchPanel();
+//    });
+//    searchButton->setToolTip("Search");
 
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -146,7 +146,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     layout->addStretch(1);
     layout->addWidget(timelineButton);
     layout->addWidget(albumLabel);
-    layout->addWidget(searchButton);
+//    layout->addWidget(searchButton);
     layout->addStretch(1);
 
     return tTopMiddleContent;
