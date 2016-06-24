@@ -25,13 +25,17 @@ public:
     void setBorderColor(const QColor &borderColor);
 
 protected:
-    void paintEvent(QPaintEvent *);
+    void keyPressEvent(QKeyEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void paintEvent(QPaintEvent *) override;
     QPixmap getResultPixmap();
 
 private:
     QImage applyEffectToImage(QImage src, QGraphicsEffect *effect, int extent = 0);
 
 private:
+    QPoint m_pressPos;
     QWidget *m_sourceWidget;
     QBrush m_coverBrush = QBrush(QColor(0, 0, 0, 200));
     int m_blureRadius = 13;

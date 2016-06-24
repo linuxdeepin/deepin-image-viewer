@@ -23,6 +23,10 @@ public:
 BlureInfoFrame::BlureInfoFrame(QWidget *parent, QWidget *source)
     : BlureFrame(parent, source)
 {
+    setAttribute(Qt::WA_TranslucentBackground);
+    setWindowFlags(Qt::Sheet | Qt::FramelessWindowHint);
+//    setWindowModality(Qt::WindowModal);
+
     setBorderRadius(4);
     setBorderWidth(1);
     setBorderColor(QColor(255, 255, 255, 51));
@@ -69,6 +73,7 @@ void BlureInfoFrame::setTopContent(QWidget *w)
     cb->move(this->sizeHint().width() - cb->width() - 5, 0);
     connect(cb, &Dtk::Widget::DWindowCloseButton::clicked,
             this, &BlureInfoFrame::close);
+    this->setFixedWidth(w->width() + 5*2);
 }
 
 void BlureInfoFrame::addInfoPair(const QString &title, const QString &value)

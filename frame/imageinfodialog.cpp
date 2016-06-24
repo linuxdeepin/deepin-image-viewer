@@ -29,7 +29,7 @@ ImageInfoDialog::ImageInfoDialog(QWidget *parent, QWidget *source)
     setTopContent(m_thumbnail);
 
     this->setMinimumWidth(250);
-    this->setMinimumHeight(380);
+//    this->setMinimumHeight(380);
 }
 
 void ImageInfoDialog::setPath(const QString &path)

@@ -5,6 +5,7 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsBlurEffect>
 #include <QPropertyAnimation>
+#include <QMouseEvent>
 
 const int ANIMATION_DURATION = 500;
 const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
@@ -35,6 +36,17 @@ void BlureFrame::setBlureRadius(int radius)
 void BlureFrame::setPos(const QPoint &pos)
 {
     QFrame::move(pos);
+}
+
+void BlureFrame::mousePressEvent(QMouseEvent *e)
+{
+    m_pressPos = e->pos();
+}
+
+void BlureFrame::mouseMoveEvent(QMouseEvent *e)
+{
+    const QPoint t = pos() - m_pressPos + e->pos();
+    move(t);
 }
 
 void BlureFrame::paintEvent(QPaintEvent *)
@@ -117,6 +129,15 @@ QColor BlureFrame::getBorderColor() const
 void BlureFrame::setBorderColor(const QColor &borderColor)
 {
     m_borderColor = borderColor;
+}
+
+void BlureFrame::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Escape) {
+        this->close();
+        return;
+    }
+    QFrame::keyPressEvent(e);
 }
 
 int BlureFrame::getBorderWidth() const
