@@ -31,6 +31,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     connect(delegate, &AlbumDelegate::editingFinished,
             this, [=](const QModelIndex &index) {
         closePersistentEditor(index);
+        emit albumCreated();
     });
     setItemDelegate(delegate);
     m_model = new QStandardItemModel(this);

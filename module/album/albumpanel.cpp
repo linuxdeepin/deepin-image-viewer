@@ -20,7 +20,9 @@ const int MIN_ICON_SIZE = 96;
 }   // namespace
 
 AlbumPanel::AlbumPanel(QWidget *parent)
-    : ModulePanel(parent)
+    : ModulePanel(parent),
+      m_dbManager(DatabaseManager::instance()),
+      m_sManager(SignalManager::instance())
 {
     setAcceptDrops(true);
     initMainStackWidget();
@@ -218,7 +220,11 @@ void AlbumPanel::initAlbumsView()
 {
     m_albumsView = new AlbumsView(this);
     m_albumsView->updateView();
-    connect(m_albumsView, &AlbumsView::openAlbum, this, &AlbumPanel::onOpenAlbum);
+    connect(m_albumsView, &AlbumsView::openAlbum,
+            this, &AlbumPanel::onOpenAlbum);
+    connect(m_albumsView, &AlbumsView::albumCreated,
+            this, &AlbumPanel::updateBottomToolbarContent,
+            Qt::QueuedConnection);
 }
 
 void AlbumPanel::initImagesView()
