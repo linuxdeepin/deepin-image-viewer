@@ -218,8 +218,8 @@ QString AlbumsView::createMenuContent(const QModelIndex &index)
             items.append(createMenuItem(IdDelete, tr("Delete"), false,
                                         "Delete"));
         items.append(createMenuItem(IdSeparator, "", true));
-        items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false,
-                                    "Ctrl+Alt+Return"));
+//        items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false,
+//                                    "Ctrl+Alt+Return"));
     }
     else {
         items.append(createMenuItem(IdCreate, tr("Create Album")));
@@ -292,8 +292,8 @@ void AlbumsView::onMenuItemClicked(int menuId)
             m_model->removeRow(currentIndex().row());
         }
         break;
-    case IdAlbumInfo:
-        break;
+//    case IdAlbumInfo:
+//        break;
     default:
         break;
     }

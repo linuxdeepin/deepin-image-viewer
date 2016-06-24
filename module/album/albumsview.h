@@ -38,7 +38,8 @@ private:
         IdExport,
         IdCopy,
         IdDelete,
-        IdAlbumInfo,
+// TODO: Add albumInfo in menu
+//        IdAlbumInfo,
         IdSubMenu,
         IdSeparator
     };
