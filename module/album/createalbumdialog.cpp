@@ -6,7 +6,8 @@
 #include <QKeyEvent>
 
 CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
-    :BlureDialog(parent, source)
+    :BlureDialog(parent, source),
+      m_dbManager(DatabaseManager::instance())
 {
     setMinimumWidth(450);
 
@@ -24,10 +25,9 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
     title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     QLineEdit *edit = new QLineEdit;
     edit->setObjectName("CreateEdit");
-    edit->setText(tr("Unnamed"));
+    edit->setText(getNewAlbumName());
     connect(edit, &QLineEdit::returnPressed, this, [=] {
-        DatabaseManager::instance()->insertImageIntoAlbum(
-                    edit->text().trimmed(), "", "");
+        createAlbum(edit->text().trimmed());
         this->close();
     });
     QVBoxLayout *rl = new QVBoxLayout;
@@ -47,8 +47,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
             this->close();
         }
         else {
-            DatabaseManager::instance()->insertImageIntoAlbum(
-                        edit->text().trimmed(), "", "");
+            createAlbum(edit->text().trimmed());
             this->close();
         }
     });
@@ -60,5 +59,45 @@ void CreateAlbumDialog::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape) {
         this->close();
+    }
+}
+
+
+const QString CreateAlbumDialog::getNewAlbumName() const
+{
+    const QString nan = tr("Unnamed");
+    const QStringList albums = m_dbManager->getAlbumNameList();
+    QList<int> countList;
+    for (QString album : albums) {
+        if (album.startsWith(nan)) {
+            countList << QString(album.split(nan).last()).toInt();
+        }
+    }
+
+    if (countList.isEmpty()) {
+        return nan;
+    }
+    else if (countList.length() == 1) {
+        return nan + QString::number(1);
+    }
+    else {
+        qSort(countList.begin(), countList.end());
+        for (int c : countList) {
+            if (countList.indexOf(c + 1) == -1) {
+                return nan + QString::number(c + 1);
+            }
+        }
+
+        return nan;
+    }
+}
+
+void CreateAlbumDialog::createAlbum(const QString &newName)
+{
+    if (m_dbManager->getAlbumNameList().indexOf(newName) == -1) {
+        m_dbManager->insertImageIntoAlbum(newName, "", "");
+    }
+    else {
+        m_dbManager->insertImageIntoAlbum(getNewAlbumName(), "", "");
     }
 }

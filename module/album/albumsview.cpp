@@ -160,30 +160,26 @@ QString AlbumsView::getAlbumName(const QModelIndex &index)
 
 QString AlbumsView::getNewAlbumName() const
 {
-    const QString nan = "New Album";
+    const QString nan = tr("Unnamed");
     const QStringList albums = m_dbManager->getAlbumNameList();
-    QStringList tmpList;
+    QList<int> countList;
     for (QString album : albums) {
         if (album.startsWith(nan)) {
-            tmpList << album;
+            countList << QString(album.split(nan).last()).toInt();
         }
     }
 
-    if (tmpList.isEmpty()) {
+    if (countList.isEmpty()) {
         return nan;
     }
-    else if (tmpList.length() == 1) {
+    else if (countList.length() == 1) {
         return nan + QString::number(1);
     }
     else {
-        qSort(tmpList.begin(), tmpList.end());
-        for (int i = tmpList.length() - 1; i > 0; i --) {
-            int count
-                    = QString(QString(tmpList.at(i)).split(nan).last()).toInt();
-            if (count >= 0) {
-                while (tmpList.indexOf(nan + QString::number(++count)) == -1) {
-                    return nan + QString::number(count);
-                }
+        qSort(countList.begin(), countList.end());
+        for (int c : countList) {
+            if (countList.indexOf(c + 1) == -1) {
+                return nan + QString::number(c + 1);
             }
         }
 
