@@ -24,6 +24,7 @@ public:
 signals:
     void openAlbum(const QString &album);
     void albumCreated();
+    void albumRemoved();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;

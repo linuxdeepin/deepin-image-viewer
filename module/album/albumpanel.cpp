@@ -225,6 +225,8 @@ void AlbumPanel::initAlbumsView()
     connect(m_albumsView, &AlbumsView::albumCreated,
             this, &AlbumPanel::updateBottomToolbarContent,
             Qt::QueuedConnection);
+    connect(m_albumsView, &AlbumsView::albumRemoved,
+            this, &AlbumPanel::updateBottomToolbarContent);
 }
 
 void AlbumPanel::initImagesView()

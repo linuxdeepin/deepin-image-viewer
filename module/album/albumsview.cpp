@@ -286,6 +286,7 @@ void AlbumsView::onMenuItemClicked(int menuId)
                 && albumName != RECENT_IMPORTED_ALBUM) {
             m_dbManager->removeAlbum(albumName);
             m_model->removeRow(currentIndex().row());
+            emit albumRemoved();
         }
         break;
 //    case IdAlbumInfo:
