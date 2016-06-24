@@ -4,6 +4,7 @@
 #include <QBoxLayout>
 #include <QFile>
 #include <QPushButton>
+#include <QMouseEvent>
 #include <QDebug>
 
 BlureDialog::BlureDialog(QWidget *parent, QWidget *source)

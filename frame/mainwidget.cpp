@@ -95,7 +95,10 @@ void MainWidget::onShowImageInfo(const QString &path)
 {
     ImageInfoDialog *info = new ImageInfoDialog(this, m_panelStack);
     info->setPath(path);
-    info->move((width() - info->width()) / 2, (height() - info->height()) / 2);
+    info->move((width() - info->width()) / 2 +
+               mapToGlobal(QPoint(0, 0)).x(),
+               (window()->height() - info->sizeHint().height()) / 2 +
+               mapToGlobal(QPoint(0, 0)).y());
     info->show();
     connect(info, &ImageInfoDialog::closed, info, &ImageInfoDialog::deleteLater);
     connect(m_signalManager, &SignalManager::gotoPanel,
