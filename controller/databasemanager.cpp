@@ -2,6 +2,7 @@
 #include "signalmanager.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QSqlQuery>
@@ -497,6 +498,13 @@ DatabaseManager::DatabaseManager(QObject *parent)
     : QObject(parent),m_connectionName("default_connection")
 {
     checkDatabase();
+
+    // Destruct current instance before process exits.
+    // Or else DatabaseManager::~DatabaseManager() will never be called.
+    connect(qApp, &QApplication::aboutToQuit,
+            [&]() {
+        delete this;
+    });
 }
 
 DatabaseManager *DatabaseManager::m_databaseManager = NULL;
