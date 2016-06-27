@@ -15,7 +15,8 @@ public:
     QString imageName() const;
     QString imagePath() const;
     void resetTransform();
-    qreal scaleValue() const {return m_scale;}
+    qreal scaleValue() const;
+    qreal windowRelativeScale() const;
     void setTransformOrigin(const QPoint& imageP, const QPoint& deviceP);
     QPoint mapToImage(const QPoint& p) const;
     QRect mapToImage(const QRect& r) const;

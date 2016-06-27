@@ -315,7 +315,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
         m_view->resetTransform();
         if (fitWindow) {
-            m_view->setScaleValue(1);
+            m_view->setScaleValue(1 / m_view->windowRelativeScale());
         }
 
         m_imageSlider->setCurrentValue(m_view->scaleValue()*100);;
@@ -353,7 +353,6 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
-    m_view->resetTransform();
     m_nav->move(e->size().width() - m_nav->width() - 60,
                 e->size().height() - m_nav->height() -10);
 
@@ -362,6 +361,9 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 
     m_slide->setFrameSize(e->size().width(), e->size().height());
+    // for reset transform after toggle fullscreen etc.
+    if (! m_view->imagePath().isEmpty())
+        m_view->setImage(QString(m_view->imagePath()));
 }
 
 void ViewPanel::mouseMoveEvent(QMouseEvent *e)
