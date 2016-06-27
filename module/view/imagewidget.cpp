@@ -38,19 +38,28 @@ QString ImageWidget::imageName() const
     return QFileInfo(m_path).fileName();
 }
 
+/*!
+ * \brief ImageWidget::resetTransform
+ * Reset transform to fit main widget
+ */
 void ImageWidget::resetTransform()
 {
-    //m_scale = 0.4;
     m_o_dev = rect().center();
     m_flipX = m_flipY = 1;
     m_rot = 0;
     if (m_image.isNull())
         return;
-    const QSize s = m_image.size().scaled(rect().size(), Qt::KeepAspectRatio);
     m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
-    m_scale = m_image.width() > width() ? 1 :
-        (qreal(s.width())/qreal(m_image.size().width()));
+    m_scale = windowRelativeScale();
     updateTransform();
+}
+
+qreal ImageWidget::scaleValue() const
+{
+    if (m_image.isNull())
+        return 0;
+    // m_scale is relate on window's size, it need to be relate on image
+    return m_scale / windowRelativeScale();
 }
 
 void ImageWidget::setImageMove(int x, int y)
@@ -60,10 +69,10 @@ void ImageWidget::setImageMove(int x, int y)
 
 void ImageWidget::setScaleValue(qreal value)
 {
-    if (m_scale == value)
+    if (m_image.isNull())
         return;
-
-    m_scale = value;
+    // value is relate on image's size, it need to be relate on window
+    m_scale = windowRelativeScale() * value;
     Q_EMIT scaleValueChanged(value);
     updateTransform();
 }
@@ -72,6 +81,7 @@ void ImageWidget::rotateClockWise()
 {
     rotate(m_rot+90);
     utils::image::rotate(m_path, 90);
+    setImage(QString(m_path));
     DatabaseManager::instance()->updateThumbnail(imageName());
 }
 
@@ -79,6 +89,7 @@ void ImageWidget::rotateCounterclockwise()
 {
     rotate(m_rot-90);
     utils::image::rotate(m_path, -90);
+    setImage(QString(m_path));
     DatabaseManager::instance()->updateThumbnail(imageName());
 }
 
@@ -157,16 +168,6 @@ void ImageWidget::paintEvent(QPaintEvent *)
     p.setTransform(m_mat);
     p.drawPixmap(0, 0, m_pixmap);
     p.restore();
-    if (!m_scaling)
-        return;
-//    static const int kTipWidth = 60;
-//    static const int kTipHeight = 30;
-//    p.translate(width() - kTipWidth, 100);
-//    p.fillRect(0, 0, kTipWidth, kTipHeight, QColor(0, 10, 0, 168));
-//    p.setPen(Qt::white);
-//    p.drawText(QRect(0, 0, kTipWidth, kTipHeight),
-//               QString("%1%").arg(int(m_scale*100.0)),
-//               QTextOption(Qt::AlignCenter));
 }
 
 void ImageWidget::mousePressEvent(QMouseEvent *event)
@@ -207,7 +208,7 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
     setTransformOrigin(mapToImage(event->pos()), event->pos());
     qreal deg = event->angleDelta().y()/8;
     QPoint dp = event->pixelDelta();
-    qreal zoom = m_scale;
+    qreal zoom = m_scale / windowRelativeScale();
     if (dp.isNull())
         zoom += deg*3.14/180.0;
     else
@@ -222,24 +223,28 @@ void ImageWidget::updateTransform()
     if (m_image.isNull())
         return;
     const QTransform old = m_mat;
-    //Q_EMIT scaleValueChanged(value); //TODO: emit only when scaled image is rendered
-    const QSize s = m_image.size()*m_scale;//.scaled(rect().size(), Qt::KeepAspectRatio);
-    m_scale = qreal(s.width())/qreal(m_image.width());
-    // With respect to the scaling of the window
-    const qreal wrs = m_image.width() > width() ?
-                (m_scale * this->width() / m_image.width()) :
-                m_scale;
-    //qDebug() << s << m_image.size() << m_scale;
     m_mat.reset();
-    QPoint img_o = QTransform().rotate(m_rot).scale(wrs*m_flipX, wrs*m_flipY).map(m_o_img);
+    QPoint img_o = QTransform().rotate(m_rot).scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
     m_mat.translate(m_o_dev.x() - (qreal)img_o.x(), m_o_dev.y() - (qreal)img_o.y());
     m_mat.rotate(m_rot);
-    m_mat.scale(wrs*m_flipX, wrs*m_flipY);
-    //qDebug() << m_o_dev << m_mat.inverted().map(m_o_dev);
-    //qDebug() << m_mat;
+    m_mat.scale(m_scale*m_flipX, m_scale*m_flipY);
     update();
-    if (m_mat != old)
+    if (m_mat != old) {
         Q_EMIT transformChanged(m_mat);
+    }
+}
+
+qreal ImageWidget::windowRelativeScale() const
+{
+    if (m_image.isNull())
+        return 1;
+    const QSize s = m_image.size().scaled(rect().size(), Qt::KeepAspectRatio);
+    if (m_image.width() > m_image.height()) {
+        return 1.0 * s.width() / m_image.width();
+    }
+    else {
+        return 1.0 * s.height() / m_image.height();
+    }
 }
 
 bool ImageWidget::inSlideShow() const
