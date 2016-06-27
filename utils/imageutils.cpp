@@ -403,7 +403,7 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
                 switch (i->tag) {
                 case EXIF_TAG_DATE_TIME:
                 case EXIF_TAG_DATE_TIME_ORIGINAL:
-                    dataMap.insert(i->name, base::formatExifTimeString(v));
+                    dataMap.insert(i->name, v);
                     break;
                 default:
                     dataMap.insert(i->name, v);

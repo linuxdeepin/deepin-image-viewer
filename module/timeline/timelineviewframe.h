@@ -48,7 +48,6 @@ private:
     QString currentSelectOne(bool isPath = true);
     QPixmap generateSelectedThumanail(const QPixmap &pixmap);
 
-
 private:
     bool m_multiselection;
     QSize m_iconSize;

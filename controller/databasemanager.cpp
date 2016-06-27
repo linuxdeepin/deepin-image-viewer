@@ -106,7 +106,8 @@ void DatabaseManager::updateThumbnail(const QString &name)
     updateImageInfo(info);
 }
 
-QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(const QString &album)
+QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(
+        const QString &album)
 {
     QStringList nameList = getImageNamesByAlbum(album);
     QList<DatabaseManager::ImageInfo> infoList;
@@ -120,9 +121,17 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(const QS
     return infoList;
 }
 
-QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByTime(const QDateTime &time)
+QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByTimeline(const QString &timeline)
 {
-    return getImageInfos("time", utils::base::timeToString(time));
+    QList<ImageInfo> tList;
+    QList<ImageInfo> infos = getAllImageInfos();
+    for (ImageInfo info : infos) {
+        if (utils::base::timeToString(info.time, true) == timeline) {
+            tList << info;
+        }
+    }
+
+    return tList;
 }
 
 DatabaseManager::ImageInfo DatabaseManager::getImageInfoByName(const QString &name)
@@ -297,7 +306,7 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
         QSqlQuery query( db );
         query.prepare( QString("SELECT DISTINCT filename FROM %1 "
                                "WHERE albumname = '%2' AND filename != \"\" "
-                               "ORDER BY time")
+                               "ORDER BY time DESC")
                        .arg(ALBUM_TABLE_NAME).arg(name) );
         if ( !query.exec() ) {
             qWarning() << "Get images from AlbumTable failed: "
@@ -414,7 +423,7 @@ QStringList DatabaseManager::getImageNamesByAlbum(const QString &album)
         QSqlQuery query( db );
         query.prepare( QString("SELECT DISTINCT filename FROM %1 "
                                "WHERE albumname = '%2' "
-                               "ORDER BY filename")
+                               "ORDER BY time DESC")
                        .arg(ALBUM_TABLE_NAME).arg(album) );
         if ( !query.exec() ) {
             qWarning() << "Get images from AlbumTable failed: "
@@ -486,7 +495,11 @@ QStringList DatabaseManager::getTimeLineList(bool ascending)
         }
         else {
             for ( int i = 0; query.next(); i ++ ) {
-                list << query.value(0).toString();
+                using namespace utils::base;
+                const QString tl = timeToString(
+                            stringToDateTime(query.value(0).toString()), true);
+                if (list.indexOf(tl) == -1)
+                    list << tl;
             }
         }
     }
@@ -525,6 +538,38 @@ DatabaseManager::~DatabaseManager()
     }
 }
 
+const QList<DatabaseManager::ImageInfo> DatabaseManager::getAllImageInfos()
+{
+    QList<ImageInfo> infoList;
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString("SELECT "
+                               "filename, filepath, album, label, time, thumbnail "
+                               "FROM %1 ORDER BY time DESC")
+                       .arg( IMAGE_TABLE_NAME ));
+        if (!query.exec()) {
+            qWarning() << "Get Image from database failed: " << query.lastError();
+            return infoList;
+        }
+        else {
+            while (query.next()) {
+                ImageInfo info;
+                info.name = query.value(0).toString();
+                info.path = query.value(1).toString();
+                info.albums = query.value(2).toStringList();
+                info.labels = query.value(3).toStringList();
+                info.time = utils::base::stringToDateTime(query.value(4).toString());
+                info.thumbnail.loadFromData(query.value(5).toByteArray());
+
+                infoList << info;
+            }
+        }
+    }
+
+    return infoList;
+}
+
 QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfos(const QString &key, const QString &value)
 {
     QList<ImageInfo> infoList;
@@ -533,7 +578,7 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfos(const QString &
         QSqlQuery query( db );
         query.prepare( QString("SELECT "
                                "filename, filepath, album, label, time, thumbnail "
-                               "FROM %1 WHERE %2 = \'%3\' ORDER BY filename")
+                               "FROM %1 WHERE %2 = \'%3\' ORDER BY time DESC")
                        .arg( IMAGE_TABLE_NAME ).arg( key ).arg( value ) );
         if (!query.exec()) {
             qWarning() << "Get Image from database failed: " << query.lastError();

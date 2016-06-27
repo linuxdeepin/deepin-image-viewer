@@ -58,7 +58,7 @@ void TimelineImageView::onImageInserted(const DatabaseManager::ImageInfo &info)
     if (! isVisible()) {
         return;
     }
-    const QString timeLine = utils::base::timeToString(info.time);
+    const QString timeLine = utils::base::timeToString(info.time, true);
     // TimeLine frame not exist, create one
     // Note: use m_frames.keys().indexOf(timeLine) will cause[QObject::connect:
     //       Cannot queue arguments of type 'QList<QPersistentModelIndex>']

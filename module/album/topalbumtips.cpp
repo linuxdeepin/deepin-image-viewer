@@ -33,8 +33,8 @@ void TopAlbumTips::setAlbum(const QString &album)
     m_album = album;
     DatabaseManager::AlbumInfo info
             = DatabaseManager::instance()->getAlbumInfo(album);
-    const QString beginTime = utils::base::timeToString(info.beginTime);
-    const QString endTime = utils::base::timeToString(info.endTime);
+    const QString beginTime = utils::base::timeToString(info.beginTime, true);
+    const QString endTime = utils::base::timeToString(info.endTime, true);
 
     m_infoLabel->setText(album + "  " + beginTime + "-" + endTime);
 }

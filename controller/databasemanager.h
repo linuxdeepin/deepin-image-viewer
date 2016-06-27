@@ -29,8 +29,9 @@ public:
     static DatabaseManager *instance();
     ~DatabaseManager();
 
+    const QList<ImageInfo> getAllImageInfos();
     QList<ImageInfo> getImageInfosByAlbum(const QString &album);
-    QList<ImageInfo> getImageInfosByTime(const QDateTime &time);
+    QList<ImageInfo> getImageInfosByTimeline(const QString &timeline);
     ImageInfo getImageInfoByName(const QString &name);
     ImageInfo getImageInfoByPath(const QString &path);
     void insertImageInfo(const ImageInfo &info);

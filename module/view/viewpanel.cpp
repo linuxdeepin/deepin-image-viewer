@@ -450,10 +450,8 @@ void ViewPanel::onViewImage(const QString &path, const QString &album,
         m_infos = getImageInfos(getFileInfos(path));
     }
     else {
-        DatabaseManager::ImageInfo info =
-                dbManager()->getImageInfoByPath(path);
         if (album.isEmpty()) {
-            m_infos = dbManager()->getImageInfosByTime(info.time);
+            m_infos = dbManager()->getAllImageInfos();
         }
         else {
             m_infos = dbManager()->getImageInfosByAlbum(album);

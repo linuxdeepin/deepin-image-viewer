@@ -82,10 +82,9 @@ void TimelineViewFrame::initListView()
 
     // Ddd data
     QList<DatabaseManager::ImageInfo> list
-            = DatabaseManager::instance()->getImageInfosByTime(
-                utils::base::stringToDateTime(m_timeline));
+            = DatabaseManager::instance()->getImageInfosByTimeline(m_timeline);
     for (DatabaseManager::ImageInfo info : list) {
-        insertItem(info);
+            insertItem(info);
     }
 }
 

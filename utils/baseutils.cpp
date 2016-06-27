@@ -40,9 +40,12 @@ QString sizeToHuman(const qlonglong bytes)
     }
 }
 
-QString timeToString(const QDateTime &time)
+QString timeToString(const QDateTime &time, bool normalFormat)
 {
-    return time.toString(DATETIME_FORMAT_NORMAL);
+    if (normalFormat)
+        return time.toString(DATETIME_FORMAT_NORMAL);
+    else
+        return time.toString(DATETIME_FORMAT_EXIF);
 }
 
 QString formatExifTimeString(const QString &exifTimeStr)
@@ -59,9 +62,9 @@ int stringWidth(const QFont &f, const QString &str)
 
 QDateTime stringToDateTime(const QString &time)
 {
-    QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT_NORMAL);
+    QDateTime dt = QDateTime::fromString(time, DATETIME_FORMAT_EXIF);
     if (! dt.isValid()) {
-        dt = QDateTime::fromString(time, DATETIME_FORMAT_EXIF);
+        dt = QDateTime::fromString(time, DATETIME_FORMAT_NORMAL);
     }
     return dt;
 }
