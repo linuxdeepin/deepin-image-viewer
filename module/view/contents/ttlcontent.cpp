@@ -14,7 +14,7 @@ TTLContent::TTLContent(ImageSource source, QWidget *parent) : QWidget(parent)
         btn->setNormalPic(":/images/resources/images/return_normal.png");
         btn->setHoverPic(":/images/resources/images/return_hover.png");
         btn->setPressPic(":/images/resources/images/return_press.png");
-        btn->setToolTip(tr("Return"));
+        btn->setToolTip(tr("Back"));
         break;
     default:
         btn->setNormalPic(":/images/resources/images/folder_normal.png");

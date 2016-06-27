@@ -117,28 +117,23 @@ void TopToolbar::initWidgets()
         ob->setVisible(enable);
         ob->setEnabled(enable);
         });
+
     DWindowMinButton *minb = new DWindowMinButton;
     connect(minb, SIGNAL(clicked()), parentWidget()->parentWidget(), SLOT(showMinimized()));
 
-    QStackedWidget *sw = new QStackedWidget;
     DWindowMaxButton *maxb = new DWindowMaxButton;
 
-    connect(maxb, &DWindowMaxButton::clicked, this, [=] {
+    connect(maxb, &DWindowMaxButton::maximum, this, [=]{
         if (parentWidget()) {
             parentWidget()->parentWidget()->showMaximized();
-            sw->setCurrentIndex(1);
-
         }
     });
-    DWindowRestoreButton *rb = new DWindowRestoreButton;
-    connect(rb, &DWindowRestoreButton::clicked, this, [=] {
+    connect(maxb, &DWindowMaxButton::restore, this, [=]{
         if (parentWidget()) {
             parentWidget()->parentWidget()->showNormal();
-            sw->setCurrentIndex(0);
         }
     });
-    sw->addWidget(maxb);
-    sw->addWidget(rb);
+
     DWindowCloseButton *cb = new DWindowCloseButton;
     connect(cb, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
 
@@ -151,7 +146,7 @@ void TopToolbar::initWidgets()
     rightLayout->addSpacing(38);
     rightLayout->addWidget(ob);
     rightLayout->addWidget(minb);
-    rightLayout->addWidget(sw);
+    rightLayout->addWidget(maxb);
     rightLayout->addWidget(cb);
 
     m_leftContent = new QWidget;
