@@ -85,7 +85,6 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 
     if (m_stackWidget->currentWidget() == m_imagesView) {
         ImageButton *returnButton = new ImageButton();
-        returnButton->setTooltipVisible(true);
 
         returnButton->setNormalPic(":/images/resources/images/return_normal.png");
         returnButton->setHoverPic(":/images/resources/images/return_hover.png");
@@ -96,6 +95,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
             // during adding images from timeline
             emit m_sManager->gotoPanel(this);
         });
+        returnButton->setToolTip("Back");
 
         layout->addWidget(returnButton);
         layout->addStretch(1);
