@@ -36,5 +36,11 @@ void TopAlbumTips::setAlbum(const QString &album)
     const QString beginTime = utils::base::timeToString(info.beginTime, true);
     const QString endTime = utils::base::timeToString(info.endTime, true);
 
-    m_infoLabel->setText(album + "  " + beginTime + "-" + endTime);
+    if (m_album == "My favorites") {
+        m_album = "我的收藏";
+    } else if (m_album == "Recent imported") {
+        m_album = "最近导入";
+    }
+
+    m_infoLabel->setText(QString("%1").arg(m_album) + "  " + beginTime + "-" + endTime);
 }

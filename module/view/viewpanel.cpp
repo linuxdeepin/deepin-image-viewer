@@ -475,6 +475,7 @@ void ViewPanel::onViewImage(const QString &path, const QString &album,
 void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
+
         showNormal();
     } else {
         showFullScreen();
@@ -573,8 +574,15 @@ QString ViewPanel::createMenuContent()
                                     false, "F5"));
     }
     else {
-        items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
+        if (window()->isFullScreen()) {
+            items.append(createMenuItem(IdFullScreen, tr("Exit Fullscreen"),
+                                        false, "F11"));
+        }
+        else {
+            items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
                                     false, "F11"));
+        }
+
         items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
                                     false, "F5"));
 
@@ -602,10 +610,10 @@ QString ViewPanel::createMenuContent()
             if (!dbManager()->imageExistAlbum(m_current->name,
                                               FAVORITES_ALBUM_NAME)) {
                 items.append(createMenuItem(IdAddToFavorites,
-                    tr("Add to favorites"), false, "Ctrl+K"));
+                    tr("Add to My favorites"), false, "Ctrl+K"));
             } else {
                 items.append(createMenuItem(IdRemoveFromFavorites,
-                    tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+                    tr("Unfavorites"), false, "Ctrl+Shift+K"));
             }
         }
         items.append(createMenuItem(IdSeparator, "", true));

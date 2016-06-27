@@ -49,7 +49,7 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     contentLayout->setContentsMargins(10, 10, 10, 10);
 
     // Title field
-    SimpleFormLabel *title = new SimpleFormLabel(tr("EXIF Information"));
+    SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
     contentLayout->addWidget(title);
     ViewSeparator *separator = new ViewSeparator();
     contentLayout->addWidget(separator);

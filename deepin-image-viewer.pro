@@ -51,7 +51,7 @@ CONFIG(release, debug|release) {
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
-INSTALLS = binary desktop icons dbus_service translations
+INSTALLS = binary desktop dbus_service icons translations
 
 RESOURCES += \
     resources.qrc

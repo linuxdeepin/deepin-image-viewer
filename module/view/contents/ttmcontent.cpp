@@ -172,14 +172,14 @@ void TTMContent::updateCollectButton()
         m_clBT->setPressPic(":/images/resources/images/collect_disable.png");
     }
     else if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
-        m_clBT->setToolTip(tr("Remove from Favorites"));
+        m_clBT->setToolTip(tr("Unfavorites"));
         m_clBT->setWhatsThis("RFFButton");
         m_clBT->setNormalPic(":/images/resources/images/collect_active.png");
         m_clBT->setHoverPic(":/images/resources/images/collect_active.png");
         m_clBT->setPressPic(":/images/resources/images/collect_active.png");
     }
     else {
-        m_clBT->setToolTip(tr("Add to Favorites"));
+        m_clBT->setToolTip(tr("Add to My favorites"));
         m_clBT->setWhatsThis("ATFButton");
         m_clBT->setNormalPic(":/images/resources/images/collect_normal.png");
         m_clBT->setHoverPic(":/images/resources/images/collect_hover.png");

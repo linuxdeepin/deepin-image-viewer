@@ -95,7 +95,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
             // during adding images from timeline
             emit m_sManager->gotoPanel(this);
         });
-        returnButton->setToolTip("Back");
+        returnButton->setToolTip(tr("Back"));
 
         layout->addWidget(returnButton);
         layout->addStretch(1);

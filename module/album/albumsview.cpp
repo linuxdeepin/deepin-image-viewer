@@ -218,7 +218,7 @@ QString AlbumsView::createMenuContent(const QModelIndex &index)
 //                                    "Ctrl+Alt+Return"));
     }
     else {
-        items.append(createMenuItem(IdCreate, tr("Create Album")));
+        items.append(createMenuItem(IdCreate, tr("New Album")));
     }
 
     QJsonObject contentObj;

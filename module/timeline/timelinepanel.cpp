@@ -410,12 +410,12 @@ QString TimelinePanel::createMenuContent()
     for (QString name : images.keys()) {
         if (! m_dbManager->imageExistAlbum(name, FAVORITES_ALBUM_NAME)) {
             items.append(createMenuItem(IdAddToFavorites,
-                tr("Add to favorites"), false, "Ctrl+K"));
+                tr("Add to My favorites"), false, "Ctrl+K"));
             break;
         }
         else {
             items.append(createMenuItem(IdRemoveFromFavorites,
-                tr("Remove from favorites"), false, "Ctrl+Shift+K"));
+                tr("Unfavorites"), false, "Ctrl+Shift+K"));
             break;
         }
     }

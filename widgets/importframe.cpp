@@ -22,7 +22,7 @@ ImportFrame::ImportFrame(QWidget *parent) : QWidget(parent)
     });
 
     QLabel *titleLabel = new QLabel(
-                tr("You can also drop folder here to import picture"));
+                tr("Import or drag image to timeline"));
     titleLabel->setObjectName("ImportFrameTooltip");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
