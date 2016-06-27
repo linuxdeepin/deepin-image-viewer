@@ -386,10 +386,11 @@ QString TimelinePanel::createMenuContent()
 {
     QMap<QString, QString> images = m_imagesView->selectedImages();
     QJsonArray items;
-    items.append(createMenuItem(IdView, tr("View")));
-    if (images.count() == 1)
+    if (images.count() == 1) {
+        items.append(createMenuItem(IdView, tr("View")));
         items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
                                     false, "F11"));
+    }
     items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false,
                                 "F5"));
     const QJsonObject objF = createAlbumMenuObj();
