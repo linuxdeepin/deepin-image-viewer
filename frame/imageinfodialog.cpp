@@ -1,5 +1,6 @@
 #include "imageinfodialog.h"
 #include "utils/imageutils.h"
+#include <QApplication>
 #include <QFormLayout>
 #include <QLabel>
 #include <QMap>
@@ -44,6 +45,6 @@ void ImageInfoDialog::setPath(const QString &path)
         if (v.isEmpty()) {
             continue;
         }
-        addInfoPair(tr(i->name) + ":", v);
+        addInfoPair(qApp->translate("ExifItemName", i->name) + ":", v);
     }
 }

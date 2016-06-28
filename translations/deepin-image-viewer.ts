@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -537,15 +537,75 @@
 <context>
     <name>utils::image</name>
     <message>
-        <source>Manufacture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date photoed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Colorspace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exposure time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aperture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Focal length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ISO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Metering mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>White balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lens model</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

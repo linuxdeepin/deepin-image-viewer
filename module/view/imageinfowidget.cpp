@@ -1,6 +1,7 @@
 #include "imageinfowidget.h"
 #include "utils/imageutils.h"
 #include "controller/signalmanager.h"
+#include <QApplication>
 #include <QScrollBar>
 #include <QLabel>
 #include <QFormLayout>
@@ -124,9 +125,10 @@ void ImageInfoWidget::updateInfo()
         }
         SimpleFormField *label = new SimpleFormField(v);
         label->setWordWrap(true);
-        titleWidth = qMax(titleWidth, fm.width(i->name));
+        const QString tn = qApp->translate("ExifItemName", i->name);
+        titleWidth = qMax(titleWidth, fm.width(tn));
         fieldWidth = qMax(fieldWidth, fm.width(v));
-        m_exifLayout->addRow(new SimpleFormLabel(tr(i->name) + ":"), label);
+        m_exifLayout->addRow(new SimpleFormLabel(tn + ":"), label);
     }
 
     m_maxContentWidth = titleWidth + fieldWidth + 10;

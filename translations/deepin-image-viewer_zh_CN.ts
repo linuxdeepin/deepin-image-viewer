@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="zh_CN">
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -174,6 +174,109 @@
     </message>
 </context>
 <context>
+    <name>ExifItemName</name>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="24"/>
+        <location filename="../utils/imageutils.cpp" line="38"/>
+        <source>Name</source>
+        <translation>名称</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="26"/>
+        <location filename="../utils/imageutils.cpp" line="40"/>
+        <source>Date photoed</source>
+        <translation>拍摄时间</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="28"/>
+        <location filename="../utils/imageutils.cpp" line="42"/>
+        <source>Date modified</source>
+        <translation>修改时间</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="30"/>
+        <location filename="../utils/imageutils.cpp" line="44"/>
+        <source>Resolution</source>
+        <translation>分辨率</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="32"/>
+        <location filename="../utils/imageutils.cpp" line="46"/>
+        <source>File size</source>
+        <translation>文件大小</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="48"/>
+        <source>Colorspace</source>
+        <translation>颜色空间</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="50"/>
+        <source>Exposure mode</source>
+        <translation>曝光模式</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="52"/>
+        <source>Exposure program</source>
+        <translation>曝光模式</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="54"/>
+        <source>Exposure time</source>
+        <translation>曝光时间</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="56"/>
+        <source>Flash</source>
+        <translation>闪光灯</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="58"/>
+        <source>Aperture</source>
+        <translation>光圈大小</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="60"/>
+        <source>Focal length</source>
+        <translation>焦距</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="62"/>
+        <source>ISO</source>
+        <translation>IOS感光度</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="64"/>
+        <source>Max aperture</source>
+        <translation>最大光圈</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="66"/>
+        <source>Metering mode</source>
+        <translation>测光模式</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="68"/>
+        <source>White balance</source>
+        <translation>白平衡</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="70"/>
+        <source>Flash compensation</source>
+        <translation>闪光灯补偿</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="74"/>
+        <source>Model</source>
+        <translation>相机型号</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="76"/>
+        <source>Lens model</source>
+        <translation>镜头型号</translation>
+    </message>
+</context>
+<context>
     <name>Exporter</name>
     <message>
         <location filename="../controller/exporter.cpp" line="46"/>
@@ -212,18 +315,18 @@
         <translation type="obsolete">图片信息</translation>
     </message>
     <message>
-        <location filename="../module/view/imageinfowidget.cpp" line="52"/>
+        <location filename="../module/view/imageinfowidget.cpp" line="53"/>
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
     <message>
-        <location filename="../module/view/imageinfowidget.cpp" line="64"/>
-        <location filename="../module/view/imageinfowidget.cpp" line="69"/>
+        <location filename="../module/view/imageinfowidget.cpp" line="65"/>
+        <location filename="../module/view/imageinfowidget.cpp" line="70"/>
         <source>Show details</source>
         <translation>显示详细信息</translation>
     </message>
     <message>
-        <location filename="../module/view/imageinfowidget.cpp" line="74"/>
+        <location filename="../module/view/imageinfowidget.cpp" line="75"/>
         <source>Show basics</source>
         <translation>显示基本信息</translation>
     </message>
@@ -352,14 +455,74 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../utils/imageutils.cpp" line="384"/>
+        <source>Name</source>
+        <translation type="obsolete">名称</translation>
+    </message>
+    <message>
+        <location filename="../utils/imageutils.cpp" line="409"/>
         <source>Date photoed</source>
         <translation>拍摄日期</translation>
     </message>
     <message>
-        <location filename="../utils/imageutils.cpp" line="386"/>
+        <location filename="../utils/imageutils.cpp" line="411"/>
         <source>Date modified</source>
         <translation>修改日期</translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="obsolete">分辨率</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation type="obsolete">文件大小</translation>
+    </message>
+    <message>
+        <source>Colorspace</source>
+        <translation type="obsolete">颜色空间</translation>
+    </message>
+    <message>
+        <source>Exposure mode</source>
+        <translation type="obsolete">曝光模式</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="obsolete">曝光模式</translation>
+    </message>
+    <message>
+        <source>Exposure time</source>
+        <translation type="obsolete">曝光时间</translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="obsolete">闪光灯</translation>
+    </message>
+    <message>
+        <source>Aperture</source>
+        <translation type="obsolete">光圈大小</translation>
+    </message>
+    <message>
+        <source>Focal length</source>
+        <translation type="obsolete">焦距</translation>
+    </message>
+    <message>
+        <source>ISO</source>
+        <translation type="obsolete">IOS感光度</translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation type="obsolete">最大光圈</translation>
+    </message>
+    <message>
+        <source>Metering mode</source>
+        <translation type="obsolete">测光模式</translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="obsolete">相机型号</translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="obsolete">镜头型号</translation>
     </message>
 </context>
 <context>
@@ -567,52 +730,52 @@
 <context>
     <name>ViewPanel</name>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="567"/>
+        <location filename="../module/view/viewpanel.cpp" line="573"/>
         <source>Stop slide show</source>
         <translation>退出幻灯片</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="572"/>
+        <location filename="../module/view/viewpanel.cpp" line="578"/>
         <source>Exit Fullscreen</source>
         <translation>退出全屏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="576"/>
+        <location filename="../module/view/viewpanel.cpp" line="582"/>
         <source>Fullscreen</source>
         <translation>全屏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="580"/>
+        <location filename="../module/view/viewpanel.cpp" line="586"/>
         <source>Start slide show</source>
         <translation>幻灯片放映</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="586"/>
+        <location filename="../module/view/viewpanel.cpp" line="592"/>
         <source>Add to album</source>
         <translation>添加到相册</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="593"/>
+        <location filename="../module/view/viewpanel.cpp" line="599"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="594"/>
+        <location filename="../module/view/viewpanel.cpp" line="600"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="595"/>
+        <location filename="../module/view/viewpanel.cpp" line="601"/>
         <source>Throw to trash</source>
         <translation>移动到回收站</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="598"/>
+        <location filename="../module/view/viewpanel.cpp" line="604"/>
         <source>Remove from album</source>
         <translation>从相册移除</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="607"/>
+        <location filename="../module/view/viewpanel.cpp" line="613"/>
         <source>Add to My favorites</source>
         <translation>收藏</translation>
     </message>
@@ -621,47 +784,47 @@
         <translation type="obsolete">收藏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="610"/>
+        <location filename="../module/view/viewpanel.cpp" line="616"/>
         <source>Unfavorites</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="617"/>
+        <location filename="../module/view/viewpanel.cpp" line="623"/>
         <source>Show navigation window</source>
         <translation>显示导航窗口</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="620"/>
+        <location filename="../module/view/viewpanel.cpp" line="626"/>
         <source>Hide navigation window</source>
         <translation>隐藏导航窗口</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="625"/>
+        <location filename="../module/view/viewpanel.cpp" line="631"/>
         <source>Rotate clockwise</source>
         <translation>顺时针旋转</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="628"/>
+        <location filename="../module/view/viewpanel.cpp" line="634"/>
         <source>Rotate counterclockwise</source>
         <translation>逆时针旋转</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="633"/>
+        <location filename="../module/view/viewpanel.cpp" line="639"/>
         <source>Set as wallpaper</source>
         <translation>设为壁纸</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="636"/>
+        <location filename="../module/view/viewpanel.cpp" line="642"/>
         <source>Display in file manager</source>
         <translation>在文件管理器中显示</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="637"/>
+        <location filename="../module/view/viewpanel.cpp" line="643"/>
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="667"/>
+        <location filename="../module/view/viewpanel.cpp" line="673"/>
         <source>Remove from &lt;&lt;%1&gt;&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -677,19 +840,76 @@
 <context>
     <name>utils::image</name>
     <message>
-        <location filename="../utils/imageutils.cpp" line="33"/>
-        <source>Manufacture</source>
-        <translation></translation>
+        <source>Name</source>
+        <translation type="vanished">名称</translation>
     </message>
     <message>
-        <location filename="../utils/imageutils.cpp" line="34"/>
+        <source>Date photoed</source>
+        <translation type="vanished">拍摄时间</translation>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation type="vanished">修改时间</translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="vanished">分辨率</translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation type="vanished">文件大小</translation>
+    </message>
+    <message>
+        <source>Colorspace</source>
+        <translation type="vanished">颜色空间</translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="vanished">曝光模式</translation>
+    </message>
+    <message>
+        <source>Exposure time</source>
+        <translation type="vanished">曝光时间</translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="vanished">闪光灯</translation>
+    </message>
+    <message>
+        <source>Aperture</source>
+        <translation type="vanished">光圈大小</translation>
+    </message>
+    <message>
+        <source>Focal length</source>
+        <translation type="vanished">焦距</translation>
+    </message>
+    <message>
+        <source>ISO</source>
+        <translation type="vanished">IOS感光度</translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation type="vanished">最大光圈</translation>
+    </message>
+    <message>
+        <source>Metering mode</source>
+        <translation type="vanished">测光模式</translation>
+    </message>
+    <message>
+        <source>White balance</source>
+        <translation type="vanished">白平衡</translation>
+    </message>
+    <message>
         <source>Model</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">相机型号</translation>
     </message>
     <message>
-        <location filename="../utils/imageutils.cpp" line="40"/>
+        <source>Lens model</source>
+        <translation type="vanished">镜头型号</translation>
+    </message>
+    <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">曝光模式</translation>
     </message>
 </context>
 </TS>

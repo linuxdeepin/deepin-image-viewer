@@ -20,35 +20,60 @@ namespace utils {
 namespace image {
 
 static ExifItem ExifDataBasics[] = {
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME, "Name"},
-    {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL, "Date photoed"},
-    {EXIF_IFD_0, EXIF_TAG_DATE_TIME, "Date modified"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION, "Resolution"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE, "File size"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME,
+     QT_TRANSLATE_NOOP("ExifItemName", "Name")},
+    {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL,
+     QT_TRANSLATE_NOOP("ExifItemName", "Date photoed")},
+    {EXIF_IFD_0, EXIF_TAG_DATE_TIME,
+     QT_TRANSLATE_NOOP("ExifItemName", "Date modified")},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION,
+     QT_TRANSLATE_NOOP("ExifItemName", "Resolution")},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE,
+     QT_TRANSLATE_NOOP("ExifItemName", "File size")},
     {EXIF_IFD_COUNT, 0, 0}
 };
 
 static ExifItem ExifDataDetails[] = {
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME, "Name"},
-    {EXIF_IFD_0, EXIF_TAG_MAKE, QT_TR_NOOP("Manufacture")},
-    {EXIF_IFD_0, EXIF_TAG_MODEL, QT_TR_NOOP("Model")},
-    {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL, "Date photoed"},
-    {EXIF_IFD_0, EXIF_TAG_DATE_TIME, "Date modified"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION, "Resolution"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE, "File size"},
-    {EXIF_IFD_EXIF, EXIF_TAG_COLOR_SPACE, "Colorspace"},
-    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_MODE, QT_TR_NOOP("Exposure mode")},
-    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_PROGRAM, "Exposure program"},
-    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_TIME, "Exposure time"},
-    {EXIF_IFD_EXIF, EXIF_TAG_FLASH, "Flash"},
-    {EXIF_IFD_EXIF, EXIF_TAG_APERTURE_VALUE, "Aperture"},
-    {EXIF_IFD_EXIF, EXIF_TAG_FOCAL_LENGTH, "Focal length"},
-    {EXIF_IFD_EXIF, EXIF_TAG_ISO_SPEED_RATINGS, "ISO"},
-    {EXIF_IFD_EXIF, EXIF_TAG_MAX_APERTURE_VALUE, "Max aperture"},
-    {EXIF_IFD_EXIF, EXIF_TAG_METERING_MODE, "Metering mode"},
-    {EXIF_IFD_EXIF, EXIF_TAG_WHITE_BALANCE, "White balance"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_FLASH_COMPENSATION, "Flash compensation"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_LENS_MODEL, "Lens model"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME,
+     QT_TRANSLATE_NOOP("ExifItemName", "Name")},
+    {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL,
+     QT_TRANSLATE_NOOP("ExifItemName", "Date photoed")},
+    {EXIF_IFD_0, EXIF_TAG_DATE_TIME,
+     QT_TRANSLATE_NOOP("ExifItemName", "Date modified")},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION,
+     QT_TRANSLATE_NOOP("ExifItemName", "Resolution")},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE,
+     QT_TRANSLATE_NOOP("ExifItemName", "File size")},
+    {EXIF_IFD_EXIF, EXIF_TAG_COLOR_SPACE,
+     QT_TRANSLATE_NOOP("ExifItemName", "Colorspace")},
+    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_MODE,
+     QT_TRANSLATE_NOOP("ExifItemName", "Exposure mode")},
+    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_PROGRAM,
+     QT_TRANSLATE_NOOP("ExifItemName", "Exposure program")},
+    {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_TIME,
+     QT_TRANSLATE_NOOP("ExifItemName", "Exposure time")},
+    {EXIF_IFD_EXIF, EXIF_TAG_FLASH,
+     QT_TRANSLATE_NOOP("ExifItemName", "Flash")},
+    {EXIF_IFD_EXIF, EXIF_TAG_APERTURE_VALUE,
+     QT_TRANSLATE_NOOP("ExifItemName", "Aperture")},
+    {EXIF_IFD_EXIF, EXIF_TAG_FOCAL_LENGTH,
+     QT_TRANSLATE_NOOP("ExifItemName", "Focal length")},
+    {EXIF_IFD_EXIF, EXIF_TAG_ISO_SPEED_RATINGS,
+     QT_TRANSLATE_NOOP("ExifItemName", "ISO")},
+    {EXIF_IFD_EXIF, EXIF_TAG_MAX_APERTURE_VALUE,
+     QT_TRANSLATE_NOOP("ExifItemName", "Max aperture")},
+    {EXIF_IFD_EXIF, EXIF_TAG_METERING_MODE,
+     QT_TRANSLATE_NOOP("ExifItemName", "Metering mode")},
+    {EXIF_IFD_EXIF, EXIF_TAG_WHITE_BALANCE,
+     QT_TRANSLATE_NOOP("ExifItemName", "White balance")},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_FLASH_COMPENSATION,
+     QT_TRANSLATE_NOOP("ExifItemName", "Flash compensation")},
+    {EXIF_IFD_0, EXIF_TAG_MAKE,
+//     QT_TRANSLATE_NOOP("ExifItemName", "Manufacture")},
+//    {EXIF_IFD_0, EXIF_TAG_MODEL,
+     QT_TRANSLATE_NOOP("ExifItemName", "Model")},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_LENS_MODEL,
+     QT_TRANSLATE_NOOP("ExifItemName", "Lens model")},
     {EXIF_IFD_COUNT, 0, 0}
 };
 
@@ -392,7 +417,7 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
             ExifEntry *e = exif_content_get_entry(ed->ifd[i->ifd],
                     (ExifTag)i->tag);
             if (!e) {
-                qWarning("no exif entry: %s", i->name);
+                qWarning() << "no exif entry: " << i->name;
                 continue;
             }
             char buf[1024];
