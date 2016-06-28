@@ -172,7 +172,7 @@ void TTMContent::updateCollectButton()
         m_clBT->setPressPic(":/images/resources/images/collect_disable.png");
     }
     else if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
-        m_clBT->setToolTip(tr("Unfavorites"));
+        m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setWhatsThis("RFFButton");
         m_clBT->setNormalPic(":/images/resources/images/collect_active.png");
         m_clBT->setHoverPic(":/images/resources/images/collect_active.png");

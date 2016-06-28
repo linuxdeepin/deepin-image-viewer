@@ -1,5 +1,6 @@
 #include "exporter.h"
 #include "controller/databasemanager.h"
+#include "controller/signalmanager.h"
 #include "utils/imageutils.h"
 
 #include <QFileDialog>
@@ -52,8 +53,14 @@ void Exporter::exportImage(const QStringList imagePaths) {
 
         qDebug() << "dialogFilePath:" << dialogFilePath;
         QPixmap tmpImage(imagePaths.at(0));
-        if (!tmpImage.isNull() && !dialogFilePath.isEmpty())
-            tmpImage.save(dialogFilePath);
+        if (!tmpImage.isNull() && !dialogFilePath.isEmpty()) {
+            bool exportStatus = tmpImage.save(dialogFilePath);
+            if (exportStatus) {
+                qDebug() << tr("Exported successfully.");
+            } else {
+                qDebug() << tr("Failed to export.");
+            }
+        }
     } else {
         popupDialogSaveImage(imagePaths);
     }

@@ -613,7 +613,7 @@ QString ViewPanel::createMenuContent()
                     tr("Add to My favorites"), false, "Ctrl+K"));
             } else {
                 items.append(createMenuItem(IdRemoveFromFavorites,
-                    tr("Unfavorites"), false, "Ctrl+Shift+K"));
+                    tr("Unfavorite"), false, "Ctrl+Shift+K"));
             }
         }
         items.append(createMenuItem(IdSeparator, "", true));

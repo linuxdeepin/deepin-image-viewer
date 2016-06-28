@@ -267,10 +267,10 @@ void TimelinePanel::updateBottomToolbarContent()
 
     int count = m_dbManager->imageCount();
     if (count <= 1) {
-        m_countLabel->setText(tr("%1 Image").arg(count));
+        m_countLabel->setText(tr("%1 image").arg(count));
     }
     else {
-        m_countLabel->setText(tr("%1 Images").arg(count));
+        m_countLabel->setText(tr("%1 images").arg(count));
     }
 
     m_slider->setFixedWidth(count > 0 ? 120 : 1);
@@ -414,7 +414,7 @@ QString TimelinePanel::createMenuContent()
         }
         else {
             items.append(createMenuItem(IdRemoveFromFavorites,
-                tr("Unfavorites"), false, "Ctrl+Shift+K"));
+                tr("Unfavorite"), false, "Ctrl+Shift+K"));
             break;
         }
     }

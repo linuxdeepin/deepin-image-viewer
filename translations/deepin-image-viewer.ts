@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.0">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -140,6 +140,85 @@
     </message>
 </context>
 <context>
+    <name>ExifItemName</name>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date photoed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Colorspace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exposure mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exposure program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exposure time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aperture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Focal length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ISO</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max aperture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Metering mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>White balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flash compensation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lens model</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Exporter</name>
     <message>
         <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
@@ -147,6 +226,14 @@
     </message>
     <message>
         <source>Save File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exported successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to export.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -293,7 +380,7 @@
 <context>
     <name>SliderFrame</name>
     <message>
-        <source>%1 Images</source>
+        <source>%1 images</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -331,11 +418,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unfavorites</source>
+        <source>Add to My favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add to My favorites</source>
+        <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -351,14 +438,6 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -390,10 +469,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unfavorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rotate clockwise</source>
         <translation type="unfinished"></translation>
     </message>
@@ -415,6 +490,18 @@
     </message>
     <message>
         <source>Add to My favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 images</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -487,10 +574,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unfavorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Show navigation window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -526,86 +609,15 @@
         <source>Add to My favorites</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <source>Value that use for options.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>utils::image</name>
-    <message>
-        <source>Model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exposure mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date photoed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date modified</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Resolution</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Colorspace</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exposure program</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exposure time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Flash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Aperture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Focal length</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ISO</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max aperture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Metering mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>White balance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Lens model</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -53,7 +53,7 @@ void SliderFrame::setValue(double perc)
 void SliderFrame::setCurrentInfo(const QString &month, int count)
 {
     m_timelineLabel->setText(month);
-    m_countLabel->setText(tr("%1 Images").arg(QString::number(count)));
+    m_countLabel->setText(tr("%1 images").arg(QString::number(count)));
 }
 
 void SliderFrame::initTooltip()

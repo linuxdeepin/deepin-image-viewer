@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -279,15 +279,25 @@
 <context>
     <name>Exporter</name>
     <message>
-        <location filename="../controller/exporter.cpp" line="46"/>
+        <location filename="../controller/exporter.cpp" line="47"/>
         <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controller/exporter.cpp" line="48"/>
-        <location filename="../controller/exporter.cpp" line="76"/>
+        <location filename="../controller/exporter.cpp" line="49"/>
+        <location filename="../controller/exporter.cpp" line="83"/>
         <source>Save File</source>
-        <translation>保存图片</translation>
+        <translation>保存图像</translation>
+    </message>
+    <message>
+        <location filename="../controller/exporter.cpp" line="59"/>
+        <source>Exported successfully.</source>
+        <translation>导出成功</translation>
+    </message>
+    <message>
+        <location filename="../controller/exporter.cpp" line="61"/>
+        <source>Failed to export.</source>
+        <translation>导出失败</translation>
     </message>
 </context>
 <context>
@@ -444,7 +454,7 @@
     <message>
         <location filename="../controller/importer.cpp" line="88"/>
         <source>Open Directory</source>
-        <translation>打开目录</translation>
+        <translation>打开图像目录</translation>
     </message>
     <message>
         <location filename="../controller/importer.cpp" line="161"/>
@@ -528,8 +538,12 @@
 <context>
     <name>SliderFrame</name>
     <message>
-        <location filename="../module/timeline/sliderframe.cpp" line="56"/>
         <source>%1 Images</source>
+        <translation type="obsolete">%1 张图片</translation>
+    </message>
+    <message>
+        <location filename="../module/timeline/sliderframe.cpp" line="56"/>
+        <source>%1 images</source>
         <translation>%1 张图片</translation>
     </message>
 </context>
@@ -576,8 +590,12 @@
     </message>
     <message>
         <location filename="../module/view/contents/ttmcontent.cpp" line="175"/>
-        <source>Unfavorites</source>
+        <source>Unfavorite</source>
         <translation>取消收藏</translation>
+    </message>
+    <message>
+        <source>Unfavorites</source>
+        <translation type="obsolete">取消收藏</translation>
     </message>
     <message>
         <location filename="../module/view/contents/ttmcontent.cpp" line="182"/>
@@ -594,7 +612,7 @@
     <message>
         <location filename="../module/timeline/timelinepanel.cpp" line="78"/>
         <source>Add to &quot;%1&quot; album</source>
-        <translation>增加到 %1 相册</translation>
+        <translation>添加到 %1 相册</translation>
     </message>
     <message>
         <location filename="../module/timeline/timelinepanel.cpp" line="80"/>
@@ -607,13 +625,21 @@
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="271"/>
         <source>%1 Image</source>
+        <translation type="obsolete">%1 张图片</translation>
+    </message>
+    <message>
+        <source>%1 Images</source>
+        <translation type="obsolete">%1 张图片</translation>
+    </message>
+    <message>
+        <location filename="../module/timeline/timelinepanel.cpp" line="271"/>
+        <source>%1 image</source>
         <translation>%1 张图片</translation>
     </message>
     <message>
         <location filename="../module/timeline/timelinepanel.cpp" line="274"/>
-        <source>%1 Images</source>
+        <source>%1 images</source>
         <translation>%1 张图片</translation>
     </message>
     <message>
@@ -634,7 +660,7 @@
     <message>
         <location filename="../module/timeline/timelinepanel.cpp" line="398"/>
         <source>Add to album</source>
-        <translation>增加到相册</translation>
+        <translation>添加到相册</translation>
     </message>
     <message>
         <location filename="../module/timeline/timelinepanel.cpp" line="404"/>
@@ -657,13 +683,17 @@
         <translation>收藏</translation>
     </message>
     <message>
+        <location filename="../module/timeline/timelinepanel.cpp" line="418"/>
+        <source>Unfavorite</source>
+        <translation>取消收藏</translation>
+    </message>
+    <message>
         <source>Add to favorites</source>
         <translation type="obsolete">收藏</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="418"/>
         <source>Unfavorites</source>
-        <translation>取消收藏</translation>
+        <translation type="obsolete">取消收藏</translation>
     </message>
     <message>
         <location filename="../module/timeline/timelinepanel.cpp" line="424"/>
@@ -780,13 +810,17 @@
         <translation>收藏</translation>
     </message>
     <message>
+        <location filename="../module/view/viewpanel.cpp" line="616"/>
+        <source>Unfavorite</source>
+        <translation>取消收藏</translation>
+    </message>
+    <message>
         <source>Add to favorites</source>
         <translation type="obsolete">收藏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="616"/>
         <source>Unfavorites</source>
-        <translation>取消收藏</translation>
+        <translation type="obsolete">取消收藏</translation>
     </message>
     <message>
         <location filename="../module/view/viewpanel.cpp" line="623"/>
@@ -826,7 +860,7 @@
     <message>
         <location filename="../module/view/viewpanel.cpp" line="673"/>
         <source>Remove from &lt;&lt;%1&gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>从 %1 相册移除</translation>
     </message>
 </context>
 <context>
@@ -841,75 +875,75 @@
     <name>utils::image</name>
     <message>
         <source>Name</source>
-        <translation type="vanished">名称</translation>
+        <translation type="obsolete">名称</translation>
     </message>
     <message>
         <source>Date photoed</source>
-        <translation type="vanished">拍摄时间</translation>
+        <translation type="obsolete">拍摄时间</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation type="vanished">修改时间</translation>
+        <translation type="obsolete">修改时间</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="vanished">分辨率</translation>
+        <translation type="obsolete">分辨率</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation type="vanished">文件大小</translation>
+        <translation type="obsolete">文件大小</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="vanished">颜色空间</translation>
+        <translation type="obsolete">颜色空间</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="vanished">曝光模式</translation>
+        <translation type="obsolete">曝光模式</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="vanished">曝光时间</translation>
+        <translation type="obsolete">曝光时间</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="vanished">闪光灯</translation>
+        <translation type="obsolete">闪光灯</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="vanished">光圈大小</translation>
+        <translation type="obsolete">光圈大小</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="vanished">焦距</translation>
+        <translation type="obsolete">焦距</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation type="vanished">IOS感光度</translation>
+        <translation type="obsolete">IOS感光度</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="vanished">最大光圈</translation>
+        <translation type="obsolete">最大光圈</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="vanished">测光模式</translation>
+        <translation type="obsolete">测光模式</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="vanished">白平衡</translation>
+        <translation type="obsolete">白平衡</translation>
     </message>
     <message>
         <source>Model</source>
-        <translation type="vanished">相机型号</translation>
+        <translation type="obsolete">相机型号</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="vanished">镜头型号</translation>
+        <translation type="obsolete">镜头型号</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="vanished">曝光模式</translation>
+        <translation type="obsolete">曝光模式</translation>
     </message>
 </context>
 </TS>
