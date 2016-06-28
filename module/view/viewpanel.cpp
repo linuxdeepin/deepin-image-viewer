@@ -108,16 +108,20 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        qreal v = m_view->scaleValue() + 0.1;
-        m_view->setScaleValue(qMin(v, 10.0));
+        if (!m_slide->isRunning()) {
+            qreal v = m_view->scaleValue() + 0.1;
+            m_view->setScaleValue(qMin(v, 10.0));
+        }
     });
 
     // Zoom in
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        qreal v = m_view->scaleValue() - 0.1;
-        m_view->setScaleValue(qMax(v, 0.5));
+        if (!m_slide->isRunning()) {
+            qreal v = m_view->scaleValue() - 0.1;
+            m_view->setScaleValue(qMax(v, 0.5));
+        }
     });
 
     // Esc
@@ -158,6 +162,7 @@ void ViewPanel::toggleSlideShow()
     if (m_slide->isRunning()) {
         m_view->setInSlideShow(false);
         m_slide->stop();
+
         showNormal();
         updateMenuContent();
     }
@@ -173,6 +178,7 @@ void ViewPanel::toggleSlideShow()
         m_slide->setImagePaths(paths);
         m_slide->setCurrentImage(m_current->path);
         m_slide->start();
+
         updateMenuContent();
     }
 }
@@ -778,14 +784,19 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 void ViewPanel::initSlider() {
     m_imageSlider = new ImageSliderFrame(this);
     m_imageSlider->hide();
+
     connect(m_view, &ImageWidget::scaleValueChanged, [this](qreal value) {
         m_imageSlider->setCurrentValue(value*100);
     });
 
     connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc) {
-        m_view->setScaleValue(perc*950/100);
-        m_imageSlider->show();
-        m_hideSlider->start();
+
+        if (!m_slide->isRunning()) {
+            m_view->setScaleValue(perc*950/100);
+            m_imageSlider->show();
+            m_hideSlider->start();
+        }
+
     });
 
     m_hideSlider = new QTimer(this);
@@ -847,7 +858,7 @@ void ViewPanel::initNavigation()
     });
     connect(m_view, &ImageWidget::transformChanged, [this](){
         if (!m_nav->isAlwaysHidden())
-            m_nav->setVisible(!m_view->isWholeImageVisible());
+            m_nav->setVisible(!m_view->isWholeImageVisible() && !m_slide->isRunning());
         m_nav->setRectInImage(m_view->visibleImageRect());
     });
 }
