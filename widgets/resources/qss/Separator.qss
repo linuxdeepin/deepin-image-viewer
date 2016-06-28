@@ -1,3 +1,5 @@
 Separator {
     background: rgba(255, 255, 255, 0.2);
+    margin-left: 1px;
+    margin-right: 1px;
 }

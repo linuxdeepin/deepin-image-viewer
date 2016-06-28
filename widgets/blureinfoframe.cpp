@@ -47,11 +47,13 @@ BlureInfoFrame::BlureInfoFrame(QWidget *parent, QWidget *source)
     layout->addWidget(s);
     layout->addSpacing(5);
 
-    m_infoLayout = new QFormLayout;
+    m_infoFrame = new QFrame;
+    m_infoLayout = new QFormLayout(m_infoFrame);
     m_infoLayout->setSpacing(13);
-    m_infoLayout->setContentsMargins(8, 0, 8, 0);
+    m_infoLayout->setContentsMargins(0, 0, 0, 0);
     m_infoLayout->setLabelAlignment(Qt::AlignRight);
-    layout->addLayout(m_infoLayout);
+    layout->addWidget(m_infoFrame, 1, Qt::AlignHCenter);
+    layout->addSpacing(21);
     layout->addStretch(1);
 
     setStyleSheet(utils::base::getFileContent(
@@ -66,24 +68,29 @@ void BlureInfoFrame::setTopContent(QWidget *w)
             delete item->widget();
         delete item;
     }
-    m_topLayout->addWidget(w, 1, Qt::AlignCenter);
+    m_topLayout->addWidget(w);
 
     Dtk::Widget::DWindowCloseButton *cb = new Dtk::Widget::DWindowCloseButton(this);
     cb->setFixedSize(24, 24);
     cb->move(this->sizeHint().width() - cb->width() - 5, 0);
     connect(cb, &Dtk::Widget::DWindowCloseButton::clicked,
             this, &BlureInfoFrame::close);
-    this->setFixedWidth(w->width() + 5*2);
+    this->setFixedWidth(w->width() + 6*2);
 }
 
 void BlureInfoFrame::addInfoPair(const QString &title, const QString &value)
 {
     SimpleFormLabel *tl = new SimpleFormLabel(title);
-    tl->setAlignment(Qt::AlignRight);
-    tl->setMinimumWidth(width() / 5 * 2);
     SimpleFormField *vl = new SimpleFormField(value);
     vl->setWordWrap(true);
     m_infoLayout->addRow(tl, vl);
+
+    QFont f;
+    f.setPixelSize(12);
+    QFontMetrics fm(f);
+    m_leftMax = qMax(fm.width(title), m_leftMax);
+    m_rightMax = qMax(fm.width(value), m_rightMax);
+    m_infoFrame->setFixedWidth(qMin((m_leftMax + m_rightMax), (width() - 16)));
 }
 
 void BlureInfoFrame::close()
