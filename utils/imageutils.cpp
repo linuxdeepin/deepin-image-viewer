@@ -442,7 +442,7 @@ bool imageIsSupport(const QString &filepath)
 {
     QFileInfo info(filepath);
     if (info.isFile()) {
-        return (supportImageTypes().indexOf(info.suffix()) != -1);
+        return (supportImageTypes().indexOf(info.suffix().toLower()) != -1);
     }
     else {
         return false;
