@@ -71,6 +71,7 @@ QWidget *AlbumPanel::toolbarBottomContent()
     layout->addStretch(1);
     layout->addWidget(m_countLabel, 1, Qt::AlignCenter);
     layout->addWidget(m_slider, 1, Qt::AlignRight);
+    layout->addSpacing(9);
 
     return tBottomContent;
 }

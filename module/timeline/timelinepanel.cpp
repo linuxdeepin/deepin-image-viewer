@@ -69,7 +69,6 @@ QWidget *TimelinePanel::toolbarBottomContent()
         layout->addStretch(1);
         layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
         layout->addWidget(m_slider, 1, Qt::AlignRight);
-        layout->addSpacing(16);
     }
     else {  // For import images to an album
         QLabel *label = new QLabel;
