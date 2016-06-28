@@ -36,7 +36,7 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
         onGotoPanel(m_timelinePanel);
         emit m_signalManager->showTopToolbar();
         emit m_signalManager->showBottomToolbar();
-        emit m_signalManager->hideExtensionPanel();
+        emit m_signalManager->hideExtensionPanel(true);
     });
     connect(m_signalManager, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);
@@ -199,9 +199,16 @@ void MainWidget::initExtensionPanel()
             m_extensionPanel->moveWithAnimation(0, 0);
         }
     });
-    connect(m_signalManager, &SignalManager::hideExtensionPanel, this, [=] {
-        m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+    connect(m_signalManager, &SignalManager::hideExtensionPanel,
+            this, [=] (bool immediately) {
+        if (immediately) {
+            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
                                                    EXTENSION_PANEL_WIDTH), 0);
+        }
+        else {
+            m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+                                                   EXTENSION_PANEL_WIDTH), 0);            
+        }
     });
 }
 

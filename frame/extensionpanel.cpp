@@ -26,8 +26,9 @@ ExtensionPanel::ExtensionPanel(QWidget *parent, QWidget *source)
     DArrowButton *hideButton = new DArrowButton();
     hideButton->setFixedSize(CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_WIDTH);
     hideButton->setArrowDirection(DArrowButton::ArrowLeft);
-    connect(hideButton, &DArrowButton::mouseRelease,
-            SignalManager::instance(), &SignalManager::hideExtensionPanel);
+    connect(hideButton, &DArrowButton::mouseRelease, [=] {
+        SignalManager::instance()->hideExtensionPanel();
+    });
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);

@@ -209,7 +209,7 @@ void ViewPanel::showFullScreen()
     window()->showFullScreen();
     window()->setFixedSize(qApp->desktop()->screenGeometry().size());
 
-    Q_EMIT m_sManager->hideExtensionPanel();
+    Q_EMIT m_sManager->hideExtensionPanel(true);
     Q_EMIT m_sManager->hideTopToolbar(true);
 //    Q_EMIT m_sManager->hideBottomToolbar(true);
 }
@@ -297,6 +297,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
             break;
         case TTLContent::FromAlbum:
             emit m_sManager->gotoAlbumPanel(m_albumName);
+            emit m_sManager->hideExtensionPanel(true);
             break;
         default:
             break;

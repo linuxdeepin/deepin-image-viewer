@@ -23,7 +23,7 @@ signals:
     void showBottomToolbar();
     void hideBottomToolbar(bool immediately = false);
     void showExtensionPanel();
-    void hideExtensionPanel();
+    void hideExtensionPanel(bool immediately = false);
     void backToMainWindow();
     void gotoSearchPanel(const QString &keyWord = "");
     void gotoPanel(ModulePanel* panel);
