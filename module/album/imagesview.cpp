@@ -3,6 +3,7 @@
 #include "controller/databasemanager.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
+#include "controller/exporter.h"
 #include "controller/wallpapersetter.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -231,6 +232,9 @@ void ImagesView::onMenuItemClicked(int menuId)
     case IdStartSlideShow:
         m_sManager->viewImage(cpath, m_currentAlbum);
         m_sManager->startSlideShow(cpath);
+        break;
+    case IdExport:
+        Exporter::instance()->exportImage(selectedImagesPathList());
         break;
     case IdCopy:
         utils::base::copyImageToClipboard(pList);
