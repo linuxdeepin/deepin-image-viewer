@@ -602,7 +602,9 @@ QString ViewPanel::createMenuContent()
 
         items.append(createMenuItem(IdSeparator, "", true));
 
-        items.append(createMenuItem(IdExport, tr("Export"), false, ""));
+        if (!m_fromFileManager)
+            items.append(createMenuItem(IdExport, tr("Export"), false, ""));
+
         items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
         items.append(createMenuItem(IdMoveToTrash, tr("Throw to trash")));
         if (! m_albumName.isEmpty()) {
@@ -644,8 +646,9 @@ QString ViewPanel::createMenuContent()
 //        items.append(createMenuItem(IdLabel, tr("Text tag")));
         items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
                                     false, "Ctrl+F8"));
-        items.append(createMenuItem(IdDisplayInFileManager,
-            tr("Display in file manager"), false, "Ctrl+D"));
+        if (!m_fromFileManager)
+            items.append(createMenuItem(IdDisplayInFileManager,
+                tr("Display in file manager"), false, "Ctrl+D"));
         items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
                                     "Alt+Return"));
     }
