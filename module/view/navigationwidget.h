@@ -20,11 +20,13 @@ protected:
     void mouseMoveEvent(QMouseEvent *e);
 private:
     void tryMoveRect(const QPoint& p);
+    void addDropShadow();
     bool m_hide = false;
     qreal m_imageScale = 1.0;
     QImage m_img;
     QPixmap m_pix;
     QRect m_r;
+    QRect m_mainRect;
 };
 
 #endif // NAVIGATIONWIDGET_H
