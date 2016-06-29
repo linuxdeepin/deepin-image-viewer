@@ -26,7 +26,7 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
 
     QSqlDatabase db = getDatabase();
 
-    if (db.isValid() && !imageExist(info.name)) {
+    if (db.isValid() && ! imageExist(info.name)) {
         QSqlQuery query( db );
         /*NOTE: '"BEGIN IMMEDIATE TRANSACTION"' try to avoid the error like "database is locked",
          * but it not work good
@@ -62,6 +62,11 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
             // All new image should add to the album "Recent imported"
             insertImageIntoAlbum("Recent imported", info.name,
                                  utils::base::timeToString(info.time));
+
+            for (QString album : info.albums) {
+                insertImageIntoAlbum(album, info.name,
+                                     utils::base::timeToString(info.time));
+            }
         }
     }
 

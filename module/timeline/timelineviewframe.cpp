@@ -79,13 +79,6 @@ void TimelineViewFrame::initListView()
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, &TimelineViewFrame::customContextMenuRequested);
-
-    // Ddd data
-    QList<DatabaseManager::ImageInfo> list
-            = DatabaseManager::instance()->getImageInfosByTimeline(m_timeline);
-    for (DatabaseManager::ImageInfo info : list) {
-            insertItem(info);
-    }
 }
 
 int TimelineViewFrame::indexOf(const QString &name) const

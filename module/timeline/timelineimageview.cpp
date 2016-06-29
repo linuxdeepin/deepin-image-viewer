@@ -2,6 +2,7 @@
 #include "widgets/scrollbar.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
+#include "controller/importer.h"
 #include "utils/baseutils.h"
 #include <math.h>
 #include <QEvent>
@@ -66,9 +67,7 @@ void TimelineImageView::onImageInserted(const DatabaseManager::ImageInfo &info)
     if (m_frames[timeLine] == nullptr) {
         inserFrame(timeLine);
     }
-    else {
-        m_frames.value(timeLine)->insertItem(info);
-    }
+    m_frames[timeLine]->insertItem(info);
 }
 
 void TimelineImageView::clearSelection()
@@ -184,15 +183,22 @@ void TimelineImageView::insertReadyFrames()
         return;
     }
 
-    // Read all timelines for initialization
-    QStringList timelines = DatabaseManager::instance()->getTimeLineList(m_ascending);
-    for (QString timeline : timelines) {
-        inserFrame(timeline, m_multiSelection);
+    const QList<DatabaseManager::ImageInfo> infos =
+            DatabaseManager::instance()->getAllImageInfos();
+    // Load up to 100 images at initialization to accelerate rendering
+    for (int i = 0; i < qMin(infos.length(), 100); i ++) {
+        onImageInserted(infos[i]);
     }
-    // Delay for viewport expanded
-    QTimer::singleShot(100, this, [=] {
-        m_vScrollBar->setValue(m_vScrollBar->maximum() * m_scrollPerc);
+
+    QTimer::singleShot(500, this, [=] {
+        if (infos.length() >= 100) {
+            for (int i = 100; i < infos.length(); i ++) {
+                onImageInserted(infos[i]);
+            }
+        }
     });
+    // TODO scroll to last pos
+//    m_vScrollBar->setValue(m_vScrollBar->maximum() * m_scrollPerc);
 }
 
 bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)

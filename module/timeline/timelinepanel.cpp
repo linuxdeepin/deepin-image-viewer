@@ -64,7 +64,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
         m_countLabel = new QLabel;
         m_countLabel->setObjectName("CountLabel");
 
-        updateBottomToolbarContent();
+        updateBottomToolbarContent(m_dbManager->imageCount());
 
         layout->addStretch(1);
         layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
@@ -259,13 +259,12 @@ void TimelinePanel::initStyleSheet()
     sf.close();
 }
 
-void TimelinePanel::updateBottomToolbarContent()
+void TimelinePanel::updateBottomToolbarContent(int count)
 {
     if (! this->isVisible()) {
         return;
     }
 
-    int count = m_dbManager->imageCount();
     if (count <= 1) {
         m_countLabel->setText(tr("%1 image").arg(count));
     }
@@ -377,7 +376,7 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
 
 void TimelinePanel::onImageCountChanged(int count)
 {
-    updateBottomToolbarContent();
+    updateBottomToolbarContent(count);
     m_mainStackWidget->setCurrentIndex(count > 0 ? 1 : 0);
 }
 
