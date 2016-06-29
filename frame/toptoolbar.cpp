@@ -5,7 +5,6 @@
 #include "controller/importer.h"
 #include "frame/mainwindow.h"
 #include <dcircleprogress.h>
-#include "dwindowmaxbutton.h"
 #include <dwindowminbutton.h>
 #include <dwindowclosebutton.h>
 #include <dwindowoptionbutton.h>
@@ -39,6 +38,7 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     initWidgets();
     initMenu();
 
+    parent->installEventFilter(this);
     connect(this, SIGNAL(moving()),
             parentWidget()->parentWidget(), SLOT(startMoving()));
 }
@@ -64,6 +64,17 @@ void TopToolbar::setMiddleContent(QWidget *content)
     }
 
     m_middleLayout->addWidget(content);
+}
+
+bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
+{
+    Q_UNUSED(obj)
+    if (e->type() == QEvent::Resize) {
+        if (window()->isMaximized() != m_maxb->isMaximized()) {
+            m_maxb->clicked();
+        }
+    }
+    return false;
 }
 
 void TopToolbar::resizeEvent(QResizeEvent *e)
@@ -121,18 +132,9 @@ void TopToolbar::initWidgets()
     DWindowMinButton *minb = new DWindowMinButton;
     connect(minb, SIGNAL(clicked()), parentWidget()->parentWidget(), SLOT(showMinimized()));
 
-    DWindowMaxButton *maxb = new DWindowMaxButton;
-
-    connect(maxb, &DWindowMaxButton::maximum, this, [=]{
-        if (parentWidget()) {
-            parentWidget()->parentWidget()->showMaximized();
-        }
-    });
-    connect(maxb, &DWindowMaxButton::restore, this, [=]{
-        if (parentWidget()) {
-            parentWidget()->parentWidget()->showNormal();
-        }
-    });
+    m_maxb = new DWindowMaxButton;
+    connect(m_maxb, &DWindowMaxButton::maximum, window(), &QWidget::showMaximized);
+    connect(m_maxb, &DWindowMaxButton::restore, window(), &QWidget::showNormal);
 
     DWindowCloseButton *cb = new DWindowCloseButton;
     connect(cb, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
@@ -146,7 +148,7 @@ void TopToolbar::initWidgets()
     rightLayout->addSpacing(38);
     rightLayout->addWidget(ob);
     rightLayout->addWidget(minb);
-    rightLayout->addWidget(maxb);
+    rightLayout->addWidget(m_maxb);
     rightLayout->addWidget(cb);
 
     m_leftContent = new QWidget;
