@@ -18,7 +18,7 @@ Importer::Importer(QObject *parent)
             this, SLOT(onFutureResultReady(int)));
 }
 
-QString insertImage(const QString &path)
+QString insertImage(QString path)
 {
     const QStringList albums = Importer::instance()->getAlbums(path);
     QFileInfo fileInfo(path);
@@ -27,22 +27,14 @@ QString insertImage(const QString &path)
     imgInfo.path = fileInfo.absoluteFilePath();
     imgInfo.time = utils::image::getCreateDateTime(path);
     imgInfo.albums = albums;
-    if (! DatabaseManager::instance()->imageExist(fileInfo.fileName())) {
-        imgInfo.labels = QStringList();
-        imgInfo.thumbnail = utils::image::getThumbnail(path);
-        if (imgInfo.thumbnail.isNull()) {
-            // Clear the invalid(eg.Empty image) image
-            DatabaseManager::instance()->removeImage(imgInfo.name);
-            return path;
-        }
-        DatabaseManager::instance()->insertImageInfo(imgInfo);
+    imgInfo.labels = QStringList();
+    imgInfo.thumbnail = utils::image::getThumbnail(path);
+    if (imgInfo.thumbnail.isNull()) {
+        // Clear the invalid(eg.Empty image) image
+        DatabaseManager::instance()->removeImage(imgInfo.name);
+        return path;
     }
-
-
-    if (! albums.isEmpty() && !QString(albums.first()).isEmpty()) {
-        DatabaseManager::instance()->insertImageIntoAlbum(
-          albums.first(),imgInfo.name, utils::base::timeToString(imgInfo.time));
-    }
+    DatabaseManager::instance()->insertImageInfo(imgInfo);
 
     return path;
 }

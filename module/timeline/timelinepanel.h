@@ -58,7 +58,7 @@ private:
     void initSelectionView();
     void initStyleSheet();
 
-    void updateBottomToolbarContent();
+    void updateBottomToolbarContent(int count);
     void updateMenuContents();
     void onMenuItemClicked(int menuId, const QString &text);
     void onImageCountChanged(int count);

@@ -234,12 +234,7 @@ void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
     connect(m_sManager, &SignalManager::insertIntoAlbum,
-            this, [=] (const QString &album) {
-        if (m_imagesView->isVisible()
-                && album == m_imagesView->getCurrentAlbum()) {
-            m_imagesView->updateView();
-        }
-    });
+            this, &AlbumPanel::onInsertIntoAlbum, Qt::DirectConnection);
 }
 
 void AlbumPanel::initStyleSheet()
@@ -317,11 +312,20 @@ void AlbumPanel::onImageCountChanged(int count)
     if (count > 0 && m_stackWidget->currentIndex() == 0) {
         m_stackWidget->setCurrentIndex(1);
     }
-    else if (count == 0) {
+    else if (count == 0 && m_stackWidget->currentIndex() == 1) {
         m_stackWidget->setCurrentIndex(0);
     }
 
     if (m_stackWidget->currentWidget() == m_imagesView) {
+        m_imagesView->updateView();
+    }
+}
+
+void AlbumPanel::onInsertIntoAlbum(QString album)
+{
+    if (Importer::instance()->getProgress() == 1
+            && m_imagesView->isVisible()
+            && album == m_imagesView->getCurrentAlbum()) {
         m_imagesView->updateView();
     }
 }
