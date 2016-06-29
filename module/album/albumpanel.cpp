@@ -16,7 +16,7 @@
 namespace {
 
 const int MIN_ICON_SIZE = 96;
-
+const int ICON_MARGIN = 13;
 }   // namespace
 
 AlbumPanel::AlbumPanel(QWidget *parent)
@@ -82,7 +82,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
     tTopleftContent->setStyleSheet(this->styleSheet());
 
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
-    layout->setContentsMargins(8, 0, 0, 0);
+    layout->setContentsMargins(ICON_MARGIN, 0, 0, 0);
 
     if (m_stackWidget->currentWidget() == m_imagesView) {
         ImageButton *returnButton = new ImageButton();

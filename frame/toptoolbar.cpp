@@ -20,7 +20,7 @@ using namespace Dtk::Widget;
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
-
+const int ICON_MARGIN = 6;
 }  // namespace
 
 TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
@@ -164,6 +164,7 @@ void TopToolbar::initWidgets()
     mainLayout->addWidget(m_leftContent);
     mainLayout->addWidget(m_middleContent);
     mainLayout->addWidget(m_rightContent);
+    mainLayout->addSpacing(ICON_MARGIN);
 }
 
 void TopToolbar::initMenu()

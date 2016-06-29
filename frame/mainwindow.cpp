@@ -10,8 +10,8 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     DWindowFrame(parent)
 {
     QDesktopWidget dw;
-    int ww = dw.geometry().width() * 0.67 < 450 ? 450 : dw.geometry().width() * 0.67;
-    int wh = dw.geometry().height() * 0.62 < 450 ? 450 : dw.geometry().height() * 0.62;
+    int ww = dw.geometry().width() * 0.67 < MAINWIDGET_MINIMUN_WIDTH ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.67;
+    int wh = dw.geometry().height() * 0.62 < MAINWIDGET_MINIMUN_HEIGHT ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.62;
     resize(ww, wh);
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     move((dw.geometry().width() - ww) / 2, (dw.geometry().height() - wh) / 4);
