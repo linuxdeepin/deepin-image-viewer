@@ -173,7 +173,8 @@ void ViewPanel::toggleSlideShow()
         for (const DatabaseManager::ImageInfo& info : m_infos) {
             paths << info.path;
         }
-        showFullScreen();
+        if (! window()->isFullScreen())
+            showFullScreen();
         m_view->setInSlideShow(true);
         m_slide->setImagePaths(paths);
         m_slide->setCurrentImage(m_current->path);
@@ -198,16 +199,20 @@ void ViewPanel::showToolbar(bool isTop)
 
 void ViewPanel::showNormal()
 {
-    window()->showNormal();
+    if (m_isMaximized)
+        window()->showMaximized();
+    else
+        window()->showNormal();
     showToolbar(true);
 //    showToolbar(false);
 }
 
 void ViewPanel::showFullScreen()
 {
+    m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
     window()->showFullScreen();
-    window()->setFixedSize(qApp->desktop()->screenGeometry().size());
+    window()->resize(qApp->desktop()->screenGeometry().size());
 
     Q_EMIT m_sManager->hideExtensionPanel(true);
     Q_EMIT m_sManager->hideTopToolbar(true);

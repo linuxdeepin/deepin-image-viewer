@@ -3,6 +3,7 @@
 
 #include "widgets/blureframe.h"
 #include "aboutwindow.h"
+#include <dwindowmaxbutton.h>
 #include <QHBoxLayout>
 #include <QJsonObject>
 #include <QProcess>
@@ -21,6 +22,7 @@ signals:
     void moving();
 
 protected:
+    bool eventFilter(QObject *obj, QEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -56,6 +58,7 @@ private:
     QWidget *m_leftContent;
     QWidget *m_middleContent;
     QWidget *m_rightContent;
+    Dtk::Widget::DWindowMaxButton *m_maxb;
     AboutWindow *m_about;
     PopupMenuManager *m_popupMenu;
 };

@@ -107,6 +107,7 @@ private:
 
 private:
     bool m_fromFileManager;
+    bool m_isMaximized;
 
     QString m_albumName;    // 用于判断图片是否从相册模块传递过来
     ImageWidget *m_view = NULL;
