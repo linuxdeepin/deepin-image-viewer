@@ -23,6 +23,9 @@ signals:
     void closed();
 
 private:
+    int m_leftMax = 0;
+    int m_rightMax = 0;
+    QFrame *m_infoFrame;
     QVBoxLayout *m_topLayout;
     QVBoxLayout *m_bottomLayout;
     QFormLayout *m_infoLayout;
