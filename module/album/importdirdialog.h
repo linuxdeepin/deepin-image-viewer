@@ -11,6 +11,9 @@ public:
     explicit ImportDirDialog(QWidget *parent, QWidget *source);
     void import(const QString &dir);
 
+signals:
+    void albumCreated();
+
 private:
     QLabel *m_icon;
     QLineEdit *m_edit;

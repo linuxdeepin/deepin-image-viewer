@@ -49,8 +49,10 @@ ImportDirDialog::ImportDirDialog(QWidget *parent, QWidget *source)
         }
         else if (id == 2) {
             const QString album = m_edit->text().trimmed();
-            DatabaseManager::instance()->insertImageIntoAlbum(album, "", "");
             Importer::instance()->importFromPath(m_dir, album);
+            // For UI update
+            DatabaseManager::instance()->insertImageIntoAlbum(album, "", "");
+            emit albumCreated();
         }
     });
 }
