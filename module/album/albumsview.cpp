@@ -61,8 +61,12 @@ AlbumsView::AlbumsView(QWidget *parent)
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &AlbumsView::onMenuItemClicked);
-    connect(m_sManager, &SignalManager::imageCountChanged,
-            this, &AlbumsView::updateView);
+    connect(m_sManager, &SignalManager::imageCountChanged, this, [=] {
+        // DO NOT update during import
+        if (Importer::instance()->getProgress() == 1) {
+            updateView();
+        }
+    });
 }
 
 QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
@@ -312,8 +316,7 @@ void AlbumsView::createAlbum()
 
 void AlbumsView::updateView()
 {
-    // DO NOT update during import
-    if (Importer::instance()->getProgress() != 1 || ! isVisible())
+    if (! isVisible())
         return;
 
     m_model->clear();
