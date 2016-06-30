@@ -86,8 +86,12 @@ void ViewPanel::initConnect() {
             this, &ViewPanel::toggleFullScreen);
     connect(m_sManager, &SignalManager::startSlideShow,
             this, &ViewPanel::toggleSlideShow);
-    connect(m_sManager, &SignalManager::removeFromAlbum, this, [=] {
-        if (! m_albumName.isEmpty() && isVisible())
+    connect(m_sManager, &SignalManager::removeFromAlbum,
+            this, [=] (QString album, QString name) {
+        if (isVisible()
+                && ! m_albumName.isEmpty()
+                && album == m_albumName
+                && imageIndex(name) == imageIndex(m_current->name))
             removeCurrentImage();
     });
 }
@@ -230,6 +234,17 @@ bool ViewPanel::mouseContainsByBottomToolbar(const QPoint &pos)
     const QRect rect(0, height() - BOTTOM_TOOLBAR_HEIGHT, width(),
                      BOTTOM_TOOLBAR_HEIGHT);
     return rect.contains(pos);
+}
+
+int ViewPanel::imageIndex(const QString &name)
+{
+    for (int i = 0; i < m_infos.length(); i ++) {
+        if (m_infos.at(i).name == name) {
+            return i;
+        }
+    }
+
+    return -1;
 }
 
 QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
@@ -523,12 +538,7 @@ bool ViewPanel::showNext()
 
 void ViewPanel::removeCurrentImage()
 {
-    const QString name = m_current->name;
-    for (int i = 0; i < m_infos.length(); i ++) {
-        if (m_infos.at(i).name == name) {
-            m_infos.removeAt(i);
-        }
-    }
+    m_infos.removeAt(imageIndex(m_current->name));
     if (! showNext()) {
         if (! showPrevious()) {
             qDebug() << "No images to show!";

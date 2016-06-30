@@ -99,6 +99,7 @@ private:
 
     bool mouseContainsByTopToolbar(const QPoint &pos);
     bool mouseContainsByBottomToolbar(const QPoint &pos);
+    int imageIndex(const QString &name);
 
     QList<DatabaseManager::ImageInfo> getImageInfos(
             const QFileInfoList &infos);
