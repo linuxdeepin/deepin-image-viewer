@@ -6,6 +6,7 @@
 #include "frame/mainwidget.h"
 
 
+class ConfigSetter;
 class MainWindow : public DWindowFrame
 {
 public:
@@ -13,8 +14,12 @@ public:
     // initialize to save resource and avoid DB file lock.
     MainWindow(bool manager, QWidget *parent=0);
 
-    MainWidget *mainWidget;
+protected:
+    void resizeEvent(QResizeEvent *e) override;
 
+private:
+    MainWidget *m_mainWidget;
+    ConfigSetter *m_setter;
 };
 
 #endif // MAINWINDOW_H
