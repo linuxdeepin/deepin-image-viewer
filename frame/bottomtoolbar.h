@@ -11,6 +11,9 @@ public:
     explicit BottomToolbar(QWidget *parent, QWidget *source);
     void setContent(QWidget *content);
 
+protected:
+    void mouseMoveEvent(QMouseEvent *) override;
+
 private:
     QHBoxLayout *m_mainLayout;
 };

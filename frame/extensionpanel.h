@@ -13,7 +13,8 @@ public:
     void updateRectWithContent();
 
 protected:
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *) override;
+    void mouseMoveEvent(QMouseEvent *) override;
 
 private:
     QWidget *m_content;
