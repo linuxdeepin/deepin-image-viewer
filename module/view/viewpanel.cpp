@@ -87,7 +87,7 @@ void ViewPanel::initConnect() {
     connect(m_sManager, &SignalManager::startSlideShow,
             this, &ViewPanel::toggleSlideShow);
     connect(m_sManager, &SignalManager::removeFromAlbum, this, [=] {
-        if (! m_albumName.isEmpty())
+        if (! m_albumName.isEmpty() && isVisible())
             removeCurrentImage();
     });
 }
