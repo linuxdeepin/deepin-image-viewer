@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 
+class ConfigSetter;
 class Slider;
 class AlbumPanel : public ModulePanel
 {
@@ -51,6 +52,7 @@ private:
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;
     QStackedWidget *m_stackWidget = NULL;
+    ConfigSetter *m_setter;
     DatabaseManager *m_dbManager;
     SignalManager *m_sManager;
 };

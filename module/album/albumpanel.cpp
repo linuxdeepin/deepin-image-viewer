@@ -1,6 +1,7 @@
 #include "albumpanel.h"
 #include "createalbumdialog.h"
 #include "importdirdialog.h"
+#include "controller/configsetter.h"
 #include "controller/databasemanager.h"
 #include "controller/importer.h"
 #include "utils/imageutils.h"
@@ -17,10 +18,16 @@ namespace {
 
 const int MIN_ICON_SIZE = 96;
 const int ICON_MARGIN = 13;
+
+const QString SETTINGS_GROUP = "ALBUMPANEL";
+const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
+const QString SETTINGS_IMAGE_ICON_SCALE_KEY = "ImageIconScale";
+
 }   // namespace
 
 AlbumPanel::AlbumPanel(QWidget *parent)
     : ModulePanel(parent),
+      m_setter(ConfigSetter::instance()),
       m_dbManager(DatabaseManager::instance()),
       m_sManager(SignalManager::instance())
 {
@@ -49,9 +56,13 @@ QWidget *AlbumPanel::toolbarBottomContent()
         if (m_stackWidget->currentWidget() == m_imagesView) {
             int newSize = MIN_ICON_SIZE + multiple * 32;
             m_imagesView->setIconSize(QSize(newSize, newSize));
+            m_setter->setValue(SETTINGS_GROUP, SETTINGS_IMAGE_ICON_SCALE_KEY,
+                               QVariant(m_slider->value()));
         }
         else {
             m_albumsView->setItemSizeMultiple(multiple);
+            m_setter->setValue(SETTINGS_GROUP, SETTINGS_ALBUM_ICON_SCALE_KEY,
+                               QVariant(m_slider->value()));
         }
     });
 
@@ -273,6 +284,16 @@ void AlbumPanel::updateBottomToolbarContent()
 
     //set width to 1px for layout center
     m_slider->setFixedWidth(count > 0 ? 120 : 1);
+    if (m_stackWidget->currentWidget() == m_albumsView) {
+        m_slider->setValue(m_setter->value(SETTINGS_GROUP,
+                                           SETTINGS_ALBUM_ICON_SCALE_KEY,
+                                           QVariant(0)).toInt());
+    }
+    else {
+        m_slider->setValue(m_setter->value(SETTINGS_GROUP,
+                                           SETTINGS_IMAGE_ICON_SCALE_KEY,
+                                           QVariant(0)).toInt());
+    }
 
 }
 
