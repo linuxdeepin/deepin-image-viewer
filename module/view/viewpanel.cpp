@@ -303,6 +303,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
         case TTLContent::FromAlbum:
             emit m_sManager->gotoAlbumPanel(m_albumName);
             emit m_sManager->hideExtensionPanel(true);
+            emit m_sManager->showBottomToolbar();
             break;
         default:
             break;

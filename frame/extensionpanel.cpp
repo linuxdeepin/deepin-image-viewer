@@ -105,3 +105,8 @@ void ExtensionPanel::paintEvent(QPaintEvent *)
     painter.drawPath(path);
     painter.end();
 }
+
+void ExtensionPanel::mouseMoveEvent(QMouseEvent *)
+{
+
+}

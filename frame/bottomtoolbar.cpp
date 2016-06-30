@@ -21,3 +21,8 @@ void BottomToolbar::setContent(QWidget *content)
 
     m_mainLayout->addWidget(content);
 }
+
+void BottomToolbar::mouseMoveEvent(QMouseEvent *)
+{
+
+}
