@@ -5,6 +5,7 @@
 #include "controller/exporter.h"
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
+#include "controller/configsetter.h"
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
 #include "widgets/slider.h"
@@ -23,12 +24,16 @@ const int ICON_MARGIN = 13;
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
+const QString SETTINGS_GROUP = "TIMEPANEL";
+const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
+
 }  //namespace
 
 using namespace Dtk::Widget;
 
 TimelinePanel::TimelinePanel(QWidget *parent)
     : ModulePanel(parent),
+      m_setter(ConfigSetter::instance()),
       m_dbManager(DatabaseManager::instance())
 {
     setAcceptDrops(true);
@@ -51,15 +56,23 @@ QWidget *TimelinePanel::toolbarBottomContent()
     layout->setSpacing(0);
 
     if (m_targetAlbum.isEmpty()) {
+        const int sizeScale = m_setter->value(SETTINGS_GROUP,
+                                              SETTINGS_ICON_SCALE_KEY,
+                                              QVariant(0)).toInt();
+        const int iconSize = MIN_ICON_SIZE + sizeScale * 32;
+        m_imagesView->setIconSize(QSize(iconSize, iconSize));
+
         m_slider = new Slider(Qt::Horizontal);
         m_slider->setMinimum(0);
         m_slider->setMaximum(3);
-        m_slider->setValue(0);
+        m_slider->setValue(sizeScale);
         m_slider->setFixedWidth(120);
         connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
             qDebug() << "Change the view size to: X" << multiple;
             int newSize = MIN_ICON_SIZE + multiple * 32;
             m_imagesView->setIconSize(QSize(newSize, newSize));
+            m_setter->setValue(SETTINGS_GROUP, SETTINGS_ICON_SCALE_KEY,
+                               QVariant(m_slider->value()));
         });
 
         m_countLabel = new QLabel;

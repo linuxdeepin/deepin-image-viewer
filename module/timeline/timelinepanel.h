@@ -12,6 +12,7 @@
 #include <QStackedWidget>
 #include <QJsonObject>
 
+class ConfigSetter;
 class PopupMenuManager;
 class Slider;
 class TimelinePanel : public ModulePanel
@@ -77,6 +78,7 @@ private:
     QLabel *m_countLabel = NULL;
     Slider *m_slider;
 
+    ConfigSetter *m_setter;
     PopupMenuManager *m_popupMenu;
     TimelineImageView *m_imagesView = NULL;
     TimelineImageView *m_selectionView = NULL;

@@ -3,6 +3,7 @@
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include "controller/importer.h"
+#include "controller/configsetter.h"
 #include "utils/baseutils.h"
 #include <math.h>
 #include <QEvent>
@@ -11,8 +12,16 @@
 #include <QMouseEvent>
 #include <QDebug>
 
+namespace {
+
 const int SLIDER_FRAME_WIDTH = 130;
 const int TOP_TOOLBAR_HEIGHT = 40;
+
+const int MIN_ICON_SIZE = 96;
+const QString SETTINGS_GROUP = "TIMEPANEL";
+const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
+
+}  //namespace
 
 TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     : QScrollArea(parent),
@@ -199,6 +208,12 @@ void TimelineImageView::insertReadyFrames()
     });
     // TODO scroll to last pos
 //    m_vScrollBar->setValue(m_vScrollBar->maximum() * m_scrollPerc);
+
+    const int iconSize = ConfigSetter::instance()->value(
+                SETTINGS_GROUP,
+                SETTINGS_ICON_SCALE_KEY,
+                QVariant(0)).toInt() * 32 + MIN_ICON_SIZE;
+    setIconSize(QSize(iconSize, iconSize));
 }
 
 bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
