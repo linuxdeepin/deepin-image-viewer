@@ -170,6 +170,7 @@ void ViewPanel::toggleSlideShow()
     if (m_slide->isRunning()) {
         m_view->setInSlideShow(false);
         m_slide->stop();
+        m_nav->setImage(m_view->image());
 
         showNormal();
         updateMenuContent();
@@ -805,9 +806,11 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdRotateClockwise:
         m_view->rotateClockWise();
+        m_nav->setImage(m_view->image());
         break;
     case IdRotateCounterclockwise:
         m_view->rotateCounterclockwise();
+        m_nav->setImage(m_view->image());
         break;
     case IdLabel:
         break;
