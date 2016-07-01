@@ -69,8 +69,16 @@ void ImageWidget::setImageMove(int x, int y)
 
 void ImageWidget::setScaleValue(qreal value)
 {
+    qDebug() << value;
     if (m_image.isNull())
         return;
+
+    // Move back to center of window if image scale smaller than window
+    if (value <= 1) {
+        m_o_dev = rect().center();    m_flipX = m_flipY = 1;
+        m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
+    }
+
     // value is relate on image's size, it need to be relate on window
     m_scale = windowRelativeScale() * value;
     Q_EMIT scaleValueChanged(value);
@@ -190,7 +198,27 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (m_moving && ! m_inSlideShow) {
         QPoint dp = event->globalPos() - m_posG;
-        setTransformOrigin(m_o_img, m_o_dev + dp);
+
+        // To ensure that pictures are not being dragged out of the window edge
+        QPoint img_o = QTransform().rotate(m_rot).
+                scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
+        QPoint deviceP = m_o_dev + dp;
+        qreal dx = deviceP.x() - (qreal)img_o.x();
+        qreal dy = deviceP.y() - (qreal)img_o.y();
+        const int imgW = (m_image.size() * m_scale).width();
+        const int imgH = (m_image.size() * m_scale).height();
+        if (imgW >= width() || imgH >= height()) {
+            if (dx > 0 || (dx <= 0 && (dx + imgW) < width()))
+                deviceP.setX(m_o_dev.x());
+            if (dy > 0 || (dy <= 0 && (dy + imgH) < height()))
+                deviceP.setY(m_o_dev.y());
+        }
+        else {
+            // Prohibit drag the image if it's size small than window's
+            return;
+        }
+
+        setTransformOrigin(m_o_img, deviceP);
         m_pos = event->pos();
         m_posG = event->globalPos();
     }
@@ -225,7 +253,9 @@ void ImageWidget::updateTransform()
     const QTransform old = m_mat;
     m_mat.reset();
     QPoint img_o = QTransform().rotate(m_rot).scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
-    m_mat.translate(m_o_dev.x() - (qreal)img_o.x(), m_o_dev.y() - (qreal)img_o.y());
+    const int dx = m_o_dev.x() - (qreal)img_o.x();
+    const int dy = m_o_dev.y() - (qreal)img_o.y();
+    m_mat.translate(dx, dy);
     m_mat.rotate(m_rot);
     m_mat.scale(m_scale*m_flipX, m_scale*m_flipY);
     update();
