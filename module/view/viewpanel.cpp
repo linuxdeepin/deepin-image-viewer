@@ -63,6 +63,10 @@ ViewPanel::ViewPanel(QWidget *parent)
 
 void ViewPanel::initConnect() {
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
+        if (m_infos.isEmpty()) {
+            m_popupMenu->setMenuContent("");
+            return;
+        }
         updateMenuContent();
         m_popupMenu->showMenu();
     });
@@ -555,6 +559,7 @@ void ViewPanel::removeCurrentImage()
     if (! showNext()) {
         if (! showPrevious()) {
             qDebug() << "No images to show!";
+            m_nav->hide();
             emit imageChanged("", "");
             m_stack->setCurrentIndex(1);
         }
