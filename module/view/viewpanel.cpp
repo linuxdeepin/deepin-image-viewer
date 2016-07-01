@@ -273,15 +273,7 @@ QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
 
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
-    QFileInfo pinfo(path);
-    QDir dir = pinfo.isDir() ? QDir(path) : pinfo.dir();
-    QStringList ol = utils::image::supportImageTypes();
-    QStringList nl;
-    for (QString type : ol) {
-        nl << "*." + type;
-    }
-
-    return dir.entryInfoList(nl, QDir::Files);
+    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
 }
 
 DatabaseManager *ViewPanel::dbManager() const

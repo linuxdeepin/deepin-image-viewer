@@ -1,6 +1,8 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include <QDebug>
+#include <QDir>
+#include <QDirIterator>
 #include <QFileInfo>
 #include <QBuffer>
 #include <QImage>
@@ -490,6 +492,32 @@ QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
                    (img.height() - size.height()) / 2,
                    size.width(), size.height());
     return QPixmap::fromImage(img);
+}
+
+const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
+{
+    QFileInfoList infos;
+
+    QStringList ol = supportImageTypes();
+    QStringList nl;
+    for (QString type : ol) {
+        nl << "*." + type;
+    }
+
+    if (! recursive)
+        return QDir(dir).entryInfoList(nl, QDir::Files | QDir::NoSymLinks);
+
+    QDirIterator dirIterator(dir,
+                             nl,
+                             QDir::Files | QDir::NoSymLinks,
+                             QDirIterator::Subdirectories);
+    while(dirIterator.hasNext())
+    {
+        dirIterator.next();
+        infos << dirIterator.fileInfo();
+    }
+
+    return infos;
 }
 
 }  // namespace image

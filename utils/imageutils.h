@@ -5,8 +5,9 @@
 #include <libexif/exif-data.h>
 #include <libexif/exif-entry.h>
 #include <libexif/exif-tag.h>
-#include <QPixmap>
 #include <QDateTime>
+#include <QFileInfo>
+#include <QPixmap>
 
 namespace utils {
 
@@ -28,6 +29,7 @@ struct ExifItem {
 
 ExifItem *getExifItemList(bool isDetails);
 const QStringList supportImageTypes();
+const QFileInfoList getImagesInfo(const QString &dir, bool recursive = true);
 bool imageIsSupport(const QString &filepath);
 QPixmap getThumbnail(const QString &filePath);
 QPixmap scaleImage(const QString &filePath);

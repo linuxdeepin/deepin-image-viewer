@@ -313,7 +313,7 @@ void AlbumPanel::showCreateDialog()
 
 void AlbumPanel::showImportDirDialog(const QString &dir)
 {
-    if (! parentWidget()) {
+    if (! parentWidget() || utils::image::getImagesInfo(dir).isEmpty()) {
         return;
     }
     ImportDirDialog *d = new ImportDirDialog(this, parentWidget());

@@ -11,6 +11,7 @@
 #include <QMap>
 #include <QtConcurrent>
 
+class DatabaseManager;
 class Importer : public QObject
 {
     Q_OBJECT
@@ -36,6 +37,7 @@ private:
 
 private:
     static Importer *m_importer;
+    DatabaseManager *m_dbManager;
     QStringList m_cacheImportList;
     QMap<QString, QString> m_albums;  // <path, album>
     QFutureWatcher<QString> m_futureWatcher;

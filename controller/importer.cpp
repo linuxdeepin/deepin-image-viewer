@@ -10,7 +10,10 @@
 #include <QDir>
 
 Importer::Importer(QObject *parent)
-    : QObject(parent),m_progress(1),m_imagesCount(0)
+    : QObject(parent),
+      m_dbManager(DatabaseManager::instance()),
+      m_progress(1),
+      m_imagesCount(0)
 {
     connect(&m_futureWatcher, SIGNAL(finished()),
             this, SLOT(onFutureWatcherFinish()));
@@ -85,33 +88,15 @@ void Importer::showImportDialog()
 
 void Importer::importFromPath(const QString &path, const QString &album)
 {
-    QDir dir( path );
-    if( !dir.exists() ) {
+    const QFileInfoList infos = utils::image::getImagesInfo(path);
+    if( !QDir(path).exists() || infos.isEmpty() ) {
         return;
     }
 
     m_futureWatcher.setPaused(true);
-    QStringList filters;
-    filters << QString("*.jpeg")
-            <<QString("*.jpg")
-           <<QString("*.png")
-          <<QString("*.tiff")
-         <<QString("*.gif")
-        <<QString("*.bmp");
-
-    QDirIterator dirIterator(path,
-                             filters,
-                             QDir::Files | QDir::NoSymLinks,
-                             QDirIterator::Subdirectories);
-    while(dirIterator.hasNext())
-    {
-        dirIterator.next();
-        QFileInfo fileInfo = dirIterator.fileInfo();
-        QString filePath = fileInfo.absoluteFilePath();
-
-        m_cacheImportList.append(filePath);
-        m_albums.insert(filePath, album);
-
+    for (QFileInfo info : infos) {
+        m_cacheImportList.append(info.absoluteFilePath());
+        m_albums.insert(info.absoluteFilePath(), album);
         m_imagesCount ++;
     }
 
@@ -121,13 +106,13 @@ void Importer::importFromPath(const QString &path, const QString &album)
     }
 
     if (m_cacheImportList.isEmpty())
-        DatabaseManager::instance()->clearRecentImported();
+        m_dbManager->clearRecentImported();
 }
 
 void Importer::importSingleFile(const QString &filePath, const QString &album)
 {
-    //TODO unsupport tooltip
-    if (QImage(filePath).isNull())
+    if (QImage(filePath).isNull()
+            || m_dbManager->imageExist(QFileInfo(filePath).fileName()))
         return;
     m_albums.insert(filePath, album);
     m_cacheImportList << filePath;
@@ -137,7 +122,7 @@ void Importer::importSingleFile(const QString &filePath, const QString &album)
     }
 
     if (m_cacheImportList.isEmpty())
-        DatabaseManager::instance()->clearRecentImported();
+        m_dbManager->clearRecentImported();
 }
 
 void Importer::onFutureWatcherFinish()
