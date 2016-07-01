@@ -263,8 +263,9 @@ void AlbumsView::onMenuItemClicked(int menuId)
         const QList<DatabaseManager::ImageInfo> infos =
                 m_dbManager->getImageInfosByAlbum(albumName);
         if (! infos.isEmpty()) {
-            emit m_sManager->viewImage(infos.first().path);
-            emit m_sManager->startSlideShow(infos.first().path);
+            emit m_sManager->viewImage(infos.first().path, QStringList(),
+                                       albumName);
+            emit m_sManager->startSlideShow("");
         }
         break;
     }

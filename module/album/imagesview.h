@@ -80,7 +80,7 @@ private:
 
 
 private:
-    QString m_currentAlbum;
+    QString m_album;
     TopAlbumTips *m_topTips;
     ThumbnailListView *m_view;
     QStandardItemModel m_model;

@@ -41,7 +41,7 @@ const QString FAVORITES_ALBUM_NAME = "My favorites";
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent),
-      m_fromFileManager(true),
+      m_inDB(false),
       m_popupMenu(new PopupMenuManager(this)),
       m_sManager(SignalManager::instance())
 {
@@ -89,8 +89,8 @@ void ViewPanel::initConnect() {
     connect(m_sManager, &SignalManager::removeFromAlbum,
             this, [=] (QString album, QString name) {
         if (isVisible()
-                && ! m_albumName.isEmpty()
-                && album == m_albumName
+                && ! m_album.isEmpty()
+                && album == m_album
                 && imageIndex(name) == imageIndex(m_current->name))
             removeCurrentImage();
     });
@@ -294,15 +294,18 @@ QWidget *ViewPanel::toolbarBottomContent()
 QWidget *ViewPanel::toolbarTopLeftContent()
 {
     TTLContent::ImageSource source;
-    if (m_fromFileManager) {
-        source = TTLContent::FromFileManager;
-    }
-    else if (m_albumName.isEmpty()) {
-        source = TTLContent::FromTimeline;
+    if (m_inDB) {
+        if (m_album.isEmpty()) {
+            source = TTLContent::FromTimeline;
+        }
+        else {
+            source = TTLContent::FromAlbum;
+        }
     }
     else {
-        source = TTLContent::FromAlbum;
+        source = TTLContent::FromFileManager;
     }
+
     TTLContent *ttlc = new TTLContent(source);
     connect(ttlc, &TTLContent::clicked, this, [=] (TTLContent::ImageSource s) {
         m_slide->stop();
@@ -316,7 +319,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
             DIVDBusController().backToMainWindow();
             break;
         case TTLContent::FromAlbum:
-            emit m_sManager->gotoAlbumPanel(m_albumName);
+            emit m_sManager->gotoAlbumPanel(m_album);
             emit m_sManager->hideExtensionPanel(true);
             emit m_sManager->showBottomToolbar();
             break;
@@ -329,7 +332,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
-    TTMContent *ttmc = new TTMContent(m_fromFileManager);
+    TTMContent *ttmc = new TTMContent(! m_inDB);
     connect(this, &ViewPanel::updateCollectButton,
             ttmc, &TTMContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::onImageChanged);
@@ -455,7 +458,7 @@ void ViewPanel::dropEvent(QDropEvent *event)
     }
 
     m_current = m_infos.cbegin();
-    m_albumName = "";
+    m_album = "";
     openImage(m_current->path);
 }
 
@@ -465,39 +468,49 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
     event->accept();
 }
 
-void ViewPanel::onViewImage(const QString &path, const QString &album,
-                            bool fromFileManager)
+void ViewPanel::onViewImage(const QString &path, const QStringList &paths,
+                            const QString &album, bool inDB)
 {
-    if (fromFileManager) {
-        m_infos = getImageInfos(getFileInfos(path));
+    m_inDB = inDB;
+    m_album = album;
+
+    if (! paths.isEmpty()) {
+        QFileInfoList list;
+        for (QString path : paths) {
+            list << QFileInfo(path);
+        }
+        m_infos = getImageInfos(list);
     }
     else {
-        if (album.isEmpty()) {
-            m_infos = dbManager()->getAllImageInfos();
+        if (inDB) {
+            if (album.isEmpty()) {
+                m_infos = dbManager()->getAllImageInfos();
+            }
+            else {
+                m_infos = dbManager()->getImageInfosByAlbum(album);
+            }
         }
         else {
-            m_infos = dbManager()->getImageInfosByAlbum(album);
+            m_infos = getImageInfos(getFileInfos(path));
         }
     }
 
-    m_albumName = album;
     m_current = m_infos.cbegin();
     for (; m_current != m_infos.cend(); m_current ++) {
         if (m_current->path == path) {
-            openImage(path, fromFileManager);
+            openImage(path, inDB);
             return;
         }
     }
 
     // Not exist in DB, it must from FileManager
     m_current = m_infos.cbegin();
-    openImage(path, fromFileManager);
+    openImage(path, inDB);
 }
 
 void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
-
         showNormal();
     } else {
         showFullScreen();
@@ -515,7 +528,7 @@ bool ViewPanel::showPrevious()
         m_current = m_infos.cend();
     --m_current;
 
-    openImage(m_current->path, m_fromFileManager);
+    openImage(m_current->path, m_inDB);
     return true;
 }
 
@@ -532,7 +545,7 @@ bool ViewPanel::showNext()
     if (m_current == m_infos.cend())
         m_current = m_infos.cbegin();
 
-    openImage(m_current->path, m_fromFileManager);
+    openImage(m_current->path, m_inDB);
     return true;
 }
 
@@ -603,7 +616,7 @@ QString ViewPanel::createMenuContent()
         items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
                                     false, "F5"));
 
-        if (! m_fromFileManager) {
+        if (m_inDB) {
             const QJsonObject objF = createAlbumMenuObj(false);
             if (! objF.isEmpty()) {
                 items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
@@ -613,19 +626,19 @@ QString ViewPanel::createMenuContent()
 
         items.append(createMenuItem(IdSeparator, "", true));
 
-        if (!m_fromFileManager)
+        if (m_inDB)
             items.append(createMenuItem(IdExport, tr("Export"), false, ""));
 
         items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
         items.append(createMenuItem(IdMoveToTrash, tr("Throw to trash")));
-        if (! m_albumName.isEmpty()) {
+        if (! m_album.isEmpty()) {
             items.append(createMenuItem(IdRemoveFromAlbum,
                 tr("Remove from album"), false, "Delete"));
         }
 
         items.append(createMenuItem(IdSeparator, "", true));
 //        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
-        if (! m_fromFileManager) {
+        if (m_inDB) {
             if (!dbManager()->imageExistAlbum(m_current->name,
                                               FAVORITES_ALBUM_NAME)) {
                 items.append(createMenuItem(IdAddToFavorites,
@@ -657,7 +670,7 @@ QString ViewPanel::createMenuContent()
 //        items.append(createMenuItem(IdLabel, tr("Text tag")));
         items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
                                     false, "Ctrl+F8"));
-        if (!m_fromFileManager)
+        if (m_inDB)
             items.append(createMenuItem(IdDisplayInFileManager,
                 tr("Display in file manager"), false, "Ctrl+D"));
         items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
@@ -676,7 +689,7 @@ QString ViewPanel::createMenuContent()
 
 QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
 {
-    if (m_fromFileManager) {
+    if (! m_inDB) {
         return QJsonObject();
     }
     const QStringList albums = dbManager()->getAlbumNameList();
@@ -761,7 +774,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         removeCurrentImage();
         break;
     case IdRemoveFromAlbum:
-        dbManager()->removeImageFromAlbum(m_albumName, name);
+        dbManager()->removeImageFromAlbum(m_album, name);
         break;
     case IdEdit:
         m_sManager->editImage(m_view->imagePath());
@@ -889,21 +902,14 @@ void ViewPanel::initNavigation()
     });
 }
 
-void ViewPanel::openImage(const QString &path, bool fromOutside)
+void ViewPanel::openImage(const QString &path, bool inDB)
 {
     if (! QFileInfo(path).exists()) {
         removeCurrentImage();
         return;
     }
     // TODO signal should emit when mainwidget's panel changed
-    m_fromFileManager = fromOutside;
-    Q_EMIT m_sManager->gotoPanel(this);
-
-
-//    if (! mouseContainsByBottomToolbar(mapFromGlobal(QCursor::pos()))) {
-//        Q_EMIT m_sManager->hideBottomToolbar();
-//    }
-//    Q_EMIT m_sManager->hideTopToolbar();
+    emit m_sManager->gotoPanel(this);
 
     m_view->setImage(path);
     m_nav->setImage(m_view->image());
@@ -917,7 +923,7 @@ void ViewPanel::openImage(const QString &path, bool fromOutside)
     m_stack->setCurrentIndex(0);
 
     emit imageChanged(m_current->name, m_current->path);
-    if (fromOutside) {
+    if (! inDB) {
         emit m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
         emit m_sManager->updateExtensionPanelContent(extensionPanelContent());

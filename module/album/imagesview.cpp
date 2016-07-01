@@ -58,12 +58,12 @@ void ImagesView::setAlbum(const QString &album)
     }
 
     m_topTips->setAlbum(album);
-    m_currentAlbum = album;
+    m_album = album;
 }
 
 void ImagesView::updateView()
 {
-    setAlbum(m_currentAlbum);
+    setAlbum(m_album);
 }
 
 bool ImagesView::removeItem(const QString &name)
@@ -96,8 +96,10 @@ void ImagesView::initListView()
     m_view->setSelectionMode(QAbstractItemView::SingleSelection);
     m_contentLayout->addWidget(m_view);
 
-    connect(m_view, &ThumbnailListView::doubleClicked, this, [=] (const QModelIndex & index) {
-        emit m_sManager->viewImage(index.data(Qt::UserRole).toString(), m_currentAlbum);
+    connect(m_view, &ThumbnailListView::doubleClicked,
+            this, [=] (const QModelIndex & index) {
+        const QString path = index.data(Qt::UserRole).toString();
+        emit m_sManager->viewImage(path, QStringList(), m_album);
     });
     connect(m_view, &ThumbnailListView::mousePress, this, [=] (QMouseEvent *e) {
         if (e->button() == Qt::RightButton &&
@@ -219,18 +221,19 @@ void ImagesView::onMenuItemClicked(int menuId)
 
     const QStringList nList = selectedImagesNameList();
     const QStringList pList = selectedImagesPathList();
-    const QString cname = currentSelectOne(false);
+    const QStringList viewPaths = (pList.length() == 1) ? QStringList() : pList;
+//    const QString cname = currentSelectOne(false);
     const QString cpath = currentSelectOne(true);
     switch (MenuItemId(menuId)) {
     case IdView:
-        m_sManager->viewImage(cpath, m_currentAlbum);
+        m_sManager->viewImage(cpath, viewPaths, m_album);
         break;
     case IdFullScreen:
-        m_sManager->viewImage(cpath, m_currentAlbum);
+        m_sManager->viewImage(cpath, viewPaths, m_album);
         m_sManager->fullScreen(cpath);
         break;
     case IdStartSlideShow:
-        m_sManager->viewImage(cpath, m_currentAlbum);
+        m_sManager->viewImage(cpath, viewPaths, m_album);
         m_sManager->startSlideShow(cpath);
         break;
     case IdExport:
@@ -242,7 +245,7 @@ void ImagesView::onMenuItemClicked(int menuId)
     case IdMoveToTrash: {
         for (QString path : pList) {
             const QString name = QFileInfo(path).fileName();
-            m_dbManager->removeImageFromAlbum(m_currentAlbum, name);
+            m_dbManager->removeImageFromAlbum(m_album, name);
             m_dbManager->removeImage(name);
             removeItem(name);
             utils::base::trashFile(path);
@@ -251,7 +254,7 @@ void ImagesView::onMenuItemClicked(int menuId)
     }
     case IdRemoveFromAlbum:
         for (QString name : nList) {
-            m_dbManager->removeImageFromAlbum(m_currentAlbum, name);
+            m_dbManager->removeImageFromAlbum(m_album, name);
             removeItem(name);
         }
         break;
@@ -322,7 +325,7 @@ int ImagesView::indexOf(const QString &name) const
 
 QString ImagesView::getCurrentAlbum() const
 {
-    return m_currentAlbum;
+    return m_album;
 }
 
 bool ImagesView::eventFilter(QObject *obj, QEvent *e)

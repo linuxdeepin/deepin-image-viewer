@@ -302,18 +302,22 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         return;
     }
 
-    const QString cname = images.keys().first();
-    const QString cpath = images.values().first();
+    const QStringList nList = images.keys();
+    const QStringList pList = images.values();
+    const QStringList viewPaths = (pList.length() == 1) ?
+                m_dbManager->getAllImagesPath() : pList;
+    const QString cname = nList.first();
+    const QString cpath = pList.first();
     switch (MenuItemId(menuId)) {
     case IdView:
-        m_sManager->viewImage(cpath);
+        m_sManager->viewImage(cpath, viewPaths);
         break;
     case IdFullScreen:
-        m_sManager->viewImage(cpath);
+        m_sManager->viewImage(cpath, viewPaths);
         m_sManager->fullScreen(cpath);
         break;
     case IdStartSlideShow:
-        m_sManager->viewImage(cpath);
+        m_sManager->viewImage(cpath, viewPaths);
         m_sManager->startSlideShow(cpath);
         break;
 

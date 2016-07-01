@@ -26,6 +26,7 @@ public:
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
+
 signals:
     void updateCollectButton();
     void imageChanged(const QString &name, const QString &path);
@@ -39,9 +40,9 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
-    void onViewImage(const QString &path, const QString &album,
-                     bool fromFileManager);
-    void openImage(const QString& path, bool fromOutside = false);
+    void onViewImage(const QString &path, const QStringList &paths,
+                     const QString &album, bool inDB);
+    void openImage(const QString& path, bool inDB = true);
     void toggleFullScreen();
     bool showPrevious();
     bool showNext();
@@ -107,10 +108,10 @@ private:
     DatabaseManager *dbManager() const;
 
 private:
-    bool m_fromFileManager;
+    bool m_inDB;
     bool m_isMaximized;
 
-    QString m_albumName;    // 用于判断图片是否从相册模块传递过来
+    QString m_album;    // 用于判断图片是否从相册模块传递过来
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;

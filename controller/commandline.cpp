@@ -123,7 +123,7 @@ bool CommandLine::processOption()
             emit sm->hideBottomToolbar(true);
             emit sm->enableMainMenu(false);
             QTimer::singleShot(50, [=] {
-                emit sm->viewImage(value, "", true);
+                emit sm->viewImage(value, QStringList(), "", false);
             });
             return true;
         }

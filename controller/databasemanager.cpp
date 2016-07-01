@@ -543,6 +543,54 @@ DatabaseManager::~DatabaseManager()
     }
 }
 
+const QStringList DatabaseManager::getAllImagesName()
+{
+    QStringList nameList;
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString("SELECT "
+                               "filename "
+                               "FROM %1 ORDER BY time DESC")
+                       .arg( IMAGE_TABLE_NAME ));
+        if (!query.exec()) {
+            qWarning() << "Get Image from database failed: " << query.lastError();
+            return nameList;
+        }
+        else {
+            while (query.next()) {
+                nameList << query.value(0).toString();
+            }
+        }
+    }
+
+    return nameList;
+}
+
+const QStringList DatabaseManager::getAllImagesPath()
+{
+    QStringList pathList;
+    QSqlDatabase db = getDatabase();
+    if (db.isValid()) {
+        QSqlQuery query( db );
+        query.prepare( QString("SELECT "
+                               "filepath "
+                               "FROM %1 ORDER BY time DESC")
+                       .arg( IMAGE_TABLE_NAME ));
+        if (!query.exec()) {
+            qWarning() << "Get Image from database failed: " << query.lastError();
+            return pathList;
+        }
+        else {
+            while (query.next()) {
+                pathList << query.value(0).toString();
+            }
+        }
+    }
+
+    return pathList;
+}
+
 const QList<DatabaseManager::ImageInfo> DatabaseManager::getAllImageInfos()
 {
     QList<ImageInfo> infoList;

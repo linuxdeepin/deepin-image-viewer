@@ -36,8 +36,8 @@ signals:
 
     void editImage(const QString &path);
 
-    void viewImage(const QString &path, const QString &album = "",
-                   bool fromFileManager = false);
+    void viewImage(const QString &path, const QStringList &paths = QStringList(),
+                   const QString &album = "", bool inDB = true);
     void fullScreen(const QString &path);
     void startSlideShow(const QString &path);
     void showImageInfo(const QString &path);
