@@ -325,12 +325,12 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
     }
 
     if (nameList.length() == 1) {
-        info.beginTime = getImageInfoByName(nameList.first()).time;
-        info.endTime = info.beginTime;
+        info.endTime = getImageInfoByName(nameList.first()).time;
+        info.beginTime = info.endTime;
     }
     else if (nameList.length() > 1) {
-        info.beginTime = getImageInfoByName(nameList.first()).time;
-        info.endTime = getImageInfoByName(nameList.last()).time;
+        info.endTime = getImageInfoByName(nameList.first()).time;
+        info.beginTime = getImageInfoByName(nameList.last()).time;
     }
 
     return info;
