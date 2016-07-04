@@ -13,9 +13,9 @@ const QString SUB_MENU_NORMAL_ICON =
 const QString SUB_MENU_HOVER_ICON =
         ":/images/resources/images/sub_menu_hover.png";
 
-const int FRAME_BORDER_WIDTH = 1;
+const qreal FRAME_BORDER_WIDTH = 0.5;
 const int FRAME_BORDER_RADIUS = 4;
-const int ITEM_HEIGHT = 19;
+const int ITEM_HEIGHT = 21;
 const int ICON_PIXEL_SIZE = 16;
 const int ICON_LEFT_MARGIN = 4;
 const int TEXT_LEFT_MARGIN = 4;
@@ -28,8 +28,9 @@ const int SHORTCUT_FONT_PIXEL_SIZE = 10;
 const QColor FRAME_BORDER_COLOR = QColor(255, 255, 255, 51);
 const QColor TEXT_COLOR = QColor("#ffffff");
 const QColor SHORTCUT_COLOR = QColor(255, 255, 255, 153);
-const QColor ITEM_BG_NORMAL_COLOR = QColor(0, 0, 0, 178);
-const QColor ITEM_BG_HOVER_COLOR = QColor(0, 188, 255, 178);
+const QColor SHORTCUT_HOVER_COLOR = QColor(255, 255, 255, 255);
+const QColor ITEM_BG_NORMAL_COLOR = QColor(0, 0, 0, 204);
+const QColor ITEM_BG_HOVER_COLOR = QColor(0, 188, 255, 255);
 const QColor SEPARATOR_COLOR = QColor(255, 255, 255, 51);
 
 }  // namespace
@@ -64,6 +65,10 @@ int PopupMenuStyle::pixelMetric(QStyle::PixelMetric metric,
         return 15;
     case QStyle::PM_MenuDesktopFrameWidth:
         return 0;
+    case QStyle::PM_SubMenuOverlap:
+        return -1;
+    case QStyle::PM_MenuVMargin:
+        return 8;
     default:
         return QProxyStyle::pixelMetric(metric, option, widget);
     }
@@ -93,13 +98,30 @@ void PopupMenuStyle::drawPrimitive(QStyle::PrimitiveElement element,
 {
     if (element == QStyle::PE_PanelMenu) {
         painter->setRenderHint(QPainter::Antialiasing);
-        painter->fillRect(option->rect, QBrush(QColor(255, 255, 255, 0)));
-
         QPainterPath path;
-        path.addRoundedRect(option->rect, FRAME_BORDER_RADIUS, FRAME_BORDER_RADIUS);
-        QPen pen(FRAME_BORDER_COLOR, FRAME_BORDER_WIDTH);
-        painter->setPen(pen);
-        painter->drawPath(path);
+        // Skill
+        // Make path's corner draw smooth
+        // http://www.cnblogs.com/smileEvday/p/iOS_PixelVsPoint.html
+        QRectF rect = option->rect;
+        rect.setTopLeft(QPointF(0.5, 0.5));
+        rect.setBottomRight(QPointF(rect.width() - 1, rect.height() - 1));
+
+        path.addRoundedRect(rect,
+                            FRAME_BORDER_RADIUS, FRAME_BORDER_RADIUS);
+        painter->fillPath(path, QBrush(ITEM_BG_NORMAL_COLOR));
+
+        // Do not draw outside border if it's sub-menu
+        if (widget->parentWidget()) {
+            // Skill
+            // Draw outside border
+            QPainterPathStroker stroker;
+            stroker.setWidth(FRAME_BORDER_WIDTH);
+            stroker.setJoinStyle(Qt::RoundJoin);
+            QPainterPath borderPath = stroker.createStroke(path);
+            QPen pen(FRAME_BORDER_COLOR, FRAME_BORDER_WIDTH);
+            painter->setPen(pen);
+            painter->drawPath(borderPath);
+        }
     }
     else {
         QProxyStyle::drawPrimitive(element, option, painter, widget);
@@ -162,7 +184,7 @@ void PopupMenuStyle::drawMenuItem(const QStyleOption* option,
 void PopupMenuStyle::drawSeparator(const QStyleOptionMenuItem *menuItem,
                                    QPainter *painter) const
 {
-    painter->fillRect(menuItem->rect, QBrush(ITEM_BG_NORMAL_COLOR));
+//    painter->fillRect(menuItem->rect, QBrush(ITEM_BG_NORMAL_COLOR));
 
     const int x1 = menuItem->rect.x() + SEPARATOR_LEFT_MARGIN;
     const int x2 = menuItem->rect.x() + menuItem->rect.width() -
@@ -205,7 +227,8 @@ void PopupMenuStyle::drawMenuItemText(const QStyleOptionMenuItem* menuItem,
     const QString shortcutContent = menuItem->text.split(SHORTCUT_SPLIT_FLAG).last();
     const int shortcutWidth = shortcutFM.width(shortcutContent.trimmed());
     const int shortcutX = width - SEPARATOR_RIGHT_MARGIN - shortcutWidth;
-    QPen shortcutPen(SHORTCUT_COLOR);
+    QPen shortcutPen((menuItem->state & QStyle::State_Selected) ?
+                         SHORTCUT_HOVER_COLOR : SHORTCUT_COLOR);
     painter->setPen(shortcutPen);
     painter->setFont(shortcutFont);
     painter->drawText(shortcutX, y, shortcutWidth, height,
@@ -287,7 +310,7 @@ QColor PopupMenuStyle::getItemBGColor(const QStyle::State state) const
     if (state & QStyle::State_Selected) {
         return ITEM_BG_HOVER_COLOR;
     } else {
-        return ITEM_BG_NORMAL_COLOR;
+        return QColor(0, 0, 0, 0);
     }
 }
 

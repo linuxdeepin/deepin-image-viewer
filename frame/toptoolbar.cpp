@@ -192,7 +192,7 @@ QString TopToolbar::createMenuContent()
     const QPoint gp = this->mapToGlobal(QPoint(0, 0));
     const QSize ms = m_popupMenu->sizeHint();
     contentObj["x"] = gp.x() + width() - ms.width() - 14;
-    contentObj["y"] = gp.y() + TOP_TOOLBAR_HEIGHT + 14;
+    contentObj["y"] = gp.y() + TOP_TOOLBAR_HEIGHT - 10;
     contentObj["items"] = QJsonValue(items);
 
     QJsonDocument document(contentObj);
