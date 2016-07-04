@@ -1,6 +1,7 @@
 #include "commandline.h"
 #include "frame/mainwindow.h"
 #include "utils/imageutils.h"
+#include "utils/baseutils.h"
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
@@ -122,9 +123,8 @@ bool CommandLine::processOption()
             // BottomToolbar pos not correct on init
             emit sm->hideBottomToolbar(true);
             emit sm->enableMainMenu(false);
-            QTimer::singleShot(50, [=] {
-                emit sm->viewImage(value, QStringList(), "", false);
-            });
+            TIMER_SINGLESHOT(50, {
+                emit sm->viewImage(value, QStringList(), "", false);}, value, sm)
             return true;
         }
         else if (name == "a" || name == "album") {

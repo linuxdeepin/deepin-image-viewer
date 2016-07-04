@@ -160,6 +160,7 @@ QSize TimelineViewFrame::iconSize() const
 void TimelineViewFrame::setIconSize(const QSize &iconSize)
 {
     m_view->setIconSize(iconSize);
+    m_view->updateViewPortSize();
 }
 
 void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
@@ -179,6 +180,7 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     item->setToolTip(info.name);
 
     m_model.setItem(m_model.rowCount(), 0, item);
+    m_view->updateViewPortSize();
 }
 
 bool TimelineViewFrame::removeItem(const QString &name)
@@ -186,6 +188,7 @@ bool TimelineViewFrame::removeItem(const QString &name)
     const int i = indexOf(name);
     if (i != -1) {
         m_model.removeRow(i);
+        m_view->updateViewPortSize();
         return true;
     }
 

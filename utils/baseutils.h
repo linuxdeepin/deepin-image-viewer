@@ -2,6 +2,24 @@
 #define BASEUTILS_H
 
 #include <QObject>
+#include <QTimer>
+
+#if QT_VERSION >= 0x050500
+#define TIMER_SINGLESHOT(Time, Code, captured...){ \
+    QTimer::singleShot(Time, [captured] {Code});\
+}
+#else
+#define TIMER_SINGLESHOT(Time, Code, captured...){ \
+    QTimer *timer = new QTimer;\
+        timer->setSingleShot(true);\
+        QObject::connect(timer, &QTimer::timeout, [timer, captured] {\
+        timer->deleteLater();\
+        Code\
+    });\
+    timer->start(Time);\
+}
+
+#endif
 
 namespace utils {
 

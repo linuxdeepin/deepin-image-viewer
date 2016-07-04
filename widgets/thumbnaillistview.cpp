@@ -1,4 +1,5 @@
 #include "thumbnaillistview.h"
+#include "utils/baseutils.h"
 #include <QPaintEvent>
 #include <QEvent>
 #include <QDebug>
@@ -15,7 +16,8 @@ const int ITEM_SPACING = 4;
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent)
 {
-    initStyleSheet();
+    setStyleSheet(utils::base::getFileContent(
+                      ":/qss/resources/qss/ThumbnailListView.qss"));
 
     setMovement(QListView::Free);
     setFrameStyle(QFrame::NoFrame);
@@ -29,9 +31,12 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
+}
 
+void ThumbnailListView::updateViewPortSize()
+{
     // For expand all items
-    QMetaObject::invokeMethod(this, "fixedViewPortSize", Qt::QueuedConnection);
+    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this);
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
@@ -65,11 +70,11 @@ void ThumbnailListView::wheelEvent(QWheelEvent *e)
     e->ignore();
 }
 
-void ThumbnailListView::fixedViewPortSize()
+void ThumbnailListView::fixedViewPortSize(bool proactive)
 {
     int horizontalMargin = contentsMargins().left() + contentsMargins().right();
     int verticalMargin = contentsMargins().top() + contentsMargins().bottom();
-    if (width() - horizontalMargin == contentsRect().width()
+    if (! proactive && width() - horizontalMargin == contentsRect().width()
             && height() - verticalMargin == contentsSize().height())
         return;
 
@@ -77,16 +82,4 @@ void ThumbnailListView::fixedViewPortSize()
         //    setFixedWidth(contentsRect().width());
         setFixedHeight(contentsSize().height());
     }
-}
-
-void ThumbnailListView::initStyleSheet()
-{
-    QFile sf(":/qss/resources/qss/ThumbnailListView.qss");
-    if (!sf.open(QIODevice::ReadOnly)) {
-        qWarning() << "Open style-sheet file error:" << sf.errorString();
-        return;
-    }
-
-    this->setStyleSheet(QString(sf.readAll()));
-    sf.close();
 }
