@@ -1,5 +1,4 @@
 #include "timelineimageview.h"
-#include "widgets/scrollbar.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include "controller/importer.h"
@@ -25,7 +24,7 @@ const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
 TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     : QScrollArea(parent),
-      m_vScrollBar(new ScrollBar),
+      m_vScrollBar(new QScrollBar),
       m_ascending(false),
       m_multiSelection(multiselection),
       m_scrollPerc(0.0),
@@ -149,7 +148,7 @@ void TimelineImageView::initSliderFrame()
             }
         }
     });
-    connect(m_vScrollBar, &ScrollBar::valueChanged, this, [this] {
+    connect(m_vScrollBar, &QScrollBar::valueChanged, this, [this] {
 //        qDebug() << m_vScrollBar->value()
 //                 << m_vScrollBar->maximum()
 //                 << m_vScrollBar->minimum();
@@ -199,15 +198,18 @@ void TimelineImageView::insertReadyFrames()
         onImageInserted(infos[i]);
     }
 
-    QTimer::singleShot(500, this, [=] {
+    TIMER_SINGLESHOT(100, {
         if (infos.length() >= 100) {
             for (int i = 100; i < infos.length(); i ++) {
                 onImageInserted(infos[i]);
             }
         }
-    });
-    // TODO scroll to last pos
-//    m_vScrollBar->setValue(m_vScrollBar->maximum() * m_scrollPerc);
+
+        // Restore scroll value after all thumbnail is loaded
+        TIMER_SINGLESHOT(110, {
+            m_vScrollBar->setValue(m_vScrollBar->maximum() * m_scrollPerc);
+        }, this);
+    }, this, infos);
 
     const int iconSize = ConfigSetter::instance()->value(
                 SETTINGS_GROUP,
@@ -225,10 +227,8 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
         QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
     }
     else if (e->type() == QEvent::Show) {
-        // Fix me: if not delay insert, the scroller will always scroll back to
-        // top after scrolled by m_sliderFrame
         if (m_frames.isEmpty())
-            QTimer::singleShot(100, this, SLOT(insertReadyFrames()));
+            insertReadyFrames();
     }
     return false;
 }

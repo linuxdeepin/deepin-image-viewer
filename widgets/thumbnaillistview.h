@@ -8,6 +8,7 @@ class ThumbnailListView : public QListView
     Q_OBJECT
 public:
     explicit ThumbnailListView(QWidget *parent = 0);
+    void updateViewPortSize();
 
 signals:
     void mousePress(QMouseEvent *e);
@@ -19,10 +20,7 @@ protected:
     void wheelEvent(QWheelEvent *e) override;
 
 private slots:
-    void fixedViewPortSize();
-
-private:
-    void initStyleSheet();
+    void fixedViewPortSize(bool proactive = false);
 
 };
 

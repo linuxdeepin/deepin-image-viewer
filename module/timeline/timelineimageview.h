@@ -10,7 +10,6 @@
 #include <QVBoxLayout>
 #include <QItemSelectionModel>
 
-class ScrollBar;
 class TimelineImageView : public QScrollArea
 {
     Q_OBJECT
@@ -49,7 +48,7 @@ private:
     double scrollingPercent();
 
 private:
-    ScrollBar *m_vScrollBar;
+    QScrollBar *m_vScrollBar;
     SliderFrame *m_sliderFrame;
     TopTimelineTips *m_topTips;
     QVBoxLayout *m_contentLayout;
