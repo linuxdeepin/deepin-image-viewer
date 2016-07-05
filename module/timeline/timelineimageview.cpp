@@ -24,10 +24,8 @@ const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
 TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     : QScrollArea(parent),
-      m_vScrollBar(new QScrollBar),
       m_ascending(false),
       m_multiSelection(multiselection),
-      m_scrollPerc(0.0),
       m_iconSize(96, 96)
 {
     initSliderFrame();
@@ -36,7 +34,6 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
 
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
-    setVerticalScrollBar(m_vScrollBar);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -144,11 +141,13 @@ void TimelineImageView::initSliderFrame()
     connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
         if (m_sliderFrame->isVisible()) {
             if (m_sliderFrame->containsMouse()) {
-                m_vScrollBar->setValue((1 - perc) * (m_vScrollBar->maximum() - m_vScrollBar->minimum()));
+                verticalScrollBar()->setValue(
+                            (1 - perc) * (verticalScrollBar()->maximum()
+                                          - verticalScrollBar()->minimum()));
             }
         }
     });
-    connect(m_vScrollBar, &QScrollBar::valueChanged, this, [this] {
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
 //        qDebug() << m_vScrollBar->value()
 //                 << m_vScrollBar->maximum()
 //                 << m_vScrollBar->minimum();
@@ -162,7 +161,7 @@ void TimelineImageView::initSliderFrame()
 void TimelineImageView::initTopTips()
 {
     m_topTips = new TopTimelineTips(this);
-    connect(m_vScrollBar, &QScrollBar::valueChanged, this, [this] {
+    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
         if (scrollingPercent() == 0) {
             m_topTips->hide();
         }
@@ -198,17 +197,12 @@ void TimelineImageView::insertReadyFrames()
         onImageInserted(infos[i]);
     }
 
-    TIMER_SINGLESHOT(100, {
+    TIMER_SINGLESHOT(500, {
         if (infos.length() >= 100) {
             for (int i = 100; i < infos.length(); i ++) {
                 onImageInserted(infos[i]);
             }
         }
-
-        // Restore scroll value after all thumbnail is loaded
-        TIMER_SINGLESHOT(110, {
-            m_vScrollBar->setValue(m_vScrollBar->maximum() * m_scrollPerc);
-        }, this);
     }, this, infos);
 
     const int iconSize = ConfigSetter::instance()->value(
@@ -222,9 +216,9 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Hide) {
-        m_scrollPerc = 1.0 * m_vScrollBar->value() / m_vScrollBar->maximum();
-        // Make sure the other module is ready(eg.view)
-        QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
+//        m_scrollPerc = 1.0 * m_vScrollBar->value() / m_vScrollBar->maximum();
+//        // Make sure the other module is ready(eg.view)
+//        QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
     }
     else if (e->type() == QEvent::Show) {
         if (m_frames.isEmpty())

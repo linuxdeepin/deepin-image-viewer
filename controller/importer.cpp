@@ -72,6 +72,11 @@ Importer *Importer::instance()
     return m_importer;
 }
 
+bool Importer::isRunning() const
+{
+    return m_progress != 1;
+}
+
 double Importer::getProgress() const
 {
     return m_progress;

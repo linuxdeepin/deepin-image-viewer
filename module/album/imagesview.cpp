@@ -17,7 +17,6 @@
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
-const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 
 }  // namespace
@@ -35,31 +34,39 @@ ImagesView::ImagesView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     updateMenuContents();
-    installEventFilter(this);
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ImagesView::onMenuItemClicked);
+//    connect(m_sManager, &SignalManager::imageInserted,
+//            this, [=] (const DatabaseManager::ImageInfo &info) {
+//        if (info.albums.contains(m_album)) {
+//            insertItem(info);
+//        }
+//    });
 }
 
 void ImagesView::setAlbum(const QString &album)
 {
-    m_model.clear();
-    QList<DatabaseManager::ImageInfo> infos
-            = m_dbManager->getImageInfosByAlbum(album);
-    for (DatabaseManager::ImageInfo info : infos) {
-        QStandardItem *item = new QStandardItem();
-        item->setData(info.path, Qt::UserRole);
-        QIcon icon;
-        QPixmap thumbnail = utils::image::cutSquareImage(info.thumbnail,
-            QSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE));
-        icon.addPixmap(thumbnail, QIcon::Normal);
-        item->setIcon(icon);
-        item->setToolTip(info.name);
+    if (m_album == album)
+        return;
+    m_album = album;
+    m_topTips->setAlbum(album);
 
-        m_model.setItem(m_model.rowCount(), 0, item);
+    m_view->clearData();
+    QList<DatabaseManager::ImageInfo> infos =
+            m_dbManager->getImageInfosByAlbum(album);
+    // Load up to 100 images at initialization to accelerate rendering
+    const int preloadCount = 100;
+    for (int i = 0; i < qMin(infos.length(), preloadCount); i ++) {
+        insertItem(infos[i]);
     }
 
-    m_topTips->setAlbum(album);
-    m_album = album;
+    TIMER_SINGLESHOT(500, {
+        if (infos.length() >= preloadCount) {
+            for (int i = preloadCount; i < infos.length(); i ++) {
+                insertItem(infos[i]);
+            }
+        }
+    }, this, infos);
 }
 
 void ImagesView::updateView()
@@ -69,11 +76,7 @@ void ImagesView::updateView()
 
 bool ImagesView::removeItem(const QString &name)
 {
-    const int i = indexOf(name);
-    if (i != -1)
-        m_model.removeRow(i);
-
-    return false;
+    return m_view->removeItem(name);
 }
 
 void ImagesView::initContent()
@@ -91,15 +94,13 @@ void ImagesView::initContent()
 void ImagesView::initListView()
 {
     m_view = new ThumbnailListView(this);
+    m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
-    m_view->setIconSize(QSize(96, 96));
-    m_view->setModel( &m_model );
-    m_view->setSelectionMode(QAbstractItemView::SingleSelection);
     m_contentLayout->addWidget(m_view);
 
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
-        const QString path = index.data(Qt::UserRole).toString();
+        const QString path = m_view->itemInfo(index).path;
         emit m_sManager->viewImage(path, QStringList(), m_album);
     });
     connect(m_view, &ThumbnailListView::mousePress, this, [=] (QMouseEvent *e) {
@@ -192,21 +193,21 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
                                                  subMenu));
 }
 
+void ImagesView::insertItem(const DatabaseManager::ImageInfo &info)
+{
+    ThumbnailListView::ItemInfo vi;
+    vi.name = info.name;
+    vi.path = info.path;
+    vi.ticked = false;  // TODO
+
+    m_view->insertItem(vi);
+}
+
 void ImagesView::updateThumbnail(const QString &path)
 {
     const QString name = QFileInfo(path).fileName();
-    const int i = indexOf(name);
-    if (i != -1) {
-        m_dbManager->updateThumbnail(name);
-
-        const QPixmap p = m_dbManager->getImageInfoByName(name).thumbnail;
-        QIcon icon;
-        QPixmap thumbnail = utils::image::cutSquareImage(p,
-            QSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE));
-        icon.addPixmap(thumbnail, QIcon::Normal);
-        m_model.item(i, 0)->setIcon(icon);
-        return;
-    }
+    m_dbManager->updateThumbnail(name);
+    m_view->updateThumbnail(name);
 }
 
 void ImagesView::updateMenuContents()
@@ -314,31 +315,9 @@ int ImagesView::getMinContentsWidth()
     return (iconSize().width() + itemSpacing) * holdCount + itemSpacing + viewHMargin;
 }
 
-int ImagesView::indexOf(const QString &name) const
-{
-    for (int i = 0; i < m_model.rowCount(); i ++) {
-        if (m_model.item(i, 0)->toolTip() == name) {
-            return i;
-        }
-    }
-    return -1;
-}
-
 QString ImagesView::getCurrentAlbum() const
 {
     return m_album;
-}
-
-bool ImagesView::eventFilter(QObject *obj, QEvent *e)
-{
-    Q_UNUSED(obj)
-    if (e->type() == QEvent::Hide) {
-        m_model.clear();
-    }
-    else if (e->type() == QEvent::Show) {
-        updateView();
-    }
-    return false;
 }
 
 QSize ImagesView::iconSize() const
@@ -354,9 +333,10 @@ void ImagesView::setIconSize(const QSize &iconSize)
 QStringList ImagesView::selectedImagesNameList() const
 {
     QStringList names;
-    for (QModelIndex index : m_view->selectionModel()->selectedIndexes()) {
-        QString path = index.data(Qt::UserRole).toString();
-        names << QFileInfo(path).fileName();
+    const QList<ThumbnailListView::ItemInfo> infos =
+            m_view->selectedItemInfos();
+    for (ThumbnailListView::ItemInfo info : infos) {
+        names << info.name;
     }
 
     return names;
@@ -365,8 +345,10 @@ QStringList ImagesView::selectedImagesNameList() const
 QStringList ImagesView::selectedImagesPathList() const
 {
     QStringList paths;
-    for (QModelIndex index : m_view->selectionModel()->selectedIndexes()) {
-        paths << index.data(Qt::UserRole).toString();
+    const QList<ThumbnailListView::ItemInfo> infos =
+            m_view->selectedItemInfos();
+    for (ThumbnailListView::ItemInfo info : infos) {
+        paths << info.path;
     }
 
     return paths;
