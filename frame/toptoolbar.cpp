@@ -14,6 +14,7 @@
 #include <QResizeEvent>
 #include <QApplication>
 #include <QStackedWidget>
+#include <QPainter>
 
 using namespace Dtk::Widget;
 
@@ -98,6 +99,41 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
         else if (! window()->isFullScreen())  // It would be normal state
             window()->showMaximized();
     }
+}
+
+void TopToolbar::paintEvent(QPaintEvent *e)
+{
+    BlureFrame::paintEvent(e);
+
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+
+    // Draw inside top border
+    const QColor tc(255, 255, 255, 56);
+    const int borderHeight = 1;
+    QPainterPath tPath;
+    tPath.moveTo(x(), y() + borderHeight);
+    tPath.lineTo(x() + width(), y() + borderHeight);
+
+    QPen tPen(tc, borderHeight);
+    QLinearGradient linearGrad;
+    linearGrad.setStart(x(), y() + borderHeight);
+    linearGrad.setFinalStop(x() + width(), y() + borderHeight);
+    linearGrad.setColorAt(0, Qt::transparent);
+    linearGrad.setColorAt(0.01, tc);
+    linearGrad.setColorAt(0.99, tc);
+    linearGrad.setColorAt(1, Qt::transparent);
+    tPen.setBrush(QBrush(linearGrad));
+    p.setPen(tPen);
+    p.drawPath(tPath);
+
+    // Draw inside bottom border
+    QPainterPath bPath;
+    bPath.moveTo(x(), y() + height() - borderHeight);
+    bPath.lineTo(x() + width(), y() + height() - borderHeight);
+    QPen bPen(QColor(0, 0, 0, 25), borderHeight);
+    p.setPen(bPen);
+    p.drawPath(bPath);
 }
 
 void TopToolbar::initWidgets()

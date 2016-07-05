@@ -26,6 +26,7 @@ protected:
     void resizeEvent(QResizeEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
+    void paintEvent(QPaintEvent *e) override;
 
 private:
     enum MenuItemId {
