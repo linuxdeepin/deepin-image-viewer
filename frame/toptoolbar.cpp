@@ -27,8 +27,8 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     :BlureFrame(parent, source)
 {
     QLinearGradient linearGrad;
-    linearGrad.setColorAt(0, QColor(0, 0, 0, 178));
-    linearGrad.setColorAt(1, QColor(0, 0, 0, 204));
+    linearGrad.setColorAt(0, QColor(15, 15, 15, 178));
+    linearGrad.setColorAt(1, QColor(15, 15, 15, 204));
 
     setCoverBrush(QBrush(linearGrad));
 
