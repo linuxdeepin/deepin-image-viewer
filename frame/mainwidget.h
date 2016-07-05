@@ -34,7 +34,6 @@ private:
     void initBottomToolbar();
     void initExtensionPanel();
     void initStyleSheet();
-
     //panel
     void initTimelinePanel();
     void initAlbumPanel();

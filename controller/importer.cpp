@@ -88,6 +88,7 @@ void Importer::showImportDialog()
                 nullptr, tr("Open Directory"),
                 QDir::homePath(),
                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
     importFromPath(dir);
 }
 
@@ -108,6 +109,9 @@ void Importer::importFromPath(const QString &path, const QString &album)
     if( !QDir(path).exists() || infos.isEmpty() ) {
         return;
     }
+
+    if (m_cacheImportList.isEmpty())
+        emit importStart();
 
     m_futureWatcher.setPaused(true);
     for (QFileInfo info : infos) {

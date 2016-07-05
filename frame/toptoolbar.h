@@ -51,7 +51,7 @@ private:
     void onMenuItemClicked(int menuId, const QString &text);
 
     void showManual();
-
+    void initProgressDailog();
 private:
     QPointer<QProcess> m_manualPro;
     QHBoxLayout *m_leftLayout;
