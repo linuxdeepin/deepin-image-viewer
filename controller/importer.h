@@ -18,7 +18,9 @@ class Importer : public QObject
 public:
     static Importer *instance();
     double getProgress() const;
+    int finishedCount() const;
     void showImportDialog();
+    void stopImport();
     void importFromPath(const QString &path, const QString &album = "");
     void importSingleFile(const QString &filePath, const QString &album = "");
 

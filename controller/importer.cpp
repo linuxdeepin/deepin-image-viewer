@@ -77,6 +77,11 @@ double Importer::getProgress() const
     return m_progress;
 }
 
+int Importer::finishedCount() const
+{
+    return m_imagesCount - m_cacheImportList.length();
+}
+
 void Importer::showImportDialog()
 {
     QString dir = QFileDialog::getExistingDirectory(
@@ -84,6 +89,17 @@ void Importer::showImportDialog()
                 QDir::homePath(),
                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     importFromPath(dir);
+}
+
+void Importer::stopImport()
+{
+    m_futureWatcher.cancel();
+    m_futureWatcher.waitForFinished();
+    m_cacheImportList.clear();
+    m_albums.clear();
+    m_progress = 1.0;
+    m_imagesCount = 0;
+    emit importProgressChanged(m_progress);
 }
 
 void Importer::importFromPath(const QString &path, const QString &album)
