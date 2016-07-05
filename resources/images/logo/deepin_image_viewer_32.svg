@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>深度看图-32px</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#FFAE00" offset="0%"></stop>
+            <stop stop-color="#FF918E" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="深度看图-32px">
+            <g id="Group-2" filter="url(#filter-1)" transform="translate(2.000000, 2.000000)">
+                <rect id="Rectangle-6" fill="#FFFFFF" opacity="0.7" x="4" y="0" width="20" height="5" rx="1"></rect>
+                <rect id="Rectangle-6" fill="#FFFFFF" opacity="0.8" x="2" y="1" width="24" height="6" rx="1"></rect>
+                <path d="M0,4.00069463 C0,3.44802625 0.439813137,3 0.996534824,3 L27.0034652,3 C27.5538362,3 28,3.44746922 28,4.00069463 L28,25.9993054 C28,26.5519738 27.5601869,27 27.0034652,27 L0.996534824,27 C0.446163838,27 0,26.5525308 0,25.9993054 L0,4.00069463 Z" id="Rectangle-5" fill="#FFFFFF"></path>
+                <rect id="Rectangle-8" fill="url(#linearGradient-2)" x="1" y="4" width="26" height="18"></rect>
+                <g id="Group" transform="translate(1.000000, 8.000000)" fill-opacity="0.8">
+                    <polygon id="Path-1389" fill="#6269FF" points="0 14 10.5 0 21 14"></polygon>
+                    <polygon id="Path-1389" fill="#94F9FF" style="mix-blend-mode: soft-light;" points="7 14 16.5 2.1 26 14"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
