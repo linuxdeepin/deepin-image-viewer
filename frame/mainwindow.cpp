@@ -28,8 +28,6 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
                                    QVariant(defaultH)).toInt();
     resize(ww, wh);
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
-    move((dw.geometry().width() - ww) / 2, (dw.geometry().height() - wh) / 4);
-
 
     m_mainWidget = new MainWidget(manager, this);
     addContenWidget(m_mainWidget);
