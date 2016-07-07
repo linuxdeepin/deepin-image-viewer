@@ -7,6 +7,9 @@
 #include <QClipboard>
 #include <QDateTime>
 #include <QDesktopServices>
+#include <QDBusInterface>
+#include <QDBusPendingCall>
+#include <QDBusPendingCallWatcher>
 #include <QDir>
 #include <QFontMetrics>
 #include <QFileInfo>
@@ -71,8 +74,19 @@ QDateTime stringToDateTime(const QString &time)
 
 void showInFileManager(const QString &path)
 {
-    if (! path.isEmpty())
-        QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).path()));
+    if (path.isEmpty() || !QFile::exists(path)) {
+        return;
+    }
+    QDBusInterface iface("org.freedesktop.FileManager1",
+                         "/org/freedesktop/FileManager1",
+                         "org.freedesktop.FileManager1",
+                         QDBusConnection::sessionBus());
+    // Convert filepath to URI first.
+    const QStringList uris = { QUrl::fromLocalFile(path).toString() };
+
+    // StartupId is empty here.
+    QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
+    Q_UNUSED(call);
 }
 
 void copyImageToClipboard(const QStringList &paths)
