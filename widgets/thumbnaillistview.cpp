@@ -36,7 +36,12 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
 void ThumbnailListView::updateViewPortSize()
 {
     // For expand all items
-    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this);
+    QTimer *t = new QTimer(this);
+    connect(t, &QTimer::timeout, [=] {
+        fixedViewPortSize(true);
+        t->deleteLater();
+    });
+    t->start(100);
 }
 
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
