@@ -24,6 +24,7 @@ void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
     if (effects.contains(id)) {
         effects.remove(id);
     }
+
     effects.insert(id, c);
 }
 

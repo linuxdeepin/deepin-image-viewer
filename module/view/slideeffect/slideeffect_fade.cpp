@@ -1,6 +1,6 @@
 #include "slideeffect.h"
 #include <qpainter.h>
-
+/*
 static const QString kFade = "fade";
 
 class SlideEffect_Fade : public SlideEffect
@@ -55,3 +55,4 @@ void SlideEffect_Fade::renderFrame()
     p.setOpacity(k);
 	p.drawImage(0, 0, *next_image);
 }
+*/
