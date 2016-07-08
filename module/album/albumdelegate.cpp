@@ -27,7 +27,7 @@ const int TITLE_EDIT_MARGIN = 20;
 
 const int THUMBNAIL_BG_MARGIN = 8;
 
-const int DATELABEL_FONT_SIZE = 9;
+//const int DATELABEL_FONT_SIZE = 9;
 const QColor DATELABEL_COLOR = QColor("#000000");
 
 }
@@ -201,10 +201,12 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
             albumName = tr("My favorites");
         }
 
+        const int hMargin = 3;
+        const int vMargin = 2;
         QSize ts(qMin(fm.width(albumName) + 20, rect.width()), fm.height() + 2);
-        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2,
-                        rect.y() + rect.height() - ts.height(),
-                        ts.width(), ts.height());
+        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2 - hMargin,
+                        rect.y() + rect.height() - ts.height() - vMargin * 2,
+                        ts.width() + hMargin * 2, ts.height() + vMargin * 2);
         painter->setRenderHint(QPainter::Antialiasing);
         // Draw title background
         if (option.state & QStyle::State_Selected && m_editingIndex != index) {
@@ -282,7 +284,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     // Draw year label
     const QString title = yearTitle(beginTime, endTime);
     QFont font;
-    font.setPixelSize(DATELABEL_FONT_SIZE);
+    font.setPixelSize(bgSize.height() * 0.068);
     QPen titlePen(DATELABEL_COLOR);
     painter.setFont(font);
     painter.setPen(titlePen);
@@ -304,10 +306,10 @@ const QRect AlbumDelegate::thumbnailRect(const QSize &bgSize) const
 const QRect AlbumDelegate::yearTitleRect(const QSize &bgSize, const QString &title) const
 {
     QFont font;
-    font.setPixelSize(DATELABEL_FONT_SIZE);
+    font.setPixelSize(bgSize.height() * 0.068);
     QFontMetrics fm(font);
     QRect rect(bgSize.width() - bgSize.width() * 0.1857 - fm.width(title),
-                    bgSize.height() - bgSize.height() * 0.07 - fm.height(),
+                    bgSize.height() - bgSize.height() * 0.08 - fm.height(),
                     fm.width(title), fm.height());
     return rect;
 }

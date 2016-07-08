@@ -63,7 +63,6 @@ void ImageButton::showTooltip(const QPoint &gPos)
     tf->setWindowFlags(Qt::ToolTip);
     tf->setAttribute(Qt::WA_TranslucentBackground);
     QLabel *tl = new QLabel(tf);
-    tl->setContentsMargins(8, 2, 8, 2);
     tl->setObjectName("ButtonTooltip");
     tl->setText(toolTip());
     QHBoxLayout *layout = new QHBoxLayout(tf);

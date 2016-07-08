@@ -27,10 +27,10 @@ QListView {
 QPushButton#ImportFrameButton {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
                 stop:0 rgba(59,193,255,255), stop:1 rgba(7,157,255,255));
-    border: 1px solid rgba(29, 130, 255, 77);
+    border: none;
     border-radius: 3;
     outline: none;
-    padding: 2px 24px 2px 24px;
+    padding: 3px 24px 4px 24px;
     color: #FFFFFF;
     font-size: 12px;
 }
@@ -80,7 +80,7 @@ QLineEdit#CreateEdit {
 }
 
 QLabel#AlbumInfoTipsLabel {
-    font-size: 13px;
+    font-size: 12px;
     color: #b4b4b4;
 }
 

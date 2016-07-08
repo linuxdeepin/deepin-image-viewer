@@ -1,8 +1,10 @@
 #include "configsetter.h"
+#include <QDebug>
 
 ConfigSetter::ConfigSetter(QObject *parent) : QObject(parent)
 {
     m_settings = new  QSettings("Deepin","DeepinImageViewer", this);
+    qDebug() << "Setting file:" << m_settings->fileName();
 }
 
 ConfigSetter *ConfigSetter::m_setter = nullptr;

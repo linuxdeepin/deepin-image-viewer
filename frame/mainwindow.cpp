@@ -18,10 +18,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     m_setter(ConfigSetter::instance())
 {
     QDesktopWidget dw;
-    const int defaultW = dw.geometry().width() * 0.67 < MAINWIDGET_MINIMUN_WIDTH
-            ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.67;
-    const int defaultH = dw.geometry().height() * 0.62 < MAINWIDGET_MINIMUN_HEIGHT
-            ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.62;
+    const int defaultW = dw.geometry().width() * 0.725 < MAINWIDGET_MINIMUN_WIDTH
+            ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.725;
+    const int defaultH = dw.geometry().height() * 0.7 < MAINWIDGET_MINIMUN_HEIGHT
+            ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.7;
     const int ww = m_setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                    QVariant(defaultW)).toInt();
     const int wh = m_setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,

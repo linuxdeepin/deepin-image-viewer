@@ -8,10 +8,10 @@ QLabel#TimelineFrameTitle {
 QPushButton#ImportFrameButton {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
                 stop:0 rgba(59,193,255,255), stop:1 rgba(7,157,255,255));
-    border: 1px solid rgba(29, 130, 255, 77);
+    border: none;
     border-radius: 3;
     outline: none;
-    padding: 2px 24px 2px 24px;
+    padding: 3px 24px 4px 24px;
     color: #FFFFFF;
     font-size: 12px;
 }
@@ -32,9 +32,9 @@ QPushButton#AddToAlbumCancel {
     border: none;
     border-radius: 3;
     outline: none;
-    padding: 2px 20px 2px 20px;
+    padding: 3px 23px 4px 23px;
     color: #b4b4b4;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 QPushButton#AddToAlbumCancel:hover {
@@ -48,12 +48,12 @@ QPushButton#AddToAlbumCancel:pressed {
 QPushButton#AddToAlbumAdd  {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
         stop:0 #3BC1FF, stop:1 #079DFF);
-    border: 1px solid rgba(29, 130, 255, 76.5);
+    border: none;
     border-radius: 3;
     outline: none;
-    padding: 2px 20px 2px 20px;
+    padding: 3px 23px 4px 23px;
     color: #FFFFFF;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 QPushButton#AddToAlbumAdd:hover {
