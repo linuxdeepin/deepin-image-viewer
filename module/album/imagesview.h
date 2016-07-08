@@ -2,6 +2,7 @@
 #define IMAGESVIEW_H
 
 #include "topalbumtips.h"
+#include "controller/databasemanager.h"
 #include <QWidget>
 #include <QScrollArea>
 #include <QJsonObject>
@@ -10,7 +11,6 @@
 #include <QKeyEvent>
 #include <QObject>
 
-class DatabaseManager;
 class PopupMenuManager;
 class SignalManager;
 class ThumbnailListView;
@@ -22,6 +22,7 @@ public:
     explicit ImagesView(QWidget *parent = 0);
     void setAlbum(const QString &album);
     void updateView();
+    void insertItem(const DatabaseManager::ImageInfo &info);
     bool removeItem(const QString &name);
 
     QSize iconSize() const;
@@ -31,7 +32,6 @@ public:
     QString getCurrentAlbum() const;
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
 
 private:
@@ -76,14 +76,11 @@ private:
     void updateContentRect();
     void updateTopTipsRect();
     int getMinContentsWidth();
-    int indexOf(const QString &name) const;
-
 
 private:
     QString m_album;
     TopAlbumTips *m_topTips;
     ThumbnailListView *m_view;
-    QStandardItemModel m_model;
     QVBoxLayout *m_contentLayout;
     QWidget *m_contentWidget;
     PopupMenuManager *m_popupMenu;

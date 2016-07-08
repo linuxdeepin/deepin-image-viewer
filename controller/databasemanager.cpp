@@ -27,11 +27,11 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
     QSqlDatabase db = getDatabase();
 
     if (db.isValid()) {
+        for (QString album : info.albums) {
+            insertImageIntoAlbum(album, info.name,
+                                 utils::base::timeToString(info.time));
+        }
         if (imageExist(info.name)) {
-            for (QString album : info.albums) {
-                insertImageIntoAlbum(album, info.name,
-                                     utils::base::timeToString(info.time));
-            }
             return;
         }
 

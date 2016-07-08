@@ -17,6 +17,7 @@ class Importer : public QObject
     Q_OBJECT
 public:
     static Importer *instance();
+    bool isRunning() const;
     double getProgress() const;
     int finishedCount() const;
     void showImportDialog();

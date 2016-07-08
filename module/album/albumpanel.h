@@ -42,7 +42,7 @@ private:
     void showCreateDialog();
     void showImportDirDialog(const QString &dir);
     void onImageCountChanged(int count);
-    void onInsertIntoAlbum(QString album);
+    void onInsertIntoAlbum(const QString &album, const QString &name);
 
 private:
     QString m_currentAlbum;

@@ -10,6 +10,7 @@
         <file>resources/images/window_close_hover.png</file>
         <file>resources/images/window_close_normal.png</file>
         <file>resources/images/window_close_press.png</file>
+        <file>resources/images/item_selected.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/ThumbnailListView.qss</file>

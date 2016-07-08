@@ -48,7 +48,6 @@ private:
     double scrollingPercent();
 
 private:
-    QScrollBar *m_vScrollBar;
     SliderFrame *m_sliderFrame;
     TopTimelineTips *m_topTips;
     QVBoxLayout *m_contentLayout;
@@ -56,7 +55,6 @@ private:
     QMap<QString, TimelineViewFrame *> m_frames;
     bool m_ascending;
     bool m_multiSelection;
-    qreal m_scrollPerc;
     QSize m_iconSize;
 };
 

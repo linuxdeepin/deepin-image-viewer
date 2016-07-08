@@ -338,18 +338,14 @@ void AlbumPanel::onImageCountChanged(int count)
     else if (count == 0 && m_stackWidget->currentIndex() == 1) {
         m_stackWidget->setCurrentIndex(0);
     }
-
-    if (m_stackWidget->currentWidget() == m_imagesView) {
-        m_imagesView->updateView();
-    }
 }
 
-void AlbumPanel::onInsertIntoAlbum(QString album)
+void AlbumPanel::onInsertIntoAlbum(const QString &album, const QString &name)
 {
     if (Importer::instance()->getProgress() == 1
             && m_imagesView->isVisible()
             && album == m_imagesView->getCurrentAlbum()) {
-        m_imagesView->updateView();
+        m_imagesView->insertItem(m_dbManager->getImageInfoByName(name));
     }
 }
 
