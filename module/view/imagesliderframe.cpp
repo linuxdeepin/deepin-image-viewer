@@ -91,9 +91,9 @@ void ImageSliderFrame::initTooltip()
     m_valueLabel = new QLabel();
     m_valueLabel->setObjectName("TooltipValueLabel");
     m_valueLabel->setFixedSize(50, 30);
-
+    m_valueLabel->setAlignment(Qt::AlignCenter);
     QVBoxLayout *lLayout = new QVBoxLayout();
-    lLayout->setContentsMargins(1, 3, 0, 4);
+    lLayout->setContentsMargins(1, 0, 0, 4);
     lLayout->addWidget(m_valueLabel);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(m_tooltip);

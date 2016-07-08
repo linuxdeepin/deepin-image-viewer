@@ -27,7 +27,7 @@ ProcessTooltip::ProcessTooltip(QWidget *parent, QWidget *source)
     m_message->setStyleSheet("font-size: 12px;color: white;");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setContentsMargins(5, 5, 5, 5);
+    layout->setContentsMargins(10, 0, 20, 0);
     layout->setSpacing(12);
     layout->addWidget(m_icon);
     layout->addWidget(m_message);

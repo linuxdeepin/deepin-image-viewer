@@ -82,7 +82,11 @@ QLabel#TimelineSeparator {
     margin-left: 15px;
     margin-right: 15px;
 }
-
+QLabel#BtmSeparatorLine {
+    background-color:rgba(255, 255, 255, .1);
+    margin-left: 15px;
+    margin-right: 15px;
+}
 QLabel#TooltipCountLabel {
     font-size: 8px;
     color: rgba(255, 255, 255, 130);
@@ -92,8 +96,7 @@ TopTimelineTips {
     margin-left: 14px;
     font-size: 13px;
     color: #b4b4b4;
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                stop:0 rgba(24, 24, 24, .4), stop:1 rgba(24, 24, 24, .2));
+    background: rgba(24, 24, 24, .4);
 }
 
 QFrame#TimelinesContent {

@@ -4,13 +4,14 @@
 #include <QLabel>
 #include <QTextEdit>
 #include <QVBoxLayout>
-
+#include <QSvgRenderer>
+#include <QPainter>
 using namespace Dtk::Widget;
 
 AboutWindow::AboutWindow(QWidget *parent, QWidget *source)
     : BlureFrame(parent, source)
 {
-    setMinimumSize(380, 360);
+    setMinimumSize(380, 347);
     initStyleSheet();
     setBorderRadius(4);
     setBorderWidth(1);
@@ -21,8 +22,15 @@ AboutWindow::AboutWindow(QWidget *parent, QWidget *source)
     setWindowModality(Qt::WindowModal);
 
     QLabel *appLogo = new QLabel();
-    QPixmap ap = QPixmap(":/images/resources/images/deepin_image_viewer.png");
-    ap.scaled(78, 78, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QString logoPath = ":/images/resources/images/deepin_image_viewer.svg";
+    QSvgRenderer renderer(logoPath);
+    QPixmap ap = QPixmap(":/images/resources/images/deepin_image_viewer.svg");
+    ap.fill(Qt::transparent);
+    ap = ap.scaled(78, 78, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPainter painter;
+    painter.begin(&ap);
+    renderer.render(&painter);
+    painter.end();
     appLogo->setPixmap(ap);
 
     QLabel *title = new QLabel(tr("Deepin Image Viewer"));
@@ -40,7 +48,9 @@ AboutWindow::AboutWindow(QWidget *parent, QWidget *source)
 
     QLabel *link = new QLabel();
     link->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
-    link->setText("<a href=\"https://www.deepin.org/\">www.deepin.org</a>");
+    link->setText("<style>a{text-decoration: none;} </style><a href=\"https://www.deepin.org/\">"
+                  "<font color='#0066ec';font size=12px;>www.deepin.org</a>");
+
     link->setTextFormat(Qt::RichText);
     link->setTextInteractionFlags(Qt::TextBrowserInteraction);
     link->setOpenExternalLinks(true);
@@ -70,17 +80,17 @@ AboutWindow::AboutWindow(QWidget *parent, QWidget *source)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setAlignment(Qt::AlignHCenter);
 
-    layout->addSpacing(23);
+    layout->addStretch(1);
     layout->addWidget(appLogo, 0, Qt::AlignHCenter);
-    layout->addSpacing(7);
+    layout->addSpacing(-1);
     layout->addWidget(title);
-    layout->addSpacing(6);
+    layout->addSpacing(4);
     layout->addWidget(version);
     layout->addSpacing(18);
     layout->addWidget(corpLogo, 0, Qt::AlignHCenter);
-    layout->addSpacing(6);
+    layout->addSpacing(-6);
     layout->addWidget(link);
-    layout->addSpacing(20);
+    layout->addSpacing(18);
     layout->addWidget(desc1);
     layout->addSpacing(6);
     layout->addWidget(desc2);

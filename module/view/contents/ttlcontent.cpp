@@ -4,7 +4,7 @@
 TTLContent::TTLContent(ImageSource source, QWidget *parent) : QWidget(parent)
 {
     QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(5, 0, 0, 0);
+    hb->setContentsMargins(9, 0, 0, 0);
     hb->setSpacing(0);
 
     ImageButton *btn = new ImageButton();

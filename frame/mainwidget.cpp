@@ -88,7 +88,7 @@ void MainWidget::onShowProcessTooltip(const QString &message, bool success)
 {
     ProcessTooltip *t = new ProcessTooltip(this, m_panelStack);
     t->showTooltip(message, success);
-    t->move((width() - t->width()) / 2, (height() - t->height()) / 2);
+    t->move((width() - t->width()) / 2, height() * 4 / 5);
 }
 
 void MainWidget::onShowImageInfo(const QString &path)

@@ -51,11 +51,19 @@ QWidget *TimelinePanel::toolbarBottomContent()
     QWidget *tBottomContent = new QWidget;
     tBottomContent->setStyleSheet(this->styleSheet());
 
-    QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
+    QLabel* separatorLine = new QLabel;
+    separatorLine->setObjectName("BtmSeparatorLine");
+    separatorLine->setFixedHeight(1);
+    QVBoxLayout* btmLayout = new QVBoxLayout(tBottomContent);
+    btmLayout->setContentsMargins(0, 0, 0, 0);
+    btmLayout->addWidget(separatorLine);
+
+    QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(14, 0, 14, 0);
     layout->setSpacing(0);
 
     if (m_targetAlbum.isEmpty()) {
+        separatorLine->hide();
         const int sizeScale = m_setter->value(SETTINGS_GROUP,
                                               SETTINGS_ICON_SCALE_KEY,
                                               QVariant(0)).toInt();
@@ -84,6 +92,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
         layout->addWidget(m_slider, 1, Qt::AlignRight);
     }
     else {  // For import images to an album
+        separatorLine->show();
         QLabel *label = new QLabel;
         label->setObjectName("AddToAlbumTitle");
         label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
@@ -122,7 +131,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
         layout->addSpacing(10);
         layout->addWidget(addButton);
     }
-
+    btmLayout->addLayout(layout);
     return tBottomContent;
 }
 

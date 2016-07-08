@@ -4,7 +4,7 @@ QLabel {
 
 QLabel#AppTitleLabel {
     font-size: 19px;
-    color: white;
+    color: rgba(255, 255, 255, 255);
 }
 
 QLabel#VersionLabel, QLabel#DescLabel1, QLabel#DescLabel2, QLabel#LicenseLabel {

@@ -92,9 +92,10 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
     tTopleftContent->setStyleSheet(this->styleSheet());
 
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
-    layout->setContentsMargins(ICON_MARGIN, 0, 0, 0);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     if (m_stackWidget->currentWidget() == m_imagesView) {
+        layout->addSpacing(9);
         ImageButton *returnButton = new ImageButton();
 
         returnButton->setNormalPic(":/images/resources/images/return_normal.png");
@@ -112,6 +113,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
         layout->addStretch(1);
     }
     else {
+        layout->addSpacing(ICON_MARGIN);
         QLabel *icon = new QLabel;
         // TODO update icon path
         icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));

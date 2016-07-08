@@ -2,7 +2,6 @@
     <qresource prefix="/images">
         <file>resources/images/deepin_logo.png</file>
         <file>resources/images/deepin_image_viewer.svg</file>
-        <file>resources/images/deepin_image_viewer.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/frame.qss</file>

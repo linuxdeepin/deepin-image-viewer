@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QFont>
 
 BlureDialog::BlureDialog(QWidget *parent, QWidget *source)
     : BlureFrame(parent, source),m_first(true)
@@ -45,6 +46,9 @@ BlureDialog::BlureDialog(QWidget *parent, QWidget *source)
 void BlureDialog::addButton(const QString &name, int id)
 {
     QPushButton *button = new QPushButton(name);
+    QFont btnFont;
+    btnFont.setPixelSize(12);
+    button->setFont(btnFont);
     // For draw border style
     if (m_first) {
         m_first = false;
