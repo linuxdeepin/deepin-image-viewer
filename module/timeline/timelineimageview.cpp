@@ -90,6 +90,7 @@ void TimelineImageView::setIconSize(const QSize &iconSize)
 
     m_iconSize = iconSize;
     updateContentRect();
+    updateTopTipsRect();
 }
 
 void TimelineImageView::updateThumbnail(const QString &name)
@@ -133,6 +134,9 @@ void TimelineImageView::resizeEvent(QResizeEvent *e)
     updateContentRect();
     updateSliderFrmaeRect();
     updateTopTipsRect();
+    // FIXME
+    // m_contentLayout's ContentsMargins would be change after resize
+//    m_contentLayout->setContentsMargins(0, 50, 0, 10);
 }
 
 void TimelineImageView::initSliderFrame()
@@ -296,6 +300,12 @@ void TimelineImageView::updateTopTipsRect()
 {
     m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
     m_topTips->resize(width(), m_topTips->height());
+    if (! m_frames.isEmpty()) {
+        TIMER_SINGLESHOT(100, {
+            m_topTips->setLeftMargin(- m_frames.first()->hOffset() +
+                                    m_contentLayout->contentsMargins().left());
+                         },this)
+    }
 }
 
 int TimelineImageView::getMinContentsWidth()

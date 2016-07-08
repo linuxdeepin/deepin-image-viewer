@@ -27,6 +27,7 @@ public:
     QMap<QString, QString> selectedImages() const;
     QString timeline() const;
     bool isEmpty() const;
+    int hOffset() const;
 
     void setIconSize(const QSize &iconSize);
 

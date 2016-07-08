@@ -51,7 +51,6 @@ QWidget *AlbumPanel::toolbarBottomContent()
     m_slider->setMinimum(0);
     m_slider->setMaximum(3);
     m_slider->setValue(0);
-    m_slider->setFixedWidth(120);
     connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
         if (m_stackWidget->currentWidget() == m_imagesView) {
             int newSize = MIN_ICON_SIZE + multiple * 32;
@@ -283,7 +282,7 @@ void AlbumPanel::updateBottomToolbarContent()
     }
 
     //set width to 1px for layout center
-    m_slider->setFixedWidth(count > 0 ? 120 : 1);
+    m_slider->setFixedWidth(count > 0 ? 110 : 1);
     if (m_stackWidget->currentWidget() == m_albumsView) {
         m_slider->setValue(m_setter->value(SETTINGS_GROUP,
                                            SETTINGS_ALBUM_ICON_SCALE_KEY,

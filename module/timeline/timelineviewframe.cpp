@@ -144,3 +144,8 @@ bool TimelineViewFrame::isEmpty() const
 {
     return m_view->count() == 0;
 }
+
+int TimelineViewFrame::hOffset() const
+{
+    return m_view->hOffset();
+}

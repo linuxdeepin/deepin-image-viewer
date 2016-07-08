@@ -14,7 +14,7 @@ ImportDirDialog::ImportDirDialog(QWidget *parent, QWidget *source)
 
     QWidget *w = new QWidget(this);
     QHBoxLayout *layout = new QHBoxLayout(w);
-    layout->setContentsMargins(15, 0, 36, 0);
+    layout->setContentsMargins(25, 0, 36, 0);
     layout->setSpacing(10);
 
     m_icon = new QLabel;

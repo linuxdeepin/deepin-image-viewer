@@ -49,7 +49,6 @@ void ImagesView::setAlbum(const QString &album)
     if (m_album == album)
         return;
     m_album = album;
-    m_topTips->setAlbum(album);
 
     m_view->clearData();
     QList<DatabaseManager::ImageInfo> infos =
@@ -67,6 +66,9 @@ void ImagesView::setAlbum(const QString &album)
             }
         }
     }, this, infos);
+
+    m_topTips->setAlbum(album);
+    updateTopTipsRect();
 }
 
 void ImagesView::updateView()
@@ -84,6 +86,7 @@ void ImagesView::initContent()
     m_contentWidget = new QWidget();
     m_contentWidget->setObjectName("ImagesViewContent");
     m_contentLayout = new QVBoxLayout(m_contentWidget);
+    m_contentLayout->setContentsMargins(10, 70, 10, 20);
 
     setWidget(m_contentWidget);
 
@@ -291,19 +294,13 @@ void ImagesView::onMenuItemClicked(int menuId)
     }
 }
 
-void ImagesView::updateContentRect()
-{
-    int minWidth = getMinContentsWidth();
-    int hMargin = (width() - minWidth) / 2;
-    m_contentLayout->setContentsMargins(hMargin, 60, hMargin, 10);
-    m_contentWidget->setFixedWidth(width());
-    m_view->setFixedWidth(width());
-}
-
 void ImagesView::updateTopTipsRect()
 {
     m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
     m_topTips->resize(width(), m_topTips->height());
+    const int lm = m_view->count() == 0
+            ? 0 : - m_view->hOffset() + m_contentLayout->contentsMargins().left();
+    m_topTips->setLeftMargin(lm);
 }
 
 int ImagesView::getMinContentsWidth()
@@ -328,6 +325,7 @@ QSize ImagesView::iconSize() const
 void ImagesView::setIconSize(const QSize &iconSize)
 {
     m_view->setIconSize(iconSize);
+    updateTopTipsRect();
 }
 
 QStringList ImagesView::selectedImagesNameList() const
@@ -357,6 +355,5 @@ QStringList ImagesView::selectedImagesPathList() const
 void ImagesView::resizeEvent(QResizeEvent *e)
 {
     QScrollArea::resizeEvent(e);
-    updateContentRect();
     updateTopTipsRect();
 }

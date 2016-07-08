@@ -73,7 +73,6 @@ private:
     void updateMenuContents();
     void onMenuItemClicked(int menuId);
 
-    void updateContentRect();
     void updateTopTipsRect();
     int getMinContentsWidth();
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>round_slider_fg copy 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50.2505556%" y1="100.194444%" x2="50.2505556%" y2="0.194444444%" id="linearGradient-1">
+            <stop stop-color="#F0F0F0" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <ellipse id="path-2" cx="53" cy="7" rx="7" ry="7"></ellipse>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="14" height="14" fill="white">
+            <use xlink:href="#path-2"></use>
+        </mask>
+    </defs>
+    <g id="-查看" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-opacity="0.04">
+        <g id="12.拖拽文件夹询问添加" transform="translate(-663.000000, -531.000000)" stroke="#FFFFFF" stroke-width="4" fill="url(#linearGradient-1)">
+            <g id="新建相册-+-打印机授权更新" transform="translate(50.000000, 51.000000)">
+                <g id="新建相册">
+                    <g id="bg">
+                        <g id="状态栏-4" transform="translate(0.000000, 476.000000)">
+                            <g id="slider-3" transform="translate(567.000000, 4.000000)">
+                                <use id="round_slider_fg-copy-3" mask="url(#mask-3)" xlink:href="#path-2"></use>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

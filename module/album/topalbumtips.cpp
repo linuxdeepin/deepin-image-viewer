@@ -21,11 +21,11 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
         qDebug() << "Importing images to album: " << m_album;
     });
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setContentsMargins(13, 0, 13, 0);
-    layout->addWidget(m_infoLabel);
-    layout->addStretch(1);
-    layout->addWidget(m_importButton);
+    m_layout = new QHBoxLayout(this);
+    m_layout->setContentsMargins(13, 0, 13, 0);
+    m_layout->addWidget(m_infoLabel);
+    m_layout->addStretch(1);
+    m_layout->addWidget(m_importButton);
 }
 
 void TopAlbumTips::setAlbum(const QString &album)
@@ -45,4 +45,9 @@ void TopAlbumTips::setAlbum(const QString &album)
     }
 
     m_infoLabel->setText(QString("%1").arg(m_album) + "  " + l);
+}
+
+void TopAlbumTips::setLeftMargin(int v)
+{
+    m_layout->setContentsMargins(v + 18, 0, 13, 0);
 }

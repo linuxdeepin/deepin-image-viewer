@@ -66,7 +66,6 @@ QWidget *TimelinePanel::toolbarBottomContent()
         m_slider->setMinimum(0);
         m_slider->setMaximum(3);
         m_slider->setValue(sizeScale);
-        m_slider->setFixedWidth(120);
         connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
             qDebug() << "Change the view size to: X" << multiple;
             int newSize = MIN_ICON_SIZE + multiple * 32;
@@ -286,7 +285,7 @@ void TimelinePanel::updateBottomToolbarContent(int count)
         m_countLabel->setText(tr("%1 images").arg(count));
     }
 
-    m_slider->setFixedWidth(count > 0 ? 120 : 1);
+    m_slider->setFixedWidth(count > 0 ? 110 : 1);
 }
 
 void TimelinePanel::updateMenuContents()

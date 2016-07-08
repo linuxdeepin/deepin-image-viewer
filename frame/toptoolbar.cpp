@@ -112,7 +112,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     p.setRenderHint(QPainter::Antialiasing);
 
     // Draw inside top border
-    const QColor tc(255, 255, 255, 25);
+    const QColor tc(255, 255, 255, 20);
     const int borderHeight = 1;
     QPainterPath tPath;
     tPath.moveTo(QPointF(x(), y() + borderHeight - 0.5));
@@ -123,8 +123,8 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     linearGrad.setStart(x(), y() + borderHeight);
     linearGrad.setFinalStop(x() + width(), y() + borderHeight);
     linearGrad.setColorAt(0, Qt::transparent);
-    linearGrad.setColorAt(0.01, tc);
-    linearGrad.setColorAt(0.99, tc);
+    linearGrad.setColorAt(0.005, tc);
+    linearGrad.setColorAt(0.995, tc);
     linearGrad.setColorAt(1, Qt::transparent);
     tPen.setBrush(QBrush(linearGrad));
     p.setPen(tPen);
