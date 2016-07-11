@@ -22,6 +22,7 @@
 #include <QHBoxLayout>
 #include <QKeySequence>
 #include <QTimer>
+#include <QProcess>
 #include <QDebug>
 
 #include <ddialog.h>
@@ -273,7 +274,7 @@ QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
 
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
-    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
+    return utils::image::getImagesInfo(QFileInfo(path).path(), true);
 }
 
 DatabaseManager *ViewPanel::dbManager() const
@@ -428,35 +429,22 @@ void ViewPanel::dropEvent(QDropEvent *event)
         return;
     }
 
-    if (urls.length() == 1) {  // Single file or directory
-        const QString path = urls.first().toLocalFile();
-        m_infos = getImageInfos(getFileInfos(path));
+    QFileInfoList finfos;
+    for (QUrl url : urls) {
+        const QString path = url.toLocalFile();
+        if (QFileInfo(path).isDir()) {
+            finfos <<  utils::image::getImagesInfo(path, false);
+        }
+        else
+            finfos << QFileInfo(path);
     }
-    else {  // Multi file or directory
-        m_infos.clear();
-        for (QUrl url : urls) {
-            const QString path = url.toLocalFile();
-            if (QFileInfo(path).isDir()) {
-                m_infos << getImageInfos(getFileInfos(path));
-            }
-            else {
-                if (utils::image::imageIsSupport(path)) {
-                    QFileInfoList finfos;
-                    finfos << QFileInfo(path);
-                    m_infos << getImageInfos(finfos);
-                }
-            }
+    for (QFileInfo info : finfos) {
+        if (utils::image::imageIsSupport(info.absoluteFilePath())) {
+            viewOnNewProcess(info.absoluteFilePath());
         }
     }
 
     event->accept();
-    if (m_infos.isEmpty()) {
-        return;
-    }
-
-    m_current = m_infos.cbegin();
-    m_album = "";
-    openImage(m_current->path);
 }
 
 void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
@@ -558,6 +546,15 @@ void ViewPanel::removeCurrentImage()
             m_stack->setCurrentIndex(1);
         }
     }
+}
+
+void ViewPanel::viewOnNewProcess(const QString &path)
+{
+    const QString pro = "deepin-image-viewer";
+    const QStringList args(path);
+    QProcess * p = new QProcess;
+    connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
+    p->start(pro, args);
 }
 
 void ViewPanel::initStack()

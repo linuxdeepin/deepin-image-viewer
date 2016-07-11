@@ -27,7 +27,7 @@ private:
     DatabaseManager *dbManager() const;
 
 private:
-    ImageButton *m_clBT;
+    ImageButton *m_clBT = nullptr;
     SignalManager *m_sManager;
     QString m_imageName;
     QString m_imagePath;

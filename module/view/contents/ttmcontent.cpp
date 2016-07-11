@@ -162,6 +162,7 @@ DatabaseManager *TTMContent::dbManager() const
 {
     return DatabaseManager::instance();
 }
+
 void TTMContent::updateCollectButton()
 {
     if (! m_clBT)
