@@ -2,6 +2,8 @@
 #include "utils/imageutils.h"
 #include <QApplication>
 #include <QFormLayout>
+#include <QFont>
+#include <QFontMetrics>
 #include <QLabel>
 #include <QMap>
 
@@ -42,9 +44,13 @@ void ImageInfoDialog::setPath(const QString &path)
     auto ei = utils::image::GetExifFromPath(path, true);
     for (const utils::image::ExifItem* i = exifItems; i->tag; ++i) {
         const QString v = ei.value(i->name);
+
+        QFont textFont;
+        QFontMetrics fm(textFont);
+        QString fontMetricText = fm.elidedText(v, Qt::ElideMiddle, 255);
         if (v.isEmpty()) {
             continue;
         }
-        addInfoPair(qApp->translate("ExifItemName", i->name) + ":", v);
+        addInfoPair(qApp->translate("ExifItemName", i->name) + ":", fontMetricText);
     }
 }
