@@ -263,7 +263,7 @@ QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
         imgInfo.time = utils::image::getCreateDateTime(imgInfo.path);
         imgInfo.albums = QStringList();
         imgInfo.labels = QStringList();
-        imgInfo.thumbnail = utils::image::getThumbnail(imgInfo.path);
+//        imgInfo.thumbnail = utils::image::getThumbnail(imgInfo.path);
 
         imageInfos << imgInfo;
     }
@@ -468,6 +468,8 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 void ViewPanel::onViewImage(const QString &path, const QStringList &paths,
                             const QString &album, bool inDB)
 {
+    openImage(path, inDB);
+
     m_inDB = inDB;
     m_album = album;
 
@@ -502,7 +504,6 @@ void ViewPanel::onViewImage(const QString &path, const QStringList &paths,
 
     // Not exist in DB, it must from FileManager
     m_current = m_infos.cbegin();
-    openImage(path, inDB);
 }
 
 void ViewPanel::toggleFullScreen()
@@ -922,7 +923,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     m_stack->setCurrentIndex(0);
 
-    emit imageChanged(m_current->name, m_current->path);
+    emit imageChanged(m_view->imageName(), m_view->imagePath());
     if (! inDB) {
         emit m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
