@@ -71,6 +71,7 @@ void TimelineImageView::onImageInserted(const DatabaseManager::ImageInfo &info)
     //       and I do not know why.
     if (m_frames[timeLine] == nullptr) {
         inserFrame(timeLine);
+        m_frames[timeLine]->setIconSize(m_iconSize);
     }
     m_frames[timeLine]->insertItem(info);
 }
@@ -179,6 +180,8 @@ void TimelineImageView::initTopTips()
 
 void TimelineImageView::initContents()
 {
+    m_stretchFrame = new QFrame;
+
     m_contentFrame = new QFrame;
     m_contentFrame->setObjectName("TimelinesContent");
     m_contentFrame->setAutoFillBackground(true);
@@ -258,7 +261,13 @@ void TimelineImageView::inserFrame(const QString &timeline, bool multiselection)
     if (!m_ascending) {
         timelines = reversed(timelines);
     }
+
+    // Aways put the stretch frame at the end of layout
+    QLayoutItem *item = m_contentLayout->takeAt(
+                m_contentLayout->indexOf(m_stretchFrame));
     m_contentLayout->insertWidget(timelines.indexOf(timeline), frame);
+    m_contentLayout->addWidget(m_stretchFrame, 1, Qt::AlignTop);
+    delete item;
 }
 
 void TimelineImageView::removeFrame(const QString &timeline)

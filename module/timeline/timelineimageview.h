@@ -52,6 +52,7 @@ private:
     TopTimelineTips *m_topTips;
     QVBoxLayout *m_contentLayout;
     QFrame *m_contentFrame;
+    QFrame *m_stretchFrame;
     QMap<QString, TimelineViewFrame *> m_frames;
     bool m_ascending;
     bool m_multiSelection;

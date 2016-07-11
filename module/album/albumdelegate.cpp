@@ -1,5 +1,6 @@
 #include "albumdelegate.h"
 #include "controller/databasemanager.h"
+#include "utils/imageutils.h"
 #include <QDateTime>
 #include <QLineEdit>
 #include <QPainter>
@@ -257,9 +258,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
 
     // Draw thumbnail in bg
     const QRect tRect = thumbnailRect(bgSize);
-    QPixmap scalePixmp = thumbnail.scaled(tRect.size(),
-                                          Qt::KeepAspectRatioByExpanding,
-                                          Qt::SmoothTransformation);
+    QPixmap scalePixmp = utils::image::cutSquareImage(thumbnail, tRect.size());
     painter.drawPixmap(tRect, scalePixmp);
 
     // Draw special mark

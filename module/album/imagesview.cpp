@@ -83,7 +83,7 @@ bool ImagesView::removeItem(const QString &name)
 
 void ImagesView::initContent()
 {
-    m_contentWidget = new QWidget();
+    m_contentWidget = new QWidget;
     m_contentWidget->setObjectName("ImagesViewContent");
     m_contentLayout = new QVBoxLayout(m_contentWidget);
     m_contentLayout->setContentsMargins(10, 70, 10, 20);
@@ -100,6 +100,7 @@ void ImagesView::initListView()
     m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
     m_contentLayout->addWidget(m_view);
+    m_contentLayout->addStretch(1);
 
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {

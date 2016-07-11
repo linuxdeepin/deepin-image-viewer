@@ -61,11 +61,10 @@ AlbumsView::AlbumsView(QWidget *parent)
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &AlbumsView::onMenuItemClicked);
-    connect(m_sManager, &SignalManager::imageCountChanged, this, [=] {
-        // DO NOT update during import
-        if (Importer::instance()->getProgress() == 1) {
+    connect(Importer::instance(), &Importer::importProgressChanged,
+            this, [=] (double progress) {
+        if (progress == 1)
             updateView();
-        }
     });
 }
 
