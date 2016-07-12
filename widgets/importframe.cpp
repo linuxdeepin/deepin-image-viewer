@@ -3,17 +3,18 @@
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include <QDropEvent>
-#include <QLabel>
+
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QFileDialog>
+#include <QLabel>
 
 ImportFrame::ImportFrame(QWidget *parent) : QWidget(parent)
 {
     this->setAcceptDrops(true);
 
-    QLabel *bgLabel = new QLabel();
-    bgLabel->setPixmap(QPixmap(":/images/resources/images/timeline_import_backimg.png"));
+    QLabel* bgLabel = new QLabel();
+    bgLabel->setPixmap(QPixmap(":/images/resources/images/no_picture.png"));
 
     QPushButton *importButton = new QPushButton(tr("Import"));
     importButton->setObjectName("ImportFrameButton");

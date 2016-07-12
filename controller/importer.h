@@ -31,7 +31,6 @@ public:
 
 signals:
     void importProgressChanged(double progress);
-    void importStart();
 private slots:
     void onFutureWatcherFinish();
     void onFutureResultReady(int index);

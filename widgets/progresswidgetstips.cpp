@@ -1,4 +1,4 @@
-#include "progressdialog.h"
+#include "progresswidgetstips.h"
 
 #include <QDesktopWidget>
 #include <QHBoxLayout>
@@ -10,17 +10,13 @@
 
 const int WIDTH = 330;
 const int HEIGHT = 62;
-ProgressDialog::ProgressDialog(QWidget *parent)
-    : QDialog(parent) {
-
-    setWindowFlags(Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground);
-
+ProgressWidgetsTips::ProgressWidgetsTips(QWidget *parent)
+    : QWidget(parent) {
     initUi();
     initConnect();
 }
 
-void ProgressDialog::initUi() {
+void ProgressWidgetsTips::initUi() {
     setFixedSize(WIDTH, HEIGHT);
     QFrame* backgroundFrame = new QFrame(this);
     backgroundFrame->setObjectName("ProgressDialog");
@@ -80,7 +76,7 @@ void ProgressDialog::initUi() {
     initStyleSheet();
 }
 
-void ProgressDialog::initStyleSheet()
+void ProgressWidgetsTips::initStyleSheet()
 {
     QFile f(":/qss/resources/qss/ProgressDialog.qss");
     if (f.open(QIODevice::ReadOnly)) {
@@ -92,65 +88,40 @@ void ProgressDialog::initStyleSheet()
     }
 }
 
-void ProgressDialog::setPos(QPoint pos) {
-    move(pos);
-}
-
-void ProgressDialog::initConnect() {
+void ProgressWidgetsTips::initConnect() {
     connect(m_cancelButton, &DImageButton::clicked, [=](){
         emit stopProgress();
         close();
     });
 
 
-    connect(this, &ProgressDialog::progressValueChanged, [=](int val){
+    connect(this, &ProgressWidgetsTips::progressValueChanged, [=](int val){
         if (val==1) {
             close();
         } else {
             setValue(val);
         }
     });
-    connect(this, &ProgressDialog::finished, this, &ProgressDialog::close);
+    connect(this, &ProgressWidgetsTips::finished, this, &ProgressWidgetsTips::close);
 }
 
-void ProgressDialog::setValue(int value) {
+void ProgressWidgetsTips::setValue(int value) {
     m_cirProgress->setValue(value);
 }
 
-void ProgressDialog::setTitle(QString title) {
+void ProgressWidgetsTips::setTitle(QString title) {
     m_title->setText(title);
     update();
 }
 
-void ProgressDialog::setTips(QString tips) {
+void ProgressWidgetsTips::setTips(QString tips) {
     m_tips->setText(tips);
     update();
 }
 
-void ProgressDialog::mousePressEvent(QMouseEvent *event)
-{
-    QRect rect = frameGeometry();
-    if(event->button() & Qt::LeftButton)
-    {
-        m_dragPos = event->globalPos() - rect.topLeft();
-    }
-    QDialog::mousePressEvent(event);
+void ProgressWidgetsTips::resizeEvent(QResizeEvent *event){
+
+    QWidget::resizeEvent(event);
 }
 
-void ProgressDialog::mouseReleaseEvent(QMouseEvent *event)
-{
-    QDialog::mouseReleaseEvent(event);
-}
-
-void ProgressDialog::mouseMoveEvent(QMouseEvent *event)
-{
-    move(event->globalPos() - m_dragPos);
-    QDialog::mouseMoveEvent(event);
-}
-
-void ProgressDialog::resizeEvent(QResizeEvent *event){
-
-    QDialog::resizeEvent(event);
-}
-
-ProgressDialog::~ProgressDialog() {}
+ProgressWidgetsTips::~ProgressWidgetsTips() {}

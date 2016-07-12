@@ -1,8 +1,7 @@
-#ifndef PROGRESSDIALOG_H
-#define PROGRESSDIALOG_H
+#ifndef PROGRESSWIDGETSTIPS_H
+#define PROGRESSWIDGETSTIPS_H
 
 #include <QDialog>
-#include <QMouseEvent>
 #include <QPushButton>
 #include <QResizeEvent>
 #include <dcircleprogress.h>
@@ -10,25 +9,23 @@
 
 using namespace Dtk::Widget;
 
-class ProgressDialog : public QDialog {
+class ProgressWidgetsTips : public QWidget {
     Q_OBJECT
 public:
-    ProgressDialog(QWidget* parent = 0);
-    ~ProgressDialog();
+    ProgressWidgetsTips(QWidget* parent = 0);
+    ~ProgressWidgetsTips();
     //set progress 's value
 public slots:
     void setValue(int value);
     void setTitle(QString title);
     void setTips(QString tips);
-    void setPos(QPoint pos);
+
 signals:
     void progressValueChanged(int value);
     void stopProgress();
     void finished();
 protected:
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
+
     void resizeEvent(QResizeEvent* event);
 private:
     void initUi();
@@ -42,4 +39,4 @@ private:
     QPoint m_dragPos;
 };
 
-#endif // PROGRESSDIALOG_H
+#endif // PROGRESSWIDGETSTIPS_H

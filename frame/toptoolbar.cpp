@@ -4,12 +4,13 @@
 #include "controller/signalmanager.h"
 #include "controller/importer.h"
 #include "frame/mainwindow.h"
-#include "widgets/progressdialog.h"
+#include "widgets/progresswidgetstips.h"
 #include <dcircleprogress.h>
 #include <dwindowminbutton.h>
 #include <dwindowclosebutton.h>
 #include <dwindowoptionbutton.h>
 #include <dwindowrestorebutton.h>
+#include <darrowrectangle.h>
 #include <QDebug>
 #include <QGradient>
 #include <QResizeEvent>
@@ -23,6 +24,7 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int ICON_MARGIN = 6;
+const int HIDE_INTERVAL = 3000;
 }  // namespace
 
 TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
@@ -43,8 +45,6 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     parent->installEventFilter(this);
     connect(this, SIGNAL(moving()),
             parentWidget()->parentWidget(), SLOT(startMoving()));
-    connect(Importer::instance(), &Importer::importStart, this,
-            &TopToolbar::initProgressDailog);
 }
 
 void TopToolbar::setLeftContent(QWidget *content)
@@ -149,11 +149,43 @@ void TopToolbar::initWidgets()
     importProgress->setValue(0);
     importProgress->setFixedSize(21, 21);
     importProgress->setVisible(false);
+    //importProgress's tooltip begin to init;
+    DArrowRectangle *importProgressWidget = new DArrowRectangle(DArrowRectangle::ArrowTop);
+    importProgressWidget->setArrowX(180);
+    importProgressWidget->setArrowWidth(15);
+    importProgressWidget->setArrowHeight(9);
+
+    ProgressWidgetsTips* progressWidgetTips = new ProgressWidgetsTips;
+    progressWidgetTips->setTitle(tr("Importing images"));
+    progressWidgetTips->setTips(QString(tr("%1 image(s) imported, please wait")).arg(0));
+    connect(Importer::instance(), &Importer::importProgressChanged, [=](double per) {
+        progressWidgetTips->setValue(int(per*100));
+        progressWidgetTips->setTips(QString("%1 image(s) imported, please wait").arg(Importer::instance()->finishedCount()));
+    });
+    connect(progressWidgetTips, &ProgressWidgetsTips::stopProgress, [=]{
+        Importer::instance()->stopImport();
+        importProgressWidget->hide();
+    });
+
+    importProgressWidget->setContent(progressWidgetTips);
+    //importProgress's tooltip end
     connect(Importer::instance(), &Importer::importProgressChanged,
             this, [=] (double progress) {
         importProgress->setVisible(progress != 1);
+        if (importProgress->isHidden()) {
+            importProgressWidget->hide();
+        }
         importProgress->setValue(progress * 100);
     });
+
+    connect(importProgress, &DCircleProgress::clicked, [=]{
+        if (importProgressWidget->isHidden()) {
+            importProgressWidget->show(window()->x()+window()->width() - importProgressWidget->width()/2 - 6, window()->y() + 45);
+        } else {
+            importProgressWidget->hide();
+        }
+    });
+
 
     DWindowOptionButton *ob = new DWindowOptionButton;
     connect(ob, &DWindowOptionButton::clicked, this, [=] {
@@ -291,19 +323,3 @@ void TopToolbar::showManual()
     }
 }
 
-void TopToolbar::initProgressDailog() {
-    ProgressDialog* proDailog =  new ProgressDialog;
-
-    proDailog->setTitle(tr("Importing images"));
-    proDailog->setTips(QString(tr("%1 image(s) imported, please wait")).arg(0));
-    proDailog->show();
-    connect(Importer::instance(), &Importer::importProgressChanged, [=](double per) {
-        if (per == 1) {
-            proDailog->close();
-        }
-        proDailog->setValue(int(per*100));
-        proDailog->setTips(QString("%1 image(s) imported, please wait").arg(Importer::instance()->finishedCount()));
-    });
-
-    connect(proDailog, &ProgressDialog::stopProgress, Importer::instance(), &Importer::stopImport);
-}

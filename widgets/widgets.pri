@@ -13,8 +13,8 @@ HEADERS += \
     $$PWD/slider.h \
     $$PWD/blureinfoframe.h \
     $$PWD/separator.h \
-    $$PWD/progressdialog.h \
-    $$PWD/thumbnaildelegate.h
+    $$PWD/thumbnaildelegate.h \
+    $$PWD/progresswidgetstips.h
 
 SOURCES += \
     $$PWD/dwindowframe.cpp \
@@ -31,8 +31,8 @@ SOURCES += \
     $$PWD/slider.cpp \
     $$PWD/blureinfoframe.cpp \
     $$PWD/separator.cpp \
-    $$PWD/progressdialog.cpp \
-    $$PWD/thumbnaildelegate.cpp
+    $$PWD/thumbnaildelegate.cpp \
+    $$PWD/progresswidgetstips.cpp
 
 RESOURCES += \
     $$PWD/widgets.qrc

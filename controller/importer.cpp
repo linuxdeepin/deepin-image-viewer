@@ -137,9 +137,6 @@ void Importer::importFromPath(const QString &path, const QString &album)
         return;
     }
 
-    if (m_cacheImportList.isEmpty())
-        emit importStart();
-
     m_futureWatcher.setPaused(true);
     for (QFileInfo info : infos) {
         m_cacheImportList.append(info.absoluteFilePath());

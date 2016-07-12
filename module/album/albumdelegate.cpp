@@ -236,7 +236,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     QPixmap thumbnail;
     thumbnail.loadFromData(datas[4].toByteArray());
     if (thumbnail.isNull()) {
-        thumbnail.load(":/images/resources/images/thumbnail_default.svg");
+        thumbnail.load(":/images/resources/images/new_album.png");
     }
 
     // Render background

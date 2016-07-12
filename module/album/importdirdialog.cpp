@@ -18,7 +18,7 @@ ImportDirDialog::ImportDirDialog(QWidget *parent, QWidget *source)
     layout->setSpacing(10);
 
     m_icon = new QLabel;
-    m_icon->setPixmap(QPixmap(":/images/resources/images/new_album.png"));
+    m_icon->setPixmap(QPixmap(":/images/resources/images/import_dir.png"));
     layout->addWidget(m_icon);
 
     QLabel *title = new QLabel();

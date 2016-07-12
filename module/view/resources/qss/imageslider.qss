@@ -3,6 +3,8 @@ QSlider {
     margin: 5px 9px 10px 8px;
 }
 QSlider::handle:vertical {
+    width: 22px;
+    height: 14px;
     image: url(:/images/resources/images/rectangle.png);
 }
 

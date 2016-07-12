@@ -5,7 +5,6 @@
         <file>resources/images/album_bg_selected.png</file>
         <file>resources/images/album_favorites.png</file>
         <file>resources/images/album_recent_imported.png</file>
-        <file>resources/images/thumbnail_default.svg</file>
         <file>resources/images/album_active.png</file>
         <file>resources/images/album_hover.png</file>
         <file>resources/images/album_normal.png</file>
@@ -19,6 +18,7 @@
         <file>resources/images/timeline_hover.png</file>
         <file>resources/images/timeline_normal.png</file>
         <file>resources/images/new_album.png</file>
+        <file>resources/images/import_dir.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/album.qss</file>
