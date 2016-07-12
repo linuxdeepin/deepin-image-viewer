@@ -14,3 +14,7 @@ QPushButton[FirstButton="true"] {
 QPushButton:hover {
     color: #FFFFFF;
 }
+
+QPushButton:disabled {
+    color: rgba(255, 255, 255, .4);
+}

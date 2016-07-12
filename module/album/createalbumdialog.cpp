@@ -26,9 +26,16 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
     QLineEdit *edit = new QLineEdit;
     edit->setObjectName("CreateEdit");
     edit->setText(getNewAlbumName());
+    edit->selectAll();
     connect(edit, &QLineEdit::returnPressed, this, [=] {
-        createAlbum(edit->text().trimmed());
-        this->close();
+        const QString album = edit->text().trimmed();
+        if (! album.isEmpty()) {
+            createAlbum(album);
+            this->close();
+        }
+    });
+    connect(edit, &QLineEdit::textChanged, this, [=] (const QString &t) {
+        disableButton(tr("OK"), t.isEmpty());
     });
     QVBoxLayout *rl = new QVBoxLayout;
     rl->setContentsMargins(0, 0, 0, 0);

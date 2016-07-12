@@ -11,6 +11,7 @@ class BlureDialog : public BlureFrame
     Q_OBJECT
 public:
     explicit BlureDialog(QWidget *parent, QWidget *source);
+    void disableButton(const QString &name, bool disable);
     void addButton(const QString &name, int id);
     void setContent(QWidget *content);
     void close();

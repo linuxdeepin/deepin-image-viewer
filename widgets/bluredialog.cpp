@@ -43,6 +43,19 @@ BlureDialog::BlureDialog(QWidget *parent, QWidget *source)
                       ":/qss/resources/qss/BlureDialog.qss"));
 }
 
+void BlureDialog::disableButton(const QString &name, bool disable)
+{
+    for (int i = 0; i < m_buttonsLayout->count(); i ++) {
+        QPushButton *button =
+            qobject_cast<QPushButton *>(m_buttonsLayout->itemAt(i)->widget());
+        if (button) {
+            if (name == button->text()) {
+                button->setDisabled(disable);
+            }
+        }
+    }
+}
+
 void BlureDialog::addButton(const QString &name, int id)
 {
     QPushButton *button = new QPushButton(name);

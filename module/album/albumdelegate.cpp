@@ -92,10 +92,11 @@ void AlbumDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
         QList<QVariant> datas;
         const QStringList l = DatabaseManager::instance()->getAlbumNameList();
         QString nName = lineEdit->text().trimmed();
-        if (l.indexOf(nName) != -1) {
+        if (l.indexOf(nName) != -1 || nName.isEmpty()) {
             // Name is already exit in DB, do not rename by LineEdit's text
             nName = olds.first().toString();
         }
+        lineEdit->setText(nName);
         datas.append(QVariant(nName));
         for (int i = 1; i < olds.length(); i ++) {
             datas.append(olds.at(i));
