@@ -21,10 +21,10 @@ class ImagesView : public QScrollArea
 public:
     explicit ImagesView(QWidget *parent = 0);
     void setAlbum(const QString &album);
-    void updateView();
     void insertItem(const DatabaseManager::ImageInfo &info);
     bool removeItem(const QString &name);
 
+    int count() const;
     QSize iconSize() const;
     void setIconSize(const QSize &iconSize);
     QStringList selectedImagesNameList() const;

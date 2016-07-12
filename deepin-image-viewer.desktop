@@ -8,4 +8,4 @@ Name[zh_CN]=深度看图
 Comment=Deepin Image Viewer
 StartupNotify=false
 Type=Application
-MimeType=image/bmp;image/gif;image/jpg;image/png;image/pbm;image/pgm;image/ppm;image/xbm;image/xpm;image/svg;image/dds;image/icns;     image/jp2;image/mng;image/tga;image/tiff;image/wbmp;image/webp;
+MimeType=image/bmp;image/gif;image/jpg;image/png;image/pbm;image/pgm;image/ppm;image/xbm;image/xpm;image/svg;image/dds;image/icns;image/jp2;image/mng;image/tga;image/tiff;image/wbmp;image/webp;

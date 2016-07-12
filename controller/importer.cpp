@@ -136,8 +136,7 @@ void Importer::importFromPath(const QString &path, const QString &album)
 
 void Importer::importSingleFile(const QString &filePath, const QString &album)
 {
-    if (QImage(filePath).isNull()
-            || m_dbManager->imageExist(QFileInfo(filePath).fileName()))
+    if (QImage(filePath).isNull())
         return;
     m_albums.insert(filePath, album);
     m_cacheImportList << filePath;

@@ -48,7 +48,7 @@ signals:
     void createAlbum();
     void importDir(const QString &dir);
     void showProcessTooltip(const QString &message, bool success);
-    void insertIntoAlbum(const QString &album, const QString &name);
+    void insertIntoAlbum(const DatabaseManager::ImageInfo info);
     void removeFromAlbum(const QString &album, const QString &name);
 
 private:

@@ -27,11 +27,11 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
     QSqlDatabase db = getDatabase();
 
     if (db.isValid()) {
-        for (QString album : info.albums) {
-            insertImageIntoAlbum(album, info.name,
-                                 utils::base::timeToString(info.time));
-        }
         if (imageExist(info.name)) {
+            for (QString album : info.albums) {
+                insertImageIntoAlbum(album, info.name,
+                                     utils::base::timeToString(info.time));
+            }
             return;
         }
 
@@ -70,6 +70,12 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
             // All new image should add to the album "Recent imported"
             insertImageIntoAlbum("Recent imported", info.name,
                                  utils::base::timeToString(info.time));
+
+            // Insert into album when image info is inserted into DB
+            for (QString album : info.albums) {
+                insertImageIntoAlbum(album, info.name,
+                                     utils::base::timeToString(info.time));
+            }
         }
     }
 
@@ -277,7 +283,9 @@ void DatabaseManager::insertImageIntoAlbum(const QString &albumname,
         }
 
         // For UI update
-        emit SignalManager::instance()->insertIntoAlbum(albumname, filename);
+        ImageInfo info = getImageInfoByName(filename);
+        info.albums << albumname;
+        emit SignalManager::instance()->insertIntoAlbum(info);
     }
 }
 

@@ -64,9 +64,9 @@ void TimelineImageView::clearImages()
 
 void TimelineImageView::onImageInserted(const DatabaseManager::ImageInfo &info)
 {
-    if (! isVisible()) {
-        return;
-    }
+//    if (! isVisible()) {
+//        return;
+//    }
     const QString timeLine = utils::base::timeToString(info.time, true);
     // TimeLine frame not exist, create one
     // Note: use m_frames.keys().indexOf(timeLine) will cause[QObject::connect:

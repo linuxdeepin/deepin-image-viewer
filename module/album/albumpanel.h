@@ -38,11 +38,12 @@ private:
     void initImagesView();
     void initStyleSheet();
 
-    void updateBottomToolbarContent();
+    void updateImagesCount();
+    void updateAlbumCount();
     void showCreateDialog();
     void showImportDirDialog(const QString &dir);
     void onImageCountChanged(int count);
-    void onInsertIntoAlbum(const QString &album, const QString &name);
+    void onInsertIntoAlbum(const DatabaseManager::ImageInfo info);
 
 private:
     QString m_currentAlbum;

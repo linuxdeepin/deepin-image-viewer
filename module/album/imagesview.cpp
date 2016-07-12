@@ -49,8 +49,6 @@ ImagesView::ImagesView(QWidget *parent)
 
 void ImagesView::setAlbum(const QString &album)
 {
-    if (m_album == album)
-        return;
     m_album = album;
 
     m_view->clearData();
@@ -74,14 +72,14 @@ void ImagesView::setAlbum(const QString &album)
     updateTopTipsRect();
 }
 
-void ImagesView::updateView()
-{
-    setAlbum(m_album);
-}
-
 bool ImagesView::removeItem(const QString &name)
 {
     return m_view->removeItem(name);
+}
+
+int ImagesView::count() const
+{
+    return m_view->count();
 }
 
 void ImagesView::initContent()
@@ -99,7 +97,7 @@ void ImagesView::initContent()
 
 void ImagesView::initListView()
 {
-    m_view = new ThumbnailListView(this);
+    m_view = new ThumbnailListView();
     m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
     m_contentLayout->addWidget(m_view);
@@ -254,17 +252,17 @@ void ImagesView::onMenuItemClicked(int menuId)
     case IdMoveToTrash: {
         for (QString path : pList) {
             const QString name = QFileInfo(path).fileName();
+            removeItem(name);
             m_dbManager->removeImageFromAlbum(m_album, name);
             m_dbManager->removeImage(name);
-            removeItem(name);
             utils::base::trashFile(path);
         }
         break;
     }
     case IdRemoveFromAlbum:
         for (QString name : nList) {
-            m_dbManager->removeImageFromAlbum(m_album, name);
             removeItem(name);
+            m_dbManager->removeImageFromAlbum(m_album, name);
         }
         break;
 //    case IdEdit:

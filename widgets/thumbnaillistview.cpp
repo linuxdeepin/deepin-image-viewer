@@ -16,7 +16,6 @@ namespace {
 
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
-const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }  //namespace
 

@@ -69,7 +69,7 @@ QWidget *AlbumPanel::toolbarBottomContent()
     m_countLabel->setAlignment(Qt::AlignLeft);
     m_countLabel->setObjectName("CountLabel");
 
-    updateBottomToolbarContent();
+    updateAlbumCount();
 
     connect(m_sManager, &SignalManager::selectImageFromTimeline, this, [=] {
         emit m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
@@ -173,28 +173,26 @@ QWidget *AlbumPanel::extensionPanelContent()
 void AlbumPanel::dropEvent(QDropEvent *event)
 {
     QList<QUrl> urls = event->mimeData()->urls();
-    if (!urls.isEmpty()) {
-        for (QUrl url : urls) {
-            const QString path = url.toLocalFile();
-            if (QFileInfo(path).isDir()) {
-                if (m_stackWidget->currentWidget() == m_albumsView) {
-                    showImportDirDialog(path);
-                }
-                else {
-                    Importer::instance()->importFromPath(
-                                path, m_imagesView->getCurrentAlbum());
-                }
+    if (urls.isEmpty())
+        return;
+
+    const QString currentAlbum = m_imagesView->getCurrentAlbum();
+    for (QUrl url : urls) {
+        const QString path = url.toLocalFile();
+        if (QFileInfo(path).isDir()) {
+            if (m_stackWidget->currentWidget() == m_albumsView) {
+                showImportDirDialog(path);
             }
             else {
-                if (utils::image::imageIsSupport(path)) {
-                    if (m_stackWidget->currentWidget() == m_albumsView) {
-                        Importer::instance()->importSingleFile(path);
-                    }
-                    else {
-                        Importer::instance()->importSingleFile(
-                                    path, m_imagesView->getCurrentAlbum());
-                    }
-                }
+                Importer::instance()->importFromPath(path, currentAlbum);
+            }
+        }
+        else {
+            if (m_stackWidget->currentWidget() == m_albumsView) {
+                Importer::instance()->importSingleFile(path);
+            }
+            else {
+                Importer::instance()->importSingleFile(path, currentAlbum);
             }
         }
     }
@@ -219,7 +217,8 @@ void AlbumPanel::initMainStackWidget()
     //show import frame if no images in database
     m_stackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
     connect(m_stackWidget, &QStackedWidget::currentChanged, this, [=] {
-        updateBottomToolbarContent();
+        updateImagesCount();
+        updateAlbumCount();
         emit m_sManager->updateTopToolbarLeftContent(
                     toolbarTopLeftContent());
     });
@@ -236,17 +235,19 @@ void AlbumPanel::initAlbumsView()
     connect(m_albumsView, &AlbumsView::openAlbum,
             this, &AlbumPanel::onOpenAlbum);
     connect(m_albumsView, &AlbumsView::albumCreated,
-            this, &AlbumPanel::updateBottomToolbarContent,
+            this, &AlbumPanel::updateAlbumCount,
             Qt::QueuedConnection);
     connect(m_albumsView, &AlbumsView::albumRemoved,
-            this, &AlbumPanel::updateBottomToolbarContent);
+            this, &AlbumPanel::updateAlbumCount);
 }
 
 void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
     connect(m_sManager, &SignalManager::insertIntoAlbum,
-            this, &AlbumPanel::onInsertIntoAlbum, Qt::DirectConnection);
+            this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
+    connect(m_sManager, &SignalManager::removeFromAlbum,
+            this, &AlbumPanel::updateImagesCount);
 }
 
 void AlbumPanel::initStyleSheet()
@@ -261,41 +262,40 @@ void AlbumPanel::initStyleSheet()
     sf.close();
 }
 
-void AlbumPanel::updateBottomToolbarContent()
+void AlbumPanel::updateImagesCount()
 {
-    if (! this->isVisible()) {
+    if (m_stackWidget->currentWidget() != m_imagesView)
         return;
-    }
 
-    const int albumCount = m_dbManager->albumsCount();
-    const int imagesCount = m_dbManager->getImagesCountByAlbum(m_currentAlbum);
-    const bool inAlbumsFrame = m_stackWidget->currentIndex() == 1;
-    const int count = inAlbumsFrame ? albumCount : imagesCount;
+    const int count = m_imagesView->count();
+    QString text = QString::number(count) + " " +
+            (count <= 1 ? tr("Image") : tr("Images"));
+    m_countLabel->setText(text);
 
-    if (count <= 1) {
-        m_countLabel->setText(QString("%1 %2")
-                              .arg(count)
-                              .arg(inAlbumsFrame ? tr("Album") : tr("Image")));
-    }
-    else {
-        m_countLabel->setText(QString("%1 %2")
-                              .arg(count)
-                              .arg(inAlbumsFrame ? tr("Albums") : tr("Images")));
-    }
+    m_slider->setValue(m_setter->value(SETTINGS_GROUP,
+                                       SETTINGS_IMAGE_ICON_SCALE_KEY,
+                                       QVariant(0)).toInt());
 
     //set width to 1px for layout center
     m_slider->setFixedWidth(count > 0 ? 110 : 1);
-    if (m_stackWidget->currentWidget() == m_albumsView) {
-        m_slider->setValue(m_setter->value(SETTINGS_GROUP,
-                                           SETTINGS_ALBUM_ICON_SCALE_KEY,
-                                           QVariant(0)).toInt());
-    }
-    else {
-        m_slider->setValue(m_setter->value(SETTINGS_GROUP,
-                                           SETTINGS_IMAGE_ICON_SCALE_KEY,
-                                           QVariant(0)).toInt());
-    }
+}
 
+void AlbumPanel::updateAlbumCount()
+{
+    if (m_stackWidget->currentWidget() != m_albumsView)
+        return;
+
+    const int count = m_dbManager->albumsCount();
+    QString text = QString::number(count) + " " +
+            (count <= 1 ? tr("Album") : tr("Albums"));
+    m_countLabel->setText(text);
+
+    m_slider->setValue(m_setter->value(SETTINGS_GROUP,
+                                       SETTINGS_ALBUM_ICON_SCALE_KEY,
+                                       QVariant(0)).toInt());
+
+    //set width to 1px for layout center
+    m_slider->setFixedWidth(count > 0 ? 110 : 1);
 }
 
 void AlbumPanel::showCreateDialog()
@@ -332,21 +332,22 @@ void AlbumPanel::onImageCountChanged(int count)
 {
     if (! isVisible())
         return;
-    updateBottomToolbarContent();
+
     if (count > 0 && m_stackWidget->currentIndex() == 0) {
         m_stackWidget->setCurrentIndex(1);
     }
     else if (count == 0 && m_stackWidget->currentIndex() == 1) {
         m_stackWidget->setCurrentIndex(0);
     }
+    updateImagesCount();
 }
 
-void AlbumPanel::onInsertIntoAlbum(const QString &album, const QString &name)
+void AlbumPanel::onInsertIntoAlbum(const DatabaseManager::ImageInfo info)
 {
-    if (Importer::instance()->getProgress() == 1
-            && m_imagesView->isVisible()
-            && album == m_imagesView->getCurrentAlbum()) {
-        m_imagesView->insertItem(m_dbManager->getImageInfoByName(name));
+    if (m_imagesView->isVisible()
+            && info.albums.contains(m_imagesView->getCurrentAlbum())) {
+        m_imagesView->insertItem(info);
+        updateImagesCount();
     }
 }
 
@@ -355,7 +356,13 @@ void AlbumPanel::onOpenAlbum(const QString &album)
     qDebug() << "Open Album : " << album;
     m_currentAlbum = album;
     m_stackWidget->setCurrentIndex(2);
+    const int multiple = m_setter->value(SETTINGS_GROUP,
+                                         SETTINGS_IMAGE_ICON_SCALE_KEY,
+                                         QVariant(0)).toInt();
+    int newSize = MIN_ICON_SIZE + multiple * 32;
+    m_imagesView->setIconSize(QSize(newSize, newSize));
     m_imagesView->setAlbum(album);
+    TIMER_SINGLESHOT(1000, {updateImagesCount();}, this);
 }
 
 void AlbumPanel::onCreateAlbum()
