@@ -7,6 +7,7 @@
 #include "controller/wallpapersetter.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "dscrollbar.h"
 #include <QFileInfo>
 #include <QStandardItem>
 #include <QJsonArray>
@@ -27,10 +28,12 @@ ImagesView::ImagesView(QWidget *parent)
       m_dbManager(DatabaseManager::instance()),
       m_sManager(SignalManager::instance())
 {
+    setVerticalScrollBar(new Dtk::Widget::DScrollBar());
+
     initContent();
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     updateMenuContents();
@@ -86,7 +89,7 @@ void ImagesView::initContent()
     m_contentWidget = new QWidget;
     m_contentWidget->setObjectName("ImagesViewContent");
     m_contentLayout = new QVBoxLayout(m_contentWidget);
-    m_contentLayout->setContentsMargins(10, 70, 10, 20);
+    m_contentLayout->setContentsMargins(10, 70, 6, 20);
 
     setWidget(m_contentWidget);
 

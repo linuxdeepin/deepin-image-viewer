@@ -1,5 +1,6 @@
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
+#include "dthememanager.h"
 
 #include <QApplication>
 #include <DLog>
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
     CommandLine *cl = CommandLine::instance();
 
     if (cl->processOption()) {
+        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
         dInfo()<< "LogFile:" << DLogManager::getlogFilePath();

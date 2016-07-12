@@ -4,6 +4,7 @@
 #include "controller/importer.h"
 #include "controller/configsetter.h"
 #include "utils/baseutils.h"
+#include "dscrollbar.h"
 #include <math.h>
 #include <QEvent>
 #include <QPushButton>
@@ -28,13 +29,15 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
       m_multiSelection(multiselection),
       m_iconSize(96, 96)
 {
-    initSliderFrame();
+    setVerticalScrollBar(new Dtk::Widget::DScrollBar());
+
+//    initSliderFrame();
     initTopTips();
     initContents();
 
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
@@ -142,25 +145,25 @@ void TimelineImageView::resizeEvent(QResizeEvent *e)
 
 void TimelineImageView::initSliderFrame()
 {
-    m_sliderFrame = new SliderFrame(this);
-    connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
-        if (m_sliderFrame->isVisible()) {
-            if (m_sliderFrame->containsMouse()) {
-                verticalScrollBar()->setValue(
-                            (1 - perc) * (verticalScrollBar()->maximum()
-                                          - verticalScrollBar()->minimum()));
-            }
-        }
-    });
-    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
-//        qDebug() << m_vScrollBar->value()
-//                 << m_vScrollBar->maximum()
-//                 << m_vScrollBar->minimum();
-        m_sliderFrame->setValue(scrollingPercent());
-        QString month = currentMonth();
-        m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
-    });
-    m_sliderFrame->hide();
+//    m_sliderFrame = new SliderFrame(this);
+//    connect(m_sliderFrame, &SliderFrame::valueChanged, this, [this](double perc) {
+//        if (m_sliderFrame->isVisible()) {
+//            if (m_sliderFrame->containsMouse()) {
+//                verticalScrollBar()->setValue(
+//                            (1 - perc) * (verticalScrollBar()->maximum()
+//                                          - verticalScrollBar()->minimum()));
+//            }
+//        }
+//    });
+//    connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
+////        qDebug() << m_vScrollBar->value()
+////                 << m_vScrollBar->maximum()
+////                 << m_vScrollBar->minimum();
+//        m_sliderFrame->setValue(scrollingPercent());
+//        QString month = currentMonth();
+//        m_sliderFrame->setCurrentInfo(month, DatabaseManager::instance()->getImagesCountByMonth(month));
+//    });
+//    m_sliderFrame->hide();
 }
 
 void TimelineImageView::initTopTips()
@@ -294,8 +297,8 @@ void TimelineImageView::removeImage(const QString &name)
 
 void TimelineImageView::updateSliderFrmaeRect()
 {
-    m_sliderFrame->move(0, 0);
-    m_sliderFrame->resize(SLIDER_FRAME_WIDTH, height());
+//    m_sliderFrame->move(0, 0);
+//    m_sliderFrame->resize(SLIDER_FRAME_WIDTH, height());
 }
 
 void TimelineImageView::updateContentRect()

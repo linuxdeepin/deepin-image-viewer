@@ -48,7 +48,7 @@ private:
     double scrollingPercent();
 
 private:
-    SliderFrame *m_sliderFrame;
+//    SliderFrame *m_sliderFrame;
     TopTimelineTips *m_topTips;
     QVBoxLayout *m_contentLayout;
     QFrame *m_contentFrame;
