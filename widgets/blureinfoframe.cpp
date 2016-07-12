@@ -4,7 +4,6 @@
 #include <dwindowclosebutton.h>
 #include <QLabel>
 #include <QEvent>
-#include <QDebug>
 
 class SimpleFormLabel : public QLabel {
     Q_OBJECT
@@ -88,8 +87,8 @@ void BlureInfoFrame::addInfoPair(const QString &title, const QString &value)
     QFont f;
     f.setPixelSize(12);
     QFontMetrics fm(f);
-    m_leftMax = qMax(fm.width(title), m_leftMax);
-    m_rightMax = qMax(fm.width(value), m_rightMax);
+    m_leftMax = qMax(fm.boundingRect(title).width(), m_leftMax);
+    m_rightMax = qMax(fm.boundingRect(value).width(), m_rightMax);
     m_infoFrame->setFixedWidth(qMin((m_leftMax + m_rightMax), (width() - 16)));
 }
 
