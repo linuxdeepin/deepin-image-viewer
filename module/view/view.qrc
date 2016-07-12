@@ -57,6 +57,7 @@
         <file>resources/images/delete_disable.png</file>
         <file>resources/images/next_disable.png</file>
         <file>resources/images/previous_disable.png</file>
+        <file>resources/images/slider_background.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/view.qss</file>

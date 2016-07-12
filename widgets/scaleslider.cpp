@@ -69,15 +69,6 @@ void ScaleSlider::paintEvent(QPaintEvent *e)
         else {
             p.drawLine(width() / 2, handle.height() / 2, width() / 2, height() - handle.height() / 2);
         }
-    } else {
-        p.setBrush(m_brushColor);
-        if (orientation() == Qt::Horizontal) {
-             p.drawRoundedRect(QRect(this->rect().x(), this->rect().y() + this->rect().height()/2 - 3, this->rect().width(), 2*2), 1, 1);
-        }
-        else {
-            p.drawRoundedRect(QRect(this->rect().x() + this->rect().width()/2 - 3, this->rect().y() + 3, 2*2, this->rect().height() - 10), 1, 1);
-
-        }
     }
 
     // draw the slider handle
