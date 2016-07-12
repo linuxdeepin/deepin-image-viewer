@@ -69,7 +69,6 @@ void ImageWidget::setImageMove(int x, int y)
 
 void ImageWidget::setScaleValue(qreal value)
 {
-    qDebug() << value;
     if (m_image.isNull())
         return;
 
