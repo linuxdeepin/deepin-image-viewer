@@ -85,11 +85,17 @@ const QString CreateAlbumDialog::getNewAlbumName() const
         return nan;
     }
     else if (countList.length() == 1) {
-        return nan + QString::number(1);
+        return nan + QString::number(2);
     }
     else {
         qSort(countList.begin(), countList.end());
+        if (countList.first() != 0)
+            return nan;
         for (int c : countList) {
+            if (c == 0) {
+                // Index star from 2.
+                c = 1;
+            }
             if (countList.indexOf(c + 1) == -1) {
                 return nan + QString::number(c + 1);
             }
