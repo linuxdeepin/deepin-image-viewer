@@ -16,12 +16,6 @@ Importer::Importer(QObject *parent)
       m_progress(1),
       m_imagesCount(0)
 {
-    m_sleepTimer = new QTimer(this);
-    m_sleepTimer->setSingleShot(true);
-    m_sleepTimer->setInterval(2000);
-    connect(m_sleepTimer, &QTimer::timeout, this, &Importer::nap);
-    m_sleepTimer->start();
-
     connect(&m_futureWatcher, SIGNAL(finished()),
             this, SLOT(onFutureWatcherFinish()));
     connect(&m_futureWatcher, SIGNAL(resultReadyAt(int)),
@@ -101,11 +95,9 @@ int Importer::finishedCount() const
 void Importer::nap()
 {
     if (m_progress != 1) {
-        m_sleepTimer->stop();
         m_futureWatcher.setPaused(true);
         TIMER_SINGLESHOT(500,
-        {m_futureWatcher.setPaused(false);
-                         m_sleepTimer->start();},this);
+        {m_futureWatcher.setPaused(false);},this);
     }
 }
 
@@ -151,8 +143,6 @@ void Importer::importFromPath(const QString &path, const QString &album)
 
     if (m_cacheImportList.isEmpty())
         m_dbManager->clearRecentImported();
-
-    m_sleepTimer->start();
 }
 
 void Importer::importSingleFile(const QString &filePath, const QString &album)
@@ -168,8 +158,6 @@ void Importer::importSingleFile(const QString &filePath, const QString &album)
 
     if (m_cacheImportList.isEmpty())
         m_dbManager->clearRecentImported();
-
-    m_sleepTimer->start();
 }
 
 void Importer::onFutureWatcherFinish()

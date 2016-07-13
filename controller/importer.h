@@ -45,7 +45,6 @@ private:
     QStringList m_cacheImportList;
     QMap<QString, QString> m_albums;  // <path, album>
     QFutureWatcher<QString> m_futureWatcher;
-    QTimer *m_sleepTimer;
     double m_progress;
     int m_imagesCount;
 };

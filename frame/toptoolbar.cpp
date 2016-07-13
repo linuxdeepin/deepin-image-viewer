@@ -24,7 +24,7 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int ICON_MARGIN = 6;
-const int HIDE_INTERVAL = 3000;
+
 }  // namespace
 
 TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
@@ -158,7 +158,8 @@ void TopToolbar::initWidgets()
     ProgressWidgetsTips* progressWidgetTips = new ProgressWidgetsTips;
     progressWidgetTips->setTitle(tr("Importing images"));
     progressWidgetTips->setTips(QString(tr("%1 image(s) imported, please wait")).arg(0));
-    connect(Importer::instance(), &Importer::importProgressChanged, [=](double per) {
+    connect(Importer::instance(), &Importer::importProgressChanged,
+            [=](double per) {
         progressWidgetTips->setValue(int(per*100));
         progressWidgetTips->setTips(QString("%1 image(s) imported, please wait").arg(Importer::instance()->finishedCount()));
     });
@@ -179,6 +180,7 @@ void TopToolbar::initWidgets()
     });
 
     connect(importProgress, &DCircleProgress::clicked, [=]{
+        Importer::instance()->nap();
         if (importProgressWidget->isHidden()) {
             importProgressWidget->show(window()->x()+window()->width() - importProgressWidget->width()/2 - 6, window()->y() + 45);
         } else {

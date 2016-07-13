@@ -14,7 +14,6 @@
 
 namespace {
 
-const int SLIDER_FRAME_WIDTH = 130;
 const int TOP_TOOLBAR_HEIGHT = 40;
 
 const int MIN_ICON_SIZE = 96;
