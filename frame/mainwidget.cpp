@@ -1,4 +1,5 @@
 #include "mainwidget.h"
+#include "controller/importer.h"
 #include "utils/baseutils.h"
 #include "widgets/processtooltip.h"
 #include "imageinfodialog.h"
@@ -77,6 +78,9 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     if (p.isNull()) {
         return;
     }
+
+    Importer::instance()->nap();
+
     m_panelStack->setCurrentWidget(panel);
     emit m_signalManager->updateTopToolbarLeftContent(panel->toolbarTopLeftContent());
     emit m_signalManager->updateTopToolbarMiddleContent(panel->toolbarTopMiddleContent());
@@ -125,11 +129,15 @@ void MainWidget::initTopToolbar()
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
-    connect(m_signalManager, &SignalManager::updateTopToolbarLeftContent, this, [=](QWidget *c) {
-        m_topToolbar->setLeftContent(c);
+    connect(m_signalManager, &SignalManager::updateTopToolbarLeftContent,
+            this, [=](QWidget *c) {
+        if (c != nullptr)
+            m_topToolbar->setLeftContent(c);
     });
-    connect(m_signalManager, &SignalManager::updateTopToolbarMiddleContent, this, [=](QWidget *c) {
-        m_topToolbar->setMiddleContent(c);
+    connect(m_signalManager, &SignalManager::updateTopToolbarMiddleContent,
+            this, [=](QWidget *c) {
+        if (c != nullptr)
+            m_topToolbar->setMiddleContent(c);
     });
     connect(m_signalManager, &SignalManager::showTopToolbar, this, [=] {
 //        m_topToolbar->moveWithAnimation(0, 0);
@@ -155,6 +163,8 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     connect(m_signalManager, &SignalManager::updateBottomToolbarContent,
             this, [=](QWidget *c, bool wideMode) {
+        if (c == nullptr)
+            return;
         m_bottomToolbar->setContent(c);
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(38);
@@ -193,9 +203,11 @@ void MainWidget::initExtensionPanel()
     m_extensionPanel->move(- EXTENSION_PANEL_WIDTH, 0);
     connect(m_signalManager, &SignalManager::updateExtensionPanelContent,
             this, [=](QWidget *c) {
-        m_extensionPanel->setContent(c);
+        if (c != nullptr)
+            m_extensionPanel->setContent(c);
     });
-    connect(m_signalManager, &SignalManager::updateExtensionPanelRect, this, [=] {
+    connect(m_signalManager, &SignalManager::updateExtensionPanelRect,
+            this, [=] {
         m_extensionPanel->updateRectWithContent();
     });
     connect(m_signalManager, &SignalManager::showExtensionPanel, this, [=] {

@@ -261,9 +261,9 @@ QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
         DatabaseManager::ImageInfo imgInfo;
         imgInfo.name = infos.at(i).fileName();
         imgInfo.path = infos.at(i).absoluteFilePath();
-        imgInfo.time = utils::image::getCreateDateTime(imgInfo.path);
-        imgInfo.albums = QStringList();
-        imgInfo.labels = QStringList();
+//        imgInfo.time = utils::image::getCreateDateTime(imgInfo.path);
+//        imgInfo.albums = QStringList();
+//        imgInfo.labels = QStringList();
 //        imgInfo.thumbnail = utils::image::getThumbnail(imgInfo.path);
 
         imageInfos << imgInfo;
@@ -456,10 +456,15 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 void ViewPanel::onViewImage(const QString &path, const QStringList &paths,
                             const QString &album, bool inDB)
 {
-    openImage(path, inDB);
-
     m_inDB = inDB;
     m_album = album;
+
+    m_nav->setImage(QImage());
+    emit m_sManager->gotoPanel(this);
+
+    TIMER_SINGLESHOT(100, {
+
+    openImage(path, inDB);
 
     if (! paths.isEmpty()) {
         QFileInfoList list;
@@ -485,13 +490,14 @@ void ViewPanel::onViewImage(const QString &path, const QStringList &paths,
     m_current = m_infos.cbegin();
     for (; m_current != m_infos.cend(); m_current ++) {
         if (m_current->path == path) {
-            openImage(path, inDB);
             return;
         }
     }
 
     // Not exist in DB, it must from FileManager
     m_current = m_infos.cbegin();
+
+                         }, this, path, paths, album, inDB)
 }
 
 void ViewPanel::toggleFullScreen()
@@ -734,9 +740,13 @@ QJsonValue ViewPanel::createMenuItem(const ViewPanel::MenuItemId id,
 
 void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 {
+    using namespace utils::base;
+    using namespace utils::image;
+
     const QStringList mtl = text.split(SHORTCUT_SPLIT_FLAG);
     const QString name = m_current->name;
     const QString path = m_current->path;
+    const QString time = timeToString(getCreateDateTime(path));
     QString albumName = mtl.isEmpty() ? "" : mtl.first();
 
     switch (MenuItemId(menuId)) {
@@ -747,8 +757,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         toggleSlideShow();
         break;
     case IdAddToAlbum:
-        dbManager()->insertImageIntoAlbum(albumName, name,
-            utils::base::timeToString(m_current->time));
+        dbManager()->insertImageIntoAlbum(albumName, name, time);
         break;
     case IdExport:
     {
@@ -758,11 +767,11 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdCopy:
-        utils::base::copyImageToClipboard(QStringList(path));
+        copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash:
         dbManager()->removeImage(name);
-        utils::base::trashFile(path);
+        trashFile(path);
         removeCurrentImage();
         break;
     case IdRemoveFromTimeline:
@@ -776,8 +785,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         m_sManager->editImage(m_view->imagePath());
         break;
     case IdAddToFavorites:
-        dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name,
-            utils::base::timeToString(m_current->time));
+        dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name, time);
         emit updateCollectButton();
         updateMenuContent();
         break;
@@ -906,8 +914,6 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         removeCurrentImage();
         return;
     }
-    // TODO signal should emit when mainwidget's panel changed
-    emit m_sManager->gotoPanel(this);
 
     m_view->setImage(path);
     m_nav->setImage(m_view->image());

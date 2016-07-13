@@ -12,6 +12,7 @@
 #include <QtConcurrent>
 
 class DatabaseManager;
+class QTimer;
 class Importer : public QObject
 {
     Q_OBJECT
@@ -20,6 +21,7 @@ public:
     bool isRunning() const;
     double getProgress() const;
     int finishedCount() const;
+    void nap();
     void showImportDialog();
     void stopImport();
     void importFromPath(const QString &path, const QString &album = "");
@@ -44,6 +46,7 @@ private:
     QStringList m_cacheImportList;
     QMap<QString, QString> m_albums;  // <path, album>
     QFutureWatcher<QString> m_futureWatcher;
+    QTimer *m_sleepTimer;
     double m_progress;
     int m_imagesCount;
 };
