@@ -108,7 +108,7 @@ void ImagesView::initListView()
         const QString path = m_view->itemInfo(index).path;
         emit m_sManager->viewImage(path, QStringList(), m_album);
     });
-    connect(m_view, &ThumbnailListView::mousePress, this, [=] (QMouseEvent *e) {
+    connect(m_view, &ThumbnailListView::singleClicked, this, [=] (QMouseEvent *e) {
         if (e->button() == Qt::RightButton &&
                 m_view->indexAt(e->pos()).isValid()) {
             m_popupMenu->setMenuContent(createMenuContent());
@@ -203,7 +203,7 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info)
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.ticked = false;  // TODO
+    vi.tickable = false;  // TODO
 
     m_view->insertItem(vi);
 }

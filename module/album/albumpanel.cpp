@@ -38,7 +38,17 @@ AlbumPanel::AlbumPanel(QWidget *parent)
     connect(m_sManager, &SignalManager::importDir,
             this, &AlbumPanel::showImportDirDialog);
     connect(m_sManager, &SignalManager::imageCountChanged,
-            this, &AlbumPanel::onImageCountChanged/*, Qt::DirectConnection*/);
+            this, &AlbumPanel::onImageCountChanged);
+    connect(m_sManager, &SignalManager::imageAddedToAlbum, this, [=] {
+        m_adding = false;
+    });
+    connect(m_sManager, &SignalManager::gotoAlbumPanel, this, [=] {
+        TIMER_SINGLESHOT(100, {
+        if (m_adding) {
+            emit m_sManager->addImageFromTimeline(m_currentAlbum);
+        }
+                         }, this);
+    });
 }
 
 
@@ -71,7 +81,8 @@ QWidget *AlbumPanel::toolbarBottomContent()
 
     updateAlbumCount();
 
-    connect(m_sManager, &SignalManager::selectImageFromTimeline, this, [=] {
+    connect(m_sManager, &SignalManager::addImageFromTimeline, this, [=] {
+        m_adding = true;
         emit m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     });
@@ -264,6 +275,9 @@ void AlbumPanel::initStyleSheet()
 
 void AlbumPanel::updateImagesCount()
 {
+    if (m_countLabel.isNull())
+        return;
+
     if (m_stackWidget->currentWidget() != m_imagesView)
         return;
 
@@ -282,6 +296,9 @@ void AlbumPanel::updateImagesCount()
 
 void AlbumPanel::updateAlbumCount()
 {
+    if (m_countLabel.isNull())
+        return;
+
     if (m_stackWidget->currentWidget() != m_albumsView)
         return;
 

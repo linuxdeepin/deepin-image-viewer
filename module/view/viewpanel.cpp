@@ -35,6 +35,7 @@ const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 24;
 const int SHOW_TOOLBAR_INTERVAL = 200;
+const int DELAY_VIEW_INTERVAL = 100;
 
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 
@@ -179,6 +180,10 @@ void ViewPanel::toggleSlideShow()
     else {
         emit m_sManager->hideTopToolbar(false);
         //    emit m_sManager->hideBottomToolbar(false);
+
+        // Wait for image opened
+        TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL + 10, {
+
         QStringList paths;
         for (const DatabaseManager::ImageInfo& info : m_infos) {
             paths << info.path;
@@ -191,6 +196,8 @@ void ViewPanel::toggleSlideShow()
         m_slide->start();
 
         updateMenuContent();
+
+                         }, this);
     }
 }
 
@@ -462,7 +469,7 @@ void ViewPanel::onViewImage(const QString &path, const QStringList &paths,
     m_nav->setImage(QImage());
     emit m_sManager->gotoPanel(this);
 
-    TIMER_SINGLESHOT(100, {
+    TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL, {
 
     openImage(path, inDB);
 

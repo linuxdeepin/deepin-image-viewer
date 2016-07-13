@@ -22,7 +22,8 @@ const int THUMBNAIL_MIN_SIZE = 96;
 
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent),
-      m_model(new QStandardItemModel(this))
+      m_model(new QStandardItemModel(this)),
+      m_multiple(false)
 {
     setIconSize(QSize(THUMBNAIL_MIN_SIZE, THUMBNAIL_MIN_SIZE));
     setItemDelegate(new ThumbnailDelegate(this));
@@ -42,6 +43,15 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
+}
+
+void ThumbnailListView::setMultiSelection(bool multiple)
+{
+    m_multiple = multiple;
+    if (multiple)
+        setSelectionMode(QAbstractItemView::MultiSelection);
+    else
+        setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
 void ThumbnailListView::clearData()
@@ -79,6 +89,19 @@ void ThumbnailListView::setIconSize(const QSize &size)
     updateViewPortSize();
 }
 
+void ThumbnailListView::setTickable(bool v)
+{
+    for (int i = 0; i < m_model->rowCount(); i ++) {
+        QModelIndex index = m_model->index(i, 0);
+        if (index.isValid()) {
+            ItemInfo info = itemInfo(index);
+            info.tickable = v;
+            m_model->setData(index, QVariant(getVariantList(info)),
+                             Qt::DisplayRole);
+        }
+    }
+}
+
 void ThumbnailListView::insertItem(const ItemInfo &info)
 {
     // Diffrent thread connection cause duplicate insert
@@ -113,6 +136,11 @@ bool ThumbnailListView::contain(const QModelIndex &index) const
     return index.model() == m_model;
 }
 
+bool ThumbnailListView::isMultiSelection() const
+{
+    return m_multiple;
+}
+
 int ThumbnailListView::indexOf(const QString &name)
 {
     for (int i = 0; i < m_model->rowCount(); i ++) {
@@ -143,7 +171,7 @@ const ThumbnailListView::ItemInfo ThumbnailListView::itemInfo(
     ItemInfo info;
     info.name = datas[0].toString();
     info.path = datas[1].toString();
-    info.ticked = datas[2].isValid() ? datas[2].toBool() : false;
+    info.tickable = datas[2].isValid() ? datas[2].toBool() : false;
 
     return info;
 }
@@ -157,7 +185,7 @@ const QList<ThumbnailListView::ItemInfo> ThumbnailListView::ItemInfos()
         ItemInfo info;
         info.name = datas[0].toString();
         info.path = datas[1].toString();
-        info.ticked = datas[2].isValid() ? datas[2].toBool() : false;
+        info.tickable = datas[2].isValid() ? datas[2].toBool() : false;
         infos << info;
     }
 
@@ -173,7 +201,7 @@ const QList<ThumbnailListView::ItemInfo> ThumbnailListView::selectedItemInfos()
         ItemInfo info;
         info.name = datas[0].toString();
         info.path = datas[1].toString();
-        info.ticked = datas[2].toBool();
+        info.tickable = datas[2].toBool();
         infos << info;
     }
 
@@ -194,10 +222,10 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *e)
     if (e->modifiers() & Qt::ControlModifier) {
         setSelectionMode(QAbstractItemView::MultiSelection);
     }
-    else if (e->button() == Qt::LeftButton){
+    else if (e->button() == Qt::LeftButton && ! m_multiple){
         setSelectionMode(QAbstractItemView::SingleSelection);
+        emit singleClicked(e);
     }
-    emit mousePress(e);
     QListView::mousePressEvent(e);
 }
 
@@ -265,7 +293,7 @@ const QVariantList ThumbnailListView::getVariantList(const ItemInfo &info)
     QVariantList datas;
     datas.append(QVariant(info.name));
     datas.append(QVariant(info.path));
-    datas.append(QVariant(info.ticked));
+    datas.append(QVariant(info.tickable));
 
     return datas;
 }

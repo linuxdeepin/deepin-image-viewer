@@ -34,7 +34,8 @@ using namespace Dtk::Widget;
 TimelinePanel::TimelinePanel(QWidget *parent)
     : ModulePanel(parent),
       m_setter(ConfigSetter::instance()),
-      m_dbManager(DatabaseManager::instance())
+      m_dbManager(DatabaseManager::instance()),
+      m_sManager(SignalManager::instance())
 {
     setAcceptDrops(true);
 
@@ -43,7 +44,13 @@ TimelinePanel::TimelinePanel(QWidget *parent)
     initPopupMenu();
 
     connect(m_sManager, &SignalManager::imageCountChanged,
-        this, &TimelinePanel::onImageCountChanged/*, Qt::DirectConnection*/);
+        this, &TimelinePanel::onImageCountChanged);
+    connect(m_sManager, &SignalManager::backToMainWindow, this, [=] {
+        m_targetAlbum = "";
+        m_view->setTickable(false);
+        m_view->clearSelection();
+        m_view->setMultiSelection(false);
+    });
 }
 
 QWidget *TimelinePanel::toolbarBottomContent()
@@ -68,7 +75,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
                                               SETTINGS_ICON_SCALE_KEY,
                                               QVariant(0)).toInt();
         const int iconSize = MIN_ICON_SIZE + sizeScale * 32;
-        m_imagesView->setIconSize(QSize(iconSize, iconSize));
+        m_view->setIconSize(QSize(iconSize, iconSize));
 
         m_slider = new Slider(Qt::Horizontal);
         m_slider->setMinimum(0);
@@ -77,7 +84,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
         connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
             qDebug() << "Change the view size to: X" << multiple;
             int newSize = MIN_ICON_SIZE + multiple * 32;
-            m_imagesView->setIconSize(QSize(newSize, newSize));
+            m_view->setIconSize(QSize(newSize, newSize));
             m_setter->setValue(SETTINGS_GROUP, SETTINGS_ICON_SCALE_KEY,
                                QVariant(m_slider->value()));
         });
@@ -101,16 +108,15 @@ QWidget *TimelinePanel::toolbarBottomContent()
         QPushButton *cancelButton = new QPushButton(tr("Cancel"));
         cancelButton->setObjectName("AddToAlbumCancel");
         connect(cancelButton, &QPushButton::clicked, this, [=] {
-            m_targetAlbum = "";
-            m_mainStackWidget->setCurrentWidget(m_imagesView);
             emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
             emit m_sManager->gotoAlbumPanel();
+            emit m_sManager->imageAddedToAlbum();
         });
 
         QPushButton *addButton = new QPushButton(tr("Add"));
         addButton->setObjectName("AddToAlbumAdd");
         connect(addButton, &QPushButton::clicked, this, [=] {
-            QStringList images = m_selectionView->selectedImages().keys();
+            QStringList images = m_view->selectedImages().keys();
             for (QString image : images) {
                 // TODO improve performance
                 DatabaseManager::ImageInfo info
@@ -119,10 +125,9 @@ QWidget *TimelinePanel::toolbarBottomContent()
                     utils::base::timeToString(info.time));
             }
 
-            m_targetAlbum = "";
-            m_mainStackWidget->setCurrentWidget(m_imagesView);
             emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
             emit m_sManager->gotoAlbumPanel();
+            emit m_sManager->imageAddedToAlbum();
         });
 
         layout->addWidget(label);
@@ -222,7 +227,7 @@ void TimelinePanel::initPopupMenu()
 {
     m_popupMenu = new PopupMenuManager(this);
     updateMenuContents();
-    connect(m_imagesView, &TimelineImageView::customContextMenuRequested,
+    connect(m_view, &TimelineImageView::customContextMenuRequested,
             this, [=] {
         updateMenuContents();
         m_popupMenu->showMenu();
@@ -234,39 +239,33 @@ void TimelinePanel::initPopupMenu()
 void TimelinePanel::initMainStackWidget()
 {
     initImagesView();
-    initSelectionView();
 
-    m_mainStackWidget = new QStackedWidget;
-    m_mainStackWidget->setContentsMargins(0, 0, 0, 0);
-    m_mainStackWidget->addWidget(new ImportFrame(this));
-    m_mainStackWidget->addWidget(m_imagesView);
-    m_mainStackWidget->addWidget(m_selectionView);
+    m_mainStack = new QStackedWidget;
+    m_mainStack->setContentsMargins(0, 0, 0, 0);
+    m_mainStack->addWidget(new ImportFrame(this));
+    m_mainStack->addWidget(m_view);
     //show import frame if no images in database
-    m_mainStackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
+    m_mainStack->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
 
-    connect(m_sManager, &SignalManager::selectImageFromTimeline,
+    connect(m_sManager, &SignalManager::addImageFromTimeline,
             this, [=] (const QString &targetAlbum) {
         m_targetAlbum = targetAlbum;
-        m_mainStackWidget->setCurrentWidget(m_selectionView);
+        m_view->setTickable(true);
+        m_view->clearSelection();
+        m_view->setMultiSelection(true);
         emit m_sManager->gotoPanel(this);
         emit m_sManager->updateBottomToolbarContent(toolbarBottomContent(), true);
     });
 
     QLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(m_mainStackWidget);
+    layout->addWidget(m_mainStack);
 }
 
 void TimelinePanel::initImagesView()
 {
-    m_imagesView = new TimelineImageView;
-    m_imagesView->setAcceptDrops(true);
-}
-
-void TimelinePanel::initSelectionView()
-{
-    m_selectionView = new TimelineImageView(true);
-    m_selectionView->setAcceptDrops(false);
+    m_view = new TimelineImageView;
+    m_view->setAcceptDrops(true);
 }
 
 void TimelinePanel::initStyleSheet()
@@ -305,7 +304,7 @@ void TimelinePanel::updateMenuContents()
 
 void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
 {
-    QMap<QString, QString> images = m_imagesView->selectedImages();
+    QMap<QString, QString> images = m_view->selectedImages();
     if (images.isEmpty()) {
         return;
     }
@@ -338,7 +337,7 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdExport:
-        Exporter::instance()->exportImage(m_imagesView->selectedImages().values());
+        Exporter::instance()->exportImage(m_view->selectedImages().values());
         break;
     case IdCopy:
         utils::base::copyImageToClipboard(images.values());
@@ -373,15 +372,13 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     case IdRotateClockwise:
         for (QString name : images.keys()) {
             utils::image::rotate(images[name], 90);
-            m_imagesView->updateThumbnail(name);
-            m_selectionView->updateThumbnail(name);
+            m_view->updateThumbnail(name);
         }
         break;
     case IdRotateCounterclockwise:
         for (QString name : images.keys()) {
             utils::image::rotate(images[name], -90);
-            m_imagesView->updateThumbnail(name);
-            m_selectionView->updateThumbnail(name);
+            m_view->updateThumbnail(name);
         }
         break;
 //    case IdLabel:
@@ -403,12 +400,15 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
 void TimelinePanel::onImageCountChanged(int count)
 {
     updateBottomToolbarContent(count);
-    m_mainStackWidget->setCurrentIndex(count > 0 ? 1 : 0);
+    m_mainStack->setCurrentIndex(count > 0 ? 1 : 0);
 }
 
 QString TimelinePanel::createMenuContent()
 {
-    QMap<QString, QString> images = m_imagesView->selectedImages();
+    if (! m_targetAlbum.isEmpty())
+        return QString();
+
+    QMap<QString, QString> images = m_view->selectedImages();
     QJsonArray items;
     if (images.count() == 1) {
         items.append(createMenuItem(IdView, tr("View")));
@@ -486,7 +486,7 @@ QJsonValue TimelinePanel::createMenuItem(const TimelinePanel::MenuItemId id,
 QJsonObject TimelinePanel::createAlbumMenuObj()
 {
     const QStringList albums = m_dbManager->getAlbumNameList();
-    const QStringList selectNames = m_imagesView->selectedImages().keys();
+    const QStringList selectNames = m_view->selectedImages().keys();
 
     QJsonArray items;
     if (! selectNames.isEmpty()) {

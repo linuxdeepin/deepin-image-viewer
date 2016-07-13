@@ -80,11 +80,10 @@ private:
 
     ConfigSetter *m_setter;
     PopupMenuManager *m_popupMenu;
-    TimelineImageView *m_imagesView = NULL;
-    TimelineImageView *m_selectionView = NULL;
-    QStackedWidget *m_mainStackWidget = NULL;
-    DatabaseManager *m_dbManager = NULL;
-    SignalManager *m_sManager = SignalManager::instance();
+    TimelineImageView *m_view = NULL;
+    QStackedWidget *m_mainStack = NULL;
+    DatabaseManager *m_dbManager;
+    SignalManager *m_sManager;
 };
 
 #endif // TIMELINEPANEL_H

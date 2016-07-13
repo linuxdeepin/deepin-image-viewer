@@ -67,7 +67,7 @@ void TimelineViewFrame::initListView()
 
     connect(m_view, &ThumbnailListView::clicked,
             this, &TimelineViewFrame::clicked);
-    connect(m_view, &ThumbnailListView::mousePress,
+    connect(m_view, &ThumbnailListView::singleClicked,
             this, &TimelineViewFrame::mousePress);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
@@ -87,9 +87,24 @@ void TimelineViewFrame::updateThumbnail(const QString &name)
     }
 }
 
+void TimelineViewFrame::setMultiSelection(bool multiple)
+{
+    m_view->setMultiSelection(multiple);
+}
+
+bool TimelineViewFrame::isMultiSelection() const
+{
+    return m_view->isMultiSelection();
+}
+
 void TimelineViewFrame::setIconSize(const QSize &iconSize)
 {
     m_view->setIconSize(iconSize);
+}
+
+void TimelineViewFrame::setTickable(bool v)
+{
+    m_view->setTickable(v);
 }
 
 void TimelineViewFrame::resizeEvent(QResizeEvent *e)
@@ -104,7 +119,7 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.ticked = false; //TODO set ticked
+    vi.tickable = false; //TODO set ticked
 
     m_view->insertItem(vi);
 }

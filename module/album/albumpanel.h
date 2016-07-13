@@ -9,6 +9,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QStackedWidget>
+#include <QPointer>
 
 class ConfigSetter;
 class Slider;
@@ -47,7 +48,7 @@ private:
 
 private:
     QString m_currentAlbum;
-    QLabel *m_countLabel = NULL;
+    QPointer<QLabel> m_countLabel;
     Slider *m_slider;
 
     AlbumsView *m_albumsView = NULL;
@@ -56,6 +57,7 @@ private:
     ConfigSetter *m_setter;
     DatabaseManager *m_dbManager;
     SignalManager *m_sManager;
+    bool m_adding = false;
 };
 
 #endif // ALBUMPANEL_H

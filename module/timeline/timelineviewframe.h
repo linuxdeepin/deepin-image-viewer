@@ -23,6 +23,8 @@ public:
     bool removeItem(const QString &name);
     void clearSelection() const;
     void updateThumbnail(const QString &name);
+    void setMultiSelection(bool multiple);
+    bool isMultiSelection() const;
 
     QMap<QString, QString> selectedImages() const;
     QString timeline() const;
@@ -30,6 +32,7 @@ public:
     int hOffset() const;
 
     void setIconSize(const QSize &iconSize);
+    void setTickable(bool v);
 
 signals:
     void mousePress(QMouseEvent *e);

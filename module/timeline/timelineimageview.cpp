@@ -96,11 +96,33 @@ void TimelineImageView::setIconSize(const QSize &iconSize)
     updateTopTipsRect();
 }
 
+void TimelineImageView::setTickable(bool v)
+{
+    for (TimelineViewFrame * frame : m_frames.values()) {
+        frame->setTickable(v);
+    }
+}
+
+void TimelineImageView::setMultiSelection(bool multiple)
+{
+    for (TimelineViewFrame * frame : m_frames.values()) {
+        frame->setMultiSelection(multiple);
+    }
+}
+
 void TimelineImageView::updateThumbnail(const QString &name)
 {
     for (TimelineViewFrame * frame : m_frames.values()) {
         frame->updateThumbnail(name);
     }
+}
+
+bool TimelineImageView::isMultiSelection() const
+{
+    if (m_frames.isEmpty())
+        return false;
+    else
+        return m_frames.first()->isMultiSelection();
 }
 
 bool TimelineImageView::isEmpty() const

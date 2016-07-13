@@ -11,17 +11,20 @@ public:
     struct ItemInfo {
         QString name = QString();
         QString path = QString();
-        bool ticked = false;
+        bool tickable = false;
     };
 
     explicit ThumbnailListView(QWidget *parent = 0);
+    void setMultiSelection(bool multiple);
     void clearData();
     void updateViewPortSize();
     void updateThumbnail(const QString &name);
     void setIconSize(const QSize &size);
+    void setTickable(bool v);
     void insertItem(const ItemInfo &info);
     bool removeItem(const QString &name);
     bool contain(const QModelIndex &index) const;
+    bool isMultiSelection() const;
     int indexOf(const QString &name);
     int count() const;
     int hOffset() const;
@@ -30,7 +33,7 @@ public:
     const QList<ItemInfo> selectedItemInfos();
 
 signals:
-    void mousePress(QMouseEvent *e);
+    void singleClicked(QMouseEvent *e);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -51,6 +54,7 @@ private:
 
 private:
     QStandardItemModel *m_model;
+    bool m_multiple;
 };
 
 #endif // THUMBNAILLISTVIEW_H

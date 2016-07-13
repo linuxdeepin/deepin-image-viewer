@@ -36,8 +36,8 @@ void ThumbnailDelegate::paint(QPainter *painter,
     QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
     if (! datas.isEmpty()) {
         const QString name = datas[0].toString();
-        const QString path = datas[1].toString();
-        const bool ticked = datas[2].toBool();
+//        const QString path = datas[1].toString();
+        const bool tickable = datas[2].toBool();
         bool selected = false;
         if (/*(option.state & QStyle::State_MouseOver) &&*/
                 (option.state & QStyle::State_Selected) != 0) {
@@ -73,7 +73,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
         painter->drawPath(borderPath);
 
         // Draw ticked mark
-        if (ticked) {
+        if (tickable && selected) {
             QPixmap p = QPixmap(":/images/resources/images/item_selected.png")
                     .scaled(TICKED_MARK_SIZE, TICKED_MARK_SIZE, Qt::KeepAspectRatio,
                             Qt::SmoothTransformation);
