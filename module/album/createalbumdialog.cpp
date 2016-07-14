@@ -17,7 +17,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
     layout->setSpacing(10);
 
     QLabel *icon = new QLabel;
-    QPixmap pix(":/images/resources/images/new_album.png");
+    QPixmap pix(":/images/resources/images/import_dir.png");
     icon->setPixmap(pix);
     layout->addWidget(icon);
 
