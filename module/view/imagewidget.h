@@ -9,7 +9,7 @@ class ImageWidget : public QWidget
 public:
     ImageWidget(QWidget *parent = 0);
 
-    void setImage(const QString& path);
+    void setImage(const QString &path);
     void setImage(const QImage& image);
     QImage image() const {return m_image;}
     QString imageName() const;

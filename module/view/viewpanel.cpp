@@ -171,6 +171,7 @@ void ViewPanel::toggleSlideShow()
 {
     if (m_slide->isRunning()) {
         m_view->setInSlideShow(false);
+        m_view->setImage(m_slide->currentImagePath());
         m_slide->stop();
         m_nav->setImage(m_view->image());
 
@@ -550,6 +551,9 @@ bool ViewPanel::showNext()
 
 void ViewPanel::removeCurrentImage()
 {
+    if (m_infos.isEmpty())
+        return;
+
     m_infos.removeAt(imageIndex(m_current->name));
     if (! showNext()) {
         if (! showPrevious()) {

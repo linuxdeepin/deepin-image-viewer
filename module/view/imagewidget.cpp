@@ -27,7 +27,6 @@ QString ImageWidget::imagePath() const
 
 void ImageWidget::setImage(const QImage &image)
 {
-    m_path = QString();
     m_image = image;
     m_pixmap = QPixmap::fromImage(m_image);
     resetTransform();
