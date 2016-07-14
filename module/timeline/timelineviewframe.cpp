@@ -68,7 +68,7 @@ void TimelineViewFrame::initListView()
     connect(m_view, &ThumbnailListView::clicked,
             this, &TimelineViewFrame::clicked);
     connect(m_view, &ThumbnailListView::singleClicked,
-            this, &TimelineViewFrame::mousePress);
+            this, &TimelineViewFrame::singleClicked);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         const QString path = m_view->itemInfo(index).path;

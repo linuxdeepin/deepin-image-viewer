@@ -1,5 +1,6 @@
 #include "imagesview.h"
 #include "widgets/thumbnaillistview.h"
+#include "widgets/importframe.h"
 #include "controller/databasemanager.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
@@ -8,11 +9,12 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "dscrollbar.h"
+#include <QDebug>
 #include <QFileInfo>
 #include <QStandardItem>
+#include <QStackedWidget>
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QDebug>
 #include <math.h>
 
 namespace {
@@ -28,23 +30,15 @@ ImagesView::ImagesView(QWidget *parent)
       m_dbManager(DatabaseManager::instance()),
       m_sManager(SignalManager::instance())
 {
-    setVerticalScrollBar(new Dtk::Widget::DScrollBar());
-
-    initContent();
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
-//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBar(new Dtk::Widget::DScrollBar());
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    initStack();
     updateMenuContents();
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ImagesView::onMenuItemClicked);
-//    connect(m_sManager, &SignalManager::imageInserted,
-//            this, [=] (const DatabaseManager::ImageInfo &info) {
-//        if (info.albums.contains(m_album)) {
-//            insertItem(info);
-//        }
-//    });
 }
 
 void ImagesView::setAlbum(const QString &album)
@@ -54,6 +48,7 @@ void ImagesView::setAlbum(const QString &album)
     m_view->clearData();
     QList<DatabaseManager::ImageInfo> infos =
             m_dbManager->getImageInfosByAlbum(album);
+
     // Load up to 100 images at initialization to accelerate rendering
     const int preloadCount = 100;
     for (int i = 0; i < qMin(infos.length(), preloadCount); i ++) {
@@ -69,30 +64,24 @@ void ImagesView::setAlbum(const QString &album)
     }, this, infos);
 
     m_topTips->setAlbum(album);
-    updateTopTipsRect();
+
+    // Empty album, import first
+    updateStack();
+
 }
 
 bool ImagesView::removeItem(const QString &name)
 {
-    return m_view->removeItem(name);
+    const bool state = m_view->removeItem(name);
+
+    updateStack();
+
+    return state;
 }
 
 int ImagesView::count() const
 {
     return m_view->count();
-}
-
-void ImagesView::initContent()
-{
-    m_contentWidget = new QWidget;
-    m_contentWidget->setObjectName("ImagesViewContent");
-    m_contentLayout = new QVBoxLayout(m_contentWidget);
-    m_contentLayout->setContentsMargins(10, 70, 6, 20);
-
-    setWidget(m_contentWidget);
-
-    initListView();
-    initTopTips();
 }
 
 void ImagesView::initListView()
@@ -108,9 +97,9 @@ void ImagesView::initListView()
         const QString path = m_view->itemInfo(index).path;
         emit m_sManager->viewImage(path, QStringList(), m_album);
     });
-    connect(m_view, &ThumbnailListView::singleClicked, this, [=] (QMouseEvent *e) {
-        if (e->button() == Qt::RightButton &&
-                m_view->indexAt(e->pos()).isValid()) {
+    connect(m_view, &ThumbnailListView::customContextMenuRequested,
+            this, [=] (const QPoint &pos) {
+        if (m_view->indexAt(pos).isValid()) {
             m_popupMenu->setMenuContent(createMenuContent());
             m_popupMenu->showMenu();
         }
@@ -203,9 +192,11 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info)
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.tickable = false;  // TODO
+    vi.tickable = false;
 
     m_view->insertItem(vi);
+
+    updateStack();
 }
 
 void ImagesView::updateThumbnail(const QString &path)
@@ -300,9 +291,9 @@ void ImagesView::updateTopTipsRect()
 {
     m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
     m_topTips->resize(width(), m_topTips->height());
-    const int lm = m_view->count() == 0
-            ? 0 : - m_view->hOffset() + m_contentLayout->contentsMargins().left();
+    const int lm = - m_view->hOffset() + m_contentLayout->contentsMargins().left();
     m_topTips->setLeftMargin(lm);
+    m_topTips->setVisible(m_view->count() != 0);
 }
 
 int ImagesView::getMinContentsWidth()
@@ -357,5 +348,40 @@ QStringList ImagesView::selectedImagesPathList() const
 void ImagesView::resizeEvent(QResizeEvent *e)
 {
     QScrollArea::resizeEvent(e);
+    updateTopTipsRect();
+}
+
+void ImagesView::initStack()
+{
+    QWidget *contentWidget = new QWidget;
+    contentWidget->setObjectName("ImagesViewContent");
+    m_contentLayout = new QVBoxLayout(contentWidget);
+    m_contentLayout->setContentsMargins(10, 70, 6, 20);
+
+    ImportFrame *importFrame = new ImportFrame(this);
+    importFrame->setButtonText(tr("Add from timeline"));
+    importFrame->setTitle(
+                tr("Add image from timeline or drag image to this album"));
+    connect(importFrame, &ImportFrame::clicked, this, [=] {
+        emit SignalManager::instance()->addImageFromTimeline(m_album);
+    });
+
+    initListView();
+    initTopTips();
+
+    m_stackWidget = new QStackedWidget;
+    m_stackWidget->addWidget(contentWidget);
+    m_stackWidget->addWidget(importFrame);
+
+    setWidget(m_stackWidget);
+}
+
+void ImagesView::updateStack()
+{
+    if (m_view->count() == 0)
+        m_stackWidget->setCurrentIndex(1);
+    else
+        m_stackWidget->setCurrentIndex(0);
+
     updateTopTipsRect();
 }

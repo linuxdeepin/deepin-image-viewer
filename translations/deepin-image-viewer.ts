@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -55,6 +55,14 @@
     </message>
     <message>
         <source>Back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import or drag image to timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -324,6 +332,14 @@
         <source>Image info</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add from timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add image from timeline or drag image to this album</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImportDirDialog</name>
@@ -345,17 +361,6 @@
     </message>
 </context>
 <context>
-    <name>ImportFrame</name>
-    <message>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import or drag image to timeline</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
@@ -363,17 +368,6 @@
     </message>
     <message>
         <source>Imported successfully</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainWidget</name>
-    <message>
-        <source>Importing images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 image(s) imported, please wait</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -515,6 +509,14 @@
         <source>%1 images</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import or drag image to timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
@@ -551,6 +553,14 @@
     </message>
     <message>
         <source>Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Importing images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 image(s) imported, please wait</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
