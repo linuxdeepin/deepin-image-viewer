@@ -226,6 +226,7 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *e)
         setSelectionMode(QAbstractItemView::SingleSelection);
         emit singleClicked(e);
     }
+
     QListView::mousePressEvent(e);
 }
 

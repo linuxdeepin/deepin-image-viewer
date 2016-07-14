@@ -15,6 +15,7 @@ class PopupMenuManager;
 class SignalManager;
 class ThumbnailListView;
 class QStandardItemModel;
+class QStackedWidget;
 class ImagesView : public QScrollArea
 {
     Q_OBJECT
@@ -56,7 +57,8 @@ private:
         IdSeparator
     };
 
-    void initContent();
+    void initStack();
+    void updateStack();
     void initListView();
     void initTopTips();
 
@@ -78,10 +80,10 @@ private:
 
 private:
     QString m_album;
+    QStackedWidget *m_stackWidget;
     TopAlbumTips *m_topTips;
     ThumbnailListView *m_view;
     QVBoxLayout *m_contentLayout;
-    QWidget *m_contentWidget;
     PopupMenuManager *m_popupMenu;
     DatabaseManager *m_dbManager;
     SignalManager *m_sManager;

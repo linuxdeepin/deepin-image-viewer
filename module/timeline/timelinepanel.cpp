@@ -240,9 +240,16 @@ void TimelinePanel::initMainStackWidget()
 {
     initImagesView();
 
+    ImportFrame *frame = new ImportFrame(this);
+    frame->setButtonText(tr("Import"));
+    frame->setTitle(tr("Import or drag image to timeline"));
+    connect(frame, &ImportFrame::clicked, this, [=] {
+        Importer::instance()->showImportDialog();
+    });
+
     m_mainStack = new QStackedWidget;
     m_mainStack->setContentsMargins(0, 0, 0, 0);
-    m_mainStack->addWidget(new ImportFrame(this));
+    m_mainStack->addWidget(frame);
     m_mainStack->addWidget(m_view);
     //show import frame if no images in database
     m_mainStack->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);

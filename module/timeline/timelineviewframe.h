@@ -35,7 +35,7 @@ public:
     void setTickable(bool v);
 
 signals:
-    void mousePress(QMouseEvent *e);
+    void singleClicked(QMouseEvent *e);
     void clicked(const QModelIndex &index);
 
 protected:

@@ -13,6 +13,7 @@
 
 class ConfigSetter;
 class Slider;
+class ImportFrame;
 class AlbumPanel : public ModulePanel
 {
     Q_OBJECT

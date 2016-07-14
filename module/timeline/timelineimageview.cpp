@@ -269,7 +269,7 @@ QList<T> reversed( const QList<T> & in ) {
 void TimelineImageView::inserFrame(const QString &timeline, bool multiselection)
 {
     TimelineViewFrame *frame = new TimelineViewFrame(timeline, multiselection, this);
-    connect(frame, &TimelineViewFrame::mousePress, this, [=] (QMouseEvent *e){
+    connect(frame, &TimelineViewFrame::singleClicked, this, [=] (QMouseEvent *e){
         if (e->button() != Qt::LeftButton)
             return;
         for (TimelineViewFrame *frame : m_frames) {

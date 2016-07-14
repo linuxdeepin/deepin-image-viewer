@@ -3,11 +3,23 @@
 
 #include <QWidget>
 
+class QPushButton;
+class QLabel;
 class ImportFrame : public QWidget
 {
     Q_OBJECT
 public:
     explicit ImportFrame(QWidget *parent = 0);
+    void setTitle(const QString &title);
+    void setButtonText(const QString &text);
+    const QString buttonText() const;
+
+signals:
+    void clicked();
+
+private:
+    QPushButton *m_importButton;
+    QLabel *m_titleLabel;
 };
 
 #endif // IMPORTFRAME_H

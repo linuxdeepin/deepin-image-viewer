@@ -187,7 +187,6 @@ void AlbumPanel::dropEvent(QDropEvent *event)
     if (urls.isEmpty())
         return;
 
-    const QString currentAlbum = m_imagesView->getCurrentAlbum();
     for (QUrl url : urls) {
         const QString path = url.toLocalFile();
         if (QFileInfo(path).isDir()) {
@@ -195,7 +194,7 @@ void AlbumPanel::dropEvent(QDropEvent *event)
                 showImportDirDialog(path);
             }
             else {
-                Importer::instance()->importFromPath(path, currentAlbum);
+                Importer::instance()->importFromPath(path, m_currentAlbum);
             }
         }
         else {
@@ -203,7 +202,7 @@ void AlbumPanel::dropEvent(QDropEvent *event)
                 Importer::instance()->importSingleFile(path);
             }
             else {
-                Importer::instance()->importSingleFile(path, currentAlbum);
+                Importer::instance()->importSingleFile(path, m_currentAlbum);
             }
         }
     }
@@ -220,9 +219,16 @@ void AlbumPanel::initMainStackWidget()
     initImagesView();
     initAlbumsView();
 
+    ImportFrame *importFrame = new ImportFrame(this);
+    importFrame->setButtonText(tr("Import"));
+    importFrame->setTitle(tr("Import or drag image to timeline"));
+    connect(importFrame, &ImportFrame::clicked, this, [=] {
+        Importer::instance()->showImportDialog();
+    });
+
     m_stackWidget = new QStackedWidget;
     m_stackWidget->setContentsMargins(0, 0, 0, 0);
-    m_stackWidget->addWidget(new ImportFrame(this));
+    m_stackWidget->addWidget(importFrame);
     m_stackWidget->addWidget(m_albumsView);
     m_stackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
@@ -372,7 +378,8 @@ void AlbumPanel::onOpenAlbum(const QString &album)
 {
     qDebug() << "Open Album : " << album;
     m_currentAlbum = album;
-    m_stackWidget->setCurrentIndex(2);
+
+    m_stackWidget->setCurrentWidget(m_imagesView);
     const int multiple = m_setter->value(SETTINGS_GROUP,
                                          SETTINGS_IMAGE_ICON_SCALE_KEY,
                                          QVariant(0)).toInt();

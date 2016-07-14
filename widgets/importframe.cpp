@@ -9,22 +9,20 @@
 #include <QFileDialog>
 #include <QLabel>
 
-ImportFrame::ImportFrame(QWidget *parent) : QWidget(parent)
+ImportFrame::ImportFrame(QWidget *parent)
+    : QWidget(parent)
 {
     this->setAcceptDrops(true);
 
     QLabel* bgLabel = new QLabel();
     bgLabel->setPixmap(QPixmap(":/images/resources/images/no_picture.png"));
 
-    QPushButton *importButton = new QPushButton(tr("Import"));
-    importButton->setObjectName("ImportFrameButton");
-    connect(importButton, &QPushButton::clicked, this, [=] {
-        Importer::instance()->showImportDialog();
-    });
+    m_importButton = new QPushButton();
+    m_importButton->setObjectName("ImportFrameButton");
+    connect(m_importButton, &QPushButton::clicked, this, &ImportFrame::clicked);
 
-    QLabel *titleLabel = new QLabel(
-                tr("Import or drag image to timeline"));
-    titleLabel->setObjectName("ImportFrameTooltip");
+    m_titleLabel = new QLabel();
+    m_titleLabel->setObjectName("ImportFrameTooltip");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -32,9 +30,24 @@ ImportFrame::ImportFrame(QWidget *parent) : QWidget(parent)
     layout->addStretch(1);
     layout->addWidget(bgLabel, 0, Qt::AlignHCenter);
     layout->addSpacing(20);
-    layout->addWidget(importButton, 0, Qt::AlignHCenter);
+    layout->addWidget(m_importButton, 0, Qt::AlignHCenter);
     layout->addSpacing(10);
-    layout->addWidget(titleLabel, 0, Qt::AlignHCenter);
+    layout->addWidget(m_titleLabel, 0, Qt::AlignHCenter);
     layout->addStretch(1);
+}
+
+void ImportFrame::setTitle(const QString &title)
+{
+    m_titleLabel->setText(title);
+}
+
+void ImportFrame::setButtonText(const QString &text)
+{
+    m_importButton->setText(text);
+}
+
+const QString ImportFrame::buttonText() const
+{
+    return m_importButton->text();
 }
 
