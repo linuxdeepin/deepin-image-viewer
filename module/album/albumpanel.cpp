@@ -147,7 +147,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
         qDebug() << "Change to Timeline Panel...";
         emit m_sManager->backToMainWindow();
     });
-    timelineButton->setToolTip("Timeline");
+    timelineButton->setToolTip(tr("Timeline"));
 
     QLabel *albumLabel = new QLabel();
     albumLabel->setPixmap(QPixmap(":/images/resources/images/album_active.png"));
@@ -289,7 +289,7 @@ void AlbumPanel::updateImagesCount()
 
     const int count = m_imagesView->count();
     QString text = QString::number(count) + " " +
-            (count <= 1 ? tr("Image") : tr("Images"));
+            (count <= 1 ? tr("image") : tr("images"));
     m_countLabel->setText(text);
 
     m_slider->setValue(m_setter->value(SETTINGS_GROUP,

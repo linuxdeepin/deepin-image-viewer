@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.0">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -42,15 +42,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Albums</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -63,6 +55,18 @@
     </message>
     <message>
         <source>Import or drag image to timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -97,7 +101,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New Album</source>
+        <source>New album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -218,11 +222,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Model</source>
+        <source>Lens model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lens model</source>
+        <source>Camera model</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -233,15 +237,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Save File</source>
+        <source>Exported successfully</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Exported successfully.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Failed to export.</source>
+        <source>Failed to export</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -305,10 +305,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation type="unfinished"></translation>
     </message>
@@ -338,6 +334,10 @@
     </message>
     <message>
         <source>Add image from timeline or drag image to this album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Throw to Trash</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -419,15 +419,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add to My favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Throw to Trash</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -467,10 +467,6 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -517,6 +513,14 @@
         <source>Import or drag image to timeline</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Throw to Trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
@@ -560,7 +564,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 image(s) imported, please wait</source>
+        <source>%1 images imported, please wait</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -568,10 +572,6 @@
     <name>ViewPanel</name>
     <message>
         <source>Stop slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exit Fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -592,10 +592,6 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -640,6 +636,14 @@
     </message>
     <message>
         <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Throw to Trash</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

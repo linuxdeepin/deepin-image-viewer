@@ -168,7 +168,7 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
         qDebug() << "Change to Album Panel...";
         emit m_sManager->gotoAlbumPanel();
     });
-    albumButton->setToolTip("Album");
+    albumButton->setToolTip(tr("Album"));
 
     // hide search button
 //    ImageButton *searchButton = new ImageButton();
@@ -434,7 +434,7 @@ QString TimelinePanel::createMenuContent()
 
     items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdMoveToTrash, tr("Throw to trash")));
+    items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash")));
 
     items.append(createMenuItem(IdSeparator, "", true));
 //    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));

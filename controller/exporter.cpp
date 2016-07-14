@@ -46,7 +46,7 @@ void Exporter::exportImage(const QStringList imagePaths) {
         qDebug() << "imageSavePath:" << imageSavePath;
         QString selectFilter = tr("JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns"
                                   "*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)");
-        QString dialogFilePath = exportDialog.getSaveFileName(nullptr, tr("Save File"),
+        QString dialogFilePath = exportDialog.getSaveFileName(nullptr, "Save File",
         imageSavePath, getOrderFormat(QFileInfo(imagePath).completeSuffix()),
         &selectFilter, QFileDialog::DontUseNativeDialog);
 
@@ -56,9 +56,9 @@ void Exporter::exportImage(const QStringList imagePaths) {
         if (!tmpImage.isNull() && !dialogFilePath.isEmpty()) {
             bool exportStatus = tmpImage.save(dialogFilePath);
             if (exportStatus) {
-                qDebug() << tr("Exported successfully.");
+                qDebug() << tr("Exported successfully");
             } else {
-                qDebug() << tr("Failed to export.");
+                qDebug() << tr("Failed to export");
             }
         }
     } else {
@@ -80,7 +80,7 @@ void Exporter::exportAlbum(const QString &albumname) {
 
 void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
     QFileDialog exportDialog;
-    QString exportdir = exportDialog.getExistingDirectory(nullptr, tr("Save File"),
+    QString exportdir = exportDialog.getExistingDirectory(nullptr, "Save File",
            QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0),
                                                           QFileDialog::ShowDirsOnly);
     qDebug() << "popupDialogSaveImage:" << exportdir;

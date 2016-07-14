@@ -157,11 +157,11 @@ void TopToolbar::initWidgets()
 
     ProgressWidgetsTips* progressWidgetTips = new ProgressWidgetsTips;
     progressWidgetTips->setTitle(tr("Importing images"));
-    progressWidgetTips->setTips(QString(tr("%1 image(s) imported, please wait")).arg(0));
+    progressWidgetTips->setTips(QString(tr("%1 images imported, please wait")).arg(0));
     connect(Importer::instance(), &Importer::importProgressChanged,
             [=](double per) {
         progressWidgetTips->setValue(int(per*100));
-        progressWidgetTips->setTips(QString("%1 image(s) imported, please wait").arg(Importer::instance()->finishedCount()));
+        progressWidgetTips->setTips(QString("%1 images imported, please wait").arg(Importer::instance()->finishedCount()));
     });
     connect(progressWidgetTips, &ProgressWidgetsTips::stopProgress, [=]{
         Importer::instance()->stopImport();

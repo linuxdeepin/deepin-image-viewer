@@ -73,7 +73,7 @@ static ExifItem ExifDataDetails[] = {
     {EXIF_IFD_0, EXIF_TAG_MAKE,
 //     QT_TRANSLATE_NOOP("ExifItemName", "Manufacture")},
 //    {EXIF_IFD_0, EXIF_TAG_MODEL,
-     QT_TRANSLATE_NOOP("ExifItemName", "Model")},
+     QT_TRANSLATE_NOOP("ExifItemName", "Camera model")},
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_LENS_MODEL,
      QT_TRANSLATE_NOOP("ExifItemName", "Lens model")},
     {EXIF_IFD_COUNT, 0, 0}

@@ -619,7 +619,7 @@ QString ViewPanel::createMenuContent()
     }
     else {
         if (window()->isFullScreen()) {
-            items.append(createMenuItem(IdFullScreen, tr("Exit Fullscreen"),
+            items.append(createMenuItem(IdFullScreen, tr("Exit fullscreen"),
                                         false, "F11"));
         }
         else {
@@ -644,7 +644,7 @@ QString ViewPanel::createMenuContent()
             items.append(createMenuItem(IdExport, tr("Export"), false, ""));
 
         items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-        items.append(createMenuItem(IdMoveToTrash, tr("Throw to trash")));
+        items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash")));
         if (! m_album.isEmpty()) {
             items.append(createMenuItem(IdRemoveFromAlbum,
                 tr("Remove from album"), false, "Delete"));
