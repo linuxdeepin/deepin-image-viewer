@@ -23,7 +23,7 @@ NavigationWidget::NavigationWidget(QWidget *parent)
 
     DWindowCloseButton *b = new DWindowCloseButton(this);
     b->move(QPoint(this->x() + this->width() - 28,
-                   rect().topRight().y() - 1));
+                   rect().topRight().y() + 2));
     connect(b, &DWindowCloseButton::clicked, [this](){
         setAlwaysHidden(true);
     });
