@@ -219,12 +219,21 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
 
 void ThumbnailListView::mousePressEvent(QMouseEvent *e)
 {
-    if (e->modifiers() & Qt::ControlModifier) {
-        setSelectionMode(QAbstractItemView::MultiSelection);
-    }
-    else if (e->button() == Qt::LeftButton && ! m_multiple){
-        setSelectionMode(QAbstractItemView::SingleSelection);
+    if (e->button() == Qt::RightButton) {
         emit singleClicked(e);
+    }
+    else {
+        if (m_multiple) {
+            setSelectionMode(QAbstractItemView::MultiSelection);
+        }
+        else if(e->modifiers() & Qt::ControlModifier ||
+                e->modifiers() & Qt::ShiftModifier){
+            setSelectionMode(QAbstractItemView::ExtendedSelection);
+        }
+        else {
+            setSelectionMode(QAbstractItemView::SingleSelection);
+            emit singleClicked(e);
+        }
     }
 
     QListView::mousePressEvent(e);

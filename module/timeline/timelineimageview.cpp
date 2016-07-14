@@ -266,15 +266,17 @@ QList<T> reversed( const QList<T> & in ) {
     return result;
 }
 
-void TimelineImageView::inserFrame(const QString &timeline, bool multiselection)
+void TimelineImageView::inserFrame(const QString &timeline)
 {
-    TimelineViewFrame *frame = new TimelineViewFrame(timeline, multiselection, this);
+    TimelineViewFrame *frame = new TimelineViewFrame(timeline, this);
     connect(frame, &TimelineViewFrame::singleClicked, this, [=] (QMouseEvent *e){
-        if (e->button() != Qt::LeftButton)
-            return;
-        for (TimelineViewFrame *frame : m_frames) {
-            if (! multiselection && frame != sender()) {
-                frame->clearSelection();
+        TimelineViewFrame *f = qobject_cast<TimelineViewFrame *>(sender());
+        if (e->button() == Qt::LeftButton ||
+                (e->button() == Qt::RightButton && ! posInSelected(e->pos(), f))) {
+            for (TimelineViewFrame *frame : m_frames) {
+                if (frame != f) {
+                    frame->clearSelection();
+                }
             }
         }
     });
@@ -373,4 +375,14 @@ double TimelineImageView::scrollingPercent()
 {
     return (double)(verticalScrollBar()->value())
             / (verticalScrollBar()->maximum() - verticalScrollBar()->minimum());
+}
+
+bool TimelineImageView::posInSelected(const QPoint &pos, TimelineViewFrame *frame)
+{
+    for (TimelineViewFrame *f : m_frames) {
+        if (frame == f && f->posInSelected(pos)) {
+            return true;
+        }
+    }
+    return false;
 }

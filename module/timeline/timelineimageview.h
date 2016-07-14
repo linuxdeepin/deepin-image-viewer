@@ -39,7 +39,7 @@ private:
     void initTopTips();
     void initContents();
 
-    void inserFrame(const QString &timeline, bool multiselection = false);
+    void inserFrame(const QString &timeline);
     void removeFrame(const QString &timeline);
     void removeImage(const QString &name);
     void updateSliderFrmaeRect();
@@ -49,6 +49,7 @@ private:
     QString currentTimeline();
     QString getMonthByTimeline(const QString &timeline);
     double scrollingPercent();
+    bool posInSelected(const QPoint &pos, TimelineViewFrame *frame);
 
 private:
 //    SliderFrame *m_sliderFrame;

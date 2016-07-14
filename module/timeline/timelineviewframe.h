@@ -15,9 +15,7 @@ class TimelineViewFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit TimelineViewFrame(const QString &timeline,
-                               bool multiselection,
-                               QWidget *parent);
+    explicit TimelineViewFrame(const QString &timeline, QWidget *parent);
     ~TimelineViewFrame();
     void insertItem(const DatabaseManager::ImageInfo &info);
     bool removeItem(const QString &name);
@@ -25,6 +23,7 @@ public:
     void updateThumbnail(const QString &name);
     void setMultiSelection(bool multiple);
     bool isMultiSelection() const;
+    bool posInSelected(const QPoint &pos);
 
     QMap<QString, QString> selectedImages() const;
     QString timeline() const;
@@ -45,7 +44,6 @@ private:
     void initListView();
 
 private:
-    bool m_multiselection;
     QString m_timeline;
     ThumbnailListView *m_view;
     DatabaseManager *m_dbManager;

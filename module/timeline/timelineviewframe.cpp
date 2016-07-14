@@ -21,10 +21,8 @@ const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 }  //namespace
 
 TimelineViewFrame::TimelineViewFrame(const QString &timeline,
-                                     bool multiselection,
                                      QWidget *parent)
     : QFrame(parent),
-      m_multiselection(multiselection),
       m_timeline(timeline),
       m_dbManager(DatabaseManager::instance()),
       m_sManager(SignalManager::instance())
@@ -58,12 +56,6 @@ void TimelineViewFrame::initListView()
     m_view = new ThumbnailListView(this);
     m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
-    if (m_multiselection) {
-        m_view->setSelectionMode(QAbstractItemView::MultiSelection);
-    }
-    else {
-        m_view->setSelectionMode(QAbstractItemView::SingleSelection);
-    }
 
     connect(m_view, &ThumbnailListView::clicked,
             this, &TimelineViewFrame::clicked);
@@ -95,6 +87,12 @@ void TimelineViewFrame::setMultiSelection(bool multiple)
 bool TimelineViewFrame::isMultiSelection() const
 {
     return m_view->isMultiSelection();
+}
+
+bool TimelineViewFrame::posInSelected(const QPoint &pos)
+{
+    QModelIndexList list = m_view->selectionModel()->selectedIndexes();
+    return list.indexOf(m_view->indexAt(pos)) != -1;
 }
 
 void TimelineViewFrame::setIconSize(const QSize &iconSize)

@@ -417,8 +417,8 @@ QString TimelinePanel::createMenuContent()
 
     QMap<QString, QString> images = m_view->selectedImages();
     QJsonArray items;
+    items.append(createMenuItem(IdView, tr("View")));
     if (images.count() == 1) {
-        items.append(createMenuItem(IdView, tr("View")));
         items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
                                     false, "F11"));
     }
