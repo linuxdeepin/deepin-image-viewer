@@ -38,13 +38,14 @@ signals:
     void imageAddedToAlbum();
 
     void editImage(const QString &path);
+    void fullScreen(const QString &path);
+    void showImageInfo(const QString &path);
+    void showInFileManager(const QString &path);
+    void startSlideShow(ModulePanel* lastPanel, QStringList paths,
+                        QString path = "");
 
     void viewImage(const QString &path, const QStringList &paths = QStringList(),
                    const QString &album = "", bool inDB = true);
-    void fullScreen(const QString &path);
-    void startSlideShow(const QString &path);
-    void showImageInfo(const QString &path);
-    void showInFileManager(const QString &path);
 
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");

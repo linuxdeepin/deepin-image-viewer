@@ -22,9 +22,10 @@ public:
     void setItemSizeMultiple(int multiple);
 
 signals:
-    void openAlbum(const QString &album);
     void albumCreated();
     void albumRemoved();
+    void openAlbum(const QString &album);
+    void startSlideShow(const QStringList &paths);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
@@ -45,9 +46,10 @@ private:
         IdSeparator
     };
 
-    QString getAlbumName(const QModelIndex &index);
-    QString getNewAlbumName() const;
-    QString createMenuContent(const QModelIndex &index);
+    const QString createMenuContent(const QModelIndex &index);
+    const QString getAlbumName(const QModelIndex &index) const;
+    const QString getNewAlbumName() const;
+    const QStringList paths(const QString &album) const;
 
     QJsonValue createMenuItem(const MenuItemId id,
                               const QString &text,

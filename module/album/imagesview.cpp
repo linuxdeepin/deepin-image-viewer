@@ -1,6 +1,5 @@
+#include "dscrollbar.h"
 #include "imagesview.h"
-#include "widgets/thumbnaillistview.h"
-#include "widgets/importframe.h"
 #include "controller/databasemanager.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
@@ -8,7 +7,8 @@
 #include "controller/wallpapersetter.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "dscrollbar.h"
+#include "widgets/importframe.h"
+#include "widgets/thumbnaillistview.h"
 #include <QDebug>
 #include <QFileInfo>
 #include <QStandardItem>
@@ -130,6 +130,16 @@ QString ImagesView::currentSelectOne(bool isPath)
     }
 }
 
+const QStringList ImagesView::paths()
+{
+    QStringList list;
+    auto infos = m_dbManager->getImageInfosByAlbum(m_album);
+    for (int i = 0; i < infos.length(); i ++) {
+        list << infos[i].path;
+    }
+    return list;
+}
+
 QString ImagesView::createMenuContent()
 {
     QJsonArray items;
@@ -219,7 +229,8 @@ void ImagesView::onMenuItemClicked(int menuId)
 
     const QStringList nList = selectedImagesNameList();
     const QStringList pList = selectedImagesPathList();
-    const QStringList viewPaths = (pList.length() == 1) ? QStringList() : pList;
+    const QStringList viewPaths = (pList.length() == 1)
+            ? paths() : pList;
 //    const QString cname = currentSelectOne(false);
     const QString cpath = currentSelectOne(true);
     switch (MenuItemId(menuId)) {
@@ -231,8 +242,7 @@ void ImagesView::onMenuItemClicked(int menuId)
         m_sManager->fullScreen(cpath);
         break;
     case IdStartSlideShow:
-        m_sManager->viewImage(cpath, viewPaths, m_album);
-        m_sManager->startSlideShow(cpath);
+        emit startSlideShow(viewPaths, cpath);
         break;
     case IdExport:
         Exporter::instance()->exportImage(selectedImagesPathList());

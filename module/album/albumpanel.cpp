@@ -256,11 +256,19 @@ void AlbumPanel::initAlbumsView()
             Qt::QueuedConnection);
     connect(m_albumsView, &AlbumsView::albumRemoved,
             this, &AlbumPanel::updateAlbumCount);
+    connect(m_albumsView, &AlbumsView::startSlideShow,
+            this, [=] (const QStringList &paths) {
+        emit m_sManager->startSlideShow(this, paths);
+    });
 }
 
 void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
+    connect(m_imagesView, &ImagesView::startSlideShow,
+            this, [=] (const QStringList &paths, const QString &path) {
+        emit m_sManager->startSlideShow(this, paths, path);
+    });
     connect(m_sManager, &SignalManager::insertIntoAlbum,
             this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
     connect(m_sManager, &SignalManager::removeFromAlbum,

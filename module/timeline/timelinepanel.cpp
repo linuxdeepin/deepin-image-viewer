@@ -349,8 +349,7 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         m_sManager->fullScreen(cpath);
         break;
     case IdStartSlideShow:
-        m_sManager->viewImage(cpath, viewPaths);
-        m_sManager->startSlideShow(cpath);
+        m_sManager->startSlideShow(this, viewPaths, cpath);
         break;
 
     case IdAddToAlbum: {

@@ -18,7 +18,8 @@ const int EXTENSION_PANEL_WIDTH = 240;
 }  // namespace
 
 MainWidget::MainWidget(bool manager, QWidget *parent)
-    : QFrame(parent)
+    : QFrame(parent),
+      m_sManager(SignalManager::instance())
 {
     initStyleSheet();
     initPanelStack();
@@ -27,27 +28,28 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initBottomToolbar();
 
     if (manager) {
-        initTimelinePanel();
         initAlbumPanel();
         initEditPanel();
+        initSlideShowPanel();
+        initTimelinePanel();
     }
     initViewPanel();
 
-    connect(m_signalManager, &SignalManager::backToMainWindow, this, [=] {
+    connect(m_sManager, &SignalManager::backToMainWindow, this, [=] {
         onGotoPanel(m_timelinePanel);
-        emit m_signalManager->showTopToolbar();
-        emit m_signalManager->showBottomToolbar();
-        emit m_signalManager->hideExtensionPanel(true);
+        emit m_sManager->showTopToolbar();
+        emit m_sManager->showBottomToolbar();
+        emit m_sManager->hideExtensionPanel(true);
     });
-    connect(m_signalManager, &SignalManager::gotoPanel,
+    connect(m_sManager, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);
-    connect(m_signalManager, &SignalManager::showInFileManager,
+    connect(m_sManager, &SignalManager::showInFileManager,
             this, [=] (const QString &path) {
         utils::base::showInFileManager(path);
     });
-    connect(m_signalManager, &SignalManager::showProcessTooltip,
+    connect(m_sManager, &SignalManager::showProcessTooltip,
             this, &MainWidget::onShowProcessTooltip);
-    connect(m_signalManager, &SignalManager::showImageInfo,
+    connect(m_sManager, &SignalManager::showImageInfo,
             this, &MainWidget::onShowImageInfo);
 }
 
@@ -82,10 +84,10 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     Importer::instance()->nap();
 
     m_panelStack->setCurrentWidget(panel);
-    emit m_signalManager->updateTopToolbarLeftContent(panel->toolbarTopLeftContent());
-    emit m_signalManager->updateTopToolbarMiddleContent(panel->toolbarTopMiddleContent());
-    emit m_signalManager->updateBottomToolbarContent(panel->toolbarBottomContent());
-    emit m_signalManager->updateExtensionPanelContent(panel->extensionPanelContent());
+    emit m_sManager->updateTopToolbarLeftContent(panel->toolbarTopLeftContent());
+    emit m_sManager->updateTopToolbarMiddleContent(panel->toolbarTopMiddleContent());
+    emit m_sManager->updateBottomToolbarContent(panel->toolbarBottomContent());
+    emit m_sManager->updateExtensionPanelContent(panel->extensionPanelContent());
 }
 
 void MainWidget::onShowProcessTooltip(const QString &message, bool success)
@@ -105,11 +107,11 @@ void MainWidget::onShowImageInfo(const QString &path)
                mapToGlobal(QPoint(0, 0)).y());
     info->show();
     connect(info, &ImageInfoDialog::closed, info, &ImageInfoDialog::deleteLater);
-    connect(m_signalManager, &SignalManager::gotoPanel,
+    connect(m_sManager, &SignalManager::gotoPanel,
             info, &ImageInfoDialog::close);
-    connect(m_signalManager, &SignalManager::gotoAlbumPanel,
+    connect(m_sManager, &SignalManager::gotoAlbumPanel,
             info, &ImageInfoDialog::close);
-    connect(m_signalManager, &SignalManager::backToMainWindow,
+    connect(m_sManager, &SignalManager::backToMainWindow,
             info, &ImageInfoDialog::close);
 }
 
@@ -129,21 +131,21 @@ void MainWidget::initTopToolbar()
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
-    connect(m_signalManager, &SignalManager::updateTopToolbarLeftContent,
+    connect(m_sManager, &SignalManager::updateTopToolbarLeftContent,
             this, [=](QWidget *c) {
         if (c != nullptr)
             m_topToolbar->setLeftContent(c);
     });
-    connect(m_signalManager, &SignalManager::updateTopToolbarMiddleContent,
+    connect(m_sManager, &SignalManager::updateTopToolbarMiddleContent,
             this, [=](QWidget *c) {
         if (c != nullptr)
             m_topToolbar->setMiddleContent(c);
     });
-    connect(m_signalManager, &SignalManager::showTopToolbar, this, [=] {
+    connect(m_sManager, &SignalManager::showTopToolbar, this, [=] {
 //        m_topToolbar->moveWithAnimation(0, 0);
         m_topToolbar->move(0, 0);
     });
-    connect(m_signalManager, &SignalManager::hideTopToolbar, this,
+    connect(m_sManager, &SignalManager::hideTopToolbar, this,
             [=](bool immediately) {
         Q_UNUSED(immediately)
         m_topToolbar->move(0, - TOP_TOOLBAR_HEIGHT);
@@ -161,7 +163,7 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar = new BottomToolbar(this, m_panelStack);
     m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
-    connect(m_signalManager, &SignalManager::updateBottomToolbarContent,
+    connect(m_sManager, &SignalManager::updateBottomToolbarContent,
             this, [=](QWidget *c, bool wideMode) {
         if (c == nullptr)
             return;
@@ -174,7 +176,7 @@ void MainWidget::initBottomToolbar()
         }
         m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     });
-    connect(m_signalManager, &SignalManager::showBottomToolbar, this, [=] {
+    connect(m_sManager, &SignalManager::showBottomToolbar, this, [=] {
         m_bottomToolbar->setVisible(true);
         m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
 //        // Make the bottom toolbar always stay at the bottom after windows resize
@@ -182,7 +184,7 @@ void MainWidget::initBottomToolbar()
 //        m_bottomToolbar->moveWithAnimation(0, height() - m_bottomToolbar->height());
     });
 
-    connect(m_signalManager, &SignalManager::hideBottomToolbar,
+    connect(m_sManager, &SignalManager::hideBottomToolbar,
             this, [=](bool immediately) {
         m_bottomToolbar->move(0, height());
         m_bottomToolbar->setVisible(false);
@@ -201,16 +203,16 @@ void MainWidget::initExtensionPanel()
 {
     m_extensionPanel = new ExtensionPanel(this, m_panelStack);
     m_extensionPanel->move(- EXTENSION_PANEL_WIDTH, 0);
-    connect(m_signalManager, &SignalManager::updateExtensionPanelContent,
+    connect(m_sManager, &SignalManager::updateExtensionPanelContent,
             this, [=](QWidget *c) {
         if (c != nullptr)
             m_extensionPanel->setContent(c);
     });
-    connect(m_signalManager, &SignalManager::updateExtensionPanelRect,
+    connect(m_sManager, &SignalManager::updateExtensionPanelRect,
             this, [=] {
         m_extensionPanel->updateRectWithContent();
     });
-    connect(m_signalManager, &SignalManager::showExtensionPanel, this, [=] {
+    connect(m_sManager, &SignalManager::showExtensionPanel, this, [=] {
         // Is visible
         if (m_extensionPanel->pos() == QPoint(0, 0)) {
             m_extensionPanel->move(- m_extensionPanel->width(), 0);
@@ -219,7 +221,7 @@ void MainWidget::initExtensionPanel()
             m_extensionPanel->move(0, 0);
         }
     });
-    connect(m_signalManager, &SignalManager::hideExtensionPanel,
+    connect(m_sManager, &SignalManager::hideExtensionPanel,
             this, [=] (bool immediately) {
         m_extensionPanel->move(- qMax(m_extensionPanel->width(),
                                                EXTENSION_PANEL_WIDTH), 0);
@@ -258,9 +260,9 @@ void MainWidget::initAlbumPanel()
     m_albumPanel = new AlbumPanel;
     m_panelStack->addWidget(m_albumPanel);
 
-    connect(m_signalManager, &SignalManager::createAlbum,
+    connect(m_sManager, &SignalManager::createAlbum,
             m_albumPanel, &AlbumPanel::onCreateAlbum);
-    connect(m_signalManager, &SignalManager::gotoAlbumPanel,
+    connect(m_sManager, &SignalManager::gotoAlbumPanel,
             this, [=] (const QString &album) {
         onGotoPanel(m_albumPanel);
         if (! album.isEmpty()) {
@@ -279,4 +281,10 @@ void MainWidget::initEditPanel()
 {
     m_editPanel = new EditPanel();
     m_panelStack->addWidget(m_editPanel);
+}
+
+void MainWidget::initSlideShowPanel()
+{
+    m_slideShowPanel = new SlideShowPanel();
+    m_panelStack->addWidget(m_slideShowPanel);
 }

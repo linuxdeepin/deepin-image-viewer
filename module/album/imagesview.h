@@ -32,6 +32,9 @@ public:
     QStringList selectedImagesPathList() const;
     QString getCurrentAlbum() const;
 
+signals:
+    void startSlideShow(const QStringList &paths, const QString &path);
+
 protected:
     void resizeEvent(QResizeEvent *e) override;
 
@@ -62,14 +65,14 @@ private:
     void initListView();
     void initTopTips();
 
-    QString currentSelectOne(bool isPath = true);
     QString createMenuContent();
-
     QJsonValue createMenuItem(const MenuItemId id,
                               const QString &text,
                               const bool isSeparator = false,
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
+    QString currentSelectOne(bool isPath = true);
+    const QStringList paths();
 
     void updateThumbnail(const QString &path);
     void updateMenuContents();

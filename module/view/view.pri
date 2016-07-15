@@ -1,6 +1,3 @@
-
-include (slideeffect/slideeffect.pri)
-
 HEADERS += \
     $$PWD/imageinfowidget.h \
     $$PWD/imagewidget.h \

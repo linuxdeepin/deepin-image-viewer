@@ -103,10 +103,11 @@ private:
     bool mouseContainsByBottomToolbar(const QPoint &pos);
     int imageIndex(const QString &name);
 
+    DatabaseManager *dbManager() const;
+    QFileInfoList getFileInfos(const QString &path);
     QList<DatabaseManager::ImageInfo> getImageInfos(
             const QFileInfoList &infos);
-    QFileInfoList getFileInfos(const QString &path);
-    DatabaseManager *dbManager() const;
+    const QStringList paths() const;
 
 private:
     bool m_inDB;
@@ -116,7 +117,6 @@ private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
-    SlideEffectPlayer *m_slide = NULL;
     ImageSliderFrame *m_imageSlider = NULL;
     PopupMenuManager *m_popupMenu;
     SignalManager *m_sManager;

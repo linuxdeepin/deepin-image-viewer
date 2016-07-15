@@ -2,7 +2,6 @@
 #include "imageinfowidget.h"
 #include "contents/ttmcontent.h"
 #include "contents/ttlcontent.h"
-#include "slideeffect/slideeffectplayer.h"
 #include "controller/signalmanager.h"
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
@@ -77,21 +76,18 @@ void ViewPanel::initConnect() {
 
     connect(m_sManager, &SignalManager::gotoPanel,
             this, [=] (ModulePanel *p){
+        showToolbar(true);
         if (p != this) {
-            showToolbar(true);
             showToolbar(false);
         }
         else {
             emit m_sManager->hideBottomToolbar(true);
         }
-        m_slide->stop();
     });
     connect(m_sManager, &SignalManager::viewImage,
             this, &ViewPanel::onViewImage);
     connect(m_sManager, &SignalManager::fullScreen,
             this, &ViewPanel::toggleFullScreen);
-    connect(m_sManager, &SignalManager::startSlideShow,
-            this, &ViewPanel::toggleSlideShow);
     connect(m_sManager, &SignalManager::removeFromAlbum,
             this, [=] (QString album, QString name) {
         if (isVisible()
@@ -118,20 +114,20 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        if (!m_slide->isRunning()) {
-            qreal v = m_view->scaleValue() + 0.1;
-            m_view->setScaleValue(qMin(v, 10.0));
-        }
+        qreal v = m_view->scaleValue() + 0.1;
+        m_view->setScaleValue(qMin(v, 10.0));
+//        if (!m_slide->isRunning()) {
+//        }
     });
 
     // Zoom in
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        if (!m_slide->isRunning()) {
-            qreal v = m_view->scaleValue() - 0.1;
-            m_view->setScaleValue(qMax(v, 0.5));
-        }
+        qreal v = m_view->scaleValue() - 0.1;
+        m_view->setScaleValue(qMax(v, 0.5));
+//        if (!m_slide->isRunning()) {
+//        }
     });
 
     // Esc
@@ -139,13 +135,13 @@ void ViewPanel::initShortcut()
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         window()->showNormal();
-        if (m_slide->isRunning()) {
-            toggleSlideShow();
-            showToolbar(true);
-        }
-        else {
-            Q_EMIT m_sManager->backToMainWindow();
-        }
+        Q_EMIT m_sManager->backToMainWindow();
+//        if (m_slide->isRunning()) {
+//            toggleSlideShow();
+//            showToolbar(true);
+//        }
+//        else {
+//        }
     });
 }
 
@@ -169,50 +165,47 @@ void ViewPanel::updateMenuContent()
 
 void ViewPanel::toggleSlideShow()
 {
-    if (m_slide->isRunning()) {
-        m_view->setInSlideShow(false);
-        m_view->setImage(m_slide->currentImagePath());
-        m_slide->stop();
-        m_nav->setImage(m_view->image());
+//    if (m_slide->isRunning()) {
+//        m_view->setInSlideShow(false);
+//        m_view->setImage(m_slide->currentImagePath());
+//        m_slide->stop();
+//        m_nav->setImage(m_view->image());
 
-        showNormal();
-        updateMenuContent();
-    }
-    else {
-        emit m_sManager->hideTopToolbar(false);
-        //    emit m_sManager->hideBottomToolbar(false);
+//        showNormal();
+//        updateMenuContent();
+//    }
+//    else {
+//        emit m_sManager->hideTopToolbar(false);
+//        //    emit m_sManager->hideBottomToolbar(false);
 
-        // Wait for image opened
-        TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL + 10, {
+//        // Wait for image opened
+//        TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL + 10, {
 
-        QStringList paths;
-        for (const DatabaseManager::ImageInfo& info : m_infos) {
-            paths << info.path;
-        }
-        if (! window()->isFullScreen())
-            showFullScreen();
-        m_view->setInSlideShow(true);
-        m_slide->setImagePaths(paths);
-        m_slide->setCurrentImage(m_current->path);
-        m_slide->start();
+//        QStringList paths;
+//        for (const DatabaseManager::ImageInfo& info : m_infos) {
+//            paths << info.path;
+//        }
+//        if (! window()->isFullScreen())
+//            showFullScreen();
+//        m_view->setInSlideShow(true);
+//        m_slide->setImagePaths(paths);
+//        m_slide->setCurrentImage(m_current->path);
+//        m_slide->start();
 
-        updateMenuContent();
+//        updateMenuContent();
 
-                         }, this);
-    }
+//                         }, this);
+//    }
 }
 
 void ViewPanel::showToolbar(bool isTop)
 {
-    QTimer *t = new QTimer(this);
-    connect(t, &QTimer::timeout, this, [=] {
-       if (isTop)
-           emit m_sManager->showTopToolbar();
-//       else
-//           emit m_sManager->showBottomToolbar();
-    });
-    connect(t, &QTimer::timeout, t, &QTimer::deleteLater);
-    t->start(SHOW_TOOLBAR_INTERVAL);
+    TIMER_SINGLESHOT(SHOW_TOOLBAR_INTERVAL, {
+    if (isTop)
+        emit m_sManager->showTopToolbar();
+    //       else
+    //           emit m_sManager->showBottomToolbar();
+                     }, this, isTop);
 }
 
 void ViewPanel::showNormal()
@@ -280,6 +273,15 @@ QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
     return imageInfos;
 }
 
+const QStringList ViewPanel::paths() const
+{
+    QStringList list;
+    for (DatabaseManager::ImageInfo info : m_infos) {
+        list << info.path;
+    }
+    return list;
+}
+
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
     return utils::image::getImagesInfo(QFileInfo(path).path(), true);
@@ -314,7 +316,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
     TTLContent *ttlc = new TTLContent(source);
     connect(ttlc, &TTLContent::clicked, this, [=] (TTLContent::ImageSource s) {
-        m_slide->stop();
+//        m_slide->stop();
         if (window()->isFullScreen())
             showNormal();
         switch (s) {
@@ -383,7 +385,10 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
     Q_UNUSED(obj)
     if (e->type() == QEvent::Hide) {
         m_view->setImage("");
-        m_slide->setImagePaths(QStringList());
+    }
+    else if (m_infos.length() > 0 &&  m_current != m_infos.constEnd()
+             && e->type() == QEvent::Show) {
+        m_view->setImage(m_current->path);
     }
     return false;
 }
@@ -398,7 +403,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         (this->rect().height() - m_imageSlider->height() + TOP_TOOLBAR_HEIGHT) / 2);
 
 
-    m_slide->setFrameSize(e->size().width(), e->size().height());
+//    m_slide->setFrameSize(e->size().width(), e->size().height());
     // for reset transform after toggle fullscreen etc.
     if (! m_view->imagePath().isEmpty())
         m_view->setImage(QString(m_view->imagePath()));
@@ -425,7 +430,7 @@ void ViewPanel::enterEvent(QEvent *e)
 {
     // Leave from toolbar and enter inside panel
     Q_UNUSED(e);
-    if (m_slide->isRunning() || window()->isFullScreen()) {
+    if (/*m_slide->isRunning() || */window()->isFullScreen()) {
 //        Q_EMIT m_sManager->hideBottomToolbar();
         Q_EMIT m_sManager->hideTopToolbar();
     }
@@ -520,9 +525,9 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
-    if (m_slide->isRunning())
-        return false;
-    m_slide->stop();
+//    if (m_slide->isRunning())
+//        return false;
+//    m_slide->stop();
     if (m_infos.isEmpty())
         return false;
     if (m_current == m_infos.cbegin())
@@ -535,9 +540,9 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
-    if (m_slide->isRunning())
-        return false;
-    m_slide->stop();
+//    if (m_slide->isRunning())
+//        return false;
+//    m_slide->stop();
     if (m_infos.isEmpty())
         return false;
     if (m_current == m_infos.cend())
@@ -613,7 +618,7 @@ void ViewPanel::initStack()
 QString ViewPanel::createMenuContent()
 {
     QJsonArray items;
-    if (m_slide->isRunning()) {
+    if (false/*m_slide->isRunning()*/) {
         items.append(createMenuItem(IdStartSlideShow, tr("Stop slide show"),
                                     false, "F5"));
     }
@@ -766,7 +771,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         toggleFullScreen();
         break;
     case IdStartSlideShow:
-        toggleSlideShow();
+        emit m_sManager->startSlideShow(this, paths(), path);
         break;
     case IdAddToAlbum:
         dbManager()->insertImageIntoAlbum(albumName, name, time);
@@ -848,11 +853,11 @@ void ViewPanel::initSlider() {
 
     connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc) {
 
-        if (!m_slide->isRunning()) {
-            m_view->setScaleValue(perc*950/100);
-            m_imageSlider->show();
-            m_hideSlider->start();
-        }
+        m_view->setScaleValue(perc*950/100);
+        m_imageSlider->show();
+        m_hideSlider->start();
+//        if (!m_slide->isRunning()) {
+//        }
 
     });
 
@@ -867,25 +872,25 @@ void ViewPanel::initSlider() {
 
 void ViewPanel::initSliderEffectPlay()
 {
-    m_slide = new SlideEffectPlayer(this);
-    connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
-        m_current += steps;
-        if (m_current == m_infos.cend())
-            m_current = m_infos.cbegin();
-    });
-    connect(m_slide, &SlideEffectPlayer::currentImageChanged,
-            [this](const QString& path){
-        if (! m_nav->isVisible())
-            return;
-        // Slide image size is widget size
-        m_nav->setImage(QImage(path).scaled(m_slide->frameSize(),
-                                            Qt::KeepAspectRatio,
-                                            Qt::SmoothTransformation));
-    });
-    connect(m_slide, &SlideEffectPlayer::frameReady,
-            [this](const QImage& image) {
-        m_view->setImage(image);
-    });
+//    m_slide = new SlideEffectPlayer(this);
+//    connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
+//        m_current += steps;
+//        if (m_current == m_infos.cend())
+//            m_current = m_infos.cbegin();
+//    });
+//    connect(m_slide, &SlideEffectPlayer::currentImageChanged,
+//            [this](const QString& path){
+//        if (! m_nav->isVisible())
+//            return;
+//        // Slide image size is widget size
+//        m_nav->setImage(QImage(path).scaled(m_slide->frameSize(),
+//                                            Qt::KeepAspectRatio,
+//                                            Qt::SmoothTransformation));
+//    });
+//    connect(m_slide, &SlideEffectPlayer::frameReady,
+//            [this](const QImage& image) {
+//        m_view->setImage(image);
+//    });
 }
 
 void ViewPanel::initViewContent()
@@ -898,10 +903,10 @@ void ViewPanel::initViewContent()
         utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
     connect(m_view, &ImageWidget::doubleClicked, [this]() {
-        if (! m_slide->isRunning()) {
-            this->toggleFullScreen();
-            m_imageSlider->hide();
-        }
+        this->toggleFullScreen();
+        m_imageSlider->hide();
+//        if (! m_slide->isRunning()) {
+//        }
     });
 }
 
@@ -915,7 +920,9 @@ void ViewPanel::initNavigation()
     });
     connect(m_view, &ImageWidget::transformChanged, [this](){
         if (!m_nav->isAlwaysHidden())
-            m_nav->setVisible(!m_view->isWholeImageVisible() && !m_slide->isRunning());
+            m_nav->setVisible(
+                        !m_view->isWholeImageVisible()
+                        /*&& !m_slide->isRunning()*/);
         m_nav->setRectInImage(m_view->visibleImageRect());
     });
 }

@@ -1,6 +1,7 @@
 #include "slideeffectplayer.h"
 #include <QtCore/QTimerEvent>
 #include <QtDebug>
+#include <QPainter>
 
 SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
     : QObject(parent)
@@ -14,7 +15,7 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
         return;
     if (m_effect)
         m_effect->deleteLater();
-    if (!startNext()) {
+    if (! startNext()) {
         stop();
     }
 }
@@ -28,12 +29,14 @@ void SlideEffectPlayer::setFrameSize(int width, int height)
 void SlideEffectPlayer::setImagePaths(const QStringList &paths)
 {
     m_paths = paths;
-    m_current = m_paths.constEnd();
+    m_current = m_paths.constBegin();
 }
 
 void SlideEffectPlayer::setCurrentImage(const QString &path)
 {
     m_current = std::find(m_paths.cbegin(), m_paths.cend(),  path);
+    if (m_current == m_paths.constEnd())
+        m_current = m_paths.constBegin();
 }
 
 QString SlideEffectPlayer::currentImagePath() const
@@ -60,6 +63,12 @@ bool SlideEffectPlayer::startNext()
 {
     if (m_paths.isEmpty())
         return false;
+    QSize fSize(m_w, m_h);
+    if (! fSize.isValid()) {
+        qWarning() << "Invalid frame size!";
+        return false;
+    }
+
     const QString oldPath = currentImagePath();
     m_current ++;
     if (m_current == m_paths.constEnd()) {
@@ -67,10 +76,8 @@ bool SlideEffectPlayer::startNext()
     }
     const QString newPath = currentImagePath();
     m_effect = SlideEffect::create();
-    m_effect->setSize(QSize(m_w, m_h));
+    m_effect->setSize(fSize);
     m_effect->setImages(oldPath, newPath);
-    Q_EMIT stepChanged(1);
-    Q_EMIT currentImageChanged(newPath);
     if (!m_thread.isRunning())
         m_thread.start();
 

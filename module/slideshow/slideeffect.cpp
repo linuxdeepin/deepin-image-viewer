@@ -135,7 +135,7 @@ bool SlideEffect::prepareNextFrame()
     return false;
 }
 
-QImage *SlideEffect::currentFrame() const
+QImage *SlideEffect::currentFrame()
 {
     return frame_image;
 }
@@ -318,7 +318,7 @@ bool SlideEffect::isEndFrame(int frame)
     }
     return false;
 }
-
+#include <QDebug>
 //TODO: alpha blending here
 void SlideEffect::renderFrame()
 {

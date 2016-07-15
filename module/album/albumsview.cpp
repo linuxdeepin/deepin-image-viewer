@@ -150,10 +150,25 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
     QListView::mousePressEvent(e);
 }
 
-QString AlbumsView::getAlbumName(const QModelIndex &index)
+const QStringList AlbumsView::paths(const QString &album) const
+{
+    const QList<DatabaseManager::ImageInfo> infos =
+            m_dbManager->getImageInfosByAlbum(album);
+    if (! infos.isEmpty()) {
+        QStringList list;
+        for (DatabaseManager::ImageInfo info : infos) {
+            list << info.path;
+        }
+        return list;
+    }
+    return QStringList();
+}
+
+const QString AlbumsView::getAlbumName(const QModelIndex &index) const
 {
     QString albumName = "";
-    QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+    QList<QVariant> datas =
+            index.model()->data(index, Qt::DisplayRole).toList();
     if (! datas.isEmpty()) {
         albumName = datas[0].toString();
     }
@@ -161,7 +176,7 @@ QString AlbumsView::getAlbumName(const QModelIndex &index)
     return albumName;
 }
 
-QString AlbumsView::getNewAlbumName() const
+const QString AlbumsView::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
     const QStringList albums = m_dbManager->getAlbumNameList();
@@ -196,7 +211,7 @@ QString AlbumsView::getNewAlbumName() const
     }
 }
 
-QString AlbumsView::createMenuContent(const QModelIndex &index)
+const QString AlbumsView::createMenuContent(const QModelIndex &index)
 {
     QJsonArray items;
     if (index.isValid()) {
@@ -264,16 +279,8 @@ void AlbumsView::onMenuItemClicked(int menuId)
         emit openAlbum(albumName);
         break;
     case IdStartSlideShow:
-    {
-        const QList<DatabaseManager::ImageInfo> infos =
-                m_dbManager->getImageInfosByAlbum(albumName);
-        if (! infos.isEmpty()) {
-            emit m_sManager->viewImage(infos.first().path, QStringList(),
-                                       albumName);
-            emit m_sManager->startSlideShow("");
-        }
+        emit startSlideShow(paths(albumName));
         break;
-    }
     case IdRename:
         openPersistentEditor(this->currentIndex());
         break;

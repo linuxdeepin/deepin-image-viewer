@@ -46,7 +46,7 @@ public:
     void setDuration(int ms);
     int duration() const;
 
-    QImage *currentFrame() const;
+    QImage *currentFrame();
     void setType(EffectId type);
     EffectId type() const;
 /*!
