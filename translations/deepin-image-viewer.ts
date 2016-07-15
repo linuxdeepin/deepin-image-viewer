@@ -38,14 +38,6 @@
 <context>
     <name>AlbumPanel</name>
     <message>
-        <source>Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Albums</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
@@ -67,6 +59,14 @@
     </message>
     <message>
         <source>Timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>albums</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

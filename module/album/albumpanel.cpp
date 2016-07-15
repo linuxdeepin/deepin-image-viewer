@@ -310,7 +310,7 @@ void AlbumPanel::updateAlbumCount()
 
     const int count = m_dbManager->albumsCount();
     QString text = QString::number(count) + " " +
-            (count <= 1 ? tr("Album") : tr("Albums"));
+            (count <= 1 ? tr("album") : tr("albums"));
     m_countLabel->setText(text);
 
     m_slider->setValue(m_setter->value(SETTINGS_GROUP,
