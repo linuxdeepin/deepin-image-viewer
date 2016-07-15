@@ -29,9 +29,9 @@ ImportFrame::ImportFrame(QWidget *parent)
     layout->setSpacing(0);
     layout->addStretch(1);
     layout->addWidget(bgLabel, 0, Qt::AlignHCenter);
-    layout->addSpacing(20);
+    layout->addSpacing(21);
     layout->addWidget(m_importButton, 0, Qt::AlignHCenter);
-    layout->addSpacing(10);
+    layout->addSpacing(15);
     layout->addWidget(m_titleLabel, 0, Qt::AlignHCenter);
     layout->addStretch(1);
 }

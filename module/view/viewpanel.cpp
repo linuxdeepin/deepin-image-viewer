@@ -395,7 +395,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 
     m_imageSlider->move(this->rect().right() - m_imageSlider->width() - 20,
-        (this->rect().height() - m_imageSlider->height()) / 2);
+        (this->rect().height() - m_imageSlider->height() + TOP_TOOLBAR_HEIGHT) / 2);
 
 
     m_slide->setFrameSize(e->size().width(), e->size().height());

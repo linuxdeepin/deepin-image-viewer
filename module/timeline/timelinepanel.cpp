@@ -100,21 +100,39 @@ QWidget *TimelinePanel::toolbarBottomContent()
     }
     else {  // For import images to an album
         separatorLine->show();
+        QVBoxLayout* titleLayout = new QVBoxLayout;
+        titleLayout->setMargin(0);
+        titleLayout->addStretch();
         QLabel *label = new QLabel;
         label->setObjectName("AddToAlbumTitle");
-        label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         label->setText(tr("Add to \"%1\" album").arg(m_targetAlbum));
+        titleLayout->addWidget(label);
+        titleLayout->addSpacing(7);
+        titleLayout->addStretch();
 
+        QVBoxLayout* cancelBtnLayout = new QVBoxLayout;
+        cancelBtnLayout->setMargin(0);
+        cancelBtnLayout->addStretch();
         QPushButton *cancelButton = new QPushButton(tr("Cancel"));
         cancelButton->setObjectName("AddToAlbumCancel");
+
         connect(cancelButton, &QPushButton::clicked, this, [=] {
             emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
             emit m_sManager->gotoAlbumPanel();
             emit m_sManager->imageAddedToAlbum();
         });
+        cancelBtnLayout->addWidget(cancelButton);
+        cancelBtnLayout->addSpacing(6);
+        cancelBtnLayout->addStretch();
 
+        QVBoxLayout* addBtnLayout = new QVBoxLayout;
+        addBtnLayout->setMargin(0);
+        addBtnLayout->addStretch();
         QPushButton *addButton = new QPushButton(tr("Add"));
         addButton->setObjectName("AddToAlbumAdd");
+        addBtnLayout->addWidget(addButton);
+        addBtnLayout->addSpacing(6);
+        addBtnLayout->addStretch();
         connect(addButton, &QPushButton::clicked, this, [=] {
             QStringList images = m_view->selectedImages().keys();
             for (QString image : images) {
@@ -130,11 +148,11 @@ QWidget *TimelinePanel::toolbarBottomContent()
             emit m_sManager->imageAddedToAlbum();
         });
 
-        layout->addWidget(label);
+        layout->addLayout(titleLayout);
         layout->addStretch(1);
-        layout->addWidget(cancelButton);
+        layout->addLayout(cancelBtnLayout);
         layout->addSpacing(10);
-        layout->addWidget(addButton);
+        layout->addLayout(addBtnLayout);
     }
     btmLayout->addLayout(layout);
     return tBottomContent;
