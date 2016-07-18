@@ -244,8 +244,8 @@ void DWindowFrame::startResizing(const QPoint& globalPoint, const CornerEdge& ce
     xev.xclient.data.l[0] = globalPoint.x();
     xev.xclient.data.l[1] = globalPoint.y();
     xev.xclient.data.l[2] = cornerEdge2WmGravity(ce);
-    xev.xclient.data.l[3] = Button1;
-    xev.xclient.data.l[4] = 1;
+    xev.xclient.data.l[3] = 0;
+    xev.xclient.data.l[4] = 0;
     XUngrabPointer(display, QX11Info::appTime());
 
     XSendEvent(display,
@@ -316,8 +316,8 @@ void DWindowFrame::startMoving() {
     xev.xclient.data.l[0] = globalPos.x();
     xev.xclient.data.l[1] = globalPos.y();
     xev.xclient.data.l[2] = _NET_WM_MOVERESIZE_MOVE;
-    xev.xclient.data.l[3] = Button1;
-    xev.xclient.data.l[4] = 1;
+    xev.xclient.data.l[3] = 0;
+    xev.xclient.data.l[4] = 0;
     XUngrabPointer(display, QX11Info::appTime());
 
     XSendEvent(display,
