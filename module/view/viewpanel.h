@@ -76,7 +76,6 @@ private:
 
     void initStack();
     void initSlider();
-    void initSliderEffectPlay();
     void initViewContent();
     void initNavigation();
     void initConnect();
@@ -94,7 +93,6 @@ private:
     void onMenuItemClicked(int menuId, const QString &text);
 
     void updateMenuContent();
-    void toggleSlideShow();
     void showToolbar(bool isTop);
     void showNormal();
     void showFullScreen();
