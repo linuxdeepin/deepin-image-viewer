@@ -3,7 +3,9 @@
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
+#include <QApplication>
 #include <QDebug>
+#include <QDesktopWidget>
 #include <QPainter>
 #include <QResizeEvent>
 #include <QShortcut>
@@ -159,7 +161,9 @@ void SlideShowPanel::showFullScreen()
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
     window()->showFullScreen();
-//    window()->resize(qApp->desktop()->screenGeometry().size());
+    // FIXME: Full-screen mode works fine under Windows,
+    // but has certain problems under X. So we resize the window's size every time
+    window()->resize(qApp->desktop()->screenGeometry().size());
 
 
     TIMER_SINGLESHOT(300, {
