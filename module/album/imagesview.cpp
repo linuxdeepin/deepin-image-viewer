@@ -9,6 +9,7 @@
 #include "utils/imageutils.h"
 #include "widgets/importframe.h"
 #include "widgets/thumbnaillistview.h"
+#include "widgets/scrollbar.h"
 #include <QDebug>
 #include <QFileInfo>
 #include <QStandardItem>
@@ -32,7 +33,7 @@ ImagesView::ImagesView(QWidget *parent)
 {
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
-    setVerticalScrollBar(new Dtk::Widget::DScrollBar());
+    setVerticalScrollBar(new ScrollBar(this));
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     initStack();

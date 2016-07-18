@@ -4,7 +4,7 @@
 #include "controller/importer.h"
 #include "controller/configsetter.h"
 #include "utils/baseutils.h"
-#include "dscrollbar.h"
+#include "widgets/scrollbar.h"
 #include <math.h>
 #include <QEvent>
 #include <QPushButton>
@@ -28,7 +28,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
       m_multiSelection(multiselection),
       m_iconSize(96, 96)
 {
-    setVerticalScrollBar(new Dtk::Widget::DScrollBar());
+    setVerticalScrollBar(new ScrollBar(this));
 
 //    initSliderFrame();
     initTopTips();
