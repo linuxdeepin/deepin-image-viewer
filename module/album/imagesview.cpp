@@ -154,9 +154,10 @@ QString ImagesView::createMenuContent()
 
     items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash")));
+    items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash"), false,
+                                "Delete"));
     items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
-                                false, "Delete"));
+                                false, "Shift+Delete"));
 
     items.append(createMenuItem(IdSeparator, "", true));
 //    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
