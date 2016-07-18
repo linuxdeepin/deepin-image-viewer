@@ -5,12 +5,13 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include <QBuffer>
-#include <QPaintEvent>
-#include <QEvent>
 #include <QDebug>
+#include <QEvent>
 #include <QFile>
-#include <QTimer>
+#include <QPaintEvent>
+#include <QPixmapCache>
 #include <QStandardItemModel>
+#include <QTimer>
 
 namespace {
 
@@ -72,11 +73,8 @@ void ThumbnailListView::updateViewPortSize()
 
 void ThumbnailListView::updateThumbnail(const QString &name)
 {
-    const QModelIndex index = m_model->index(indexOf(name), 0);
-    if (index.isValid()) {
-        m_model->setData(index, QVariant(getVariantList(itemInfo(index))),
-                         Qt::DisplayRole);
-    }
+    // Remove cache force view's delegate reread thumbnail
+    QPixmapCache::remove(name);
 }
 
 void ThumbnailListView::setIconSize(const QSize &size)

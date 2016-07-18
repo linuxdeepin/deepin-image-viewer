@@ -12,17 +12,18 @@
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include <QApplication>
+#include <QDebug>
 #include <QDesktopWidget>
 #include <QFile>
 #include <QFileInfo>
-#include <QResizeEvent>
-#include <QRegularExpression>
-#include <QShortcut>
 #include <QHBoxLayout>
 #include <QKeySequence>
-#include <QTimer>
+#include <QPixmapCache>
 #include <QProcess>
-#include <QDebug>
+#include <QRegularExpression>
+#include <QResizeEvent>
+#include <QShortcut>
+#include <QTimer>
 
 #include <ddialog.h>
 
@@ -822,10 +823,14 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdRotateClockwise:
         m_view->rotateClockWise();
         m_nav->setImage(m_view->image());
+        // Remove cache force view's delegate reread thumbnail
+        QPixmapCache::remove(name);
         break;
     case IdRotateCounterclockwise:
         m_view->rotateCounterclockwise();
         m_nav->setImage(m_view->image());
+        // Remove cache force view's delegate reread thumbnail
+        QPixmapCache::remove(name);
         break;
     case IdLabel:
         break;

@@ -272,7 +272,11 @@ void AlbumPanel::initImagesView()
     connect(m_sManager, &SignalManager::insertIntoAlbum,
             this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
     connect(m_sManager, &SignalManager::removeFromAlbum,
-            this, &AlbumPanel::updateImagesCount);
+            this, [=] (const QString &album, const QString &name) {
+        Q_UNUSED(album)
+        m_imagesView->removeItem(name);
+        updateImagesCount();
+    });
 }
 
 void AlbumPanel::initStyleSheet()

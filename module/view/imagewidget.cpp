@@ -1,12 +1,12 @@
 #include "imagewidget.h"
-#include <QPainter>
-#include <QtDebug>
-#include <QFileInfo>
-#include <QDesktopWidget>
-#include <QApplication>
-#include <QMouseEvent>
-#include "utils/imageutils.h"
 #include "controller/databasemanager.h"
+#include "utils/imageutils.h"
+#include <QApplication>
+#include <QDebug>
+#include <QDesktopWidget>
+#include <QFileInfo>
+#include <QMouseEvent>
+#include <QPainter>
 
 ImageWidget::ImageWidget(QWidget *parent)
     : QWidget(parent)
