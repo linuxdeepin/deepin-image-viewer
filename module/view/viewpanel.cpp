@@ -284,7 +284,7 @@ const QStringList ViewPanel::paths() const
 
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
-    return utils::image::getImagesInfo(QFileInfo(path).path(), true);
+    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
 }
 
 DatabaseManager *ViewPanel::dbManager() const
