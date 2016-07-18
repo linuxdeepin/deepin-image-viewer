@@ -124,7 +124,8 @@ bool CommandLine::processOption()
             emit sm->hideBottomToolbar(true);
             emit sm->enableMainMenu(false);
             TIMER_SINGLESHOT(50, {
-                emit sm->viewImage(value, QStringList(), "", false);}, value, sm)
+                emit sm->viewImage(value, QStringList(), "", false);},
+                             value, sm)
             return true;
         }
         else if (name == "a" || name == "album") {
