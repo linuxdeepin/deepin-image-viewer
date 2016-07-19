@@ -50,7 +50,6 @@ ViewPanel::ViewPanel(QWidget *parent)
     initStack();
     initNavigation();
     initSlider();
-    initSliderEffectPlay();
 
     initConnect();
     initShortcut();
@@ -117,8 +116,6 @@ void ViewPanel::initShortcut()
     connect(sc, &QShortcut::activated, this, [=] {
         qreal v = m_view->scaleValue() + 0.1;
         m_view->setScaleValue(qMin(v, 10.0));
-//        if (!m_slide->isRunning()) {
-//        }
     });
 
     // Zoom in
@@ -127,22 +124,18 @@ void ViewPanel::initShortcut()
     connect(sc, &QShortcut::activated, this, [=] {
         qreal v = m_view->scaleValue() - 0.1;
         m_view->setScaleValue(qMax(v, 0.5));
-//        if (!m_slide->isRunning()) {
-//        }
     });
 
     // Esc
     sc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        window()->showNormal();
-        Q_EMIT m_sManager->backToMainWindow();
-//        if (m_slide->isRunning()) {
-//            toggleSlideShow();
-//            showToolbar(true);
-//        }
-//        else {
-//        }
+        if (window()->isFullScreen()) {
+            showNormal();
+        }
+        else {
+            Q_EMIT m_sManager->backToMainWindow();
+        }
     });
 }
 
@@ -162,41 +155,6 @@ void ViewPanel::updateMenuContent()
 {
     // For update shortcut
     m_popupMenu->setMenuContent(createMenuContent());
-}
-
-void ViewPanel::toggleSlideShow()
-{
-//    if (m_slide->isRunning()) {
-//        m_view->setInSlideShow(false);
-//        m_view->setImage(m_slide->currentImagePath());
-//        m_slide->stop();
-//        m_nav->setImage(m_view->image());
-
-//        showNormal();
-//        updateMenuContent();
-//    }
-//    else {
-//        emit m_sManager->hideTopToolbar(false);
-//        //    emit m_sManager->hideBottomToolbar(false);
-
-//        // Wait for image opened
-//        TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL + 10, {
-
-//        QStringList paths;
-//        for (const DatabaseManager::ImageInfo& info : m_infos) {
-//            paths << info.path;
-//        }
-//        if (! window()->isFullScreen())
-//            showFullScreen();
-//        m_view->setInSlideShow(true);
-//        m_slide->setImagePaths(paths);
-//        m_slide->setCurrentImage(m_current->path);
-//        m_slide->start();
-
-//        updateMenuContent();
-
-//                         }, this);
-//    }
 }
 
 void ViewPanel::showToolbar(bool isTop)
@@ -317,7 +275,6 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
     TTLContent *ttlc = new TTLContent(source);
     connect(ttlc, &TTLContent::clicked, this, [=] (TTLContent::ImageSource s) {
-//        m_slide->stop();
         if (window()->isFullScreen())
             showNormal();
         switch (s) {
@@ -403,8 +360,6 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     m_imageSlider->move(this->rect().right() - m_imageSlider->width() - 20,
         (this->rect().height() - m_imageSlider->height() + TOP_TOOLBAR_HEIGHT) / 2);
 
-
-//    m_slide->setFrameSize(e->size().width(), e->size().height());
     // for reset transform after toggle fullscreen etc.
     if (! m_view->imagePath().isEmpty())
         m_view->setImage(QString(m_view->imagePath()));
@@ -431,7 +386,7 @@ void ViewPanel::enterEvent(QEvent *e)
 {
     // Leave from toolbar and enter inside panel
     Q_UNUSED(e);
-    if (/*m_slide->isRunning() || */window()->isFullScreen()) {
+    if (window()->isFullScreen()) {
 //        Q_EMIT m_sManager->hideBottomToolbar();
         Q_EMIT m_sManager->hideTopToolbar();
     }
@@ -526,9 +481,6 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
-//    if (m_slide->isRunning())
-//        return false;
-//    m_slide->stop();
     if (m_infos.isEmpty())
         return false;
     if (m_current == m_infos.cbegin())
@@ -541,9 +493,6 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
-//    if (m_slide->isRunning())
-//        return false;
-//    m_slide->stop();
     if (m_infos.isEmpty())
         return false;
     if (m_current == m_infos.cend())
@@ -619,84 +568,81 @@ void ViewPanel::initStack()
 QString ViewPanel::createMenuContent()
 {
     QJsonArray items;
-    if (false/*m_slide->isRunning()*/) {
-        items.append(createMenuItem(IdStartSlideShow, tr("Stop slide show"),
-                                    false, "F5"));
+
+
+    if (window()->isFullScreen()) {
+        items.append(createMenuItem(IdFullScreen, tr("Exit fullscreen"),
+                                    false, "F11"));
     }
     else {
-        if (window()->isFullScreen()) {
-            items.append(createMenuItem(IdFullScreen, tr("Exit fullscreen"),
-                                        false, "F11"));
-        }
-        else {
-            items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
+        items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
                                     false, "F11"));
-        }
-
-        items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
-                                    false, "F5"));
-
-        if (m_inDB) {
-            const QJsonObject objF = createAlbumMenuObj(false);
-            if (! objF.isEmpty()) {
-                items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
-                                            false, "", objF));
-            }
-        }
-
-        items.append(createMenuItem(IdSeparator, "", true));
-
-        if (m_inDB)
-            items.append(createMenuItem(IdExport, tr("Export"), false, ""));
-
-        items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-        items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash"), false,
-                                    "Delete"));
-        if (! m_album.isEmpty()) {
-            items.append(createMenuItem(IdRemoveFromAlbum,
-                tr("Remove from album"), false, "Shift+Delete"));
-        }
-
-        items.append(createMenuItem(IdSeparator, "", true));
-//        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
-        if (m_inDB) {
-            if (!dbManager()->imageExistAlbum(m_current->name,
-                                              FAVORITES_ALBUM_NAME)) {
-                items.append(createMenuItem(IdAddToFavorites,
-                    tr("Add to My favorites"), false, "Ctrl+K"));
-            } else {
-                items.append(createMenuItem(IdRemoveFromFavorites,
-                    tr("Unfavorite"), false, "Ctrl+Shift+K"));
-            }
-        }
-        items.append(createMenuItem(IdSeparator, "", true));
-
-        if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
-            items.append(createMenuItem(IdShowNavigationWindow,
-                                        tr("Show navigation window")));
-        } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
-            items.append(createMenuItem(IdHideNavigationWindow,
-                                        tr("Hide navigation window")));
-        }
-
-        items.append(createMenuItem(IdSeparator, "", true));
-
-        items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
-                                    false, "Ctrl+R"));
-        items.append(createMenuItem(IdRotateCounterclockwise,
-            tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
-
-        items.append(createMenuItem(IdSeparator, "", true));
-
-//        items.append(createMenuItem(IdLabel, tr("Text tag")));
-        items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
-                                    false, "Ctrl+F8"));
-        if (m_inDB)
-            items.append(createMenuItem(IdDisplayInFileManager,
-                tr("Display in file manager"), false, "Ctrl+D"));
-        items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
-                                    "Alt+Return"));
     }
+
+    items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
+                                false, "F5"));
+
+    if (m_inDB) {
+        const QJsonObject objF = createAlbumMenuObj(false);
+        if (! objF.isEmpty()) {
+            items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
+                                        false, "", objF));
+        }
+    }
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    if (m_inDB) {
+        items.append(createMenuItem(IdExport, tr("Export"), false, ""));
+    }
+
+    items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
+    items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash"), false,
+                                "Delete"));
+    if (! m_album.isEmpty()) {
+        items.append(createMenuItem(IdRemoveFromAlbum,
+            tr("Remove from album"), false, "Shift+Delete"));
+    }
+
+    items.append(createMenuItem(IdSeparator, "", true));
+    //        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
+    if (m_inDB) {
+        if (!dbManager()->imageExistAlbum(m_current->name,
+                                          FAVORITES_ALBUM_NAME)) {
+            items.append(createMenuItem(IdAddToFavorites,
+                                        tr("Add to My favorites"), false, "Ctrl+K"));
+        } else {
+            items.append(createMenuItem(IdRemoveFromFavorites,
+                                        tr("Unfavorite"), false, "Ctrl+Shift+K"));
+        }
+    }
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+        items.append(createMenuItem(IdShowNavigationWindow,
+                                    tr("Show navigation window")));
+    } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+        items.append(createMenuItem(IdHideNavigationWindow,
+                                    tr("Hide navigation window")));
+    }
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
+                                false, "Ctrl+R"));
+    items.append(createMenuItem(IdRotateCounterclockwise,
+                                tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
+
+    items.append(createMenuItem(IdSeparator, "", true));
+
+    //        items.append(createMenuItem(IdLabel, tr("Text tag")));
+    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
+                                false, "Ctrl+F8"));
+    if (m_inDB)
+        items.append(createMenuItem(IdDisplayInFileManager,
+                                    tr("Display in file manager"), false, "Ctrl+D"));
+    items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
+                                "Alt+Return"));
 
     QJsonObject contentObj;
     contentObj["x"] = 0;
@@ -857,13 +803,10 @@ void ViewPanel::initSlider() {
         m_imageSlider->setCurrentValue(value*100);
     });
 
-    connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc) {
-
+    connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc){
         m_view->setScaleValue(perc*950/100);
         m_imageSlider->show();
         m_hideSlider->start();
-//        if (!m_slide->isRunning()) {
-//        }
 
     });
 
@@ -874,29 +817,6 @@ void ViewPanel::initSlider() {
     connect(m_hideSlider, &QTimer::timeout, [this](){
         m_imageSlider->hide();
     });
-}
-
-void ViewPanel::initSliderEffectPlay()
-{
-//    m_slide = new SlideEffectPlayer(this);
-//    connect(m_slide, &SlideEffectPlayer::stepChanged, [this](int steps){
-//        m_current += steps;
-//        if (m_current == m_infos.cend())
-//            m_current = m_infos.cbegin();
-//    });
-//    connect(m_slide, &SlideEffectPlayer::currentImageChanged,
-//            [this](const QString& path){
-//        if (! m_nav->isVisible())
-//            return;
-//        // Slide image size is widget size
-//        m_nav->setImage(QImage(path).scaled(m_slide->frameSize(),
-//                                            Qt::KeepAspectRatio,
-//                                            Qt::SmoothTransformation));
-//    });
-//    connect(m_slide, &SlideEffectPlayer::frameReady,
-//            [this](const QImage& image) {
-//        m_view->setImage(image);
-//    });
 }
 
 void ViewPanel::initViewContent()
@@ -911,8 +831,6 @@ void ViewPanel::initViewContent()
     connect(m_view, &ImageWidget::doubleClicked, [this]() {
         this->toggleFullScreen();
         m_imageSlider->hide();
-//        if (! m_slide->isRunning()) {
-//        }
     });
 }
 
@@ -925,10 +843,9 @@ void ViewPanel::initNavigation()
         m_view->setImageMove(x, y);
     });
     connect(m_view, &ImageWidget::transformChanged, [this](){
-        if (!m_nav->isAlwaysHidden())
-            m_nav->setVisible(
-                        !m_view->isWholeImageVisible()
-                        /*&& !m_slide->isRunning()*/);
+        if (!m_nav->isAlwaysHidden()) {
+            m_nav->setVisible(! m_view->isWholeImageVisible());
+        }
         m_nav->setRectInImage(m_view->visibleImageRect());
     });
 }
