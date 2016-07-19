@@ -351,62 +351,52 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     case IdStartSlideShow:
         m_sManager->startSlideShow(this, viewPaths, cpath);
         break;
-
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
-        for (QString name : images.keys()) {
+        for (QString name : nList) {
             m_dbManager->insertImageIntoAlbum(album, name,
-                utils::base::timeToString(imageInfo(cname).time));
+                utils::base::timeToString(imageInfo(name).time));
         }
         break;
     }
     case IdExport:
-        Exporter::instance()->exportImage(m_view->selectedImages().values());
+        Exporter::instance()->exportImage(pList);
         break;
     case IdCopy:
-        utils::base::copyImageToClipboard(images.values());
+        utils::base::copyImageToClipboard(pList);
         break;
     case IdMoveToTrash:
-        for (QString name : images.keys()) {
+        for (QString name : nList) {
             m_dbManager->removeImage(name);
             utils::base::trashFile(images[name]);
         }
         break;
     case IdRemoveFromTimeline:
-        for (QString name : images.keys()) {
+        for (QString name : nList) {
             m_dbManager->removeImage(name);
         }
         break;
-//    case IdEdit:
-//        m_sManager->editImage(cpath);
-//        break;
     case IdAddToFavorites:
-        for (QString name : images.keys()) {
-            m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name,
-                utils::base::timeToString(imageInfo(name).time));
-        }
+        m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, cname,
+            utils::base::timeToString(imageInfo(cname).time));
         updateMenuContents();
         break;
     case IdRemoveFromFavorites:
-        for (QString name : images.keys()) {
-            m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME, name);
-        }
+        m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME, cname);
         updateMenuContents();
         break;
     case IdRotateClockwise:
-        for (QString name : images.keys()) {
+        for (QString name : nList) {
             utils::image::rotate(images[name], 90);
             m_view->updateThumbnail(name);
         }
         break;
     case IdRotateCounterclockwise:
-        for (QString name : images.keys()) {
+        for (QString name : nList) {
             utils::image::rotate(images[name], -90);
             m_view->updateThumbnail(name);
         }
         break;
-//    case IdLabel:
-//        break;
     case IdSetAsWallpaper:
         WallpaperSetter::instance()->setWallpaper(cpath);
         break;
@@ -434,8 +424,8 @@ QString TimelinePanel::createMenuContent()
 
     QMap<QString, QString> images = m_view->selectedImages();
     QJsonArray items;
-    items.append(createMenuItem(IdView, tr("View")));
     if (images.count() == 1) {
+        items.append(createMenuItem(IdView, tr("View")));
         items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
                                     false, "F11"));
     }
@@ -455,17 +445,15 @@ QString TimelinePanel::createMenuContent()
                                 "Delete"));
 
     items.append(createMenuItem(IdSeparator, "", true));
-//    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
-    for (QString name : images.keys()) {
-        if (! m_dbManager->imageExistAlbum(name, FAVORITES_ALBUM_NAME)) {
+    if (images.count() == 1) {
+        if (! m_dbManager->imageExistAlbum(images.firstKey(),
+                                           FAVORITES_ALBUM_NAME)) {
             items.append(createMenuItem(IdAddToFavorites,
                 tr("Add to My favorites"), false, "Ctrl+K"));
-            break;
         }
         else {
-            items.append(createMenuItem(IdRemoveFromFavorites,
-                tr("Unfavorite"), false, "Ctrl+Shift+K"));
-            break;
+            items.append(createMenuItem(IdRemoveFromFavorites, tr("Unfavorite"),
+                                        false, "Ctrl+Shift+K"));
         }
     }
     items.append(createMenuItem(IdSeparator, "", true));

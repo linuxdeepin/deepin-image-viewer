@@ -22,6 +22,8 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
+const QString MY_FAVORITES_ALBUM = "My favorites";
+const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 
 }  // namespace
 
@@ -112,25 +114,6 @@ void ImagesView::initTopTips()
     m_topTips = new TopAlbumTips(this);
 }
 
-QString ImagesView::currentSelectOne(bool isPath)
-{
-    const QStringList nl = selectedImagesNameList();
-    const QStringList pl = selectedImagesPathList();
-
-    if (isPath) {
-        if (pl.isEmpty())
-            return QString();
-        else
-            return pl.first();
-    }
-    else {
-        if (nl.isEmpty())
-            return QString();
-        else
-            return nl.first();
-    }
-}
-
 const QStringList ImagesView::paths()
 {
     QStringList list;
@@ -143,13 +126,21 @@ const QStringList ImagesView::paths()
 
 QString ImagesView::createMenuContent()
 {
+    const QStringList nList = selectedImagesNameList();
+    const int selectedCount = nList.length();
     QJsonArray items;
-    items.append(createMenuItem(IdView, tr("View")));
-    items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
-                                false, "F11"));
+    if (selectedCount == 1) {
+        items.append(createMenuItem(IdView, tr("View")));
+        items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
+                                    false, "F11"));
+    }
     items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false,
                                 "F5"));
-
+    const QJsonObject objF = createAlbumMenuObj();
+    if (! objF.isEmpty()) {
+        items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
+                                    false, "", objF));
+    }
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdExport, tr("Export"), false, ""));
@@ -160,23 +151,34 @@ QString ImagesView::createMenuContent()
                                 false, "Shift+Delete"));
 
     items.append(createMenuItem(IdSeparator, "", true));
-//    items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
+
+    if (selectedCount == 1) {
+        if (! m_dbManager->imageExistAlbum(nList.first(), MY_FAVORITES_ALBUM)) {
+            items.append(createMenuItem(IdAddToFavorites,
+                tr("Add to My favorites"), false, "Ctrl+K"));
+        }
+        else {
+            items.append(createMenuItem(IdRemoveFromFavorites,
+                tr("Unfavorite"), false, "Ctrl+Shift+K"));
+        }
+    }
+
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
                                 false, "Ctrl+R"));
     items.append(createMenuItem(IdRotateCounterclockwise,
         tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
-
     items.append(createMenuItem(IdSeparator, "", true));
 
-//    items.append(createMenuItem(IdLabel, tr("Text tag")));
-    items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"), false,
-                                "Ctrl+F8"));
-    items.append(createMenuItem(IdDisplayInFileManager,
-        tr("Display in file manager"), false, "Ctrl+D"));
-    items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
-                                "Alt+Return"));
+    if (selectedCount == 1) {
+        items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
+                                    false, "Ctrl+F8"));
+        items.append(createMenuItem(IdDisplayInFileManager,
+            tr("Display in file manager"), false, "Ctrl+D"));
+        items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
+                                    "Alt+Return"));
+    }
 
     QJsonObject contentObj;
     contentObj["x"] = 0;
@@ -223,18 +225,18 @@ void ImagesView::updateMenuContents()
     m_popupMenu->setMenuContent(createMenuContent());
 }
 
-void ImagesView::onMenuItemClicked(int menuId)
+void ImagesView::onMenuItemClicked(int menuId, const QString &text)
 {
-    if (currentSelectOne().isEmpty()) {
+    const QStringList nList = selectedImagesNameList();
+    const QStringList pList = selectedImagesPathList();
+    if (nList.isEmpty()) {
         return;
     }
 
-    const QStringList nList = selectedImagesNameList();
-    const QStringList pList = selectedImagesPathList();
-    const QStringList viewPaths = (pList.length() == 1)
-            ? paths() : pList;
-//    const QString cname = currentSelectOne(false);
-    const QString cpath = currentSelectOne(true);
+    const QStringList viewPaths = (pList.length() == 1) ? paths() : pList;
+    const QString cpath = pList.first();
+    const QString cname = nList.first();
+
     switch (MenuItemId(menuId)) {
     case IdView:
         m_sManager->viewImage(cpath, viewPaths, m_album);
@@ -246,6 +248,16 @@ void ImagesView::onMenuItemClicked(int menuId)
     case IdStartSlideShow:
         emit startSlideShow(viewPaths, cpath);
         break;
+    case IdAddToAlbum:
+    {
+        const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
+        for (QString name : nList) {
+            const auto info = m_dbManager->getImageInfoByName(name);
+            m_dbManager->insertImageIntoAlbum(album, name,
+                utils::base::timeToString(info.time));
+        }
+        break;
+    }
     case IdExport:
         Exporter::instance()->exportImage(selectedImagesPathList());
         break;
@@ -262,15 +274,23 @@ void ImagesView::onMenuItemClicked(int menuId)
         }
         break;
     }
+    case IdAddToFavorites: {
+        const auto info = m_dbManager->getImageInfoByName(cname);
+        m_dbManager->insertImageIntoAlbum(MY_FAVORITES_ALBUM, cname,
+            utils::base::timeToString(info.time));
+        updateMenuContents();
+        break;
+    }
+    case IdRemoveFromFavorites:
+        m_dbManager->removeImageFromAlbum(MY_FAVORITES_ALBUM, cname);
+        updateMenuContents();
+        break;
     case IdRemoveFromAlbum:
         for (QString name : nList) {
             removeItem(name);
             m_dbManager->removeImageFromAlbum(m_album, name);
         }
         break;
-//    case IdEdit:
-//        m_sManager->editImage(cpath);
-//        break;
     case IdRotateClockwise:
         for (QString path : pList) {
             utils::image::rotate(path, 90);
@@ -283,8 +303,6 @@ void ImagesView::onMenuItemClicked(int menuId)
             updateThumbnail(path);
         }
         break;
-//    case IdLabel:
-//        break;
     case IdSetAsWallpaper:
         WallpaperSetter::instance()->setWallpaper(cpath);
         break;
@@ -299,6 +317,18 @@ void ImagesView::onMenuItemClicked(int menuId)
     }
 }
 
+bool ImagesView::allInAlbum(const QStringList &names, const QString &album)
+{
+    const QStringList nl = m_dbManager->getImageNamesByAlbum(album);
+    for (QString name : names) {
+        // One of name is not in album
+        if (nl.indexOf(name) == -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void ImagesView::updateTopTipsRect()
 {
     m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
@@ -306,15 +336,6 @@ void ImagesView::updateTopTipsRect()
     const int lm = - m_view->hOffset() + m_contentLayout->contentsMargins().left();
     m_topTips->setLeftMargin(lm);
     m_topTips->setVisible(m_view->count() != 0);
-}
-
-int ImagesView::getMinContentsWidth()
-{
-    int itemSpacing = 10;
-    int viewHMargin = 14 * 2;
-    int holdCount = floor((double)(width() - itemSpacing - viewHMargin)
-                          / (iconSize().width() + itemSpacing));
-    return (iconSize().width() + itemSpacing) * holdCount + itemSpacing + viewHMargin;
 }
 
 QString ImagesView::getCurrentAlbum() const
@@ -409,4 +430,29 @@ void ImagesView::updateStack()
         m_stackWidget->setCurrentIndex(0);
 
     updateTopTipsRect();
+}
+
+QJsonObject ImagesView::createAlbumMenuObj()
+{
+    const QStringList albums = m_dbManager->getAlbumNameList();
+    const QStringList selectNames = selectedImagesNameList();
+
+    QJsonArray items;
+    if (! selectNames.isEmpty()) {
+        for (QString album : albums) {
+            if (album == MY_FAVORITES_ALBUM || album == RECENT_IMPORTED_ALBUM) {
+                continue;
+            }
+            else if (! allInAlbum(selectNames, album)) {
+                items.append(createMenuItem(IdAddToAlbum, album));
+            }
+        }
+    }
+
+    QJsonObject contentObj;
+    if (! items.isEmpty()) {
+        contentObj[""] = QJsonValue(items);
+    }
+
+    return contentObj;
 }

@@ -12,25 +12,27 @@
 #include <QObject>
 
 class PopupMenuManager;
-class SignalManager;
-class ThumbnailListView;
 class QStandardItemModel;
 class QStackedWidget;
+class SignalManager;
+class ThumbnailListView;
 class ImagesView : public QScrollArea
 {
     Q_OBJECT
 public:
     explicit ImagesView(QWidget *parent = 0);
-    void setAlbum(const QString &album);
+
     void insertItem(const DatabaseManager::ImageInfo &info);
-    bool removeItem(const QString &name);
+    void setAlbum(const QString &album);
+    void setIconSize(const QSize &iconSize);
 
     int count() const;
+    bool removeItem(const QString &name);
+
+    QString getCurrentAlbum() const;
     QSize iconSize() const;
-    void setIconSize(const QSize &iconSize);
     QStringList selectedImagesNameList() const;
     QStringList selectedImagesPathList() const;
-    QString getCurrentAlbum() const;
 
 signals:
     void startSlideShow(const QStringList &paths, const QString &path);
@@ -51,6 +53,7 @@ private:
         IdRemoveFromAlbum,
         IdEdit,
         IdAddToFavorites,
+        IdRemoveFromFavorites,
         IdRotateClockwise,
         IdRotateCounterclockwise,
         IdLabel,
@@ -61,26 +64,25 @@ private:
         IdSeparator
     };
 
-    void initStack();
-    void updateStack();
     void initListView();
+    void initStack();
     void initTopTips();
+    void updateMenuContents();
+    void updateStack();
+    void updateThumbnail(const QString &path);
+    void updateTopTipsRect();
+    void onMenuItemClicked(int menuId, const QString &text);
 
+    bool allInAlbum(const QStringList &names, const QString &album);
+
+    QJsonObject createAlbumMenuObj();
     QString createMenuContent();
     QJsonValue createMenuItem(const MenuItemId id,
                               const QString &text,
                               const bool isSeparator = false,
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
-    QString currentSelectOne(bool isPath = true);
     const QStringList paths();
-
-    void updateThumbnail(const QString &path);
-    void updateMenuContents();
-    void onMenuItemClicked(int menuId);
-
-    void updateTopTipsRect();
-    int getMinContentsWidth();
 
 private:
     QString m_album;

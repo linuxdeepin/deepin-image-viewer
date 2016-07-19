@@ -274,7 +274,7 @@ void AlbumPanel::initImagesView()
             this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
     connect(m_sManager, &SignalManager::removeFromAlbum,
             this, [=] (const QString &album, const QString &name) {
-        Q_UNUSED(album)
+        if (album == m_imagesView->getCurrentAlbum())
         m_imagesView->removeItem(name);
         updateImagesCount();
     });

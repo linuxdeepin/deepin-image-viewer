@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -340,6 +340,18 @@
         <source>Throw to Trash</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add to album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to My favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImportDirDialog</name>
@@ -379,6 +391,13 @@
     </message>
     <message>
         <source>Date modified</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SlideShowPanel</name>
+    <message>
+        <source>Stop slide show</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -570,10 +589,6 @@
 </context>
 <context>
     <name>ViewPanel</name>
-    <message>
-        <source>Stop slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Fullscreen</source>
         <translation type="unfinished"></translation>
