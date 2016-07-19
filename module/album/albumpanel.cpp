@@ -41,6 +41,7 @@ AlbumPanel::AlbumPanel(QWidget *parent)
             this, &AlbumPanel::onImageCountChanged);
     connect(m_sManager, &SignalManager::imageAddedToAlbum, this, [=] {
         m_adding = false;
+        updateImagesCount();
     });
     connect(m_sManager, &SignalManager::gotoAlbumPanel, this, [=] {
         TIMER_SINGLESHOT(100, {
@@ -379,6 +380,7 @@ void AlbumPanel::onImageCountChanged(int count)
 
 void AlbumPanel::onInsertIntoAlbum(const DatabaseManager::ImageInfo info)
 {
+    // No need to update view if importing in others panel, improve performance
     if (m_imagesView->isVisible()
             && info.albums.contains(m_imagesView->getCurrentAlbum())) {
         m_imagesView->insertItem(info);
