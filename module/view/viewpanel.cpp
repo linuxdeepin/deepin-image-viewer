@@ -299,6 +299,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
     TTMContent *ttmc = new TTMContent(! m_inDB);
+    ttmc->onImageChanged(m_view->imageName(), m_view->imagePath());
     connect(this, &ViewPanel::updateCollectButton,
             ttmc, &TTMContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::onImageChanged);
