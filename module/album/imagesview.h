@@ -36,7 +36,8 @@ signals:
     void startSlideShow(const QStringList &paths, const QString &path);
 
 protected:
-    void resizeEvent(QResizeEvent *e) override;
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
 
 private:
     enum MenuItemId {

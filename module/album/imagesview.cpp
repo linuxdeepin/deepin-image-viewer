@@ -363,6 +363,19 @@ void ImagesView::resizeEvent(QResizeEvent *e)
     updateTopTipsRect();
 }
 
+void ImagesView::showEvent(QShowEvent *e)
+{
+    // For import from timeline update
+    if (count() != m_dbManager->getImagesCountByAlbum(m_album)) {
+        const auto infos = m_dbManager->getImageInfosByAlbum(m_album);
+        for (auto info : infos) {
+            insertItem(info);
+        }
+    }
+
+    QScrollArea::showEvent(e);
+}
+
 void ImagesView::initStack()
 {
     QWidget *contentWidget = new QWidget;
