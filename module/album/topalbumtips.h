@@ -15,6 +15,9 @@ public:
     void setLeftMargin(int v);
 
 private:
+    const QString trName(const QString &name) const;
+
+private:
     QHBoxLayout *m_layout;
     QString m_album;
     QLabel *m_infoLabel;
