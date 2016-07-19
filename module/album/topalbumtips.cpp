@@ -38,16 +38,23 @@ void TopAlbumTips::setAlbum(const QString &album)
     const QString l = (beginTime.isEmpty() || endTime.isEmpty())
             ? "" : beginTime + "-" + endTime;
 
-    if (m_album == "My favorites") {
-        m_album = tr("My favorites");
-    } else if (m_album == "Recent imported") {
-        m_album = tr("Recent imported");
-    }
-
-    m_infoLabel->setText(QString("%1").arg(m_album) + "  " + l);
+    m_infoLabel->setText(QString("%1").arg(trName(m_album)) + "  " + l);
 }
 
 void TopAlbumTips::setLeftMargin(int v)
 {
     m_layout->setContentsMargins(v + 18, 0, 13, 0);
+}
+
+const QString TopAlbumTips::trName(const QString &name) const
+{
+    if (name == "My favorites") {
+        return tr("My favorites");
+    }
+    else if (name == "Recent imported") {
+        return tr("Recent imported");
+    }
+    else {
+        return name;
+    }
 }
