@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -700,31 +700,32 @@
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="160"/>
+        <location filename="../frame/toptoolbar.cpp" line="164"/>
         <source>%1 images imported, please wait</source>
         <translation>已经导入 %1 张，请稍后</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="254"/>
+        <location filename="../frame/toptoolbar.cpp" line="255"/>
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="256"/>
+        <location filename="../frame/toptoolbar.cpp" line="257"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="260"/>
+        <location filename="../frame/toptoolbar.cpp" line="261"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="261"/>
+        <location filename="../frame/toptoolbar.cpp" line="262"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="262"/>
+        <location filename="../frame/toptoolbar.cpp" line="263"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
@@ -733,7 +734,7 @@
     <name>ViewPanel</name>
     <message>
         <source>Stop slide show</source>
-        <translation type="vanished">退出幻灯片</translation>
+        <translation type="obsolete">退出幻灯片</translation>
     </message>
     <message>
         <location filename="../module/view/viewpanel.cpp" line="579"/>
