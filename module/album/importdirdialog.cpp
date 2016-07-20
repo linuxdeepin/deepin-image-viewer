@@ -10,6 +10,9 @@
 ImportDirDialog::ImportDirDialog(QWidget *parent, QWidget *source)
     :BlureDialog(parent, source)
 {
+    // It may appear several windows At the same
+    // and Qt::WindowModal will cause stuck
+    setWindowModality(Qt::ApplicationModal);
     setMinimumWidth(450);
 
     QWidget *w = new QWidget(this);
