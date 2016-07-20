@@ -115,11 +115,10 @@ private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
-    ImageSliderFrame *m_imageSlider = NULL;
+    ImageSliderFrame *m_scaleSlider = NULL;
     PopupMenuManager *m_popupMenu;
     SignalManager *m_sManager;
     QStackedWidget *m_stack;
-    QTimer* m_hideSlider;
 
     QList<DatabaseManager::ImageInfo> m_infos;
     QList<DatabaseManager::ImageInfo>::ConstIterator m_current;
