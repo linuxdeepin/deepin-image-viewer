@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>概述-24px</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="9.0002 21 18 21 18 0 9.0002 0 0.0004 0 0.0004 21"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="概述-24px">
+            <g id="Page-1" transform="translate(3.000000, 1.000000)">
+                <polygon id="Fill-1" fill="#B5B5B6" points="8 3 12 3 12 2 8 2"></polygon>
+                <g id="Group-4">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Clip-3"></g>
+                    <path d="M17.5794,3 L12.0004,3 L12.0004,13.546 L10.0254,11.091 L8.0004,13.546 L8.0004,3 L1.5004,3 C1.2234,3 1.0004,2.776 1.0004,2.5 L1.0004,1.5 C1.0004,1.224 1.2234,1 1.5004,1 L17.5904,1 C17.8164,1 18.0004,0.726 18.0004,0.5 C18.0004,0.274 17.8164,0 17.5904,0 L1.5004,0 C0.6714,0 0.0004,0.672 0.0004,1.5 L0.0004,20 C0.0004,20.552 0.4474,21 1.0004,21 L17.0004,21 C17.5524,21 18.0004,20.552 18.0004,20 L18.0004,3.421 C18.0004,3.189 17.8104,3 17.5794,3" id="Fill-2" fill="#B5B5B6" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

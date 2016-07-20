@@ -29,6 +29,9 @@ SOURCES += main.cpp
 
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-image-viewer
+MANDIR = $$PREFIX/share/dman/deepin-image-viewer
+MANICONDIR = $$PREFIX/share/icons/hicolor/scalable/apps
+
 DEFINES += APPSHAREDIR=\\\"$$APPSHAREDIR\\\"
 
 binary.path = $$BINDIR
@@ -39,6 +42,11 @@ desktop.files =  deepin-image-viewer.desktop
 
 icons.path = $$APPSHAREDIR/icons
 icons.files = resources/images/*
+
+manual.path = $$MANDIR
+manual.files = doc/*
+manual_icon.path = $$MANICONDIR
+manual_icon.files = doc/common/viewer.svg
 
 dbus_service.files += com.deepin.deepinimageviewer.service
 dbus_service.path = /usr/share/dbus-1/services
@@ -51,7 +59,7 @@ CONFIG(release, debug|release) {
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
-INSTALLS = binary desktop dbus_service icons translations
+INSTALLS = binary desktop dbus_service icons manual manual_icon translations
 
 RESOURCES += \
     resources.qrc
