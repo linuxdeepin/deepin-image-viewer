@@ -316,7 +316,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
             m_view->setScaleValue(1 / m_view->windowRelativeScale());
         }
 
-        m_imageSlider->setCurrentValue(m_view->scaleValue()*100);;
+        m_scaleSlider->setCurrentValue(m_view->scaleValue()*100);;
     });
     return ttmc;
 }
@@ -347,7 +347,9 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
     }
     else if (m_infos.length() > 0 &&  m_current != m_infos.constEnd()
              && e->type() == QEvent::Show) {
-        m_view->setImage(m_current->path);
+        // After slide show
+        TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL + 50,
+        {openImage(m_current->path, m_inDB);}, this);
     }
     return false;
 }
@@ -358,8 +360,8 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
                 e->size().height() - m_nav->height() -10);
 
 
-    m_imageSlider->move(this->rect().right() - m_imageSlider->width() - 20,
-        (this->rect().height() - m_imageSlider->height() + TOP_TOOLBAR_HEIGHT) / 2);
+    m_scaleSlider->move(this->rect().right() - m_scaleSlider->width() - 20,
+        (this->rect().height() - m_scaleSlider->height() + TOP_TOOLBAR_HEIGHT) / 2);
 
     // for reset transform after toggle fullscreen etc.
     if (! m_view->imagePath().isEmpty())
@@ -619,10 +621,10 @@ QString ViewPanel::createMenuContent()
     }
     items.append(createMenuItem(IdSeparator, "", true));
 
-    if (!m_view->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+    if (m_view->scaleValue() > 1 && m_nav->isAlwaysHidden()) {
         items.append(createMenuItem(IdShowNavigationWindow,
                                     tr("Show navigation window")));
-    } else if (!m_view->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+    } else if (m_view->scaleValue() > 1 && !m_nav->isAlwaysHidden()) {
         items.append(createMenuItem(IdHideNavigationWindow,
                                     tr("Hide navigation window")));
     }
@@ -797,26 +799,27 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 }
 
 void ViewPanel::initSlider() {
-    m_imageSlider = new ImageSliderFrame(this);
-    m_imageSlider->hide();
+    QTimer* hideTimer;
+    hideTimer = new QTimer(this);
+    hideTimer->setInterval(2000);
+    hideTimer->setSingleShot(true);
+
+    m_scaleSlider = new ImageSliderFrame(this);
+    m_scaleSlider->hide();
 
     connect(m_view, &ImageWidget::scaleValueChanged, [this](qreal value) {
-        m_imageSlider->setCurrentValue(value*100);
+        m_scaleSlider->setCurrentValue(value*100);
     });
 
-    connect(m_imageSlider, &ImageSliderFrame::valueChanged, [this](double perc){
+    connect(m_scaleSlider, &ImageSliderFrame::valueChanged, [=](double perc){
         m_view->setScaleValue(perc*950/100);
-        m_imageSlider->show();
-        m_hideSlider->start();
+        m_scaleSlider->show();
+        hideTimer->start();
 
     });
 
-    m_hideSlider = new QTimer(this);
-    m_hideSlider->setInterval(2000);
-    m_hideSlider->setSingleShot(true);
-
-    connect(m_hideSlider, &QTimer::timeout, [this](){
-        m_imageSlider->hide();
+    connect(hideTimer, &QTimer::timeout, [this](){
+        m_scaleSlider->hide();
     });
 }
 
@@ -831,7 +834,7 @@ void ViewPanel::initViewContent()
     });
     connect(m_view, &ImageWidget::doubleClicked, [this]() {
         this->toggleFullScreen();
-        m_imageSlider->hide();
+        m_scaleSlider->hide();
     });
 }
 
@@ -845,7 +848,7 @@ void ViewPanel::initNavigation()
     });
     connect(m_view, &ImageWidget::transformChanged, [this](){
         if (!m_nav->isAlwaysHidden()) {
-            m_nav->setVisible(! m_view->isWholeImageVisible());
+            m_nav->setVisible(m_view->scaleValue() > 1);
         }
         m_nav->setRectInImage(m_view->visibleImageRect());
     });
@@ -861,7 +864,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     m_view->setImage(path);
     m_nav->setImage(m_view->image());
 
-    m_imageSlider->setCurrentValue(m_view->scaleValue()*100);
+    m_scaleSlider->setCurrentValue(m_view->scaleValue()*100);
 
     if (m_info) {
         m_info->setImagePath(path);
