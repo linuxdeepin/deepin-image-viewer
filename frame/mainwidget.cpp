@@ -30,9 +30,9 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     if (manager) {
         initAlbumPanel();
         initEditPanel();
-        initSlideShowPanel();
         initTimelinePanel();
     }
+    initSlideShowPanel();
     initViewPanel();
 
     connect(m_sManager, &SignalManager::backToMainWindow, this, [=] {
