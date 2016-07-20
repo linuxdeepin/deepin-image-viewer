@@ -318,7 +318,7 @@ void TimelinePanel::updateBottomToolbarContent(int count)
         m_countLabel->setText(tr("%1 images").arg(count));
     }
 
-    m_slider->setFixedWidth(count > 0 ? 110 : 1);
+    m_slider->setFixedWidth(count > 0 ? 110 : 0);
 }
 
 void TimelinePanel::updateMenuContents()
