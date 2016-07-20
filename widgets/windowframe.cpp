@@ -12,7 +12,7 @@
 #include <QDebug>
 #include <QVBoxLayout>
 #include <QPainter>
-#include "dwindowframe.h"
+#include "windowframe.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -89,7 +89,7 @@ auto cornerEdge2XCursor(const CornerEdge& ce) -> int {
     }
 }
 
-DWindowFrame::DWindowFrame(QWidget* parent) : QWidget(parent),
+WindowFrame::WindowFrame(QWidget* parent) : QWidget(parent),
                                               layoutMargin(25),
                                               resizeHandleWidth(5),
                                               shadowRadius(24),
@@ -105,11 +105,11 @@ DWindowFrame::DWindowFrame(QWidget* parent) : QWidget(parent),
     this->setLayout(this->horizontalLayout);
 }
 
-DWindowFrame::~DWindowFrame() {
+WindowFrame::~WindowFrame() {
 
 }
 
-void DWindowFrame::polish() {
+void WindowFrame::polish() {
 #ifndef BUILD_WITH_WEBENGINE
     // draw window shadow
     if (!this->shadowEffect) {
@@ -203,7 +203,7 @@ void DWindowFrame::polish() {
 }
 
 
-void DWindowFrame::mousePressEvent(QMouseEvent* event) {
+void WindowFrame::mousePressEvent(QMouseEvent* event) {
     const int x = event->x();
     const int y = event->y();
     if (event->button() == Qt::LeftButton) {
@@ -217,7 +217,7 @@ void DWindowFrame::mousePressEvent(QMouseEvent* event) {
     QWidget::mousePressEvent(event);
 }
 
-void DWindowFrame::mouseMoveEvent(QMouseEvent* event) {
+void WindowFrame::mouseMoveEvent(QMouseEvent* event) {
     const int x = event->x();
     const int y = event->y();
 
@@ -228,7 +228,7 @@ void DWindowFrame::mouseMoveEvent(QMouseEvent* event) {
     QWidget::mouseMoveEvent(event);
 }
 
-void DWindowFrame::startResizing(const QPoint& globalPoint, const CornerEdge& ce) {
+void WindowFrame::startResizing(const QPoint& globalPoint, const CornerEdge& ce) {
     const auto display = QX11Info::display();
     const auto winId = this->winId();
     const auto screen = QX11Info::appScreen();
@@ -256,14 +256,14 @@ void DWindowFrame::startResizing(const QPoint& globalPoint, const CornerEdge& ce
     XFlush(display);
 }
 
-void DWindowFrame::mouseReleaseEvent(QMouseEvent* event) {
+void WindowFrame::mouseReleaseEvent(QMouseEvent* event) {
     QWidget::mouseReleaseEvent(event);
     if (this->resizingCornerEdge) {
         this->resizingCornerEdge = CornerEdge::Nil;
     }
 }
 
-CornerEdge DWindowFrame::getCornerEdge(int x, int y) {
+CornerEdge WindowFrame::getCornerEdge(int x, int y) {
     const QSize winSize = size();
     unsigned int ce = (unsigned int)CornerEdge::Nil;
 
@@ -285,7 +285,7 @@ CornerEdge DWindowFrame::getCornerEdge(int x, int y) {
     return (CornerEdge)ce;
 }
 
-void DWindowFrame::updateCursor(CornerEdge ce) {
+void WindowFrame::updateCursor(CornerEdge ce) {
     const auto display = QX11Info::display();
     const auto winId = this->winId();
 
@@ -299,7 +299,7 @@ void DWindowFrame::updateCursor(CornerEdge ce) {
     XFlush(display);
 }
 
-void DWindowFrame::startMoving() {
+void WindowFrame::startMoving() {
     const auto display = QX11Info::display();
     const auto winId = this->winId();
     const auto screen = QX11Info::appScreen();
@@ -328,7 +328,7 @@ void DWindowFrame::startMoving() {
     XFlush(display);
 }
 
-void DWindowFrame::setMargins(unsigned int i) {
+void WindowFrame::setMargins(unsigned int i) {
     if (!this->horizontalLayout) {
         return;
     }
@@ -352,7 +352,7 @@ void DWindowFrame::setMargins(unsigned int i) {
     this->applyMaximumSizeRestriction();
 }
 
-QPoint DWindowFrame::mapToGlobal(const QPoint& point) const {
+QPoint WindowFrame::mapToGlobal(const QPoint& point) const {
     auto result = QWidget::mapToGlobal(point);
     const auto currentLayoutMargin = this->horizontalLayout->contentsMargins().left();
     result.setX(result.x() + currentLayoutMargin);
@@ -360,10 +360,11 @@ QPoint DWindowFrame::mapToGlobal(const QPoint& point) const {
     return result;
 }
 
-void DWindowFrame::changeEvent(QEvent *event) {
+void WindowFrame::changeEvent(QEvent *event) {
     QWidget::changeEvent(event);
     if (event->type() == QEvent::WindowStateChange) {
-        if (this->windowState() & Qt::WindowMaximized) {
+        if (this->windowState() & Qt::WindowMaximized ||
+                this->windowState() & Qt::WindowFullScreen) {
             this->setMargins(0);
         } else {
             this->setMargins(this->layoutMargin);
@@ -372,17 +373,17 @@ void DWindowFrame::changeEvent(QEvent *event) {
     this->setUpdatesEnabled(true);
 }
 
-void DWindowFrame::resize(int w, int h) {
+void WindowFrame::resize(int w, int h) {
     QWidget::resize(w + this->layoutMargin * 2,
                     h + this->layoutMargin * 2);
 }
 
-void DWindowFrame::setFixedSize(int w, int h) {
+void WindowFrame::setFixedSize(int w, int h) {
     QWidget::setFixedSize(w + this->layoutMargin * 2,
                           h + this->layoutMargin * 2);
 }
 
-void DWindowFrame::applyMinimumSizeRestriction() {
+void WindowFrame::applyMinimumSizeRestriction() {
     if (this->userMinimumWidth && this->userMinimumHeight) {
         const auto currentLayoutMargin = this->horizontalLayout->contentsMargins().left();
         QWidget::setMinimumSize(this->userMinimumWidth + currentLayoutMargin * 2,
@@ -392,14 +393,14 @@ void DWindowFrame::applyMinimumSizeRestriction() {
     }
 }
 
-void DWindowFrame::setMinimumSize(int w, int h) {
+void WindowFrame::setMinimumSize(int w, int h) {
     this->userMinimumWidth = w;
     this->userMinimumHeight = h;
 
     this->applyMinimumSizeRestriction();
 }
 
-void DWindowFrame::applyMaximumSizeRestriction() {
+void WindowFrame::applyMaximumSizeRestriction() {
     if ((this->userMaximumWidth != QWIDGETSIZE_MAX) &
         (this->userMaximumHeight != QWIDGETSIZE_MAX)) {
         const auto currentLayoutMargin = this->horizontalLayout->contentsMargins().left();
@@ -410,14 +411,14 @@ void DWindowFrame::applyMaximumSizeRestriction() {
     }
 }
 
-void DWindowFrame::setMaximumSize(int maxw, int maxh) {
+void WindowFrame::setMaximumSize(int maxw, int maxh) {
     this->userMaximumWidth = maxw;
     this->userMaximumHeight = maxh;
 
     this->applyMaximumSizeRestriction();
 }
 
-void DWindowFrame::showMaximized() {
+void WindowFrame::showMaximized() {
     this->setUpdatesEnabled(false); // until changeEvent
     this->setMargins(0);
 
@@ -450,7 +451,7 @@ void DWindowFrame::showMaximized() {
     XFlush(display);
 }
 
-void DWindowFrame::showNormal() {
+void WindowFrame::showNormal() {
     this->setUpdatesEnabled(false); // until changeEvent
     this->setMargins(this->layoutMargin * 2);
 
@@ -483,7 +484,7 @@ void DWindowFrame::showNormal() {
     XFlush(display);
 }
 
-void DWindowFrame::showMinimized() {
+void WindowFrame::showMinimized() {
     const auto display = QX11Info::display();
     const auto winId = this->winId();
     const auto screen = QX11Info::appScreen();
@@ -513,7 +514,7 @@ void DWindowFrame::showMinimized() {
     XFlush(display);
 }
 
-void DWindowFrame::setModal(bool on) {
+void WindowFrame::setModal(bool on) {
     if (on) {
         this->setWindowModality(Qt::WindowModality::ApplicationModal);
     } else {
@@ -521,7 +522,7 @@ void DWindowFrame::setModal(bool on) {
     }
 }
 
-void DWindowFrame::addContenWidget(QWidget *main)
+void WindowFrame::addContenWidget(QWidget *main)
 {
     const auto filter = new FilterMouseMove(this);
     main->installEventFilter(filter);
@@ -529,12 +530,12 @@ void DWindowFrame::addContenWidget(QWidget *main)
     this->layout()->addWidget(main);
 }
 
-void DWindowFrame::paintEvent(QPaintEvent* event) {
+void WindowFrame::paintEvent(QPaintEvent* event) {
     QWidget::paintEvent(event);
     this->paintOutline();
 }
 
-void DWindowFrame::paintOutline() {
+void WindowFrame::paintOutline() {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
@@ -554,7 +555,7 @@ void DWindowFrame::paintOutline() {
     painter.drawPath(path);
 }
 
-void DWindowFrame::resizeEvent(QResizeEvent *event) {
+void WindowFrame::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
     this->polish();
 }
@@ -570,7 +571,7 @@ FilterMouseMove::~FilterMouseMove() {
 bool FilterMouseMove::eventFilter(QObject *obj, QEvent *event) {
     switch (event->type()) {
         case QEvent::Enter: {
-            const auto mainWindow = static_cast<DWindowFrame*>(this->parent());
+            const auto mainWindow = static_cast<WindowFrame*>(this->parent());
             mainWindow->updateCursor(CornerEdge::Nil);
             // fall through
         }

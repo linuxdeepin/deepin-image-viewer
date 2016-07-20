@@ -6,8 +6,8 @@
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  **/
-#ifndef DWINDOWFRAME_H
-#define DWINDOWFRAME_H
+#ifndef WINDOWFRAME_H
+#define WINDOWFRAME_H
 
 /**
  * Every fucking thing about this window is stupid!
@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 class QGraphicsDropShadowEffect;
 class QHBoxLayout;
-class DWindowFrame;
+class WindowFrame;
 class FilterMouseMove;
 
 enum CornerEdge {
@@ -34,12 +34,12 @@ enum CornerEdge {
     BottomRight = Bottom | Right,
 };
 
-class DWindowFrame : public QWidget {
+class WindowFrame : public QWidget {
     Q_OBJECT
 
 public:
-    explicit DWindowFrame(QWidget* parent = nullptr);
-    ~DWindowFrame();
+    explicit WindowFrame(QWidget* parent = nullptr);
+    ~WindowFrame();
 
     void polish();
 
@@ -107,4 +107,4 @@ public:
     bool eventFilter(QObject *obj, QEvent *event);
 };
 
-#endif //DWINDOWFRAME_H
+#endif //WINDOWFRAME_H

@@ -5,8 +5,8 @@
 
 namespace {
 
-const int MAINWIDGET_MINIMUN_WIDTH = 450;
 const int MAINWIDGET_MINIMUN_HEIGHT = 450;
+const int MAINWIDGET_MINIMUN_WIDTH = 450;
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
@@ -14,7 +14,7 @@ const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 }  //namespace
 
 MainWindow::MainWindow(bool manager, QWidget *parent):
-    DWindowFrame(parent),
+    WindowFrame(parent),
     m_setter(ConfigSetter::instance())
 {
     QDesktopWidget dw;
@@ -41,5 +41,5 @@ void MainWindow::resizeEvent(QResizeEvent *e)
         m_setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
                            QVariant(m_mainWidget->height()));
     }
-    DWindowFrame::resizeEvent(e);
+    WindowFrame::resizeEvent(e);
 }
