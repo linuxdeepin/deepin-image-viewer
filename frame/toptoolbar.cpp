@@ -42,6 +42,7 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     initWidgets();
     initMenu();
 
+    qApp->installEventFilter(this);
     parent->installEventFilter(this);
     connect(this, SIGNAL(moving()),
             parentWidget()->parentWidget(), SLOT(startMoving()));
@@ -76,6 +77,12 @@ bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
     if (e->type() == QEvent::Resize) {
         if (window()->isMaximized() != m_maxb->isMaximized()) {
             m_maxb->clicked();
+        }
+    }
+    else if (e->type() == QEvent::KeyPress) {
+        QKeyEvent *ke = static_cast<QKeyEvent *>(e);
+        if (ke && ke->key() == Qt::Key_F11) {
+            showManual();
         }
     }
     return false;
