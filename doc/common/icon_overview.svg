@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>概述-64px</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="概述-64px" fill="#B5B5B6">
+            <g id="Page-1" transform="translate(12.000000, 8.000000)">
+                <path d="M39,6 L29,6 L29,29.75 L24.063,23.75 L19,29.75 L19,6 L2,6 L2,3 C2,2.449 2.449,2 3,2 L39,2 C39.552,2 40,1.552 40,1 C40,0.448 39.552,0 39,0 L3,0 C1.346,0 0,1.346 0,3 L0,45 C0,46.654 1.346,48 3,48 L37,48 C38.654,48 40,46.654 40,45 L40,7 C40,6.448 39.552,6 39,6" id="Fill-1"></path>
+                <path d="M19,6 L29,6" id="Fill-3"></path>
+            </g>
+        </g>
+    </g>
+</svg>
