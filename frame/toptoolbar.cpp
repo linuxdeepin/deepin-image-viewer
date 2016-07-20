@@ -161,7 +161,7 @@ void TopToolbar::initWidgets()
     connect(Importer::instance(), &Importer::importProgressChanged,
             [=](double per) {
         progressWidgetTips->setValue(int(per*100));
-        progressWidgetTips->setTips(QString("%1 images imported, please wait").arg(Importer::instance()->finishedCount()));
+        progressWidgetTips->setTips(QString(tr("%1 images imported, please wait")).arg(Importer::instance()->finishedCount()));
     });
     connect(progressWidgetTips, &ProgressWidgetsTips::stopProgress, [=]{
         Importer::instance()->stopImport();
@@ -182,6 +182,7 @@ void TopToolbar::initWidgets()
     connect(importProgress, &DCircleProgress::clicked, [=]{
         Importer::instance()->nap();
         if (importProgressWidget->isHidden()) {
+            progressWidgetTips->show();
             importProgressWidget->show(window()->x()+window()->width() - importProgressWidget->width()/2 - 6, window()->y() + 45);
         } else {
             importProgressWidget->hide();
