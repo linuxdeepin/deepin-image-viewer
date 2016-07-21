@@ -184,9 +184,9 @@ void ViewPanel::showFullScreen()
     window()->showFullScreen();
     window()->resize(qApp->desktop()->screenGeometry().size());
 
-    Q_EMIT m_sManager->hideExtensionPanel(true);
-    Q_EMIT m_sManager->hideTopToolbar(true);
-//    Q_EMIT m_sManager->hideBottomToolbar(true);
+    TIMER_SINGLESHOT(200,
+    {Q_EMIT m_sManager->hideExtensionPanel(true);
+     Q_EMIT m_sManager->hideTopToolbar(true);}, this);
 }
 
 bool ViewPanel::mouseContainsByTopToolbar(const QPoint &pos)
