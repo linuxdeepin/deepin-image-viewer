@@ -81,7 +81,7 @@ bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
     }
     else if (e->type() == QEvent::KeyPress) {
         QKeyEvent *ke = static_cast<QKeyEvent *>(e);
-        if (ke && ke->key() == Qt::Key_F11) {
+        if (ke && ke->key() == Qt::Key_F1) {
             showManual();
         }
     }
