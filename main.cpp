@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("deepin");
     app.setApplicationName("deepin-image-viewer");
     app.setApplicationDisplayName("Deepin Image Viewer");
-    app.setApplicationVersion("0.1.0");
+    app.setApplicationVersion("1.0");
 
     // install translators
     QTranslator translator;
