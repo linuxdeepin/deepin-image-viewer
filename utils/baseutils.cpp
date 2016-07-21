@@ -60,7 +60,13 @@ QString formatExifTimeString(const QString &exifTimeStr)
 int stringWidth(const QFont &f, const QString &str)
 {
     QFontMetrics fm(f);
-    return fm.width(str);
+    return fm.boundingRect(str).width();
+}
+
+int stringHeight(const QFont &f, const QString &str)
+{
+    QFontMetrics fm(f);
+    return fm.boundingRect(str).height();
 }
 
 QDateTime stringToDateTime(const QString &time)

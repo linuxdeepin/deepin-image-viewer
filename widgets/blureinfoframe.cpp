@@ -86,9 +86,9 @@ void BlureInfoFrame::addInfoPair(const QString &title, const QString &value)
 
     QFont f;
     f.setPixelSize(12);
-    QFontMetrics fm(f);
-    m_leftMax = qMax(fm.boundingRect(title).width(), m_leftMax);
-    m_rightMax = qMax(fm.boundingRect(value).width(), m_rightMax);
+
+    m_leftMax = qMax(utils::base::stringWidth(f, title), m_leftMax);
+    m_rightMax = qMax(utils::base::stringWidth(f, value), m_rightMax);
     m_infoFrame->setFixedWidth(qMin((m_leftMax + m_rightMax), (width() - 16)));
 }
 

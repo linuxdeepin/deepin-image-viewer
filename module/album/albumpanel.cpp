@@ -5,6 +5,7 @@
 #include "controller/databasemanager.h"
 #include "controller/importer.h"
 #include "utils/imageutils.h"
+#include "utils/baseutils.h"
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
 #include "widgets/slider.h"
@@ -308,6 +309,9 @@ void AlbumPanel::updateImagesCount()
     QString text = QString::number(count) + " " +
             (count <= 1 ? tr("image") : tr("images"));
     m_countLabel->setText(text);
+
+    int fontHeight = utils::base::stringHeight(m_countLabel->font(), m_countLabel->text());
+    m_countLabel->setMinimumHeight(fontHeight);
 
     m_slider->setValue(m_setter->value(SETTINGS_GROUP,
                                        SETTINGS_IMAGE_ICON_SCALE_KEY,

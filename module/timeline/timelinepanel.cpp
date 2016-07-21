@@ -318,6 +318,9 @@ void TimelinePanel::updateBottomToolbarContent(int count)
         m_countLabel->setText(tr("%1 images").arg(count));
     }
 
+    int countHeight = utils::base::stringHeight(m_countLabel->font(), m_countLabel->text());
+    m_countLabel->setMinimumHeight(countHeight);
+
     m_slider->setFixedWidth(count > 0 ? 110 : 0);
 }
 

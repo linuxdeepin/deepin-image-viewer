@@ -10,12 +10,15 @@
 TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
 {
     setFixedHeight(24);
-
     m_infoLabel = new QLabel();
     m_infoLabel->setObjectName("AlbumInfoTipsLabel");
 
     m_importButton = new QPushButton(tr("Add image"));
     m_importButton->setObjectName("ImportFromTimelineButton");
+
+    int textHeight = utils::base::stringHeight(m_importButton->font(), m_importButton->text());
+    m_importButton->setMinimumHeight(textHeight);
+
     connect(m_importButton, &QPushButton::clicked, this, [=] {
         emit SignalManager::instance()->addImageFromTimeline(m_album);
         qDebug() << "Importing images to album: " << m_album;

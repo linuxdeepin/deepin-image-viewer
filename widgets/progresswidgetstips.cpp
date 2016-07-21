@@ -1,10 +1,8 @@
 #include "progresswidgetstips.h"
-
+#include "utils/baseutils.h"
 #include <QDesktopWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QDebug>
-#include <QFontMetrics>
 
 #include "controller/importer.h"
 
@@ -29,8 +27,8 @@ void ProgressWidgetsTips::initUi() {
 
     m_tips = new QLabel(this);
     m_tips->setObjectName("ProgressDialogTip");
-    QFontMetrics fm(m_tips->font());
-    int width = fm.width(m_tips->text());
+
+    int width = utils::base::stringWidth(m_tips->font(), m_tips->text());
     m_tips->setMinimumWidth(width);
 
     m_cancelButton = new DImageButton(this);

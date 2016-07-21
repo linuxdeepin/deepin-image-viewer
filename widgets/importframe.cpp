@@ -1,5 +1,6 @@
 #include "importframe.h"
 #include "controller/importer.h"
+#include "utils/baseutils.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include <QDropEvent>
@@ -39,10 +40,9 @@ ImportFrame::ImportFrame(QWidget *parent)
 void ImportFrame::setTitle(const QString &title)
 {
     m_titleLabel->setText(title);
-    QFont font;
-        QFontMetrics fm(font);
-        int textHeight = fm.boundingRect(m_titleLabel->text()).height();
-        m_titleLabel->setMinimumHeight(textHeight + 2);
+
+    int textHeight = utils::base::stringWidth(m_titleLabel->font(), m_titleLabel->text());
+    m_titleLabel->setMinimumHeight(textHeight + 2);
 }
 
 void ImportFrame::setButtonText(const QString &text)

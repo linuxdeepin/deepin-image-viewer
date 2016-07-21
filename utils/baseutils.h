@@ -28,6 +28,7 @@ namespace base {
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
 int         stringWidth(const QFont &f, const QString &str);
+int         stringHeight(const QFont &f, const QString &str);
 
 QString     sizeToHuman(const qlonglong bytes);
 QString     timeToString(const QDateTime &time, bool normalFormat = false);
