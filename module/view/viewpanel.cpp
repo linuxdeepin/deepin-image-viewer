@@ -359,13 +359,13 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     m_nav->move(e->size().width() - m_nav->width() - 60,
                 e->size().height() - m_nav->height() -10);
 
-
     m_scaleSlider->move(this->rect().right() - m_scaleSlider->width() - 20,
         (this->rect().height() - m_scaleSlider->height() + TOP_TOOLBAR_HEIGHT) / 2);
 
-    // for reset transform after toggle fullscreen etc.
-    if (! m_view->imagePath().isEmpty())
+    //FIXME for reset transform after toggle fullscreen etc.
+    if (! m_view->imagePath().isEmpty()) {
         m_view->setImage(QString(m_view->imagePath()));
+    }
 }
 
 void ViewPanel::mouseMoveEvent(QMouseEvent *e)
@@ -480,6 +480,9 @@ void ViewPanel::toggleFullScreen()
     } else {
         showFullScreen();
     }
+
+    //FIXME For the position correction after fullscreen changed
+    TIMER_SINGLESHOT(500, {openImage(m_view->imagePath(), m_inDB);}, this)
 }
 
 bool ViewPanel::showPrevious()

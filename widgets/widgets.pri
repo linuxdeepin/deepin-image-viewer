@@ -1,5 +1,4 @@
 HEADERS += \
-    $$PWD/dwindowframe.h \
     $$PWD/importframe.h \
     $$PWD/popupmenustyle.h \
     $$PWD/thumbnaillistview.h \
@@ -14,10 +13,10 @@ HEADERS += \
     $$PWD/blureinfoframe.h \
     $$PWD/separator.h \
     $$PWD/thumbnaildelegate.h \
-    $$PWD/progresswidgetstips.h
+    $$PWD/progresswidgetstips.h \
+    $$PWD/windowframe.h
 
 SOURCES += \
-    $$PWD/dwindowframe.cpp \
     $$PWD/importframe.cpp \
     $$PWD/popupmenustyle.cpp \
     $$PWD/thumbnaillistview.cpp \
@@ -32,7 +31,8 @@ SOURCES += \
     $$PWD/blureinfoframe.cpp \
     $$PWD/separator.cpp \
     $$PWD/thumbnaildelegate.cpp \
-    $$PWD/progresswidgetstips.cpp
+    $$PWD/progresswidgetstips.cpp \
+    $$PWD/windowframe.cpp
 
 RESOURCES += \
     $$PWD/widgets.qrc
