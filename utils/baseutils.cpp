@@ -140,80 +140,63 @@ bool writeTextFile(QString filePath, QString content) {
 bool trashFile(const QString &file)
 {
 #ifdef QT_GUI_LIB
-    bool TrashInitialized = false;
-    QString TrashPath;
-    QString TrashPathInfo;
-    QString TrashPathFiles;
+    QString trashPath;
+    QString trashInfoPath;
+    QString trashFilesPath;
 
-    if( !TrashInitialized ){
-        QStringList paths;
-        const char* xdg_data_home = getenv( "XDG_DATA_HOME" );
-        if( xdg_data_home ){
-            qDebug() << "XDG_DATA_HOME not yet tested";
-            QString xdgTrash( xdg_data_home );
-            paths.append( xdgTrash + "/Trash" );
-        }
-        QString home = QStandardPaths::writableLocation( QStandardPaths::HomeLocation );
-        paths.append( home + "/.local/share/Trash" );
-        paths.append( home + "/.trash" );
-        for ( QString path : paths ){
-            if( TrashPath.isEmpty() ){
-                QDir dir( path );
-                if( dir.exists() ){
-                    TrashPath = path;
-                }
-            }
-        }
-        if( TrashPath.isEmpty() ) {
-            qWarning() << "Cant detect trash folder";
-            return false;
-        }
-        TrashPathInfo = TrashPath + "/info";
-        TrashPathFiles = TrashPath + "/files";
-        if( !QDir( TrashPathInfo ).exists() || !QDir( TrashPathFiles ).exists() ) {
-            qWarning() << "Trash doesnt looks like FreeDesktop.org Trash specification";
-            return false;
-        }
-        TrashInitialized = true;
+    QString home = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    // There maby others location for trash like $HOME/.trash or
+    // $XDG_DATA_HOME/Trash, but our stupid FileManager coder said we should
+    // assume that the trash lcation is $HOME/.local/share/Trash,so...
+    trashPath = home + "/.local/share/Trash";
+    trashInfoPath = trashPath + "/info";
+    trashFilesPath = trashPath + "/files";
+    if (! QDir(trashFilesPath).exists()) {
+        QDir().mkpath(trashFilesPath);
     }
-    QFileInfo original( file );
-    if( !original.exists() ) {
+    if (! QDir(trashInfoPath).exists()) {
+        QDir().mkpath(trashInfoPath);
+    }
+
+    QFileInfo originalInfo( file );
+    if(! originalInfo.exists()) {
         qWarning() << "File doesnt exists, cant move to trash";
         return false;
     }
-    QString info;
-    info += "[Trash Info]\nPath=";
-    info += original.absoluteFilePath();
-    info += "\nDeletionDate=";
-    info += QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzzZ");
-    info += "\n";
-    QString trashname = original.fileName();
-    QString infopath = TrashPathInfo + "/" + trashname + ".trashinfo";
-    QString filepath = TrashPathFiles + "/" + trashname;
+    // Info for restore
+    QString infoStr;
+    infoStr += "[Trash Info]\nPath=";
+    infoStr += originalInfo.absoluteFilePath();
+    infoStr += "\nDeletionDate=";
+    infoStr += QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzzZ");
+    infoStr += "\n";
+
+    QString trashname = originalInfo.fileName();
+    QString infopath = trashInfoPath + "/" + trashname + ".trashinfo";
+    QString filepath = trashFilesPath + "/" + trashname;
     int nr = 1;
     while( QFileInfo( infopath ).exists() || QFileInfo( filepath ).exists() ){
         nr++;
-        trashname = original.baseName() + "." + QString::number( nr );
-        if( !original.completeSuffix().isEmpty() ){
-            trashname += QString( "." ) + original.completeSuffix();
+        trashname = originalInfo.baseName() + "." + QString::number( nr );
+        if( !originalInfo.completeSuffix().isEmpty() ){
+            trashname += QString( "." ) + originalInfo.completeSuffix();
         }
-        infopath = TrashPathInfo + "/" + trashname + ".trashinfo";
-        filepath = TrashPathFiles + "/" + trashname;
+        infopath = trashInfoPath + "/" + trashname + ".trashinfo";
+        filepath = trashFilesPath + "/" + trashname;
     }
-//    File infofile;
-//    infofile.createUtf8( infopath, info );
     QFile infoFile(infopath);
     if (infoFile.open(QIODevice::WriteOnly)) {
-        infoFile.write(info.toUtf8());
+        infoFile.write(infoStr.toUtf8());
         infoFile.close();
 
-        if( !QDir().rename( original.absoluteFilePath(), filepath ) ){
+        if( !QDir().rename( originalInfo.absoluteFilePath(), filepath ) ){
             qWarning() << "move to trash failed!";
             return false;
         }
     }
     else {
         qDebug() << "Move to trash failed! Could not write *.trashinfo!";
+        return false;
     }
     return true;
 #else
