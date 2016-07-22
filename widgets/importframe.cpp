@@ -41,7 +41,7 @@ void ImportFrame::setTitle(const QString &title)
 {
     m_titleLabel->setText(title);
 
-    int textHeight = utils::base::stringWidth(m_titleLabel->font(), m_titleLabel->text());
+    int textHeight = utils::base::stringHeight(m_titleLabel->font(), m_titleLabel->text());
     m_titleLabel->setMinimumHeight(textHeight + 2);
 }
 
