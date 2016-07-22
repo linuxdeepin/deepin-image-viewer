@@ -7,17 +7,10 @@ class TTLContent : public QWidget
 {
     Q_OBJECT
 public:
-    enum ImageSource {
-        FromAlbum,
-        FromTimeline,
-        FromFileManager
-    };
-
-    explicit TTLContent(ImageSource source, QWidget *parent = 0);
+    explicit TTLContent(bool inDB, QWidget *parent = 0);
 
 signals:
-    void clicked(ImageSource source);
-    void backToMain();
+    void clicked();
 };
 
 #endif // TTLCONTENT_H

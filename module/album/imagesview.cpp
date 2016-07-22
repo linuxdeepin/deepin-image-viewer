@@ -98,7 +98,7 @@ void ImagesView::initListView()
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         const QString path = m_view->itemInfo(index).path;
-        emit m_sManager->viewImage(path, QStringList(), m_album);
+        emit viewImage(path, QStringList());
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
@@ -239,11 +239,10 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
 
     switch (MenuItemId(menuId)) {
     case IdView:
-        m_sManager->viewImage(cpath, viewPaths, m_album);
+        emit viewImage(cpath, viewPaths);
         break;
     case IdFullScreen:
-        m_sManager->viewImage(cpath, viewPaths, m_album);
-        m_sManager->fullScreen(cpath);
+        emit viewImage(cpath, viewPaths, true);
         break;
     case IdStartSlideShow:
         emit startSlideShow(viewPaths, cpath);

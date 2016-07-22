@@ -282,6 +282,8 @@ void TimelineImageView::inserFrame(const QString &timeline)
     });
     connect(frame, &TimelineViewFrame::customContextMenuRequested,
             this, &TimelineImageView::customContextMenuRequested);
+    connect(frame, &TimelineViewFrame::viewImage,
+            this, &TimelineImageView::viewImage);
     m_frames.insert(timeline, frame);
     QStringList timelines = m_frames.keys();
     if (!m_ascending) {

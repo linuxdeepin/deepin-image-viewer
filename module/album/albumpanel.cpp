@@ -275,6 +275,17 @@ void AlbumPanel::initImagesView()
             this, [=] (const QStringList &paths, const QString &path) {
         emit m_sManager->startSlideShow(this, paths, path);
     });
+    connect(m_imagesView, &ImagesView::viewImage,
+            this, [=] (const QString &path, const QStringList &paths, bool f) {
+        SignalManager::ViewInfo vinfo;
+        vinfo.album = m_imagesView->getCurrentAlbum();
+        vinfo.fullScreen = f;
+        vinfo.inDatabase = true;
+        vinfo.lastPanel = this;
+        vinfo.path = path;
+        vinfo.paths = paths;
+        emit m_sManager->viewImage(vinfo);
+    });
     connect(m_sManager, &SignalManager::insertIntoAlbum,
             this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
     connect(m_sManager, &SignalManager::removeFromAlbum,

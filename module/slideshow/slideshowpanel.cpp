@@ -161,10 +161,6 @@ void SlideShowPanel::showFullScreen()
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
     window()->showFullScreen();
-    // FIXME: Full-screen mode works fine under Windows,
-    // but has certain problems under X. So we resize the window's size every time
-    window()->resize(qApp->desktop()->screenGeometry().size());
-
 
     TIMER_SINGLESHOT(300, {
     emit m_sManager->hideBottomToolbar(true);

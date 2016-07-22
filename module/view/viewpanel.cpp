@@ -43,10 +43,11 @@ const QString FAVORITES_ALBUM_NAME = "My favorites";
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent),
-      m_inDB(false),
       m_popupMenu(new PopupMenuManager(this)),
       m_sManager(SignalManager::instance())
 {
+    m_vinfo.inDatabase = false;
+
     initStack();
     initNavigation();
     initSlider();
@@ -84,15 +85,14 @@ void ViewPanel::initConnect() {
             emit m_sManager->hideBottomToolbar(true);
         }
     });
+    qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
     connect(m_sManager, &SignalManager::viewImage,
             this, &ViewPanel::onViewImage);
-    connect(m_sManager, &SignalManager::fullScreen,
-            this, &ViewPanel::toggleFullScreen);
     connect(m_sManager, &SignalManager::removeFromAlbum,
             this, [=] (QString album, QString name) {
         if (isVisible()
-                && ! m_album.isEmpty()
-                && album == m_album
+                && ! m_vinfo.album.isEmpty()
+                && album == m_vinfo.album
                 && imageIndex(name) == imageIndex(m_current->name))
             removeCurrentImage();
     });
@@ -134,7 +134,7 @@ void ViewPanel::initShortcut()
             showNormal();
         }
         else {
-            Q_EMIT m_sManager->backToMainWindow();
+            backToLastPanel();
         }
     });
 }
@@ -182,9 +182,8 @@ void ViewPanel::showFullScreen()
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
     window()->showFullScreen();
-    window()->resize(qApp->desktop()->screenGeometry().size());
 
-    TIMER_SINGLESHOT(200,
+    TIMER_SINGLESHOT(300,
     {Q_EMIT m_sManager->hideExtensionPanel(true);
      Q_EMIT m_sManager->hideTopToolbar(true);}, this);
 }
@@ -260,45 +259,14 @@ QWidget *ViewPanel::toolbarBottomContent()
 
 QWidget *ViewPanel::toolbarTopLeftContent()
 {
-    TTLContent::ImageSource source;
-    if (m_inDB) {
-        if (m_album.isEmpty()) {
-            source = TTLContent::FromTimeline;
-        }
-        else {
-            source = TTLContent::FromAlbum;
-        }
-    }
-    else {
-        source = TTLContent::FromFileManager;
-    }
-
-    TTLContent *ttlc = new TTLContent(source);
-    connect(ttlc, &TTLContent::clicked, this, [=] (TTLContent::ImageSource s) {
-        if (window()->isFullScreen())
-            showNormal();
-        switch (s) {
-        case TTLContent::FromFileManager:
-        case TTLContent::FromTimeline:
-            // Use dbus interface to make sure it will always back to the
-            // main process
-            DIVDBusController().backToMainWindow();
-            break;
-        case TTLContent::FromAlbum:
-            emit m_sManager->gotoAlbumPanel(m_album);
-            emit m_sManager->hideExtensionPanel(true);
-            emit m_sManager->showBottomToolbar();
-            break;
-        default:
-            break;
-        }
-    });
+    TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
+    connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
     return ttlc;
 }
 
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
-    TTMContent *ttmc = new TTMContent(! m_inDB);
+    TTMContent *ttmc = new TTMContent(! m_vinfo.inDatabase);
     ttmc->onImageChanged(m_view->imageName(), m_view->imagePath());
     connect(this, &ViewPanel::updateCollectButton,
             ttmc, &TTMContent::updateCollectButton);
@@ -349,7 +317,7 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
              && e->type() == QEvent::Show) {
         // After slide show
         TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL + 50,
-        {openImage(m_current->path, m_inDB);}, this);
+        {openImage(m_current->path, m_vinfo.inDatabase);}, this);
     }
     return false;
 }
@@ -426,43 +394,44 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
     event->accept();
 }
 
-void ViewPanel::onViewImage(const QString &path, const QStringList &paths,
-                            const QString &album, bool inDB)
+void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
-    m_inDB = inDB;
-    m_album = album;
+    m_vinfo = vinfo;
 
     m_nav->setImage(QImage());
+    if (vinfo.fullScreen) {
+        showFullScreen();
+    }
     emit m_sManager->gotoPanel(this);
 
     TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL, {
 
-    openImage(path, inDB);
+    openImage(vinfo.path, vinfo.inDatabase);
 
-    if (! paths.isEmpty()) {
+    if (! vinfo.paths.isEmpty()) {
         QFileInfoList list;
-        for (QString path : paths) {
+        for (QString path : vinfo.paths) {
             list << QFileInfo(path);
         }
         m_infos = getImageInfos(list);
     }
     else {
-        if (inDB) {
-            if (album.isEmpty()) {
+        if (vinfo.inDatabase) {
+            if (vinfo.album.isEmpty()) {
                 m_infos = dbManager()->getAllImageInfos();
             }
             else {
-                m_infos = dbManager()->getImageInfosByAlbum(album);
+                m_infos = dbManager()->getImageInfosByAlbum(vinfo.album);
             }
         }
         else {
-            m_infos = getImageInfos(getFileInfos(path));
+            m_infos = getImageInfos(getFileInfos(vinfo.path));
         }
     }
 
     m_current = m_infos.cbegin();
     for (; m_current != m_infos.cend(); m_current ++) {
-        if (m_current->path == path) {
+        if (m_current->path == vinfo.path) {
             return;
         }
     }
@@ -470,7 +439,7 @@ void ViewPanel::onViewImage(const QString &path, const QStringList &paths,
     // Not exist in DB, it must from FileManager
     m_current = m_infos.cbegin();
 
-                         }, this, path, paths, album, inDB)
+                         }, this, vinfo)
 }
 
 void ViewPanel::toggleFullScreen()
@@ -482,7 +451,8 @@ void ViewPanel::toggleFullScreen()
     }
 
     //FIXME For the position correction after fullscreen changed
-    TIMER_SINGLESHOT(500, {openImage(m_view->imagePath(), m_inDB);}, this)
+    TIMER_SINGLESHOT(500, {openImage(m_view->imagePath(), m_vinfo.inDatabase);
+                     }, this)
 }
 
 bool ViewPanel::showPrevious()
@@ -493,7 +463,7 @@ bool ViewPanel::showPrevious()
         m_current = m_infos.cend();
     --m_current;
 
-    openImage(m_current->path, m_inDB);
+    openImage(m_current->path, m_vinfo.inDatabase);
     return true;
 }
 
@@ -507,7 +477,7 @@ bool ViewPanel::showNext()
     if (m_current == m_infos.cend())
         m_current = m_infos.cbegin();
 
-    openImage(m_current->path, m_inDB);
+    openImage(m_current->path, m_vinfo.inDatabase);
     return true;
 }
 
@@ -588,7 +558,7 @@ QString ViewPanel::createMenuContent()
     items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
                                 false, "F5"));
 
-    if (m_inDB) {
+    if (m_vinfo.inDatabase) {
         const QJsonObject objF = createAlbumMenuObj(false);
         if (! objF.isEmpty()) {
             items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
@@ -598,21 +568,21 @@ QString ViewPanel::createMenuContent()
 
     items.append(createMenuItem(IdSeparator, "", true));
 
-    if (m_inDB) {
+    if (m_vinfo.inDatabase) {
         items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     }
 
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
     items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash"), false,
                                 "Delete"));
-    if (! m_album.isEmpty()) {
+    if (! m_vinfo.album.isEmpty()) {
         items.append(createMenuItem(IdRemoveFromAlbum,
             tr("Remove from album"), false, "Shift+Delete"));
     }
 
     items.append(createMenuItem(IdSeparator, "", true));
     //        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
-    if (m_inDB) {
+    if (m_vinfo.inDatabase) {
         if (!dbManager()->imageExistAlbum(m_current->name,
                                           FAVORITES_ALBUM_NAME)) {
             items.append(createMenuItem(IdAddToFavorites,
@@ -644,7 +614,7 @@ QString ViewPanel::createMenuContent()
     //        items.append(createMenuItem(IdLabel, tr("Text tag")));
     items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
                                 false, "Ctrl+F8"));
-    if (m_inDB)
+    if (m_vinfo.inDatabase)
         items.append(createMenuItem(IdDisplayInFileManager,
                                     tr("Display in file manager"), false, "Ctrl+D"));
     items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
@@ -662,7 +632,7 @@ QString ViewPanel::createMenuContent()
 
 QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
 {
-    if (! m_inDB) {
+    if (! m_vinfo.inDatabase) {
         return QJsonObject();
     }
     const QStringList albums = dbManager()->getAlbumNameList();
@@ -709,6 +679,23 @@ QJsonValue ViewPanel::createMenuItem(const ViewPanel::MenuItemId id,
                                                  subMenu));
 }
 
+void ViewPanel::backToLastPanel()
+{
+    if (window()->isFullScreen()) {
+        showNormal();
+    }
+    if (m_vinfo.lastPanel) {
+        emit m_sManager->gotoPanel(m_vinfo.lastPanel);
+        emit m_sManager->hideExtensionPanel(true);
+        emit m_sManager->showBottomToolbar();
+    }
+    else {
+        // Use dbus interface to make sure it will always back to the
+        // main process
+        DIVDBusController().backToMainWindow();
+    }
+}
+
 void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 {
     using namespace utils::base;
@@ -750,7 +737,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         removeCurrentImage();
         break;
     case IdRemoveFromAlbum:
-        dbManager()->removeImageFromAlbum(m_album, name);
+        dbManager()->removeImageFromAlbum(m_vinfo.album, name);
         break;
     case IdEdit:
         m_sManager->editImage(m_view->imagePath());
@@ -836,7 +823,7 @@ void ViewPanel::initViewContent()
         utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
     });
     connect(m_view, &ImageWidget::doubleClicked, [this]() {
-        this->toggleFullScreen();
+        toggleFullScreen();
         m_scaleSlider->hide();
     });
 }

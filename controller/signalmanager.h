@@ -11,6 +11,16 @@ class SignalManager : public QObject
 public:
     static SignalManager *instance();
 
+    // For view images
+    struct ViewInfo {
+        ModulePanel *lastPanel;                 // For back to the last panel
+        bool inDatabase = true;
+        bool fullScreen = false;
+        QString album = QString();
+        QString path;                           // Specific current open one
+        QStringList paths = QStringList();      // Limit the view range
+    };
+
 signals:
     void enableMainMenu(bool enable);
     void updateTopToolbarLeftContent(QWidget *content);
@@ -44,8 +54,7 @@ signals:
     void startSlideShow(ModulePanel* lastPanel, QStringList paths,
                         QString path = "");
 
-    void viewImage(const QString &path, const QStringList &paths = QStringList(),
-                   const QString &album = "", bool inDB = true);
+    void viewImage(const ViewInfo &vinfo);
 
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");

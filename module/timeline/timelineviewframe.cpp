@@ -64,7 +64,7 @@ void TimelineViewFrame::initListView()
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         const QString path = m_view->itemInfo(index).path;
-        emit m_sManager->viewImage(path, m_dbManager->getAllImagesPath());
+        emit viewImage(path, m_dbManager->getAllImagesPath());
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, &TimelineViewFrame::customContextMenuRequested);

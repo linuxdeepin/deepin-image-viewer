@@ -36,6 +36,9 @@ public:
 
 signals:
     void startSlideShow(const QStringList &paths, const QString &path);
+    void viewImage(const QString &path,
+                   const QStringList &paths,
+                   bool fullscreen = false);
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;

@@ -40,8 +40,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
-    void onViewImage(const QString &path, const QStringList &paths,
-                     const QString &album, bool inDB);
+    void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString& path, bool inDB = true);
     void toggleFullScreen();
     bool showPrevious();
@@ -90,12 +89,12 @@ private:
                               const bool isSeparator = false,
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
+    void backToLastPanel();
     void onMenuItemClicked(int menuId, const QString &text);
-
-    void updateMenuContent();
     void showToolbar(bool isTop);
     void showNormal();
     void showFullScreen();
+    void updateMenuContent();
 
     bool mouseContainsByTopToolbar(const QPoint &pos);
     bool mouseContainsByBottomToolbar(const QPoint &pos);
@@ -108,15 +107,14 @@ private:
     const QStringList paths() const;
 
 private:
-    bool m_inDB;
     bool m_isMaximized;
 
-    QString m_album;    // 用于判断图片是否从相册模块传递过来
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
     ImageSliderFrame *m_scaleSlider = NULL;
     PopupMenuManager *m_popupMenu;
+    SignalManager::ViewInfo m_vinfo;
     SignalManager *m_sManager;
     QStackedWidget *m_stack;
 

@@ -30,6 +30,9 @@ public slots:
     void clearImages();
     void onImageInserted(const DatabaseManager::ImageInfo &info);
 
+signals:
+    void viewImage(const QString &path, const QStringList &paths);
+
 protected:
     bool eventFilter(QObject *obj, QEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;

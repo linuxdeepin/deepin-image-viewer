@@ -245,11 +245,6 @@ void TimelinePanel::initPopupMenu()
 {
     m_popupMenu = new PopupMenuManager(this);
     updateMenuContents();
-    connect(m_view, &TimelineImageView::customContextMenuRequested,
-            this, [=] {
-        updateMenuContents();
-        m_popupMenu->showMenu();
-    });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &TimelinePanel::onMenuItemClicked);
 }
@@ -291,6 +286,18 @@ void TimelinePanel::initImagesView()
 {
     m_view = new TimelineImageView;
     m_view->setAcceptDrops(true);
+    connect(m_view, &TimelineImageView::customContextMenuRequested, this, [=] {
+        updateMenuContents();
+        m_popupMenu->showMenu();
+    });
+    connect(m_view, &TimelineImageView::viewImage,
+            this, [=] (const QString &path, const QStringList &paths){
+        SignalManager::ViewInfo vinfo;
+        vinfo.lastPanel = this;
+        vinfo.path = path;
+        vinfo.paths = paths;
+        emit m_sManager->viewImage(vinfo);
+    });
 }
 
 void TimelinePanel::initStyleSheet()
@@ -343,13 +350,20 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
                 m_dbManager->getAllImagesPath() : pList;
     const QString cname = nList.first();
     const QString cpath = pList.first();
+
+    SignalManager::ViewInfo vinfo;
+    vinfo.inDatabase = true;
+    vinfo.lastPanel = this;
+    vinfo.path = cpath;
+    vinfo.paths = viewPaths;
+
     switch (MenuItemId(menuId)) {
     case IdView:
-        m_sManager->viewImage(cpath, viewPaths);
+        m_sManager->viewImage(vinfo);
         break;
     case IdFullScreen:
-        m_sManager->viewImage(cpath, viewPaths);
-        m_sManager->fullScreen(cpath);
+        vinfo.fullScreen = true;
+        m_sManager->viewImage(vinfo);
         break;
     case IdStartSlideShow:
         m_sManager->startSlideShow(this, viewPaths, cpath);

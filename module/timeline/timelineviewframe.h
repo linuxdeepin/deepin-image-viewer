@@ -36,6 +36,7 @@ public:
 signals:
     void singleClicked(QMouseEvent *e);
     void clicked(const QModelIndex &index);
+    void viewImage(const QString &path, const QStringList &paths);
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
