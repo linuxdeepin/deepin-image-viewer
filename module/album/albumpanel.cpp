@@ -95,6 +95,10 @@ QWidget *AlbumPanel::toolbarBottomContent()
     layout->addWidget(m_slider, 1, Qt::AlignRight);
     layout->addSpacing(9);
 
+    const int image_count = m_imagesView->count();
+    if (image_count == 0)
+        m_slider->setFixedWidth(0);
+
     return tBottomContent;
 }
 
@@ -309,8 +313,7 @@ void AlbumPanel::updateImagesCount()
                                        SETTINGS_IMAGE_ICON_SCALE_KEY,
                                        QVariant(0)).toInt());
 
-    //set width to 1px for layout center
-    m_slider->setFixedWidth(count > 0 ? 110 : 1);
+    m_slider->setFixedWidth(count > 0 ? 110 : 0);
 }
 
 void AlbumPanel::updateAlbumCount()
@@ -331,7 +334,7 @@ void AlbumPanel::updateAlbumCount()
                                        QVariant(0)).toInt());
 
     //set width to 1px for layout center
-    m_slider->setFixedWidth(count > 0 ? 110 : 1);
+    m_slider->setFixedWidth(count > 0 ? 110 : 0);
 }
 
 void AlbumPanel::showCreateDialog()
@@ -375,6 +378,7 @@ void AlbumPanel::onImageCountChanged(int count)
     else if (count == 0 && m_stackWidget->currentIndex() == 1) {
         m_stackWidget->setCurrentIndex(0);
     }
+
     updateImagesCount();
 }
 
@@ -390,7 +394,6 @@ void AlbumPanel::onInsertIntoAlbum(const DatabaseManager::ImageInfo info)
 
 void AlbumPanel::onOpenAlbum(const QString &album)
 {
-    qDebug() << "Open Album : " << album;
     m_currentAlbum = album;
 
     m_stackWidget->setCurrentWidget(m_imagesView);
