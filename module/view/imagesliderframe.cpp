@@ -32,7 +32,7 @@ ImageSliderFrame::ImageSliderFrame(QWidget *parent)
     initTooltip();
     initTimer();
     initStyleSheet();
-    setCurrentValue(MAXIMUM);
+    setCurrentValue(100);
     connect(m_slider, &ScaleSlider::valueChanged, [this](int value) {
         double perc = (double)value / (MAXIMUM - MINIMUM);
         setCurrentValue(value);
