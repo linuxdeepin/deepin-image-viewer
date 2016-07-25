@@ -101,9 +101,14 @@ void SlideShowPanel::initMenu()
 void SlideShowPanel::initShortcut()
 {
     // Esc
-    QShortcut *sc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, &SlideShowPanel::backToLastPanel);
+    m_sEsc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    m_sEsc->setContext(Qt::WindowShortcut);
+    connect(m_sEsc, &QShortcut::activated, this, &SlideShowPanel::backToLastPanel);
+}
+
+void SlideShowPanel::mousePressEvent(QMouseEvent *e) {
+    if (e->button() == Qt::BackButton)
+        m_sEsc->activated();
 }
 
 const QString SlideShowPanel::menuContent()

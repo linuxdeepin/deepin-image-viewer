@@ -2,6 +2,7 @@
 #define SLIDESHOWPANEL_H
 
 #include "module/modulepanel.h"
+class QShortcut;
 
 class PopupMenuManager;
 class SignalManager;
@@ -20,7 +21,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-
+    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 private:
     void backToLastPanel();
 
@@ -40,6 +41,7 @@ private:
     void showNormal();
 
 private:
+    QShortcut *m_sEsc;
     ModulePanel         *m_lastPanel;
     PopupMenuManager    *m_menu;
     QImage               m_img;

@@ -100,6 +100,24 @@ QWidget *AlbumPanel::toolbarBottomContent()
     return tBottomContent;
 }
 
+void AlbumPanel::keyPressEvent(QKeyEvent *e) {
+    if (e->key() == Qt::Key_Escape) {
+        m_stackWidget->setCurrentWidget(m_albumsView);
+        // Make sure top toolbar content still show as album content
+        // during adding images from timeline
+        emit m_sManager->gotoPanel(this);
+    }
+}
+
+void AlbumPanel::mousePressEvent(QMouseEvent *e) {
+    if (e->button() == Qt::BackButton) {
+        m_stackWidget->setCurrentWidget(m_albumsView);
+        // Make sure top toolbar content still show as album content
+        // during adding images from timeline
+        emit m_sManager->gotoPanel(this);
+    }
+}
+
 QWidget *AlbumPanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;

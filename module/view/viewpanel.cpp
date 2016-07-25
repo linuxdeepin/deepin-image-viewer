@@ -127,9 +127,9 @@ void ViewPanel::initShortcut()
     });
 
     // Esc
-    sc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
+    m_esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    m_esc->setContext(Qt::WindowShortcut);
+    connect(m_esc, &QShortcut::activated, this, [=] {
         if (window()->isFullScreen()) {
             showNormal();
         }
@@ -137,6 +137,17 @@ void ViewPanel::initShortcut()
             backToLastPanel();
         }
     });
+}
+
+void ViewPanel::mousePressEvent(QMouseEvent *e) {
+    if (e->button() == Qt::BackButton) {
+        if (window()->isFullScreen()) {
+            showNormal();
+        }
+        else {
+            backToLastPanel();
+        }
+    }
 }
 
 void ViewPanel::initStyleSheet()

@@ -33,7 +33,8 @@ protected:
     void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 private:
     void initMainStackWidget();
     void initAlbumsView();

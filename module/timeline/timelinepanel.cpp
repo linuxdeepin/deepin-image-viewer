@@ -44,6 +44,7 @@ TimelinePanel::TimelinePanel(QWidget *parent)
     initStyleSheet();
     initPopupMenu();
     initConnection();
+
 }
 
 QWidget *TimelinePanel::toolbarBottomContent()

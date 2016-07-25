@@ -183,6 +183,7 @@ void ImageWidget::mousePressEvent(QMouseEvent *event)
         m_posG = event->globalPos();
         m_moving = true;
     }
+    QWidget::mousePressEvent(event);
 }
 
 void ImageWidget::mouseReleaseEvent(QMouseEvent *event)

@@ -8,10 +8,12 @@
 #include "controller/signalmanager.h"
 #include "imagesliderframe.h"
 
-#include <QJsonObject>
-#include <QKeyEvent>
 #include <QFileInfo>
+#include <QJsonObject>
 #include <QStackedWidget>
+
+class QKeyEvent;
+class QShortcut;
 
 class ImageButton;
 class SlideEffectPlayer;
@@ -38,7 +40,7 @@ protected:
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-
+    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 private Q_SLOTS:
     void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString& path, bool inDB = true);
@@ -108,6 +110,7 @@ private:
 
 private:
     bool m_isMaximized;
+    QShortcut* m_esc;
 
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
