@@ -20,6 +20,7 @@ namespace {
 
 const int MIN_ICON_SIZE = 96;
 const int ICON_MARGIN = 13;
+const int SLIDER_WIDTH = 120;
 //const int THUMBNAIL_MAX_SCALE_SIZE = 384;
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
@@ -328,7 +329,7 @@ void TimelinePanel::updateBottomToolbarContent(int count)
     int countHeight = utils::base::stringHeight(m_countLabel->font(), m_countLabel->text());
     m_countLabel->setMinimumHeight(countHeight);
 
-    m_slider->setFixedWidth(count > 0 ? 110 : 0);
+    m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
 }
 
 void TimelinePanel::updateMenuContents()

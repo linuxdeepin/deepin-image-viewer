@@ -19,7 +19,7 @@ namespace {
 
 const int MIN_ICON_SIZE = 96;
 const int ICON_MARGIN = 13;
-
+const int SLIDER_WIDTH = 120;
 const QString SETTINGS_GROUP = "ALBUMPANEL";
 const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
 const QString SETTINGS_IMAGE_ICON_SCALE_KEY = "ImageIconScale";
@@ -326,7 +326,7 @@ void AlbumPanel::updateImagesCount()
                                        SETTINGS_IMAGE_ICON_SCALE_KEY,
                                        QVariant(0)).toInt());
 
-    m_slider->setFixedWidth(count > 0 ? 110 : 0);
+    m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
 }
 
 void AlbumPanel::updateAlbumCount()
@@ -348,7 +348,7 @@ void AlbumPanel::updateAlbumCount()
                                        QVariant(0)).toInt());
 
     //set width to 1px for layout center
-    m_slider->setFixedWidth(count > 0 ? 110 : 0);
+    m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
 }
 
 void AlbumPanel::showCreateDialog()
