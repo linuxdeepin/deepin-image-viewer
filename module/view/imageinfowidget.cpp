@@ -115,21 +115,20 @@ void ImageInfoWidget::updateInfo()
     int titleWidth = 0;
     int fieldWidth = 0;
 
-    QFontMetrics fm(font());
     auto ei = utils::image::GetExifFromPath(m_path, m_isDetail);
     for (const utils::image::ExifItem* i =
          utils::image::getExifItemList(m_isDetail); i->tag; ++i) {
         const QString v = ei.value(i->name);
-        QFont textFont;
-        QFontMetrics fm(textFont);
-        QString fMetricText = fm.elidedText(v, Qt::ElideMiddle, 200);
-        if (fMetricText.isEmpty()) {
+        if (v.isEmpty()) {
             continue;
         }
-        SimpleFormField *label = new SimpleFormField(fMetricText);
+        SimpleFormField *label = new SimpleFormField(v);
+        label->setWordWrap(true);
+
         const QString tn = qApp->translate("ExifItemName", i->name);
-        titleWidth = qMax(titleWidth, fm.width(tn));
-        fieldWidth = qMax(fieldWidth, fm.width(v));
+        titleWidth = qMax(titleWidth, utils::base::stringWidth(font(), tn));
+        fieldWidth = qMax(fieldWidth, utils::base::stringWidth(label->font(),label->text()));
+        label->setMinimumHeight(utils::base::stringHeight(font(), v));
         m_exifLayout->addRow(new SimpleFormLabel(tn + ":"), label);
     }
 

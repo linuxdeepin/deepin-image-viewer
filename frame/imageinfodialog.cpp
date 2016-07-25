@@ -47,7 +47,7 @@ void ImageInfoDialog::setPath(const QString &path)
 
         QFont textFont;
         QFontMetrics fm(textFont);
-        QString fontMetricText = fm.elidedText(v, Qt::ElideMiddle, 255);
+        QString fontMetricText = fm.elidedText(v, Qt::ElideNone, 200);
         if (v.isEmpty()) {
             continue;
         }
