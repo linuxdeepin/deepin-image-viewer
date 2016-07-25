@@ -1,4 +1,5 @@
 #include "controller/commandline.h"
+#include "controller/globaleventfilter.h"
 #include "service/defaultimageviewer.h"
 #include "dthememanager.h"
 
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
         dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
+        app.installEventFilter(new GlobalEventFilter());
         return app.exec();
     }
     else {

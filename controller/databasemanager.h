@@ -36,6 +36,7 @@ public:
     QList<ImageInfo> getImageInfosByTimeline(const QString &timeline);
     ImageInfo getImageInfoByName(const QString &name);
     ImageInfo getImageInfoByPath(const QString &path);
+    void insertImageInfos(const QList<ImageInfo> &infos);
     void insertImageInfo(const ImageInfo &info);
     void updateImageInfo(const ImageInfo &info);
     void updateThumbnail(const QString &name);

@@ -53,6 +53,7 @@ private:
         IdSeparator
     };
 
+    void initConnection();
     void initPopupMenu();
     void initMainStackWidget();
     void initImagesView();

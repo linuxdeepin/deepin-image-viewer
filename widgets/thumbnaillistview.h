@@ -2,8 +2,11 @@
 #define THUMBNAILLISTVIEW_H
 
 #include <QListView>
+#include <QFutureWatcher>
 
 class QStandardItemModel;
+class ThumbnailDelegate;
+class QTimer;
 class ThumbnailListView : public QListView
 {
     Q_OBJECT
@@ -15,6 +18,7 @@ public:
     };
 
     explicit ThumbnailListView(QWidget *parent = 0);
+    ~ThumbnailListView();
     void setMultiSelection(bool multiple);
     void clearData();
     void updateViewPortSize();
@@ -36,24 +40,32 @@ signals:
     void singleClicked(QMouseEvent *e);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
-    void mousePressEvent(QMouseEvent *e) override;
-    void mouseMoveEvent(QMouseEvent *e) override;
-    void wheelEvent(QWheelEvent *e) override;
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
     int horizontalOffset() const Q_DECL_OVERRIDE;
 
 private slots:
+    void onThumbnailResultReady(int index);
     void fixedViewPortSize(bool proactive = false);
     int maxColumn() const;
     int contentsHMargin() const;
     int contentsVMargin() const;
 
 private:
-    const QPixmap getThumbnailByName(const QString &name) const;
+    void initThumbnailTimer();
     const QVariantList getVariantList(const ItemInfo &info);
 
 private:
+    // For high-quality-thumbnail generate
+    QModelIndexList m_paintedIndexs;
+    QStringList m_thumbnailCache;
+    QFutureWatcher<QString> m_thumbnailWatcher;
+
     QStandardItemModel *m_model;
+    ThumbnailDelegate *m_delegate;
     bool m_multiple;
 };
 

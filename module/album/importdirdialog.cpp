@@ -51,11 +51,11 @@ ImportDirDialog::ImportDirDialog(QWidget *parent, QWidget *source)
     connect(this, &ImportDirDialog::clicked, this, [=] (int id) {
         this->close();
         if(id == 1){
-            Importer::instance()->importFromPath(m_dir);
+            Importer::instance()->importDir(m_dir);
         }
         else if (id == 2) {
             const QString album = m_edit->text().trimmed();
-            Importer::instance()->importFromPath(m_dir, album);
+            Importer::instance()->importDir(m_dir, album);
             // For UI update
             DatabaseManager::instance()->insertImageIntoAlbum(album, "", "");
             emit albumCreated();

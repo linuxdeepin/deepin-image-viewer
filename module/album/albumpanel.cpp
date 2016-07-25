@@ -190,25 +190,23 @@ void AlbumPanel::dropEvent(QDropEvent *event)
     if (urls.isEmpty())
         return;
 
+    QStringList files;
+    bool withAlbum = m_stackWidget->currentWidget() != m_albumsView;
     for (QUrl url : urls) {
         const QString path = url.toLocalFile();
         if (QFileInfo(path).isDir()) {
-            if (m_stackWidget->currentWidget() == m_albumsView) {
+            if (!withAlbum) {
                 showImportDirDialog(path);
             }
             else {
-                Importer::instance()->importFromPath(path, m_currentAlbum);
+                Importer::instance()->importDir(path, m_currentAlbum);
             }
         }
         else {
-            if (m_stackWidget->currentWidget() == m_albumsView) {
-                Importer::instance()->importSingleFile(path);
-            }
-            else {
-                Importer::instance()->importSingleFile(path, m_currentAlbum);
-            }
+            files << path;
         }
     }
+    Importer::instance()->importFiles(files, withAlbum ? m_currentAlbum : "");
 }
 
 void AlbumPanel::dragEnterEvent(QDragEnterEvent *event)
@@ -290,6 +288,20 @@ void AlbumPanel::initImagesView()
         if (album == m_imagesView->getCurrentAlbum())
         m_imagesView->removeItem(name);
         updateImagesCount();
+    });
+    connect(Importer::instance(), &Importer::importProgressChanged, this, [=] (double v) {
+        if (v == 1) {
+            auto infos = m_dbManager->getAllImageInfos();
+            QStringList names = m_dbManager->getImageNamesByAlbum(m_currentAlbum);
+            for (auto info : infos) {
+                // The albums read from ImageTable is old
+                // Read DB one to improve the speed
+                if (names.contains(info.name)) {
+                    info.albums = QStringList(m_currentAlbum);
+                    onInsertIntoAlbum(info);
+                }
+            }
+        }
     });
 }
 

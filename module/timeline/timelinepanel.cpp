@@ -43,15 +43,7 @@ TimelinePanel::TimelinePanel(QWidget *parent)
     initMainStackWidget();
     initStyleSheet();
     initPopupMenu();
-
-    connect(m_sManager, &SignalManager::imageCountChanged,
-        this, &TimelinePanel::onImageCountChanged);
-    connect(m_sManager, &SignalManager::backToMainWindow, this, [=] {
-        m_targetAlbum = "";
-        m_view->setTickable(false);
-        m_view->clearSelection();
-        m_view->setMultiSelection(false);
-    });
+    initConnection();
 }
 
 QWidget *TimelinePanel::toolbarBottomContent()
@@ -221,6 +213,7 @@ void TimelinePanel::dropEvent(QDropEvent *event)
 {
     QList<QUrl> urls = event->mimeData()->urls();
     if (!urls.isEmpty()) {
+        QStringList files;
         for (QUrl url : urls) {
             const QString path = url.toLocalFile();
             if (QFileInfo(path).isDir()) {
@@ -228,11 +221,10 @@ void TimelinePanel::dropEvent(QDropEvent *event)
                 emit m_sManager->importDir(path);
             }
             else {
-                if (utils::image::imageIsSupport(path)) {
-                    Importer::instance()->importSingleFile(path);
-                }
+                files << path;
             }
         }
+        Importer::instance()->importFiles(files);
     }
 }
 
@@ -240,6 +232,27 @@ void TimelinePanel::dragEnterEvent(QDragEnterEvent *event)
 {
     event->setDropAction(Qt::CopyAction);
     event->accept();
+}
+
+void TimelinePanel::initConnection()
+{
+    connect(Importer::instance(), &Importer::importProgressChanged, this, [=] (double v) {
+        if (v == 1) {
+            auto infos = m_dbManager->getAllImageInfos();
+            for (auto info : infos) {
+                m_view->onImageInserted(info);
+            }
+            onImageCountChanged(m_dbManager->imageCount());
+        }
+    });
+    connect(m_sManager, &SignalManager::imageCountChanged,
+        this, &TimelinePanel::onImageCountChanged);
+    connect(m_sManager, &SignalManager::backToMainWindow, this, [=] {
+        m_targetAlbum = "";
+        m_view->setTickable(false);
+        m_view->clearSelection();
+        m_view->setMultiSelection(false);
+    });
 }
 
 void TimelinePanel::initPopupMenu()

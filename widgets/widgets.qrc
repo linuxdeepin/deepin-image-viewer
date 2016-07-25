@@ -12,6 +12,7 @@
         <file>resources/images/item_selected.png</file>
         <file>resources/images/slidder_handle.svg</file>
         <file>resources/images/no_picture.png</file>
+        <file>resources/images/default_thumbnail.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/ThumbnailListView.qss</file>

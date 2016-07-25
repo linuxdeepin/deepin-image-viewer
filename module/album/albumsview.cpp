@@ -5,6 +5,7 @@
 #include "controller/exporter.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include <QDebug>
 #include <QBuffer>
 #include <QJsonDocument>
@@ -88,9 +89,12 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
             }
         }
     }
-    if (! imageName.isEmpty() &&  ! m_dbManager->getImageInfoByName(imageName)
-         .thumbnail.save( &inBuffer, "JPG" )) {
-        qDebug() << "Write pixmap to buffer error!" << info.name << imageName;
+    auto imgInfo = m_dbManager->getImageInfoByName(imageName);
+    if (! imageName.isEmpty() &&  ! imgInfo.thumbnail.save( &inBuffer, "JPG" )){
+        QPixmap p =utils::image::getThumbnail(imgInfo.path, true);
+        if (! p.save(&inBuffer, "JPG")) {
+            qWarning() << "Can't get thumbnail for album: " << info.name;
+        }
     }
 
     QVariantList datas;

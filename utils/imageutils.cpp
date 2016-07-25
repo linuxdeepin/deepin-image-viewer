@@ -117,7 +117,7 @@ const QStringList supportImageTypes()
     return list;
 }
 
-QPixmap getThumbnail(const QString &filePath)
+QPixmap getThumbnail(const QString &filePath, bool exifOnly)
 {
     QPixmap pixmap;
     ExifData *ed = exif_data_new_from_file(filePath.toUtf8().data());
@@ -129,10 +129,11 @@ QPixmap getThumbnail(const QString &filePath)
             exif_data_unref(ed);
         } else {
             qDebug() << QString("NO Exif thumbnail in file %1!").arg(filePath);
-            pixmap = scaleImage(filePath);
+            if (! exifOnly)
+                pixmap = scaleImage(filePath);
         }
     }
-    else {
+    else if (! exifOnly){
         pixmap = scaleImage(filePath);
     }
 

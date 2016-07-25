@@ -24,13 +24,14 @@ public:
     void nap();
     void showImportDialog();
     void stopImport();
-    void importFromPath(const QString &path, const QString &album = "");
-    void importSingleFile(const QString &filePath, const QString &album = "");
+    void importDir(const QString &path, const QString &album = "");
+    void importFiles(const QStringList &files, const QString &album = "");
 
     QStringList getAlbums(const QString &path) const;
 
 signals:
     void importProgressChanged(double progress);
+
 private slots:
     void onFutureWatcherFinish();
     void onFutureResultReady(int index);

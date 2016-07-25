@@ -31,7 +31,7 @@ ExifItem *getExifItemList(bool isDetails);
 const QStringList supportImageTypes();
 const QFileInfoList getImagesInfo(const QString &dir, bool recursive = true);
 bool imageIsSupport(const QString &filepath);
-QPixmap getThumbnail(const QString &filePath);
+QPixmap getThumbnail(const QString &filePath, bool exifOnly = false);
 QPixmap scaleImage(const QString &filePath);
 QDateTime getCreateDateTime(const QString &filePath);
 

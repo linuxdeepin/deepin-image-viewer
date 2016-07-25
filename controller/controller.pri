@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/commandline.h \
     $$PWD/configsetter.h \
     $$PWD/divdbuscontroller.h \
-    $$PWD/exporter.h
+    $$PWD/exporter.h \
+    $$PWD/globaleventfilter.h
 
 SOURCES += \
     $$PWD/databasemanager.cpp \
@@ -18,4 +19,5 @@ SOURCES += \
     $$PWD/commandline.cpp \
     $$PWD/configsetter.cpp \
     $$PWD/divdbuscontroller.cpp \
-    $$PWD/exporter.cpp
+    $$PWD/exporter.cpp \
+    $$PWD/globaleventfilter.cpp

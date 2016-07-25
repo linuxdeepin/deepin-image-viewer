@@ -17,6 +17,7 @@ namespace {
 
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
+const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }  //namespace
 
@@ -27,7 +28,8 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
       m_multiple(false)
 {
     setIconSize(QSize(THUMBNAIL_MIN_SIZE, THUMBNAIL_MIN_SIZE));
-    setItemDelegate(new ThumbnailDelegate(this));
+    m_delegate = new ThumbnailDelegate(this);
+    setItemDelegate(m_delegate);
     setModel(m_model);
     setStyleSheet(utils::base::getFileContent(
                       ":/qss/resources/qss/ThumbnailListView.qss"));
@@ -44,6 +46,17 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
+    initThumbnailTimer();
+
+    QPixmapCache::setCacheLimit(204800);//200MB
+    QThreadPool::globalInstance()->setMaxThreadCount(8);
+}
+
+ThumbnailListView::~ThumbnailListView()
+{
+    m_thumbnailWatcher.pause();
+    m_thumbnailWatcher.cancel();
+    m_thumbnailWatcher.waitForFinished();
 }
 
 void ThumbnailListView::setMultiSelection(bool multiple)
@@ -242,6 +255,13 @@ void ThumbnailListView::mouseMoveEvent(QMouseEvent *e)
     Q_UNUSED(e);
 }
 
+void ThumbnailListView::paintEvent(QPaintEvent *e)
+{
+    m_delegate->clearPaintingList();
+
+    QListView::paintEvent(e);
+}
+
 void ThumbnailListView::wheelEvent(QWheelEvent *e)
 {
     e->ignore();
@@ -253,6 +273,12 @@ int ThumbnailListView::horizontalOffset() const
               - contentsHMargin()
               - maxColumn() * (iconSize().width() + ITEM_SPACING))
              / 2);
+}
+
+void ThumbnailListView::onThumbnailResultReady(int index)
+{
+    Q_UNUSED(index)
+    this->update();
 }
 
 void ThumbnailListView::fixedViewPortSize(bool proactive)
@@ -291,9 +317,92 @@ int ThumbnailListView::contentsVMargin() const
     return contentsMargins().top() + contentsMargins().bottom();
 }
 
-const QPixmap ThumbnailListView::getThumbnailByName(const QString &name) const
+bool caseRow(const QModelIndex &i1, const QModelIndex &i2)
 {
-    return DatabaseManager::instance()->getImageInfoByName(name).thumbnail;
+    return i1.row() < i2.row();
+}
+
+/*!
+ * \brief improve the quality of thumbnail in DB
+ * \param name
+ * \return
+ */
+QString updateThumbnailQuality(const QString &name)
+{
+    using namespace utils::image;
+    const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+    auto info = DatabaseManager::instance()->getImageInfoByName(name);
+    if (info.thumbnail.isNull()) {
+        info.thumbnail = cutSquareImage(scaleImage(info.path), ms);
+        // Still can't get thumbnail, it must be not supported
+        if (info.thumbnail.isNull()) {
+            DatabaseManager::instance()->removeImage(name);
+            return name;
+        }
+        DatabaseManager::instance()->updateImageInfo(info);
+    }
+
+    // FIXME it may out of PixmapCache limit and cause the item of view invisable
+    QPixmapCache::remove(name);
+    QPixmapCache::insert(name, info.thumbnail);
+
+    return name;
+}
+
+void ThumbnailListView::initThumbnailTimer()
+{
+    QTimer *timer = new QTimer(this);
+    timer->setInterval(1000);
+    timer->start();
+    connect(timer, &QTimer::timeout, this, [=] {
+        if (m_thumbnailCache != m_delegate->paintingNameList()) {
+            m_thumbnailCache = m_delegate->paintingNameList();
+            // Update DB
+            m_thumbnailWatcher.setPaused(true);
+            m_thumbnailWatcher.cancel();
+            m_thumbnailWatcher.setPaused(false);
+            QFuture<QString> qFuture =
+                    QtConcurrent::mapped(m_thumbnailCache, updateThumbnailQuality);
+            m_thumbnailWatcher.setFuture(qFuture);
+
+            m_paintedIndexs.clear();
+            m_paintedIndexs.append(m_delegate->paintingIndexList());
+        }
+        else if (! m_thumbnailWatcher.isRunning()) {
+            // If no request to paint and all the update thread are stopped
+            // pre-generate the thumbnail for next frame and the previous frame
+            if (m_paintedIndexs.isEmpty())
+                return;
+            qSort(m_paintedIndexs.begin(), m_paintedIndexs.end(), caseRow);
+            int br = m_paintedIndexs.first().row();
+            int er = m_paintedIndexs.last().row();
+            const int preLoadCount = 8;
+            QStringList thumbnailCaches;
+            if (br != 0 || er != count() - 1) {
+                for (int i = br; i > qMax(0, br - preLoadCount); i--) {
+                    m_paintedIndexs << m_model->index(i - 1, 0);
+                    thumbnailCaches << itemInfo(m_model->index(i - 1, 0)).name;
+                }
+                for (int i = er; i < qMin(er + preLoadCount, count() -1); i ++) {
+                    m_paintedIndexs << m_model->index(i + 1, 0);
+                    thumbnailCaches << itemInfo(m_model->index(i + 1, 0)).name;
+                }
+            }
+
+            if (thumbnailCaches.isEmpty()) {
+                m_thumbnailWatcher.setPaused(true);
+                return;
+            }
+            m_thumbnailWatcher.setPaused(false);
+            QFuture<QString> future =
+              QtConcurrent::mapped(thumbnailCaches, updateThumbnailQuality);
+            m_thumbnailWatcher.setFuture(future);
+        }
+    });
+
+    m_thumbnailWatcher.setPendingResultsLimit(2);
+    connect(&m_thumbnailWatcher, SIGNAL(resultReadyAt(int)),
+            this, SLOT(onThumbnailResultReady(int)));
 }
 
 const QVariantList ThumbnailListView::getVariantList(const ItemInfo &info)

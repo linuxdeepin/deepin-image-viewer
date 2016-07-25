@@ -1,6 +1,7 @@
 #include "thumbnaildelegate.h"
 #include "utils/imageutils.h"
 #include "controller/databasemanager.h"
+#include <QtConcurrent>
 #include <QDateTime>
 #include <QLineEdit>
 #include <QPainter>
@@ -29,14 +30,32 @@ ThumbnailDelegate::ThumbnailDelegate(QObject *parent)
 
 }
 
+void ThumbnailDelegate::clearPaintingList()
+{
+    m_indexs.clear();
+    m_names.clear();
+}
+
+const QModelIndexList ThumbnailDelegate::paintingIndexList()
+{
+    return m_indexs;
+}
+
+const QStringList ThumbnailDelegate::paintingNameList()
+{
+    return m_names;
+}
+
 void ThumbnailDelegate::paint(QPainter *painter,
                           const QStyleOptionViewItem &option,
                           const QModelIndex &index) const
 {
+    m_indexs << index;
+
     QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
     if (! datas.isEmpty()) {
         const QString name = datas[0].toString();
-//        const QString path = datas[1].toString();
+        const QString path = datas[1].toString();
         const bool tickable = datas[2].toBool();
         bool selected = false;
         if (/*(option.state & QStyle::State_MouseOver) &&*/
@@ -44,22 +63,15 @@ void ThumbnailDelegate::paint(QPainter *painter,
             selected = true;
         }
 
+        m_names << name;
+
         painter->setRenderHint(QPainter::Antialiasing);
         QRect rect = option.rect;
         QPainterPath bp;
         bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
         painter->setClipPath(bp);
         QPixmap thumbnail;
-        // Skill
-        // Use cache to make paint faster, cache default limit is 10MB.
-        if (!QPixmapCache::find(name, &thumbnail)) {
-            // Read thumbnail
-            using namespace utils::image;
-            const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-            thumbnail = cutSquareImage(DatabaseManager::instance()
-                                       ->getImageInfoByName(name).thumbnail, ms);
-            QPixmapCache::insert(name, thumbnail);
-        }
+        renderThumbnail(path, thumbnail);
         painter->drawPixmap(rect, thumbnail);
 
         // Draw inside border
@@ -89,4 +101,21 @@ QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
 {
     Q_UNUSED(option)
     return index.model()->data(index, Qt::SizeHintRole).toSize();
+}
+
+void ThumbnailDelegate::renderThumbnail(const QString &path, QPixmap &thumbnail) const
+{
+    const QString name = QFileInfo(path).fileName();
+    const QSize tSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+    // Skill
+    // Use cache to make paint faster, cache default limit is 10MB.
+    if (! QPixmapCache::find(name, &thumbnail)) {
+        using namespace utils::image;
+        if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumbnail)) {
+        // Read fast-thumbnail failed, read the default icon
+            thumbnail = cutSquareImage(
+                QPixmap(":/images/resources/images/default_thumbnail.png"), tSize);
+            QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumbnail);
+        }
+    }
 }

@@ -123,6 +123,7 @@ void DatabaseManager::updateThumbnail(const QString &name)
 QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByAlbum(
         const QString &album)
 {
+    // TODO it should read the DB directly
     QStringList nameList = getImageNamesByAlbum(album);
     QList<DatabaseManager::ImageInfo> infoList;
 
@@ -150,6 +151,8 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByTimeline(const
 
 DatabaseManager::ImageInfo DatabaseManager::getImageInfoByName(const QString &name)
 {
+    QMutexLocker locker(&m_mutex);
+
     QList<ImageInfo> list = getImageInfos("filename", name);
     if (list.count() != 1) {
         return ImageInfo();
@@ -167,6 +170,87 @@ DatabaseManager::ImageInfo DatabaseManager::getImageInfoByPath(const QString &pa
     }
     else {
         return list.first();
+    }
+}
+
+void DatabaseManager::insertImageInfos(const QList<DatabaseManager::ImageInfo> &infos)
+{
+    if (infos.length() < 1) {
+        return;
+    }
+
+    QMutexLocker locker(&m_mutex);
+
+    QSqlDatabase db = getDatabase();
+
+    if (db.isValid()) {
+        const QString recentImport("Recent imported");
+        QString albumValues = " VALUES ";
+        QString imgValues = " VALUES ";
+        for (ImageInfo info : infos) {
+            imgValues += "(";
+            imgValues += "\"" + info.name + "\",";
+            imgValues += "\"" + info.path + "\",";;
+            imgValues += "\"" + QVariant(info.albums).toString() + "\",";
+            imgValues += "\"" + QVariant(info.labels).toString() + "\",";
+            imgValues += "\"" + utils::base::timeToString(info.time) + "\",";
+            imgValues += "\"\"";
+            imgValues += "),";
+
+            QStringList albums = info.albums << recentImport;
+            albums.removeAll("");
+            for (QString album : albums) {
+                albumValues += "(";
+                albumValues += "\"" + album + "\",";
+                albumValues += "\"" + info.name + "\",";
+                albumValues += "\"" + utils::base::timeToString(info.time) + "\"";
+                albumValues += "),";
+            }
+        }
+        imgValues.remove(imgValues.length() - 1, 1);
+        albumValues.remove(albumValues.length() - 1, 1);
+
+        // Insert into images table
+        QSqlQuery query( db );
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
+        query.prepare( QString("REPLACE INTO %1 "
+            "(filename, filepath, album, label, time, thumbnail) %2")
+            .arg( IMAGE_TABLE_NAME ).arg( imgValues ));
+        if (! query.exec()) {
+            qWarning() << "Insert images into images table failed: "
+                       << query.lastError();
+            query.exec("COMMIT");
+        }
+        else {
+            query.exec("COMMIT");
+            emit SignalManager::instance()->imageCountChanged(imageCount());
+        }
+
+        // Clear Recent imported album
+        query.clear();
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
+        query.prepare( QString("DELETE FROM %1 WHERE albumname = :name")
+                       .arg(ALBUM_TABLE_NAME) );
+        query.bindValue( ":name", recentImport );
+        if (! query.exec()) {
+            qWarning() << "Remove album from database failed: "
+                       << query.lastError();
+        }
+
+        // Insert into album table
+        query.clear();
+        query.exec("BEGIN IMMEDIATE TRANSACTION");
+        query.prepare(QString("REPLACE INTO %1 (albumname, filename, time) %2")
+                      .arg( ALBUM_TABLE_NAME ).arg( albumValues ));
+        if (! query.exec()) {
+            qWarning() << "Insert images into album table failed: "
+                       << query.lastError();
+            query.exec("COMMIT");
+        }
+        else {
+            query.exec("COMMIT");
+            emit SignalManager::instance()->imageCountChanged(imageCount());
+        }
     }
 }
 

@@ -29,16 +29,10 @@ QString insertImage(QString path)
     DatabaseManager::ImageInfo imgInfo;
     imgInfo.name = fileInfo.fileName();
     imgInfo.path = fileInfo.absoluteFilePath();
-    imgInfo.time = utils::image::getCreateDateTime(path);
+    imgInfo.time = fileInfo.created();//utils::image::getCreateDateTime(path);
     imgInfo.albums = albums;
     imgInfo.labels = QStringList();
-    imgInfo.thumbnail = utils::image::getThumbnail(path);
-    if (imgInfo.thumbnail.isNull()) {
-        // Clear the invalid(eg.Empty image) image
-        DatabaseManager::instance()->removeImage(imgInfo.name);
-        return path;
-    }
-    DatabaseManager::instance()->insertImageInfo(imgInfo);
+//    DatabaseManager::instance()->insertImageInfo(imgInfo);
 
     return path;
 }
@@ -108,7 +102,7 @@ void Importer::showImportDialog()
                 QDir::homePath(),
                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    importFromPath(dir);
+    importDir(dir);
 }
 
 void Importer::stopImport()
@@ -122,42 +116,51 @@ void Importer::stopImport()
     emit importProgressChanged(m_progress);
 }
 
-void Importer::importFromPath(const QString &path, const QString &album)
+void Importer::importDir(const QString &path, const QString &album)
 {
     const QFileInfoList infos = utils::image::getImagesInfo(path);
     if( !QDir(path).exists() || infos.isEmpty() ) {
         return;
     }
 
-    m_futureWatcher.setPaused(true);
+    // To avoid the repeat names
+    QStringList imgNames;
+    QList<DatabaseManager::ImageInfo> imgInfos;
     for (QFileInfo info : infos) {
-        m_cacheImportList.append(info.absoluteFilePath());
-        m_albums.insert(info.absoluteFilePath(), album);
-        m_imagesCount ++;
-    }
+        if (imgNames.indexOf(info.fileName()) != -1)
+            continue;
+        imgNames << info.fileName();
+        DatabaseManager::ImageInfo imgInfo;
+        imgInfo.name = info.fileName();
+        imgInfo.path = info.absoluteFilePath();
+        imgInfo.time = info.created();//utils::image::getCreateDateTime(path);
+        imgInfo.albums = QStringList(album);
+        imgInfo.labels = QStringList();
 
-    m_futureWatcher.setPaused(false);
-    if (!m_futureWatcher.isRunning()) {
-        loadCacheImages();
+        imgInfos << imgInfo;
     }
+    m_dbManager->insertImageInfos(imgInfos);
 
-    if (m_cacheImportList.isEmpty())
-        m_dbManager->clearRecentImported();
+    emit importProgressChanged(1);
 }
 
-void Importer::importSingleFile(const QString &filePath, const QString &album)
+void Importer::importFiles(const QStringList &files, const QString &album)
 {
-    if (QImage(filePath).isNull())
-        return;
-    m_albums.insert(filePath, album);
-    m_cacheImportList << filePath;
-    m_imagesCount ++;
-    if (!m_futureWatcher.isRunning()) {
-        loadCacheImages();
-    }
+    QList<DatabaseManager::ImageInfo> imgInfos;
+    for (QString file : files) {
+        QFileInfo info(file);
+        DatabaseManager::ImageInfo imgInfo;
+        imgInfo.name = info.fileName();
+        imgInfo.path = info.absoluteFilePath();
+        imgInfo.time = info.created();//utils::image::getCreateDateTime(file);
+        imgInfo.albums = QStringList(album);
+        imgInfo.labels = QStringList();
 
-    if (m_cacheImportList.isEmpty())
-        m_dbManager->clearRecentImported();
+        imgInfos << imgInfo;
+    }
+    m_dbManager->insertImageInfos(imgInfos);
+
+    emit importProgressChanged(1);
 }
 
 void Importer::onFutureWatcherFinish()
