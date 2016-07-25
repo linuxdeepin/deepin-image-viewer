@@ -82,6 +82,7 @@ QWidget *AlbumPanel::toolbarBottomContent()
     m_countLabel->setObjectName("CountLabel");
 
     updateAlbumCount();
+    updateImagesCount();
 
     connect(m_sManager, &SignalManager::addImageFromTimeline, this, [=] {
         m_adding = true;
@@ -95,10 +96,6 @@ QWidget *AlbumPanel::toolbarBottomContent()
     layout->addWidget(m_countLabel, 1, Qt::AlignCenter);
     layout->addWidget(m_slider, 1, Qt::AlignRight);
     layout->addSpacing(9);
-
-    const int image_count = m_imagesView->count();
-    if (image_count == 0)
-        m_slider->setFixedWidth(0);
 
     return tBottomContent;
 }
@@ -313,7 +310,8 @@ void AlbumPanel::updateImagesCount()
     if (m_countLabel.isNull())
         return;
 
-    if (m_stackWidget->currentWidget() != m_imagesView)
+    // It maybe in import frame
+    if (m_stackWidget->currentWidget() == m_albumsView)
         return;
 
     const int count = m_imagesView->count();
@@ -336,7 +334,8 @@ void AlbumPanel::updateAlbumCount()
     if (m_countLabel.isNull())
         return;
 
-    if (m_stackWidget->currentWidget() != m_albumsView)
+    // It maybe in import frame
+    if (m_stackWidget->currentWidget() == m_imagesView)
         return;
 
     const int count = m_dbManager->albumsCount();
