@@ -167,6 +167,11 @@ const QStringList AlbumsView::paths(const QString &album) const
 const QString AlbumsView::getAlbumName(const QModelIndex &index) const
 {
     QString albumName = "";
+    //TODO: if index isn't valid app will crashed,
+    //index need be valid to access.
+    if (!index.isValid())
+        return "";
+
     QList<QVariant> datas =
             index.model()->data(index, Qt::DisplayRole).toList();
     if (! datas.isEmpty()) {
