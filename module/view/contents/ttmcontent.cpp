@@ -18,7 +18,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
 {
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(10);
+    hb->setSpacing(21);
     hb->addStretch();
 
     ImageButton *btn = new ImageButton();
@@ -60,27 +60,6 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         }
     });
 
-    btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/previous_normal.png");
-    btn->setHoverPic(":/images/resources/images/previous_hover.png");
-    btn->setPressPic(":/images/resources/images/previous_press.png");
-    btn->setToolTip(tr("Previous"));
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &TTMContent::showPrevious);
-    connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
-        btn->setDisabled(v);
-        if (v) {
-            btn->setNormalPic(":/images/resources/images/previous_disable.png");
-            btn->setHoverPic(":/images/resources/images/previous_disable.png");
-            btn->setPressPic(":/images/resources/images/previous_disable.png");
-        }
-        else {
-            btn->setNormalPic(":/images/resources/images/previous_normal.png");
-            btn->setHoverPic(":/images/resources/images/previous_hover.png");
-            btn->setPressPic(":/images/resources/images/previous_press.png");
-        }
-    });
-
     if (! fromFileManager) {
         m_clBT = new ImageButton();
         hb->addWidget(m_clBT);
@@ -104,23 +83,44 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     }
 
     btn = new ImageButton();
-    btn->setNormalPic(":/images/resources/images/next_normal.png");
-    btn->setHoverPic(":/images/resources/images/next_hover.png");
-    btn->setPressPic(":/images/resources/images/next_press.png");
-    btn->setToolTip(tr("Next"));
+    btn->setNormalPic(":/images/resources/images/contrarotate_normal.png");
+    btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
+    btn->setPressPic(":/images/resources/images/contrarotate_press.png");
+    btn->setToolTip(tr("Rotate counterclockwise"));
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &TTMContent::showNext);
+    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateCounterClockwise);
     connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
         btn->setDisabled(v);
         if (v) {
-            btn->setNormalPic(":/images/resources/images/next_disable.png");
-            btn->setHoverPic(":/images/resources/images/next_disable.png");
-            btn->setPressPic(":/images/resources/images/next_disable.png");
+            btn->setNormalPic(":/images/resources/images/contrarotate_disable.png");
+            btn->setHoverPic(":/images/resources/images/contrarotate_disable.png");
+            btn->setPressPic(":/images/resources/images/contrarotate_disable.png");
         }
         else {
-            btn->setNormalPic(":/images/resources/images/next_normal.png");
-            btn->setHoverPic(":/images/resources/images/next_hover.png");
-            btn->setPressPic(":/images/resources/images/next_press.png");
+            btn->setNormalPic(":/images/resources/images/contrarotate_normal.png");
+            btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
+            btn->setPressPic(":/images/resources/images/contrarotate_press.png");
+        }
+    });
+
+    btn = new ImageButton();
+    btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
+    btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
+    btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
+    btn->setToolTip(tr("Rotate clockwise"));
+    hb->addWidget(btn);
+    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateClockwise);
+    connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
+        btn->setDisabled(v);
+        if (v) {
+            btn->setNormalPic(":/images/resources/images/clockwise_rotation_disable.png");
+            btn->setHoverPic(":/images/resources/images/clockwise_rotation_disable.png");
+            btn->setPressPic(":/images/resources/images/clockwise_rotation_disable.png");
+        }
+        else {
+            btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
+            btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
+            btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
         }
     });
 

@@ -13,7 +13,8 @@ namespace {
 const QColor LIGHT_CHECKER_COLOR = QColor("#353535");
 const QColor DARK_CHECKER_COLOR = QColor("#050505");
 const QColor BACKGROUND_COLOR = QColor("#181818");
-
+const int ENTER_RIGHT = 100;
+const int ENTER_LEFT = 10;
 }
 
 ImageWidget::ImageWidget(QWidget *parent)
@@ -223,8 +224,24 @@ void ImageWidget::mouseReleaseEvent(QMouseEvent *event)
     m_moving = false;
 }
 
+bool ImageWidget::isEnterImgButton(QPoint p) {
+    const int rectWidth = ENTER_RIGHT - ENTER_LEFT;
+    const int rectHeight = ENTER_RIGHT;
+    QRect leftRect(ENTER_LEFT, (this->rect().height() - ENTER_RIGHT)/2,
+                   rectWidth, rectHeight);
+    QRect rightRect(this->rect().right() - ENTER_RIGHT,
+                    (this->rect().height() - ENTER_RIGHT)/2, rectWidth, rectHeight);
+
+    if (leftRect.contains(p) || rightRect.contains(p))
+        return true;
+
+    return false;
+}
+
 void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    emit switchImgBtnVisible(isEnterImgButton(event->pos()));
+
     if (m_moving && ! m_inSlideShow) {
         QPoint dp = event->globalPos() - m_posG;
 
