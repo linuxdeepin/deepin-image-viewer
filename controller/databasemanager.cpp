@@ -83,6 +83,8 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
 
 void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
 {
+    QMutexLocker locker(&m_mutex);
+
     QSqlDatabase db = getDatabase();
     if (db.isValid() && imageExist(info.name)) {
         QSqlQuery query( db );
@@ -114,8 +116,10 @@ void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
 
 void DatabaseManager::updateThumbnail(const QString &name)
 {
+    using namespace utils::image;
+    QSize ms(THUMBNAIL_MAX_SIZE, THUMBNAIL_MAX_SIZE);
     ImageInfo info = getImageInfoByName(name);
-    const QPixmap p = utils::image::getThumbnail(info.path);
+    const QPixmap p = cutSquareImage(scaleImage(info.path), ms);
     info.thumbnail = p;
     updateImageInfo(info);
 }
@@ -151,8 +155,6 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfosByTimeline(const
 
 DatabaseManager::ImageInfo DatabaseManager::getImageInfoByName(const QString &name)
 {
-    QMutexLocker locker(&m_mutex);
-
     QList<ImageInfo> list = getImageInfos("filename", name);
     if (list.count() != 1) {
         return ImageInfo();
@@ -720,6 +722,8 @@ const QList<DatabaseManager::ImageInfo> DatabaseManager::getAllImageInfos()
 
 QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfos(const QString &key, const QString &value)
 {
+    QMutexLocker locker(&m_mutex);
+
     QList<ImageInfo> infoList;
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {

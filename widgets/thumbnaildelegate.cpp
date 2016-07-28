@@ -3,12 +3,15 @@
 #include "controller/databasemanager.h"
 #include <QtConcurrent>
 #include <QDateTime>
+#include <QMutex>
 #include <QLineEdit>
 #include <QPainter>
 #include <QDebug>
 #include <QSvgRenderer>
 #include <QHBoxLayout>
 #include <QPixmapCache>
+#include <QRunnable>
+#include <QThreadPool>
 
 namespace {
 
@@ -24,16 +27,52 @@ const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }
 
+class CacheRunner : public QRunnable
+{
+public:
+    CacheRunner(const QString &name);
+    void run() Q_DECL_OVERRIDE;
+
+private:
+    QString m_name;
+};
+
+class PixmapCacheManager : public QObject
+{
+    Q_OBJECT
+public:
+    static PixmapCacheManager *instance();
+    void insert(const QString &key, const QPixmap &pixmap);
+    bool find(const QString &key, QPixmap *pixmap);
+    void remove(const QString &key);
+
+private:
+    PixmapCacheManager(QObject *parent = nullptr);
+
+    static PixmapCacheManager *m_cacheManager;
+    QMutex m_mutex;
+};
+
+#include "thumbnaildelegate.moc"
+
 ThumbnailDelegate::ThumbnailDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
+    m_threadPool = new QThreadPool(this);
+    m_threadPool->setMaxThreadCount(1);
 
+    QPixmapCache::setCacheLimit(204800);//200MB
 }
 
 void ThumbnailDelegate::clearPaintingList()
 {
     m_indexs.clear();
     m_names.clear();
+}
+
+void ThumbnailDelegate::cancelThumbnailGenerating()
+{
+    m_threadPool->clear();
 }
 
 const QModelIndexList ThumbnailDelegate::paintingIndexList()
@@ -108,14 +147,88 @@ void ThumbnailDelegate::renderThumbnail(const QString &path, QPixmap &thumbnail)
     const QString name = QFileInfo(path).fileName();
     const QSize tSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
     // Skill
-    // Use cache to make paint faster, cache default limit is 10MB.
-    if (! QPixmapCache::find(name, &thumbnail)) {
+    // Use cache to make paint faster
+    if (! PixmapCacheManager::instance()->find(name, &thumbnail)) {
+
+        CacheRunner *cr = new CacheRunner(name);
+        m_threadPool->start(cr);
+
         using namespace utils::image;
-        if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumbnail)) {
-        // Read fast-thumbnail failed, read the default icon
-            thumbnail = cutSquareImage(
-                QPixmap(":/images/resources/images/default_thumbnail.png"), tSize);
-            QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumbnail);
+        // Try to load low-quality thumbnail during the hight-quality one generating
+        if (! PixmapCacheManager::instance()->find(name + "_low", &thumbnail)) {
+            // Read low-quality thumbnail failed, read the default icon
+            if (! PixmapCacheManager::instance()->find("NO_IMAGE_TMP_KEY", &thumbnail)) {
+                thumbnail = cutSquareImage(
+                    QPixmap(":/images/resources/images/default_thumbnail.png"), tSize);
+                PixmapCacheManager::instance()->insert("NO_IMAGE_TMP_KEY", thumbnail);
+            }
         }
     }
+}
+
+CacheRunner::CacheRunner(const QString &name) :
+    QRunnable(),
+    m_name(name)
+{
+
+}
+
+void CacheRunner::run()
+{
+    auto info = DatabaseManager::instance()->getImageInfoByName(m_name);
+    if (! info.thumbnail.isNull()) {
+        PixmapCacheManager::instance()->remove(m_name);
+        PixmapCacheManager::instance()->remove(m_name + "_low");
+        PixmapCacheManager::instance()->insert(m_name, info.thumbnail);
+    }
+    else {
+        // Try to read low-quality thumbnail
+        QPixmap lp = utils::image::getThumbnail(info.path, true);
+        if (! lp.isNull()) {
+            PixmapCacheManager::instance()->insert(m_name + "_low", lp);
+        }
+    }
+}
+
+PixmapCacheManager *PixmapCacheManager::m_cacheManager = NULL;
+PixmapCacheManager *PixmapCacheManager::instance()
+{
+    if (! m_cacheManager) {
+        m_cacheManager = new PixmapCacheManager();
+    }
+
+    return m_cacheManager;
+}
+
+void PixmapCacheManager::insert(const QString &key, const QPixmap &pixmap)
+{
+    QMutexLocker locker(&m_mutex);
+
+    QPixmapCache::insert(key, pixmap);
+}
+
+bool PixmapCacheManager::find(const QString &key, QPixmap *pixmap)
+{
+    QMutexLocker locker(&m_mutex);
+
+    return QPixmapCache::find(key, pixmap);
+}
+
+void PixmapCacheManager::remove(const QString &key)
+{
+    QMutexLocker locker(&m_mutex);
+
+    QPixmapCache::remove(key);
+}
+
+/*!
+ * \brief PixmapCacheManager::PixmapCacheManager
+ * QPixmapCache::find and QPixmapCache::insert are not thread safe
+ * need locker
+ * \param parent
+ */
+PixmapCacheManager::PixmapCacheManager(QObject *parent) : QObject(parent)
+{
+    // FIXME all static function are not thread save
+    // and the locker seem not working
 }

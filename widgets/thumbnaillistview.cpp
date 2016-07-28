@@ -4,6 +4,7 @@
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include <QApplication>
 #include <QBuffer>
 #include <QDebug>
 #include <QEvent>
@@ -21,6 +22,28 @@ const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }  //namespace
 
+/*!
+ * \brief improve the quality of thumbnail in DB
+ * \param name
+ * \return
+ */
+QString updateThumbnailQuality(const QString &name)
+{
+    using namespace utils::image;
+    const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+    auto info = DatabaseManager::instance()->getImageInfoByName(name);
+    if (info.thumbnail.isNull()) {
+        info.thumbnail = cutSquareImage(scaleImage(info.path), ms);
+        // Still can't get thumbnail, it must be not supported
+        if (info.thumbnail.isNull()) {
+            DatabaseManager::instance()->removeImage(name);
+            return name;
+        }
+        DatabaseManager::instance()->updateImageInfo(info);
+    }
+
+    return name;
+}
 
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent),
@@ -46,10 +69,10 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
+    qApp->installEventFilter(this);
     initThumbnailTimer();
 
-    QPixmapCache::setCacheLimit(204800);//200MB
-    QThreadPool::globalInstance()->setMaxThreadCount(8);
+    QThreadPool::globalInstance()->setMaxThreadCount(4);
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -88,6 +111,9 @@ void ThumbnailListView::updateThumbnail(const QString &name)
 {
     // Remove cache force view's delegate reread thumbnail
     QPixmapCache::remove(name);
+
+    // Delay for thread generate new thumbnail
+    TIMER_SINGLESHOT(200, {viewport()->update();}, this);
 }
 
 void ThumbnailListView::setIconSize(const QSize &size)
@@ -224,6 +250,11 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
     if ( obj == viewport() && event->type() == QEvent::Paint) {
         fixedViewPortSize();
     }
+    if (obj == qApp && event->type() == QEvent::ApplicationActivate) {
+        // Cache would be auto destroy after some time without no access
+        resize(width() + 1, height());
+        resize(width() - 1, height());
+    }
 
     return false;
 }
@@ -322,41 +353,17 @@ bool caseRow(const QModelIndex &i1, const QModelIndex &i2)
     return i1.row() < i2.row();
 }
 
-/*!
- * \brief improve the quality of thumbnail in DB
- * \param name
- * \return
- */
-QString updateThumbnailQuality(const QString &name)
-{
-    using namespace utils::image;
-    const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-    auto info = DatabaseManager::instance()->getImageInfoByName(name);
-    if (info.thumbnail.isNull()) {
-        info.thumbnail = cutSquareImage(scaleImage(info.path), ms);
-        // Still can't get thumbnail, it must be not supported
-        if (info.thumbnail.isNull()) {
-            DatabaseManager::instance()->removeImage(name);
-            return name;
-        }
-        DatabaseManager::instance()->updateImageInfo(info);
-    }
-
-    // FIXME it may out of PixmapCache limit and cause the item of view invisable
-    QPixmapCache::remove(name);
-    QPixmapCache::insert(name, info.thumbnail);
-
-    return name;
-}
-
 void ThumbnailListView::initThumbnailTimer()
 {
     QTimer *timer = new QTimer(this);
-    timer->setInterval(1000);
+    timer->setInterval(2000);
     timer->start();
     connect(timer, &QTimer::timeout, this, [=] {
         if (m_thumbnailCache != m_delegate->paintingNameList()) {
             m_thumbnailCache = m_delegate->paintingNameList();
+
+            m_delegate->cancelThumbnailGenerating();
+
             // Update DB
             m_thumbnailWatcher.setPaused(true);
             m_thumbnailWatcher.cancel();

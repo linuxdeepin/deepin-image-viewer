@@ -13,6 +13,8 @@ namespace utils {
 
 namespace image {
 
+const int THUMBNAIL_MAX_SIZE = 192;
+
 enum ExifExtendTag {
     EXIF_TAG_EXTEND_NAME = EXIF_TAG_PADDING << 1,
     EXIF_TAG_EXTEND_SIZE  = EXIF_TAG_PADDING << 2,
@@ -32,7 +34,7 @@ const QStringList supportImageTypes();
 const QFileInfoList getImagesInfo(const QString &dir, bool recursive = true);
 bool imageIsSupport(const QString &filepath);
 QPixmap getThumbnail(const QString &filePath, bool exifOnly = false);
-QPixmap scaleImage(const QString &filePath);
+QPixmap scaleImage(const QString &filePath, const QSize &size = QSize(384, 383));
 QDateTime getCreateDateTime(const QString &filePath);
 
 QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag);

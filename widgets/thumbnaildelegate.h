@@ -5,12 +5,14 @@
 #include <QDateTime>
 #include <QStyledItemDelegate>
 
+class QThreadPool;
 class ThumbnailDelegate : public QStyledItemDelegate {
     Q_OBJECT
 
 public:
     explicit ThumbnailDelegate(QObject *parent = nullptr);
     void clearPaintingList();
+    void cancelThumbnailGenerating();
     const QModelIndexList paintingIndexList();
     const QStringList paintingNameList();
 
@@ -26,6 +28,7 @@ private:
 private:
     mutable QModelIndexList m_indexs;
     mutable QStringList m_names;
+    QThreadPool *m_threadPool;
 };
 
 #endif // ALBUMDELEGATE_H
