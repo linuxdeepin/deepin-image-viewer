@@ -330,7 +330,7 @@ void TimelineImageView::updateContentRect()
 {
     int hMargin = (width() - getMinContentsWidth()) / 2;
     m_contentLayout->setContentsMargins(hMargin, 50, hMargin, 10);
-    m_contentFrame->setFixedWidth(width());
+    m_contentFrame->setFixedWidth(width() - verticalScrollBar()->width());
 }
 
 void TimelineImageView::updateTopTipsRect()
