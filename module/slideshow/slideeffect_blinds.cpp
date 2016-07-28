@@ -65,8 +65,8 @@ bool SlideEffect_Blinds::prepare()
         calculateRegion_ptr = &SlideEffect_Blinds::calculateRegion_TopToBottom; //calculateRegion_Random
 
     qsrand(time(0));
-    leafs = qrand()%13 + 2;
-    qDebug("leafs=%d", leafs);
+    leafs = 5;
+
     if (effect_type==kBlindsLeftToRight || effect_type==kBlindsRightToLeft) {
         leaf_width = width/leafs + 1; //Must plus 1! Or the final frame_image may have blanks
     } else {

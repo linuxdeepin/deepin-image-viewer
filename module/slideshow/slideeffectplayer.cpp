@@ -56,7 +56,7 @@ void SlideEffectPlayer::start()
     if (m_paths.isEmpty())
         return;
     m_running = true;
-    m_tid = startTimer(4000);
+    m_tid = startTimer(2500);
 }
 
 bool SlideEffectPlayer::startNext()

@@ -1,3 +1,5 @@
+//This effect is not perfect
+/*
 #include "slideeffect.h"
 #include <time.h>
 #include <cmath>
@@ -64,3 +66,4 @@ bool SlideEffect_Tile::prepareFrameAt(int frame)
 	current_clip_region = QRegion(0, 0, width, height) - next_clip_region;
 	return true;
 }
+*/

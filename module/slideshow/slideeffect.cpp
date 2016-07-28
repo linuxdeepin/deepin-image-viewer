@@ -41,6 +41,7 @@ SlideEffect::SlideEffect()
     current_image = next_image = frame_image = 0;
     width = height = 0;
     color = Qt::transparent;
+
     easing_ = QEasingCurve(QEasingCurve::OutBack);
 }
 

@@ -51,6 +51,7 @@ REGISTER_EFFECTS(SlideEffect_Enter)
 bool SlideEffect_Enter::prepare()
 {
     SlideEffect::prepare(); //Important!!!
+    setEasingCurve(QEasingCurve::InOutQuint);
     if (effect_type == kEnterFromBottom)
         calculateRegion_ptr = &SlideEffect_Enter::calculateRegion_FromBottom;
     else if (effect_type == kEnterFromLeft)
