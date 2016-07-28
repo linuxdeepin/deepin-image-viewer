@@ -8,10 +8,31 @@
 #include <QMouseEvent>
 #include <QPainter>
 
+namespace {
+
+const QColor LIGHT_CHECKER_COLOR = QColor("#353535");
+const QColor DARK_CHECKER_COLOR = QColor("#050505");
+const QColor BACKGROUND_COLOR = QColor("#181818");
+
+}
+
 ImageWidget::ImageWidget(QWidget *parent)
     : QWidget(parent)
 {
     setMouseTracking(true);
+
+    // Fill checkers background
+    QPixmap pm(12, 12);
+    QPainter pmp(&pm);
+    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+    pmp.end();
+    QPalette pal = palette();
+    pal.setBrush(backgroundRole(), QBrush(pm));
+    setAutoFillBackground(true);
+    setPalette(pal);
 }
 
 void ImageWidget::setImage(const QString &path)
@@ -171,8 +192,17 @@ void ImageWidget::paintEvent(QPaintEvent *)
     p.setRenderHint(QPainter::Antialiasing);
     p.setRenderHint(QPainter::SmoothPixmapTransform);
 
+    p.fillRect(this->rect(), BACKGROUND_COLOR);
+    // Show checkers background for image
+    QRectF br(m_pixmap.rect());
+    br.translate(m_mat.dx(), m_mat.dy());
+    br.setWidth(br.width() * m_scale * m_flipX);
+    br.setHeight(br.height() * m_scale * m_flipY);
+    p.eraseRect(br);
+
     p.setTransform(m_mat);
     p.drawPixmap(0, 0, m_pixmap);
+
     p.restore();
 }
 

@@ -43,7 +43,6 @@ public Q_SLOTS:
 protected:
     void timerEvent(QTimerEvent* e) override;
     void paintEvent(QPaintEvent *) override;
-    //void resizeEvent(QResizeEvent *);
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
