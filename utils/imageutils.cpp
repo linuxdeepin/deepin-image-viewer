@@ -440,7 +440,8 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
         else {  // For get extend tag infomation
             switch (i->tag) {
             case EXIF_TAG_EXTEND_NAME:
-                dataMap.insert(i->name, fi.baseName());
+
+                dataMap.insert(i->name, fi.fileName());
                 break;
             case EXIF_TAG_EXTEND_RESOLUTION:
                 dataMap.insert(i->name, QString::number(img.width()) + "x" +
