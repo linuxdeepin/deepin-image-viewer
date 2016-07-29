@@ -139,6 +139,7 @@ void Importer::importDir(const QString &path, const QString &album)
 
         imgInfos << imgInfo;
     }
+
     m_dbManager->insertImageInfos(imgInfos);
 
     emit importProgressChanged(1);

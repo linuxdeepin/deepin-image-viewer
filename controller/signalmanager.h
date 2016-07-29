@@ -34,7 +34,8 @@ signals:
     void hideBottomToolbar(bool immediately = false);
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);
-    void backToMainWindow();
+
+    void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
     void gotoPanel(ModulePanel* panel);
 

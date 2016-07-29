@@ -76,7 +76,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
         m_slider->setMaximum(3);
         m_slider->setValue(sizeScale);
         connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
-            qDebug() << "Change the view size to: X" << multiple;
+//            qDebug() << "Change the view size to: X" << multiple;
             int newSize = MIN_ICON_SIZE + multiple * 32;
             m_view->setIconSize(QSize(newSize, newSize));
             m_setter->setValue(SETTINGS_GROUP, SETTINGS_ICON_SCALE_KEY,
@@ -87,6 +87,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
         m_countLabel->setObjectName("CountLabel");
 
         updateBottomToolbarContent(m_dbManager->imageCount());
+
 
         layout->addStretch(1);
         layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
@@ -235,6 +236,16 @@ void TimelinePanel::dragEnterEvent(QDragEnterEvent *event)
     event->accept();
 }
 
+void TimelinePanel::showPanelEvent(ModulePanel *p)
+{
+    ModulePanel::showPanelEvent(p);
+    emit m_sManager->showTopToolbar();
+    emit m_sManager->showBottomToolbar();
+    emit m_sManager->hideExtensionPanel(true);
+    emit m_sManager->updateBottomToolbarContent(toolbarBottomContent(),
+                                                ! m_targetAlbum.isEmpty());
+}
+
 void TimelinePanel::initConnection()
 {
     connect(Importer::instance(), &Importer::importProgressChanged, this, [=] (double v) {
@@ -248,11 +259,13 @@ void TimelinePanel::initConnection()
     });
     connect(m_sManager, &SignalManager::imageCountChanged,
         this, &TimelinePanel::onImageCountChanged);
-    connect(m_sManager, &SignalManager::backToMainWindow, this, [=] {
+    connect(m_sManager, &SignalManager::gotoTimelinePanel, this, [=] {
         m_targetAlbum = "";
         m_view->setTickable(false);
         m_view->clearSelection();
         m_view->setMultiSelection(false);
+
+        emit m_sManager->gotoPanel(this);
     });
 }
 
@@ -329,10 +342,6 @@ void TimelinePanel::initStyleSheet()
 
 void TimelinePanel::updateBottomToolbarContent(int count)
 {
-    if (! this->isVisible()) {
-        return;
-    }
-
     if (count <= 1) {
         m_countLabel->setText(tr("%1 image").arg(count));
     }
@@ -445,7 +454,10 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
 
 void TimelinePanel::onImageCountChanged(int count)
 {
-    updateBottomToolbarContent(count);
+    if (this->isVisible()) {
+        updateBottomToolbarContent(count);
+    }
+
     m_mainStack->setCurrentIndex(count > 0 ? 1 : 0);
 }
 

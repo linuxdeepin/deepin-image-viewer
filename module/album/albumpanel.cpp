@@ -35,22 +35,7 @@ AlbumPanel::AlbumPanel(QWidget *parent)
     setAcceptDrops(true);
     initMainStackWidget();
     initStyleSheet();
-
-    connect(m_sManager, &SignalManager::importDir,
-            this, &AlbumPanel::showImportDirDialog);
-    connect(m_sManager, &SignalManager::imageCountChanged,
-            this, &AlbumPanel::onImageCountChanged);
-    connect(m_sManager, &SignalManager::imageAddedToAlbum, this, [=] {
-        m_adding = false;
-        updateImagesCount();
-    });
-    connect(m_sManager, &SignalManager::gotoAlbumPanel, this, [=] {
-        TIMER_SINGLESHOT(100, {
-        if (m_adding) {
-            emit m_sManager->addImageFromTimeline(m_currentAlbum);
-        }
-                         }, this);
-    });
+    initConnection();
 }
 
 
@@ -118,6 +103,38 @@ void AlbumPanel::mousePressEvent(QMouseEvent *e) {
     }
 }
 
+void AlbumPanel::initConnection()
+{
+
+    connect(m_sManager, &SignalManager::createAlbum,
+            this, &AlbumPanel::onCreateAlbum);
+    connect(m_sManager, &SignalManager::importDir,
+            this, &AlbumPanel::showImportDirDialog);
+    connect(m_sManager, &SignalManager::imageCountChanged,
+            this, &AlbumPanel::onImageCountChanged);
+    connect(m_sManager, &SignalManager::imageAddedToAlbum, this, [=] {
+        m_adding = false;
+        updateImagesCount();
+    });
+    connect(m_sManager, &SignalManager::gotoAlbumPanel,
+            this, [=] (const QString &album) {
+        emit m_sManager->gotoPanel(this);
+        emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
+        emit m_sManager->showBottomToolbar();
+
+        if (! album.isEmpty()) {
+            onOpenAlbum(album);
+        }
+
+        TIMER_SINGLESHOT(100, {
+            if (m_adding) {
+                emit m_sManager->addImageFromTimeline(m_currentAlbum);
+            }
+        },
+        this);
+    });
+}
+
 QWidget *AlbumPanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
@@ -137,7 +154,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
             m_stackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
             // during adding images from timeline
-            emit m_sManager->gotoPanel(this);
+            emit m_sManager->gotoAlbumPanel();
         });
         returnButton->setToolTip(tr("Back"));
 
@@ -166,7 +183,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     timelineButton->setHoverPic(":/images/resources/images/timeline_hover.png");
     connect(timelineButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Timeline Panel...";
-        emit m_sManager->backToMainWindow();
+        emit m_sManager->gotoTimelinePanel();
     });
     timelineButton->setToolTip(tr("Timeline"));
 
@@ -209,7 +226,7 @@ void AlbumPanel::dropEvent(QDropEvent *event)
         return;
 
     QStringList files;
-    bool withAlbum = m_stackWidget->currentWidget() != m_albumsView;
+    bool withAlbum = m_stackWidget->currentWidget() == m_imagesView;
     for (QUrl url : urls) {
         const QString path = url.toLocalFile();
         if (QFileInfo(path).isDir()) {
