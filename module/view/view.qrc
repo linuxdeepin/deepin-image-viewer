@@ -58,6 +58,8 @@
         <file>resources/images/next_disable.png</file>
         <file>resources/images/previous_disable.png</file>
         <file>resources/images/slider_background.png</file>
+        <file>resources/images/clockwise_rotation_disable.png</file>
+        <file>resources/images/contrarotate_disable.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/view.qss</file>

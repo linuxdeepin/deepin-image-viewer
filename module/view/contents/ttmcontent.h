@@ -18,8 +18,9 @@ public slots:
 
 signals:
     void resetTransform(bool fitWindow);
-    void showPrevious();
-    void showNext();
+    void rotateClockwise();
+    void rotateCounterClockwise();
+
     void removed();
     void imageEmpty(bool v);
 

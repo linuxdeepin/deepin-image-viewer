@@ -68,3 +68,17 @@ QScrollBar::sub-line {
     border: none;
     background: none;
 }
+
+ImageButton#PreviousButton {
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .4);
+    padding: 6px 8px 6px 4px;
+}
+
+ImageButton#NextButton {
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .4);
+    padding: 6px;
+}

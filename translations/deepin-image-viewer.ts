@@ -430,14 +430,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Previous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add to My favorites</source>
         <translation type="unfinished"></translation>
     </message>
@@ -447,6 +439,14 @@
     </message>
     <message>
         <source>Throw to Trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -659,6 +659,14 @@
     </message>
     <message>
         <source>Throw to Trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

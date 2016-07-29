@@ -32,6 +32,7 @@ Q_SIGNALS:
     void transformChanged(const QTransform&);
     void doubleClicked();
     void fliped(bool x, bool y);
+    void switchImgBtnVisible(bool visible);
 public Q_SLOTS:
     void setImageMove(int x, int y);
     void setScaleValue(qreal value);
@@ -53,6 +54,9 @@ protected:
 
 private:
     void updateTransform();
+    //This function is used to judge whether p enter in
+    //the button of switching previous or next image or not
+    bool isEnterImgButton(QPoint p);
 
     int m_flipX = 1;
     int m_flipY = 1;

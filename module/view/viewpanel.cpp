@@ -36,7 +36,7 @@ const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 24;
 const int SHOW_TOOLBAR_INTERVAL = 200;
 const int DELAY_VIEW_INTERVAL = 100;
-
+const int BUTTON_PADDING = 15;
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 
 }  // namespace
@@ -95,6 +95,18 @@ void ViewPanel::initConnect() {
                 && album == m_vinfo.album
                 && imageIndex(name) == imageIndex(m_current->name))
             removeCurrentImage();
+    });
+
+    connect(m_previousBtn, &ImageButton::clicked, this, &ViewPanel::showPrevious);
+    connect(m_nextBtn, &ImageButton::clicked, this, &ViewPanel::showNext);
+    connect(m_view, &ImageWidget::switchImgBtnVisible, this, [=](bool vi) {
+        if (vi) {
+            m_previousBtn->show();
+            m_nextBtn->show();
+        } else {
+            m_previousBtn->hide();
+            m_nextBtn->hide();
+        }
     });
 }
 
@@ -282,8 +294,18 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     connect(this, &ViewPanel::updateCollectButton,
             ttmc, &TTMContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::onImageChanged);
-    connect(ttmc, &TTMContent::showNext, this, &ViewPanel::showNext);
-    connect(ttmc, &TTMContent::showPrevious, this, &ViewPanel::showPrevious);
+    connect(ttmc, &TTMContent::rotateClockwise, this, [=]{
+        m_view->rotateClockWise();
+        m_nav->setImage(m_view->image());
+        // Remove cache force view's delegate reread thumbnail
+        QPixmapCache::remove(m_current->name);
+    });
+    connect(ttmc, &TTMContent::rotateCounterClockwise, this, [=]{
+        m_view->rotateCounterclockwise();
+        m_nav->setImage(m_view->image());
+        // Remove cache force view's delegate reread thumbnail
+        QPixmapCache::remove(m_current->name);
+    });
     connect(ttmc, &TTMContent::removed, this, [=] {
         dbManager()->removeImage(m_current->name);
         utils::base::trashFile(m_current->path);
@@ -341,6 +363,12 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     m_scaleSlider->move(this->rect().right() - m_scaleSlider->width() - 20,
         (this->rect().height() - m_scaleSlider->height() + TOP_TOOLBAR_HEIGHT) / 2);
 
+    m_previousBtn->move(x() + BUTTON_PADDING,
+                        (this->rect().height() - m_previousBtn->height() + TOP_TOOLBAR_HEIGHT) / 2);
+
+
+    m_nextBtn->move(this->rect().right() - m_nextBtn->width() - BUTTON_PADDING,
+                    (this->rect().height() - m_nextBtn->height() + TOP_TOOLBAR_HEIGHT) / 2);
     //FIXME for reset transform after toggle fullscreen etc.
     if (! m_view->imagePath().isEmpty()) {
         m_view->setImage(QString(m_view->imagePath()));
@@ -357,10 +385,6 @@ void ViewPanel::mouseMoveEvent(QMouseEvent *e)
     if (mouseContainsByTopToolbar(e->pos())) {
         showToolbar(true);
     }
-//    else if (mouseContainsByBottomToolbar(e->pos())) {
-//        showToolbar(false);
-//    }
-
     ModulePanel::mouseMoveEvent(e);
 }
 
@@ -550,6 +574,30 @@ void ViewPanel::initStack()
     QHBoxLayout *hl = new QHBoxLayout(this);
     hl->setContentsMargins(0, 0, 0, 0);
     hl->addWidget(m_stack);
+
+    m_previousBtn = new ImageButton(this);
+    m_previousBtn->setFixedSize(36, 36);
+    m_previousBtn->setToolTip(tr("Previous"));
+    m_previousBtn->setObjectName("PreviousButton");
+    m_previousBtn->setNormalPic(":/images/resources/images/previous_hover.png");
+    m_previousBtn->setHoverPic(":/images/resources/images/previous_hover.png");
+    m_previousBtn->setPressPic(":/images/resources/images/previous_press.png");
+
+    m_nextBtn = new ImageButton(this);
+    m_nextBtn->setFixedSize(36, 36);
+    m_nextBtn->setToolTip(tr("Next"));
+    m_nextBtn->setObjectName("NextButton");
+    m_nextBtn->setNormalPic(":/images/resources/images/next_hover.png");
+    m_nextBtn->setHoverPic(":/images/resources/images/next_hover.png");
+    m_nextBtn->setPressPic(":/images/resources/images/next_press.png");
+
+    m_previousBtn->move(x() + BUTTON_PADDING,
+                        (this->rect().height() - m_previousBtn->height() + TOP_TOOLBAR_HEIGHT) / 2);
+    m_nextBtn->move(this->rect().right() - m_nextBtn->width()/2- BUTTON_PADDING,
+                    (this->rect().height() - m_nextBtn->height() + TOP_TOOLBAR_HEIGHT) / 2);
+
+    m_previousBtn->hide();
+    m_nextBtn->hide();
 }
 
 QString ViewPanel::createMenuContent()
