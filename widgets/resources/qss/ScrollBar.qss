@@ -15,7 +15,7 @@ Dtk--Widget--DScrollBar::handle{
 }
 
 Dtk--Widget--DScrollBar::handle:vertical{
-    min-height: 20px;
+    min-height: 45px;
     width: 8px;
 }
 

@@ -90,9 +90,9 @@ auto cornerEdge2XCursor(const CornerEdge& ce) -> int {
 }
 
 WindowFrame::WindowFrame(QWidget* parent) : QWidget(parent),
-                                              layoutMargin(25),
+                                              layoutMargin(30),
                                               resizeHandleWidth(5),
-                                              shadowRadius(24),
+                                              shadowRadius(30),
                                               borderRadius(4) {
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->setWindowFlags(Qt::FramelessWindowHint);

@@ -60,7 +60,7 @@ public slots:
 
 protected:
     int shadowOffsetX = 0;
-    int shadowOffsetY = 6;
+    int shadowOffsetY = 2;
 
     void changeEvent(QEvent* event) override;
     void paintEvent(QPaintEvent*) override;
@@ -74,7 +74,7 @@ private:
     const int resizeHandleWidth = 0;
     unsigned const int shadowRadius = 0;
     const unsigned int borderRadius = 0;
-    const QColor borderColor = QColor(0, 0, 0, 255 / 5);
+    const QColor borderColor = QColor(0, 0, 0, 255 * 0.7);
 
     int userMinimumWidth = 0;
     int userMinimumHeight = 0;
