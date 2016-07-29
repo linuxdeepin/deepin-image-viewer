@@ -91,7 +91,7 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     }
     auto imgInfo = m_dbManager->getImageInfoByName(imageName);
     if (! imageName.isEmpty() &&  ! imgInfo.thumbnail.save( &inBuffer, "JPG" )){
-        QPixmap p =utils::image::getThumbnail(imgInfo.path, true);
+        QPixmap p = utils::image::getThumbnail(imgInfo.path, true);
         if (! p.save(&inBuffer, "JPG")) {
             qWarning() << "Can't get thumbnail for album: " << info.name;
         }

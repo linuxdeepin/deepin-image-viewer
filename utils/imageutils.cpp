@@ -11,12 +11,6 @@ extern "C" {
 #include "libjpeg/jpeg-data.h"
 }
 
-namespace {
-
-const int THUMBNAIL_MAX_SIZE = 384;
-
-}  // namespace
-
 namespace utils {
 
 namespace image {
@@ -140,20 +134,20 @@ QPixmap getThumbnail(const QString &filePath, bool exifOnly)
     return pixmap;
 }
 
-QPixmap scaleImage(const QString &filePath)
+QPixmap scaleImage(const QString &filePath, const QSize &size)
 {
     QImage img(filePath);
     if (img.isNull())
         return QPixmap();
     QSize targetSize;
     if (img.width() > img.height()) {
-        targetSize = QSize(THUMBNAIL_MAX_SIZE,
-                           (double)THUMBNAIL_MAX_SIZE / img.width() *
+        targetSize = QSize(size.width(),
+                           (double)size.width() / img.width() *
                            img.height());
     }
     else {
-        targetSize = QSize((double)THUMBNAIL_MAX_SIZE / img.height() *
-                           img.width(), THUMBNAIL_MAX_SIZE);
+        targetSize = QSize((double)size.height() / img.height() *
+                           img.width(), size.height());
     }
 
     return QPixmap::fromImage(img.scaled(targetSize * 2)
