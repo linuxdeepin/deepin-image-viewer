@@ -280,6 +280,8 @@ void TimelineImageView::inserFrame(const QString &timeline)
             }
         }
     });
+    connect(frame, &TimelineViewFrame::showMenuRequested,
+            this, &TimelineImageView::showMenuRequested);
     connect(frame, &TimelineViewFrame::customContextMenuRequested,
             this, &TimelineImageView::customContextMenuRequested);
     connect(frame, &TimelineViewFrame::viewImage,

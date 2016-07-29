@@ -301,7 +301,7 @@ void TimelinePanel::initImagesView()
 {
     m_view = new TimelineImageView;
     m_view->setAcceptDrops(true);
-    connect(m_view, &TimelineImageView::customContextMenuRequested, this, [=] {
+    connect(m_view, &TimelineImageView::showMenuRequested, this, [=] {
         updateMenuContents();
         m_popupMenu->showMenu();
     });

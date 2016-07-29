@@ -34,8 +34,9 @@ public:
     void setTickable(bool v);
 
 signals:
-    void singleClicked(QMouseEvent *e);
     void clicked(const QModelIndex &index);
+    void singleClicked(QMouseEvent *e);
+    void showMenuRequested();
     void viewImage(const QString &path, const QStringList &paths);
 
 protected:

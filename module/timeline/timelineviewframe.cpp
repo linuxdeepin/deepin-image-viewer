@@ -67,7 +67,11 @@ void TimelineViewFrame::initListView()
         emit viewImage(path, m_dbManager->getAllImagesPath());
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
-            this, &TimelineViewFrame::customContextMenuRequested);
+            this, [=] (const QPoint &pos) {
+        if (m_view->indexAt(pos).isValid()) {
+            emit showMenuRequested();
+        }
+    });
 }
 
 void TimelineViewFrame::updateThumbnail(const QString &name)
