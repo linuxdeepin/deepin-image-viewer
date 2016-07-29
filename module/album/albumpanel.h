@@ -36,6 +36,7 @@ protected:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 private:
+    void initConnection();
     void initMainStackWidget();
     void initAlbumsView();
     void initImagesView();

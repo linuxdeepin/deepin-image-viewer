@@ -96,10 +96,10 @@ QWidget *EditPanel::toolbarTopLeftContent()
     btn->setHoverPic(":/images/resources/images/previous_hover.png");
     btn->setPressPic(":/images/resources/images/previous_press.png");
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
+    connect(btn, &ImageButton::clicked, SignalManager::instance(), &SignalManager::gotoTimelinePanel);
     DTextButton *btn1 = new DTextButton(tr("Back"));
     hb->addWidget(btn1);
-    connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::backToMainWindow);
+    connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::gotoTimelinePanel);
     btn1 = new DTextButton(tr("Revert"));
     connect(btn1, &DTextButton::clicked, [this](){
         if (m_stack->currentWidget() == m_view)

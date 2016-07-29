@@ -181,8 +181,6 @@ void DatabaseManager::insertImageInfos(const QList<DatabaseManager::ImageInfo> &
         return;
     }
 
-    QMutexLocker locker(&m_mutex);
-
     QSqlDatabase db = getDatabase();
 
     if (db.isValid()) {
@@ -400,7 +398,6 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
 {
     AlbumInfo info;
     info.name = name;
-    info.count = getImagesCountByAlbum(name);
 
     QStringList nameList;
     QSqlDatabase db = getDatabase();
@@ -421,6 +418,7 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
         }
     }
 
+    info.count = nameList.length();
     if (nameList.length() == 1) {
         info.endTime = getImageInfoByName(nameList.first()).time;
         info.beginTime = info.endTime;

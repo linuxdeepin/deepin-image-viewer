@@ -399,7 +399,7 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
     QImage img(path);
     ExifItem *items = getExifItemList(isDetails);
 
-    qDebug() << "Reading exif from: " << path;
+//    qDebug() << "Reading exif from: " << path;
     ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
 
     if (! ed) {

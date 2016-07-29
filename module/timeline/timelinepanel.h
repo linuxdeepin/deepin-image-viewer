@@ -29,6 +29,7 @@ public:
 protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void showPanelEvent(ModulePanel *p) Q_DECL_OVERRIDE;
 
 private:
     enum MenuItemId {

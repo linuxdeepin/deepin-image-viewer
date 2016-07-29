@@ -35,12 +35,6 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initSlideShowPanel();
     initViewPanel();
 
-    connect(m_sManager, &SignalManager::backToMainWindow, this, [=] {
-        onGotoPanel(m_timelinePanel);
-        emit m_sManager->showTopToolbar();
-        emit m_sManager->showBottomToolbar();
-        emit m_sManager->hideExtensionPanel(true);
-    });
     connect(m_sManager, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);
     connect(m_sManager, &SignalManager::showInFileManager,
@@ -84,10 +78,6 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     Importer::instance()->nap();
 
     m_panelStack->setCurrentWidget(panel);
-    emit m_sManager->updateTopToolbarLeftContent(panel->toolbarTopLeftContent());
-    emit m_sManager->updateTopToolbarMiddleContent(panel->toolbarTopMiddleContent());
-    emit m_sManager->updateBottomToolbarContent(panel->toolbarBottomContent());
-    emit m_sManager->updateExtensionPanelContent(panel->extensionPanelContent());
 }
 
 void MainWidget::onShowProcessTooltip(const QString &message, bool success)
@@ -108,10 +98,6 @@ void MainWidget::onShowImageInfo(const QString &path)
     info->show();
     connect(info, &ImageInfoDialog::closed, info, &ImageInfoDialog::deleteLater);
     connect(m_sManager, &SignalManager::gotoPanel,
-            info, &ImageInfoDialog::close);
-    connect(m_sManager, &SignalManager::gotoAlbumPanel,
-            info, &ImageInfoDialog::close);
-    connect(m_sManager, &SignalManager::backToMainWindow,
             info, &ImageInfoDialog::close);
 }
 
@@ -259,16 +245,6 @@ void MainWidget::initAlbumPanel()
 {
     m_albumPanel = new AlbumPanel;
     m_panelStack->addWidget(m_albumPanel);
-
-    connect(m_sManager, &SignalManager::createAlbum,
-            m_albumPanel, &AlbumPanel::onCreateAlbum);
-    connect(m_sManager, &SignalManager::gotoAlbumPanel,
-            this, [=] (const QString &album) {
-        onGotoPanel(m_albumPanel);
-        if (! album.isEmpty()) {
-            m_albumPanel->onOpenAlbum(album);
-        }
-    });
 }
 
 void MainWidget::initViewPanel()

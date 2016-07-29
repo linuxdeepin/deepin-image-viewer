@@ -70,7 +70,7 @@ void SlideShowPanel::backToLastPanel()
         emit m_sManager->gotoPanel(m_lastPanel);
     }
     else {
-        emit m_sManager->backToMainWindow();
+        emit m_sManager->gotoTimelinePanel();
     }
 
     // Clear cache
