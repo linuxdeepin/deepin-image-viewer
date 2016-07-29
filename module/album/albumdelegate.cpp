@@ -206,9 +206,11 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         const int hMargin = 3;
         const int vMargin = 2;
         QSize ts(qMin(fm.width(albumName) + 20, rect.width()), fm.height() + 2);
-        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2 - hMargin,
+        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2,
                         rect.y() + rect.height() - ts.height() - vMargin * 2,
-                        ts.width() + hMargin * 2, ts.height() + vMargin * 2);
+                        // ts.width() maybe biger than rect.width()
+                        qMin(rect.width(), ts.width() + hMargin * 2),
+                        ts.height() + vMargin * 2);
         painter->setRenderHint(QPainter::Antialiasing);
         // Draw title background
         if (option.state & QStyle::State_Selected && m_editingIndex != index) {
@@ -221,7 +223,7 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         painter->setPen(titlePen);
         painter->drawText(titleRect,
                           fm.elidedText(albumName,
-                                        Qt::ElideRight, option.rect.width()),
+                                        Qt::ElideRight, rect.width()),
                           QTextOption(Qt::AlignCenter));
     }
 }
@@ -342,4 +344,5 @@ void AlbumDelegate::onEditFinished()
     QWidget *editor = qobject_cast<QWidget *>(sender());
     emit closeEditor(editor);
     emit editingFinished(m_editingIndex);
+    m_editingIndex = QModelIndex();
 }
