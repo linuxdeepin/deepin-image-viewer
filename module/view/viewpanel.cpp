@@ -49,8 +49,8 @@ ViewPanel::ViewPanel(QWidget *parent)
     m_vinfo.inDatabase = false;
 
     initStack();
+    initFloatBtns();
     initNavigation();
-    initSlider();
 
     initConnect();
     initShortcut();
@@ -108,6 +108,7 @@ void ViewPanel::initConnect() {
             m_nextBtn->hide();
         }
     });
+
 }
 
 void ViewPanel::initShortcut()
@@ -317,7 +318,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
             m_view->setScaleValue(1 / m_view->windowRelativeScale());
         }
 
-        m_scaleSlider->setCurrentValue(m_view->scaleValue()*100);;
+        m_scaleLabel->setText(QString("%1%").arg(int(m_view->scaleValue()*100)));
     });
     return ttmc;
 }
@@ -360,8 +361,8 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     m_nav->move(e->size().width() - m_nav->width() - 60,
                 e->size().height() - m_nav->height() -10);
 
-    m_scaleSlider->move(this->rect().right() - m_scaleSlider->width() - 20,
-        (this->rect().height() - m_scaleSlider->height() + TOP_TOOLBAR_HEIGHT) / 2);
+    m_scaleLabel->move((this->rect().width() - m_scaleLabel->width()) / 2,
+        (this->rect().height() - m_scaleLabel->height() + TOP_TOOLBAR_HEIGHT) / 2);
 
     m_previousBtn->move(x() + BUTTON_PADDING,
                         (this->rect().height() - m_previousBtn->height() + TOP_TOOLBAR_HEIGHT) / 2);
@@ -574,7 +575,9 @@ void ViewPanel::initStack()
     QHBoxLayout *hl = new QHBoxLayout(this);
     hl->setContentsMargins(0, 0, 0, 0);
     hl->addWidget(m_stack);
+}
 
+void ViewPanel::initFloatBtns() {
     m_previousBtn = new ImageButton(this);
     m_previousBtn->setFixedSize(36, 36);
     m_previousBtn->setToolTip(tr("Previous"));
@@ -598,6 +601,28 @@ void ViewPanel::initStack()
 
     m_previousBtn->hide();
     m_nextBtn->hide();
+
+    m_scaleLabel = new QLabel(this);
+    m_scaleLabel->setObjectName("ScaleLabel");
+    m_scaleLabel->setFixedSize(65, 30);
+    m_scaleLabel->move(this->rect().center());
+    m_scaleLabel->setAlignment(Qt::AlignCenter);
+    m_scaleLabel->setText(QString("%1%").arg(100));
+    m_scaleLabel->hide();
+    //hideTime is delay to hide m_scaleLabel
+    hideTimer = new QTimer(this);
+    hideTimer->setInterval(2000);
+    hideTimer->setSingleShot(true);
+
+    connect(hideTimer, &QTimer::timeout, [this](){
+        m_scaleLabel->hide();
+    });
+
+    connect(m_view, &ImageWidget::scaleValueChanged, [this](qreal value) {
+        m_scaleLabel->show();
+        m_scaleLabel->setText(QString("%1%").arg(int(value*100)));
+        hideTimer->start();
+    });
 }
 
 QString ViewPanel::createMenuContent()
@@ -847,31 +872,6 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     }
 }
 
-void ViewPanel::initSlider() {
-    QTimer* hideTimer;
-    hideTimer = new QTimer(this);
-    hideTimer->setInterval(2000);
-    hideTimer->setSingleShot(true);
-
-    m_scaleSlider = new ImageSliderFrame(this);
-    m_scaleSlider->hide();
-
-    connect(m_view, &ImageWidget::scaleValueChanged, [this](qreal value) {
-        m_scaleSlider->setCurrentValue(value*100);
-    });
-
-    connect(m_scaleSlider, &ImageSliderFrame::valueChanged, [=](double perc){
-        m_view->setScaleValue(perc*950/100);
-        m_scaleSlider->show();
-        hideTimer->start();
-
-    });
-
-    connect(hideTimer, &QTimer::timeout, [this](){
-        m_scaleSlider->hide();
-    });
-}
-
 void ViewPanel::initViewContent()
 {
     m_view = new ImageWidget();
@@ -883,7 +883,7 @@ void ViewPanel::initViewContent()
     });
     connect(m_view, &ImageWidget::doubleClicked, [this]() {
         toggleFullScreen();
-        m_scaleSlider->hide();
+        m_scaleLabel->hide();
     });
 }
 
@@ -913,7 +913,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     m_view->setImage(path);
     m_nav->setImage(m_view->image());
 
-    m_scaleSlider->setCurrentValue(m_view->scaleValue()*100);
+    m_scaleLabel->setText(QString("%1%").arg(int(m_view->scaleValue()*100)));
 
     if (m_info) {
         m_info->setImagePath(path);
