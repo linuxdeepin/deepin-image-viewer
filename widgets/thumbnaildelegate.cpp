@@ -25,6 +25,8 @@ const int TICKED_MARK_SIZE = 24;
 
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
+const int VIEW_UPDATE_INTERVAL = 200;
+
 }
 
 class CacheRunner : public QRunnable
@@ -60,6 +62,14 @@ ThumbnailDelegate::ThumbnailDelegate(QObject *parent)
 {
     m_threadPool = new QThreadPool(this);
     m_threadPool->setMaxThreadCount(1);
+
+    m_updateTimer = new QTimer(this);
+    m_updateTimer->setSingleShot(true);
+    connect(m_updateTimer, &QTimer::timeout, this, [=] {
+        if (QWidget *w = qobject_cast<QWidget *>(this->parent())) {
+            w->update();
+        }
+    });
 
     QPixmapCache::setCacheLimit(204800);//200MB
 }
@@ -126,11 +136,13 @@ void ThumbnailDelegate::paint(QPainter *painter,
         // Draw ticked mark
         if (tickable && selected) {
             QPixmap p = QPixmap(":/images/resources/images/item_selected.png")
-                    .scaled(TICKED_MARK_SIZE, TICKED_MARK_SIZE, Qt::KeepAspectRatio,
+                .scaled(TICKED_MARK_SIZE, TICKED_MARK_SIZE, Qt::KeepAspectRatio,
                             Qt::SmoothTransformation);
-            painter->drawPixmap(rect.x() + (rect.width() - TICKED_MARK_SIZE) / 2,
-                                rect.y() + (rect.height() - TICKED_MARK_SIZE) / 2,
-                                TICKED_MARK_SIZE, TICKED_MARK_SIZE, p);
+            painter->drawPixmap(
+                        rect.x() + (rect.width() - TICKED_MARK_SIZE) / 2,
+                        rect.y() + (rect.height() - TICKED_MARK_SIZE) / 2,
+                        TICKED_MARK_SIZE, TICKED_MARK_SIZE,
+                        p);
         }
     }
 }
@@ -142,25 +154,31 @@ QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
     return index.model()->data(index, Qt::SizeHintRole).toSize();
 }
 
-void ThumbnailDelegate::renderThumbnail(const QString &path, QPixmap &thumbnail) const
+void ThumbnailDelegate::renderThumbnail(const QString &path,
+                                        QPixmap &thumbnail) const
 {
     const QString name = QFileInfo(path).fileName();
     const QSize tSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
     // Skill
     // Use cache to make paint faster
     if (! PixmapCacheManager::instance()->find(name, &thumbnail)) {
-
+        m_updateTimer->stop();
         CacheRunner *cr = new CacheRunner(name);
         m_threadPool->start(cr);
+        // Force View update after thumbnail regenerate
+        m_updateTimer->start(VIEW_UPDATE_INTERVAL);
 
         using namespace utils::image;
         // Try to load low-quality thumbnail during the hight-quality one generating
         if (! PixmapCacheManager::instance()->find(name + "_low", &thumbnail)) {
             // Read low-quality thumbnail failed, read the default icon
-            if (! PixmapCacheManager::instance()->find("NO_IMAGE_TMP_KEY", &thumbnail)) {
+            if (! PixmapCacheManager::instance()->find("NO_IMAGE_TMP_KEY",
+                                                       &thumbnail)) {
                 thumbnail = cutSquareImage(
-                    QPixmap(":/images/resources/images/default_thumbnail.png"), tSize);
-                PixmapCacheManager::instance()->insert("NO_IMAGE_TMP_KEY", thumbnail);
+                    QPixmap(":/images/resources/images/default_thumbnail.png"),
+                            tSize);
+                PixmapCacheManager::instance()->insert("NO_IMAGE_TMP_KEY",
+                                                       thumbnail);
             }
         }
     }

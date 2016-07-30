@@ -29,6 +29,7 @@ private:
     mutable QModelIndexList m_indexs;
     mutable QStringList m_names;
     QThreadPool *m_threadPool;
+    QTimer *m_updateTimer;
 };
 
 #endif // ALBUMDELEGATE_H

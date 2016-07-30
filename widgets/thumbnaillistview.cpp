@@ -4,7 +4,6 @@
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include <QApplication>
 #include <QBuffer>
 #include <QDebug>
 #include <QEvent>
@@ -69,7 +68,6 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
-    qApp->installEventFilter(this);
     initThumbnailTimer();
 
     QThreadPool::globalInstance()->setMaxThreadCount(4);
@@ -249,11 +247,6 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
 {
     if ( obj == viewport() && event->type() == QEvent::Paint) {
         fixedViewPortSize();
-    }
-    if (obj == qApp && event->type() == QEvent::ApplicationActivate) {
-        // Cache would be auto destroy after some time without no access
-        resize(width() + 1, height());
-        resize(width() - 1, height());
     }
 
     return false;
