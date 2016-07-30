@@ -82,3 +82,11 @@ ImageButton#NextButton {
     background-color: rgba(0, 0, 0, .4);
     padding: 6px;
 }
+
+QLabel#ScaleLabel {
+    border: 1px solid rgba(255, 255, 255, .2);
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .4);
+    color: white;
+    padding: 3px;
+}

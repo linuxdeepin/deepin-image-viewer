@@ -6,7 +6,6 @@
 #include "navigationwidget.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
-#include "imagesliderframe.h"
 #include "widgets/imagebutton.h"
 
 #include <QFileInfo>
@@ -77,7 +76,7 @@ private:
     };
 
     void initStack();
-    void initSlider();
+    void initFloatBtns();
     void initViewContent();
     void initNavigation();
     void initConnect();
@@ -116,13 +115,14 @@ private:
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
     NavigationWidget *m_nav = NULL;
-    ImageSliderFrame *m_scaleSlider = NULL;
     PopupMenuManager *m_popupMenu;
     SignalManager::ViewInfo m_vinfo;
     SignalManager *m_sManager;
     QStackedWidget *m_stack;
     ImageButton* m_previousBtn;
     ImageButton* m_nextBtn;
+    QLabel* m_scaleLabel;
+    QTimer* hideTimer;
 
     QList<DatabaseManager::ImageInfo> m_infos;
     QList<DatabaseManager::ImageInfo>::ConstIterator m_current;
