@@ -80,7 +80,8 @@ void NavigationWidget::setRectInImage(const QRect &r)
 
 void NavigationWidget::mousePressEvent(QMouseEvent *e)
 {
-    tryMoveRect(e->pos());
+    if (e->button() == Qt::LeftButton)
+        tryMoveRect(e->pos());
 }
 
 void NavigationWidget::mouseMoveEvent(QMouseEvent *e)
