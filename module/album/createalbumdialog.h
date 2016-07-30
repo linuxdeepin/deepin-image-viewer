@@ -1,8 +1,8 @@
 #ifndef CREATEALBUMDIALOG_H
 #define CREATEALBUMDIALOG_H
+
 #include "widgets/bluredialog.h"
 
-class DatabaseManager;
 class CreateAlbumDialog : public BlureDialog
 {
     Q_OBJECT
@@ -15,9 +15,6 @@ protected:
 private:
     const QString getNewAlbumName() const;
     void createAlbum(const QString &newName);
-
-private:
-    DatabaseManager *m_dbManager;
 };
 
 #endif // CREATEALBUMDIALOG_H

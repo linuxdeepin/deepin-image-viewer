@@ -1,11 +1,13 @@
 #include "timelinepanel.h"
+#include "application.h"
+#include "controller/configsetter.h"
+#include "controller/exporter.h"
+#include "controller/importer.h"
+#include "controller/popupmenumanager.h"
+#include "controller/signalmanager.h"
+#include "controller/wallpapersetter.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "controller/importer.h"
-#include "controller/exporter.h"
-#include "controller/popupmenumanager.h"
-#include "controller/wallpapersetter.h"
-#include "controller/configsetter.h"
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
 #include "widgets/slider.h"
@@ -33,10 +35,7 @@ const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 using namespace Dtk::Widget;
 
 TimelinePanel::TimelinePanel(QWidget *parent)
-    : ModulePanel(parent),
-      m_setter(ConfigSetter::instance()),
-      m_dbManager(DatabaseManager::instance()),
-      m_sManager(SignalManager::instance())
+    : ModulePanel(parent)
 {
     setAcceptDrops(true);
 
@@ -65,9 +64,9 @@ QWidget *TimelinePanel::toolbarBottomContent()
 
     if (m_targetAlbum.isEmpty()) {
         separatorLine->hide();
-        const int sizeScale = m_setter->value(SETTINGS_GROUP,
-                                              SETTINGS_ICON_SCALE_KEY,
-                                              QVariant(0)).toInt();
+        const int sizeScale = dApp->setter->value(SETTINGS_GROUP,
+                                                  SETTINGS_ICON_SCALE_KEY,
+                                                  QVariant(0)).toInt();
         const int iconSize = MIN_ICON_SIZE + sizeScale * 32;
         m_view->setIconSize(QSize(iconSize, iconSize));
 
@@ -76,17 +75,17 @@ QWidget *TimelinePanel::toolbarBottomContent()
         m_slider->setMaximum(3);
         m_slider->setValue(sizeScale);
         connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
-//            qDebug() << "Change the view size to: X" << multiple;
+            //            qDebug() << "Change the view size to: X" << multiple;
             int newSize = MIN_ICON_SIZE + multiple * 32;
             m_view->setIconSize(QSize(newSize, newSize));
-            m_setter->setValue(SETTINGS_GROUP, SETTINGS_ICON_SCALE_KEY,
-                               QVariant(m_slider->value()));
+            dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_ICON_SCALE_KEY,
+                                   QVariant(m_slider->value()));
         });
 
         m_countLabel = new QLabel;
         m_countLabel->setObjectName("CountLabel");
 
-        updateBottomToolbarContent(m_dbManager->imageCount());
+        updateBottomToolbarContent(dApp->databaseM->imageCount());
 
 
         layout->addStretch(1);
@@ -112,9 +111,9 @@ QWidget *TimelinePanel::toolbarBottomContent()
         cancelButton->setObjectName("AddToAlbumCancel");
 
         connect(cancelButton, &QPushButton::clicked, this, [=] {
-            emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
-            emit m_sManager->gotoAlbumPanel();
-            emit m_sManager->imageAddedToAlbum();
+            emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+            emit dApp->signalM->gotoAlbumPanel();
+            emit dApp->signalM->imageAddedToAlbum();
         });
         cancelBtnLayout->addWidget(cancelButton);
         cancelBtnLayout->addSpacing(6);
@@ -132,15 +131,14 @@ QWidget *TimelinePanel::toolbarBottomContent()
             QStringList images = m_view->selectedImages().keys();
             for (QString image : images) {
                 // TODO improve performance
-                DatabaseManager::ImageInfo info
-                        = m_dbManager->getImageInfoByName(image);
-                m_dbManager->insertImageIntoAlbum(m_targetAlbum, image,
-                    utils::base::timeToString(info.time));
+                auto info = dApp->databaseM->getImageInfoByName(image);
+                dApp->databaseM->insertImageIntoAlbum(
+                    m_targetAlbum, image, utils::base::timeToString(info.time));
             }
 
-            emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
-            emit m_sManager->gotoAlbumPanel();
-            emit m_sManager->imageAddedToAlbum();
+            emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+            emit dApp->signalM->gotoAlbumPanel();
+            emit dApp->signalM->imageAddedToAlbum();
         });
 
         layout->addLayout(titleLayout);
@@ -179,20 +177,20 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     albumButton->setHoverPic(":/images/resources/images/album_hover.png");
     connect(albumButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Album Panel...";
-        emit m_sManager->gotoAlbumPanel();
+        emit dApp->signalM->gotoAlbumPanel();
     });
     albumButton->setToolTip(tr("Album"));
 
     // hide search button
-//    ImageButton *searchButton = new ImageButton();
-//    searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
-//    searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
-//    connect(searchButton, &ImageButton::clicked, this, [=] {
-//        qDebug() << "Change to Search Panel...";
-//        emit m_sManager->gotoSearchPanel();
-//    });
+    //    ImageButton *searchButton = new ImageButton();
+    //    searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
+    //    searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
+    //    connect(searchButton, &ImageButton::clicked, this, [=] {
+    //        qDebug() << "Change to Search Panel...";
+    //        emit dApp->signalM->gotoSearchPanel();
+    //    });
 
-//    searchButton->setToolTip("Search");
+    //    searchButton->setToolTip("Search");
 
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -200,7 +198,7 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     layout->addStretch(1);
     layout->addWidget(timelineButton);
     layout->addWidget(albumButton);
-//    layout->addWidget(searchButton);
+    //    layout->addWidget(searchButton);
     layout->addStretch(1);
 
     return tTopMiddleContent;
@@ -220,13 +218,13 @@ void TimelinePanel::dropEvent(QDropEvent *event)
             const QString path = url.toLocalFile();
             if (QFileInfo(path).isDir()) {
                 // Need popup AlbumCreate dialog
-                emit m_sManager->importDir(path);
+                emit dApp->signalM->importDir(path);
             }
             else {
                 files << path;
             }
         }
-        Importer::instance()->importFiles(files);
+        dApp->importer->importFiles(files);
     }
 }
 
@@ -239,33 +237,34 @@ void TimelinePanel::dragEnterEvent(QDragEnterEvent *event)
 void TimelinePanel::showPanelEvent(ModulePanel *p)
 {
     ModulePanel::showPanelEvent(p);
-    emit m_sManager->showTopToolbar();
-    emit m_sManager->showBottomToolbar();
-    emit m_sManager->hideExtensionPanel(true);
-    emit m_sManager->updateBottomToolbarContent(toolbarBottomContent(),
+    emit dApp->signalM->showTopToolbar();
+    emit dApp->signalM->showBottomToolbar();
+    emit dApp->signalM->hideExtensionPanel(true);
+    emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent(),
                                                 ! m_targetAlbum.isEmpty());
 }
 
 void TimelinePanel::initConnection()
 {
-    connect(Importer::instance(), &Importer::importProgressChanged, this, [=] (double v) {
+    connect(dApp->importer, &Importer::importProgressChanged,
+            this, [=] (double v) {
         if (v == 1) {
-            auto infos = m_dbManager->getAllImageInfos();
+            auto infos = dApp->databaseM->getAllImageInfos();
             for (auto info : infos) {
                 m_view->onImageInserted(info);
             }
-            onImageCountChanged(m_dbManager->imageCount());
+            onImageCountChanged(dApp->databaseM->imageCount());
         }
     });
-    connect(m_sManager, &SignalManager::imageCountChanged,
-        this, &TimelinePanel::onImageCountChanged);
-    connect(m_sManager, &SignalManager::gotoTimelinePanel, this, [=] {
+    connect(dApp->signalM, &SignalManager::imageCountChanged,
+            this, &TimelinePanel::onImageCountChanged);
+    connect(dApp->signalM, &SignalManager::gotoTimelinePanel, this, [=] {
         m_targetAlbum = "";
         m_view->setTickable(false);
         m_view->clearSelection();
         m_view->setMultiSelection(false);
 
-        emit m_sManager->gotoPanel(this);
+        emit dApp->signalM->gotoPanel(this);
     });
 }
 
@@ -285,7 +284,7 @@ void TimelinePanel::initMainStackWidget()
     frame->setButtonText(tr("Import"));
     frame->setTitle(tr("Import or drag image to timeline"));
     connect(frame, &ImportFrame::clicked, this, [=] {
-        Importer::instance()->showImportDialog();
+        dApp->importer->showImportDialog();
     });
 
     m_mainStack = new QStackedWidget;
@@ -293,16 +292,16 @@ void TimelinePanel::initMainStackWidget()
     m_mainStack->addWidget(frame);
     m_mainStack->addWidget(m_view);
     //show import frame if no images in database
-    m_mainStack->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
+    m_mainStack->setCurrentIndex(dApp->databaseM->imageCount() > 0 ? 1 : 0);
 
-    connect(m_sManager, &SignalManager::addImageFromTimeline,
+    connect(dApp->signalM, &SignalManager::addImageFromTimeline,
             this, [=] (const QString &targetAlbum) {
         m_targetAlbum = targetAlbum;
         m_view->setTickable(true);
         m_view->clearSelection();
         m_view->setMultiSelection(true);
-        emit m_sManager->gotoPanel(this);
-        emit m_sManager->updateBottomToolbarContent(toolbarBottomContent(), true);
+        emit dApp->signalM->gotoPanel(this);
+        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent(), true);
     });
 
     QLayout *layout = new QHBoxLayout(this);
@@ -324,7 +323,7 @@ void TimelinePanel::initImagesView()
         vinfo.lastPanel = this;
         vinfo.path = path;
         vinfo.paths = paths;
-        emit m_sManager->viewImage(vinfo);
+        emit dApp->signalM->viewImage(vinfo);
     });
 }
 
@@ -349,7 +348,8 @@ void TimelinePanel::updateBottomToolbarContent(int count)
         m_countLabel->setText(tr("%1 images").arg(count));
     }
 
-    int countHeight = utils::base::stringHeight(m_countLabel->font(), m_countLabel->text());
+    int countHeight = utils::base::stringHeight(m_countLabel->font(),
+                                                m_countLabel->text());
     m_countLabel->setMinimumHeight(countHeight);
 
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
@@ -371,7 +371,7 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     const QStringList nList = images.keys();
     const QStringList pList = images.values();
     const QStringList viewPaths = (pList.length() == 1) ?
-                m_dbManager->getAllImagesPath() : pList;
+                dApp->databaseM->getAllImagesPath() : pList;
     const QString cname = nList.first();
     const QString cpath = pList.first();
 
@@ -383,47 +383,47 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
 
     switch (MenuItemId(menuId)) {
     case IdView:
-        m_sManager->viewImage(vinfo);
+        dApp->signalM->viewImage(vinfo);
         break;
     case IdFullScreen:
         vinfo.fullScreen = true;
-        m_sManager->viewImage(vinfo);
+        dApp->signalM->viewImage(vinfo);
         break;
     case IdStartSlideShow:
-        m_sManager->startSlideShow(this, viewPaths, cpath);
+        dApp->signalM->startSlideShow(this, viewPaths, cpath);
         break;
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
         for (QString name : nList) {
-            m_dbManager->insertImageIntoAlbum(album, name,
-                utils::base::timeToString(imageInfo(name).time));
+            dApp->databaseM->insertImageIntoAlbum(
+                album, name, utils::base::timeToString(imageInfo(name).time));
         }
         break;
     }
     case IdExport:
-        Exporter::instance()->exportImage(pList);
+        dApp->exporter->exportImage(pList);
         break;
     case IdCopy:
         utils::base::copyImageToClipboard(pList);
         break;
     case IdMoveToTrash:
         for (QString name : nList) {
-            m_dbManager->removeImage(name);
+            dApp->databaseM->removeImage(name);
             utils::base::trashFile(images[name]);
         }
         break;
     case IdRemoveFromTimeline:
         for (QString name : nList) {
-            m_dbManager->removeImage(name);
+            dApp->databaseM->removeImage(name);
         }
         break;
     case IdAddToFavorites:
-        m_dbManager->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, cname,
+        dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, cname,
             utils::base::timeToString(imageInfo(cname).time));
         updateMenuContents();
         break;
     case IdRemoveFromFavorites:
-        m_dbManager->removeImageFromAlbum(FAVORITES_ALBUM_NAME, cname);
+        dApp->databaseM->removeImageFromAlbum(FAVORITES_ALBUM_NAME, cname);
         updateMenuContents();
         break;
     case IdRotateClockwise:
@@ -439,13 +439,13 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         }
         break;
     case IdSetAsWallpaper:
-        WallpaperSetter::instance()->setWallpaper(cpath);
+        dApp->wpSetter->setWallpaper(cpath);
         break;
     case IdDisplayInFileManager:
         utils::base::showInFileManager(cpath);
         break;
     case IdImageInfo:
-        m_sManager->showImageInfo(cpath);
+        dApp->signalM->showImageInfo(cpath);
         break;
     default:
         break;
@@ -490,8 +490,8 @@ QString TimelinePanel::createMenuContent()
 
     items.append(createMenuItem(IdSeparator, "", true));
     if (images.count() == 1) {
-        if (! m_dbManager->imageExistAlbum(images.firstKey(),
-                                           FAVORITES_ALBUM_NAME)) {
+        if (! dApp->databaseM->imageExistAlbum(images.firstKey(),
+                                               FAVORITES_ALBUM_NAME)) {
             items.append(createMenuItem(IdAddToFavorites,
                 tr("Add to My favorites"), false, "Ctrl+K"));
         }
@@ -509,7 +509,7 @@ QString TimelinePanel::createMenuContent()
 
     items.append(createMenuItem(IdSeparator, "", true));
 
-//    items.append(createMenuItem(IdLabel, tr("Text tag")));
+    //    items.append(createMenuItem(IdLabel, tr("Text tag")));
     if (images.count() == 1) {
         items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
                                     false, "Ctrl+F8"));
@@ -542,7 +542,7 @@ QJsonValue TimelinePanel::createMenuItem(const TimelinePanel::MenuItemId id,
 
 QJsonObject TimelinePanel::createAlbumMenuObj()
 {
-    const QStringList albums = m_dbManager->getAlbumNameList();
+    const QStringList albums = dApp->databaseM->getAlbumNameList();
     const QStringList selectNames = m_view->selectedImages().keys();
 
     QJsonArray items;
@@ -551,7 +551,8 @@ QJsonObject TimelinePanel::createAlbumMenuObj()
             if (album == FAVORITES_ALBUM_NAME || album == "Recent imported") {
                 continue;
             }
-            const QStringList names = m_dbManager->getImageNamesByAlbum(album);
+            const QStringList names =
+                    dApp->databaseM->getImageNamesByAlbum(album);
             for (QString name : selectNames) {
                 if (names.indexOf(name) == -1) {
                     items.append(createMenuItem(IdAddToAlbum, album));
@@ -569,7 +570,8 @@ QJsonObject TimelinePanel::createAlbumMenuObj()
     return contentObj;
 }
 
-const DatabaseManager::ImageInfo TimelinePanel::imageInfo(const QString &name) const
+const DatabaseManager::ImageInfo TimelinePanel::imageInfo(
+        const QString &name) const
 {
-    return m_dbManager->getImageInfoByName(name);
+    return dApp->databaseM->getImageInfoByName(name);
 }

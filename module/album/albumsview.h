@@ -8,7 +8,6 @@
 #include <QStandardItemModel>
 
 class PopupMenuManager;
-class SignalManager;
 class AlbumsView : public QListView
 {
     Q_OBJECT
@@ -62,8 +61,6 @@ private:
 private:
     QStandardItemModel *m_model;
     QSize m_itemSize;
-    DatabaseManager *m_dbManager;
-    SignalManager *m_sManager;
     PopupMenuManager *m_popupMenu;
 };
 

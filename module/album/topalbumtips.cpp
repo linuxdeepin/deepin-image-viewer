@@ -1,4 +1,5 @@
 #include "topalbumtips.h"
+#include "application.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
@@ -20,7 +21,7 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
     m_importButton->setMinimumHeight(textHeight);
 
     connect(m_importButton, &QPushButton::clicked, this, [=] {
-        emit SignalManager::instance()->addImageFromTimeline(m_album);
+        emit dApp->signalM->addImageFromTimeline(m_album);
         qDebug() << "Importing images to album: " << m_album;
     });
 
@@ -34,8 +35,7 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
 void TopAlbumTips::setAlbum(const QString &album)
 {
     m_album = album;
-    DatabaseManager::AlbumInfo info
-            = DatabaseManager::instance()->getAlbumInfo(album);
+    auto info = dApp->databaseM->getAlbumInfo(album);
     const QString beginTime = utils::base::timeToString(info.beginTime, true);
     const QString endTime = utils::base::timeToString(info.endTime, true);
     const QString l = (beginTime.isEmpty() || endTime.isEmpty())

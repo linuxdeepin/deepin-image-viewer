@@ -1,7 +1,7 @@
 #include "imagewidget.h"
+#include "application.h"
 #include "controller/databasemanager.h"
 #include "utils/imageutils.h"
-#include <QApplication>
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QFileInfo>
@@ -110,7 +110,7 @@ void ImageWidget::rotateClockWise()
     rotate(m_rot+90);
     utils::image::rotate(m_path, 90);
     setImage(QString(m_path));
-    DatabaseManager::instance()->updateThumbnail(imageName());
+    dApp->databaseM->updateThumbnail(imageName());
 }
 
 void ImageWidget::rotateCounterclockwise()
@@ -118,7 +118,7 @@ void ImageWidget::rotateCounterclockwise()
     rotate(m_rot-90);
     utils::image::rotate(m_path, -90);
     setImage(QString(m_path));
-    DatabaseManager::instance()->updateThumbnail(imageName());
+    dApp->databaseM->updateThumbnail(imageName());
 }
 
 void ImageWidget::rotate(int deg)

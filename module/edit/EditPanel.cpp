@@ -1,4 +1,5 @@
 #include "EditPanel.h"
+#include "application.h"
 #include "controller/signalmanager.h"
 #include "widgets/imagebutton.h"
 #include "filters/FilterObj.h"
@@ -17,7 +18,7 @@ EditPanel::EditPanel(QWidget *parent)
     : ModulePanel(parent)
 {
     m_stack = new QStackedWidget(this); // why need a parent to avoid cutwidget crash?
-    connect(SignalManager::instance(), &SignalManager::editImage, this, &EditPanel::openImage);
+    connect(dApp->signalM, &SignalManager::editImage, this, &EditPanel::openImage);
     m_view = new ImageWidget();
     m_cut = new CutWidget();
     m_stack->addWidget(m_view);
@@ -77,9 +78,9 @@ QWidget *EditPanel::toolbarBottomContent()
 
     connect(m_stack, &QStackedWidget::currentChanged, [&](int){
         if (m_stack->currentWidget() == m_cut)
-            SignalManager::instance()->showBottomToolbar();
+            dApp->signalM->showBottomToolbar();
         else
-            SignalManager::instance()->hideBottomToolbar();
+            dApp->signalM->hideBottomToolbar();
     });
     return w;
 }
@@ -96,10 +97,10 @@ QWidget *EditPanel::toolbarTopLeftContent()
     btn->setHoverPic(":/images/resources/images/previous_hover.png");
     btn->setPressPic(":/images/resources/images/previous_press.png");
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, SignalManager::instance(), &SignalManager::gotoTimelinePanel);
+    connect(btn, &ImageButton::clicked, dApp->signalM, &SignalManager::gotoTimelinePanel);
     DTextButton *btn1 = new DTextButton(tr("Back"));
     hb->addWidget(btn1);
-    connect(btn1, &DTextButton::clicked, SignalManager::instance(), &SignalManager::gotoTimelinePanel);
+    connect(btn1, &DTextButton::clicked, dApp->signalM, &SignalManager::gotoTimelinePanel);
     btn1 = new DTextButton(tr("Revert"));
     connect(btn1, &DTextButton::clicked, [this](){
         if (m_stack->currentWidget() == m_view)
@@ -151,7 +152,7 @@ QWidget *EditPanel::toolbarTopMiddleContent()
             m_filterSetup->resize(240, height() - 30);
         }
 
-        Q_EMIT SignalManager::instance()->showExtensionPanel();
+        Q_EMIT dApp->signalM->showExtensionPanel();
     });
     btn->setToolTip("Filter effect");
 
@@ -167,8 +168,8 @@ QWidget *EditPanel::toolbarTopMiddleContent()
         } else {
             m_stack->setCurrentWidget(m_view);
         }
-        Q_EMIT SignalManager::instance()->hideExtensionPanel();
-        Q_EMIT SignalManager::instance()->updateBottomToolbarContent(toolbarBottomContent());
+        Q_EMIT dApp->signalM->hideExtensionPanel();
+        Q_EMIT dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
     });
     btn->setToolTip("Cutting");
 
@@ -246,8 +247,8 @@ void EditPanel::openImage(const QString &path)
 {
     m_path = path;
     m_image = QImage(path);
-    Q_EMIT SignalManager::instance()->gotoPanel(this);
+    Q_EMIT dApp->signalM->gotoPanel(this);
     m_stack->setCurrentWidget(m_view);
     m_view->setImage(m_image);
-    Q_EMIT SignalManager::instance()->hideBottomToolbar();
+    Q_EMIT dApp->signalM->hideBottomToolbar();
 }

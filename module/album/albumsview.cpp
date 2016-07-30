@@ -1,6 +1,6 @@
 #include "albumsview.h"
 #include "albumdelegate.h"
-#include "controller/signalmanager.h"
+#include "application.h"
 #include "controller/popupmenumanager.h"
 #include "controller/exporter.h"
 #include "controller/importer.h"
@@ -23,8 +23,6 @@ const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 AlbumsView::AlbumsView(QWidget *parent)
     : QListView(parent),
       m_itemSize(ITEM_DEFAULT_SIZE),
-      m_dbManager(DatabaseManager::instance()),
-      m_sManager(SignalManager::instance()),
       m_popupMenu(new PopupMenuManager(this))
 {
     setMouseTracking(true);
@@ -50,8 +48,8 @@ AlbumsView::AlbumsView(QWidget *parent)
 
     installEventFilter(this);
     // Aways has Favorites and RecentImport album
-    m_dbManager->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
-    m_dbManager->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
+    dApp->databaseM->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
+    dApp->databaseM->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
 
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
@@ -72,7 +70,7 @@ AlbumsView::AlbumsView(QWidget *parent)
 QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
 {
     // AlbumName ImageCount BeginTime EndTime Thumbnail
-    QStringList imgNames = m_dbManager->getImageNamesByAlbum(info.name);
+    QStringList imgNames = dApp->databaseM->getImageNamesByAlbum(info.name);
     if (imgNames.isEmpty()) {
         return QModelIndex();
     }
@@ -89,7 +87,7 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
             }
         }
     }
-    auto imgInfo = m_dbManager->getImageInfoByName(imageName);
+    auto imgInfo = dApp->databaseM->getImageInfoByName(imageName);
     if (! imageName.isEmpty() &&  ! imgInfo.thumbnail.save( &inBuffer, "JPG" )){
         QPixmap p = utils::image::getThumbnail(imgInfo.path);
         if (! p.save(&inBuffer, "JPG")) {
@@ -156,11 +154,10 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
 
 const QStringList AlbumsView::paths(const QString &album) const
 {
-    const QList<DatabaseManager::ImageInfo> infos =
-            m_dbManager->getImageInfosByAlbum(album);
+    const auto infos = dApp->databaseM->getImageInfosByAlbum(album);
     if (! infos.isEmpty()) {
         QStringList list;
-        for (DatabaseManager::ImageInfo info : infos) {
+        for (auto info : infos) {
             list << info.path;
         }
         return list;
@@ -188,7 +185,7 @@ const QString AlbumsView::getAlbumName(const QModelIndex &index) const
 const QString AlbumsView::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
-    const QStringList albums = m_dbManager->getAlbumNameList();
+    const QStringList albums = dApp->databaseM->getAlbumNameList();
     QList<int> countList;
     for (QString album : albums) {
         if (album.startsWith(nan)) {
@@ -247,8 +244,8 @@ const QString AlbumsView::createMenuContent(const QModelIndex &index)
             items.append(createMenuItem(IdDelete, tr("Delete"), false,
                                         "Delete"));
         items.append(createMenuItem(IdSeparator, "", true));
-//        items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false,
-//                                    "Ctrl+Alt+Return"));
+        //        items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false,
+        //                                    "Ctrl+Alt+Return"));
     }
     else {
         items.append(createMenuItem(IdCreate, tr("New album")));
@@ -294,12 +291,11 @@ void AlbumsView::onMenuItemClicked(int menuId)
         openPersistentEditor(this->currentIndex());
         break;
     case IdExport:
-        Exporter::instance()->exportAlbum(albumName);
+        dApp->exporter->exportAlbum(albumName);
         break;
     case IdCopy:
     {
-        const QList<DatabaseManager::ImageInfo> infos =
-                m_dbManager->getImageInfosByAlbum(albumName);
+        const auto infos = dApp->databaseM->getImageInfosByAlbum(albumName);
         QStringList paths;
         for (int i = 0; i < infos.length(); i ++) {
             paths << infos[i].path;
@@ -310,13 +306,13 @@ void AlbumsView::onMenuItemClicked(int menuId)
     case IdDelete:
         if (albumName != MY_FAVORITES_ALBUM
                 && albumName != RECENT_IMPORTED_ALBUM) {
-            m_dbManager->removeAlbum(albumName);
+            dApp->databaseM->removeAlbum(albumName);
             m_model->removeRow(currentIndex().row());
             emit albumRemoved();
         }
         break;
-//    case IdAlbumInfo:
-//        break;
+        //    case IdAlbumInfo:
+        //        break;
     default:
         break;
     }
@@ -330,8 +326,8 @@ void AlbumsView::onDoubleClicked(const QModelIndex &index)
 void AlbumsView::createAlbum()
 {
     const QString name = getNewAlbumName();
-    m_dbManager->insertImageIntoAlbum(name, "", "");
-    QModelIndex index = addAlbum(m_dbManager->getAlbumInfo(name));
+    dApp->databaseM->insertImageIntoAlbum(name, "", "");
+    QModelIndex index = addAlbum(dApp->databaseM->getAlbumInfo(name));
     openPersistentEditor(index);
     scrollTo(index);
 }
@@ -344,12 +340,12 @@ void AlbumsView::updateView()
     m_model->clear();
 
     // Make those special album always show at front
-    addAlbum(m_dbManager->getAlbumInfo(MY_FAVORITES_ALBUM));
-    addAlbum(m_dbManager->getAlbumInfo(RECENT_IMPORTED_ALBUM));
-    QStringList albums = m_dbManager->getAlbumNameList();
+    addAlbum(dApp->databaseM->getAlbumInfo(MY_FAVORITES_ALBUM));
+    addAlbum(dApp->databaseM->getAlbumInfo(RECENT_IMPORTED_ALBUM));
+    QStringList albums = dApp->databaseM->getAlbumNameList();
     albums.removeAll(MY_FAVORITES_ALBUM);
     albums.removeAll(RECENT_IMPORTED_ALBUM);
     for (const QString name : albums) {
-        addAlbum(m_dbManager->getAlbumInfo(name));
+        addAlbum(dApp->databaseM->getAlbumInfo(name));
     }
 }

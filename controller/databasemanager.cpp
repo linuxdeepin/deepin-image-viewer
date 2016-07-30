@@ -1,19 +1,19 @@
 #include "databasemanager.h"
+#include "application.h"
 #include "signalmanager.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include <QApplication>
-#include <QSqlDatabase>
-#include <QSqlRecord>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QSqlDriver>
-#include <QFileInfo>
 #include <QBuffer>
 #include <QDebug>
 #include <QDir>
+#include <QFileInfo>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QSqlDatabase>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QSqlRecord>
 
 const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-image-viewer/";
 const QString DATABASE_NAME = "deepinimageviewer.db";
@@ -64,8 +64,8 @@ void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
         }
         else {
             query.exec("COMMIT");
-            emit SignalManager::instance()->imageInserted(info);
-            emit SignalManager::instance()->imageCountChanged(imageCount());
+            emit dApp->signalM->imageInserted(info);
+            emit dApp->signalM->imageCountChanged(imageCount());
 
             // All new image should add to the album "Recent imported"
             insertImageIntoAlbum("Recent imported", info.name,
@@ -223,7 +223,7 @@ void DatabaseManager::insertImageInfos(const QList<DatabaseManager::ImageInfo> &
         }
         else {
             query.exec("COMMIT");
-            emit SignalManager::instance()->imageCountChanged(imageCount());
+            emit dApp->signalM->imageCountChanged(imageCount());
         }
 
         // Clear Recent imported album
@@ -249,7 +249,7 @@ void DatabaseManager::insertImageInfos(const QList<DatabaseManager::ImageInfo> &
         }
         else {
             query.exec("COMMIT");
-            emit SignalManager::instance()->imageCountChanged(imageCount());
+            emit dApp->signalM->imageCountChanged(imageCount());
         }
     }
 }
@@ -277,8 +277,8 @@ void DatabaseManager::removeImage(const QString &name)
             qWarning() << "Remove image failed: " << query.lastError();
         }
 
-        emit SignalManager::instance()->imageCountChanged(imageCount());
-        emit SignalManager::instance()->imageRemoved(name);
+        emit dApp->signalM->imageCountChanged(imageCount());
+        emit dApp->signalM->imageRemoved(name);
     }
 }
 
@@ -369,7 +369,7 @@ void DatabaseManager::insertImageIntoAlbum(const QString &albumname,
         // For UI update
         ImageInfo info = getImageInfoByName(filename);
         info.albums << albumname;
-        emit SignalManager::instance()->insertIntoAlbum(info);
+        emit dApp->signalM->insertIntoAlbum(info);
     }
 }
 
@@ -391,7 +391,7 @@ void DatabaseManager::removeImageFromAlbum(const QString &albumname,
     }
 
     // For UI update
-    emit SignalManager::instance()->removeFromAlbum(albumname, filename);
+    emit dApp->signalM->removeFromAlbum(albumname, filename);
 }
 
 DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)

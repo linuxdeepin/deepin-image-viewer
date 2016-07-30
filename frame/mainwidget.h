@@ -47,7 +47,6 @@ private:
     BottomToolbar   *m_bottomToolbar;
     ExtensionPanel  *m_extensionPanel;
     QStackedWidget  *m_panelStack;
-    SignalManager   *m_sManager;
     TopToolbar      *m_topToolbar;
 
     // Panel

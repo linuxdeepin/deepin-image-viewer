@@ -3,8 +3,6 @@
 
 #include <QWidget>
 
-class DatabaseManager;
-class SignalManager;
 class ImageButton;
 class TTMContent : public QWidget
 {
@@ -25,11 +23,7 @@ signals:
     void imageEmpty(bool v);
 
 private:
-    DatabaseManager *dbManager() const;
-
-private:
     ImageButton *m_clBT = nullptr;
-    SignalManager *m_sManager;
     QString m_imageName;
     QString m_imagePath;
 };

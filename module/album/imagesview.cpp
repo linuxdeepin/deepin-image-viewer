@@ -1,6 +1,6 @@
-#include "dscrollbar.h"
 #include "imagesview.h"
-#include "controller/databasemanager.h"
+#include "application.h"
+#include "dscrollbar.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
 #include "controller/exporter.h"
@@ -29,9 +29,7 @@ const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 
 ImagesView::ImagesView(QWidget *parent)
     : QScrollArea(parent),
-      m_popupMenu(new PopupMenuManager(this)),
-      m_dbManager(DatabaseManager::instance()),
-      m_sManager(SignalManager::instance())
+      m_popupMenu(new PopupMenuManager(this))
 {
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
@@ -49,8 +47,7 @@ void ImagesView::setAlbum(const QString &album)
     m_album = album;
 
     m_view->clearData();
-    QList<DatabaseManager::ImageInfo> infos =
-            m_dbManager->getImageInfosByAlbum(album);
+    auto infos = dApp->databaseM->getImageInfosByAlbum(album);
 
     // Load up to 100 images at initialization to accelerate rendering
     const int preloadCount = 100;
@@ -59,11 +56,11 @@ void ImagesView::setAlbum(const QString &album)
     }
 
     TIMER_SINGLESHOT(500, {
-        if (infos.length() >= preloadCount) {
-            for (int i = preloadCount; i < infos.length(); i ++) {
-                insertItem(infos[i]);
-            }
+    if (infos.length() >= preloadCount) {
+        for (int i = preloadCount; i < infos.length(); i ++) {
+            insertItem(infos[i]);
         }
+    }
     }, this, infos);
 
     m_topTips->setAlbum(album);
@@ -117,7 +114,7 @@ void ImagesView::initTopTips()
 const QStringList ImagesView::paths()
 {
     QStringList list;
-    auto infos = m_dbManager->getImageInfosByAlbum(m_album);
+    auto infos = dApp->databaseM->getImageInfosByAlbum(m_album);
     for (int i = 0; i < infos.length(); i ++) {
         list << infos[i].path;
     }
@@ -153,7 +150,8 @@ QString ImagesView::createMenuContent()
     items.append(createMenuItem(IdSeparator, "", true));
 
     if (selectedCount == 1) {
-        if (! m_dbManager->imageExistAlbum(nList.first(), MY_FAVORITES_ALBUM)) {
+        if (! dApp->databaseM->imageExistAlbum(nList.first(),
+                                               MY_FAVORITES_ALBUM)) {
             items.append(createMenuItem(IdAddToFavorites,
                 tr("Add to My favorites"), false, "Ctrl+K"));
         }
@@ -195,9 +193,9 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
                                       const QJsonObject &subMenu)
 {
     return QJsonValue(m_popupMenu->createItemObj(id,
-                                                                  text,
-                                                                  isSeparator,
-                                                                  shortcut,
+                                                 text,
+                                                 isSeparator,
+                                                 shortcut,
                                                  subMenu));
 }
 
@@ -216,7 +214,7 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info)
 void ImagesView::updateThumbnail(const QString &path)
 {
     const QString name = QFileInfo(path).fileName();
-    m_dbManager->updateThumbnail(name);
+    dApp->databaseM->updateThumbnail(name);
     m_view->updateThumbnail(name);
 }
 
@@ -251,14 +249,14 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
     {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
         for (QString name : nList) {
-            const auto info = m_dbManager->getImageInfoByName(name);
-            m_dbManager->insertImageIntoAlbum(album, name,
-                utils::base::timeToString(info.time));
+            const auto info = dApp->databaseM->getImageInfoByName(name);
+            dApp->databaseM->insertImageIntoAlbum(
+                        album, name, utils::base::timeToString(info.time));
         }
         break;
     }
     case IdExport:
-        Exporter::instance()->exportImage(selectedImagesPathList());
+        dApp->exporter->exportImage(selectedImagesPathList());
         break;
     case IdCopy:
         utils::base::copyImageToClipboard(pList);
@@ -267,27 +265,27 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         for (QString path : pList) {
             const QString name = QFileInfo(path).fileName();
             removeItem(name);
-            m_dbManager->removeImageFromAlbum(m_album, name);
-            m_dbManager->removeImage(name);
+            dApp->databaseM->removeImageFromAlbum(m_album, name);
+            dApp->databaseM->removeImage(name);
             utils::base::trashFile(path);
         }
         break;
     }
     case IdAddToFavorites: {
-        const auto info = m_dbManager->getImageInfoByName(cname);
-        m_dbManager->insertImageIntoAlbum(MY_FAVORITES_ALBUM, cname,
-            utils::base::timeToString(info.time));
+        const auto info = dApp->databaseM->getImageInfoByName(cname);
+        dApp->databaseM->insertImageIntoAlbum(
+            MY_FAVORITES_ALBUM, cname, utils::base::timeToString(info.time));
         updateMenuContents();
         break;
     }
     case IdRemoveFromFavorites:
-        m_dbManager->removeImageFromAlbum(MY_FAVORITES_ALBUM, cname);
+        dApp->databaseM->removeImageFromAlbum(MY_FAVORITES_ALBUM, cname);
         updateMenuContents();
         break;
     case IdRemoveFromAlbum:
         for (QString name : nList) {
             removeItem(name);
-            m_dbManager->removeImageFromAlbum(m_album, name);
+            dApp->databaseM->removeImageFromAlbum(m_album, name);
         }
         break;
     case IdRotateClockwise:
@@ -303,13 +301,13 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         }
         break;
     case IdSetAsWallpaper:
-        WallpaperSetter::instance()->setWallpaper(cpath);
+        dApp->wpSetter->setWallpaper(cpath);
         break;
     case IdDisplayInFileManager:
         utils::base::showInFileManager(cpath);
         break;
     case IdImageInfo:
-        m_sManager->showImageInfo(cpath);
+        emit dApp->signalM->showImageInfo(cpath);
         break;
     default:
         break;
@@ -318,7 +316,7 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
 
 bool ImagesView::allInAlbum(const QStringList &names, const QString &album)
 {
-    const QStringList nl = m_dbManager->getImageNamesByAlbum(album);
+    const QStringList nl = dApp->databaseM->getImageNamesByAlbum(album);
     for (QString name : names) {
         // One of name is not in album
         if (nl.indexOf(name) == -1) {
@@ -332,7 +330,8 @@ void ImagesView::updateTopTipsRect()
 {
     m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
     m_topTips->resize(width(), m_topTips->height());
-    const int lm = - m_view->hOffset() + m_contentLayout->contentsMargins().left();
+    const int lm =
+            - m_view->hOffset() + m_contentLayout->contentsMargins().left();
     m_topTips->setLeftMargin(lm);
     m_topTips->setVisible(m_view->count() != 0);
 }
@@ -386,8 +385,8 @@ void ImagesView::resizeEvent(QResizeEvent *e)
 void ImagesView::showEvent(QShowEvent *e)
 {
     // For import from timeline update
-    if (count() != m_dbManager->getImagesCountByAlbum(m_album)) {
-        const auto infos = m_dbManager->getImageInfosByAlbum(m_album);
+    if (count() != dApp->databaseM->getImagesCountByAlbum(m_album)) {
+        const auto infos = dApp->databaseM->getImageInfosByAlbum(m_album);
         for (auto info : infos) {
             insertItem(info);
         }
@@ -408,7 +407,7 @@ void ImagesView::initStack()
     importFrame->setTitle(
                 tr("Add image from timeline or drag image to this album"));
     connect(importFrame, &ImportFrame::clicked, this, [=] {
-        emit SignalManager::instance()->addImageFromTimeline(m_album);
+        emit dApp->signalM->addImageFromTimeline(m_album);
     });
 
     initListView();
@@ -433,7 +432,7 @@ void ImagesView::updateStack()
 
 QJsonObject ImagesView::createAlbumMenuObj()
 {
-    const QStringList albums = m_dbManager->getAlbumNameList();
+    const QStringList albums = dApp->databaseM->getAlbumNameList();
     const QStringList selectNames = selectedImagesNameList();
 
     QJsonArray items;

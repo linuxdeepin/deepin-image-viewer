@@ -1,6 +1,6 @@
-#include "exporter.h"
+#include "application.h"
 #include "controller/databasemanager.h"
-#include "controller/signalmanager.h"
+#include "exporter.h"
 #include "utils/imageutils.h"
 
 #include <QFileDialog>
@@ -67,8 +67,7 @@ void Exporter::exportImage(const QStringList imagePaths) {
 }
 
 void Exporter::exportAlbum(const QString &albumname) {
-    QList<DatabaseManager::ImageInfo> albumImageInfos =
-            DatabaseManager::instance()->getImageInfosByAlbum(albumname);
+    auto albumImageInfos = dApp->databaseM->getImageInfosByAlbum(albumname);
     QStringList tmpImagePaths = QStringList();
     for (int i = 0; i < albumImageInfos.length(); i++) {
         qDebug() << "album:" << albumImageInfos[i].path;

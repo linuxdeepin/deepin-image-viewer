@@ -1,8 +1,8 @@
 #include "toptoolbar.h"
+#include "application.h"
 #include "controller/importer.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
-#include "controller/importer.h"
 #include "frame/mainwindow.h"
 #include "widgets/progresswidgetstips.h"
 #include <dcircleprogress.h>
@@ -13,10 +13,9 @@
 #include <darrowrectangle.h>
 #include <QDebug>
 #include <QGradient>
-#include <QResizeEvent>
-#include <QApplication>
-#include <QStackedWidget>
 #include <QPainter>
+#include <QResizeEvent>
+#include <QStackedWidget>
 
 using namespace Dtk::Widget;
 
@@ -157,27 +156,31 @@ void TopToolbar::initWidgets()
     importProgress->setFixedSize(21, 21);
     importProgress->setVisible(false);
     //importProgress's tooltip begin to init;
-    DArrowRectangle *importProgressWidget = new DArrowRectangle(DArrowRectangle::ArrowTop);
+    DArrowRectangle *importProgressWidget =
+            new DArrowRectangle(DArrowRectangle::ArrowTop);
     importProgressWidget->setArrowX(180);
     importProgressWidget->setArrowWidth(15);
     importProgressWidget->setArrowHeight(9);
 
     ProgressWidgetsTips* progressWidgetTips = new ProgressWidgetsTips;
     progressWidgetTips->setTitle(tr("Importing images"));
-    progressWidgetTips->setTips(QString(tr("%1 images imported, please wait")).arg(0));
-    connect(Importer::instance(), &Importer::importProgressChanged,
+    progressWidgetTips->setTips(
+                QString(tr("%1 images imported, please wait")).arg(0));
+    connect(dApp->importer, &Importer::importProgressChanged,
             [=](double per) {
         progressWidgetTips->setValue(int(per*100));
-        progressWidgetTips->setTips(QString(tr("%1 images imported, please wait")).arg(Importer::instance()->finishedCount()));
+        progressWidgetTips->setTips(
+                    QString(tr("%1 images imported, please wait"))
+                    .arg(dApp->importer->finishedCount()));
     });
     connect(progressWidgetTips, &ProgressWidgetsTips::stopProgress, [=]{
-        Importer::instance()->stopImport();
+        dApp->importer->stopImport();
         importProgressWidget->hide();
     });
 
     importProgressWidget->setContent(progressWidgetTips);
     //importProgress's tooltip end
-    connect(Importer::instance(), &Importer::importProgressChanged,
+    connect(dApp->importer, &Importer::importProgressChanged,
             this, [=] (double progress) {
         importProgress->setVisible(progress != 1);
         if (importProgress->isHidden()) {
@@ -187,10 +190,12 @@ void TopToolbar::initWidgets()
     });
 
     connect(importProgress, &DCircleProgress::clicked, [=]{
-        Importer::instance()->nap();
+        dApp->importer->nap();
         if (importProgressWidget->isHidden()) {
             progressWidgetTips->show();
-            importProgressWidget->show(window()->x()+window()->width() - importProgressWidget->width()/2 - 6, window()->y() + 45);
+            importProgressWidget->show(window()->x()+window()->width() -
+                                       importProgressWidget->width() / 2 - 6,
+                                       window()->y() + 45);
         } else {
             importProgressWidget->hide();
         }
@@ -204,18 +209,22 @@ void TopToolbar::initWidgets()
             m_popupMenu->showMenu();
         }
     });
-    connect(SignalManager::instance(), &SignalManager::enableMainMenu,
+    connect(dApp->signalM, &SignalManager::enableMainMenu,
             this, [=] (bool enable) {
         ob->setVisible(enable);
         ob->setEnabled(enable);
         });
 
     DWindowMinButton *minb = new DWindowMinButton;
-    connect(minb, SIGNAL(clicked()), parentWidget()->parentWidget(), SLOT(showMinimized()));
+    // FIXME it may crash
+    connect(minb, SIGNAL(clicked()),
+            parentWidget()->parentWidget(), SLOT(showMinimized()));
 
     m_maxb = new DWindowMaxButton;
-    connect(m_maxb, &DWindowMaxButton::maximum, window(), &QWidget::showMaximized);
-    connect(m_maxb, &DWindowMaxButton::restore, window(), &QWidget::showNormal);
+    connect(m_maxb, &DWindowMaxButton::maximum,
+            window(), &QWidget::showMaximized);
+    connect(m_maxb, &DWindowMaxButton::restore,
+            window(), &QWidget::showNormal);
 
     DWindowCloseButton *cb = new DWindowCloseButton;
     connect(cb, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
@@ -300,10 +309,10 @@ void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
 
     switch (MenuItemId(menuId)) {
     case IdCreateAlbum:
-        emit SignalManager::instance()->createAlbum();
+        emit dApp->signalM->createAlbum();
         break;
     case IdImport:
-        Importer::instance()->showImportDialog();
+        dApp->importer->showImportDialog();
         break;
     case IdHelp:
         showManual();
@@ -328,7 +337,8 @@ void TopToolbar::showManual()
         const QString pro = "dman";
         const QStringList args("deepin-image-viewer");
         m_manualPro = new QProcess(this);
-        connect(m_manualPro.data(), SIGNAL(finished(int)), m_manualPro.data(), SLOT(deleteLater()));
+        connect(m_manualPro.data(), SIGNAL(finished(int)),
+                m_manualPro.data(), SLOT(deleteLater()));
         m_manualPro->start(pro, args);
     }
 }

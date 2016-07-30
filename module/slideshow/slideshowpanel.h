@@ -5,7 +5,6 @@
 class QShortcut;
 
 class PopupMenuManager;
-class SignalManager;
 class SlideEffectPlayer;
 class SlideShowPanel : public ModulePanel
 {
@@ -45,7 +44,6 @@ private:
     ModulePanel         *m_lastPanel;
     PopupMenuManager    *m_menu;
     QImage               m_img;
-    SignalManager       *m_sManager;
     SlideEffectPlayer   *m_player;
     bool                 m_isMaximized;
 };

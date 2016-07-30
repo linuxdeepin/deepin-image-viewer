@@ -1,19 +1,20 @@
 #ifndef MODULEPANEL_H
 #define MODULEPANEL_H
 
-#include <QFrame>
+#include "application.h"
+#include "controller/signalmanager.h"
 #include <QDebug>
 #include <QFile>
-#include "controller/signalmanager.h"
+#include <QFrame>
 
 class ModulePanel : public QFrame
 {
     Q_OBJECT
 public:
     ModulePanel(QWidget *parent = 0)
-        :QFrame(parent),m_sManager(SignalManager::instance())
+        :QFrame(parent)
     {
-        connect(m_sManager, &SignalManager::gotoPanel,
+        connect(dApp->signalM, &SignalManager::gotoPanel,
                 this, &ModulePanel::showPanelEvent);
     }
     virtual QWidget *toolbarTopLeftContent() = 0;
@@ -25,14 +26,11 @@ protected:
     virtual void showPanelEvent(ModulePanel *p) {
         if (p != this)
             return;
-        emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
-        emit m_sManager->updateExtensionPanelContent(extensionPanelContent());
-        emit m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+        emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
-
-private:
-    SignalManager *m_sManager;
 };
 
 #endif // MODULEPANEL_H

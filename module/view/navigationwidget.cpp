@@ -1,5 +1,6 @@
-#include "navigationwidget.h"
+#include "application.h"
 #include "controller/configsetter.h"
+#include "navigationwidget.h"
 #include <QPainter>
 #include <dwindowclosebutton.h>
 #include <QMouseEvent>
@@ -34,8 +35,8 @@ NavigationWidget::NavigationWidget(QWidget *parent)
 
 void NavigationWidget::setAlwaysHidden(bool value)
 {
-    ConfigSetter::instance()->setValue(SETTINGS_GROUP,
-        SETTINGS_ALWAYSHIDDEN_KEY, QVariant(value));
+    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_ALWAYSHIDDEN_KEY,
+                          QVariant(value));
     if (isAlwaysHidden())
         hide();
     else
@@ -44,8 +45,8 @@ void NavigationWidget::setAlwaysHidden(bool value)
 
 bool NavigationWidget::isAlwaysHidden() const
 {
-    return ConfigSetter::instance()->value(SETTINGS_GROUP,
-               SETTINGS_ALWAYSHIDDEN_KEY, QVariant(false)).toBool();
+    return dApp->setter->value(SETTINGS_GROUP, SETTINGS_ALWAYSHIDDEN_KEY,
+                              QVariant(false)).toBool();
 }
 
 void NavigationWidget::setImage(const QImage &img)

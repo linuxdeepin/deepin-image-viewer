@@ -1,6 +1,7 @@
 #include "extensionpanel.h"
-#include "darrowbutton.h"
+#include "application.h"
 #include "controller/signalmanager.h"
+#include "darrowbutton.h"
 #include <QPainter>
 
 using namespace Dtk::Widget;
@@ -27,7 +28,7 @@ ExtensionPanel::ExtensionPanel(QWidget *parent, QWidget *source)
     hideButton->setFixedSize(CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_WIDTH);
     hideButton->setArrowDirection(DArrowButton::ArrowLeft);
     connect(hideButton, &DArrowButton::mouseRelease, [=] {
-        SignalManager::instance()->hideExtensionPanel();
+        emit dApp->signalM->hideExtensionPanel();
     });
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);

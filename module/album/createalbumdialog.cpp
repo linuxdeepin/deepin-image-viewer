@@ -1,3 +1,4 @@
+#include "application.h"
 #include "createalbumdialog.h"
 #include "controller/databasemanager.h"
 #include <QHBoxLayout>
@@ -6,8 +7,7 @@
 #include <QKeyEvent>
 
 CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
-    :BlureDialog(parent, source),
-      m_dbManager(DatabaseManager::instance())
+    :BlureDialog(parent, source)
 {
     setMinimumWidth(450);
 
@@ -74,7 +74,7 @@ void CreateAlbumDialog::keyPressEvent(QKeyEvent *e)
 const QString CreateAlbumDialog::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
-    const QStringList albums = m_dbManager->getAlbumNameList();
+    const QStringList albums = dApp->databaseM->getAlbumNameList();
     QList<int> countList;
     for (QString album : albums) {
         if (album.startsWith(nan)) {
@@ -108,10 +108,10 @@ const QString CreateAlbumDialog::getNewAlbumName() const
 
 void CreateAlbumDialog::createAlbum(const QString &newName)
 {
-    if (m_dbManager->getAlbumNameList().indexOf(newName) == -1) {
-        m_dbManager->insertImageIntoAlbum(newName, "", "");
+    if (dApp->databaseM->getAlbumNameList().indexOf(newName) == -1) {
+        dApp->databaseM->insertImageIntoAlbum(newName, "", "");
     }
     else {
-        m_dbManager->insertImageIntoAlbum(getNewAlbumName(), "", "");
+        dApp->databaseM->insertImageIntoAlbum(getNewAlbumName(), "", "");
     }
 }

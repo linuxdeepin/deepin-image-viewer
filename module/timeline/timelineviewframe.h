@@ -10,7 +10,6 @@
 #include <QStandardItem>
 #include <QVBoxLayout>
 
-class SignalManager;
 class TimelineViewFrame : public QFrame
 {
     Q_OBJECT
@@ -48,8 +47,6 @@ private:
 private:
     QString m_timeline;
     ThumbnailListView *m_view;
-    DatabaseManager *m_dbManager;
-    SignalManager *m_sManager;
     QLabel *m_title;
     QLabel *m_separator;
 };

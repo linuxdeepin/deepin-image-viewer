@@ -4,14 +4,9 @@
 #include "albumsview.h"
 #include "imagesview.h"
 #include "module/modulepanel.h"
-#include <dslider.h>
-#include <QLabel>
-#include <QWidget>
-#include <QVBoxLayout>
 #include <QStackedWidget>
 #include <QPointer>
 
-class ConfigSetter;
 class Slider;
 class ImportFrame;
 class AlbumPanel : public ModulePanel
@@ -57,9 +52,6 @@ private:
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;
     QStackedWidget *m_stackWidget = NULL;
-    ConfigSetter *m_setter;
-    DatabaseManager *m_dbManager;
-    SignalManager *m_sManager;
     bool m_adding = false;
 };
 

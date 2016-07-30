@@ -1,8 +1,6 @@
 #include "importframe.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
-#include "controller/databasemanager.h"
-#include "controller/signalmanager.h"
 #include <QDropEvent>
 
 #include <QPushButton>

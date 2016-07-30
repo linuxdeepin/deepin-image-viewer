@@ -1,5 +1,6 @@
 #include "slideshowpanel.h"
 #include "slideeffectplayer.h"
+#include "application.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
@@ -12,14 +13,13 @@
 
 SlideShowPanel::SlideShowPanel(QWidget *parent)
     : ModulePanel(parent),
-      m_menu(new PopupMenuManager(this)),
-      m_sManager(SignalManager::instance())
+      m_menu(new PopupMenuManager(this))
 {
     initeffectPlay();
     initMenu();
     initShortcut();
 
-    connect(m_sManager, &SignalManager::startSlideShow,
+    connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
 }
 
@@ -67,10 +67,10 @@ void SlideShowPanel::backToLastPanel()
     showNormal();
 
     if (m_lastPanel) {
-        emit m_sManager->gotoPanel(m_lastPanel);
+        emit dApp->signalM->gotoPanel(m_lastPanel);
     }
     else {
-        emit m_sManager->gotoTimelinePanel();
+        emit dApp->signalM->gotoTimelinePanel();
     }
 
     // Clear cache
@@ -149,7 +149,7 @@ void SlideShowPanel::startSlideShow(ModulePanel *lastPanel,
     m_player->setCurrentImage(path);
     m_player->start();
 
-    emit m_sManager->gotoPanel(this);
+    emit dApp->signalM->gotoPanel(this);
     showFullScreen();
 }
 
@@ -168,9 +168,9 @@ void SlideShowPanel::showFullScreen()
     window()->showFullScreen();
 
     TIMER_SINGLESHOT(300, {
-    emit m_sManager->hideBottomToolbar(true);
-    emit m_sManager->hideExtensionPanel(true);
-    emit m_sManager->hideTopToolbar(true);
+    emit dApp->signalM->hideBottomToolbar(true);
+    emit dApp->signalM->hideExtensionPanel(true);
+    emit dApp->signalM->hideTopToolbar(true);
     setImage(getFitImage(m_player->currentImagePath()));
 
                          }, this)

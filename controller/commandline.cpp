@@ -1,11 +1,11 @@
 #include "commandline.h"
-#include "frame/mainwindow.h"
-#include "utils/imageutils.h"
-#include "utils/baseutils.h"
+#include "application.h"
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
-#include <QApplication>
+#include "frame/mainwindow.h"
+#include "utils/imageutils.h"
+#include "utils/baseutils.h"
 #include <QCommandLineOption>
 #include <QDBusConnection>
 #include <QDebug>
@@ -78,19 +78,18 @@ void CommandLine::addOption(const CMOption *option)
 
 bool CommandLine::processOption()
 {
-    SignalManager *sm = SignalManager::instance();
-    DeepinImageViewerDBus *dd = new DeepinImageViewerDBus(sm);
+    DeepinImageViewerDBus *dd = new DeepinImageViewerDBus(dApp->signalM);
     Q_UNUSED(dd);
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
     if (names.isEmpty() && pas.isEmpty()) {
         if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
-                QDBusConnection::sessionBus().registerObject(DBUS_PATH, sm)) {
+                QDBusConnection::sessionBus().registerObject(DBUS_PATH, dApp->signalM)) {
             MainWindow *w = new MainWindow(true);
 
             w->show();
-            emit sm->gotoTimelinePanel();
+            emit dApp->signalM->gotoTimelinePanel();
 
             return true;
         }
@@ -100,7 +99,8 @@ bool CommandLine::processOption()
         }
     }
     else {
-        DIVDBusController *dc = new DIVDBusController(sm);
+        DIVDBusController *dc = new DIVDBusController(dApp->signalM);
+        Q_UNUSED(dc)
 
         QString name;
         QString value;
@@ -121,8 +121,8 @@ bool CommandLine::processOption()
             w->show();
             // Load image after all UI elements has been init
             // BottomToolbar pos not correct on init
-            emit sm->hideBottomToolbar(true);
-            emit sm->enableMainMenu(false);
+            emit dApp->signalM->hideBottomToolbar(true);
+            emit dApp->signalM->enableMainMenu(false);
             TIMER_SINGLESHOT(50, {
             SignalManager::ViewInfo vinfo;
             vinfo.album = "";
@@ -131,8 +131,8 @@ bool CommandLine::processOption()
             vinfo.path = value;
             vinfo.paths = QStringList();
 
-            emit sm->viewImage(vinfo);
-                             },value, sm)
+            emit dApp->signalM->viewImage(vinfo);
+                             },value)
             return true;
         }
         else if (name == "a" || name == "album") {
@@ -146,7 +146,7 @@ bool CommandLine::processOption()
         }
         else if ((name == "w" || name == "wallpaper") && support) {
             qDebug() << "Set " << value << " as wallpaper.";
-            WallpaperSetter::instance()->setWallpaper(value);
+            dApp->wpSetter->setWallpaper(value);
         }
         else {
             m_cmdParser.showHelp();
@@ -169,7 +169,7 @@ DeepinImageViewerDBus::~DeepinImageViewerDBus()
 
 void DeepinImageViewerDBus::backToMainWindow() const
 {
-    emit SignalManager::instance()->gotoTimelinePanel();
+    emit dApp->signalM->gotoTimelinePanel();
 }
 
 void DeepinImageViewerDBus::enterAlbum(const QString &album)
@@ -187,5 +187,5 @@ void DeepinImageViewerDBus::searchImage(const QString &keyWord)
 void DeepinImageViewerDBus::editImage(const QString &path)
 {
     qDebug() << "Go to edit view and begin editing: " << path;
-    emit SignalManager::instance()->editImage(path);
+    emit dApp->signalM->editImage(path);
 }

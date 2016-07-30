@@ -14,7 +14,6 @@
 class PopupMenuManager;
 class QStandardItemModel;
 class QStackedWidget;
-class SignalManager;
 class ThumbnailListView;
 class ImagesView : public QScrollArea
 {
@@ -94,8 +93,6 @@ private:
     ThumbnailListView *m_view;
     QVBoxLayout *m_contentLayout;
     PopupMenuManager *m_popupMenu;
-    DatabaseManager *m_dbManager;
-    SignalManager *m_sManager;
 };
 
 #endif // IMAGESVIEW_H

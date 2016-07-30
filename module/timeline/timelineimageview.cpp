@@ -1,8 +1,9 @@
+#include "application.h"
 #include "timelineimageview.h"
+#include "controller/configsetter.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include "controller/importer.h"
-#include "controller/configsetter.h"
 #include "utils/baseutils.h"
 #include "widgets/scrollbar.h"
 #include <math.h>
@@ -41,9 +42,9 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
 
     qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
     // Watching import thread
-    connect(SignalManager::instance(), &SignalManager::imageInserted,
+    connect(dApp->signalM, &SignalManager::imageInserted,
             this, &TimelineImageView::onImageInserted/*, Qt::QueuedConnection*/);
-    connect(SignalManager::instance(), &SignalManager::imageRemoved,
+    connect(dApp->signalM, &SignalManager::imageRemoved,
             this, &TimelineImageView::removeImage);
     installEventFilter(this);
 }
@@ -221,8 +222,7 @@ void TimelineImageView::insertReadyFrames()
         return;
     }
 
-    const QList<DatabaseManager::ImageInfo> infos =
-            DatabaseManager::instance()->getAllImageInfos();
+    const auto infos = dApp->databaseM->getAllImageInfos();
     // Load up to 100 images at initialization to accelerate rendering
     for (int i = 0; i < qMin(infos.length(), 100); i ++) {
         onImageInserted(infos[i]);
@@ -236,7 +236,7 @@ void TimelineImageView::insertReadyFrames()
         }
     }, this, infos);
 
-    const int iconSize = ConfigSetter::instance()->value(
+    const int iconSize = dApp->setter->value(
                 SETTINGS_GROUP,
                 SETTINGS_ICON_SCALE_KEY,
                 QVariant(0)).toInt() * 32 + MIN_ICON_SIZE;

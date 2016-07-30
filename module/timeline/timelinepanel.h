@@ -3,7 +3,6 @@
 
 #include "timelineimageview.h"
 #include "module/modulepanel.h"
-#include "controller/signalmanager.h"
 #include "controller/databasemanager.h"
 #include <dslider.h>
 #include <QDropEvent>
@@ -12,7 +11,6 @@
 #include <QStackedWidget>
 #include <QJsonObject>
 
-class ConfigSetter;
 class PopupMenuManager;
 class Slider;
 class TimelinePanel : public ModulePanel
@@ -80,12 +78,9 @@ private:
     QLabel *m_countLabel = NULL;
     Slider *m_slider;
 
-    ConfigSetter *m_setter;
     PopupMenuManager *m_popupMenu;
     TimelineImageView *m_view = NULL;
     QStackedWidget *m_mainStack = NULL;
-    DatabaseManager *m_dbManager;
-    SignalManager *m_sManager;
 };
 
 #endif // TIMELINEPANEL_H

@@ -1,4 +1,5 @@
 #include "albumdelegate.h"
+#include "application.h"
 #include "controller/databasemanager.h"
 #include "utils/imageutils.h"
 #include <QDateTime>
@@ -91,7 +92,7 @@ void AlbumDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     if (lineEdit) {
         QList<QVariant> olds = model->data(index, Qt::DisplayRole).toList();
         QList<QVariant> datas;
-        const QStringList l = DatabaseManager::instance()->getAlbumNameList();
+        const QStringList l = dApp->databaseM->getAlbumNameList();
         QString nName = lineEdit->text().trimmed();
         if (l.indexOf(nName) != -1 || nName.isEmpty()) {
             // Name is already exit in DB, do not rename by LineEdit's text
@@ -104,7 +105,7 @@ void AlbumDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
         }
 
         // Update database
-        DatabaseManager::instance()->renameAlbum(olds.first().toString(), nName);
+        dApp->databaseM->renameAlbum(olds.first().toString(), nName);
 
         model->setData(index, QVariant(datas), Qt::DisplayRole);
     }

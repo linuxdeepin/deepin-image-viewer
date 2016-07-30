@@ -1,14 +1,15 @@
 #include "imageinfowidget.h"
-#include "utils/imageutils.h"
+#include "application.h"
 #include "controller/signalmanager.h"
+#include "utils/imageutils.h"
 #include <QApplication>
-#include <QScrollBar>
-#include <QLabel>
-#include <QFormLayout>
 #include <QBoxLayout>
-#include <QFileInfo>
 #include <QDateTime>
+#include <QFileInfo>
+#include <QFormLayout>
+#include <QLabel>
 #include <QPushButton>
+#include <QScrollBar>
 #include <QtDebug>
 
 class ViewSeparator : public QLabel {
@@ -76,7 +77,7 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
             updateInfo();
         }
 
-        emit SignalManager::instance()->updateExtensionPanelRect();
+        emit dApp->signalM->updateExtensionPanelRect();
     });
     contentLayout->addSpacing(15);
     contentLayout->addWidget(button);

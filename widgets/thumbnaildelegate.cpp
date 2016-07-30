@@ -1,16 +1,17 @@
 #include "thumbnaildelegate.h"
-#include "utils/imageutils.h"
+#include "application.h"
 #include "controller/databasemanager.h"
-#include <QtConcurrent>
+#include "utils/imageutils.h"
 #include <QDateTime>
-#include <QMutex>
-#include <QLineEdit>
-#include <QPainter>
 #include <QDebug>
-#include <QSvgRenderer>
 #include <QHBoxLayout>
+#include <QLineEdit>
+#include <QMutex>
+#include <QPainter>
 #include <QPixmapCache>
 #include <QRunnable>
+#include <QSvgRenderer>
+#include <QtConcurrent>
 #include <QThreadPool>
 
 namespace {
@@ -193,7 +194,7 @@ CacheRunner::CacheRunner(const QString &name) :
 
 void CacheRunner::run()
 {
-    auto info = DatabaseManager::instance()->getImageInfoByName(m_name);
+    auto info = dApp->databaseM->getImageInfoByName(m_name);
     if (! info.thumbnail.isNull()) {
         PixmapCacheManager::instance()->remove(m_name);
         PixmapCacheManager::instance()->remove(m_name + "_low");

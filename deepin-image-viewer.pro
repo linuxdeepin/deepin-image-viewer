@@ -25,7 +25,8 @@ include (utils/utils.pri)
 include (controller/controller.pri)
 include (service/service.pri)
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    application.cpp
 
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-image-viewer
@@ -63,3 +64,6 @@ INSTALLS = binary desktop dbus_service icons manual manual_icon translations
 
 RESOURCES += \
     resources.qrc
+
+HEADERS += \
+    application.h

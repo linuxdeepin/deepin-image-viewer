@@ -1,5 +1,6 @@
 #include "thumbnaillistview.h"
 #include "thumbnaildelegate.h"
+#include "application.h"
 #include "controller/databasemanager.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
@@ -30,15 +31,15 @@ QString updateThumbnailQuality(const QString &name)
 {
     using namespace utils::image;
     const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-    auto info = DatabaseManager::instance()->getImageInfoByName(name);
+    auto info = dApp->databaseM->getImageInfoByName(name);
     if (info.thumbnail.isNull()) {
         info.thumbnail = cutSquareImage(scaleImage(info.path), ms);
         // Still can't get thumbnail, it must be not supported
         if (info.thumbnail.isNull()) {
-            DatabaseManager::instance()->removeImage(name);
+            dApp->databaseM->removeImage(name);
             return name;
         }
-        DatabaseManager::instance()->updateImageInfo(info);
+        dApp->databaseM->updateImageInfo(info);
     }
 
     return name;

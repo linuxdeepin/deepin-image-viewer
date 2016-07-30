@@ -1,16 +1,17 @@
 #include "viewpanel.h"
-#include "imageinfowidget.h"
+#include "application.h"
 #include "contents/ttmcontent.h"
 #include "contents/ttlcontent.h"
-#include "controller/signalmanager.h"
-#include "controller/popupmenumanager.h"
-#include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
 #include "controller/databasemanager.h"
 #include "controller/exporter.h"
-#include "widgets/imagebutton.h"
+#include "controller/popupmenumanager.h"
+#include "controller/signalmanager.h"
+#include "controller/wallpapersetter.h"
+#include "imageinfowidget.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
+#include "widgets/imagebutton.h"
 #include <QApplication>
 #include <QDebug>
 #include <QDesktopWidget>
@@ -43,8 +44,7 @@ const QString FAVORITES_ALBUM_NAME = "My favorites";
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent),
-      m_popupMenu(new PopupMenuManager(this)),
-      m_sManager(SignalManager::instance())
+      m_popupMenu(new PopupMenuManager(this))
 {
     m_vinfo.inDatabase = false;
 
@@ -75,20 +75,20 @@ void ViewPanel::initConnect() {
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ViewPanel::onMenuItemClicked);
 
-    connect(m_sManager, &SignalManager::gotoPanel,
+    connect(dApp->signalM, &SignalManager::gotoPanel,
             this, [=] (ModulePanel *p){
         showToolbar(true);
         if (p != this) {
             showToolbar(false);
         }
         else {
-            emit m_sManager->hideBottomToolbar(true);
+            emit dApp->signalM->hideBottomToolbar(true);
         }
     });
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
-    connect(m_sManager, &SignalManager::viewImage,
+    connect(dApp->signalM, &SignalManager::viewImage,
             this, &ViewPanel::onViewImage);
-    connect(m_sManager, &SignalManager::removeFromAlbum,
+    connect(dApp->signalM, &SignalManager::removeFromAlbum,
             this, [=] (QString album, QString name) {
         if (isVisible()
                 && ! m_vinfo.album.isEmpty()
@@ -185,9 +185,9 @@ void ViewPanel::showToolbar(bool isTop)
 {
     TIMER_SINGLESHOT(SHOW_TOOLBAR_INTERVAL, {
     if (isTop)
-        emit m_sManager->showTopToolbar();
+        emit dApp->signalM->showTopToolbar();
     //       else
-    //           emit m_sManager->showBottomToolbar();
+    //           emit dApp->signalM->showBottomToolbar();
                      }, this, isTop);
 }
 
@@ -208,8 +208,8 @@ void ViewPanel::showFullScreen()
     window()->showFullScreen();
 
     TIMER_SINGLESHOT(300,
-    {Q_EMIT m_sManager->hideExtensionPanel(true);
-     Q_EMIT m_sManager->hideTopToolbar(true);}, this);
+    {Q_EMIT dApp->signalM->hideExtensionPanel(true);
+     Q_EMIT dApp->signalM->hideTopToolbar(true);}, this);
 }
 
 bool ViewPanel::mouseContainsByTopToolbar(const QPoint &pos)
@@ -244,10 +244,6 @@ QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
         DatabaseManager::ImageInfo imgInfo;
         imgInfo.name = infos.at(i).fileName();
         imgInfo.path = infos.at(i).absoluteFilePath();
-//        imgInfo.time = utils::image::getCreateDateTime(imgInfo.path);
-//        imgInfo.albums = QStringList();
-//        imgInfo.labels = QStringList();
-//        imgInfo.thumbnail = utils::image::getThumbnail(imgInfo.path);
 
         imageInfos << imgInfo;
     }
@@ -267,13 +263,6 @@ const QStringList ViewPanel::paths() const
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
     return utils::image::getImagesInfo(QFileInfo(path).path(), false);
-}
-
-DatabaseManager *ViewPanel::dbManager() const
-{
-    // Use database will cause db file lock. There is no need to access the db
-    // if view image from file-manager
-    return DatabaseManager::instance();
 }
 
 QWidget *ViewPanel::toolbarBottomContent()
@@ -308,7 +297,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         QPixmapCache::remove(m_current->name);
     });
     connect(ttmc, &TTMContent::removed, this, [=] {
-        dbManager()->removeImage(m_current->name);
+        dApp->databaseM->removeImage(m_current->name);
         utils::base::trashFile(m_current->path);
         removeCurrentImage();
     });
@@ -394,8 +383,8 @@ void ViewPanel::enterEvent(QEvent *e)
     // Leave from toolbar and enter inside panel
     Q_UNUSED(e);
     if (window()->isFullScreen()) {
-//        Q_EMIT m_sManager->hideBottomToolbar();
-        Q_EMIT m_sManager->hideTopToolbar();
+//        Q_EMIT dApp->signalM->hideBottomToolbar();
+        Q_EMIT dApp->signalM->hideTopToolbar();
     }
 }
 
@@ -438,7 +427,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     if (vinfo.fullScreen) {
         showFullScreen();
     }
-    emit m_sManager->gotoPanel(this);
+    emit dApp->signalM->gotoPanel(this);
 
     TIMER_SINGLESHOT(DELAY_VIEW_INTERVAL, {
 
@@ -454,10 +443,10 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     else {
         if (vinfo.inDatabase) {
             if (vinfo.album.isEmpty()) {
-                m_infos = dbManager()->getAllImageInfos();
+                m_infos = dApp->databaseM->getAllImageInfos();
             }
             else {
-                m_infos = dbManager()->getImageInfosByAlbum(vinfo.album);
+                m_infos = dApp->databaseM->getImageInfosByAlbum(vinfo.album);
             }
         }
         else {
@@ -552,10 +541,10 @@ void ViewPanel::initStack()
     initViewContent();
     QFrame *vf = new QFrame;
     QVBoxLayout *vl = new QVBoxLayout(vf);
-    connect(m_sManager, &SignalManager::showTopToolbar, this, [=] {
+    connect(dApp->signalM, &SignalManager::showTopToolbar, this, [=] {
         vl->setContentsMargins(0, TOP_TOOLBAR_HEIGHT, 0, 0);
     });
-    connect(m_sManager, &SignalManager::hideTopToolbar, this, [=] {
+    connect(dApp->signalM, &SignalManager::hideTopToolbar, this, [=] {
         vl->setContentsMargins(0, 0, 0, 0);
     });
     vl->addWidget(m_view);
@@ -667,7 +656,7 @@ QString ViewPanel::createMenuContent()
     items.append(createMenuItem(IdSeparator, "", true));
     //        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
     if (m_vinfo.inDatabase) {
-        if (!dbManager()->imageExistAlbum(m_current->name,
+        if (!dApp->databaseM->imageExistAlbum(m_current->name,
                                           FAVORITES_ALBUM_NAME)) {
             items.append(createMenuItem(IdAddToFavorites,
                                         tr("Add to My favorites"), false, "Ctrl+K"));
@@ -719,7 +708,7 @@ QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
     if (! m_vinfo.inDatabase) {
         return QJsonObject();
     }
-    const QStringList albums = dbManager()->getAlbumNameList();
+    const QStringList albums = dApp->databaseM->getAlbumNameList();
 
     QJsonArray items;
     if (! m_infos.isEmpty()) {
@@ -727,7 +716,7 @@ QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
             if (album == FAVORITES_ALBUM_NAME || album == "Recent imported") {
                 continue;
             }
-            const QStringList names = dbManager()->getImageNamesByAlbum(album);
+            const QStringList names = dApp->databaseM->getImageNamesByAlbum(album);
             if (isRemove) {
                 if (names.indexOf(m_current->name) != -1) {
                     album = tr("Remove from <<%1>>").arg(album);
@@ -769,9 +758,9 @@ void ViewPanel::backToLastPanel()
         showNormal();
     }
     if (m_vinfo.lastPanel) {
-        emit m_sManager->gotoPanel(m_vinfo.lastPanel);
-        emit m_sManager->hideExtensionPanel(true);
-        emit m_sManager->showBottomToolbar();
+        emit dApp->signalM->gotoPanel(m_vinfo.lastPanel);
+        emit dApp->signalM->hideExtensionPanel(true);
+        emit dApp->signalM->showBottomToolbar();
     }
     else {
         // Use dbus interface to make sure it will always back to the
@@ -796,43 +785,43 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         toggleFullScreen();
         break;
     case IdStartSlideShow:
-        emit m_sManager->startSlideShow(this, paths(), path);
+        emit dApp->signalM->startSlideShow(this, paths(), path);
         break;
     case IdAddToAlbum:
-        dbManager()->insertImageIntoAlbum(albumName, name, time);
+        dApp->databaseM->insertImageIntoAlbum(albumName, name, time);
         break;
     case IdExport:
     {
         QStringList exportFile;
         exportFile << path;
-        Exporter::instance()->exportImage(exportFile);
+        dApp->exporter->exportImage(exportFile);
         break;
     }
     case IdCopy:
         copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash:
-        dbManager()->removeImage(name);
+        dApp->databaseM->removeImage(name);
         trashFile(path);
         removeCurrentImage();
         break;
     case IdRemoveFromTimeline:
-        dbManager()->removeImage(name);
+        dApp->databaseM->removeImage(name);
         removeCurrentImage();
         break;
     case IdRemoveFromAlbum:
-        dbManager()->removeImageFromAlbum(m_vinfo.album, name);
+        dApp->databaseM->removeImageFromAlbum(m_vinfo.album, name);
         break;
     case IdEdit:
-        m_sManager->editImage(m_view->imagePath());
+        dApp->signalM->editImage(m_view->imagePath());
         break;
     case IdAddToFavorites:
-        dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name, time);
+        dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name, time);
         emit updateCollectButton();
         updateMenuContent();
         break;
     case IdRemoveFromFavorites:
-        dbManager()->removeImageFromAlbum(FAVORITES_ALBUM_NAME, name);
+        dApp->databaseM->removeImageFromAlbum(FAVORITES_ALBUM_NAME, name);
         emit updateCollectButton();
         updateMenuContent();
         break;
@@ -859,13 +848,13 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdLabel:
         break;
     case IdSetAsWallpaper:
-        WallpaperSetter::instance()->setWallpaper(path);
+        dApp->wpSetter->setWallpaper(path);
         break;
     case IdDisplayInFileManager:
-        emit m_sManager->showInFileManager(path);
+        emit dApp->signalM->showInFileManager(path);
         break;
     case IdImageInfo:
-        emit m_sManager->showExtensionPanel();
+        emit dApp->signalM->showExtensionPanel();
         break;
     default:
         break;
@@ -923,11 +912,11 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     emit imageChanged(m_view->imageName(), m_view->imagePath());
     if (! inDB) {
-        emit m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-        emit m_sManager->updateExtensionPanelContent(extensionPanelContent());
-        emit m_sManager->showTopToolbar();
-        emit m_sManager->hideBottomToolbar(true);
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
+        emit dApp->signalM->showTopToolbar();
+        emit dApp->signalM->hideBottomToolbar(true);
     }
     else {
         emit updateCollectButton();

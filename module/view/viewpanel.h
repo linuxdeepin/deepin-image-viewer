@@ -5,7 +5,6 @@
 #include "imageinfowidget.h"
 #include "navigationwidget.h"
 #include "controller/databasemanager.h"
-#include "controller/signalmanager.h"
 #include "widgets/imagebutton.h"
 
 #include <QFileInfo>
@@ -102,7 +101,6 @@ private:
     bool mouseContainsByBottomToolbar(const QPoint &pos);
     int imageIndex(const QString &name);
 
-    DatabaseManager *dbManager() const;
     QFileInfoList getFileInfos(const QString &path);
     QList<DatabaseManager::ImageInfo> getImageInfos(
             const QFileInfoList &infos);
@@ -117,7 +115,6 @@ private:
     NavigationWidget *m_nav = NULL;
     PopupMenuManager *m_popupMenu;
     SignalManager::ViewInfo m_vinfo;
-    SignalManager *m_sManager;
     QStackedWidget *m_stack;
     ImageButton* m_previousBtn;
     ImageButton* m_nextBtn;

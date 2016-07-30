@@ -1,18 +1,18 @@
 #include "importer.h"
-#include "utils/imageutils.h"
+#include "application.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include <libexif/exif-data.h>
-#include <QDirIterator>
-#include <QFileInfo>
-#include <QFileDialog>
+#include "utils/imageutils.h"
 #include <QDebug>
 #include <QDir>
+#include <QDirIterator>
+#include <QFileDialog>
+#include <QFileInfo>
 #include <QTimer>
 
 Importer::Importer(QObject *parent)
     : QObject(parent),
-      m_dbManager(DatabaseManager::instance()),
       m_progress(1),
       m_imagesCount(0)
 {
@@ -140,7 +140,7 @@ void Importer::importDir(const QString &path, const QString &album)
         imgInfos << imgInfo;
     }
 
-    m_dbManager->insertImageInfos(imgInfos);
+    dApp->databaseM->insertImageInfos(imgInfos);
 
     emit importProgressChanged(1);
 }
@@ -159,7 +159,7 @@ void Importer::importFiles(const QStringList &files, const QString &album)
 
         imgInfos << imgInfo;
     }
-    m_dbManager->insertImageInfos(imgInfos);
+    dApp->databaseM->insertImageInfos(imgInfos);
 
     emit importProgressChanged(1);
 }
@@ -173,7 +173,7 @@ void Importer::onFutureWatcherFinish()
         m_progress = 1;
         m_albums.clear();
         emit importProgressChanged(m_progress);
-        emit SignalManager::instance()->showProcessTooltip(
+        emit dApp->signalM->showProcessTooltip(
                     tr("Imported successfully"), true);
     }
     else {

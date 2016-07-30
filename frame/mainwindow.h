@@ -6,7 +6,6 @@
 #include <QWidget>
 
 
-class ConfigSetter;
 class MainWindow : public WindowFrame
 {
 public:
@@ -19,7 +18,6 @@ protected:
 
 private:
     MainWidget *m_mainWidget;
-    ConfigSetter *m_setter;
 };
 
 #endif // MAINWINDOW_H

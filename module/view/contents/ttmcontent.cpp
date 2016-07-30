@@ -1,10 +1,10 @@
 #include "ttmcontent.h"
+#include "application.h"
 #include "controller/databasemanager.h"
-#include "controller/signalmanager.h"
-#include "widgets/imagebutton.h"
 #include "utils/baseutils.h"
-#include <QBoxLayout>
+#include "widgets/imagebutton.h"
 #include <QDebug>
+#include <QBoxLayout>
 
 namespace {
 
@@ -13,8 +13,7 @@ const QString FAVORITES_ALBUM = "My favorites";
 }  // namespace
 
 TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
-    : QWidget(parent),
-      m_sManager(SignalManager::instance())
+    : QWidget(parent)
 {
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(0, 0, 0, 0);
@@ -68,13 +67,13 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
             updateCollectButton();
         });
         connect(m_clBT, &ImageButton::clicked, [=] {
-            if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
-                dbManager()->removeImageFromAlbum(FAVORITES_ALBUM,m_imageName);
+            if (dApp->databaseM->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
+                dApp->databaseM->removeImageFromAlbum(FAVORITES_ALBUM,m_imageName);
             }
             else {
-                DatabaseManager::ImageInfo info =
-                        dbManager()->getImageInfoByName(m_imageName);
-                dbManager()->insertImageIntoAlbum(FAVORITES_ALBUM,
+                auto info =
+                        dApp->databaseM->getImageInfoByName(m_imageName);
+                dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM,
                     m_imageName, utils::base::timeToString(info.time));
             }
             updateCollectButton();
@@ -158,11 +157,6 @@ void TTMContent::onImageChanged(const QString &name, const QString &path)
         emit imageEmpty(false);
 }
 
-DatabaseManager *TTMContent::dbManager() const
-{
-    return DatabaseManager::instance();
-}
-
 void TTMContent::updateCollectButton()
 {
     if (! m_clBT)
@@ -172,7 +166,7 @@ void TTMContent::updateCollectButton()
         m_clBT->setHoverPic(":/images/resources/images/collect_disable.png");
         m_clBT->setPressPic(":/images/resources/images/collect_disable.png");
     }
-    else if (dbManager()->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
+    else if (dApp->databaseM->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setWhatsThis("RFFButton");
         m_clBT->setNormalPic(":/images/resources/images/collect_active.png");

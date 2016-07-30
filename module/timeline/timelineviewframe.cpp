@@ -1,17 +1,17 @@
 #include "timelineviewframe.h"
+#include "application.h"
 #include "controller/wallpapersetter.h"
-#include "controller/signalmanager.h"
-#include "widgets/thumbnaildelegate.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "widgets/thumbnaildelegate.h"
 #include <QBuffer>
-#include <QResizeEvent>
 #include <QDateTime>
 #include <QDebug>
 #include <QFileInfo>
-#include <QPainter>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QPainter>
+#include <QResizeEvent>
 
 namespace {
 
@@ -23,9 +23,7 @@ const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 TimelineViewFrame::TimelineViewFrame(const QString &timeline,
                                      QWidget *parent)
     : QFrame(parent),
-      m_timeline(timeline),
-      m_dbManager(DatabaseManager::instance()),
-      m_sManager(SignalManager::instance())
+      m_timeline(timeline)
 {
     initListView();
 
@@ -64,7 +62,7 @@ void TimelineViewFrame::initListView()
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         const QString path = m_view->itemInfo(index).path;
-        emit viewImage(path, m_dbManager->getAllImagesPath());
+        emit viewImage(path, dApp->databaseM->getAllImagesPath());
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
@@ -77,8 +75,8 @@ void TimelineViewFrame::initListView()
 void TimelineViewFrame::updateThumbnail(const QString &name)
 {
     const int index = m_view->indexOf(name);
-    if (index != -1 && m_dbManager->imageExist(name)) {
-        m_dbManager->updateThumbnail(name);
+    if (index != -1 && dApp->databaseM->imageExist(name)) {
+        dApp->databaseM->updateThumbnail(name);
         m_view->updateThumbnail(name);
     }
 }

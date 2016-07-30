@@ -1,4 +1,5 @@
 #include "albumpanel.h"
+#include "application.h"
 #include "createalbumdialog.h"
 #include "importdirdialog.h"
 #include "controller/configsetter.h"
@@ -6,14 +7,14 @@
 #include "controller/importer.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
-#include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
+#include "widgets/importframe.h"
 #include "widgets/slider.h"
-#include <QFileInfo>
-#include <QDropEvent>
-#include <QPushButton>
-#include <QPointer>
 #include <QDebug>
+#include <QDropEvent>
+#include <QFileInfo>
+#include <QPointer>
+#include <QPushButton>
 
 namespace {
 
@@ -27,10 +28,7 @@ const QString SETTINGS_IMAGE_ICON_SCALE_KEY = "ImageIconScale";
 }   // namespace
 
 AlbumPanel::AlbumPanel(QWidget *parent)
-    : ModulePanel(parent),
-      m_setter(ConfigSetter::instance()),
-      m_dbManager(DatabaseManager::instance()),
-      m_sManager(SignalManager::instance())
+    : ModulePanel(parent)
 {
     setAcceptDrops(true);
     initMainStackWidget();
@@ -52,13 +50,13 @@ QWidget *AlbumPanel::toolbarBottomContent()
         if (m_stackWidget->currentWidget() == m_imagesView) {
             int newSize = MIN_ICON_SIZE + multiple * 32;
             m_imagesView->setIconSize(QSize(newSize, newSize));
-            m_setter->setValue(SETTINGS_GROUP, SETTINGS_IMAGE_ICON_SCALE_KEY,
-                               QVariant(m_slider->value()));
+            dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_IMAGE_ICON_SCALE_KEY,
+                                  QVariant(m_slider->value()));
         }
         else {
             m_albumsView->setItemSizeMultiple(multiple);
-            m_setter->setValue(SETTINGS_GROUP, SETTINGS_ALBUM_ICON_SCALE_KEY,
-                               QVariant(m_slider->value()));
+            dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_ALBUM_ICON_SCALE_KEY,
+                                  QVariant(m_slider->value()));
         }
     });
 
@@ -69,10 +67,10 @@ QWidget *AlbumPanel::toolbarBottomContent()
     updateAlbumCount();
     updateImagesCount();
 
-    connect(m_sManager, &SignalManager::addImageFromTimeline, this, [=] {
+    connect(dApp->signalM, &SignalManager::addImageFromTimeline, this, [=] {
         m_adding = true;
-        emit m_sManager->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit m_sManager->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     });
 
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
@@ -90,7 +88,7 @@ void AlbumPanel::keyPressEvent(QKeyEvent *e) {
         m_stackWidget->setCurrentWidget(m_albumsView);
         // Make sure top toolbar content still show as album content
         // during adding images from timeline
-        emit m_sManager->gotoPanel(this);
+        emit dApp->signalM->gotoPanel(this);
     }
 }
 
@@ -99,28 +97,28 @@ void AlbumPanel::mousePressEvent(QMouseEvent *e) {
         m_stackWidget->setCurrentWidget(m_albumsView);
         // Make sure top toolbar content still show as album content
         // during adding images from timeline
-        emit m_sManager->gotoPanel(this);
+        emit dApp->signalM->gotoPanel(this);
     }
 }
 
 void AlbumPanel::initConnection()
 {
 
-    connect(m_sManager, &SignalManager::createAlbum,
+    connect(dApp->signalM, &SignalManager::createAlbum,
             this, &AlbumPanel::onCreateAlbum);
-    connect(m_sManager, &SignalManager::importDir,
+    connect(dApp->signalM, &SignalManager::importDir,
             this, &AlbumPanel::showImportDirDialog);
-    connect(m_sManager, &SignalManager::imageCountChanged,
+    connect(dApp->signalM, &SignalManager::imageCountChanged,
             this, &AlbumPanel::onImageCountChanged);
-    connect(m_sManager, &SignalManager::imageAddedToAlbum, this, [=] {
+    connect(dApp->signalM, &SignalManager::imageAddedToAlbum, this, [=] {
         m_adding = false;
         updateImagesCount();
     });
-    connect(m_sManager, &SignalManager::gotoAlbumPanel,
+    connect(dApp->signalM, &SignalManager::gotoAlbumPanel,
             this, [=] (const QString &album) {
-        emit m_sManager->gotoPanel(this);
-        emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
-        emit m_sManager->showBottomToolbar();
+        emit dApp->signalM->gotoPanel(this);
+        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+        emit dApp->signalM->showBottomToolbar();
 
         if (! album.isEmpty()) {
             onOpenAlbum(album);
@@ -128,7 +126,7 @@ void AlbumPanel::initConnection()
 
         TIMER_SINGLESHOT(100, {
             if (m_adding) {
-                emit m_sManager->addImageFromTimeline(m_currentAlbum);
+                emit dApp->signalM->addImageFromTimeline(m_currentAlbum);
             }
         },
         this);
@@ -154,7 +152,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
             m_stackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
             // during adding images from timeline
-            emit m_sManager->gotoAlbumPanel();
+            emit dApp->signalM->gotoAlbumPanel();
         });
         returnButton->setToolTip(tr("Back"));
 
@@ -183,7 +181,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     timelineButton->setHoverPic(":/images/resources/images/timeline_hover.png");
     connect(timelineButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Timeline Panel...";
-        emit m_sManager->gotoTimelinePanel();
+        emit dApp->signalM->gotoTimelinePanel();
     });
     timelineButton->setToolTip(tr("Timeline"));
 
@@ -198,7 +196,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
 //    searchButton->setPressPic(":/images/resources/images/search_press_24px.png");
 //    connect(searchButton, &ImageButton::clicked, this, [=] {
 //        qDebug() << "Change to Search Panel...";
-//        emit m_sManager->gotoSearchPanel();
+//        emit dApp->signalM->gotoSearchPanel();
 //    });
 //    searchButton->setToolTip("Search");
 
@@ -234,14 +232,14 @@ void AlbumPanel::dropEvent(QDropEvent *event)
                 showImportDirDialog(path);
             }
             else {
-                Importer::instance()->importDir(path, m_currentAlbum);
+                dApp->importer->importDir(path, m_currentAlbum);
             }
         }
         else {
             files << path;
         }
     }
-    Importer::instance()->importFiles(files, withAlbum ? m_currentAlbum : "");
+    dApp->importer->importFiles(files, withAlbum ? m_currentAlbum : "");
 }
 
 void AlbumPanel::dragEnterEvent(QDragEnterEvent *event)
@@ -259,7 +257,7 @@ void AlbumPanel::initMainStackWidget()
     importFrame->setButtonText(tr("Import"));
     importFrame->setTitle(tr("Import or drag image to timeline"));
     connect(importFrame, &ImportFrame::clicked, this, [=] {
-        Importer::instance()->showImportDialog();
+        dApp->importer->showImportDialog();
     });
 
     m_stackWidget = new QStackedWidget;
@@ -268,11 +266,11 @@ void AlbumPanel::initMainStackWidget()
     m_stackWidget->addWidget(m_albumsView);
     m_stackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
-    m_stackWidget->setCurrentIndex(m_dbManager->imageCount() > 0 ? 1 : 0);
+    m_stackWidget->setCurrentIndex(dApp->databaseM->imageCount() > 0 ? 1 : 0);
     connect(m_stackWidget, &QStackedWidget::currentChanged, this, [=] {
         updateImagesCount();
         updateAlbumCount();
-        emit m_sManager->updateTopToolbarLeftContent(
+        emit dApp->signalM->updateTopToolbarLeftContent(
                     toolbarTopLeftContent());
     });
 
@@ -294,7 +292,7 @@ void AlbumPanel::initAlbumsView()
             this, &AlbumPanel::updateAlbumCount);
     connect(m_albumsView, &AlbumsView::startSlideShow,
             this, [=] (const QStringList &paths) {
-        emit m_sManager->startSlideShow(this, paths);
+        emit dApp->signalM->startSlideShow(this, paths);
     });
 }
 
@@ -303,7 +301,7 @@ void AlbumPanel::initImagesView()
     m_imagesView = new ImagesView(this);
     connect(m_imagesView, &ImagesView::startSlideShow,
             this, [=] (const QStringList &paths, const QString &path) {
-        emit m_sManager->startSlideShow(this, paths, path);
+        emit dApp->signalM->startSlideShow(this, paths, path);
     });
     connect(m_imagesView, &ImagesView::viewImage,
             this, [=] (const QString &path, const QStringList &paths, bool f) {
@@ -314,20 +312,20 @@ void AlbumPanel::initImagesView()
         vinfo.lastPanel = this;
         vinfo.path = path;
         vinfo.paths = paths;
-        emit m_sManager->viewImage(vinfo);
+        emit dApp->signalM->viewImage(vinfo);
     });
-    connect(m_sManager, &SignalManager::insertIntoAlbum,
+    connect(dApp->signalM, &SignalManager::insertIntoAlbum,
             this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
-    connect(m_sManager, &SignalManager::removeFromAlbum,
+    connect(dApp->signalM, &SignalManager::removeFromAlbum,
             this, [=] (const QString &album, const QString &name) {
         if (album == m_imagesView->getCurrentAlbum())
         m_imagesView->removeItem(name);
         updateImagesCount();
     });
-    connect(Importer::instance(), &Importer::importProgressChanged, this, [=] (double v) {
+    connect(dApp->importer, &Importer::importProgressChanged, this, [=] (double v) {
         if (v == 1) {
-            auto infos = m_dbManager->getAllImageInfos();
-            QStringList names = m_dbManager->getImageNamesByAlbum(m_currentAlbum);
+            auto infos = dApp->databaseM->getAllImageInfos();
+            QStringList names = dApp->databaseM->getImageNamesByAlbum(m_currentAlbum);
             for (auto info : infos) {
                 // The albums read from ImageTable is old
                 // Read DB one to improve the speed
@@ -366,12 +364,12 @@ void AlbumPanel::updateImagesCount()
             (count <= 1 ? tr("image") : tr("images"));
     m_countLabel->setText(text);
 
-    int fontHeight = utils::base::stringHeight(m_countLabel->font(), m_countLabel->text());
+    int fontHeight = utils::base::stringHeight(m_countLabel->font(),
+                                               m_countLabel->text());
     m_countLabel->setMinimumHeight(fontHeight);
 
-    m_slider->setValue(m_setter->value(SETTINGS_GROUP,
-                                       SETTINGS_IMAGE_ICON_SCALE_KEY,
-                                       QVariant(0)).toInt());
+    m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
+        SETTINGS_IMAGE_ICON_SCALE_KEY, QVariant(0)).toInt());
 
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
 }
@@ -385,14 +383,13 @@ void AlbumPanel::updateAlbumCount()
     if (m_stackWidget->currentWidget() == m_imagesView)
         return;
 
-    const int count = m_dbManager->albumsCount();
+    const int count = dApp->databaseM->albumsCount();
     QString text = QString::number(count) + " " +
             (count <= 1 ? tr("album") : tr("albums"));
     m_countLabel->setText(text);
 
-    m_slider->setValue(m_setter->value(SETTINGS_GROUP,
-                                       SETTINGS_ALBUM_ICON_SCALE_KEY,
-                                       QVariant(0)).toInt());
+    m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
+        SETTINGS_ALBUM_ICON_SCALE_KEY, QVariant(0)).toInt());
 
     //set width to 1px for layout center
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
@@ -458,9 +455,8 @@ void AlbumPanel::onOpenAlbum(const QString &album)
     m_currentAlbum = album;
 
     m_stackWidget->setCurrentWidget(m_imagesView);
-    const int multiple = m_setter->value(SETTINGS_GROUP,
-                                         SETTINGS_IMAGE_ICON_SCALE_KEY,
-                                         QVariant(0)).toInt();
+    const int multiple = dApp->setter->value(SETTINGS_GROUP,
+        SETTINGS_IMAGE_ICON_SCALE_KEY, QVariant(0)).toInt();
     int newSize = MIN_ICON_SIZE + multiple * 32;
     m_imagesView->setIconSize(QSize(newSize, newSize));
     m_imagesView->setAlbum(album);
@@ -478,7 +474,7 @@ void AlbumPanel::onCreateAlbum()
 void AlbumPanel::showEvent(QShowEvent *e)
 {
     // Make sure BottomContent have been init
-    emit m_sManager->updateBottomToolbarContent(toolbarBottomContent());
-    onImageCountChanged(m_dbManager->imageCount());
+    emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+    onImageCountChanged(dApp->databaseM->imageCount());
     ModulePanel::showEvent(e);
 }
