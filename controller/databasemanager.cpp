@@ -268,6 +268,12 @@ void DatabaseManager::removeImage(const QString &name)
         if (! query.exec()) {
             qWarning() << "Remove image from album failed: " << query.lastError();
         }
+        else {
+            QStringList al = getAlbumNameList();
+            for (QString album : al) {
+                emit dApp->signalM->removeFromAlbum(album, name);
+            }
+        }
 
         // Remove from images table
         query.prepare( QString( "DELETE FROM %1 WHERE filename = :name" )
@@ -276,9 +282,10 @@ void DatabaseManager::removeImage(const QString &name)
         if (!query.exec()) {
             qWarning() << "Remove image failed: " << query.lastError();
         }
-
-        emit dApp->signalM->imageCountChanged(imageCount());
-        emit dApp->signalM->imageRemoved(name);
+        else {
+            emit dApp->signalM->imageCountChanged(imageCount());
+            emit dApp->signalM->imageRemoved(name);
+        }
     }
 }
 
