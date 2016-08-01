@@ -23,7 +23,7 @@ public:
 
     QColor getBorderColor() const;
     void setBorderColor(const QColor &borderColor);
-
+    void setBlurBackground(bool blur = true);
 protected:
     void keyPressEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
@@ -43,6 +43,7 @@ private:
     int m_borderRadius = 0;
     int m_borderWidth = 0;
     QColor m_borderColor;
+    bool m_blur = true;
 };
 
 #endif // BLUREFRAME_H

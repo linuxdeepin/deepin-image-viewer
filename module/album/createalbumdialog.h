@@ -2,12 +2,14 @@
 #define CREATEALBUMDIALOG_H
 
 #include "widgets/bluredialog.h"
+#include <ddialog.h>
 
-class CreateAlbumDialog : public BlureDialog
+using namespace Dtk::Widget;
+class CreateAlbumDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit CreateAlbumDialog(QWidget *parent, QWidget *source);
+    explicit CreateAlbumDialog(QWidget *parent = 0);
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;

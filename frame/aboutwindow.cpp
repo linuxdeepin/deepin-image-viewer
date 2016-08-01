@@ -12,6 +12,7 @@ AboutWindow::AboutWindow(QWidget *parent, QWidget *source)
     : BlureFrame(parent, source)
 {
     setMinimumSize(380, 347);
+    setBlurBackground(false);
     initStyleSheet();
     setBorderRadius(4);
     setBorderWidth(1);

@@ -384,7 +384,7 @@ void AlbumPanel::showCreateDialog()
     if (! parentWidget()) {
         return;
     }
-    CreateAlbumDialog *d = new CreateAlbumDialog(this, parentWidget());
+    CreateAlbumDialog *d = new CreateAlbumDialog(this);
     connect(d, &CreateAlbumDialog::closed,
             d, &CreateAlbumDialog::deleteLater);
     const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
