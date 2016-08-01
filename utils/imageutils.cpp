@@ -18,6 +18,8 @@ namespace image {
 static ExifItem ExifDataBasics[] = {
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME,
      QT_TRANSLATE_NOOP("ExifItemName", "Name")},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_TYPE,
+     QT_TRANSLATE_NOOP("ExifItemName", "Type")},
     {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL,
      QT_TRANSLATE_NOOP("ExifItemName", "Date photoed")},
     {EXIF_IFD_0, EXIF_TAG_DATE_TIME,
@@ -32,6 +34,8 @@ static ExifItem ExifDataBasics[] = {
 static ExifItem ExifDataDetails[] = {
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME,
      QT_TRANSLATE_NOOP("ExifItemName", "Name")},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_TYPE,
+     QT_TRANSLATE_NOOP("ExifItemName", "Type")},
     {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL,
      QT_TRANSLATE_NOOP("ExifItemName", "Date photoed")},
     {EXIF_IFD_0, EXIF_TAG_DATE_TIME,
@@ -435,8 +439,10 @@ QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
         else {  // For get extend tag infomation
             switch (i->tag) {
             case EXIF_TAG_EXTEND_NAME:
-
                 dataMap.insert(i->name, fi.fileName());
+                break;
+            case EXIF_TAG_EXTEND_TYPE:
+                dataMap.insert(i->name, fi.suffix().toUpper());
                 break;
             case EXIF_TAG_EXTEND_RESOLUTION:
                 dataMap.insert(i->name, QString::number(img.width()) + "x" +
