@@ -189,7 +189,7 @@ void ViewPanel::updateMenuContent()
 void ViewPanel::showToolbar(bool isTop)
 {
     TIMER_SINGLESHOT(SHOW_TOOLBAR_INTERVAL, {
-    if (isTop)
+    if (isTop && ! window()->isFullScreen())
         emit dApp->signalM->showTopToolbar();
     //       else
     //           emit dApp->signalM->showBottomToolbar();
@@ -198,20 +198,39 @@ void ViewPanel::showToolbar(bool isTop)
 
 void ViewPanel::showNormal()
 {
-    if (m_isMaximized)
-        window()->showMaximized();
-    else
+    if (m_isMaximized) {
+        // FIXME the window-manager will alway start the growing-
+        // animation(expand from topleft to bottomright) when change the
+        // window's state to Qt::WindowMaximized, so change the flag temporarily
+        // to avoid the animation run
+        auto flags = window()->windowFlags();
+        window()->setWindowFlags(Qt::SplashScreen);
+        window()->show();
+        window()->setWindowFlags(flags);
+        TIMER_SINGLESHOT(50, {window()->showMaximized();}, this)
+    }
+    else {
         window()->showNormal();
+    }
+
     showToolbar(true);
-//    showToolbar(false);
 }
 
 void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
-    // Full screen then hide bars because hide animation depends on height()
-    window()->showFullScreen();
 
+    // FIXME the window-manager will alway start the growing-
+    // animation(expand from topleft to bottomright) when change the
+    // window's state to Qt::WindowMaximized, so change the flag temporarily
+    // to avoid the animation run
+    auto flags = window()->windowFlags();
+    window()->setWindowFlags(Qt::SplashScreen);
+    window()->show();
+    window()->setWindowFlags(flags);
+    TIMER_SINGLESHOT(50, {window()->showFullScreen();}, this)
+
+    // Full screen then hide bars because hide animation depends on height()
     TIMER_SINGLESHOT(300,
     {Q_EMIT dApp->signalM->hideExtensionPanel(true);
      Q_EMIT dApp->signalM->hideTopToolbar(true);}, this);
@@ -431,6 +450,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     m_nav->setImage(QImage());
     if (vinfo.fullScreen) {
         showFullScreen();
+        emit dApp->signalM->hideTopToolbar(true);
     }
     emit dApp->signalM->gotoPanel(this);
 
@@ -481,8 +501,13 @@ void ViewPanel::toggleFullScreen()
     }
 
     //FIXME For the position correction after fullscreen changed
-    TIMER_SINGLESHOT(500, {openImage(m_view->imagePath(), m_vinfo.inDatabase);
-                     }, this)
+    TIMER_SINGLESHOT(1000, {
+    // If image's size is smaller than window's size, set to 1:1 size
+    m_view->resetTransform();
+    if (m_view->windowRelativeScale() > 1 && ! window()->isFullScreen()) {
+        m_view->setScaleValue(1 / m_view->windowRelativeScale());
+    }
+    }, this)
 }
 
 bool ViewPanel::showPrevious()
@@ -907,7 +932,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     m_view->setImage(path);
 
     // If image's size is smaller than window's size, set to 1:1 size
-    if (m_view->windowRelativeScale() > 1) {
+    if (m_view->windowRelativeScale() > 1 && ! window()->isFullScreen()) {
         m_view->setScaleValue(1 / m_view->windowRelativeScale());
     }
     m_scaleLabel->hide();

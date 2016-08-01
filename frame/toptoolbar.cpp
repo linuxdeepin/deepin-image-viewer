@@ -74,11 +74,12 @@ bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Resize) {
-        if (window()->isMaximized() != m_maxb->isMaximized()) {
+        if (! window()->isFullScreen() &&
+                window()->isMaximized() != m_maxb->isMaximized()) {
             m_maxb->clicked();
         }
     }
-    else if (e->type() == QEvent::KeyPress) {
+    if (e->type() == QEvent::KeyPress) {
         QKeyEvent *ke = static_cast<QKeyEvent *>(e);
         if (ke && ke->key() == Qt::Key_F1) {
             showManual();
