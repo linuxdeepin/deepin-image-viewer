@@ -30,7 +30,7 @@ public:
 
 signals:
     void updateCollectButton();
-    void imageChanged(const QString &name, const QString &path);
+    void imageChanged(const QString &path, bool adaptScreen);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;

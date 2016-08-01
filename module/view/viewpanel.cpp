@@ -280,7 +280,6 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
     TTMContent *ttmc = new TTMContent(! m_vinfo.inDatabase);
-    ttmc->onImageChanged(m_view->imageName(), m_view->imagePath());
     connect(this, &ViewPanel::updateCollectButton,
             ttmc, &TTMContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::onImageChanged);
@@ -309,6 +308,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 
         m_scaleLabel->setText(QString("%1%").arg(int(m_view->scaleValue()*100)));
     });
+
     return ttmc;
 }
 
@@ -516,7 +516,7 @@ void ViewPanel::removeCurrentImage()
         if (! showPrevious()) {
             qDebug() << "No images to show!";
             m_nav->hide();
-            emit imageChanged("", "");
+            emit imageChanged("", true);
             m_stack->setCurrentIndex(1);
         }
     }
@@ -900,6 +900,13 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
 
     m_view->setImage(path);
+
+    // If image's size is smaller than window's size, set to 1:1 size
+    if (m_view->windowRelativeScale() > 1) {
+        m_view->setScaleValue(1 / m_view->windowRelativeScale());
+    }
+    m_scaleLabel->hide();
+
     m_nav->setImage(m_view->image());
 
     m_scaleLabel->setText(QString("%1%").arg(int(m_view->scaleValue()*100)));
@@ -910,7 +917,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     m_stack->setCurrentIndex(0);
 
-    emit imageChanged(m_view->imageName(), m_view->imagePath());
+    emit imageChanged(m_view->imagePath(), m_view->scaleValue() == 1);
     if (! inDB) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());

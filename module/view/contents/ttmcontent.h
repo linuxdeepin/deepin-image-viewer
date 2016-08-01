@@ -11,8 +11,9 @@ public:
     explicit TTMContent(bool fromFileManager, QWidget *parent = 0);
 
 public slots:
-    void onImageChanged(const QString &name, const QString &path);
+    void onImageChanged(const QString &path, bool adaptScreen);
     void updateCollectButton();
+    void updateAdaptButton(bool v);
 
 signals:
     void resetTransform(bool fitWindow);
@@ -24,6 +25,7 @@ signals:
 
 private:
     ImageButton *m_clBT = nullptr;
+    ImageButton *m_adaptButton = nullptr;
     QString m_imageName;
     QString m_imagePath;
 };
