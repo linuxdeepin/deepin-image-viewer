@@ -36,7 +36,7 @@ ImagesView::ImagesView(QWidget *parent)
     setVerticalScrollBar(new ScrollBar(this));
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    initStack();
+    initContent();
     updateMenuContents();
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &ImagesView::onMenuItemClicked);
@@ -48,25 +48,14 @@ void ImagesView::setAlbum(const QString &album)
 
     m_view->clearData();
     auto infos = dApp->databaseM->getImageInfosByAlbum(album);
-
-    // Load up to 100 images at initialization to accelerate rendering
-    const int preloadCount = 100;
-    for (int i = 0; i < qMin(infos.length(), preloadCount); i ++) {
-        insertItem(infos[i]);
+    for (auto info : infos) {
+        insertItem(info);
     }
-
-    TIMER_SINGLESHOT(500, {
-    if (infos.length() >= preloadCount) {
-        for (int i = preloadCount; i < infos.length(); i ++) {
-            insertItem(infos[i]);
-        }
-    }
-    }, this, infos);
 
     m_topTips->setAlbum(album);
 
     // Empty album, import first
-    updateStack();
+    updateContent();
 
 }
 
@@ -74,7 +63,7 @@ bool ImagesView::removeItem(const QString &name)
 {
     const bool state = m_view->removeItem(name);
 
-    updateStack();
+    updateContent();
 
     return state;
 }
@@ -208,7 +197,7 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info)
 
     m_view->insertItem(vi);
 
-    updateStack();
+    updateContent();
 }
 
 void ImagesView::updateThumbnail(const QString &path)
@@ -328,12 +317,16 @@ bool ImagesView::allInAlbum(const QStringList &names, const QString &album)
 
 void ImagesView::updateTopTipsRect()
 {
+    if (this->widget() != m_contentWidget) {
+        m_topTips->setVisible(false);
+        return;
+    }
     m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
     m_topTips->resize(width(), m_topTips->height());
     const int lm =
             - m_view->hOffset() + m_contentLayout->contentsMargins().left();
     m_topTips->setLeftMargin(lm);
-    m_topTips->setVisible(m_view->count() != 0);
+    m_topTips->setVisible(true);
 }
 
 QString ImagesView::getCurrentAlbum() const
@@ -395,39 +388,46 @@ void ImagesView::showEvent(QShowEvent *e)
     QScrollArea::showEvent(e);
 }
 
-void ImagesView::initStack()
+void ImagesView::initContent()
 {
-    QWidget *contentWidget = new QWidget;
-    contentWidget->setObjectName("ImagesViewContent");
-    m_contentLayout = new QVBoxLayout(contentWidget);
+    m_contentWidget = new QWidget;
+    m_contentWidget->setObjectName("ImagesViewContent");
+    m_contentLayout = new QVBoxLayout(m_contentWidget);
     m_contentLayout->setContentsMargins(10, 70, 6, 20);
 
-    ImportFrame *importFrame = new ImportFrame(this);
-    importFrame->setButtonText(tr("Add from timeline"));
-    importFrame->setTitle(
+    m_importFrame = new ImportFrame(this);
+    m_importFrame->setButtonText(tr("Add from timeline"));
+    m_importFrame->setTitle(
                 tr("Add image from timeline or drag image to this album"));
-    connect(importFrame, &ImportFrame::clicked, this, [=] {
+    connect(m_importFrame, &ImportFrame::clicked, this, [=] {
         emit dApp->signalM->addImageFromTimeline(m_album);
     });
 
     initListView();
     initTopTips();
 
-    m_stackWidget = new QStackedWidget;
-    m_stackWidget->addWidget(contentWidget);
-    m_stackWidget->addWidget(importFrame);
-
-    setWidget(m_stackWidget);
+    setWidget(m_contentWidget);
+    m_importFrame->setVisible(false);
 }
 
-void ImagesView::updateStack()
+void ImagesView::updateContent()
 {
-    if (m_view->count() == 0)
-        m_stackWidget->setCurrentIndex(1);
-    else
-        m_stackWidget->setCurrentIndex(0);
+    if (m_view->count() == 0) {
+        // For avoid widget destroy
+        takeWidget();
+        m_importFrame->setVisible(true);
+        m_contentWidget->setVisible(false);
+        setWidget(m_importFrame);
+    }
+    else {
+        // For avoid widget destroy
+        takeWidget();
+        m_importFrame->setVisible(false);
+        m_contentWidget->setVisible(true);
+        setWidget(m_contentWidget);
+        updateTopTipsRect();
+    }
 
-    updateTopTipsRect();
 }
 
 QJsonObject ImagesView::createAlbumMenuObj()

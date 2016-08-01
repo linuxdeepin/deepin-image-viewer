@@ -11,6 +11,8 @@
 ImportFrame::ImportFrame(QWidget *parent)
     : QWidget(parent)
 {
+    setStyleSheet(utils::base::getFileContent(
+                      ":/qss/resources/qss/ImportFrame.qss"));
     this->setAcceptDrops(true);
 
     QLabel* bgLabel = new QLabel();

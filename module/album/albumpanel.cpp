@@ -460,7 +460,7 @@ void AlbumPanel::onOpenAlbum(const QString &album)
     int newSize = MIN_ICON_SIZE + multiple * 32;
     m_imagesView->setIconSize(QSize(newSize, newSize));
     m_imagesView->setAlbum(album);
-    TIMER_SINGLESHOT(1000, {updateImagesCount();}, this);
+    TIMER_SINGLESHOT(200, {updateImagesCount();}, this);
 }
 
 void AlbumPanel::onCreateAlbum()

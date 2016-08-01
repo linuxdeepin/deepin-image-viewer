@@ -11,6 +11,7 @@
 #include <QKeyEvent>
 #include <QObject>
 
+class ImportFrame;
 class PopupMenuManager;
 class QStandardItemModel;
 class QStackedWidget;
@@ -67,10 +68,10 @@ private:
     };
 
     void initListView();
-    void initStack();
+    void initContent();
     void initTopTips();
     void updateMenuContents();
-    void updateStack();
+    void updateContent();
     void updateThumbnail(const QString &path);
     void updateTopTipsRect();
     void onMenuItemClicked(int menuId, const QString &text);
@@ -88,11 +89,12 @@ private:
 
 private:
     QString m_album;
-    QStackedWidget *m_stackWidget;
     TopAlbumTips *m_topTips;
     ThumbnailListView *m_view;
     QVBoxLayout *m_contentLayout;
     PopupMenuManager *m_popupMenu;
+    QWidget *m_contentWidget;
+    ImportFrame *m_importFrame;
 };
 
 #endif // IMAGESVIEW_H

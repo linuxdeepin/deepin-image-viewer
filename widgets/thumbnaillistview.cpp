@@ -202,9 +202,11 @@ int ThumbnailListView::hOffset() const
 const ThumbnailListView::ItemInfo ThumbnailListView::itemInfo(
         const QModelIndex &index)
 {
+    ItemInfo info;
+    if (! index.isValid())
+        return info;
     const QVariantList datas =
             index.model()->data(index, Qt::DisplayRole).toList();
-    ItemInfo info;
     info.name = datas[0].toString();
     info.path = datas[1].toString();
     info.tickable = datas[2].isValid() ? datas[2].toBool() : false;
