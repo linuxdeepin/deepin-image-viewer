@@ -128,7 +128,7 @@ void ViewPanel::initShortcut()
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         qreal v = m_view->scaleValue() + 0.1;
-        m_view->setScaleValue(qMin(v, 10.0));
+        m_view->setScaleValue(qMin(v, 20.0));
     });
 
     // Zoom in
@@ -136,7 +136,7 @@ void ViewPanel::initShortcut()
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         qreal v = m_view->scaleValue() - 0.1;
-        m_view->setScaleValue(qMax(v, 0.5));
+        m_view->setScaleValue(qMax(v, 0.02));
     });
 
     // Esc
