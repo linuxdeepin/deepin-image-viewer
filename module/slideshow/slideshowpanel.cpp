@@ -23,6 +23,11 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
             this, &SlideShowPanel::startSlideShow);
 }
 
+QString SlideShowPanel::moduleName()
+{
+    return "SlideshowPanel";
+}
+
 QWidget *SlideShowPanel::toolbarBottomContent()
 {
     return NULL;
@@ -70,7 +75,7 @@ void SlideShowPanel::backToLastPanel()
         emit dApp->signalM->gotoPanel(m_lastPanel);
     }
     else {
-        emit dApp->signalM->gotoTimelinePanel();
+        emit dApp->signalM->backToMainPanel();
     }
 
     // Clear cache

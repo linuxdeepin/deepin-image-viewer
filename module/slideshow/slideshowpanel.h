@@ -12,6 +12,7 @@ class SlideShowPanel : public ModulePanel
 public:
     explicit SlideShowPanel(QWidget *parent = 0);
 
+    QString moduleName() Q_DECL_OVERRIDE;
     QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;

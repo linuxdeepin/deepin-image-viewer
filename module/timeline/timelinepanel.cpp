@@ -46,6 +46,16 @@ TimelinePanel::TimelinePanel(QWidget *parent)
 
 }
 
+bool TimelinePanel::isMainPanel()
+{
+    return true;
+}
+
+QString TimelinePanel::moduleName()
+{
+    return "TimelinePanel";
+}
+
 QWidget *TimelinePanel::toolbarBottomContent()
 {
     QWidget *tBottomContent = new QWidget;

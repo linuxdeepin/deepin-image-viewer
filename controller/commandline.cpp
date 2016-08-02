@@ -89,7 +89,7 @@ bool CommandLine::processOption()
             MainWindow *w = new MainWindow(true);
 
             w->show();
-            emit dApp->signalM->gotoTimelinePanel();
+            emit dApp->signalM->backToMainPanel();
 
             return true;
         }
@@ -169,7 +169,7 @@ DeepinImageViewerDBus::~DeepinImageViewerDBus()
 
 void DeepinImageViewerDBus::backToMainWindow() const
 {
-    emit dApp->signalM->gotoTimelinePanel();
+    emit dApp->signalM->backToMainPanel();
 }
 
 void DeepinImageViewerDBus::enterAlbum(const QString &album)

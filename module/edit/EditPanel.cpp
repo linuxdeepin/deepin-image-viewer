@@ -29,6 +29,11 @@ EditPanel::EditPanel(QWidget *parent)
     hl->addWidget(m_stack);
 }
 
+QString EditPanel::moduleName()
+{
+    return "EditPanel";
+}
+
 QWidget *EditPanel::toolbarBottomContent()
 {
     if (m_stack->currentWidget() == m_view)
@@ -97,10 +102,12 @@ QWidget *EditPanel::toolbarTopLeftContent()
     btn->setHoverPic(":/images/resources/images/previous_hover.png");
     btn->setPressPic(":/images/resources/images/previous_press.png");
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, dApp->signalM, &SignalManager::gotoTimelinePanel);
+    connect(btn, &ImageButton::clicked,
+            dApp->signalM, &SignalManager::backToMainPanel);
     DTextButton *btn1 = new DTextButton(tr("Back"));
     hb->addWidget(btn1);
-    connect(btn1, &DTextButton::clicked, dApp->signalM, &SignalManager::gotoTimelinePanel);
+    connect(btn1, &DTextButton::clicked,
+            dApp->signalM, &SignalManager::backToMainPanel);
     btn1 = new DTextButton(tr("Revert"));
     connect(btn1, &DTextButton::clicked, [this](){
         if (m_stack->currentWidget() == m_view)

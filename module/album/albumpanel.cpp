@@ -36,6 +36,16 @@ AlbumPanel::AlbumPanel(QWidget *parent)
     initConnection();
 }
 
+bool AlbumPanel::isMainPanel()
+{
+    return true;
+}
+
+QString AlbumPanel::moduleName()
+{
+    return "AlbumPanel";
+}
+
 
 QWidget *AlbumPanel::toolbarBottomContent()
 {

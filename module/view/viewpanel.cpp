@@ -63,6 +63,11 @@ ViewPanel::ViewPanel(QWidget *parent)
     installEventFilter(this);
 }
 
+QString ViewPanel::moduleName()
+{
+    return "ViewPanel";
+}
+
 void ViewPanel::initConnect() {
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         if (m_infos.isEmpty()) {

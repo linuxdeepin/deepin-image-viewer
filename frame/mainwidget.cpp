@@ -1,7 +1,13 @@
 #include "mainwidget.h"
 #include "application.h"
 #include "controller/importer.h"
+#include "controller/configsetter.h"
 #include "imageinfodialog.h"
+#include "module/album/albumpanel.h"
+#include "module/edit/EditPanel.h"
+#include "module/timeline/timelinepanel.h"
+#include "module/slideshow/slideshowpanel.h"
+#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "widgets/processtooltip.h"
 #include <QDebug>
@@ -15,35 +21,21 @@ const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 24;
 const int EXTENSION_PANEL_WIDTH = 240;
 
+const QString SETTINGS_GROUP = "MAINWIDGET";
+const QString SETTINGS_MAINPANEL_KEY = "MainPanel";
+
 }  // namespace
 
 MainWidget::MainWidget(bool manager, QWidget *parent)
     : QFrame(parent)
 {
     initStyleSheet();
-    initPanelStack();
+    initPanelStack(manager);
     initExtensionPanel();
     initTopToolbar();
     initBottomToolbar();
 
-    if (manager) {
-        initAlbumPanel();
-        initEditPanel();
-        initTimelinePanel();
-    }
-    initSlideShowPanel();
-    initViewPanel();
-
-    connect(dApp->signalM, &SignalManager::gotoPanel,
-            this, &MainWidget::onGotoPanel);
-    connect(dApp->signalM, &SignalManager::showInFileManager,
-            this, [=] (const QString &path) {
-        utils::base::showInFileManager(path);
-    });
-    connect(dApp->signalM, &SignalManager::showProcessTooltip,
-            this, &MainWidget::onShowProcessTooltip);
-    connect(dApp->signalM, &SignalManager::showImageInfo,
-            this, &MainWidget::onShowImageInfo);
+    initConnection();
 }
 
 MainWidget::~MainWidget()
@@ -76,6 +68,12 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
 
     dApp->importer->nap();
 
+    // Record the last panel for restore in the next time launch
+    if (p->isMainPanel() && ! p->moduleName().isEmpty()) {
+        dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_MAINPANEL_KEY,
+                               QVariant(p->moduleName()));
+    }
+
     m_panelStack->setCurrentWidget(panel);
 }
 
@@ -100,7 +98,7 @@ void MainWidget::onShowImageInfo(const QString &path)
             info, &ImageInfoDialog::close);
 }
 
-void MainWidget::initPanelStack()
+void MainWidget::initPanelStack(bool manager)
 {
     m_panelStack = new QStackedWidget(this);
     m_panelStack->setObjectName("PanelStack");
@@ -108,6 +106,20 @@ void MainWidget::initPanelStack()
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(m_panelStack);
+
+    // Init panel
+    if (manager) {
+        TimelinePanel *m_timelinePanel = new TimelinePanel;
+        m_panelStack->addWidget(m_timelinePanel);
+        AlbumPanel *m_albumPanel = new AlbumPanel;
+        m_panelStack->addWidget(m_albumPanel);
+        EditPanel *m_editPanel = new EditPanel();
+        m_panelStack->addWidget(m_editPanel);
+    }
+    SlideShowPanel *m_slideShowPanel = new SlideShowPanel();
+    m_panelStack->addWidget(m_slideShowPanel);
+    ViewPanel *m_viewPanel = new ViewPanel();
+    m_panelStack->addWidget(m_viewPanel);
 }
 
 void MainWidget::initTopToolbar()
@@ -141,6 +153,38 @@ void MainWidget::initTopToolbar()
 //            m_topToolbar->moveWithAnimation(0, - TOP_TOOLBAR_HEIGHT);
 //        }
     });
+}
+
+void MainWidget::initConnection()
+{
+    connect(dApp->signalM, &SignalManager::backToMainPanel, this, [=] {
+        QString name = dApp->setter->value(SETTINGS_GROUP,
+                                           SETTINGS_MAINPANEL_KEY).toString();
+        if (name.isEmpty()) {
+            emit dApp->signalM->gotoTimelinePanel();
+            return;
+        }
+
+        for (int i = 0; i < m_panelStack->count(); i++) {
+            if (ModulePanel *p =
+                    static_cast<ModulePanel *>(m_panelStack->widget(i))) {
+                if ((p->moduleName() == name) && p->isMainPanel()) {
+                    emit dApp->signalM->gotoPanel(p);
+                    return;
+                }
+            }
+        }
+    });
+    connect(dApp->signalM, &SignalManager::gotoPanel,
+            this, &MainWidget::onGotoPanel);
+    connect(dApp->signalM, &SignalManager::showInFileManager,
+            this, [=] (const QString &path) {
+        utils::base::showInFileManager(path);
+    });
+    connect(dApp->signalM, &SignalManager::showProcessTooltip,
+            this, &MainWidget::onShowProcessTooltip);
+    connect(dApp->signalM, &SignalManager::showImageInfo,
+            this, &MainWidget::onShowImageInfo);
 }
 
 void MainWidget::initBottomToolbar()
@@ -232,34 +276,4 @@ void MainWidget::initStyleSheet()
 
     qApp->setStyleSheet(QString(sf.readAll()));
     sf.close();
-}
-
-void MainWidget::initTimelinePanel()
-{
-    m_timelinePanel = new TimelinePanel;
-    m_panelStack->addWidget(m_timelinePanel);
-}
-
-void MainWidget::initAlbumPanel()
-{
-    m_albumPanel = new AlbumPanel;
-    m_panelStack->addWidget(m_albumPanel);
-}
-
-void MainWidget::initViewPanel()
-{
-    m_viewPanel = new ViewPanel();
-    m_panelStack->addWidget(m_viewPanel);
-}
-
-void MainWidget::initEditPanel()
-{
-    m_editPanel = new EditPanel();
-    m_panelStack->addWidget(m_editPanel);
-}
-
-void MainWidget::initSlideShowPanel()
-{
-    m_slideShowPanel = new SlideShowPanel();
-    m_panelStack->addWidget(m_slideShowPanel);
 }

@@ -17,10 +17,12 @@ public:
         connect(dApp->signalM, &SignalManager::gotoPanel,
                 this, &ModulePanel::showPanelEvent);
     }
-    virtual QWidget *toolbarTopLeftContent() = 0;
-    virtual QWidget *toolbarTopMiddleContent() = 0;
-    virtual QWidget *toolbarBottomContent() = 0;
+    virtual bool isMainPanel() {return false;}
+    virtual QString moduleName() = 0;
     virtual QWidget *extensionPanelContent() = 0;
+    virtual QWidget *toolbarBottomContent() = 0;
+    virtual QWidget *toolbarTopMiddleContent() = 0;
+    virtual QWidget *toolbarTopLeftContent() = 0;
 
 protected:
     virtual void showPanelEvent(ModulePanel *p) {
