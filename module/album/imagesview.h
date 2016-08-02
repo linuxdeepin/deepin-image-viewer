@@ -22,7 +22,7 @@ class ImagesView : public QScrollArea
 public:
     explicit ImagesView(QWidget *parent = 0);
 
-    void insertItem(const DatabaseManager::ImageInfo &info);
+    void insertItem(const DatabaseManager::ImageInfo &info, bool update = true);
     void setAlbum(const QString &album);
     void setIconSize(const QSize &iconSize);
 

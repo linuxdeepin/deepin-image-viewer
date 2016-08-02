@@ -49,7 +49,7 @@ void ImagesView::setAlbum(const QString &album)
     m_view->clearData();
     auto infos = dApp->databaseM->getImageInfosByAlbum(album);
     for (auto info : infos) {
-        insertItem(info);
+        insertItem(info, false);
     }
 
     m_topTips->setAlbum(album);
@@ -188,7 +188,7 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
                                                  subMenu));
 }
 
-void ImagesView::insertItem(const DatabaseManager::ImageInfo &info)
+void ImagesView::insertItem(const DatabaseManager::ImageInfo &info, bool update)
 {
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
@@ -197,7 +197,8 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info)
 
     m_view->insertItem(vi);
 
-    updateContent();
+    if (update)
+        updateContent();
 }
 
 void ImagesView::updateThumbnail(const QString &path)
@@ -381,8 +382,9 @@ void ImagesView::showEvent(QShowEvent *e)
     if (count() != dApp->databaseM->getImagesCountByAlbum(m_album)) {
         const auto infos = dApp->databaseM->getImageInfosByAlbum(m_album);
         for (auto info : infos) {
-            insertItem(info);
+            insertItem(info, false);
         }
+        updateContent();
     }
 
     QScrollArea::showEvent(e);
