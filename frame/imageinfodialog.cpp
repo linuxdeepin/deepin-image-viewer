@@ -13,6 +13,7 @@ namespace {
 
 static ExifItem exifItems[] = {
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME, "Name"},
+    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_TYPE, "Type"},
     {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL, "Date photoed"},
     {EXIF_IFD_0, EXIF_TAG_DATE_TIME, "Date modified"},
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION, "Resolution"},
