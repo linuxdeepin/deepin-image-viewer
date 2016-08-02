@@ -237,7 +237,7 @@ const QString AlbumsView::createMenuContent(const QModelIndex &index)
                                     false, "F5"));
         items.append(createMenuItem(IdSeparator, "", true));
         if (! isSpecial)
-            items.append(createMenuItem(IdRename, tr("Rename")));
+            items.append(createMenuItem(IdRename, tr("Rename"), false, "F2"));
         items.append(createMenuItem(IdExport, tr("Export")));
         items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
         if (! isSpecial)
