@@ -94,8 +94,10 @@ void ImageWidget::setScaleValue(qreal value)
         return;
 
     // Move back to center of window if image scale smaller than window
-    if (value <= 1) {
-        m_o_dev = rect().center();    m_flipX = m_flipY = 1;
+    const QRectF ir = imageRect();
+    if (ir.width() <= width() || ir.height() <= height()) {
+        m_o_dev = rect().center();
+        m_flipX = m_flipY = 1;
         m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
     }
 
@@ -195,11 +197,7 @@ void ImageWidget::paintEvent(QPaintEvent *)
 
     p.fillRect(this->rect(), BACKGROUND_COLOR);
     // Show checkers background for image
-    QRectF br(m_pixmap.rect());
-    br.translate(m_mat.dx(), m_mat.dy());
-    br.setWidth(br.width() * m_scale * m_flipX);
-    br.setHeight(br.height() * m_scale * m_flipY);
-    p.eraseRect(br);
+    p.eraseRect(imageRect());
 
     p.setTransform(m_mat);
     p.drawPixmap(0, 0, m_pixmap);
@@ -274,8 +272,6 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 
 void ImageWidget::wheelEvent(QWheelEvent *event)
 {
-    if (m_inSlideShow)
-        return;
     m_scaling = true;
     killTimer(m_tid);
     m_tid = startTimer(500);
@@ -290,6 +286,21 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
 
     zoom = qBound(qreal(0.02), zoom, qreal(20));
     setScaleValue(zoom);
+}
+
+/*!
+ * \brief ImageWidget::imageRect
+ * This rect is bound to result after the image transformation
+ * \return
+ */
+const QRectF ImageWidget::imageRect() const
+{
+    QRectF br(m_pixmap.rect());
+    br.translate(m_mat.dx(), m_mat.dy());
+    br.setWidth(br.width() * m_scale * m_flipX);
+    br.setHeight(br.height() * m_scale * m_flipY);
+
+    return br;
 }
 
 void ImageWidget::updateTransform()

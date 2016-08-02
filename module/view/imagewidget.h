@@ -53,6 +53,7 @@ protected:
     }
 
 private:
+    const QRectF imageRect() const;
     void updateTransform();
     //This function is used to judge whether p enter in
     //the button of switching previous or next image or not
