@@ -129,6 +129,11 @@ bool TimelineViewFrame::removeItem(const QString &name)
     return m_view->removeItem(name);
 }
 
+void TimelineViewFrame::removeItems(const QStringList &names)
+{
+    m_view->removeItems(names);
+}
+
 void TimelineViewFrame::clearSelection() const
 {
     m_view->selectionModel()->clearSelection();

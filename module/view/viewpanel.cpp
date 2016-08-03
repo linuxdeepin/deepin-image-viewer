@@ -93,13 +93,14 @@ void ViewPanel::initConnect() {
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
     connect(dApp->signalM, &SignalManager::viewImage,
             this, &ViewPanel::onViewImage);
-    connect(dApp->signalM, &SignalManager::removeFromAlbum,
-            this, [=] (QString album, QString name) {
-        if (isVisible()
-                && ! m_vinfo.album.isEmpty()
-                && album == m_vinfo.album
-                && imageIndex(name) == imageIndex(m_current->name))
-            removeCurrentImage();
+    connect(dApp->signalM, &SignalManager::removedFromAlbum,
+            this, [=] (const QString &album, const QStringList &names) {
+        if (! isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty())
+            return;
+        for (QString name : names) {
+            if (imageIndex(name) == imageIndex(m_current->name))
+                removeCurrentImage();
+        }
     });
 
     connect(m_previousBtn, &ImageButton::clicked, this, &ViewPanel::showPrevious);
@@ -320,7 +321,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         QPixmapCache::remove(m_current->name);
     });
     connect(ttmc, &TTMContent::removed, this, [=] {
-        dApp->databaseM->removeImage(m_current->name);
+        dApp->databaseM->removeImages(QStringList(m_current->name));
         utils::base::trashFile(m_current->path);
         removeCurrentImage();
     });
@@ -831,12 +832,8 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash:
-        dApp->databaseM->removeImage(name);
+        dApp->databaseM->removeImages(QStringList(name));
         trashFile(path);
-        removeCurrentImage();
-        break;
-    case IdRemoveFromTimeline:
-        dApp->databaseM->removeImage(name);
         removeCurrentImage();
         break;
     case IdRemoveFromAlbum:

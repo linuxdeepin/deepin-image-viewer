@@ -112,8 +112,12 @@ void AlbumPanel::initConnection()
             this, &AlbumPanel::onCreateAlbum);
     connect(dApp->signalM, &SignalManager::importDir,
             this, &AlbumPanel::showImportDirDialog);
-    connect(dApp->signalM, &SignalManager::imageCountChanged,
-            this, &AlbumPanel::onImageCountChanged);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=] {
+        onImageCountChanged(dApp->databaseM->imageCount());
+    });
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=] {
+        onImageCountChanged(dApp->databaseM->imageCount());
+    });
     connect(dApp->signalM, &SignalManager::gotoAlbumPanel,
             this, [=] (const QString &album) {
         emit dApp->signalM->gotoPanel(this);
@@ -296,10 +300,10 @@ void AlbumPanel::initImagesView()
     });
     connect(dApp->signalM, &SignalManager::insertIntoAlbum,
             this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
-    connect(dApp->signalM, &SignalManager::removeFromAlbum,
-            this, [=] (const QString &album, const QString &name) {
+    connect(dApp->signalM, &SignalManager::removedFromAlbum,
+            this, [=] (const QString &album, const QStringList &names) {
         if (album == m_imagesView->getCurrentAlbum())
-        m_imagesView->removeItem(name);
+            m_imagesView->removeItems(names);
         updateImagesCount();
     });
     connect(dApp->importer, &Importer::importProgressChanged, this, [=] (double v) {

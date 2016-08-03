@@ -18,6 +18,7 @@ public:
     ~TimelineViewFrame();
     void insertItem(const DatabaseManager::ImageInfo &info);
     bool removeItem(const QString &name);
+    void removeItems(const QStringList &names);
     void clearSelection() const;
     void updateThumbnail(const QString &name);
     void setMultiSelection(bool multiple);

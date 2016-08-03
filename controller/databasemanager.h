@@ -37,10 +37,9 @@ public:
     ImageInfo getImageInfoByName(const QString &name);
     ImageInfo getImageInfoByPath(const QString &path);
     void insertImageInfos(const QList<ImageInfo> &infos);
-    void insertImageInfo(const ImageInfo &info);
     void updateImageInfo(const ImageInfo &info);
     void updateThumbnail(const QString &name);
-    void removeImage(const QString &name);
+    void removeImages(const QStringList &names);
     bool imageExist(const QString &name);
     int getImagesCountByMonth(const QString &month);
     int imageCount();
@@ -52,6 +51,7 @@ public:
                               const QString &filename,
                               const QString &time);
     void removeImageFromAlbum(const QString &albumname, const QString &filename);
+    void removeImagesFromAlbum(const QString &album, const QStringList &names);
     void removeAlbum(const QString &name);
     void renameAlbum(const QString &oldName, const QString &newName);
     void clearRecentImported();

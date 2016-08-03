@@ -28,6 +28,7 @@ public:
 
     int count() const;
     bool removeItem(const QString &name);
+    void removeItems(const QStringList &names);
 
     QString getCurrentAlbum() const;
     QSize iconSize() const;

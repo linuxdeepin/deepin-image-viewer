@@ -173,8 +173,8 @@ void Importer::onFutureWatcherFinish()
         m_progress = 1;
         m_albums.clear();
         emit importProgressChanged(m_progress);
-        emit dApp->signalM->showProcessTooltip(
-                    tr("Imported successfully"), true);
+//        emit dApp->signalM->showProcessTooltip(
+//                    tr("Imported successfully"), true);
     }
     else {
         loadCacheImages();

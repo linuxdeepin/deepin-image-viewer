@@ -212,6 +212,16 @@ bool trashFile(const QString &file)
 #endif
 }
 
+bool trashFiles(const QStringList &files)
+{
+    bool v = true;
+    for (QString file : files) {
+        if (! trashFile(file))
+            v = false;
+    }
+    return v;
+}
+
 }  // namespace base
 
 }  // namespace utils

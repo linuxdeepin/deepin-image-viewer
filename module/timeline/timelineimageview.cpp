@@ -41,11 +41,8 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
-    // Watching import thread
-    connect(dApp->signalM, &SignalManager::imageInserted,
-            this, &TimelineImageView::onImageInserted/*, Qt::QueuedConnection*/);
-    connect(dApp->signalM, &SignalManager::imageRemoved,
-            this, &TimelineImageView::removeImage);
+    connect(dApp->signalM, &SignalManager::imagesRemoved,
+            this, &TimelineImageView::removeImages);
     installEventFilter(this);
 }
 
@@ -308,16 +305,14 @@ void TimelineImageView::removeFrame(const QString &timeline)
     w->deleteLater();
 }
 
-void TimelineImageView::removeImage(const QString &name)
+void TimelineImageView::removeImages(const QStringList &names)
 {
     const QStringList timelines = m_frames.keys();
     for (QString t : timelines) {
-        if (m_frames.value(t)->removeItem(name)) {
-            // Check if timeline is empty
-            if (m_frames.value(t)->isEmpty()) {
-                removeFrame(t);
-            }
-            break;
+        m_frames.value(t)->removeItems(names);
+        // Check if timeline is empty
+        if (m_frames.value(t)->isEmpty()) {
+            removeFrame(t);
         }
     }
 }

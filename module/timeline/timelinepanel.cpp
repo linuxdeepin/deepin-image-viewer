@@ -199,8 +199,12 @@ void TimelinePanel::initConnection()
             onImageCountChanged(dApp->databaseM->imageCount());
         }
     });
-    connect(dApp->signalM, &SignalManager::imageCountChanged,
-            this, &TimelinePanel::onImageCountChanged);
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=] {
+        onImageCountChanged(dApp->databaseM->imageCount());
+    });
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=] {
+        onImageCountChanged(dApp->databaseM->imageCount());
+    });
     connect(dApp->signalM, &SignalManager::gotoTimelinePanel, this, [=] {
         m_view->setTickable(false);
         m_view->clearSelection();
@@ -339,15 +343,8 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         utils::base::copyImageToClipboard(pList);
         break;
     case IdMoveToTrash:
-        for (QString name : nList) {
-            dApp->databaseM->removeImage(name);
-            utils::base::trashFile(images[name]);
-        }
-        break;
-    case IdRemoveFromTimeline:
-        for (QString name : nList) {
-            dApp->databaseM->removeImage(name);
-        }
+        dApp->databaseM->removeImages(nList);
+        utils::base::trashFiles(pList);
         break;
     case IdAddToFavorites:
         dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, cname,

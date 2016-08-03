@@ -40,12 +40,10 @@ signals:
     void gotoPanel(ModulePanel* panel);
     void backToMainPanel();
 
-    void imageCountChanged(int count);
-    void imageInserted(const DatabaseManager::ImageInfo &info);
-    void imageRemoved(const QString &name);
+    void imagesInserted(const QList<DatabaseManager::ImageInfo> infos);
+    void imagesRemoved(const QStringList &names);
 
     void editImage(const QString &path);
-    void fullScreen(const QString &path);
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
     void startSlideShow(ModulePanel* lastPanel, QStringList paths,
@@ -57,9 +55,8 @@ signals:
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum();
     void importDir(const QString &dir);
-    void showProcessTooltip(const QString &message, bool success);
     void insertIntoAlbum(const DatabaseManager::ImageInfo info);
-    void removeFromAlbum(const QString &album, const QString &name);
+    void removedFromAlbum(const QString &album, const QStringList &names);
 
 private:
     explicit SignalManager(QObject *parent = 0);

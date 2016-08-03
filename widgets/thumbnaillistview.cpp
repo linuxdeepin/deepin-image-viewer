@@ -36,7 +36,7 @@ QString updateThumbnailQuality(const QString &name)
         info.thumbnail = cutSquareImage(scaleImage(info.path), ms);
         // Still can't get thumbnail, it must be not supported
         if (info.thumbnail.isNull()) {
-            dApp->databaseM->removeImage(name);
+            dApp->databaseM->removeImages(QStringList(name));
             return name;
         }
         dApp->databaseM->updateImageInfo(info);
@@ -165,6 +165,17 @@ bool ThumbnailListView::removeItem(const QString &name)
     }
 
     return false;
+}
+
+void ThumbnailListView::removeItems(const QStringList &names)
+{
+    for (QString name : names) {
+        const int i = indexOf(name);
+        if (i != -1) {
+            m_model->removeRow(i);
+        }
+    }
+    updateViewPortSize();
 }
 
 bool ThumbnailListView::contain(const QModelIndex &index) const

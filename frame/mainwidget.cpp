@@ -181,8 +181,6 @@ void MainWidget::initConnection()
             this, [=] (const QString &path) {
         utils::base::showInFileManager(path);
     });
-    connect(dApp->signalM, &SignalManager::showProcessTooltip,
-            this, &MainWidget::onShowProcessTooltip);
     connect(dApp->signalM, &SignalManager::showImageInfo,
             this, &MainWidget::onShowImageInfo);
 }

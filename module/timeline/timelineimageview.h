@@ -45,7 +45,7 @@ private:
 
     void inserFrame(const QString &timeline);
     void removeFrame(const QString &timeline);
-    void removeImage(const QString &name);
+    void removeImages(const QStringList &names);
     void updateSliderFrmaeRect();
     void updateContentRect();
     void updateTopTipsRect();

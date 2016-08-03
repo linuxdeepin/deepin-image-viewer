@@ -20,67 +20,6 @@ const QString DATABASE_NAME = "deepinimageviewer.db";
 const QString IMAGE_TABLE_NAME = "ImageTable";
 const QString ALBUM_TABLE_NAME = "AlbumTable";
 
-void DatabaseManager::insertImageInfo(const DatabaseManager::ImageInfo &info)
-{
-    QMutexLocker locker(&m_mutex);
-
-    QSqlDatabase db = getDatabase();
-
-    if (db.isValid()) {
-        if (imageExist(info.name)) {
-            for (QString album : info.albums) {
-                insertImageIntoAlbum(album, info.name,
-                                     utils::base::timeToString(info.time));
-            }
-            return;
-        }
-
-        QSqlQuery query( db );
-        /*NOTE: '"BEGIN IMMEDIATE TRANSACTION"' try to avoid the error like "database is locked",
-         * but it not work good
-         * The error "database is locked" is typically happens when someone begins a transaction,
-         * and tries to write to a database while other person is reading from the
-         * database (in another transaction). */
-        query.exec("BEGIN IMMEDIATE TRANSACTION");
-        query.prepare( QString("INSERT INTO %1 "
-                               "(filename, filepath, album, label, time, thumbnail) "
-                               "VALUES (:name, :path, :album, :label, :time, :thumbnail)")
-                       .arg( IMAGE_TABLE_NAME ) );
-        query.bindValue( ":name", info.name );
-        query.bindValue( ":path", info.path );
-        query.bindValue( ":album", info.albums );
-        query.bindValue( ":label", info.labels );   // TODO not support QStringList
-        query.bindValue( ":time", utils::base::timeToString(info.time) );
-        QByteArray inByteArray;
-        QBuffer inBuffer( &inByteArray );
-        inBuffer.open( QIODevice::WriteOnly );
-        if ( !info.thumbnail.save( &inBuffer, "JPG" )) { // write inPixmap into inByteArray
-            qDebug() << "Write pixmap to buffer error!" << info.name;
-        }
-        query.bindValue( ":thumbnail", inByteArray);
-        if (!query.exec()) {
-            qWarning() << "Insert image into database failed: " << query.lastError();
-            query.exec("COMMIT");
-        }
-        else {
-            query.exec("COMMIT");
-            emit dApp->signalM->imageInserted(info);
-            emit dApp->signalM->imageCountChanged(imageCount());
-
-            // All new image should add to the album "Recent imported"
-            insertImageIntoAlbum("Recent imported", info.name,
-                                 utils::base::timeToString(info.time));
-
-            // Insert into album when image info is inserted into DB
-            for (QString album : info.albums) {
-                insertImageIntoAlbum(album, info.name,
-                                     utils::base::timeToString(info.time));
-            }
-        }
-    }
-
-}
-
 void DatabaseManager::updateImageInfo(const DatabaseManager::ImageInfo &info)
 {
     QMutexLocker locker(&m_mutex);
@@ -175,7 +114,7 @@ DatabaseManager::ImageInfo DatabaseManager::getImageInfoByPath(const QString &pa
     }
 }
 
-void DatabaseManager::insertImageInfos(const QList<DatabaseManager::ImageInfo> &infos)
+void DatabaseManager::insertImageInfos(const QList<ImageInfo> &infos)
 {
     if (infos.length() < 1) {
         return;
@@ -223,7 +162,7 @@ void DatabaseManager::insertImageInfos(const QList<DatabaseManager::ImageInfo> &
         }
         else {
             query.exec("COMMIT");
-            emit dApp->signalM->imageCountChanged(imageCount());
+            emit dApp->signalM->imagesInserted(infos);
         }
 
         // Clear Recent imported album
@@ -249,43 +188,43 @@ void DatabaseManager::insertImageInfos(const QList<DatabaseManager::ImageInfo> &
         }
         else {
             query.exec("COMMIT");
-            emit dApp->signalM->imageCountChanged(imageCount());
         }
     }
 }
 
-void DatabaseManager::removeImage(const QString &name)
+void DatabaseManager::removeImages(const QStringList &names)
 {
     QSqlDatabase db = getDatabase();
-    if (db.isValid()) {
-        QSqlQuery query( db );
-        // TODO remove from labels table
+    if (! db.isValid())
+        return;
+    QString nStr;
+    for (QString name : names) {
+        nStr += "\"" + name + "\",";
+    }
+    nStr.remove(nStr.length() - 1, 1);
 
-        // Remove from albums table
-        query.prepare( QString( "DELETE FROM %1 WHERE filename = :filename" )
-                       .arg(ALBUM_TABLE_NAME) );
-        query.bindValue( ":filename", name );
-        if (! query.exec()) {
-            qWarning() << "Remove image from album failed: " << query.lastError();
+    QSqlQuery query(db);
+    // Remove from albums table
+    query.prepare(QString("DELETE FROM %1 WHERE filename IN (%2)")
+                  .arg(ALBUM_TABLE_NAME).arg(nStr));
+    if (! query.exec()) {
+        qWarning() << "Remove images from DB failed: " << query.lastError();
+    }
+    else {
+        const QStringList al = getAlbumNameList();
+        for (QString album : al) {
+            emit dApp->signalM->removedFromAlbum(album, names);
         }
-        else {
-            QStringList al = getAlbumNameList();
-            for (QString album : al) {
-                emit dApp->signalM->removeFromAlbum(album, name);
-            }
-        }
+    }
 
-        // Remove from images table
-        query.prepare( QString( "DELETE FROM %1 WHERE filename = :name" )
-                       .arg(IMAGE_TABLE_NAME) );
-        query.bindValue( ":name", name );
-        if (!query.exec()) {
-            qWarning() << "Remove image failed: " << query.lastError();
-        }
-        else {
-            emit dApp->signalM->imageCountChanged(imageCount());
-            emit dApp->signalM->imageRemoved(name);
-        }
+    // Remove from image table
+    query.prepare(QString("DELETE FROM %1 WHERE filename IN (%2)")
+                  .arg(IMAGE_TABLE_NAME).arg(nStr));
+    if (! query.exec()) {
+        qWarning() << "Remove images from DB failed: " << query.lastError();
+    }
+    else {
+        emit dApp->signalM->imagesRemoved(names);
     }
 }
 
@@ -398,7 +337,33 @@ void DatabaseManager::removeImageFromAlbum(const QString &albumname,
     }
 
     // For UI update
-    emit dApp->signalM->removeFromAlbum(albumname, filename);
+    emit dApp->signalM->removedFromAlbum(albumname, QStringList(filename));
+}
+
+void DatabaseManager::removeImagesFromAlbum(const QString &album,
+                                            const QStringList &names)
+{
+    QSqlDatabase db = getDatabase();
+    if (! db.isValid())
+        return;
+    QString nStr;
+    for (QString name : names) {
+        nStr += "\"" + name + "\",";
+    }
+    nStr.remove(nStr.length() - 1, 1);
+
+    QSqlQuery query(db);
+    // Remove from albums table
+    query.prepare(QString("DELETE FROM %1 WHERE albumname = :albumname "
+                          "AND filename IN (%2)")
+                  .arg(ALBUM_TABLE_NAME).arg(nStr));
+    query.bindValue(":albumname", album);
+    if (! query.exec()) {
+        qWarning() << "Remove images from DB failed: " << query.lastError();
+    }
+    else {
+        emit dApp->signalM->removedFromAlbum(album, names);
+    }
 }
 
 DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)

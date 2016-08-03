@@ -69,6 +69,13 @@ bool ImagesView::removeItem(const QString &name)
     return state;
 }
 
+void ImagesView::removeItems(const QStringList &names)
+{
+    m_view->removeItems(names);
+
+    updateContent();
+}
+
 int ImagesView::count() const
 {
     return m_view->count();
@@ -253,13 +260,9 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         utils::base::copyImageToClipboard(pList);
         break;
     case IdMoveToTrash: {
-        for (QString path : pList) {
-            const QString name = QFileInfo(path).fileName();
-            removeItem(name);
-            dApp->databaseM->removeImageFromAlbum(m_album, name);
-            dApp->databaseM->removeImage(name);
-            utils::base::trashFile(path);
-        }
+        removeItems(nList);
+        dApp->databaseM->removeImages(nList);
+        utils::base::trashFiles(pList);
         break;
     }
     case IdAddToFavorites: {
@@ -274,10 +277,7 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         updateMenuContents();
         break;
     case IdRemoveFromAlbum:
-        for (QString name : nList) {
-            removeItem(name);
-            dApp->databaseM->removeImageFromAlbum(m_album, name);
-        }
+        dApp->databaseM->removeImagesFromAlbum(m_album, nList);
         break;
     case IdRotateClockwise:
         for (QString path : pList) {

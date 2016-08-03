@@ -27,6 +27,7 @@ public:
     void setTickable(bool v);
     void insertItem(const ItemInfo &info);
     bool removeItem(const QString &name);
+    void removeItems(const QStringList &names);
     bool contain(const QModelIndex &index) const;
     bool isMultiSelection() const;
     int indexOf(const QString &name);
