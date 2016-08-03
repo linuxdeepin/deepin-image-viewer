@@ -32,18 +32,6 @@ static ExifItem ExifDataBasics[] = {
 };
 
 static ExifItem ExifDataDetails[] = {
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME,
-     QT_TRANSLATE_NOOP("ExifItemName", "Name")},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_TYPE,
-     QT_TRANSLATE_NOOP("ExifItemName", "Type")},
-    {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL,
-     QT_TRANSLATE_NOOP("ExifItemName", "Date photoed")},
-    {EXIF_IFD_0, EXIF_TAG_DATE_TIME,
-     QT_TRANSLATE_NOOP("ExifItemName", "Date modified")},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION,
-     QT_TRANSLATE_NOOP("ExifItemName", "Resolution")},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE,
-     QT_TRANSLATE_NOOP("ExifItemName", "File size")},
     {EXIF_IFD_EXIF, EXIF_TAG_COLOR_SPACE,
      QT_TRANSLATE_NOOP("ExifItemName", "Colorspace")},
     {EXIF_IFD_EXIF, EXIF_TAG_EXPOSURE_MODE,

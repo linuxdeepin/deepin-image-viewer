@@ -20,7 +20,6 @@ public:
         setFixedHeight(1);
     }
 };
-
 class SimpleFormLabel : public QLabel {
     Q_OBJECT
 public:
@@ -32,14 +31,23 @@ class SimpleFormField : public QLabel {
     Q_OBJECT
 public:
     explicit SimpleFormField(const QString &t, QWidget *parent = 0)
-        : QLabel(t, parent) {}
+        : QLabel(t, parent)
+    {
+        setWordWrap(true);
+        setMinimumHeight(utils::base::stringHeight(font(), t));
+    }
 };
 
 #include "imageinfowidget.moc"
 
+namespace {
+
+const int MAX_INFO_LENGTH = 6;  // info string limit to 6 character
+
+}  // namespace
+
 ImageInfoWidget::ImageInfoWidget(QWidget *parent)
-    : QScrollArea(parent),
-      m_isDetail(false)
+    : QScrollArea(parent)
 {
     setAttribute(Qt::WA_TranslucentBackground);
     setFrameStyle(QFrame::NoFrame);
@@ -58,34 +66,22 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     contentLayout->addWidget(separator);
 
     // Info field
-    m_exifLayout = new QFormLayout();
-    m_exifLayout->setSpacing(13);
-    m_exifLayout->setContentsMargins(8, 0, 8, 0);
-    m_exifLayout->setLabelAlignment(Qt::AlignRight);
-    contentLayout->addLayout(m_exifLayout);
+    m_exifLayout_base = new QFormLayout();
+    m_exifLayout_base->setSpacing(5);
+    m_exifLayout_base->setContentsMargins(8, 0, 8, 0);
+    m_exifLayout_base->setLabelAlignment(Qt::AlignRight);
+    m_separator = new ViewSeparator();
+    m_separator->setVisible(false);
+    m_exifLayout_details = new QFormLayout();
+    m_exifLayout_details->setSpacing(5);
+    m_exifLayout_details->setContentsMargins(8, 0, 8, 0);
+    m_exifLayout_details->setLabelAlignment(Qt::AlignRight);
 
-    QPushButton *button = new QPushButton(tr("Show details"));
-    button->setObjectName("ShowExtendInfoButton");
-    connect(button, &QPushButton::clicked, this, [=] {
-        if (m_isDetail) {
-            m_isDetail = false;
-            button->setText(tr("Show details"));
-            updateInfo();
-        }
-        else {
-            m_isDetail = true;
-            button->setText(tr("Show basics"));
-            updateInfo();
-        }
+    contentLayout->addLayout(m_exifLayout_base);
+    contentLayout->addWidget(m_separator);
+    contentLayout->addLayout(m_exifLayout_details);
 
-        emit dApp->signalM->updateExtensionPanelRect();
-    });
     contentLayout->addSpacing(15);
-    contentLayout->addWidget(button);
-
-    separator = new ViewSeparator();
-    contentLayout->addWidget(separator);
-
     contentLayout->addStretch();
 
     setWidget(content);
@@ -98,6 +94,41 @@ void ImageInfoWidget::setImagePath(const QString &path)
     updateInfo();
 }
 
+const QString ImageInfoWidget::trLabel(const char *str)
+{
+    return qApp->translate("ExifItemName", str);
+}
+
+/*!
+ * \brief ImageInfoWidget::cutInfoStr
+ * Split info string by Space
+ * \return
+ */
+void ImageInfoWidget::splitInfoStr(QString &str) const
+{
+    const int dl = str.length();
+    if (dl > MAX_INFO_LENGTH) {
+        for(int i = 1; i < dl / MAX_INFO_LENGTH; i++) {
+             int n = i * MAX_INFO_LENGTH;
+             str.insert(n, QLatin1String(" "));
+         }
+    }
+}
+
+void ImageInfoWidget::clearLayout(QLayout *layout) {
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
+
+}
 //QSize ImageInfoWidget::sizeHint() const
 //{
 //    return QSize(m_maxContentWidth, height());
@@ -105,50 +136,48 @@ void ImageInfoWidget::setImagePath(const QString &path)
 
 void ImageInfoWidget::updateInfo()
 {
-    // Clear layout
-    QLayoutItem *item;
-    while((item = m_exifLayout->takeAt(0))) {
-        if (item->widget()) {
-            delete item->widget();
+    updateBaseInfo();
+    updateDetailsInfo();
+}
+
+void ImageInfoWidget::updateBaseInfo()
+{
+    using namespace utils::image;
+    using namespace utils::base;
+    clearLayout(m_exifLayout_base);
+
+    auto ei = GetExifFromPath(m_path, false);
+    for (const ExifItem* i = getExifItemList(false); i->tag; ++i) {
+        QString value = ei.value(i->name);
+        if (! value.isEmpty()) {
+            splitInfoStr(value);
+            SimpleFormField *label = new SimpleFormField(value);
+
+            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+            title->setMinimumHeight(label->minimumHeight());
+            m_exifLayout_base->addRow(title, label);
         }
-        delete item;
     }
-    m_maxContentWidth = 0;
-    int titleWidth = 0;
-    int fieldWidth = 0;
-    auto ei = utils::image::GetExifFromPath(m_path, m_isDetail);
-    for (const utils::image::ExifItem* i =
-         utils::image::getExifItemList(m_isDetail); i->tag; ++i) {
+}
 
-        QString v = ei.value(i->name);
+void ImageInfoWidget::updateDetailsInfo()
+{
+    using namespace utils::image;
+    using namespace utils::base;
+    clearLayout(m_exifLayout_details);
 
-        if (v.isEmpty()) {
-            continue;
+    auto ei = GetExifFromPath(m_path, true);
+    for (const ExifItem* i = getExifItemList(true); i->tag; ++i) {
+        QString value = ei.value(i->name);
+        if (! value.isEmpty()) {
+            splitInfoStr(value);
+            SimpleFormField *label = new SimpleFormField(value);
+
+            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+            title->setMinimumHeight(label->minimumHeight());
+            m_exifLayout_details->addRow(title, label);
         }
-
-
-        const int infoLength = v.length();
-        const int itemWidth = 6;
-        if (infoLength > itemWidth) {
-
-           for(int i = 1; i < infoLength / itemWidth; i++) {
-                int n = i * 6;
-                v.insert(n, QLatin1String(" "));
-            }
-        }
-
-        SimpleFormField *label = new SimpleFormField(v);
-        label->setWordWrap(true);
-        const QString tn = qApp->translate("ExifItemName", i->name);
-
-        titleWidth = qMax(titleWidth, utils::base::stringWidth(font(), tn));
-        fieldWidth = qMax(fieldWidth, utils::base::stringWidth(label->font(),label->text()));
-
-        label->setMinimumHeight(utils::base::stringHeight(label->font(),label->text()) + 15);
-        m_exifLayout->addRow(new SimpleFormLabel(tn + ":"), label);
     }
 
-    m_maxContentWidth = titleWidth + fieldWidth + 10;
-    m_maxContentWidth += verticalScrollBar()->isVisible() ? -10 : 10;
-
+    m_separator->setVisible(m_exifLayout_details->count() > 0);
 }
