@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -229,6 +229,10 @@
         <source>Camera model</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Exporter</name>
@@ -329,14 +333,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add from timeline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add image from timeline or drag image to this album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Throw to Trash</source>
         <translation type="unfinished"></translation>
     </message>
@@ -350,6 +346,14 @@
     </message>
     <message>
         <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import or drag image to timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -453,18 +457,6 @@
 <context>
     <name>TimelinePanel</name>
     <message>
-        <source>Add to &quot;%1&quot; album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
@@ -543,10 +535,6 @@
 </context>
 <context>
     <name>TopAlbumTips</name>
-    <message>
-        <source>Add image</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>My favorites</source>
         <translation type="unfinished"></translation>

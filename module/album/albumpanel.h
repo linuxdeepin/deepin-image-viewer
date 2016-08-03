@@ -54,7 +54,6 @@ private:
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;
     QStackedWidget *m_stackWidget = NULL;
-    bool m_adding = false;
 };
 
 #endif // ALBUMPANEL_H

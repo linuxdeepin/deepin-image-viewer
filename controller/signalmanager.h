@@ -44,11 +44,6 @@ signals:
     void imageInserted(const DatabaseManager::ImageInfo &info);
     void imageRemoved(const QString &name);
 
-    // The following two signal are came from our Product Manager,
-    // And Her head has just been kicked by donkey
-    void addImageFromTimeline(const QString &targetAlbum);
-    void imageAddedToAlbum();
-
     void editImage(const QString &path);
     void fullScreen(const QString &path);
     void showImageInfo(const QString &path);

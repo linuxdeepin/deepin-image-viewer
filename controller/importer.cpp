@@ -95,14 +95,14 @@ void Importer::nap()
     }
 }
 
-void Importer::showImportDialog()
+void Importer::showImportDialog(const QString &album)
 {
     QString dir = QFileDialog::getExistingDirectory(
                 nullptr, tr("Open Directory"),
                 QDir::homePath(),
                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    importDir(dir);
+    importDir(dir, album);
 }
 
 void Importer::stopImport()

@@ -77,12 +77,6 @@ QWidget *AlbumPanel::toolbarBottomContent()
     updateAlbumCount();
     updateImagesCount();
 
-    connect(dApp->signalM, &SignalManager::addImageFromTimeline, this, [=] {
-        m_adding = true;
-        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-    });
-
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
     layout->setContentsMargins(5, 0, 5, 0);
     layout->addStretch(1);
@@ -120,10 +114,6 @@ void AlbumPanel::initConnection()
             this, &AlbumPanel::showImportDirDialog);
     connect(dApp->signalM, &SignalManager::imageCountChanged,
             this, &AlbumPanel::onImageCountChanged);
-    connect(dApp->signalM, &SignalManager::imageAddedToAlbum, this, [=] {
-        m_adding = false;
-        updateImagesCount();
-    });
     connect(dApp->signalM, &SignalManager::gotoAlbumPanel,
             this, [=] (const QString &album) {
         emit dApp->signalM->gotoPanel(this);
@@ -133,13 +123,6 @@ void AlbumPanel::initConnection()
         if (! album.isEmpty()) {
             onOpenAlbum(album);
         }
-
-        TIMER_SINGLESHOT(100, {
-            if (m_adding) {
-                emit dApp->signalM->addImageFromTimeline(m_currentAlbum);
-            }
-        },
-        this);
     });
 }
 
@@ -198,25 +181,12 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     QLabel *albumLabel = new QLabel();
     albumLabel->setPixmap(QPixmap(":/images/resources/images/album_active.png"));
 
-
-    // hide search button
-//    ImageButton *searchButton = new ImageButton();
-//    searchButton->setNormalPic(":/images/resources/images/search_normal_24px.png");
-//    searchButton->setHoverPic(":/images/resources/images/search_hover_24px.png");
-//    searchButton->setPressPic(":/images/resources/images/search_press_24px.png");
-//    connect(searchButton, &ImageButton::clicked, this, [=] {
-//        qDebug() << "Change to Search Panel...";
-//        emit dApp->signalM->gotoSearchPanel();
-//    });
-//    searchButton->setToolTip("Search");
-
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(20);
     layout->addStretch(1);
     layout->addWidget(timelineButton);
     layout->addWidget(albumLabel);
-//    layout->addWidget(searchButton);
     layout->addStretch(1);
 
     return tTopMiddleContent;
