@@ -8,6 +8,7 @@
 #include <QFileInfo>
 #include <QFormLayout>
 #include <QLabel>
+#include <QString>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QtDebug>
@@ -115,24 +116,39 @@ void ImageInfoWidget::updateInfo()
     m_maxContentWidth = 0;
     int titleWidth = 0;
     int fieldWidth = 0;
-
     auto ei = utils::image::GetExifFromPath(m_path, m_isDetail);
     for (const utils::image::ExifItem* i =
          utils::image::getExifItemList(m_isDetail); i->tag; ++i) {
-        const QString v = ei.value(i->name);
+
+        QString v = ei.value(i->name);
+
         if (v.isEmpty()) {
             continue;
         }
+
+
+        const int infoLength = v.length();
+        const int itemWidth = 6;
+        if (infoLength > itemWidth) {
+
+           for(int i = 1; i < infoLength / itemWidth; i++) {
+                int n = i * 6;
+                v.insert(n, QLatin1String(" "));
+            }
+        }
+
         SimpleFormField *label = new SimpleFormField(v);
         label->setWordWrap(true);
-
         const QString tn = qApp->translate("ExifItemName", i->name);
+
         titleWidth = qMax(titleWidth, utils::base::stringWidth(font(), tn));
         fieldWidth = qMax(fieldWidth, utils::base::stringWidth(label->font(),label->text()));
-        label->setMinimumHeight(utils::base::stringHeight(font(), v));
+
+        label->setMinimumHeight(utils::base::stringHeight(label->font(),label->text()) + 15);
         m_exifLayout->addRow(new SimpleFormLabel(tn + ":"), label);
     }
 
     m_maxContentWidth = titleWidth + fieldWidth + 10;
     m_maxContentWidth += verticalScrollBar()->isVisible() ? -10 : 10;
+
 }
