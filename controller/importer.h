@@ -21,7 +21,7 @@ public:
     double getProgress() const;
     int finishedCount() const;
     void nap();
-    void showImportDialog();
+    void showImportDialog(const QString &album = "");
     void stopImport();
     void importDir(const QString &path, const QString &album = "");
     void importFiles(const QStringList &files, const QString &album = "");

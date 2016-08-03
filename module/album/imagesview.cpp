@@ -1,9 +1,10 @@
 #include "imagesview.h"
 #include "application.h"
 #include "dscrollbar.h"
+#include "controller/exporter.h"
+#include "controller/importer.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
-#include "controller/exporter.h"
 #include "controller/wallpapersetter.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -398,11 +399,10 @@ void ImagesView::initContent()
     m_contentLayout->setContentsMargins(10, 70, 6, 20);
 
     m_importFrame = new ImportFrame(this);
-    m_importFrame->setButtonText(tr("Add from timeline"));
-    m_importFrame->setTitle(
-                tr("Add image from timeline or drag image to this album"));
+    m_importFrame->setButtonText(tr("Import"));
+    m_importFrame->setTitle(tr("Import or drag image to timeline"));
     connect(m_importFrame, &ImportFrame::clicked, this, [=] {
-        emit dApp->signalM->addImageFromTimeline(m_album);
+        dApp->importer->showImportDialog(m_album);
     });
 
     initListView();

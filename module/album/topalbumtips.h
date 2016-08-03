@@ -19,9 +19,7 @@ private:
 
 private:
     QHBoxLayout *m_layout;
-    QString m_album;
     QLabel *m_infoLabel;
-    QPushButton *m_importButton;
 };
 
 #endif // TOPALBUMTIPS_H

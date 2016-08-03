@@ -61,103 +61,36 @@ QWidget *TimelinePanel::toolbarBottomContent()
     QWidget *tBottomContent = new QWidget;
     tBottomContent->setStyleSheet(this->styleSheet());
 
-    QLabel* separatorLine = new QLabel;
-    separatorLine->setObjectName("BtmSeparatorLine");
-    separatorLine->setFixedHeight(1);
-    QVBoxLayout* btmLayout = new QVBoxLayout(tBottomContent);
-    btmLayout->setContentsMargins(0, 0, 0, 0);
-    btmLayout->addWidget(separatorLine);
-
-    QHBoxLayout *layout = new QHBoxLayout;
+    QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
     layout->setContentsMargins(14, 0, 14, 0);
     layout->setSpacing(0);
+    const int sizeScale = dApp->setter->value(SETTINGS_GROUP,
+                                              SETTINGS_ICON_SCALE_KEY,
+                                              QVariant(0)).toInt();
+    const int iconSize = MIN_ICON_SIZE + sizeScale * 32;
+    m_view->setIconSize(QSize(iconSize, iconSize));
 
-    if (m_targetAlbum.isEmpty()) {
-        separatorLine->hide();
-        const int sizeScale = dApp->setter->value(SETTINGS_GROUP,
-                                                  SETTINGS_ICON_SCALE_KEY,
-                                                  QVariant(0)).toInt();
-        const int iconSize = MIN_ICON_SIZE + sizeScale * 32;
-        m_view->setIconSize(QSize(iconSize, iconSize));
+    m_slider = new Slider(Qt::Horizontal);
+    m_slider->setMinimum(0);
+    m_slider->setMaximum(3);
+    m_slider->setValue(sizeScale);
+    connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
+        int newSize = MIN_ICON_SIZE + multiple * 32;
+        m_view->setIconSize(QSize(newSize, newSize));
+        dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_ICON_SCALE_KEY,
+                               QVariant(m_slider->value()));
+    });
 
-        m_slider = new Slider(Qt::Horizontal);
-        m_slider->setMinimum(0);
-        m_slider->setMaximum(3);
-        m_slider->setValue(sizeScale);
-        connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
-            //            qDebug() << "Change the view size to: X" << multiple;
-            int newSize = MIN_ICON_SIZE + multiple * 32;
-            m_view->setIconSize(QSize(newSize, newSize));
-            dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_ICON_SCALE_KEY,
-                                   QVariant(m_slider->value()));
-        });
+    m_countLabel = new QLabel;
+    m_countLabel->setObjectName("CountLabel");
 
-        m_countLabel = new QLabel;
-        m_countLabel->setObjectName("CountLabel");
-
-        updateBottomToolbarContent(dApp->databaseM->imageCount());
+    updateBottomToolbarContent(dApp->databaseM->imageCount());
 
 
-        layout->addStretch(1);
-        layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
-        layout->addWidget(m_slider, 1, Qt::AlignRight);
-    }
-    else {  // For import images to an album
-        separatorLine->show();
-        QVBoxLayout* titleLayout = new QVBoxLayout;
-        titleLayout->setMargin(0);
-        titleLayout->addStretch();
-        QLabel *label = new QLabel;
-        label->setObjectName("AddToAlbumTitle");
-        label->setText(tr("Add to \"%1\" album").arg(m_targetAlbum));
-        titleLayout->addWidget(label);
-        titleLayout->addSpacing(7);
-        titleLayout->addStretch();
+    layout->addStretch(1);
+    layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
+    layout->addWidget(m_slider, 1, Qt::AlignRight);
 
-        QVBoxLayout* cancelBtnLayout = new QVBoxLayout;
-        cancelBtnLayout->setMargin(0);
-        cancelBtnLayout->addStretch();
-        QPushButton *cancelButton = new QPushButton(tr("Cancel"));
-        cancelButton->setObjectName("AddToAlbumCancel");
-
-        connect(cancelButton, &QPushButton::clicked, this, [=] {
-            emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
-            emit dApp->signalM->gotoAlbumPanel();
-            emit dApp->signalM->imageAddedToAlbum();
-        });
-        cancelBtnLayout->addWidget(cancelButton);
-        cancelBtnLayout->addSpacing(6);
-        cancelBtnLayout->addStretch();
-
-        QVBoxLayout* addBtnLayout = new QVBoxLayout;
-        addBtnLayout->setMargin(0);
-        addBtnLayout->addStretch();
-        QPushButton *addButton = new QPushButton(tr("Add"));
-        addButton->setObjectName("AddToAlbumAdd");
-        addBtnLayout->addWidget(addButton);
-        addBtnLayout->addSpacing(6);
-        addBtnLayout->addStretch();
-        connect(addButton, &QPushButton::clicked, this, [=] {
-            QStringList images = m_view->selectedImages().keys();
-            for (QString image : images) {
-                // TODO improve performance
-                auto info = dApp->databaseM->getImageInfoByName(image);
-                dApp->databaseM->insertImageIntoAlbum(
-                    m_targetAlbum, image, utils::base::timeToString(info.time));
-            }
-
-            emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
-            emit dApp->signalM->gotoAlbumPanel();
-            emit dApp->signalM->imageAddedToAlbum();
-        });
-
-        layout->addLayout(titleLayout);
-        layout->addStretch(1);
-        layout->addLayout(cancelBtnLayout);
-        layout->addSpacing(10);
-        layout->addLayout(addBtnLayout);
-    }
-    btmLayout->addLayout(layout);
     return tBottomContent;
 }
 
@@ -251,7 +184,7 @@ void TimelinePanel::showPanelEvent(ModulePanel *p)
     emit dApp->signalM->showBottomToolbar();
     emit dApp->signalM->hideExtensionPanel(true);
     emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent(),
-                                                ! m_targetAlbum.isEmpty());
+                                                   false);
 }
 
 void TimelinePanel::initConnection()
@@ -269,7 +202,6 @@ void TimelinePanel::initConnection()
     connect(dApp->signalM, &SignalManager::imageCountChanged,
             this, &TimelinePanel::onImageCountChanged);
     connect(dApp->signalM, &SignalManager::gotoTimelinePanel, this, [=] {
-        m_targetAlbum = "";
         m_view->setTickable(false);
         m_view->clearSelection();
         m_view->setMultiSelection(false);
@@ -303,16 +235,6 @@ void TimelinePanel::initMainStackWidget()
     m_mainStack->addWidget(m_view);
     //show import frame if no images in database
     m_mainStack->setCurrentIndex(dApp->databaseM->imageCount() > 0 ? 1 : 0);
-
-    connect(dApp->signalM, &SignalManager::addImageFromTimeline,
-            this, [=] (const QString &targetAlbum) {
-        m_targetAlbum = targetAlbum;
-        m_view->setTickable(true);
-        m_view->clearSelection();
-        m_view->setMultiSelection(true);
-        emit dApp->signalM->gotoPanel(this);
-        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent(), true);
-    });
 
     QLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -473,9 +395,6 @@ void TimelinePanel::onImageCountChanged(int count)
 
 QString TimelinePanel::createMenuContent()
 {
-    if (! m_targetAlbum.isEmpty())
-        return QString();
-
     QMap<QString, QString> images = m_view->selectedImages();
     QJsonArray items;
     if (images.count() == 1) {

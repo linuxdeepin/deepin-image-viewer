@@ -58,7 +58,6 @@ private:
     void initPopupMenu();
     void initMainStackWidget();
     void initImagesView();
-    void initSelectionView();
     void initStyleSheet();
 
     void updateBottomToolbarContent(int count);
@@ -76,7 +75,6 @@ private:
     const DatabaseManager::ImageInfo imageInfo(const QString &name) const;
 
 private:
-    QString m_targetAlbum;  // For import images to an album
     QLabel *m_countLabel = NULL;
     Slider *m_slider;
 
