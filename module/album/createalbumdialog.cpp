@@ -6,8 +6,8 @@
 #include <QLineEdit>
 #include <QKeyEvent>
 
-CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
-    :BlureDialog(parent, source)
+CreateAlbumDialog::CreateAlbumDialog(QWidget* parent)
+    :DDialog(parent)
 {
     setMinimumWidth(450);
 
@@ -35,9 +35,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
             this->close();
         }
     });
-    connect(edit, &QLineEdit::textChanged, this, [=] (const QString &t) {
-        disableButton(tr("OK"), t.isEmpty());
-    });
+
     QVBoxLayout *rl = new QVBoxLayout;
     rl->setContentsMargins(0, 0, 0, 0);
     rl->addSpacing(5);
@@ -48,9 +46,10 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
     layout->addLayout(rl);
 
     addButton(tr("Cancel"), 0);
-    addButton(tr("OK"), 1);
+    addButton(tr("Ok"), 1);
 
-    connect(this, &CreateAlbumDialog::clicked, this, [=] (int id) {
+    connect(this, &CreateAlbumDialog::buttonClicked, this, [=] (int id, const QString &text) {
+        Q_UNUSED(text);
         if (id == 0) {
             this->close();
         }
@@ -60,7 +59,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget *parent, QWidget *source)
         }
     });
 
-    setContent(w);
+    this->insertContent(0, w);
 }
 
 void CreateAlbumDialog::keyPressEvent(QKeyEvent *e)
@@ -101,7 +100,6 @@ const QString CreateAlbumDialog::getNewAlbumName() const
                 return nan + QString::number(c + 1);
             }
         }
-
         return nan;
     }
 }

@@ -31,6 +31,7 @@ ImageInfoDialog::ImageInfoDialog(QWidget *parent, QWidget *source)
     m_thumbnail = new QLabel;
     m_thumbnail->setFixedSize(240, 160);
     setTopContent(m_thumbnail);
+    setBlurBackground(false);
 
     this->setMinimumWidth(250);
 //    this->setMinimumHeight(380);

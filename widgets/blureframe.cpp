@@ -80,7 +80,7 @@ void BlureFrame::paintEvent(QPaintEvent *)
 
 QPixmap BlureFrame::getResultPixmap()
 {
-    if (!parentWidget() || parentWidget() == m_sourceWidget)
+    if (!parentWidget() || parentWidget() == m_sourceWidget || !m_blur)
         return QPixmap();
 
     QGraphicsBlurEffect *effect = new QGraphicsBlurEffect(this);
@@ -91,6 +91,10 @@ QPixmap BlureFrame::getResultPixmap()
     bp = bp.copy(geometry());//Crop effective area
 
     return bp;
+}
+
+void BlureFrame::setBlurBackground(bool blur) {
+    m_blur = blur;
 }
 
 void BlureFrame::moveWithAnimation(int x, int y)
