@@ -96,7 +96,7 @@ void ExtensionPanel::paintEvent(QPaintEvent *)
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.setClipPath(path);
 
-    painter.drawPixmap(0, 0, width(), height(), getResultPixmap());
+    painter.drawPixmap(0, 0, width(), height(), getBlurePixmap());
     painter.fillRect(0, 0, width(), height(), QBrush(QColor(0, 0, 0, 153)));
 
     QPen pen;

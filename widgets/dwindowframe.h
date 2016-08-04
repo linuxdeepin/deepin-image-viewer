@@ -6,8 +6,8 @@
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  **/
-#ifndef WINDOWFRAME_H
-#define WINDOWFRAME_H
+#ifndef DWINDOWFRAME_H
+#define DWINDOWFRAME_H
 
 /**
  * Every fucking thing about this window is stupid!
@@ -19,7 +19,7 @@
 #include <QVBoxLayout>
 class QGraphicsDropShadowEffect;
 class QHBoxLayout;
-class WindowFrame;
+class DWindowFrame;
 class FilterMouseMove;
 
 enum CornerEdge {
@@ -34,22 +34,22 @@ enum CornerEdge {
     BottomRight = Bottom | Right,
 };
 
-class WindowFrame : public QWidget {
+class DWindowFrame : public QWidget {
     Q_OBJECT
 
 public:
-    explicit WindowFrame(QWidget* parent = nullptr);
-    ~WindowFrame();
+    explicit DWindowFrame(QWidget* parent = nullptr);
+    ~DWindowFrame();
 
     void polish();
 
     QPoint mapToGlobal(const QPoint &) const;
-    void resize(int w, int h);
-    void setFixedSize(int w, int h);
+    void resizeContentWindow(int w, int h);
     void setMinimumSize(int w, int h);
     void setMaximumSize(int maxw, int maxh);
     void setModal(bool);
     void addContenWidget(QWidget *main);
+    const int layoutMargin = 0;
 
 public slots:
     void startMoving();
@@ -57,24 +57,28 @@ public slots:
     void showMaximized();
     void showNormal();
     void showMinimized();
+    void setWindowState(Qt::WindowStates windowState);
 
 protected:
     int shadowOffsetX = 0;
-    int shadowOffsetY = 6;
+    int shadowOffsetY = 7;
 
     void changeEvent(QEvent* event) override;
     void paintEvent(QPaintEvent*) override;
     void resizeEvent(QResizeEvent*) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
     QVBoxLayout* horizontalLayout = nullptr;
     void startResizing(const QPoint& globalPoint, const CornerEdge& ce);
 
-    const int layoutMargin = 0;
     const int resizeHandleWidth = 0;
-    unsigned const int shadowRadius = 0;
-    const unsigned int borderRadius = 0;
-    const QColor borderColor = QColor(0, 0, 0, 255 / 5);
+    unsigned int shadowRadius;
+    const unsigned int borderRadius = 4;
+    QColor shadowColor;
+    const QColor borderColor = QColor(0, 0, 0, 255 * 1);
 
     int userMinimumWidth = 0;
     int userMinimumHeight = 0;
@@ -84,17 +88,17 @@ private:
     int userMaximumHeight = QWIDGETSIZE_MAX;
     void applyMaximumSizeRestriction();
 
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
-
-    QGraphicsDropShadowEffect* shadowEffect = nullptr;
+//    QGraphicsDropShadowEffect* shadowEffect = nullptr;
+    QPixmap shadowPixmap;
 
     CornerEdge resizingCornerEdge = CornerEdge::Nil;
     CornerEdge getCornerEdge(int, int);
 
     void setMargins(unsigned int width);
     void paintOutline();
+    void drawShadowPixmap();
+
+    bool mouseDraging;
 };
 
 class FilterMouseMove : public QObject {
@@ -107,4 +111,4 @@ public:
     bool eventFilter(QObject *obj, QEvent *event);
 };
 
-#endif //WINDOWFRAME_H
+#endif //DWINDOWFRAME_H
