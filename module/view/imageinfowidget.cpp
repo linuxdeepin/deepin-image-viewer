@@ -146,7 +146,7 @@ void ImageInfoWidget::updateBaseInfo()
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
-    auto ei = GetExifFromPath(m_path, false);
+    auto ei = getExifFromPath(m_path, false);
     for (const ExifItem* i = getExifItemList(false); i->tag; ++i) {
         QString value = ei.value(i->name);
         if (! value.isEmpty()) {
@@ -166,7 +166,7 @@ void ImageInfoWidget::updateDetailsInfo()
     using namespace utils::base;
     clearLayout(m_exifLayout_details);
 
-    auto ei = GetExifFromPath(m_path, true);
+    auto ei = getExifFromPath(m_path, true);
     for (const ExifItem* i = getExifItemList(true); i->tag; ++i) {
         QString value = ei.value(i->name);
         if (! value.isEmpty()) {

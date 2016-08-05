@@ -39,7 +39,7 @@ QPixmap scaleImage(const QString &filePath, const QSize &size = QSize(384, 383))
 QDateTime getCreateDateTime(const QString &filePath);
 
 QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag);
-QMap<QString, QString> GetExifFromPath(const QString& path, bool isDetails);
+QMap<QString, QString> getExifFromPath(const QString& path, bool isDetails);
 
 /*!
  * \brief saveImageWithExif

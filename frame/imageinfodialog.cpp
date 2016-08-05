@@ -39,20 +39,22 @@ ImageInfoDialog::ImageInfoDialog(QWidget *parent, QWidget *source)
 
 void ImageInfoDialog::setPath(const QString &path)
 {
-    const QPixmap p = utils::image::cutSquareImage(QPixmap(path),
+    using namespace utils::image;
+    const QPixmap p = cutSquareImage(QPixmap(path),
                                                    QSize(240, 160));
     m_thumbnail->setPixmap(p);
 
-    auto ei = utils::image::GetExifFromPath(path, true);
-    for (const utils::image::ExifItem* i = exifItems; i->tag; ++i) {
-        const QString v = ei.value(i->name);
+    auto ei = getExifFromPath(path, true);
+    ei.unite(getExifFromPath(path, false));
 
-        QFont textFont;
-        QFontMetrics fm(textFont);
-        QString fontMetricText = fm.elidedText(v, Qt::ElideNone, 200);
+    for (const ExifItem* i = exifItems; i->tag; ++i) {
+        const QString v = ei.value(i->name);
         if (v.isEmpty()) {
             continue;
         }
-        addInfoPair(qApp->translate("ExifItemName", i->name) + ":", fontMetricText);
+        QFont textFont;
+        QFontMetrics fm(textFont);
+        QString ft = fm.elidedText(v, Qt::ElideNone, 200);
+        addInfoPair(qApp->translate("ExifItemName", i->name) + ":", ft);
     }
 }

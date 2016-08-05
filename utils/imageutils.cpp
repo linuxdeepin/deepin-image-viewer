@@ -383,7 +383,7 @@ QImage blure(const QImage &origin) {
     return newImage;
 }
 
-QMap<QString, QString> GetExifFromPath(const QString &path, bool isDetails)
+QMap<QString, QString> getExifFromPath(const QString &path, bool isDetails)
 {
     QMap<QString, QString> dataMap;
 
