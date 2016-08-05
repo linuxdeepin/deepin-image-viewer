@@ -95,10 +95,17 @@ void TopToolbar::resizeEvent(QResizeEvent *e)
     m_rightContent->setFixedWidth(e->size().width() / 3);
 }
 
+void TopToolbar::mousePressEvent(QMouseEvent *e)
+{
+    BlureFrame::mousePressEvent(e);
+    m_pressBtn = e->button();
+}
+
 void TopToolbar::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
-    emit moving();
+    if (m_pressBtn == Qt::LeftButton)
+        emit moving();
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
