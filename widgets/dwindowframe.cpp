@@ -328,23 +328,23 @@ void DWindowFrame::updateCursor(CornerEdge ce) {
 
 void DWindowFrame::startMoving() {
     const auto display = QX11Info::display();
-    const auto winId = this->winId();
     const auto screen = QX11Info::appScreen();
 
     XEvent xev;
-    const Atom netMoveResize = XInternAtom(display, "_NET_WM_MOVERESIZE", false);
+    memset(&xev, 0, sizeof(xev));
+    const Atom net_move_resize = XInternAtom(display, "_NET_WM_MOVERESIZE", false);
     xev.xclient.type = ClientMessage;
-    xev.xclient.message_type = netMoveResize;
+    xev.xclient.message_type = net_move_resize;
     xev.xclient.display = display;
-    xev.xclient.window = winId;
+    xev.xclient.window = this->winId();
     xev.xclient.format = 32;
 
-    const auto globalPos = QCursor::pos();
-    xev.xclient.data.l[0] = globalPos.x();
-    xev.xclient.data.l[1] = globalPos.y();
-    xev.xclient.data.l[2] = _NET_WM_MOVERESIZE_MOVE;
-    xev.xclient.data.l[3] = 0;
-    xev.xclient.data.l[4] = 0;
+    const auto global_position = QCursor::pos();
+    xev.xclient.data.l[0] = global_position.x();
+    xev.xclient.data.l[1] = global_position.y();
+    xev.xclient.data.l[2] = 8;
+    xev.xclient.data.l[3] = 1;
+    xev.xclient.data.l[4] = 1;  // source indication
     XUngrabPointer(display, QX11Info::appTime());
 
     XSendEvent(display,
