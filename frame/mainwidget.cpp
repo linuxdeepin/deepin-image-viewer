@@ -242,25 +242,23 @@ void MainWidget::initExtensionPanel()
     connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [=] {
         // Is visible
         if (m_extensionPanel->pos() == QPoint(0, 0)) {
-            m_extensionPanel->move(- m_extensionPanel->width(), 0);
+            m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+                                                   EXTENSION_PANEL_WIDTH), 0);
         }
         else {
-            m_extensionPanel->move(0, 0);
+            m_extensionPanel->moveWithAnimation(0, 0);
         }
     });
     connect(dApp->signalM, &SignalManager::hideExtensionPanel,
             this, [=] (bool immediately) {
-        m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-                                               EXTENSION_PANEL_WIDTH), 0);
-        Q_UNUSED(immediately)
-//        if (immediately) {
-//            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-//                                                   EXTENSION_PANEL_WIDTH), 0);
-//        }
-//        else {
-//            m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-//                                                   EXTENSION_PANEL_WIDTH), 0);
-//        }
+        if (immediately) {
+            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+                                                   EXTENSION_PANEL_WIDTH), 0);
+        }
+        else {
+            m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+                                                   EXTENSION_PANEL_WIDTH), 0);
+        }
     });
 }
 
