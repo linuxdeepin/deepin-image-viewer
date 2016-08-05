@@ -15,7 +15,7 @@ const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 }  //namespace
 
 MainWindow::MainWindow(bool manager, QWidget *parent):
-    WindowFrame(parent)
+    DWindowFrame(parent)
 {
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.65 < MAINWIDGET_MINIMUN_WIDTH
@@ -31,6 +31,9 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 
     m_mainWidget = new MainWidget(manager, this);
     addContenWidget(m_mainWidget);
+//    QHBoxLayout *l = new QHBoxLayout(this);
+//    l->setContentsMargins(0, 0, 0, 0);
+//    l->addWidget(m_mainWidget);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -41,5 +44,5 @@ void MainWindow::resizeEvent(QResizeEvent *e)
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
                                QVariant(m_mainWidget->height()));
     }
-    WindowFrame::resizeEvent(e);
+    DWindowFrame::resizeEvent(e);
 }

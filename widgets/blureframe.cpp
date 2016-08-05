@@ -1,4 +1,6 @@
 #include "blureframe.h"
+#include "utils/baseutils.h"
+#include <QApplication>
 #include <QDebug>
 #include <QPainter>
 #include <QGraphicsScene>
@@ -11,9 +13,19 @@ const int ANIMATION_DURATION = 500;
 const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 
 BlureFrame::BlureFrame(QWidget *parent, QWidget *source)
-    : QFrame(parent), m_sourceWidget(source)
+    : QFrame(parent),
+      m_sourceWidget(source),
+      m_coverBrush(QBrush(QColor(0, 0, 0, 200))),
+      m_blureRadius(50),
+      m_borderRadius(0),
+      m_borderWidth(0)
 {
-
+    m_geometryTimer = new QTimer(this);
+    m_geometryTimer->setSingleShot(true);
+    connect(m_geometryTimer, &QTimer::timeout, this, [=] {
+        m_geometryChanging = false;
+        this->update();
+    });
 }
 
 void BlureFrame::setSourceWidget(QWidget *source)
@@ -71,26 +83,51 @@ void BlureFrame::paintEvent(QPaintEvent *)
     ip.addRoundedRect(insideRect, m_borderRadius, m_borderRadius);
     p.setClipPath(ip);
 
-    p.drawPixmap(0, 0, width(), height(), getResultPixmap());
+    p.drawPixmap(0, 0, width(), height(), getBlurePixmap());
     p.fillRect(0, 0, width(), height(), m_coverBrush);
 
 
     p.end();
 }
 
-QPixmap BlureFrame::getResultPixmap()
+QT_BEGIN_NAMESPACE
+  extern Q_WIDGETS_EXPORT void qt_blurImage( QPainter *p,
+                                             QImage &blurImage,
+                                             qreal radius,
+                                             bool quality,
+                                             bool alphaOnly,
+                                             int transposed = 0 );
+QT_END_NAMESPACE
+QPixmap BlureFrame::getBlurePixmap()
 {
-    if (!parentWidget() || parentWidget() == m_sourceWidget || !m_blur)
+    if (m_geometryChanging ||
+            ! m_blur ||
+            ! parentWidget() ||
+            parentWidget() == m_sourceWidget) {
         return QPixmap();
+    }
 
-    QGraphicsBlurEffect *effect = new QGraphicsBlurEffect(this);
-    effect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
-    effect->setBlurRadius(m_blureRadius);
-    QPixmap bp;
-    bp.convertFromImage(applyEffectToImage(m_sourceWidget->grab().toImage(), effect));
-    bp = bp.copy(geometry());//Crop effective area
+    QImage si = m_sourceWidget->grab().toImage();
+    QPixmap dp(si.size());
+    dp.fill( Qt::transparent );
+    QPainter painter( &dp );
+    qt_blurImage( &painter, si, m_blureRadius, true, false );
+    return dp.copy(geometry());
 
-    return bp;
+//    QGraphicsBlurEffect *effect = new QGraphicsBlurEffect(this);
+//    effect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
+//    effect->setBlurRadius(m_blureRadius);
+
+//    QLabel* label = new QLabel();
+//    label->setPixmap(m_sourceWidget->grab());
+//    label->setGraphicsEffect(effect);
+//    return label->grab().copy(geometry());
+
+//    QPixmap bp(10, 10);
+//    bp.convertFromImage(applyEffectToImage(m_sourceWidget->grab().toImage(), effect));
+//    bp = bp.copy(geometry());//Crop effective area
+
+//    return bp;
 }
 
 void BlureFrame::setBlurBackground(bool blur) {
@@ -133,6 +170,14 @@ QColor BlureFrame::getBorderColor() const
 void BlureFrame::setBorderColor(const QColor &borderColor)
 {
     m_borderColor = borderColor;
+}
+
+void BlureFrame::resizeEvent(QResizeEvent *e)
+{
+    QFrame::resizeEvent(e);
+    // FIXME temporary suspend generate the blure pixmap to save CPU usage
+    m_geometryChanging = true;
+    m_geometryTimer->start(3000);
 }
 
 void BlureFrame::keyPressEvent(QKeyEvent *e)

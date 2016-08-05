@@ -25,11 +25,12 @@ public:
     void setBorderColor(const QColor &borderColor);
     void setBlurBackground(bool blur = true);
 protected:
+    void resizeEvent(QResizeEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *) override;
-    QPixmap getResultPixmap();
+    QPixmap getBlurePixmap();
 
 private:
     QImage applyEffectToImage(QImage src, QGraphicsEffect *effect, int extent = 0);
@@ -37,13 +38,15 @@ private:
 private:
     QPoint m_pressPos;
     QWidget *m_sourceWidget;
-    QBrush m_coverBrush = QBrush(QColor(0, 0, 0, 200));
-    int m_blureRadius = 13;
+    QBrush m_coverBrush;
+    int m_blureRadius;
     QPoint m_pos;
-    int m_borderRadius = 0;
-    int m_borderWidth = 0;
+    int m_borderRadius;
+    int m_borderWidth;
     QColor m_borderColor;
-    bool m_blur = true;
+    bool m_blur = true; // TODO this property should be move
+    bool m_geometryChanging;
+    QTimer *m_geometryTimer;
 };
 
 #endif // BLUREFRAME_H

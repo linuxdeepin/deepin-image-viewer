@@ -14,7 +14,7 @@ HEADERS += \
     $$PWD/separator.h \
     $$PWD/thumbnaildelegate.h \
     $$PWD/progresswidgetstips.h \
-    $$PWD/windowframe.h
+    $$PWD/dwindowframe.h
 
 SOURCES += \
     $$PWD/importframe.cpp \
@@ -32,7 +32,7 @@ SOURCES += \
     $$PWD/separator.cpp \
     $$PWD/thumbnaildelegate.cpp \
     $$PWD/progresswidgetstips.cpp \
-    $$PWD/windowframe.cpp
+    $$PWD/dwindowframe.cpp
 
 RESOURCES += \
     $$PWD/widgets.qrc

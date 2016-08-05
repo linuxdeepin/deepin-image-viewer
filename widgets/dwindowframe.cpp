@@ -12,7 +12,11 @@
 #include <QDebug>
 #include <QVBoxLayout>
 #include <QPainter>
-#include "windowframe.h"
+#include <QGuiApplication>
+#include <QWindow>
+#include <QTimer>
+
+#include "dwindowframe.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -42,6 +46,12 @@
 #define XC_left_side 70
 #define XC_top_left_corner 134
 
+/// shadow
+#define SHADOW_RADIUS_NORMAL 40
+#define SHADOW_RADIUS_ACTIVE 40
+#define SHADOW_COLOR_NORMAL QColor(0, 0, 0, 255 * 0.15)
+#define SHADOW_COLOR_ACTIVE QColor(0, 0, 0, 255 * 0.3)
+
 auto cornerEdge2WmGravity(const CornerEdge& ce) -> int {
     switch (ce) {
         case CornerEdge::Top:
@@ -70,7 +80,7 @@ auto cornerEdge2XCursor(const CornerEdge& ce) -> int {
         case CornerEdge::Top:
             return XC_top_side;
         case CornerEdge::TopRight:
-            return XC_top_right_corner;
+            return -1;
         case CornerEdge::Right:
             return XC_right_side;
         case CornerEdge::BottomRight:
@@ -78,22 +88,24 @@ auto cornerEdge2XCursor(const CornerEdge& ce) -> int {
         case CornerEdge::Bottom:
             return XC_bottom_side;
         case CornerEdge::BottomLeft:
-            return XC_bottom_left_corner;
+            return -1;
         case CornerEdge::Left:
             return XC_left_side;
         case CornerEdge::TopLeft:
-            return XC_top_left_corner;
+            return -1;
         default: {
             return -1;
         }
     }
 }
 
-WindowFrame::WindowFrame(QWidget* parent) : QWidget(parent),
-                                              layoutMargin(25),
-                                              resizeHandleWidth(5),
-                                              shadowRadius(24),
-                                              borderRadius(4) {
+DWindowFrame::DWindowFrame(QWidget* parent)
+    : QWidget(parent)
+    , layoutMargin(SHADOW_RADIUS_NORMAL)
+    , resizeHandleWidth(6)
+    , shadowRadius(SHADOW_RADIUS_NORMAL)
+    , shadowColor(SHADOW_COLOR_NORMAL)
+{
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setMouseTracking(true);
@@ -103,22 +115,35 @@ WindowFrame::WindowFrame(QWidget* parent) : QWidget(parent),
     this->horizontalLayout->setObjectName("horizontalLayout");
     this->setMargins(this->layoutMargin);
     this->setLayout(this->horizontalLayout);
+
+    connect(qApp, &QGuiApplication::focusWindowChanged, this, [this] {
+        if (isActiveWindow()) {
+            shadowRadius = SHADOW_RADIUS_ACTIVE;
+            shadowColor = SHADOW_COLOR_ACTIVE;
+        } else {
+            shadowRadius = SHADOW_RADIUS_NORMAL;
+            shadowColor = SHADOW_COLOR_NORMAL;
+        }
+
+        drawShadowPixmap();
+        update();
+    });
 }
 
-WindowFrame::~WindowFrame() {
+DWindowFrame::~DWindowFrame() {
 
 }
 
-void WindowFrame::polish() {
+void DWindowFrame::polish() {
 #ifndef BUILD_WITH_WEBENGINE
     // draw window shadow
-    if (!this->shadowEffect) {
-        this->shadowEffect = new QGraphicsDropShadowEffect(this);
-        this->shadowEffect->setBlurRadius(this->shadowRadius);
-        this->shadowEffect->setColor(this->borderColor);
-        this->shadowEffect->setOffset(this->shadowOffsetX, this->shadowOffsetY);
-        this->setGraphicsEffect(this->shadowEffect);
-    }
+//    if (!this->shadowEffect) {
+//        this->shadowEffect = new QGraphicsDropShadowEffect(this);
+//        this->shadowEffect->setBlurRadius(this->shadowRadius);
+//        this->shadowEffect->setColor(this->borderColor);
+//        this->shadowEffect->setOffset(this->shadowOffsetX, this->shadowOffsetY);
+////        this->setGraphicsEffect(this->shadowEffect);
+//    }
 #endif
 
     const auto layout = this->layout();
@@ -153,13 +178,13 @@ void WindowFrame::polish() {
                     QRegion(0, 0, borderRadius * 2, borderRadius * 2, QRegion::RegionType::Ellipse)
             );
             const auto tr = QRegion(widget->width() - borderRadius, 0, borderRadius, borderRadius, QRegion::RegionType::Rectangle).subtracted(
-                    QRegion(widget->width() - 2 * borderRadius, 0, borderRadius * 2, borderRadius * 2, QRegion::RegionType::Ellipse)
+                    QRegion(widget->rect().right() - 2 * borderRadius, 0, borderRadius * 2, borderRadius * 2, QRegion::RegionType::Ellipse)
             );
             const auto bl = QRegion(0, widget->height() - borderRadius, borderRadius, borderRadius, QRegion::RegionType::Rectangle).subtracted(
-                    QRegion(0, widget->height() - 2 * borderRadius, borderRadius * 2, borderRadius * 2, QRegion::RegionType::Ellipse)
+                    QRegion(0, widget->rect().bottom() - 2 * borderRadius, borderRadius * 2, borderRadius * 2, QRegion::RegionType::Ellipse)
             );
             const auto br = QRegion(widget->width() - borderRadius, widget->height() - borderRadius, borderRadius, borderRadius, QRegion::RegionType::Rectangle).subtracted(
-                    QRegion(widget->width() - 2 * borderRadius, widget->height() - 2 * borderRadius, borderRadius * 2, borderRadius * 2, QRegion::RegionType::Ellipse)
+                    QRegion(widget->rect().right() - 2 * borderRadius, widget->rect().bottom() - 2 * borderRadius, borderRadius * 2, borderRadius * 2, QRegion::RegionType::Ellipse)
             );
 
             const auto result = region
@@ -203,7 +228,8 @@ void WindowFrame::polish() {
 }
 
 
-void WindowFrame::mousePressEvent(QMouseEvent* event) {
+void DWindowFrame::mousePressEvent(QMouseEvent* event) {
+    mouseDraging = true;
     const int x = event->x();
     const int y = event->y();
     if (event->button() == Qt::LeftButton) {
@@ -217,7 +243,7 @@ void WindowFrame::mousePressEvent(QMouseEvent* event) {
     QWidget::mousePressEvent(event);
 }
 
-void WindowFrame::mouseMoveEvent(QMouseEvent* event) {
+void DWindowFrame::mouseMoveEvent(QMouseEvent* event) {
     const int x = event->x();
     const int y = event->y();
 
@@ -228,7 +254,7 @@ void WindowFrame::mouseMoveEvent(QMouseEvent* event) {
     QWidget::mouseMoveEvent(event);
 }
 
-void WindowFrame::startResizing(const QPoint& globalPoint, const CornerEdge& ce) {
+void DWindowFrame::startResizing(const QPoint& globalPoint, const CornerEdge& ce) {
     const auto display = QX11Info::display();
     const auto winId = this->winId();
     const auto screen = QX11Info::appScreen();
@@ -244,8 +270,8 @@ void WindowFrame::startResizing(const QPoint& globalPoint, const CornerEdge& ce)
     xev.xclient.data.l[0] = globalPoint.x();
     xev.xclient.data.l[1] = globalPoint.y();
     xev.xclient.data.l[2] = cornerEdge2WmGravity(ce);
-    xev.xclient.data.l[3] = 0;
-    xev.xclient.data.l[4] = 0;
+    xev.xclient.data.l[3] = Button1;
+    xev.xclient.data.l[4] = 1;
     XUngrabPointer(display, QX11Info::appTime());
 
     XSendEvent(display,
@@ -256,14 +282,15 @@ void WindowFrame::startResizing(const QPoint& globalPoint, const CornerEdge& ce)
     XFlush(display);
 }
 
-void WindowFrame::mouseReleaseEvent(QMouseEvent* event) {
+void DWindowFrame::mouseReleaseEvent(QMouseEvent* event) {
     QWidget::mouseReleaseEvent(event);
+    mouseDraging = false;
     if (this->resizingCornerEdge) {
         this->resizingCornerEdge = CornerEdge::Nil;
     }
 }
 
-CornerEdge WindowFrame::getCornerEdge(int x, int y) {
+CornerEdge DWindowFrame::getCornerEdge(int x, int y) {
     const QSize winSize = size();
     unsigned int ce = (unsigned int)CornerEdge::Nil;
 
@@ -285,7 +312,7 @@ CornerEdge WindowFrame::getCornerEdge(int x, int y) {
     return (CornerEdge)ce;
 }
 
-void WindowFrame::updateCursor(CornerEdge ce) {
+void DWindowFrame::updateCursor(CornerEdge ce) {
     const auto display = QX11Info::display();
     const auto winId = this->winId();
 
@@ -299,7 +326,7 @@ void WindowFrame::updateCursor(CornerEdge ce) {
     XFlush(display);
 }
 
-void WindowFrame::startMoving() {
+void DWindowFrame::startMoving() {
     const auto display = QX11Info::display();
     const auto winId = this->winId();
     const auto screen = QX11Info::appScreen();
@@ -328,7 +355,7 @@ void WindowFrame::startMoving() {
     XFlush(display);
 }
 
-void WindowFrame::setMargins(unsigned int i) {
+void DWindowFrame::setMargins(unsigned int i) {
     if (!this->horizontalLayout) {
         return;
     }
@@ -352,7 +379,7 @@ void WindowFrame::setMargins(unsigned int i) {
     this->applyMaximumSizeRestriction();
 }
 
-QPoint WindowFrame::mapToGlobal(const QPoint& point) const {
+QPoint DWindowFrame::mapToGlobal(const QPoint& point) const {
     auto result = QWidget::mapToGlobal(point);
     const auto currentLayoutMargin = this->horizontalLayout->contentsMargins().left();
     result.setX(result.x() + currentLayoutMargin);
@@ -360,11 +387,10 @@ QPoint WindowFrame::mapToGlobal(const QPoint& point) const {
     return result;
 }
 
-void WindowFrame::changeEvent(QEvent *event) {
+void DWindowFrame::changeEvent(QEvent *event) {
     QWidget::changeEvent(event);
     if (event->type() == QEvent::WindowStateChange) {
-        if (this->windowState() & Qt::WindowMaximized ||
-                this->windowState() & Qt::WindowFullScreen) {
+        if (this->windowState() & Qt::WindowMaximized) {
             this->setMargins(0);
         } else {
             this->setMargins(this->layoutMargin);
@@ -373,17 +399,12 @@ void WindowFrame::changeEvent(QEvent *event) {
     this->setUpdatesEnabled(true);
 }
 
-void WindowFrame::resize(int w, int h) {
+void DWindowFrame::resizeContentWindow(int w, int h) {
     QWidget::resize(w + this->layoutMargin * 2,
                     h + this->layoutMargin * 2);
 }
 
-void WindowFrame::setFixedSize(int w, int h) {
-    QWidget::setFixedSize(w + this->layoutMargin * 2,
-                          h + this->layoutMargin * 2);
-}
-
-void WindowFrame::applyMinimumSizeRestriction() {
+void DWindowFrame::applyMinimumSizeRestriction() {
     if (this->userMinimumWidth && this->userMinimumHeight) {
         const auto currentLayoutMargin = this->horizontalLayout->contentsMargins().left();
         QWidget::setMinimumSize(this->userMinimumWidth + currentLayoutMargin * 2,
@@ -393,14 +414,14 @@ void WindowFrame::applyMinimumSizeRestriction() {
     }
 }
 
-void WindowFrame::setMinimumSize(int w, int h) {
+void DWindowFrame::setMinimumSize(int w, int h) {
     this->userMinimumWidth = w;
     this->userMinimumHeight = h;
 
     this->applyMinimumSizeRestriction();
 }
 
-void WindowFrame::applyMaximumSizeRestriction() {
+void DWindowFrame::applyMaximumSizeRestriction() {
     if ((this->userMaximumWidth != QWIDGETSIZE_MAX) &
         (this->userMaximumHeight != QWIDGETSIZE_MAX)) {
         const auto currentLayoutMargin = this->horizontalLayout->contentsMargins().left();
@@ -411,14 +432,14 @@ void WindowFrame::applyMaximumSizeRestriction() {
     }
 }
 
-void WindowFrame::setMaximumSize(int maxw, int maxh) {
+void DWindowFrame::setMaximumSize(int maxw, int maxh) {
     this->userMaximumWidth = maxw;
     this->userMaximumHeight = maxh;
 
     this->applyMaximumSizeRestriction();
 }
 
-void WindowFrame::showMaximized() {
+void DWindowFrame::showMaximized() {
     this->setUpdatesEnabled(false); // until changeEvent
     this->setMargins(0);
 
@@ -451,7 +472,7 @@ void WindowFrame::showMaximized() {
     XFlush(display);
 }
 
-void WindowFrame::showNormal() {
+void DWindowFrame::showNormal() {
     this->setUpdatesEnabled(false); // until changeEvent
     this->setMargins(this->layoutMargin * 2);
 
@@ -482,9 +503,11 @@ void WindowFrame::showNormal() {
                SubstructureRedirectMask | SubstructureNotifyMask,
                &xev);
     XFlush(display);
+    this->setUpdatesEnabled(true); // until changeEvent
+    repaint();
 }
 
-void WindowFrame::showMinimized() {
+void DWindowFrame::showMinimized() {
     const auto display = QX11Info::display();
     const auto winId = this->winId();
     const auto screen = QX11Info::appScreen();
@@ -512,9 +535,22 @@ void WindowFrame::showMinimized() {
     );
     XIconifyWindow(display, winId, screen);
     XFlush(display);
+    setMinimumSize(minimumSize().width(), minimumSize().height());
 }
 
-void WindowFrame::setModal(bool on) {
+void DWindowFrame::setWindowState(Qt::WindowStates windowState)
+{
+    if (windowState == Qt::WindowMaximized){
+        showMaximized();
+    }else if (windowState == Qt::WindowMinimized){
+        showMinimized();
+    }else if (windowState == Qt::WindowFullScreen){
+        showFullScreen();
+    }
+    QWidget::setWindowState(windowState);
+}
+
+void DWindowFrame::setModal(bool on) {
     if (on) {
         this->setWindowModality(Qt::WindowModality::ApplicationModal);
     } else {
@@ -522,7 +558,7 @@ void WindowFrame::setModal(bool on) {
     }
 }
 
-void WindowFrame::addContenWidget(QWidget *main)
+void DWindowFrame::addContenWidget(QWidget *main)
 {
     const auto filter = new FilterMouseMove(this);
     main->installEventFilter(filter);
@@ -530,34 +566,109 @@ void WindowFrame::addContenWidget(QWidget *main)
     this->layout()->addWidget(main);
 }
 
-void WindowFrame::paintEvent(QPaintEvent* event) {
-    QWidget::paintEvent(event);
-    this->paintOutline();
+QT_BEGIN_NAMESPACE
+//extern Q_WIDGETS_EXPORT void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed = 0);
+extern Q_WIDGETS_EXPORT void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
+QT_END_NAMESPACE
+
+QImage dropShadow(const QPixmap &px, qreal radius, const QColor &color = Qt::black, QSize size = QSize())
+{
+    if (px.isNull())
+        return QImage();
+
+    if (!size.isValid())
+        size = px.size();
+
+    QImage tmp(size, QImage::Format_ARGB32_Premultiplied);
+    tmp.fill(0);
+    QPainter tmpPainter(&tmp);
+    tmpPainter.setCompositionMode(QPainter::CompositionMode_Source);
+    tmpPainter.drawPixmap(QPoint(radius, radius), px.scaled(QSize(size.width() - 2 * radius, size.height() - 2 * radius)));
+    tmpPainter.end();
+
+    // blur the alpha channel
+    QImage blurred(tmp.size(), QImage::Format_ARGB32_Premultiplied);
+    blurred.fill(0);
+    QPainter blurPainter(&blurred);
+    qt_blurImage(&blurPainter, tmp, radius, false, true);
+    blurPainter.end();
+
+    if (color == QColor(Qt::black))
+        return blurred;
+
+    tmp = blurred;
+
+    // blacken the image...
+    tmpPainter.begin(&tmp);
+    tmpPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+    tmpPainter.fillRect(tmp.rect(), color);
+    tmpPainter.end();
+
+    return tmp;
 }
 
-void WindowFrame::paintOutline() {
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
+void DWindowFrame::paintEvent(QPaintEvent* event) {
+    QWidget::paintEvent(event);
 
-    const auto outlinePadding = this->layout()->contentsMargins().left();
-    auto rect = this->rect();
-    rect.setX(outlinePadding);
-    rect.setY(outlinePadding);
-    rect.setWidth(rect.width() - outlinePadding);
-    rect.setHeight(rect.height() - outlinePadding);
+    if (mouseDraging) {
+        QPainter painter(this);
+        painter.drawPixmap(shadowOffsetX, shadowOffsetY, shadowPixmap);
+        this->paintOutline();
+    }
+}
+
+void DWindowFrame::paintOutline() {
+    QPainter painter(this);
+    QPen pen;
+
+    const qreal outlinePadding = this->layout()->contentsMargins().left();
+    QRectF rect = this->rect();
+    rect.setX(outlinePadding - 0.5);
+    rect.setY(outlinePadding - 0.5);
+    rect.setWidth(rect.width() - outlinePadding + 0.5);
+    rect.setHeight(rect.height() - outlinePadding + 0.5);
 
     QPainterPath path;
-    path.addRoundedRect(rect, this->borderRadius, this->borderRadius);
-    QPen pen;
-    pen.setColor(this->borderColor);
-    pen.setWidth(2);
+
+    QRectF rr(rect.topLeft(), QSizeF(borderRadius * 2, borderRadius * 2));
+
+    path.addEllipse(rr.marginsAdded(QMarginsF(-0.3, -0.3, 0, 0)));
+
+    rr.moveRight(rect.right());
+
+    path.addEllipse(rr.marginsAdded(QMarginsF(0, -0.3, -0.3, 0)));
+
+    rr.moveBottom(rect.bottom());
+
+    path.addEllipse(rr.marginsAdded(QMarginsF(0, 0, -0.3, -0.3)));
+
+    rr.moveLeft(rect.left());
+
+    path.addEllipse(rr.marginsAdded(QMarginsF(-0.3, 0, 0, -0.3)));
+
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.fillPath(path, QColor("#181818"));
+    pen.setColor(borderColor);
     painter.setPen(pen);
     painter.drawPath(path);
+    painter.drawRoundedRect(rect, this->borderRadius, this->borderRadius);
 }
 
-void WindowFrame::resizeEvent(QResizeEvent *event) {
+void DWindowFrame::drawShadowPixmap()
+{
+    QPixmap pixmap(size());
+
+    pixmap.fill(shadowColor);
+
+    shadowPixmap = QPixmap::fromImage(dropShadow(pixmap, shadowRadius));
+}
+
+void DWindowFrame::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
     this->polish();
+    if (mouseDraging) {
+        drawShadowPixmap();
+    }
 }
 
 FilterMouseMove::FilterMouseMove(QObject *object) : QObject(object) {
@@ -571,7 +682,7 @@ FilterMouseMove::~FilterMouseMove() {
 bool FilterMouseMove::eventFilter(QObject *obj, QEvent *event) {
     switch (event->type()) {
         case QEvent::Enter: {
-            const auto mainWindow = static_cast<WindowFrame*>(this->parent());
+            const auto mainWindow = static_cast<DWindowFrame*>(this->parent());
             mainWindow->updateCursor(CornerEdge::Nil);
             // fall through
         }
