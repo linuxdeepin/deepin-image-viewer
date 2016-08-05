@@ -16,7 +16,7 @@
 
 namespace {
 
-const int BORDER_RADIUS = 4;
+const int BORDER_RADIUS = 0;
 const int BORDER_WIDTH = 1;
 const int BORDER_WIDTH_SELECTED = 2;
 const QColor BORDER_COLOR = QColor(255, 255, 255, 51);
