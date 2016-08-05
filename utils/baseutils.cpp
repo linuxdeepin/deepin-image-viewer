@@ -15,7 +15,9 @@
 #include <QFileInfo>
 #include <QImage>
 #include <QMimeData>
+#include <QProcess>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QDebug>
 #include <QTextStream>
 
@@ -83,16 +85,37 @@ void showInFileManager(const QString &path)
     if (path.isEmpty() || !QFile::exists(path)) {
         return;
     }
-    QDBusInterface iface("org.freedesktop.FileManager1",
-                         "/org/freedesktop/FileManager1",
-                         "org.freedesktop.FileManager1",
-                         QDBusConnection::sessionBus());
-    // Convert filepath to URI first.
-    const QStringList uris = { QUrl::fromLocalFile(path).toString() };
 
-    // StartupId is empty here.
-    QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
-    Q_UNUSED(call);
+    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
+    QUrlQuery query;
+    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
+    url.setQuery(query);
+
+    // Try dde-file-manager
+    QProcess *fp = new QProcess();
+    QObject::connect(fp, SIGNAL(finished(int)), fp, SLOT(deleteLater()));
+    fp->start("dde-file-manager", QStringList(url.toString()));
+    fp->waitForStarted(3000);
+    if (fp->error() == QProcess::FailedToStart) {
+        // Start dde-file-manager failed, try nautilus
+        QDBusInterface iface("org.freedesktop.FileManager1",
+                             "/org/freedesktop/FileManager1",
+                             "org.freedesktop.FileManager1",
+                             QDBusConnection::sessionBus());
+        if (iface.isValid()) {
+            // Convert filepath to URI first.
+            const QStringList uris = { QUrl::fromLocalFile(path).toString() };
+
+            // StartupId is empty here.
+            QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
+            Q_UNUSED(call);
+        }
+        // Try to launch other file manager if nautilus is invalid
+        else {
+            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath()));
+        }
+        fp->deleteLater();
+    }
 }
 
 void copyImageToClipboard(const QStringList &paths)
