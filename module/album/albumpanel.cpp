@@ -51,7 +51,6 @@ QWidget *AlbumPanel::toolbarBottomContent()
 {
     QWidget *tBottomContent = new QWidget;
     tBottomContent->setStyleSheet(this->styleSheet());
-
     m_slider = new Slider(Qt::Horizontal);
     m_slider->setMinimum(0);
     m_slider->setMaximum(3);
@@ -71,14 +70,13 @@ QWidget *AlbumPanel::toolbarBottomContent()
     });
 
     m_countLabel = new QLabel;
-    m_countLabel->setAlignment(Qt::AlignLeft);
     m_countLabel->setObjectName("CountLabel");
-
     updateAlbumCount();
     updateImagesCount();
 
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
     layout->setContentsMargins(5, 0, 5, 0);
+    layout->setSpacing(0);
     layout->addStretch(1);
     layout->addWidget(m_countLabel, 1, Qt::AlignCenter);
     layout->addWidget(m_slider, 1, Qt::AlignRight);
@@ -350,6 +348,7 @@ void AlbumPanel::updateImagesCount()
 
     int fontHeight = utils::base::stringHeight(m_countLabel->font(),
                                                m_countLabel->text());
+    qDebug() << "albumPanel:" << fontHeight;
     m_countLabel->setMinimumHeight(fontHeight);
 
     m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
