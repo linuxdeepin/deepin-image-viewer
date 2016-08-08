@@ -1,0 +1,22 @@
+[查看图片]
+全屏=F11
+幻灯片放映 = F5
+退出幻灯片　＝　F5
+导入　＝　Ctrl + I
+复制= Ctrl + C
+丢到回收站 = Delete
+从相册中移除 = Shift + Delete
+收藏 = Ctrl + K
+取消收藏 = Ctrl + Shift + K
+顺时针旋转 = Ctrl + R
+逆时针旋转 = Ctrl + Shift + R
+设为壁纸 = Ctrl　＋　F8
+在文件管理器中显示 = Ctrl + D
+图片信息 = Alt + Enter
+
+[Album]
+新建相册 = Ctrl + Shift + N
+重命名 = F2
+[Settings]
+帮助 = F1
+退出 = Ctrl　＋　Q

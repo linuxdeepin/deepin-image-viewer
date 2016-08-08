@@ -16,6 +16,7 @@
 #include <QPainter>
 #include <QResizeEvent>
 #include <QStackedWidget>
+#include <QShortcut>
 
 using namespace Dtk::Widget;
 
@@ -41,6 +42,9 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     initWidgets();
     initMenu();
 
+    QShortcut* viewScut = new QShortcut(QKeySequence(tr("Ctrl+Shift+/")),
+                                        this);
+    connect(viewScut, &QShortcut::activated, this, &TopToolbar::showShortCutView);
     qApp->installEventFilter(this);
     parent->installEventFilter(this);
     connect(this, SIGNAL(moving()),
@@ -351,3 +355,16 @@ void TopToolbar::showManual()
     }
 }
 
+void TopToolbar::showShortCutView() {
+    QRect rect=window()->geometry();
+    QString cmd="deepin-shortcut-viewer -t="+qApp->applicationName()+" -r="+
+            QString::number(rect.x())+","+
+            QString::number(rect.y())+","+
+            QString::number(rect.width())+","+
+            QString::number(rect.height());
+    QProcess* shortcutViewProcess = new QProcess();
+    shortcutViewProcess->startDetached(cmd);
+
+    connect(shortcutViewProcess, SIGNAL(finished(int)),
+            shortcutViewProcess, SLOT(deleteLater()));
+}
