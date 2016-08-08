@@ -50,7 +50,6 @@ void Exporter::exportImage(const QStringList imagePaths) {
         imageSavePath, getOrderFormat(QFileInfo(imagePath).completeSuffix()),
         &selectFilter, QFileDialog::DontUseNativeDialog);
 
-
         qDebug() << "dialogFilePath:" << dialogFilePath;
         QPixmap tmpImage(imagePaths.at(0));
         if (!tmpImage.isNull() && !dialogFilePath.isEmpty()) {
@@ -79,10 +78,13 @@ void Exporter::exportAlbum(const QString &albumname) {
 
 void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
     QFileDialog exportDialog;
-    QString exportdir = exportDialog.getExistingDirectory(nullptr, "Save File",
-           QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0),
-                                                          QFileDialog::ShowDirsOnly);
-    qDebug() << "popupDialogSaveImage:" << exportdir;
+    exportDialog.setFileMode(QFileDialog::DirectoryOnly);
+    exportDialog.setLabelText(QFileDialog::Accept, tr("Save"));
+    exportDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).at(0));
+    exportDialog.exec();
+
+    QString exportdir = exportDialog.directory().absolutePath();
+
     for (int j(0); j < imagePaths.length(); j++) {
 
         if(utils::image::imageIsSupport(imagePaths[j])) {

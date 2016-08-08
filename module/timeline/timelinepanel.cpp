@@ -61,9 +61,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
     QWidget *tBottomContent = new QWidget;
     tBottomContent->setStyleSheet(this->styleSheet());
 
-    QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
-    layout->setContentsMargins(14, 0, 14, 0);
-    layout->setSpacing(0);
+
     const int sizeScale = dApp->setter->value(SETTINGS_GROUP,
                                               SETTINGS_ICON_SCALE_KEY,
                                               QVariant(0)).toInt();
@@ -83,13 +81,15 @@ QWidget *TimelinePanel::toolbarBottomContent()
 
     m_countLabel = new QLabel;
     m_countLabel->setObjectName("CountLabel");
-
     updateBottomToolbarContent(dApp->databaseM->imageCount());
 
-
+    QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
+    layout->setContentsMargins(5, 0, 5, 0);
+    layout->setSpacing(0);
     layout->addStretch(1);
-    layout->addWidget(m_countLabel, 1, Qt::AlignHCenter);
+    layout->addWidget(m_countLabel, 1, Qt::AlignCenter);
     layout->addWidget(m_slider, 1, Qt::AlignRight);
+    layout->addSpacing(9);
 
     return tBottomContent;
 }
@@ -286,6 +286,7 @@ void TimelinePanel::updateBottomToolbarContent(int count)
 
     int countHeight = utils::base::stringHeight(m_countLabel->font(),
                                                 m_countLabel->text());
+
     m_countLabel->setMinimumHeight(countHeight);
 
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
