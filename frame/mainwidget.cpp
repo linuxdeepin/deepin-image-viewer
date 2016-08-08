@@ -158,6 +158,9 @@ void MainWidget::initTopToolbar()
 void MainWidget::initConnection()
 {
     connect(dApp->signalM, &SignalManager::backToMainPanel, this, [=] {
+        window()->show();
+        window()->raise();
+        window()->activateWindow();
         QString name = dApp->setter->value(SETTINGS_GROUP,
                                            SETTINGS_MAINPANEL_KEY).toString();
         if (name.isEmpty()) {
