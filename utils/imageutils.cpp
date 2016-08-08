@@ -128,7 +128,7 @@ QPixmap getThumbnail(const QString &filePath, bool exifOnly)
 
 QPixmap scaleImage(const QString &filePath, const QSize &size)
 {
-    QImage img(filePath);
+    QImage img = getRotatedImage(filePath);
     if (img.isNull())
         return QPixmap();
     QSize targetSize;
@@ -508,6 +508,47 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     }
 
     return infos;
+}
+
+QString getOrientation(const QString &path)
+{
+    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
+    QString dt;
+    if (ed) {
+        dt = readExifTag(ed, EXIF_IFD_0, EXIF_TAG_ORIENTATION);
+        //Free the EXIF data
+        exif_data_unref(ed);
+    }
+
+    return dt;
+}
+
+/*!
+ * \brief getRotatedImage
+ * Rotate image base on the exif orientation
+ * \param path
+ * \return
+ */
+QImage getRotatedImage(const QString &path)
+{
+    // FIXME it should read the orientation enum value
+    QImage img(path);
+    const QString o = getOrientation(path);
+    if (o.isEmpty() || o == "Top-left")
+        return img;
+    QTransform t;
+    if (o == "Bottom-right") {
+        t.rotate(-180);
+    }
+    else if (o == "Left-bottom") {
+        t.rotate(-90);
+    }
+    else if (o == "Right-top") {
+        t.rotate(90);
+    }
+    img = img.transformed(t, Qt::SmoothTransformation);
+
+    return img;
 }
 
 }  // namespace image
