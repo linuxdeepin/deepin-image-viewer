@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 
     if (cl->processOption()) {
         Dtk::Widget::DThemeManager::instance()->setTheme("dark");
+
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
         dInfo()<< "LogFile:" << DLogManager::getlogFilePath();

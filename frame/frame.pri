@@ -4,7 +4,6 @@ HEADERS += \
     $$PWD/mainwidget.h \
     $$PWD/mainwindow.h \
     $$PWD/toptoolbar.h \
-    $$PWD/aboutwindow.h \
     $$PWD/imageinfodialog.h
 
 SOURCES += \
@@ -13,7 +12,6 @@ SOURCES += \
     $$PWD/mainwidget.cpp \
     $$PWD/mainwindow.cpp \
     $$PWD/toptoolbar.cpp \
-    $$PWD/aboutwindow.cpp \
     $$PWD/imageinfodialog.cpp
 
 RESOURCES += \

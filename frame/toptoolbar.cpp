@@ -18,6 +18,8 @@
 #include <QStackedWidget>
 #include <QShortcut>
 
+
+#include <dthememanager.h>
 using namespace Dtk::Widget;
 
 namespace {
@@ -36,9 +38,7 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
 
     setCoverBrush(QBrush(linearGrad));
 
-    m_about = new AboutWindow(parent, source);
-    m_about->hide();
-
+    initAboutWindow();
     initWidgets();
     initMenu();
 
@@ -155,6 +155,21 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     QPen bPen(QColor(0, 0, 0, 25), borderHeight);
     p.setPen(bPen);
     p.drawPath(bPath);
+}
+
+void TopToolbar::initAboutWindow() {
+    QString icon(":/images/resources/images/deepin_image_viewer.png");
+    QSignalBlocker blocker(DThemeManager::instance());
+    Q_UNUSED(blocker);
+    DThemeManager::instance()->setTheme("light");
+    m_about = new DAboutDialog(icon, icon, qApp->applicationDisplayName(),
+                               tr("Version:") + qApp->applicationVersion(),
+                               tr("Deepin Image Viewer is a fashion & smooth image manager."
+                                  "It is featured with image management, "
+                                                                    "image viewing and basic image editing."), this);
+    DThemeManager::instance()->setTheme("dark");
+    m_about->setTitle("");
+    m_about->hide();
 }
 
 void TopToolbar::initWidgets()

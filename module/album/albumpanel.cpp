@@ -10,11 +10,16 @@
 #include "widgets/imagebutton.h"
 #include "widgets/importframe.h"
 #include "widgets/slider.h"
+
+#include <dthememanager.h>
+
 #include <QDebug>
 #include <QDropEvent>
 #include <QFileInfo>
 #include <QPointer>
 #include <QPushButton>
+
+DWIDGET_USE_NAMESPACE
 
 namespace {
 
@@ -383,13 +388,19 @@ void AlbumPanel::showCreateDialog()
     if (! parentWidget()) {
         return;
     }
+
+    QSignalBlocker blocker(DThemeManager::instance());
+    Q_UNUSED(blocker);
+    DThemeManager::instance()->setTheme("light");
     CreateAlbumDialog *d = new CreateAlbumDialog(this);
+    DThemeManager::instance()->setTheme("dark");
     connect(d, &CreateAlbumDialog::closed,
             d, &CreateAlbumDialog::deleteLater);
     const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
     d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
             (parentWidget()->height() - d->height()) / 2 + p.y());
     d->show();
+
 }
 
 void AlbumPanel::showImportDirDialog(const QString &dir)
@@ -397,7 +408,12 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
     if (! parentWidget() || utils::image::getImagesInfo(dir).isEmpty()) {
         return;
     }
-    ImportDirDialog *d = new ImportDirDialog(this, parentWidget());
+
+    QSignalBlocker blocker(DThemeManager::instance());
+    Q_UNUSED(blocker);
+    DThemeManager::instance()->setTheme("light");
+    ImportDirDialog *d = new ImportDirDialog(this);
+    DThemeManager::instance()->setTheme("dark");
     connect(d, &ImportDirDialog::albumCreated,
             m_albumsView, &AlbumsView::updateView);
     connect(d, &ImportDirDialog::closed,

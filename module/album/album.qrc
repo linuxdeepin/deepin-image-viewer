@@ -22,5 +22,6 @@
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/album.qss</file>
+        <file>resources/qss/importdirdialog.qss</file>
     </qresource>
 </RCC>
