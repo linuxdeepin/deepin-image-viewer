@@ -17,6 +17,7 @@
 #include <QDesktopWidget>
 #include <QFile>
 #include <QFileInfo>
+#include <QFileSystemWatcher>
 #include <QHBoxLayout>
 #include <QKeySequence>
 #include <QPixmapCache>
@@ -55,8 +56,9 @@ ViewPanel::ViewPanel(QWidget *parent)
     initConnect();
     initShortcut();
     initStyleSheet();
-    setMouseTracking(true);
+    initFileSystemWatcher();
 
+    setMouseTracking(true);
     setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
     updateMenuContent();
@@ -117,6 +119,31 @@ void ViewPanel::initConnect() {
 
 }
 
+void ViewPanel::initFileSystemWatcher()
+{
+    // Watch the local file changed if it open from file manager
+    QFileSystemWatcher *sw = new QFileSystemWatcher(this);
+    connect(dApp->signalM, &SignalManager::viewImage,
+            this, [=](const SignalManager::ViewInfo &info) {
+        sw->removePaths(sw->directories());
+        if (! info.inDatabase) {
+            sw->addPath(QFileInfo(info.path).dir().absolutePath());
+        }
+    });
+    connect(sw, &QFileSystemWatcher::directoryChanged, this, [=] {
+        if (m_current == m_infos.cend())
+            return;
+        const QString cp = m_current->path;
+        m_infos = getImageInfos(getFileInfos(cp));
+        m_current = m_infos.cbegin();
+        for (; m_current != m_infos.cend(); m_current ++) {
+            if (m_current->path == cp) {
+                return;
+            }
+        }
+    });
+}
+
 void ViewPanel::initShortcut()
 {
     // Previous
@@ -146,9 +173,9 @@ void ViewPanel::initShortcut()
     });
 
     // Esc
-    m_esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    m_esc->setContext(Qt::WindowShortcut);
-    connect(m_esc, &QShortcut::activated, this, [=] {
+    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    esc->setContext(Qt::WindowShortcut);
+    connect(esc, &QShortcut::activated, this, [=] {
         if (window()->isFullScreen()) {
             showNormal();
         }
@@ -631,7 +658,7 @@ void ViewPanel::initFloatBtns() {
     m_scaleLabel->setText(QString("%1%").arg(100));
     m_scaleLabel->hide();
     //hideTime is delay to hide m_scaleLabel
-    hideTimer = new QTimer(this);
+    QTimer *hideTimer = new QTimer(this);
     hideTimer->setInterval(2000);
     hideTimer->setSingleShot(true);
 
@@ -639,7 +666,7 @@ void ViewPanel::initFloatBtns() {
         m_scaleLabel->hide();
     });
 
-    connect(m_view, &ImageWidget::scaleValueChanged, [this](qreal value) {
+    connect(m_view, &ImageWidget::scaleValueChanged, [this, hideTimer](qreal value) {
         m_scaleLabel->show();
         m_scaleLabel->setText(QString("%1%").arg(int(value*100)));
         hideTimer->start();

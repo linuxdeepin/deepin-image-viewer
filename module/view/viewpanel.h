@@ -11,9 +11,7 @@
 #include <QJsonObject>
 #include <QStackedWidget>
 
-class QKeyEvent;
-class QShortcut;
-
+class QFileSystemWatcher;
 class ImageButton;
 class SlideEffectPlayer;
 class PopupMenuManager;
@@ -75,12 +73,13 @@ private:
         IdSeparator
     };
 
-    void initStack();
-    void initFloatBtns();
-    void initViewContent();
-    void initNavigation();
     void initConnect();
+    void initFileSystemWatcher();
+    void initFloatBtns();
+    void initNavigation();
     void initShortcut();
+    void initViewContent();
+    void initStack();
     void initStyleSheet();
 
     QString createMenuContent();
@@ -109,7 +108,6 @@ private:
 
 private:
     bool m_isMaximized;
-    QShortcut* m_esc;
 
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
@@ -120,7 +118,6 @@ private:
     ImageButton* m_previousBtn;
     ImageButton* m_nextBtn;
     QLabel* m_scaleLabel;
-    QTimer* hideTimer;
 
     QList<DatabaseManager::ImageInfo> m_infos;
     QList<DatabaseManager::ImageInfo>::ConstIterator m_current;
