@@ -79,9 +79,17 @@ QWidget *AlbumPanel::toolbarBottomContent()
     updateAlbumCount();
     updateImagesCount();
 
+    DImageButton *ib = new DImageButton;
+    ib->setNormalPic(":/images/resources/images/import_button.png");
+    connect(ib, &DImageButton::clicked, this, [=] {
+        dApp->importer->showImportDialog();
+    });
+
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
     layout->setContentsMargins(5, 0, 5, 0);
     layout->setSpacing(0);
+    layout->addSpacing(9);
+    layout->addWidget(ib);
     layout->addStretch(1);
     layout->addWidget(m_countLabel, 1, Qt::AlignCenter);
     layout->addWidget(m_slider, 1, Qt::AlignRight);

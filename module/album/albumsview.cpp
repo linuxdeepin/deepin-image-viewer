@@ -56,16 +56,21 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     installEventFilter(this);
+    viewport()->installEventFilter(this);
     // Aways has Favorites and RecentImport album
     dApp->databaseM->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
     dApp->databaseM->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
 
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
+    connect(this, &AlbumsView::clicked, this, &AlbumsView::onClicked);
     connect(this, &AlbumsView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
-        m_popupMenu->setMenuContent(createMenuContent(indexAt(pos)));
-        m_popupMenu->showMenu();
+        QModelIndex index = indexAt(pos);
+        if (! isCreateIcon(index)) {
+            m_popupMenu->setMenuContent(createMenuContent(indexAt(pos)));
+            m_popupMenu->showMenu();
+        }
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &AlbumsView::onMenuItemClicked);
@@ -83,6 +88,9 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     if (imgNames.isEmpty()) {
         return QModelIndex();
     }
+
+    removeCreateIcon();
+
     QByteArray thumbnailByteArray;
     QBuffer inBuffer( &thumbnailByteArray );
     inBuffer.open( QIODevice::WriteOnly );
@@ -121,6 +129,8 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     m_model->setData(index, QVariant(datas), Qt::DisplayRole);
     m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
 
+    appendCreateIcon();
+
     return index;
 }
 
@@ -146,9 +156,17 @@ bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
     else if (e->type() == QEvent::Show) {
         updateView();
     }
+    else if (e->type() == QEvent::ActionAdded
+             || e->type() == QEvent::ActionRemoved
+             || e->type() == QEvent::MouseMove) {
+        // FIXME the delegate not clear whole scene and i don't know why.
+        // but I know it's cause by m_Xoffset changed
+        viewport()->update();
+    }
     else if (e->type() == QEvent::Paint) {
         emit paintRequest();
     }
+
     return false;
 }
 
@@ -162,6 +180,11 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
     }
 
     QListView::mousePressEvent(e);
+}
+
+bool AlbumsView::isCreateIcon(const QModelIndex &index) const
+{
+    return m_model->data(index, Qt::DisplayRole).toList().isEmpty();
 }
 
 const QStringList AlbumsView::paths(const QString &album) const
@@ -286,6 +309,13 @@ QJsonValue AlbumsView::createMenuItem(const MenuItemId id,
                                                  subMenu));
 }
 
+void AlbumsView::onClicked(const QModelIndex &index)
+{
+    if (isCreateIcon(index)) {
+        createAlbum();
+    }
+}
+
 void AlbumsView::onMenuItemClicked(int menuId)
 {
     const QString albumName = getAlbumName(currentIndex());
@@ -317,7 +347,8 @@ void AlbumsView::onMenuItemClicked(int menuId)
     }
     case IdDelete:
         if (albumName != MY_FAVORITES_ALBUM
-                && albumName != RECENT_IMPORTED_ALBUM) {
+                && albumName != RECENT_IMPORTED_ALBUM
+                && ! isCreateIcon(currentIndex())) {
             dApp->databaseM->removeAlbum(albumName);
             m_model->removeRow(currentIndex().row());
             emit albumRemoved();
@@ -332,7 +363,33 @@ void AlbumsView::onMenuItemClicked(int menuId)
 
 void AlbumsView::onDoubleClicked(const QModelIndex &index)
 {
-    emit openAlbum(getAlbumName(index));
+    if (! isCreateIcon(index)) {
+        emit openAlbum(getAlbumName(index));
+    }
+}
+
+void AlbumsView::removeCreateIcon()
+{
+    // The create icon must in the end of rows
+    const QModelIndex li = m_model->index(m_model->rowCount() - 1, 0);
+    if (m_model->rowCount() > 0 &&
+            isCreateIcon(li)) {
+        m_model->removeRow(m_model->rowCount() - 1);
+    }
+}
+
+void AlbumsView::appendCreateIcon()
+{
+    const QModelIndex li = m_model->index(m_model->rowCount() - 1, 0);
+    if (! isCreateIcon(li)) {
+        QStandardItem *item = new QStandardItem();
+        QList<QStandardItem *> items;
+        items.append(item);
+        m_model->appendRow(items);
+
+        QModelIndex index = m_model->index(m_model->rowCount() - 1, 0);
+        m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
+    }
 }
 
 void AlbumsView::createAlbum()
@@ -342,6 +399,7 @@ void AlbumsView::createAlbum()
     QModelIndex index = addAlbum(dApp->databaseM->getAlbumInfo(name));
     openPersistentEditor(index);
     scrollTo(index);
+    this->selectionModel()->clearSelection();
 }
 
 void AlbumsView::updateView()

@@ -46,6 +46,8 @@ private:
         IdSeparator
     };
 
+    bool isCreateIcon(const QModelIndex &index) const;
+
     const QString createMenuContent(const QModelIndex &index);
     const QString getAlbumName(const QModelIndex &index) const;
     const QString getNewAlbumName() const;
@@ -56,8 +58,11 @@ private:
                               const bool isSeparator = false,
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
-    void onMenuItemClicked(int menuId);
+    void onClicked(const QModelIndex &index);
     void onDoubleClicked(const QModelIndex &index);
+    void onMenuItemClicked(int menuId);
+    void removeCreateIcon();
+    void appendCreateIcon();
 
 private:
     QStandardItemModel *m_model;

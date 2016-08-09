@@ -19,6 +19,10 @@
         <file>resources/images/timeline_normal.png</file>
         <file>resources/images/new_album.png</file>
         <file>resources/images/import_dir.png</file>
+        <file>resources/images/import_button.png</file>
+        <file>resources/images/create_album_hover.png</file>
+        <file>resources/images/create_album_normal.png</file>
+        <file>resources/images/create_album_press.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/album.qss</file>

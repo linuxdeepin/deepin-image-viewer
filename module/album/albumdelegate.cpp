@@ -117,12 +117,14 @@ void AlbumDelegate::updateEditorGeometry(QWidget *editor,
 {
     Q_UNUSED(index)
 
+    QRect rect = option.rect;
+    rect.moveTopLeft(QPoint(rect.x() + m_xOffset, rect.y()));
     QFont font;
     font.setPixelSize(TITLE_FONT_SIZE);
     QFontMetrics fm(font);
-    editor->resize(option.rect.width() - TITLE_EDIT_MARGIN * 2, fm.height() + 6);
-    editor->move(option.rect.x() + TITLE_EDIT_MARGIN + m_xOffset,
-                 option.rect.y() + option.rect.height() - editor->height());
+    editor->resize(rect.width() - TITLE_EDIT_MARGIN * 2, fm.height() + 6);
+    editor->move(rect.x() + TITLE_EDIT_MARGIN,
+                 rect.y() + rect.height() - editor->height());
 }
 
 void AlbumDelegate::paint(QPainter *painter,
@@ -130,21 +132,35 @@ void AlbumDelegate::paint(QPainter *painter,
                           const QModelIndex &index) const
 {
     QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+
+    QRect rect = option.rect;
+    rect.moveTopLeft(QPoint(rect.x() + m_xOffset, rect.y()));
+    const int pixmapSize = rect.width() - THUMBNAIL_BG_MARGIN * 2;
+
     if (! datas.isEmpty()) {
-        //        painter->setRenderHint(QPainter::Antialiasing);
-        const QRect rect = option.rect;
         // Draw compound thumbnail
         QPixmap pixmap = getCompoundPixmap(option, index);
-        const int pixmapSize = rect.width() - THUMBNAIL_BG_MARGIN * 2;
         QPixmap scalePixmap = pixmap.scaled(pixmapSize, pixmapSize,
                                             Qt::KeepAspectRatio,
                                             Qt::SmoothTransformation);
-        painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN + m_xOffset,
+        painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN,
                             rect.y() + THUMBNAIL_BG_MARGIN,
                             pixmapSize, pixmapSize, scalePixmap);
 
         // Draw title
         drawTitle(option, index, painter);
+    }
+    else {
+        QString createIcon = ":/images/resources/images/create_album_normal.png";
+        if ((option.state & QStyle::State_MouseOver) &&
+                (option.state & QStyle::State_Selected) == 0) {
+            createIcon = ":/images/resources/images/create_album_hover.png";
+        }
+
+        QPixmap cip = QPixmap(createIcon).scaled(pixmapSize, pixmapSize);
+        painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN,
+                            rect.y() + THUMBNAIL_BG_MARGIN,
+                            pixmapSize, pixmapSize, cip);
     }
 }
 
@@ -195,7 +211,8 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
                               QPainter *painter) const
 {
     if (m_editingIndex != index) {
-        const QRect rect = option.rect;
+        QRect rect = option.rect;
+        rect.moveTopLeft(QPoint(rect.x() + m_xOffset, rect.y()));
         QFont font;
         font.setPixelSize(TITLE_FONT_SIZE);
         QPen titlePen(TITLE_COLOR);
@@ -213,7 +230,7 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         const int hMargin = 3;
         const int vMargin = 2;
         QSize ts(qMin(fm.width(albumName) + 20, rect.width()), fm.height() + 2);
-        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2 + m_xOffset,
+        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2,
                         rect.y() + rect.height() - ts.height() - vMargin * 2,
                         // ts.width() maybe biger than rect.width()
                         qMin(rect.width(), ts.width() + hMargin * 2),
