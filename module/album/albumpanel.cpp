@@ -397,10 +397,9 @@ void AlbumPanel::showCreateDialog()
     connect(d, &CreateAlbumDialog::closed,
             d, &CreateAlbumDialog::deleteLater);
     const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
+    d->show();
     d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
             (parentWidget()->height() - d->height()) / 2 + p.y());
-    d->show();
-
 }
 
 void AlbumPanel::showImportDirDialog(const QString &dir)
@@ -419,6 +418,7 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
     connect(d, &ImportDirDialog::closed,
             d, &ImportDirDialog::deleteLater);
     const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
+    d->show();
     d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
             (parentWidget()->height() - d->height()) / 2 + p.y());
     d->import(dir);
