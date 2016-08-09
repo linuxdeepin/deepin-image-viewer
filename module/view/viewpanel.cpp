@@ -652,7 +652,7 @@ void ViewPanel::initFloatBtns() {
     m_scaleLabel = new QLabel(this);
     m_scaleLabel->setObjectName("ScaleLabel");
     m_scaleLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
-    m_scaleLabel->setFixedSize(65, 30);
+    m_scaleLabel->setFixedSize(66, 32);
     m_scaleLabel->move(this->rect().center());
     m_scaleLabel->setAlignment(Qt::AlignCenter);
     m_scaleLabel->setText(QString("%1%").arg(100));

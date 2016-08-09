@@ -84,10 +84,7 @@ ImageButton#NextButton {
 }
 
 QLabel#ScaleLabel {
-    border: 1px solid rgba(255, 255, 255, .2);
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, .4);
+    border-image: url(:/images/resources/images/scale_background.png);
     color: white;
     font-size: 14px;
-    padding: 3px;
 }
