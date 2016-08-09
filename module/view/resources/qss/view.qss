@@ -88,5 +88,6 @@ QLabel#ScaleLabel {
     border-radius: 4px;
     background-color: rgba(0, 0, 0, .4);
     color: white;
+    font-size: 14px;
     padding: 3px;
 }

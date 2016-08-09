@@ -1,0 +1,16 @@
+QPushButton:disabled {
+    color: rgba(0, 0, 0, .4);
+}
+
+QLineEdit#ImportDirEdit {
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 3;
+    font-size: 12px;
+    selection-background-color: #419bf9;
+    background: rgba(0, 0, 0, 0);
+    height: 20px;
+}
+
+QLabel#CreateTitleLabel {
+    font-size: 12px;
+}

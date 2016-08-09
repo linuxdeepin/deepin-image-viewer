@@ -1,7 +1,6 @@
 #ifndef CREATEALBUMDIALOG_H
 #define CREATEALBUMDIALOG_H
 
-#include "widgets/bluredialog.h"
 #include <ddialog.h>
 
 using namespace Dtk::Widget;
