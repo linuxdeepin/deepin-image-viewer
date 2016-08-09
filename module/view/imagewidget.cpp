@@ -38,7 +38,7 @@ ImageWidget::ImageWidget(QWidget *parent)
 
 void ImageWidget::setImage(const QString &path)
 {
-    setImage(QImage(path));
+    setImage(utils::image::getRotatedImage(path));
     m_path = path;
 }
 

@@ -203,7 +203,8 @@ void CacheRunner::run()
     else {
         // Try to read low-quality thumbnail
         QPixmap lp = utils::image::getThumbnail(info.path, true);
-        if (! lp.isNull()) {
+        QString orientation = utils::image::getOrientation(info.path);
+        if (orientation.isEmpty() && ! lp.isNull()) {
             PixmapCacheManager::instance()->insert(m_name + "_low", lp);
         }
     }
