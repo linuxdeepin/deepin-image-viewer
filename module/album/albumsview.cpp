@@ -32,6 +32,15 @@ AlbumsView::AlbumsView(QWidget *parent)
         closePersistentEditor(index);
         emit albumCreated();
     });
+    connect(this, &AlbumsView::paintRequest, this, [=] {
+        int offset = (width() % (m_itemSize.width() + ITEM_SPACING) - ITEM_SPACING) / 2;
+        // Not enought for item spacing
+        if (offset < 0) {
+            offset = (m_itemSize.width() + ITEM_SPACING) / 2;
+        }
+        delegate->setXOffset(offset);
+    });
+
     setItemDelegate(delegate);
     m_model = new QStandardItemModel(this);
     setModel(m_model);
@@ -136,6 +145,9 @@ bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
     }
     else if (e->type() == QEvent::Show) {
         updateView();
+    }
+    else if (e->type() == QEvent::Paint) {
+        emit paintRequest();
     }
     return false;
 }

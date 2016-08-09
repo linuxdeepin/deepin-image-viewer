@@ -121,7 +121,7 @@ void AlbumDelegate::updateEditorGeometry(QWidget *editor,
     font.setPixelSize(TITLE_FONT_SIZE);
     QFontMetrics fm(font);
     editor->resize(option.rect.width() - TITLE_EDIT_MARGIN * 2, fm.height() + 6);
-    editor->move(option.rect.x() + TITLE_EDIT_MARGIN,
+    editor->move(option.rect.x() + TITLE_EDIT_MARGIN + m_xOffset,
                  option.rect.y() + option.rect.height() - editor->height());
 }
 
@@ -139,7 +139,7 @@ void AlbumDelegate::paint(QPainter *painter,
         QPixmap scalePixmap = pixmap.scaled(pixmapSize, pixmapSize,
                                             Qt::KeepAspectRatio,
                                             Qt::SmoothTransformation);
-        painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN,
+        painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN + m_xOffset,
                             rect.y() + THUMBNAIL_BG_MARGIN,
                             pixmapSize, pixmapSize, scalePixmap);
 
@@ -153,6 +153,11 @@ QSize AlbumDelegate::sizeHint(const QStyleOptionViewItem &option,
 {
     Q_UNUSED(option)
     return index.model()->data(index, Qt::SizeHintRole).toSize();
+}
+
+void AlbumDelegate::setXOffset(int offset)
+{
+    m_xOffset = offset;
 }
 
 void AlbumDelegate::drawBG(const QStyleOptionViewItem &option,
@@ -208,7 +213,7 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         const int hMargin = 3;
         const int vMargin = 2;
         QSize ts(qMin(fm.width(albumName) + 20, rect.width()), fm.height() + 2);
-        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2,
+        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2 + m_xOffset,
                         rect.y() + rect.height() - ts.height() - vMargin * 2,
                         // ts.width() maybe biger than rect.width()
                         qMin(rect.width(), ts.width() + hMargin * 2),

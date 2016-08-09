@@ -25,6 +25,7 @@ signals:
     void albumRemoved();
     void openAlbum(const QString &album);
     void startSlideShow(const QStringList &paths);
+    void paintRequest();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
