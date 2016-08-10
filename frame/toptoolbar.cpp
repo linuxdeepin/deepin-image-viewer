@@ -78,9 +78,8 @@ bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Resize) {
-        if (! window()->isFullScreen() &&
-                window()->isMaximized() != m_maxb->isMaximized()) {
-            m_maxb->clicked();
+        if (! window()->isFullScreen()) {
+            m_maxb->setMaximized(window()->isMaximized());
         }
     }
     if (e->type() == QEvent::KeyPress) {
@@ -248,10 +247,16 @@ void TopToolbar::initWidgets()
             parentWidget()->parentWidget(), SLOT(showMinimized()));
 
     m_maxb = new DWindowMaxButton;
-    connect(m_maxb, &DWindowMaxButton::maximum,
-            window(), &QWidget::showMaximized);
-    connect(m_maxb, &DWindowMaxButton::restore,
-            window(), &QWidget::showNormal);
+    connect(m_maxb, &DWindowMaxButton::clicked, this, [=] {
+        if (m_maxb->isMaximized()) {
+            window()->showNormal();
+            m_maxb->setMaximized(false);
+        }
+        else {
+            window()->showMaximized();
+            m_maxb->setMaximized(true);
+        }
+    });
 
     DWindowCloseButton *cb = new DWindowCloseButton;
     connect(cb, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
