@@ -227,15 +227,16 @@ void ViewPanel::showToolbar(bool isTop)
 void ViewPanel::showNormal()
 {
     if (m_isMaximized) {
-        // FIXME the window-manager will alway start the growing-
-        // animation(expand from topleft to bottomright) when change the
-        // window's state to Qt::WindowMaximized, so change the flag temporarily
-        // to avoid the animation run
-        auto flags = window()->windowFlags();
-        window()->setWindowFlags(Qt::SplashScreen);
-        window()->show();
-        window()->setWindowFlags(flags);
-        TIMER_SINGLESHOT(50, {window()->showMaximized();}, this)
+        window()->showMaximized();
+//        // FIXME the window-manager will alway start the growing-
+//        // animation(expand from topleft to bottomright) when change the
+//        // window's state to Qt::WindowMaximized, so change the flag temporarily
+//        // to avoid the animation run
+//        auto flags = window()->windowFlags();
+//        window()->setWindowFlags(Qt::SplashScreen);
+//        window()->show();
+//        window()->setWindowFlags(flags);
+//        TIMER_SINGLESHOT(50, {window()->showMaximized();}, this)
     }
     else {
         window()->showNormal();
@@ -247,16 +248,16 @@ void ViewPanel::showNormal()
 void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
-
-    // FIXME the window-manager will alway start the growing-
-    // animation(expand from topleft to bottomright) when change the
-    // window's state to Qt::WindowMaximized, so change the flag temporarily
-    // to avoid the animation run
-    auto flags = window()->windowFlags();
-    window()->setWindowFlags(Qt::SplashScreen);
-    window()->show();
-    window()->setWindowFlags(flags);
-    TIMER_SINGLESHOT(50, {window()->showFullScreen();}, this)
+    window()->showFullScreen();
+//    // FIXME the window-manager will alway start the growing-
+//    // animation(expand from topleft to bottomright) when change the
+//    // window's state to Qt::WindowMaximized, so change the flag temporarily
+//    // to avoid the animation run
+//    auto flags = window()->windowFlags();
+//    window()->setWindowFlags(Qt::SplashScreen);
+//    window()->show();
+//    window()->setWindowFlags(flags);
+//    TIMER_SINGLESHOT(50, {window()->showFullScreen();}, this)
 
     // Full screen then hide bars because hide animation depends on height()
     TIMER_SINGLESHOT(300,
