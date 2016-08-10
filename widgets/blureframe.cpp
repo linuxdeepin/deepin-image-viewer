@@ -86,7 +86,6 @@ void BlureFrame::paintEvent(QPaintEvent *)
     p.drawPixmap(0, 0, width(), height(), getBlurePixmap());
     p.fillRect(0, 0, width(), height(), m_coverBrush);
 
-
     p.end();
 }
 

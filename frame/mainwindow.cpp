@@ -38,7 +38,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
-    if (! isMaximized() && m_mainWidget->isVisible()) {
+    if (! isMaximized()
+            && m_mainWidget->isVisible()
+            && ! window()->isFullScreen()
+            && ! window()->isMaximized()) {
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                QVariant(m_mainWidget->width()));
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,

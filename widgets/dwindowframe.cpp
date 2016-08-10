@@ -168,7 +168,7 @@ void DWindowFrame::polish() {
     // cut round corners
     if (layout &&
         layout->count() == 1) {
-        const auto widget = this->layout()->itemAt(0)->widget();
+        const auto widget = layout->itemAt(0)->widget();
         if (this->isMaximized() || this->isFullScreen()) {
             widget->clearMask();
         } else {
@@ -395,6 +395,7 @@ void DWindowFrame::changeEvent(QEvent *event) {
         } else {
             this->setMargins(this->layoutMargin);
         }
+        this->polish();
     }
     this->setUpdatesEnabled(true);
 }
