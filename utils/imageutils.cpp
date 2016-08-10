@@ -396,9 +396,9 @@ QMap<QString, QString> getExifFromPath(const QString &path, bool isDetails)
 
     if (! ed) {
         dataMap.insert(QObject::tr("Date photoed"),
-                       base::timeToString(fi.created()));
+            fi.created().toString("yyyy/MM/dd HH:mm:ss"));
         dataMap.insert(QObject::tr("Date modified"),
-                       base::timeToString(fi.lastModified()));
+            fi.lastModified().toString("yyyy/MM/dd HH:mm:ss"));
     }
 
     for (const ExifItem* i = items; i->tag; ++i) {
@@ -416,9 +416,11 @@ QMap<QString, QString> getExifFromPath(const QString &path, bool isDetails)
                 QString v = QString(buf).trimmed();
                 switch (i->tag) {
                 case EXIF_TAG_DATE_TIME:
-                case EXIF_TAG_DATE_TIME_ORIGINAL:
-                    dataMap.insert(i->name, v);
+                case EXIF_TAG_DATE_TIME_ORIGINAL: {
+                    const QString tt = utils::base::stringToDateTime(v).toString("yyyy/MM/dd HH:mm:ss");
+                    dataMap.insert(i->name, tt);
                     break;
+                }
                 default:
                     dataMap.insert(i->name, v);
                 }

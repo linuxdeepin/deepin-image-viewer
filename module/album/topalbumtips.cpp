@@ -23,8 +23,8 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
 void TopAlbumTips::setAlbum(const QString &album)
 {
     auto info = dApp->databaseM->getAlbumInfo(album);
-    const QString beginTime = utils::base::timeToString(info.beginTime, true);
-    const QString endTime = utils::base::timeToString(info.endTime, true);
+    const QString beginTime = info.beginTime.toString(tr("dd MMMM yyyy"));
+    const QString endTime = info.endTime.toString(tr("dd MMMM yyyy"));
     const QString l = (beginTime.isEmpty() || endTime.isEmpty())
             ? "" : beginTime + "-" + endTime;
 

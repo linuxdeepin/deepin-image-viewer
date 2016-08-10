@@ -194,6 +194,11 @@ void TimelineImageView::initTopTips()
         }
         else {
             m_topTips->setText(currentTimeline());
+            // Translate time
+            const QDateTime tt = utils::base::stringToDateTime(m_topTips->text());
+            if (tt.isValid()) {
+                m_topTips->setText(tt.toString(tr("dd MMMM yyyy")));
+            }
             m_topTips->show();
         }
     });

@@ -33,7 +33,6 @@ int         stringHeight(const QFont &f, const QString &str);
 QString     sizeToHuman(const qlonglong bytes);
 QString     timeToString(const QDateTime &time, bool normalFormat = false);
 QDateTime   stringToDateTime(const QString &time);
-QString     formatExifTimeString(const QString &exifTimeStr);
 QString     getFileContent(const QString &file);
 bool        writeTextFile(QString filePath, QString content);
 

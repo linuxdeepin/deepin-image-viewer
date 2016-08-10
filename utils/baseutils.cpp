@@ -53,12 +53,6 @@ QString timeToString(const QDateTime &time, bool normalFormat)
         return time.toString(DATETIME_FORMAT_EXIF);
 }
 
-QString formatExifTimeString(const QString &exifTimeStr)
-{
-    QDateTime dt = QDateTime::fromString(exifTimeStr, DATETIME_FORMAT_EXIF);
-    return dt.toString(DATETIME_FORMAT_NORMAL);
-}
-
 int stringWidth(const QFont &f, const QString &str)
 {
     QFontMetrics fm(f);

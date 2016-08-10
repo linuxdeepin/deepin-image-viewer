@@ -25,9 +25,17 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline,
     : QFrame(parent),
       m_timeline(timeline)
 {
+    using namespace utils::base;
+
     initListView();
 
     m_title = new QLabel(timeline);
+    // Translate time
+    const QDateTime tt = stringToDateTime(timeline);
+    if (tt.isValid()) {
+        m_title->setText(tt.toString(tr("dd MMMM yyyy")));
+    }
+    m_title->setFixedHeight(stringHeight(m_title->font(), m_title->text()));
     m_title->setAlignment(Qt::AlignLeft);
     m_title->setObjectName("TimelineFrameTitle");
 
