@@ -201,15 +201,22 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     });
     timelineButton->setToolTip(tr("Timeline"));
 
-    QLabel *albumLabel = new QLabel();
-    albumLabel->setPixmap(QPixmap(":/images/resources/images/album_active.png"));
+    ImageButton *albumButton = new ImageButton();
+    albumButton->setNormalPic(":/images/resources/images/album_active.png");
+    albumButton->setHoverPic(":/images/resources/images/album_active.png");
+    albumButton->setPressPic(":/images/resources/images/album_active.png");
+    connect(albumButton, &ImageButton::clicked, this, [=]{
+        if (m_stackWidget->currentWidget() == m_imagesView) {
+            m_stackWidget->setCurrentWidget(m_albumsView);
+        }
+    });
 
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(20);
     layout->addStretch(1);
     layout->addWidget(timelineButton);
-    layout->addWidget(albumLabel);
+    layout->addWidget(albumButton);
     layout->addStretch(1);
 
     return tTopMiddleContent;
