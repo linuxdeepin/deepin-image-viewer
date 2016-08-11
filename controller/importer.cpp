@@ -147,6 +147,8 @@ void Importer::importDir(const QString &path, const QString &album)
 
 void Importer::importFiles(const QStringList &files, const QString &album)
 {
+    if (files.isEmpty())
+        return;
     QList<DatabaseManager::ImageInfo> imgInfos;
     for (QString file : files) {
         QFileInfo info(file);

@@ -85,7 +85,12 @@ QWidget *AlbumPanel::toolbarBottomContent()
     ib->setHoverPic(":/images/resources/images/import_hover.png");
     ib->setPressPic(":/images/resources/images/import_press.png");
     connect(ib, &DImageButton::clicked, this, [=] {
-        dApp->importer->showImportDialog();
+        if (m_stackWidget->currentWidget() == m_imagesView) {
+            dApp->importer->showImportDialog(m_imagesView->getCurrentAlbum());
+        }
+        else {
+            dApp->importer->showImportDialog();
+        }
     });
 
     QHBoxLayout *layout = new QHBoxLayout(tBottomContent);

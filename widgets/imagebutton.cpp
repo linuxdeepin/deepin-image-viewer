@@ -1,4 +1,6 @@
 #include "imagebutton.h"
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QFrame>
 #include <QFile>
 #include <QHelpEvent>
@@ -70,7 +72,12 @@ void ImageButton::showTooltip(const QPoint &gPos)
     layout->addWidget(tl);
 
     tf->show();
-    tf->move(gPos.x(), gPos.y() + tf->height());
+    QRect dr = qApp->desktop()->geometry();
+    int y = gPos.y() + tf->height();
+    if (y > dr.y() + dr.height()) {
+        y = gPos.y() - tf->height() - 10;
+    }
+    tf->move(gPos.x(), y);
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 

@@ -364,6 +364,13 @@
     </message>
 </context>
 <context>
+    <name>MainWidget</name>
+    <message>
+        <source>Imported successfully</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Date photoed</source>
