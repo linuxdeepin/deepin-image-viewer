@@ -180,7 +180,12 @@ void ViewPanel::initShortcut()
             showNormal();
         }
         else {
-            backToLastPanel();
+            if (m_vinfo.inDatabase) {
+                backToLastPanel();
+            }
+            else {
+                dApp->quit();
+            }
         }
     });
 }
