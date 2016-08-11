@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AboutWindow</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation type="vanished">深度看图</translation>
+        <translation type="obsolete">深度看图</translation>
     </message>
     <message>
         <source>Version: </source>
-        <translation type="vanished">版本：</translation>
+        <translation type="obsolete">版本：</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="vanished">深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
+        <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="vanished">兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+        <translation type="obsolete">兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">深度看图遵循GPL v3协议发布。</translation>
+        <translation type="obsolete">深度看图遵循GPL v3协议发布。</translation>
     </message>
 </context>
 <context>
     <name>AlbumDelegate</name>
     <message>
-        <location filename="../module/album/albumdelegate.cpp" line="224"/>
+        <location filename="../module/album/albumdelegate.cpp" line="216"/>
         <source>Recent imported</source>
         <translation>最近导入</translation>
     </message>
     <message>
-        <location filename="../module/album/albumdelegate.cpp" line="227"/>
+        <location filename="../module/album/albumdelegate.cpp" line="219"/>
         <source>My favorites</source>
         <translation>我的收藏</translation>
     </message>
@@ -84,42 +84,42 @@
 <context>
     <name>AlbumsView</name>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="222"/>
+        <location filename="../module/album/albumsview.cpp" line="213"/>
         <source>Unnamed</source>
         <translation>未命名相册</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="270"/>
+        <location filename="../module/album/albumsview.cpp" line="261"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="271"/>
+        <location filename="../module/album/albumsview.cpp" line="262"/>
         <source>Start slide show</source>
         <translation>幻灯片放映</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="275"/>
+        <location filename="../module/album/albumsview.cpp" line="266"/>
         <source>Rename</source>
         <translation>重命名</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="276"/>
+        <location filename="../module/album/albumsview.cpp" line="267"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="277"/>
+        <location filename="../module/album/albumsview.cpp" line="268"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="279"/>
+        <location filename="../module/album/albumsview.cpp" line="270"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="286"/>
+        <location filename="../module/album/albumsview.cpp" line="277"/>
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../application.cpp" line="24"/>
         <source>Deepin Image Viewer</source>
-        <translation type="unfinished">深度看图</translation>
+        <translation>深度看图</translation>
     </message>
 </context>
 <context>
@@ -151,7 +151,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="vanished">新建</translation>
+        <translation type="obsolete">新建</translation>
     </message>
     <message>
         <location filename="../module/album/createalbumdialog.cpp" line="75"/>
@@ -315,7 +315,7 @@
     <message>
         <location filename="../controller/exporter.cpp" line="82"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
 </context>
 <context>
@@ -345,11 +345,11 @@
     </message>
     <message>
         <source>Show details</source>
-        <translation type="vanished">显示详细信息</translation>
+        <translation type="obsolete">显示详细信息</translation>
     </message>
     <message>
         <source>Show basics</source>
-        <translation type="vanished">显示基本信息</translation>
+        <translation type="obsolete">显示基本信息</translation>
     </message>
 </context>
 <context>
@@ -450,11 +450,11 @@
     </message>
     <message>
         <source>Add from timeline</source>
-        <translation type="vanished">从时间线添加</translation>
+        <translation type="obsolete">从时间线添加</translation>
     </message>
     <message>
         <source>Add image from timeline or drag image to this album</source>
-        <translation type="vanished">您可以从时间线添加图片或拖拽导入图片到此相册 </translation>
+        <translation type="obsolete">您可以从时间线添加图片或拖拽导入图片到此相册 </translation>
     </message>
 </context>
 <context>
@@ -490,7 +490,7 @@
     </message>
     <message>
         <source>Imported successfully</source>
-        <translation type="vanished">导入成功</translation>
+        <translation type="obsolete">导入成功</translation>
     </message>
 </context>
 <context>
@@ -510,7 +510,7 @@
     </message>
     <message>
         <source>dd MMMM yyyy HH:mm:ss</source>
-        <translation type="vanished">yyyy年MMMMdd日 HH时mm分ss秒</translation>
+        <translation type="obsolete">yyyy年MMMMdd日 HH时mm分ss秒</translation>
     </message>
     <message>
         <location filename="../utils/imageutils.cpp" line="400"/>
@@ -605,15 +605,15 @@
     <name>TimelinePanel</name>
     <message>
         <source>Add to &quot;%1&quot; album</source>
-        <translation type="vanished">添加到 %1 相册</translation>
+        <translation type="obsolete">添加到 %1 相册</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="vanished">添加</translation>
+        <translation type="obsolete">添加</translation>
     </message>
     <message>
         <location filename="../module/timeline/timelinepanel.cpp" line="136"/>
@@ -724,7 +724,7 @@
     <name>TopAlbumTips</name>
     <message>
         <source>Add image</source>
-        <translation type="vanished">添加图片</translation>
+        <translation type="obsolete">添加图片</translation>
     </message>
     <message>
         <location filename="../module/album/topalbumtips.cpp" line="26"/>
@@ -748,53 +748,57 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="45"/>
-        <source>Ctrl+Shift+/</source>
-        <translation type="unfinished"></translation>
+        <location filename="../frame/toptoolbar.cpp" line="171"/>
+        <source>Version:</source>
+        <translation>版本：</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="165"/>
-        <source>Version:</source>
-        <translation type="unfinished"></translation>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.It is featured with image management, image viewing and basic image editing.</source>
+        <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager, It is featured with image management, image viewing and basic image editing.
+</source>
+        <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。\n</translation>
     </message>
     <message>
         <location filename="../frame/toptoolbar.cpp" line="166"/>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished"></translation>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager, It is featured with image management, image viewing and basic image editing.</source>
+        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="192"/>
+        <location filename="../frame/toptoolbar.cpp" line="198"/>
         <source>Importing images</source>
         <translation>正在导入</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="194"/>
-        <location filename="../frame/toptoolbar.cpp" line="199"/>
+        <location filename="../frame/toptoolbar.cpp" line="200"/>
+        <location filename="../frame/toptoolbar.cpp" line="205"/>
         <source>%1 images imported, please wait</source>
         <translation>已经导入 %1 张，请稍后</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="303"/>
+        <location filename="../frame/toptoolbar.cpp" line="309"/>
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="305"/>
+        <location filename="../frame/toptoolbar.cpp" line="311"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="309"/>
+        <location filename="../frame/toptoolbar.cpp" line="315"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="310"/>
+        <location filename="../frame/toptoolbar.cpp" line="316"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="311"/>
+        <location filename="../frame/toptoolbar.cpp" line="317"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>

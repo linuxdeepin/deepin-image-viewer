@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.0">
 <context>
     <name>AlbumDelegate</name>
     <message>
@@ -576,15 +576,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ctrl+Shift+/</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.It is featured with image management, image viewing and basic image editing.</source>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager, It is featured with image management, image viewing and basic image editing.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
