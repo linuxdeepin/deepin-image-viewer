@@ -191,6 +191,7 @@ void ViewPanel::initShortcut()
 }
 
 void ViewPanel::mousePressEvent(QMouseEvent *e) {
+    emit dApp->signalM->hideExtensionPanel();
     if (e->button() == Qt::BackButton) {
         if (window()->isFullScreen()) {
             showNormal();
