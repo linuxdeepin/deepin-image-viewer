@@ -376,7 +376,7 @@ QWidget *ViewPanel::extensionPanelContent()
     QWidget *w = new QWidget;
     w->setAttribute(Qt::WA_TranslucentBackground);
     QVBoxLayout *l = new QVBoxLayout(w);
-    l->setContentsMargins(0, 0, 0, 40);
+    l->setContentsMargins(0, 0, 0, 0);
 
     if (! m_info) {
         m_info = new ImageInfoWidget();
