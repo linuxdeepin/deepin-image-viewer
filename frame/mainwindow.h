@@ -5,7 +5,6 @@
 #include "widgets/dwindowframe.h"
 #include <QWidget>
 
-
 class MainWindow : public DWindowFrame
 {
 public:
@@ -17,6 +16,9 @@ protected:
     void resizeEvent(QResizeEvent *e) override;
 
 private:
+    void moveFirstWindow();
+    void moveCenter();
+
     MainWidget *m_mainWidget;
 };
 

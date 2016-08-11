@@ -3,6 +3,11 @@
 #include "mainwindow.h"
 #include "mainwidget.h"
 #include <QDesktopWidget>
+#include <QFile>
+#include <QStandardPaths>
+#include <QDebug>
+#include <QDir>
+#include <QScreen>
 
 namespace {
 
@@ -34,6 +39,59 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 //    QHBoxLayout *l = new QHBoxLayout(this);
 //    l->setContentsMargins(0, 0, 0, 0);
 //    l->addWidget(m_mainWidget);
+    moveFirstWindow();
+}
+
+void MainWindow::moveFirstWindow() {
+    //TODO use QLocalServer more safe ?
+    QString cachePath = QStandardPaths::standardLocations(QStandardPaths::CacheLocation).at(0);
+    QFile processFile(QString("%1/%2").arg(cachePath).arg("process.pid"));
+
+    if (processFile.exists()) {
+        if (processFile.open(QIODevice::ReadWrite)) {
+            int historyId = processFile.readAll().toInt();
+            QDir hisProcessDir(QString("/proc/%1").arg(historyId));
+            processFile.close();
+            if (hisProcessDir.exists())
+                return;
+
+            if (processFile.open(QIODevice::ReadWrite|QIODevice::Truncate)) {
+                QTextStream pidInfo(&processFile);
+                pidInfo << dApp->applicationPid();
+                processFile.close();
+            }
+            this->moveCenter();
+        }
+    } else {
+        if (processFile.open(QIODevice::WriteOnly|QIODevice::Text)) {
+
+            QTextStream pidInfo(&processFile);
+            pidInfo << dApp->applicationPid();
+            processFile.close();
+            this->moveCenter();
+        } else {
+            qDebug() << "process File open failed!";
+        }
+    }
+
+}
+
+void MainWindow::moveCenter() {
+    QPoint pos = QCursor::pos();
+    QRect primaryGeometry;
+
+    for (QScreen *screen : dApp->screens()) {
+        if (screen->geometry().contains(pos)) {
+            primaryGeometry = screen->geometry();
+        }
+    }
+
+    if (primaryGeometry.isEmpty()) {
+        primaryGeometry = dApp->primaryScreen()->geometry();
+    }
+
+    this->move(primaryGeometry.x() + (primaryGeometry.width() - this->width())/2,
+               primaryGeometry.y() + (primaryGeometry.height() - this->height())/2);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
@@ -47,5 +105,6 @@ void MainWindow::resizeEvent(QResizeEvent *e)
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
                                QVariant(m_mainWidget->height()));
     }
+
     DWindowFrame::resizeEvent(e);
 }
