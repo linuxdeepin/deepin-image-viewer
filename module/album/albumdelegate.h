@@ -29,8 +29,6 @@ public:
     QSize sizeHint(const QStyleOptionViewItem& option,
                    const QModelIndex& index) const Q_DECL_OVERRIDE;
 
-    void setXOffset(int offset);
-
 signals:
     void editingFinished(const QModelIndex &index);
 
@@ -48,7 +46,6 @@ private:
 
 private:
     mutable QModelIndex m_editingIndex;
-    int m_xOffset = 0;
 };
 
 #endif // ALBUMDELEGATE_H

@@ -32,14 +32,6 @@ AlbumsView::AlbumsView(QWidget *parent)
         closePersistentEditor(index);
         emit albumCreated();
     });
-    connect(this, &AlbumsView::paintRequest, this, [=] {
-        int offset = (width() % (m_itemSize.width() + ITEM_SPACING) - ITEM_SPACING) / 2;
-        // Not enought for item spacing
-        if (offset < 0) {
-            offset = (m_itemSize.width() + ITEM_SPACING) / 2;
-        }
-        delegate->setXOffset(offset);
-    });
 
     setItemDelegate(delegate);
     m_model = new QStandardItemModel(this);
@@ -56,7 +48,6 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     installEventFilter(this);
-    viewport()->installEventFilter(this);
     // Aways has Favorites and RecentImport album
     dApp->databaseM->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
     dApp->databaseM->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
@@ -156,16 +147,6 @@ bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
     else if (e->type() == QEvent::Show) {
         updateView();
     }
-    else if (e->type() == QEvent::ActionAdded
-             || e->type() == QEvent::ActionRemoved
-             || e->type() == QEvent::MouseMove) {
-        // FIXME the delegate not clear whole scene and i don't know why.
-        // but I know it's cause by m_Xoffset changed
-        viewport()->update();
-    }
-    else if (e->type() == QEvent::Paint) {
-        emit paintRequest();
-    }
 
     return false;
 }
@@ -180,6 +161,16 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
     }
 
     QListView::mousePressEvent(e);
+}
+
+int AlbumsView::horizontalOffset() const
+{
+    int spacing = (width() % (m_itemSize.width() + ITEM_SPACING) - ITEM_SPACING) / 2;
+    // Not enought for item spacing
+    if (spacing < 0) {
+        spacing = (m_itemSize.width() + ITEM_SPACING) / 2;
+    }
+    return -spacing;
 }
 
 bool AlbumsView::isCreateIcon(const QModelIndex &index) const

@@ -118,7 +118,6 @@ void AlbumDelegate::updateEditorGeometry(QWidget *editor,
     Q_UNUSED(index)
 
     QRect rect = option.rect;
-    rect.moveTopLeft(QPoint(rect.x() + m_xOffset, rect.y()));
     QFont font;
     font.setPixelSize(TITLE_FONT_SIZE);
     QFontMetrics fm(font);
@@ -134,7 +133,6 @@ void AlbumDelegate::paint(QPainter *painter,
     QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
 
     QRect rect = option.rect;
-    rect.moveTopLeft(QPoint(rect.x() + m_xOffset, rect.y()));
     const int pixmapSize = rect.width() - THUMBNAIL_BG_MARGIN * 2;
 
     if (! datas.isEmpty()) {
@@ -169,11 +167,6 @@ QSize AlbumDelegate::sizeHint(const QStyleOptionViewItem &option,
 {
     Q_UNUSED(option)
     return index.model()->data(index, Qt::SizeHintRole).toSize();
-}
-
-void AlbumDelegate::setXOffset(int offset)
-{
-    m_xOffset = offset;
 }
 
 void AlbumDelegate::drawBG(const QStyleOptionViewItem &option,
@@ -212,7 +205,6 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
 {
     if (m_editingIndex != index) {
         QRect rect = option.rect;
-        rect.moveTopLeft(QPoint(rect.x() + m_xOffset, rect.y()));
         QFont font;
         font.setPixelSize(TITLE_FONT_SIZE);
         QPen titlePen(TITLE_COLOR);
