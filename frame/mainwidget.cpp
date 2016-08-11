@@ -186,6 +186,11 @@ void MainWidget::initConnection()
     });
     connect(dApp->signalM, &SignalManager::showImageInfo,
             this, &MainWidget::onShowImageInfo);
+    connect(dApp->importer, &Importer::importProgressChanged, this, [=] (double v) {
+        if (v == 1) {
+            onShowProcessTooltip(tr("Imported successfully"), true);
+        }
+    });
 }
 
 void MainWidget::initBottomToolbar()

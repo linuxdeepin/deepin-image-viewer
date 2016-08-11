@@ -6,7 +6,7 @@
 
 namespace {
 
-const int HIDE_INTERVAL = 1000;
+const int HIDE_INTERVAL = 1500;
 const int TOOLTIP_HEIGHT = 40;
 
 }  // namespace
