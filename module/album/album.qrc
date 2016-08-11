@@ -23,6 +23,9 @@
         <file>resources/images/create_album_hover.png</file>
         <file>resources/images/create_album_normal.png</file>
         <file>resources/images/create_album_press.png</file>
+        <file>resources/images/import_hover.png</file>
+        <file>resources/images/import_normal.png</file>
+        <file>resources/images/import_press.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/album.qss</file>

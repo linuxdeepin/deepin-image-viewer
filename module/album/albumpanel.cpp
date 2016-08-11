@@ -79,8 +79,11 @@ QWidget *AlbumPanel::toolbarBottomContent()
     updateAlbumCount();
     updateImagesCount();
 
-    DImageButton *ib = new DImageButton;
-    ib->setNormalPic(":/images/resources/images/import_button.png");
+    ImageButton *ib = new ImageButton;
+    ib->setToolTip(tr("Import"));
+    ib->setNormalPic(":/images/resources/images/import_normal.png");
+    ib->setHoverPic(":/images/resources/images/import_hover.png");
+    ib->setPressPic(":/images/resources/images/import_press.png");
     connect(ib, &DImageButton::clicked, this, [=] {
         dApp->importer->showImportDialog();
     });
