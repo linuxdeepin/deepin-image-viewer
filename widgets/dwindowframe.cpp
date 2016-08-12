@@ -390,7 +390,8 @@ QPoint DWindowFrame::mapToGlobal(const QPoint& point) const {
 void DWindowFrame::changeEvent(QEvent *event) {
     QWidget::changeEvent(event);
     if (event->type() == QEvent::WindowStateChange) {
-        if (this->windowState() & Qt::WindowMaximized) {
+        if (this->windowState() & Qt::WindowMaximized ||
+                this->windowState() & Qt::WindowFullScreen) {
             this->setMargins(0);
         } else {
             this->setMargins(this->layoutMargin);
