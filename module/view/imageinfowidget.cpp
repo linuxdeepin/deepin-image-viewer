@@ -49,7 +49,7 @@ const int MAX_INFO_LENGTH = 6;  // info string limit to 6 character
 ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     : QScrollArea(parent)
 {
-    setAttribute(Qt::WA_TranslucentBackground);
+    setObjectName("ImageInfoScrollArea");
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -64,21 +64,23 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     contentLayout->addWidget(title);
     ViewSeparator *separator = new ViewSeparator();
     contentLayout->addWidget(separator);
-
+    contentLayout->addSpacing(8);
     // Info field
     m_exifLayout_base = new QFormLayout();
-    m_exifLayout_base->setSpacing(5);
+    m_exifLayout_base->setSpacing(8);
     m_exifLayout_base->setContentsMargins(8, 0, 8, 0);
     m_exifLayout_base->setLabelAlignment(Qt::AlignRight);
     m_separator = new ViewSeparator();
     m_separator->setVisible(false);
     m_exifLayout_details = new QFormLayout();
-    m_exifLayout_details->setSpacing(5);
+    m_exifLayout_details->setSpacing(8);
     m_exifLayout_details->setContentsMargins(8, 0, 8, 0);
     m_exifLayout_details->setLabelAlignment(Qt::AlignRight);
 
     contentLayout->addLayout(m_exifLayout_base);
+    contentLayout->addSpacing(3);
     contentLayout->addWidget(m_separator);
+    contentLayout->addSpacing(8);
     contentLayout->addLayout(m_exifLayout_details);
 
     contentLayout->addSpacing(15);
@@ -86,6 +88,7 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
 
     setWidget(content);
 }
+
 
 void ImageInfoWidget::setImagePath(const QString &path)
 {
@@ -136,45 +139,67 @@ void ImageInfoWidget::clearLayout(QLayout *layout) {
 
 void ImageInfoWidget::updateInfo()
 {
-    updateBaseInfo();
-    updateDetailsInfo();
+    using namespace utils::image;
+    using namespace utils::base;
+    QMap<QString, QString> bei = getExifFromPath(m_path, false);
+    QMap<QString, QString> dei = getExifFromPath(m_path, true);
+
+    // Update the m_maxTitleWidth to make all colon aligned
+    m_maxTitleWidth = 0;
+    QFont tf;
+    tf.setPixelSize(11);
+    const QStringList titles = bei.unite(dei).keys();
+    for (QString title : titles) {
+        // FIXME append 1px for stringWidth calculate incorrect
+        m_maxTitleWidth = qMax(m_maxTitleWidth + 1,
+                               stringWidth(tf, trLabel(title.toUtf8().data())));
+    }
+
+    updateBaseInfo(bei);
+    updateDetailsInfo(dei);
 }
 
-void ImageInfoWidget::updateBaseInfo()
+void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
 {
     using namespace utils::image;
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
-    auto ei = getExifFromPath(m_path, false);
     for (const ExifItem* i = getExifItemList(false); i->tag; ++i) {
-        QString value = ei.value(i->name);
+        QString value = infos.value(i->name);
         if (! value.isEmpty()) {
             splitInfoStr(value);
             SimpleFormField *label = new SimpleFormField(value);
+            label->setAlignment(Qt::AlignLeft|Qt::AlignTop);
 
             SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
             title->setMinimumHeight(label->minimumHeight());
+            title->setFixedWidth(m_maxTitleWidth);
+            title->setAlignment(Qt::AlignRight|Qt::AlignTop);
+
             m_exifLayout_base->addRow(title, label);
         }
     }
 }
 
-void ImageInfoWidget::updateDetailsInfo()
+void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 {
     using namespace utils::image;
     using namespace utils::base;
     clearLayout(m_exifLayout_details);
 
-    auto ei = getExifFromPath(m_path, true);
     for (const ExifItem* i = getExifItemList(true); i->tag; ++i) {
-        QString value = ei.value(i->name);
+        QString value = infos.value(i->name);
         if (! value.isEmpty()) {
             splitInfoStr(value);
             SimpleFormField *label = new SimpleFormField(value);
+            label->setAlignment(Qt::AlignLeft|Qt::AlignTop);
 
             SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
             title->setMinimumHeight(label->minimumHeight());
+            title->setFixedWidth(m_maxTitleWidth);
+            title->setAlignment(Qt::AlignRight|Qt::AlignTop);
+
             m_exifLayout_details->addRow(title, label);
         }
     }

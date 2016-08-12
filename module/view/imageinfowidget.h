@@ -9,7 +9,6 @@
 class QFormLayout;
 class QVBoxLayout;
 class ViewSeparator;
-
 class ImageInfoWidget : public QScrollArea
 {
     Q_OBJECT
@@ -22,11 +21,12 @@ private:
     const QString trLabel(const char *str);
     void splitInfoStr(QString &str) const;
     void updateInfo();
-    void updateBaseInfo();
-    void updateDetailsInfo();
+    void updateBaseInfo(const QMap<QString, QString> &infos);
+    void updateDetailsInfo(const QMap<QString, QString> &infos);
     void clearLayout(QLayout* layout);
+
 private:
-    int m_maxContentWidth;
+    int m_maxTitleWidth;  //For align colon
     QString m_path;
     QFormLayout* m_exifLayout_base;
     QFormLayout* m_exifLayout_details;

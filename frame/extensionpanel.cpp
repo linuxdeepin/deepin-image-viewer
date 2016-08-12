@@ -19,6 +19,7 @@ const int EXTENSION_PANEL_MAX_WIDTH = 340;
 ExtensionPanel::ExtensionPanel(QWidget *parent, QWidget *source)
     : BlureFrame(parent, source)
 {
+    setCoverBrush(QBrush(QColor(0, 0, 0, 100)));
     setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
     m_contentLayout = new QHBoxLayout(this);
     m_contentLayout->setContentsMargins(0, 0, 0, 0);
