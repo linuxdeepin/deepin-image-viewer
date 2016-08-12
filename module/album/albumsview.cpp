@@ -165,10 +165,12 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
 
 int AlbumsView::horizontalOffset() const
 {
-    int spacing = (width() % (m_itemSize.width() + ITEM_SPACING) - ITEM_SPACING) / 2;
+    double spacing = 1.0 * (width() % (m_itemSize.width() + ITEM_SPACING) - ITEM_SPACING) / 2;
+    // 0 is critical point, DO NOT use 0
+    spacing = spacing == 0 ? -1 : spacing;
     // Not enought for item spacing
     if (spacing < 0) {
-        spacing = (m_itemSize.width() + ITEM_SPACING) / 2;
+        spacing = 1.0 * (m_itemSize.width() + ITEM_SPACING) / 2 + spacing;
     }
     return -spacing;
 }
