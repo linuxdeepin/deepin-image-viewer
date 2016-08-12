@@ -10,7 +10,7 @@
 using namespace utils::image;
 
 namespace {
-
+const int MAX_INFO_LENGTH = 6;
 static ExifItem exifItems[] = {
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME, "Name"},
     {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_TYPE, "Type"},
@@ -48,7 +48,16 @@ void ImageInfoDialog::setPath(const QString &path)
     ei.unite(getExifFromPath(path, false));
 
     for (const ExifItem* i = exifItems; i->tag; ++i) {
-        const QString v = ei.value(i->name);
+        QString v = ei.value(i->name);
+
+        const int dl = v.length();
+        if (dl > MAX_INFO_LENGTH) {
+            for(int i = 1; i < dl / MAX_INFO_LENGTH; i++) {
+                 int n = i * MAX_INFO_LENGTH;
+                 v.insert(n, QLatin1String(" "));
+             }
+        }
+
         if (v.isEmpty()) {
             continue;
         }
