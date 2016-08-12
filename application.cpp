@@ -18,7 +18,7 @@ namespace {
 Application::Application(int& argc, char** argv)
     : QApplication(argc, argv)
 {
-
+    initI18n();
     setOrganizationName("deepin");
     setApplicationName("deepin-image-viewer");
     setApplicationDisplayName(tr("Deepin Image Viewer"));
@@ -26,7 +26,7 @@ Application::Application(int& argc, char** argv)
 
     installEventFilter(new GlobalEventFilter());
 
-    initI18n();
+
     initChildren();
 }
 

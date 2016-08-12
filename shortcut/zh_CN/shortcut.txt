@@ -14,9 +14,9 @@
 在文件管理器中显示 = Ctrl + D
 图片信息 = Alt + Enter
 
-[Album]
+[相册]
 新建相册 = Ctrl + Shift + N
 重命名 = F2
-[Settings]
+[设置]
 帮助 = F1
 退出 = Ctrl　＋　Q

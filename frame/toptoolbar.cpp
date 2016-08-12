@@ -42,7 +42,7 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     initWidgets();
     initMenu();
 
-    QShortcut* viewScut = new QShortcut(QKeySequence(tr("Ctrl+Shift+/")),
+    QShortcut* viewScut = new QShortcut(QKeySequence("Ctrl+Shift+/"),
                                         this);
     connect(viewScut, &QShortcut::activated, this, &TopToolbar::showShortCutView);
     qApp->installEventFilter(this);
@@ -161,11 +161,17 @@ void TopToolbar::initAboutWindow() {
     QSignalBlocker blocker(DThemeManager::instance());
     Q_UNUSED(blocker);
     DThemeManager::instance()->setTheme("light");
+
+    //TODO: if without '\n' the text will be cut.
+    QString description = QString(tr("Deepin Image Viewer is a fashion & smooth image manager, "
+     "It is featured with image management, "
+     "image viewing and basic image editing."));
+
     m_about = new DAboutDialog(icon, icon, qApp->applicationDisplayName(),
                                tr("Version:") + qApp->applicationVersion(),
-                               tr("Deepin Image Viewer is a fashion & smooth image manager."
-                                  "It is featured with image management, "
-                                                                    "image viewing and basic image editing."), this);
+                               description, this);
+
+
     DThemeManager::instance()->setTheme("dark");
     m_about->setTitle("");
     m_about->hide();
