@@ -343,8 +343,8 @@ void DWindowFrame::startMoving() {
     xev.xclient.data.l[0] = global_position.x();
     xev.xclient.data.l[1] = global_position.y();
     xev.xclient.data.l[2] = 8;
-    xev.xclient.data.l[3] = 1;
-    xev.xclient.data.l[4] = 1;  // source indication
+    xev.xclient.data.l[3] = 0;
+    xev.xclient.data.l[4] = 0;  // source indication
     XUngrabPointer(display, QX11Info::appTime());
 
     XSendEvent(display,
