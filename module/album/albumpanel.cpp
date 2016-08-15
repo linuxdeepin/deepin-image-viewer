@@ -205,6 +205,8 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     albumButton->setNormalPic(":/images/resources/images/album_active.png");
     albumButton->setHoverPic(":/images/resources/images/album_active.png");
     albumButton->setPressPic(":/images/resources/images/album_active.png");
+    albumButton->setTooltipVisible(true);
+
     connect(albumButton, &ImageButton::clicked, this, [=]{
         if (m_stackWidget->currentWidget() == m_imagesView) {
             m_stackWidget->setCurrentWidget(m_albumsView);
