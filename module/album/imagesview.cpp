@@ -65,6 +65,7 @@ bool ImagesView::removeItem(const QString &name)
 {
     const bool state = m_view->removeItem(name);
 
+    m_topTips->setAlbum(m_album);
     updateContent();
 
     return state;
@@ -74,6 +75,7 @@ void ImagesView::removeItems(const QStringList &names)
 {
     m_view->removeItems(names);
 
+    m_topTips->setAlbum(m_album);
     updateContent();
 }
 
@@ -205,6 +207,7 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info, bool update)
     vi.tickable = false;
 
     m_view->insertItem(vi);
+    m_topTips->setAlbum(m_album);
 
     if (update)
         updateContent();
