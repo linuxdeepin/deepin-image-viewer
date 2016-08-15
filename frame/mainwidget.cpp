@@ -93,6 +93,7 @@ void MainWidget::onShowImageInfo(const QString &path)
                (window()->height() - info->sizeHint().height()) / 2 +
                mapToGlobal(QPoint(0, 0)).y());
     info->show();
+    info->setWindowState(Qt::WindowActive);
     connect(info, &ImageInfoDialog::closed, info, &ImageInfoDialog::deleteLater);
     connect(dApp->signalM, &SignalManager::gotoPanel,
             info, &ImageInfoDialog::close);
