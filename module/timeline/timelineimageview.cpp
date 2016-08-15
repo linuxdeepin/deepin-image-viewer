@@ -39,6 +39,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     setWidgetResizable(true);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
 
     qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
     connect(dApp->signalM, &SignalManager::imagesRemoved,

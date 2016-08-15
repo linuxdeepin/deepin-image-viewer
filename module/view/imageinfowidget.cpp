@@ -54,6 +54,7 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     setWidgetResizable(true);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
 
     QFrame *content = new QFrame();
     QVBoxLayout *contentLayout = new QVBoxLayout(content);

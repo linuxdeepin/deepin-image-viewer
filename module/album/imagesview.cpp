@@ -36,6 +36,7 @@ ImagesView::ImagesView(QWidget *parent)
     setWidgetResizable(true);
     setVerticalScrollBar(new ScrollBar(this));
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
 
     initContent();
     updateMenuContents();
