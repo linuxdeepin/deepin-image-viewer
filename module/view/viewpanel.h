@@ -92,6 +92,7 @@ private:
                               const QJsonObject &subMenu = QJsonObject());
     void backToLastPanel();
     void onMenuItemClicked(int menuId, const QString &text);
+    void rotateImage(bool clockWise);
     void showToolbar(bool isTop);
     void showNormal();
     void showFullScreen();

@@ -343,16 +343,10 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
             ttmc, &TTMContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::onImageChanged);
     connect(ttmc, &TTMContent::rotateClockwise, this, [=]{
-        m_view->rotateClockWise();
-        m_nav->setImage(m_view->image());
-        // Remove cache force view's delegate reread thumbnail
-        QPixmapCache::remove(m_current->name);
+        rotateImage(true);
     });
     connect(ttmc, &TTMContent::rotateCounterClockwise, this, [=]{
-        m_view->rotateCounterclockwise();
-        m_nav->setImage(m_view->image());
-        // Remove cache force view's delegate reread thumbnail
-        QPixmapCache::remove(m_current->name);
+        rotateImage(false);
     });
     connect(ttmc, &TTMContent::removed, this, [=] {
         dApp->databaseM->removeImages(QStringList(m_current->name));
@@ -896,16 +890,10 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         updateMenuContent();
         break;
     case IdRotateClockwise:
-        m_view->rotateClockWise();
-        m_nav->setImage(m_view->image());
-        // Remove cache force view's delegate reread thumbnail
-        QPixmapCache::remove(name);
+        rotateImage(true);
         break;
     case IdRotateCounterclockwise:
-        m_view->rotateCounterclockwise();
-        m_nav->setImage(m_view->image());
-        // Remove cache force view's delegate reread thumbnail
-        QPixmapCache::remove(name);
+        rotateImage(false);
         break;
     case IdLabel:
         break;
@@ -920,6 +908,21 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     default:
         break;
+    }
+}
+
+void ViewPanel::rotateImage(bool clockWise)
+{
+    if (clockWise)
+        m_view->rotateClockWise();
+    else
+        m_view->rotateCounterclockwise();
+    m_nav->setImage(m_view->image());
+    // Remove cache force view's delegate reread thumbnail
+    QPixmapCache::remove(m_current->name);
+    // Update the thumbnail for in DB
+    if (m_vinfo.inDatabase) {
+        dApp->databaseM->updateThumbnail(m_current->name);
     }
 }
 
