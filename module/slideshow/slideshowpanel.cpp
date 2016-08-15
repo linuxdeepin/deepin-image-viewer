@@ -17,6 +17,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 {
     initeffectPlay();
     initMenu();
+    initPlayTimer();
     initShortcut();
 
     connect(dApp->signalM, &SignalManager::startSlideShow,
@@ -111,6 +112,23 @@ void SlideShowPanel::initShortcut()
     connect(m_sEsc, &QShortcut::activated, this, &SlideShowPanel::backToLastPanel);
 }
 
+/*!
+ * \brief SlideShowPanel::initPlayTimer
+ * Delay to avoid fast switching causes the system to get stuck
+ */
+void SlideShowPanel::initPlayTimer()
+{
+    m_timer = new QTimer(this);
+    m_timer->setSingleShot(true);
+    m_timer->setInterval(500);
+    connect(m_timer, &QTimer::timeout, this, [=] {
+        m_player->start();
+
+        emit dApp->signalM->gotoPanel(this);
+        showFullScreen();
+    });
+}
+
 void SlideShowPanel::mousePressEvent(QMouseEvent *e) {
     if (e->button() == Qt::BackButton)
         m_sEsc->activated();
@@ -148,14 +166,12 @@ void SlideShowPanel::startSlideShow(ModulePanel *lastPanel,
         qDebug() << "Start SlideShow failed! Paths is empty!";
         return;
     }
-    m_lastPanel = lastPanel;
 
+    m_lastPanel = lastPanel;
     m_player->setImagePaths(paths);
     m_player->setCurrentImage(path);
-    m_player->start();
 
-    emit dApp->signalM->gotoPanel(this);
-    showFullScreen();
+    m_timer->start();
 }
 
 void SlideShowPanel::showNormal()
@@ -173,9 +189,11 @@ void SlideShowPanel::showFullScreen()
     window()->showFullScreen();
 
     TIMER_SINGLESHOT(300, {
+    if (window()->isFullScreen()) {
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->hideExtensionPanel(true);
     emit dApp->signalM->hideTopToolbar(true);
+    }
     setImage(getFitImage(m_player->currentImagePath()));
 
                          }, this)

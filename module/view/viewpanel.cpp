@@ -267,7 +267,8 @@ void ViewPanel::showFullScreen()
 
     // Full screen then hide bars because hide animation depends on height()
     TIMER_SINGLESHOT(300,
-    {Q_EMIT dApp->signalM->hideExtensionPanel(true);
+    {if (! window()->isFullScreen()) return;
+     Q_EMIT dApp->signalM->hideExtensionPanel(true);
      Q_EMIT dApp->signalM->hideTopToolbar(true);}, this);
 }
 
