@@ -119,6 +119,7 @@ void PopupMenuManager::constructMenu(QMenu* menu, const QJsonArray& content)
             action->setData(itemId);
             action->setShortcutContext(Qt::WindowShortcut);
             action->setShortcut(QKeySequence(shortcut));
+            action->setAutoRepeat(false);
             m_parentWidget->addAction(action);
         }
         else {

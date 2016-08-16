@@ -2,9 +2,10 @@
 #define SLIDESHOWPANEL_H
 
 #include "module/modulepanel.h"
-class QShortcut;
 
 class PopupMenuManager;
+class QShortcut;
+class QTimer;
 class SlideEffectPlayer;
 class SlideShowPanel : public ModulePanel
 {
@@ -29,6 +30,7 @@ private:
 
     void initeffectPlay();
     void initMenu();
+    void initPlayTimer();
     void initShortcut();
 
     const QString menuContent();
@@ -41,7 +43,8 @@ private:
     void showNormal();
 
 private:
-    QShortcut *m_sEsc;
+    QShortcut           *m_sEsc;
+    QTimer              *m_timer;
     ModulePanel         *m_lastPanel;
     PopupMenuManager    *m_menu;
     QImage               m_img;
