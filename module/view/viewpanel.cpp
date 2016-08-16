@@ -39,6 +39,7 @@ const int BOTTOM_TOOLBAR_HEIGHT = 24;
 const int SHOW_TOOLBAR_INTERVAL = 200;
 const int DELAY_VIEW_INTERVAL = 100;
 const int BUTTON_PADDING = 15;
+const int OPEN_IMAGE_DELAY_INTERVAL = 500;
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 
 }  // namespace
@@ -406,6 +407,16 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
                     (this->rect().height() - m_nextBtn->height() + TOP_TOOLBAR_HEIGHT) / 2);
 }
 
+void ViewPanel::timerEvent(QTimerEvent *e)
+{
+    if (e->timerId() != m_openTid)
+        return;
+
+    openImage(m_current->path, m_vinfo.inDatabase);
+    killTimer(m_openTid);
+    m_openTid = 0;
+}
+
 void ViewPanel::mouseMoveEvent(QMouseEvent *e)
 {
     if (m_view->isMoving()) {
@@ -532,7 +543,8 @@ bool ViewPanel::showPrevious()
         m_current = m_infos.cend();
     --m_current;
 
-    openImage(m_current->path, m_vinfo.inDatabase);
+    killTimer(m_openTid);
+    m_openTid = startTimer(m_openTid == 0 ? 0 : OPEN_IMAGE_DELAY_INTERVAL);
     return true;
 }
 
@@ -546,7 +558,8 @@ bool ViewPanel::showNext()
     if (m_current == m_infos.cend())
         m_current = m_infos.cbegin();
 
-    openImage(m_current->path, m_vinfo.inDatabase);
+    killTimer(m_openTid);
+    m_openTid = startTimer(m_openTid == 0 ? 0 : OPEN_IMAGE_DELAY_INTERVAL);
     return true;
 }
 
