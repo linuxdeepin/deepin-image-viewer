@@ -39,6 +39,7 @@ protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+
 private Q_SLOTS:
     void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString& path, bool inDB = true);
@@ -46,6 +47,7 @@ private Q_SLOTS:
     bool showPrevious();
     bool showNext();
     void removeCurrentImage();
+    void resetImageGeometry();
     void viewOnNewProcess(const QString &paths);
 
 private:

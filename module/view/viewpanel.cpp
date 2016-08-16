@@ -104,6 +104,11 @@ void ViewPanel::initConnect() {
                 removeCurrentImage();
         }
     });
+    connect(dApp->signalM, &SignalManager::windowStatesChanged,
+            this, [=] (const Qt::WindowStates state) {
+        Q_UNUSED(state)
+        QMetaObject::invokeMethod(this, "resetImageGeometry", Qt::QueuedConnection);
+    });
 
     connect(m_previousBtn, &ImageButton::clicked, this, &ViewPanel::showPrevious);
     connect(m_nextBtn, &ImageButton::clicked, this, &ViewPanel::showNext);
@@ -177,7 +182,7 @@ void ViewPanel::initShortcut()
     esc->setContext(Qt::WindowShortcut);
     connect(esc, &QShortcut::activated, this, [=] {
         if (window()->isFullScreen()) {
-            showNormal();
+            toggleFullScreen();
         }
         else {
             if (m_vinfo.inDatabase) {
@@ -234,15 +239,6 @@ void ViewPanel::showNormal()
 {
     if (m_isMaximized) {
         window()->showMaximized();
-//        // FIXME the window-manager will alway start the growing-
-//        // animation(expand from topleft to bottomright) when change the
-//        // window's state to Qt::WindowMaximized, so change the flag temporarily
-//        // to avoid the animation run
-//        auto flags = window()->windowFlags();
-//        window()->setWindowFlags(Qt::SplashScreen);
-//        window()->show();
-//        window()->setWindowFlags(flags);
-//        TIMER_SINGLESHOT(50, {window()->showMaximized();}, this)
     }
     else {
         window()->showNormal();
@@ -255,21 +251,6 @@ void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
     window()->showFullScreen();
-//    // FIXME the window-manager will alway start the growing-
-//    // animation(expand from topleft to bottomright) when change the
-//    // window's state to Qt::WindowMaximized, so change the flag temporarily
-//    // to avoid the animation run
-//    auto flags = window()->windowFlags();
-//    window()->setWindowFlags(Qt::SplashScreen);
-//    window()->show();
-//    window()->setWindowFlags(flags);
-//    TIMER_SINGLESHOT(50, {window()->showFullScreen();}, this)
-
-    // Full screen then hide bars because hide animation depends on height()
-    TIMER_SINGLESHOT(300,
-    {if (! window()->isFullScreen()) return;
-     Q_EMIT dApp->signalM->hideExtensionPanel(true);
-     Q_EMIT dApp->signalM->hideTopToolbar(true);}, this);
 }
 
 bool ViewPanel::mouseContainsByTopToolbar(const QPoint &pos)
@@ -355,10 +336,10 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         removeCurrentImage();
     });
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
-        m_view->resetTransform();
-        if (fitWindow) {
-            m_view->setScaleValue(1 / m_view->windowRelativeScale());
-        }
+        if (fitWindow)
+            m_view->fitWindow();
+        else
+            m_view->fitImage();
 
         m_scaleLabel->setText(QString("%1%").arg(int(m_view->scaleValue()*100)));
     });
@@ -401,6 +382,16 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 
 void ViewPanel::resizeEvent(QResizeEvent *e)
 {
+    ModulePanel::resizeEvent(e);
+
+    // There will be several times the size change during switch to full process
+    // So correct it every times
+    if (window()->isFullScreen()) {
+        resetImageGeometry();
+        Q_EMIT dApp->signalM->hideExtensionPanel(true);
+        Q_EMIT dApp->signalM->hideTopToolbar(true);
+    }
+
     m_nav->move(e->size().width() - m_nav->width() - 60,
                 e->size().height() - m_nav->height() -10);
 
@@ -413,10 +404,6 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
     m_nextBtn->move(this->rect().right() - m_nextBtn->width() - BUTTON_PADDING,
                     (this->rect().height() - m_nextBtn->height() + TOP_TOOLBAR_HEIGHT) / 2);
-    //FIXME for reset transform after toggle fullscreen etc.
-    if (! m_view->imagePath().isEmpty()) {
-        m_view->setImage(QString(m_view->imagePath()));
-    }
 }
 
 void ViewPanel::mouseMoveEvent(QMouseEvent *e)
@@ -534,14 +521,7 @@ void ViewPanel::toggleFullScreen()
         showFullScreen();
     }
 
-    //FIXME For the position correction after fullscreen changed
-    TIMER_SINGLESHOT(1000, {
-    // If image's size is smaller than window's size, set to 1:1 size
-    m_view->resetTransform();
-    if (m_view->windowRelativeScale() > 1 && ! window()->isFullScreen()) {
-        m_view->setScaleValue(1 / m_view->windowRelativeScale());
-    }
-    }, this)
+    resetImageGeometry();
 }
 
 bool ViewPanel::showPrevious()
@@ -583,6 +563,17 @@ void ViewPanel::removeCurrentImage()
             emit imageChanged("", true);
             m_stack->setCurrentIndex(1);
         }
+    }
+}
+
+void ViewPanel::resetImageGeometry()
+{
+    // If image's size is smaller than window's size, set to 1:1 size
+    if (m_view->windowRelativeScale() > 1 && ! window()->isFullScreen()) {
+        m_view->fitWindow();
+    }
+    else {
+        m_view->fitImage();
     }
 }
 
@@ -921,6 +912,8 @@ void ViewPanel::rotateImage(bool clockWise)
         m_view->rotateClockWise();
     else
         m_view->rotateCounterclockwise();
+
+    resetImageGeometry();
     m_nav->setImage(m_view->image());
     // Remove cache force view's delegate reread thumbnail
     QPixmapCache::remove(m_current->name);
@@ -970,10 +963,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     m_view->setImage(path);
 
-    // If image's size is smaller than window's size, set to 1:1 size
-    if (m_view->windowRelativeScale() > 1 && ! window()->isFullScreen()) {
-        m_view->setScaleValue(1 / m_view->windowRelativeScale());
-    }
+    resetImageGeometry();
     m_scaleLabel->hide();
 
     m_nav->setImage(m_view->image());

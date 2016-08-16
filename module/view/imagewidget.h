@@ -14,7 +14,8 @@ public:
     QImage image() const {return m_image;}
     QString imageName() const;
     QString imagePath() const;
-    void resetTransform();
+    void fitImage();
+    void fitWindow();
     qreal scaleValue() const;
     qreal windowRelativeScale() const;
     void setTransformOrigin(const QPoint& imageP, const QPoint& deviceP);
@@ -42,6 +43,7 @@ public Q_SLOTS:
     void flipX();
     void flipY();
 protected:
+    void resizeEvent(QResizeEvent *e) override;
     void timerEvent(QTimerEvent* e) override;
     void paintEvent(QPaintEvent *) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -54,6 +56,7 @@ protected:
 
 private:
     const QRectF imageRect() const;
+    void resetTransform();
     void updateTransform();
     //This function is used to judge whether p enter in
     //the button of switching previous or next image or not

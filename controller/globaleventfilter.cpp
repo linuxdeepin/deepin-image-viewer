@@ -1,4 +1,5 @@
 #include "globaleventfilter.h"
+#include "controller/signalmanager.h"
 #include "utils/baseutils.h"
 #include <QDebug>
 #include <QEvent>
@@ -27,10 +28,10 @@ bool GlobalEventFilter::eventFilter(QObject *obj, QEvent *e)
 
 //        qDebug() << e->type();
 //    }
-//    if (e->type() == QEvent::WindowStateChange) {
-//        if (QWindowStateChangeEvent *we = static_cast<QWindowStateChangeEvent *>(e)) {
-//            qDebug() << we->oldState();
-//        }
-//    }
+    if (e->type() == QEvent::WindowStateChange) {
+        if (QWindowStateChangeEvent *we = static_cast<QWindowStateChangeEvent *>(e)) {
+            emit SignalManager::instance()->windowStatesChanged(we->oldState());
+        }
+    }
     return false;
 }

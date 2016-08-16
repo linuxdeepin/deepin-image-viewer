@@ -75,6 +75,17 @@ void ImageWidget::resetTransform()
     updateTransform();
 }
 
+void ImageWidget::fitImage()
+{
+    resetTransform();
+}
+
+void ImageWidget::fitWindow()
+{
+    resetTransform();
+    setScaleValue(1 / windowRelativeScale());
+}
+
 qreal ImageWidget::scaleValue() const
 {
     if (m_image.isNull())
@@ -141,6 +152,16 @@ void ImageWidget::flipY()
     m_flipY = -m_flipY;
     updateTransform();
     Q_EMIT fliped(m_flipX < 0, m_flipY < 0);
+}
+
+void ImageWidget::resizeEvent(QResizeEvent *e)
+{
+    QWidget::resizeEvent(e);
+    if (m_scale <= windowRelativeScale()) {
+        m_o_dev = rect().center();
+        m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
+        updateTransform();
+    }
 }
 
 void ImageWidget::setTransformOrigin(const QPoint& imageP, const QPoint& deviceP)
