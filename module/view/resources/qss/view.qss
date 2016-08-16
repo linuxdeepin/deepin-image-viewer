@@ -74,21 +74,18 @@ QScrollBar::sub-line {
 }
 
 ImageButton#PreviousButton {
-    border: 1px solid rgba(255, 255, 255, .2);
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, .4);
-    padding: 6px 8px 6px 4px;
+    border-image: url(:/images/resources/images/previous_next.png);
+    padding: 6px 20px 14px 13px;
 }
 
 ImageButton#NextButton {
-    border: 1px solid rgba(255, 255, 255, .2);
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, .4);
-    padding: 6px;
+    border-image: url(:/images/resources/images/previous_next.png);
+    padding: 4px 21px 12px  15px;;
 }
 
 QLabel#ScaleLabel {
     border-image: url(:/images/resources/images/scale_background.png);
     color: white;
+    padding: 0px 0px 10px 0px;
     font-size: 14px;
 }

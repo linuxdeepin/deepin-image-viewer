@@ -628,7 +628,7 @@ void ViewPanel::initStack()
 
 void ViewPanel::initFloatBtns() {
     m_previousBtn = new ImageButton(this);
-    m_previousBtn->setFixedSize(36, 36);
+    m_previousBtn->setFixedSize(53, 53);
     m_previousBtn->setToolTip(tr("Previous"));
     m_previousBtn->setObjectName("PreviousButton");
     m_previousBtn->setNormalPic(":/images/resources/images/previous_hover.png");
@@ -636,7 +636,7 @@ void ViewPanel::initFloatBtns() {
     m_previousBtn->setPressPic(":/images/resources/images/previous_press.png");
 
     m_nextBtn = new ImageButton(this);
-    m_nextBtn->setFixedSize(36, 36);
+    m_nextBtn->setFixedSize(53, 53);
     m_nextBtn->setToolTip(tr("Next"));
     m_nextBtn->setObjectName("NextButton");
     m_nextBtn->setNormalPic(":/images/resources/images/next_hover.png");
@@ -654,7 +654,7 @@ void ViewPanel::initFloatBtns() {
     m_scaleLabel = new QLabel(this);
     m_scaleLabel->setObjectName("ScaleLabel");
     m_scaleLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
-    m_scaleLabel->setFixedSize(66, 32);
+    m_scaleLabel->setFixedSize(82, 48);
     m_scaleLabel->move(this->rect().center());
     m_scaleLabel->setAlignment(Qt::AlignCenter);
     m_scaleLabel->setText(QString("%1%").arg(100));
