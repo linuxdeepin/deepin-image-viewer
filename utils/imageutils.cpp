@@ -152,7 +152,7 @@ QDateTime getCreateDateTime(const QString &filePath)
     ExifData *ed = exif_data_new_from_file(filePath.toUtf8().data());
     if (ed) {
         QDateTime dt = utils::base::stringToDateTime(
-                    readExifTag(ed, EXIF_IFD_0, EXIF_TAG_DATE_TIME));
+                    readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL));
         //Free the EXIF data
         exif_data_unref(ed);
         if (dt.isValid())
