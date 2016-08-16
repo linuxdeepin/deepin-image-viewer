@@ -14,7 +14,7 @@ public:
 
 protected:
 //    void paintEvent(QPaintEvent *) override;
-    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
 
 private:
     QWidget *m_content;

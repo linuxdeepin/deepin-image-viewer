@@ -65,10 +65,9 @@ void ExtensionPanel::updateRectWithContent()
     }
 }
 
-void ExtensionPanel::mousePressEvent(QMouseEvent *e)
+void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
 {
-    BlureFrame::mousePressEvent(e);
-    emit dApp->signalM->hideExtensionPanel();
+    Q_UNUSED(e);
 }
 
 //void ExtensionPanel::paintEvent(QPaintEvent *)
