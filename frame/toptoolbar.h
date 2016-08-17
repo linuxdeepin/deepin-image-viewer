@@ -7,8 +7,8 @@
 #include <QJsonObject>
 #include <QProcess>
 #include <QPointer>
-#include <daboutdialog.h>
 
+class AboutWindow;
 class PopupMenuManager;
 class TopToolbar : public BlureFrame
 {
@@ -39,7 +39,7 @@ private:
         IdSeparator
     };
 
-    void initAboutWindow();
+//    void initAboutWindow();
     void initWidgets();
     void initMenu();
 
@@ -62,7 +62,7 @@ private:
     QWidget *m_middleContent;
     QWidget *m_rightContent;
     Dtk::Widget::DWindowMaxButton *m_maxb;
-    Dtk::Widget::DAboutDialog *m_about;
+    AboutWindow *m_about;
     PopupMenuManager *m_popupMenu;
     Qt::MouseButton m_pressBtn;
 };
