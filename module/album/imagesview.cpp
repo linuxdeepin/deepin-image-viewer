@@ -285,14 +285,12 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdRotateClockwise:
         for (QString path : pList) {
-            utils::image::rotate(path, 90);
-            updateThumbnail(path);
+            QtConcurrent::run(this, &ImagesView::rotateImage, path, 90);
         }
         break;
     case IdRotateCounterclockwise:
         for (QString path : pList) {
-            utils::image::rotate(path, -90);
-            updateThumbnail(path);
+            QtConcurrent::run(this, &ImagesView::rotateImage, path, -90);
         }
         break;
     case IdSetAsWallpaper:
@@ -307,6 +305,12 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
     default:
         break;
     }
+}
+
+void ImagesView::rotateImage(const QString &path, int degree)
+{
+    utils::image::rotate(path, degree);
+    updateThumbnail(path);
 }
 
 bool ImagesView::allInAlbum(const QStringList &names, const QString &album)

@@ -471,7 +471,7 @@ bool imageIsSupport(const QString &filepath)
 void rotate(const QString &path, int degree)
 {
     const QTransform t = QTransform().rotate(degree);
-    utils::image::saveImageWithExif(QImage(path).transformed(t), path, path, t);
+    saveImageWithExif(QImage(path).transformed(t), path, path, t);
 }
 
 QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)

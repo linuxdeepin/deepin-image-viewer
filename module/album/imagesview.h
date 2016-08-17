@@ -71,11 +71,13 @@ private:
     void initListView();
     void initContent();
     void initTopTips();
+
+    void onMenuItemClicked(int menuId, const QString &text);
+    void rotateImage(const QString &path, int degree);
     void updateMenuContents();
     void updateContent();
     void updateThumbnail(const QString &path);
     void updateTopTipsRect();
-    void onMenuItemClicked(int menuId, const QString &text);
 
     bool allInAlbum(const QStringList &names, const QString &album);
 

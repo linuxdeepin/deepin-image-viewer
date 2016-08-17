@@ -21,6 +21,7 @@ public:
     ~ThumbnailListView();
     void setMultiSelection(bool multiple);
     void clearData();
+    void updateViewPort();
     void updateViewPortSize();
     void updateThumbnail(const QString &name);
     void setIconSize(const QSize &size);

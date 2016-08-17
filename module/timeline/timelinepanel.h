@@ -60,6 +60,7 @@ private:
     void initImagesView();
     void initStyleSheet();
 
+    void rotateImage(const QString &name, const QString &path, int degree);
     void updateBottomToolbarContent(int count);
     void updateMenuContents();
     void onMenuItemClicked(int menuId, const QString &text);

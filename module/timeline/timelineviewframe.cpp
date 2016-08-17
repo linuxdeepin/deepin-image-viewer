@@ -11,6 +11,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QPainter>
+#include <QPixmapCache>
 #include <QResizeEvent>
 
 namespace {
@@ -82,10 +83,10 @@ void TimelineViewFrame::initListView()
 
 void TimelineViewFrame::updateThumbnail(const QString &name)
 {
-    const int index = m_view->indexOf(name);
-    if (index != -1 && dApp->databaseM->imageExist(name)) {
+    if (dApp->databaseM->imageExist(name)) {
         dApp->databaseM->updateThumbnail(name);
-        m_view->updateThumbnail(name);
+        QPixmapCache::remove(name);
+        m_view->updateViewPort();
     }
 }
 

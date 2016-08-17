@@ -95,6 +95,11 @@ void ThumbnailListView::clearData()
     m_model->clear();
 }
 
+void ThumbnailListView::updateViewPort()
+{
+    viewport()->update();
+}
+
 void ThumbnailListView::updateViewPortSize()
 {
     // For expand all items

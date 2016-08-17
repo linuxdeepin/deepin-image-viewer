@@ -286,6 +286,13 @@ void TimelinePanel::initStyleSheet()
     sf.close();
 }
 
+void TimelinePanel::rotateImage(const QString &name, const QString &path,
+                                int degree)
+{
+    utils::image::rotate(path, degree);
+    m_view->updateThumbnail(name);
+}
+
 void TimelinePanel::updateBottomToolbarContent(int count)
 {
     if (count <= 1) {
@@ -369,14 +376,14 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdRotateClockwise:
         for (QString name : nList) {
-            utils::image::rotate(images[name], 90);
-            m_view->updateThumbnail(name);
+            QtConcurrent::run(this, &TimelinePanel::rotateImage,
+                              name, images[name], 90);
         }
         break;
     case IdRotateCounterclockwise:
         for (QString name : nList) {
-            utils::image::rotate(images[name], -90);
-            m_view->updateThumbnail(name);
+            QtConcurrent::run(this, &TimelinePanel::rotateImage,
+                              name, images[name], -90);
         }
         break;
     case IdSetAsWallpaper:
