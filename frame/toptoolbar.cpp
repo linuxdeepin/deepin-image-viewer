@@ -4,6 +4,7 @@
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
 #include "frame/mainwindow.h"
+#include "frame/aboutwindow.h"
 #include "widgets/progresswidgetstips.h"
 #include <dcircleprogress.h>
 #include <dwindowminbutton.h>
@@ -19,7 +20,7 @@
 #include <QShortcut>
 
 
-#include <dthememanager.h>
+//#include <dthememanager.h>
 using namespace Dtk::Widget;
 
 namespace {
@@ -38,7 +39,10 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
 
     setCoverBrush(QBrush(linearGrad));
 
-    initAboutWindow();
+//    initAboutWindow();
+    m_about = new AboutWindow(parent, source);
+    m_about->hide();
+
     initWidgets();
     initMenu();
 
@@ -156,26 +160,26 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     p.drawPath(bPath);
 }
 
-void TopToolbar::initAboutWindow() {
-    QString icon(":/images/resources/images/deepin_image_viewer.png");
-    QSignalBlocker blocker(DThemeManager::instance());
-    Q_UNUSED(blocker);
-    DThemeManager::instance()->setTheme("light");
+//void TopToolbar::initAboutWindow() {
+//    QString icon(":/images/resources/images/deepin_image_viewer.png");
+//    QSignalBlocker blocker(DThemeManager::instance());
+//    Q_UNUSED(blocker);
+//    DThemeManager::instance()->setTheme("light");
 
     //TODO: if without '\n' the text will be cut.
-    QString description = QString(tr("Deepin Image Viewer is a fashion & smooth image manager, "
-     "It is featured with image management, "
-     "image viewing and basic image editing."));
+//    QString description = QString(tr("Deepin Image Viewer is a fashion & smooth image manager, "
+//     "It is featured with image management, "
+//     "image viewing and basic image editing."));
 
-    m_about = new DAboutDialog(icon, icon, qApp->applicationDisplayName(),
-                               tr("Version:") + qApp->applicationVersion(),
-                               description, this);
+//    m_about = new DAboutDialog(icon, icon, qApp->applicationDisplayName(),
+//                               tr("Version:") + qApp->applicationVersion(),
+//                               description, this);
 
 
-    DThemeManager::instance()->setTheme("dark");
-    m_about->setTitle("");
-    m_about->hide();
-}
+//    DThemeManager::instance()->setTheme("dark");
+//    m_about->setTitle("");
+//    m_about->hide();
+//}
 
 void TopToolbar::initWidgets()
 {

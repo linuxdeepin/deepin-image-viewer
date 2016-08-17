@@ -11,7 +11,7 @@
 #include "widgets/importframe.h"
 #include "widgets/slider.h"
 
-#include <dthememanager.h>
+//#include <dthememanager.h>
 
 #include <QDebug>
 #include <QDropEvent>
@@ -414,11 +414,12 @@ void AlbumPanel::showCreateDialog()
         return;
     }
 
-    QSignalBlocker blocker(DThemeManager::instance());
-    Q_UNUSED(blocker);
-    DThemeManager::instance()->setTheme("light");
+//TODO: next version change theme to light
+//    QSignalBlocker blocker(DThemeManager::instance());
+//    Q_UNUSED(blocker);
+//    DThemeManager::instance()->setTheme("light");
     CreateAlbumDialog *d = new CreateAlbumDialog(this);
-    DThemeManager::instance()->setTheme("dark");
+//    DThemeManager::instance()->setTheme("dark");
     connect(d, &CreateAlbumDialog::closed,
             d, &CreateAlbumDialog::deleteLater);
     const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
@@ -433,11 +434,11 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
         return;
     }
 
-    QSignalBlocker blocker(DThemeManager::instance());
-    Q_UNUSED(blocker);
-    DThemeManager::instance()->setTheme("light");
+//    QSignalBlocker blocker(DThemeManager::instance());
+//    Q_UNUSED(blocker);
+//    DThemeManager::instance()->setTheme("light");
     ImportDirDialog *d = new ImportDirDialog(this);
-    DThemeManager::instance()->setTheme("dark");
+//    DThemeManager::instance()->setTheme("dark");
     connect(d, &ImportDirDialog::albumCreated,
             m_albumsView, &AlbumsView::updateView);
     connect(d, &ImportDirDialog::closed,
