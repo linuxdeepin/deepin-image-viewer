@@ -108,8 +108,13 @@ void NavigationWidget::tryMoveRect(const QPoint &p)
 void NavigationWidget::paintEvent(QPaintEvent *)
 {
     QImage img(m_img);
-    QPainter p(&img);
+    if (m_img.isNull()) {
+        QPainter p(this);
+        p.fillRect(m_r, QColor(255, 0, 0, 100));
+        return;
+    }
 
+    QPainter p(&img);
     p.setRenderHints(QPainter::Antialiasing|QPainter::HighQualityAntialiasing);
     p.setRenderHint(QPainter::SmoothPixmapTransform);
     p.setClipRegion(QRegion(0, 0, img.width(), img.height()) - m_r);
