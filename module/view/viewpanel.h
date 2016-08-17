@@ -46,7 +46,7 @@ private Q_SLOTS:
     bool showPrevious();
     bool showNext();
     void removeCurrentImage();
-    void viewOnNewProcess(const QString &path);
+    void viewOnNewProcess(const QString &paths);
 
 private:
     enum MenuItemId {

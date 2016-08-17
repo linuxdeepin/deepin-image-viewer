@@ -26,6 +26,7 @@ struct CMOption {
 
 static CMOption options[] = {
     {"o", "open", "Open the specified <image-file>.", "image-file"},
+    {"l", "view", "View images.", "path1,path2,..."},
     {"a", "album", "Enter the album <album-name>.", "album-name"},
     {"s", "search", "Go to search view and search image by <word>.", "word"},
     {"e", "edit", "Go to edit view and begin editing <image-file>.", "image-file"},
@@ -76,6 +77,26 @@ void CommandLine::addOption(const CMOption *option)
     m_cmdParser.addOption(cm);
 }
 
+void CommandLine::viewImage(const QString &path, const QStringList &paths)
+{
+    MainWindow *w = new MainWindow(false);
+    w->show();
+    // Load image after all UI elements has been init
+    // BottomToolbar pos not correct on init
+    emit dApp->signalM->hideBottomToolbar(true);
+    emit dApp->signalM->enableMainMenu(false);
+    TIMER_SINGLESHOT(50, {
+    SignalManager::ViewInfo vinfo;
+    vinfo.album = "";
+    vinfo.inDatabase = false;
+    vinfo.lastPanel = nullptr;
+    vinfo.path = path;
+    vinfo.paths = paths;
+
+    emit dApp->signalM->viewImage(vinfo);
+                     }, path, paths)
+}
+
 bool CommandLine::processOption()
 {
     DeepinImageViewerDBus *dd = new DeepinImageViewerDBus(dApp->signalM);
@@ -99,6 +120,7 @@ bool CommandLine::processOption()
         }
     }
     else {
+        using namespace utils::image;
         DIVDBusController *dc = new DIVDBusController(dApp->signalM);
         Q_UNUSED(dc)
 
@@ -108,32 +130,36 @@ bool CommandLine::processOption()
             name = names.first();
             value = m_cmdParser.value(name);
         }
-        else if (!pas.isEmpty() && utils::image::imageIsSupport(pas.first())){
+        else if (!pas.isEmpty() && imageIsSupport(pas.first())){
             name = "o";
             value = pas.first();
         }
-        bool support = utils::image::imageIsSupport(value);
+        bool support = imageIsSupport(value);
 
 
-        if ((name == "o" || name == "open") && support) {
+        if (name == "o" || name == "open") {
             qDebug() << "Open image file: " << value;
-            MainWindow *w = new MainWindow(false);
-            w->show();
-            // Load image after all UI elements has been init
-            // BottomToolbar pos not correct on init
-            emit dApp->signalM->hideBottomToolbar(true);
-            emit dApp->signalM->enableMainMenu(false);
-            TIMER_SINGLESHOT(50, {
-            SignalManager::ViewInfo vinfo;
-            vinfo.album = "";
-            vinfo.inDatabase = false;
-            vinfo.lastPanel = nullptr;
-            vinfo.path = value;
-            vinfo.paths = QStringList();
-
-            emit dApp->signalM->viewImage(vinfo);
-                             },value)
-            return true;
+            if (imageIsSupport(value)) {
+                viewImage(value, QStringList());
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (name == "view") {
+            QStringList paths = value.split(",");
+            for (QString path : paths) {
+                if (! imageIsSupport(path))
+                    paths.removeAll(path);
+            }
+            if (! paths.isEmpty()) {
+                viewImage(paths.first(), paths);
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else if (name == "a" || name == "album") {
             dc->enterAlbum(value);
