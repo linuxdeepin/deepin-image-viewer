@@ -239,6 +239,7 @@ void ImageWidget::mouseReleaseEvent(QMouseEvent *event)
     Q_UNUSED(event);
     m_pos = m_posG = QPoint();
     m_moving = false;
+    window()->setCursor(QCursor(Qt::ArrowCursor));
 }
 
 bool ImageWidget::isEnterImgButton(QPoint p) {
@@ -284,9 +285,8 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
         setTransformOrigin(m_o_img, deviceP);
         m_pos = event->pos();
         m_posG = event->globalPos();
+        window()->setCursor(QCursor(Qt::ClosedHandCursor));
     }
-
-    QWidget::mouseMoveEvent(event);
 }
 
 void ImageWidget::wheelEvent(QWheelEvent *event)
