@@ -1,6 +1,7 @@
 #include "blureinfoframe.h"
 #include "separator.h"
 #include "utils/baseutils.h"
+#include "widgets/imagebutton.h"
 #include <dwindowclosebutton.h>
 #include <QLabel>
 #include <QEvent>
@@ -69,9 +70,14 @@ void BlureInfoFrame::setTopContent(QWidget *w)
     }
     m_topLayout->addWidget(w);
 
-    Dtk::Widget::DWindowCloseButton *cb = new Dtk::Widget::DWindowCloseButton(this);
+    ImageButton* cb = new ImageButton(this);
+    cb->setNormalPic(":/images/resources/images/closewindow_normal.png");
+    cb->setHoverPic(":/images/resources/images/closewindow_hover.png");
+    cb->setPressPic(":/images/resources/images/closewindow_press.png");
     cb->setFixedSize(24, 24);
     cb->move(this->sizeHint().width() - cb->width() - 5, 0);
+    connect(cb, &ImageButton::clicked, this, &BlureInfoFrame::close);
+
     connect(cb, &Dtk::Widget::DWindowCloseButton::clicked,
             this, &BlureInfoFrame::close);
     this->setFixedWidth(w->width() + 6*2);
