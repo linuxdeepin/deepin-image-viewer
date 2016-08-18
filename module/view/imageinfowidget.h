@@ -17,16 +17,21 @@ public:
     void setImagePath(const QString &path);
 //    QSize sizeHint() const override;
 
+protected:
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
+
 private:
     const QString trLabel(const char *str);
-    void splitInfoStr(QString &str) const;
     void updateInfo();
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
     void clearLayout(QLayout* layout);
 
 private:
+    int m_updateTid = 0;
     int m_maxTitleWidth;  //For align colon
+    int m_maxFieldWidth;
     QString m_path;
     QFormLayout* m_exifLayout_base;
     QFormLayout* m_exifLayout_details;

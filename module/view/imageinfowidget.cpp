@@ -30,21 +30,14 @@ public:
 class SimpleFormField : public QLabel {
     Q_OBJECT
 public:
-    explicit SimpleFormField(const QString &t, QWidget *parent = 0)
-        : QLabel(t, parent)
+    explicit SimpleFormField(QWidget *parent = 0)
+        : QLabel(parent)
     {
         setWordWrap(true);
-        setMinimumHeight(utils::base::stringHeight(font(), t));
     }
 };
 
 #include "imageinfowidget.moc"
-
-namespace {
-
-const int MAX_INFO_LENGTH = 6;  // info string limit to 6 character
-
-}  // namespace
 
 ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     : QScrollArea(parent)
@@ -98,25 +91,26 @@ void ImageInfoWidget::setImagePath(const QString &path)
     updateInfo();
 }
 
+void ImageInfoWidget::resizeEvent(QResizeEvent *e)
+{
+    QScrollArea::resizeEvent(e);
+    killTimer(m_updateTid);
+    m_updateTid = startTimer(500);
+}
+
+void ImageInfoWidget::timerEvent(QTimerEvent *e)
+{
+    if (e->timerId() != m_updateTid)
+        return;
+
+    updateInfo();
+    killTimer(m_updateTid);
+    m_updateTid = 0;
+}
+
 const QString ImageInfoWidget::trLabel(const char *str)
 {
     return qApp->translate("ExifItemName", str);
-}
-
-/*!
- * \brief ImageInfoWidget::cutInfoStr
- * Split info string by Space
- * \return
- */
-void ImageInfoWidget::splitInfoStr(QString &str) const
-{
-    const int dl = str.length();
-    if (dl > MAX_INFO_LENGTH) {
-        for(int i = 1; i < dl / MAX_INFO_LENGTH; i++) {
-             int n = i * MAX_INFO_LENGTH;
-             str.insert(n, QLatin1String(" "));
-         }
-    }
 }
 
 void ImageInfoWidget::clearLayout(QLayout *layout) {
@@ -159,6 +153,7 @@ void ImageInfoWidget::updateInfo()
         m_maxTitleWidth = qMax(m_maxTitleWidth + 1,
                                stringWidth(tf, trLabel(title.toUtf8().data())));
     }
+    m_maxFieldWidth = width() - m_maxTitleWidth - (10 + 8) * 2;  // Minus layout margins
 
     updateBaseInfo(bei);
     updateDetailsInfo(dei);
@@ -173,16 +168,17 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
     for (const ExifItem* i = getExifItemList(false); i->tag; ++i) {
         QString value = infos.value(i->name);
         if (! value.isEmpty()) {
-            splitInfoStr(value);
-            SimpleFormField *label = new SimpleFormField(value);
-            label->setAlignment(Qt::AlignLeft|Qt::AlignTop);
+            SimpleFormField *field = new SimpleFormField;
+            field->setMaximumWidth(m_maxFieldWidth);
+            field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+            field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
             SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-            title->setMinimumHeight(label->minimumHeight());
+            title->setMinimumHeight(field->minimumHeight());
             title->setFixedWidth(m_maxTitleWidth);
-            title->setAlignment(Qt::AlignRight|Qt::AlignTop);
+            title->setAlignment(Qt::AlignRight | Qt::AlignTop);
 
-            m_exifLayout_base->addRow(title, label);
+            m_exifLayout_base->addRow(title, field);
         }
     }
 }
@@ -196,16 +192,17 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
     for (const ExifItem* i = getExifItemList(true); i->tag; ++i) {
         QString value = infos.value(i->name);
         if (! value.isEmpty()) {
-            splitInfoStr(value);
-            SimpleFormField *label = new SimpleFormField(value);
-            label->setAlignment(Qt::AlignLeft|Qt::AlignTop);
+            SimpleFormField *field = new SimpleFormField;
+            field->setMaximumWidth(m_maxFieldWidth);
+            field->setAlignment(Qt::AlignLeft|Qt::AlignTop);
+            field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
             SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-            title->setMinimumHeight(label->minimumHeight());
+            title->setMinimumHeight(field->minimumHeight());
             title->setFixedWidth(m_maxTitleWidth);
             title->setAlignment(Qt::AlignRight|Qt::AlignTop);
 
-            m_exifLayout_details->addRow(title, label);
+            m_exifLayout_details->addRow(title, field);
         }
     }
 
