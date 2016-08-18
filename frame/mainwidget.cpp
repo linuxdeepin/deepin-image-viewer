@@ -86,6 +86,11 @@ void MainWidget::onShowProcessTooltip(const QString &message, bool success)
 
 void MainWidget::onShowImageInfo(const QString &path)
 {
+    if (m_infoShowingList.indexOf(path) != -1)
+        return;
+    else
+        m_infoShowingList << path;
+
     ImageInfoDialog *info = new ImageInfoDialog(this, m_panelStack);
     info->setPath(path);
     info->move((width() - info->width()) / 2 +
@@ -94,7 +99,10 @@ void MainWidget::onShowImageInfo(const QString &path)
                mapToGlobal(QPoint(0, 0)).y());
     info->show();
     info->setWindowState(Qt::WindowActive);
-    connect(info, &ImageInfoDialog::closed, info, &ImageInfoDialog::deleteLater);
+    connect(info, &ImageInfoDialog::closed, this, [=] {
+        info->deleteLater();
+        m_infoShowingList.removeAll(path);
+    });
     connect(dApp->signalM, &SignalManager::gotoPanel,
             info, &ImageInfoDialog::close);
 }
