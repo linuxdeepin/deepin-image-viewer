@@ -34,6 +34,8 @@ private:
     void initStyleSheet();
 
 private:
+    QStringList m_infoShowingList;
+
     QStackedWidget  *m_panelStack;
 
     BottomToolbar   *m_bottomToolbar;
