@@ -29,7 +29,7 @@ QString insertImage(QString path)
     DatabaseManager::ImageInfo imgInfo;
     imgInfo.name = fileInfo.fileName();
     imgInfo.path = fileInfo.absoluteFilePath();
-    imgInfo.time = fileInfo.created();//utils::image::getCreateDateTime(path);
+    imgInfo.time = utils::image::getCreateDateTime(path);
     imgInfo.albums = albums;
     imgInfo.labels = QStringList();
 //    DatabaseManager::instance()->insertImageInfo(imgInfo);
@@ -133,7 +133,7 @@ void Importer::importDir(const QString &path, const QString &album)
         DatabaseManager::ImageInfo imgInfo;
         imgInfo.name = info.fileName();
         imgInfo.path = info.absoluteFilePath();
-        imgInfo.time = info.created();//utils::image::getCreateDateTime(path);
+        imgInfo.time = utils::image::getCreateDateTime(imgInfo.path);
         imgInfo.albums = QStringList(album);
         imgInfo.labels = QStringList();
 
@@ -155,7 +155,7 @@ void Importer::importFiles(const QStringList &files, const QString &album)
         DatabaseManager::ImageInfo imgInfo;
         imgInfo.name = info.fileName();
         imgInfo.path = info.absoluteFilePath();
-        imgInfo.time = info.created();//utils::image::getCreateDateTime(file);
+        imgInfo.time = utils::image::getCreateDateTime(file);
         imgInfo.albums = QStringList(album);
         imgInfo.labels = QStringList();
 
