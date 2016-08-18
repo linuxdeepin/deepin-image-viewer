@@ -51,8 +51,9 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     connect(viewScut, &QShortcut::activated, this, &TopToolbar::showShortCutView);
     qApp->installEventFilter(this);
     parent->installEventFilter(this);
-    connect(this, SIGNAL(moving()),
-            parentWidget()->parentWidget(), SLOT(startMoving()));
+
+    connect(this, SIGNAL(moving(Qt::MouseButton)), parentWidget()->parentWidget(),
+            SLOT(startMoving(Qt::MouseButton)));
 }
 
 void TopToolbar::setLeftContent(QWidget *content)
@@ -112,7 +113,11 @@ void TopToolbar::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
     if (m_pressBtn == Qt::LeftButton)
-        emit moving();
+        if (event->buttons()) {
+            Qt::MouseButton button = event->buttons() & Qt::LeftButton ? Qt::LeftButton :
+                event->buttons() & Qt::RightButton ? Qt::RightButton : Qt::NoButton;
+            emit moving(button);
+        }
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)

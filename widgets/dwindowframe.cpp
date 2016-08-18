@@ -227,7 +227,6 @@ void DWindowFrame::polish() {
     }
 }
 
-
 void DWindowFrame::mousePressEvent(QMouseEvent* event) {
     mouseDraging = true;
     const int x = event->x();
@@ -326,9 +325,12 @@ void DWindowFrame::updateCursor(CornerEdge ce) {
     XFlush(display);
 }
 
-void DWindowFrame::startMoving() {
+void DWindowFrame::startMoving(Qt::MouseButton button) {
     const auto display = QX11Info::display();
     const auto screen = QX11Info::appScreen();
+
+    int xbtn = button == Qt::LeftButton ? Button1:
+        button == Qt::RightButton ? Button3 : AnyButton;
 
     XEvent xev;
     memset(&xev, 0, sizeof(xev));
@@ -343,7 +345,7 @@ void DWindowFrame::startMoving() {
     xev.xclient.data.l[0] = global_position.x();
     xev.xclient.data.l[1] = global_position.y();
     xev.xclient.data.l[2] = 8;
-    xev.xclient.data.l[3] = 0;
+    xev.xclient.data.l[3] = xbtn;
     xev.xclient.data.l[4] = 0;  // source indication
     XUngrabPointer(display, QX11Info::appTime());
 
