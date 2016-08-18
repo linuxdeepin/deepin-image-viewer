@@ -4,24 +4,29 @@
 <context>
     <name>AboutWindow</name>
     <message>
+        <location filename="../frame/aboutwindow.cpp" line="37"/>
         <source>Deepin Image Viewer</source>
-        <translation type="obsolete">深度看图</translation>
+        <translation>深度看图</translation>
     </message>
     <message>
+        <location filename="../frame/aboutwindow.cpp" line="41"/>
         <source>Version: </source>
-        <translation type="obsolete">版本：</translation>
+        <translation>版本：</translation>
     </message>
     <message>
+        <location filename="../frame/aboutwindow.cpp" line="61"/>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
+        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
     </message>
     <message>
+        <location filename="../frame/aboutwindow.cpp" line="67"/>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="obsolete">兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+        <translation>兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
     </message>
     <message>
+        <location filename="../frame/aboutwindow.cpp" line="75"/>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">深度看图遵循GPL v3协议发布。</translation>
+        <translation>深度看图遵循GPL v3协议发布。</translation>
     </message>
 </context>
 <context>
@@ -51,32 +56,32 @@
     </message>
     <message>
         <location filename="../module/album/albumpanel.cpp" line="83"/>
-        <location filename="../module/album/albumpanel.cpp" line="260"/>
+        <location filename="../module/album/albumpanel.cpp" line="269"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../module/album/albumpanel.cpp" line="261"/>
+        <location filename="../module/album/albumpanel.cpp" line="270"/>
         <source>Import or drag image to timeline</source>
         <translation>您可以导入或拖拽图片到时间线</translation>
     </message>
     <message>
-        <location filename="../module/album/albumpanel.cpp" line="367"/>
+        <location filename="../module/album/albumpanel.cpp" line="376"/>
         <source>image</source>
         <translation>张图片</translation>
     </message>
     <message>
-        <location filename="../module/album/albumpanel.cpp" line="367"/>
+        <location filename="../module/album/albumpanel.cpp" line="376"/>
         <source>images</source>
         <translation>张图片</translation>
     </message>
     <message>
-        <location filename="../module/album/albumpanel.cpp" line="392"/>
+        <location filename="../module/album/albumpanel.cpp" line="401"/>
         <source>album</source>
         <translation>个相册</translation>
     </message>
     <message>
-        <location filename="../module/album/albumpanel.cpp" line="392"/>
+        <location filename="../module/album/albumpanel.cpp" line="401"/>
         <source>albums</source>
         <translation>个相册</translation>
     </message>
@@ -84,42 +89,42 @@
 <context>
     <name>AlbumsView</name>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="213"/>
+        <location filename="../module/album/albumsview.cpp" line="215"/>
         <source>Unnamed</source>
         <translation>未命名相册</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="261"/>
+        <location filename="../module/album/albumsview.cpp" line="263"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="262"/>
+        <location filename="../module/album/albumsview.cpp" line="264"/>
         <source>Start slide show</source>
         <translation>幻灯片放映</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="266"/>
+        <location filename="../module/album/albumsview.cpp" line="268"/>
         <source>Rename</source>
         <translation>重命名</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="267"/>
+        <location filename="../module/album/albumsview.cpp" line="269"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="268"/>
+        <location filename="../module/album/albumsview.cpp" line="270"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="270"/>
+        <location filename="../module/album/albumsview.cpp" line="272"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../module/album/albumsview.cpp" line="277"/>
+        <location filename="../module/album/albumsview.cpp" line="279"/>
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
@@ -339,7 +344,7 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <location filename="../module/view/imageinfowidget.cpp" line="63"/>
+        <location filename="../module/view/imageinfowidget.cpp" line="64"/>
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
@@ -364,87 +369,87 @@
 <context>
     <name>ImagesView</name>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="127"/>
+        <location filename="../module/album/imagesview.cpp" line="130"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="128"/>
+        <location filename="../module/album/imagesview.cpp" line="131"/>
         <source>Fullscreen</source>
         <translation>全屏</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="131"/>
+        <location filename="../module/album/imagesview.cpp" line="134"/>
         <source>Start slide show</source>
         <translation>幻灯片放映</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="135"/>
+        <location filename="../module/album/imagesview.cpp" line="138"/>
         <source>Add to album</source>
         <translation>添加到相册</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="140"/>
+        <location filename="../module/album/imagesview.cpp" line="143"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="141"/>
+        <location filename="../module/album/imagesview.cpp" line="144"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="142"/>
+        <location filename="../module/album/imagesview.cpp" line="145"/>
         <source>Throw to Trash</source>
         <translation>丢到回收站</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="144"/>
+        <location filename="../module/album/imagesview.cpp" line="147"/>
         <source>Remove from album</source>
         <translation>从相册中移除</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="153"/>
+        <location filename="../module/album/imagesview.cpp" line="156"/>
         <source>Add to My favorites</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="157"/>
+        <location filename="../module/album/imagesview.cpp" line="160"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="163"/>
+        <location filename="../module/album/imagesview.cpp" line="166"/>
         <source>Rotate clockwise</source>
         <translation>顺时针旋转</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="166"/>
+        <location filename="../module/album/imagesview.cpp" line="169"/>
         <source>Rotate counterclockwise</source>
         <translation>逆时针旋转</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="170"/>
+        <location filename="../module/album/imagesview.cpp" line="173"/>
         <source>Set as wallpaper</source>
         <translation>设为壁纸</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="173"/>
+        <location filename="../module/album/imagesview.cpp" line="176"/>
         <source>Display in file manager</source>
         <translation>在文件管理器中显示</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="174"/>
+        <location filename="../module/album/imagesview.cpp" line="177"/>
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="402"/>
+        <location filename="../module/album/imagesview.cpp" line="410"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../module/album/imagesview.cpp" line="403"/>
+        <location filename="../module/album/imagesview.cpp" line="411"/>
         <source>Import or drag image to timeline</source>
         <translation>您可以导入或拖拽图片到时间线</translation>
     </message>
@@ -496,7 +501,7 @@
 <context>
     <name>MainWidget</name>
     <message>
-        <location filename="../frame/mainwidget.cpp" line="191"/>
+        <location filename="../frame/mainwidget.cpp" line="192"/>
         <source>Imported successfully</source>
         <translation>导入成功</translation>
     </message>
@@ -519,9 +524,117 @@
     </message>
 </context>
 <context>
+    <name>Shortcut</name>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="9"/>
+        <source>Image Viewing</source>
+        <translation>查看图片</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="10"/>
+        <source>Fullscreen</source>
+        <translation>全屏</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="11"/>
+        <source>Start slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="12"/>
+        <source>Stop slide show</source>
+        <translation>退出幻灯片</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="13"/>
+        <source>Import</source>
+        <translation>导入</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="14"/>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="15"/>
+        <source>Throw to Trash</source>
+        <translation>丢到回收站</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="16"/>
+        <source>Remove from album</source>
+        <translation>从相册中移除</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="17"/>
+        <source>Add to My favorites</source>
+        <translation>收藏</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="18"/>
+        <source>Unfavorites</source>
+        <translation>取消收藏</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="19"/>
+        <source>Rotate clockwise</source>
+        <translation>顺时针旋转</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="20"/>
+        <source>Rotate counterclockwise</source>
+        <translation>逆时针旋转</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="21"/>
+        <source>Set as wallpaper</source>
+        <translation>设为壁纸</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="22"/>
+        <source>Display in file manager</source>
+        <translation>在文件管理器中显示</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="23"/>
+        <source>Image info</source>
+        <translation>图片信息</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="24"/>
+        <source>Album</source>
+        <translation>相册</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="25"/>
+        <source>New album</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="26"/>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="27"/>
+        <source>Settings</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="28"/>
+        <source>Help</source>
+        <translation>帮助</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="29"/>
+        <source>Exit</source>
+        <translation>退出</translation>
+    </message>
+</context>
+<context>
     <name>SlideShowPanel</name>
     <message>
-        <location filename="../module/slideshow/slideshowpanel.cpp" line="123"/>
+        <location filename="../module/slideshow/slideshowpanel.cpp" line="141"/>
         <source>Stop slide show</source>
         <translation>退出幻灯片</translation>
     </message>
@@ -596,7 +709,7 @@
 <context>
     <name>TimelineImageView</name>
     <message>
-        <location filename="../module/timeline/timelineimageview.cpp" line="200"/>
+        <location filename="../module/timeline/timelineimageview.cpp" line="201"/>
         <source>dd MMMM yyyy</source>
         <translation>yyyy年MM月dd日</translation>
     </message>
@@ -632,82 +745,82 @@
         <translation>您可以导入或拖拽图片到时间线</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="292"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="299"/>
         <source>%1 image</source>
         <translation>%1 张图片</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="295"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="302"/>
         <source>%1 images</source>
         <translation>%1 张图片</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="410"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="417"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="411"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="418"/>
         <source>Fullscreen</source>
         <translation>全屏</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="414"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="421"/>
         <source>Start slide show</source>
         <translation>幻灯片放映</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="418"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="425"/>
         <source>Add to album</source>
         <translation>添加到相册</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="424"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="431"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="425"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="432"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="426"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="433"/>
         <source>Throw to Trash</source>
         <translation>丢到回收站</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="434"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="441"/>
         <source>Add to My favorites</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="437"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="444"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="443"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="450"/>
         <source>Rotate clockwise</source>
         <translation>顺时针旋转</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="446"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="453"/>
         <source>Rotate counterclockwise</source>
         <translation>逆时针旋转</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="452"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="459"/>
         <source>Set as wallpaper</source>
         <translation>设为壁纸</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="455"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="462"/>
         <source>Display in file manager</source>
         <translation>在文件管理器中显示</translation>
     </message>
     <message>
-        <location filename="../module/timeline/timelinepanel.cpp" line="456"/>
+        <location filename="../module/timeline/timelinepanel.cpp" line="463"/>
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
@@ -715,7 +828,7 @@
 <context>
     <name>TimelineViewFrame</name>
     <message>
-        <location filename="../module/timeline/timelineviewframe.cpp" line="36"/>
+        <location filename="../module/timeline/timelineviewframe.cpp" line="37"/>
         <source>dd MMMM yyyy</source>
         <translation>yyyy年MM月dd日</translation>
     </message>
@@ -748,9 +861,8 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="171"/>
         <source>Version:</source>
-        <translation>版本：</translation>
+        <translation type="obsolete">版本：</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.It is featured with image management, image viewing and basic image editing.</source>
@@ -762,43 +874,42 @@
         <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。\n</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="166"/>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager, It is featured with image management, image viewing and basic image editing.</source>
-        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+        <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="198"/>
+        <location filename="../frame/toptoolbar.cpp" line="202"/>
         <source>Importing images</source>
         <translation>正在导入</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="200"/>
-        <location filename="../frame/toptoolbar.cpp" line="205"/>
+        <location filename="../frame/toptoolbar.cpp" line="204"/>
+        <location filename="../frame/toptoolbar.cpp" line="209"/>
         <source>%1 images imported, please wait</source>
         <translation>已经导入 %1 张，请稍后</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="309"/>
+        <location filename="../frame/toptoolbar.cpp" line="313"/>
         <source>New album</source>
         <translation>新建相册</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="311"/>
+        <location filename="../frame/toptoolbar.cpp" line="315"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="315"/>
+        <location filename="../frame/toptoolbar.cpp" line="319"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="316"/>
+        <location filename="../frame/toptoolbar.cpp" line="320"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../frame/toptoolbar.cpp" line="317"/>
+        <location filename="../frame/toptoolbar.cpp" line="321"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
@@ -810,102 +921,102 @@
         <translation type="obsolete">退出幻灯片</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="687"/>
+        <location filename="../module/view/viewpanel.cpp" line="682"/>
         <source>Fullscreen</source>
         <translation>全屏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="691"/>
+        <location filename="../module/view/viewpanel.cpp" line="686"/>
         <source>Start slide show</source>
         <translation>幻灯片放映</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="697"/>
+        <location filename="../module/view/viewpanel.cpp" line="692"/>
         <source>Add to album</source>
         <translation>添加到相册</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="705"/>
+        <location filename="../module/view/viewpanel.cpp" line="700"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="708"/>
+        <location filename="../module/view/viewpanel.cpp" line="703"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="683"/>
+        <location filename="../module/view/viewpanel.cpp" line="678"/>
         <source>Exit fullscreen</source>
         <translation>退出全屏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="631"/>
+        <location filename="../module/view/viewpanel.cpp" line="626"/>
         <source>Previous</source>
         <translation>上一张</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="639"/>
+        <location filename="../module/view/viewpanel.cpp" line="634"/>
         <source>Next</source>
         <translation>下一张</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="709"/>
+        <location filename="../module/view/viewpanel.cpp" line="704"/>
         <source>Throw to Trash</source>
         <translation>丢到回收站</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="713"/>
+        <location filename="../module/view/viewpanel.cpp" line="708"/>
         <source>Remove from album</source>
         <translation>从相册中移除</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="722"/>
+        <location filename="../module/view/viewpanel.cpp" line="717"/>
         <source>Add to My favorites</source>
         <translation>收藏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="725"/>
+        <location filename="../module/view/viewpanel.cpp" line="720"/>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="732"/>
+        <location filename="../module/view/viewpanel.cpp" line="727"/>
         <source>Show navigation window</source>
         <translation>显示导航窗口</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="735"/>
+        <location filename="../module/view/viewpanel.cpp" line="730"/>
         <source>Hide navigation window</source>
         <translation>隐藏导航窗口</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="740"/>
+        <location filename="../module/view/viewpanel.cpp" line="735"/>
         <source>Rotate clockwise</source>
         <translation>顺时针旋转</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="743"/>
+        <location filename="../module/view/viewpanel.cpp" line="738"/>
         <source>Rotate counterclockwise</source>
         <translation>逆时针旋转</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="748"/>
+        <location filename="../module/view/viewpanel.cpp" line="743"/>
         <source>Set as wallpaper</source>
         <translation>设为壁纸</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="752"/>
+        <location filename="../module/view/viewpanel.cpp" line="747"/>
         <source>Display in file manager</source>
         <translation>在文件管理器中显示</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="753"/>
+        <location filename="../module/view/viewpanel.cpp" line="748"/>
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
     <message>
-        <location filename="../module/view/viewpanel.cpp" line="782"/>
+        <location filename="../module/view/viewpanel.cpp" line="777"/>
         <source>Remove from &lt;&lt;%1&gt;&gt;</source>
         <translation>从 %1 相册移除</translation>
     </message>
@@ -913,7 +1024,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../controller/commandline.cpp" line="50"/>
+        <location filename="../controller/commandline.cpp" line="51"/>
         <source>Value that use for options.</source>
         <translation type="unfinished"></translation>
     </message>

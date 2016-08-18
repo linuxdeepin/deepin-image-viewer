@@ -22,11 +22,11 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
                        ShortcutItem(tr("Display in file manager"), "Ctrl + D")<<
                        ShortcutItem(tr("Image info"), "Alt + Enter ");
     group2.groupName = tr("Album");
-    group2.groupItems<<ShortcutItem(tr("New album"),tr("Ctrl + Shift + N "))<<
+    group2.groupItems<<ShortcutItem(tr("New album"), "Ctrl + Shift + N ")<<
                        ShortcutItem(tr("Rename"), "F2");
     group3.groupName = tr("Settings");
-    group3.groupItems<<ShortcutItem(tr("Help"),tr("F1 "))<<
-                       ShortcutItem(tr("Exit"),tr("Ctrl + Q "));
+    group3.groupItems<<ShortcutItem(tr("Help"), "F1 ")<<
+                       ShortcutItem(tr("Exit"), "Ctrl + Q ");
     m_shortcutGroups << group1 << group2 << group3;
 
     //convert to json object
