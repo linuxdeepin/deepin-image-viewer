@@ -32,13 +32,14 @@ signals:
     void imageChanged(const QString &path, bool adaptScreen);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
     void onViewImage(const SignalManager::ViewInfo &vinfo);
@@ -111,6 +112,7 @@ private:
 
 private:
     bool m_isMaximized;
+    int m_openTid = 0;
 
     ImageWidget *m_view = NULL;
     ImageInfoWidget *m_info = NULL;
