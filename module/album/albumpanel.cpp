@@ -491,7 +491,7 @@ void AlbumPanel::onOpenAlbum(const QString &album)
 
 void AlbumPanel::onCreateAlbum()
 {
-    if (this->isVisible())
+    if (this->isVisible() && m_stackWidget->currentWidget() == m_albumsView)
         m_albumsView->createAlbum();
     else
         showCreateDialog();
