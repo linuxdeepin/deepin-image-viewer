@@ -378,7 +378,6 @@ void AlbumPanel::updateImagesCount()
 
     int fontHeight = utils::base::stringHeight(m_countLabel->font(),
                                                m_countLabel->text());
-    qDebug() << "albumPanel:" << fontHeight;
     m_countLabel->setMinimumHeight(fontHeight);
 
     m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,

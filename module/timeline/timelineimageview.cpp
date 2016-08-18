@@ -283,6 +283,8 @@ void TimelineImageView::inserFrame(const QString &timeline)
             }
         }
     });
+    connect(frame, &TimelineViewFrame::clicked,
+            this, &TimelineImageView::updateMenuRequested);
     connect(frame, &TimelineViewFrame::showMenuRequested,
             this, &TimelineImageView::showMenuRequested);
     connect(frame, &TimelineViewFrame::customContextMenuRequested,

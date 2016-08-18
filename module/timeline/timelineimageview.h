@@ -33,6 +33,7 @@ public slots:
 signals:
     void viewImage(const QString &path, const QStringList &paths);
     void showMenuRequested();
+    void updateMenuRequested();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) override;

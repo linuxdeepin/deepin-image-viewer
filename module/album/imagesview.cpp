@@ -100,10 +100,12 @@ void ImagesView::initListView()
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
         if (m_view->indexAt(pos).isValid()) {
-            m_popupMenu->setMenuContent(createMenuContent());
+            updateMenuContents();
             m_popupMenu->showMenu();
         }
     });
+    connect(m_view, &ThumbnailListView::clicked,
+            this, &ImagesView::updateMenuContents);
 }
 
 void ImagesView::initTopTips()
