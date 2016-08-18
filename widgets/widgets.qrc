@@ -13,6 +13,9 @@
         <file>resources/images/slidder_handle.svg</file>
         <file>resources/images/no_picture.png</file>
         <file>resources/images/default_thumbnail.png</file>
+        <file>resources/images/closewindow_press.png</file>
+        <file>resources/images/closewindow_normal.png</file>
+        <file>resources/images/closewindow_hover.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/ThumbnailListView.qss</file>
