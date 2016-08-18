@@ -6,6 +6,7 @@
 #include "frame/mainwindow.h"
 #include "frame/aboutwindow.h"
 #include "widgets/progresswidgetstips.h"
+#include "utils/shortcut.h"
 #include <dcircleprogress.h>
 #include <dwindowminbutton.h>
 #include <dwindowclosebutton.h>
@@ -18,7 +19,6 @@
 #include <QResizeEvent>
 #include <QStackedWidget>
 #include <QShortcut>
-
 
 //#include <dthememanager.h>
 using namespace Dtk::Widget;
@@ -387,13 +387,18 @@ void TopToolbar::showManual()
 
 void TopToolbar::showShortCutView() {
     QRect rect=window()->geometry();
-    QString cmd="deepin-shortcut-viewer -t="+qApp->applicationName()+" -r="+
+    Shortcut sc;
+    QStringList shortcutString;
+    QString param1 = "-j="+sc.toStr();
+    QString param2 = "-r="+
             QString::number(rect.x())+","+
             QString::number(rect.y())+","+
             QString::number(rect.width())+","+
             QString::number(rect.height());
+    shortcutString<<param1<<param2;
+
     QProcess* shortcutViewProcess = new QProcess();
-    shortcutViewProcess->startDetached(cmd);
+    shortcutViewProcess->startDetached("deepin-shortcut-viewer",shortcutString);
 
     connect(shortcutViewProcess, SIGNAL(finished(int)),
             shortcutViewProcess, SLOT(deleteLater()));

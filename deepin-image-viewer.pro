@@ -60,11 +60,7 @@ CONFIG(release, debug|release) {
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
-SHORTCUTSHAREDIR = $$PREFIX/share/deepin-shortcut-viewer/$$TARGET
-shortcut.path = $$SHORTCUTSHAREDIR
-shortcut.files = shortcut/*
-
-INSTALLS = binary desktop dbus_service icons manual manual_icon translations shortcut
+INSTALLS = binary desktop dbus_service icons manual manual_icon translations
 
 RESOURCES += \
     resources.qrc
