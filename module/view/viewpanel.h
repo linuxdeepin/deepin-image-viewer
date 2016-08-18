@@ -100,6 +100,7 @@ private:
     void showNormal();
     void showFullScreen();
     void updateMenuContent();
+    void updateThumbnail(const QString &name);
 
     bool mouseContainsByTopToolbar(const QPoint &pos);
     bool mouseContainsByBottomToolbar(const QPoint &pos);
