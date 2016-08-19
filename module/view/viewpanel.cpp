@@ -25,6 +25,7 @@
 #include <QRegularExpression>
 #include <QResizeEvent>
 #include <QShortcut>
+#include <QtConcurrent>
 #include <QTimer>
 
 #include <ddialog.h>
@@ -224,6 +225,13 @@ void ViewPanel::updateMenuContent()
 {
     // For update shortcut
     m_popupMenu->setMenuContent(createMenuContent());
+}
+
+void ViewPanel::updateThumbnail(const QString &name)
+{
+    dApp->databaseM->updateThumbnail(name);
+    // For view's thumbnail update
+    QPixmapCache::remove(name);
 }
 
 void ViewPanel::showToolbar(bool isTop)
@@ -974,6 +982,11 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         return;
     }
 
+    if (inDB) {
+        // Check whether the thumbnail is been rotated in outside
+        QtConcurrent::run(this, &ViewPanel::updateThumbnail,
+                          QFileInfo(path).fileName());
+    }
     m_view->setImage(path);
 
     resetImageGeometry();
