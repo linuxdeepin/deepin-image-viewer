@@ -19,7 +19,7 @@ public:
     void setMiddleContent(QWidget *content);
 
 signals:
-    void moving();
+    void moving(Qt::MouseButton btn);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) override;

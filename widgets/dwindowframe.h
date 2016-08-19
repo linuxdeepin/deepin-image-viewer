@@ -52,7 +52,7 @@ public:
     const int layoutMargin = 0;
 
 public slots:
-    void startMoving();
+    void startMoving(Qt::MouseButton button);
     void updateCursor(CornerEdge);
     void showMaximized();
     void showNormal();
