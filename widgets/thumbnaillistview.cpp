@@ -271,6 +271,18 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
     return false;
 }
 
+void ThumbnailListView::keyPressEvent(QKeyEvent *e)
+{
+    QListView::keyPressEvent(e);
+    //  QAbstractItemView::selectionChanged is too inefficient
+    if (e->key() == Qt::Key_Left ||
+            e->key() == Qt::Key_Right ||
+            e->key() == Qt::Key_Up ||
+            e->key() == Qt::Key_Down) {
+        emit clicked(currentIndex());
+    }
+}
+
 void ThumbnailListView::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::RightButton) {

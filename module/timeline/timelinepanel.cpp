@@ -264,6 +264,8 @@ void TimelinePanel::initImagesView()
         updateMenuContents();
         m_popupMenu->showMenu();
     });
+    connect(m_view, &TimelineImageView::updateMenuRequested,
+            this, &TimelinePanel::updateMenuContents);
     connect(m_view, &TimelineImageView::viewImage,
             this, [=] (const QString &path, const QStringList &paths){
         SignalManager::ViewInfo vinfo;
