@@ -30,6 +30,7 @@ void        showInFileManager(const QString &path);
 int         stringWidth(const QFont &f, const QString &str);
 int         stringHeight(const QFont &f, const QString &str);
 
+QString     wrapStr(const QString &str, const QFont &font, int maxWidth);
 QString     sizeToHuman(const qlonglong bytes);
 QString     timeToString(const QDateTime &time, bool normalFormat = false);
 QDateTime   stringToDateTime(const QString &time);

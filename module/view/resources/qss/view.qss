@@ -5,11 +5,13 @@ ViewSeparator {
 SimpleFormField {
     color: rgba(255, 255, 255, .7);
     font-size: 11px;
+    margin-bottom: 1px;
 }
 
 SimpleFormLabel {
     color: rgba(255, 255, 255, .5);
     font-size: 11px;
+    margin-bottom: 1px;
 }
 
 QScrollArea#ImageInfoScrollArea {
@@ -80,7 +82,7 @@ ImageButton#PreviousButton {
 
 ImageButton#NextButton {
     border-image: url(:/images/resources/images/previous_next.png);
-    padding: 4px 21px 12px  15px;;
+    padding: 4px 21px 12px  15px;
 }
 
 QLabel#ScaleLabel {

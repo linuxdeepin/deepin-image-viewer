@@ -6,6 +6,12 @@
 #include <QLabel>
 #include <QEvent>
 
+namespace {
+
+const int MAX_FIELD_WIDTH = 200;
+
+}
+
 class SimpleFormLabel : public QLabel {
     Q_OBJECT
 public:
@@ -16,8 +22,8 @@ public:
 class SimpleFormField : public QLabel {
     Q_OBJECT
 public:
-    explicit SimpleFormField(const QString &t, QWidget *parent = 0)
-        : QLabel(t, parent) {}
+    explicit SimpleFormField(QWidget *parent = 0)
+        : QLabel(parent) {}
 };
 
 BlureInfoFrame::BlureInfoFrame(QWidget *parent, QWidget *source)
@@ -86,8 +92,9 @@ void BlureInfoFrame::setTopContent(QWidget *w)
 void BlureInfoFrame::addInfoPair(const QString &title, const QString &value)
 {
     SimpleFormLabel *tl = new SimpleFormLabel(title);
-    SimpleFormField *vl = new SimpleFormField(value);
-    vl->setWordWrap(true);
+    SimpleFormField *vl = new SimpleFormField;
+    vl->setMaximumWidth(MAX_FIELD_WIDTH);
+    vl->setText(utils::base::wrapStr(value, vl->font(), MAX_FIELD_WIDTH));
     m_infoLayout->addRow(tl, vl);
 
     QFont f;
