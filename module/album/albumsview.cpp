@@ -48,9 +48,6 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     installEventFilter(this);
-    // Aways has Favorites and RecentImport album
-    dApp->databaseM->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
-    dApp->databaseM->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
 
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
@@ -145,6 +142,9 @@ bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
         m_model->clear();
     }
     else if (e->type() == QEvent::Show) {
+        // Aways has Favorites and RecentImport album
+        dApp->databaseM->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
+        dApp->databaseM->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
         updateView();
     }
 
