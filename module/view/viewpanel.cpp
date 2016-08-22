@@ -63,7 +63,6 @@ ViewPanel::ViewPanel(QWidget *parent)
     setMouseTracking(true);
     setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
-    updateMenuContent();
     installEventFilter(this);
 }
 
@@ -223,6 +222,10 @@ void ViewPanel::initStyleSheet()
 
 void ViewPanel::updateMenuContent()
 {
+    if (m_infos.isEmpty()) {
+        m_popupMenu->setMenuContent("");
+        return;
+    }
     // For update shortcut
     m_popupMenu->setMenuContent(createMenuContent());
 }
@@ -519,6 +522,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
     }
 
+    updateMenuContent();
+
     m_current = m_infos.cbegin();
     for (; m_current != m_infos.cend(); m_current ++) {
         if (m_current->path == vinfo.path) {
@@ -528,7 +533,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
     // Not exist in DB, it must from FileManager
     m_current = m_infos.cbegin();
-
                          }, this, vinfo)
 }
 
@@ -694,7 +698,6 @@ QString ViewPanel::createMenuContent()
 {
     QJsonArray items;
 
-
     if (window()->isFullScreen()) {
         items.append(createMenuItem(IdFullScreen, tr("Exit fullscreen"),
                                     false, "F11"));
@@ -732,7 +735,7 @@ QString ViewPanel::createMenuContent()
     items.append(createMenuItem(IdSeparator, "", true));
     //        items.append(createMenuItem(IdEdit, tr("Edit"), false, "Ctrl+E"));
     if (m_vinfo.inDatabase) {
-        if (!dApp->databaseM->imageExistAlbum(m_current->name,
+        if (!dApp->databaseM->imageExistAlbum(m_view->imageName(),
                                           FAVORITES_ALBUM_NAME)) {
             items.append(createMenuItem(IdAddToFavorites,
                                         tr("Add to My favorites"), false, "Ctrl+K"));
@@ -785,6 +788,7 @@ QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
         return QJsonObject();
     }
     const QStringList albums = dApp->databaseM->getAlbumNameList();
+    const QString name = m_view->imageName();
 
     QJsonArray items;
     if (! m_infos.isEmpty()) {
@@ -794,13 +798,13 @@ QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
             }
             const QStringList names = dApp->databaseM->getImageNamesByAlbum(album);
             if (isRemove) {
-                if (names.indexOf(m_current->name) != -1) {
+                if (names.indexOf(name) != -1) {
                     album = tr("Remove from <<%1>>").arg(album);
                     items.append(createMenuItem(IdRemoveFromAlbum, album));
                 }
             }
             else {
-                if (names.indexOf(m_current->name) == -1) {
+                if (names.indexOf(name) == -1) {
                     items.append(createMenuItem(IdAddToAlbum, album));
                 }
             }
@@ -890,20 +894,16 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdAddToFavorites:
         dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name, time);
         emit updateCollectButton();
-        updateMenuContent();
         break;
     case IdRemoveFromFavorites:
         dApp->databaseM->removeImageFromAlbum(FAVORITES_ALBUM_NAME, name);
         emit updateCollectButton();
-        updateMenuContent();
         break;
     case IdShowNavigationWindow:
         m_nav->setAlwaysHidden(false);
-        updateMenuContent();
         break;
     case IdHideNavigationWindow:
         m_nav->setAlwaysHidden(true);
-        updateMenuContent();
         break;
     case IdRotateClockwise:
         rotateImage(true);
@@ -925,6 +925,8 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     default:
         break;
     }
+
+    updateMenuContent();
 }
 
 void ViewPanel::rotateImage(bool clockWise)
@@ -989,6 +991,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
     m_view->setImage(path);
 
+    updateMenuContent();
     resetImageGeometry();
     m_scaleLabel->hide();
 
