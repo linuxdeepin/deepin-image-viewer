@@ -47,7 +47,7 @@ icons.files = resources/images/*
 manual.path = $$MANDIR
 manual.files = doc/*
 manual_icon.path = $$MANICONDIR
-manual_icon.files = doc/common/viewer.svg
+manual_icon.files = doc/common/deepin-image-viewer.svg
 
 dbus_service.files += com.deepin.deepinimageviewer.service
 dbus_service.path = /usr/share/dbus-1/services
