@@ -72,6 +72,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
     m_slider->setMinimum(0);
     m_slider->setMaximum(3);
     m_slider->setValue(sizeScale);
+    m_slider->setPageStep(1);
     connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
         int newSize = MIN_ICON_SIZE + multiple * 32;
         m_view->setIconSize(QSize(newSize, newSize));
