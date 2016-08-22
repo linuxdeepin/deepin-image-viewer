@@ -23,9 +23,9 @@ AboutWindow::AboutWindow(QWidget *parent, QWidget *source)
     setWindowModality(Qt::WindowModal);
 
     QLabel *appLogo = new QLabel();
-    QString logoPath = ":/images/resources/images/deepin_image_viewer.svg";
+    QString logoPath = ":/images/resources/images/deepin-image-viewer.svg";
     QSvgRenderer renderer(logoPath);
-    QPixmap ap = QPixmap(":/images/resources/images/deepin_image_viewer.svg");
+    QPixmap ap = QPixmap(":/images/resources/images/deepin-image-viewer.svg");
     ap.fill(Qt::transparent);
     ap = ap.scaled(78, 78, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     QPainter painter;
