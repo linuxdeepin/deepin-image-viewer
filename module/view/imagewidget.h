@@ -18,7 +18,7 @@ public:
     void fitWindow();
     qreal scaleValue() const;
     qreal windowRelativeScale() const;
-    void setTransformOrigin(const QPoint& imageP, const QPoint& deviceP);
+    void setTransformOrigin(const QPointF &imageP, const QPointF &deviceP);
     QPoint mapToImage(const QPoint& p) const;
     QRect mapToImage(const QRect& r) const;
     QRect visibleImageRect() const;
@@ -55,6 +55,7 @@ protected:
     }
 
 private:
+    const QPointF rectCenter() const;
     const QRectF imageRect() const;
     void resetTransform();
     void updateTransform();
@@ -70,7 +71,7 @@ private:
     bool m_moving = false;
     bool m_inSlideShow = false;
     qreal m_scale = 0; // when an image is loaded to fit widget, m_scale is not 1.0
-    QPoint m_o_img, m_o_dev;
+    QPointF m_o_img, m_o_dev;
     QString m_path;
     QImage m_image;
     QSize m_imageOriginSize = QSize();
