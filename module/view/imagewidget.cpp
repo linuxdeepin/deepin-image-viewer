@@ -65,12 +65,12 @@ QString ImageWidget::imageName() const
  */
 void ImageWidget::resetTransform()
 {
-    m_o_dev = rect().center();
+    m_o_dev = rectCenter();
     m_flipX = m_flipY = 1;
     m_rot = 0;
     if (m_image.isNull())
         return;
-    m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
+    m_o_img = QPointF(m_image.width() * 1.0 /2, m_image.height() * 1.0 /2);
     m_scale = windowRelativeScale();
     updateTransform();
 }
@@ -107,9 +107,9 @@ void ImageWidget::setScaleValue(qreal value)
     // Move back to center of window if image scale smaller than window
     const QRectF ir = imageRect();
     if (ir.width() <= width() || ir.height() <= height()) {
-        m_o_dev = rect().center();
+        m_o_dev = rectCenter();
         m_flipX = m_flipY = 1;
-        m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
+        m_o_img = QPointF(m_image.width() * 1.0 /2, m_image.height() * 1.0 /2);
     }
 
     // value is relate on image's size, it need to be relate on window
@@ -158,13 +158,13 @@ void ImageWidget::resizeEvent(QResizeEvent *e)
 {
     QWidget::resizeEvent(e);
     if (m_scale <= windowRelativeScale()) {
-        m_o_dev = rect().center();
-        m_o_img = QPoint(m_image.width()/2, m_image.height()/2);
+        m_o_dev = rectCenter();
+        m_o_img = QPointF(m_image.width() * 1.0 /2, m_image.height() * 1.0 /2);
         updateTransform();
     }
 }
 
-void ImageWidget::setTransformOrigin(const QPoint& imageP, const QPoint& deviceP)
+void ImageWidget::setTransformOrigin(const QPointF& imageP, const QPointF& deviceP)
 {
     if (m_o_dev == deviceP && m_o_img == imageP)
         return;
@@ -264,11 +264,11 @@ void ImageWidget::mouseMoveEvent(QMouseEvent *event)
         QPoint dp = event->globalPos() - m_posG;
 
         // To ensure that pictures are not being dragged out of the window edge
-        QPoint img_o = QTransform().rotate(m_rot).
+        QPointF img_o = QTransform().rotate(m_rot).
                 scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
-        QPoint deviceP = m_o_dev + dp;
-        qreal dx = deviceP.x() - (qreal)img_o.x();
-        qreal dy = deviceP.y() - (qreal)img_o.y();
+        QPointF deviceP = m_o_dev + dp;
+        qreal dx = deviceP.x() - img_o.x();
+        qreal dy = deviceP.y() - img_o.y();
         const int imgW = (m_image.size() * m_scale).width();
         const int imgH = (m_image.size() * m_scale).height();
         if (imgW >= width() || imgH >= height()) {
@@ -307,6 +307,12 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
     setScaleValue(zoom);
 }
 
+const QPointF ImageWidget::rectCenter() const
+{
+    return QPointF(rect().width() * 1.0 / 2 + rect().x(),
+                   rect().height() * 1.0 / 2 + rect().y());
+}
+
 /*!
  * \brief ImageWidget::imageRect
  * This rect is bound to result after the image transformation
@@ -328,9 +334,9 @@ void ImageWidget::updateTransform()
         return;
     const QTransform old = m_mat;
     m_mat.reset();
-    QPoint img_o = QTransform().rotate(m_rot).scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
-    const int dx = m_o_dev.x() - (qreal)img_o.x();
-    const int dy = m_o_dev.y() - (qreal)img_o.y();
+    QPointF img_o = QTransform().rotate(m_rot).scale(m_scale*m_flipX, m_scale*m_flipY).map(m_o_img);
+    const int dx = m_o_dev.x() - img_o.x();
+    const int dy = m_o_dev.y() - img_o.y();
     m_mat.translate(dx, dy);
     m_mat.rotate(m_rot);
     m_mat.scale(m_scale*m_flipX, m_scale*m_flipY);
