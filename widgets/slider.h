@@ -9,6 +9,9 @@ class Slider : public QSlider
 public:
     explicit Slider(QWidget *parent = 0);
     explicit Slider(Qt::Orientation orientation, QWidget *parent = 0);
+protected:
+  void mousePressEvent (QMouseEvent *e) Q_DECL_OVERRIDE;
+
 };
 
 #endif // SLIDER_H

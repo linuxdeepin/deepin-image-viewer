@@ -60,6 +60,7 @@ QWidget *AlbumPanel::toolbarBottomContent()
     m_slider->setMinimum(0);
     m_slider->setMaximum(3);
     m_slider->setValue(0);
+    m_slider->setPageStep(1);
     connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
         if (m_stackWidget->currentWidget() == m_imagesView) {
             int newSize = MIN_ICON_SIZE + multiple * 32;
