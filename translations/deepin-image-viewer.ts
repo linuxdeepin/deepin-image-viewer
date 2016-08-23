@@ -127,7 +127,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ok</source>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

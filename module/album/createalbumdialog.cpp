@@ -46,7 +46,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget* parent)
     layout->addLayout(rl);
 
     addButton(tr("Cancel"), 0);
-    addButton(tr("Ok"), 1);
+    addButton(tr("OK"), 1);
 
     connect(this, &CreateAlbumDialog::buttonClicked, this, [=] (int id, const QString &text) {
         Q_UNUSED(text);

@@ -2,7 +2,7 @@
 
 ## Overview|../common/icon_overview.svg|
 
-Deepin Image Viewer is an image viewer integrated in deepin. It is fashion and elegant in interface, fast and effeicient for your daily management of images.
+Deepin Image Viewer is an image viewer integrated in deepin. It is fashion and elegant in interface, fast and efficient for your daily management of images.
 
 ![1|maininterface](png/main-interface.png)
 
@@ -60,8 +60,8 @@ Deepin Image Viewer is featured with image information viewing, image rotation, 
         </tr>
 	    <tr>
             <td>![rotateccl](icon/contrarotate.svg)</td>
-            <td>Rotate couterclockwise</td>
-            <td>Rotate the image 90 degrees couterclockwise.</td>
+            <td>Rotate counterclockwise</td>
+            <td>Rotate the image 90 degrees counterclockwise.</td>
         </tr>
 	    <tr>
             <td>![Trash](icon/delete.svg)</td>
@@ -125,7 +125,7 @@ User can set an image as the desktop wallpaper. Right click on the image in Deep
 
 User can view the detailed information of the image.
 1. Right click on the image in Deepin Image Viewer interface and select ** Image info**
-2. An information window will popup at the left side of Deepin Image Viewer interface.
+2. An information window will pop up at the left side of Deepin Image Viewer interface.
 
 ![1|view info](png/view-info.png)
 
@@ -180,7 +180,7 @@ User can export images from Deepin Image Viewer.
 
 User can locate the directory where the image is stored.
 1. Right click on the image in Deepin Image Viewer interface and select ** Display in file manager**.
-2. The folder where the image is stored will popup.
+2. The folder where the image is stored will pop up.
 
 ![0|display in file manager](png/display-file.png)
 
@@ -222,7 +222,7 @@ User can create new albums to categorize images.
 
 1. In Album interface, click the icon of an album to enter it.
 2. Click on ** Image** in the middle, or **+ ** at the lower left corner.
-3. Select the direcotry storing the images to import.
+3. Select the directory storing the images to import.
 4. Click on ** Open** to import the image to album.
 
 ![1|add image](png/add-to-album1.png)

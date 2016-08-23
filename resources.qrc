@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/images/logo">
         <file>resources/images/logo/deepin_image_viewer_24.png</file>
+        <file>resources/images/logo/deepin-image-viewer.svg</file>
+        <file>resources/images/logo/deepin-image-viewer.png</file>
+        <file>resources/images/logo/deepin_image_viewer_24.svg</file>
     </qresource>
 </RCC>
