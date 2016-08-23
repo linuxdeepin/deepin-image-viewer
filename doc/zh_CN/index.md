@@ -1,4 +1,4 @@
-# 深度看图|../common/viewer.svg|
+# 深度看图|../common/deepin-image-viewer.svg|
 
 ## 概述|../common/icon_overview.svg|
 
@@ -14,8 +14,8 @@
 ### 运行深度看图
 
 1. 点击桌面底部的 启动器 ![launcher_icon](icon/launcher_icon.svg) 或将鼠标指针移到屏幕左上角，进入启动器界面。
-2. 上下滚动鼠标滚轮浏览或通过搜索，找到应用 ![viewer](icon/viewer.svg)点击运行。
-3. 将鼠标指针置于深度看图应用程序的图标上，右键点击 ![viewer](icon/viewer.svg)，您可以：
+2. 上下滚动鼠标滚轮浏览或通过搜索，找到应用 ![viewer](icon/deepin-image-viewer.svg)点击运行。
+3. 将鼠标指针置于深度看图应用程序的图标上，右键点击 ![viewer](icon/deepin-image-viewer.svg)，您可以：
  - 点击 **发送到桌面**，在桌面创建快捷方式。
  - 点击 **发送到任务栏**，将应用程序固定到任务栏。
  - 点击 **开机自动启动**，将应用程序添加到开机启动项，在电脑开机时自动运行该应用程序。
@@ -25,7 +25,7 @@
 ### 关闭深度看图
 
 - 在深度看图界面点击  ![close_icon](icon/close_icon.svg) ，退出深度看图。
-- 在任务栏右键单击 ![viewer](icon/viewer.svg) ，选择 **关闭所有** 来退出深度看图。
+- 在任务栏右键单击 ![viewer](icon/deepin-image-viewer.svg) ，选择 **关闭所有** 来退出深度看图。
 - 在深度看图界面点击 ![icon_menu](icon/icon_menu.svg) ，选择 **退出** 来退出深度看图。
 
 ## 图片查看|../common/icon_pictureview.svg|
@@ -50,10 +50,25 @@
             <td>1:1显示</td>
             <td>图片按照实际尺寸显示。当图片超出界面范围时，界面上会出现导航窗口。</td>
         </tr>
-			<tr>
+		<tr>
             <td> ![adapt-screen](icon/adapt-screen.svg) </td>
             <td>自适应</td>
             <td>图片适应界面尺寸显示。</td>
+        </tr>
+		<tr>
+            <td> ![clockwise-rotation](icon/clockwise-rotation.svg) </td>
+            <td>顺时针</td>
+            <td>图片顺时针旋转90度。</td>
+        </tr>
+		<tr>
+            <td> ![contrarotate](icon/contrarotate.svg) </td>
+            <td>逆时针</td>
+            <td>图片逆时针旋转90度。</td>
+        </tr>
+		<tr>
+            <td> ![delete](icon/delete.svg) </td>
+            <td>删除</td>
+            <td>删除当前图片。</td>
         </tr>
 	    <tr>
             <td> ![previous](icon/previous.svg) </td>
@@ -64,11 +79,6 @@
             <td> ![next](icon/next.svg) </td>
             <td>下一张</td>
             <td>显示下一张图片。</td>
-        </tr>
-		<tr>
-            <td> ![delete](icon/delete.svg) </td>
-            <td>删除</td>
-            <td>删除当前图片。</td>
         </tr>
     </tbody>
 </table>
@@ -115,7 +125,6 @@
 
 1. 在深度看图界面上，单击鼠标右键。
 2. 选择 **图片信息** 可以显示图片信息。
-3. 点击 **显示详细信息** 可以查看图片的更多信息。
 
 ![1|info](png/info.png)
 
@@ -203,25 +212,23 @@
 
 #### 新建相册
 
-1. 在深度看图相册界面，单击鼠标右键。
-2. 选择 **新建相册**。
-3. 输入相册名称。
-4. 按下键盘上的 ![enter](icon/Enter.svg) 键。
+1. 在深度看图相册界面，点击 + 号。
+2. 输入相册名称。
+3. 按下键盘上的 ![enter](icon/Enter.svg) 键。
 
-
+![0|album](png/album2.png)
 
 > ![tips](icon/tips.svg)：通过主菜单 ![icon_menu](icon/icon_menu.svg) 的 **新建相册** 选项也可以新建相册。
 
 #### 添加图片到相册
 
 1. 在深度看图相册界面上，打开一个相册。
-2. 点击界面上的 **从时间线添加**。
+2. 点击界面上的 **导入** 或者左下角 + 号。
 3. 在时间线界面选择图片。
 4. 点击 **添加** 将选中的图片添加到该相册。
 
-![0|add-to-album](png/add-to-album1.png)
+![0|add-to-album](png/add-picture.png)
 
-![0|add-to-album](png/add-to-album2.png)
 
 > ![tips](icon/notes.svg)：在文件管理器中直接选中图片拖拽到相册界面也可以快速添加图片到相册中,拖拽添加的图片会同时被添加到时间线。
 

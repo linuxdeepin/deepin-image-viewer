@@ -1,4 +1,4 @@
-# Deepin Image Viewer|../common/viewer.svg|
+# Deepin Image Viewer|../common/deepin-image-viewer.svg|
 
 ## Overview|../common/icon_overview.svg|
 
@@ -31,7 +31,7 @@ User can run, close and create shortcut for Deepin Image Viewer by the following
 
 Deepin Image Viewer is featured with image information viewing, image rotation, slide show, image viewing in timeline and album, and so on. Right click on an image, select ** Open with** > ** Deepin Image Viewer**. If Deepin Image Viewer has been set as the default application for image viewing, user can double-click to open an image with it.
 
-![1|maininterface](png/image-view.png)
+![1|maininterface](png/main-interface.png)
 
 ### Image Viewing Interface
 
@@ -54,6 +54,21 @@ Deepin Image Viewer is featured with image information viewing, image rotation, 
             <td>The image will resize to adapt to the current window.</td>
         </tr>
 	    <tr>
+            <td>![rotatecl](icon/clockwise-rotation.svg)</td>
+            <td>Rotate clockwise</td>
+            <td>Rotate the image 90 degrees clockwise.</td>
+        </tr>
+	    <tr>
+            <td>![rotateccl](icon/contrarotate.svg)</td>
+            <td>Rotate couterclockwise</td>
+            <td>Rotate the image 90 degrees couterclockwise.</td>
+        </tr>
+	    <tr>
+            <td>![Trash](icon/delete.svg)</td>
+            <td>Throw to Trash</td>
+            <td>Throw the current image to Trash.</td>
+        </tr>
+        <tr>
             <td>![Previous](icon/previous.svg)</td>
             <td>Previous</td>
             <td>Switch to the previous image.</td>
@@ -62,11 +77,6 @@ Deepin Image Viewer is featured with image information viewing, image rotation, 
             <td>![Next](icon/next.svg)</td>
             <td>Next</td>
             <td>Switch to the next image.</td>
-        </tr>
-        <tr>
-            <td>![Trash](icon/delete.svg)</td>
-            <td>Throw to Trash</td>
-            <td>Throw the current image to Trash.</td>
         </tr>
     </tbody>
 </table>
@@ -116,12 +126,8 @@ User can set an image as the desktop wallpaper. Right click on the image in Deep
 User can view the detailed information of the image.
 1. Right click on the image in Deepin Image Viewer interface and select ** Image info**
 2. An information window will popup at the left side of Deepin Image Viewer interface.
-3. Click on ** Show basics** and ** Show details** in the information window to view the basic and detailed information of the image.
 
 ![1|view info](png/view-info.png)
-
->![tips](icon/tips.svg): By clicking on ** Show basics** and ** Show details**, they will switch to each other.
-
 
 ## Image Management|../common/icon_picturemanagement.svg|
 
@@ -143,7 +149,7 @@ The thumbnails of images in Timeline can be zoomed.
 #### Import Image
 
 User can import images to Deepin Image Viewer to better manage images.
-1. In Deepin Image Viewer interface, Click on ![Menu](icon/icon_menu.svg) and select ** Import**.
+1. In Deepin Image Viewer interface, Click on ![Menu](icon/icon_menu.svg) and select ** Import**, or click on the ** + ** at the lower left corner.
 2. Select the folder storing the images.
 3. Click on ** Open** to import.
 
@@ -162,7 +168,7 @@ User can export images from Deepin Image Viewer.
 
 ** Export image**
 
-![0|image-export](png/image-export.png) 
+![0|image-export](png/image-export.png)
 
 ** Export album**
 
@@ -210,18 +216,16 @@ User can create new albums to categorize images.
 
 ![0|newalbum](png/create-album.png)
 
-> ![tips](icon/tips.svg): User can right click and select ** New album** to create a new album.
+> ![tips](icon/tips.svg): User can click on **+ ** to create a new album.
 
 #### Add Image to Album
 
 1. In Album interface, click the icon of an album to enter it.
-2. Click on ** Add from timeline** in the middle.
-3. Select images from Timeline to import.
-4. Click on ** Add** to import the image to album.
+2. Click on ** Image** in the middle, or **+ ** at the lower left corner.
+3. Select the direcotry storing the images to import.
+4. Click on ** Open** to import the image to album.
 
-![1|add image](png/add-image1.png)
-
-![1|add image](png/add-image2.png)
+![1|add image](png/add-to-album1.png)
 
 >![tips](icon/tips.svg): Open an image in timeline, and right click on the image, select ** Add to album** then select an album to add the image to the album.
 
