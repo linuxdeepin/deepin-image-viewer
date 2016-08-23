@@ -1,0 +1,11 @@
+[main]
+host = https://www.transifex.com
+minimum_perc = 80
+mode = master
+
+; translation file
+[deepin-desktop-environment.deepin-image-viewer]
+file-filter = translations/deepin-image-viewer_<lang>.ts
+source_lang = en
+source_file = translations/deepin-image-viewer.ts
+type = QT
