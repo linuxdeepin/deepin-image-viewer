@@ -17,6 +17,9 @@ const char kPlatformThemeName[] = "QT_QPA_PLATFORMTHEME";
 
 int main(int argc, char *argv[])
 {
+#if defined(STATIC_LIB)
+    DWIDGET_INIT_RESOURCE();
+#endif
     // If platform theme name is empty, fallback to gtk2.
     // gtk2 theme is included in libqt5libqgtk2 package.
     if (qgetenv(kPlatformThemeName).length() == 0) {

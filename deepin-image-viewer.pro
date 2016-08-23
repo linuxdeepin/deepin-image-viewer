@@ -3,16 +3,20 @@
 # Project created by QtCreator 2016-02-18T14:34:59
 #
 #-------------------------------------------------
+system($$PWD/vendor/prebuild)
+include($$PWD/vendor/vendor.pri)
 
 QT       += core gui sql dbus concurrent svg x11extras
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG +=  dtkwidget dtkutil dtkbase libexif x11 xext
+PKGCONFIG +=  libexif x11 xext
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
 INCLUDEPATH += utils
+
+DEFINES += STATIC_LIB
 
 isEmpty(PREFIX){
     PREFIX = /usr
