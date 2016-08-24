@@ -209,10 +209,11 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info, bool update)
     vi.tickable = false;
 
     m_view->insertItem(vi);
-    m_topTips->setAlbum(m_album);
 
-    if (update)
+    if (update) {
+        m_topTips->setAlbum(m_album);
         updateContent();
+    }
 }
 
 void ImagesView::updateThumbnail(const QString &path)
@@ -395,6 +396,7 @@ void ImagesView::showEvent(QShowEvent *e)
         for (auto info : infos) {
             insertItem(info, false);
         }
+        m_topTips->setAlbum(m_album);
         updateContent();
     }
 
