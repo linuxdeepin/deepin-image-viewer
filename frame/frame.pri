@@ -1,3 +1,5 @@
+
+include(../vendor/vendor.pri)
 HEADERS += \
     $$PWD/bottomtoolbar.h \
     $$PWD/extensionpanel.h \

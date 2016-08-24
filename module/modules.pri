@@ -1,3 +1,4 @@
+include(../vendor/vendor.pri)
 
 include (album/album.pri)
 include (timeline/timeline.pri)

@@ -4,7 +4,6 @@
 #
 #-------------------------------------------------
 system($$PWD/vendor/prebuild)
-include($$PWD/vendor/vendor.pri)
 
 QT       += core gui sql dbus concurrent svg x11extras
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
