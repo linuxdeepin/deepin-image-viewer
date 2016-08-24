@@ -30,7 +30,7 @@ const int TITLE_EDIT_MARGIN = 20;
 const int THUMBNAIL_BG_MARGIN = 8;
 
 //const int DATELABEL_FONT_SIZE = 9;
-const QColor DATELABEL_COLOR = QColor(255, 255, 255, 153);
+const QColor DATELABEL_COLOR = QColor("#000000");
 
 }
 
