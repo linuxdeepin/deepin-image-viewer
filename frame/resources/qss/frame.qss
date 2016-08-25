@@ -1,9 +1,9 @@
 QScrollArea {
-    background: #181818;
+    background: #222325;
 }
 
 QStackedWidget#PanelStack {
-    background: #181818;
+    background: #222325;
 }
 
 QFrame {

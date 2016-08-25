@@ -2,6 +2,7 @@
 #include "application.h"
 #include "controller/databasemanager.h"
 #include "utils/imageutils.h"
+#include "utils/baseutils.h"
 #include <QDateTime>
 #include <QLineEdit>
 #include <QPainter>
@@ -23,14 +24,17 @@ const int BORDER_WIDTH = 1;
 const int BORDER_RADIUS = 5;
 
 const int TITLE_FONT_SIZE = 12;
-const QColor TITLE_COLOR = QColor("#ffffff");
+const QColor TITLE_COLOR = QColor(255, 255, 255, 178);
 const QColor TITLE_SELECTED_COLOR = QColor("#2ca7f8");
 const int TITLE_EDIT_MARGIN = 20;
 
 const int THUMBNAIL_BG_MARGIN = 8;
+const int BG_TEXT_SPACING = 5;
+const int TEXTRECT_MARGIN = 20;
+const int ALBUMNAME_FONTSIZE = 12;
 
 //const int DATELABEL_FONT_SIZE = 9;
-const QColor DATELABEL_COLOR = QColor("#000000");
+const QColor DATELABEL_COLOR = QColor(255, 255, 255, 153);
 
 }
 
@@ -75,7 +79,8 @@ void AlbumDelegate::setEditorData(QWidget *editor,
     if (!index.isValid()) {
         return;
     }
-    QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+    QList<QVariant> datas = index.model()->data(index,
+                                                Qt::DisplayRole).toList();
     QLineEdit* lineEdit = static_cast<QLineEdit* >(editor);
 
     if (datas.isEmpty() || ! lineEdit) {
@@ -130,7 +135,8 @@ void AlbumDelegate::paint(QPainter *painter,
                           const QStyleOptionViewItem &option,
                           const QModelIndex &index) const
 {
-    QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+    QList<QVariant> datas = index.model()->data(index,
+                                                Qt::DisplayRole).toList();
 
     QRect rect = option.rect;
     const int pixmapSize = rect.width() - THUMBNAIL_BG_MARGIN * 2;
@@ -149,7 +155,8 @@ void AlbumDelegate::paint(QPainter *painter,
         drawTitle(option, index, painter);
     }
     else {
-        QString createIcon = ":/images/resources/images/create_album_normal.png";
+        QString createIcon = ":/images/resources/images/"
+                             "create_album_normal.png";
         if ((option.state & QStyle::State_MouseOver) &&
                 (option.state & QStyle::State_Selected) == 0) {
             createIcon = ":/images/resources/images/create_album_hover.png";
@@ -160,6 +167,7 @@ void AlbumDelegate::paint(QPainter *painter,
                             rect.y() + THUMBNAIL_BG_MARGIN,
                             pixmapSize, pixmapSize, cip);
     }
+
 }
 
 QSize AlbumDelegate::sizeHint(const QStyleOptionViewItem &option,
@@ -208,9 +216,9 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         QFont font;
         font.setPixelSize(TITLE_FONT_SIZE);
         QPen titlePen(TITLE_COLOR);
-        QFontMetrics fm(font);
 
-        QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+        QList<QVariant> datas = index.model()->data(index,
+                                                    Qt::DisplayRole).toList();
         QString albumName = datas[0].toString();
         if (albumName == "Recent imported") {
             albumName = tr("Recent imported");
@@ -218,44 +226,50 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         else if (albumName == "My favorites") {
             albumName = tr("My favorites");
         }
-
-        const int hMargin = 3;
-        const int vMargin = 2;
-        QSize ts(qMin(fm.width(albumName) + 20, rect.width()), fm.height() + 2);
-        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2,
-                        rect.y() + rect.height() - ts.height() - vMargin * 2,
-                        // ts.width() maybe biger than rect.width()
-                        qMin(rect.width(), ts.width() + hMargin * 2),
-                        ts.height() + vMargin * 2);
+        painter->setPen(titlePen);
         painter->setRenderHint(QPainter::Antialiasing);
-        // Draw title background
+
+        QTextOption albumNameOption;
+        albumNameOption.setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+        albumNameOption.setWrapMode(QTextOption::WordWrap);
+        QFont albumNameFont(painter->font());
+        albumNameFont.setPixelSize(ALBUMNAME_FONTSIZE);
+
+        const QFontMetrics fm(albumNameFont);
+        QSize ts(qMin(fm.width(albumName) + TEXTRECT_MARGIN, rect.width()),
+                 fm.height() + 2);
+
+        const int TextTotalHeight = rect.height()*0.81;
+        const QRectF albumNameRect = QRect(rect.x(), rect.y() + TextTotalHeight
+            + BG_TEXT_SPACING, rect.width(), rect.height() - TextTotalHeight);
+        QRect titleRect(rect.x() + (rect.width() - ts.width()) / 2,
+            albumNameRect.y()+ (albumNameRect.height() - ts.
+            height()) / 2, ts.width(), ts.height());
+
+        // Draw albumName background
         if (option.state & QStyle::State_Selected && m_editingIndex != index) {
             QPainterPath pp;
             pp.addRoundedRect(titleRect, 4, 4);
             painter->fillPath(pp, QBrush(TITLE_SELECTED_COLOR));
         }
 
-        painter->setFont(font);
-        painter->setPen(titlePen);
-        painter->drawText(titleRect,
-                          fm.elidedText(albumName,
-                                        Qt::ElideRight, rect.width()),
-                          QTextOption(Qt::AlignCenter));
+
+        painter->setFont(albumNameFont);
+        painter->drawText(albumNameRect, Qt::AlignCenter, albumName);
     }
 }
 
 QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
                                          const QModelIndex &index) const
 {
-    QList<QVariant> datas = index.model()->data(index, Qt::DisplayRole).toList();
+    QList<QVariant> datas = index.model()->data(index,
+                                                Qt::DisplayRole).toList();
     const QString albumName = datas[0].toString();
     const QDateTime beginTime = datas[2].toDateTime();
     const QDateTime endTime = datas[3].toDateTime();
     QPixmap thumbnail;
     thumbnail.loadFromData(datas[4].toByteArray());
-    if (thumbnail.isNull()) {
-        thumbnail.load(":/images/resources/images/new_album.png");
-    }
+
 
     // Render background
     QSize bgSize;
@@ -281,11 +295,11 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     painter.drawPixmap(tRect, scalePixmp);
 
     // Draw special mark
-    int markSize = tRect.width() * 0.38;
+    int markSize = tRect.width() * 0.5;
     if (albumName == "Recent imported") {
-        QPixmap p = QPixmap(":/images/resources/images/album_recent_imported.png")
-                .scaled(markSize, markSize,
-                        Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmap p = QPixmap(":/images/resources/images/"
+            "album_recent_imported.png").scaled(markSize, markSize,
+            Qt::KeepAspectRatio, Qt::SmoothTransformation);
         painter.drawPixmap(tRect.x() + (tRect.width() - markSize) / 2,
                            tRect.y() + (tRect.height() - markSize) / 2,
                            markSize, markSize, p);
@@ -321,18 +335,20 @@ const QRect AlbumDelegate::thumbnailRect(const QSize &bgSize) const
     return QRect(lm, tm, s, s);
 }
 
-const QRect AlbumDelegate::yearTitleRect(const QSize &bgSize, const QString &title) const
+const QRect AlbumDelegate::yearTitleRect(const QSize &bgSize, const QString
+                                         &title) const
 {
     QFont font;
     font.setPixelSize(bgSize.height() * 0.068);
     QFontMetrics fm(font);
     QRect rect(bgSize.width() - bgSize.width() * 0.1857 - fm.width(title),
-                    bgSize.height() - bgSize.height() * 0.08 - fm.height(),
+                    bgSize.height() - bgSize.height() * 0.08 - fm.height() + 2,
                     fm.width(title), fm.height());
     return rect;
 }
 
-const QString AlbumDelegate::yearTitle(const QDateTime &b, const QDateTime &e) const
+const QString AlbumDelegate::yearTitle(const QDateTime &b, const QDateTime &e)
+const
 {
     QString beginStr;
     QString endStr;

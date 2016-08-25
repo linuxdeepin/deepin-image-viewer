@@ -6,6 +6,7 @@
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+
 #include <QDebug>
 #include <QBuffer>
 #include <QJsonDocument>
@@ -15,7 +16,7 @@ namespace {
 
 const QString MY_FAVORITES_ALBUM = "My favorites";
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
-const int ITEM_SPACING = 58;
+const int ITEM_SPACING = 61;
 const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 
 }  // namespace
@@ -26,6 +27,7 @@ AlbumsView::AlbumsView(QWidget *parent)
       m_popupMenu(new PopupMenuManager(this))
 {
     setMouseTracking(true);
+
     AlbumDelegate *delegate = new AlbumDelegate(this);
     connect(delegate, &AlbumDelegate::editingFinished,
             this, [=](const QModelIndex &index) {
@@ -36,7 +38,6 @@ AlbumsView::AlbumsView(QWidget *parent)
     setItemDelegate(delegate);
     m_model = new QStandardItemModel(this);
     setModel(m_model);
-
     setContextMenuPolicy(Qt::CustomContextMenu);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setResizeMode(QListView::Adjust);

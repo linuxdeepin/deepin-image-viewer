@@ -12,7 +12,7 @@ namespace {
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#353535");
 const QColor DARK_CHECKER_COLOR = QColor("#050505");
-const QColor BACKGROUND_COLOR = QColor("#181818");
+const QColor BACKGROUND_COLOR = QColor("#222325");
 const int ENTER_RIGHT = 100;
 const int ENTER_LEFT = 10;
 }

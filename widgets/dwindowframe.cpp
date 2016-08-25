@@ -651,7 +651,7 @@ void DWindowFrame::paintOutline() {
     path.addEllipse(rr.marginsAdded(QMarginsF(-0.3, 0, 0, -0.3)));
 
     painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.fillPath(path, QColor("#181818"));
+    painter.fillPath(path, QColor("#222325"));
     pen.setColor(borderColor);
     painter.setPen(pen);
     painter.drawPath(path);
