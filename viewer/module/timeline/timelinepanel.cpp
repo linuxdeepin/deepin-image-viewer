@@ -93,15 +93,35 @@ QWidget *TimelinePanel::toolbarBottomContent()
         dApp->importer->showImportDialog();
     });
 
-    QHBoxLayout *layout = new QHBoxLayout(tBottomContent);
-    layout->setContentsMargins(5, 0, 5, 0);
+    QVBoxLayout* layout = new QVBoxLayout(tBottomContent);
+    layout->setContentsMargins(0 ,0 ,0, 0);
     layout->setSpacing(0);
-    layout->addSpacing(9);
-    layout->addWidget(ib);
-    layout->addStretch(1);
-    layout->addWidget(m_countLabel, 1, Qt::AlignCenter);
-    layout->addWidget(m_slider, 1, Qt::AlignRight);
-    layout->addSpacing(9);
+
+    QLabel* topDarkLine = new QLabel;
+    topDarkLine->setFixedHeight(1);
+    topDarkLine->setObjectName("BTopDarkLine");
+    QLabel* topLightLine = new QLabel;
+    topLightLine->setFixedHeight(1);
+    topLightLine->setObjectName("BTopLightLine");
+
+    QHBoxLayout *hLayout = new QHBoxLayout;
+    hLayout->setContentsMargins(2, 0, 5, 0);
+    hLayout->setSpacing(0);
+    hLayout->addSpacing(9);
+    hLayout->addWidget(ib);
+    hLayout->addStretch(1);
+    hLayout->addWidget(m_countLabel, 1, Qt::AlignCenter);
+    hLayout->addWidget(m_slider, 1, Qt::AlignRight);
+    hLayout->addSpacing(9);
+
+    QLabel* bottomLightLine = new QLabel;
+    bottomLightLine->setFixedHeight(1);
+    bottomLightLine->setObjectName("BtmLightLine");
+
+    layout->addWidget(topDarkLine);
+    layout->addWidget(topLightLine);
+    layout->addLayout(hLayout);
+    layout->addWidget(bottomLightLine);
 
     return tBottomContent;
 }

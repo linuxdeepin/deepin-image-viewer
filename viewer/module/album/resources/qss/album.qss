@@ -75,3 +75,17 @@ TopAlbumTips {
     background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
                     stop:0 rgba(24, 24, 24, .4), stop:1 rgba(24, 24, 24, .2));
 }
+
+QLabel#BTopLightLine{
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+QLabel#BTopDarkLine{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+QLabel#BtmLightLine{
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+

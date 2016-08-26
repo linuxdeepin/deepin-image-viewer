@@ -26,16 +26,17 @@ using namespace Dtk::Widget;
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
-const int ICON_MARGIN = 6;
+const int ICON_MARGIN = 12;
 
 }  // namespace
 
 TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     :BlureFrame(parent, source)
 {
-    QLinearGradient linearGrad;
-    linearGrad.setColorAt(0, QColor(15, 15, 15, 178));
-    linearGrad.setColorAt(1, QColor(15, 15, 15, 204));
+    QLinearGradient linearGrad(QPoint(0, this->y()),
+                               QPoint(0, this->y()+this->height()));
+    linearGrad.setColorAt(0, QColor(38, 38, 38, 230));
+    linearGrad.setColorAt(1, QColor(28, 28, 28, 230));
 
     setCoverBrush(QBrush(linearGrad));
 
@@ -139,15 +140,15 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 
     // Draw inside top border
     const QColor tc(255, 255, 255, 20);
-    const int borderHeight = 1;
+    int borderHeight = 1;
     QPainterPath tPath;
     tPath.moveTo(QPointF(x(), y() + borderHeight - 0.5));
     tPath.lineTo(QPointF(x() + width(), y() + borderHeight - 0.5));
 
-    QPen tPen(tc, borderHeight);
+    QPen tPen(tc);
     QLinearGradient linearGrad;
-    linearGrad.setStart(x(), y() + borderHeight);
-    linearGrad.setFinalStop(x() + width(), y() + borderHeight);
+    linearGrad.setStart(x(), y());
+    linearGrad.setFinalStop(x() + width(), y());
     linearGrad.setColorAt(0, Qt::transparent);
     linearGrad.setColorAt(0.005, tc);
     linearGrad.setColorAt(0.995, tc);
@@ -158,9 +159,10 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 
     // Draw inside bottom border
     QPainterPath bPath;
-    bPath.moveTo(x(), y() + height() - borderHeight);
-    bPath.lineTo(x() + width(), y() + height() - borderHeight);
-    QPen bPen(QColor(0, 0, 0, 25), borderHeight);
+    borderHeight = 0;
+    bPath.moveTo(x(), y() + height() - borderHeight - 0.5);
+    bPath.lineTo(x() + width(), y() + height() - borderHeight - 0.5);
+    QPen bPen(QColor(0, 0, 0, 51), borderHeight);
     p.setPen(bPen);
     p.drawPath(bPath);
 }
@@ -282,7 +284,7 @@ void TopToolbar::initWidgets()
     rightLayout->setSpacing(0);
     rightLayout->addStretch(1);
     rightLayout->addWidget(importProgress);
-    rightLayout->addSpacing(38);
+    rightLayout->addSpacing(36);
     rightLayout->addWidget(ob);
     rightLayout->addWidget(minb);
     rightLayout->addWidget(m_maxb);
@@ -302,6 +304,7 @@ void TopToolbar::initWidgets()
     mainLayout->addWidget(m_middleContent);
     mainLayout->addWidget(m_rightContent);
     mainLayout->addSpacing(ICON_MARGIN);
+
 }
 
 void TopToolbar::initMenu()

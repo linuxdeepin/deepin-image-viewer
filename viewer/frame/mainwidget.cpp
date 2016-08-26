@@ -18,7 +18,7 @@
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
-const int BOTTOM_TOOLBAR_HEIGHT = 24;
+const int BOTTOM_TOOLBAR_HEIGHT = 22;
 const int EXTENSION_PANEL_WIDTH = 240;
 
 const QString SETTINGS_GROUP = "MAINWIDGET";
@@ -216,7 +216,7 @@ void MainWidget::initBottomToolbar()
             m_bottomToolbar->setFixedHeight(38);
         }
         else {
-            m_bottomToolbar->setFixedHeight(24);
+            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
         }
         m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     });

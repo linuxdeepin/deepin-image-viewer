@@ -88,3 +88,15 @@ ScaleSlider {
 QSlider::handle:vertical  {
     image: url(:/images/resources/images/slider_handle.svg)
 }
+
+QLabel#BTopLightLine{
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+QLabel#BTopDarkLine{
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+QLabel#BtmLightLine{
+    background-color: rgba(255, 255, 255, 0.02);
+}

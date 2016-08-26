@@ -293,6 +293,13 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     const QRect tRect = thumbnailRect(bgSize);
     QPixmap scalePixmp = utils::image::cutSquareImage(thumbnail, tRect.size());
     painter.drawPixmap(tRect, scalePixmp);
+    // Draw album cover's out shadow
+    if (!thumbnail.isNull()) {
+        const QRect outBorder = QRect(tRect.x() - 1, tRect.y() - 1,
+                                      tRect.width() + 2, tRect.height() + 2);
+        painter.setPen(QColor(0, 0, 0, 25));
+        painter.drawRect(outBorder);
+    }
 
     // Draw special mark
     int markSize = tRect.width() * 0.5;

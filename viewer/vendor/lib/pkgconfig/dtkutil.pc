@@ -1,13 +1,13 @@
 prefix=/usr
 exec_prefix=${prefix}
-libdir=/home/wanqing/src/deepin-image-viewer/viewer/vendor/lib
-includedir=/home/wanqing/src/deepin-image-viewer/viewer/vendor/include/libdtk-1.0/DUtil
+libdir=/home/ph/Team/deepin-image-viewer/viewer/vendor/lib
+includedir=/home/ph/Team/deepin-image-viewer/viewer/vendor/include/libdtk-1.0/DUtil
 
 
 Name: DTK_UTIL
 Description: Deepin Tool Kit Util Module
 Version: 1.0
 Libs: -L${libdir} -ldtkutil 
-Libs.private: -L/home/wanqing/src/deepin-image-viewer/viewer/vendor/src/deepin-tool-kit/build/dutil/../dbase/ -ldtkbase -lQt5Core -lpthread   
+Libs.private: -L/home/ph/Team/deepin-image-viewer/viewer/vendor/src/deepin-tool-kit/build/dutil/../dbase/ -ldtkbase -lQt5Core -lpthread   
 Cflags: -I${includedir}
 
