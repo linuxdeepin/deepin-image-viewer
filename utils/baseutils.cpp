@@ -150,7 +150,7 @@ QString getFileContent(const QString &file) {
 
 bool writeTextFile(QString filePath, QString content) {
     QFile file(filePath);
-    if (file.open(QIODevice::ReadWrite|QIODevice::Text)) {
+    if (file.open(QIODevice::WriteOnly|QIODevice::Text)) {
         QTextStream in(&file);
         in << content << endl;
         file.close();
