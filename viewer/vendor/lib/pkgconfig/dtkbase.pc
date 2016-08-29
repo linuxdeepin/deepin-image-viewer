@@ -1,7 +1,7 @@
 prefix=/usr
 exec_prefix=${prefix}
-libdir=/home/ph/Team/deepin-image-viewer/vendor/lib
-includedir=/home/ph/Team/deepin-image-viewer/vendor/include/libdtk-1.0/DBase
+libdir=/home/wanqing/src/deepin-image-viewer/viewer/vendor/lib
+includedir=/home/wanqing/src/deepin-image-viewer/viewer/vendor/include/libdtk-1.0/DBase
 
 
 Name: DTK_BASE

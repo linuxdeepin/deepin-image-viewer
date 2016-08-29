@@ -459,6 +459,7 @@ QMap<QString, QString> getExifFromPath(const QString &path, bool isDetails)
 
 bool imageIsSupport(const QString &filepath)
 {
+    return true;
     QFileInfo info(filepath);
     if (info.isFile()) {
         return (supportImageTypes().indexOf(info.suffix().toLower()) != -1);
