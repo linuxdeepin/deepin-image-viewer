@@ -130,16 +130,16 @@ bool CommandLine::processOption()
             name = names.first();
             value = m_cmdParser.value(name);
         }
-        else if (!pas.isEmpty() && imageIsSupport(pas.first())){
+        else if (!pas.isEmpty() && isImageSupported(pas.first())){
             name = "o";
             value = pas.first();
         }
-        bool support = imageIsSupport(value);
+        bool support = isImageSupported(value);
 
 
         if (name == "o" || name == "open") {
             qDebug() << "Open image file: " << value;
-            if (imageIsSupport(value)) {
+            if (isImageSupported(value)) {
                 viewImage(value, QStringList());
                 return true;
             }
@@ -150,7 +150,7 @@ bool CommandLine::processOption()
         else if (name == "view") {
             QStringList paths = value.split(",");
             for (QString path : paths) {
-                if (! imageIsSupport(path))
+                if (! isImageSupported(path))
                     paths.removeAll(path);
             }
             if (! paths.isEmpty()) {

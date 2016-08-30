@@ -22,7 +22,6 @@ protected:
     void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    const QString trLabel(const char *str);
     void updateInfo();
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);

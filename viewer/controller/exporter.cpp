@@ -87,7 +87,7 @@ void Exporter::popupDialogSaveImage(const QStringList imagePaths) {
 
     for (int j(0); j < imagePaths.length(); j++) {
 
-        if(utils::image::imageIsSupport(imagePaths[j])) {
+        if(utils::image::isImageSupported(imagePaths[j])) {
             QPixmap tmpImage(imagePaths[j]);
             QString savePath =  QString("%1/%2.%3").arg(exportdir).arg(QFileInfo(imagePaths[j])
         .baseName()).arg(QFileInfo(imagePaths[j]).completeSuffix());

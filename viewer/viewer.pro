@@ -5,11 +5,12 @@
 #-------------------------------------------------
 system($$PWD/vendor/prebuild)
 
-QT       += core gui sql dbus concurrent svg x11extras
+QT += core gui sql dbus concurrent svg x11extras
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG +=  libexif x11 xext
+PKGCONFIG += x11 xext
+LIBS += -L/usr/lib/x86_64-linux-gnu -lfreeimage
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
@@ -28,8 +29,14 @@ include (utils/utils.pri)
 include (controller/controller.pri)
 include (service/service.pri)
 
+HEADERS += \
+    application.h
+
 SOURCES += main.cpp \
     application.cpp
+
+RESOURCES += \
+    resources.qrc
 
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-image-viewer
@@ -64,9 +71,3 @@ translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
 INSTALLS = binary desktop dbus_service icons manual manual_icon translations
-
-RESOURCES += \
-    resources.qrc
-
-HEADERS += \
-    application.h

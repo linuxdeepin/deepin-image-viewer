@@ -2,7 +2,6 @@
 #include "application.h"
 #include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
-#include <libexif/exif-data.h>
 #include "utils/imageutils.h"
 #include <QDebug>
 #include <QDir>

@@ -1,9 +1,6 @@
 #ifndef IMPORTER_H
 #define IMPORTER_H
 
-#include <libexif/exif-data.h>
-#include <libexif/exif-entry.h>
-#include <libexif/exif-tag.h>
 #include <QObject>
 #include <QPixmap>
 #include <QFuture>

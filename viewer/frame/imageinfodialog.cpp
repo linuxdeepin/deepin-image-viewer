@@ -1,6 +1,5 @@
 #include "imageinfodialog.h"
 #include "utils/imageutils.h"
-#include <QApplication>
 #include <QFormLayout>
 #include <QFont>
 #include <QFontMetrics>
@@ -11,16 +10,21 @@ using namespace utils::image;
 
 namespace {
 
-static ExifItem exifItems[] = {
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_NAME, "Name"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_TYPE, "Type"},
-    {EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL, "Date photoed"},
-    {EXIF_IFD_0, EXIF_TAG_DATE_TIME, "Date modified"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_RESOLUTION, "Resolution"},
-    {EXIF_IFD_COUNT, EXIF_TAG_EXTEND_SIZE, "File size"},
-    {EXIF_IFD_COUNT, EXIF_TAG_MAX_APERTURE_VALUE, "Max aperture"},
-    {EXIF_IFD_COUNT, EXIF_TAG_FOCAL_LENGTH, "Focal length"},
-    {EXIF_IFD_COUNT, 0, 0}
+struct MetaData {
+    QString key;
+    QString name;
+};
+
+static MetaData MetaDatas[] = {
+    {"FileName",            QObject::tr("Name")},
+    {"FileFormat",          QObject::tr("Type")},
+    {"DateTimeOriginal",    QObject::tr("Date photoed")},
+    {"DateTimeDigitized",   QObject::tr("Date modified")},
+    {"Resolution",          QObject::tr("Resolution")},
+    {"FileSize",            QObject::tr("File size")},
+    {"MaxApertureValue",    QObject::tr("Max aperture")},
+    {"FocalLength",         QObject::tr("Focal length")},
+    {"", ""}
 };
 
 }
@@ -44,14 +48,11 @@ void ImageInfoDialog::setPath(const QString &path)
                                                    QSize(240, 160));
     m_thumbnail->setPixmap(p);
 
-    auto ei = getExifFromPath(path, true);
-    ei.unite(getExifFromPath(path, false));
+    auto mds = getAllMetaData(path);
 
-    for (const ExifItem* i = exifItems; i->tag; ++i) {
-        QString v = ei.value(i->name);
-        if (v.isEmpty()) {
-            continue;
-        }
-        addInfoPair(qApp->translate("ExifItemName", i->name) + ":", v);
+    for (const MetaData* i = MetaDatas; ! i->key.isEmpty(); i ++) {
+        QString v = mds.value(i->key);
+        if (v.isEmpty()) continue;
+        addInfoPair(i->name + ":", v);
     }
 }

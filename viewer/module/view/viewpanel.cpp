@@ -467,11 +467,11 @@ void ViewPanel::dropEvent(QDropEvent *event)
         if (QFileInfo(path).isDir()) {
             auto finfos =  getImagesInfo(path, false);
             for (auto finfo : finfos) {
-                if (imageIsSupport(finfo.absoluteFilePath()))
+                if (isImageSupported(finfo.absoluteFilePath()))
                     paths += finfo.absoluteFilePath() + ",";
             }
         }
-        else if (imageIsSupport(path)) {
+        else if (isImageSupported(path)) {
             paths += path + ",";
         }
     }
@@ -951,12 +951,6 @@ void ViewPanel::rotateImage(bool clockWise)
 void ViewPanel::initViewContent()
 {
     m_view = new ImageWidget();
-
-    connect(m_view, &ImageWidget::fliped, [this](bool x, bool y) {
-        const QTransform t = QTransform().scale(x ? -1 : 1, y ? -1 : 1);
-        QImage img = m_view->image().transformed(t);
-        utils::image::saveImageWithExif(img, m_current->path, m_current->path, t);
-    });
     connect(m_view, &ImageWidget::doubleClicked, [this]() {
         toggleFullScreen();
         m_scaleLabel->hide();
