@@ -131,7 +131,9 @@ void ViewPanel::initFileSystemWatcher()
     QFileSystemWatcher *sw = new QFileSystemWatcher(this);
     connect(dApp->signalM, &SignalManager::viewImage,
             this, [=](const SignalManager::ViewInfo &info) {
-        sw->removePaths(sw->directories());
+        if (!sw->directories().isEmpty())
+            sw->removePaths(sw->directories());
+
         if (! info.inDatabase) {
             sw->addPath(QFileInfo(info.path).dir().absolutePath());
         }

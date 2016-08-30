@@ -74,7 +74,7 @@ TopTimelineTips {
     margin-left: 14px;
     font-size: 13px;
     color: #b4b4b4;
-    background: rgba(24, 24, 24, .4);
+    border-image: url(:/images/resources/images/lineargradient.png) repeat;
 }
 
 QFrame#TimelinesContent {

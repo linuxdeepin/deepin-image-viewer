@@ -108,7 +108,7 @@ QWidget *AlbumPanel::toolbarBottomContent()
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->setContentsMargins(2, 0, 5, 0);
     hLayout->setSpacing(0);
-    hLayout->addSpacing(9);
+    hLayout->addSpacing(7);
     hLayout->addWidget(ib);
     hLayout->addStretch(1);
     hLayout->addWidget(m_countLabel, 1, Qt::AlignCenter);
