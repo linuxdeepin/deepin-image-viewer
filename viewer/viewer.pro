@@ -45,8 +45,7 @@ MANICONDIR = $$PREFIX/share/icons/hicolor/scalable/apps
 
 DEFINES += APPSHAREDIR=\\\"$$APPSHAREDIR\\\"
 
-binary.path = $$BINDIR
-binary.files = deepin-image-viewer
+target.path = $$BINDIR
 
 desktop.path = $${PREFIX}/share/applications/
 desktop.files =  deepin-image-viewer.desktop
@@ -70,4 +69,4 @@ CONFIG(release, debug|release) {
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
-INSTALLS = binary desktop dbus_service icons manual manual_icon translations
+INSTALLS = target desktop dbus_service icons manual manual_icon translations
