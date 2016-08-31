@@ -1,5 +1,6 @@
 #include "imageinfodialog.h"
 #include "utils/imageutils.h"
+#include <QApplication>
 #include <QFormLayout>
 #include <QFont>
 #include <QFontMetrics>
@@ -12,18 +13,18 @@ namespace {
 
 struct MetaData {
     QString key;
-    QString name;
+    const char *name;
 };
 
 static MetaData MetaDatas[] = {
-    {"FileName",            QObject::tr("Name")},
-    {"FileFormat",          QObject::tr("Type")},
-    {"DateTimeOriginal",    QObject::tr("Date photoed")},
-    {"DateTimeDigitized",   QObject::tr("Date modified")},
-    {"Resolution",          QObject::tr("Resolution")},
-    {"FileSize",            QObject::tr("File size")},
-    {"MaxApertureValue",    QObject::tr("Max aperture")},
-    {"FocalLength",         QObject::tr("Focal length")},
+    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date photoed")},
+    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
+    {"Resolution",          QT_TRANSLATE_NOOP("MetadataName", "Resolution")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
+    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
     {"", ""}
 };
 
@@ -53,6 +54,6 @@ void ImageInfoDialog::setPath(const QString &path)
     for (const MetaData* i = MetaDatas; ! i->key.isEmpty(); i ++) {
         QString v = mds.value(i->key);
         if (v.isEmpty()) continue;
-        addInfoPair(i->name + ":", v);
+        addInfoPair(qApp->translate("MetadataName", i->name) + ":", v);
     }
 }

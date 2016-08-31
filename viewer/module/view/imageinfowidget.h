@@ -22,10 +22,11 @@ protected:
     void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    void updateInfo();
+    void clearLayout(QLayout* layout);
+    const QString trLabel(const char *str);
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
-    void clearLayout(QLayout* layout);
+    void updateInfo();
 
 private:
     int m_updateTid = 0;

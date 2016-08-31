@@ -71,7 +71,7 @@ bool rotate(const QString &path, int degree)
     if (degree % 90 != 0)
         return false;
     FIBITMAP *dib = freeimage::readFileToFIBITMAP(path);
-    FIBITMAP *rotated = FreeImage_Rotate(dib, degree);
+    FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
     bool v = freeimage::writeFIBITMAPToFile(rotated, path);
     FreeImage_Unload(dib);
     FreeImage_Unload(rotated);
