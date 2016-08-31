@@ -18,14 +18,9 @@ public:
     void setLeftContent(QWidget *content);
     void setMiddleContent(QWidget *content);
 
-signals:
-    void moving(Qt::MouseButton btn);
-
 protected:
     bool eventFilter(QObject *obj, QEvent *e) override;
     void resizeEvent(QResizeEvent *e) override;
-    void mousePressEvent(QMouseEvent *e) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
 
@@ -64,7 +59,6 @@ private:
     Dtk::Widget::DWindowMaxButton *m_maxb;
     AboutWindow *m_about;
     PopupMenuManager *m_popupMenu;
-    Qt::MouseButton m_pressBtn;
 };
 
 #endif // TOPTOOLBAR_H

@@ -2,6 +2,7 @@
 #include "controller/configsetter.h"
 #include "mainwindow.h"
 #include "mainwidget.h"
+#include <DTitlebar>
 #include <QDesktopWidget>
 #include <QFile>
 #include <QStandardPaths>
@@ -20,7 +21,7 @@ const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 }  //namespace
 
 MainWindow::MainWindow(bool manager, QWidget *parent):
-    DWindowFrame(parent)
+    DMainWindow(parent)
 {
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.65 < MAINWIDGET_MINIMUN_WIDTH
@@ -35,10 +36,8 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
 
     m_mainWidget = new MainWidget(manager, this);
-    addContenWidget(m_mainWidget);
-//    QHBoxLayout *l = new QHBoxLayout(this);
-//    l->setContentsMargins(0, 0, 0, 0);
-//    l->addWidget(m_mainWidget);
+    setCentralWidget(m_mainWidget);
+    if (titleBar()) titleBar()->setFixedHeight(0);
     moveFirstWindow();
 }
 
@@ -106,5 +105,5 @@ void MainWindow::resizeEvent(QResizeEvent *e)
                                QVariant(m_mainWidget->height()));
     }
 
-    DWindowFrame::resizeEvent(e);
+    DMainWindow::resizeEvent(e);
 }

@@ -52,9 +52,6 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     connect(viewScut, &QShortcut::activated, this, &TopToolbar::showShortCutView);
     qApp->installEventFilter(this);
     parent->installEventFilter(this);
-
-    connect(this, SIGNAL(moving(Qt::MouseButton)), parentWidget()->parentWidget(),
-            SLOT(startMoving(Qt::MouseButton)));
 }
 
 void TopToolbar::setLeftContent(QWidget *content)
@@ -102,23 +99,6 @@ void TopToolbar::resizeEvent(QResizeEvent *e)
     m_leftContent->setFixedWidth(e->size().width() / 3);
     m_middleContent->setFixedWidth(e->size().width() / 3);
     m_rightContent->setFixedWidth(e->size().width() / 3);
-}
-
-void TopToolbar::mousePressEvent(QMouseEvent *e)
-{
-    BlureFrame::mousePressEvent(e);
-    m_pressBtn = e->button();
-}
-
-void TopToolbar::mouseMoveEvent(QMouseEvent *event)
-{
-    Q_UNUSED(event);
-    if (m_pressBtn == Qt::LeftButton)
-        if (event->buttons()) {
-            Qt::MouseButton button = event->buttons() & Qt::LeftButton ? Qt::LeftButton :
-                event->buttons() & Qt::RightButton ? Qt::RightButton : Qt::NoButton;
-            emit moving(button);
-        }
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)

@@ -1,4 +1,4 @@
-include(../vendor/vendor.pri)
+#include(../vendor/vendor.pri)
 
 HEADERS += \
     $$PWD/importframe.h \
@@ -14,8 +14,7 @@ HEADERS += \
     $$PWD/blureinfoframe.h \
     $$PWD/separator.h \
     $$PWD/thumbnaildelegate.h \
-    $$PWD/progresswidgetstips.h \
-    $$PWD/dwindowframe.h
+    $$PWD/progresswidgetstips.h
 
 SOURCES += \
     $$PWD/importframe.cpp \
@@ -31,8 +30,7 @@ SOURCES += \
     $$PWD/blureinfoframe.cpp \
     $$PWD/separator.cpp \
     $$PWD/thumbnaildelegate.cpp \
-    $$PWD/progresswidgetstips.cpp \
-    $$PWD/dwindowframe.cpp
+    $$PWD/progresswidgetstips.cpp
 
 RESOURCES += \
     $$PWD/widgets.qrc

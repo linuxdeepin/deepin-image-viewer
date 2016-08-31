@@ -1,7 +1,7 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
-#include <QApplication>
+#include <DApplication>
 
 class Application;
 class ConfigSetter;
@@ -16,7 +16,9 @@ class WallpaperSetter;
 #endif
 #define dApp (static_cast<Application *>(QCoreApplication::instance()))
 
-class Application : public QApplication {
+DWIDGET_USE_NAMESPACE
+
+class Application : public DApplication {
     Q_OBJECT
 
 public:

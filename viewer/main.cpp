@@ -25,7 +25,9 @@ int main(int argc, char *argv[])
     if (qgetenv(kPlatformThemeName).length() == 0) {
       qputenv(kPlatformThemeName, "gtk2");
     }
+    Application::loadDXcbPlugin();
     Application a(argc, argv);
+
 
     if (!service::isDefaultImageViewer()) {
         service::setDefaultImageViewer(true);

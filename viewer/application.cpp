@@ -16,7 +16,7 @@ namespace {
 }  // namespace
 
 Application::Application(int& argc, char** argv)
-    : QApplication(argc, argv)
+    : DApplication(argc, argv)
 {
     initI18n();
     setOrganizationName("deepin");

@@ -2,10 +2,12 @@
 #define MAINWINDOW_H
 
 #include "frame/mainwidget.h"
-#include "widgets/dwindowframe.h"
+#include <DMainWindow>
 #include <QWidget>
 
-class MainWindow : public DWindowFrame
+DWIDGET_USE_NAMESPACE
+
+class MainWindow : public  DMainWindow
 {
 public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be

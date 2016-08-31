@@ -28,7 +28,7 @@ protected:
     void resizeEvent(QResizeEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
-    void mouseMoveEvent(QMouseEvent *e) override;
+//    void mouseMoveEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *) override;
     QPixmap getBlurePixmap();
 

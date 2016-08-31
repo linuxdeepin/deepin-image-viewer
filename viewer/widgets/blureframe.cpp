@@ -55,11 +55,11 @@ void BlureFrame::mousePressEvent(QMouseEvent *e)
     m_pressPos = e->pos();
 }
 
-void BlureFrame::mouseMoveEvent(QMouseEvent *e)
-{
-    const QPoint t = pos() - m_pressPos + e->pos();
-    move(t);
-}
+//void BlureFrame::mouseMoveEvent(QMouseEvent *e)
+//{
+//    const QPoint t = pos() - m_pressPos + e->pos();
+//    move(t);
+//}
 
 void BlureFrame::paintEvent(QPaintEvent *)
 {
