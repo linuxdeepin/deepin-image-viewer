@@ -1,7 +1,7 @@
 QLabel#TimelineFrameTitle {
     background: transparent;
-    color: #b4b4b4;
-    font-size: 13px;
+    color: #FFFFFF;
+    font-size: 12px;
     margin-left: 10px;
 }
 
@@ -72,8 +72,8 @@ QLabel#TooltipCountLabel {
 
 TopTimelineTips {
     margin-left: 14px;
-    font-size: 13px;
-    color: #b4b4b4;
+    font-size: 12px;
+    color: #FFFFFF;
     border-image: url(:/images/resources/images/lineargradient.png) repeat;
 }
 
