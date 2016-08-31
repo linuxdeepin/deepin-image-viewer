@@ -26,7 +26,7 @@ using namespace Dtk::Widget;
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
-const int ICON_MARGIN = 6;
+const int ICON_MARGIN = 11;
 
 }  // namespace
 
