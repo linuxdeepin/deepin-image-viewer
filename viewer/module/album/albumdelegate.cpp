@@ -24,7 +24,7 @@ const int BORDER_WIDTH = 1;
 const int BORDER_RADIUS = 5;
 
 const int TITLE_FONT_SIZE = 12;
-const QColor TITLE_COLOR = QColor(255, 255, 255, 178);
+const QColor TITLE_COLOR = QColor(255, 255, 255);
 const QColor TITLE_SELECTED_COLOR = QColor("#2ca7f8");
 const int TITLE_EDIT_MARGIN = 20;
 
@@ -335,9 +335,9 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
 
 const QRect AlbumDelegate::thumbnailRect(const QSize &bgSize) const
 {
-    const int s = 0.7286 * bgSize.width();
-    const int lm = 0.0857 * bgSize.width();
-    const int tm = 0.0929 * bgSize.height();
+    const int s = 0.735 * bgSize.width();
+    const int lm = 0.096 * bgSize.width();
+    const int tm = 0.1 * bgSize.height();
 
     return QRect(lm, tm, s, s);
 }
