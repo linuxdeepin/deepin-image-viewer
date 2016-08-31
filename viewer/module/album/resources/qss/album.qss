@@ -72,8 +72,7 @@ QPushButton#ActionButton {
 
 TopAlbumTips {
     height: 24px;
-    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 rgba(24, 24, 24, .4), stop:1 rgba(24, 24, 24, .2));
+    border-image: url(:/images/resources/images/lineargradient.png) repeat;
 }
 
 QLabel#BTopLightLine{

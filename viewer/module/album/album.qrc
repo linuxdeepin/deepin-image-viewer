@@ -25,6 +25,7 @@
         <file>resources/images/import_hover.png</file>
         <file>resources/images/import_normal.png</file>
         <file>resources/images/import_press.png</file>
+        <file>resources/images/lineargradient.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/album.qss</file>
