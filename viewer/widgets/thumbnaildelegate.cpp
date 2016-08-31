@@ -19,7 +19,7 @@ namespace {
 const int BORDER_RADIUS = 0;
 const int BORDER_WIDTH = 1;
 const int BORDER_WIDTH_SELECTED = 2;
-const QColor BORDER_COLOR = QColor(255, 255, 255, 51);
+const QColor BORDER_COLOR = QColor(255, 255, 255, 35);
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 
 const int TICKED_MARK_SIZE = 24;
@@ -115,7 +115,9 @@ void ThumbnailDelegate::paint(QPainter *painter,
 
         m_names << name;
 
-        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setRenderHint(QPainter::HighQualityAntialiasing);
+        painter->setRenderHints(QPainter::SmoothPixmapTransform |
+                                QPainter::Antialiasing);
         QRect rect = option.rect;
         QPainterPath bp;
         bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
