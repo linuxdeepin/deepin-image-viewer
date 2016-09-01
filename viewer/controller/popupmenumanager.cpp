@@ -34,11 +34,11 @@ const QSize PopupMenuManager::sizeHint() const
     return m_menu->sizeHint();
 }
 
-QJsonObject PopupMenuManager::createItemObj(const int id,
-                                      const QString &text,
-                                      const bool isSeparator,
-                                      const QString &shortcut,
-                                      const QJsonObject &subMenu)
+const QJsonObject PopupMenuManager::createItemObj(const int id,
+                                                  const QString &text,
+                                                  const bool isSeparator,
+                                                  const QString &shortcut,
+                                                  const QJsonObject &subMenu)
 {
     QJsonObject obj;
     obj["itemId"] = QJsonValue(int(id));

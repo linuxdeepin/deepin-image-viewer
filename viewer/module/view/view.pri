@@ -1,20 +1,20 @@
 HEADERS += \
-    $$PWD/imageinfowidget.h \
     $$PWD/imagewidget.h \
     $$PWD/navigationwidget.h \
     $$PWD/viewpanel.h \
     $$PWD/contents/ttlcontent.h \
     $$PWD/contents/ttmcontent.h \
-    $$PWD/imagesliderframe.h
+    $$PWD/contents/imageinfowidget.h
 
 SOURCES += \
-    $$PWD/imageinfowidget.cpp \
     $$PWD/imagewidget.cpp \
     $$PWD/navigationwidget.cpp \
     $$PWD/viewpanel.cpp \
     $$PWD/contents/ttlcontent.cpp \
     $$PWD/contents/ttmcontent.cpp \
-    $$PWD/imagesliderframe.cpp
+    $$PWD/contents/imageinfowidget.cpp \
+    $$PWD/viewpanel_menu.cpp \
+    $$PWD/viewpanel_floating.cpp
 
 RESOURCES += \
     $$PWD/view.qrc
