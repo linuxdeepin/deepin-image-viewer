@@ -10,11 +10,11 @@
  * \brief The BlureInfoFrame class
  * Use for PopupImageInfo and PopupAlbumInfo
  */
-class BlureInfoFrame : public BlureFrame
+class BlureInfoFrame : public BlurFrame
 {
     Q_OBJECT
 public:
-    explicit BlureInfoFrame(QWidget *parent, QWidget *source);
+    explicit BlureInfoFrame(QWidget *parent);
     void setTopContent(QWidget *w);
     void addInfoPair(const QString &title, const QString &value);
     void close();

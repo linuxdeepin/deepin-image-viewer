@@ -10,11 +10,11 @@
 
 class AboutWindow;
 class PopupMenuManager;
-class TopToolbar : public BlureFrame
+class TopToolbar : public BlurFrame
 {
     Q_OBJECT
 public:
-    TopToolbar(QWidget *parent, QWidget *source);
+    TopToolbar(QWidget *parent);
     void setLeftContent(QWidget *content);
     void setMiddleContent(QWidget *content);
 

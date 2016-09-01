@@ -4,11 +4,11 @@
 #include <QWidget>
 #include "widgets/blureframe.h"
 
-class AboutWindow : public BlureFrame
+class AboutWindow : public BlurFrame
 {
     Q_OBJECT
 public:
-    explicit AboutWindow(QWidget *parent, QWidget *source);
+    explicit AboutWindow(QWidget *parent);
 
 private:
     void initStyleSheet();

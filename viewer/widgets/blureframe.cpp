@@ -12,57 +12,31 @@
 const int ANIMATION_DURATION = 500;
 const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 
-BlureFrame::BlureFrame(QWidget *parent, QWidget *source)
-    : QFrame(parent),
-      m_sourceWidget(source),
-      m_coverBrush(QBrush(QColor(0, 0, 0, 200))),
-      m_blureRadius(50),
+BlurFrame::BlurFrame(QWidget *parent)
+    : DBlurEffectWidget(parent),
+      m_borderColor(Qt::transparent),
       m_borderRadius(0),
-      m_borderWidth(0)
+      m_borderWidth(0),
+      m_coverBrush(QBrush(QColor(0, 0, 0, 200)))
 {
-    m_geometryTimer = new QTimer(this);
-    m_geometryTimer->setSingleShot(true);
-    connect(m_geometryTimer, &QTimer::timeout, this, [=] {
-        m_geometryChanging = false;
-        this->update();
-    });
+    setRadius(50);
 }
 
-void BlureFrame::setSourceWidget(QWidget *source)
-{
-    m_sourceWidget = source;
-}
-
-void BlureFrame::setCoverBrush(const QBrush &brush)
+void BlurFrame::setCoverBrush(const QBrush &brush)
 {
     m_coverBrush = brush;
     update();
 }
 
-void BlureFrame::setBlureRadius(int radius)
+void BlurFrame::setPos(const QPoint &pos)
 {
-    m_blureRadius = radius;
-    update();
+    DBlurEffectWidget::move(pos);
 }
 
-void BlureFrame::setPos(const QPoint &pos)
+void BlurFrame::paintEvent(QPaintEvent *e)
 {
-    QFrame::move(pos);
-}
+    DBlurEffectWidget::paintEvent(e);
 
-void BlureFrame::mousePressEvent(QMouseEvent *e)
-{
-    m_pressPos = e->pos();
-}
-
-//void BlureFrame::mouseMoveEvent(QMouseEvent *e)
-//{
-//    const QPoint t = pos() - m_pressPos + e->pos();
-//    move(t);
-//}
-
-void BlureFrame::paintEvent(QPaintEvent *)
-{
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
 
@@ -83,57 +57,12 @@ void BlureFrame::paintEvent(QPaintEvent *)
     ip.addRoundedRect(insideRect, m_borderRadius, m_borderRadius);
     p.setClipPath(ip);
 
-    p.drawPixmap(0, 0, width(), height(), getBlurePixmap());
     p.fillRect(0, 0, width(), height(), m_coverBrush);
 
     p.end();
 }
 
-QT_BEGIN_NAMESPACE
-  extern Q_WIDGETS_EXPORT void qt_blurImage( QPainter *p,
-                                             QImage &blurImage,
-                                             qreal radius,
-                                             bool quality,
-                                             bool alphaOnly,
-                                             int transposed = 0 );
-QT_END_NAMESPACE
-QPixmap BlureFrame::getBlurePixmap()
-{
-    if (m_geometryChanging ||
-            ! m_blur ||
-            ! parentWidget() ||
-            parentWidget() == m_sourceWidget) {
-        return QPixmap();
-    }
-
-    QImage si = m_sourceWidget->grab().toImage();
-    QPixmap dp(si.size());
-    dp.fill( Qt::transparent );
-    QPainter painter( &dp );
-    qt_blurImage( &painter, si, m_blureRadius, true, false );
-    return dp.copy(geometry());
-
-//    QGraphicsBlurEffect *effect = new QGraphicsBlurEffect(this);
-//    effect->setBlurHints(QGraphicsBlurEffect::PerformanceHint);
-//    effect->setBlurRadius(m_blureRadius);
-
-//    QLabel* label = new QLabel();
-//    label->setPixmap(m_sourceWidget->grab());
-//    label->setGraphicsEffect(effect);
-//    return label->grab().copy(geometry());
-
-//    QPixmap bp(10, 10);
-//    bp.convertFromImage(applyEffectToImage(m_sourceWidget->grab().toImage(), effect));
-//    bp = bp.copy(geometry());//Crop effective area
-
-//    return bp;
-}
-
-void BlureFrame::setBlurBackground(bool blur) {
-    m_blur = blur;
-}
-
-void BlureFrame::moveWithAnimation(int x, int y)
+void BlurFrame::moveWithAnimation(int x, int y)
 {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
     animation->setDuration(ANIMATION_DURATION);
@@ -144,66 +73,41 @@ void BlureFrame::moveWithAnimation(int x, int y)
     connect(animation, &QPropertyAnimation::finished, animation, &QPropertyAnimation::deleteLater);
 }
 
-QImage BlureFrame::applyEffectToImage(QImage src, QGraphicsEffect *effect, int extent)
-{
-    if(src.isNull()) return QImage();   //No need to do anything else!
-    if(!effect) return src;             //No need to do anything else!
-    QGraphicsScene scene;
-    QGraphicsPixmapItem item;
-    item.setPixmap(QPixmap::fromImage(src));
-    item.setGraphicsEffect(effect);
-    scene.addItem(&item);
-    QImage res(src.size()+QSize(extent*2, extent*2), QImage::Format_ARGB32);
-    res.fill(Qt::black);
-    QPainter ptr(&res);
-    scene.render(&ptr, QRectF(), QRectF( -extent, -extent, src.width()+extent*2, src.height()+extent*2 ) );
-
-    return res;
-}
-
-QColor BlureFrame::getBorderColor() const
+QColor BlurFrame::getBorderColor() const
 {
     return m_borderColor;
 }
 
-void BlureFrame::setBorderColor(const QColor &borderColor)
+void BlurFrame::setBorderColor(const QColor &borderColor)
 {
     m_borderColor = borderColor;
 }
 
-void BlureFrame::resizeEvent(QResizeEvent *e)
-{
-    QFrame::resizeEvent(e);
-    // FIXME temporary suspend generate the blure pixmap to save CPU usage
-    m_geometryChanging = true;
-    m_geometryTimer->start(3000);
-}
-
-void BlureFrame::keyPressEvent(QKeyEvent *e)
+void BlurFrame::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape) {
         this->close();
         return;
     }
-    QFrame::keyPressEvent(e);
+    DBlurEffectWidget::keyPressEvent(e);
 }
 
-int BlureFrame::getBorderWidth() const
+int BlurFrame::getBorderWidth() const
 {
     return m_borderWidth;
 }
 
-void BlureFrame::setBorderWidth(int borderWidth)
+void BlurFrame::setBorderWidth(int borderWidth)
 {
     m_borderWidth = borderWidth;
 }
 
-int BlureFrame::getBorderRadius() const
+int BlurFrame::getBorderRadius() const
 {
     return m_borderRadius;
 }
 
-void BlureFrame::setBorderRadius(int borderRadius)
+void BlurFrame::setBorderRadius(int borderRadius)
 {
     m_borderRadius = borderRadius;
 }

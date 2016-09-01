@@ -30,8 +30,8 @@ const int ICON_MARGIN = 9;
 
 }  // namespace
 
-TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
-    :BlureFrame(parent, source)
+TopToolbar::TopToolbar(QWidget *parent)
+    :BlurFrame(parent)
 {
     QLinearGradient linearGrad(QPoint(0, this->y()),
                                QPoint(0, this->y()+this->height()));
@@ -41,7 +41,7 @@ TopToolbar::TopToolbar(QWidget *parent, QWidget *source)
     setCoverBrush(QBrush(linearGrad));
 
 //    initAboutWindow();
-    m_about = new AboutWindow(parent, source);
+    m_about = new AboutWindow(parent);
     m_about->hide();
 
     initWidgets();
@@ -113,7 +113,7 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
 
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
-    BlureFrame::paintEvent(e);
+    BlurFrame::paintEvent(e);
 
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
