@@ -11,8 +11,8 @@ const int TOOLTIP_HEIGHT = 40;
 
 }  // namespace
 
-ProcessTooltip::ProcessTooltip(QWidget *parent, QWidget *source)
-    : BlureFrame(parent, source)
+ProcessTooltip::ProcessTooltip(QWidget *parent)
+    : BlurFrame(parent)
 {
     setBorderRadius(4);
     setBorderWidth(1);

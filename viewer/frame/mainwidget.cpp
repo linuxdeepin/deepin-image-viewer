@@ -79,7 +79,7 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
 
 void MainWidget::onShowProcessTooltip(const QString &message, bool success)
 {
-    ProcessTooltip *t = new ProcessTooltip(this, m_panelStack);
+    ProcessTooltip *t = new ProcessTooltip(this);
     t->showTooltip(message, success);
     t->move((width() - t->width()) / 2, height() * 4 / 5);
 }
@@ -91,7 +91,7 @@ void MainWidget::onShowImageInfo(const QString &path)
     else
         m_infoShowingList << path;
 
-    ImageInfoDialog *info = new ImageInfoDialog(this, m_panelStack);
+    ImageInfoDialog *info = new ImageInfoDialog(this);
     info->setPath(path);
     info->move((width() - info->width()) / 2 +
                mapToGlobal(QPoint(0, 0)).x(),
@@ -133,7 +133,7 @@ void MainWidget::initPanelStack(bool manager)
 
 void MainWidget::initTopToolbar()
 {
-    m_topToolbar = new TopToolbar(this, m_panelStack);
+    m_topToolbar = new TopToolbar(this);
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
@@ -204,7 +204,7 @@ void MainWidget::initConnection()
 
 void MainWidget::initBottomToolbar()
 {
-    m_bottomToolbar = new BottomToolbar(this, m_panelStack);
+    m_bottomToolbar = new BottomToolbar(this);
     m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
@@ -245,7 +245,7 @@ void MainWidget::initBottomToolbar()
 
 void MainWidget::initExtensionPanel()
 {
-    m_extensionPanel = new ExtensionPanel(this, m_panelStack);
+    m_extensionPanel = new ExtensionPanel(this);
     m_extensionPanel->move(- EXTENSION_PANEL_WIDTH, 0);
     connect(dApp->signalM, &SignalManager::updateExtensionPanelContent,
             this, [=](QWidget *c) {

@@ -4,11 +4,11 @@
 #include "widgets/blureframe.h"
 #include <QHBoxLayout>
 
-class BottomToolbar : public BlureFrame
+class BottomToolbar : public BlurFrame
 {
     Q_OBJECT
 public:
-    explicit BottomToolbar(QWidget *parent, QWidget *source);
+    explicit BottomToolbar(QWidget *parent);
     void setContent(QWidget *content);
 
 protected:

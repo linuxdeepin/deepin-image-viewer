@@ -2,51 +2,37 @@
 #define BLUREFRAME_H
 
 #include <QFrame>
+#include <DBlurEffectWidget>
 
-class BlureFrame : public QFrame
+DWIDGET_USE_NAMESPACE
+
+class BlurFrame : public DBlurEffectWidget
 {
     Q_OBJECT
     Q_PROPERTY(QPoint pos READ pos WRITE setPos)
 public:
-    explicit BlureFrame(QWidget *parent, QWidget *source);
-    void setSourceWidget(QWidget *source);
-    void setCoverBrush(const QBrush &brush);
-    void setBlureRadius(int radius);
-    void setPos(const QPoint &pos);
+    explicit BlurFrame(QWidget *parent);
     void moveWithAnimation(int x, int y);
 
-    int getBorderRadius() const;
-    void setBorderRadius(int borderRadius);
+    QColor  getBorderColor() const;
+    int     getBorderRadius() const;
+    int     getBorderWidth() const;
 
-    int getBorderWidth() const;
-    void setBorderWidth(int borderWidth);
-
-    QColor getBorderColor() const;
     void setBorderColor(const QColor &borderColor);
-    void setBlurBackground(bool blur = true);
+    void setBorderRadius(int borderRadius);
+    void setBorderWidth(int borderWidth);
+    void setCoverBrush(const QBrush &brush);
+    void setPos(const QPoint &pos);
+
 protected:
-    void resizeEvent(QResizeEvent *e) override;
     void keyPressEvent(QKeyEvent *e) override;
-    void mousePressEvent(QMouseEvent *e) override;
-//    void mouseMoveEvent(QMouseEvent *e) override;
-    void paintEvent(QPaintEvent *) override;
-    QPixmap getBlurePixmap();
+    void paintEvent(QPaintEvent *e) override;
 
 private:
-    QImage applyEffectToImage(QImage src, QGraphicsEffect *effect, int extent = 0);
-
-private:
-    QPoint m_pressPos;
-    QWidget *m_sourceWidget;
-    QBrush m_coverBrush;
-    int m_blureRadius;
-    QPoint m_pos;
-    int m_borderRadius;
-    int m_borderWidth;
-    QColor m_borderColor;
-    bool m_blur = true; // TODO this property should be move
-    bool m_geometryChanging;
-    QTimer *m_geometryTimer;
+    QColor  m_borderColor;
+    int     m_borderRadius;
+    int     m_borderWidth;
+    QBrush  m_coverBrush;
 };
 
 #endif // BLUREFRAME_H

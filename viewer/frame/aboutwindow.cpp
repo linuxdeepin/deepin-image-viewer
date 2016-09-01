@@ -8,11 +8,10 @@
 #include <QPainter>
 using namespace Dtk::Widget;
 
-AboutWindow::AboutWindow(QWidget *parent, QWidget *source)
-    : BlureFrame(parent, source)
+AboutWindow::AboutWindow(QWidget *parent)
+    : BlurFrame(parent)
 {
     setMinimumSize(380, 347);
-    setBlurBackground(false);
     initStyleSheet();
     setBorderRadius(4);
     setBorderWidth(1);

@@ -9,7 +9,7 @@ class ImageInfoDialog : public BlureInfoFrame
 {
     Q_OBJECT
 public:
-    explicit ImageInfoDialog(QWidget *parent, QWidget *source);
+    explicit ImageInfoDialog(QWidget *parent);
     void setPath(const QString &path);
 
 private:

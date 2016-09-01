@@ -26,8 +26,8 @@ public:
         : QLabel(parent) {}
 };
 
-BlureInfoFrame::BlureInfoFrame(QWidget *parent, QWidget *source)
-    : BlureFrame(parent, source)
+BlureInfoFrame::BlureInfoFrame(QWidget *parent)
+    : BlurFrame(parent)
 {
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::Sheet | Qt::FramelessWindowHint);
@@ -114,5 +114,5 @@ void BlureInfoFrame::addInfoPair(const QString &title, const QString &value)
 void BlureInfoFrame::close()
 {
     emit closed();
-    BlureFrame::close();
+    BlurFrame::close();
 }

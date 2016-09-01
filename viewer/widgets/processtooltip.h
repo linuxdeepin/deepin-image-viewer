@@ -4,11 +4,11 @@
 #include "blureframe.h"
 
 class QLabel;
-class ProcessTooltip : public BlureFrame
+class ProcessTooltip : public BlurFrame
 {
     Q_OBJECT
 public:
-    explicit ProcessTooltip(QWidget *parent, QWidget *source);
+    explicit ProcessTooltip(QWidget *parent);
     void showTooltip(const QString &message, bool success);
 
 private:

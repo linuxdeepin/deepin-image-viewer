@@ -1,7 +1,7 @@
 #include "bottomtoolbar.h"
 
-BottomToolbar::BottomToolbar(QWidget *parent, QWidget *source)
-    : BlureFrame(parent, source)
+BottomToolbar::BottomToolbar(QWidget *parent)
+    : BlurFrame(parent)
 {
     setCoverBrush(QBrush(QColor(24, 24, 24, 230)));
 

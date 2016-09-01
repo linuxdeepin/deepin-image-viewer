@@ -4,11 +4,11 @@
 #include <QHBoxLayout>
 #include "widgets/blureframe.h"
 
-class ExtensionPanel : public BlureFrame
+class ExtensionPanel : public BlurFrame
 {
     Q_OBJECT
 public:
-    explicit ExtensionPanel(QWidget *parent, QWidget *source);
+    explicit ExtensionPanel(QWidget *parent);
     void setContent(QWidget *content);
     void updateRectWithContent();
 
