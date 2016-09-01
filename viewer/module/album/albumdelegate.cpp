@@ -166,6 +166,11 @@ void AlbumDelegate::paint(QPainter *painter,
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN,
                             rect.y() + THUMBNAIL_BG_MARGIN,
                             pixmapSize, pixmapSize, cip);
+        QPixmap plus = QPixmap(":/images/resources/images/album_add.png");
+        int plusX =  (cip.width() -plus.width()) / 2;
+        int plusY = (cip.height() -plus.height()) / 2;
+        painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN + plusX,rect.y() +
+            THUMBNAIL_BG_MARGIN + plusY, plus.width(), plus.height(), plus);
     }
 
 }
