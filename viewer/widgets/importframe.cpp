@@ -19,6 +19,7 @@ ImportFrame::ImportFrame(QWidget *parent)
     bgLabel->setPixmap(QPixmap(":/images/resources/images/no_picture.png"));
 
     m_importButton = new QPushButton();
+    m_importButton->setFixedSize(120, 20);
     m_importButton->setObjectName("ImportFrameButton");
     connect(m_importButton, &QPushButton::clicked, this, &ImportFrame::clicked);
 
@@ -30,9 +31,9 @@ ImportFrame::ImportFrame(QWidget *parent)
     layout->setSpacing(0);
     layout->addStretch(1);
     layout->addWidget(bgLabel, 0, Qt::AlignHCenter);
-    layout->addSpacing(21);
+    layout->addSpacing(18);
     layout->addWidget(m_importButton, 0, Qt::AlignHCenter);
-    layout->addSpacing(15);
+    layout->addSpacing(10);
     layout->addWidget(m_titleLabel, 0, Qt::AlignHCenter);
     layout->addStretch(1);
 }
