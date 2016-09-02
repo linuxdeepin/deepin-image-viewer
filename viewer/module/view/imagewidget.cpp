@@ -13,8 +13,7 @@ namespace {
 const QColor LIGHT_CHECKER_COLOR = QColor("#353535");
 const QColor DARK_CHECKER_COLOR = QColor("#050505");
 const QColor BACKGROUND_COLOR = QColor("#1B1B1B");
-const int ENTER_RIGHT = 100;
-const int ENTER_LEFT = 10;
+
 }
 
 ImageWidget::ImageWidget(QWidget *parent)
@@ -114,7 +113,7 @@ void ImageWidget::setScaleValue(qreal value)
 
     // value is relate on image's size, it need to be relate on window
     m_scale = windowRelativeScale() * value;
-    Q_EMIT scaleValueChanged(value);
+
     updateTransform();
 }
 
@@ -242,23 +241,9 @@ void ImageWidget::mouseReleaseEvent(QMouseEvent *event)
     window()->setCursor(QCursor(Qt::ArrowCursor));
 }
 
-bool ImageWidget::isEnterImgButton(QPoint p) {
-    const int rectWidth = ENTER_RIGHT - ENTER_LEFT;
-    const int rectHeight = ENTER_RIGHT;
-    QRect leftRect(ENTER_LEFT, (this->rect().height() - ENTER_RIGHT)/2,
-                   rectWidth, rectHeight);
-    QRect rightRect(this->rect().right() - ENTER_RIGHT,
-                    (this->rect().height() - ENTER_RIGHT)/2, rectWidth, rectHeight);
-
-    if (leftRect.contains(p) || rightRect.contains(p))
-        return true;
-
-    return false;
-}
-
 void ImageWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    emit switchImgBtnVisible(isEnterImgButton(event->pos()));
+    emit mouseMoved();
 
     if (m_moving && ! m_inSlideShow) {
         QPoint dp = event->globalPos() - m_posG;
@@ -305,6 +290,8 @@ void ImageWidget::wheelEvent(QWheelEvent *event)
 
     zoom = qBound(qreal(0.02), zoom, qreal(20));
     setScaleValue(zoom);
+
+    Q_EMIT scaleValueChanged(m_scale);
 }
 
 const QPointF ImageWidget::rectCenter() const
