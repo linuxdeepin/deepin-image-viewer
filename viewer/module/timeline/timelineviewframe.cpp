@@ -30,7 +30,14 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline,
 
     initListView();
 
+    m_separator = new QLabel();
+    m_separator->setFixedWidth(this->width());
+    m_separator->setObjectName("TimelineSeparator");
+    m_separator->setFixedHeight(1);
+
+
     m_title = new QLabel(timeline);
+    m_title->setFixedWidth(this->width());
     // Translate time
     const QDateTime tt = stringToDateTime(timeline);
     if (tt.isValid()) {
@@ -40,17 +47,16 @@ TimelineViewFrame::TimelineViewFrame(const QString &timeline,
     m_title->setAlignment(Qt::AlignLeft);
     m_title->setObjectName("TimelineFrameTitle");
 
-    m_separator = new QLabel();
-    m_separator->setObjectName("TimelineSeparator");
-    m_separator->setFixedHeight(1);
-
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
     layout->addSpacing(4);
     layout->addWidget(m_title, 0, Qt::AlignHCenter);
-    layout->addWidget(m_view);
-    layout->addSpacing(20);
+    layout->addSpacing(0);
     layout->addWidget(m_separator, 0, Qt::AlignHCenter);
+    layout->addSpacing(10);
+    layout->addWidget(m_view);
+    layout->addSpacing(15);
 }
 
 TimelineViewFrame::~TimelineViewFrame()

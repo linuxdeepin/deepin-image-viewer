@@ -190,11 +190,6 @@ void TimelineImageView::initTopTips()
 {
     m_topTips = new TopTimelineTips(this);
 
-    //FIXME: unknow reason why the m_topTips's x offset 14px;
-    const int leftMargin = 14;
-    m_topTips->move(-leftMargin, TOP_TOOLBAR_HEIGHT);
-    m_topTips->setFixedWidth(this->width() + leftMargin);
-
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
         if (scrollingPercent() == 0) {
             m_topTips->hide();
@@ -207,8 +202,6 @@ void TimelineImageView::initTopTips()
                 m_topTips->setText(tt.toString(tr("dd MMMM yyyy")));
             }
             m_topTips->show();
-            m_topTips->move(-leftMargin, TOP_TOOLBAR_HEIGHT);
-            m_topTips->setFixedWidth(this->width() + leftMargin);
         }
     });
     m_topTips->hide();
@@ -217,7 +210,6 @@ void TimelineImageView::initTopTips()
 void TimelineImageView::initContents()
 {
     m_stretchFrame = new QFrame;
-
     m_contentFrame = new QFrame;
     m_contentFrame->setObjectName("TimelinesContent");
     m_contentFrame->setAutoFillBackground(true);

@@ -9,5 +9,5 @@ TopTimelineTips::TopTimelineTips(QWidget *parent)
 
 void TopTimelineTips::setLeftMargin(int v)
 {
-    setContentsMargins(v + 12, 0, 0, 0);
+    setContentsMargins(v + 17, 0, 0, 0);
 }
