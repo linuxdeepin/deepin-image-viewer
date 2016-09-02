@@ -236,7 +236,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
 
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(20);
+    layout->setSpacing(0);
     layout->addStretch(1);
     layout->addWidget(timelineButton);
     layout->addWidget(albumButton);

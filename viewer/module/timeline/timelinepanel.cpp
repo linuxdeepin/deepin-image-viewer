@@ -142,7 +142,6 @@ QWidget *TimelinePanel::toolbarTopLeftContent()
 QWidget *TimelinePanel::toolbarTopMiddleContent()
 {
     QWidget *tTopMiddleContent = new QWidget;
-
     QLabel *timelineButton = new QLabel();
 
     timelineButton->setPixmap(QPixmap(":/images/resources/images/timeline_press.png"));
@@ -169,7 +168,7 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
 
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(20);
+    layout->setSpacing(0);
     layout->addStretch(1);
     layout->addWidget(timelineButton);
     layout->addWidget(albumButton);

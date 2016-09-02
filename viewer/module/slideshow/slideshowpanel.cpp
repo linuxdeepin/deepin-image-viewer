@@ -216,7 +216,7 @@ QImage SlideShowPanel::getFitImage(const QString &path)
     }
 
     QPainter painter(&ti);
-    painter.fillRect(0, 0, width(), height(), Qt::black);
+    painter.fillRect(0, 0, width(), height(), QColor(27, 27, 27));
     painter.drawImage(target, image, source);
 
     return ti;
