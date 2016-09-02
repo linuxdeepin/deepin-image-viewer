@@ -90,37 +90,41 @@ const QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
     return QPixmap::fromImage(img);
 }
 
+/*!
+ * \brief getImagesInfo
+        types<< ".BMP";
+        types<< ".GIF";
+        types<< ".JPG";
+        types<< ".JPEG";
+        types<< ".PNG";
+        types<< ".PBM";
+        types<< ".PGM";
+        types<< ".PPM";
+        types<< ".XBM";
+        types<< ".XPM";
+        types<< ".SVG";
+
+        types<< ".DDS";
+        types<< ".ICNS";
+        types<< ".JP2";
+        types<< ".MNG";
+        types<< ".TGA";
+        types<< ".TIFF";
+        types<< ".WBMP";
+        types<< ".WEBP";
+ * \param dir
+ * \param recursive
+ * \return
+ */
 const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 {
     QFileInfoList infos;
 
-//    QStringList types;
-//    types<< ".BMP";
-//    types<< ".GIF";
-//    types<< ".JPG";
-//    types<< ".JPEG";
-//    types<< ".PNG";
-//    types<< ".PBM";
-//    types<< ".PGM";
-//    types<< ".PPM";
-//    types<< ".XBM";
-//    types<< ".XPM";
-//    types<< ".SVG";
-
-//    types<< ".DDS";
-//    types<< ".ICNS";
-//    types<< ".JP2";
-//    types<< ".MNG";
-//    types<< ".TGA";
-//    types<< ".TIFF";
-//    types<< ".WBMP";
-//    types<< ".WEBP";
-
     if (! recursive) {
-        infos = QDir(dir).entryInfoList(QDir::Files | QDir::NoSymLinks);
-        for (QFileInfo info : infos) {
-            if (! freeimage::isSupportsReading(info.absoluteFilePath())) {
-                infos.removeAll(info);
+        auto nsl = QDir(dir).entryInfoList(QDir::Files | QDir::NoSymLinks);
+        for (QFileInfo info : nsl) {
+            if (freeimage::isSupportsReading(info.absoluteFilePath())) {
+                infos << info;
             }
         }
         return infos;

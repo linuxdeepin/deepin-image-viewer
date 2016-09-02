@@ -285,8 +285,11 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() != m_openTid)
+    if (e->timerId() != m_openTid ||
+            m_infos.isEmpty() ||
+            m_current == m_infos.cend()) {
         return;
+    }
 
     openImage(m_current->path, m_vinfo.inDatabase);
     killTimer(m_openTid);

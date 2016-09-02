@@ -9,6 +9,7 @@
 #include <QCommandLineOption>
 #include <QDBusConnection>
 #include <QDebug>
+#include <QFileInfo>
 
 namespace {
 
@@ -92,7 +93,6 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     vinfo.lastPanel = nullptr;
     vinfo.path = path;
     vinfo.paths = paths;
-
     emit dApp->signalM->viewImage(vinfo);
                      }, path, paths)
 }
@@ -134,13 +134,13 @@ bool CommandLine::processOption()
             name = "o";
             value = pas.first();
         }
-        bool support = isImageSupported(value);
 
+        bool support = isImageSupported(value);
 
         if (name == "o" || name == "open") {
             qDebug() << "Open image file: " << value;
             if (isImageSupported(value)) {
-                viewImage(value, QStringList());
+                viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
                 return true;
             }
             else {
@@ -168,11 +168,11 @@ bool CommandLine::processOption()
             dc->searchImage(value);
         }
         else if ((name == "e" || name == "edit") && support) {
-            dc->editImage(value);
+            dc->editImage(QFileInfo(value).absoluteFilePath());
         }
         else if ((name == "w" || name == "wallpaper") && support) {
             qDebug() << "Set " << value << " as wallpaper.";
-            dApp->wpSetter->setWallpaper(value);
+            dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
         }
         else {
             m_cmdParser.showHelp();
