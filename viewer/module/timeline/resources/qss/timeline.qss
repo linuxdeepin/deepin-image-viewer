@@ -50,9 +50,15 @@ QLabel#ImportFrameTooltip {
     font-size: 12px;
 }
 
-QLabel#CountLabel, QLabel#AddToAlbumTitle, QLabel#TooltipTimelineLabel {
-    font-size: 12px;
+QLabel#AddToAlbumTitle, QLabel#TooltipTimelineLabel {
+    background-color: green;
+    font-size: 11px;
     color: #FFFFFF;
+}
+
+QLabel#CountLabel {
+    color: rgba(255, 255, 255, .7);
+    font-size: 11px;
 }
 
 QLabel#TimelineSeparator {

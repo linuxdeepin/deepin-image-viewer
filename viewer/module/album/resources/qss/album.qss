@@ -28,9 +28,13 @@ QLabel#ImportFrameTooltip {
     font-size: 12px;
 }
 
-QLabel#CountLabel, QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {
+QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {
     color: #FFFFFF;
     font-size: 12px;
+}
+QLabel#CountLabel {
+    color: rgba(255, 255, 255, .7);
+    font-size: 11px;
 }
 
 QLabel#TooltipCountLabel {

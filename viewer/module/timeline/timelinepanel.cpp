@@ -107,7 +107,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->setContentsMargins(2, 0, 5, 0);
     hLayout->setSpacing(0);
-    hLayout->addSpacing(7);
+    hLayout->addSpacing(6);
     hLayout->addWidget(ib);
     hLayout->addStretch(1);
     hLayout->addWidget(m_countLabel, 1, Qt::AlignCenter);
@@ -325,10 +325,10 @@ void TimelinePanel::updateBottomToolbarContent(int count)
         m_countLabel->setText(tr("%1 images").arg(count));
     }
 
-    int countHeight = utils::base::stringHeight(m_countLabel->font(),
-                                                m_countLabel->text());
+//    int countHeight = utils::base::stringHeight(m_countLabel->font(),
+//                                                m_countLabel->text());
 
-    m_countLabel->setMinimumHeight(countHeight);
+//    m_countLabel->setMinimumHeight(countHeight);
 
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
 }
