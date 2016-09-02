@@ -397,9 +397,9 @@ void AlbumPanel::updateImagesCount()
             (count <= 1 ? tr("image") : tr("images"));
     m_countLabel->setText(text);
 
-    int fontHeight = utils::base::stringHeight(m_countLabel->font(),
-                                               m_countLabel->text());
-    m_countLabel->setMinimumHeight(fontHeight);
+//    int fontHeight = utils::base::stringHeight(m_countLabel->font(),
+//                                               m_countLabel->text());
+//    m_countLabel->setMinimumHeight(fontHeight);
 
     m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
         SETTINGS_IMAGE_ICON_SCALE_KEY, QVariant(0)).toInt());

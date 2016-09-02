@@ -404,8 +404,8 @@ void AlbumsView::updateView()
     m_model->clear();
 
     // Make those special album always show at front
-    addAlbum(dApp->databaseM->getAlbumInfo(MY_FAVORITES_ALBUM));
     addAlbum(dApp->databaseM->getAlbumInfo(RECENT_IMPORTED_ALBUM));
+    addAlbum(dApp->databaseM->getAlbumInfo(MY_FAVORITES_ALBUM));
     QStringList albums = dApp->databaseM->getAlbumNameList();
     albums.removeAll(MY_FAVORITES_ALBUM);
     albums.removeAll(RECENT_IMPORTED_ALBUM);
