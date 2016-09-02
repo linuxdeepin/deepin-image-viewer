@@ -266,7 +266,7 @@ void TimelinePanel::initMainStackWidget()
     });
 
     m_mainStack = new QStackedWidget;
-    m_mainStack->setContentsMargins(0, 22, 0, 0);
+    m_mainStack->setContentsMargins(0, 0, 0, 0);
     m_mainStack->addWidget(frame);
     m_mainStack->addWidget(m_view);
     //show import frame if no images in database

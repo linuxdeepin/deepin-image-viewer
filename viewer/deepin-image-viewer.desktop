@@ -2,7 +2,7 @@
 Categories=Graphics;GTK;
 Encoding=UTF-8
 Exec=/usr/bin/deepin-image-viewer %U
-Icon=/usr/share/deepin-image-viewer/icons/logo/deepin-image-viewer.svg
+Icon=deepin-image-viewer
 Name=Deepin Image Viewer
 Name[zh_CN]=深度看图
 Comment=Deepin Image Viewer

@@ -33,13 +33,13 @@ const int ICON_MARGIN = 9;
 TopToolbar::TopToolbar(QWidget *parent)
     :BlurFrame(parent)
 {
-    QLinearGradient linearGrad(QPoint(0, this->y()),
-                               QPoint(0, this->y()+this->height()));
-    linearGrad.setColorAt(0, QColor(38, 38, 38, 230));
-    linearGrad.setColorAt(1, QColor(28, 28, 28, 230));
+//    QLinearGradient linearGrad(QPoint(0, this->y()),
+//                               QPoint(0, this->y()+this->height()));
+//    linearGrad.setColorAt(0, QColor(38, 38, 38, 230));
+//    linearGrad.setColorAt(1, QColor(28, 28, 28, 230));
 
-    setCoverBrush(QBrush(linearGrad));
-
+//    setCoverBrush(QBrush(linearGrad));
+    setCoverBrush(QBrush(QColor(30, 30, 30, 204)));
 //    initAboutWindow();
     m_about = new AboutWindow(parent);
     m_about->hide();

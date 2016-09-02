@@ -3,7 +3,7 @@
 BottomToolbar::BottomToolbar(QWidget *parent)
     : BlurFrame(parent)
 {
-    setCoverBrush(QBrush(QColor(24, 24, 24, 230)));
+    setCoverBrush(QBrush(QColor(30, 30, 30, 204)));
 
     m_mainLayout = new QHBoxLayout(this);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);

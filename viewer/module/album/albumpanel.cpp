@@ -294,7 +294,7 @@ void AlbumPanel::initMainStackWidget()
     });
 
     m_stackWidget = new QStackedWidget;
-    m_stackWidget->setContentsMargins(0, 22, 0, 0);
+    m_stackWidget->setContentsMargins(0, 0, 0, 0);
     m_stackWidget->addWidget(importFrame);
     m_stackWidget->addWidget(m_albumsView);
     m_stackWidget->addWidget(m_imagesView);

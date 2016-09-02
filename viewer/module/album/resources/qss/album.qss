@@ -1,5 +1,5 @@
 QWidget#ImagesViewContent {
-    background: #222325;
+    background: #1B1B1B;
 }
 
 QPushButton#ImportFromTimelineButton {
@@ -19,7 +19,7 @@ QPushButton#ImportFromTimelineButton:pressed {
 }
 
 QListView {
-    background: #222325;
+    background: #1B1B1B;
     border:none;
 }
 
