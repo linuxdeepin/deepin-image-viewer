@@ -5,7 +5,6 @@
         <file>resources/images/album_bg_selected.png</file>
         <file>resources/images/album_favorites.png</file>
         <file>resources/images/album_recent_imported.png</file>
-        <file>resources/images/album_active.png</file>
         <file>resources/images/album_hover.png</file>
         <file>resources/images/album_normal.png</file>
         <file>resources/images/return_hover.png</file>
@@ -14,7 +13,6 @@
         <file>resources/images/search_hover_24px.png</file>
         <file>resources/images/search_normal_24px.png</file>
         <file>resources/images/search_press_24px.png</file>
-        <file>resources/images/timeline_active.png</file>
         <file>resources/images/timeline_hover.png</file>
         <file>resources/images/timeline_normal.png</file>
         <file>resources/images/import_dir.png</file>
@@ -27,6 +25,7 @@
         <file>resources/images/import_press.png</file>
         <file>resources/images/lineargradient.png</file>
         <file>resources/images/album_add.png</file>
+        <file>resources/images/album_press.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/album.qss</file>

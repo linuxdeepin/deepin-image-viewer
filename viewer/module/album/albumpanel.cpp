@@ -223,9 +223,9 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     timelineButton->setToolTip(tr("Timeline"));
 
     ImageButton *albumButton = new ImageButton();
-    albumButton->setNormalPic(":/images/resources/images/album_active.png");
-    albumButton->setHoverPic(":/images/resources/images/album_active.png");
-    albumButton->setPressPic(":/images/resources/images/album_active.png");
+    albumButton->setNormalPic(":/images/resources/images/album_press.png");
+    albumButton->setHoverPic(":/images/resources/images/album_press.png");
+    albumButton->setPressPic(":/images/resources/images/album_press.png");
     albumButton->setTooltipVisible(true);
 
     connect(albumButton, &ImageButton::clicked, this, [=]{

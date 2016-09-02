@@ -43,6 +43,7 @@ BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-image-viewer
 MANDIR = $$PREFIX/share/dman/deepin-image-viewer
 MANICONDIR = $$PREFIX/share/icons/hicolor/scalable/apps
+APPICONDIR = $$PREFIX/share/icons/deepin/apps/scalable
 
 DEFINES += APPSHAREDIR=\\\"$$APPSHAREDIR\\\"
 
@@ -58,6 +59,8 @@ manual.path = $$MANDIR
 manual.files = doc/*
 manual_icon.path = $$MANICONDIR
 manual_icon.files = doc/common/deepin-image-viewer.svg
+app_icon.path = $$APPICONDIR
+app_icon.files = resources/images/logo/deepin-image-viewer.svg
 
 dbus_service.files += com.deepin.deepinimageviewer.service
 dbus_service.path = /usr/share/dbus-1/services
@@ -70,4 +73,4 @@ CONFIG(release, debug|release) {
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
-INSTALLS = target desktop dbus_service icons manual manual_icon translations
+INSTALLS = target desktop dbus_service icons manual manual_icon app_icon translations
