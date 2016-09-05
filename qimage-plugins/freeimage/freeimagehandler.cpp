@@ -28,20 +28,22 @@ SeekProc(fi_handle handle, long offset, int origin)
 {
     QIODevice *quid = static_cast<QIODevice*>(handle);
 
-    switch (origin)
-    {
-    default:
-    case SEEK_SET:
-        return int(!quid->seek(offset));
-    case SEEK_CUR:
-        return int(!quid->seek(quid->pos()+offset));
-    case SEEK_END:
-        if (!quid->isSequential())
+    if (quid->bytesAvailable() > 0) {
+        switch (origin)
         {
-            quint64 len = quid->bytesAvailable();
-            return int(!quid->seek(len+offset));
+        default:
+        case SEEK_SET:
+            return int(!quid->seek(offset));
+        case SEEK_CUR:
+            return int(!quid->seek(quid->pos()+offset));
+        case SEEK_END:
+            if (!quid->isSequential())
+            {
+                quint64 len = quid->bytesAvailable();
+                return int(!quid->seek(len+offset));
+            }
+            break;
         }
-        break;
     }
     return (-1);
 }
@@ -122,20 +124,6 @@ bool FreeImageHandler::canRead() const
 
 bool FreeImageHandler::read(QImage *image)
 {
-    const QStringList raws = QStringList()
-            << "CR2" << "CRW"   // Canon cameras
-            << "DCR" << "KDC"   // Kodak cameras
-            << "MRW"            // Minolta cameras
-            << "NEF"            // Nikon cameras
-            << "ORF"            // Olympus cameras
-            << "PEF"            // Pentax cameras
-            << "RAF"            // Fuji cameras
-            << "SRF"            // Sony cameras
-            << "X3F";           // Sigma cameras
-    // RAW formats render incorrect
-    if (raws.indexOf(QString(format()).toUpper()) != -1)
-        return false;
-
     FREE_IMAGE_FORMAT fif = GetFIF(device(),format());
     if (!FreeImage_FIFSupportsReading(fif)) {
         return false;
@@ -214,8 +202,35 @@ FreeImageHandler::GetFIF(QIODevice *device, const QByteArray &fmt)
 {
     FREE_IMAGE_FORMAT fif =
             FreeImage_GetFileTypeFromHandle(&fiio(), (fi_handle)device);
-    if (fif == FIF_UNKNOWN)
+
+    if (fif == FIF_UNKNOWN) {
         fif = FreeImage_GetFIFFromFilename(fmt);
+    }
+
+    // DO NOT handle the types which already supported by qt
+    // FIXME: And there is a bug with FIF_PNG handling QIcon::addFile
+    QList<FREE_IMAGE_FORMAT> fifs;
+    fifs << FIF_PNG << FIF_JP2 << FIF_JPEG << FIF_BMP << FIF_GIF << FIF_PBM
+         << FIF_PGM << FIF_PPM << FIF_XBM << FIF_XPM;
+
+    // And, RAW formats render incorrect by freeimage
+    const QStringList raws = QStringList()
+            << "CR2" << "CRW"   // Canon cameras
+            << "DCR" << "KDC"   // Kodak cameras
+            << "MRW"            // Minolta cameras
+            << "NEF"            // Nikon cameras
+            << "ORF"            // Olympus cameras
+            << "PEF"            // Pentax cameras
+            << "RAF"            // Fuji cameras
+            << "SRF"            // Sony cameras
+            << "X3F";           // Sigma cameras
+    if (raws.indexOf(QString(fmt).toUpper()) != -1)
+        return FIF_UNKNOWN;
+
+    if (fifs.indexOf(fif) != -1) {
+        return FIF_UNKNOWN;
+    }
+
     return fif;
 }
 

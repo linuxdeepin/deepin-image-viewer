@@ -32,13 +32,15 @@ QString updateThumbnailQuality(const QString &name)
     using namespace utils::image;
     const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
     auto info = dApp->databaseM->getImageInfoByName(name);
+    if (! isImageSupported(info.path))
+        return name;
     if (info.thumbnail.isNull()) {
         info.thumbnail = cutSquareImage(scaleImage(info.path), ms);
-        // Still can't get thumbnail, it must be not supported
-        if (info.thumbnail.isNull()) {
-            dApp->databaseM->removeImages(QStringList(name));
-            return name;
-        }
+//        // Still can't get thumbnail, it must be not supported
+//        if (info.thumbnail.isNull()) {
+//            dApp->databaseM->removeImages(QStringList(name));
+//            return name;
+//        }
         dApp->databaseM->updateImageInfo(info);
     }
 
