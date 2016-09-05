@@ -13,7 +13,6 @@ public:
 public slots:
     void onImageChanged(const QString &path, bool adaptScreen);
     void updateCollectButton();
-    void updateAdaptButton(bool v);
 
 signals:
     void resetTransform(bool fitWindow);
@@ -25,7 +24,8 @@ signals:
 
 private:
     ImageButton *m_clBT = nullptr;
-    ImageButton *m_adaptButton = nullptr;
+    ImageButton *m_adaptImageButton = nullptr;
+    ImageButton *m_adaptScreenButtn = nullptr;
     QString m_imageName;
     QString m_imagePath;
 };

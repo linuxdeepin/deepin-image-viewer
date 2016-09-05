@@ -96,9 +96,7 @@ bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
 
 void TopToolbar::resizeEvent(QResizeEvent *e)
 {
-    m_leftContent->setFixedWidth(e->size().width() / 3);
-    m_middleContent->setFixedWidth(e->size().width() / 3);
-    m_rightContent->setFixedWidth(e->size().width() / 3);
+    Q_UNUSED(e);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -262,7 +260,6 @@ void TopToolbar::initWidgets()
     QHBoxLayout *rightLayout = new QHBoxLayout(m_rightContent);
     rightLayout->setContentsMargins(0, 0, 0, 0);
     rightLayout->setSpacing(0);
-    rightLayout->addStretch(1);
     rightLayout->addWidget(importProgress);
     rightLayout->addSpacing(36);
     rightLayout->addWidget(ob);
@@ -281,10 +278,12 @@ void TopToolbar::initWidgets()
     m_middleLayout->setSpacing(0);
 
     mainLayout->addWidget(m_leftContent);
+    mainLayout->addSpacing(36);
+    mainLayout->addStretch(1);
     mainLayout->addWidget(m_middleContent);
+    mainLayout->addStretch(1);
     mainLayout->addWidget(m_rightContent);
     mainLayout->addSpacing(ICON_MARGIN);
-
 }
 
 void TopToolbar::initMenu()

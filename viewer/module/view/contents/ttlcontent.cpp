@@ -1,10 +1,12 @@
 #include "ttlcontent.h"
 #include "widgets/imagebutton.h"
 #include <QHBoxLayout>
+
+const int ICON_MARGIN = 13;
 TTLContent::TTLContent(bool inDB, QWidget *parent) : QWidget(parent)
 {
     QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(9, 0, 0, 0);
+    hb->setContentsMargins(ICON_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
 
     ImageButton *btn = new ImageButton();
@@ -22,7 +24,6 @@ TTLContent::TTLContent(bool inDB, QWidget *parent) : QWidget(parent)
     }
 
     hb->addWidget(btn);
-    hb->addStretch();
 
     connect(btn, &ImageButton::clicked, this, [=] {
         emit clicked();

@@ -26,6 +26,7 @@ namespace {
 const int MIN_ICON_SIZE = 96;
 const int ICON_MARGIN = 13;
 const int SLIDER_WIDTH = 120;
+const int MARGIN_DIFF = 82;
 const QString SETTINGS_GROUP = "ALBUMPANEL";
 const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
 const QString SETTINGS_IMAGE_ICON_SCALE_KEY = "ImageIconScale";
@@ -177,9 +178,9 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
     layout->setContentsMargins(0, 0, 0, 0);
-
+    layout->addSpacing(ICON_MARGIN);
     if (m_stackWidget->currentWidget() == m_imagesView) {
-        layout->addSpacing(9);
+
         ImageButton *returnButton = new ImageButton();
 
         returnButton->setNormalPic(":/images/resources/images/return_normal.png");
@@ -192,18 +193,13 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
             emit dApp->signalM->gotoAlbumPanel();
         });
         returnButton->setToolTip(tr("Back"));
-
         layout->addWidget(returnButton);
-        layout->addStretch(1);
     }
     else {
-        layout->addSpacing(ICON_MARGIN);
         QLabel *icon = new QLabel;
         // TODO update icon path
         icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
-
         layout->addWidget(icon);
-        layout->addStretch(1);
     }
 
     return tTopleftContent;
@@ -237,10 +233,9 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    layout->addStretch(1);
+    layout->addSpacing(MARGIN_DIFF);
     layout->addWidget(timelineButton);
     layout->addWidget(albumButton);
-    layout->addStretch(1);
 
     return tTopMiddleContent;
 }

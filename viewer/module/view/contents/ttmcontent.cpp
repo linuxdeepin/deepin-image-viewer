@@ -10,32 +10,65 @@
 namespace {
 
 const QString FAVORITES_ALBUM = "My favorites";
-
+const int MARGIN_DIFF = 82;
 }  // namespace
 
 TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     : QWidget(parent)
 {
+
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(0, 0, 0, 0);
-    hb->addSpacing(21);
-    hb->addStretch();
+    hb->setSpacing(0);
+    hb->addSpacing(MARGIN_DIFF);
+    m_adaptImageButton = new ImageButton();
+    m_adaptImageButton->setNormalPic(":/images/resources/images/adapt_image_normal.png");
+    m_adaptImageButton->setHoverPic(":/images/resources/images/adapt_image_hover.png");
+    m_adaptImageButton->setPressPic(":/images/resources/images/adapt_image_press.png");
+    m_adaptImageButton->setToolTip(tr("1:1 Size"));
+    m_adaptImageButton->setWhatsThis("1:1SizeButton");
+    hb->addWidget(m_adaptImageButton);
 
-    m_adaptButton = new ImageButton();
-    updateAdaptButton(true);
-    hb->addWidget(m_adaptButton);
-    connect(m_adaptButton, &ImageButton::clicked, [this](){
-        if (m_adaptButton->whatsThis() != "1:1SizeButton") {
-            updateAdaptButton(true);
+    m_adaptScreenButtn = new ImageButton();
+    m_adaptScreenButtn->setNormalPic(":/images/resources/images/adapt_screen_normal.png");
+    m_adaptScreenButtn->setHoverPic(":/images/resources/images/adapt_screen_hover.png");
+    m_adaptScreenButtn->setPressPic(":/images/resources/images/adapt_screen_press.png");
+    m_adaptScreenButtn->setToolTip(tr("Fit to window"));
+    m_adaptScreenButtn->setWhatsThis("FitToWindowButton");
+    hb->addWidget(m_adaptScreenButtn);
+
+    connect(m_adaptImageButton, &ImageButton::clicked, [this](){
             emit resetTransform(false);
-        }
-        else {
-            updateAdaptButton(false);
-            emit resetTransform(true);
+    });
+
+    connect(m_adaptScreenButtn, &ImageButton::clicked, [this](){
+        emit resetTransform(true);
+    });
+
+    connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
+        m_adaptScreenButtn->setDisabled(v);
+        if (v) {
+            m_adaptScreenButtn->setNormalPic(":/images/resources/images/adapt_screen_disable.png");
+            m_adaptScreenButtn->setNormalPic(":/images/resources/images/adapt_screen_disable.png");
+            m_adaptScreenButtn->setNormalPic(":/images/resources/images/adapt_screen_disable.png");
+        } else {
+            m_adaptScreenButtn->setNormalPic(":/images/resources/images/adapt_screen_normal.png");
+            m_adaptScreenButtn->setHoverPic(":/images/resources/images/adapt_screen_hover.png");
+            m_adaptScreenButtn->setPressPic(":/images/resources/images/adapt_screen_press.png");
         }
     });
+
     connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
-        m_adaptButton->setDisabled(v);
+        m_adaptImageButton->setDisabled(v);
+        if (v) {
+            m_adaptImageButton->setNormalPic(":/images/resources/images/adapt_image_disable.png");
+            m_adaptImageButton->setNormalPic(":/images/resources/images/adapt_image_disable.png");
+            m_adaptImageButton->setNormalPic(":/images/resources/images/adapt_image_disable.png");
+        } else {
+            m_adaptImageButton->setNormalPic(":/images/resources/images/adapt_image_normal.png");
+            m_adaptImageButton->setHoverPic(":/images/resources/images/adapt_image_hover.png");
+            m_adaptImageButton->setPressPic(":/images/resources/images/adapt_image_press.png");
+        }
     });
 
     if (! fromFileManager) {
@@ -124,7 +157,6 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         }
     });
 
-    hb->addStretch();
 }
 
 void TTMContent::onImageChanged(const QString &path, bool adaptScreen)
@@ -136,7 +168,7 @@ void TTMContent::onImageChanged(const QString &path, bool adaptScreen)
     else
         emit imageEmpty(false);
 
-    this->updateAdaptButton(adaptScreen);
+    Q_UNUSED(adaptScreen);
 }
 
 void TTMContent::updateCollectButton()
@@ -164,27 +196,3 @@ void TTMContent::updateCollectButton()
     }
 }
 
-void TTMContent::updateAdaptButton(bool v)
-{
-    if (! m_adaptButton->isEnabled()) {
-        m_adaptButton->setNormalPic(":/images/resources/images/adapt_image_disable.png");
-        m_adaptButton->setHoverPic(":/images/resources/images/adapt_image_disable.png");
-        m_adaptButton->setPressPic(":/images/resources/images/adapt_image_disable.png");
-        return;
-    }
-    // Change the icon and tooltip for next state
-    if (v) {
-        m_adaptButton->setNormalPic(":/images/resources/images/adapt_image_normal.png");
-        m_adaptButton->setHoverPic(":/images/resources/images/adapt_image_hover.png");
-        m_adaptButton->setPressPic(":/images/resources/images/adapt_image_press.png");
-        m_adaptButton->setToolTip(tr("1:1 Size"));
-        m_adaptButton->setWhatsThis("1:1SizeButton");
-    }
-    else {
-        m_adaptButton->setNormalPic(":/images/resources/images/adapt_screen_normal.png");
-        m_adaptButton->setHoverPic(":/images/resources/images/adapt_screen_hover.png");
-        m_adaptButton->setPressPic(":/images/resources/images/adapt_screen_press.png");
-        m_adaptButton->setToolTip(tr("Fit to window"));
-        m_adaptButton->setWhatsThis("FitToWindowButton");
-    }
-}

@@ -13,7 +13,7 @@
 namespace {
 
 const int MAINWIDGET_MINIMUN_HEIGHT = 480;
-const int MAINWIDGET_MINIMUN_WIDTH = 556;
+const int MAINWIDGET_MINIMUN_WIDTH = 550;
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";

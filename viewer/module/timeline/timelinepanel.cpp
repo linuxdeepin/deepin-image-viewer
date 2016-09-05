@@ -23,6 +23,8 @@ namespace {
 const int MIN_ICON_SIZE = 96;
 const int ICON_MARGIN = 13;
 const int SLIDER_WIDTH = 120;
+//in order to make the toptoolbarContent align center, add leftMargin 82;
+const int MARGIN_DIFF = 82;
 //const int THUMBNAIL_MAX_SCALE_SIZE = 384;
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
@@ -169,11 +171,10 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    layout->addStretch(1);
+    layout->addSpacing(MARGIN_DIFF);
     layout->addWidget(timelineButton);
     layout->addWidget(albumButton);
     //    layout->addWidget(searchButton);
-    layout->addStretch(1);
 
     return tTopMiddleContent;
 }
