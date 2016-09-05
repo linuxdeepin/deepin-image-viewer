@@ -466,7 +466,7 @@ void ViewPanel::initStack()
     emptyFrame->setMouseTracking(true);
     emptyFrame->setAttribute(Qt::WA_TranslucentBackground);
     QLabel *icon = new QLabel;
-    icon->setPixmap(QPixmap(":/images/resources/images/empty_box.png"));
+    icon->setPixmap(QPixmap(":/images/resources/images/no_picture.png"));
     QHBoxLayout *il = new QHBoxLayout(emptyFrame);
     il->setContentsMargins(0, 0, 0, 0);
     il->addWidget(icon, 0, Qt::AlignCenter);

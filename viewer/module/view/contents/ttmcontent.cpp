@@ -18,7 +18,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
 {
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(21);
+    hb->addSpacing(21);
     hb->addStretch();
 
     m_adaptButton = new ImageButton();
@@ -151,9 +151,9 @@ void TTMContent::updateCollectButton()
     else if (dApp->databaseM->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setWhatsThis("RFFButton");
-        m_clBT->setNormalPic(":/images/resources/images/collect_active.png");
-        m_clBT->setHoverPic(":/images/resources/images/collect_active.png");
-        m_clBT->setPressPic(":/images/resources/images/collect_active.png");
+        m_clBT->setNormalPic(":/images/resources/images/collect_press.png");
+        m_clBT->setHoverPic(":/images/resources/images/collect_press.png");
+        m_clBT->setPressPic(":/images/resources/images/collect_press.png");
     }
     else {
         m_clBT->setToolTip(tr("Add to My favorites"));
@@ -176,14 +176,14 @@ void TTMContent::updateAdaptButton(bool v)
     if (v) {
         m_adaptButton->setNormalPic(":/images/resources/images/adapt_image_normal.png");
         m_adaptButton->setHoverPic(":/images/resources/images/adapt_image_hover.png");
-        m_adaptButton->setPressPic(":/images/resources/images/adapt_image_active.png");
+        m_adaptButton->setPressPic(":/images/resources/images/adapt_image_press.png");
         m_adaptButton->setToolTip(tr("1:1 Size"));
         m_adaptButton->setWhatsThis("1:1SizeButton");
     }
     else {
         m_adaptButton->setNormalPic(":/images/resources/images/adapt_screen_normal.png");
         m_adaptButton->setHoverPic(":/images/resources/images/adapt_screen_hover.png");
-        m_adaptButton->setPressPic(":/images/resources/images/adapt_screen_active.png");
+        m_adaptButton->setPressPic(":/images/resources/images/adapt_screen_press.png");
         m_adaptButton->setToolTip(tr("Fit to window"));
         m_adaptButton->setWhatsThis("FitToWindowButton");
     }
