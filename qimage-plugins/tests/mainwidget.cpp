@@ -14,7 +14,7 @@
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
     m_pl = new QLabel;
-    m_pl->setPixmap(QPixmap("/home/wanqing-deepin/图片/formats/psd.psd"));
+    m_pl->setPixmap(QPixmap("/home/wanqing/图片/formats/Gbyzanz20160906135135.gif"));
 
     QPushButton *btn = new QPushButton("Open Image");
     connect(btn, &QPushButton::clicked, this, [=] {

@@ -265,7 +265,7 @@ void ViewPanel::updateMenuContent()
 void ViewPanel::initShortcut()
 {
     // Image info
-    QShortcut *sc = new QShortcut(QKeySequence("Ctrl+Return"), this);
+    QShortcut *sc = new QShortcut(QKeySequence("Alt+Return"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated,
             dApp->signalM, &SignalManager::showExtensionPanel);
