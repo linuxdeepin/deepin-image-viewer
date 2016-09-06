@@ -168,7 +168,9 @@ bool RawIOHandler::read(QImage *image)
         }
         unscaled = QImage(pixels,
                           output->width, output->height,
-                          QImage::Format_RGB32);
+                          QImage::Format_RGB32)
+                // QImage::Format_RGB32 will cause window transparent, DONT know why
+                .convertToFormat(QImage::Format_ARGB32);
     }
 
     if (unscaled.size() != finalSize) {

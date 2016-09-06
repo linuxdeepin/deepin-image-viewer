@@ -2,6 +2,7 @@
 
 #include <QColor>
 #include <QVariant>
+#include <QDebug>
 
 // FREEIMAGE IO PROCS /////////////////////////////////////////////////
 
