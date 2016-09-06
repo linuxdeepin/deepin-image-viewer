@@ -38,11 +38,11 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     hb->addWidget(m_adaptScreenButtn);
 
     connect(m_adaptImageButton, &ImageButton::clicked, [this](){
-            emit resetTransform(false);
+        emit resetTransform(true);
     });
 
     connect(m_adaptScreenButtn, &ImageButton::clicked, [this](){
-        emit resetTransform(true);
+        emit resetTransform(false);
     });
 
     connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
