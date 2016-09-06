@@ -36,11 +36,11 @@ QString updateThumbnailQuality(const QString &name)
         return name;
     if (info.thumbnail.isNull()) {
         info.thumbnail = cutSquareImage(scaleImage(info.path), ms);
-//        // Still can't get thumbnail, it must be not supported
-//        if (info.thumbnail.isNull()) {
-//            dApp->databaseM->removeImages(QStringList(name));
-//            return name;
-//        }
+        // Still can't get thumbnail, it must be not supported
+        if (info.thumbnail.isNull()) {
+            dApp->databaseM->removeImages(QStringList(name));
+            return name;
+        }
         dApp->databaseM->updateImageInfo(info);
     }
 
