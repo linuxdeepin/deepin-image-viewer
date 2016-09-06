@@ -13,6 +13,8 @@
 #include <QScrollBar>
 #include <QtDebug>
 
+const int TITLE_MAXWIDTH = 100;
+
 struct MetaData {
     QString key;
     const char *name;
@@ -107,23 +109,23 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     contentLayout->addWidget(title);
     ViewSeparator *separator = new ViewSeparator();
     contentLayout->addWidget(separator);
-    contentLayout->addSpacing(8);
+    contentLayout->addSpacing(3);
     // Info field
     m_exifLayout_base = new QFormLayout();
-    m_exifLayout_base->setSpacing(8);
+    m_exifLayout_base->setSpacing(3);
     m_exifLayout_base->setContentsMargins(8, 0, 8, 0);
     m_exifLayout_base->setLabelAlignment(Qt::AlignRight);
     m_separator = new ViewSeparator();
     m_separator->setVisible(false);
     m_exifLayout_details = new QFormLayout();
-    m_exifLayout_details->setSpacing(8);
+    m_exifLayout_details->setSpacing(3);
     m_exifLayout_details->setContentsMargins(8, 0, 8, 0);
     m_exifLayout_details->setLabelAlignment(Qt::AlignRight);
 
     contentLayout->addLayout(m_exifLayout_base);
     contentLayout->addSpacing(3);
     contentLayout->addWidget(m_separator);
-    contentLayout->addSpacing(8);
+    contentLayout->addSpacing(3);
     contentLayout->addLayout(m_exifLayout_details);
 
     contentLayout->addSpacing(15);
@@ -207,13 +209,12 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         if (value.isEmpty()) continue;
 
         SimpleFormField *field = new SimpleFormField;
-        field->setMaximumWidth(m_maxFieldWidth);
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
-        title->setFixedWidth(m_maxTitleWidth);
+        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignRight | Qt::AlignTop);
 
         m_exifLayout_base->addRow(title, field);
@@ -231,13 +232,12 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         if (value.isEmpty()) continue;
 
         SimpleFormField *field = new SimpleFormField;
-        field->setMaximumWidth(m_maxFieldWidth);
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
-        title->setFixedWidth(m_maxTitleWidth);
+        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignRight | Qt::AlignTop);
 
         m_exifLayout_details->addRow(title, field);
