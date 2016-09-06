@@ -1,4 +1,4 @@
-TARGET  = dvraw
+TARGET  = xraw
 TEMPLATE = lib
 CONFIG += \
     c++11 \

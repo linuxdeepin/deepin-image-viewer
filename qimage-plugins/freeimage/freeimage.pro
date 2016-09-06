@@ -1,4 +1,4 @@
-TARGET = dvfreeimage
+TARGET = xfreeimage
 TEMPLATE = lib
 CONFIG += \
         c++11 \

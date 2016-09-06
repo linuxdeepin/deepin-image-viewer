@@ -21,6 +21,8 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
         const QString name =
                 QFileDialog::getOpenFileName(this);
         m_pl->setPixmap(QPixmap(name));
+//        btn->setIcon(QIcon(QPixmap(name)));
+        btn->setIcon(QIcon(name));
     });
 
     QVBoxLayout *l = new QVBoxLayout(this);
