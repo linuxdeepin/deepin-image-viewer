@@ -124,7 +124,7 @@ bool FreeImageHandler::canRead() const
 
 bool FreeImageHandler::read(QImage *image)
 {
-    FREE_IMAGE_FORMAT fif = GetFIF(device(),format());
+    FREE_IMAGE_FORMAT fif = GetFIF(device(), format());
     if (!FreeImage_FIFSupportsReading(fif)) {
         return false;
     }
@@ -202,6 +202,7 @@ FreeImageHandler::GetFIF(QIODevice *device, const QByteArray &fmt)
 {
     FREE_IMAGE_FORMAT fif =
             FreeImage_GetFileTypeFromHandle(&fiio(), (fi_handle)device);
+    device->seek(0);
 
     if (fif == FIF_UNKNOWN) {
         fif = FreeImage_GetFIFFromFilename(fmt);
