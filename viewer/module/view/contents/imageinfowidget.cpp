@@ -85,6 +85,17 @@ public:
     {
         setWordWrap(true);
     }
+protected:
+    void resizeEvent(QResizeEvent* event) {
+
+        if ( wordWrap() && sizePolicy().verticalPolicy() == QSizePolicy::Minimum ) {
+        // heightForWidth rely on minimumSize to evaulate, so reset it before
+        setMinimumHeight(0);
+        // define minimum height
+        setMinimumHeight(heightForWidth(width()));
+        }
+        QLabel::resizeEvent(event);
+    }
 };
 
 #include "imageinfowidget.moc"

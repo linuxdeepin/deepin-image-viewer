@@ -8,8 +8,8 @@
 
 namespace {
 
-const int MAX_FIELD_WIDTH = 200;
-
+const int MAX_FIELD_WIDTH = 140;
+const int TITLE_MAXWIDTH = 80;
 }
 
 class SimpleFormLabel : public QLabel {
@@ -23,7 +23,19 @@ class SimpleFormField : public QLabel {
     Q_OBJECT
 public:
     explicit SimpleFormField(QWidget *parent = 0)
-        : QLabel(parent) {}
+        : QLabel(parent) {
+        setWordWrap(true);
+    }
+protected:
+    void resizeEvent(QResizeEvent* event) {
+        if (wordWrap()&&sizePolicy().verticalPolicy() == QSizePolicy::Minimum ) {
+            // heightForWidth rely on minimumSize to evaulate, so reset it before
+            setMinimumHeight(0);
+            // define minimum height
+            setMinimumHeight(heightForWidth(width()));
+        }
+        QLabel::resizeEvent(event);
+    }
 };
 
 BlureInfoFrame::BlureInfoFrame(QWidget *parent)
@@ -55,11 +67,12 @@ BlureInfoFrame::BlureInfoFrame(QWidget *parent)
 
     m_infoFrame = new QFrame;
     m_infoLayout = new QFormLayout(m_infoFrame);
-    m_infoLayout->setSpacing(13);
-    m_infoLayout->setContentsMargins(0, 0, 0, 0);
+    m_infoLayout->setSpacing(3);
+    m_infoLayout->setContentsMargins(10, 0, 10, 0);
+
     m_infoLayout->setLabelAlignment(Qt::AlignRight);
-    layout->addWidget(m_infoFrame, 1, Qt::AlignHCenter);
-    layout->addSpacing(21);
+    layout->addWidget(m_infoFrame, 1, Qt::AlignCenter);
+    layout->addSpacing(8);
     layout->addStretch(1);
 
     setStyleSheet(utils::base::getFileContent(
@@ -91,24 +104,17 @@ void BlureInfoFrame::setTopContent(QWidget *w)
 
 void BlureInfoFrame::addInfoPair(const QString &title, const QString &value)
 {
-    SimpleFormLabel *tl = new SimpleFormLabel(title);
     SimpleFormField *vl = new SimpleFormField;
-    vl->setMaximumWidth(MAX_FIELD_WIDTH);
-    vl->setText(utils::base::wrapStr(value, vl->font(), MAX_FIELD_WIDTH));
-    m_infoLayout->addRow(tl, vl);
-
-    QFont f;
-    f.setPixelSize(12);
-    tl->setAlignment(Qt::AlignRight|Qt::AlignTop);
     vl->setAlignment(Qt::AlignLeft|Qt::AlignTop);
-    tl->setMinimumHeight(utils::base::stringHeight(tl->font(), value));
-    vl->setMinimumHeight(utils::base::stringHeight(vl->font(), value));
-    //BlureInfo Frame
+    vl->setText(utils::base::wrapStr(value, vl->font(), MAX_FIELD_WIDTH));
 
-    m_leftMax = qMax(utils::base::stringWidth(f, title), m_leftMax);
-    m_rightMax = qMax(utils::base::stringWidth(f, value), m_rightMax);
-    m_infoFrame->setFixedWidth(qMin((m_leftMax + m_rightMax), (width() - 16)));
+    SimpleFormLabel *tl = new SimpleFormLabel(title);
+    tl->setMinimumHeight(vl->minimumHeight());
+    tl->setFixedWidth(qMin(tl->width(), TITLE_MAXWIDTH));
+    tl->setAlignment(Qt::AlignRight|Qt::AlignTop);
 
+    m_infoLayout->addRow(tl, vl);
+    m_infoFrame->setFixedWidth(qMin(vl->width() + tl->width(), width() - 16));
 }
 
 void BlureInfoFrame::close()

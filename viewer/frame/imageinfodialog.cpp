@@ -23,8 +23,8 @@ static MetaData MetaDatas[] = {
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
     {"Resolution",          QT_TRANSLATE_NOOP("MetadataName", "Resolution")},
     {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
-    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
-    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
+//    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
+//    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
     {"", ""}
 };
 
