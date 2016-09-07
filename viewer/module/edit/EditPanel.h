@@ -1,7 +1,6 @@
 #pragma once
 
 #include "module/modulepanel.h"
-#include "module/view/imagewidget.h"
 #include <QStackedWidget>
 
 namespace filter2d {

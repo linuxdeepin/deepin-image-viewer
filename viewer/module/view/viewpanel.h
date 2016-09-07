@@ -12,6 +12,7 @@ DWIDGET_USE_NAMESPACE
 
 class ImageButton;
 class ImageInfoWidget;
+class ImageView;
 class ImageWidget;
 class NavigationWidget;
 class PopupMenuManager;
@@ -34,7 +35,7 @@ public:
 
 signals:
     void updateCollectButton();
-    void imageChanged(const QString &path, bool adaptScreen);
+    void imageChanged(const QString &path);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
@@ -93,7 +94,7 @@ private:
     bool m_isMaximized;
     int m_openTid = 0;
 
-    ImageWidget *m_view;
+    ImageView *m_viewB;
     ImageInfoWidget *m_info;
     PopupMenuManager *m_popupMenu;
     QStackedWidget *m_stack;

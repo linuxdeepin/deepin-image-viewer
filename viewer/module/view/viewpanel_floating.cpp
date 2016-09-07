@@ -1,6 +1,6 @@
 #include "viewpanel.h"
-#include "imagewidget.h"
 #include "navigationwidget.h"
+#include "scen/imageview.h"
 #include "widgets/imagebutton.h"
 #include <QTimer>
 
@@ -43,7 +43,7 @@ void ViewPanel::initSwitchButtons()
     nextButton->hide();
     connect(nextButton, &ImageButton::clicked, this, &ViewPanel::showNext);
 
-    connect(m_view, &ImageWidget::mouseMoved, this, [=] {
+    connect(m_viewB, &ImageView::mouseHoverMoved, this, [=] {
         const int EXTEND_SPACING = 15;
 
         const QPoint pp = preButton->mapToGlobal(QPoint(0, 0))
@@ -82,16 +82,15 @@ void ViewPanel::initScaleLabel()
         hideT->setSingleShot(true);
         connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
 
-        connect(m_view, &ImageWidget::scaleValueChanged, this, [=](qreal value) {
+        connect(m_viewB, &ImageView::scaled, this, [=](qreal perc) {
             scalePerc->show();
-            scalePerc->setText(QString("%1%").arg(int(value*100)));
+            scalePerc->setText(QString("%1%").arg(int(perc)));
             hideT->start(2000);
         });
 }
 
 void ViewPanel::initNavigation()
 {
-
     m_nav = new NavigationWidget(this);
     m_nav.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
@@ -99,13 +98,13 @@ void ViewPanel::initNavigation()
     m_nav->setVisible(! m_nav->isAlwaysHidden());
     connect(this, &ViewPanel::imageChanged, this, [=] (const QString &path) {
         if (path.isEmpty()) m_nav->setVisible(false);
-        m_nav->setImage(m_view->image());
+        m_nav->setImage(m_viewB->image());
     });
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
-        m_view->setImageMove(x, y);
+        m_viewB->centerOn(x, y);
     });
-    connect(m_view, &ImageWidget::transformChanged, [this](){
-        m_nav->setVisible(! m_nav->isAlwaysHidden() && m_view->scaleValue() > 1);
-        m_nav->setRectInImage(m_view->visibleImageRect());
+    connect(m_viewB, &ImageView::transformChanged, [this](){
+        m_nav->setVisible(! m_nav->isAlwaysHidden() && ! m_viewB->isWholeImageVisible());
+        m_nav->setRectInImage(m_viewB->visibleImageRect());
     });
 }

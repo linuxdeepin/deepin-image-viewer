@@ -30,11 +30,6 @@ Application::Application(int& argc, char** argv)
     initChildren();
 }
 
-Application::~Application()
-{
-
-}
-
 void Application::initChildren()
 {
     setter = ConfigSetter::instance();

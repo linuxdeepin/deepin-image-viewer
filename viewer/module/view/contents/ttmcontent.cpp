@@ -38,11 +38,11 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     hb->addWidget(m_adaptScreenButtn);
 
     connect(m_adaptImageButton, &ImageButton::clicked, [this](){
-        emit resetTransform(true);
+        emit resetTransform(false);
     });
 
     connect(m_adaptScreenButtn, &ImageButton::clicked, [this](){
-        emit resetTransform(false);
+        emit resetTransform(true);
     });
 
     connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
@@ -98,9 +98,9 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     btn->setNormalPic(":/images/resources/images/contrarotate_normal.png");
     btn->setHoverPic(":/images/resources/images/contrarotate_hover.png");
     btn->setPressPic(":/images/resources/images/contrarotate_press.png");
-    btn->setToolTip(tr("Rotate counterclockwise"));
+    btn->setToolTip(tr("Rotate clockwise"));
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateCounterClockwise);
+    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateClockwise);
     connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
         btn->setDisabled(v);
         if (v) {
@@ -119,9 +119,9 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     btn->setNormalPic(":/images/resources/images/clockwise_rotation_normal.png");
     btn->setHoverPic(":/images/resources/images/clockwise_rotation_hover.png");
     btn->setPressPic(":/images/resources/images/clockwise_rotation_press.png");
-    btn->setToolTip(tr("Rotate clockwise"));
+    btn->setToolTip(tr("Rotate counterclockwise"));
     hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateClockwise);
+    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateCounterClockwise);
     connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
         btn->setDisabled(v);
         if (v) {
@@ -159,7 +159,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
 
 }
 
-void TTMContent::onImageChanged(const QString &path, bool adaptScreen)
+void TTMContent::onImageChanged(const QString &path)
 {
     m_imageName = QFileInfo(path).fileName();
     m_imagePath = path;
@@ -167,8 +167,6 @@ void TTMContent::onImageChanged(const QString &path, bool adaptScreen)
         emit imageEmpty(true);
     else
         emit imageEmpty(false);
-
-    Q_UNUSED(adaptScreen);
 }
 
 void TTMContent::updateCollectButton()

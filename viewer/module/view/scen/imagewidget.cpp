@@ -81,6 +81,7 @@ void ImageWidget::fitImage()
 
 void ImageWidget::fitWindow()
 {
+    qDebug() << "############" << windowRelativeScale();
     resetTransform();
     setScaleValue(1 / windowRelativeScale());
 }

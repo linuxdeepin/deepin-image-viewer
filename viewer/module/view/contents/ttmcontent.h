@@ -11,7 +11,7 @@ public:
     explicit TTMContent(bool fromFileManager, QWidget *parent = 0);
 
 public slots:
-    void onImageChanged(const QString &path, bool adaptScreen);
+    void onImageChanged(const QString &path);
     void updateCollectButton();
 
 signals:

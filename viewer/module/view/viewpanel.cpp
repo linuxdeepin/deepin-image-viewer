@@ -1,6 +1,5 @@
 #include "viewpanel.h"
 #include "application.h"
-#include "imagewidget.h"
 #include "navigationwidget.h"
 #include "controller/divdbuscontroller.h"
 #include "controller/databasemanager.h"
@@ -8,6 +7,7 @@
 #include "contents/imageinfowidget.h"
 #include "contents/ttmcontent.h"
 #include "contents/ttlcontent.h"
+#include "scen/imageview.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include <QApplication>
@@ -32,10 +32,10 @@ const int OPEN_IMAGE_DELAY_INTERVAL = 500;
 }  // namespace
 
 ViewPanel::ViewPanel(QWidget *parent)
-    : ModulePanel(parent),
-      m_view(nullptr),
-      m_info(nullptr),
-      m_stack(nullptr)
+    : ModulePanel(parent)
+    , m_viewB(nullptr)
+    , m_info(nullptr)
+    , m_stack(nullptr)
 {
     m_vinfo.inDatabase = false;
 
@@ -228,10 +228,12 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         removeCurrentImage();
     });
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
-        if (fitWindow)
-            m_view->fitWindow();
-        else
-            m_view->fitImage();
+        if (fitWindow) {
+            m_viewB->fitWindow();
+        }
+        else {
+            m_viewB->fitImage();
+        }
     });
 
     return ttmc;
@@ -259,7 +261,7 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Hide) {
-        m_view->setImage("");
+        m_viewB->setImage("");
     }
     else if (m_infos.length() > 0
              &&  m_current != m_infos.constEnd()
@@ -267,6 +269,7 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
         // After slide show
         m_openTid = startTimer(m_openTid == 0 ? 0 : OPEN_IMAGE_DELAY_INTERVAL);
     }
+
     return false;
 }
 
@@ -419,7 +422,7 @@ void ViewPanel::removeCurrentImage()
     if (! showNext()) {
         if (! showPrevious()) {
             qDebug() << "No images to show!";
-            emit imageChanged("", true);
+            emit imageChanged("");
             m_stack->setCurrentIndex(1);
         }
     }
@@ -428,11 +431,11 @@ void ViewPanel::removeCurrentImage()
 void ViewPanel::resetImageGeometry()
 {
     // If image's size is smaller than window's size, set to 1:1 size
-    if (m_view->windowRelativeScale() > 1 && ! window()->isFullScreen()) {
-        m_view->fitWindow();
+    if (m_viewB->windowRelativeScale() > 1 && ! window()->isFullScreen()) {
+        m_viewB->fitImage();
     }
     else {
-        m_view->fitImage();
+        m_viewB->fitWindow();
     }
 }
 
@@ -471,7 +474,7 @@ void ViewPanel::initStack()
     il->setContentsMargins(0, 0, 0, 0);
     il->addWidget(icon, 0, Qt::AlignCenter);
 
-    m_stack->addWidget(m_view);
+    m_stack->addWidget(m_viewB);
     m_stack->addWidget(emptyFrame);
 }
 
@@ -494,10 +497,12 @@ void ViewPanel::backToLastPanel()
 
 void ViewPanel::rotateImage(bool clockWise)
 {
-    if (clockWise)
-        m_view->rotateClockWise();
-    else
-        m_view->rotateCounterclockwise();
+    if (clockWise) {
+        m_viewB->rotateClockWise();
+    }
+    else {
+        m_viewB->rotateCounterclockwise();
+    }
 
     resetImageGeometry();
 
@@ -507,12 +512,14 @@ void ViewPanel::rotateImage(bool clockWise)
     if (m_vinfo.inDatabase) {
         dApp->databaseM->updateThumbnail(m_current->name);
     }
+
+    emit imageChanged(m_viewB->path());
 }
 
 void ViewPanel::initViewContent()
 {
-    m_view = new ImageWidget();
-    connect(m_view, &ImageWidget::doubleClicked, [this]() {
+    m_viewB = new ImageView;
+    connect(m_viewB, &ImageView::doubleClicked, [this]() {
         toggleFullScreen();
     });
 }
@@ -529,7 +536,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         QtConcurrent::run(this, &ViewPanel::updateThumbnail,
                           QFileInfo(path).fileName());
     }
-    m_view->setImage(path);
+    m_viewB->setImage(path);
 
     updateMenuContent();
     resetImageGeometry();
@@ -540,7 +547,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     m_stack->setCurrentIndex(0);
 
-    emit imageChanged(m_view->imagePath(), m_view->scaleValue() == 1);
+    emit imageChanged(m_viewB->path());
     if (! inDB) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());

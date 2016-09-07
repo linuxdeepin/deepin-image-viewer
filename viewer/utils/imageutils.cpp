@@ -160,6 +160,7 @@ const QImage getRotatedImage(const QString &path)
 {
     // FIXME it should read the orientation enum value
     QImage img(path);
+
     const QString o = getOrientation(path);
     if (o.isEmpty() || o == "top, left side")
         return img;

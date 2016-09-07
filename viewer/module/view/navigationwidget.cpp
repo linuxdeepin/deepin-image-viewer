@@ -11,13 +11,13 @@ namespace {
 
 const QString SETTINGS_GROUP = "VIEWPANEL";
 const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
+const int IMAGE_MARGIN = 6;
+const int IMAGE_MARGIN_BOTTOM = 9;
 
 }  // namespace
 
 using namespace Dtk::Widget;
 
-const int IMAGE_MARGIN = 6;
-const int IMAGE_MARGIN_BOTTOM = 9;
 NavigationWidget::NavigationWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -30,14 +30,16 @@ NavigationWidget::NavigationWidget(QWidget *parent)
         setAlwaysHidden(true);
     });
 
-    m_mainRect = QRect(rect().x() + IMAGE_MARGIN, rect().y(),
-                       rect().width() - IMAGE_MARGIN*2, rect().height() - IMAGE_MARGIN_BOTTOM);
+    m_mainRect = QRect(rect().x() + IMAGE_MARGIN,
+                       rect().y(),
+                       rect().width() - IMAGE_MARGIN*2,
+                       rect().height() - IMAGE_MARGIN_BOTTOM);
 }
 
 void NavigationWidget::setAlwaysHidden(bool value)
 {
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_ALWAYSHIDDEN_KEY,
-                          QVariant(value));
+                           QVariant(value));
     if (isAlwaysHidden())
         hide();
     else
@@ -56,6 +58,7 @@ void NavigationWidget::setImage(const QImage &img)
                                m_mainRect.width(), m_mainRect.height());
 
 
+    m_originRect = img.rect();
     m_img = img.scaled(tmpImageRect.size(), Qt::KeepAspectRatio);
     m_pix = QPixmap::fromImage(m_img);
 
@@ -95,14 +98,13 @@ void NavigationWidget::tryMoveRect(const QPoint &p)
 {
     const int x0 = (m_mainRect.width()-m_img.width())/2;
     const int y0 = (m_mainRect.height()-m_img.height())/2;
-    const QRect r(x0, y0, m_img.width(), m_img.height());
-    if (!r.contains(p))
+    const QRect imageRect(x0, y0, m_img.width(), m_img.height());
+    if (! imageRect.contains(p))
         return;
-    const int x = qMax(0, qMin(p.x() - x0 - m_r.width()/2, m_img.width()-m_r.width()));
-    const int y = qMax(0, qMin(p.y() - y0 - m_r.height()/2, m_img.height()-m_r.height()));
+    const qreal x = 1.0 * (p.x() - x0) / m_img.width() * m_originRect.width();
+    const qreal y = 1.0 * (p.y() - y0) / m_img.height() * m_originRect.height();
 
-    //qDebug("request move: %d %d %.1f %.1f", x, y, (qreal)x/m_imageScale, (qreal)y/m_imageScale);
-    Q_EMIT requestMove((qreal)x/m_imageScale, (qreal)y/m_imageScale);
+    Q_EMIT requestMove(x, y);
 }
 
 void NavigationWidget::paintEvent(QPaintEvent *)

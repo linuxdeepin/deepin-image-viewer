@@ -1,6 +1,6 @@
 #include "viewpanel.h"
-#include "imagewidget.h"
 #include "navigationwidget.h"
+#include "scen/imageview.h"
 #include <controller/exporter.h>
 #include <controller/popupmenumanager.h>
 #include <controller/wallpapersetter.h>
@@ -98,8 +98,9 @@ const QString ViewPanel::createMenuContent()
     createMI(&items, IdSeparator, "", "", true);
 
     if (m_vinfo.inDatabase) {
-        if (! dApp->databaseM->imageExistAlbum(m_view->imageName(),
-                                               FAVORITES_ALBUM_NAME)) {
+        if (m_current != m_infos.constEnd() &&
+                ! dApp->databaseM->imageExistAlbum(
+                    m_current->name, FAVORITES_ALBUM_NAME)) {
             createMI(&items, IdAddToFavorites, tr("Add to My favorites"), "Ctrl+K");
         } else {
             createMI(&items, IdRemoveFromFavorites, tr("Unfavorite"), "Ctrl+Shift+K");
@@ -109,9 +110,9 @@ const QString ViewPanel::createMenuContent()
     /**************************************************************************/
     createMI(&items, IdSeparator, "", "", true);
 
-    if (m_view->scaleValue() > 1 && m_nav->isAlwaysHidden()) {
+    if (m_viewB->windowRelativeScale() > 1 && m_nav->isAlwaysHidden()) {
         createMI(&items, IdShowNavigationWindow, tr("Show navigation window"));
-    } else if (m_view->scaleValue() > 1 && !m_nav->isAlwaysHidden()) {
+    } else if (m_viewB->windowRelativeScale() > 1 && !m_nav->isAlwaysHidden()) {
         createMI(&items, IdHideNavigationWindow, tr("Hide navigation window"));
     }
 
@@ -143,11 +144,11 @@ const QString ViewPanel::createMenuContent()
 
 const QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
 {
-    if (! m_vinfo.inDatabase) {
+    if (m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
         return QJsonObject();
     }
     const QStringList albums = dApp->databaseM->getAlbumNameList();
-    const QString name = m_view->imageName();
+    const QString name = m_current->name;
 
     QJsonArray items;
     if (! m_infos.isEmpty()) {
@@ -214,7 +215,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         dApp->databaseM->removeImageFromAlbum(m_vinfo.album, name);
         break;
     case IdEdit:
-        dApp->signalM->editImage(m_view->imagePath());
+        dApp->signalM->editImage(path);
         break;
     case IdAddToFavorites:
         dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name, time);
@@ -284,16 +285,14 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        qreal v = m_view->scaleValue() + 0.1;
-        m_view->setScaleValue(qMin(v, 20.0));
+        m_viewB->setScaleValue(1.1);
     });
 
     // Zoom in
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        qreal v = m_view->scaleValue() - 0.1;
-        m_view->setScaleValue(qMax(v, 0.02));
+        m_viewB->setScaleValue(0.9);
     });
 
     // Esc

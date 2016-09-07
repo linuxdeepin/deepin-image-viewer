@@ -43,6 +43,8 @@ int Datastream::read(void *ptr, size_t size, size_t nmemb)
 
 int Datastream::seek(INT64 offset, int whence)
 {
+    if (! m_device->isOpen()) return -1;
+
     qint64 pos;
     switch (whence) {
     case SEEK_SET:

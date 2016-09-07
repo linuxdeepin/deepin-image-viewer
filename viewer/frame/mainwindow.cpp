@@ -39,6 +39,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     setCentralWidget(m_mainWidget);
     if (titleBar()) titleBar()->setFixedHeight(0);
     moveFirstWindow();
+
+//    QHBoxLayout *l = new QHBoxLayout(this);
+//    l->setContentsMargins(0, 0, 0, 0);
+//    l->addWidget(m_mainWidget);
 }
 
 void MainWindow::moveFirstWindow() {

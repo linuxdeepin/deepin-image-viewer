@@ -6,6 +6,7 @@
 #system($$PWD/vendor/prebuild)
 
 QT += core gui sql dbus concurrent svg x11extras
+qtHaveModule(opengl): QT += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle

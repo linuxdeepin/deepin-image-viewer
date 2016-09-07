@@ -29,7 +29,7 @@ SeekProc(fi_handle handle, long offset, int origin)
 {
     QIODevice *quid = static_cast<QIODevice*>(handle);
 
-    if (quid->bytesAvailable() > 0) {
+    if (quid->isOpen() && quid->bytesAvailable() > 0) {
         switch (origin)
         {
         default:
