@@ -90,6 +90,7 @@ void BlureInfoFrame::setTopContent(QWidget *w)
     m_topLayout->addWidget(w);
 
     ImageButton* cb = new ImageButton(this);
+    cb->setTooltipVisible(true);
     cb->setNormalPic(":/images/resources/images/closewindow_normal.png");
     cb->setHoverPic(":/images/resources/images/closewindow_hover.png");
     cb->setPressPic(":/images/resources/images/closewindow_press.png");

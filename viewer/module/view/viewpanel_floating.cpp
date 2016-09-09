@@ -16,7 +16,7 @@ void ViewPanel::initFloatingComponent()
 void ViewPanel::initSwitchButtons()
 {
     Anchors<ImageButton> preButton = new ImageButton(this);
-    preButton->setToolTip(tr("Previous"));
+    preButton->setTooltipVisible(true);
     preButton->setObjectName("PreviousButton");
     preButton->setNormalPic(":/images/resources/images/previous_hover.png");
     preButton->setHoverPic(":/images/resources/images/previous_hover.png");
@@ -31,7 +31,7 @@ void ViewPanel::initSwitchButtons()
     connect(preButton, &ImageButton::clicked, this, &ViewPanel::showPrevious);
 
     Anchors<ImageButton> nextButton = new ImageButton(this);
-    nextButton->setToolTip(tr("Next"));
+    nextButton->setTooltipVisible(true);
     nextButton->setObjectName("NextButton");
     nextButton->setNormalPic(":/images/resources/images/next_hover.png");
     nextButton->setHoverPic(":/images/resources/images/next_hover.png");
