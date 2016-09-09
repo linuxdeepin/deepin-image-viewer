@@ -19,7 +19,7 @@ public:
 
     QSize itemSize() const;
     void setItemSizeMultiple(int multiple);
-
+    void popupDelDialog(const QString &albumName);
 signals:
     void albumCreated();
     void albumRemoved();

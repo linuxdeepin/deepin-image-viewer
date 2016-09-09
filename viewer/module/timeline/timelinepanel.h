@@ -65,7 +65,7 @@ private:
     void updateMenuContents();
     void onMenuItemClicked(int menuId, const QString &text);
     void onImageCountChanged(int count);
-
+    void popupDelDialog(const QStringList paths, const QStringList names);
     QString createMenuContent();
     QJsonValue createMenuItem(const MenuItemId id,
                               const QString &text,

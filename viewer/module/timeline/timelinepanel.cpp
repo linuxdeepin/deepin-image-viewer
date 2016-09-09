@@ -11,6 +11,7 @@
 #include "widgets/importframe.h"
 #include "widgets/imagebutton.h"
 #include "widgets/slider.h"
+#include "frame/deletedialog.h"
 #include <QPushButton>
 #include <QFileDialog>
 #include <QMimeData>
@@ -384,10 +385,10 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     case IdCopy:
         utils::base::copyImageToClipboard(pList);
         break;
-    case IdMoveToTrash:
-        dApp->databaseM->removeImages(nList);
-        utils::base::trashFiles(pList);
+    case IdMoveToTrash: {
+        popupDelDialog(pList, nList);
         break;
+    }
     case IdAddToFavorites:
         for(QString name : nList) {
         dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name,
@@ -539,6 +540,21 @@ QJsonObject TimelinePanel::createAlbumMenuObj()
     }
 
     return contentObj;
+}
+
+void TimelinePanel::popupDelDialog(const QStringList paths, const QStringList names) {
+    DeleteDialog* delDialog = new DeleteDialog(paths, false, this);
+    delDialog->show();
+    delDialog->moveToCenter();
+    connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
+        if (index == 1) {
+            dApp->databaseM->removeImages(names);
+            utils::base::trashFiles(paths);
+        }
+    });
+
+    connect(delDialog, &DeleteDialog::closed,
+            delDialog, &DeleteDialog::deleteLater);
 }
 
 const DatabaseManager::ImageInfo TimelinePanel::imageInfo(

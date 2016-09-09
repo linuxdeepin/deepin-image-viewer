@@ -11,6 +11,8 @@
 #include "widgets/importframe.h"
 #include "widgets/thumbnaillistview.h"
 #include "widgets/scrollbar.h"
+#include "frame/deletedialog.h"
+
 #include <QDebug>
 #include <QFileInfo>
 #include <QStandardItem>
@@ -267,9 +269,7 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         utils::base::copyImageToClipboard(pList);
         break;
     case IdMoveToTrash: {
-        removeItems(nList);
-        dApp->databaseM->removeImages(nList);
-        utils::base::trashFiles(pList);
+        popupDelDialog(pList, nList);
         break;
     }
     case IdAddToFavorites: {
@@ -468,4 +468,20 @@ QJsonObject ImagesView::createAlbumMenuObj()
     }
 
     return contentObj;
+}
+
+void ImagesView::popupDelDialog(const QStringList paths, const QStringList names) {
+    DeleteDialog* delDialog = new DeleteDialog(paths, false, this);
+    delDialog->show();
+    delDialog->moveToCenter();
+    connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
+        if (index == 1) {
+            removeItems(names);
+            dApp->databaseM->removeImages(names);
+            utils::base::trashFiles(paths);
+        }
+    });
+    connect(delDialog, &DeleteDialog::closed,
+            delDialog, &DeleteDialog::deleteLater);
+
 }

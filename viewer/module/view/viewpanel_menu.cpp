@@ -1,6 +1,8 @@
 #include "viewpanel.h"
 #include "navigationwidget.h"
 #include "scen/imageview.h"
+#include "frame/deletedialog.h"
+
 #include <controller/exporter.h>
 #include <controller/popupmenumanager.h>
 #include <controller/wallpapersetter.h>
@@ -206,11 +208,10 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdCopy:
         copyImageToClipboard(QStringList(path));
         break;
-    case IdMoveToTrash:
-        dApp->databaseM->removeImages(QStringList(name));
-        trashFile(path);
-        removeCurrentImage();
+    case IdMoveToTrash: {
+        initPopupDelDialog(path, name);
         break;
+    }
     case IdRemoveFromAlbum:
         dApp->databaseM->removeImageFromAlbum(m_vinfo.album, name);
         break;
@@ -311,4 +312,22 @@ void ViewPanel::initShortcut()
             }
         }
     });
+}
+
+void ViewPanel::initPopupDelDialog(const QString path, const QString name) {
+    using namespace utils::base;
+    DeleteDialog* delDialog = new DeleteDialog(QStringList(path));
+    delDialog->show();
+    delDialog->moveToCenter();
+
+    connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
+        if (index == 1) {
+            dApp->databaseM->removeImages(QStringList(name));
+            trashFile(path);
+            removeCurrentImage();
+        }
+    });
+
+    connect(delDialog, &DeleteDialog::closed,
+            delDialog, &DeleteDialog::deleteLater);
 }

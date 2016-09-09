@@ -78,8 +78,8 @@ private:
     void updateContent();
     void updateThumbnail(const QString &path);
     void updateTopTipsRect();
-
     bool allInAlbum(const QStringList &names, const QString &album);
+    void popupDelDialog(const QStringList paths, const QStringList names);
 
     QJsonObject createAlbumMenuObj();
     QString createMenuContent();
