@@ -389,8 +389,10 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         utils::base::trashFiles(pList);
         break;
     case IdAddToFavorites:
-        dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, cname,
+        for(QString name : nList) {
+        dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name,
             utils::base::timeToString(imageInfo(cname).time));
+        }
         updateMenuContents();
         break;
     case IdRemoveFromFavorites:
@@ -457,16 +459,17 @@ QString TimelinePanel::createMenuContent()
                                 "Delete"));
 
     items.append(createMenuItem(IdSeparator, "", true));
-    if (images.count() == 1) {
-        if (! dApp->databaseM->imageExistAlbum(images.firstKey(),
-                                               FAVORITES_ALBUM_NAME)) {
+    foreach (const QString &img, images) {
+        if (!dApp->databaseM->imageExistAlbum(img, FAVORITES_ALBUM_NAME)) {
             items.append(createMenuItem(IdAddToFavorites,
                 tr("Add to My favorites"), false, "Ctrl+K"));
+            break;
         }
-        else {
-            items.append(createMenuItem(IdRemoveFromFavorites, tr("Unfavorite"),
+    }
+
+    if (images.count() == 1) {
+        items.append(createMenuItem(IdRemoveFromFavorites, tr("Unfavorite"),
                                         false, "Ctrl+Shift+K"));
-        }
     }
     items.append(createMenuItem(IdSeparator, "", true));
 
