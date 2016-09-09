@@ -61,6 +61,9 @@ int Datastream::seek(INT64 offset, int whence)
     }
 
     if (pos < 0) pos = 0;
+
+    if (m_device->bytesAvailable() < pos) return -1;
+
     return m_device->seek(pos) ? 0 : -1;
 }
 
