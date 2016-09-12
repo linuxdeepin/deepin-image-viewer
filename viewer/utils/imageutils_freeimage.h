@@ -13,11 +13,10 @@ namespace freeimage {
 
 const QString getFileFormat(const QString &path)
 {
-    const char *pc = path.toUtf8().data();
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    fif = FreeImage_GetFileType(pc, 0);
+    fif = FreeImage_GetFileType(path.toUtf8().data(), 0);
     if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(pc);
+        fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
     }
 
     if (fif == FIF_UNKNOWN) {
@@ -30,15 +29,14 @@ const QString getFileFormat(const QString &path)
 
 FIBITMAP * readFileToFIBITMAP(const QString &path)
 {
-    const char *pc = path.toUtf8().data();
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    fif = FreeImage_GetFileType(pc, 0);
+    fif = FreeImage_GetFileType(path.toUtf8().data(), 0);
     if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(pc);
+        fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
     }
 
     if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
-        FIBITMAP *dib = FreeImage_Load(fif, pc, 0);
+        FIBITMAP *dib = FreeImage_Load(fif, path.toUtf8().data(), 0);
         return dib;
     }
 
@@ -130,11 +128,10 @@ FIBITMAP * makeThumbnail(const QString &path, int size) {
 
 bool isSupportsReading(const QString &path)
 {
-    const char *pc = path.toUtf8().data();
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    fif = FreeImage_GetFileType(pc, 0);
+    fif = FreeImage_GetFileType(path.toUtf8().data(), 0);
     if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(pc);
+        fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
     }
 
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
@@ -142,11 +139,10 @@ bool isSupportsReading(const QString &path)
 
 bool isSupportsWriting(const QString &path)
 {
-    const char *pc = path.toUtf8().data();
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    fif = FreeImage_GetFileType(pc, 0);
+    fif = FreeImage_GetFileType(path.toUtf8().data(), 0);
     if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(pc);
+        fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
     }
 
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
