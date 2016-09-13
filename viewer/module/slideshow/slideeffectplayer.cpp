@@ -82,8 +82,11 @@ bool SlideEffectPlayer::startNext()
         m_thread.start();
 
     m_effect->moveToThread(&m_thread);
-    connect(m_effect, &SlideEffect::frameReady,
-            this, &SlideEffectPlayer::frameReady, Qt::DirectConnection);
+    connect(m_effect, &SlideEffect::frameReady, this, [=] (const QImage &img) {
+        if (m_running) {
+            Q_EMIT frameReady(img);
+        }
+    }, Qt::DirectConnection);
     QMetaObject::invokeMethod(m_effect, "start");
     return true;
 }

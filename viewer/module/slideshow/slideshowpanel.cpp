@@ -188,35 +188,39 @@ void SlideShowPanel::showFullScreen()
     // Full screen then hide bars because hide animation depends on height()
     window()->showFullScreen();
 
-    TIMER_SINGLESHOT(300, {
-    if (window()->isFullScreen()) {
+    setImage(getFitImage(m_player->currentImagePath()));
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->hideExtensionPanel(true);
     emit dApp->signalM->hideTopToolbar(true);
-    }
-    setImage(getFitImage(m_player->currentImagePath()));
-
-                         }, this)
 }
 
+/*!
+ * \brief SlideShowPanel::getFitImage
+ * Compound pixmap to fill the blank after started.
+ * \param path
+ * \return
+ */
 QImage SlideShowPanel::getFitImage(const QString &path)
 {
-    QImage ti(width(), height(), QImage::Format_ARGB32);
+    QDesktopWidget *dw = dApp->desktop();
+    const int dww = dw->screenGeometry(window()).width();
+    const int dwh = dw->screenGeometry(window()).height();
 
+    QImage ti(dww, dwh, QImage::Format_ARGB32);
     QImage image(path);
     QRectF source(0.0, 0.0, image.width(), image.height());
     QRectF target;
-    if (image.width() > image.height()) {
-        const qreal h = 1.0 * image.height() * width() / image.width();
-        target = QRectF(0.0, (height() - h) / 2, width(), h);
+    if (1.0 * dww / dwh > 1.0 * image.width() / image.height()) {
+        const qreal w = 1.0 * image.width() * dwh / image.height();
+        target = QRectF((dww - w) / 2, 0.0, w, dwh);
     }
     else {
-        const qreal w = 1.0 * image.width() * height() / image.height();
-        target = QRectF((width() - w) / 2, 0.0, w, height());
+        const qreal h = 1.0 * image.height() * dww / image.width();
+        target = QRectF(0.0, (dwh - h) / 2, dww, h);
     }
 
     QPainter painter(&ti);
-    painter.fillRect(0, 0, width(), height(), QColor(27, 27, 27));
+    painter.fillRect(0, 0, dww, dwh, QColor(27, 27, 27));
     painter.drawImage(target, image, source);
 
     return ti;
