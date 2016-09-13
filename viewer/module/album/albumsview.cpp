@@ -6,6 +6,7 @@
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "frame/deletedialog.h"
 
 #include <QDebug>
 #include <QBuffer>
@@ -339,15 +340,10 @@ void AlbumsView::onMenuItemClicked(int menuId)
         utils::base::copyImageToClipboard(paths);
         break;
     }
-    case IdDelete:
-        if (albumName != MY_FAVORITES_ALBUM
-                && albumName != RECENT_IMPORTED_ALBUM
-                && ! isCreateIcon(currentIndex())) {
-            dApp->databaseM->removeAlbum(albumName);
-            m_model->removeRow(currentIndex().row());
-            emit albumRemoved();
-        }
+    case IdDelete: {
+        popupDelDialog(albumName);
         break;
+    }
         //    case IdAlbumInfo:
         //        break;
     default:
@@ -412,4 +408,28 @@ void AlbumsView::updateView()
     for (const QString name : albums) {
         addAlbum(dApp->databaseM->getAlbumInfo(name));
     }
+}
+
+void AlbumsView::popupDelDialog(const QString &albumName) {
+    const auto infos = dApp->databaseM->getImageInfosByAlbum(albumName);
+    QStringList paths;
+    for (int i = 0; i < infos.length(); i++) {
+        paths << infos[i].path;
+    }
+    DeleteDialog* delDialog = new DeleteDialog(paths, true, this);
+    delDialog->show();
+    connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
+        if (index == 1) {
+            if (albumName != MY_FAVORITES_ALBUM
+                    && albumName != RECENT_IMPORTED_ALBUM
+                    && ! isCreateIcon(currentIndex())) {
+                dApp->databaseM->removeAlbum(albumName);
+                m_model->removeRow(currentIndex().row());
+                emit albumRemoved();
+            }
+        }
+    });
+
+    connect(delDialog, &DeleteDialog::closed,
+            delDialog, &DeleteDialog::deleteLater);
 }

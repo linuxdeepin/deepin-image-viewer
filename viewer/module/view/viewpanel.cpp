@@ -10,6 +10,8 @@
 #include "scen/imageview.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
+#include "frame/deletedialog.h"
+
 #include <QApplication>
 #include <QDebug>
 #include <QFileInfo>
@@ -223,9 +225,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         rotateImage(false);
     });
     connect(ttmc, &TTMContent::removed, this, [=] {
-        dApp->databaseM->removeImages(QStringList(m_current->name));
-        utils::base::trashFile(m_current->path);
-        removeCurrentImage();
+        initPopupDelDialog(m_current->path, m_current->name);
     });
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
         if (fitWindow) {
