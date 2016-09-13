@@ -260,7 +260,8 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
 
 
         painter->setFont(albumNameFont);
-        painter->drawText(albumNameRect, Qt::AlignCenter, albumName);
+        painter->drawText(albumNameRect, fm.elidedText(albumName,
+            Qt::ElideMiddle, rect.width()), QTextOption(Qt::AlignCenter));
     }
 }
 
