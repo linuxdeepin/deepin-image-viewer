@@ -12,6 +12,7 @@ namespace image {
 
 const int THUMBNAIL_MAX_SIZE = 192;
 
+const QPixmap                       cachePixmap(const QString &path);
 const QPixmap                       cutSquareImage(const QPixmap &pixmap,
                                                    const QSize &size);
 const QMap<QString, QString>        getAllMetaData(const QString &path);

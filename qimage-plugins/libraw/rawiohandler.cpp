@@ -63,6 +63,7 @@ bool RawIOHandlerPrivate::load(QIODevice *device)
 
     stream = new Datastream(device);
     raw = new LibRaw;
+    raw->imgdata.params.use_rawspeed = 1;
     if (raw->open_datastream(stream) != LIBRAW_SUCCESS) {
         delete raw;
         raw = 0;

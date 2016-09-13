@@ -536,6 +536,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         QtConcurrent::run(this, &ViewPanel::updateThumbnail,
                           QFileInfo(path).fileName());
     }
+
     m_viewB->setImage(path);
 
     updateMenuContent();

@@ -1,12 +1,14 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/imageutils_freeimage.h"
+#include <QBuffer>
 #include <QDebug>
 #include <QDir>
 #include <QDirIterator>
 #include <QFileInfo>
-#include <QBuffer>
 #include <QImage>
+#include <QPixmapCache>
+#include <QSvgRenderer>
 
 namespace utils {
 
@@ -61,13 +63,14 @@ const QDateTime getCreateDateTime(const QString &path)
 
 bool isImageSupported(const QString &path)
 {
-    return freeimage::isSupportsReading(path);
+    if (QSvgRenderer().load(path))
+        return true;
+    else
+        return freeimage::isSupportsReading(path);
 }
 
 bool rotate(const QString &path, int degree)
 {
-//    const QTransform t = QTransform().rotate(degree);
-//    saveImageWithExif(QImage(path).transformed(t), path, path, t);
     if (degree % 90 != 0)
         return false;
     FIBITMAP *dib = freeimage::readFileToFIBITMAP(path);
@@ -118,12 +121,13 @@ const QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
  */
 const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 {
+
     QFileInfoList infos;
 
     if (! recursive) {
         auto nsl = QDir(dir).entryInfoList(QDir::Files | QDir::NoSymLinks);
         for (QFileInfo info : nsl) {
-            if (freeimage::isSupportsReading(info.absoluteFilePath())) {
+            if (isImageSupported(info.absoluteFilePath())) {
                 infos << info;
             }
         }
@@ -136,8 +140,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     while(dirIterator.hasNext())
     {
         dirIterator.next();
-        if (freeimage::isSupportsReading(
-                    dirIterator.fileInfo().absoluteFilePath())) {
+        if (isImageSupported(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
         }
     }
@@ -182,6 +185,16 @@ const QImage getRotatedImage(const QString &path)
 const QMap<QString, QString> getAllMetaData(const QString &path)
 {
     return freeimage::getAllMetaData(path);
+}
+
+const QPixmap cachePixmap(const QString &path)
+{
+    QPixmap pp;
+    if (! QPixmapCache::find(path, &pp)) {
+        pp = QPixmap(path);
+        QPixmapCache::insert(path, pp);
+    }
+    return pp;
 }
 
 }  // namespace image
