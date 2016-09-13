@@ -62,6 +62,12 @@ QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
     return mdMap;
 }
 
+/*!
+ * \brief getAllMetaData
+ * This function is very slow
+ * \param path
+ * \return
+ */
 QMap<QString, QString> getAllMetaData(const QString &path)
 {
     FIBITMAP *dib = readFileToFIBITMAP(path);

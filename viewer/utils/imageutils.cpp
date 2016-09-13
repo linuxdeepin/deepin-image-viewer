@@ -1,5 +1,6 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "utils/imageutils_libexif.h"
 #include "utils/imageutils_freeimage.h"
 #include <QBuffer>
 #include <QDebug>
@@ -49,16 +50,7 @@ const QPixmap scaleImage(const QString &path, const QSize &size)
 
 const QDateTime getCreateDateTime(const QString &path)
 {
-    const QString dts = freeimage::getAllMetaData(path)["DateTimeOriginal"];
-    if (! dts.isEmpty()) {
-        QDateTime dt = utils::base::stringToDateTime(dts);
-        if (dt.isValid()) {
-            return dt;
-        }
-    }
-
-    QFileInfo info(path);
-    return info.created();
+    return libexif::getCreateDateTime(path);
 }
 
 bool isImageSupported(const QString &path)
