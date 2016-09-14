@@ -1,0 +1,17 @@
+QPushButton {
+    background-color: transparent;
+    font-size: 12px;
+    color: white;
+}
+
+QPushButton:pressed {
+    background-color: transparent;
+    font-size: 12px;
+    color: #01bdff;
+}
+
+QPushButton:hover {
+    background-color: transparent;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
