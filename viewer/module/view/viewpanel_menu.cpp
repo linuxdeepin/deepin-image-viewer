@@ -312,6 +312,12 @@ void ViewPanel::initShortcut()
             }
         }
     });
+    //1:1 size
+    QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
+    adaptImage->setContext(Qt::WindowShortcut);
+    connect(adaptImage, &QShortcut::activated, this, [=]{
+        m_viewB->fitImage();
+    });
 }
 
 void ViewPanel::initPopupDelDialog(const QString path, const QString name) {
