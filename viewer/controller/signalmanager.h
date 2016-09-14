@@ -58,7 +58,7 @@ signals:
     void insertIntoAlbum(const DatabaseManager::ImageInfo info);
     void removedFromAlbum(const QString &album, const QStringList &names);
 
-    void windowStatesChanged(const Qt::WindowStates state);
+//    void windowStatesChanged(const Qt::WindowStates state);
 
 private:
     explicit SignalManager(QObject *parent = 0);

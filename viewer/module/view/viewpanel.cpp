@@ -83,11 +83,11 @@ void ViewPanel::initConnect() {
                 removeCurrentImage();
         }
     });
-    connect(dApp->signalM, &SignalManager::windowStatesChanged,
-            this, [=] (const Qt::WindowStates state) {
-        Q_UNUSED(state)
-        QMetaObject::invokeMethod(this, "resetImageGeometry", Qt::QueuedConnection);
-    });
+
+//    connect(dApp->signalM, &SignalManager::windowStatesChanged,
+//            this, [=] (const Qt::WindowStates state) {
+//        Q_UNUSED(state);
+//    });
 }
 
 void ViewPanel::initFileSystemWatcher()
@@ -280,7 +280,6 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     // There will be several times the size change during switch to full process
     // So correct it every times
     if (window()->isFullScreen()) {
-        resetImageGeometry();
         Q_EMIT dApp->signalM->hideExtensionPanel(true);
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
@@ -431,7 +430,7 @@ void ViewPanel::removeCurrentImage()
 void ViewPanel::resetImageGeometry()
 {
     // If image's size is smaller than window's size, set to 1:1 size
-    if (m_viewB->windowRelativeScale() > 1 && ! window()->isFullScreen()) {
+    if (m_viewB->windowRelativeScale() > 1) {
         m_viewB->fitImage();
     }
     else {

@@ -28,10 +28,10 @@ bool GlobalEventFilter::eventFilter(QObject *obj, QEvent *e)
 
 //        qDebug() << e->type();
 //    }
-    if (e->type() == QEvent::WindowStateChange) {
-        if (QWindowStateChangeEvent *we = static_cast<QWindowStateChangeEvent *>(e)) {
-            emit SignalManager::instance()->windowStatesChanged(we->oldState());
-        }
-    }
+//    if (e->type() == QEvent::WindowStateChange) {
+//        if (QWindowStateChangeEvent *we = static_cast<QWindowStateChangeEvent *>(e)) {
+//            emit SignalManager::instance()->windowStatesChanged(we->oldState());
+//        }
+//    }
     return false;
 }
