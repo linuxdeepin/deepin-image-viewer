@@ -30,7 +30,8 @@ class DeleteDialog : public DDialog {
 public:
     DeleteDialog(const QStringList imgPaths, bool isAlbum = false,
                  QWidget* parent = 0);
-
+protected:
+    void keyPressEvent(QKeyEvent *e);
 private:
     ConverLabel* m_iconLabel;
     QPixmap m_delPix;

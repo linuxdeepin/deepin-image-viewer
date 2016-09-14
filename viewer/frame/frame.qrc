@@ -8,5 +8,6 @@
     <qresource prefix="/qss">
         <file>resources/qss/frame.qss</file>
         <file>resources/qss/AboutWindow.qss</file>
+        <file>resources/qss/deletedialog.qss</file>
     </qresource>
 </RCC>
