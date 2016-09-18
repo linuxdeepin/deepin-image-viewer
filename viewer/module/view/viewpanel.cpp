@@ -283,6 +283,8 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         Q_EMIT dApp->signalM->hideExtensionPanel(true);
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
+
+    resetImageGeometry();
 }
 
 void ViewPanel::timerEvent(QTimerEvent *e)

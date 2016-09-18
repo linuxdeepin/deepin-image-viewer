@@ -418,6 +418,8 @@ void AlbumsView::popupDelDialog(const QString &albumName) {
     }
     DeleteDialog* delDialog = new DeleteDialog(paths, true, this);
     delDialog->show();
+    delDialog->moveToCenter();
+
     connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
         if (index == 1) {
             if (albumName != MY_FAVORITES_ALBUM
