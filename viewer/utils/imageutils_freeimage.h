@@ -4,6 +4,7 @@
 #include <QImage>
 #include <QMap>
 #include <QString>
+#include <QDebug>
 
 namespace utils {
 
@@ -155,11 +156,10 @@ bool isSupportsWriting(const QString &path)
 }
 
 bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
-    const char *lpszPathName = path.toUtf8().data();
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     BOOL bSuccess = FALSE;
     // Try to guess the file format from the file extension
-    fif = FreeImage_GetFIFFromFilename(lpszPathName);
+    fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
     if(fif != FIF_UNKNOWN ) {
         // Check that the dib can be saved in this format
         BOOL bCanSave;
@@ -177,7 +177,7 @@ bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
             bCanSave = FreeImage_FIFSupportsExportType(fif, image_type);
         }
         if(bCanSave) {
-            bSuccess = FreeImage_Save(fif, dib, lpszPathName, flag);
+            bSuccess = FreeImage_Save(fif, dib, path.toUtf8().data(), flag);
         }
     }
 
