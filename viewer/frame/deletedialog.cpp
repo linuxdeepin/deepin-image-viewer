@@ -72,7 +72,7 @@ void ConverLabel::paintEvent(QPaintEvent *e) {
 DeleteDialog::DeleteDialog(const QStringList imgPaths, bool isAlbum,
     QWidget *parent) : DDialog(parent) {
     QPixmap albumPix, imagesPix;
-    setMinimumWidth(380);
+    setMinimumSize(380, 135);
     albumPix.load(":/images/resources/images/import_dir.png");
     imagesPix.load(":/images/resources/images/delete_images.png");
     setModal(true);
@@ -136,8 +136,9 @@ DeleteDialog::DeleteDialog(const QStringList imgPaths, bool isAlbum,
             qobject_cast<QPushButton *>(this->children().at(i));
         if (button ) {
             if (!button->text().isEmpty()){
-                button->setStyleSheet(utils::base::getFileContent(
-                                      ":/qss/resources/qss/deletedialog.qss"));
+                QFont font;
+                font.setPixelSize(12);
+                button->setFont(font);
             }
         }
     }
