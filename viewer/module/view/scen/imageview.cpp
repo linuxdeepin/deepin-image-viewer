@@ -191,11 +191,11 @@ qreal ImageView::imageRelativeScale() const
 qreal ImageView::windowRelativeScale() const
 {
     QRectF bf = sceneRect();
-    if (bf.width() > bf.height()) {
-        return 1.0 * width() / bf.width();
+    if (width() / height() > bf.width() / bf.height()) {
+        return 1.0 * height() / bf.height();
     }
     else {
-        return 1.0 * height() / bf.height();
+        return 1.0 * width() / bf.width();
     }
 }
 
