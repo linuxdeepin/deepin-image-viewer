@@ -127,6 +127,9 @@ void ImageView::setScaleValue(qreal v)
         const qreal maxv = MAX_SCALE_FACTOR / irs;
         scale(maxv, maxv);
     }
+    else {
+        m_isFitWindow = false;
+    }
     emit scaled(imageRelativeScale() * 100);
     emit transformChanged();
 }
@@ -156,12 +159,14 @@ void ImageView::fitWindow()
     qreal wrs = windowRelativeScale();
     resetTransform();
     scale(wrs, wrs);
+    m_isFitWindow = true;
 }
 
 void ImageView::fitImage()
 {
     resetTransform();
     scale(1, 1);
+    m_isFitWindow = false;
 }
 
 void ImageView::rotateClockWise()
@@ -233,6 +238,11 @@ QRect ImageView::visibleImageRect() const
 bool ImageView::isWholeImageVisible() const
 {
     return visibleImageRect().size() == sceneRect().size();
+}
+
+bool ImageView::isFitWindow() const
+{
+    return m_isFitWindow;
 }
 
 void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)

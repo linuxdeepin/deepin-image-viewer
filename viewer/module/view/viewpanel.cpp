@@ -284,7 +284,9 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
 
-    resetImageGeometry();
+    if (m_viewB->isFitWindow()) {
+        resetImageGeometry();
+    }
 }
 
 void ViewPanel::timerEvent(QTimerEvent *e)

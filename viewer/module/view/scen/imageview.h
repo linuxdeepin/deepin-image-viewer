@@ -40,6 +40,8 @@ public:
     QRect visibleImageRect() const;
     bool isWholeImageVisible() const;
 
+    bool isFitWindow() const;
+
 signals:
     void doubleClicked();
     void mouseHoverMoved();
@@ -58,6 +60,7 @@ protected:
     void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 
 private:
+    bool m_isFitWindow;
     RendererType m_renderer;
     QString m_path;
 

@@ -13,12 +13,19 @@ class ImageButton : public DImageButton
     Q_OBJECT
 public:
     explicit ImageButton(QWidget *parent = 0);
+    explicit ImageButton(const QString & normalPic, const QString & hoverPic,
+                         const QString & pressPic, const QString &disablePic,
+                         QWidget *parent = 0);
+    void setDisablePic(const QString &path);
+    void setDisabled(bool d);
     void setTooltipVisible(bool visible);
     bool tooltipVisible();
+
 signals:
     void mouseLeave();
 
 protected:
+    void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 
 private:
@@ -27,6 +34,8 @@ private:
 
 private:
     bool m_tooltipVisiable;
+    QString m_normalPic_;
+    QString m_disablePic_;
 };
 
 #endif // IMAGEBUTTON_H

@@ -14,6 +14,32 @@ ImageButton::ImageButton(QWidget *parent)
     initStyleSheet();
 }
 
+ImageButton::ImageButton(const QString &normalPic, const QString &hoverPic,
+                          const QString &pressPic, const QString &disablePic,
+                          QWidget *parent)
+    : DImageButton(normalPic, hoverPic, pressPic, parent)
+    , m_normalPic_(normalPic)
+    , m_disablePic_(disablePic)
+{
+    initStyleSheet();
+}
+
+void ImageButton::setDisablePic(const QString &path)
+{
+    m_disablePic_ = path;
+}
+
+void ImageButton::setDisabled(bool d)
+{
+    if (d) {
+        setNormalPic(m_disablePic_);
+    }
+    else {
+        setNormalPic(m_normalPic_);
+    }
+    DImageButton::setDisabled(d);
+}
+
 bool ImageButton::event(QEvent *e)
 {
     if (e->type() == QEvent::ToolTip) {
@@ -49,6 +75,13 @@ void ImageButton::setTooltipVisible(bool visible){
 
 bool ImageButton::tooltipVisible() {
     return m_tooltipVisiable;
+}
+
+void ImageButton::enterEvent(QEvent *e)
+{
+    if (isEnabled()) {
+        DImageButton::enterEvent(e);
+    }
 }
 
 void ImageButton::showTooltip(const QPoint &gPos)
