@@ -127,7 +127,7 @@ const QString ViewPanel::createMenuContent()
     /**************************************************************************/
     createMI(&items, IdSeparator, "", "", true);
 
-    createMI(&items, IdSetAsWallpaper, tr("Set as wallpaper"), "Ctrl+8");
+    createMI(&items, IdSetAsWallpaper, tr("Set as wallpaper"), "Ctrl+F8");
     if (m_vinfo.inDatabase) {
         createMI(&items, IdDisplayInFileManager, tr("Display in file manager"), "Ctrl+D");
     }
