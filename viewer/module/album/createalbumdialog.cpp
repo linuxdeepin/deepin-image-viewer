@@ -54,7 +54,10 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget* parent)
             this->close();
         }
         else {
-            createAlbum(edit->text().trimmed());
+            if (edit->text().simplified().length()!= 0)
+                createAlbum(edit->text().trimmed());
+            else
+                createAlbum(tr("Unnamed"));
             this->close();
         }
     });
