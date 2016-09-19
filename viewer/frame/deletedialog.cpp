@@ -30,7 +30,7 @@ void ConverLabel::paintEvent(QPaintEvent *e) {
             QSize(SINGLEIMAGE_SIZE.width() - BORDER_WIDTH*2,
                   SINGLEIMAGE_SIZE.height() - BORDER_WIDTH*2));
 
-        QPen pen(QColor(Qt::white));
+        QPen pen(Qt::white);
         pen.setWidth(2);
         painter.setPen(pen);
 

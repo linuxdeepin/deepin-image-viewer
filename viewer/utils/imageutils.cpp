@@ -55,10 +55,10 @@ const QDateTime getCreateDateTime(const QString &path)
 
 bool isImageSupported(const QString &path)
 {
-    if (QSvgRenderer().load(path))
+    if (freeimage::isSupportsReading(path))
         return true;
     else
-        return freeimage::isSupportsReading(path);
+        return QSvgRenderer().load(path);
 }
 
 bool rotate(const QString &path, int degree)
@@ -76,8 +76,8 @@ bool rotate(const QString &path, int degree)
 const QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
 {
     QImage img = pixmap.toImage().scaled(size,
-                                                Qt::KeepAspectRatioByExpanding,
-                                                Qt::SmoothTransformation);
+                                         Qt::KeepAspectRatioByExpanding,
+                                         Qt::SmoothTransformation);
 
     img = img.copy((img.width() - size.width()) / 2,
                    (img.height() - size.height()) / 2,

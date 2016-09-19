@@ -14,7 +14,7 @@ public:
     struct ItemInfo {
         QString name = QString();
         QString path = QString();
-        bool tickable = false;
+        QPixmap thumb = QPixmap();
     };
 
     explicit ThumbnailListView(QWidget *parent = 0);
@@ -24,8 +24,8 @@ public:
     void updateViewPort();
     void updateViewPortSize();
     void updateThumbnail(const QString &name);
+    void updateThumbnails();
     void setIconSize(const QSize &size);
-    void setTickable(bool v);
     void insertItem(const ItemInfo &info);
     bool removeItem(const QString &name);
     void removeItems(const QStringList &names);
@@ -43,29 +43,31 @@ signals:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    int horizontalOffset() const Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
-    int horizontalOffset() const Q_DECL_OVERRIDE;
 
 private slots:
     void onThumbnailResultReady(int index);
     void fixedViewPortSize(bool proactive = false);
-    int maxColumn() const;
-    int contentsHMargin() const;
-    int contentsVMargin() const;
 
 private:
-    void initThumbnailTimer();
+    int contentsHMargin() const;
+    int contentsVMargin() const;
+    int maxColumn() const;
     const QVariantList getVariantList(const ItemInfo &info);
+
+    void initThumbnailTimer();
 
 private:
     // For high-quality-thumbnail generate
     QModelIndexList m_paintedIndexs;
     QStringList m_thumbnailCache;
     QFutureWatcher<QString> m_thumbnailWatcher;
+    QTimer *m_thumbnailTimer;
 
     QStandardItemModel *m_model;
     ThumbnailDelegate *m_delegate;

@@ -21,6 +21,7 @@ public:
     void removeItems(const QStringList &names);
     void clearSelection() const;
     void updateThumbnail(const QString &name);
+    void updadteThumbnails();
     void setMultiSelection(bool multiple);
     bool isMultiSelection() const;
     bool posInSelected(const QPoint &pos);
@@ -31,7 +32,6 @@ public:
     int hOffset() const;
 
     void setIconSize(const QSize &iconSize);
-    void setTickable(bool v);
 
 signals:
     void clicked(const QModelIndex &index);

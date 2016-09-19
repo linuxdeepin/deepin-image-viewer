@@ -94,6 +94,11 @@ void ImagesView::initListView()
     m_contentLayout->addWidget(m_view);
     m_contentLayout->addStretch(1);
 
+    connect(dApp->importer, &Importer::importProgressChanged, this, [=] (double p) {
+        if (p == 1) m_view->updateThumbnails();
+    });
+    connect(verticalScrollBar(), &QScrollBar::valueChanged,
+            m_view, &ThumbnailListView::updateThumbnails);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         const QString path = m_view->itemInfo(index).path;
@@ -217,7 +222,7 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info, bool update)
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.tickable = false;
+    vi.thumb = info.thumbnail;
 
     m_view->insertItem(vi);
 

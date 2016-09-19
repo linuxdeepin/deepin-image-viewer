@@ -17,9 +17,9 @@ public:
     explicit TimelineImageView(bool multiselection = false, QWidget *parent = 0);
     void clearSelection();
     void setIconSize(const QSize &iconSize);
-    void setTickable(bool v);
     void setMultiSelection(bool multiple);
     void updateThumbnail(const QString &name);
+    void updateThumbnails();
     bool isMultiSelection() const;
     bool isEmpty() const;
     QMap<QString, QString> selectedImages() const;

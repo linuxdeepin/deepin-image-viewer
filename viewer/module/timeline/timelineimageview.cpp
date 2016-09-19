@@ -95,13 +95,6 @@ void TimelineImageView::setIconSize(const QSize &iconSize)
     updateTopTipsRect();
 }
 
-void TimelineImageView::setTickable(bool v)
-{
-    for (TimelineViewFrame * frame : m_frames.values()) {
-        frame->setTickable(v);
-    }
-}
-
 void TimelineImageView::setMultiSelection(bool multiple)
 {
     for (TimelineViewFrame * frame : m_frames.values()) {
@@ -114,6 +107,11 @@ void TimelineImageView::updateThumbnail(const QString &name)
     for (TimelineViewFrame * frame : m_frames.values()) {
         frame->updateThumbnail(name);
     }
+}
+
+void TimelineImageView::updateThumbnails()
+{
+    emit verticalScrollBar()->valueChanged(verticalScrollBar()->value());
 }
 
 bool TimelineImageView::isMultiSelection() const
@@ -258,6 +256,11 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
         if (m_frames.isEmpty())
             insertReadyFrames();
     }
+    else if (e->type() == QEvent::Resize ||
+             e->type() == QEvent::WindowActivate ||
+             e->type() == QEvent::FocusAboutToChange) {
+        updateThumbnails();
+    }
     return false;
 }
 
@@ -291,6 +294,9 @@ void TimelineImageView::inserFrame(const QString &timeline)
             this, &TimelineImageView::customContextMenuRequested);
     connect(frame, &TimelineViewFrame::viewImage,
             this, &TimelineImageView::viewImage);
+    connect(verticalScrollBar(), &QScrollBar::valueChanged,
+            frame, &TimelineViewFrame::updadteThumbnails);
+
     m_frames.insert(timeline, frame);
     QStringList timelines = m_frames.keys();
     if (!m_ascending) {

@@ -91,8 +91,15 @@ void TimelineViewFrame::updateThumbnail(const QString &name)
 {
     if (dApp->databaseM->imageExist(name)) {
         dApp->databaseM->updateThumbnail(name);
-        QPixmapCache::remove(name);
+        m_view->updateThumbnail(name);
         m_view->updateViewPort();
+    }
+}
+
+void TimelineViewFrame::updadteThumbnails()
+{
+    if (! this->visibleRegion().isEmpty()) {
+        m_view->updateThumbnails();
     }
 }
 
@@ -117,11 +124,6 @@ void TimelineViewFrame::setIconSize(const QSize &iconSize)
     m_view->setIconSize(iconSize);
 }
 
-void TimelineViewFrame::setTickable(bool v)
-{
-    m_view->setTickable(v);
-}
-
 void TimelineViewFrame::resizeEvent(QResizeEvent *e)
 {
     QFrame::resizeEvent(e);
@@ -134,7 +136,7 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.tickable = false; //TODO set ticked
+    vi.thumb = info.thumbnail;
 
     m_view->insertItem(vi);
 }
