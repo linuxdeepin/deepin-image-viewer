@@ -460,18 +460,29 @@ QString TimelinePanel::createMenuContent()
                                 "Delete"));
 
     items.append(createMenuItem(IdSeparator, "", true));
-    foreach (const QString &img, images) {
-        if (!dApp->databaseM->imageExistAlbum(img, FAVORITES_ALBUM_NAME)) {
-            items.append(createMenuItem(IdAddToFavorites,
-                tr("Add to My favorites"), false, "Ctrl+K"));
-            break;
-        }
-    }
 
     if (images.count() == 1) {
-        items.append(createMenuItem(IdRemoveFromFavorites, tr("Unfavorite"),
-                                        false, "Ctrl+Shift+K"));
+        if (! dApp->databaseM->imageExistAlbum(images.firstKey(),
+                                               FAVORITES_ALBUM_NAME))
+            items.append(createMenuItem(IdAddToFavorites,
+                         tr("Add to My favorites"), false, "Ctrl+K"));
+        else
+            items.append(createMenuItem(IdRemoveFromFavorites,
+                         tr("Unfavorite"), false, "Ctrl+Shift+K"));
+    } else {
+        bool addToFavor = false;
+        foreach (const QString &img, images) {
+            if (!dApp->databaseM->imageExistAlbum(images.key(img),
+                                                  FAVORITES_ALBUM_NAME)) {
+                addToFavor = true;
+                break;
+            }
+        }
+        if (addToFavor)
+            items.append(createMenuItem(IdAddToFavorites,
+                        tr("Add to My favorites"), false, "Ctrl+K"));
     }
+
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),

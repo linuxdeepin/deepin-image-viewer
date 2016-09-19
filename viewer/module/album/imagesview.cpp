@@ -155,14 +155,23 @@ QString ImagesView::createMenuContent()
 
     if (selectedCount == 1) {
         if (! dApp->databaseM->imageExistAlbum(nList.first(),
-                                               MY_FAVORITES_ALBUM)) {
+                                               MY_FAVORITES_ALBUM))
             items.append(createMenuItem(IdAddToFavorites,
                 tr("Add to My favorites"), false, "Ctrl+K"));
-        }
-        else {
+        else
             items.append(createMenuItem(IdRemoveFromFavorites,
                 tr("Unfavorite"), false, "Ctrl+Shift+K"));
+    } else {
+        bool addToFavor = false;
+        foreach (const QString &img, nList) {
+            if (!dApp->databaseM->imageExistAlbum(img, MY_FAVORITES_ALBUM)) {
+                addToFavor = true;
+                break;
+            }
         }
+        if (addToFavor)
+            items.append(createMenuItem(IdAddToFavorites,
+                        tr("Add to My favorites"), false, "Ctrl+K"));
     }
 
     items.append(createMenuItem(IdSeparator, "", true));
