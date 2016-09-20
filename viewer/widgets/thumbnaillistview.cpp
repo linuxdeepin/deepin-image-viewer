@@ -17,6 +17,7 @@
 
 namespace {
 
+const int MAX_THUMBNAIL_THREAD_COUNT = 2;
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
@@ -81,7 +82,7 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     viewport()->installEventFilter(this);
     initThumbnailTimer();
 
-    QThreadPool::globalInstance()->setMaxThreadCount(4);
+    QThreadPool::globalInstance()->setMaxThreadCount(MAX_THUMBNAIL_THREAD_COUNT);
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -113,7 +114,8 @@ void ThumbnailListView::updateViewPort()
 void ThumbnailListView::updateViewPortSize()
 {
     // For expand all items
-    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this)
+//    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this)
+    fixedViewPortSize(true);
 }
 
 void ThumbnailListView::updateThumbnail(const QString &name)

@@ -18,9 +18,13 @@ namespace image {
 const QPixmap getThumbnail(const QString &path, bool exifOnly)
 {
     Q_UNUSED(exifOnly)
-    return QPixmap::fromImage(
-                freeimage::FIBitmapToQImage(
-                    freeimage::makeThumbnail(path, THUMBNAIL_MAX_SIZE)));
+    auto bitmap = freeimage::makeThumbnail(path, THUMBNAIL_MAX_SIZE);
+    if (getOrientation(path).isEmpty() && bitmap != NULL) {
+        return QPixmap::fromImage(freeimage::FIBitmapToQImage(bitmap));
+    }
+    else {
+        return scaleImage(path);
+    }
 }
 
 const QPixmap scaleImage(const QString &path, const QSize &size)
@@ -142,7 +146,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 
 const QString getOrientation(const QString &path)
 {
-    return freeimage::getAllMetaData(path)["Orientation"];
+    return libexif::orientation(path);
 }
 
 /*!
@@ -157,16 +161,16 @@ const QImage getRotatedImage(const QString &path)
     QImage img(path);
 
     const QString o = getOrientation(path);
-    if (o.isEmpty() || o == "top, left side")
+    if (o.isEmpty() || o == "Top-left")
         return img;
     QTransform t;
-    if (o == "bottom, right side") {
+    if (o == "Bottom-right") {
         t.rotate(-180);
     }
-    else if (o == "left, bottom side") {
+    else if (o == "Left-bottom") {
         t.rotate(-90);
     }
-    else if (o == "right, top side") {
+    else if (o == "Right-top") {
         t.rotate(90);
     }
     img = img.transformed(t, Qt::SmoothTransformation);

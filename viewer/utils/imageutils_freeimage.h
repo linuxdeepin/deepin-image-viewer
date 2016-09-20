@@ -99,7 +99,8 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 }
 
 FIBITMAP * makeThumbnail(const QString &path, int size) {
-    const char *szPathName = path.toUtf8().data();
+    const QByteArray pb = path.toUtf8();
+    const char *szPathName = pb.data();
     FIBITMAP *dib = NULL;
     int flags = 0;              // default load flag
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(szPathName);
@@ -117,14 +118,20 @@ FIBITMAP * makeThumbnail(const QString &path, int size) {
         dib = FreeImage_Load(fif, szPathName, flags);
         if(!dib) return NULL;
     } else {
+
         // any cases other than the JPEG case: load the dib ...
-        if(fif == FIF_RAW) {
+        if(fif == FIF_RAW || fif == FIF_TIFF) {
             // ... except for RAW images, try to load the embedded JPEG preview
             // or default to RGB 24-bit ...
             flags = RAW_PREVIEW;
+            dib = FreeImage_Load(fif, szPathName, flags);
+            if(!dib) return NULL;
         }
-        dib = FreeImage_Load(fif, szPathName, flags);
-        if(!dib) return NULL;
+        else {
+            // 某些损坏的图片格式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
+            // 除了上面几种可能加速缩略图读取的方式，都返回空
+            return NULL;
+        }
     }
 
     // create the requested thumbnail

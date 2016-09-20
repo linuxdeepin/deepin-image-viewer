@@ -47,6 +47,18 @@ QDateTime getCreateDateTime(const QString &path)
     return info.created();
 }
 
+QString orientation(const QString &path)
+{
+    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
+    if (ed) {
+        QString ot = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_ORIENTATION);
+        //Free the EXIF data
+        exif_data_unref(ed);
+        return ot;
+    }
+    return QString();
+}
+
 }  // namespace libexif
 
 }  // namespace image
