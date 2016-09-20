@@ -132,6 +132,9 @@ void ThumbnailListView::updateThumbnails()
     m_thumbnailWatcher.cancel();
     m_thumbnailWatcher.waitForFinished();
 
+    // Update painting list
+    updateViewPort();
+
     m_thumbnailTimer->start();
 }
 
@@ -402,7 +405,8 @@ void ThumbnailListView::initThumbnailTimer()
     m_thumbnailTimer->setInterval(500);
     m_thumbnailTimer->setSingleShot(true);
     connect(m_thumbnailTimer, &QTimer::timeout, this, [=] {
-        auto pl = m_delegate->paintingNameList();;
+        auto pl = m_delegate->paintingNameList();
+
         // Update DB
         m_thumbnailWatcher.setPaused(false);
         QFuture<QString> qFuture = QtConcurrent::mapped(pl, updateThumbnailQuality);

@@ -309,11 +309,15 @@ void TimelinePanel::initStyleSheet()
     sf.close();
 }
 
-void TimelinePanel::rotateImage(const QString &name, const QString &path,
-                                int degree)
+void TimelinePanel::rotateImage(const QString &path, int degree)
 {
     utils::image::rotate(path, degree);
-    m_view->updateThumbnail(name);
+    dApp->databaseM->updateThumbnail(QFileInfo(path).fileName());
+    m_rotateList.removeAll(path);
+    if (m_rotateList.isEmpty()) {
+        qDebug() << "Rotate finish!";
+        m_view->updateThumbnails();
+    }
 }
 
 void TimelinePanel::updateBottomToolbarContent(int count)
@@ -400,15 +404,19 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         updateMenuContents();
         break;
     case IdRotateClockwise:
-        for (QString name : nList) {
-            QtConcurrent::run(this, &TimelinePanel::rotateImage,
-                              name, images[name], 90);
+        if (m_rotateList.isEmpty()) {
+            m_rotateList = pList;
+            for (QString path : pList) {
+                QtConcurrent::run(this, &TimelinePanel::rotateImage, path, 90);
+            }
         }
         break;
     case IdRotateCounterclockwise:
-        for (QString name : nList) {
-            QtConcurrent::run(this, &TimelinePanel::rotateImage,
-                              name, images[name], -90);
+        if (m_rotateList.isEmpty()) {
+            m_rotateList = pList;
+            for (QString path : pList) {
+                QtConcurrent::run(this, &TimelinePanel::rotateImage, path, -90);
+            }
         }
         break;
     case IdSetAsWallpaper:

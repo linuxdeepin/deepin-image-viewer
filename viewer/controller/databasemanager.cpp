@@ -58,7 +58,7 @@ void DatabaseManager::updateThumbnail(const QString &name)
     using namespace utils::image;
     QSize ms(THUMBNAIL_MAX_SIZE, THUMBNAIL_MAX_SIZE);
     ImageInfo info = getImageInfoByName(name);
-    const QPixmap p = cutSquareImage(scaleImage(info.path), ms);
+    const QPixmap p = cutSquareImage(getThumbnail(info.path), ms);
     info.thumbnail = p;
     updateImageInfo(info);
 }

@@ -94,6 +94,8 @@ void ImagesView::initListView()
     m_contentLayout->addWidget(m_view);
     m_contentLayout->addStretch(1);
 
+    connect(this, &ImagesView::rotated,
+            m_view, &ThumbnailListView::updateThumbnails);
     connect(dApp->importer, &Importer::importProgressChanged, this, [=] (double p) {
         if (p == 1) m_view->updateThumbnails();
     });
@@ -232,13 +234,6 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info, bool update)
     }
 }
 
-void ImagesView::updateThumbnail(const QString &path)
-{
-    const QString name = QFileInfo(path).fileName();
-    dApp->databaseM->updateThumbnail(name);
-    m_view->updateThumbnail(name);
-}
-
 void ImagesView::updateMenuContents()
 {
     m_popupMenu->setMenuContent(createMenuContent());
@@ -301,13 +296,19 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         dApp->databaseM->removeImagesFromAlbum(m_album, nList);
         break;
     case IdRotateClockwise:
-        for (QString path : pList) {
-            QtConcurrent::run(this, &ImagesView::rotateImage, path, 90);
+        if (m_rotateList.isEmpty()) {
+            m_rotateList = pList;
+            for (QString path : pList) {
+                QtConcurrent::run(this, &ImagesView::rotateImage, path, 90);
+            }
         }
         break;
     case IdRotateCounterclockwise:
-        for (QString path : pList) {
-            QtConcurrent::run(this, &ImagesView::rotateImage, path, -90);
+        if (m_rotateList.isEmpty()) {
+            m_rotateList = pList;
+            for (QString path : pList) {
+                QtConcurrent::run(this, &ImagesView::rotateImage, path, -90);
+            }
         }
         break;
     case IdSetAsWallpaper:
@@ -327,7 +328,12 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
 void ImagesView::rotateImage(const QString &path, int degree)
 {
     utils::image::rotate(path, degree);
-    updateThumbnail(path);
+    dApp->databaseM->updateThumbnail(QFileInfo(path).fileName());
+    m_rotateList.removeAll(path);
+    if (m_rotateList.isEmpty()) {
+        qDebug() << "Rotate finish!";
+        emit rotated();
+    }
 }
 
 bool ImagesView::allInAlbum(const QStringList &names, const QString &album)

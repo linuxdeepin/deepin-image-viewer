@@ -36,6 +36,7 @@ public:
     QStringList selectedImagesPathList() const;
 
 signals:
+    void rotated();
     void startSlideShow(const QStringList &paths, const QString &path);
     void viewImage(const QString &path,
                    const QStringList &paths,
@@ -76,7 +77,6 @@ private:
     void rotateImage(const QString &path, int degree);
     void updateMenuContents();
     void updateContent();
-    void updateThumbnail(const QString &path);
     void updateTopTipsRect();
     bool allInAlbum(const QStringList &names, const QString &album);
     void popupDelDialog(const QStringList paths, const QStringList names);
@@ -91,6 +91,7 @@ private:
     const QStringList paths();
 
 private:
+    QStringList m_rotateList;
     QString m_album;
     TopAlbumTips *m_topTips;
     ThumbnailListView *m_view;

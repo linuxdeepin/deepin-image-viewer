@@ -60,7 +60,7 @@ private:
     void initImagesView();
     void initStyleSheet();
 
-    void rotateImage(const QString &name, const QString &path, int degree);
+    void rotateImage(const QString &path, int degree);
     void updateBottomToolbarContent(int count);
     void updateMenuContents();
     void onMenuItemClicked(int menuId, const QString &text);
@@ -82,6 +82,7 @@ private:
     PopupMenuManager *m_popupMenu;
     TimelineImageView *m_view = NULL;
     QStackedWidget *m_mainStack = NULL;
+    QStringList m_rotateList;
 };
 
 #endif // TIMELINEPANEL_H
