@@ -15,9 +15,9 @@ public:
         QString name;
         QString path;
         QStringList albums; // Discard
-        QStringList labels;
+        QStringList labels;  // Deprecated
         QDateTime time;
-        QPixmap thumbnail;
+        QPixmap thumbnail; // Deprecated
     };
     struct AlbumInfo {
         QString name;
@@ -38,7 +38,6 @@ public:
     ImageInfo getImageInfoByPath(const QString &path);
     void insertImageInfos(const QList<ImageInfo> &infos);
     void updateImageInfo(const ImageInfo &info);
-    void updateThumbnail(const QString &name);
     void removeImages(const QStringList &names);
     bool imageExist(const QString &name);
     int getImagesCountByMonth(const QString &month);

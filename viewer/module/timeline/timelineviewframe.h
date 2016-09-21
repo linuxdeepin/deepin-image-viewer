@@ -20,8 +20,7 @@ public:
     bool removeItem(const QString &name);
     void removeItems(const QStringList &names);
     void clearSelection() const;
-    void updateThumbnail(const QString &name);
-    void updadteThumbnails();
+    void updateThumbnails();
     void setMultiSelection(bool multiple);
     bool isMultiSelection() const;
     bool posInSelected(const QPoint &pos);

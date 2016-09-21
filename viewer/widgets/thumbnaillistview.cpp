@@ -10,51 +10,16 @@
 #include <QEvent>
 #include <QFile>
 #include <QPaintEvent>
-#include <QPixmapCache>
 #include <QScrollBar>
 #include <QStandardItemModel>
 #include <QTimer>
 
 namespace {
 
-const int MAX_THUMBNAIL_THREAD_COUNT = 2;
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
-const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }  //namespace
-
-/*!
- * \brief improve the quality of thumbnail in DB
- * \param name
- * \return
- * return an empty string mean that there is no need to update the thumbnail of model
- */
-QString updateThumbnailQuality(const QString &name)
-{
-    using namespace utils::image;
-    const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-    auto info = dApp->databaseM->getImageInfoByName(name);
-    if (! isImageSupported(info.path))
-        return QString();
-
-    if (info.thumbnail.isNull()) {
-        info.thumbnail = cutSquareImage(getThumbnail(info.path), ms);
-        // Still can't get thumbnail, it must be not supported
-        if (info.thumbnail.isNull()) {
-            dApp->databaseM->removeImages(QStringList(name));
-            return QString();
-        }
-
-        dApp->databaseM->updateImageInfo(info);
-        return name;
-    }
-    else {
-//        QPixmapCache::insert(name, cutSquareImage(scaleImage(info.path), ms));
-        return name;
-    }
-
-}
 
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent),
@@ -80,16 +45,14 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
-    initThumbnailTimer();
 
-    QThreadPool::globalInstance()->setMaxThreadCount(MAX_THUMBNAIL_THREAD_COUNT);
+    initThumbnailTimer();
+    QThreadPool::globalInstance()->setMaxThreadCount(2);
 }
 
 ThumbnailListView::~ThumbnailListView()
 {
-    m_thumbnailWatcher.pause();
-    m_thumbnailWatcher.cancel();
-    m_thumbnailWatcher.waitForFinished();
+
 }
 
 void ThumbnailListView::setMultiSelection(bool multiple)
@@ -106,23 +69,23 @@ void ThumbnailListView::clearData()
     m_model->clear();
 }
 
-void ThumbnailListView::updateViewPort()
-{
-    viewport()->update();
-}
-
 void ThumbnailListView::updateViewPortSize()
 {
     // For expand all items
-//    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this)
-    fixedViewPortSize(true);
+    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this)
 }
 
+/*!
+ * \brief ThumbnailListView::updateThumbnail
+ * This function may cause thumbnail-generate operation
+ * \param name
+ */
 void ThumbnailListView::updateThumbnail(const QString &name)
 {
+    using namespace utils::image;
     const QModelIndex mi = m_model->index(indexOf(name), 0);
     auto info = itemInfo(mi);
-    info.thumb = dApp->databaseM->getImageInfoByName(name).thumbnail;
+    info.thumb = cutSquareImage(getThumbnail(info.path));
     m_model->setData(mi, QVariant(getVariantList(info)), Qt::DisplayRole);
 }
 
@@ -130,14 +93,15 @@ void ThumbnailListView::updateThumbnails()
 {
     m_delegate->clearPaintingList();
 
-    m_thumbnailWatcher.pause();
-    m_thumbnailWatcher.cancel();
-    m_thumbnailWatcher.waitForFinished();
+    m_watcher.pause();
+    m_watcher.cancel();
+    // waitForFinished will stuck main UI thread
+//    m_thumbnailWatcher.waitForFinished();
 
     // Update painting list
-    updateViewPort();
+    viewport()->update();
 
-    m_thumbnailTimer->start();
+    m_thumbTimer->start();
 }
 
 void ThumbnailListView::setIconSize(const QSize &size)
@@ -334,8 +298,6 @@ void ThumbnailListView::mouseMoveEvent(QMouseEvent *e)
 
 void ThumbnailListView::paintEvent(QPaintEvent *e)
 {
-    m_delegate->clearPaintingList();
-
     QListView::paintEvent(e);
 }
 
@@ -350,14 +312,6 @@ int ThumbnailListView::horizontalOffset() const
               - contentsHMargin()
               - maxColumn() * (iconSize().width() + ITEM_SPACING))
              / 2);
-}
-
-void ThumbnailListView::onThumbnailResultReady(int index)
-{
-    const QString name = m_thumbnailWatcher.resultAt(index);
-    if (! name.isEmpty()) {
-        updateThumbnail(name);
-    }
 }
 
 void ThumbnailListView::fixedViewPortSize(bool proactive)
@@ -401,27 +355,61 @@ bool caseRow(const QModelIndex &i1, const QModelIndex &i2)
     return i1.row() < i2.row();
 }
 
+QVariant generateThumbnail(const QString &path)
+{
+    using namespace utils::image;
+    QVariant result;
+    const QString name = QFileInfo(path).fileName();
+    const QPixmap thumb = getThumbnail(path);
+    if (thumb.isNull()) {
+        // Can't generate thumbnail, remove it from database
+        dApp->databaseM->removeImages(QStringList(name));
+    }
+    else {
+        QByteArray inByteArray;
+        QBuffer inBuffer( &inByteArray );
+        inBuffer.open( QIODevice::WriteOnly );
+        // write inPixmap into inByteArray
+        if ( ! cutSquareImage(thumb).save( &inBuffer, "JPG" )) {
+            // qDebug() << "Write pixmap to buffer error!" << info.name;
+        }
+        QVariantList nl;
+        nl << QVariant(name) << QVariant(path) << QVariant(inByteArray);
+        result = QVariant(nl);
+    }
+
+    return result;
+}
+
+/*!
+ * \brief ThumbnailListView::initThumbnailTimer
+ * Check for update delegate's thumbnail incase thumbnail regenerate
+ */
 void ThumbnailListView::initThumbnailTimer()
 {
-    m_thumbnailTimer = new QTimer(this);
-    m_thumbnailTimer->setInterval(500);
-    m_thumbnailTimer->setSingleShot(true);
-    connect(m_thumbnailTimer, &QTimer::timeout, this, [=] {
-        auto pl = m_delegate->paintingNameList();
-
-        // Update DB
-        m_thumbnailWatcher.setPaused(false);
-        QFuture<QString> qFuture = QtConcurrent::mapped(pl, updateThumbnailQuality);
-        m_thumbnailWatcher.setFuture(qFuture);
+    m_thumbTimer = new QTimer(this);
+    m_thumbTimer->setSingleShot(true);
+    m_thumbTimer->setInterval(1000);
+    connect(m_thumbTimer, &QTimer::timeout, this, [=] {
+        QStringList paths = m_delegate->paintingPaths();
+        if (! paths.isEmpty()) {
+            m_watcher.setPaused(false);
+            QFuture<QVariant> future = QtConcurrent::mapped(paths, generateThumbnail);
+            m_watcher.setFuture(future);
+            m_delegate->clearPaintingList();
+        }
     });
 
-    m_thumbnailWatcher.setPendingResultsLimit(2);
-    connect(&m_thumbnailWatcher, SIGNAL(resultReadyAt(int)),
-            this, SLOT(onThumbnailResultReady(int)));
-    connect(&m_thumbnailWatcher, &QFutureWatcher<QString>::finished,
-            this, &ThumbnailListView::updateViewPort);
+    connect(&m_watcher, SIGNAL(resultReadyAt(int)),
+            this, SLOT(onThumbnailGenerated(int)));
+}
 
-    QPixmapCache::setCacheLimit(204800); // 200MB
+void ThumbnailListView::onThumbnailGenerated(int index)
+{
+    QVariantList v = m_watcher.resultAt(index).toList();
+    if (v.length() != 3) return;
+    const QString name = v[0].toString();
+    m_model->setData(m_model->index(indexOf(name), 0), v, Qt::DisplayRole);
 }
 
 const QVariantList ThumbnailListView::getVariantList(const ItemInfo &info)

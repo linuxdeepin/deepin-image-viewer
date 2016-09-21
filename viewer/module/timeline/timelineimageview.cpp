@@ -102,13 +102,6 @@ void TimelineImageView::setMultiSelection(bool multiple)
     }
 }
 
-void TimelineImageView::updateThumbnail(const QString &name)
-{
-    for (TimelineViewFrame * frame : m_frames.values()) {
-        frame->updateThumbnail(name);
-    }
-}
-
 void TimelineImageView::updateThumbnails()
 {
     emit verticalScrollBar()->valueChanged(verticalScrollBar()->value());
@@ -295,7 +288,7 @@ void TimelineImageView::inserFrame(const QString &timeline)
     connect(frame, &TimelineViewFrame::viewImage,
             this, &TimelineImageView::viewImage);
     connect(verticalScrollBar(), &QScrollBar::valueChanged,
-            frame, &TimelineViewFrame::updadteThumbnails);
+            frame, &TimelineViewFrame::updateThumbnails);
 
     m_frames.insert(timeline, frame);
     QStringList timelines = m_frames.keys();

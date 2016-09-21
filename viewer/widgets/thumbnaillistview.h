@@ -21,7 +21,6 @@ public:
     ~ThumbnailListView();
     void setMultiSelection(bool multiple);
     void clearData();
-    void updateViewPort();
     void updateViewPortSize();
     void updateThumbnail(const QString &name);
     void updateThumbnails();
@@ -51,7 +50,7 @@ protected:
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
 private slots:
-    void onThumbnailResultReady(int index);
+    void onThumbnailGenerated(int index);
     void fixedViewPortSize(bool proactive = false);
 
 private:
@@ -63,12 +62,8 @@ private:
     void initThumbnailTimer();
 
 private:
-    // For high-quality-thumbnail generate
-    QModelIndexList m_paintedIndexs;
-    QStringList m_thumbnailCache;
-    QFutureWatcher<QString> m_thumbnailWatcher;
-    QTimer *m_thumbnailTimer;
-
+    QTimer *m_thumbTimer;
+    QFutureWatcher<QVariant> m_watcher;
     QStandardItemModel *m_model;
     ThumbnailDelegate *m_delegate;
     bool m_multiple;

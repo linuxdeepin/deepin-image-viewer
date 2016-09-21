@@ -6,13 +6,8 @@
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLineEdit>
-#include <QMutex>
 #include <QPainter>
 #include <QPixmapCache>
-#include <QRunnable>
-#include <QSvgRenderer>
-#include <QtConcurrent>
-#include <QThreadPool>
 
 namespace {
 
@@ -29,79 +24,73 @@ const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 ThumbnailDelegate::ThumbnailDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
+
 }
 
 void ThumbnailDelegate::clearPaintingList()
 {
-    m_indexs.clear();
-    m_names.clear();
+    m_paintingPaths.clear();
 }
 
-const QModelIndexList ThumbnailDelegate::paintingIndexList()
+const QStringList ThumbnailDelegate::paintingPaths() const
 {
-    return m_indexs;
-}
-
-const QStringList ThumbnailDelegate::paintingNameList()
-{
-    return m_names;
+    return m_paintingPaths;
 }
 
 void ThumbnailDelegate::paint(QPainter *painter,
                           const QStyleOptionViewItem &option,
                           const QModelIndex &index) const
 {
-    if (m_indexs.indexOf(index) == -1) {
-        m_indexs << index;
+    const ItemData data = itemData(index);
+    if (data.path.isEmpty()) return;
+
+    bool selected = false;
+    if (/*(option.state & QStyle::State_MouseOver) &&*/
+            (option.state & QStyle::State_Selected) != 0) {
+        selected = true;
     }
 
-    QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
-    if (! datas.isEmpty()) {
-        const QString name = datas[0].toString();
-//        const QString path = datas[1].toString();
-        bool selected = false;
-        if (/*(option.state & QStyle::State_MouseOver) &&*/
-                (option.state & QStyle::State_Selected) != 0) {
-            selected = true;
+    painter->setRenderHints(QPainter::HighQualityAntialiasing |
+                            QPainter::SmoothPixmapTransform |
+                            QPainter::Antialiasing);
+    QRect rect = option.rect;
+    QPainterPath bp;
+    bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
+    painter->setClipPath(bp);
+    QPixmap thumb;
+    using namespace utils::image;
+    // When a thumbnail is changed externally, is no longer used in the data model
+    if (! thumbnailExist(data.path) || data.thumbnail.isNull()) {
+        // Cache thumbnail not exist but model's thumbnail still exist, use the model one
+        if (! data.thumbnail.isNull()) {
+            thumb = data.thumbnail;
+        }
+        else if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
+            const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+            thumb = cutSquareImage(QPixmap(
+                ":/images/resources/images/default_thumbnail.png"), ms);
+            QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
         }
 
-        if (m_names.indexOf(name) == -1) {
-            m_names << name;
+        // Generate thumbnail and update data from view
+        if (m_paintingPaths.indexOf(data.path) == -1) {
+            m_paintingPaths << data.path;
         }
-
-        painter->setRenderHints(QPainter::HighQualityAntialiasing |
-                                QPainter::SmoothPixmapTransform |
-                                QPainter::Antialiasing);
-        QRect rect = option.rect;
-        QPainterPath bp;
-        bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
-        painter->setClipPath(bp);
-        QPixmap thumbnail;
-        // Try to load hight-quality thumbnail from cache
-        if (! QPixmapCache::find(name, thumbnail)) {
-            // Load thumbnail from model's data
-            if (! thumbnail.loadFromData(datas[2].toByteArray())) {
-                if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumbnail)) {
-                    using namespace utils::image;
-                    thumbnail = cutSquareImage(QPixmap(
-                    ":/images/resources/images/default_thumbnail.png"),
-                    QSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE));
-                    QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumbnail);
-                }
-            }
-        }
-        painter->drawPixmap(rect, thumbnail);
-
-        // Draw inside border
-        QPen p(selected ? BORDER_COLOR_SELECTED : BORDER_COLOR,
-               selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
-        painter->setPen(p);
-        QPainterPathStroker stroker;
-        stroker.setWidth(selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
-        stroker.setJoinStyle(Qt::RoundJoin);
-        QPainterPath borderPath = stroker.createStroke(bp);
-        painter->drawPath(borderPath);
     }
+    else {
+        thumb = data.thumbnail;
+    }
+    painter->drawPixmap(rect, thumb);
+
+    // Draw inside border
+    QPen p(selected ? BORDER_COLOR_SELECTED : BORDER_COLOR,
+           selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
+    painter->setPen(p);
+    QPainterPathStroker stroker;
+    stroker.setWidth(selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
+    stroker.setJoinStyle(Qt::RoundJoin);
+    QPainterPath borderPath = stroker.createStroke(bp);
+    painter->drawPath(borderPath);
 }
 
 QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
@@ -111,18 +100,20 @@ QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
     return index.model()->data(index, Qt::SizeHintRole).toSize();
 }
 
-void ThumbnailDelegate::renderThumbnail(const QString &name,
-                                        QPixmap &thumbnail) const
+ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index) const
 {
-    const QSize tSize(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-    // Skill
-    // Use cache to make paint faster
-    if (! QPixmapCache::find(name, &thumbnail)) {
-        if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumbnail)) {
-            using namespace utils::image;
-            thumbnail = cutSquareImage(QPixmap(
-                ":/images/resources/images/default_thumbnail.png"), tSize);
-            QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumbnail);
-        }
+    QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
+    ItemData data;
+    if (datas.length() >= 1) {
+        data.name = datas[0].toString();
     }
+    if (datas.length() >= 2) {
+        data.path = datas[1].toString();
+    }
+    if (datas.length() >= 3) {
+        data.thumbnail.loadFromData(datas[2].toByteArray());
+    }
+
+    return data;
 }
+

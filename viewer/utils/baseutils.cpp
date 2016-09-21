@@ -1,4 +1,5 @@
 #include "baseutils.h"
+#include "imageutils.h"
 #include <stdio.h>
 #include <fcntl.h>
 #include <fstream>
@@ -221,6 +222,8 @@ bool trashFile(const QString &file)
         qDebug() << "Move to trash failed! Could not write *.trashinfo!";
         return false;
     }
+    // Remove thumbnail
+    utils::image::removeThumbnail(file);
     return true;
 #else
     Q_UNUSED( file );

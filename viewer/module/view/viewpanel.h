@@ -73,7 +73,6 @@ private:
     void rotateImage(bool clockWise);
     bool showNext();
     bool showPrevious();
-    void updateThumbnail(const QString &name);
 
     // Geometry
     void toggleFullScreen();

@@ -96,9 +96,6 @@ void ImagesView::initListView()
 
     connect(this, &ImagesView::rotated,
             m_view, &ThumbnailListView::updateThumbnails);
-    connect(dApp->importer, &Importer::importProgressChanged, this, [=] (double p) {
-        if (p == 1) m_view->updateThumbnails();
-    });
     connect(verticalScrollBar(), &QScrollBar::valueChanged,
             m_view, &ThumbnailListView::updateThumbnails);
     connect(m_view, &ThumbnailListView::doubleClicked,
@@ -221,12 +218,14 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
 
 void ImagesView::insertItem(const DatabaseManager::ImageInfo &info, bool update)
 {
+    using namespace utils::image;
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.thumb = info.thumbnail;
+    vi.thumb = cutSquareImage(getThumbnail(info.path, true));
 
     m_view->insertItem(vi);
+    m_view->updateThumbnails();
 
     if (update) {
         m_topTips->setAlbum(m_album);
@@ -330,7 +329,6 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
 void ImagesView::rotateImage(const QString &path, int degree)
 {
     utils::image::rotate(path, degree);
-    dApp->databaseM->updateThumbnail(QFileInfo(path).fileName());
     m_rotateList.removeAll(path);
     if (m_rotateList.isEmpty()) {
         qDebug() << "Rotate finish!";

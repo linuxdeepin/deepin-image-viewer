@@ -134,14 +134,6 @@ void ViewPanel::initStyleSheet()
     setStyleSheet(utils::base::getFileContent(":/qss/resources/qss/view.qss"));
 }
 
-
-void ViewPanel::updateThumbnail(const QString &name)
-{
-    dApp->databaseM->updateThumbnail(name);
-    // For view's thumbnail update
-    QPixmapCache::remove(name);
-}
-
 void ViewPanel::showNormal()
 {
     if (m_isMaximized) {
@@ -510,11 +502,7 @@ void ViewPanel::rotateImage(bool clockWise)
     resetImageGeometry();
 
     // Remove cache force view's delegate reread thumbnail
-    QPixmapCache::remove(m_current->name);
-    // Update the thumbnail for in DB
-    if (m_vinfo.inDatabase) {
-        dApp->databaseM->updateThumbnail(m_current->name);
-    }
+    utils::image::removeThumbnail(m_viewB->path());
 
     emit imageChanged(m_viewB->path());
 }
@@ -536,7 +524,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     if (inDB) {
         // Check whether the thumbnail is been rotated in outside
-        QtConcurrent::run(this, &ViewPanel::updateThumbnail,
+        QtConcurrent::run(utils::image::removeThumbnail,
                           QFileInfo(path).fileName());
     }
 

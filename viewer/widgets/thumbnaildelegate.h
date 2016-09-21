@@ -9,10 +9,15 @@ class ThumbnailDelegate : public QStyledItemDelegate {
     Q_OBJECT
 
 public:
+    struct ItemData {
+        QString name;
+        QString path;
+        QPixmap thumbnail;
+    };
+
     explicit ThumbnailDelegate(QObject *parent = nullptr);
     void clearPaintingList();
-    const QModelIndexList paintingIndexList();
-    const QStringList paintingNameList();
+    const QStringList paintingPaths() const;
 
     void paint(QPainter* painter,
                const QStyleOptionViewItem& option,
@@ -21,11 +26,10 @@ public:
                    const QModelIndex& index) const Q_DECL_OVERRIDE;
 
 private:
-    void renderThumbnail(const QString &name, QPixmap &thumbnail) const;
+    ItemData itemData(const QModelIndex &index) const;
 
 private:
-    mutable QModelIndexList m_indexs;
-    mutable QStringList m_names;
+    mutable QStringList m_paintingPaths;
 };
 
 #endif // ALBUMDELEGATE_H

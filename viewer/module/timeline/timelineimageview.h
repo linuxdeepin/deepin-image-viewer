@@ -18,7 +18,6 @@ public:
     void clearSelection();
     void setIconSize(const QSize &iconSize);
     void setMultiSelection(bool multiple);
-    void updateThumbnail(const QString &name);
     void updateThumbnails();
     bool isMultiSelection() const;
     bool isEmpty() const;

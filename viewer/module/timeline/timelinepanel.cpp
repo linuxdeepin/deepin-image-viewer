@@ -312,7 +312,6 @@ void TimelinePanel::initStyleSheet()
 void TimelinePanel::rotateImage(const QString &path, int degree)
 {
     utils::image::rotate(path, degree);
-    dApp->databaseM->updateThumbnail(QFileInfo(path).fileName());
     m_rotateList.removeAll(path);
     if (m_rotateList.isEmpty()) {
         qDebug() << "Rotate finish!";

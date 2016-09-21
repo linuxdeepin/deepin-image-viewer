@@ -87,20 +87,9 @@ void TimelineViewFrame::initListView()
     });
 }
 
-void TimelineViewFrame::updateThumbnail(const QString &name)
+void TimelineViewFrame::updateThumbnails()
 {
-    if (dApp->databaseM->imageExist(name)) {
-        dApp->databaseM->updateThumbnail(name);
-        m_view->updateThumbnail(name);
-        m_view->updateViewPort();
-    }
-}
-
-void TimelineViewFrame::updadteThumbnails()
-{
-    if (! this->visibleRegion().isEmpty()) {
-        m_view->updateThumbnails();
-    }
+    m_view->updateThumbnails();
 }
 
 void TimelineViewFrame::setMultiSelection(bool multiple)
@@ -133,10 +122,11 @@ void TimelineViewFrame::resizeEvent(QResizeEvent *e)
 
 void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
 {
+    using namespace utils::image;
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.thumb = info.thumbnail;
+    vi.thumb = cutSquareImage(getThumbnail(info.path, true));
 
     m_view->insertItem(vi);
 }
