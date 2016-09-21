@@ -209,7 +209,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash: {
-        initPopupDelDialog(path, name);
+        popupDelDialog(path, name);
         break;
     }
     case IdRemoveFromAlbum:
@@ -320,20 +320,26 @@ void ViewPanel::initShortcut()
     });
 }
 
-void ViewPanel::initPopupDelDialog(const QString path, const QString name) {
+void ViewPanel::popupDelDialog(const QString path, const QString name) {
     using namespace utils::base;
-    DeleteDialog* delDialog = new DeleteDialog(QStringList(path));
-    delDialog->show();
-    delDialog->moveToCenter();
+    if (!m_vinfo.inDatabase) {
+        DeleteDialog* delDialog = new DeleteDialog(QStringList(path));
+        delDialog->show();
+        delDialog->moveToCenter();
 
-    connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
-        if (index == 1) {
-            dApp->databaseM->removeImages(QStringList(name));
-            trashFile(path);
-            removeCurrentImage();
-        }
-    });
+        connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
+            if (index == 1) {
+                dApp->databaseM->removeImages(QStringList(name));
+                trashFile(path);
+                removeCurrentImage();
+            }
+        });
 
-    connect(delDialog, &DeleteDialog::closed,
-            delDialog, &DeleteDialog::deleteLater);
+        connect(delDialog, &DeleteDialog::closed,
+                delDialog, &DeleteDialog::deleteLater);
+    } else {
+        dApp->databaseM->removeImages(QStringList(name));
+        trashFile(path);
+        removeCurrentImage();
+    }
 }

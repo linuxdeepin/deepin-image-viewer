@@ -225,7 +225,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         rotateImage(false);
     });
     connect(ttmc, &TTMContent::removed, this, [=] {
-        initPopupDelDialog(m_current->path, m_current->name);
+        popupDelDialog(m_current->path, m_current->name);
     });
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
         if (fitWindow) {

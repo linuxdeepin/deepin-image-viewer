@@ -53,7 +53,7 @@ private:
     void initStack();
     void initStyleSheet();
     void initViewContent();
-    void initPopupDelDialog(const QString path, const QString name);
+    void popupDelDialog(const QString path, const QString name);
     // Floating component
     void initFloatingComponent();
     void initSwitchButtons();
