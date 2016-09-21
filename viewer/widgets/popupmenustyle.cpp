@@ -250,7 +250,7 @@ void PopupMenuStyle::drawMenuItemText(const QStyleOptionMenuItem* menuItem,
     painter->setFont(titleFont);
     painter->drawText(titleX, y, titleWidth, height,
                       Qt::AlignLeft | Qt::AlignVCenter,
-                      titleFM.elidedText(titleContent, Qt::ElideRight, titleWidth));
+                      titleFM.elidedText(titleContent, Qt::ElideMiddle, titleWidth));
 }
 
 void PopupMenuStyle::drawMenuItemSubIcon(const QStyleOptionMenuItem* menuItem,
