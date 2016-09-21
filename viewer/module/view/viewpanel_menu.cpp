@@ -322,7 +322,7 @@ void ViewPanel::initShortcut()
 
 void ViewPanel::popupDelDialog(const QString path, const QString name) {
     using namespace utils::base;
-    if (!m_vinfo.inDatabase) {
+    if (m_vinfo.inDatabase) {
         DeleteDialog* delDialog = new DeleteDialog(QStringList(path));
         delDialog->show();
         delDialog->moveToCenter();
