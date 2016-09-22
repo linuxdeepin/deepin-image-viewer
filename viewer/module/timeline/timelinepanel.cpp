@@ -572,6 +572,7 @@ void TimelinePanel::popupDelDialog(const QStringList paths, const QStringList na
 
     connect(delDialog, &DeleteDialog::closed,
             delDialog, &DeleteDialog::deleteLater);
+
 }
 
 const DatabaseManager::ImageInfo TimelinePanel::imageInfo(
