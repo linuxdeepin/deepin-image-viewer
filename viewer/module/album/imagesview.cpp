@@ -282,9 +282,11 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdAddToFavorites: {
-        const auto info = dApp->databaseM->getImageInfoByName(cname);
-        dApp->databaseM->insertImageIntoAlbum(
-            MY_FAVORITES_ALBUM, cname, utils::base::timeToString(info.time));
+        foreach (QString cname, nList) {
+            const auto info = dApp->databaseM->getImageInfoByName(cname);
+            dApp->databaseM->insertImageIntoAlbum(
+                MY_FAVORITES_ALBUM, cname, utils::base::timeToString(info.time));
+        }
         updateMenuContents();
         break;
     }
