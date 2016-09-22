@@ -6,11 +6,12 @@ mode = master
 ; translation file
 [deepin-image-viewer.deepin-image-viewer]
 file-filter = translations/deepin-image-viewer_<lang>.ts
-source_lang = en
 source_file = translations/deepin-image-viewer.ts
+source_lang = en
 type = QT
 
 [deepin-image-viewer.desktop]
-source_file = deepin-image-viewer.desktop
+file-filter = translations/desktop/desktop_<lang>.ts
+source_file = translations/desktop/desktop.ts
 source_lang = en
 type = DESKTOP

@@ -136,30 +136,49 @@
     </message>
 </context>
 <context>
+    <name>DeleteDialog</name>
+    <message>
+        <source>Are your sure to delete this album?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to delete %1 images from Timeline?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this image from Timeline?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+</context>
+<context>
     <name>EditPanel</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation>裁剪</translation>
+        <translation type="vanished">裁剪</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation type="vanished">返回</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation type="vanished">逆时针旋转</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
-    </message>
-    <message>
-        <source>Revert</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">顺时针旋转</translation>
     </message>
 </context>
 <context>
@@ -268,15 +287,11 @@
     <name>FilterSetup</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
-    </message>
-    <message>
-        <source>Simple</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">保存</translation>
     </message>
 </context>
 <context>
@@ -292,13 +307,6 @@
     <message>
         <source>Show basics</source>
         <translation type="obsolete">显示基本信息</translation>
-    </message>
-</context>
-<context>
-    <name>ImageSliderFrame</name>
-    <message>
-        <source>%1%</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -944,11 +952,11 @@
     </message>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation type="vanished">上一张</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation type="vanished">下一张</translation>
     </message>
     <message>
         <source>Throw to Trash</source>

@@ -132,29 +132,25 @@
     </message>
 </context>
 <context>
-    <name>EditPanel</name>
+    <name>DeleteDialog</name>
+    <message>
+        <source>Are your sure to delete this album?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to delete %1 images from Timeline?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this image from Timeline?</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Revert</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -178,31 +174,9 @@
     </message>
 </context>
 <context>
-    <name>FilterSetup</name>
-    <message>
-        <source>Simple</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImageSliderFrame</name>
-    <message>
-        <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -677,14 +651,6 @@
 </context>
 <context>
     <name>ViewPanel</name>
-    <message>
-        <source>Previous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Exit fullscreen</source>
         <translation type="unfinished"></translation>
