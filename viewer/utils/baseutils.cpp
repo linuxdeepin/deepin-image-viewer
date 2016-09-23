@@ -182,7 +182,7 @@ bool trashFile(const QString &file)
         QDir().mkpath(trashInfoPath);
     }
 
-    QFileInfo originalInfo( file );
+    QFileInfo originalInfo(file);
     if(! originalInfo.exists()) {
         qWarning() << "File doesnt exists, cant move to trash";
         return false;
@@ -190,7 +190,7 @@ bool trashFile(const QString &file)
     // Info for restore
     QString infoStr;
     infoStr += "[Trash Info]\nPath=";
-    infoStr += originalInfo.absoluteFilePath();
+    infoStr += QString(originalInfo.absoluteFilePath().toUtf8().toPercentEncoding("/"));
     infoStr += "\nDeletionDate=";
     infoStr += QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzzZ");
     infoStr += "\n";

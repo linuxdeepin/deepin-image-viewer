@@ -1,7 +1,8 @@
 #include "viewpanel.h"
 #include "navigationwidget.h"
-#include "scen/imageview.h"
+#include "contents/imageinfowidget.h"
 #include "frame/deletedialog.h"
+#include "scen/imageview.h"
 
 #include <controller/exporter.h>
 #include <controller/popupmenumanager.h>
@@ -246,6 +247,8 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdImageInfo:
         emit dApp->signalM->showExtensionPanel();
+        // Update panel info
+        TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->path);}, this);
         break;
     default:
         break;
@@ -269,8 +272,11 @@ void ViewPanel::initShortcut()
     // Image info
     QShortcut *sc = new QShortcut(QKeySequence("Alt+Return"), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated,
-            dApp->signalM, &SignalManager::showExtensionPanel);
+    connect(sc, &QShortcut::activated, this, [=] {
+        dApp->signalM->showExtensionPanel();
+        // Update panel info
+        TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->path);}, this);
+    });
 
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
