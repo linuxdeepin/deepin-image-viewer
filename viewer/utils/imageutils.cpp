@@ -281,7 +281,8 @@ const QString thumbnailCachePath()
 const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
     const QString cacheP = thumbnailCachePath();
-    const QString md5s = toMd5("file://" + path);
+    const QUrl url("file://" + path);
+    const QString md5s = toMd5(url.toString());
     const QString encodePath = cacheP + "/large/" + md5s + ".png";
     const QString failEncodePath = cacheP + "/fail/" + md5s + ".png";
     if (QFileInfo(encodePath).exists()) {
@@ -319,7 +320,10 @@ bool generateThumbnail(const QString &path)
 {
     QImageReader reader(path);
     reader.setAutoTransform(true);
-    if (! reader.canRead()) return false;
+    if (! reader.canRead()) {
+        qDebug() << "Can't read image: " << path;
+        return false;
+    }
 
     const QUrl url("file://" + path);
     const QString md5 = toMd5(url.toString());
@@ -372,7 +376,8 @@ bool generateThumbnail(const QString &path)
 const QString thumbnailPath(const QString &path, ThumbnailType type)
 {
     const QString cacheP = thumbnailCachePath();
-    const QString md5s = toMd5("file://" + path);
+    const QUrl url("file://" + path);
+    const QString md5s = toMd5(url.toString());
     QString tp;
     switch (type) {
     case ThumbNormal:
