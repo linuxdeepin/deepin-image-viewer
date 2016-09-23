@@ -160,6 +160,7 @@ void ImageView::fitWindow()
     resetTransform();
     scale(wrs, wrs);
     m_isFitWindow = true;
+    emit transformChanged();
 }
 
 void ImageView::fitImage()
@@ -167,6 +168,7 @@ void ImageView::fitImage()
     resetTransform();
     scale(1, 1);
     m_isFitWindow = false;
+    emit transformChanged();
 }
 
 void ImageView::rotateClockWise()
@@ -196,7 +198,7 @@ qreal ImageView::imageRelativeScale() const
 qreal ImageView::windowRelativeScale() const
 {
     QRectF bf = sceneRect();
-    if (width() / height() > bf.width() / bf.height()) {
+    if (1.0 * width() / height() > 1.0 * bf.width() / bf.height()) {
         return 1.0 * height() / bf.height();
     }
     else {
