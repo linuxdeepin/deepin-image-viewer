@@ -72,7 +72,8 @@ void ThumbnailListView::clearData()
 void ThumbnailListView::updateViewPortSize()
 {
     // For expand all items
-    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this)
+//    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this)
+    QMetaObject::invokeMethod(this, "fixedViewPortSize", Qt::QueuedConnection, Q_ARG(bool, true));
 }
 
 /*!
