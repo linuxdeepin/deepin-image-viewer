@@ -142,9 +142,11 @@ void DatabaseManager::insertImageInfos(const QList<ImageInfo> &infos)
         // Insert into images table
         QSqlQuery query( db );
         query.exec("BEGIN IMMEDIATE TRANSACTION");
-        query.prepare( QString("REPLACE INTO %1 "
-            "(filename, filepath, album, label, time, thumbnail) %2")
-            .arg( IMAGE_TABLE_NAME ).arg( imgValues ));
+        // SKILL Note: the value may contain the % character DONOT use QString::arg()
+        QString queryStr = "REPLACE INTO " + IMAGE_TABLE_NAME +
+                " (filename, filepath, album, label, time, thumbnail) " +
+                imgValues;
+        query.prepare(queryStr);
         if (! query.exec()) {
             qWarning() << "Insert images into images table failed: "
                        << query.lastError();
@@ -169,8 +171,11 @@ void DatabaseManager::insertImageInfos(const QList<ImageInfo> &infos)
         // Insert into album table
         query.clear();
         query.exec("BEGIN IMMEDIATE TRANSACTION");
-        query.prepare(QString("REPLACE INTO %1 (albumname, filename, time) %2")
-                      .arg( ALBUM_TABLE_NAME ).arg( albumValues ));
+        // Note: the value may contain the % character DONOT use QString::arg()
+        queryStr = "REPLACE INTO " + ALBUM_TABLE_NAME +
+                " (albumname, filename, time) " +
+                albumValues;
+        query.prepare(queryStr);
         if (! query.exec()) {
             qWarning() << "Insert images into album table failed: "
                        << query.lastError();
@@ -195,8 +200,10 @@ void DatabaseManager::removeImages(const QStringList &names)
 
     QSqlQuery query(db);
     // Remove from albums table
-    query.prepare(QString("DELETE FROM %1 WHERE filename IN (%2)")
-                  .arg(ALBUM_TABLE_NAME).arg(nStr));
+    // Note: the value may contain the % character DONOT use QString::arg()
+    QString queryStr = "DELETE FROM " + ALBUM_TABLE_NAME +
+            " WHERE filename IN (" + nStr +")";
+    query.prepare(queryStr);
     if (! query.exec()) {
         qWarning() << "Remove images from DB failed: " << query.lastError();
     }
@@ -208,8 +215,8 @@ void DatabaseManager::removeImages(const QStringList &names)
     }
 
     // Remove from image table
-    query.prepare(QString("DELETE FROM %1 WHERE filename IN (%2)")
-                  .arg(IMAGE_TABLE_NAME).arg(nStr));
+    queryStr = "DELETE FROM " + IMAGE_TABLE_NAME + " WHERE filename IN (" + nStr + ")";
+    query.prepare(queryStr);
     if (! query.exec()) {
         qWarning() << "Remove images from DB failed: " << query.lastError();
     }
@@ -285,17 +292,14 @@ void DatabaseManager::insertImageIntoAlbum(const QString &albumname,
     //select * from test where albumname="album4" and filename="file4");
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
-        const QString queryStr = QString( "INSERT INTO %1 "
-                                          "(albumname, filename, time) "
-                                          "SELECT '%2', '%3', '%4' "
-                                          "WHERE NOT EXISTS ( "
-                                          "SELECT * FROM %5 "
-                                          "WHERE albumname='%6' "
-                                          "AND filename='%7')" )
-                .arg(ALBUM_TABLE_NAME)
-                .arg(albumname).arg(filename).arg(time)
-                .arg(ALBUM_TABLE_NAME).arg(albumname)
-                .arg(filename);
+        // Note: the value may contain the % character DONOT use QString::arg()
+        const QString queryStr = "INSERT INTO " + ALBUM_TABLE_NAME +
+                " (albumname, filename, time)"
+                " SELECT \""+ albumname + "\",\"" + filename + "\",\"" + time + "\"" +
+                " WHERE NOT EXISTS ("
+                " SELECT * FROM " + ALBUM_TABLE_NAME +
+                " WHERE albumname=\"" + albumname + "\"" +
+                " AND filename=\"" + filename + "\")";
         QSqlQuery query( db );
         query.prepare(queryStr);
         if (!query.exec()) {
@@ -344,10 +348,10 @@ void DatabaseManager::removeImagesFromAlbum(const QString &album,
 
     QSqlQuery query(db);
     // Remove from albums table
-    query.prepare(QString("DELETE FROM %1 WHERE albumname = :albumname "
-                          "AND filename IN (%2)")
-                  .arg(ALBUM_TABLE_NAME).arg(nStr));
-    query.bindValue(":albumname", album);
+    // Note: the value may contain the % character DONOT use QString::arg()
+    const QString queryStr = "DELETE FROM " + ALBUM_TABLE_NAME +
+            " WHERE albumname = \"" + album + "\"AND filename IN (" + nStr + ")";
+    query.prepare(queryStr);
     if (! query.exec()) {
         qWarning() << "Remove images from DB failed: " << query.lastError();
     }
@@ -365,10 +369,10 @@ DatabaseManager::AlbumInfo DatabaseManager::getAlbumInfo(const QString &name)
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("SELECT DISTINCT filename FROM %1 "
-                               "WHERE albumname = '%2' AND filename != \"\" "
-                               "ORDER BY time DESC")
-                       .arg(ALBUM_TABLE_NAME).arg(name) );
+        const QString queryStr = "SELECT DISTINCT filename FROM "
+                + ALBUM_TABLE_NAME + " WHERE albumname = \"" + name
+                + "\" AND filename != \"\" " + "ORDER BY time DESC";
+        query.prepare(queryStr);
         if ( !query.exec() ) {
             qWarning() << "Get images from AlbumTable failed: "
                        << query.lastError();
@@ -483,10 +487,9 @@ QStringList DatabaseManager::getImageNamesByAlbum(const QString &album)
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("SELECT DISTINCT filename FROM %1 "
-                               "WHERE albumname = '%2' "
-                               "ORDER BY time DESC")
-                       .arg(ALBUM_TABLE_NAME).arg(album) );
+        QString queryStr = "SELECT DISTINCT filename FROM " + ALBUM_TABLE_NAME
+                + " WHERE albumname = \"" + album +"\" ORDER BY time DESC";
+        query.prepare(queryStr);
         if ( !query.exec() ) {
             qWarning() << "Get images from AlbumTable failed: "
                        << query.lastError();
@@ -688,10 +691,12 @@ QList<DatabaseManager::ImageInfo> DatabaseManager::getImageInfos(const QString &
     QSqlDatabase db = getDatabase();
     if (db.isValid()) {
         QSqlQuery query( db );
-        query.prepare( QString("SELECT "
-                               "filename, filepath, album, label, time, thumbnail "
-                               "FROM %1 WHERE %2 = \'%3\' ORDER BY time DESC")
-                       .arg( IMAGE_TABLE_NAME ).arg( key ).arg( value ) );
+        // Note: the value may contain the % character DONOT use QString::arg()
+        const QString queryStr = QString() + "SELECT " +
+                " filename, filepath, album, label, time, thumbnail " +
+                " FROM " + IMAGE_TABLE_NAME +
+                " WHERE " + key + " = \"" + value + "\" ORDER BY time DESC";
+        query.prepare(queryStr);
         if (!query.exec()) {
             qWarning() << "Get Image from database failed: " << query.lastError();
             return infoList;
