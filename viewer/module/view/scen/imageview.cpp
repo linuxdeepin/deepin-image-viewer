@@ -262,6 +262,12 @@ void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
     QGraphicsView::mouseDoubleClickEvent(e);
 }
 
+void ImageView::mousePressEvent(QMouseEvent *e)
+{
+    emit clicked();
+    QGraphicsView::mousePressEvent(e);
+}
+
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
     if (! (e->buttons() | Qt::NoButton)) {

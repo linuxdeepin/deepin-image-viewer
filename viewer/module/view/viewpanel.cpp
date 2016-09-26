@@ -118,7 +118,8 @@ void ViewPanel::initFileSystemWatcher()
     });
 }
 
-void ViewPanel::mousePressEvent(QMouseEvent *e) {
+void ViewPanel::mousePressEvent(QMouseEvent *e)
+{
     emit dApp->signalM->hideExtensionPanel();
     if (e->button() == Qt::BackButton) {
         if (window()->isFullScreen()) {
@@ -513,6 +514,9 @@ void ViewPanel::initViewContent()
     m_viewB = new ImageView;
     connect(m_viewB, &ImageView::doubleClicked, [this]() {
         toggleFullScreen();
+    });
+    connect(m_viewB, &ImageView::clicked, this, [=] {
+        dApp->signalM->hideExtensionPanel();
     });
 }
 
