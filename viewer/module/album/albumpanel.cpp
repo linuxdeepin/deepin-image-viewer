@@ -27,6 +27,7 @@ const int MIN_ICON_SIZE = 96;
 const int ICON_MARGIN = 13;
 const int SLIDER_WIDTH = 120;
 const int MARGIN_DIFF = 82;
+const QString RECENT_IMPORT_ALBUM = "Recent imported";
 const QString SETTINGS_GROUP = "ALBUMPANEL";
 const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
 const QString SETTINGS_IMAGE_ICON_SCALE_KEY = "ImageIconScale";
@@ -247,8 +248,9 @@ QWidget *AlbumPanel::extensionPanelContent()
 
 void AlbumPanel::dropEvent(QDropEvent *event)
 {
+    // "Recent imported" should not handle drop event
     QList<QUrl> urls = event->mimeData()->urls();
-    if (urls.isEmpty())
+    if (urls.isEmpty() || m_currentAlbum == RECENT_IMPORT_ALBUM)
         return;
 
     QStringList files;
@@ -272,8 +274,10 @@ void AlbumPanel::dropEvent(QDropEvent *event)
 
 void AlbumPanel::dragEnterEvent(QDragEnterEvent *event)
 {
-    event->setDropAction(Qt::CopyAction);
-    event->accept();
+    if (m_currentAlbum != RECENT_IMPORT_ALBUM) {
+        event->setDropAction(Qt::CopyAction);
+        event->accept();
+    }
 }
 
 void AlbumPanel::initMainStackWidget()
