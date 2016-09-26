@@ -18,6 +18,7 @@ ImageButton::ImageButton(const QString &normalPic, const QString &hoverPic,
                           const QString &pressPic, const QString &disablePic,
                           QWidget *parent)
     : DImageButton(normalPic, hoverPic, pressPic, parent)
+    , m_tooltipVisiable(false)
     , m_normalPic_(normalPic)
     , m_disablePic_(disablePic)
 {
