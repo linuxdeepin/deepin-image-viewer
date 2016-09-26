@@ -128,6 +128,7 @@ void ImageView::setScaleValue(qreal v)
         scale(maxv, maxv);
     }
     else {
+        m_isFitImage = false;
         m_isFitWindow = false;
     }
     emit scaled(imageRelativeScale() * 100);
@@ -159,6 +160,7 @@ void ImageView::fitWindow()
     qreal wrs = windowRelativeScale();
     resetTransform();
     scale(wrs, wrs);
+    m_isFitImage = false;
     m_isFitWindow = true;
     emit transformChanged();
 }
@@ -167,6 +169,7 @@ void ImageView::fitImage()
 {
     resetTransform();
     scale(1, 1);
+    m_isFitImage = true;
     m_isFitWindow = false;
     emit transformChanged();
 }
@@ -240,6 +243,11 @@ QRect ImageView::visibleImageRect() const
 bool ImageView::isWholeImageVisible() const
 {
     return visibleImageRect().size() == sceneRect().size();
+}
+
+bool ImageView::isFitImage() const
+{
+    return m_isFitImage;
 }
 
 bool ImageView::isFitWindow() const

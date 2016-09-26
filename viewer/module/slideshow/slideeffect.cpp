@@ -206,7 +206,7 @@ void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
 {
     current_path = currentPath;
     next_path = nextPath;
-    qDebug("%s ==> %s", qPrintable(current_path), qPrintable(next_path));
+//    qDebug("%s ==> %s", qPrintable(current_path), qPrintable(next_path));
     if (!next_image)
         next_image = new QImage(next_path);
     else

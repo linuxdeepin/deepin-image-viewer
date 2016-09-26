@@ -40,6 +40,7 @@ public:
     QRect visibleImageRect() const;
     bool isWholeImageVisible() const;
 
+    bool isFitImage() const;
     bool isFitWindow() const;
 
 signals:
@@ -62,6 +63,7 @@ protected:
     void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 
 private:
+    bool m_isFitImage;
     bool m_isFitWindow;
     RendererType m_renderer;
     QString m_path;
