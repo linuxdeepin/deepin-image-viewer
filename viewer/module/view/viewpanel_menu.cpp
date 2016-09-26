@@ -87,10 +87,10 @@ const QString ViewPanel::createMenuContent()
 
     /**************************************************************************/
     createMI(&items, IdSeparator, "", "", true);
-
-    if (m_vinfo.inDatabase) {
-        createMI(&items, IdExport, tr("Export"));
-    }
+    //Hide the export function
+    //if (m_vinfo.inDatabase) {
+    //    createMI(&items, IdExport, tr("Export"));
+    //}
     createMI(&items, IdCopy, tr("Copy"), "Ctrl+C");
     createMI(&items, IdMoveToTrash, tr("Throw to Trash"), "Delete");
     if (! m_vinfo.album.isEmpty()) {

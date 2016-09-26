@@ -147,8 +147,8 @@ QString ImagesView::createMenuContent()
                                     false, "", objF));
     }
     items.append(createMenuItem(IdSeparator, "", true));
-
-    items.append(createMenuItem(IdExport, tr("Export"), false, ""));
+    //Hide the export function
+    //items.append(createMenuItem(IdExport, tr("Export"), false, ""));
     items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
     items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash"), false,
                                 "Delete"));
