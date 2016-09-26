@@ -112,9 +112,9 @@ const QString ViewPanel::createMenuContent()
     /**************************************************************************/
     createMI(&items, IdSeparator, "", "", true);
 
-    if (m_viewB->windowRelativeScale() > 1 && m_nav->isAlwaysHidden()) {
+    if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         createMI(&items, IdShowNavigationWindow, tr("Show navigation window"));
-    } else if (m_viewB->windowRelativeScale() > 1 && !m_nav->isAlwaysHidden()) {
+    } else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         createMI(&items, IdHideNavigationWindow, tr("Hide navigation window"));
     }
 
