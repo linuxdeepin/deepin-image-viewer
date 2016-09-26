@@ -105,7 +105,7 @@ void ViewPanel::initFileSystemWatcher()
         }
     });
     connect(sw, &QFileSystemWatcher::directoryChanged, this, [=] {
-        if (m_current == m_infos.cend())
+        if (m_current == m_infos.cend() || m_infos.isEmpty())
             return;
         const QString cp = m_current->path;
         m_infos = getImageInfos(getFileInfos(cp));
