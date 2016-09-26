@@ -68,6 +68,7 @@ void ViewPanel::initConnect() {
             emit dApp->signalM->showTopToolbar();
         }
         else {
+            emit dApp->signalM->showTopToolbar();
             emit dApp->signalM->hideBottomToolbar(true);
         }
     });
@@ -544,8 +545,6 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
         emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
-        emit dApp->signalM->showTopToolbar();
-        emit dApp->signalM->hideBottomToolbar(true);
     }
     else {
         emit updateCollectButton();
