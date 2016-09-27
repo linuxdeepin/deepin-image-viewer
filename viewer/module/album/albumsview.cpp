@@ -146,7 +146,7 @@ bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
     else if (e->type() == QEvent::Show) {
         // Aways has Favorites and RecentImport album
         dApp->databaseM->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
-        dApp->databaseM->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
+//        dApp->databaseM->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
         updateView();
     }
 
@@ -401,7 +401,7 @@ void AlbumsView::updateView()
     m_model->clear();
 
     // Make those special album always show at front
-    addAlbum(dApp->databaseM->getAlbumInfo(RECENT_IMPORTED_ALBUM));
+//    addAlbum(dApp->databaseM->getAlbumInfo(RECENT_IMPORTED_ALBUM));
     addAlbum(dApp->databaseM->getAlbumInfo(MY_FAVORITES_ALBUM));
     QStringList albums = dApp->databaseM->getAlbumNameList();
     albums.removeAll(MY_FAVORITES_ALBUM);

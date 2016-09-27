@@ -113,7 +113,7 @@ void DatabaseManager::insertImageInfos(const QList<ImageInfo> &infos)
     QSqlDatabase db = getDatabase();
 
     if (db.isValid()) {
-        const QString recentImport("Recent imported");
+//        const QString recentImport("Recent imported");
         QString albumValues = " VALUES ";
         QString imgValues = " VALUES ";
         for (ImageInfo info : infos) {
@@ -126,7 +126,7 @@ void DatabaseManager::insertImageInfos(const QList<ImageInfo> &infos)
             imgValues += "\"\"";
             imgValues += "),";
 
-            QStringList albums = info.albums << recentImport;
+            QStringList albums = info.albums/* << recentImport*/;
             albums.removeAll("");
             for (QString album : albums) {
                 albumValues += "(";
@@ -157,16 +157,16 @@ void DatabaseManager::insertImageInfos(const QList<ImageInfo> &infos)
             emit dApp->signalM->imagesInserted(infos);
         }
 
-        // Clear Recent imported album
-        query.clear();
-        query.exec("BEGIN IMMEDIATE TRANSACTION");
-        query.prepare( QString("DELETE FROM %1 WHERE albumname = :name")
-                       .arg(ALBUM_TABLE_NAME) );
-        query.bindValue( ":name", recentImport );
-        if (! query.exec()) {
-            qWarning() << "Remove album from database failed: "
-                       << query.lastError();
-        }
+//        // Clear Recent imported album
+//        query.clear();
+//        query.exec("BEGIN IMMEDIATE TRANSACTION");
+//        query.prepare( QString("DELETE FROM %1 WHERE albumname = :name")
+//                       .arg(ALBUM_TABLE_NAME) );
+//        query.bindValue( ":name", recentImport );
+//        if (! query.exec()) {
+//            qWarning() << "Remove album from database failed: "
+//                       << query.lastError();
+//        }
 
         // Insert into album table
         query.clear();
