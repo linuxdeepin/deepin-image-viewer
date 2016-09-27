@@ -417,6 +417,7 @@ void AlbumsView::popupDelDialog(const QString &albumName) {
     for (int i = 0; i < infos.length(); i++) {
         paths << infos[i].path;
     }
+
     DeleteDialog* delDialog = new DeleteDialog(paths, true, this);
     delDialog->show();
     delDialog->moveToCenter();
@@ -432,7 +433,7 @@ void AlbumsView::popupDelDialog(const QString &albumName) {
             }
         }
     });
-
     connect(delDialog, &DeleteDialog::closed,
             delDialog, &DeleteDialog::deleteLater);
+
 }

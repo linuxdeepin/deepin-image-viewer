@@ -9,8 +9,8 @@
 
 DWIDGET_USE_NAMESPACE
 using namespace utils::image;
-const QSize SINGLEIMAGE_SIZE = QSize(60, 46);
-const QSize MULTIIMAGES_SIZE = QSize(50, 42);
+const QSize DEL_BG_SIZE = QSize(64, 64);
+const QSize DEL_IMG_SIZE = QSize(54, 40);
 const QSize ALBUM_SIZE = QSize(70, 70);
 ConverLabel::ConverLabel(const QString &imgPath, ConverStyle converStyle, QWidget *parent)
     : QLabel(parent) {
@@ -21,38 +21,31 @@ ConverLabel::ConverLabel(const QString &imgPath, ConverStyle converStyle, QWidge
 
 void ConverLabel::paintEvent(QPaintEvent *e) {
     QPainter painter(this);
+    int left_margin = 0, top_margin = 0;
     switch (m_converStyle) {
     case SingleImgConver: {
-        const int BORDER_WIDTH = 2;
-        int PADDING = BORDER_WIDTH/2;
-        setFixedSize(SINGLEIMAGE_SIZE);
-        m_delPix =  cutSquareImage(m_delPix,
-            QSize(SINGLEIMAGE_SIZE.width() - BORDER_WIDTH*2,
-                  SINGLEIMAGE_SIZE.height() - BORDER_WIDTH*2));
+        setFixedSize(DEL_BG_SIZE);
+        m_delPix =  cutSquareImage(m_delPix,DEL_IMG_SIZE);
 
-        QPen pen(Qt::white);
-        pen.setWidth(2);
-        painter.setPen(pen);
-
-        painter.drawLine(QPoint(PADDING, PADDING),
-                         QPoint(width() - PADDING, PADDING));
-        painter.drawLine(QPoint(width() - PADDING, PADDING),
-                         QPoint(width() - PADDING, height() - PADDING));
-        painter.drawLine(QPoint(width() - PADDING, height() - PADDING),
-                         QPoint(PADDING, height() - PADDING));
-        painter.drawLine(QPoint(PADDING, height() - PADDING),
-                         QPoint(PADDING, PADDING));
-        painter.drawPixmap(BORDER_WIDTH, BORDER_WIDTH, m_delPix.width(),
+        QPixmap singleImageBg;
+        singleImageBg.load(":/images/resources/images/del_single_img.png");
+        painter.drawPixmap(0, 0, singleImageBg.width(), singleImageBg.height(),
+                           singleImageBg);
+        left_margin = (DEL_BG_SIZE.width() - DEL_IMG_SIZE.width())/2;
+        top_margin = (DEL_BG_SIZE.height() - DEL_IMG_SIZE.height())/2;
+        painter.drawPixmap(left_margin, top_margin, m_delPix.width(),
                            m_delPix.height(), m_delPix);
         break;
     }
     case MultiImgConver:
-        setFixedSize(MULTIIMAGES_SIZE);
-        m_background.load(":/images/resources/images/delete_images.png");
-        m_delPix = cutSquareImage(m_delPix, QSize(MULTIIMAGES_SIZE.width() - 4,
-                                                  MULTIIMAGES_SIZE.height() - 9));
+        setFixedSize(DEL_BG_SIZE);
+        m_background.load(":/images/resources/images/del_multi_img.png");
+        m_delPix = cutSquareImage(m_delPix, DEL_IMG_SIZE);
         painter.drawPixmap(0, 0, width(), height(), m_background);
-        painter.drawPixmap(2, 6, m_delPix.width(), m_delPix.height(), m_delPix);
+        left_margin = (DEL_BG_SIZE.width() - DEL_IMG_SIZE.width())/2;
+        top_margin = 14;
+        painter.drawPixmap(left_margin, top_margin, m_delPix.width(),
+                           m_delPix.height(), m_delPix);
         break;
     case AlbumConver: {
         setFixedSize(ALBUM_SIZE);
@@ -72,7 +65,7 @@ void ConverLabel::paintEvent(QPaintEvent *e) {
 DeleteDialog::DeleteDialog(const QStringList imgPaths, bool isAlbum,
     QWidget *parent) : DDialog(parent) {
     QPixmap albumPix, imagesPix;
-    setMinimumSize(380, 135);
+    setMinimumSize(380, 145);
     albumPix.load(":/images/resources/images/import_dir.png");
     imagesPix.load(":/images/resources/images/delete_images.png");
     setModal(true);

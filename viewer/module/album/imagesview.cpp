@@ -503,5 +503,4 @@ void ImagesView::popupDelDialog(const QStringList paths, const QStringList names
     });
     connect(delDialog, &DeleteDialog::closed,
             delDialog, &DeleteDialog::deleteLater);
-
 }
