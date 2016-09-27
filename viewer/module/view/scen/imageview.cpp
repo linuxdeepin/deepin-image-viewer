@@ -39,7 +39,7 @@ ImageView::ImageView(QWidget *parent)
     setTransformationAnchor(AnchorUnderMouse);
     setDragMode(ScrollHandDrag);
     setViewportUpdateMode(FullViewportUpdate);
-    setAcceptDrops(true);
+    setAcceptDrops(false);
     setResizeAnchor(QGraphicsView::AnchorViewCenter);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
