@@ -405,6 +405,7 @@ bool ViewPanel::showNext()
     if (m_current == m_infos.cend())
         m_current = m_infos.cbegin();
 
+    //SKILL: start timer in timerEvent may failed
     killTimer(m_openTid);
     m_openTid = startTimer(m_openTid == 0 ? 0 : OPEN_IMAGE_DELAY_INTERVAL);
     return true;
@@ -523,7 +524,10 @@ void ViewPanel::initViewContent()
 void ViewPanel::openImage(const QString &path, bool inDB)
 {
     if (! QFileInfo(path).exists()) {
-        removeCurrentImage();
+        // removeCurrentImage() will cause timerEvent be trigered again by
+        // showNext() or showPrevious(), so delay to remove current image
+        // to break the loop
+        TIMER_SINGLESHOT(100, {removeCurrentImage();}, this);
         return;
     }
 
