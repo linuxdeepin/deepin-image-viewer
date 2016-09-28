@@ -355,7 +355,7 @@ void ImagesView::updateTopTipsRect()
         return;
     }
 
-    m_topTips->move(0, TOP_TOOLBAR_HEIGHT - m_topTips->height());
+    m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
     m_topTips->resize(width(), m_topTips->height());
     const int lm =
             - m_view->hOffset() + m_contentLayout->contentsMargins().left();
