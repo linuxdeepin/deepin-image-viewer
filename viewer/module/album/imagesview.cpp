@@ -28,6 +28,14 @@ const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 const QString MY_FAVORITES_ALBUM = "My favorites";
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 
+DatabaseManager::ImageInfo genThumbnail(DatabaseManager::ImageInfo &info)
+{
+    using namespace utils::image;
+    auto ni = info;
+    ni.thumbnail = cutSquareImage(getThumbnail(ni.path, true));
+    return ni;
+}
+
 }  // namespace
 
 ImagesView::ImagesView(QWidget *parent)
@@ -52,8 +60,30 @@ void ImagesView::setAlbum(const QString &album)
 
     m_view->clearData();
     auto infos = dApp->databaseM->getImageInfosByAlbum(album);
-    for (auto info : infos) {
-        insertItem(info, false);
+    const int preloadCount = 100;
+    // Load up to 100 images at initialization to accelerate rendering
+    for (int i = 0; i < qMin(infos.length(), preloadCount); i ++) {
+        insertItem(infos[i], false);
+    }
+
+    // The thumbnail is generated in the new thread
+    QList<QFuture<DatabaseManager::ImageInfo>> fl;
+    if (infos.length() >= preloadCount) {
+        for (int i = preloadCount; i < infos.length(); i ++) {
+            fl << QtConcurrent::run(QThreadPool::globalInstance(), genThumbnail, infos[i]);
+        }
+    }
+    if (fl.length() > 0) {
+        QTimer *t = new QTimer(this);
+        connect(t, &QTimer::timeout, this, [=] {
+            if (fl.last().isFinished()) {
+                for (auto f : fl) {
+                    insertItem(f.result(), false);
+                }
+                t->deleteLater();
+            }
+        });
+        t->start(500);
     }
 
     m_topTips->setAlbum(album);
@@ -222,12 +252,15 @@ void ImagesView::insertItem(const DatabaseManager::ImageInfo &info, bool update)
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.thumb = cutSquareImage(getThumbnail(info.path, true));
+    if (info.thumbnail.isNull())
+        vi.thumb = cutSquareImage(getThumbnail(info.path, true));
+    else
+        vi.thumb = info.thumbnail;
 
     m_view->insertItem(vi);
-    m_view->updateThumbnails();
 
     if (update) {
+        m_view->updateThumbnails();
         m_topTips->setAlbum(m_album);
         updateContent();
     }

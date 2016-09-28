@@ -5,6 +5,7 @@
 #include "controller/signalmanager.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include "widgets/scrollbar.h"
 #include <math.h>
 #include <QEvent>
@@ -20,6 +21,14 @@ const int TOP_TOOLBAR_HEIGHT = 40;
 const int MIN_ICON_SIZE = 96;
 const QString SETTINGS_GROUP = "TIMEPANEL";
 const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
+
+DatabaseManager::ImageInfo genThumbnail(DatabaseManager::ImageInfo &info)
+{
+    using namespace utils::image;
+    auto ni = info;
+    ni.thumbnail = cutSquareImage(getThumbnail(ni.path, true));
+    return ni;
+}
 
 }  //namespace
 
@@ -217,18 +226,32 @@ void TimelineImageView::insertReadyFrames()
     }
 
     const auto infos = dApp->databaseM->getAllImageInfos();
+    const int preloadCount = 100;
     // Load up to 100 images at initialization to accelerate rendering
-    for (int i = 0; i < qMin(infos.length(), 100); i ++) {
+    for (int i = 0; i < qMin(infos.length(), preloadCount); i ++) {
         onImageInserted(infos[i]);
     }
 
-    TIMER_SINGLESHOT(500, {
-        if (infos.length() >= 100) {
-            for (int i = 100; i < infos.length(); i ++) {
-                onImageInserted(infos[i]);
-            }
+    // The thumbnail is generated in the new thread
+    QList<QFuture<DatabaseManager::ImageInfo>> fl;
+    if (infos.length() >= preloadCount) {
+        for (int i = preloadCount; i < infos.length(); i ++) {
+            fl << QtConcurrent::run(QThreadPool::globalInstance(),
+                                    genThumbnail, infos[i]);
         }
-    }, this, infos);
+    }
+    if (fl.length() > 0) {
+        QTimer *t = new QTimer(this);
+        connect(t, &QTimer::timeout, this, [=] {
+            if (fl.last().isFinished()) {
+                for (auto f : fl) {
+                    onImageInserted(f.result());
+                }
+                t->deleteLater();
+            }
+        });
+        t->start(500);
+    }
 
     const int iconSize = dApp->setter->value(
                 SETTINGS_GROUP,
@@ -245,9 +268,8 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
 //        // Make sure the other module is ready(eg.view)
 //        QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
     }
-    else if (e->type() == QEvent::Show) {
-        if (m_frames.isEmpty())
-            insertReadyFrames();
+    else if (e->type() == QEvent::Show && m_frames.isEmpty()) {
+        TIMER_SINGLESHOT(100, {insertReadyFrames();}, this)
     }
     else if (e->type() == QEvent::Resize ||
              e->type() == QEvent::WindowActivate ||

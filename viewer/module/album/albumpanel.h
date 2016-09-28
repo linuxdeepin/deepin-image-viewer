@@ -39,7 +39,7 @@ private:
     void initImagesView();
     void initStyleSheet();
 
-    void updateImagesCount();
+    void updateImagesCount(bool fromDB = false);
     void updateAlbumCount();
     void showCreateDialog();
     void showImportDirDialog(const QString &dir);

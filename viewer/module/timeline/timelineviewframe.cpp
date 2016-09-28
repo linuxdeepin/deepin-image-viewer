@@ -126,7 +126,10 @@ void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
     ThumbnailListView::ItemInfo vi;
     vi.name = info.name;
     vi.path = info.path;
-    vi.thumb = cutSquareImage(getThumbnail(info.path, true));
+    if (info.thumbnail.isNull())
+        vi.thumb = cutSquareImage(getThumbnail(info.path, true));
+    else
+        vi.thumb = info.thumbnail;
 
     m_view->insertItem(vi);
 }

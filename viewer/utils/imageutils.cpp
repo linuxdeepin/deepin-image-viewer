@@ -11,8 +11,10 @@
 #include <QImage>
 #include <QImageReader>
 #include <QMimeDatabase>
+#include <QMutexLocker>
 #include <QPixmapCache>
 #include <QProcess>
+#include <QReadWriteLock>
 #include <QSvgRenderer>
 #include <QUrl>
 
@@ -278,8 +280,10 @@ const QString thumbnailCachePath()
     return thumbCacheP;
 }
 
+QMutex mutex;
 const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
+    QMutexLocker locker(&mutex);
     const QString cacheP = thumbnailCachePath();
     const QUrl url("file://" + path);
     const QString md5s = toMd5(url.toString());

@@ -80,7 +80,7 @@ QWidget *AlbumPanel::toolbarBottomContent()
     m_countLabel = new QLabel;
     m_countLabel->setObjectName("CountLabel");
     updateAlbumCount();
-    updateImagesCount();
+    updateImagesCount(true);
 
     ImageButton *ib = new ImageButton;
     ib->setToolTip(tr("Import"));
@@ -300,7 +300,7 @@ void AlbumPanel::initMainStackWidget()
     //show import frame if no images in database
     m_stackWidget->setCurrentIndex(dApp->databaseM->imageCount() > 0 ? 1 : 0);
     connect(m_stackWidget, &QStackedWidget::currentChanged, this, [=] {
-        updateImagesCount();
+        updateImagesCount(true);
         updateAlbumCount();
         emit dApp->signalM->updateTopToolbarLeftContent(
                     toolbarTopLeftContent());
@@ -382,7 +382,7 @@ void AlbumPanel::initStyleSheet()
     sf.close();
 }
 
-void AlbumPanel::updateImagesCount()
+void AlbumPanel::updateImagesCount(bool fromDB)
 {
     if (m_countLabel.isNull())
         return;
@@ -391,14 +391,14 @@ void AlbumPanel::updateImagesCount()
     if (m_stackWidget->currentWidget() == m_albumsView)
         return;
 
-    const int count = m_imagesView->count();
+    int count;
+    if (fromDB)
+        count = dApp->databaseM->getImagesCountByAlbum(m_currentAlbum);
+    else
+        count = m_imagesView->count();
     QString text = QString::number(count) + " " +
             (count <= 1 ? tr("image") : tr("images"));
     m_countLabel->setText(text);
-
-//    int fontHeight = utils::base::stringHeight(m_countLabel->font(),
-//                                               m_countLabel->text());
-//    m_countLabel->setMinimumHeight(fontHeight);
 
     m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
         SETTINGS_IMAGE_ICON_SCALE_KEY, QVariant(0)).toInt());
@@ -505,7 +505,7 @@ void AlbumPanel::onOpenAlbum(const QString &album)
     m_imagesView->setIconSize(QSize(newSize, newSize));
     m_imagesView->setAlbum(album);
 
-    updateImagesCount();
+    updateImagesCount(true);
 }
 
 void AlbumPanel::onCreateAlbum()

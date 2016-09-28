@@ -47,6 +47,7 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     viewport()->installEventFilter(this);
 
     initThumbnailTimer();
+    // FIXME getThumbnail函数实际使用了QMutexLocker会导致资源被锁，所以实际只有一个线程
     QThreadPool::globalInstance()->setMaxThreadCount(2);
 }
 
