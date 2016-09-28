@@ -79,8 +79,6 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
         return QModelIndex();
     }
 
-    removeCreateIcon();
-
     QByteArray thumbnailByteArray;
     QBuffer inBuffer( &thumbnailByteArray );
     inBuffer.open( QIODevice::WriteOnly );
@@ -109,19 +107,30 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     datas.append(QVariant(info.endTime));
     datas.append(QVariant(thumbnailByteArray));
 
-    QStandardItem *item = new QStandardItem();
-    QList<QStandardItem *> items;
-    items.append(item);
-    m_model->appendRow(items);
+    const int ti = indexOf(info.name);
+    // Already exist, update the data
+    if (ti != -1) {
+        QModelIndex index = m_model->index(ti, 0);
+        m_model->setData(index, QVariant(datas), Qt::DisplayRole);
+        m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
+        return index;
+    }
+    // Not exist, create new item
+    else {
+        removeCreateIcon();
 
-    QModelIndex index = m_model->index(m_model->rowCount() - 1, 0);
-    //    m_itemModel->setData(index, QVariant(info.name), Qt::EditRole);
-    m_model->setData(index, QVariant(datas), Qt::DisplayRole);
-    m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
+        QStandardItem *item = new QStandardItem();
+        QList<QStandardItem *> items;
+        items.append(item);
+        m_model->appendRow(items);
 
-    appendCreateIcon();
+        QModelIndex index = m_model->index(m_model->rowCount() - 1, 0);
+        m_model->setData(index, QVariant(datas), Qt::DisplayRole);
+        m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
 
-    return index;
+        appendCreateIcon();
+        return index;
+    }
 }
 
 QSize AlbumsView::itemSize() const
@@ -141,12 +150,11 @@ bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Hide) {
-        m_model->clear();
+//        m_model->clear();
     }
     else if (e->type() == QEvent::Show) {
         // Aways has Favorites and RecentImport album
         dApp->databaseM->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
-//        dApp->databaseM->insertImageIntoAlbum(RECENT_IMPORTED_ALBUM, "", "");
         updateView();
     }
 
@@ -398,8 +406,6 @@ void AlbumsView::updateView()
     if (! isVisible())
         return;
 
-    m_model->clear();
-
     // Make those special album always show at front
 //    addAlbum(dApp->databaseM->getAlbumInfo(RECENT_IMPORTED_ALBUM));
     addAlbum(dApp->databaseM->getAlbumInfo(MY_FAVORITES_ALBUM));
@@ -409,6 +415,18 @@ void AlbumsView::updateView()
     for (const QString name : albums) {
         addAlbum(dApp->databaseM->getAlbumInfo(name));
     }
+}
+
+int AlbumsView::indexOf(const QString &name) const
+{
+    for (int i = 0; i < m_model->rowCount(); i ++) {
+        const QVariantList datas =
+            m_model->data(m_model->index(i, 0), Qt::DisplayRole).toList();
+        if (! datas.isEmpty() && datas[0].toString() == name) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 void AlbumsView::popupDelDialog(const QString &albumName) {
