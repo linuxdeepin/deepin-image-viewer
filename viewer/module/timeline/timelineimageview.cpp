@@ -191,7 +191,7 @@ void TimelineImageView::initTopTips()
     m_topTips = new TopTimelineTips(this);
 
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this] {
-        if (scrollingPercent() == 0) {
+        if (scrollingPercent() == 0||!verticalScrollBar()->isVisible()) {
             m_topTips->hide();
         }
         else {
