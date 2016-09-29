@@ -162,6 +162,7 @@ void ImageView::fitWindow()
     scale(wrs, wrs);
     m_isFitImage = false;
     m_isFitWindow = true;
+    scaled(imageRelativeScale() * 100);
     emit transformChanged();
 }
 
@@ -171,6 +172,7 @@ void ImageView::fitImage()
     scale(1, 1);
     m_isFitImage = true;
     m_isFitWindow = false;
+    scaled(imageRelativeScale() * 100);
     emit transformChanged();
 }
 
