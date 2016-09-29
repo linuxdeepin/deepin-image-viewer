@@ -162,7 +162,16 @@ const QStringList ImagesView::paths()
 QString ImagesView::createMenuContent()
 {
     const QStringList nList = selectedImagesNameList();
+    const QStringList pList = selectedImagesPathList();
     const int selectedCount = nList.length();
+    bool canSave = true;
+    for (QString p : pList) {
+        if (! utils::image::imageSupportSave(p)) {
+            canSave = false;
+            break;
+        }
+    }
+
     QJsonArray items;
     if (selectedCount == 1) {
         items.append(createMenuItem(IdView, tr("View")));
@@ -208,17 +217,21 @@ QString ImagesView::createMenuContent()
                         tr("Add to My favorites"), false, "Ctrl+K"));
     }
 
+    if (canSave) {
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
                                 false, "Ctrl+R"));
     items.append(createMenuItem(IdRotateCounterclockwise,
         tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
+    }
     items.append(createMenuItem(IdSeparator, "", true));
 
     if (selectedCount == 1) {
+        if (canSave) {
         items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
                                     false, "Ctrl+F8"));
+        }
         items.append(createMenuItem(IdDisplayInFileManager,
             tr("Display in file manager"), false, "Ctrl+D"));
         items.append(createMenuItem(IdImageInfo, tr("Image info"), false,

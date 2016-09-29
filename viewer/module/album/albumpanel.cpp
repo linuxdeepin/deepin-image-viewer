@@ -265,7 +265,7 @@ void AlbumPanel::dropEvent(QDropEvent *event)
                 dApp->importer->importDir(path, m_currentAlbum);
             }
         }
-        else if (utils::image::isImageSupported(path)) {
+        else if (utils::image::imageSupportRead(path)) {
             files << path;
         }
     }

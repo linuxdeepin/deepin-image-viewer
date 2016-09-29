@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class ImageButton;
+class QHBoxLayout;
 class TTMContent : public QWidget
 {
     Q_OBJECT
@@ -23,6 +24,12 @@ signals:
     void imageEmpty(bool v);
 
 private:
+    QHBoxLayout *m_layout;
+    ImageButton *m_adaptImageBtn;
+    ImageButton *m_adaptScreenBtn;
+    ImageButton *m_rotateLBtn;
+    ImageButton *m_rotateRBtn;
+    ImageButton *m_trashBtn;
     ImageButton *m_clBT = nullptr;
     QString m_imageName;
     QString m_imagePath;

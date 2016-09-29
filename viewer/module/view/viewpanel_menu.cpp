@@ -120,15 +120,18 @@ const QString ViewPanel::createMenuContent()
     }
 
     /**************************************************************************/
+    if (utils::image::imageSupportSave(m_current->path)) {
     createMI(&items, IdSeparator, "", "", true);
 
     createMI(&items, IdRotateClockwise, tr("Rotate clockwise"), "Ctrl+R");
     createMI(&items, IdRotateCounterclockwise, tr("Rotate counterclockwise"), "Ctrl+Shift+R");
-
+    }
     /**************************************************************************/
     createMI(&items, IdSeparator, "", "", true);
 
+    if (utils::image::imageSupportSave(m_current->path))  {
     createMI(&items, IdSetAsWallpaper, tr("Set as wallpaper"), "Ctrl+F8");
+    }
     if (m_vinfo.inDatabase) {
         createMI(&items, IdDisplayInFileManager, tr("Display in file manager"), "Ctrl+D");
     }
