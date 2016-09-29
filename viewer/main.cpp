@@ -41,7 +41,12 @@ int main(int argc, char *argv[])
         DLogManager::registerConsoleAppender();
         DLogManager::registerFileAppender();
         dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
-        return a.exec();
+
+        if (Application::isDXcbPlatform()) {
+            quick_exit(a.exec());
+        } else {
+            return a.exec();
+        }
     }
     else {
         return 0;
