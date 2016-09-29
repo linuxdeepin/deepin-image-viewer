@@ -350,7 +350,8 @@ void AlbumsView::onMenuItemClicked(int menuId)
         break;
     }
     case IdDelete: {
-        popupDelDialog(albumName);
+        if (!albumName.isEmpty())
+            popupDelDialog(albumName);
         break;
     }
         //    case IdAlbumInfo:
