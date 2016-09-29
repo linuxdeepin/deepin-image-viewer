@@ -92,6 +92,27 @@ void BlurFrame::keyPressEvent(QKeyEvent *e)
     DBlurEffectWidget::keyPressEvent(e);
 }
 
+void BlurFrame::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        m_dragPos = event->globalPos() - mapToGlobal(QPoint(0, 0));
+    }
+
+    DBlurEffectWidget::mousePressEvent(event);
+}
+
+void BlurFrame::setMoveEnable(bool move) {
+    m_moveEnable = move;
+}
+void BlurFrame::mouseMoveEvent(QMouseEvent *event) {
+    if (m_moveEnable)
+        this->move(event->globalPos() - m_dragPos);
+    DBlurEffectWidget::mouseMoveEvent(event);
+}
+
+void BlurFrame::mouseReleaseEvent(QMouseEvent *event) {
+    DBlurEffectWidget::mouseReleaseEvent(event);
+}
+
 int BlurFrame::getBorderWidth() const
 {
     return m_borderWidth;
