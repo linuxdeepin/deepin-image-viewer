@@ -1,11 +1,16 @@
 [Desktop Entry]
 Categories=Graphics;GTK;
+Comment=Deepin Image Viewer
 Encoding=UTF-8
 Exec=/usr/bin/deepin-image-viewer %U
 Icon=deepin-image-viewer
+MimeType=image/bmp;image/gif;image/jpg;image/jpeg;image/png;image/pbm;image/pgm;image/ppm;image/xbm;image/xpm;image/svg;image/dds;image/icns;image/jp2;image/tga;image/tiff;image/wbmp;image/webp;
 Name=Deepin Image Viewer
-Name[zh_CN]=深度看图
-Comment=Deepin Image Viewer
 StartupNotify=false
 Type=Application
-MimeType=image/bmp;image/gif;image/jpg;image/jpeg;image/png;image/pbm;image/pgm;image/ppm;image/xbm;image/xpm;image/svg;image/dds;image/icns;image/jp2;image/tga;image/tiff;image/wbmp;image/webp;
+
+# Translations:
+# Do not manually modify!
+Comment[zh_CN]=深度看图
+Name[zh_CN]=深度看图
+

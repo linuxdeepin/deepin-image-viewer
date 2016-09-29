@@ -89,10 +89,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -196,10 +192,6 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -556,10 +548,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -665,10 +653,6 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

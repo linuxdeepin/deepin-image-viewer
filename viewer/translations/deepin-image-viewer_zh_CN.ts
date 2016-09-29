@@ -90,7 +90,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation type="vanished">导出</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -123,10 +123,6 @@
         <translation>取消</translation>
     </message>
     <message>
-        <source>Ok</source>
-        <translation type="obsolete">新建</translation>
-    </message>
-    <message>
         <source>OK</source>
         <translation>新建</translation>
     </message>
@@ -139,23 +135,23 @@
     <name>DeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要删除此相册吗？</translation>
     </message>
     <message>
         <source>Are you sure to delete %1 images from Timeline?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要从时间线删除%1张图片吗？</translation>
     </message>
     <message>
         <source>Are you sure to delete this image from Timeline?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要从时间线删除此图片吗？</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">删除</translation>
+        <translation>删除</translation>
     </message>
 </context>
 <context>
@@ -300,14 +296,6 @@
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
-    <message>
-        <source>Show details</source>
-        <translation type="obsolete">显示详细信息</translation>
-    </message>
-    <message>
-        <source>Show basics</source>
-        <translation type="obsolete">显示基本信息</translation>
-    </message>
 </context>
 <context>
     <name>ImagesView</name>
@@ -329,7 +317,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation type="vanished">导出</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -379,14 +367,6 @@
         <source>Import or drag image to timeline</source>
         <translation>您可以导入或拖拽图片到时间线</translation>
     </message>
-    <message>
-        <source>Add from timeline</source>
-        <translation type="obsolete">从时间线添加</translation>
-    </message>
-    <message>
-        <source>Add image from timeline or drag image to this album</source>
-        <translation type="obsolete">您可以从时间线添加图片或拖拽导入图片到此相册 </translation>
-    </message>
 </context>
 <context>
     <name>ImportDirDialog</name>
@@ -412,10 +392,6 @@
     <message>
         <source>Open Directory</source>
         <translation>打开图像目录</translation>
-    </message>
-    <message>
-        <source>Imported successfully</source>
-        <translation type="obsolete">导入成功</translation>
     </message>
 </context>
 <context>
@@ -513,10 +489,6 @@
     <message>
         <source>Date photoed</source>
         <translation type="vanished">拍摄日期</translation>
-    </message>
-    <message>
-        <source>dd MMMM yyyy HH:mm:ss</source>
-        <translation type="obsolete">yyyy年MMMMdd日 HH时mm分ss秒</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -718,14 +690,6 @@
         <translation>适应窗口</translation>
     </message>
     <message>
-        <source>Previous</source>
-        <translation type="obsolete">上一张</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete">下一张</translation>
-    </message>
-    <message>
         <source>Rotate counterclockwise</source>
         <translation>逆时针旋转</translation>
     </message>
@@ -755,18 +719,6 @@
 </context>
 <context>
     <name>TimelinePanel</name>
-    <message>
-        <source>Add to &quot;%1&quot; album</source>
-        <translation type="obsolete">添加到 %1 相册</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">取消</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="obsolete">添加</translation>
-    </message>
     <message>
         <source>Album</source>
         <translation>相册</translation>
@@ -805,7 +757,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation type="vanished">导出</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -854,10 +806,6 @@
 <context>
     <name>TopAlbumTips</name>
     <message>
-        <source>Add image</source>
-        <translation type="obsolete">添加图片</translation>
-    </message>
-    <message>
         <source>dd MMMM yyyy</source>
         <translation>yyyy年MM月dd日</translation>
     </message>
@@ -874,23 +822,6 @@
 </context>
 <context>
     <name>TopToolbar</name>
-    <message>
-        <source>Version:</source>
-        <translation type="obsolete">版本：</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager, It is featured with image management, image viewing and basic image editing.
-</source>
-        <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。\n</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager, It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="obsolete">深度看图是一款外观时尚，性能流畅的图片管理工具。兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
-    </message>
     <message>
         <source>Importing images</source>
         <translation>正在导入</translation>
@@ -923,10 +854,6 @@
 <context>
     <name>ViewPanel</name>
     <message>
-        <source>Stop slide show</source>
-        <translation type="obsolete">退出幻灯片</translation>
-    </message>
-    <message>
         <source>Fullscreen</source>
         <translation>全屏</translation>
     </message>
@@ -940,7 +867,7 @@
     </message>
     <message>
         <source>Export</source>
-        <translation>导出</translation>
+        <translation type="vanished">导出</translation>
     </message>
     <message>
         <source>Copy</source>
