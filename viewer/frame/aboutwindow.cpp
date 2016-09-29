@@ -17,6 +17,7 @@ AboutWindow::AboutWindow(QWidget *parent)
     setBorderWidth(1);
     setBorderColor(QColor(255, 255, 255, 51));
 
+    setMoveEnable(true);
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::Sheet | Qt::FramelessWindowHint);
     setWindowModality(Qt::WindowModal);
