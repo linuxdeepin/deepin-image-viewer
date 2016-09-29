@@ -162,9 +162,9 @@ bool isSupportsWriting(const QString &path)
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
 }
 
-bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
+bool canSave(FIBITMAP* dib, const QString &path)
+{
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    BOOL bSuccess = FALSE;
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
     if(fif != FIF_UNKNOWN ) {
@@ -183,9 +183,23 @@ bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
             // check that the plugin has sufficient export capabilities
             bCanSave = FreeImage_FIFSupportsExportType(fif, image_type);
         }
-        if(bCanSave) {
-            bSuccess = FreeImage_Save(fif, dib, path.toUtf8().data(), flag);
-        }
+        return bCanSave;
+    }
+    return false;
+}
+
+bool canSave(const QString &path)
+{
+    return canSave(readFileToFIBITMAP(path), path);
+}
+
+bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
+    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+    BOOL bSuccess = FALSE;
+    // Try to guess the file format from the file extension
+    fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
+    if(fif != FIF_UNKNOWN && canSave(dib, path)) {
+        bSuccess = FreeImage_Save(fif, dib, path.toUtf8().data(), flag);
     }
 
     return (bSuccess == TRUE) ? true : false;

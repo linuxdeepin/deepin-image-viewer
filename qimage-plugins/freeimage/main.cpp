@@ -29,6 +29,8 @@ FreeimageQt5Plugin::capabilities(QIODevice *device, const QByteArray &format) co
 QImageIOHandler *FreeimageQt5Plugin::create(QIODevice *device,
                                    const QByteArray &format) const
 {
+    if (device->openMode() & QIODevice::WriteOnly)
+        return QImageIOPlugin::create(device, format);
     QImageIOHandler *handler = new FreeImageHandler();
     handler->setDevice(device);
     handler->setFormat(format);

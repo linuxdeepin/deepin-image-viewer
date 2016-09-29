@@ -310,11 +310,11 @@ void ViewPanel::dropEvent(QDropEvent *event)
         if (QFileInfo(path).isDir()) {
             auto finfos =  getImagesInfo(path, false);
             for (auto finfo : finfos) {
-                if (isImageSupported(finfo.absoluteFilePath()))
+                if (imageSupportRead(finfo.absoluteFilePath()))
                     paths += finfo.absoluteFilePath() + ",";
             }
         }
-        else if (isImageSupported(path)) {
+        else if (imageSupportRead(path)) {
             paths += path + ",";
         }
     }

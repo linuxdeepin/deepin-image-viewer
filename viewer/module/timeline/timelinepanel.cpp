@@ -196,7 +196,7 @@ void TimelinePanel::dropEvent(QDropEvent *event)
                 // Need popup AlbumCreate dialog
                 emit dApp->signalM->importDir(path);
             }
-            else if (utils::image::isImageSupported(path)) {
+            else if (utils::image::imageSupportRead(path)) {
                 files << path;
             }
         }
@@ -444,6 +444,15 @@ void TimelinePanel::onImageCountChanged(int count)
 QString TimelinePanel::createMenuContent()
 {
     QMap<QString, QString> images = m_view->selectedImages();
+    const QStringList pList = images.values();
+    bool canSave = true;
+    for (QString p : pList) {
+        if (! utils::image::imageSupportSave(p)) {
+            canSave = false;
+            break;
+        }
+    }
+
     QJsonArray items;
     if (images.count() == 1) {
         items.append(createMenuItem(IdView, tr("View")));
@@ -489,19 +498,22 @@ QString TimelinePanel::createMenuContent()
                         tr("Add to My favorites"), false, "Ctrl+K"));
     }
 
+    if (canSave) {
     items.append(createMenuItem(IdSeparator, "", true));
 
     items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
                                 false, "Ctrl+R"));
     items.append(createMenuItem(IdRotateCounterclockwise,
         tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
+    }
 
     items.append(createMenuItem(IdSeparator, "", true));
 
-    //    items.append(createMenuItem(IdLabel, tr("Text tag")));
     if (images.count() == 1) {
+        if (canSave) {
         items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
                                     false, "Ctrl+F8"));
+        }
         items.append(createMenuItem(IdDisplayInFileManager,
             tr("Display in file manager"), false, "Ctrl+D"));
         items.append(createMenuItem(IdImageInfo, tr("Image info"), false,

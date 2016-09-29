@@ -2,6 +2,7 @@
 #include "application.h"
 #include "controller/databasemanager.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include "widgets/imagebutton.h"
 #include <QBoxLayout>
 #include <QDebug>
@@ -11,38 +12,37 @@ namespace {
 
 const QString FAVORITES_ALBUM = "My favorites";
 const int MARGIN_DIFF = 82;
+
 }  // namespace
 
 TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     : QWidget(parent)
 {
-    QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(0, 0, 0, 0);
-    hb->setSpacing(0);
-    hb->addSpacing(MARGIN_DIFF);
+    m_layout = new QHBoxLayout(this);
+    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setSpacing(0);
+    m_layout->addSpacing(MARGIN_DIFF);
 
     const QString res = ":/images/resources/images/";
 
     // Adapt buttons////////////////////////////////////////////////////////////
-    ImageButton *btn = new ImageButton(res + "adapt_image_normal.png"
-                                       , res + "adapt_image_hover.png"
-                                       , res + "adapt_image_press.png"
-                                       , res + "adapt_image_disable.png");
-    btn->setToolTip(tr("1:1 Size"));
-    hb->addWidget(btn);
-    connect(this, &TTMContent::imageEmpty, btn, &ImageButton::setDisabled);
-    connect(btn, &ImageButton::clicked, [this](){
+    m_adaptImageBtn = new ImageButton(res + "adapt_image_normal.png"
+                                      , res + "adapt_image_hover.png"
+                                      , res + "adapt_image_press.png"
+                                      , res + "adapt_image_disable.png");
+    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+    m_layout->addWidget(m_adaptImageBtn);
+    connect(m_adaptImageBtn, &ImageButton::clicked, [this](){
         emit resetTransform(false);
     });
 
-    btn = new ImageButton(res + "adapt_screen_normal.png"
-                          , res + "adapt_screen_hover.png"
-                          , res + "adapt_screen_press.png"
-                          , res + "adapt_screen_disable.png");
-    btn->setToolTip(tr("Fit to window"));
-    hb->addWidget(btn);
-    connect(this, &TTMContent::imageEmpty, btn, &ImageButton::setDisabled);
-    connect(btn, &ImageButton::clicked, [this](){
+    m_adaptScreenBtn = new ImageButton(res + "adapt_screen_normal.png"
+                                       , res + "adapt_screen_hover.png"
+                                       , res + "adapt_screen_press.png"
+                                       , res + "adapt_screen_disable.png");
+    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+    m_layout->addWidget(m_adaptScreenBtn);
+    connect(m_adaptScreenBtn, &ImageButton::clicked, [this](){
         emit resetTransform(true);
     });
 
@@ -50,11 +50,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     // Collection button////////////////////////////////////////////////////////
     if (! fromFileManager) {
         m_clBT = new ImageButton();
-        hb->addWidget(m_clBT);
-        connect(this, &TTMContent::imageEmpty, this, [=] (bool v) {
-            m_clBT->setDisabled(v);
-            updateCollectButton();
-        });
+        m_layout->addWidget(m_clBT);
         connect(m_clBT, &ImageButton::clicked, [=] {
             if (dApp->databaseM->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
                 dApp->databaseM->removeImageFromAlbum(FAVORITES_ALBUM,m_imageName);
@@ -69,49 +65,71 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         updateCollectButton();
     }
 
-    btn = new ImageButton();
-    btn = new ImageButton(res + "contrarotate_normal.png"
-                          , res + "contrarotate_hover.png"
-                          , res + "contrarotate_press.png"
-                          , res + "contrarotate_disable.png");
-    btn->setToolTip(tr("Rotate clockwise"));
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateClockwise);
-    connect(this, &TTMContent::imageEmpty, btn, &ImageButton::setDisabled);
+    m_rotateRBtn = new ImageButton(res + "contrarotate_normal.png"
+                                   , res + "contrarotate_hover.png"
+                                   , res + "contrarotate_press.png"
+                                   , res + "contrarotate_disable.png");
+    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    m_layout->addWidget(m_rotateRBtn);
+    connect(m_rotateRBtn, &ImageButton::clicked,
+            this, &TTMContent::rotateClockwise);
 
-    btn = new ImageButton(res + "clockwise_rotation_normal.png"
-                          , res + "clockwise_rotation_hover.png"
-                          , res + "clockwise_rotation_press.png"
-                          , res + "clockwise_rotation_disable.png");
-    btn->setToolTip(tr("Rotate counterclockwise"));
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &TTMContent::rotateCounterClockwise);
-    connect(this, &TTMContent::imageEmpty, btn, &ImageButton::setDisabled);
+    m_rotateLBtn = new ImageButton(res + "clockwise_rotation_normal.png"
+                                   , res + "clockwise_rotation_hover.png"
+                                   , res + "clockwise_rotation_press.png"
+                                   , res + "clockwise_rotation_disable.png");
+    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+    m_layout->addWidget(m_rotateLBtn);
+    connect(m_rotateLBtn, &ImageButton::clicked,
+            this, &TTMContent::rotateCounterClockwise);
 
-    btn = new ImageButton(res + "delete_normal.png"
-                          , res + "delete_hover.png"
-                          , res + "delete_press.png"
-                          , res + "delete_disable.png");
-    btn->setToolTip(tr("Throw to Trash"));
-    hb->addWidget(btn);
-    connect(btn, &ImageButton::clicked, this, &TTMContent::removed);
-    connect(this, &TTMContent::imageEmpty, btn, &ImageButton::setDisabled);
+    m_trashBtn = new ImageButton(res + "delete_normal.png"
+                                 , res + "delete_hover.png"
+                                 , res + "delete_press.png"
+                                 , res + "delete_disable.png");
+    m_trashBtn->setToolTip(tr("Throw to Trash"));
+    m_layout->addWidget(m_trashBtn);
+    connect(m_trashBtn, &ImageButton::clicked, this, &TTMContent::removed);
 }
 
 void TTMContent::onImageChanged(const QString &path)
 {
     m_imageName = QFileInfo(path).fileName();
     m_imagePath = path;
-    if (path.isEmpty())
-        emit imageEmpty(true);
-    else
-        emit imageEmpty(false);
+    if (path.isEmpty()) {
+        m_adaptImageBtn->setDisabled(true);
+        m_adaptScreenBtn->setDisabled(true);
+        m_rotateLBtn->setDisabled(true);
+        m_rotateRBtn->setDisabled(true);
+        m_trashBtn->setDisabled(true);
+    }
+    else {
+        m_adaptImageBtn->setDisabled(false);
+        m_adaptScreenBtn->setDisabled(false);
+        m_trashBtn->setDisabled(false);
+        if (utils::image::imageSupportSave(path)) {
+            m_rotateLBtn->setDisabled(false);
+            m_rotateRBtn->setDisabled(false);
+        }
+        else {
+            m_rotateLBtn->setDisabled(true);
+            m_rotateRBtn->setDisabled(true);
+        }
+    }
+
+    updateCollectButton();
 }
 
 void TTMContent::updateCollectButton()
 {
     if (! m_clBT)
         return;
+
+    if (m_imagePath.isEmpty())
+        m_clBT->setDisabled(true);
+    else
+        m_clBT->setDisabled(false);
+
     if (! m_clBT->isEnabled()) {
         m_clBT->setNormalPic(":/images/resources/images/collect_disable.png");
         m_clBT->setHoverPic(":/images/resources/images/collect_disable.png");

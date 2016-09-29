@@ -52,12 +52,38 @@ const QDateTime getCreateDateTime(const QString &path)
     return libexif::getCreateDateTime(path);
 }
 
-bool isImageSupported(const QString &path)
+bool imageSupportRead(const QString &path)
 {
     if (freeimage::isSupportsReading(path))
         return true;
     else
         return QSvgRenderer().load(path);
+}
+
+bool imageSupportSave(const QString &path)
+{
+    const QString suffix = QFileInfo(path).suffix();
+
+    // RAW image decode is tool slow, and mose of these was not support save
+    // RAW formats render incorrect by freeimage
+    const QStringList raws = QStringList()
+            << "CR2" << "CRW"   // Canon cameras
+            << "DCR" << "KDC"   // Kodak cameras
+            << "MRW"            // Minolta cameras
+            << "NEF"            // Nikon cameras
+            << "ORF"            // Olympus cameras
+            << "PEF"            // Pentax cameras
+            << "RAF"            // Fuji cameras
+            << "SRF"            // Sony cameras
+            << "X3F";           // Sigma cameras
+    if (raws.indexOf(QString(suffix).toUpper()) != -1)
+        return false;
+   return freeimage::canSave(path);
+}
+
+bool imageSupportWrite(const QString &path)
+{
+    return freeimage::isSupportsWriting(path);
 }
 
 bool rotate(const QString &path, int degree)
@@ -145,7 +171,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     if (! recursive) {
         auto nsl = QDir(dir).entryInfoList(QDir::Files | QDir::NoSymLinks);
         for (QFileInfo info : nsl) {
-            if (isImageSupported(info.absoluteFilePath())) {
+            if (imageSupportRead(info.absoluteFilePath())) {
                 infos << info;
             }
         }
@@ -158,7 +184,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     while(dirIterator.hasNext())
     {
         dirIterator.next();
-        if (isImageSupported(dirIterator.fileInfo().absoluteFilePath())) {
+        if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
         }
     }
