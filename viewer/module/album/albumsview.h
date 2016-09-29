@@ -17,9 +17,11 @@ public:
     void createAlbum();
     void updateView();
 
+    int indexOf(const QString &name) const;
     QSize itemSize() const;
     void setItemSizeMultiple(int multiple);
     void popupDelDialog(const QString &albumName);
+
 signals:
     void albumCreated();
     void albumRemoved();
@@ -40,8 +42,6 @@ private:
         IdExport,
         IdCopy,
         IdDelete,
-// TODO: Add albumInfo in menu
-//        IdAlbumInfo,
         IdSubMenu,
         IdSeparator
     };
