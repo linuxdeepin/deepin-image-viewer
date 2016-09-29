@@ -168,6 +168,9 @@ void DatabaseManager::insertImageInfos(const QList<ImageInfo> &infos)
 //                       << query.lastError();
 //        }
 
+        if (albumValues.trimmed() == "VALUES")
+            return;
+
         // Insert into album table
         query.clear();
         query.exec("BEGIN IMMEDIATE TRANSACTION");
