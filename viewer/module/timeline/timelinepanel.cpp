@@ -196,7 +196,7 @@ void TimelinePanel::dropEvent(QDropEvent *event)
                 // Need popup AlbumCreate dialog
                 emit dApp->signalM->importDir(path);
             }
-            else {
+            else if (utils::image::isImageSupported(path)) {
                 files << path;
             }
         }
