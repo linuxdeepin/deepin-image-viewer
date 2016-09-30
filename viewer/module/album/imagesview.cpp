@@ -496,16 +496,16 @@ void ImagesView::updateContent()
     if (m_view->count() == 0) {
         // For avoid widget destroy
         takeWidget();
-        m_importFrame->setVisible(true);
         m_contentWidget->setVisible(false);
         setWidget(m_importFrame);
+        m_importFrame->setVisible(true);
     }
     else {
         // For avoid widget destroy
         takeWidget();
         m_importFrame->setVisible(false);
-        m_contentWidget->setVisible(true);
         setWidget(m_contentWidget);
+        m_contentWidget->setVisible(true);
         updateTopTipsRect();
     }
 
