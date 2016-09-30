@@ -400,8 +400,10 @@ void AlbumPanel::updateImagesCount(bool fromDB)
             (count <= 1 ? tr("image") : tr("images"));
     m_countLabel->setText(text);
 
-    m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
-        SETTINGS_IMAGE_ICON_SCALE_KEY, QVariant(0)).toInt());
+    if (m_stackWidget->currentWidget() == m_imagesView) {
+        m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
+            SETTINGS_IMAGE_ICON_SCALE_KEY, QVariant(0)).toInt());
+    }
 
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
 }
@@ -419,9 +421,10 @@ void AlbumPanel::updateAlbumCount()
     QString text = QString::number(count) + " " +
             (count <= 1 ? tr("album") : tr("albums"));
     m_countLabel->setText(text);
-
-    m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
-        SETTINGS_ALBUM_ICON_SCALE_KEY, QVariant(0)).toInt());
+    if (m_stackWidget->currentWidget() == m_albumsView) {
+        m_slider->setValue(dApp->setter->value(SETTINGS_GROUP,
+            SETTINGS_ALBUM_ICON_SCALE_KEY, QVariant(0)).toInt());
+    }
 
     //set width to 1px for layout center
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
