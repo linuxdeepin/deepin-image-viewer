@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QStandardItemModel>
 
+class AlbumDelegate;
 class PopupMenuManager;
 class AlbumsView : public QListView
 {
@@ -65,6 +66,7 @@ private:
     void appendCreateIcon();
 
 private:
+    AlbumDelegate *m_delegate;
     QStandardItemModel *m_model;
     QSize m_itemSize;
     PopupMenuManager *m_popupMenu;

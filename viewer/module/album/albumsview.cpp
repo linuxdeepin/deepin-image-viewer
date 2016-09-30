@@ -29,14 +29,14 @@ AlbumsView::AlbumsView(QWidget *parent)
 {
     setMouseTracking(true);
 
-    AlbumDelegate *delegate = new AlbumDelegate(this);
-    connect(delegate, &AlbumDelegate::editingFinished,
+    m_delegate = new AlbumDelegate(this);
+    connect(m_delegate, &AlbumDelegate::editingFinished,
             this, [=](const QModelIndex &index) {
         closePersistentEditor(index);
         emit albumCreated();
     });
 
-    setItemDelegate(delegate);
+    setItemDelegate(m_delegate);
     m_model = new QStandardItemModel(this);
     setModel(m_model);
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -107,30 +107,28 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     datas.append(QVariant(info.endTime));
     datas.append(QVariant(thumbnailByteArray));
 
+    removeCreateIcon();
+
+    QModelIndex index;
     const int ti = indexOf(info.name);
     // Already exist, update the data
     if (ti != -1) {
-        QModelIndex index = m_model->index(ti, 0);
-        m_model->setData(index, QVariant(datas), Qt::DisplayRole);
-        m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
-        return index;
+        index = m_model->index(ti, 0);
     }
     // Not exist, create new item
     else {
-        removeCreateIcon();
-
         QStandardItem *item = new QStandardItem();
         QList<QStandardItem *> items;
         items.append(item);
         m_model->appendRow(items);
 
-        QModelIndex index = m_model->index(m_model->rowCount() - 1, 0);
-        m_model->setData(index, QVariant(datas), Qt::DisplayRole);
-        m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
-
-        appendCreateIcon();
-        return index;
+        index = m_model->index(m_model->rowCount() - 1, 0);
     }
+
+    m_model->setData(index, QVariant(datas), Qt::DisplayRole);
+    m_model->setData(index, QVariant(m_itemSize), Qt::SizeHintRole);
+    appendCreateIcon();
+    return index;
 }
 
 QSize AlbumsView::itemSize() const
@@ -144,6 +142,12 @@ void AlbumsView::setItemSizeMultiple(int multiple)
     const int h = (1.0 *ITEM_DEFAULT_SIZE.height() / ITEM_DEFAULT_SIZE.width()) * w;
     m_itemSize = QSize(w, h);
     updateView();
+
+    // SKILL
+    // This signal must be emitted when the sizeHint() of index changed.
+    // View has been set Uniform Item Sizes as true, so all of the items's size
+    // is change with the last item on the view
+    emit m_delegate->sizeHintChanged(m_model->index(m_model->rowCount() - 1, 0));
 }
 
 bool AlbumsView::eventFilter(QObject *obj, QEvent *e)

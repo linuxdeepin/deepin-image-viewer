@@ -172,7 +172,6 @@ void AlbumDelegate::paint(QPainter *painter,
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN + plusX,rect.y() +
             THUMBNAIL_BG_MARGIN + plusY, plus.width(), plus.height(), plus);
     }
-
 }
 
 QSize AlbumDelegate::sizeHint(const QStyleOptionViewItem &option,
@@ -297,10 +296,11 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
 
     // Draw thumbnail in bg
     const QRect tRect = thumbnailRect(bgSize);
-    QPixmap scalePixmp = utils::image::cutSquareImage(thumbnail, tRect.size());
-    painter.drawPixmap(tRect, scalePixmp);
-    // Draw album cover's out shadow
     if (!thumbnail.isNull()) {
+        QPixmap scalePixmp = utils::image::cutSquareImage(thumbnail, tRect.size());
+        painter.drawPixmap(tRect, scalePixmp);
+
+        // Draw album cover's out shadow
         const QRect outBorder = QRect(tRect.x() - 1, tRect.y() - 1,
                                       tRect.width() + 2, tRect.height() + 2);
         painter.setPen(QColor(0, 0, 0, 25));
