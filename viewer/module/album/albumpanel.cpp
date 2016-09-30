@@ -463,6 +463,8 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
 //    DThemeManager::instance()->setTheme("dark");
     connect(d, &ImportDirDialog::albumCreated,
             m_albumsView, &AlbumsView::updateView);
+    connect(d, &ImportDirDialog::albumCreated,
+            this, &AlbumPanel::updateAlbumCount);
     connect(d, &ImportDirDialog::closed,
             d, &ImportDirDialog::deleteLater);
     const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
