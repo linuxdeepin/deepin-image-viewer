@@ -333,6 +333,7 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
+    using namespace utils::base;
     m_vinfo = vinfo;
 
     if (vinfo.fullScreen) {
@@ -343,7 +344,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     if (! vinfo.paths.isEmpty()) {
         QFileInfoList list;
         for (QString path : vinfo.paths) {
-            list << QFileInfo(path);
+            list << QFileInfo(symFilePath(path));
         }
         m_infos = getImageInfos(list);
     }
@@ -357,14 +358,15 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             }
         }
         else {
-            m_infos = getImageInfos(getFileInfos(vinfo.path));
+            m_infos = getImageInfos(getFileInfos(symFilePath(vinfo.path)));
         }
     }
 
     m_current = m_infos.cbegin();
     if (! vinfo.path.isEmpty()) {
         for (; m_current != m_infos.cend(); m_current ++) {
-            if (m_current->path == vinfo.path) {
+            QString imgPath = symFilePath(vinfo.path);
+            if (m_current->path == imgPath) {
                 break;
             }
         }
