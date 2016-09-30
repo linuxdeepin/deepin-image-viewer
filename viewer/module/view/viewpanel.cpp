@@ -372,7 +372,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
     }
 
-    m_openTid = startTimer(m_openTid == 0 ? 0 : OPEN_IMAGE_DELAY_INTERVAL);
+    TIMER_SINGLESHOT(OPEN_IMAGE_DELAY_INTERVAL,
+    {openImage(m_current->path);}, this)
 }
 
 void ViewPanel::toggleFullScreen()
