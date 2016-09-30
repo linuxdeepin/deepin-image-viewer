@@ -123,3 +123,12 @@ void BlureInfoFrame::close()
     emit closed();
     BlurFrame::close();
 }
+
+void BlureInfoFrame::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Escape) {
+        this->close();
+        return;
+    }
+    BlureInfoFrame::keyPressEvent(e);
+}
