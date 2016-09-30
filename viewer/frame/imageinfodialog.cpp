@@ -44,8 +44,7 @@ ImageInfoDialog::ImageInfoDialog(QWidget *parent)
 void ImageInfoDialog::setPath(const QString &path)
 {
     using namespace utils::image;
-    const QPixmap p = cutSquareImage(QPixmap(path),
-                                                   QSize(240, 160));
+    const QPixmap p = cutSquareImage(getThumbnail(path), QSize(240, 160));
     m_thumbnail->setPixmap(p);
 
     auto mds = getAllMetaData(path);

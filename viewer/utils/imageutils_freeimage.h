@@ -2,6 +2,7 @@
 #include <FreeImage.h>
 #include <QFileInfo>
 #include <QImage>
+#include <QImageReader>
 #include <QMap>
 #include <QString>
 #include <QDebug>
@@ -82,13 +83,18 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
     // Basic extended data
     QFileInfo info(path);
+    QImageReader reader(path);
     if (admMap.isEmpty()) {
         using namespace utils::base;
         admMap.insert("DateTimeOriginal", timeToString(info.created()));
         admMap.insert("DateTimeDigitized", timeToString(info.lastModified()));
     }
-    admMap.insert("Resolution", QString::number(FreeImage_GetWidth(dib)) + "x"
-                   + QString::number(FreeImage_GetHeight(dib)));
+    // The value of width and height might incorrect
+    int w = reader.size().width();
+    w = w > 0 ? w : FreeImage_GetWidth(dib);
+    int h = reader.size().height();
+    h = h > 0 ? h : FreeImage_GetHeight(dib);
+    admMap.insert("Resolution", QString::number(w) + "x" + QString::number(h));
     admMap.insert("FileName", info.fileName());
     admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));
