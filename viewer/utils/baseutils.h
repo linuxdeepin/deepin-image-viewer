@@ -35,6 +35,7 @@ QString     sizeToHuman(const qlonglong bytes);
 QString     timeToString(const QDateTime &time, bool normalFormat = false);
 QDateTime   stringToDateTime(const QString &time);
 QString     getFileContent(const QString &file);
+QString     symFilePath(const QString &path);
 bool        writeTextFile(QString filePath, QString content);
 
 bool        trashFile(const QString &file);
