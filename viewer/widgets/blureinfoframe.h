@@ -22,6 +22,9 @@ public:
 signals:
     void closed();
 
+protected:
+    void keyPressEvent(QKeyEvent *e) override;
+
 private:
     int m_leftMax = 0;
     int m_rightMax = 0;
