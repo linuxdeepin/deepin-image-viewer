@@ -340,17 +340,22 @@ void DatabaseManager::removeImagesFromAlbum(const QString &album,
         return;
     QString nStr;
     for (QString name : names) {
-        nStr += "\"" + name + "\",";
+        //TODO: there will be better way to filter the imagename include
+        //special char " () &etc.
+        if (name.contains("\"") || name.contains("(")
+                || name.contains(")"))
+            removeImageFromAlbum(album, name);
+        else
+            nStr += "\"" + name + "\",";
     }
     nStr.remove(nStr.length() - 1, 1);
 
     QSqlQuery query(db);
     // Remove from albums table
-    query.prepare(QString("DELETE FROM %1 "
-                  "WHERE albumname=:album AND filename in (:nameStr)")
-                  .arg(ALBUM_TABLE_NAME));
-    query.bindValue(":albumname", album);
-    query.bindValue(":nameStr", nStr);
+    // Note: the value may contain the % character DONOT use QString::arg()
+    const QString queryStr = "DELETE FROM " + ALBUM_TABLE_NAME +
+            " WHERE albumname = \"" + album + "\"AND filename IN (" + nStr + ")";
+    query.prepare(queryStr);
     if (! query.exec()) {
         qWarning() << "Remove images from DB failed: " << query.lastError();
     }
