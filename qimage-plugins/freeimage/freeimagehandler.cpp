@@ -29,7 +29,7 @@ SeekProc(fi_handle handle, long offset, int origin)
 {
     QIODevice *quid = static_cast<QIODevice*>(handle);
 
-    if (quid->isOpen() && quid->bytesAvailable() > 0) {
+    if (quid->isOpen()) {
         switch (origin)
         {
         default:
@@ -132,31 +132,36 @@ bool FreeImageHandler::read(QImage *image)
 
     ScopedDib dib(0);
 
+    // NOTE: FreeImage_LoadFromHandle has a lot of bugs,
+    // some format can only load from memory, such as FIF_PSD and FIF_TIFF,
+    // we will try FreeImage_LoadFromHandle later if load from memory failed
+
     // HACK: FreeImage(at least ver. 3.17.0) can not load FIF_PSD and FIF_TIFF
     // from stream. We load it from memory.
-    if (fif == FIF_PSD || fif == FIF_TIFF)
-    {
-        QByteArray mem = device()->readAll();
-        if (mem.isEmpty())
-            return false;
-        FIMEMORY *fmem = FreeImage_OpenMemory((BYTE*)mem.data(), mem.size());
-        if (!fmem)
-            return false;
-        dib.reset(FreeImage_LoadFromMemory(fif, fmem));
-        FreeImage_CloseMemory(fmem);
-    }
-    else
-    {
-        dib.reset(FreeImage_LoadFromHandle(fif, &fiio(), (fi_handle)device()));
-    }
-
-    if (!dib)
+    QByteArray mem = device()->readAll();
+    if (mem.isEmpty())
         return false;
+    FIMEMORY *fmem = FreeImage_OpenMemory((BYTE*)mem.data(), mem.size());
+    if (!fmem)
+        return false;
+    dib.reset(FreeImage_LoadFromMemory(fif, fmem));
+    FreeImage_CloseMemory(fmem);
+
+
+    if (! dib) {
+        dib.reset(FreeImage_LoadFromHandle(fif, &fiio(), (fi_handle)device()));
+        if (! dib) {
+            qDebug() << "Can not load image's data from device()";
+            return false;
+        }
+    }
 
     QImage result = FIBitmapToQImage(dib.get());
 
-    if (isNoneQImage(result))
+    if (isNoneQImage(result)) {
+        qDebug() << "Convert FIBitmap to QImage failed! Format: " << fif;
         return false;
+    }
 
     // set resolution
     result.setDotsPerMeterX(FreeImage_GetDotsPerMeterX(dib.get()));
