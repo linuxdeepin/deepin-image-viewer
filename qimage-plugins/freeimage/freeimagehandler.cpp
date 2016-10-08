@@ -12,7 +12,11 @@
 static  unsigned //__attribute__((stdcall))
 ReadProc(void *buffer, unsigned size, unsigned count, fi_handle handle)
 {
-    return static_cast<QIODevice*>(handle)->read((char*)buffer,size*count);
+    QIODevice *quid = static_cast<QIODevice*>(handle);
+    if (quid->openMode() & QIODevice::WriteOnly)
+        return 0;
+    else
+        return static_cast<QIODevice*>(handle)->read((char*)buffer,size*count);
 }
 
 
@@ -265,8 +269,14 @@ bool FreeImageHandler::isNonePalette(const QVector<QRgb> &pal)
 
 QImage FreeImageHandler::FIBitmapToQImage(FIBITMAP *dib)
 {
-    if (!dib || FreeImage_GetImageType(dib) != FIT_BITMAP)
+    if (!dib) {
         return noneQImage();
+    }
+    if (FreeImage_GetImageType(dib) != FIT_BITMAP) {
+        qDebug() << "Image is not standard bitmap, not supported."
+                 << "BPP: " << FreeImage_GetBPP(dib);
+    }
+
     int width  = FreeImage_GetWidth(dib);
     int height = FreeImage_GetHeight(dib);
 
