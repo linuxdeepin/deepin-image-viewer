@@ -93,9 +93,7 @@ void BlurFrame::keyPressEvent(QKeyEvent *e)
 }
 
 void BlurFrame::mousePressEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton) {
-        m_dragPos = event->globalPos() - mapToGlobal(QPoint(0, 0));
-    }
+    m_dragPos = event->globalPos() - mapToGlobal(QPoint(0, 0));
 
     DBlurEffectWidget::mousePressEvent(event);
 }
