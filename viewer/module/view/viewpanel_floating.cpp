@@ -76,6 +76,7 @@ void ViewPanel::initScaleLabel()
         scalePerc.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
         scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
         scalePerc->setFixedSize(82, 48);
+        scalePerc->setText("100%");
         scalePerc->hide();
 
         QTimer *hideT = new QTimer(this);
@@ -83,9 +84,12 @@ void ViewPanel::initScaleLabel()
         connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
 
         connect(m_viewB, &ImageView::scaled, this, [=](qreal perc) {
-            scalePerc->show();
+            QString originText = scalePerc->text();
             scalePerc->setText(QString("%1%").arg(int(perc)));
-            hideT->start(2000);
+            if (scalePerc->text() != originText) {
+                scalePerc->show();
+                hideT->start(2000);
+            }
         });
 }
 
