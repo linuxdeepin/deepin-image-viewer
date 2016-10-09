@@ -90,11 +90,19 @@ bool rotate(const QString &path, int degree)
 {
     if (degree % 90 != 0)
         return false;
-    FIBITMAP *dib = freeimage::readFileToFIBITMAP(path);
-    FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
-    bool v = freeimage::writeFIBITMAPToFile(rotated, path);
-    FreeImage_Unload(dib);
-    FreeImage_Unload(rotated);
+
+    // FreeImage_Rotate will severely degrade picture quality
+    // Try QImage::transformed first, if it faile, use FreeImage_Rotate later
+    const QTransform t = QTransform().rotate(degree);
+    bool v = false;
+    v = QImage(path).transformed(t).save(path);
+    if (! v) {
+        FIBITMAP *dib = freeimage::readFileToFIBITMAP(path);
+        FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
+        v = freeimage::writeFIBITMAPToFile(rotated, path);
+        FreeImage_Unload(dib);
+        FreeImage_Unload(rotated);
+    }
 
     // The thumbnail should regenerate by caller
     removeThumbnail(path);
