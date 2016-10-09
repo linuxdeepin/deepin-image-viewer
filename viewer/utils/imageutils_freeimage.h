@@ -196,7 +196,10 @@ bool canSave(FIBITMAP* dib, const QString &path)
 
 bool canSave(const QString &path)
 {
-    return canSave(readFileToFIBITMAP(path), path);
+    FIBITMAP *dib = readFileToFIBITMAP(path);
+    bool v= canSave(dib, path);
+    FreeImage_Unload(dib);
+    return v;
 }
 
 bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
