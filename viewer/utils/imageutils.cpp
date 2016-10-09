@@ -54,6 +54,16 @@ const QDateTime getCreateDateTime(const QString &path)
 
 bool imageSupportRead(const QString &path)
 {
+    const QString suffix = QFileInfo(path).suffix();
+
+    //FIXME: 以下列表的图片格式会造成freeimage在load的时候崩溃，特别过滤
+    QStringList errorList;
+    errorList << "X3F";
+
+    if (errorList.indexOf(suffix.toUpper()) != -1) {
+        return false;
+    }
+
     if (freeimage::isSupportsReading(path))
         return true;
     else

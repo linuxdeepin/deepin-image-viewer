@@ -13,14 +13,22 @@ namespace image {
 
 namespace freeimage {
 
-const QString getFileFormat(const QString &path)
+FREE_IMAGE_FORMAT fFormat(const QString &path)
 {
+    const QByteArray ba = path.toUtf8();
+    const char *pc = ba.data();
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    fif = FreeImage_GetFileType(path.toUtf8().data(), 0);
+    fif = FreeImage_GetFileType(pc, 0);
     if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
+        fif = FreeImage_GetFIFFromFilename(pc);
     }
 
+    return fif;
+}
+
+const QString getFileFormat(const QString &path)
+{
+    const FREE_IMAGE_FORMAT fif = fFormat(path);
     if (fif == FIF_UNKNOWN) {
         return QString("UNKNOW");
     }
@@ -31,14 +39,12 @@ const QString getFileFormat(const QString &path)
 
 FIBITMAP * readFileToFIBITMAP(const QString &path)
 {
-    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    fif = FreeImage_GetFileType(path.toUtf8().data(), 0);
-    if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
-    }
+    const FREE_IMAGE_FORMAT fif = fFormat(path);
 
     if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
-        FIBITMAP *dib = FreeImage_Load(fif, path.toUtf8().data(), 0);
+        const QByteArray ba = path.toUtf8();
+        const char *pc = ba.data();
+        FIBITMAP *dib = FreeImage_Load(fif, pc, 0);
         return dib;
     }
 
@@ -148,22 +154,14 @@ FIBITMAP * makeThumbnail(const QString &path, int size) {
 
 bool isSupportsReading(const QString &path)
 {
-    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    fif = FreeImage_GetFileType(path.toUtf8().data(), 0);
-    if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
-    }
+    const FREE_IMAGE_FORMAT fif = fFormat(path);
 
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
 }
 
 bool isSupportsWriting(const QString &path)
 {
-    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    fif = FreeImage_GetFileType(path.toUtf8().data(), 0);
-    if (fif == FIF_UNKNOWN) {
-        fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
-    }
+    FREE_IMAGE_FORMAT fif = fFormat(path);
 
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
 }
@@ -205,10 +203,12 @@ bool canSave(const QString &path)
 bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     BOOL bSuccess = FALSE;
+    const QByteArray ba = path.toUtf8();
+    const char *pc = ba.data();
     // Try to guess the file format from the file extension
-    fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
+    fif = FreeImage_GetFIFFromFilename(pc);
     if(fif != FIF_UNKNOWN && canSave(dib, path)) {
-        bSuccess = FreeImage_Save(fif, dib, path.toUtf8().data(), flag);
+        bSuccess = FreeImage_Save(fif, dib, pc, flag);
     }
 
     return (bSuccess == TRUE) ? true : false;

@@ -34,25 +34,32 @@ class FreeimageQt5Plugin: public QImageIOPlugin
 public:
     QStringList keys() const;
     Capabilities capabilities(QIODevice *device,
-                              const QByteArray &format) const;
+        const QByteArray &format) const Q_DECL_OVERRIDE;
     QImageIOHandler *create(QIODevice *device,
-                            const QByteArray &format = QByteArray()) const;
+        const QByteArray &format = QByteArray()) const Q_DECL_OVERRIDE;
 };
 
 QStringList FreeimageQt5Plugin::keys() const
 {
-    return QStringList() <<
-        QLatin1String("crw") << QLatin1String("cr2") <<
-        QLatin1String("arw") <<
-        QLatin1String("nef") <<
-        QLatin1String("raf") <<
-        QLatin1String("dng");
+
+    const QStringList raws = QStringList()
+            << QLatin1String("CR2") << QLatin1String("CRW")   // Canon cameras
+            << QLatin1String("DCR") << QLatin1String("KDC")   // Kodak cameras
+            << QLatin1String("MRW")            // Minolta cameras
+            << QLatin1String("NEF")            // Nikon cameras
+            << QLatin1String("ORF")            // Olympus cameras
+            << QLatin1String("PEF")            // Pentax cameras
+            << QLatin1String("RAF")            // Fuji cameras
+            << QLatin1String("SRF")            // Sony cameras
+            << QLatin1String("DNG");           //
+//            << QLatin1String("X3F");           // Sigma cameras
+    return raws;
 }
 
 QImageIOPlugin::Capabilities
 FreeimageQt5Plugin::capabilities(QIODevice *device, const QByteArray &format) const
 {
-    if (keys().contains(format) ||
+    if (keys().contains(format.toUpper()) ||
         format == "tif" ||
         format == "tiff")
         return Capabilities(CanRead);

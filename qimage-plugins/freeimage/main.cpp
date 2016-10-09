@@ -21,16 +21,18 @@ QImageIOPlugin::Capabilities
 FreeimageQt5Plugin::capabilities(QIODevice *device, const QByteArray &format) const
 {
     FREE_IMAGE_FORMAT fif = FreeImageHandler::GetFIF(device, format);
-    if (device && device->isReadable() && FreeImage_FIFSupportsReading(fif))
+    if (! (device->openMode() & QIODevice::WriteOnly)
+            && device
+            && device->isReadable()
+            && FreeImage_FIFSupportsReading(fif)) {
         return Capabilities(CanRead);
+    }
     return 0;
 }
 
 QImageIOHandler *FreeimageQt5Plugin::create(QIODevice *device,
                                    const QByteArray &format) const
 {
-    if (device->openMode() & QIODevice::WriteOnly)
-        return QImageIOPlugin::create(device, format);
     QImageIOHandler *handler = new FreeImageHandler();
     handler->setDevice(device);
     handler->setFormat(format);
