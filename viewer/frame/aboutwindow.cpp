@@ -51,7 +51,7 @@ AboutWindow::AboutWindow(QWidget *parent)
     link->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     link->setText("<style>a{text-decoration: none;} </style><a href=\"https://www.deepin.org/\">"
                   "<font color='#0066ec';font size=12px;>www.deepin.org</a>");
-
+    link->setContextMenuPolicy(Qt::PreventContextMenu);
     link->setTextFormat(Qt::RichText);
     link->setTextInteractionFlags(Qt::TextBrowserInteraction);
     link->setOpenExternalLinks(true);

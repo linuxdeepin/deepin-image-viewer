@@ -28,6 +28,7 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget* parent)
     edit->setObjectName("CreateEdit");
     edit->setText(getNewAlbumName());
     edit->selectAll();
+    edit->setContextMenuPolicy(Qt::PreventContextMenu);
     connect(edit, &QLineEdit::returnPressed, this, [=] {
         const QString album = edit->text().trimmed();
         if (! album.isEmpty()) {
