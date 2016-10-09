@@ -130,5 +130,5 @@ void BlureInfoFrame::keyPressEvent(QKeyEvent *e)
         this->close();
         return;
     }
-    BlureInfoFrame::keyPressEvent(e);
+    BlurFrame::keyPressEvent(e);
 }
