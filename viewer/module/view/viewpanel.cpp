@@ -341,6 +341,13 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     }
     emit dApp->signalM->gotoPanel(this);
 
+    // The control buttons is diffrence
+    if (! vinfo.inDatabase) {
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+    }
+
+    // Get view range
     if (! vinfo.paths.isEmpty()) {
         QFileInfoList list;
         for (QString path : vinfo.paths) {
@@ -362,6 +369,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
     }
 
+    // Get the image which need to open currently
     m_current = m_infos.cbegin();
     if (! vinfo.path.isEmpty()) {
         for (; m_current != m_infos.cend(); m_current ++) {
@@ -552,12 +560,8 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     m_stack->setCurrentIndex(0);
 
     emit imageChanged(m_viewB->path());
-    if (! inDB) {
-        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-        emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
-    }
-    else {
+
+    if (inDB) {
         emit updateCollectButton();
     }
 }
