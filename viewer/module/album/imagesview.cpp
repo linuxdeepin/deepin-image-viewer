@@ -467,6 +467,8 @@ void ImagesView::showEvent(QShowEvent *e)
         updateContent();
     }
 
+    m_view->updateThumbnails();
+
     QScrollArea::showEvent(e);
 }
 

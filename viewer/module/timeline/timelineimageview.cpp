@@ -273,7 +273,8 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
     }
     else if (e->type() == QEvent::Resize ||
              e->type() == QEvent::WindowActivate ||
-             e->type() == QEvent::FocusAboutToChange) {
+             e->type() == QEvent::FocusAboutToChange ||
+             e->type() == QEvent::Show) {
         updateThumbnails();
     }
     return false;

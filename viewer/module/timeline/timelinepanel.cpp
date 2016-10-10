@@ -239,7 +239,6 @@ void TimelinePanel::initConnection()
         onImageCountChanged(dApp->databaseM->imageCount());
     });
     connect(dApp->signalM, &SignalManager::gotoTimelinePanel, this, [=] {
-        m_view->clearSelection();
         m_view->setMultiSelection(false);
 
         emit dApp->signalM->gotoPanel(this);
