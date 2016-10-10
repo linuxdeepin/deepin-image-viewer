@@ -194,15 +194,21 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     const QString name = m_current->name;
     const QString path = m_current->path;
     const QString time = timeToString(getCreateDateTime(path));
-    QString albumName = mtl.isEmpty() ? "" : mtl.first();
+    const QString albumName = mtl.isEmpty() ? "" : mtl.first();
 
     switch (MenuItemId(menuId)) {
     case IdFullScreen:
         toggleFullScreen();
         break;
-    case IdStartSlideShow:
-        emit dApp->signalM->startSlideShow(this, paths(), path);
+    case IdStartSlideShow: {
+        auto vinfo = m_vinfo;
+        vinfo.fullScreen = window()->isFullScreen();
+        vinfo.lastPanel = this;
+        vinfo.path = path;
+        vinfo.paths = paths();
+        emit dApp->signalM->startSlideShow(vinfo);
         break;
+    }
     case IdAddToAlbum:
         dApp->databaseM->insertImageIntoAlbum(albumName, name, time);
         break;

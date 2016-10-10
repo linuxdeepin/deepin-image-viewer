@@ -46,8 +46,7 @@ signals:
     void editImage(const QString &path);
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
-    void startSlideShow(ModulePanel* lastPanel, QStringList paths,
-                        QString path = "");
+    void startSlideShow(const ViewInfo &vinfo);
 
     void viewImage(const ViewInfo &vinfo);
 

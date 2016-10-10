@@ -370,7 +370,7 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         dApp->signalM->viewImage(vinfo);
         break;
     case IdStartSlideShow:
-        dApp->signalM->startSlideShow(this, viewPaths, cpath);
+        dApp->signalM->startSlideShow(vinfo);
         break;
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();

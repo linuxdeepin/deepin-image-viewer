@@ -324,7 +324,11 @@ void AlbumPanel::initAlbumsView()
             this, &AlbumPanel::updateAlbumCount);
     connect(m_albumsView, &AlbumsView::startSlideShow,
             this, [=] (const QStringList &paths) {
-        emit dApp->signalM->startSlideShow(this, paths);
+        SignalManager::ViewInfo vinfo;
+        vinfo.lastPanel = this;
+        vinfo.path = QString();
+        vinfo.paths = paths;
+        emit dApp->signalM->startSlideShow(vinfo);
     });
 }
 
@@ -333,7 +337,11 @@ void AlbumPanel::initImagesView()
     m_imagesView = new ImagesView(this);
     connect(m_imagesView, &ImagesView::startSlideShow,
             this, [=] (const QStringList &paths, const QString &path) {
-        emit dApp->signalM->startSlideShow(this, paths, path);
+        SignalManager::ViewInfo vinfo;
+        vinfo.lastPanel = this;
+        vinfo.path = path;
+        vinfo.paths = paths;
+        emit dApp->signalM->startSlideShow(vinfo);
     });
     connect(m_imagesView, &ImagesView::viewImage,
             this, [=] (const QString &path, const QStringList &paths, bool f) {

@@ -84,11 +84,6 @@ void ViewPanel::initConnect() {
                 removeCurrentImage();
         }
     });
-
-//    connect(dApp->signalM, &SignalManager::windowStatesChanged,
-//            this, [=] (const Qt::WindowStates state) {
-//        Q_UNUSED(state);
-//    });
 }
 
 void ViewPanel::initFileSystemWatcher()
@@ -251,17 +246,16 @@ QWidget *ViewPanel::extensionPanelContent()
     return w;
 }
 
+const SignalManager::ViewInfo ViewPanel::viewInfo() const
+{
+    return m_vinfo;
+}
+
 bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Hide) {
         m_viewB->setImage("");
-    }
-    else if (m_infos.length() > 0
-             &&  m_current != m_infos.constEnd()
-             && e->type() == QEvent::Show) {
-        // After slide show
-        m_openTid = startTimer(m_openTid == 0 ? 0 : OPEN_IMAGE_DELAY_INTERVAL);
     }
 
     return false;

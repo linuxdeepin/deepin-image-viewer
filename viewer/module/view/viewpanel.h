@@ -32,6 +32,7 @@ public:
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
+    const SignalManager::ViewInfo viewInfo() const;
 
 signals:
     void updateCollectButton();

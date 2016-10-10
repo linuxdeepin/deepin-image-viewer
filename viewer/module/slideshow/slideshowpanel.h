@@ -36,8 +36,7 @@ private:
     const QString menuContent();
 
     void setImage(const QImage &img);
-    void startSlideShow(ModulePanel *lastPanel, const QStringList &paths,
-                        const QString &path);
+    void startSlideShow(const SignalManager::ViewInfo &vinfo);
 
     void showFullScreen();
     void showNormal();
@@ -45,7 +44,7 @@ private:
 private:
     QShortcut           *m_sEsc;
     QTimer              *m_timer;
-    ModulePanel         *m_lastPanel;
+    SignalManager::ViewInfo m_vinfo;
     PopupMenuManager    *m_menu;
     QImage               m_img;
     SlideEffectPlayer   *m_player;

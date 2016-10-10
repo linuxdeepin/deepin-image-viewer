@@ -3,6 +3,7 @@
 #include "application.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
+#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include <QApplication>
 #include <QDebug>
@@ -72,8 +73,20 @@ void SlideShowPanel::backToLastPanel()
     m_player->stop();
     showNormal();
 
-    if (m_lastPanel) {
-        emit dApp->signalM->gotoPanel(m_lastPanel);
+    if (m_vinfo.lastPanel) {
+        ViewPanel *vp = dynamic_cast<ViewPanel *>(m_vinfo.lastPanel);
+        if (vp) {
+            m_vinfo.path = m_player->currentImagePath();
+            m_vinfo.lastPanel = vp->viewInfo().lastPanel;
+            emit dApp->signalM->viewImage(m_vinfo);
+
+            if (m_vinfo.fullScreen) {
+                emit dApp->signalM->hideTopToolbar(true);
+            }
+        }
+        else {
+            emit dApp->signalM->gotoPanel(m_vinfo.lastPanel);
+        }
     }
     else {
         emit dApp->signalM->backToMainPanel();
@@ -158,18 +171,16 @@ void SlideShowPanel::setImage(const QImage &img)
     update();
 }
 
-void SlideShowPanel::startSlideShow(ModulePanel *lastPanel,
-                                    const QStringList &paths,
-                                    const QString &path)
+void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo)
 {
-    if (paths.isEmpty()) {
+    if (vinfo.paths.isEmpty()) {
         qDebug() << "Start SlideShow failed! Paths is empty!";
         return;
     }
 
-    m_lastPanel = lastPanel;
-    m_player->setImagePaths(paths);
-    m_player->setCurrentImage(path);
+    m_vinfo = vinfo;
+    m_player->setImagePaths(vinfo.paths);
+    m_player->setCurrentImage(vinfo.path);
 
     m_timer->start();
 }
