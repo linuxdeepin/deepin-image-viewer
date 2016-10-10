@@ -86,9 +86,15 @@ bool imageSupportSave(const QString &path)
             << "RAF"            // Fuji cameras
             << "SRF"            // Sony cameras
             << "X3F";           // Sigma cameras
-    if (raws.indexOf(QString(suffix).toUpper()) != -1)
+
+
+    if (raws.indexOf(suffix.toUpper()) != -1
+            || QImageReader(path).imageCount() > 1) {
         return false;
-   return freeimage::canSave(path);
+    }
+    else {
+        return freeimage::canSave(path);
+    }
 }
 
 bool imageSupportWrite(const QString &path)
