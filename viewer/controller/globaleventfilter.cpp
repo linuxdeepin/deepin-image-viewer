@@ -13,7 +13,13 @@ GlobalEventFilter::GlobalEventFilter(QObject *parent) : QObject(parent)
 bool GlobalEventFilter::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
-    Q_UNUSED(e)
+    if (e->type() == QEvent::KeyPress) {
+        QKeyEvent* event = static_cast<QKeyEvent*>(e);
+        if (event->key() == Qt::Key_Tab) {
+            event->ignore();
+            return true;
+        }
+    }
 //    if (e->type() != QEvent::Paint &&
 //            e->type() != QEvent::MetaCall &&
 //            e->type() != QEvent::UpdateRequest &&
