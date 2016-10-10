@@ -53,6 +53,7 @@ QWidget *AlbumDelegate::createEditor(QWidget *parent,
     QLineEdit *lineEdit = new QLineEdit(parent);
     lineEdit->setContextMenuPolicy(Qt::PreventContextMenu);
     lineEdit->setObjectName("AlbumNameLineEdit");
+    lineEdit->setMaxLength(255);
     QFont font;
     font.setPixelSize(TITLE_FONT_SIZE);
     lineEdit->setFont(font);

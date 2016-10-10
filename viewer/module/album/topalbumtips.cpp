@@ -45,6 +45,7 @@ const QString TopAlbumTips::trName(const QString &name) const
         return tr("Recent imported");
     }
     else {
-        return name;
+        QFontMetrics fm(this->font());
+        return fm.elidedText(name, Qt::ElideMiddle, 255);
     }
 }

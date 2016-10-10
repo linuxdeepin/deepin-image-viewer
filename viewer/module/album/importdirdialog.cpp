@@ -35,6 +35,7 @@ ImportDirDialog::ImportDirDialog(QWidget *parent)
     m_edit = new QLineEdit;
     m_edit->setObjectName("ImportDirEdit");
     m_edit->setContextMenuPolicy(Qt::PreventContextMenu);
+    m_edit->setMaxLength(255);
     m_edit->setStyleSheet(utils::base::getFileContent(
                           ":/qss/resources/qss/importdirdialog.qss"));
     connect(m_edit, &QLineEdit::textChanged, this, [=] (const QString &t) {
