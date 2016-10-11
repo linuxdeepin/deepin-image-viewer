@@ -80,7 +80,7 @@ private:
     void showNormal();
     void showFullScreen();
 
-    void viewOnNewProcess(const QString &paths);
+    void viewOnNewProcess(const QStringList &paths);
     void backToLastPanel();
 
     int imageIndex(const QString &name);

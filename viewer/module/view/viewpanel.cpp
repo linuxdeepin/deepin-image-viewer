@@ -298,18 +298,18 @@ void ViewPanel::dropEvent(QDropEvent *event)
     }
 
     using namespace utils::image;
-    QString paths;
+    QStringList paths;
     for (QUrl url : urls) {
         const QString path = url.toLocalFile();
         if (QFileInfo(path).isDir()) {
             auto finfos =  getImagesInfo(path, false);
             for (auto finfo : finfos) {
                 if (imageSupportRead(finfo.absoluteFilePath()))
-                    paths += finfo.absoluteFilePath() + ",";
+                    paths << finfo.absoluteFilePath();
             }
         }
         else if (imageSupportRead(path)) {
-            paths += path + ",";
+            paths << path;
         }
     }
 
@@ -442,12 +442,17 @@ void ViewPanel::resetImageGeometry()
     }
 }
 
-void ViewPanel::viewOnNewProcess(const QString &paths)
+void ViewPanel::viewOnNewProcess(const QStringList &paths)
 {
     const QString pro = "deepin-image-viewer";
     QProcess * p = new QProcess;
     connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
-    p->start(pro, QStringList() << "--view" << paths);
+
+    QStringList options;
+    for (QString path : paths) {
+        options << "-o" << path;
+    }
+    p->start(pro, options);
 }
 
 void ViewPanel::initStack()

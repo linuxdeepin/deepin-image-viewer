@@ -27,10 +27,9 @@ struct CMOption {
 
 static CMOption options[] = {
     {"o", "open", "Open the specified <image-file>.", "image-file"},
-    {"l", "view", "View images.", "path1,path2,..."},
     {"a", "album", "Enter the album <album-name>.", "album-name"},
-    {"s", "search", "Go to search view and search image by <word>.", "word"},
-    {"e", "edit", "Go to edit view and begin editing <image-file>.", "image-file"},
+//    {"s", "search", "Go to search view and search image by <word>.", "word"},
+//    {"e", "edit", "Go to edit view and begin editing <image-file>.", "image-file"},
     {"w", "wallpaper", "Set <image-file> as wallpaper.", "image-file"},
     {"", "", "", ""}
 };
@@ -48,19 +47,12 @@ CommandLine *CommandLine::instance()
 CommandLine::CommandLine()
 {
     m_cmdParser.addHelpOption();
-    m_cmdParser.addVersionOption();
+//    m_cmdParser.addVersionOption();
     m_cmdParser.addPositionalArgument("value", QCoreApplication::translate(
         "main", "Value that use for options."), "[value]");
 
     for (const CMOption* i = options; ! i->shortOption.isEmpty(); ++i) {
         addOption(i);
-    }
-
-    m_cmdParser.process(*qApp);
-
-    int oc = m_cmdParser.optionNames().length();
-    if (oc > 1) {
-        m_cmdParser.showHelp();
     }
 }
 
@@ -76,6 +68,18 @@ void CommandLine::addOption(const CMOption *option)
     QCommandLineOption cm(ol, option->description, option->valueName);
 
     m_cmdParser.addOption(cm);
+}
+
+/*!
+ * \brief CommandLine::showHelp
+ * QCommandLineParser::showHelp(int exitCode = 0) Will displays the help
+ * infomation, and exits application automatically. However,
+ * DApplication::loadDXcbPlugin() need exit by calling quick_exit(a.exec()).
+ * So we should show the help message only by calling this function.
+ */
+void CommandLine::showHelp()
+{
+    fputs(qPrintable(m_cmdParser.helpText()), stdout);
 }
 
 void CommandLine::viewImage(const QString &path, const QStringList &paths)
@@ -99,6 +103,11 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 
 bool CommandLine::processOption()
 {
+    if (! m_cmdParser.parse(dApp->arguments())) {
+        showHelp();
+        return false;
+    }
+
     DeepinImageViewerDBus *dd = new DeepinImageViewerDBus(dApp->signalM);
     Q_UNUSED(dd);
 
@@ -126,35 +135,39 @@ bool CommandLine::processOption()
 
         QString name;
         QString value;
-        if (!names.isEmpty()) {
+        QStringList values;
+        if (! names.isEmpty()) {
             name = names.first();
             value = m_cmdParser.value(name);
+            values = m_cmdParser.values(name);
         }
-        else if (!pas.isEmpty() && imageSupportRead(pas.first())){
-            name = "o";
+        else if (! pas.isEmpty()){
+            name = "o"; // Default operation is open image file
             value = pas.first();
+            values = pas;
         }
 
         bool support = imageSupportRead(value);
 
         if (name == "o" || name == "open") {
-            qDebug() << "Open image file: " << value;
-            if (imageSupportRead(value)) {
+            if (values.length() > 1) {
+                QStringList aps;
+                for (QString path : values) {
+                    const QString ap = QFileInfo(path).absoluteFilePath();
+                    if (QFileInfo(path).exists() && imageSupportRead(ap)) {
+                        aps << ap;
+                    }
+                }
+                if (! aps.isEmpty()) {
+                    viewImage(aps.first(), aps);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else if (imageSupportRead(QFileInfo(value).absoluteFilePath())) {
                 viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        else if (name == "view") {
-            QStringList paths = value.split(",");
-            for (QString path : paths) {
-                if (! imageSupportRead(path))
-                    paths.removeAll(path);
-            }
-            if (! paths.isEmpty()) {
-                viewImage(paths.first(), paths);
                 return true;
             }
             else {
@@ -175,7 +188,7 @@ bool CommandLine::processOption()
             dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
         }
         else {
-            m_cmdParser.showHelp();
+            showHelp();
         }
 
         return false;

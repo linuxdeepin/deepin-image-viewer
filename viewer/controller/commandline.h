@@ -15,6 +15,7 @@ public:
 
 private:
     void addOption(const CMOption *option);
+    void showHelp();
     void viewImage(const QString &path, const QStringList &paths);
 
     explicit CommandLine();
