@@ -12,7 +12,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
 PKGCONFIG += x11 xext dtkwidget dtkutil dtkbase libexif
-LIBS += -L/usr/lib/x86_64-linux-gnu -lfreeimage
+LIBS += -lfreeimage
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
