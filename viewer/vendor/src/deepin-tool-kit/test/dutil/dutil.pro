@@ -34,4 +34,4 @@ DEPENDPATH += $$PWD/../../dutil
 unix:QMAKE_RPATHDIR += $$OUT_PWD/../../dbase/
 unix:QMAKE_RPATHDIR += $$OUT_PWD/../../dutil/
 
-INSTALLS -= target
+INSTALLS += target
