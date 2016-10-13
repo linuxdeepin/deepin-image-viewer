@@ -13,6 +13,8 @@
 *.a
 
 build*/
+include*/
+lib*/
 *.pro.user*
 *.DS_Store
 *.qm

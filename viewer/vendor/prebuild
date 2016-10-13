@@ -14,6 +14,6 @@ LIB_PATH=${WORK_PATH}/lib
 mkdir ${WORK_PATH}/src/deepin-tool-kit/build || true
 cd ${WORK_PATH}/src/deepin-tool-kit/build
 qmake -r CONFIG+=staticlib LIB_INSTALL_DIR=${LIB_PATH} INCLUDE_INSTALL_DIR=${INCLUDE_PATH} ..
-make -j 4
-make install
+env INSTALL_ROOT=. make -j 4
+env INSTALL_ROOT=. make install
 cd ${WORK_PATH}
