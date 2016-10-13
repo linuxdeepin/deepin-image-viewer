@@ -1,4 +1,4 @@
-#include(../vendor/vendor.pri)
+include(../vendor/vendor.pri)
 
 HEADERS += \
     $$PWD/importframe.h \

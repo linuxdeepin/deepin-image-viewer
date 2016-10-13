@@ -10,3 +10,7 @@ QMAKE_CXXFLAGS += $$system(env PKG_CONFIG_PATH=$$PWD/lib/pkgconfig pkg-config --
 LIBS +=  $$system(env PKG_CONFIG_PATH=$$PWD/lib/pkgconfig pkg-config --libs dtkutil)
 QMAKE_CXXFLAGS += $$system(env PKG_CONFIG_PATH=$$PWD/lib/pkgconfig pkg-config --cflags dtkbase)
 LIBS +=  $$system(env PKG_CONFIG_PATH=$$PWD/lib/pkgconfig pkg-config --libs dtkbase)
+
+QT += network
+CONFIG += link_pkgconfig
+PKGCONFIG += xcb-util libstartup-notification-1.0

@@ -5,12 +5,12 @@ TARGET = dtkwidget
 
 DEFINES += LIBDTKWIDGET_LIBRARY
 
-QT += multimedia multimediawidgets
+QT += multimedia multimediawidgets platformsupport-private
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 unix{
     QT += x11extras dbus
-    CONFIG += libk_pkgconfig
+    CONFIG += link_pkgconfig
     PKGCONFIG += x11 xext
 }
 
@@ -32,7 +32,9 @@ includes.files += widgets/DTitlebar \
     widgets/DMenu \
     widgets/DApplication \
     widgets/DGraphicsDropShadowEffect \
-    widgets/DAction
+    widgets/DAction \
+    widgets/DMainWindow \
+    widgets/DBlurEffectWidget
 
 QMAKE_PKGCONFIG_NAME = DTK_WIDGET
 QMAKE_PKGCONFIG_DESCRIPTION = Deepin Tool Kit UI Module

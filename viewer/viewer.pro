@@ -3,7 +3,7 @@
 # Project created by QtCreator 2016-02-18T14:34:59
 #
 #-------------------------------------------------
-#system($$PWD/vendor/prebuild)
+system($$PWD/vendor/prebuild)
 
 QT += core gui sql dbus concurrent svg x11extras
 qtHaveModule(opengl): QT += opengl
@@ -11,14 +11,14 @@ qtHaveModule(opengl): QT += opengl
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += x11 xext dtkwidget dtkutil dtkbase libexif
+PKGCONFIG += x11 xext libexif #dtkwidget dtkutil dtkbase
 LIBS += -lfreeimage
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
 INCLUDEPATH += utils
 
-#DEFINES += STATIC_LIB
+DEFINES += STATIC_LIB
 
 isEmpty(PREFIX){
     PREFIX = /usr
