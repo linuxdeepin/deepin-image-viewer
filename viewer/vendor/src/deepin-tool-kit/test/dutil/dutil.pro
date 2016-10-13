@@ -10,6 +10,12 @@ SOURCES += \
 HEADERS += \
     dutiltester.h
 
+isEmpty(LIB_INSTALL_DIR) {
+    target.path = /usr/lib/dtk
+} else {
+    target.path = $$LIB_INSTALL_DIR/dtk
+}
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../dbase/release/ -ldtkbase
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../dbase/debug/ -ldtkbase
 else:unix: LIBS += -L$$OUT_PWD/../../dbase/ -ldtkbase
@@ -27,3 +33,5 @@ DEPENDPATH += $$PWD/../../dutil
 
 unix:QMAKE_RPATHDIR += $$OUT_PWD/../../dbase/
 unix:QMAKE_RPATHDIR += $$OUT_PWD/../../dutil/
+
+INSTALLS -= target
