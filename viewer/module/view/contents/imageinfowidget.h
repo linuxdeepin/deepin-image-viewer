@@ -15,6 +15,7 @@ class ImageInfoWidget : public QScrollArea
 public:
     explicit ImageInfoWidget(QWidget *parent = 0);
     void setImagePath(const QString &path);
+    void updateInfo();
 //    QSize sizeHint() const override;
 
 protected:
@@ -26,7 +27,6 @@ private:
     const QString trLabel(const char *str);
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
-    void updateInfo();
 
 private:
     int m_updateTid = 0;

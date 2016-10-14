@@ -149,9 +149,9 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
 void ImageInfoWidget::setImagePath(const QString &path)
 {
     m_path = path;
-    if (! visibleRegion().isNull()) {
-        updateInfo();
-    }
+    updateInfo();
+//    if (! visibleRegion().isNull()) {
+//    }
 }
 
 void ImageInfoWidget::resizeEvent(QResizeEvent *e)

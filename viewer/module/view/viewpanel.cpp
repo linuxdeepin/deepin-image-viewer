@@ -513,6 +513,7 @@ void ViewPanel::rotateImage(bool clockWise)
     }
 
     resetImageGeometry();
+    m_info->updateInfo();
 
     // Remove cache force view's delegate reread thumbnail
     utils::image::removeThumbnail(m_viewB->path());

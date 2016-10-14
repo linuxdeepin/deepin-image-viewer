@@ -37,14 +37,14 @@ const QString getFileFormat(const QString &path)
     }
 }
 
-FIBITMAP * readFileToFIBITMAP(const QString &path)
+FIBITMAP * readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
     const FREE_IMAGE_FORMAT fif = fFormat(path);
 
     if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
         const QByteArray ba = path.toUtf8();
         const char *pc = ba.data();
-        FIBITMAP *dib = FreeImage_Load(fif, pc, 0);
+        FIBITMAP *dib = FreeImage_Load(fif, pc, flags);
         return dib;
     }
 
@@ -70,15 +70,48 @@ QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
     return mdMap;
 }
 
+const QDateTime getDateTime(const QString &path, bool createTime = true)
+{
+    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
+    auto datas = getMetaData(FIMD_EXIF_EXIF, dib);
+    if (datas.isEmpty()) {
+        QFileInfo info(path);
+        if (createTime) {
+            return info.created();
+        }
+        else {
+            return info.lastModified();
+        }
+    }
+
+    if (createTime) {
+        return utils::base::stringToDateTime(datas["DateTimeOriginal"]);
+    }
+    else {
+        return utils::base::stringToDateTime(datas["DateTimeDigitized"]);
+    }
+}
+
+const QString getOrientation(const QString &path)
+{
+    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
+    auto datas = getMetaData(FIMD_EXIF_MAIN, dib);
+    if (datas.isEmpty()) {
+        return QString();
+    }
+
+    return datas["Orientation"];
+}
+
 /*!
  * \brief getAllMetaData
- * This function is very slow
+ * This function is very fast with FIF_LOAD_NOPIXELS flag
  * \param path
  * \return
  */
 QMap<QString, QString> getAllMetaData(const QString &path)
 {
-    FIBITMAP *dib = readFileToFIBITMAP(path);
+    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
     QMap<QString, QString> admMap;
     admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
     admMap.unite(getMetaData(FIMD_EXIF_EXIF, dib));
@@ -112,31 +145,31 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
 FIBITMAP * makeThumbnail(const QString &path, int size) {
     const QByteArray pb = path.toUtf8();
-    const char *szPathName = pb.data();
+    const char *pc = pb.data();
     FIBITMAP *dib = NULL;
     int flags = 0;              // default load flag
-    FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(szPathName);
+
+    FREE_IMAGE_FORMAT fif = fFormat(path);
     if(fif == FIF_UNKNOWN) {
-        if (FIF_UNKNOWN == (fif = FreeImage_GetFIFFromFilename(szPathName))) {
-            return NULL;
-        }
+        return NULL;
     }
 
     // for JPEG images, we can speedup the loading part
-    // using LibJPEG downsampling feature while loading the image...
+    // Using LibJPEG downsampling feature while loading the image...
     if(fif == FIF_JPEG) {
+        flags = JPEG_EXIFROTATE;
         flags |= size << 16;
-        // load the dib
-        dib = FreeImage_Load(fif, szPathName, flags);
-        if(!dib) return NULL;
-    } else {
-
-        // any cases other than the JPEG case: load the dib ...
+        // Load the dib
+        dib = FreeImage_Load(fif, pc, flags);
+        if(! dib) return NULL;
+    }
+    else {
+        // Any cases other than the JPEG case: load the dib ...
         if(fif == FIF_RAW || fif == FIF_TIFF) {
             // ... except for RAW images, try to load the embedded JPEG preview
             // or default to RGB 24-bit ...
             flags = RAW_PREVIEW;
-            dib = FreeImage_Load(fif, szPathName, flags);
+            dib = FreeImage_Load(fif, pc, flags);
             if(!dib) return NULL;
         }
         else {
@@ -194,7 +227,7 @@ bool canSave(FIBITMAP* dib, const QString &path)
 
 bool canSave(const QString &path)
 {
-    FIBITMAP *dib = readFileToFIBITMAP(path);
+    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
     bool v= canSave(dib, path);
     FreeImage_Unload(dib);
     return v;

@@ -49,7 +49,7 @@ const QPixmap scaleImage(const QString &path, const QSize &size)
 
 const QDateTime getCreateDateTime(const QString &path)
 {
-    return libexif::getCreateDateTime(path);
+    return freeimage::getDateTime(path);
 }
 
 bool imageSupportRead(const QString &path)
@@ -107,18 +107,46 @@ bool rotate(const QString &path, int degree)
     if (degree % 90 != 0)
         return false;
 
-    // FreeImage_Rotate will severely degrade picture quality
-    // Try QImage::transformed first, if it faile, use FreeImage_Rotate later
-    const QTransform t = QTransform().rotate(degree);
-    bool v = false;
-    v = QImage(path).transformed(t).save(path);
-    if (! v) {
-        FIBITMAP *dib = freeimage::readFileToFIBITMAP(path);
-        FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
-        v = freeimage::writeFIBITMAPToFile(rotated, path);
-        FreeImage_Unload(dib);
-        FreeImage_Unload(rotated);
+    int loadFlags = 0;
+    int saveFlags = 0;
+    FREE_IMAGE_FORMAT fif = freeimage::fFormat(path);
+    switch (int(fif)) {
+    case FIF_JPEG:
+        loadFlags = JPEG_ACCURATE;          // Load the file with the best quality, sacrificing some speed
+        saveFlags = JPEG_QUALITYSUPERB;     // Saves with superb quality (100:1)
+        break;
+    case FIF_JP2:
+        // Freeimage3.17 not support set special load flags for JP2
+        saveFlags = JP2_DEFAULT;            // Save with a 16:1 rate
+        break;
+    case FIF_BMP:
+        saveFlags = BMP_DEFAULT;            // Save without any compression
+        break;
+    case FIF_EXR:
+        saveFlags = EXR_NONE;               // Save with no compression
+        break;
+    case FIF_PNG:
+        saveFlags = PNG_DEFAULT;   // Save without ZLib compression
+        break;
     }
+
+    FIBITMAP *dib = freeimage::readFileToFIBITMAP(path, loadFlags);
+    FIBITMAP *rotated = FreeImage_Rotate(dib, -degree);
+    if (rotated) {
+        // Regenerate thumbnail if it's exits
+        // Image formats that currently support thumbnail saving are
+        // JPEG (JFIF formats), EXR, TGA and TIFF.
+        if (FreeImage_GetThumbnail(dib)) {
+            FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
+            FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -degree);
+            FreeImage_SetThumbnail(rotated, rotateThumb);
+            FreeImage_Unload(rotateThumb);
+        }
+    }
+
+    bool v = freeimage::writeFIBITMAPToFile(rotated, path, saveFlags);
+    FreeImage_Unload(dib);
+    FreeImage_Unload(rotated);
 
     // The thumbnail should regenerate by caller
     removeThumbnail(path);
@@ -218,7 +246,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 
 const QString getOrientation(const QString &path)
 {
-    return libexif::orientation(path);
+    return freeimage::getOrientation(path);
 }
 
 /*!
@@ -233,16 +261,16 @@ const QImage getRotatedImage(const QString &path)
     QImage img(path);
 
     const QString o = getOrientation(path);
-    if (o.isEmpty() || o == "Top-left")
+    if (o.isEmpty() || o == "top, left side")
         return img;
     QTransform t;
-    if (o == "Bottom-right") {
+    if (o == "bottom, right side") {
         t.rotate(-180);
     }
-    else if (o == "Left-bottom") {
+    else if (o == "left, bottom side") {
         t.rotate(-90);
     }
-    else if (o == "Right-top") {
+    else if (o == "right, top side") {
         t.rotate(90);
     }
     img = img.transformed(t, Qt::SmoothTransformation);
