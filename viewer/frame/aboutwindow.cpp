@@ -38,7 +38,7 @@ AboutWindow::AboutWindow(QWidget *parent)
     title->setAlignment(Qt::AlignHCenter);
     title->setObjectName("AppTitleLabel");
 
-    QLabel *version = new QLabel(tr("Version: ") + "1.0");
+    QLabel *version = new QLabel(tr("Version: ") + "1.1");
     version->setAlignment(Qt::AlignHCenter);
     version->setObjectName("VersionLabel");
 

@@ -373,19 +373,16 @@ void TopToolbar::showManual()
 }
 
 void TopToolbar::showShortCutView() {
-    QRect rect=window()->geometry();
+    QRect rect = window()->geometry();
+    QPoint pos(rect.x() + rect.width()/2 , rect.y() + rect.height()/2);
     Shortcut sc;
     QStringList shortcutString;
     QString param1 = "-j="+sc.toStr();
-    QString param2 = "-r="+
-            QString::number(rect.x())+","+
-            QString::number(rect.y())+","+
-            QString::number(rect.width())+","+
-            QString::number(rect.height());
-    shortcutString<<param1<<param2;
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << param1 << param2;
 
     QProcess* shortcutViewProcess = new QProcess();
-    shortcutViewProcess->startDetached("deepin-shortcut-viewer",shortcutString);
+    shortcutViewProcess->startDetached("deepin-shortcut-viewer", shortcutString);
 
     connect(shortcutViewProcess, SIGNAL(finished(int)),
             shortcutViewProcess, SLOT(deleteLater()));
