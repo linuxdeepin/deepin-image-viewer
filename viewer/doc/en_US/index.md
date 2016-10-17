@@ -157,25 +157,6 @@ User can import images to Deepin Image Viewer to better manage images.
 
 > ![tips](icon/tips.svg): User can drag and drop images from file manager to Timeline to import.
 
-### Export Image
-
-User can export images from Deepin Image Viewer.
-
-1. Right click on the image or the album in Deepin Image Viewer interface and select **Export**.
-2. Select a directory to export.
-3. Input a file name for the image.
-4. Select a format for the image and click on **Save** to finish exporting.
-
-** Export image**
-
-![0|image-export](png/image-export.png)
-
-** Export album**
-
-![0|album-export](png/album-export.png)
-
-> ![notes](icon/notes.svg)：Deepin Image Viewer supports exporting image to various of formats. But it does not support renaming and format conversion while exporting images in batches from ** Timeline** or exporting an ** Album**.
-
 ### Display in File Manager
 
 User can locate the directory where the image is stored.
