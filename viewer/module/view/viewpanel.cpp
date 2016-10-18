@@ -30,11 +30,14 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int OPEN_IMAGE_DELAY_INTERVAL = 500;
+const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 
 }  // namespace
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
+    , m_openTid(0)
+    , m_hideCursorTid(0)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
@@ -279,15 +282,17 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() != m_openTid ||
-            m_infos.isEmpty() ||
-            m_current == m_infos.cend()) {
-        return;
+    if (e->timerId() == m_openTid) {
+        if (! m_infos.isEmpty() && m_current != m_infos.cend()) {
+            openImage(m_current->path, m_vinfo.inDatabase);
+            killTimer(m_openTid);
+            m_openTid = 0;
+        }
+    }
+    else if (e->timerId() == m_hideCursorTid) {
+        dApp->setOverrideCursor(Qt::BlankCursor);
     }
 
-    openImage(m_current->path, m_vinfo.inDatabase);
-    killTimer(m_openTid);
-    m_openTid = 0;
 }
 
 void ViewPanel::dropEvent(QDropEvent *event)
@@ -382,8 +387,13 @@ void ViewPanel::toggleFullScreen()
 {
     if (window()->isFullScreen()) {
         showNormal();
+        killTimer(m_hideCursorTid);
+        m_hideCursorTid = 0;
+        dApp->setOverrideCursor(Qt::OpenHandCursor);
     } else {
         showFullScreen();
+        dApp->setOverrideCursor(Qt::BlankCursor);
+        m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     }
 }
 

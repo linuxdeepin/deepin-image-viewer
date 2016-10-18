@@ -91,8 +91,10 @@ private slots:
     void resetImageGeometry();
 
 private:
+    int m_openTid;
+    int m_hideCursorTid;
+
     bool m_isMaximized;
-    int m_openTid = 0;
 
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
