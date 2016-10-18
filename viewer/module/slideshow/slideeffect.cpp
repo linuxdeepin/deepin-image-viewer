@@ -1,4 +1,5 @@
 #include "slideeffect.h"
+#include "utils/imageutils.h"
 #include <qpainter.h>
 #include <QtCore/QTimerEvent>
 
@@ -206,20 +207,17 @@ void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
 {
     current_path = currentPath;
     next_path = nextPath;
-//    qDebug("%s ==> %s", qPrintable(current_path), qPrintable(next_path));
     if (!next_image)
-        next_image = new QImage(next_path);
-    else
-        *next_image = QImage(next_path);//.copy();
+        next_image = new QImage();
+    *next_image = utils::image::getRotatedImage(next_path);//.copy();
     if (current_path.isEmpty()) {
         qDebug("The first image. create blank image");
         current_image = new QImage(next_image->size(), QImage::Format_ARGB32);
         current_image->fill(0);
     } else {
         if (!current_image)
-            current_image = new QImage(current_path);
-        else
-            *current_image = QImage(current_path);//.copy();
+            current_image = new QImage();
+        *current_image = utils::image::getRotatedImage(current_path);//.copy();
     }
 }
 

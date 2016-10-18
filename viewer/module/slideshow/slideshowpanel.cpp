@@ -12,13 +12,21 @@
 #include <QResizeEvent>
 #include <QShortcut>
 
+namespace {
+
+const int DELAY_START_INTERVAL = 500;
+const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
+
+}  // namespace
+
 SlideShowPanel::SlideShowPanel(QWidget *parent)
-    : ModulePanel(parent),
-      m_menu(new PopupMenuManager(this))
+    : ModulePanel(parent)
+    , m_hideCursorTid(0)
+    , m_startTid(0)
+    , m_menu(new PopupMenuManager(this))
 {
     initeffectPlay();
     initMenu();
-    initPlayTimer();
     initShortcut();
 
     connect(dApp->signalM, &SignalManager::startSlideShow,
@@ -96,6 +104,10 @@ void SlideShowPanel::backToLastPanel()
     QImage ti(width(), height(), QImage::Format_ARGB32);
     ti.fill(0);
     setImage(ti);
+
+    dApp->setOverrideCursor(Qt::ArrowCursor);
+    killTimer(m_hideCursorTid);
+    m_hideCursorTid = 0;
 }
 
 void SlideShowPanel::initeffectPlay()
@@ -125,26 +137,25 @@ void SlideShowPanel::initShortcut()
     connect(m_sEsc, &QShortcut::activated, this, &SlideShowPanel::backToLastPanel);
 }
 
-/*!
- * \brief SlideShowPanel::initPlayTimer
- * Delay to avoid fast switching causes the system to get stuck
- */
-void SlideShowPanel::initPlayTimer()
-{
-    m_timer = new QTimer(this);
-    m_timer->setSingleShot(true);
-    m_timer->setInterval(500);
-    connect(m_timer, &QTimer::timeout, this, [=] {
-        m_player->start();
-
-        emit dApp->signalM->gotoPanel(this);
-        showFullScreen();
-    });
-}
-
 void SlideShowPanel::mousePressEvent(QMouseEvent *e) {
     if (e->button() == Qt::BackButton)
         m_sEsc->activated();
+}
+
+void SlideShowPanel::timerEvent(QTimerEvent *event)
+{
+    // Delay to avoid fast switching causes the system to get stuck
+    if (event->timerId() == m_startTid) {
+        killTimer(m_startTid);
+        m_startTid = 0;
+
+        m_player->start();
+        emit dApp->signalM->gotoPanel(this);
+        showFullScreen();
+    }
+    else if (event->timerId() == m_hideCursorTid) {
+        dApp->setOverrideCursor(Qt::BlankCursor);
+    }
 }
 
 const QString SlideShowPanel::menuContent()
@@ -182,7 +193,9 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo)
     m_player->setImagePaths(vinfo.paths);
     m_player->setCurrentImage(vinfo.path);
 
-    m_timer->start();
+    m_startTid = startTimer(DELAY_START_INTERVAL);
+    dApp->setOverrideCursor(Qt::BlankCursor);
+    m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
 }
 
 void SlideShowPanel::showNormal()

@@ -5,7 +5,6 @@
 
 class PopupMenuManager;
 class QShortcut;
-class QTimer;
 class SlideEffectPlayer;
 class SlideShowPanel : public ModulePanel
 {
@@ -23,6 +22,7 @@ protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 private:
     void backToLastPanel();
 
@@ -30,7 +30,6 @@ private:
 
     void initeffectPlay();
     void initMenu();
-    void initPlayTimer();
     void initShortcut();
 
     const QString menuContent();
@@ -42,8 +41,9 @@ private:
     void showNormal();
 
 private:
+    int                  m_hideCursorTid;
+    int                  m_startTid;
     QShortcut           *m_sEsc;
-    QTimer              *m_timer;
     SignalManager::ViewInfo m_vinfo;
     PopupMenuManager    *m_menu;
     QImage               m_img;
