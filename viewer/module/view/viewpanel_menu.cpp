@@ -287,15 +287,28 @@ void ViewPanel::initShortcut()
         TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->path);}, this);
     });
 
+    // Delay image toggle
+    QTimer *dt = new QTimer(this);
+    dt->setSingleShot(true);
+    dt->setInterval(300);
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, &ViewPanel::showPrevious);
-
+    connect(sc, &QShortcut::activated, this, [=] {
+        if (! dt->isActive()) {
+            dt->start();
+            showPrevious();
+        }
+    });
     // Next
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, &ViewPanel::showNext);
+    connect(sc, &QShortcut::activated, this, [=] {
+        if (! dt->isActive()) {
+            dt->start();
+            showNext();
+        }
+    });
 
     // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
