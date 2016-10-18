@@ -299,7 +299,7 @@ QString TopToolbar::createMenuContent()
     QJsonArray items;
     items.append(createMenuItem(IdCreateAlbum, tr("New album"), false,
                                 "Ctrl+Shift+N"));
-    items.append(createMenuItem(IdImport, tr("Import"), false, "Ctrl+I"));
+//    items.append(createMenuItem(IdImport, tr("Import"), false, "Ctrl+I"));
 
     items.append(createMenuItem(IdSeparator, "", true));
 
@@ -340,9 +340,9 @@ void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
     case IdCreateAlbum:
         emit dApp->signalM->createAlbum();
         break;
-    case IdImport:
-        dApp->importer->showImportDialog();
-        break;
+//    case IdImport:
+//        dApp->importer->showImportDialog();
+//        break;
     case IdHelp:
         showManual();
         break;
