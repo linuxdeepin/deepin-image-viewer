@@ -92,7 +92,8 @@ void ImageView::setImage(const QString &path)
             s->addItem(m_movieItem);
         }
         else {
-            m_pixmapItem = new QGraphicsPixmapItem(path);
+            m_pixmapItem = new QGraphicsPixmapItem(
+                        QPixmap::fromImage(utils::image::getRotatedImage(path)));
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload
             setSceneRect(m_pixmapItem->boundingRect());
