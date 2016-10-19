@@ -95,7 +95,6 @@ private:
     int m_hideCursorTid;
 
     bool m_isMaximized;
-
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
     PopupMenuManager *m_popupMenu;

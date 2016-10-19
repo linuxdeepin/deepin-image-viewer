@@ -1,5 +1,6 @@
 #include "viewpanel.h"
 #include "navigationwidget.h"
+#include "contents/imageinfowidget.h"
 #include "scen/imageview.h"
 #include "widgets/imagebutton.h"
 #include <QTimer>
@@ -26,7 +27,7 @@ void ViewPanel::initSwitchButtons()
     preButton.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
     // NOTE: this is a bug of Anchors,the button should be resize after set anchor
     preButton->resize(53, 53);
-    preButton.setLeftMargin(15);
+    preButton.setLeftMargin(20);
     preButton->hide();
     connect(preButton, &ImageButton::clicked, this, &ViewPanel::showPrevious);
 
@@ -39,12 +40,20 @@ void ViewPanel::initSwitchButtons()
     nextButton.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
     nextButton.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
     nextButton->setFixedSize(53, 53);
-    nextButton.setRightMargin(15);
+    nextButton.setRightMargin(20);
     nextButton->hide();
     connect(nextButton, &ImageButton::clicked, this, &ViewPanel::showNext);
 
     connect(m_viewB, &ImageView::mouseHoverMoved, this, [=] {
         const int EXTEND_SPACING = 15;
+
+        Anchors<ImageButton> pb = preButton;
+        if (m_info->visibleRegion().isNull()) {
+            pb.setLeftMargin(20);
+        }
+        else {
+            pb.setLeftMargin(260);
+        }
 
         const QPoint pp = preButton->mapToGlobal(QPoint(0, 0))
                 - QPoint(EXTEND_SPACING, EXTEND_SPACING);
