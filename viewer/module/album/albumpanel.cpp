@@ -298,7 +298,9 @@ void AlbumPanel::initMainStackWidget()
     m_stackWidget->addWidget(m_albumsView);
     m_stackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
-    m_stackWidget->setCurrentIndex(dApp->databaseM->imageCount() > 0 ? 1 : 0);
+    m_stackWidget->setCurrentIndex((dApp->databaseM->imageCount() > 0 ||
+                                    dApp->databaseM->albumsCount() > 1)? 1 : 0);
+
     connect(m_stackWidget, &QStackedWidget::currentChanged, this, [=] {
         updateImagesCount(true);
         updateAlbumCount();
@@ -456,6 +458,13 @@ void AlbumPanel::showCreateDialog()
     d->show();
     d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
             (parentWidget()->height() - d->height()) / 2 + p.y());
+
+    connect(d, &CreateAlbumDialog::finishedAddAlbum, this, [=]{
+        if (m_stackWidget->currentWidget() != m_albumsView &&
+                m_stackWidget->currentWidget() != m_imagesView) {
+            m_stackWidget->setCurrentWidget(m_albumsView);
+        }
+    });
 }
 
 void AlbumPanel::showImportDirDialog(const QString &dir)
@@ -486,11 +495,12 @@ void AlbumPanel::onImageCountChanged(int count)
 {
     if (! isVisible())
         return;
-
+     const int albumCounts = dApp->databaseM->albumsCount();
     if (count > 0 && m_stackWidget->currentIndex() == 0) {
         m_stackWidget->setCurrentIndex(1);
     }
-    else if (count == 0 && m_stackWidget->currentIndex() == 1) {
+    else if (count == 0 && m_stackWidget->currentIndex() == 1
+             && albumCounts == 1) {
         m_stackWidget->setCurrentIndex(0);
     }
 
