@@ -392,3 +392,10 @@ void AlbumDelegate::onEditFinished()
     emit editingFinished(m_editingIndex);
     m_editingIndex = QModelIndex();
 }
+
+bool AlbumDelegate::isEditFinished() {
+    if (m_editingIndex == QModelIndex())
+        return true;
+    else
+        return false;
+}

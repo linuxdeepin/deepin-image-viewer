@@ -338,7 +338,8 @@ void AlbumsView::onMenuItemClicked(int menuId)
         emit startSlideShow(paths(albumName));
         break;
     case IdRename:
-        openPersistentEditor(this->currentIndex());
+        if (m_delegate->isEditFinished())
+            openPersistentEditor(this->currentIndex());
         break;
     case IdExport:
         dApp->exporter->exportAlbum(albumName);
