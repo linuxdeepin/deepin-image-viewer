@@ -112,7 +112,7 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     QImage img(m_img);
     if (m_img.isNull()) {
         QPainter p(this);
-        p.fillRect(m_r, QColor(255, 0, 0, 100));
+        p.fillRect(m_r, QColor(0, 0, 0, 100));
         return;
     }
 
@@ -121,13 +121,20 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     p.setRenderHint(QPainter::SmoothPixmapTransform);
     p.setClipRegion(QRegion(0, 0, img.width(), img.height()) - m_r);
     p.fillRect(QRect(0, 0, m_img.width(), m_img.height()), QColor(0, 0, 0, 150));
+    p.setPen(QColor(255, 255, 255, 80));
+    p.drawRect(m_r);
     p.end();
     p.begin(this);
 
     QImage background(":/images/resources/images/naviwindow_background.png");
+
     p.drawImage(this->rect(), background);
-    p.drawImage(QRect((m_mainRect.width() - img.width())/2 + IMAGE_MARGIN,
-                      (m_mainRect.height() - img.height())/2 + IMAGE_MARGIN, img.width(),
-                      img.height() - IMAGE_MARGIN_BOTTOM), img);
+    QRect imageDrawRect = QRect((m_mainRect.width() - img.width())/2 + IMAGE_MARGIN,
+                                (m_mainRect.height() - img.height())/2 + IMAGE_MARGIN, img.width(),
+                                img.height() - IMAGE_MARGIN_BOTTOM);
+
+    p.drawImage(imageDrawRect, img);
+    p.setPen(QColor(255, 255, 255, 50));
+    p.drawRect(imageDrawRect);
     p.end();
 }
