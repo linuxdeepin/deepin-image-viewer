@@ -76,8 +76,20 @@ void ViewPanel::initConnect() {
         }
     });
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
-    connect(dApp->signalM, &SignalManager::viewImage,
-            this, &ViewPanel::onViewImage);
+
+    connect(dApp->signalM, &SignalManager::viewImage, [=](const SignalManager::ViewInfo &vinfo){
+        onViewImage(vinfo);
+        if (NULL == vinfo.lastPanel) {
+            return;
+        } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
+                vinfo.lastPanel->moduleName() == "ViewPanel") {
+            emit viewImageFrom(vinfo.album);
+        } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
+            emit viewImageFrom(tr("Timeline"));
+        }
+        //TODO: there will be some others panel
+    });
+
     connect(dApp->signalM, &SignalManager::removedFromAlbum,
             this, [=] (const QString &album, const QStringList &names) {
         if (! isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty())
@@ -201,6 +213,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 {
     TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
     connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
+    connect(this, &ViewPanel::viewImageFrom, ttlc, &TTLContent::setCurrentDir);
     return ttlc;
 }
 

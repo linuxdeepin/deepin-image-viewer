@@ -37,7 +37,7 @@ public:
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path);
-
+    void viewImageFrom(QString dir);
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;

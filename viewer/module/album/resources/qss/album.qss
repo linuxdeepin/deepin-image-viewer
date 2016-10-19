@@ -91,4 +91,8 @@ QLabel#BtmLightLine{
     background-color: rgba(255, 255, 255, 0.02);
 }
 
-
+QLabel#CurrentDirLabel {
+    color: rgba(255, 255, 255, .6);
+    font-size: 12px;
+    text-align: center;
+}

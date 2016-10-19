@@ -2,6 +2,7 @@
 #define TTLCONTENT_H
 
 #include <QWidget>
+#include <QLabel>
 
 class TTLContent : public QWidget
 {
@@ -11,6 +12,10 @@ public:
 
 signals:
     void clicked();
+public slots:
+    void setCurrentDir(QString text);
+private:
+    QLabel* m_curDirLabel;
 };
 
 #endif // TTLCONTENT_H

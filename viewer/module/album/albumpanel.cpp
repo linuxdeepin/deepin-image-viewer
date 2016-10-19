@@ -194,7 +194,11 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
             emit dApp->signalM->gotoAlbumPanel();
         });
         returnButton->setToolTip(tr("Back"));
+        QLabel *curDirLabel = new QLabel();
+        curDirLabel->setObjectName("CurrentDirLabel");
+        curDirLabel->setText(m_currentAlbum);
         layout->addWidget(returnButton);
+        layout->addWidget(curDirLabel);
     }
     else {
         QLabel *icon = new QLabel;
