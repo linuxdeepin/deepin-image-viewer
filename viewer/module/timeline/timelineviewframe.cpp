@@ -92,14 +92,9 @@ void TimelineViewFrame::updateThumbnails()
     m_view->updateThumbnails();
 }
 
-void TimelineViewFrame::setMultiSelection(bool multiple)
+void TimelineViewFrame::selectAll()
 {
-    m_view->setMultiSelection(multiple);
-}
-
-bool TimelineViewFrame::isMultiSelection() const
-{
-    return m_view->isMultiSelection();
+    m_view->selectAll();
 }
 
 bool TimelineViewFrame::posInSelected(const QPoint &pos)

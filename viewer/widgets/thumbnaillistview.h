@@ -19,7 +19,6 @@ public:
 
     explicit ThumbnailListView(QWidget *parent = 0);
     ~ThumbnailListView();
-    void setMultiSelection(bool multiple);
     void clearData();
     void updateViewPortSize();
     void updateThumbnail(const QString &name);
@@ -29,7 +28,6 @@ public:
     bool removeItem(const QString &name);
     void removeItems(const QStringList &names);
     bool contain(const QModelIndex &index) const;
-    bool isMultiSelection() const;
     int indexOf(const QString &name);
     int count() const;
     int hOffset() const;
@@ -66,7 +64,6 @@ private:
     QFutureWatcher<QVariant> m_watcher;
     QStandardItemModel *m_model;
     ThumbnailDelegate *m_delegate;
-    bool m_multiple;
 };
 
 #endif // THUMBNAILLISTVIEW_H

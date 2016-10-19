@@ -1,18 +1,14 @@
 #ifndef TIMELINEPANEL_H
 #define TIMELINEPANEL_H
 
-#include "timelineimageview.h"
 #include "module/modulepanel.h"
 #include "controller/databasemanager.h"
-#include <dslider.h>
-#include <QDropEvent>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QStackedWidget>
-#include <QJsonObject>
 
+class QLabel;
+class QStackedWidget;
 class PopupMenuManager;
 class Slider;
+class TimelineImageView;
 class TimelinePanel : public ModulePanel
 {
     Q_OBJECT
@@ -21,10 +17,10 @@ public:
 
     bool isMainPanel() Q_DECL_OVERRIDE;
     QString moduleName() Q_DECL_OVERRIDE;
+    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
-    QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
 
 protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -32,57 +28,31 @@ protected:
     void showPanelEvent(ModulePanel *p) Q_DECL_OVERRIDE;
 
 private:
-    enum MenuItemId {
-        IdView,
-        IdFullScreen,
-        IdStartSlideShow,
-        IdAddToAlbum,
-        IdExport,
-        IdCopy,
-        IdMoveToTrash,
-        IdRemoveFromTimeline,
-        IdEdit,
-        IdAddToFavorites,
-        IdRemoveFromFavorites,
-        IdRotateClockwise,
-        IdRotateCounterclockwise,
-        IdLabel,
-        IdSetAsWallpaper,
-        IdDisplayInFileManager,
-        IdImageInfo,
-        IdSubMenu,
-        IdSeparator
-    };
-
     void initConnection();
-    void initPopupMenu();
-    void initMainStackWidget();
     void initImagesView();
+    void initMainStackWidget();
+    void initPopupMenu();
+    void initShortcut();
     void initStyleSheet();
 
-    void rotateImage(const QString &path, int degree);
     void updateBottomToolbarContent(int count);
-    void updateMenuContents();
-    void onMenuItemClicked(int menuId, const QString &text);
     void onImageCountChanged(int count);
-    void popupDelDialog(const QStringList paths, const QStringList names);
-    QString createMenuContent();
-    QJsonValue createMenuItem(const MenuItemId id,
-                              const QString &text,
-                              const bool isSeparator = false,
-                              const QString &shortcut = "",
-                              const QJsonObject &subMenu = QJsonObject());
+
     QJsonObject createAlbumMenuObj();
-    const DatabaseManager::ImageInfo imageInfo(const QString &name) const;
+    QString createMenuContent();
+    void onMenuItemClicked(int menuId, const QString &text);
+    void popupDelDialog(const QStringList paths, const QStringList names);
+    void rotateImage(const QString &path, int degree);
+    void updateMenuContents();
 
 private:
-    QLabel *m_countLabel = NULL;
-    Slider *m_slider;
+    PopupMenuManager    *m_popupMenu;
+    QLabel              *m_countLabel;
+    QStackedWidget      *m_mainStack;
+    Slider              *m_slider;
+    TimelineImageView   *m_view;
 
-    PopupMenuManager *m_popupMenu;
-    TimelineImageView *m_view = NULL;
-    QStackedWidget *m_mainStack = NULL;
-    QStringList m_rotateList;
+    QStringList         m_rotateList;
 };
 
 #endif // TIMELINEPANEL_H
