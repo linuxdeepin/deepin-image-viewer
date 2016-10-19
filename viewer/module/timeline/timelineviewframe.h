@@ -21,8 +21,7 @@ public:
     void removeItems(const QStringList &names);
     void clearSelection() const;
     void updateThumbnails();
-    void setMultiSelection(bool multiple);
-    bool isMultiSelection() const;
+    void selectAll();
     bool posInSelected(const QPoint &pos);
 
     QMap<QString, QString> selectedImages() const;

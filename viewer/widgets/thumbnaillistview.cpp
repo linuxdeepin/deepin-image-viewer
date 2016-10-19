@@ -23,8 +23,7 @@ const int THUMBNAIL_MIN_SIZE = 96;
 
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent),
-      m_model(new QStandardItemModel(this)),
-      m_multiple(false)
+      m_model(new QStandardItemModel(this))
 {
     setIconSize(QSize(THUMBNAIL_MIN_SIZE, THUMBNAIL_MIN_SIZE));
     m_delegate = new ThumbnailDelegate(this);
@@ -38,7 +37,7 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);
     setFlow(QListView::LeftToRight);
-    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
     setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -54,15 +53,6 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
 ThumbnailListView::~ThumbnailListView()
 {
 
-}
-
-void ThumbnailListView::setMultiSelection(bool multiple)
-{
-    m_multiple = multiple;
-    if (multiple)
-        setSelectionMode(QAbstractItemView::MultiSelection);
-    else
-        setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
 void ThumbnailListView::clearData()
@@ -159,11 +149,6 @@ void ThumbnailListView::removeItems(const QStringList &names)
 bool ThumbnailListView::contain(const QModelIndex &index) const
 {
     return index.model() == m_model;
-}
-
-bool ThumbnailListView::isMultiSelection() const
-{
-    return m_multiple;
 }
 
 int ThumbnailListView::indexOf(const QString &name)
@@ -277,15 +262,11 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *e)
         emit singleClicked(e);
     }
     else {
-        if (m_multiple) {
-            setSelectionMode(QAbstractItemView::MultiSelection);
-        }
-        else if(e->modifiers() & Qt::ControlModifier ||
+        if(e->modifiers() & Qt::ControlModifier ||
                 e->modifiers() & Qt::ShiftModifier){
             setSelectionMode(QAbstractItemView::ExtendedSelection);
         }
         else {
-            setSelectionMode(QAbstractItemView::SingleSelection);
             emit singleClicked(e);
         }
     }

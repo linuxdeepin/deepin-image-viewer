@@ -93,6 +93,13 @@ void TimelineImageView::clearSelection()
     }
 }
 
+void TimelineImageView::selectAll()
+{
+    for (TimelineViewFrame * frame : m_frames.values()) {
+        frame->selectAll();
+    }
+}
+
 void TimelineImageView::setIconSize(const QSize &iconSize)
 {
     for (TimelineViewFrame * frame : m_frames.values()) {
@@ -104,24 +111,9 @@ void TimelineImageView::setIconSize(const QSize &iconSize)
     updateTopTipsRect();
 }
 
-void TimelineImageView::setMultiSelection(bool multiple)
-{
-    for (TimelineViewFrame * frame : m_frames.values()) {
-        frame->setMultiSelection(multiple);
-    }
-}
-
 void TimelineImageView::updateThumbnails()
 {
     emit verticalScrollBar()->valueChanged(verticalScrollBar()->value());
-}
-
-bool TimelineImageView::isMultiSelection() const
-{
-    if (m_frames.isEmpty())
-        return false;
-    else
-        return m_frames.first()->isMultiSelection();
 }
 
 bool TimelineImageView::isEmpty() const

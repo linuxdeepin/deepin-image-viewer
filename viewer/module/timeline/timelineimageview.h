@@ -16,10 +16,9 @@ class TimelineImageView : public QScrollArea
 public:
     explicit TimelineImageView(bool multiselection = false, QWidget *parent = 0);
     void clearSelection();
+    void selectAll();
     void setIconSize(const QSize &iconSize);
-    void setMultiSelection(bool multiple);
     void updateThumbnails();
-    bool isMultiSelection() const;
     bool isEmpty() const;
     QMap<QString, QString> selectedImages() const;
     QString currentMonth();

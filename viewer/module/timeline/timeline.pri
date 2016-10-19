@@ -10,7 +10,8 @@ SOURCES += \
     $$PWD/timelineimageview.cpp \
     $$PWD/timelinepanel.cpp \
     $$PWD/timelineviewframe.cpp \
-    $$PWD/toptimelinetips.cpp
+    $$PWD/toptimelinetips.cpp \
+    $$PWD/timelinepanel_menu.cpp
 
 RESOURCES += \
     $$PWD/timeline.qrc
