@@ -117,4 +117,6 @@ void CreateAlbumDialog::createAlbum(const QString &newName)
     else {
         dApp->databaseM->insertImageIntoAlbum(getNewAlbumName(), "", "");
     }
+
+    emit finishedAddAlbum();
 }
