@@ -1,6 +1,6 @@
 #include "topalbumtips.h"
 #include "application.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
 #include <QLabel>
@@ -22,7 +22,7 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
 
 void TopAlbumTips::setAlbum(const QString &album)
 {
-    auto info = dApp->databaseM->getAlbumInfo(album);
+    auto info = dApp->dbM->getAlbumInfo(album);
     const QString beginTime = info.beginTime.toString(tr("dd MMMM yyyy"));
     const QString endTime = info.endTime.toString(tr("dd MMMM yyyy"));
     const QString l = (beginTime.isEmpty() || endTime.isEmpty())

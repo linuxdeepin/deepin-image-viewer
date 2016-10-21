@@ -1,7 +1,7 @@
 #ifndef SIGNALMANAGER_H
 #define SIGNALMANAGER_H
 
-#include "databasemanager.h"
+#include "dbmanager.h"
 #include <QObject>
 
 class ModulePanel;
@@ -40,7 +40,7 @@ signals:
     void gotoPanel(ModulePanel* panel);
     void backToMainPanel();
 
-    void imagesInserted(const QList<DatabaseManager::ImageInfo> infos);
+    void imagesInserted(const DBImgInfoList infos);
     void imagesRemoved(const QStringList &names);
 
     void editImage(const QString &path);
@@ -54,8 +54,8 @@ signals:
     void gotoAlbumPanel(const QString &album = "");
     void createAlbum();
     void importDir(const QString &dir);
-    void insertIntoAlbum(const DatabaseManager::ImageInfo info);
-    void removedFromAlbum(const QString &album, const QStringList &names);
+    void insertIntoAlbum(const DBImgInfo info);
+    void removedFromAlbum(const QString &album, const QStringList &paths);
 
 //    void windowStatesChanged(const Qt::WindowStates state);
 

@@ -31,7 +31,6 @@ private:
     ImageButton *m_rotateRBtn;
     ImageButton *m_trashBtn;
     ImageButton *m_clBT = nullptr;
-    QString m_imageName;
     QString m_imagePath;
 };
 

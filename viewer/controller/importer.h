@@ -2,47 +2,24 @@
 #define IMPORTER_H
 
 #include <QObject>
-#include <QPixmap>
-#include <QFuture>
-#include <QFutureWatcher>
-#include <QMap>
-#include <QtConcurrent>
 
-class QTimer;
 class Importer : public QObject
 {
     Q_OBJECT
 public:
     static Importer *instance();
-    bool isRunning() const;
-    double getProgress() const;
-    int finishedCount() const;
-    void nap();
     void showImportDialog(const QString &album = "");
-    void stopImport();
     void importDir(const QString &path, const QString &album = "");
-    void importFiles(const QStringList &files, const QString &album = "");
-
-    QStringList getAlbums(const QString &path) const;
+    void importFiles(const QStringList &paths, const QString &album = "");
 
 signals:
-    void importProgressChanged(double progress);
-
-private slots:
-    void onFutureWatcherFinish();
-    void onFutureResultReady(int index);
+    void imported(bool success);
 
 private:
     explicit Importer(QObject *parent = 0);
-    void loadCacheImages();
 
 private:
     static Importer *m_importer;
-    QStringList m_cacheImportList;
-    QMap<QString, QString> m_albums;  // <path, album>
-    QFutureWatcher<QString> m_futureWatcher;
-    double m_progress;
-    int m_imagesCount;
 };
 
 #endif // IMPORTER_H

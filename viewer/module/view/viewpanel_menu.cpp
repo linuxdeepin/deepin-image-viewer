@@ -102,8 +102,7 @@ const QString ViewPanel::createMenuContent()
 
     if (m_vinfo.inDatabase) {
         if (m_current != m_infos.constEnd() &&
-                ! dApp->databaseM->imageExistAlbum(
-                    m_current->name, FAVORITES_ALBUM_NAME)) {
+                ! dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME, m_current->filePath)) {
             createMI(&items, IdAddToFavorites, tr("Add to My favorites"), "Ctrl+K");
         } else {
             createMI(&items, IdRemoveFromFavorites, tr("Unfavorite"), "Ctrl+Shift+K");
@@ -120,7 +119,7 @@ const QString ViewPanel::createMenuContent()
     }
 
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_current->path)) {
+    if (utils::image::imageSupportSave(m_current->filePath)) {
     createMI(&items, IdSeparator, "", "", true);
 
     createMI(&items, IdRotateClockwise, tr("Rotate clockwise"), "Ctrl+R");
@@ -129,7 +128,7 @@ const QString ViewPanel::createMenuContent()
     /**************************************************************************/
     createMI(&items, IdSeparator, "", "", true);
 
-    if (utils::image::imageSupportSave(m_current->path))  {
+    if (utils::image::imageSupportSave(m_current->filePath))  {
     createMI(&items, IdSetAsWallpaper, tr("Set as wallpaper"), "Ctrl+F8");
     }
     if (m_vinfo.inDatabase) {
@@ -153,26 +152,17 @@ const QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
     if (m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
         return QJsonObject();
     }
-    const QStringList albums = dApp->databaseM->getAlbumNameList();
-    const QString name = m_current->name;
+    const QStringList albums = dApp->dbM->getAllAlbumNames();
 
     QJsonArray items;
     if (! m_infos.isEmpty()) {
         for (QString album : albums) {
-            if (album == FAVORITES_ALBUM_NAME || album == "Recent imported") {
+            if (album == FAVORITES_ALBUM_NAME) {
                 continue;
             }
-            const QStringList names = dApp->databaseM->getImageNamesByAlbum(album);
-            if (isRemove) {
-                if (names.indexOf(name) != -1) {
-                    album = tr("Remove from <<%1>>").arg(album);
-                    createMI(&items, IdRemoveFromAlbum, album);
-                }
-            }
-            else {
-                if (names.indexOf(name) == -1) {
-                    createMI(&items, IdAddToAlbum, album);
-                }
+            const QStringList paths = dApp->dbM->getPathsByAlbum(album);
+            if (! paths.contains(m_current->filePath)) {
+                createMI(&items, IdAddToAlbum, album);
             }
         }
     }
@@ -191,9 +181,8 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     using namespace utils::image;
 
     const QStringList mtl = text.split(SHORTCUT_SPLIT_FLAG);
-    const QString name = m_current->name;
-    const QString path = m_current->path;
-    const QString time = timeToString(getCreateDateTime(path));
+    const QString path = m_current->filePath;
+    const QString dPath = QByteArray::fromPercentEncoding(path.toUtf8());
     const QString albumName = mtl.isEmpty() ? "" : mtl.first();
 
     switch (MenuItemId(menuId)) {
@@ -210,30 +199,27 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdAddToAlbum:
-        dApp->databaseM->insertImageIntoAlbum(albumName, name, time);
+        dApp->dbM->insertIntoAlbum(albumName, QStringList(path));
         break;
     case IdExport:
-        dApp->exporter->exportImage(QStringList() << path);
+        dApp->exporter->exportImage(QStringList(dPath));
         break;
     case IdCopy:
-        copyImageToClipboard(QStringList(path));
+        copyImageToClipboard(QStringList(dPath));
         break;
     case IdMoveToTrash: {
-        popupDelDialog(path, name);
+        popupDelDialog(path);
         break;
     }
     case IdRemoveFromAlbum:
-        dApp->databaseM->removeImageFromAlbum(m_vinfo.album, name);
-        break;
-    case IdEdit:
-        dApp->signalM->editImage(path);
+        dApp->dbM->removeFromAlbum(m_vinfo.album, QStringList(path));
         break;
     case IdAddToFavorites:
-        dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name, time);
+        dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
         emit updateCollectButton();
         break;
     case IdRemoveFromFavorites:
-        dApp->databaseM->removeImageFromAlbum(FAVORITES_ALBUM_NAME, name);
+        dApp->dbM->removeFromAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
         emit updateCollectButton();
         break;
     case IdShowNavigationWindow:
@@ -249,15 +235,15 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         rotateImage(false);
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(path);
+        dApp->wpSetter->setWallpaper(dPath);
         break;
     case IdDisplayInFileManager:
-        emit dApp->signalM->showInFileManager(path);
+        emit dApp->signalM->showInFileManager(dPath);
         break;
     case IdImageInfo:
         emit dApp->signalM->showExtensionPanel();
         // Update panel info
-        TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->path);}, this);
+        TIMER_SINGLESHOT(100, {m_info->setImagePath(dPath);}, this, dPath);
         break;
     default:
         break;
@@ -284,7 +270,7 @@ void ViewPanel::initShortcut()
     connect(sc, &QShortcut::activated, this, [=] {
         dApp->signalM->showExtensionPanel();
         // Update panel info
-        TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->path);}, this);
+        TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->filePath);}, this);
     });
 
     // Delay image toggle
@@ -348,16 +334,17 @@ void ViewPanel::initShortcut()
     });
 }
 
-void ViewPanel::popupDelDialog(const QString path, const QString name) {
+void ViewPanel::popupDelDialog(const QString path) {
     using namespace utils::base;
+    QString dPath = QByteArray::fromPercentEncoding(path.toUtf8());
     if (m_vinfo.inDatabase) {
-        DeleteDialog* delDialog = new DeleteDialog(QStringList(path));
+        DeleteDialog* delDialog = new DeleteDialog(QStringList(dPath));
         delDialog->show();
         delDialog->moveToCenter();
         connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
             if (index == 1) {
-                dApp->databaseM->removeImages(QStringList(name));
-                trashFile(path);
+                dApp->dbM->removeImgInfos(QStringList(path));
+                trashFile(dPath);
                 removeCurrentImage();
             }
         });
@@ -365,8 +352,8 @@ void ViewPanel::popupDelDialog(const QString path, const QString name) {
         connect(delDialog, &DeleteDialog::closed,
                 delDialog, &DeleteDialog::deleteLater);
     } else {
-        dApp->databaseM->removeImages(QStringList(name));
-        trashFile(path);
+        dApp->dbM->removeImgInfos(QStringList(path));
+        trashFile(dPath);
         removeCurrentImage();
     }
 }

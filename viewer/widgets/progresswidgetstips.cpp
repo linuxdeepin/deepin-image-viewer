@@ -1,10 +1,10 @@
 #include "progresswidgetstips.h"
+#include "controller/importer.h"
 #include "utils/baseutils.h"
+#include <QDebug>
 #include <QDesktopWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-
-#include "controller/importer.h"
 
 const int WIDTH = 330;
 const int HEIGHT = 62;

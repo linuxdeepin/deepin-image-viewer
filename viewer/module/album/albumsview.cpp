@@ -64,18 +64,18 @@ AlbumsView::AlbumsView(QWidget *parent)
     });
     connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
             this, &AlbumsView::onMenuItemClicked);
-    connect(Importer::instance(), &Importer::importProgressChanged,
-            this, [=] (double progress) {
-        if (progress == 1)
+    connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
+        if (success) {
             updateView();
+        }
     });
 }
 
-QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
+QModelIndex AlbumsView::addAlbum(const DBAlbumInfo &info)
 {
-    // AlbumName ImageCount BeginTime EndTime Thumbnail
-    QStringList imgNames = dApp->databaseM->getImageNamesByAlbum(info.name);
-    if (imgNames.isEmpty()) {
+    // AlbumName ImageCount BeginTime EndTime
+    QStringList paths = dApp->dbM->getPathsByAlbum(info.name);
+    if (paths.isEmpty()) {
         return QModelIndex();
     }
 
@@ -83,18 +83,17 @@ QModelIndex AlbumsView::addAlbum(const DatabaseManager::AlbumInfo &info)
     QBuffer inBuffer( &thumbnailByteArray );
     inBuffer.open( QIODevice::WriteOnly );
     // write inPixmap into inByteArray
-    QString imageName = imgNames.first();
-    if (imageName.isEmpty()) {
-        for (QString name : imgNames) {
-            if (! name.isEmpty()) {
-                imageName = name;
+    QString priPath = QByteArray::fromPercentEncoding(QString(paths.first()).toUtf8());
+    if (priPath.isEmpty() || priPath == " ") {
+        for (QString path : paths) {
+            if (! path.isEmpty() && path != " ") {
+                priPath = path;
                 break;
             }
         }
     }
-    auto imgInfo = dApp->databaseM->getImageInfoByName(imageName);
-    if (! imageName.isEmpty() &&  ! imgInfo.thumbnail.save( &inBuffer, "JPG" )){
-        QPixmap p = utils::image::getThumbnail(imgInfo.path);
+    if (! priPath.isEmpty()){
+        QPixmap p = utils::image::getThumbnail(priPath);
         if (! p.save(&inBuffer, "JPG")) {
             qWarning() << "Can't get thumbnail for album: " << info.name;
         }
@@ -157,8 +156,8 @@ bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
 //        m_model->clear();
     }
     else if (e->type() == QEvent::Show) {
-        // Aways has Favorites and RecentImport album
-        dApp->databaseM->insertImageIntoAlbum(MY_FAVORITES_ALBUM, "", "");
+        // Aways has Favorites album
+        dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, QStringList(" "));
         updateView();
     }
 
@@ -196,15 +195,7 @@ bool AlbumsView::isCreateIcon(const QModelIndex &index) const
 
 const QStringList AlbumsView::paths(const QString &album) const
 {
-    const auto infos = dApp->databaseM->getImageInfosByAlbum(album);
-    if (! infos.isEmpty()) {
-        QStringList list;
-        for (auto info : infos) {
-            list << info.path;
-        }
-        return list;
-    }
-    return QStringList();
+    return dApp->dbM->getPathsByAlbum(album);
 }
 
 const QString AlbumsView::getAlbumName(const QModelIndex &index) const
@@ -227,7 +218,7 @@ const QString AlbumsView::getAlbumName(const QModelIndex &index) const
 const QString AlbumsView::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
-    const QStringList albums = dApp->databaseM->getAlbumNameList();
+    const QStringList albums = dApp->dbM->getAllAlbumNames();
     QList<int> countList;
     for (QString album : albums) {
         if (album.startsWith(nan)) {
@@ -344,14 +335,14 @@ void AlbumsView::onMenuItemClicked(int menuId)
     case IdExport:
         dApp->exporter->exportAlbum(albumName);
         break;
-    case IdCopy:
-    {
-        const auto infos = dApp->databaseM->getImageInfosByAlbum(albumName);
-        QStringList paths;
-        for (int i = 0; i < infos.length(); i ++) {
-            paths << infos[i].path;
+    case IdCopy: {
+        QStringList ePaths = dApp->dbM->getPathsByAlbum(albumName);
+        ePaths.removeAll(" ");
+        QStringList dPaths;
+        for (QString path : ePaths) {
+            dPaths << QByteArray::fromPercentEncoding(path.toUtf8());
         }
-        utils::base::copyImageToClipboard(paths);
+        utils::base::copyImageToClipboard(dPaths);
         break;
     }
     case IdDelete: {
@@ -400,8 +391,8 @@ void AlbumsView::appendCreateIcon()
 void AlbumsView::createAlbum()
 {
     const QString name = getNewAlbumName();
-    dApp->databaseM->insertImageIntoAlbum(name, "", "");
-    QModelIndex index = addAlbum(dApp->databaseM->getAlbumInfo(name));
+    dApp->dbM->insertIntoAlbum(name, QStringList(" "));
+    QModelIndex index = addAlbum(dApp->dbM->getAlbumInfo(name));
     openPersistentEditor(index);
     scrollTo(index);
     this->selectionModel()->clearSelection();
@@ -413,13 +404,11 @@ void AlbumsView::updateView()
         return;
 
     // Make those special album always show at front
-//    addAlbum(dApp->databaseM->getAlbumInfo(RECENT_IMPORTED_ALBUM));
-    addAlbum(dApp->databaseM->getAlbumInfo(MY_FAVORITES_ALBUM));
-    QStringList albums = dApp->databaseM->getAlbumNameList();
+    addAlbum(dApp->dbM->getAlbumInfo(MY_FAVORITES_ALBUM));
+    QStringList albums = dApp->dbM->getAllAlbumNames();
     albums.removeAll(MY_FAVORITES_ALBUM);
-    albums.removeAll(RECENT_IMPORTED_ALBUM);
-    for (const QString name : albums) {
-        addAlbum(dApp->databaseM->getAlbumInfo(name));
+    for (const QString album : albums) {
+        addAlbum(dApp->dbM->getAlbumInfo(album));
     }
 }
 
@@ -436,12 +425,7 @@ int AlbumsView::indexOf(const QString &name) const
 }
 
 void AlbumsView::popupDelDialog(const QString &albumName) {
-    const auto infos = dApp->databaseM->getImageInfosByAlbum(albumName);
-    QStringList paths;
-    for (int i = 0; i < infos.length(); i++) {
-        paths << infos[i].path;
-    }
-
+    QStringList paths = dApp->dbM->getPathsByAlbum(albumName);
     DeleteDialog* delDialog = new DeleteDialog(paths, true, this);
     delDialog->show();
     delDialog->moveToCenter();
@@ -451,7 +435,7 @@ void AlbumsView::popupDelDialog(const QString &albumName) {
             if (albumName != MY_FAVORITES_ALBUM
                     && albumName != RECENT_IMPORTED_ALBUM
                     && ! isCreateIcon(currentIndex())) {
-                dApp->databaseM->removeAlbum(albumName);
+                dApp->dbM->removeAlbum(albumName);
                 m_model->removeRow(currentIndex().row());
                 emit albumRemoved();
             }

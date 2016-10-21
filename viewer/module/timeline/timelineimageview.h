@@ -1,6 +1,7 @@
 #ifndef TIMELINEIMAGEVIEW_H
 #define TIMELINEIMAGEVIEW_H
 
+#include "controller/dbmanager.h"
 #include "sliderframe.h"
 #include "toptimelinetips.h"
 #include "timelineviewframe.h"
@@ -20,13 +21,13 @@ public:
     void setIconSize(const QSize &iconSize);
     void updateThumbnails();
     bool isEmpty() const;
-    QMap<QString, QString> selectedImages() const;
+    QStringList selectedPaths(bool encode = true) const;
     QString currentMonth();
 
 public slots:
     void insertReadyFrames();
     void clearImages();
-    void onImageInserted(const DatabaseManager::ImageInfo &info);
+    void onImageInserted(const DBImgInfo &info);
 
 signals:
     void viewImage(const QString &path, const QStringList &paths);
@@ -44,7 +45,7 @@ private:
 
     void inserFrame(const QString &timeline);
     void removeFrame(const QString &timeline);
-    void removeImages(const QStringList &names);
+    void removeImages(const QStringList &paths);
     void updateSliderFrmaeRect();
     void updateContentRect();
     void updateTopTipsRect();

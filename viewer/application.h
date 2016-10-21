@@ -6,6 +6,7 @@
 class Application;
 class ConfigSetter;
 class DatabaseManager;
+class DBManager;
 class Exporter;
 class Importer;
 class SignalManager;
@@ -25,7 +26,7 @@ public:
     Application(int& argc, char** argv);
 
     ConfigSetter *setter = nullptr;
-    DatabaseManager *databaseM = nullptr;
+    DBManager *dbM = nullptr;
     Exporter *exporter = nullptr;
     Importer *importer = nullptr;
     SignalManager *signalM = nullptr;

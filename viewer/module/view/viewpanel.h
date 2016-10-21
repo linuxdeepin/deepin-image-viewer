@@ -2,7 +2,7 @@
 #define VIEWPANEL_H
 
 #include "module/modulepanel.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "anchors.h"
 
 #include <QFileInfo>
@@ -54,7 +54,7 @@ private:
     void initStack();
     void initStyleSheet();
     void initViewContent();
-    void popupDelDialog(const QString path, const QString name);
+    void popupDelDialog(const QString path);
     // Floating component
     void initFloatingComponent();
     void initSwitchButtons();
@@ -83,9 +83,9 @@ private:
     void viewOnNewProcess(const QStringList &paths);
     void backToLastPanel();
 
-    int imageIndex(const QString &name);
+    int imageIndex(const QString &path);
     QFileInfoList getFileInfos(const QString &path);
-    QList<DatabaseManager::ImageInfo> getImageInfos(const QFileInfoList &infos);
+    DBImgInfoList getImageInfos(const QFileInfoList &infos);
     const QStringList paths() const;
 private slots:
     void resetImageGeometry();
@@ -104,7 +104,7 @@ private:
     Anchors<NavigationWidget> m_nav;
 
     SignalManager::ViewInfo m_vinfo;
-    QList<DatabaseManager::ImageInfo> m_infos;
-    QList<DatabaseManager::ImageInfo>::ConstIterator m_current;
+    DBImgInfoList m_infos;
+    DBImgInfoList::ConstIterator m_current;
 };
 #endif // VIEWPANEL_H

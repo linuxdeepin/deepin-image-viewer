@@ -1,5 +1,6 @@
 #include "timelinepanel.h"
 #include "timelineimageview.h"
+#include "controller/dbmanager.h"
 #include "controller/exporter.h"
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
@@ -51,11 +52,6 @@ void createMI(QJsonArray *items,
     items->append(obj);
 }
 
-const DatabaseManager::ImageInfo imageInfo(const QString &name)
-{
-    return dApp->databaseM->getImageInfoByName(name);
-}
-
 }  // namespace
 
 void TimelinePanel::initPopupMenu()
@@ -72,9 +68,10 @@ void TimelinePanel::initShortcut()
     QShortcut *sc = new QShortcut(QKeySequence("Alt+Return"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        const QStringList paths = m_view->selectedImages().values();
-        if (! paths.isEmpty())
-            dApp->signalM->showImageInfo(paths.first());
+        const QStringList ePaths = m_view->selectedPaths();
+        if (! ePaths.isEmpty()) {
+            dApp->signalM->showImageInfo(ePaths.first());
+        }
     });
 
     // Select all
@@ -93,22 +90,21 @@ void TimelinePanel::updateMenuContents()
 
 void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
 {
-    QMap<QString, QString> images = m_view->selectedImages();
-    if (images.isEmpty()) {
+    const QStringList dPaths = m_view->selectedPaths(false);
+    const QStringList ePaths = m_view->selectedPaths();
+    if (ePaths.isEmpty()) {
         return;
     }
 
-    const QStringList names = images.keys();
-    const QStringList paths = images.values();
-    const QStringList viewPaths = (paths.length() == 1) ?
-                dApp->databaseM->getAllImagesPath() : paths;
-    const QString cname = names.first();
-    const QString cpath = paths.first();
+    const QStringList viewPaths = (ePaths.length() == 1) ?
+                dApp->dbM->getAllPaths() : ePaths;
+    const QString epath = ePaths.first();
+    const QString dpath = dPaths.first();
 
     SignalManager::ViewInfo vinfo;
     vinfo.inDatabase = true;
     vinfo.lastPanel = this;
-    vinfo.path = cpath;
+    vinfo.path = epath;
     vinfo.paths = viewPaths;
 
     switch (MenuItemId(menuId)) {
@@ -124,57 +120,48 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
-        for (QString name : names) {
-            dApp->databaseM->insertImageIntoAlbum(
-                album, name, utils::base::timeToString(imageInfo(name).time));
-        }
+        dApp->dbM->insertIntoAlbum(album, ePaths);
         break;
     }
-    case IdExport:
-        dApp->exporter->exportImage(paths);
-        break;
     case IdCopy:
-        utils::base::copyImageToClipboard(paths);
+        utils::base::copyImageToClipboard(dPaths);
         break;
     case IdMoveToTrash: {
-        popupDelDialog(paths, names);
+        popupDelDialog(dPaths, ePaths);
         break;
     }
     case IdAddToFavorites:
-        for(QString name : names) {
-        dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM_NAME, name,
-            utils::base::timeToString(imageInfo(cname).time));
-        }
+        dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM_NAME, ePaths);
         updateMenuContents();
         break;
     case IdRemoveFromFavorites:
-        dApp->databaseM->removeImageFromAlbum(FAVORITES_ALBUM_NAME, cname);
+        dApp->dbM->removeFromAlbum(FAVORITES_ALBUM_NAME, ePaths);
         updateMenuContents();
         break;
     case IdRotateClockwise:
         if (m_rotateList.isEmpty()) {
-            m_rotateList = paths;
-            for (QString path : paths) {
+            m_rotateList = dPaths;
+            for (QString path : dPaths) {
                 QtConcurrent::run(this, &TimelinePanel::rotateImage, path, 90);
             }
         }
         break;
     case IdRotateCounterclockwise:
         if (m_rotateList.isEmpty()) {
-            m_rotateList = paths;
-            for (QString path : paths) {
+            m_rotateList = ePaths;
+            for (QString path : dPaths) {
                 QtConcurrent::run(this, &TimelinePanel::rotateImage, path, -90);
             }
         }
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(cpath);
+        dApp->wpSetter->setWallpaper(dpath);
         break;
     case IdDisplayInFileManager:
-        utils::base::showInFileManager(cpath);
+        utils::base::showInFileManager(dpath);
         break;
     case IdImageInfo:
-        dApp->signalM->showImageInfo(cpath);
+        dApp->signalM->showImageInfo(dpath);
         break;
     default:
         break;
@@ -183,16 +170,16 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
 
 QString TimelinePanel::createMenuContent()
 {
-    auto images = m_view->selectedImages();
-    const QStringList paths = images.values();
-    auto supportPath = std::find_if_not(paths.cbegin(), paths.cend(),
+    auto dPaths = m_view->selectedPaths(false);
+    auto ePaths = m_view->selectedPaths();
+    auto supportPath = std::find_if_not(dPaths.cbegin(), dPaths.cend(),
                                         utils::image::imageSupportSave);
-    bool canSave = supportPath == paths.cend();
+    bool canSave = supportPath == dPaths.cend();
 
     QJsonArray items;
 
     ////////////////////////////////////////////////////////////////////////////
-    if (images.count() == 1) {
+    if (dPaths.length() == 1) {
         createMI(&items, IdView, tr("View"));
         createMI(&items, IdFullScreen, tr("Fullscreen"), "F11");
     }
@@ -209,9 +196,8 @@ QString TimelinePanel::createMenuContent()
     createMI(&items, IdSeparator, "", "", true);
 
     ////////////////////////////////////////////////////////////////////////////
-    if (images.count() == 1) {
-        if (! dApp->databaseM->imageExistAlbum(images.firstKey(),
-                                               FAVORITES_ALBUM_NAME)) {
+    if (dPaths.length() == 1) {
+        if (! dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME, ePaths.first())) {
             createMI(&items, IdAddToFavorites, tr("Add to My favorites"),
                      "Ctrl+K");
         }
@@ -221,9 +207,8 @@ QString TimelinePanel::createMenuContent()
         }
     } else {
         bool v = false;
-        for (QString img : images) {
-            if (! dApp->databaseM->imageExistAlbum(images.key(img),
-                                                   FAVORITES_ALBUM_NAME)) {
+        for (QString img : ePaths) {
+            if (! dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME, img)) {
                 v = true;
                 break;
             }
@@ -242,7 +227,7 @@ QString TimelinePanel::createMenuContent()
     createMI(&items, IdSeparator, "", "", true);
 
     ////////////////////////////////////////////////////////////////////////////
-    if (images.count() == 1) {
+    if (dPaths.length() == 1) {
         if (canSave) {
             createMI(&items, IdSetAsWallpaper, tr("Set as wallpaper"), "Ctrl+F8");
         }
@@ -260,19 +245,18 @@ QString TimelinePanel::createMenuContent()
 
 QJsonObject TimelinePanel::createAlbumMenuObj()
 {
-    const QStringList albums = dApp->databaseM->getAlbumNameList();
-    const QStringList names = m_view->selectedImages().keys();
+    const QStringList albums = dApp->dbM->getAllAlbumNames();
+    const QStringList ePaths = m_view->selectedPaths();
 
     QJsonArray items;
-    if (! names.isEmpty()) {
+    if (! ePaths.isEmpty()) {
         for (QString album : albums) {
-            if (album == FAVORITES_ALBUM_NAME || album == "Recent imported") {
+            if (album == FAVORITES_ALBUM_NAME) {
                 continue;
             }
-            const QStringList names =
-                    dApp->databaseM->getImageNamesByAlbum(album);
-            for (QString name : names) {
-                if (names.indexOf(name) == -1) {
+            const QStringList aps = dApp->dbM->getPathsByAlbum(album);
+            for (QString path : ePaths) {
+                if (aps.indexOf(path) == -1) {
                     createMI(&items, IdAddToAlbum, album);
                     break;
                 }
@@ -298,15 +282,15 @@ void TimelinePanel::rotateImage(const QString &path, int degree)
     }
 }
 
-void TimelinePanel::popupDelDialog(const QStringList paths, const QStringList names)
+void TimelinePanel::popupDelDialog(const QStringList &dpaths, const QStringList &epaths)
 {
-    DeleteDialog* dialog = new DeleteDialog(paths, false, this);
+    DeleteDialog* dialog = new DeleteDialog(dpaths, false, this);
     dialog->show();
     dialog->moveToCenter();
     connect(dialog, &DeleteDialog::buttonClicked, [=](int index){
         if (index == 1) {
-            dApp->databaseM->removeImages(names);
-            utils::base::trashFiles(paths);
+            dApp->dbM->removeImgInfos(epaths);
+            utils::base::trashFiles(dpaths);
         }
     });
     connect(dialog, &DeleteDialog::closed, dialog, &DeleteDialog::deleteLater);

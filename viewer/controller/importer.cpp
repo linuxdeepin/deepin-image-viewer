@@ -1,6 +1,6 @@
 #include "importer.h"
 #include "application.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "controller/signalmanager.h"
 #include "utils/imageutils.h"
 #include <QDebug>
@@ -8,52 +8,11 @@
 #include <QDirIterator>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QTimer>
 
 Importer::Importer(QObject *parent)
-    : QObject(parent),
-      m_progress(1),
-      m_imagesCount(0)
+    : QObject(parent)
 {
-    connect(&m_futureWatcher, SIGNAL(finished()),
-            this, SLOT(onFutureWatcherFinish()));
-    connect(&m_futureWatcher, SIGNAL(resultReadyAt(int)),
-            this, SLOT(onFutureResultReady(int)));
-}
 
-QString insertImage(QString path)
-{
-    const QStringList albums = Importer::instance()->getAlbums(path);
-    QFileInfo fileInfo(path);
-    DatabaseManager::ImageInfo imgInfo;
-    imgInfo.name = fileInfo.fileName();
-    imgInfo.path = fileInfo.absoluteFilePath();
-    imgInfo.time = utils::image::getCreateDateTime(path);
-    imgInfo.albums = albums;
-    imgInfo.labels = QStringList();
-//    DatabaseManager::instance()->insertImageInfo(imgInfo);
-
-    return path;
-}
-
-void Importer::loadCacheImages()
-{
-    QStringList pathList = m_cacheImportList;
-    QFuture<QString> future = QtConcurrent::mapped(pathList, insertImage);
-    m_futureWatcher.setFuture(future);
-}
-
-QStringList Importer::getAlbums(const QString &path) const
-{
-    const QString album = m_albums.value(path);
-    if (album.isEmpty()) {
-        return QStringList();
-    }
-    else {
-        QStringList l;
-        l << album;
-        return l;
-    }
 }
 
 Importer *Importer::m_importer = NULL;
@@ -66,125 +25,66 @@ Importer *Importer::instance()
     return m_importer;
 }
 
-bool Importer::isRunning() const
-{
-    return m_progress != 1;
-}
-
-double Importer::getProgress() const
-{
-    return m_progress;
-}
-
-int Importer::finishedCount() const
-{
-    return m_imagesCount - m_cacheImportList.length();
-}
-
-/*!
- * \brief Importer::nap
- * Nap for unblock main UI
- */
-void Importer::nap()
-{
-    if (m_progress != 1) {
-        m_futureWatcher.setPaused(true);
-        TIMER_SINGLESHOT(500,
-        {m_futureWatcher.setPaused(false);},this);
-    }
-}
-
 void Importer::showImportDialog(const QString &album)
 {
     QString dir = QFileDialog::getExistingDirectory(
-                nullptr, tr("Open Directory"),
-                QDir::homePath(),
+                nullptr, tr("Open Directory"), QDir::homePath(),
                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     importDir(dir, album);
 }
 
-void Importer::stopImport()
-{
-    m_futureWatcher.cancel();
-    m_futureWatcher.waitForFinished();
-    m_cacheImportList.clear();
-    m_albums.clear();
-    m_progress = 1.0;
-    m_imagesCount = 0;
-    emit importProgressChanged(m_progress);
-}
-
 void Importer::importDir(const QString &path, const QString &album)
 {
-    const QFileInfoList infos = utils::image::getImagesInfo(path);
-    if( !QDir(path).exists() || infos.isEmpty() ) {
+    const QFileInfoList fileInfos = utils::image::getImagesInfo(path);
+    if( ! QDir(path).exists() || fileInfos.isEmpty() ) {
+        emit imported(false);
         return;
     }
 
-    // To avoid the repeat names
-    QStringList imgNames;
-    QList<DatabaseManager::ImageInfo> imgInfos;
-    for (QFileInfo info : infos) {
-        if (imgNames.indexOf(info.fileName()) != -1)
+    // To avoid the repeat paths
+    QStringList paths;
+    DBImgInfoList imgInfos;
+    for (QFileInfo finfo : fileInfos) {
+        if (paths.contains(finfo.absoluteFilePath()))
             continue;
-        imgNames << info.fileName();
-        DatabaseManager::ImageInfo imgInfo;
-        imgInfo.name = info.fileName();
-        imgInfo.path = info.absoluteFilePath();
-        imgInfo.time = utils::image::getCreateDateTime(imgInfo.path);
-        imgInfo.albums = QStringList(album);
-        imgInfo.labels = QStringList();
+        QString path = finfo.absoluteFilePath().toUtf8().toPercentEncoding("/");
+        paths << path;
+        DBImgInfo imgInfo;
+        imgInfo.fileName = finfo.fileName().toUtf8().toPercentEncoding();
+        imgInfo.filePath = path;
+        imgInfo.time = utils::image::getCreateDateTime(finfo.absoluteFilePath());
 
         imgInfos << imgInfo;
     }
+    dApp->dbM->insertImgInfos(imgInfos);
+    dApp->dbM->insertIntoAlbum(album, paths);
 
-    dApp->databaseM->insertImageInfos(imgInfos);
 
-    emit importProgressChanged(1);
+    emit imported(true);
 }
 
-void Importer::importFiles(const QStringList &files, const QString &album)
+void Importer::importFiles(const QStringList &paths, const QString &album)
 {
-    if (files.isEmpty())
+    if (paths.isEmpty()) {
+        emit imported(false);
         return;
-    QList<DatabaseManager::ImageInfo> imgInfos;
-    for (QString file : files) {
-        QFileInfo info(file);
-        DatabaseManager::ImageInfo imgInfo;
-        imgInfo.name = info.fileName();
-        imgInfo.path = info.absoluteFilePath();
-        imgInfo.time = utils::image::getCreateDateTime(file);
-        imgInfo.albums = QStringList(album);
-        imgInfo.labels = QStringList();
-
+    }
+    DBImgInfoList imgInfos;
+    QStringList ePaths;
+    for (QString path : paths) {
+        QFileInfo info(path);
+        QString p = info.absoluteFilePath().toUtf8().toPercentEncoding("/");
+        ePaths << p;
+        DBImgInfo imgInfo;
+        imgInfo.fileName = info.fileName().toUtf8().toPercentEncoding();
+        imgInfo.filePath = p;
+        imgInfo.time = utils::image::getCreateDateTime(path);
         imgInfos << imgInfo;
-    }
-    dApp->databaseM->insertImageInfos(imgInfos);
 
-    emit importProgressChanged(1);
-}
-
-void Importer::onFutureWatcherFinish()
-{
-    // Imported finish
-    if (m_cacheImportList.isEmpty()) {
-        qDebug() << "Imported finish, no more cache!";
-        m_imagesCount = 0;
-        m_progress = 1;
-        m_albums.clear();
-        emit importProgressChanged(m_progress);
-//        emit dApp->signalM->showProcessTooltip(
-//                    tr("Imported successfully"), true);
     }
-    else {
-        loadCacheImages();
-    }
-}
+    dApp->dbM->insertImgInfos(imgInfos);
+    dApp->dbM->insertIntoAlbum(album, ePaths);
 
-void Importer::onFutureResultReady(int index)
-{
-    m_cacheImportList.removeAll(m_futureWatcher.resultAt(index));
-    m_progress = 1 - (1.0 * m_cacheImportList.count() / m_imagesCount);
-    emit importProgressChanged(m_progress);
+    emit imported(true);
 }

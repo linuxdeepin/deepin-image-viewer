@@ -1,5 +1,4 @@
 HEADERS += \
-    $$PWD/databasemanager.h \
     $$PWD/importer.h \
     $$PWD/popupmenumanager.h \
     $$PWD/signalmanager.h \
@@ -8,10 +7,10 @@ HEADERS += \
     $$PWD/configsetter.h \
     $$PWD/divdbuscontroller.h \
     $$PWD/exporter.h \
-    $$PWD/globaleventfilter.h
+    $$PWD/globaleventfilter.h \
+    $$PWD/dbmanager.h
 
 SOURCES += \
-    $$PWD/databasemanager.cpp \
     $$PWD/importer.cpp \
     $$PWD/popupmenumanager.cpp \
     $$PWD/signalmanager.cpp \
@@ -20,4 +19,5 @@ SOURCES += \
     $$PWD/configsetter.cpp \
     $$PWD/divdbuscontroller.cpp \
     $$PWD/exporter.cpp \
-    $$PWD/globaleventfilter.cpp
+    $$PWD/globaleventfilter.cpp \
+    $$PWD/dbmanager.cpp

@@ -66,8 +66,6 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
         return;
     }
 
-    dApp->importer->nap();
-
     // Record the last panel for restore in the next time launch
     if (p->isMainPanel() && ! p->moduleName().isEmpty()) {
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_MAINPANEL_KEY,
@@ -77,7 +75,7 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     m_panelStack->setCurrentWidget(panel);
 }
 
-void MainWidget::onShowProcessTooltip(const QString &message, bool success)
+void MainWidget::onImported(const QString &message, bool success)
 {
     ProcessTooltip *t = new ProcessTooltip(this);
     t->showTooltip(message, success);
@@ -195,10 +193,8 @@ void MainWidget::initConnection()
     });
     connect(dApp->signalM, &SignalManager::showImageInfo,
             this, &MainWidget::onShowImageInfo);
-    connect(dApp->importer, &Importer::importProgressChanged, this, [=] (double v) {
-        if (v == 1) {
-            onShowProcessTooltip(tr("Imported successfully"), true);
-        }
+    connect(dApp->importer, &Importer::imported, this, [=] (bool v) {
+        onImported(tr("Imported successfully"), v);
     });
 }
 

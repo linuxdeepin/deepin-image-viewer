@@ -1,5 +1,5 @@
 #include "application.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "exporter.h"
 #include "utils/imageutils.h"
 
@@ -66,14 +66,7 @@ void Exporter::exportImage(const QStringList imagePaths) {
 }
 
 void Exporter::exportAlbum(const QString &albumname) {
-    auto albumImageInfos = dApp->databaseM->getImageInfosByAlbum(albumname);
-    QStringList tmpImagePaths = QStringList();
-    for (int i = 0; i < albumImageInfos.length(); i++) {
-        qDebug() << "album:" << albumImageInfos[i].path;
-        tmpImagePaths.append(albumImageInfos[i].path);
-    }
-
-    popupDialogSaveImage(tmpImagePaths);
+    popupDialogSaveImage(dApp->dbM->getPathsByAlbum(albumname));
 }
 
 void Exporter::popupDialogSaveImage(const QStringList imagePaths) {

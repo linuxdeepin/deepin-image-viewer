@@ -1,7 +1,7 @@
 #ifndef TIMELINEVIEWFRAME_H
 #define TIMELINEVIEWFRAME_H
 
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "widgets/thumbnaillistview.h"
 #include <QLabel>
 #include <QWidget>
@@ -16,9 +16,8 @@ class TimelineViewFrame : public QFrame
 public:
     explicit TimelineViewFrame(const QString &timeline, QWidget *parent);
     ~TimelineViewFrame();
-    void insertItem(const DatabaseManager::ImageInfo &info);
-    bool removeItem(const QString &name);
-    void removeItems(const QStringList &names);
+    void insertItem(const DBImgInfo &info);
+    void removeItems(const QStringList &paths);
     void clearSelection() const;
     void updateThumbnails();
     void selectAll();

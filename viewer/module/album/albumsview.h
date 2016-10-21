@@ -1,7 +1,7 @@
 #ifndef ALBUMSVIEW_H
 #define ALBUMSVIEW_H
 
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include <QListView>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -14,7 +14,7 @@ class AlbumsView : public QListView
     Q_OBJECT
 public:
     explicit AlbumsView(QWidget *parent = 0);
-    QModelIndex addAlbum(const DatabaseManager::AlbumInfo &info);
+    QModelIndex addAlbum(const DBAlbumInfo &info);
     void createAlbum();
     void updateView();
 

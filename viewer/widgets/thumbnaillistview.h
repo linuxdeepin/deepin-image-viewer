@@ -21,14 +21,12 @@ public:
     ~ThumbnailListView();
     void clearData();
     void updateViewPortSize();
-    void updateThumbnail(const QString &name);
     void updateThumbnails();
     void setIconSize(const QSize &size);
     void insertItem(const ItemInfo &info);
-    bool removeItem(const QString &name);
-    void removeItems(const QStringList &names);
+    void removeItems(const QStringList &paths);
     bool contain(const QModelIndex &index) const;
-    int indexOf(const QString &name);
+    int indexOf(const QString &path);
     int count() const;
     int hOffset() const;
     const ItemInfo itemInfo(const QModelIndex &index);

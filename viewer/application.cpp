@@ -1,7 +1,7 @@
 #include "application.h"
 
 #include "controller/configsetter.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "controller/exporter.h"
 #include "controller/globaleventfilter.h"
 #include "controller/importer.h"
@@ -33,11 +33,11 @@ Application::Application(int& argc, char** argv)
 void Application::initChildren()
 {
     setter = ConfigSetter::instance();
-    databaseM = DatabaseManager::instance();
     exporter = Exporter::instance();
     importer = Importer::instance();
     signalM = SignalManager::instance();
     wpSetter = WallpaperSetter::instance();
+    dbM = new DBManager();
 }
 
 void Application::initI18n()

@@ -1,6 +1,5 @@
 #include "thumbnaildelegate.h"
 #include "application.h"
-#include "controller/databasemanager.h"
 #include "utils/imageutils.h"
 #include <QDateTime>
 #include <QDebug>

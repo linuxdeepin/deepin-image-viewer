@@ -1,7 +1,7 @@
 #include "application.h"
 #include "timelineimageview.h"
 #include "controller/configsetter.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "controller/signalmanager.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
@@ -21,14 +21,6 @@ const int TOP_TOOLBAR_HEIGHT = 40;
 const int MIN_ICON_SIZE = 96;
 const QString SETTINGS_GROUP = "TIMEPANEL";
 const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
-
-DatabaseManager::ImageInfo genThumbnail(DatabaseManager::ImageInfo &info)
-{
-    using namespace utils::image;
-    auto ni = info;
-    ni.thumbnail = cutSquareImage(getThumbnail(ni.path, true));
-    return ni;
-}
 
 }  //namespace
 
@@ -50,7 +42,7 @@ TimelineImageView::TimelineImageView(bool multiselection, QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
 
-    qRegisterMetaType<DatabaseManager::ImageInfo>("DatabaseManager::ImageInfo");
+    qRegisterMetaType<DBImgInfo>("DBImgInfo");
     connect(dApp->signalM, &SignalManager::imagesRemoved,
             this, &TimelineImageView::removeImages);
     installEventFilter(this);
@@ -69,11 +61,8 @@ void TimelineImageView::clearImages()
     m_frames.clear();
 }
 
-void TimelineImageView::onImageInserted(const DatabaseManager::ImageInfo &info)
+void TimelineImageView::onImageInserted(const DBImgInfo &info)
 {
-//    if (! isVisible()) {
-//        return;
-//    }
     const QString timeLine = utils::base::timeToString(info.time, true);
     // TimeLine frame not exist, create one
     // Note: use m_frames.keys().indexOf(timeLine) will cause[QObject::connect:
@@ -121,18 +110,18 @@ bool TimelineImageView::isEmpty() const
     return m_frames.isEmpty();
 }
 
-/*!
-    \fn QMap<QString, QString> TimelineImageView::selectedImages() const
-
-    Return the name-path map of all frame's selected items.
-*/
-QMap<QString, QString> TimelineImageView::selectedImages() const
+QStringList TimelineImageView::selectedPaths(bool encode) const
 {
-    QMap<QString, QString> images;
+    QStringList images;
     for (TimelineViewFrame * frame : m_frames.values()) {
-        const QMap<QString, QString> map = frame->selectedImages();
-        for (QString name : map.keys()) {
-            images[name] = map[name];
+        auto paths = frame->selectedImages().values();
+        for (QString path : paths) {
+            if (encode) {
+                images << QString(path.toUtf8().toPercentEncoding("/"));
+            }
+            else {
+                images << path;
+            }
         }
     }
 
@@ -217,32 +206,9 @@ void TimelineImageView::insertReadyFrames()
         return;
     }
 
-    const auto infos = dApp->databaseM->getAllImageInfos();
-    const int preloadCount = 100;
-    // Load up to 100 images at initialization to accelerate rendering
-    for (int i = 0; i < qMin(infos.length(), preloadCount); i ++) {
+    const auto infos = dApp->dbM->getAllInfos();
+    for (int i = 0; i < infos.length(); i ++) {
         onImageInserted(infos[i]);
-    }
-
-    // The thumbnail is generated in the new thread
-    QList<QFuture<DatabaseManager::ImageInfo>> fl;
-    if (infos.length() >= preloadCount) {
-        for (int i = preloadCount; i < infos.length(); i ++) {
-            fl << QtConcurrent::run(QThreadPool::globalInstance(),
-                                    genThumbnail, infos[i]);
-        }
-    }
-    if (fl.length() > 0) {
-        QTimer *t = new QTimer(this);
-        connect(t, &QTimer::timeout, this, [=] {
-            if (fl.last().isFinished()) {
-                for (auto f : fl) {
-                    onImageInserted(f.result());
-                }
-                t->deleteLater();
-            }
-        });
-        t->start(500);
     }
 
     const int iconSize = dApp->setter->value(
@@ -327,11 +293,11 @@ void TimelineImageView::removeFrame(const QString &timeline)
     w->deleteLater();
 }
 
-void TimelineImageView::removeImages(const QStringList &names)
+void TimelineImageView::removeImages(const QStringList &paths)
 {
     const QStringList timelines = m_frames.keys();
     for (QString t : timelines) {
-        m_frames.value(t)->removeItems(names);
+        m_frames.value(t)->removeItems(paths);
         // Check if timeline is empty
         if (m_frames.value(t)->isEmpty()) {
             removeFrame(t);
@@ -356,12 +322,13 @@ void TimelineImageView::updateTopTipsRect()
 {
     m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
     m_topTips->resize(width(), m_topTips->height());
-    if (! m_frames.isEmpty()) {
-        TIMER_SINGLESHOT(100, {
+    TIMER_SINGLESHOT(100,
+    {
+        if (! m_frames.isEmpty()) {
             m_topTips->setLeftMargin(- m_frames.first()->hOffset() +
-                                    m_contentLayout->contentsMargins().left());
-                         },this)
-    }
+            m_contentLayout->contentsMargins().left());
+        }
+    },this)
 }
 
 int TimelineImageView::getMinContentsWidth()

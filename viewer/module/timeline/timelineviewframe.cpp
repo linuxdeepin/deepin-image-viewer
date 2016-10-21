@@ -76,8 +76,9 @@ void TimelineViewFrame::initListView()
             this, &TimelineViewFrame::singleClicked);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
-        const QString path = m_view->itemInfo(index).path;
-        emit viewImage(path, dApp->databaseM->getAllImagesPath());
+        const QString path =
+                m_view->itemInfo(index).path.toUtf8().toPercentEncoding("/");
+        emit viewImage(path, dApp->dbM->getAllPaths());
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
@@ -115,28 +116,20 @@ void TimelineViewFrame::resizeEvent(QResizeEvent *e)
     m_separator->setFixedWidth(width() + m_view->hOffset() * 2 - 6);
 }
 
-void TimelineViewFrame::insertItem(const DatabaseManager::ImageInfo &info)
+void TimelineViewFrame::insertItem(const DBImgInfo &info)
 {
     using namespace utils::image;
     ThumbnailListView::ItemInfo vi;
-    vi.name = info.name;
-    vi.path = info.path;
-    if (info.thumbnail.isNull())
-        vi.thumb = cutSquareImage(getThumbnail(info.path, true));
-    else
-        vi.thumb = info.thumbnail;
+    vi.name = QByteArray::fromPercentEncoding(info.fileName.toUtf8());
+    vi.path = QByteArray::fromPercentEncoding(info.filePath.toUtf8());
+    vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
 
     m_view->insertItem(vi);
 }
 
-bool TimelineViewFrame::removeItem(const QString &name)
+void TimelineViewFrame::removeItems(const QStringList &paths)
 {
-    return m_view->removeItem(name);
-}
-
-void TimelineViewFrame::removeItems(const QStringList &names)
-{
-    m_view->removeItems(names);
+    m_view->removeItems(paths);
 }
 
 void TimelineViewFrame::clearSelection() const

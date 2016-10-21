@@ -1,6 +1,6 @@
 #include "importdirdialog.h"
 #include "application.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include <QDir>
@@ -66,7 +66,7 @@ ImportDirDialog::ImportDirDialog(QWidget *parent)
             const QString album = m_edit->text().trimmed();
             dApp->importer->importDir(m_dir, album);
             // For UI update
-            dApp->databaseM->insertImageIntoAlbum(album, "", "");
+            dApp->dbM->insertIntoAlbum(album, QStringList());//FIXDB
             emit albumCreated();
         }
     });

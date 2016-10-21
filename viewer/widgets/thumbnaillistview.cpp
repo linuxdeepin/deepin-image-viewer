@@ -1,7 +1,7 @@
 #include "thumbnaillistview.h"
 #include "thumbnaildelegate.h"
 #include "application.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -12,7 +12,9 @@
 #include <QPaintEvent>
 #include <QScrollBar>
 #include <QStandardItemModel>
+#include <QtConcurrent>
 #include <QTimer>
+#include <QThreadPool>
 
 namespace {
 
@@ -67,20 +69,6 @@ void ThumbnailListView::updateViewPortSize()
     QMetaObject::invokeMethod(this, "fixedViewPortSize", Qt::QueuedConnection, Q_ARG(bool, true));
 }
 
-/*!
- * \brief ThumbnailListView::updateThumbnail
- * This function may cause thumbnail-generate operation
- * \param name
- */
-void ThumbnailListView::updateThumbnail(const QString &name)
-{
-    using namespace utils::image;
-    const QModelIndex mi = m_model->index(indexOf(name), 0);
-    auto info = itemInfo(mi);
-    info.thumb = cutSquareImage(getThumbnail(info.path));
-    m_model->setData(mi, QVariant(getVariantList(info)), Qt::DisplayRole);
-}
-
 void ThumbnailListView::updateThumbnails()
 {
     m_delegate->clearPaintingList();
@@ -109,7 +97,7 @@ void ThumbnailListView::setIconSize(const QSize &size)
 void ThumbnailListView::insertItem(const ItemInfo &info)
 {
     // Diffrent thread connection cause duplicate insert
-    if (indexOf(info.name) != -1)
+    if (indexOf(info.path) != -1)
         return;
 
     QStandardItem *item = new QStandardItem();
@@ -123,22 +111,10 @@ void ThumbnailListView::insertItem(const ItemInfo &info)
     updateViewPortSize();
 }
 
-bool ThumbnailListView::removeItem(const QString &name)
+void ThumbnailListView::removeItems(const QStringList &paths)
 {
-    const int i = indexOf(name);
-    if (i != -1) {
-        m_model->removeRow(i);
-        updateViewPortSize();
-        return true;
-    }
-
-    return false;
-}
-
-void ThumbnailListView::removeItems(const QStringList &names)
-{
-    for (QString name : names) {
-        const int i = indexOf(name);
+    for (QString path : paths) {
+        const int i = indexOf(path);
         if (i != -1) {
             m_model->removeRow(i);
         }
@@ -151,12 +127,12 @@ bool ThumbnailListView::contain(const QModelIndex &index) const
     return index.model() == m_model;
 }
 
-int ThumbnailListView::indexOf(const QString &name)
+int ThumbnailListView::indexOf(const QString &path)
 {
     for (int i = 0; i < m_model->rowCount(); i ++) {
         const QVariantList datas =
             m_model->data(m_model->index(i, 0), Qt::DisplayRole).toList();
-        if (! datas.isEmpty() && datas[0].toString() == name) {
+        if (! datas.isEmpty() && datas[1].toString() == path) {
             return i;
         }
     }
@@ -346,7 +322,7 @@ QVariant generateThumbnail(const QString &path)
     const QPixmap thumb = getThumbnail(path);
     if (thumb.isNull()) {
         // Can't generate thumbnail, remove it from database
-        dApp->databaseM->removeImages(QStringList(name));
+        dApp->dbM->removeImgInfos(QStringList(path));
     }
     else {
         QByteArray inByteArray;
@@ -391,8 +367,8 @@ void ThumbnailListView::onThumbnailGenerated(int index)
 {
     QVariantList v = m_watcher.resultAt(index).toList();
     if (v.length() != 3) return;
-    const QString name = v[0].toString();
-    m_model->setData(m_model->index(indexOf(name), 0), v, Qt::DisplayRole);
+    const QString path = v[1].toString();
+    m_model->setData(m_model->index(indexOf(path), 0), v, Qt::DisplayRole);
 }
 
 const QVariantList ThumbnailListView::getVariantList(const ItemInfo &info)

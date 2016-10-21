@@ -2,7 +2,6 @@
 #include "application.h"
 #include "navigationwidget.h"
 #include "controller/divdbuscontroller.h"
-#include "controller/databasemanager.h"
 #include "controller/signalmanager.h"
 #include "contents/imageinfowidget.h"
 #include "contents/ttmcontent.h"
@@ -91,11 +90,11 @@ void ViewPanel::initConnect() {
     });
 
     connect(dApp->signalM, &SignalManager::removedFromAlbum,
-            this, [=] (const QString &album, const QStringList &names) {
+            this, [=] (const QString &album, const QStringList &paths) {
         if (! isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty())
             return;
-        for (QString name : names) {
-            if (imageIndex(name) == imageIndex(m_current->name))
+        for (QString path : paths) {
+            if (imageIndex(path) == imageIndex(m_current->filePath))
                 removeCurrentImage();
         }
     });
@@ -117,11 +116,11 @@ void ViewPanel::initFileSystemWatcher()
     connect(sw, &QFileSystemWatcher::directoryChanged, this, [=] {
         if (m_current == m_infos.cend() || m_infos.isEmpty())
             return;
-        const QString cp = m_current->path;
+        const QString cp = m_current->filePath;
         m_infos = getImageInfos(getFileInfos(cp));
         m_current = m_infos.cbegin();
         for (; m_current != m_infos.cend(); m_current ++) {
-            if (m_current->path == cp) {
+            if (m_current->filePath == cp) {
                 return;
             }
         }
@@ -164,10 +163,10 @@ void ViewPanel::showFullScreen()
     window()->showFullScreen();
 }
 
-int ViewPanel::imageIndex(const QString &name)
+int ViewPanel::imageIndex(const QString &path)
 {
     for (int i = 0; i < m_infos.length(); i ++) {
-        if (m_infos.at(i).name == name) {
+        if (m_infos.at(i).filePath == path) {
             return i;
         }
     }
@@ -175,14 +174,13 @@ int ViewPanel::imageIndex(const QString &name)
     return -1;
 }
 
-QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
-        const QFileInfoList &infos)
+DBImgInfoList ViewPanel::getImageInfos(const QFileInfoList &infos)
 {
-    QList<DatabaseManager::ImageInfo> imageInfos;
-    for (int i = 0; i < infos.length(); i++) {
-        DatabaseManager::ImageInfo imgInfo;
-        imgInfo.name = infos.at(i).fileName();
-        imgInfo.path = infos.at(i).absoluteFilePath();
+    DBImgInfoList imageInfos;
+    for (QFileInfo info : infos) {
+        DBImgInfo imgInfo;
+        imgInfo.fileName = info.fileName().toUtf8().toPercentEncoding();
+        imgInfo.filePath = info.absoluteFilePath().toUtf8().toPercentEncoding("/");
 
         imageInfos << imgInfo;
     }
@@ -193,15 +191,16 @@ QList<DatabaseManager::ImageInfo> ViewPanel::getImageInfos(
 const QStringList ViewPanel::paths() const
 {
     QStringList list;
-    for (DatabaseManager::ImageInfo info : m_infos) {
-        list << info.path;
+    for (DBImgInfo info : m_infos) {
+        list << info.filePath;
     }
     return list;
 }
 
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
-    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
+    const QString dp = QByteArray::fromPercentEncoding(path.toUtf8());
+    return utils::image::getImagesInfo(QFileInfo(dp).path(), false);
 }
 
 QWidget *ViewPanel::toolbarBottomContent()
@@ -230,7 +229,7 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         rotateImage(false);
     });
     connect(ttmc, &TTMContent::removed, this, [=] {
-        popupDelDialog(m_current->path, m_current->name);
+        popupDelDialog(m_current->filePath);
     });
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
         if (fitWindow) {
@@ -297,7 +296,7 @@ void ViewPanel::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == m_openTid) {
         if (! m_infos.isEmpty() && m_current != m_infos.cend()) {
-            openImage(m_current->path, m_vinfo.inDatabase);
+            openImage(m_current->filePath, m_vinfo.inDatabase);
             killTimer(m_openTid);
             m_openTid = 0;
         }
@@ -363,21 +362,21 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     if (! vinfo.paths.isEmpty()) {
         QFileInfoList list;
         for (QString path : vinfo.paths) {
-            list << QFileInfo(symFilePath(path));
+            list << QFileInfo(QByteArray::fromPercentEncoding(path.toUtf8()));
         }
         m_infos = getImageInfos(list);
     }
     else {
         if (vinfo.inDatabase) {
             if (vinfo.album.isEmpty()) {
-                m_infos = dApp->databaseM->getAllImageInfos();
+                m_infos = dApp->dbM->getAllInfos();
             }
             else {
-                m_infos = dApp->databaseM->getImageInfosByAlbum(vinfo.album);
+                m_infos = dApp->dbM->getInfosByAlbum(vinfo.album);
             }
         }
         else {
-            m_infos = getImageInfos(getFileInfos(symFilePath(vinfo.path)));
+            m_infos = getImageInfos(getFileInfos(vinfo.path));
         }
     }
 
@@ -385,15 +384,15 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     m_current = m_infos.cbegin();
     if (! vinfo.path.isEmpty()) {
         for (; m_current != m_infos.cend(); m_current ++) {
-            QString imgPath = symFilePath(vinfo.path);
-            if (m_current->path == imgPath) {
+            QString imgPath = vinfo.path;
+            if (m_current->filePath == imgPath) {
                 break;
             }
         }
     }
 
     TIMER_SINGLESHOT(OPEN_IMAGE_DELAY_INTERVAL,
-    {openImage(m_current->path);}, this)
+    {openImage(m_current->filePath);}, this)
 }
 
 void ViewPanel::toggleFullScreen()
@@ -444,7 +443,7 @@ void ViewPanel::removeCurrentImage()
     if (m_infos.isEmpty())
         return;
 
-    m_infos.removeAt(imageIndex(m_current->name));
+    m_infos.removeAt(imageIndex(m_current->filePath));
     if (! showNext()) {
         if (! showPrevious()) {
             qDebug() << "No images to show!";
@@ -541,7 +540,7 @@ void ViewPanel::rotateImage(bool clockWise)
     // Remove cache force view's delegate reread thumbnail
     utils::image::removeThumbnail(m_viewB->path());
 
-    emit imageChanged(m_viewB->path());
+    emit imageChanged(m_current->filePath);
 }
 
 void ViewPanel::initViewContent()
@@ -557,7 +556,8 @@ void ViewPanel::initViewContent()
 
 void ViewPanel::openImage(const QString &path, bool inDB)
 {
-    if (! QFileInfo(path).exists()) {
+    const QString dPath = QByteArray::fromPercentEncoding(path.toUtf8());
+    if (! QFileInfo(dPath).exists()) {
         // removeCurrentImage() will cause timerEvent be trigered again by
         // showNext() or showPrevious(), so delay to remove current image
         // to break the loop
@@ -568,21 +568,21 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     if (inDB) {
         // Check whether the thumbnail is been rotated in outside
         QtConcurrent::run(utils::image::removeThumbnail,
-                          QFileInfo(path).fileName());
+                          QFileInfo(dPath).fileName());
     }
 
-    m_viewB->setImage(path);
+    m_viewB->setImage(dPath);
 
     updateMenuContent();
     resetImageGeometry();
 
     if (m_info) {
-        m_info->setImagePath(path);
+        m_info->setImagePath(dPath);
     }
 
     m_stack->setCurrentIndex(0);
 
-    emit imageChanged(m_viewB->path());
+    emit imageChanged(path);
 
     if (inDB) {
         emit updateCollectButton();

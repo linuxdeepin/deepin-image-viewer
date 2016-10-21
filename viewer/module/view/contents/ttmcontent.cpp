@@ -1,6 +1,6 @@
 #include "ttmcontent.h"
 #include "application.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/imagebutton.h"
@@ -52,13 +52,11 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         m_clBT = new ImageButton();
         m_layout->addWidget(m_clBT);
         connect(m_clBT, &ImageButton::clicked, [=] {
-            if (dApp->databaseM->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
-                dApp->databaseM->removeImageFromAlbum(FAVORITES_ALBUM,m_imageName);
+            if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
+                dApp->dbM->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
             }
             else {
-                auto info = dApp->databaseM->getImageInfoByName(m_imageName);
-                dApp->databaseM->insertImageIntoAlbum(FAVORITES_ALBUM,
-                    m_imageName, utils::base::timeToString(info.time));
+                dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
             }
             updateCollectButton();
         });
@@ -94,7 +92,6 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
 
 void TTMContent::onImageChanged(const QString &path)
 {
-    m_imageName = QFileInfo(path).fileName();
     m_imagePath = path;
     if (path.isEmpty()) {
         m_adaptImageBtn->setDisabled(true);
@@ -107,7 +104,8 @@ void TTMContent::onImageChanged(const QString &path)
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
         m_trashBtn->setDisabled(false);
-        if (utils::image::imageSupportSave(path)) {
+        QString dPath = QByteArray::fromPercentEncoding(path.toUtf8());
+        if (utils::image::imageSupportSave(dPath)) {
             m_rotateLBtn->setDisabled(false);
             m_rotateRBtn->setDisabled(false);
         }
@@ -135,7 +133,7 @@ void TTMContent::updateCollectButton()
         m_clBT->setHoverPic(":/images/resources/images/collect_disable.png");
         m_clBT->setPressPic(":/images/resources/images/collect_disable.png");
     }
-    else if (dApp->databaseM->imageExistAlbum(m_imageName, FAVORITES_ALBUM)) {
+    else if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setNormalPic(":/images/resources/images/collect_press.png");
         m_clBT->setHoverPic(":/images/resources/images/collect_press.png");

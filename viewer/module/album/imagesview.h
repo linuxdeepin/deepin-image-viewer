@@ -2,7 +2,7 @@
 #define IMAGESVIEW_H
 
 #include "topalbumtips.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include <QWidget>
 #include <QScrollArea>
 #include <QJsonObject>
@@ -22,18 +22,16 @@ class ImagesView : public QScrollArea
 public:
     explicit ImagesView(QWidget *parent = 0);
 
-    void insertItem(const DatabaseManager::ImageInfo &info, bool update = true);
+    void insertItem(const DBImgInfo &info, bool update = true);
     void setAlbum(const QString &album);
     void setIconSize(const QSize &iconSize);
 
     int count() const;
-    bool removeItem(const QString &name);
-    void removeItems(const QStringList &names);
+    void removeItems(const QStringList &paths);
 
     QString getCurrentAlbum() const;
     QSize iconSize() const;
-    QStringList selectedImagesNameList() const;
-    QStringList selectedImagesPathList() const;
+    QStringList selectedPaths(bool encode = true) const;
 
 signals:
     void rotated();
@@ -78,8 +76,8 @@ private:
     void updateMenuContents();
     void updateContent();
     void updateTopTipsRect();
-    bool allInAlbum(const QStringList &names, const QString &album);
-    void popupDelDialog(const QStringList paths, const QStringList names);
+    bool allInAlbum(const QStringList &paths, const QString &album);
+    void popupDelDialog(const QStringList &dpaths, const QStringList &epaths);
 
     QJsonObject createAlbumMenuObj();
     QString createMenuContent();

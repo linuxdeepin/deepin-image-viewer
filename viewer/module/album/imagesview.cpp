@@ -17,6 +17,7 @@
 #include <QFileInfo>
 #include <QStandardItem>
 #include <QStackedWidget>
+#include <QtConcurrent>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <math.h>
@@ -27,14 +28,6 @@ const int TOP_TOOLBAR_HEIGHT = 40;
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 const QString MY_FAVORITES_ALBUM = "My favorites";
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
-
-DatabaseManager::ImageInfo genThumbnail(DatabaseManager::ImageInfo &info)
-{
-    using namespace utils::image;
-    auto ni = info;
-    ni.thumbnail = cutSquareImage(getThumbnail(ni.path, true));
-    return ni;
-}
 
 }  // namespace
 
@@ -59,31 +52,10 @@ void ImagesView::setAlbum(const QString &album)
     m_album = album;
 
     m_view->clearData();
-    auto infos = dApp->databaseM->getImageInfosByAlbum(album);
-    const int preloadCount = 100;
+    auto infos = dApp->dbM->getInfosByAlbum(album);
     // Load up to 100 images at initialization to accelerate rendering
-    for (int i = 0; i < qMin(infos.length(), preloadCount); i ++) {
+    for (int i = 0; i < infos.length(); i ++) {
         insertItem(infos[i], false);
-    }
-
-    // The thumbnail is generated in the new thread
-    QList<QFuture<DatabaseManager::ImageInfo>> fl;
-    if (infos.length() >= preloadCount) {
-        for (int i = preloadCount; i < infos.length(); i ++) {
-            fl << QtConcurrent::run(QThreadPool::globalInstance(), genThumbnail, infos[i]);
-        }
-    }
-    if (fl.length() > 0) {
-        QTimer *t = new QTimer(this);
-        connect(t, &QTimer::timeout, this, [=] {
-            if (fl.last().isFinished()) {
-                for (auto f : fl) {
-                    insertItem(f.result(), false);
-                }
-                t->deleteLater();
-            }
-        });
-        t->start(500);
     }
 
     m_topTips->setAlbum(album);
@@ -93,19 +65,9 @@ void ImagesView::setAlbum(const QString &album)
 
 }
 
-bool ImagesView::removeItem(const QString &name)
+void ImagesView::removeItems(const QStringList &paths)
 {
-    const bool state = m_view->removeItem(name);
-
-    m_topTips->setAlbum(m_album);
-    updateContent();
-
-    return state;
-}
-
-void ImagesView::removeItems(const QStringList &names)
-{
-    m_view->removeItems(names);
+    m_view->removeItems(paths);
 
     m_topTips->setAlbum(m_album);
     updateContent();
@@ -130,7 +92,7 @@ void ImagesView::initListView()
             m_view, &ThumbnailListView::updateThumbnails);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
-        const QString path = m_view->itemInfo(index).path;
+        const QString path = m_view->itemInfo(index).path.toUtf8().toPercentEncoding("/");
         emit viewImage(path, QStringList());
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
@@ -151,21 +113,16 @@ void ImagesView::initTopTips()
 
 const QStringList ImagesView::paths()
 {
-    QStringList list;
-    auto infos = dApp->databaseM->getImageInfosByAlbum(m_album);
-    for (int i = 0; i < infos.length(); i ++) {
-        list << infos[i].path;
-    }
-    return list;
+    return dApp->dbM->getPathsByAlbum(m_album);
 }
 
 QString ImagesView::createMenuContent()
 {
-    const QStringList nList = selectedImagesNameList();
-    const QStringList pList = selectedImagesPathList();
-    const int selectedCount = nList.length();
+    const QStringList dPaths = selectedPaths(false);
+    const QStringList ePaths = selectedPaths();
+    const int selectedCount = ePaths.length();
     bool canSave = true;
-    for (QString p : pList) {
+    for (QString p : dPaths) {
         if (! utils::image::imageSupportSave(p)) {
             canSave = false;
             break;
@@ -197,8 +154,7 @@ QString ImagesView::createMenuContent()
     items.append(createMenuItem(IdSeparator, "", true));
 
     if (selectedCount == 1) {
-        if (! dApp->databaseM->imageExistAlbum(nList.first(),
-                                               MY_FAVORITES_ALBUM))
+        if (! dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, ePaths.first()))
             items.append(createMenuItem(IdAddToFavorites,
                 tr("Add to My favorites"), false, "Ctrl+K"));
         else
@@ -206,8 +162,8 @@ QString ImagesView::createMenuContent()
                 tr("Unfavorite"), false, "Ctrl+Shift+K"));
     } else {
         bool addToFavor = false;
-        foreach (const QString &img, nList) {
-            if (!dApp->databaseM->imageExistAlbum(img, MY_FAVORITES_ALBUM)) {
+        for (QString path : ePaths) {
+            if (! dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, path)) {
                 addToFavor = true;
                 break;
             }
@@ -259,16 +215,13 @@ QJsonValue ImagesView::createMenuItem(const MenuItemId id,
                                                  subMenu));
 }
 
-void ImagesView::insertItem(const DatabaseManager::ImageInfo &info, bool update)
+void ImagesView::insertItem(const DBImgInfo &info, bool update)
 {
     using namespace utils::image;
     ThumbnailListView::ItemInfo vi;
-    vi.name = info.name;
-    vi.path = info.path;
-    if (info.thumbnail.isNull())
-        vi.thumb = cutSquareImage(getThumbnail(info.path, true));
-    else
-        vi.thumb = info.thumbnail;
+    vi.name = QByteArray::fromPercentEncoding(info.fileName.toUtf8());
+    vi.path = QByteArray::fromPercentEncoding(info.filePath.toUtf8());
+    vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
 
     m_view->insertItem(vi);
 
@@ -286,86 +239,74 @@ void ImagesView::updateMenuContents()
 
 void ImagesView::onMenuItemClicked(int menuId, const QString &text)
 {
-    const QStringList nList = selectedImagesNameList();
-    const QStringList pList = selectedImagesPathList();
-    if (nList.isEmpty()) {
+    const QStringList ePaths = selectedPaths();
+    if (ePaths.isEmpty()) {
         return;
     }
+    const QStringList dPaths = selectedPaths(false);
 
-    const QStringList viewPaths = (pList.length() == 1) ? paths() : pList;
-    const QString cpath = pList.first();
-    const QString cname = nList.first();
+    const QStringList viewPaths = (ePaths.length() == 1) ? paths() : ePaths;
+    const QString epath = ePaths.first();
+    const QString dpath = dPaths.first();
 
     switch (MenuItemId(menuId)) {
     case IdView:
-        emit viewImage(cpath, viewPaths);
+        emit viewImage(epath, viewPaths);
         break;
     case IdFullScreen:
-        emit viewImage(cpath, viewPaths, true);
+        emit viewImage(epath, viewPaths, true);
         break;
     case IdStartSlideShow:
-        emit startSlideShow(viewPaths, cpath);
+        emit startSlideShow(viewPaths, epath);
         break;
-    case IdAddToAlbum:
-    {
+    case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
-        for (QString name : nList) {
-            const auto info = dApp->databaseM->getImageInfoByName(name);
-            dApp->databaseM->insertImageIntoAlbum(
-                        album, name, utils::base::timeToString(info.time));
-        }
+        dApp->dbM->insertIntoAlbum(album, ePaths);
         break;
     }
-    case IdExport:
-        dApp->exporter->exportImage(selectedImagesPathList());
-        break;
     case IdCopy:
-        utils::base::copyImageToClipboard(pList);
+        utils::base::copyImageToClipboard(dPaths);
         break;
     case IdMoveToTrash: {
-        popupDelDialog(pList, nList);
+        popupDelDialog(dPaths, ePaths);
         break;
     }
-    case IdAddToFavorites: {
-        foreach (QString cname, nList) {
-            const auto info = dApp->databaseM->getImageInfoByName(cname);
-            dApp->databaseM->insertImageIntoAlbum(
-                MY_FAVORITES_ALBUM, cname, utils::base::timeToString(info.time));
-        }
+    case IdAddToFavorites:
+        dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, ePaths);
         updateMenuContents();
         break;
-    }
     case IdRemoveFromFavorites:
-        dApp->databaseM->removeImageFromAlbum(MY_FAVORITES_ALBUM, cname);
+        dApp->dbM->removeFromAlbum(MY_FAVORITES_ALBUM, ePaths);
         updateMenuContents();
         break;
     case IdRemoveFromAlbum:
-        dApp->databaseM->removeImagesFromAlbum(m_album, nList);
+        m_view->removeItems(dPaths);
+        dApp->dbM->removeFromAlbum(m_album, ePaths);
         break;
     case IdRotateClockwise:
         if (m_rotateList.isEmpty()) {
-            m_rotateList = pList;
-            for (QString path : pList) {
+            m_rotateList = dPaths;
+            for (QString path : dPaths) {
                 QtConcurrent::run(this, &ImagesView::rotateImage, path, 90);
             }
         }
         break;
     case IdRotateCounterclockwise:
         if (m_rotateList.isEmpty()) {
-            m_rotateList = pList;
-            for (QString path : pList) {
+            m_rotateList = dPaths;
+            for (QString path : dPaths) {
                 QtConcurrent::run(this, &ImagesView::rotateImage, path, -90);
             }
         }
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(cpath);
+        dApp->wpSetter->setWallpaper(dpath);
         break;
     case IdDisplayInFileManager:
-        utils::base::showInFileManager(cpath);
+        utils::base::showInFileManager(dpath);
         break;
     case IdImageInfo:
-        emit dApp->signalM->showImageInfo(cpath);
+        emit dApp->signalM->showImageInfo(dpath);
         break;
     default:
         break;
@@ -382,12 +323,12 @@ void ImagesView::rotateImage(const QString &path, int degree)
     }
 }
 
-bool ImagesView::allInAlbum(const QStringList &names, const QString &album)
+bool ImagesView::allInAlbum(const QStringList &paths, const QString &album)
 {
-    const QStringList nl = dApp->databaseM->getImageNamesByAlbum(album);
-    for (QString name : names) {
-        // One of name is not in album
-        if (nl.indexOf(name) == -1) {
+    const QStringList pl = dApp->dbM->getPathsByAlbum(album);
+    for (QString path : paths) {
+        // One of path is not in album
+        if (! pl.contains(path)) {
             return false;
         }
     }
@@ -425,25 +366,17 @@ void ImagesView::setIconSize(const QSize &iconSize)
     updateTopTipsRect();
 }
 
-QStringList ImagesView::selectedImagesNameList() const
-{
-    QStringList names;
-    const QList<ThumbnailListView::ItemInfo> infos =
-            m_view->selectedItemInfos();
-    for (ThumbnailListView::ItemInfo info : infos) {
-        names << info.name;
-    }
-
-    return names;
-}
-
-QStringList ImagesView::selectedImagesPathList() const
+QStringList ImagesView::selectedPaths(bool encode) const
 {
     QStringList paths;
-    const QList<ThumbnailListView::ItemInfo> infos =
-            m_view->selectedItemInfos();
+    auto infos = m_view->selectedItemInfos();
     for (ThumbnailListView::ItemInfo info : infos) {
-        paths << info.path;
+        if (encode) {
+            paths << info.path.toUtf8().toPercentEncoding("/");
+        }
+        else {
+            paths << info.path;
+        }
     }
 
     return paths;
@@ -458,8 +391,8 @@ void ImagesView::resizeEvent(QResizeEvent *e)
 void ImagesView::showEvent(QShowEvent *e)
 {
     // For import from timeline update
-    if (count() != dApp->databaseM->getImagesCountByAlbum(m_album)) {
-        const auto infos = dApp->databaseM->getImageInfosByAlbum(m_album);
+    if (count() != dApp->dbM->getImgsCountByAlbum(m_album)) {
+        const auto infos = dApp->dbM->getInfosByAlbum(m_album);
         for (auto info : infos) {
             insertItem(info, false);
         }
@@ -515,16 +448,16 @@ void ImagesView::updateContent()
 
 QJsonObject ImagesView::createAlbumMenuObj()
 {
-    const QStringList albums = dApp->databaseM->getAlbumNameList();
-    const QStringList selectNames = selectedImagesNameList();
+    const QStringList albums = dApp->dbM->getAllAlbumNames();
+    const QStringList selectPaths = selectedPaths();
 
     QJsonArray items;
-    if (! selectNames.isEmpty()) {
+    if (! selectPaths.isEmpty()) {
         for (QString album : albums) {
             if (album == MY_FAVORITES_ALBUM || album == RECENT_IMPORTED_ALBUM) {
                 continue;
             }
-            else if (! allInAlbum(selectNames, album)) {
+            else if (! allInAlbum(selectPaths, album)) {
                 items.append(createMenuItem(IdAddToAlbum, album));
             }
         }
@@ -538,15 +471,15 @@ QJsonObject ImagesView::createAlbumMenuObj()
     return contentObj;
 }
 
-void ImagesView::popupDelDialog(const QStringList paths, const QStringList names) {
-    DeleteDialog* delDialog = new DeleteDialog(paths, false, this);
+void ImagesView::popupDelDialog(const QStringList &dpaths, const QStringList &epaths) {
+    DeleteDialog* delDialog = new DeleteDialog(dpaths, false, this);
     delDialog->show();
     delDialog->moveToCenter();
     connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
         if (index == 1) {
-            removeItems(names);
-            dApp->databaseM->removeImages(names);
-            utils::base::trashFiles(paths);
+            m_view->removeItems(dpaths);
+            dApp->dbM->removeImgInfos(epaths);
+            utils::base::trashFiles(dpaths);
         }
     });
     connect(delDialog, &DeleteDialog::closed,

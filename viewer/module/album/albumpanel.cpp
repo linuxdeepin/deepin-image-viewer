@@ -3,7 +3,7 @@
 #include "createalbumdialog.h"
 #include "importdirdialog.h"
 #include "controller/configsetter.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include "controller/importer.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
@@ -16,6 +16,7 @@
 #include <QDebug>
 #include <QDropEvent>
 #include <QFileInfo>
+#include <QMimeData>
 #include <QPointer>
 #include <QPushButton>
 
@@ -155,10 +156,10 @@ void AlbumPanel::initConnection()
     connect(dApp->signalM, &SignalManager::importDir,
             this, &AlbumPanel::showImportDirDialog);
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [=] {
-        onImageCountChanged(dApp->databaseM->imageCount());
+        onImageCountChanged(dApp->dbM->getImgsCount());
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=] {
-        onImageCountChanged(dApp->databaseM->imageCount());
+        onImageCountChanged(dApp->dbM->getImgsCount());
     });
     connect(dApp->signalM, &SignalManager::gotoAlbumPanel,
             this, [=] (const QString &album) {
@@ -302,9 +303,8 @@ void AlbumPanel::initMainStackWidget()
     m_stackWidget->addWidget(m_albumsView);
     m_stackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
-    m_stackWidget->setCurrentIndex((dApp->databaseM->imageCount() > 0 ||
-                                    dApp->databaseM->albumsCount() > 1)? 1 : 0);
-
+    m_stackWidget->setCurrentIndex((dApp->dbM->getImgsCount() > 0 ||
+                                    dApp->dbM->getAlbumsCount() > 1) ? 1 : 0);
     connect(m_stackWidget, &QStackedWidget::currentChanged, this, [=] {
         updateImagesCount(true);
         updateAlbumCount();
@@ -363,23 +363,18 @@ void AlbumPanel::initImagesView()
     connect(dApp->signalM, &SignalManager::insertIntoAlbum,
             this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
     connect(dApp->signalM, &SignalManager::removedFromAlbum,
-            this, [=] (const QString &album, const QStringList &names) {
+            this, [=] (const QString &album, const QStringList &paths) {
         if (album == m_imagesView->getCurrentAlbum())
-            m_imagesView->removeItems(names);
+            m_imagesView->removeItems(paths);
         updateImagesCount();
     });
-    connect(dApp->importer, &Importer::importProgressChanged, this, [=] (double v) {
-        if (v == 1) {
-            auto infos = dApp->databaseM->getAllImageInfos();
-            QStringList names = dApp->databaseM->getImageNamesByAlbum(m_currentAlbum);
-            for (auto info : infos) {
-                // The albums read from ImageTable is old
-                // Read DB one to improve the speed
-                if (names.contains(info.name)) {
-                    info.albums = QStringList(m_currentAlbum);
-                    onInsertIntoAlbum(info);
-                }
-            }
+    connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
+        if (! success) {
+            return;
+        }
+        auto infos = dApp->dbM->getInfosByAlbum(m_currentAlbum);
+        for (auto info : infos) {
+            onInsertIntoAlbum(info);
         }
     });
 }
@@ -407,7 +402,7 @@ void AlbumPanel::updateImagesCount(bool fromDB)
 
     int count;
     if (fromDB)
-        count = dApp->databaseM->getImagesCountByAlbum(m_currentAlbum);
+        count = dApp->dbM->getImgsCountByAlbum(m_currentAlbum);
     else
         count = m_imagesView->count();
     QString text = QString::number(count) + " " +
@@ -431,7 +426,7 @@ void AlbumPanel::updateAlbumCount()
     if (m_stackWidget->currentWidget() == m_imagesView)
         return;
 
-    const int count = dApp->databaseM->albumsCount();
+    const int count = dApp->dbM->getAlbumsCount();
     QString text = QString::number(count) + " " +
             (count <= 1 ? tr("album") : tr("albums"));
     m_countLabel->setText(text);
@@ -499,7 +494,7 @@ void AlbumPanel::onImageCountChanged(int count)
 {
     if (! isVisible())
         return;
-     const int albumCounts = dApp->databaseM->albumsCount();
+    const int albumCounts = dApp->dbM->getAlbumsCount();
     if (count > 0 && m_stackWidget->currentIndex() == 0) {
         m_stackWidget->setCurrentIndex(1);
     }
@@ -511,11 +506,11 @@ void AlbumPanel::onImageCountChanged(int count)
     updateImagesCount();
 }
 
-void AlbumPanel::onInsertIntoAlbum(const DatabaseManager::ImageInfo info)
+void AlbumPanel::onInsertIntoAlbum(const DBImgInfo info)
 {
     // No need to update view if importing in others panel, improve performance
     if (m_imagesView->isVisible()
-            && info.albums.contains(m_imagesView->getCurrentAlbum())) {
+            /*&& dApp->dbM->getPathsByAlbum(m_imagesView->getCurrentAlbum()).contains(info.filePath)*/) {// FIXME
         m_imagesView->insertItem(info);
         updateImagesCount();
     }
@@ -547,6 +542,6 @@ void AlbumPanel::showEvent(QShowEvent *e)
 {
     // Make sure BottomContent have been init
     emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
-    onImageCountChanged(dApp->databaseM->imageCount());
+    onImageCountChanged(dApp->dbM->getImgsCount());
     ModulePanel::showEvent(e);
 }

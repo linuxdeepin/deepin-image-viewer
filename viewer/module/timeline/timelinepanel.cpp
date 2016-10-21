@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QDropEvent>
 #include <QLabel>
+#include <QMimeData>
 #include <QStackedWidget>
 #include <QUrl>
 #include <QVBoxLayout>
@@ -79,7 +80,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
 
     m_countLabel = new QLabel;
     m_countLabel->setObjectName("CountLabel");
-    updateBottomToolbarContent(dApp->databaseM->imageCount());
+    updateBottomToolbarContent(dApp->dbM->getImgsCount());
 
     ImageButton *ib = new ImageButton;
     ib->setToolTip(tr("Import"));
@@ -204,21 +205,21 @@ void TimelinePanel::showPanelEvent(ModulePanel *p)
 
 void TimelinePanel::initConnection()
 {
-    connect(dApp->importer, &Importer::importProgressChanged,
-            this, [=] (double v) {
-        if (v == 1) {
-            auto infos = dApp->databaseM->getAllImageInfos();
-            for (auto info : infos) {
-                m_view->onImageInserted(info);
-            }
-            onImageCountChanged(dApp->databaseM->imageCount());
+    connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
+        if (! success) {
+            return;
         }
+        auto infos = dApp->dbM->getAllInfos();
+        for (auto info : infos) {
+            m_view->onImageInserted(info);
+        }
+        onImageCountChanged(dApp->dbM->getImgsCount());
     });
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [=] {
-        onImageCountChanged(dApp->databaseM->imageCount());
+        onImageCountChanged(dApp->dbM->getImgsCount());
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=] {
-        onImageCountChanged(dApp->databaseM->imageCount());
+        onImageCountChanged(dApp->dbM->getImgsCount());
     });
     connect(dApp->signalM, &SignalManager::gotoTimelinePanel, this, [=] {
         emit dApp->signalM->gotoPanel(this);
@@ -241,7 +242,7 @@ void TimelinePanel::initMainStackWidget()
     m_mainStack->addWidget(frame);
     m_mainStack->addWidget(m_view);
     //show import frame if no images in database
-    m_mainStack->setCurrentIndex(dApp->databaseM->imageCount() > 0 ? 1 : 0);
+    m_mainStack->setCurrentIndex(dApp->dbM->getImgsCount() > 0 ? 1 : 0);
 
     QLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -252,12 +253,6 @@ void TimelinePanel::initImagesView()
 {
     m_view = new TimelineImageView;
     m_view->setAcceptDrops(true);
-    connect(m_view, &TimelineImageView::showMenuRequested, this, [=] {
-        updateMenuContents();
-        m_popupMenu->showMenu();
-    });
-    connect(m_view, &TimelineImageView::updateMenuRequested,
-            this, &TimelinePanel::updateMenuContents);
     connect(m_view, &TimelineImageView::viewImage,
             this, [=] (const QString &path, const QStringList &paths){
         SignalManager::ViewInfo vinfo;
@@ -266,6 +261,12 @@ void TimelinePanel::initImagesView()
         vinfo.paths = paths;
         emit dApp->signalM->viewImage(vinfo);
     });
+    connect(m_view, &TimelineImageView::showMenuRequested, this, [=] {
+        updateMenuContents();
+        m_popupMenu->showMenu();
+    });
+    connect(m_view, &TimelineImageView::updateMenuRequested,
+            this, &TimelinePanel::updateMenuContents);
 }
 
 void TimelinePanel::initStyleSheet()

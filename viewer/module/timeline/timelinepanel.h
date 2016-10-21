@@ -2,7 +2,6 @@
 #define TIMELINEPANEL_H
 
 #include "module/modulepanel.h"
-#include "controller/databasemanager.h"
 
 class QLabel;
 class QStackedWidget;
@@ -37,14 +36,12 @@ private:
 
     void updateBottomToolbarContent(int count);
     void onImageCountChanged(int count);
-
     QJsonObject createAlbumMenuObj();
     QString createMenuContent();
     void onMenuItemClicked(int menuId, const QString &text);
-    void popupDelDialog(const QStringList paths, const QStringList names);
+    void popupDelDialog(const QStringList &dpaths, const QStringList &epaths);
     void rotateImage(const QString &path, int degree);
     void updateMenuContents();
-
 private:
     PopupMenuManager    *m_popupMenu;
     QLabel              *m_countLabel;

@@ -1,6 +1,6 @@
 #include "application.h"
 #include "createalbumdialog.h"
-#include "controller/databasemanager.h"
+#include "controller/dbmanager.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -78,7 +78,7 @@ void CreateAlbumDialog::keyPressEvent(QKeyEvent *e)
 const QString CreateAlbumDialog::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
-    const QStringList albums = dApp->databaseM->getAlbumNameList();
+    const QStringList albums = dApp->dbM->getAllAlbumNames();
     QList<int> countList;
     for (QString album : albums) {
         if (album.startsWith(nan)) {
@@ -111,11 +111,11 @@ const QString CreateAlbumDialog::getNewAlbumName() const
 
 void CreateAlbumDialog::createAlbum(const QString &newName)
 {
-    if (dApp->databaseM->getAlbumNameList().indexOf(newName) == -1) {
-        dApp->databaseM->insertImageIntoAlbum(newName, "", "");
+    if (! dApp->dbM->getAllAlbumNames().contains(newName)) {
+        dApp->dbM->insertIntoAlbum(newName, QStringList());
     }
     else {
-        dApp->databaseM->insertImageIntoAlbum(getNewAlbumName(), "", "");
+        dApp->dbM->insertIntoAlbum(getNewAlbumName(), QStringList());
     }
 
     emit finishedAddAlbum();
