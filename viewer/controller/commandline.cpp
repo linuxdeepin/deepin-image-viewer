@@ -3,18 +3,20 @@
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
+#include "service/deepinimageviewerdbus.h"
 #include "frame/mainwindow.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include <QCommandLineOption>
 #include <QDBusConnection>
+#include <QDesktopWidget>
 #include <QDebug>
 #include <QFileInfo>
 
 namespace {
 
-const QString DBUS_PATH = "/com/deepin/deepinimageviewer";
-const QString DBUS_NAME = "com.deepin.deepinimageviewer";
+const QString DBUS_PATH = "/com/deepin/DeepinImageViewer";
+const QString DBUS_NAME = "com.deepin.DeepinImageViewer";
 
 }
 
@@ -128,6 +130,12 @@ bool CommandLine::processOption()
             return true;
         }
         else {
+            DIVDBusController().activeWindow();
+            //delay 1 second to exit process
+            QTimer::singleShot(1000, [=]{
+                dApp->quit();
+            });
+
             qDebug() << "Deepin Image Viewer is running...";
             return false;
         }
@@ -197,38 +205,4 @@ bool CommandLine::processOption()
 
         return false;
     }
-}
-
-DeepinImageViewerDBus::DeepinImageViewerDBus(QObject *parent)
-    : QDBusAbstractAdaptor(parent)
-{
-
-}
-
-DeepinImageViewerDBus::~DeepinImageViewerDBus()
-{
-
-}
-
-void DeepinImageViewerDBus::backToMainWindow() const
-{
-    emit dApp->signalM->backToMainPanel();
-}
-
-void DeepinImageViewerDBus::enterAlbum(const QString &album)
-{
-    qDebug() << "Enter the album: " << album;
-    // TODO
-}
-
-void DeepinImageViewerDBus::searchImage(const QString &keyWord)
-{
-    qDebug() << "Go to search view and search image by: " << keyWord;
-    // TODO
-}
-
-void DeepinImageViewerDBus::editImage(const QString &path)
-{
-    qDebug() << "Go to edit view and begin editing: " << path;
-    emit dApp->signalM->editImage(path);
 }

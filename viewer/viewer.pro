@@ -63,7 +63,7 @@ manual_icon.files = doc/common/deepin-image-viewer.svg
 app_icon.path = $$APPICONDIR
 app_icon.files = resources/images/logo/deepin-image-viewer.svg
 
-dbus_service.files += com.deepin.deepinimageviewer.service
+dbus_service.files += com.deepin.DeepinImageViewer.service
 dbus_service.path = /usr/share/dbus-1/services
 
 # Automating generation .qm files from .ts files
@@ -75,3 +75,6 @@ translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
 INSTALLS = target desktop dbus_service icons manual manual_icon app_icon translations
+
+DISTFILES += \
+    com.deepin.DeepinImageViewer.service
