@@ -7,11 +7,15 @@
 #include <controller/exporter.h>
 #include <controller/popupmenumanager.h>
 #include <controller/wallpapersetter.h>
+#include <controller/popupdialogmanager.h>
 #include <utils/baseutils.h>
 #include <utils/imageutils.h>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QShortcut>
+
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
 
 namespace {
 
@@ -23,6 +27,7 @@ const QString FAVORITES_ALBUM_NAME = "My favorites";
 enum MenuItemId {
     IdFullScreen,
     IdStartSlideShow,
+    IdPrint,
     IdAddToAlbum,
     IdExport,
     IdCopy,
@@ -78,6 +83,7 @@ const QString ViewPanel::createMenuContent()
 
     createMI(&items, IdFullScreen, (window()->isFullScreen() ? tr("Exit fullscreen") : tr("Fullscreen")), "F11");
     createMI(&items, IdStartSlideShow, tr("Start slide show"), "F5");
+    createMI(&items, IdPrint, tr("Print"), "Ctrl+P");
     if (m_vinfo.inDatabase) {
         const QJsonObject objF = createAlbumMenuObj(false);
         if (! objF.isEmpty()) {
@@ -196,6 +202,11 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         vinfo.path = path;
         vinfo.paths = paths();
         emit dApp->signalM->startSlideShow(vinfo);
+        break;
+    }
+    case IdPrint: {
+        using namespace controller::popup;
+        printDialog(dPath);
         break;
     }
     case IdAddToAlbum:

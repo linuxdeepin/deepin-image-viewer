@@ -49,6 +49,7 @@ private:
         IdView,
         IdFullScreen,
         IdStartSlideShow,
+        IdPrint,
         IdAddToAlbum,
         IdExport,
         IdCopy,

@@ -55,6 +55,8 @@ private:
     void initStyleSheet();
     void initViewContent();
     void popupDelDialog(const QString path);
+    void popupPrintDialog(const QString path);
+
     // Floating component
     void initFloatingComponent();
     void initSwitchButtons();
