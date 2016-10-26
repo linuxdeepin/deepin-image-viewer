@@ -2,6 +2,7 @@
 #define SVGVIEW_H
 
 #include <QGraphicsView>
+#include <QFutureWatcher>
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -9,6 +10,7 @@ class QPaintEvent;
 class QFile;
 class GraphicsMovieItem;
 class QGraphicsSvgItem;
+class QThreadPool;
 QT_END_NAMESPACE
 
 class ImageView : public QGraphicsView
@@ -46,6 +48,7 @@ public:
 signals:
     void clicked();
     void doubleClicked();
+    void imageChanged(QString path);
     void mouseHoverMoved();
     void scaled(qreal perc);
     void transformChanged();
@@ -62,11 +65,16 @@ protected:
     void dragEnterEvent(QDragEnterEvent *e) Q_DECL_OVERRIDE;
     void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
 
+private slots:
+    void onCacheFinish();
+
 private:
     bool m_isFitImage;
     bool m_isFitWindow;
     RendererType m_renderer;
+    QFutureWatcher<QVariantList> m_watcher;
     QString m_path;
+    QThreadPool *m_pool;
 
     QGraphicsSvgItem *m_svgItem;
     GraphicsMovieItem *m_movieItem;

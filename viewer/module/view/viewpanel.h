@@ -91,7 +91,6 @@ private slots:
     void resetImageGeometry();
 
 private:
-    int m_openTid;
     int m_hideCursorTid;
 
     bool m_isMaximized;

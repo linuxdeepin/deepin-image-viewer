@@ -12,6 +12,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPaintEvent>
 #include <QSvgRenderer>
+#include <QtConcurrent>
 #include <qmath.h>
 
 #ifndef QT_NO_OPENGL
@@ -26,11 +27,20 @@ const QColor BACKGROUND_COLOR = QColor("#1B1B1B");
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
 
+QVariantList cachePixmap(const QString &path)
+{
+    QPixmap p = QPixmap::fromImage(utils::image::getRotatedImage(path));
+    QVariantList vl;
+    vl << QVariant(path) << QVariant(p);
+    return vl;
+}
+
 }
 
 ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
+    , m_pool(new QThreadPool())
     , m_svgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
@@ -44,6 +54,8 @@ ImageView::ImageView(QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    connect(&m_watcher, SIGNAL(finished()), this, SLOT(onCacheFinish()));
+    m_pool->setMaxThreadCount(1);
     // TODO
     //    QPixmap pm(12, 12);
     //    QPainter pmp(&pm);
@@ -67,13 +79,11 @@ void ImageView::setImage(const QString &path)
     m_path = path;
     QGraphicsScene *s = scene();
 
-    s->clear();
-    m_movieItem = nullptr;
-    m_pixmapItem = nullptr;
-    m_svgItem = nullptr;
-    resetTransform();
-
     if (QSvgRenderer().load(path)) {
+        m_movieItem = nullptr;
+        m_pixmapItem = nullptr;
+        s->clear();
+        resetTransform();
         m_svgItem = new QGraphicsSvgItem(path);
         m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
         m_svgItem->setCacheMode(QGraphicsItem::NoCache);
@@ -81,23 +91,28 @@ void ImageView::setImage(const QString &path)
         // Make sure item show in center of view after reload
         setSceneRect(m_svgItem->boundingRect());
         s->addItem(m_svgItem);
+        emit imageChanged(path);
     }
     else {
+        m_svgItem = nullptr;
         // Support gif and mng
         if (QMovie(path).frameCount() > 1) {
+            m_pixmapItem = nullptr;
+            s->clear();
+            resetTransform();
             m_movieItem = new GraphicsMovieItem(path);
             m_movieItem->start();
             // Make sure item show in center of view after reload
             setSceneRect(m_movieItem->boundingRect());
             s->addItem(m_movieItem);
+            emit imageChanged(path);
         }
         else {
-            m_pixmapItem = new QGraphicsPixmapItem(
-                        QPixmap::fromImage(utils::image::getRotatedImage(path)));
-            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-            // Make sure item show in center of view after reload
-            setSceneRect(m_pixmapItem->boundingRect());
-            s->addItem(m_pixmapItem);
+            m_movieItem = nullptr;
+            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
+            if (m_watcher.isFinished()) {
+                m_watcher.setFuture(f);
+            }
         }
     }
 }
@@ -305,6 +320,26 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
     painter->save();
     painter->fillRect(rect, BACKGROUND_COLOR);
     painter->restore();
+}
+
+void ImageView::onCacheFinish()
+{
+    QVariantList vl = m_watcher.result();
+    if (vl.length() == 2) {
+        const QString path = vl.first().toString();
+        QPixmap pixmap = vl.last().value<QPixmap>();
+        if (path == m_path) {
+            scene()->clear();
+            resetTransform();
+            m_pixmapItem = new QGraphicsPixmapItem(pixmap);
+            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+            // Make sure item show in center of view after reload
+            setSceneRect(m_pixmapItem->boundingRect());
+            scene()->addItem(m_pixmapItem);
+            fitWindow();
+            emit imageChanged(path);
+        }
+    }
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)

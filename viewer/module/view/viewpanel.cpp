@@ -28,14 +28,12 @@ using namespace Dtk::Widget;
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
-const int OPEN_IMAGE_DELAY_INTERVAL = 500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 
 }  // namespace
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
-    , m_openTid(0)
     , m_hideCursorTid(0)
     , m_viewB(nullptr)
     , m_info(nullptr)
@@ -294,14 +292,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() == m_openTid) {
-        if (! m_infos.isEmpty() && m_current != m_infos.cend()) {
-            openImage(m_current->filePath, m_vinfo.inDatabase);
-            killTimer(m_openTid);
-            m_openTid = 0;
-        }
-    }
-    else if (e->timerId() == m_hideCursorTid) {
+    if (e->timerId() == m_hideCursorTid) {
         dApp->setOverrideCursor(Qt::BlankCursor);
     }
 
@@ -391,8 +382,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
     }
 
-    TIMER_SINGLESHOT(OPEN_IMAGE_DELAY_INTERVAL,
-    {openImage(m_current->filePath);}, this)
+    openImage(m_current->filePath);
 }
 
 void ViewPanel::toggleFullScreen()
@@ -417,8 +407,7 @@ bool ViewPanel::showPrevious()
         m_current = m_infos.cend();
     --m_current;
 
-    killTimer(m_openTid);
-    m_openTid = startTimer(m_openTid == 0 ? 0 : OPEN_IMAGE_DELAY_INTERVAL);
+    openImage(m_current->filePath, m_vinfo.inDatabase);
     return true;
 }
 
@@ -432,9 +421,7 @@ bool ViewPanel::showNext()
     if (m_current == m_infos.cend())
         m_current = m_infos.cbegin();
 
-    //SKILL: start timer in timerEvent may failed
-    killTimer(m_openTid);
-    m_openTid = startTimer(m_openTid == 0 ? 0 : OPEN_IMAGE_DELAY_INTERVAL);
+    openImage(m_current->filePath, m_vinfo.inDatabase);
     return true;
 }
 
@@ -552,6 +539,7 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::clicked, this, [=] {
         dApp->signalM->hideExtensionPanel();
     });
+    connect(m_viewB, &ImageView::imageChanged, this, &ViewPanel::imageChanged);
 }
 
 void ViewPanel::openImage(const QString &path, bool inDB)
@@ -581,8 +569,6 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
 
     m_stack->setCurrentIndex(0);
-
-    emit imageChanged(path);
 
     if (inDB) {
         emit updateCollectButton();
