@@ -523,6 +523,10 @@ const QSqlDatabase DBManager::getDatabase() const
 
 void DBManager::checkDatabase()
 {
+    QDir dd(DATABASE_PATH);
+    if (! dd.exists()) {
+        dd.mkpath(DATABASE_PATH);
+    }
     const QSqlDatabase db = getDatabase();
     if (! db.isValid()) {
         return;
