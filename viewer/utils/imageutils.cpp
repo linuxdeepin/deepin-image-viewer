@@ -66,8 +66,9 @@ bool imageSupportRead(const QString &path)
 
     if (freeimage::isSupportsReading(path))
         return true;
-    else
-        return QSvgRenderer().load(path);
+    else {
+        return (suffix == "svg");
+    }
 }
 
 bool imageSupportSave(const QString &path)
@@ -217,7 +218,6 @@ const QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
  */
 const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 {
-
     QFileInfoList infos;
 
     if (! recursive) {

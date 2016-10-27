@@ -274,7 +274,9 @@ void AlbumPanel::dropEvent(QDropEvent *event)
             files << path;
         }
     }
-    dApp->importer->importFiles(files, withAlbum ? m_currentAlbum : "");
+    if (! files.isEmpty()) {
+        dApp->importer->importFiles(files, withAlbum ? m_currentAlbum : "");
+    }
 }
 
 void AlbumPanel::dragEnterEvent(QDragEnterEvent *event)

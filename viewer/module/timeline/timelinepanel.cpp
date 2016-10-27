@@ -183,7 +183,9 @@ void TimelinePanel::dropEvent(QDropEvent *event)
                 files << path;
             }
         }
-        dApp->importer->importFiles(files);
+        if (! files.isEmpty()) {
+            dApp->importer->importFiles(files);
+        }
     }
 }
 

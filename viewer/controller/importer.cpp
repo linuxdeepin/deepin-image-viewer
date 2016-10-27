@@ -31,6 +31,7 @@ void Importer::showImportDialog(const QString &album)
                 nullptr, tr("Open Directory"), QDir::homePath(),
                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
+    if (dir.isEmpty()) return;
     importDir(dir, album);
 }
 
