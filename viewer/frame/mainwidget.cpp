@@ -185,6 +185,11 @@ void MainWidget::initConnection()
             }
         }
     });
+    connect(dApp->signalM, &SignalManager::activeWindow, this, [=]{
+        window()->raise();
+        window()->activateWindow();
+    });
+
     connect(dApp->signalM, &SignalManager::gotoPanel,
             this, &MainWidget::onGotoPanel);
     connect(dApp->signalM, &SignalManager::showInFileManager,

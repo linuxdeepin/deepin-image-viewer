@@ -39,6 +39,7 @@ signals:
     void gotoSearchPanel(const QString &keyWord = "");
     void gotoPanel(ModulePanel* panel);
     void backToMainPanel();
+    void activeWindow();
 
     void imagesInserted(const DBImgInfoList infos);
     void imagesRemoved(const QStringList &names);

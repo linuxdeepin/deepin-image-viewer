@@ -43,6 +43,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 //    QHBoxLayout *l = new QHBoxLayout(this);
 //    l->setContentsMargins(0, 0, 0, 0);
 //    l->addWidget(m_mainWidget);
+
 }
 
 void MainWindow::moveFirstWindow() {
