@@ -12,6 +12,7 @@
 
 namespace controller {
     namespace popup {
+        //begin define print dialog
         bool printDialog(const QString imgPath) {
             QPrinter printer(QPrinter::ScreenResolution);
             printer.setOutputFormat(QPrinter::PdfFormat);
@@ -42,5 +43,6 @@ namespace controller {
             qDebug() << "print failed!";
             return false;
         }
+        //end define print dialog
     }
 }

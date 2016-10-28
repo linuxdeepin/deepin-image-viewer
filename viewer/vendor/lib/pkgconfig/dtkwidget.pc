@@ -1,0 +1,13 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/home/ph/Team/deepin-image-viewer/viewer/vendor/lib
+includedir=/home/ph/Team/deepin-image-viewer/viewer/vendor/include/libdtk-1.0/DWidget
+
+
+Name: DTK_WIDGET
+Description: Deepin Tool Kit UI Module
+Version: 1.0
+Libs: -L${libdir} -ldtkwidget 
+Libs.private: -L/usr/X11R6/lib64 -L/home/ph/Team/deepin-image-viewer/viewer/vendor/src/deepin-tool-kit/build/dwidget/../dbase/ -L/home/ph/Team/deepin-image-viewer/viewer/vendor/src/deepin-tool-kit/build/dwidget/../dutil/ -ldtkutil -L/home/ph/Team/deepin-image-viewer/viewer/vendor/src/deepin-tool-kit/build/dutil/../dbase/ -ldtkbase -lxcb-util -lxcb -lstartup-notification-1 -lQt5MultimediaWidgets -lQt5Multimedia -lQt5Widgets -lQt5PlatformSupport -lfontconfig -lfreetype -lgthread-2.0 -pthread -lglib-2.0 -lXrender -lXext -lX11 -lm -linput -lxkbcommon -ludev -lmtdev -lEGL -lQt5X11Extras -lQt5Gui -lQt5Network -lQt5DBus -lQt5Core -lGL -lpthread   
+Cflags: -I${includedir}
+

@@ -40,7 +40,6 @@ bool        writeTextFile(QString filePath, QString content);
 
 bool        trashFile(const QString &file);
 bool        trashFiles(const QStringList &files);
-
 }  // namespace base
 
 }  // namespace utils

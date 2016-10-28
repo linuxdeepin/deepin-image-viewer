@@ -9,7 +9,8 @@ HEADERS += \
     $$PWD/exporter.h \
     $$PWD/globaleventfilter.h \
     $$PWD/dbmanager.h \
-    $$PWD/popupdialogmanager.h
+    $$PWD/popupdialogmanager.h \
+    $$PWD/volumemonitor.h
 
 SOURCES += \
     $$PWD/importer.cpp \
@@ -22,4 +23,5 @@ SOURCES += \
     $$PWD/exporter.cpp \
     $$PWD/globaleventfilter.cpp \
     $$PWD/dbmanager.cpp \
-    $$PWD/popupdialogmanager.cpp
+    $$PWD/popupdialogmanager.cpp \
+    $$PWD/volumemonitor.cpp

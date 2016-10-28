@@ -5,6 +5,7 @@
 #include "extensionpanel.h"
 #include "toptoolbar.h"
 #include "controller/signalmanager.h"
+#include "controller/volumemonitor.h"
 #include <QFrame>
 #include <QStackedWidget>
 
@@ -24,6 +25,8 @@ private slots:
     void onImported(const QString &message, bool success);
     void onShowImageInfo(const QString &path);
 
+    void localImagesMonitor();
+    void mountDeviceMonitor();
 private:
     void initBottomToolbar();
     void initExtensionPanel();
