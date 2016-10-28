@@ -179,12 +179,12 @@ void TimelinePanel::dropEvent(QDropEvent *event)
                 // Need popup AlbumCreate dialog
                 emit dApp->signalM->importDir(path);
             }
-            else if (utils::image::imageSupportRead(path)) {
+            else {
                 files << path;
             }
         }
         if (! files.isEmpty()) {
-            dApp->importer->importFiles(files);
+            dApp->importer->appendFiles(files);
         }
     }
 }
@@ -211,14 +211,14 @@ void TimelinePanel::initConnection()
         if (! success) {
             return;
         }
-        auto infos = dApp->dbM->getAllInfos();
-        for (auto info : infos) {
-            m_view->onImageInserted(info);
-        }
+        m_view->insertReadyFrames();
         onImageCountChanged(dApp->dbM->getImgsCount());
     });
+    qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [=] {
-        onImageCountChanged(dApp->dbM->getImgsCount());
+        if (! m_view->isEmpty()) {
+            onImageCountChanged(dApp->dbM->getImgsCount());
+        }
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=] {
         onImageCountChanged(dApp->dbM->getImgsCount());

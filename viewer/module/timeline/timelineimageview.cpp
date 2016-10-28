@@ -13,6 +13,7 @@
 #include <QScrollBar>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QtConcurrent>
 
 namespace {
 
@@ -59,20 +60,6 @@ void TimelineImageView::clearImages()
         delete frame;
     }
     m_frames.clear();
-}
-
-void TimelineImageView::onImageInserted(const DBImgInfo &info)
-{
-    const QString timeLine = utils::base::timeToString(info.time, true);
-    // TimeLine frame not exist, create one
-    // Note: use m_frames.keys().indexOf(timeLine) will cause[QObject::connect:
-    //       Cannot queue arguments of type 'QList<QPersistentModelIndex>']
-    //       and I do not know why.
-    if (m_frames[timeLine] == nullptr) {
-        inserFrame(timeLine);
-        m_frames[timeLine]->setIconSize(m_iconSize);
-    }
-    m_frames[timeLine]->insertItem(info);
 }
 
 void TimelineImageView::clearSelection()
@@ -200,24 +187,6 @@ void TimelineImageView::initContents()
     setWidget(m_contentFrame);
 }
 
-void TimelineImageView::insertReadyFrames()
-{
-    if (! isVisible() || ! m_frames.isEmpty()) {
-        return;
-    }
-
-    const auto infos = dApp->dbM->getAllInfos();
-    for (int i = 0; i < infos.length(); i ++) {
-        onImageInserted(infos[i]);
-    }
-
-    const int iconSize = dApp->setter->value(
-                SETTINGS_GROUP,
-                SETTINGS_ICON_SCALE_KEY,
-                QVariant(0)).toInt() * 32 + MIN_ICON_SIZE;
-    setIconSize(QSize(iconSize, iconSize));
-}
-
 bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
@@ -227,7 +196,7 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
 //        QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
     }
     else if (e->type() == QEvent::Show && m_frames.isEmpty()) {
-        TIMER_SINGLESHOT(100, {insertReadyFrames();}, this)
+        insertReadyFrames();
     }
     else if (e->type() == QEvent::Resize ||
              e->type() == QEvent::WindowActivate ||
@@ -246,7 +215,34 @@ QList<T> reversed( const QList<T> & in ) {
     return result;
 }
 
-void TimelineImageView::inserFrame(const QString &timeline)
+void TimelineImageView::insertReadyFrames()
+{
+    if (! isVisible() || ! m_frames.isEmpty()) {
+        return;
+    }
+
+    const auto infos = dApp->dbM->getAllInfos();
+    using namespace utils::base;
+    QString currentTL = "";
+    DBImgInfoList currentInfos;
+    for (auto info : infos) {
+        const QString tl = timeToString(info.time);
+        if (tl != currentTL) {
+            if (! currentTL.isEmpty()) {
+                if (m_frames[currentTL] == nullptr) {
+                    insertFrame(currentTL);
+                }
+                qRegisterMetaType<QVector<int>>("QVector<int>");
+                QtConcurrent::run(m_frames[currentTL], &TimelineViewFrame::insertItems, currentInfos);
+            }
+            currentTL = tl;
+            currentInfos.clear();
+        }
+        currentInfos << info;
+    }
+}
+
+void TimelineImageView::insertFrame(const QString &timeline)
 {
     TimelineViewFrame *frame = new TimelineViewFrame(timeline, this);
     connect(frame, &TimelineViewFrame::singleClicked, this, [=] (QMouseEvent *e){
@@ -270,6 +266,12 @@ void TimelineImageView::inserFrame(const QString &timeline)
             this, &TimelineImageView::viewImage);
     connect(verticalScrollBar(), &QScrollBar::valueChanged,
             frame, &TimelineViewFrame::updateThumbnails);
+
+    const int iconSize = dApp->setter->value(
+                SETTINGS_GROUP,
+                SETTINGS_ICON_SCALE_KEY,
+                QVariant(0)).toInt() * 32 + MIN_ICON_SIZE;
+    frame->setIconSize(QSize(iconSize, iconSize));
 
     m_frames.insert(timeline, frame);
     QStringList timelines = m_frames.keys();

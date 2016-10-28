@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QPixmapCache>
+#include <QStandardItemModel>
 
 namespace {
 
@@ -96,7 +97,10 @@ QSize ThumbnailDelegate::sizeHint(const QStyleOptionViewItem &option,
                               const QModelIndex &index) const
 {
     Q_UNUSED(option)
-    return index.model()->data(index, Qt::SizeHintRole).toSize();
+    if (! m_isDataLocked)
+        return index.model()->data(index, Qt::SizeHintRole).toSize();
+    else
+        return QSize(96, 96);
 }
 
 ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index) const
@@ -114,5 +118,10 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     }
 
     return data;
+}
+
+void ThumbnailDelegate::setIsDataLocked(bool value)
+{
+    m_isDataLocked = value;
 }
 

@@ -184,43 +184,42 @@ void TopToolbar::initWidgets()
     importProgressWidget->setArrowHeight(9);
 
     ProgressWidgetsTips* progressWidgetTips = new ProgressWidgetsTips;
-    progressWidgetTips->setTitle(tr("Importing images"));
+    progressWidgetTips->setTitle(tr("Collecting information"));
     progressWidgetTips->setTips(
-                QString(tr("%1 images imported, please wait")).arg(0));
-//    connect(dApp->importer, &Importer::importProgressChanged,
-//            [=](double per) {
-//        progressWidgetTips->setValue(int(per*100));
-//        progressWidgetTips->setTips(
-//                    QString(tr("%1 images imported, please wait"))
-//                    .arg(dApp->importer->finishedCount()));
-//    });
-//    connect(progressWidgetTips, &ProgressWidgetsTips::stopProgress, [=]{
-//        dApp->importer->stopImport();
-//        importProgressWidget->hide();
-//    });
+                QString(tr("%1 folders has been collected, please wait")).arg(0));
+    connect(dApp->importer, &Importer::progressChanged,
+            [=](double per, int count) {
+        progressWidgetTips->setValue(int(per*100));
+        progressWidgetTips->setTips(
+                    QString(tr("%1 folders has been collected, please wait"))
+                    .arg(count));
+    });
+    connect(progressWidgetTips, &ProgressWidgetsTips::stopProgress, [=]{
+        dApp->importer->cancel();
+        importProgressWidget->hide();
+    });
 
     importProgressWidget->setContent(progressWidgetTips);
     //importProgress's tooltip end
-//    connect(dApp->importer, &Importer::imported,
-//            this, [=] (double progress) {
-//        importProgress->setVisible(progress != 1);
-//        if (importProgress->isHidden()) {
-//            importProgressWidget->hide();
-//        }
-//        importProgress->setValue(progress * 100);
-//    });
+    connect(dApp->importer, &Importer::progressChanged,
+            this, [=] (double progress) {
+        importProgress->setVisible(progress != 1);
+        if (importProgress->isHidden()) {
+            importProgressWidget->hide();
+        }
+        importProgress->setValue(progress * 100);
+    });
 
-//    connect(importProgress, &DCircleProgress::clicked, [=]{
-//        dApp->importer->nap();
-//        if (importProgressWidget->isHidden()) {
-//            progressWidgetTips->show();
-//            importProgressWidget->show(window()->x()+window()->width() -
-//                                       importProgressWidget->width() / 2 - 6,
-//                                       window()->y() + 45);
-//        } else {
-//            importProgressWidget->hide();
-//        }
-//    });
+    connect(importProgress, &DCircleProgress::clicked, [=]{
+        if (importProgressWidget->isHidden()) {
+            progressWidgetTips->show();
+            importProgressWidget->show(window()->x()+window()->width() -
+                                       importProgressWidget->width() / 2 - 6,
+                                       window()->y() + 45);
+        } else {
+            importProgressWidget->hide();
+        }
+    });
 
 
     DWindowOptionButton *ob = new DWindowOptionButton;
@@ -261,7 +260,7 @@ void TopToolbar::initWidgets()
     rightLayout->setContentsMargins(0, 0, 0, 0);
     rightLayout->setSpacing(0);
     rightLayout->addWidget(importProgress);
-    rightLayout->addSpacing(36);
+    rightLayout->addSpacing(6);
     rightLayout->addWidget(ob);
     rightLayout->addWidget(minb);
     rightLayout->addWidget(m_maxb);

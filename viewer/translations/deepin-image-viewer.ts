@@ -242,6 +242,10 @@
         <source>Import or drag image to timeline</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImportDirDialog</name>
@@ -583,6 +587,10 @@
         <source>Image info</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TimelineViewFrame</name>
@@ -609,19 +617,7 @@
 <context>
     <name>TopToolbar</name>
     <message>
-        <source>Importing images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 images imported, please wait</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>New album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -634,6 +630,14 @@
     </message>
     <message>
         <source>Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Collecting information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 folders has been collected, please wait</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -704,7 +708,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove from &lt;&lt;%1&gt;&gt;</source>
+        <source>Timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

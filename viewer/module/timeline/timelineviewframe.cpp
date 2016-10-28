@@ -127,6 +127,19 @@ void TimelineViewFrame::insertItem(const DBImgInfo &info)
     m_view->insertItem(vi);
 }
 
+void TimelineViewFrame::insertItems(const DBImgInfoList &infos)
+{
+    using namespace utils::image;
+    for (auto info : infos) {
+        ThumbnailListView::ItemInfo vi;
+        vi.name = QByteArray::fromPercentEncoding(info.fileName.toUtf8());
+        vi.path = QByteArray::fromPercentEncoding(info.filePath.toUtf8());
+        vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
+
+        m_view->insertItem(vi);
+    }
+}
+
 void TimelineViewFrame::removeItems(const QStringList &paths)
 {
     m_view->removeItems(paths);

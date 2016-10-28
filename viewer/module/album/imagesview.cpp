@@ -54,16 +54,7 @@ void ImagesView::setAlbum(const QString &album)
 
     m_view->clearData();
     auto infos = dApp->dbM->getInfosByAlbum(album);
-    // Load up to 100 images at initialization to accelerate rendering
-    for (int i = 0; i < infos.length(); i ++) {
-        insertItem(infos[i], false);
-    }
-
-    m_topTips->setAlbum(album);
-
-    // Empty album, import first
-    updateContent();
-
+    QtConcurrent::run(this, &ImagesView::insertItems, infos);
 }
 
 void ImagesView::removeItems(const QStringList &paths)
@@ -71,7 +62,9 @@ void ImagesView::removeItems(const QStringList &paths)
     m_view->removeItems(paths);
 
     m_topTips->setAlbum(m_album);
-    updateContent();
+    if (m_view->count() == 0) {
+        showImportFrame(true);
+    }
 }
 
 int ImagesView::count() const
@@ -230,7 +223,20 @@ void ImagesView::insertItem(const DBImgInfo &info, bool update)
     if (update) {
         m_view->updateThumbnails();
         m_topTips->setAlbum(m_album);
-        updateContent();
+        showImportFrame(false);
+    }
+}
+
+void ImagesView::insertItems(const DBImgInfoList &infos)
+{
+    using namespace utils::image;
+    for (auto info : infos) {
+        ThumbnailListView::ItemInfo vi;
+        vi.name = QByteArray::fromPercentEncoding(info.fileName.toUtf8());
+        vi.path = QByteArray::fromPercentEncoding(info.filePath.toUtf8());
+        vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
+
+        m_view->insertItem(vi);
     }
 }
 
@@ -330,6 +336,25 @@ void ImagesView::rotateImage(const QString &path, int degree)
     }
 }
 
+void ImagesView::showImportFrame(bool v)
+{
+    if (v) {
+        // For avoid widget destroy
+        takeWidget();
+        m_contentWidget->setVisible(false);
+        setWidget(m_importFrame);
+        m_importFrame->setVisible(true);
+    }
+    else {
+        // For avoid widget destroy
+        takeWidget();
+        m_importFrame->setVisible(false);
+        setWidget(m_contentWidget);
+        m_contentWidget->setVisible(true);
+        updateTopTipsRect();
+    }
+}
+
 bool ImagesView::allInAlbum(const QStringList &paths, const QString &album)
 {
     const QStringList pl = dApp->dbM->getPathsByAlbum(album);
@@ -404,7 +429,9 @@ void ImagesView::showEvent(QShowEvent *e)
             insertItem(info, false);
         }
         m_topTips->setAlbum(m_album);
-        updateContent();
+        if (m_view->count() == 0) {
+            showImportFrame(true);
+        }
     }
 
     m_view->updateThumbnails();
@@ -450,7 +477,6 @@ void ImagesView::updateContent()
         m_contentWidget->setVisible(true);
         updateTopTipsRect();
     }
-
 }
 
 QJsonObject ImagesView::createAlbumMenuObj()

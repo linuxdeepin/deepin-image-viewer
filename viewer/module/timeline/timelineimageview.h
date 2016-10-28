@@ -27,7 +27,6 @@ public:
 public slots:
     void insertReadyFrames();
     void clearImages();
-    void onImageInserted(const DBImgInfo &info);
 
 signals:
     void viewImage(const QString &path, const QStringList &paths);
@@ -43,7 +42,7 @@ private:
     void initTopTips();
     void initContents();
 
-    void inserFrame(const QString &timeline);
+    void insertFrame(const QString &timeline);
     void removeFrame(const QString &timeline);
     void removeImages(const QStringList &paths);
     void updateSliderFrmaeRect();

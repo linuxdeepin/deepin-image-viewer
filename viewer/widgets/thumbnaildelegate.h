@@ -16,6 +16,7 @@ public:
     };
 
     explicit ThumbnailDelegate(QObject *parent = nullptr);
+    void setIsDataLocked(bool value);
     void clearPaintingList();
     const QStringList paintingPaths() const;
 
@@ -30,6 +31,7 @@ private:
 
 private:
     mutable QStringList m_paintingPaths;
+    bool m_isDataLocked;
 };
 
 #endif // ALBUMDELEGATE_H

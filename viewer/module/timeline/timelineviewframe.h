@@ -17,6 +17,7 @@ public:
     explicit TimelineViewFrame(const QString &timeline, QWidget *parent);
     ~TimelineViewFrame();
     void insertItem(const DBImgInfo &info);
+    void insertItems(const DBImgInfoList &infos);
     void removeItems(const QStringList &paths);
     void clearSelection() const;
     void updateThumbnails();

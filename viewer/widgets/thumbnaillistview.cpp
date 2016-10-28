@@ -100,15 +100,16 @@ void ThumbnailListView::insertItem(const ItemInfo &info)
     if (indexOf(info.path) != -1)
         return;
 
-    QStandardItem *item = new QStandardItem();
-    QList<QStandardItem *> items;
-    items.append(item);
-    m_model->appendRow(items);
+    // Lock for model's data reading and setting in diffrent thread
+    // Can not use QMutex because the data-operation not in the same class
+    m_delegate->setIsDataLocked(true);
+    m_model->appendRow(new QStandardItem());
 
     QModelIndex index = m_model->index(m_model->rowCount() - 1, 0);
     m_model->setData(index, QVariant(getVariantList(info)), Qt::DisplayRole);
     m_model->setData(index, QVariant(iconSize()), Qt::SizeHintRole);
-    updateViewPortSize();
+    m_delegate->setIsDataLocked(false);
+//    updateViewPortSize();
 }
 
 void ThumbnailListView::removeItems(const QStringList &paths)
@@ -307,11 +308,6 @@ int ThumbnailListView::contentsHMargin() const
 int ThumbnailListView::contentsVMargin() const
 {
     return contentsMargins().top() + contentsMargins().bottom();
-}
-
-bool caseRow(const QModelIndex &i1, const QModelIndex &i2)
-{
-    return i1.row() < i2.row();
 }
 
 QVariant generateThumbnail(const QString &path)

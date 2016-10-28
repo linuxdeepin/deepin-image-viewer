@@ -23,6 +23,7 @@ public:
     explicit ImagesView(QWidget *parent = 0);
 
     void insertItem(const DBImgInfo &info, bool update = true);
+    void insertItems(const DBImgInfoList &infos);
     void setAlbum(const QString &album);
     void setIconSize(const QSize &iconSize);
 
@@ -73,12 +74,13 @@ private:
     void initTopTips();
 
     void onMenuItemClicked(int menuId, const QString &text);
+    void popupDelDialog(const QStringList &dpaths, const QStringList &epaths);
     void rotateImage(const QString &path, int degree);
+    void showImportFrame(bool v);
     void updateMenuContents();
     void updateContent();
     void updateTopTipsRect();
     bool allInAlbum(const QStringList &paths, const QString &album);
-    void popupDelDialog(const QStringList &dpaths, const QStringList &epaths);
 
     QJsonObject createAlbumMenuObj();
     QString createMenuContent();

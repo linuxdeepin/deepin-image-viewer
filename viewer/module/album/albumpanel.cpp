@@ -155,6 +155,7 @@ void AlbumPanel::initConnection()
             this, &AlbumPanel::onCreateAlbum);
     connect(dApp->signalM, &SignalManager::importDir,
             this, &AlbumPanel::showImportDirDialog);
+    qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
     connect(dApp->signalM, &SignalManager::imagesInserted, this, [=] {
         onImageCountChanged(dApp->dbM->getImgsCount());
     });
@@ -255,7 +256,7 @@ void AlbumPanel::dropEvent(QDropEvent *event)
 {
     // "Recent imported" should not handle drop event
     QList<QUrl> urls = event->mimeData()->urls();
-    if (urls.isEmpty() || m_currentAlbum == RECENT_IMPORT_ALBUM)
+    if (urls.isEmpty())
         return;
 
     QStringList files;
@@ -267,15 +268,15 @@ void AlbumPanel::dropEvent(QDropEvent *event)
                 showImportDirDialog(path);
             }
             else {
-                dApp->importer->importDir(path, m_currentAlbum);
+                dApp->importer->appendDir(path, m_currentAlbum);
             }
         }
-        else if (utils::image::imageSupportRead(path)) {
+        else {
             files << path;
         }
     }
     if (! files.isEmpty()) {
-        dApp->importer->importFiles(files, withAlbum ? m_currentAlbum : "");
+        dApp->importer->appendFiles(files, withAlbum ? m_currentAlbum : "");
     }
 }
 
@@ -470,7 +471,7 @@ void AlbumPanel::showCreateDialog()
 
 void AlbumPanel::showImportDirDialog(const QString &dir)
 {
-    if (! parentWidget() || utils::image::getImagesInfo(dir).isEmpty()) {
+    if (! parentWidget()) {
         return;
     }
 

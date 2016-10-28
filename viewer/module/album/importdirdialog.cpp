@@ -60,11 +60,11 @@ ImportDirDialog::ImportDirDialog(QWidget *parent)
         Q_UNUSED(text);
         this->close();
         if(id == 1){
-            dApp->importer->importDir(m_dir);
+            dApp->importer->appendDir(m_dir);
         }
         else if (id == 2) {
             const QString album = m_edit->text().trimmed();
-            dApp->importer->importDir(m_dir, album);
+            dApp->importer->appendDir(m_dir, album);
             // For UI update
             dApp->dbM->insertIntoAlbum(album, QStringList());//FIXDB
             emit albumCreated();

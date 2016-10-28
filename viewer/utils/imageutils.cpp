@@ -49,7 +49,7 @@ const QPixmap scaleImage(const QString &path, const QSize &size)
 
 const QDateTime getCreateDateTime(const QString &path)
 {
-    return freeimage::getDateTime(path);
+    return libexif::getCreateDateTime(path);
 }
 
 bool imageSupportRead(const QString &path)

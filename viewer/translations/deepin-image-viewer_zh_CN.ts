@@ -367,6 +367,10 @@
         <source>Import or drag image to timeline</source>
         <translation>您可以导入或拖拽图片到时间线</translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImportDirDialog</name>
@@ -795,6 +799,10 @@
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TimelineViewFrame</name>
@@ -824,11 +832,11 @@
     <name>TopToolbar</name>
     <message>
         <source>Importing images</source>
-        <translation>正在导入</translation>
+        <translation type="vanished">正在导入</translation>
     </message>
     <message>
         <source>%1 images imported, please wait</source>
-        <translation>已经导入 %1 张，请稍后</translation>
+        <translation type="vanished">已经导入 %1 张，请稍后</translation>
     </message>
     <message>
         <source>New album</source>
@@ -836,7 +844,7 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="vanished">导入</translation>
     </message>
     <message>
         <source>Help</source>
@@ -849,6 +857,14 @@
     <message>
         <source>Exit</source>
         <translation>退出</translation>
+    </message>
+    <message>
+        <source>Collecting information</source>
+        <translation>正在收集信息</translation>
+    </message>
+    <message>
+        <source>%1 folders has been collected, please wait</source>
+        <translation>已收集%1个文件夹信息，请稍候</translation>
     </message>
 </context>
 <context>
@@ -931,7 +947,15 @@
     </message>
     <message>
         <source>Remove from &lt;&lt;%1&gt;&gt;</source>
-        <translation>从 %1 相册移除</translation>
+        <translation type="vanished">从 %1 相册移除</translation>
+    </message>
+    <message>
+        <source>Timeline</source>
+        <translation type="unfinished">时间线</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
