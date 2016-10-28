@@ -4,6 +4,7 @@
 #include "controller/exporter.h"
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
+#include "controller/popupdialogmanager.h"
 #include "frame/deletedialog.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -22,6 +23,7 @@ enum MenuItemId {
     IdView,
     IdFullScreen,
     IdStartSlideShow,
+    IdPrint,
     IdAddToAlbum,
     IdExport,
     IdCopy,
@@ -118,6 +120,11 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     case IdStartSlideShow:
         dApp->signalM->startSlideShow(vinfo);
         break;
+    case IdPrint: {
+        using namespace controller::popup;
+        printDialog(dpath);
+        break;
+    }
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
         dApp->dbM->insertIntoAlbum(album, ePaths);
@@ -184,6 +191,7 @@ QString TimelinePanel::createMenuContent()
         createMI(&items, IdFullScreen, tr("Fullscreen"), "F11");
     }
     createMI(&items, IdStartSlideShow, tr("Start slide show"), "F5");
+    createMI(&items, IdPrint, tr("Print"), "Ctrl+P");
     const QJsonObject objF = createAlbumMenuObj();
     if (! objF.isEmpty()) {
         createMI(&items, IdAddToAlbum, tr("Add to album"), "", false, objF);

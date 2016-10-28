@@ -8,7 +8,8 @@ HEADERS += \
     $$PWD/divdbuscontroller.h \
     $$PWD/exporter.h \
     $$PWD/globaleventfilter.h \
-    $$PWD/dbmanager.h
+    $$PWD/dbmanager.h \
+    $$PWD/popupdialogmanager.h
 
 SOURCES += \
     $$PWD/importer.cpp \
@@ -20,4 +21,5 @@ SOURCES += \
     $$PWD/divdbuscontroller.cpp \
     $$PWD/exporter.cpp \
     $$PWD/globaleventfilter.cpp \
-    $$PWD/dbmanager.cpp
+    $$PWD/dbmanager.cpp \
+    $$PWD/popupdialogmanager.cpp

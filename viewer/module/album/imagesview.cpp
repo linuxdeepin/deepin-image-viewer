@@ -4,6 +4,7 @@
 #include "controller/exporter.h"
 #include "controller/importer.h"
 #include "controller/popupmenumanager.h"
+#include "controller/popupdialogmanager.h"
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "utils/baseutils.h"
@@ -137,6 +138,7 @@ QString ImagesView::createMenuContent()
     }
     items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false,
                                 "F5"));
+    items.append(createMenuItem(IdPrint, tr("Print"), false, "Ctrl+P"));
     const QJsonObject objF = createAlbumMenuObj();
     if (! objF.isEmpty()) {
         items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
@@ -259,6 +261,11 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
     case IdStartSlideShow:
         emit startSlideShow(viewPaths, epath);
         break;
+    case IdPrint: {
+        using namespace controller::popup;
+        printDialog(dpath);
+        break;
+    }
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
         dApp->dbM->insertIntoAlbum(album, ePaths);
