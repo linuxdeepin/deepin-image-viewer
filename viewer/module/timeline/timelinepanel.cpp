@@ -211,7 +211,7 @@ void TimelinePanel::initConnection()
         if (! success) {
             return;
         }
-        m_view->insertReadyFrames();
+        m_view->updateFrames();
         onImageCountChanged(dApp->dbM->getImgsCount());
     });
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList");

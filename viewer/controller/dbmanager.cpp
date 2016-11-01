@@ -32,7 +32,7 @@ const QStringList DBManager::getAllPaths() const
     QSqlQuery query( db );
     query.prepare( "SELECT "
                    "FilePath "
-                   "FROM ImageTable2 ORDER BY time DESC");
+                   "FROM ImageTable2 ORDER BY Time DESC");
     if (! query.exec()) {
         qWarning() << "Get Data from ImageTable2 failed: " << query.lastError();
         return paths;
@@ -55,7 +55,7 @@ const DBImgInfoList DBManager::getAllInfos() const
     }
     QSqlQuery query( db );
     query.prepare( "SELECT FilePath, FileName, Time "
-                   "FROM ImageTable2 ORDER BY time DESC");
+                   "FROM ImageTable2 ORDER BY Time DESC");
     if (! query.exec()) {
         qWarning() << "Get data from ImageTable2 failed: " << query.lastError();
         return infos;
@@ -73,6 +73,29 @@ const DBImgInfoList DBManager::getAllInfos() const
     }
 
     return infos;
+}
+
+const QStringList DBManager::getAllTimelines() const
+{
+    QStringList times;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid())
+        return times;
+
+    QSqlQuery query( db );
+    query.prepare( "SELECT DISTINCT Time "
+                   "FROM ImageTable2 ORDER BY Time DESC");
+    if (! query.exec()) {
+        qWarning() << "Get Data from ImageTable2 failed: " << query.lastError();
+        return times;
+    }
+    else {
+        while (query.next()) {
+            times << query.value(0).toString();
+        }
+    }
+
+    return times;
 }
 
 const DBImgInfoList DBManager::getInfosByTimeline(const QString &timeline) const
@@ -160,7 +183,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     for (DBImgInfo info : infos) {
         filenames << info.fileName;
         filepaths << info.filePath;
-        times << utils::base::timeToString(info.time);
+        times << utils::base::timeToString(info.time, true);
     }
 
     // Insert into ImageTable2
@@ -466,17 +489,14 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
 
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value) const
 {
-//    QMutexLocker locker(&m_mutex);                                            // TODO
-
     DBImgInfoList infos;
     const QSqlDatabase db = getDatabase();
     if (! db.isValid()) {
         return infos;
     }
     QSqlQuery query( db );
-    query.prepare("SELECT FilePath, FileName, Time "
-                  "FROM ImageTable2 WHERE :key= :value ORDER BY time DESC");
-    query.bindValue(":key", key);
+    query.prepare(QString("SELECT FilePath, FileName, Time FROM ImageTable2 "
+                          "WHERE %1= :value ORDER BY Time DESC").arg(key));
     query.bindValue(":value", value);
     if (!query.exec()) {
         qWarning() << "Get Image from database failed: " << query.lastError();
@@ -580,7 +600,7 @@ void DBManager::importVersion1Data()
         // Import ImageTable into ImageTable2
         query.clear();
         query.prepare( "SELECT filename, filepath, time "
-                       "FROM ImageTable ORDER BY time DESC");
+                       "FROM ImageTable ORDER BY Time DESC");
         if (! query.exec()) {
             qWarning() << "Import ImageTable into ImageTable2 failed: "
                        << query.lastError();

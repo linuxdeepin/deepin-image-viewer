@@ -191,7 +191,7 @@ bool TimelineImageView::eventFilter(QObject *obj, QEvent *e)
 //        QMetaObject::invokeMethod(this, "clearImages", Qt::QueuedConnection);
     }
     else if (e->type() == QEvent::Show && m_frames.isEmpty()) {
-        insertReadyFrames();
+        updateFrames();
     }
     else if (e->type() == QEvent::Resize ||
              e->type() == QEvent::WindowActivate ||
@@ -210,30 +210,17 @@ QList<T> reversed( const QList<T> & in ) {
     return result;
 }
 
-void TimelineImageView::insertReadyFrames()
+void TimelineImageView::updateFrames()
 {
-    if (! isVisible() || ! m_frames.isEmpty()) {
-        return;
-    }
-
-    const auto infos = dApp->dbM->getAllInfos();
+    qRegisterMetaType<QVector<int>>("QVector<int>");
+    const QStringList tls = dApp->dbM->getAllTimelines();
     using namespace utils::base;
-    QString currentTL = "";
-    DBImgInfoList currentInfos;
-    for (auto info : infos) {
-        const QString tl = timeToString(info.time);
-        if (tl != currentTL) {
-            if (! currentTL.isEmpty()) {
-                if (m_frames[currentTL] == nullptr) {
-                    insertFrame(currentTL);
-                }
-                qRegisterMetaType<QVector<int>>("QVector<int>");
-                QtConcurrent::run(m_frames[currentTL], &TimelineViewFrame::insertItems, currentInfos);
-            }
-            currentTL = tl;
-            currentInfos.clear();
+    for (QString tl : tls) {
+        auto infos = dApp->dbM->getInfosByTimeline(tl);
+        if (m_frames[tl] == nullptr) {
+            insertFrame(tl);
         }
-        currentInfos << info;
+        QtConcurrent::run(m_frames[tl], &TimelineViewFrame::insertItems, infos);
     }
 }
 

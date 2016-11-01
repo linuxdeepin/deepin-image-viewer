@@ -25,7 +25,7 @@ public:
     QString currentMonth();
 
 public slots:
-    void insertReadyFrames();
+    void updateFrames();
     void clearImages();
 
 signals:

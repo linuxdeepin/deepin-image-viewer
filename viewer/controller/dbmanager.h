@@ -41,6 +41,7 @@ public:
     // TableImage
     const QStringList       getAllPaths() const;
     const DBImgInfoList     getAllInfos() const;
+    const QStringList       getAllTimelines() const;
     const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
     const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
