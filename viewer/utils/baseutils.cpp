@@ -129,12 +129,19 @@ void copyImageToClipboard(const QStringList &paths)
 
     // Copy file (gnome)
     QByteArray gnomeFormat = QByteArray("copy\n");
+    QString text;
+    QList<QUrl> dataUrls;
     for (QString path : paths) {
+        if (!path.isEmpty())
+            text += path + '\n';
+        dataUrls << QUrl(QFileInfo(path).absoluteFilePath());
         gnomeFormat.append(QUrl::fromLocalFile(path).toEncoded()).append("\n");
     }
+
+    newMimeData->setText(text.endsWith('\n') ? text.left(text.length() - 1) : text);
+    newMimeData->setUrls(dataUrls);
     gnomeFormat.remove(gnomeFormat.length() - 1, 1);
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
-
     // Set the mimedata
     cb->setMimeData(newMimeData);
 }
