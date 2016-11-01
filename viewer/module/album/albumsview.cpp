@@ -83,7 +83,7 @@ QModelIndex AlbumsView::addAlbum(const DBAlbumInfo &info)
     QBuffer inBuffer( &thumbnailByteArray );
     inBuffer.open( QIODevice::WriteOnly );
     // write inPixmap into inByteArray
-    QString priPath = QByteArray::fromPercentEncoding(QString(paths.first()).toUtf8());
+    QString priPath = paths.first();
     if (priPath.isEmpty() || priPath == " ") {
         for (QString path : paths) {
             if (! path.isEmpty() && path != " ") {
@@ -336,13 +336,9 @@ void AlbumsView::onMenuItemClicked(int menuId)
         dApp->exporter->exportAlbum(albumName);
         break;
     case IdCopy: {
-        QStringList ePaths = dApp->dbM->getPathsByAlbum(albumName);
-        ePaths.removeAll(" ");
-        QStringList dPaths;
-        for (QString path : ePaths) {
-            dPaths << QByteArray::fromPercentEncoding(path.toUtf8());
-        }
-        utils::base::copyImageToClipboard(dPaths);
+        QStringList paths = dApp->dbM->getPathsByAlbum(albumName);
+        paths.removeAll(" ");
+        utils::base::copyImageToClipboard(paths);
         break;
     }
     case IdDelete: {
@@ -350,8 +346,6 @@ void AlbumsView::onMenuItemClicked(int menuId)
             popupDelDialog(albumName);
         break;
     }
-        //    case IdAlbumInfo:
-        //        break;
     default:
         break;
     }

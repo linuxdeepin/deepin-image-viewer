@@ -76,8 +76,7 @@ void TimelineViewFrame::initListView()
             this, &TimelineViewFrame::singleClicked);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
-        const QString path =
-                m_view->itemInfo(index).path.toUtf8().toPercentEncoding("/");
+        const QString path = m_view->itemInfo(index).path;
         emit viewImage(path, dApp->dbM->getAllPaths());
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
@@ -120,8 +119,8 @@ void TimelineViewFrame::insertItem(const DBImgInfo &info)
 {
     using namespace utils::image;
     ThumbnailListView::ItemInfo vi;
-    vi.name = QByteArray::fromPercentEncoding(info.fileName.toUtf8());
-    vi.path = QByteArray::fromPercentEncoding(info.filePath.toUtf8());
+    vi.name = info.fileName;
+    vi.path = info.filePath;
     vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
 
     m_view->insertItem(vi);
@@ -132,8 +131,8 @@ void TimelineViewFrame::insertItems(const DBImgInfoList &infos)
     using namespace utils::image;
     for (auto info : infos) {
         ThumbnailListView::ItemInfo vi;
-        vi.name = QByteArray::fromPercentEncoding(info.fileName.toUtf8());
-        vi.path = QByteArray::fromPercentEncoding(info.filePath.toUtf8());
+        vi.name = info.fileName;
+        vi.path = info.filePath;
         vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
 
         m_view->insertItem(vi);

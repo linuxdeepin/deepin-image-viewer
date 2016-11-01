@@ -188,7 +188,6 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
 
     const QStringList mtl = text.split(SHORTCUT_SPLIT_FLAG);
     const QString path = m_current->filePath;
-    const QString dPath = QByteArray::fromPercentEncoding(path.toUtf8());
     const QString albumName = mtl.isEmpty() ? "" : mtl.first();
 
     switch (MenuItemId(menuId)) {
@@ -206,17 +205,17 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     }
     case IdPrint: {
         using namespace controller::popup;
-        printDialog(dPath);
+        printDialog(path);
         break;
     }
     case IdAddToAlbum:
         dApp->dbM->insertIntoAlbum(albumName, QStringList(path));
         break;
     case IdExport:
-        dApp->exporter->exportImage(QStringList(dPath));
+        dApp->exporter->exportImage(QStringList(path));
         break;
     case IdCopy:
-        copyImageToClipboard(QStringList(dPath));
+        copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash: {
         popupDelDialog(path);
@@ -246,15 +245,15 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         rotateImage(false);
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(dPath);
+        dApp->wpSetter->setWallpaper(path);
         break;
     case IdDisplayInFileManager:
-        emit dApp->signalM->showInFileManager(dPath);
+        emit dApp->signalM->showInFileManager(path);
         break;
     case IdImageInfo:
         emit dApp->signalM->showExtensionPanel();
         // Update panel info
-        TIMER_SINGLESHOT(100, {m_info->setImagePath(dPath);}, this, dPath);
+        TIMER_SINGLESHOT(100, {m_info->setImagePath(path);}, this, path);
         break;
     default:
         break;
@@ -347,16 +346,14 @@ void ViewPanel::initShortcut()
 
 void ViewPanel::popupDelDialog(const QString path) {
     using namespace utils::base;
-    QString dPath = QByteArray::fromPercentEncoding(path.toUtf8());
     if (m_vinfo.inDatabase) {
-        DeleteDialog* delDialog = new DeleteDialog(QStringList(dPath));
+        DeleteDialog* delDialog = new DeleteDialog(QStringList(path));
         delDialog->show();
         delDialog->moveToCenter();
         connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
             if (index == 1) {
                 dApp->dbM->removeImgInfos(QStringList(path));
-                trashFile(dPath);
-                removeCurrentImage();
+                trashFile(path);
             }
         });
 
@@ -364,7 +361,7 @@ void ViewPanel::popupDelDialog(const QString path) {
                 delDialog, &DeleteDialog::deleteLater);
     } else {
         dApp->dbM->removeImgInfos(QStringList(path));
-        trashFile(dPath);
+        trashFile(path);
         removeCurrentImage();
     }
 }

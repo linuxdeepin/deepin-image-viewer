@@ -177,8 +177,8 @@ DBImgInfoList ViewPanel::getImageInfos(const QFileInfoList &infos)
     DBImgInfoList imageInfos;
     for (QFileInfo info : infos) {
         DBImgInfo imgInfo;
-        imgInfo.fileName = info.fileName().toUtf8().toPercentEncoding();
-        imgInfo.filePath = info.absoluteFilePath().toUtf8().toPercentEncoding("/");
+        imgInfo.fileName = info.fileName();
+        imgInfo.filePath = info.absoluteFilePath();
 
         imageInfos << imgInfo;
     }
@@ -197,8 +197,7 @@ const QStringList ViewPanel::paths() const
 
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
-    const QString dp = QByteArray::fromPercentEncoding(path.toUtf8());
-    return utils::image::getImagesInfo(QFileInfo(dp).path(), false);
+    return utils::image::getImagesInfo(QFileInfo(path).path(), false);
 }
 
 QWidget *ViewPanel::toolbarBottomContent()
@@ -353,7 +352,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     if (! vinfo.paths.isEmpty()) {
         QFileInfoList list;
         for (QString path : vinfo.paths) {
-            list << QFileInfo(QByteArray::fromPercentEncoding(path.toUtf8()));
+            list << QFileInfo(path);
         }
         m_infos = getImageInfos(list);
     }
@@ -544,8 +543,7 @@ void ViewPanel::initViewContent()
 
 void ViewPanel::openImage(const QString &path, bool inDB)
 {
-    const QString dPath = QByteArray::fromPercentEncoding(path.toUtf8());
-    if (! QFileInfo(dPath).exists()) {
+    if (! QFileInfo(path).exists()) {
         // removeCurrentImage() will cause timerEvent be trigered again by
         // showNext() or showPrevious(), so delay to remove current image
         // to break the loop
@@ -555,17 +553,16 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     if (inDB) {
         // Check whether the thumbnail is been rotated in outside
-        QtConcurrent::run(utils::image::removeThumbnail,
-                          QFileInfo(dPath).fileName());
+        QtConcurrent::run(utils::image::removeThumbnail, path);
     }
 
-    m_viewB->setImage(dPath);
+    m_viewB->setImage(path);
 
     updateMenuContent();
     resetImageGeometry();
 
     if (m_info) {
-        m_info->setImagePath(dPath);
+        m_info->setImagePath(path);
     }
 
     m_stack->setCurrentIndex(0);

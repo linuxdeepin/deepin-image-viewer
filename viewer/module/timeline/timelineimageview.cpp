@@ -97,18 +97,13 @@ bool TimelineImageView::isEmpty() const
     return m_frames.isEmpty();
 }
 
-QStringList TimelineImageView::selectedPaths(bool encode) const
+QStringList TimelineImageView::selectedPaths() const
 {
     QStringList images;
     for (TimelineViewFrame * frame : m_frames.values()) {
         auto paths = frame->selectedImages().values();
         for (QString path : paths) {
-            if (encode) {
-                images << QString(path.toUtf8().toPercentEncoding("/"));
-            }
-            else {
-                images << path;
-            }
+            images << path;
         }
     }
 

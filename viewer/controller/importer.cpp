@@ -36,44 +36,42 @@ void importDir(const QString &path, const QString &album)
         return;
     }
 
-    QStringList ePaths;
+    QStringList paths;
     DBImgInfoList imgInfos;
     for (QFileInfo finfo : fileInfos) {
-        QString ep = finfo.absoluteFilePath().toUtf8().toPercentEncoding("/");
+        const QString p = finfo.absoluteFilePath();
         DBImgInfo imgInfo;
-        imgInfo.fileName = finfo.fileName().toUtf8().toPercentEncoding();
-        imgInfo.filePath = ep;
-        imgInfo.time = utils::image::getCreateDateTime(finfo.absoluteFilePath());
+        imgInfo.fileName = finfo.fileName();
+        imgInfo.filePath = p;
+        imgInfo.time = utils::image::getCreateDateTime(p);
 
-        ePaths << ep;
+        paths << p;
         imgInfos << imgInfo;
     }
     dApp->dbM->insertImgInfos(imgInfos);
-    dApp->dbM->insertIntoAlbum(album, ePaths);
+    paths << " "; // For empty album
+    dApp->dbM->insertIntoAlbum(album, paths);
 }
 
-void importFiles(const QStringList &dPaths, const QString &album)
+void importFiles(const QStringList &paths, const QString &album)
 {
     QMutexLocker locker(&mutex);
     DBImgInfoList imgInfos;
-    QStringList ePaths;
-    for (QString dp : dPaths) {
-        if (! utils::image::imageSupportRead(dp)) {
+    for (QString p : paths) {
+        if (! utils::image::imageSupportRead(p)) {
             continue;
         }
-        QFileInfo info(dp);
-        QString ep = info.absoluteFilePath().toUtf8().toPercentEncoding("/");
+        QFileInfo info(p);
         DBImgInfo imgInfo;
-        imgInfo.fileName = info.fileName().toUtf8().toPercentEncoding();
-        imgInfo.filePath = ep;
-        imgInfo.time = utils::image::getCreateDateTime(dp);
+        imgInfo.fileName = info.fileName();
+        imgInfo.filePath = p;
+        imgInfo.time = utils::image::getCreateDateTime(p);
 
-        ePaths << ep;
         imgInfos << imgInfo;
 
     }
     dApp->dbM->insertImgInfos(imgInfos);
-    dApp->dbM->insertIntoAlbum(album, ePaths);
+    dApp->dbM->insertIntoAlbum(album, QStringList(paths) << " "); // For empty album
 }
 
 }  // namespace

@@ -92,19 +92,16 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     // BottomToolbar pos not correct on init
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
-    QStringList ePaths;
-    for (QString dp : paths) {
-        ePaths << dp.toUtf8().toPercentEncoding("/");
-    }
+
     TIMER_SINGLESHOT(50, {
     SignalManager::ViewInfo vinfo;
     vinfo.album = "";
     vinfo.inDatabase = false;
     vinfo.lastPanel = nullptr;
-    vinfo.path = path.toUtf8().toPercentEncoding("/");
-    vinfo.paths = ePaths;
+    vinfo.path = path;
+    vinfo.paths = paths;
     emit dApp->signalM->viewImage(vinfo);
-                     }, path, ePaths)
+                     }, path, paths)
 }
 
 bool CommandLine::processOption()

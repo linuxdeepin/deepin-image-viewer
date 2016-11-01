@@ -32,7 +32,7 @@ public:
 
     QString getCurrentAlbum() const;
     QSize iconSize() const;
-    QStringList selectedPaths(bool encode = true) const;
+    QStringList selectedPaths() const;
 
 signals:
     void rotated();
@@ -74,7 +74,7 @@ private:
     void initTopTips();
 
     void onMenuItemClicked(int menuId, const QString &text);
-    void popupDelDialog(const QStringList &dpaths, const QStringList &epaths);
+    void popupDelDialog(const QStringList &paths);
     void rotateImage(const QString &path, int degree);
     void showImportFrame(bool v);
     void updateMenuContents();
@@ -89,7 +89,7 @@ private:
                               const bool isSeparator = false,
                               const QString &shortcut = "",
                               const QJsonObject &subMenu = QJsonObject());
-    const QStringList paths();
+    const QStringList albumPaths();
 
 private:
     QStringList m_rotateList;

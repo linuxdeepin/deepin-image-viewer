@@ -86,7 +86,7 @@ void ImagesView::initListView()
             m_view, &ThumbnailListView::updateThumbnails);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
-        const QString path = m_view->itemInfo(index).path.toUtf8().toPercentEncoding("/");
+        const QString path = m_view->itemInfo(index).path;
         emit viewImage(path, QStringList());
     });
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
@@ -105,18 +105,17 @@ void ImagesView::initTopTips()
     m_topTips = new TopAlbumTips(this);
 }
 
-const QStringList ImagesView::paths()
+const QStringList ImagesView::albumPaths()
 {
     return dApp->dbM->getPathsByAlbum(m_album);
 }
 
 QString ImagesView::createMenuContent()
 {
-    const QStringList dPaths = selectedPaths(false);
-    const QStringList ePaths = selectedPaths();
-    const int selectedCount = ePaths.length();
+    const QStringList paths = selectedPaths();
+    const int selectedCount = paths.length();
     bool canSave = true;
-    for (QString p : dPaths) {
+    for (QString p : paths) {
         if (! utils::image::imageSupportSave(p)) {
             canSave = false;
             break;
@@ -149,7 +148,7 @@ QString ImagesView::createMenuContent()
     items.append(createMenuItem(IdSeparator, "", true));
 
     if (selectedCount == 1) {
-        if (! dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, ePaths.first()))
+        if (! dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, paths.first()))
             items.append(createMenuItem(IdAddToFavorites,
                 tr("Add to My favorites"), false, "Ctrl+K"));
         else
@@ -157,7 +156,7 @@ QString ImagesView::createMenuContent()
                 tr("Unfavorite"), false, "Ctrl+Shift+K"));
     } else {
         bool addToFavor = false;
-        for (QString path : ePaths) {
+        for (QString path : paths) {
             if (! dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, path)) {
                 addToFavor = true;
                 break;
@@ -214,8 +213,8 @@ void ImagesView::insertItem(const DBImgInfo &info, bool update)
 {
     using namespace utils::image;
     ThumbnailListView::ItemInfo vi;
-    vi.name = QByteArray::fromPercentEncoding(info.fileName.toUtf8());
-    vi.path = QByteArray::fromPercentEncoding(info.filePath.toUtf8());
+    vi.name = info.fileName;
+    vi.path = info.filePath;
     vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
 
     m_view->insertItem(vi);
@@ -232,11 +231,14 @@ void ImagesView::insertItems(const DBImgInfoList &infos)
     using namespace utils::image;
     for (auto info : infos) {
         ThumbnailListView::ItemInfo vi;
-        vi.name = QByteArray::fromPercentEncoding(info.fileName.toUtf8());
-        vi.path = QByteArray::fromPercentEncoding(info.filePath.toUtf8());
+        vi.name = info.fileName;
+        vi.path = info.filePath;
         vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
 
         m_view->insertItem(vi);
+    }
+    if (m_view->count() > 0) {
+        showImportFrame(false);
     }
 }
 
@@ -247,79 +249,77 @@ void ImagesView::updateMenuContents()
 
 void ImagesView::onMenuItemClicked(int menuId, const QString &text)
 {
-    const QStringList ePaths = selectedPaths();
-    if (ePaths.isEmpty()) {
+    QStringList paths = selectedPaths();
+    if (paths.isEmpty()) {
         return;
     }
-    const QStringList dPaths = selectedPaths(false);
 
-    const QStringList viewPaths = (ePaths.length() == 1) ? paths() : ePaths;
-    const QString epath = ePaths.first();
-    const QString dpath = dPaths.first();
+    const QStringList viewPaths = (paths.length() == 1) ? albumPaths() : paths;
+    const QString path = paths.first();
 
     switch (MenuItemId(menuId)) {
     case IdView:
-        emit viewImage(epath, viewPaths);
+        emit viewImage(path, viewPaths);
         break;
     case IdFullScreen:
-        emit viewImage(epath, viewPaths, true);
+        emit viewImage(path, viewPaths, true);
         break;
     case IdStartSlideShow:
-        emit startSlideShow(viewPaths, epath);
+        emit startSlideShow(viewPaths, path);
         break;
     case IdPrint: {
         using namespace controller::popup;
-        printDialog(dpath);
+        printDialog(path);
         break;
     }
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
-        dApp->dbM->insertIntoAlbum(album, ePaths);
+        dApp->dbM->insertIntoAlbum(album, paths);
         break;
     }
     case IdCopy:
-        utils::base::copyImageToClipboard(dPaths);
+        utils::base::copyImageToClipboard(paths);
         break;
     case IdMoveToTrash: {
-        popupDelDialog(dPaths, ePaths);
+        popupDelDialog(paths);
         break;
     }
     case IdAddToFavorites:
-        dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, ePaths);
+        dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, paths);
         updateMenuContents();
         break;
     case IdRemoveFromFavorites:
-        dApp->dbM->removeFromAlbum(MY_FAVORITES_ALBUM, ePaths);
+        dApp->dbM->removeFromAlbum(MY_FAVORITES_ALBUM, paths);
         updateMenuContents();
         break;
     case IdRemoveFromAlbum:
-        m_view->removeItems(dPaths);
-        dApp->dbM->removeFromAlbum(m_album, ePaths);
+        m_view->removeItems(paths);
+        dApp->dbM->removeFromAlbum(m_album, paths);
         break;
     case IdRotateClockwise:
         if (m_rotateList.isEmpty()) {
-            m_rotateList = dPaths;
-            for (QString path : dPaths) {
+            m_rotateList = paths;
+            for (QString path : paths) {
                 QtConcurrent::run(this, &ImagesView::rotateImage, path, 90);
             }
         }
         break;
     case IdRotateCounterclockwise:
         if (m_rotateList.isEmpty()) {
-            m_rotateList = dPaths;
-            for (QString path : dPaths) {
+            m_rotateList = paths;
+            for (QString path : paths) {
                 QtConcurrent::run(this, &ImagesView::rotateImage, path, -90);
             }
         }
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(dpath);
+        dApp->wpSetter->setWallpaper(path);
         break;
     case IdDisplayInFileManager:
-        utils::base::showInFileManager(dpath);
+        utils::base::showInFileManager(path);
         break;
     case IdImageInfo:
-        emit dApp->signalM->showImageInfo(dpath);
+        emit dApp->signalM->showImageInfo(path);
         break;
     default:
         break;
@@ -398,17 +398,12 @@ void ImagesView::setIconSize(const QSize &iconSize)
     updateTopTipsRect();
 }
 
-QStringList ImagesView::selectedPaths(bool encode) const
+QStringList ImagesView::selectedPaths() const
 {
     QStringList paths;
     auto infos = m_view->selectedItemInfos();
     for (ThumbnailListView::ItemInfo info : infos) {
-        if (encode) {
-            paths << info.path.toUtf8().toPercentEncoding("/");
-        }
-        else {
-            paths << info.path;
-        }
+        paths << info.path;
     }
 
     return paths;
@@ -504,15 +499,16 @@ QJsonObject ImagesView::createAlbumMenuObj()
     return contentObj;
 }
 
-void ImagesView::popupDelDialog(const QStringList &dpaths, const QStringList &epaths) {
-    DeleteDialog* delDialog = new DeleteDialog(dpaths, false, this);
+void ImagesView::popupDelDialog(const QStringList &paths)
+{
+    DeleteDialog* delDialog = new DeleteDialog(paths, false, this);
     delDialog->show();
     delDialog->moveToCenter();
     connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
         if (index == 1) {
-            m_view->removeItems(dpaths);
-            dApp->dbM->removeImgInfos(epaths);
-            utils::base::trashFiles(dpaths);
+            m_view->removeItems(paths);
+            dApp->dbM->removeImgInfos(paths);
+            utils::base::trashFiles(paths);
         }
     });
     connect(delDialog, &DeleteDialog::closed,

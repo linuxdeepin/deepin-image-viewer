@@ -43,7 +43,7 @@ QString SlideEffectPlayer::currentImagePath() const
 {
     if (m_current == m_paths.constEnd())
         return *m_paths.constBegin();
-    return QString(QByteArray::fromPercentEncoding(QString(*m_current).toUtf8()));
+    return *m_current;
 }
 
 bool SlideEffectPlayer::isRunning() const

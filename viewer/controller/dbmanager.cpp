@@ -189,15 +189,12 @@ void DBManager::removeImgInfos(const QStringList &paths)
         return;
     }
 
-    QString pstr;
-    for (QString path : paths) { pstr += "\"" + path + "\","; }
-    pstr.remove(pstr.length() - 1, 1);
-
     QSqlQuery query(db);
     // Remove from albums table
-    QString queryStr = "DELETE FROM AlbumTable2 WHERE FilePath IN (" + pstr +")";
-    query.prepare(queryStr);
-    if (! query.exec()) {
+    QString qs = "DELETE FROM AlbumTable2 WHERE FilePath=?";
+    query.prepare(qs);
+    query.addBindValue(paths);
+    if (! query.execBatch()) {
         qWarning() << "Remove datas from AlbumTable2 failed: "
                    << query.lastError();
     }
@@ -209,9 +206,10 @@ void DBManager::removeImgInfos(const QStringList &paths)
     }
 
     // Remove from image table
-    queryStr = "DELETE FROM ImageTable2 WHERE FilePath IN (" + pstr + ")";
-    query.prepare(queryStr);
-    if (! query.exec()) {
+    qs = "DELETE FROM ImageTable2 WHERE FilePath=?";
+    query.prepare(qs);
+    query.addBindValue(paths);
+    if (! query.execBatch()) {
         qWarning() << "Remove data from ImageTable2 failed: "
                    << query.lastError();
     }
@@ -435,16 +433,13 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     if (! db.isValid()) {
         return;
     }
-    QString pstr;
-    for (QString path : paths) { pstr += "\"" + path + "\","; }
-    pstr.remove(pstr.length() - 1, 1);
 
     QSqlQuery query(db);
     // Remove from albums table
-    const QString queryStr = "DELETE FROM AlbumTable2  WHERE AlbumName = \""
-            + album + "\"AND FilePath IN (" + pstr + ")";
-    query.prepare(queryStr);
-    if (! query.exec()) {
+    QString qs("DELETE FROM AlbumTable2 WHERE AlbumName=\"%1\" AND FilePath=?");
+    query.prepare(qs.arg(album));
+    query.addBindValue(paths);
+    if (! query.execBatch()) {
         qWarning() << "Remove images from DB failed: " << query.lastError();
     }
     else {
@@ -595,8 +590,8 @@ void DBManager::importVersion1Data()
             using namespace utils::base;
             while (query.next()) {
                 DBImgInfo info;
-                info.fileName = query.value(0).toString().toUtf8().toPercentEncoding();
-                info.filePath = query.value(1).toString().toUtf8().toPercentEncoding("/");
+                info.fileName = query.value(0).toString();
+                info.filePath = query.value(1).toString();
                 info.time = stringToDateTime(query.value(2).toString());
 
                 infos << info;
@@ -619,7 +614,7 @@ void DBManager::importVersion1Data()
             using namespace utils::base;
             while (query.next()) {
                 QString album = query.value(0).toString();
-                QString path = query.value(1).toString().toUtf8().toPercentEncoding("/");
+                QString path = query.value(1).toString();
                 if (aps.keys().contains(album)) {
                     aps[album].append(path);
                 }

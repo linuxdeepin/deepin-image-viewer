@@ -104,8 +104,7 @@ void TTMContent::onImageChanged(const QString &path)
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
         m_trashBtn->setDisabled(false);
-        QString dPath = QByteArray::fromPercentEncoding(path.toUtf8());
-        if (utils::image::imageSupportSave(dPath)) {
+        if (utils::image::imageSupportSave(path)) {
             m_rotateLBtn->setDisabled(false);
             m_rotateRBtn->setDisabled(false);
         }

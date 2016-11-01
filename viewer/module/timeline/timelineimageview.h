@@ -21,7 +21,7 @@ public:
     void setIconSize(const QSize &iconSize);
     void updateThumbnails();
     bool isEmpty() const;
-    QStringList selectedPaths(bool encode = true) const;
+    QStringList selectedPaths() const;
     QString currentMonth();
 
 public slots:
