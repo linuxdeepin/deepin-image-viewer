@@ -5,10 +5,12 @@
 #include "controller/importer.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
+#include "controller/popupdialogmanager.h"
 #include "utils/imageutils.h"
 #include "widgets/imagebutton.h"
 #include "widgets/importframe.h"
 #include "widgets/slider.h"
+
 #include <QDebug>
 #include <QDropEvent>
 #include <QLabel>
@@ -30,7 +32,6 @@ const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
 }  //namespace
 
-using namespace Dtk::Widget;
 
 TimelinePanel::TimelinePanel(QWidget *parent)
     : ModulePanel(parent)
@@ -39,7 +40,6 @@ TimelinePanel::TimelinePanel(QWidget *parent)
 
     initMainStackWidget();
     initStyleSheet();
-    initPopupMenu();
     initShortcut();
     initConnection();
 }
@@ -264,11 +264,9 @@ void TimelinePanel::initImagesView()
         emit dApp->signalM->viewImage(vinfo);
     });
     connect(m_view, &TimelineImageView::showMenuRequested, this, [=] {
-        updateMenuContents();
-        m_popupMenu->showMenu();
+        using namespace controller::popup;
+        showMenuContext(QCursor::pos());
     });
-    connect(m_view, &TimelineImageView::updateMenuRequested,
-            this, &TimelinePanel::updateMenuContents);
 }
 
 void TimelinePanel::initStyleSheet()
@@ -296,3 +294,4 @@ void TimelinePanel::onImageCountChanged(int count)
 
     m_mainStack->setCurrentIndex(count > 0 ? 1 : 0);
 }
+

@@ -19,9 +19,13 @@
 #include <QStandardItem>
 #include <QStackedWidget>
 #include <QtConcurrent>
-#include <QJsonArray>
-#include <QJsonDocument>
+
 #include <math.h>
+#include <QShortcut>
+#include <DMenu>
+#include "daction.h"
+
+using namespace Dtk::Widget;
 
 namespace {
 
@@ -33,8 +37,7 @@ const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 }  // namespace
 
 ImagesView::ImagesView(QWidget *parent)
-    : QScrollArea(parent),
-      m_popupMenu(new PopupMenuManager(this))
+    : QScrollArea(parent)
 {
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
@@ -42,10 +45,8 @@ ImagesView::ImagesView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
 
+    initShortcut();
     initContent();
-    updateMenuContents();
-    connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
-            this, &ImagesView::onMenuItemClicked);
 }
 
 void ImagesView::setAlbum(const QString &album)
@@ -92,12 +93,9 @@ void ImagesView::initListView()
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
         if (m_view->indexAt(pos).isValid()) {
-            updateMenuContents();
-            m_popupMenu->showMenu();
+            showMenuContext(QCursor::pos());
         }
     });
-    connect(m_view, &ThumbnailListView::clicked,
-            this, &ImagesView::updateMenuContents);
 }
 
 void ImagesView::initTopTips()
@@ -110,8 +108,7 @@ const QStringList ImagesView::albumPaths()
     return dApp->dbM->getPathsByAlbum(m_album);
 }
 
-QString ImagesView::createMenuContent()
-{
+void ImagesView::showMenuContext(QPoint pos) {
     const QStringList paths = selectedPaths();
     const int selectedCount = paths.length();
     bool canSave = true;
@@ -121,92 +118,118 @@ QString ImagesView::createMenuContent()
             break;
         }
     }
+    DMenu subAlbumNameMenu;
+    bool albumListIsEmpty = true;
+    const QStringList albums = dApp->dbM->getAllAlbumNames();
 
-    QJsonArray items;
-    if (selectedCount == 1) {
-        items.append(createMenuItem(IdView, tr("View")));
-        items.append(createMenuItem(IdFullScreen, tr("Fullscreen"),
-                                    false, "F11"));
+    if (! paths.isEmpty()) {
+        for (QString album : albums) {
+            if (album == MY_FAVORITES_ALBUM) {
+                continue;
+            }
+            else if (! allInAlbum(paths, album)) {
+                albumListIsEmpty = false;
+                subAlbumNameMenu.addAction(album);
+            }
+        }
     }
-    items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"), false,
-                                "F5"));
-    items.append(createMenuItem(IdPrint, tr("Print"), false, "Ctrl+P"));
-    const QJsonObject objF = createAlbumMenuObj();
-    if (! objF.isEmpty()) {
-        items.append(createMenuItem(IdAddToAlbum, tr("Add to album"),
-                                    false, "", objF));
-    }
-    items.append(createMenuItem(IdSeparator, "", true));
-    //Hide the export function
-    //items.append(createMenuItem(IdExport, tr("Export"), false, ""));
-    items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
-    items.append(createMenuItem(IdMoveToTrash, tr("Throw to Trash"), false,
-                                "Delete"));
-    items.append(createMenuItem(IdRemoveFromAlbum, tr("Remove from album"),
-                                false, "Shift+Delete"));
 
-    items.append(createMenuItem(IdSeparator, "", true));
-
+    DMenu mainMenu;
+    ////////////////////////////////////////////////////////////////////////////
     if (selectedCount == 1) {
-        if (! dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, paths.first()))
-            items.append(createMenuItem(IdAddToFavorites,
-                tr("Add to My favorites"), false, "Ctrl+K"));
-        else
-            items.append(createMenuItem(IdRemoveFromFavorites,
-                tr("Unfavorite"), false, "Ctrl+Shift+K"));
+        DAction* viewAct = new DAction(tr("View"), this);
+        viewAct->setData(IdView);
+        mainMenu.addAction(viewAct);
+        DAction* fullSAct = new DAction(tr("Fullscreen"), this);
+        fullSAct->setData(IdFullScreen);
+        mainMenu.addAction(fullSAct);
+    }
+    DAction* startSlideSAct = new DAction(tr("Start slide show"), this);
+    startSlideSAct->setData(IdStartSlideShow);
+    mainMenu.addAction(startSlideSAct);
+    DAction* printAct = new DAction(tr("Print"), this);
+    printAct->setData(IdPrint);
+    mainMenu.addAction(printAct);
+    DAction* addToAlbumAct = new DAction(tr("Add to album"), this);
+    addToAlbumAct->setData(IdAddToAlbum);
+    addToAlbumAct->setMenu(&subAlbumNameMenu);
+    if (!albumListIsEmpty)
+        mainMenu.addAction(addToAlbumAct);
+    mainMenu.addSeparator();
+    //////////////////////////////////////////////////////////////////////////
+    DAction* cpyAct = new DAction(tr("Copy"), this);
+    cpyAct->setData(IdCopy);
+    mainMenu.addAction(cpyAct);
+    DAction* delAct = new DAction(tr("Throw to Trash"), this);
+    delAct->setData(IdThrowToTrash);
+    mainMenu.addAction(delAct);
+    DAction* removeAct = new DAction(tr("Remove from album"), this);
+    removeAct->setData(IdRemoveFromAlbum);
+    mainMenu.addAction(removeAct);
+    mainMenu.addSeparator();
+
+    /////////////////////////////////////////////////////////////////////////
+    DAction* addToFavAct = new DAction(tr("Add to My favorites"), this);
+    addToFavAct->setData(IdAddToFavorites);
+    if (selectedCount == 1) {
+        DAction* removeFavAct = new DAction(tr("Unfavorite"), this);
+        removeFavAct->setData(IdRemoveFromFavorites);
+        if (!dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, paths.first())) {
+
+            mainMenu.addAction(addToFavAct);
+        } else {
+            mainMenu.addAction(removeFavAct);
+        }
     } else {
-        bool addToFavor = false;
-        for (QString path : paths) {
-            if (! dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, path)) {
-                addToFavor = true;
+        bool v = false;
+        for (QString img : paths) {
+            if (!dApp->dbM->isImgExistInAlbum(MY_FAVORITES_ALBUM, img)) {
+                v = true;
                 break;
             }
         }
-        if (addToFavor)
-            items.append(createMenuItem(IdAddToFavorites,
-                        tr("Add to My favorites"), false, "Ctrl+K"));
+        if (v)
+            mainMenu.addAction(addToFavAct);
     }
+    ////////////////////////////////////////////////////////////////////////
 
     if (canSave) {
-    items.append(createMenuItem(IdSeparator, "", true));
-
-    items.append(createMenuItem(IdRotateClockwise, tr("Rotate clockwise"),
-                                false, "Ctrl+R"));
-    items.append(createMenuItem(IdRotateCounterclockwise,
-        tr("Rotate counterclockwise"), false, "Ctrl+Shift+R"));
+        mainMenu.addSeparator();
+        DAction* rotateAct = new DAction(tr("Rotate clockwise"),
+                                         this);
+        rotateAct->setData(IdRotateClockwise);
+        mainMenu.addAction(rotateAct);
+        DAction* antiRotateAct = new DAction(tr("Rotate "
+                                                "counterclockwise"), this);
+        antiRotateAct->setData(IdRotateCounterclockwise);
+        mainMenu.addAction(antiRotateAct);
     }
-    items.append(createMenuItem(IdSeparator, "", true));
+    mainMenu.addSeparator();
 
     if (selectedCount == 1) {
         if (canSave) {
-        items.append(createMenuItem(IdSetAsWallpaper, tr("Set as wallpaper"),
-                                    false, "Ctrl+F8"));
+            DAction* wallpaperAct = new DAction(tr("Set as wallpaper"), this);
+            wallpaperAct->setData(IdSetAsWallpaper);
+            mainMenu.addAction(wallpaperAct);
         }
-        items.append(createMenuItem(IdDisplayInFileManager,
-            tr("Display in file manager"), false, "Ctrl+D"));
-        items.append(createMenuItem(IdImageInfo, tr("Image info"), false,
-                                    "Alt+Return"));
+        DAction* displayInFileMAct = new DAction(tr("Display in file manager"),
+                                                 this);
+        displayInFileMAct->setData(IdDisplayInFileManager);
+        mainMenu.addAction(displayInFileMAct);
+        DAction* imgInfoAct = new DAction(tr("Image info"), this);
+        imgInfoAct->setData(IdImageInfo);
+        mainMenu.addAction(imgInfoAct);
     }
 
-    QJsonObject contentObj;
-    contentObj["x"] = 0;
-    contentObj["y"] = 0;
-    contentObj["items"] = QJsonValue(items);
+    QObject::connect(&mainMenu, &DMenu::triggered, this, [=](QAction* action) {
+        if (action->data().toInt() == 0 && action->text() != tr("View")) {
+            onMenuItemClicked(IdAddToAlbum, action->text());
+        } else {
+            onMenuItemClicked(action->data().toInt(), action->text());
+        }
+    });
 
-    return QString(QJsonDocument(contentObj).toJson());
-}
-
-QJsonValue ImagesView::createMenuItem(const MenuItemId id,
-                                      const QString &text,
-                                      const bool isSeparator,
-                                      const QString &shortcut,
-                                      const QJsonObject &subMenu)
-{
-    return QJsonValue(m_popupMenu->createItemObj(id,
-                                                 text,
-                                                 isSeparator,
-                                                 shortcut,
-                                                 subMenu));
+    mainMenu.exec(pos);
 }
 
 void ImagesView::insertItem(const DBImgInfo &info, bool update)
@@ -242,11 +265,6 @@ void ImagesView::insertItems(const DBImgInfoList &infos)
     }
 }
 
-void ImagesView::updateMenuContents()
-{
-    m_popupMenu->setMenuContent(createMenuContent());
-}
-
 void ImagesView::onMenuItemClicked(int menuId, const QString &text)
 {
     QStringList paths = selectedPaths();
@@ -273,24 +291,22 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdAddToAlbum: {
-        const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
+        const QString album = text;
         dApp->dbM->insertIntoAlbum(album, paths);
         break;
     }
     case IdCopy:
         utils::base::copyImageToClipboard(paths);
         break;
-    case IdMoveToTrash: {
+    case IdThrowToTrash: {
         popupDelDialog(paths);
         break;
     }
     case IdAddToFavorites:
         dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, paths);
-        updateMenuContents();
         break;
     case IdRemoveFromFavorites:
         dApp->dbM->removeFromAlbum(MY_FAVORITES_ALBUM, paths);
-        updateMenuContents();
         break;
     case IdRemoveFromAlbum:
         m_view->removeItems(paths);
@@ -326,6 +342,145 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
     }
 }
 
+void ImagesView::initShortcut() {
+    //FullScreen
+    QShortcut *sc = new QShortcut(QKeySequence("F11"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        qDebug() << "selectPaths fullScreen";
+        QStringList paths = selectedPaths();
+        if (paths.isEmpty()) {
+            return;
+        }
+
+        const QStringList viewPaths = (paths.length() == 1) ? albumPaths() : paths;
+        const QString path = paths.first();
+
+        emit viewImage(path, viewPaths, true);
+    });
+    //Start Slide show
+    sc = new QShortcut(QKeySequence("F5"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        QStringList paths = selectedPaths();
+        if (paths.isEmpty()) {
+            return;
+        }
+
+        const QStringList viewPaths = (paths.length() == 1) ? albumPaths() : paths;
+        const QString path = paths.first();
+
+        emit viewImage(path, viewPaths, true);
+        emit startSlideShow(viewPaths, path);
+    });
+    //Print
+    sc = new QShortcut(QKeySequence("Ctrl+P"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        QStringList paths = selectedPaths();
+        using namespace controller::popup;
+        printDialog(paths.first());
+    });
+    //Copy
+    sc = new QShortcut(QKeySequence("Ctrl+C"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        QStringList paths = selectedPaths();
+        utils::base::copyImageToClipboard(paths);
+    });
+    //Throw to trash
+    sc = new QShortcut(QKeySequence("Delete"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = selectedPaths();
+        popupDelDialog(paths);
+    });
+    sc = new QShortcut(QKeySequence("Shift+Delete"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = selectedPaths();
+        m_view->removeItems(paths);
+        dApp->dbM->removeFromAlbum(m_album, paths);
+    });
+    //Add to My favorites
+    sc = new QShortcut(QKeySequence("Ctrl+K"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = selectedPaths();
+       dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, paths);
+    });
+    //Remove From My favorites
+    sc = new QShortcut(QKeySequence("Shift+Ctrl+K"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = selectedPaths();
+        m_view->removeItems(paths);
+        dApp->dbM->removeFromAlbum(m_album, paths);
+    });
+    //Rotate
+    sc = new QShortcut(QKeySequence("Ctrl+R"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = selectedPaths();
+        if (m_rotateList.isEmpty()) {
+            m_rotateList = paths;
+            for (QString path : paths) {
+                QtConcurrent::run(this, &ImagesView::rotateImage, path, 90);
+            }
+        }
+    });
+    //Counter Rotate
+    sc = new QShortcut(QKeySequence("Shift + Ctrl+R"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = selectedPaths();
+        if (m_rotateList.isEmpty()) {
+            m_rotateList = paths;
+            for (QString path : paths) {
+                QtConcurrent::run(this, &ImagesView::rotateImage, path, -90);
+            }
+        }
+    });
+    //set as wallpaper
+    sc = new QShortcut(QKeySequence("Ctrl+F8"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = selectedPaths();
+        if (paths.isEmpty()) {
+            return;
+        }
+        const QString dpath = paths.first();
+        dApp->wpSetter->setWallpaper(dpath);
+    });
+    //Display in file manager
+    sc = new QShortcut(QKeySequence("Ctrl+D"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = selectedPaths();
+        if (paths.isEmpty()) {
+            return;
+        }
+        const QString dpath = paths.first();
+        utils::base::showInFileManager(dpath);;
+    });
+    // Image info
+    sc = new QShortcut(QKeySequence("Alt+Return"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        const QStringList paths = selectedPaths();
+        if (! paths.isEmpty()) {
+            dApp->signalM->showImageInfo(paths.first());
+        }
+    });
+
+    // Select all
+    sc = new QShortcut(QKeySequence("Ctrl+A"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        m_view->selectAll();
+    });
+
+}
 void ImagesView::rotateImage(const QString &path, int degree)
 {
     utils::image::rotate(path, degree);
@@ -472,31 +627,6 @@ void ImagesView::updateContent()
         m_contentWidget->setVisible(true);
         updateTopTipsRect();
     }
-}
-
-QJsonObject ImagesView::createAlbumMenuObj()
-{
-    const QStringList albums = dApp->dbM->getAllAlbumNames();
-    const QStringList selectPaths = selectedPaths();
-
-    QJsonArray items;
-    if (! selectPaths.isEmpty()) {
-        for (QString album : albums) {
-            if (album == MY_FAVORITES_ALBUM || album == RECENT_IMPORTED_ALBUM) {
-                continue;
-            }
-            else if (! allInAlbum(selectPaths, album)) {
-                items.append(createMenuItem(IdAddToAlbum, album));
-            }
-        }
-    }
-
-    QJsonObject contentObj;
-    if (! items.isEmpty()) {
-        contentObj[""] = QJsonValue(items);
-    }
-
-    return contentObj;
 }
 
 void ImagesView::popupDelDialog(const QStringList &paths)

@@ -49,8 +49,6 @@ ViewPanel::ViewPanel(QWidget *parent)
     initStyleSheet();
     initFileSystemWatcher();
 
-    initPopupMenu();
-
     setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
     installEventFilter(this);
@@ -102,6 +100,14 @@ void ViewPanel::initConnect() {
                paths.length() == 1 && paths.first() == m_current->filePath) {
             removeCurrentImage();
        }
+    });
+
+    connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
+        if (m_infos.isEmpty()) {
+            return;
+        }
+
+        showMenuContext(QCursor::pos());
     });
 }
 
@@ -569,7 +575,6 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     m_viewB->setImage(path);
 
-    updateMenuContent();
     resetImageGeometry();
 
     if (m_info) {

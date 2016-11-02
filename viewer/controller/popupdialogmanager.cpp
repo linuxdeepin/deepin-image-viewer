@@ -1,6 +1,6 @@
 #include "popupdialogmanager.h"
-
 #include "frame/deletedialog.h"
+#include "dmenu.h"
 
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
@@ -9,6 +9,9 @@
 #include <QImage>
 #include <QPixmap>
 #include <QFileInfo>
+#include <QString>
+
+using namespace Dtk::Widget;
 
 namespace controller {
     namespace popup {
@@ -41,6 +44,6 @@ namespace controller {
 
             qDebug() << "print failed!";
             return false;
-        }
+        }  
     }
 }

@@ -17,6 +17,11 @@
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 
+#include <DAction>
+#include <DMenu>
+
+using namespace Dtk::Widget;
+
 namespace {
 
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
@@ -31,7 +36,7 @@ enum MenuItemId {
     IdAddToAlbum,
     IdExport,
     IdCopy,
-    IdMoveToTrash,
+    IdThrowToTrash,
     IdRemoveFromTimeline,
     IdRemoveFromAlbum,
     IdEdit,
@@ -49,118 +54,13 @@ enum MenuItemId {
     IdSeparator
 };
 
-
-void ViewPanel::initPopupMenu()
+void ViewPanel::showMenuContext(QPoint pos)
 {
-    m_popupMenu = new PopupMenuManager(this);
-    connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
-        if (m_infos.isEmpty()) {
-            m_popupMenu->setMenuContent("");
-            return;
-        }
-        updateMenuContent();
-        m_popupMenu->showMenu();
-    });
-    connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
-            this, &ViewPanel::onMenuItemClicked);
-}
-
-void createMI(QJsonArray *items,
-                     const MenuItemId id,
-                     const QString &text,
-                     const QString &shortcut = "",
-                     const bool isSeparator = false,
-                     const QJsonObject &subMenu = QJsonObject())
-{
-    auto obj = PopupMenuManager::createItemObj(int(id), text,
-                                               isSeparator, shortcut, subMenu);
-    items->append(obj);
-}
-
-const QString ViewPanel::createMenuContent()
-{
-    QJsonArray items;
-
-    createMI(&items, IdFullScreen, (window()->isFullScreen() ? tr("Exit fullscreen") : tr("Fullscreen")), "F11");
-    createMI(&items, IdStartSlideShow, tr("Start slide show"), "F5");
-    createMI(&items, IdPrint, tr("Print"), "Ctrl+P");
-    if (m_vinfo.inDatabase) {
-        const QJsonObject objF = createAlbumMenuObj(false);
-        if (! objF.isEmpty()) {
-            createMI(&items, IdAddToAlbum, tr("Add to album"), "", false, objF);
-        }
-    }
-
-    /**************************************************************************/
-    createMI(&items, IdSeparator, "", "", true);
-    //Hide the export function
-    //if (m_vinfo.inDatabase) {
-    //    createMI(&items, IdExport, tr("Export"));
-    //}
-    createMI(&items, IdCopy, tr("Copy"), "Ctrl+C");
-    createMI(&items, IdMoveToTrash, tr("Throw to Trash"), "Delete");
-    if (! m_vinfo.album.isEmpty()) {
-        createMI(&items, IdRemoveFromAlbum, tr("Remove from album"), "Shift+Delete");
-    }
-
-    /**************************************************************************/
-    createMI(&items, IdSeparator, "", "", true);
-
-    if (m_vinfo.inDatabase) {
-        if (m_current != m_infos.constEnd() &&
-                ! dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME, m_current->filePath)) {
-            createMI(&items, IdAddToFavorites, tr("Add to My favorites"), "Ctrl+K");
-        } else {
-            createMI(&items, IdRemoveFromFavorites, tr("Unfavorite"), "Ctrl+Shift+K");
-        }
-    }
-
-    /**************************************************************************/
-    createMI(&items, IdSeparator, "", "", true);
-
-    if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
-        createMI(&items, IdShowNavigationWindow, tr("Show navigation window"));
-    } else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
-        createMI(&items, IdHideNavigationWindow, tr("Hide navigation window"));
-    }
-
-    /**************************************************************************/
-    if (utils::image::imageSupportSave(m_current->filePath)) {
-    createMI(&items, IdSeparator, "", "", true);
-
-    createMI(&items, IdRotateClockwise, tr("Rotate clockwise"), "Ctrl+R");
-    createMI(&items, IdRotateCounterclockwise, tr("Rotate counterclockwise"), "Ctrl+Shift+R");
-    }
-    /**************************************************************************/
-    createMI(&items, IdSeparator, "", "", true);
-
-    if (utils::image::imageSupportSave(m_current->filePath))  {
-    createMI(&items, IdSetAsWallpaper, tr("Set as wallpaper"), "Ctrl+F8");
-    }
-    if (m_vinfo.inDatabase) {
-        createMI(&items, IdDisplayInFileManager, tr("Display in file manager"), "Ctrl+D");
-    }
-    createMI(&items, IdImageInfo, tr("Image info"), "Alt+Enter");
-
-    QJsonObject contentObj;
-    contentObj["x"] = 0;
-    contentObj["y"] = 0;
-    contentObj["items"] = QJsonValue(items);
-
-    QJsonDocument document(contentObj);
-
-    return QString(document.toJson());
-}
-
-
-const QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
-{
-    if (m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
-        return QJsonObject();
-    }
+    ////////////////////////////////////////////////////////////////////////////
+    //get addToAlbum's List
+    DMenu subAlbumNameMenu;
+    bool albumListIsEmpty = true;
     const QStringList albums = dApp->dbM->getAllAlbumNames();
-
-    QJsonArray items;
     if (! m_infos.isEmpty()) {
         for (QString album : albums) {
             if (album == FAVORITES_ALBUM_NAME) {
@@ -168,17 +68,109 @@ const QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
             }
             const QStringList paths = dApp->dbM->getPathsByAlbum(album);
             if (! paths.contains(m_current->filePath)) {
-                createMI(&items, IdAddToAlbum, album);
+                albumListIsEmpty = false;
+                subAlbumNameMenu.addAction(album);
             }
         }
     }
+    ////////////////////////////////////////////////////////////////////////
+    DMenu mainMenu;
+    DAction* fullSAct = new DAction((window()->isFullScreen() ?
+                        tr("Exit fullscreen") : tr("Fullscreen")), this);
+    fullSAct->setData(IdFullScreen);
+    mainMenu.addAction(fullSAct);
 
-    QJsonObject contentObj;
-    if (! items.isEmpty()) {
-        contentObj[""] = QJsonValue(items);
+    DAction* startSlideSAct = new DAction(tr("Start slide show"), this);
+    startSlideSAct->setData(IdStartSlideShow);
+    mainMenu.addAction(startSlideSAct);
+    DAction* printAct = new DAction(tr("Print"), this);
+    printAct->setData(IdPrint);
+    mainMenu.addAction(printAct);
+    DAction* addToAlbumAct = new DAction(tr("Add to album"), this);
+    addToAlbumAct->setData(IdAddToAlbum);
+    addToAlbumAct->setMenu(&subAlbumNameMenu);
+    if (m_vinfo.inDatabase && !albumListIsEmpty )
+        mainMenu.addAction(addToAlbumAct);
+    mainMenu.addSeparator();
+    //////////////////////////////////////////////////////////////////////////
+    DAction* cpyAct = new DAction(tr("Copy"), this);
+    cpyAct->setData(IdCopy);
+    mainMenu.addAction(cpyAct);
+    DAction* delAct = new DAction(tr("Throw to Trash"), this);
+    delAct->setData(IdThrowToTrash);
+    mainMenu.addAction(delAct);
+    ///////////////////////////////////////////////////////////////////////////
+    if (! m_vinfo.album.isEmpty()) {
+        mainMenu.addSeparator();
+        DAction* removeAlbumAct = new DAction(tr("Remove from album"), this);
+        removeAlbumAct->setData(IdRemoveFromAlbum);
+        mainMenu.addAction(removeAlbumAct);
+    }
+    mainMenu.addSeparator();
+
+    if (m_vinfo.inDatabase) {
+        if (m_current != m_infos.constEnd() &&
+                ! dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME, m_current->filePath)) {
+            DAction* addFavAct = new DAction(tr("Add to My favorites"), this);
+            addFavAct->setData(IdAddToFavorites);
+            mainMenu.addAction(addFavAct);
+
+        } else {
+            DAction* unFavAct = new DAction(tr("Unfavorite"), this);
+            unFavAct->setData(IdRemoveFromFavorites);
+            mainMenu.addAction(unFavAct);
+        }
+        mainMenu.addSeparator();
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+        DAction* showNavAct = new DAction(tr("Show navigation window"), this);
+        showNavAct->setData(IdShowNavigationWindow);
+        mainMenu.addAction(showNavAct);
+        mainMenu.addSeparator();
+    } else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+        DAction* hideNavAct = new DAction(tr("Hide navigation window"), this);
+        hideNavAct->setData(IdHideNavigationWindow);
+        mainMenu.addAction(hideNavAct);
+        mainMenu.addSeparator();
     }
 
-    return contentObj;
+    if (utils::image::imageSupportSave(m_current->filePath))  {
+        DAction* rotateAct = new DAction(tr("Rotate clockwise"),
+                                         this);
+        rotateAct->setData(IdRotateClockwise);
+        mainMenu.addAction(rotateAct);
+        DAction* antiRotateAct = new DAction(tr("Rotate "
+                                                "counterclockwise"), this);
+        antiRotateAct->setData(IdRotateCounterclockwise);
+        mainMenu.addAction(antiRotateAct);
+        mainMenu.addSeparator();
+        DAction* wallpaperAct = new DAction(tr("Set as wallpaper"), this);
+        wallpaperAct->setData(IdSetAsWallpaper);
+        mainMenu.addAction(wallpaperAct);
+        mainMenu.addSeparator();
+    }
+
+    if (m_vinfo.inDatabase) {
+        DAction* displayInFileMAct = new DAction(tr("Display in file manager"),
+                                                 this);
+        displayInFileMAct->setData(IdDisplayInFileManager);
+        mainMenu.addAction(displayInFileMAct);
+    }
+    DAction* imgInfoAct = new DAction(tr("Image info"), this);
+    imgInfoAct->setData(IdImageInfo);
+    mainMenu.addAction(imgInfoAct);
+
+    QObject::connect(&mainMenu, &DMenu::triggered, this, [=](QAction* action) {
+        if (action->data().toInt() == 0 && action->text() != (window()->isFullScreen() ?
+           tr("Exit fullscreen") : tr("Fullscreen"))) {
+            onMenuItemClicked(IdAddToAlbum, action->text());
+        } else {
+            onMenuItemClicked(action->data().toInt(), action->text());
+        }
+    });
+
+    mainMenu.exec(pos);
 }
 
 void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
@@ -217,7 +209,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     case IdCopy:
         copyImageToClipboard(QStringList(path));
         break;
-    case IdMoveToTrash: {
+    case IdThrowToTrash: {
         popupDelDialog(path);
         break;
     }
@@ -259,23 +251,94 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
 
-    updateMenuContent();
-}
-
-void ViewPanel::updateMenuContent()
-{
-    if (m_infos.isEmpty()) {
-        m_popupMenu->setMenuContent("");
-        return;
-    }
-    // For update shortcut
-    m_popupMenu->setMenuContent(createMenuContent());
 }
 
 void ViewPanel::initShortcut()
 {
+    //FullScreen
+    QShortcut *sc = new QShortcut(QKeySequence("F11"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        toggleFullScreen();
+    });
+    //Start Slide show
+    sc = new QShortcut(QKeySequence("F5"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QString path = m_current->filePath;
+        auto vinfo = m_vinfo;
+        vinfo.fullScreen = window()->isFullScreen();
+        vinfo.lastPanel = this;
+        vinfo.path = path;
+        vinfo.paths = paths();
+        emit dApp->signalM->startSlideShow(vinfo);
+    });
+    //Print
+    sc = new QShortcut(QKeySequence("Ctrl+P"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        const QString path = m_current->filePath;
+        using namespace controller::popup;
+        printDialog(path);
+    });
+    //Copy
+    sc = new QShortcut(QKeySequence("Ctrl+C"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QString path = m_current->filePath;
+        utils::base::copyImageToClipboard(QStringList(path));
+    });
+    //Throw to trash
+    sc = new QShortcut(QKeySequence("Delete"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QString path = m_current->filePath;
+        popupDelDialog(path);
+    });
+    //Add to My favorites
+    sc = new QShortcut(QKeySequence("Ctrl+K"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QString path = m_current->filePath;
+        dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
+        emit updateCollectButton();
+    });
+    //Remove From My favorites
+    sc = new QShortcut(QKeySequence("Shift+Ctrl+K"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QString path = m_current->filePath;
+        dApp->dbM->removeFromAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
+        emit updateCollectButton();
+    });
+    //Rotate
+    sc = new QShortcut(QKeySequence("Ctrl+R"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        rotateImage(true);
+    });
+    //Counter Rotate
+    sc = new QShortcut(QKeySequence("Shift + Ctrl+R"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        rotateImage(false);
+    });
+    //set as wallpaper
+    sc = new QShortcut(QKeySequence("Ctrl+F8"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QString path = m_current->filePath;
+        dApp->wpSetter->setWallpaper(path);;
+    });
+    //Display in file manager
+    sc = new QShortcut(QKeySequence("Ctrl+D"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QString path = m_current->filePath;
+        emit dApp->signalM->showInFileManager(path);
+    });
     // Image info
-    QShortcut *sc = new QShortcut(QKeySequence("Alt+Return"), this);
+    sc = new QShortcut(QKeySequence("Alt+Return"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         dApp->signalM->showExtensionPanel();

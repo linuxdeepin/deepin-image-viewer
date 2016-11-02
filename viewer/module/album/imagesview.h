@@ -54,7 +54,7 @@ private:
         IdAddToAlbum,
         IdExport,
         IdCopy,
-        IdMoveToTrash,
+        IdThrowToTrash,
         IdRemoveFromAlbum,
         IdEdit,
         IdAddToFavorites,
@@ -73,7 +73,6 @@ private:
     void initContent();
     void initTopTips();
 
-    void onMenuItemClicked(int menuId, const QString &text);
     void popupDelDialog(const QStringList &paths);
     void rotateImage(const QString &path, int degree);
     void showImportFrame(bool v);
@@ -81,14 +80,10 @@ private:
     void updateContent();
     void updateTopTipsRect();
     bool allInAlbum(const QStringList &paths, const QString &album);
-
-    QJsonObject createAlbumMenuObj();
-    QString createMenuContent();
-    QJsonValue createMenuItem(const MenuItemId id,
-                              const QString &text,
-                              const bool isSeparator = false,
-                              const QString &shortcut = "",
-                              const QJsonObject &subMenu = QJsonObject());
+    //imagesView menu
+    void showMenuContext(QPoint pos);
+    void initShortcut();
+    void onMenuItemClicked(int menuId, const QString &text);
     const QStringList albumPaths();
 
 private:
@@ -97,7 +92,6 @@ private:
     TopAlbumTips *m_topTips;
     ThumbnailListView *m_view;
     QVBoxLayout *m_contentLayout;
-    PopupMenuManager *m_popupMenu;
     QWidget *m_contentWidget;
     ImportFrame *m_importFrame;
 };
