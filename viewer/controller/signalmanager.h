@@ -42,7 +42,7 @@ signals:
     void activeWindow();
 
     void imagesInserted(const DBImgInfoList infos);
-    void imagesRemoved(const QStringList &names);
+    void imagesRemoved(const QStringList &paths);
 
     void editImage(const QString &path);
     void showImageInfo(const QString &path);

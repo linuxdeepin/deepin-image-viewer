@@ -175,7 +175,8 @@ bool CommandLine::processOption()
                     return false;
                 }
             }
-            else if (imageSupportRead(QFileInfo(value).absoluteFilePath())) {
+            else if (QFileInfo(value).exists() &&
+                     imageSupportRead(QFileInfo(value).absoluteFilePath())) {
                 viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
                 return true;
             }

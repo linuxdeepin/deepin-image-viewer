@@ -72,8 +72,8 @@ void ViewPanel::initConnect() {
             emit dApp->signalM->hideBottomToolbar(true);
         }
     });
-    qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
 
+    qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
     connect(dApp->signalM, &SignalManager::viewImage, [=](const SignalManager::ViewInfo &vinfo){
         onViewImage(vinfo);
         if (NULL == vinfo.lastPanel) {
@@ -95,6 +95,13 @@ void ViewPanel::initConnect() {
             if (imageIndex(path) == imageIndex(m_current->filePath))
                 removeCurrentImage();
         }
+    });
+    connect(dApp->signalM, &SignalManager::imagesRemoved,
+            this, [=] (const QStringList &paths) {
+       if (m_infos.length() > 0 && m_infos.cend() != m_current &&
+               paths.length() == 1 && paths.first() == m_current->filePath) {
+            removeCurrentImage();
+       }
     });
 }
 
@@ -374,13 +381,17 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     m_current = m_infos.cbegin();
     if (! vinfo.path.isEmpty()) {
         for (; m_current != m_infos.cend(); m_current ++) {
-            QString imgPath = vinfo.path;
-            if (m_current->filePath == imgPath) {
+            if (m_current->filePath == vinfo.path) {
                 break;
             }
         }
     }
 
+    if (m_current == m_infos.cend()) {
+        qWarning() << "The specify path not in view range: "
+                   << vinfo.path << vinfo.paths;
+        return;
+    }
     openImage(m_current->filePath);
 }
 

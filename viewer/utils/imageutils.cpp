@@ -221,7 +221,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     QFileInfoList infos;
 
     if (! recursive) {
-        auto nsl = QDir(dir).entryInfoList(QDir::Files | QDir::NoSymLinks);
+        auto nsl = QDir(dir).entryInfoList(QDir::Files);
         for (QFileInfo info : nsl) {
             if (imageSupportRead(info.absoluteFilePath())) {
                 infos << info;
@@ -231,7 +231,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     }
 
     QDirIterator dirIterator(dir,
-                             QDir::Files | QDir::NoSymLinks,
+                             QDir::Files,
                              QDirIterator::Subdirectories);
     while(dirIterator.hasNext())
     {
