@@ -93,12 +93,11 @@ void ViewPanel::initScaleLabel()
         connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
 
         connect(m_viewB, &ImageView::scaled, this, [=](qreal perc) {
-            QString originText = scalePerc->text();
             scalePerc->setText(QString("%1%").arg(int(perc)));
-            if (scalePerc->text() != originText) {
-                scalePerc->show();
-                hideT->start(2000);
-            }
+        });
+        connect(m_viewB, &ImageView::showScaleLabel, this, [=](){
+            scalePerc->show();
+            hideT->start(2000);
         });
 }
 

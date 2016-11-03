@@ -349,5 +349,6 @@ void ImageView::wheelEvent(QWheelEvent *event)
     event->accept();
 
     emit scaled(imageRelativeScale() * 100);
+    emit showScaleLabel();
 }
 

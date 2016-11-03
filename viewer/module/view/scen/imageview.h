@@ -52,7 +52,7 @@ signals:
     void mouseHoverMoved();
     void scaled(qreal perc);
     void transformChanged();
-
+    void showScaleLabel();
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 

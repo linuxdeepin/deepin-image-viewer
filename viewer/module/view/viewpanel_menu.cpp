@@ -351,6 +351,8 @@ void ViewPanel::popupDelDialog(const QString path) {
         delDialog->show();
         delDialog->moveToCenter();
         connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
+            delDialog->hide();
+
             if (index == 1) {
                 dApp->dbM->removeImgInfos(QStringList(path));
                 trashFile(path);

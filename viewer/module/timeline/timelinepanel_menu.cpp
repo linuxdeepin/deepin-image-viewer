@@ -293,6 +293,8 @@ void TimelinePanel::popupDelDialog(const QStringList &paths)
     dialog->show();
     dialog->moveToCenter();
     connect(dialog, &DeleteDialog::buttonClicked, [=](int index){
+        dialog->hide();
+
         if (index == 1) {
             dApp->dbM->removeImgInfos(paths);
             utils::base::trashFiles(paths);

@@ -505,6 +505,8 @@ void ImagesView::popupDelDialog(const QStringList &paths)
     delDialog->show();
     delDialog->moveToCenter();
     connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
+        delDialog->hide();
+
         if (index == 1) {
             m_view->removeItems(paths);
             dApp->dbM->removeImgInfos(paths);
