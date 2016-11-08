@@ -415,23 +415,23 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     if (! db.isValid() || album.isEmpty()) {
         return;
     }
-    QVariantList nameRows, pathRows, apRows;
+    QStringList nameRows, pathRows;
     for (QString path : paths) {
         nameRows << album;
         pathRows << path;
-        apRows << (album + path);
     }
+
     QSqlQuery query( db );
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    query.prepare("REPLACE INTO AlbumTable2 (AP, AlbumName, FilePath) "
-                  "VALUES (?, ?, ?)");
-    query.addBindValue(apRows);
+    query.prepare("REPLACE INTO AlbumTable2 (AlbumId, AlbumName, FilePath) "
+                  "VALUES (null, ?, ?)");
     query.addBindValue(nameRows);
     query.addBindValue(pathRows);
     if (! query.execBatch()) {
         qWarning() << "Insert data into AlbumTable2 failed: "
                    << query.lastError();
     }
+
     query.exec("COMMIT");
     //    emit dApp->signalM->insertIntoAlbum(info);                                // TODO
 }
@@ -568,15 +568,17 @@ void DBManager::checkDatabase()
 
         // AlbumTable2
         /////////////////////////////////////////////////////
-        //AP               | AlbumName         | FilePath  //
+        //AT               | AlbumName         | FilePath  //
         //TEXT primari key | TEXT              | TEXT      //
         /////////////////////////////////////////////////////
         query.exec( QString("CREATE TABLE IF NOT EXISTS AlbumTable2 ( "
-                            "AP TEXT primary key, "
+                            "AlbumId INTEGER primary key, "
                             "AlbumName TEXT, "
                             "FilePath TEXT )") );
 
         // Check if there is an old version table exist or not
+
+        //TODO: AlbumTable's primary key is changed, need to importVersion again
         importVersion1Data();
     }
 
