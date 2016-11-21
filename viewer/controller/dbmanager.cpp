@@ -212,6 +212,12 @@ void DBManager::removeImgInfos(const QStringList &paths)
         return;
     }
 
+    // Collect info before removing data
+    DBImgInfoList infos;
+    for (QString path : paths) {
+        infos << getInfoByPath(path);
+    }
+
     QSqlQuery query(db);
     // Remove from albums table
     QString qs = "DELETE FROM AlbumTable2 WHERE FilePath=?";
@@ -237,7 +243,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
                    << query.lastError();
     }
     else {
-        emit dApp->signalM->imagesRemoved(paths);
+        emit dApp->signalM->imagesRemoved(infos);
     }
 }
 

@@ -97,9 +97,9 @@ void ViewPanel::initConnect() {
         }
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved,
-            this, [=] (const QStringList &paths) {
+            this, [=] (const DBImgInfoList &infos) {
        if (m_infos.length() > 0 && m_infos.cend() != m_current &&
-               paths.length() == 1 && paths.first() == m_current->filePath) {
+               infos.length() == 1 && infos.first().filePath == m_current->filePath) {
             removeCurrentImage();
        }
     });

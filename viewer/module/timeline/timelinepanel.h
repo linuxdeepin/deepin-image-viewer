@@ -7,7 +7,8 @@ class QLabel;
 class QStackedWidget;
 class PopupMenuManager;
 class Slider;
-class TimelineImageView;
+class TimelineFrame;
+
 class TimelinePanel : public ModulePanel
 {
     Q_OBJECT
@@ -45,7 +46,7 @@ private:
     QLabel              *m_countLabel;
     QStackedWidget      *m_mainStack;
     Slider              *m_slider;
-    TimelineImageView   *m_view;
+    TimelineFrame       *m_frame;
 
     QStringList         m_rotateList;
 };

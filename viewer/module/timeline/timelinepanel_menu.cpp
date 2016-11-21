@@ -1,5 +1,4 @@
 #include "timelinepanel.h"
-#include "timelineimageview.h"
 #include "controller/dbmanager.h"
 #include "controller/exporter.h"
 #include "controller/wallpapersetter.h"
@@ -7,6 +6,7 @@
 #include "frame/deletedialog.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "timelineframe.h"
 #include <QShortcut>
 #include <QtConcurrent>
 
@@ -55,7 +55,7 @@ void TimelinePanel::initShortcut()
     QShortcut *sc = new QShortcut(QKeySequence("F11"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         if (paths.isEmpty()||paths.length() > 1)
             return;
         SignalManager::ViewInfo vinfo;
@@ -70,7 +70,7 @@ void TimelinePanel::initShortcut()
     sc = new QShortcut(QKeySequence("F5"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         if (paths.isEmpty()) {
             return;
         }
@@ -89,7 +89,7 @@ void TimelinePanel::initShortcut()
     sc = new QShortcut(QKeySequence("Ctrl+P"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         if (paths.isEmpty()) {
             return;
         }
@@ -101,35 +101,35 @@ void TimelinePanel::initShortcut()
     sc = new QShortcut(QKeySequence("Ctrl+C"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         utils::base::copyImageToClipboard(paths);
     });
     //Throw to trash
     sc = new QShortcut(QKeySequence("Delete"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         popupDelDialog(paths);
     });
     //Add to My favorites
     sc = new QShortcut(QKeySequence("Ctrl+K"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM_NAME, paths);
     });
     //Remove From My favorites
     sc = new QShortcut(QKeySequence("Shift+Ctrl+K"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         dApp->dbM->removeFromAlbum(FAVORITES_ALBUM_NAME, paths);
     });
     //Rotate
     sc = new QShortcut(QKeySequence("Ctrl+R"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         if (m_rotateList.isEmpty()) {
             m_rotateList = paths;
             for (QString path : paths) {
@@ -141,7 +141,7 @@ void TimelinePanel::initShortcut()
     sc = new QShortcut(QKeySequence("Shift + Ctrl+R"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         if (m_rotateList.isEmpty()) {
             m_rotateList = paths;
             for (QString path : paths) {
@@ -153,7 +153,7 @@ void TimelinePanel::initShortcut()
     sc = new QShortcut(QKeySequence("Ctrl+F8"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         if (paths.isEmpty()) {
             return;
         }
@@ -164,7 +164,7 @@ void TimelinePanel::initShortcut()
     sc = new QShortcut(QKeySequence("Ctrl+D"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         if (paths.isEmpty()) {
             return;
         }
@@ -175,7 +175,7 @@ void TimelinePanel::initShortcut()
     sc = new QShortcut(QKeySequence("Alt+Return"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        const QStringList paths = m_view->selectedPaths();
+        const QStringList paths = m_frame->selectedPaths();
         if (! paths.isEmpty()) {
             dApp->signalM->showImageInfo(paths.first());
         }
@@ -185,12 +185,13 @@ void TimelinePanel::initShortcut()
     sc = new QShortcut(QKeySequence("Ctrl+A"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
-        m_view->selectAll();
+//        m_view->selectAll();
+        m_frame->selectAll();
     });
 }
 
 void TimelinePanel::showMenuContext(QPoint pos) {
-    auto paths = m_view->selectedPaths();
+    auto paths = m_frame->selectedPaths();
     auto supportPath = std::find_if_not(paths.cbegin(), paths.cend(),
                                         utils::image::imageSupportSave);
     bool canSave = supportPath == paths.cend();
@@ -311,7 +312,7 @@ void TimelinePanel::showMenuContext(QPoint pos) {
 }
 
 void TimelinePanel::onMenuItemClicked(int menuId, const QString &text) {
-    const QStringList paths = m_view->selectedPaths();
+    const QStringList paths = m_frame->selectedPaths();
     if (paths.isEmpty()) {
         return;
     }
@@ -396,7 +397,8 @@ void TimelinePanel::rotateImage(const QString &path, int degree)
     m_rotateList.removeAll(path);
     if (m_rotateList.isEmpty()) {
         qDebug() << "Rotate finish!";
-        m_view->updateThumbnails();
+//        m_view->updateThumbnails();
+        m_frame->updateThumbnails();
     }
 }
 

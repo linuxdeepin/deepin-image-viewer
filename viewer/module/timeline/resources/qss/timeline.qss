@@ -76,7 +76,7 @@ QLabel#TooltipCountLabel {
     color: rgba(255, 255, 255, 130);
 }
 
-TopTimelineTips {
+QLabel#TopTimelineTip {
     font-size: 12px;
     color: #FFFFFF;
     border-image: url(:/images/resources/images/lineargradient.png) repeat;

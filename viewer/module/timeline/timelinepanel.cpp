@@ -1,11 +1,11 @@
 #include "timelinepanel.h"
-#include "timelineimageview.h"
 #include "application.h"
 #include "controller/configsetter.h"
 #include "controller/importer.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
 #include "controller/popupdialogmanager.h"
+#include "timelineframe.h"
 #include "utils/imageutils.h"
 #include "widgets/imagebutton.h"
 #include "widgets/importframe.h"
@@ -62,7 +62,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
                                               SETTINGS_ICON_SCALE_KEY,
                                               QVariant(0)).toInt();
     const int iconSize = MIN_ICON_SIZE + sizeScale * 32;
-    m_view->setIconSize(QSize(iconSize, iconSize));
+    m_frame->setIconSize(iconSize);
 
     m_slider = new Slider(Qt::Horizontal);
     m_slider->setMinimum(0);
@@ -71,7 +71,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
     m_slider->setPageStep(1);
     connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
         int newSize = MIN_ICON_SIZE + multiple * 32;
-        m_view->setIconSize(QSize(newSize, newSize));
+        m_frame->setIconSize(newSize);
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_ICON_SCALE_KEY,
                                QVariant(m_slider->value()));
     });
@@ -213,15 +213,14 @@ void TimelinePanel::initConnection()
         if (! success) {
             return;
         }
-        m_view->updateFrames();
         onImageCountChanged(dApp->dbM->getImgsCount());
     });
-    qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=] {
-        if (! m_view->isEmpty()) {
-            onImageCountChanged(dApp->dbM->getImgsCount());
-        }
-    });
+//    qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
+//    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=] {
+//        if (! m_view->isEmpty()) {
+//            onImageCountChanged(dApp->dbM->getImgsCount());
+//        }
+//    });
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=] {
         onImageCountChanged(dApp->dbM->getImgsCount());
     });
@@ -250,7 +249,8 @@ void TimelinePanel::initMainStackWidget()
     m_mainStack = new QStackedWidget;
     m_mainStack->setContentsMargins(0, 0, 0, 0);
     m_mainStack->addWidget(frame);
-    m_mainStack->addWidget(m_view);
+//    m_mainStack->addWidget(m_view);
+    m_mainStack->addWidget(m_frame);
     //show import frame if no images in database
     m_mainStack->setCurrentIndex(dApp->dbM->getImgsCount() > 0 ? 1 : 0);
 
@@ -261,17 +261,16 @@ void TimelinePanel::initMainStackWidget()
 
 void TimelinePanel::initImagesView()
 {
-    m_view = new TimelineImageView;
-    m_view->setAcceptDrops(true);
-    connect(m_view, &TimelineImageView::viewImage,
-            this, [=] (const QString &path, const QStringList &paths){
+    m_frame = new TimelineFrame;
+    connect(m_frame, &TimelineFrame::viewImage,
+            this, [=] (const QString &path, const QStringList &paths) {
         SignalManager::ViewInfo vinfo;
         vinfo.lastPanel = this;
         vinfo.path = path;
         vinfo.paths = paths;
         emit dApp->signalM->viewImage(vinfo);
     });
-    connect(m_view, &TimelineImageView::showMenuRequested, this, [=] {
+    connect(m_frame, &TimelineFrame::showMenu, this, [=] {
         using namespace controller::popup;
         showMenuContext(QCursor::pos());
     });
