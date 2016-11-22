@@ -24,7 +24,7 @@ public:
 
 public slots:
     void onOpenAlbum(const QString &album);
-    void onCreateAlbum();
+    void onCreateAlbum(QStringList imagepaths);
 
 protected:
     void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
@@ -41,7 +41,7 @@ private:
 
     void updateImagesCount(bool fromDB = false);
     void updateAlbumCount();
-    void showCreateDialog();
+    void showCreateDialog(QStringList imgpaths);
     void showImportDirDialog(const QString &dir);
     void onImageCountChanged(int count);
     void onInsertIntoAlbum(const DBImgInfo info);

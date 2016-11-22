@@ -456,7 +456,7 @@ void AlbumPanel::updateAlbumCount()
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
 }
 
-void AlbumPanel::showCreateDialog()
+void AlbumPanel::showCreateDialog(QStringList imgpaths)
 {
     if (! parentWidget()) {
         return;
@@ -480,6 +480,8 @@ void AlbumPanel::showCreateDialog()
                 m_stackWidget->currentWidget() != m_imagesView) {
             m_stackWidget->setCurrentWidget(m_albumsView);
         }
+
+        dApp->dbM->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
     });
 }
 
@@ -547,12 +549,12 @@ void AlbumPanel::onOpenAlbum(const QString &album)
     updateImagesCount(true);
 }
 
-void AlbumPanel::onCreateAlbum()
+void AlbumPanel::onCreateAlbum(QStringList imagepaths)
 {
     if (this->isVisible() && m_stackWidget->currentWidget() == m_albumsView)
         m_albumsView->createAlbum();
     else
-        showCreateDialog();
+        showCreateDialog(imagepaths);
 }
 
 void AlbumPanel::showEvent(QShowEvent *e)

@@ -54,7 +54,7 @@ signals:
 
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");
-    void createAlbum();
+    void createAlbum(QStringList imgPath = QStringList());
     void importDir(const QString &dir);
     void insertIntoAlbum(const DBImgInfo info);
     void removedFromAlbum(const QString &album, const QStringList &paths);

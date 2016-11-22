@@ -178,9 +178,8 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     using namespace utils::base;
     using namespace utils::image;
 
-    const QStringList mtl = text.split(SHORTCUT_SPLIT_FLAG);
     const QString path = m_current->filePath;
-    const QString albumName = mtl.isEmpty() ? "" : mtl.first();
+    const QString albumName =text;
 
     switch (MenuItemId(menuId)) {
     case IdFullScreen:
@@ -200,8 +199,13 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         printDialog(path);
         break;
     }
-    case IdAddToAlbum:
-        dApp->dbM->insertIntoAlbum(albumName, QStringList(path));
+    case IdAddToAlbum: {
+        if (albumName != tr("Add to new album")) {
+            dApp->dbM->insertIntoAlbum(albumName, QStringList(path));
+        } else {
+            dApp->signalM->createAlbum(QStringList(path));
+        }
+    }
         break;
     case IdExport:
         dApp->exporter->exportImage(QStringList(path));

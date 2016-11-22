@@ -203,6 +203,10 @@ void TimelinePanel::showMenuContext(QPoint pos) {
     //get addToAlbum's List
     DMenu subAlbumNameMenu;
     const QStringList albums = dApp->dbM->getAllAlbumNames();
+    DAction* newAlbum = new DAction(tr("Add to new album"), this);
+    subAlbumNameMenu.addAction(newAlbum);
+    if (!albums.isEmpty())
+        subAlbumNameMenu.addSeparator();
     bool albumListIsEmpty = true;
     for (QString album : albums) {
         if (album == FAVORITES_ALBUM_NAME) {
@@ -344,8 +348,12 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text) {
         break;
     }
     case IdAddToAlbum: {
-        const QString album = text;
-        dApp->dbM->insertIntoAlbum(album, paths);
+        if (text != tr("Add to new album")) {
+            const QString album = text;
+            dApp->dbM->insertIntoAlbum(album, paths);
+        } else {
+            dApp->signalM->createAlbum(paths);
+        }
         break;
     }
     case IdCopy:

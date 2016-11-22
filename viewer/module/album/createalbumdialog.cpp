@@ -109,12 +109,19 @@ const QString CreateAlbumDialog::getNewAlbumName() const
     }
 }
 
+const QString CreateAlbumDialog::getCreateAlbumName() const
+{
+    return m_createAlbumName;
+}
+
 void CreateAlbumDialog::createAlbum(const QString &newName)
 {
     if (! dApp->dbM->getAllAlbumNames().contains(newName)) {
+        m_createAlbumName = newName;
         dApp->dbM->insertIntoAlbum(newName, QStringList());
     }
     else {
+        m_createAlbumName = getNewAlbumName();
         dApp->dbM->insertIntoAlbum(getNewAlbumName(), QStringList());
     }
 
