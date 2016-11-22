@@ -256,17 +256,21 @@ void TopToolbar::initWidgets()
     connect(cb, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
 
     m_rightContent = new QWidget;
+    m_rightContent->setFixedWidth((window()->width() - 48*6)/2);
     QHBoxLayout *rightLayout = new QHBoxLayout(m_rightContent);
     rightLayout->setContentsMargins(0, 0, 0, 0);
     rightLayout->setSpacing(0);
+    rightLayout->addStretch();
     rightLayout->addWidget(importProgress);
     rightLayout->addSpacing(6);
     rightLayout->addWidget(ob);
     rightLayout->addWidget(minb);
     rightLayout->addWidget(m_maxb);
     rightLayout->addWidget(cb);
+    rightLayout->addSpacing(ICON_MARGIN);
 
     m_leftContent = new QWidget;
+    m_leftContent->setFixedWidth((window()->width() - 48*6)/2);
     m_leftLayout = new QHBoxLayout(m_leftContent);
     m_leftLayout->setContentsMargins(0, 0, 0, 0);
     m_leftLayout->setSpacing(0);
@@ -277,12 +281,10 @@ void TopToolbar::initWidgets()
     m_middleLayout->setSpacing(0);
 
     mainLayout->addWidget(m_leftContent);
-    mainLayout->addSpacing(36);
     mainLayout->addStretch(1);
     mainLayout->addWidget(m_middleContent);
     mainLayout->addStretch(1);
     mainLayout->addWidget(m_rightContent);
-    mainLayout->addSpacing(ICON_MARGIN);
 }
 
 void TopToolbar::initMenu()

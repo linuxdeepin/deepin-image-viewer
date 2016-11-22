@@ -127,12 +127,15 @@ QWidget *TimelinePanel::toolbarBottomContent()
 QWidget *TimelinePanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
+    tTopleftContent->setFixedWidth((window()->width() - 48*6)/2);
+
     QLabel *label = new QLabel;
     label->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addSpacing(ICON_MARGIN);
     layout->addWidget(label, 1, Qt::AlignLeft | Qt::AlignVCenter);
+    layout->addStretch();
 
     return tTopleftContent;
 }
@@ -156,9 +159,10 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    layout->addSpacing(MARGIN_DIFF);
+    layout->addStretch();
     layout->addWidget(timelineButton);
     layout->addWidget(albumButton);
+    layout->addStretch();
 
     return tTopMiddleContent;
 }

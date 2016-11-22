@@ -21,7 +21,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
-    m_layout->addSpacing(MARGIN_DIFF);
+    m_layout->addStretch();
 
     const QString res = ":/images/resources/images/";
 
@@ -87,6 +87,7 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
                                  , res + "delete_disable.png");
     m_trashBtn->setToolTip(tr("Throw to Trash"));
     m_layout->addWidget(m_trashBtn);
+    m_layout->addStretch();
     connect(m_trashBtn, &ImageButton::clicked, this, &TTMContent::removed);
 }
 

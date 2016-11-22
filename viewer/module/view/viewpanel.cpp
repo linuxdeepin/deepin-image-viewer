@@ -221,6 +221,8 @@ QWidget *ViewPanel::toolbarBottomContent()
 QWidget *ViewPanel::toolbarTopLeftContent()
 {
     TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
+    ttlc->setFixedWidth((window()->width() - 48*6)/2);
+
     connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
     connect(this, &ViewPanel::viewImageFrom, ttlc, &TTLContent::setCurrentDir);
     return ttlc;

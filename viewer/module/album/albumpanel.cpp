@@ -178,9 +178,11 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
     tTopleftContent->setStyleSheet(this->styleSheet());
+    tTopleftContent->setFixedWidth((window()->width() - 48*6)/2);
 
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
     layout->addSpacing(ICON_MARGIN);
     if (m_stackWidget->currentWidget() == m_imagesView) {
 
@@ -198,15 +200,21 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
         returnButton->setToolTip(tr("Back"));
         QLabel *curDirLabel = new QLabel();
         curDirLabel->setObjectName("CurrentDirLabel");
-        curDirLabel->setText(m_currentAlbum);
+
+        QString dir = curDirLabel->fontMetrics().elidedText(m_currentAlbum,
+                                     Qt::ElideMiddle, tTopleftContent->width()/2);
+        curDirLabel->setText(dir);
+
         layout->addWidget(returnButton);
         layout->addWidget(curDirLabel);
+        layout->addStretch();
     }
     else {
         QLabel *icon = new QLabel;
         // TODO update icon path
         icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
         layout->addWidget(icon);
+        layout->addStretch();
     }
 
     return tTopleftContent;
@@ -240,9 +248,10 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     QHBoxLayout *layout = new QHBoxLayout(tTopMiddleContent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    layout->addSpacing(MARGIN_DIFF);
+    layout->addStretch();
     layout->addWidget(timelineButton);
     layout->addWidget(albumButton);
+    layout->addStretch();
 
     return tTopMiddleContent;
 }

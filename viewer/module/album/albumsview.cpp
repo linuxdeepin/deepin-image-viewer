@@ -296,6 +296,7 @@ void AlbumsView::showMenuContext(QPoint pos, const QModelIndex &index) {
         DAction* startSlideAct = new DAction(tr("Start slide show"), this);
         startSlideAct->setData(IdStartSlideShow);
         albumsViewMenu.addAction(startSlideAct);
+
         albumsViewMenu.addSeparator();
         if (!isSpecial) {
             DAction* renameAct = new DAction(tr("Rename"), this);
