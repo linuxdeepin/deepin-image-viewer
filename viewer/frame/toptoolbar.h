@@ -23,7 +23,8 @@ protected:
     void resizeEvent(QResizeEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
-
+signals:
+    void updateImportTipsGeo();
 private:
     enum MenuItemId {
         IdCreateAlbum,
