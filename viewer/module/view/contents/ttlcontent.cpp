@@ -24,7 +24,7 @@ TTLContent::TTLContent(bool inDB, QWidget *parent) : QWidget(parent)
         btn->setToolTip(tr("Image management"));
     }
 
-    m_curDirLabel = new QLabel();
+    m_curDirLabel = new QLabel(this);
     m_curDirLabel->setObjectName("CurrentDirLabel");
     //TODO: Since there is only one label used the brief QSS,
     //so do not use read QSS file
@@ -36,7 +36,6 @@ TTLContent::TTLContent(bool inDB, QWidget *parent) : QWidget(parent)
 
     hb->addWidget(btn);
     hb->addWidget(m_curDirLabel);
-
     hb->addStretch();
 
     connect(btn, &ImageButton::clicked, this, [=] {
@@ -44,12 +43,9 @@ TTLContent::TTLContent(bool inDB, QWidget *parent) : QWidget(parent)
     });
 }
 
-
 void TTLContent::setCurrentDir(QString text) {
     QString dir = m_curDirLabel->fontMetrics().elidedText(text, Qt::ElideMiddle,
                                                           this->width()/2);
-
     m_curDirLabel->setText(dir);
-    m_curDirLabel->sizeHint();
     update();
 }

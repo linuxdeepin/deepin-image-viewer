@@ -103,5 +103,6 @@ private:
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
     DBImgInfoList::ConstIterator m_current;
+    QString m_currentImageLastDir = "";
 };
 #endif // VIEWPANEL_H

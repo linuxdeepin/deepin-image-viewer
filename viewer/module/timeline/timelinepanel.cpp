@@ -58,8 +58,6 @@ QWidget *TimelinePanel::toolbarBottomContent()
 {
     QWidget *tBottomContent = new QWidget;
     tBottomContent->setStyleSheet(this->styleSheet());
-
-
     const int sizeScale = dApp->setter->value(SETTINGS_GROUP,
                                               SETTINGS_ICON_SCALE_KEY,
                                               QVariant(0)).toInt();
@@ -203,7 +201,7 @@ void TimelinePanel::showPanelEvent(ModulePanel *p)
 {
     ModulePanel::showPanelEvent(p);
     emit dApp->signalM->showTopToolbar();
-    emit dApp->signalM->showBottomToolbar();
+//    emit dApp->signalM->showBottomToolbar();
     emit dApp->signalM->hideExtensionPanel(true);
     emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent(),
                                                    false);
@@ -229,6 +227,12 @@ void TimelinePanel::initConnection()
     });
     connect(dApp->signalM, &SignalManager::gotoTimelinePanel, this, [=] {
         emit dApp->signalM->gotoPanel(this);
+    });
+
+    connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
+        if (!this->isHidden()) {
+            showPanelEvent(this);
+        }
     });
 }
 

@@ -97,6 +97,10 @@ bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
 void TopToolbar::resizeEvent(QResizeEvent *e)
 {
     Q_UNUSED(e);
+    emit dApp->signalM->updateTopToolbar();
+    m_leftContent->setFixedWidth((window()->width() - 48*6)/2);
+    m_middleContent->update();
+    m_rightContent->setFixedWidth((window()->width() - 48*6)/2);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)

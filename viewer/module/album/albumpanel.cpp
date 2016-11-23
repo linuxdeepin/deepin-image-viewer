@@ -172,6 +172,11 @@ void AlbumPanel::initConnection()
             onOpenAlbum(album);
         }
     });
+    connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
+        if (!this->isHidden()) {
+            showPanelEvent(this);
+        }
+    });
 }
 
 QWidget *AlbumPanel::toolbarTopLeftContent()

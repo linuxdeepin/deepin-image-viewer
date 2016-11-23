@@ -28,6 +28,7 @@ protected:
     virtual void showPanelEvent(ModulePanel *p) {
         if (p != this)
             return;
+
         emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
         emit dApp->signalM->updateExtensionPanelContent(extensionPanelContent());
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());

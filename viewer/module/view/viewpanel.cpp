@@ -78,8 +78,10 @@ void ViewPanel::initConnect() {
             return;
         } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
                 vinfo.lastPanel->moduleName() == "ViewPanel") {
+            m_currentImageLastDir = vinfo.album;
             emit viewImageFrom(vinfo.album);
         } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
+            m_currentImageLastDir = tr("Timeline");
             emit viewImageFrom(tr("Timeline"));
         }
         //TODO: there will be some others panel
@@ -108,6 +110,12 @@ void ViewPanel::initConnect() {
         }
 
         showMenuContext(QCursor::pos());
+    });
+
+    connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
+        if (!this->isHidden()) {
+            showPanelEvent(this);
+        }
     });
 }
 
@@ -222,7 +230,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 {
     TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
     ttlc->setFixedWidth((window()->width() - 48*6)/2);
-
+    ttlc->setCurrentDir(m_currentImageLastDir);
     connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
     connect(this, &ViewPanel::viewImageFrom, ttlc, &TTLContent::setCurrentDir);
     return ttlc;
