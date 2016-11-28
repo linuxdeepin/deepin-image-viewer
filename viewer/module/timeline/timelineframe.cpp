@@ -1,5 +1,4 @@
 #include "timelineframe.h"
-#include "toptimelinetips.h"
 #include "anchors.h"
 #include "application.h"
 #include "controller/importer.h"
@@ -156,7 +155,13 @@ void TimelineFrame::insertItems(const DBImgInfoList &infos)
         TimelineItem::ItemData data;
         data.isTitle = false;
         data.path = info.filePath;
-        data.thumbnail = cutSquareImage(getThumbnail(data.path, true));
+
+        QBuffer inBuffer( &data.thumbArray );
+        inBuffer.open( QIODevice::WriteOnly );
+        // write inPixmap into inByteArray
+        if ( ! cutSquareImage(getThumbnail(data.path, true)).save( &inBuffer, "JPG" )) {
+            // qDebug() << "Write pixmap to buffer error!" << info.name;
+        }
         data.timeline = timeToString(info.time, true);
 
         m_model.appendData(data);

@@ -1,6 +1,5 @@
 HEADERS += \
     $$PWD/timelinepanel.h \
-    $$PWD/toptimelinetips.h \
     $$PWD/mvc/timelinedelegate.h \
     $$PWD/mvc/timelineitem.h \
     $$PWD/mvc/timelinemodel.h \
@@ -9,7 +8,6 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/timelinepanel.cpp \
-    $$PWD/toptimelinetips.cpp \
     $$PWD/timelinepanel_menu.cpp \
     $$PWD/mvc/timelinedelegate.cpp \
     $$PWD/mvc/timelineitem.cpp \

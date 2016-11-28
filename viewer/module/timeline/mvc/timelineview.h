@@ -63,6 +63,7 @@ protected:
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
 
 private:
     QModelIndexList visualIndexs() const;
@@ -89,6 +90,7 @@ private:
     QModelIndexList m_paintingIndexs;  // 通常，可视区域都不会改变，在点击等操作需要重绘时也没必要重新计算可视区域的indexs
 
     QFutureWatcher<QVariant> m_watcher;
+    int m_thumbTimerID = 0;
 };
 
 #endif // TIMELINEVIEW_H

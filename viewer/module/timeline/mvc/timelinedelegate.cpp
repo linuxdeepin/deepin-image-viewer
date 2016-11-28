@@ -76,12 +76,9 @@ void TimelineDelegate::paint(QPainter *painter,
         QPixmap thumb;
         using namespace utils::image;
         // When a thumbnail is changed externally, is no longer used in the data model
-        if (! thumbnailExist(data.path) || data.thumbnail.isNull()) {
+        if (! thumbnailExist(data.path)) {
             // Cache thumbnail not exist but model's thumbnail still exist, use the model one
-            if (! data.thumbnail.isNull()) {
-                thumb = data.thumbnail;
-            }
-            else if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
+            if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
                 const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
                 thumb = cutSquareImage(QPixmap(":/images/resources/images/default_thumbnail.png"), ms);
                 QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
@@ -93,7 +90,7 @@ void TimelineDelegate::paint(QPainter *painter,
             }
         }
         else {
-            thumb = data.thumbnail;
+            thumb.loadFromData(data.thumbArray);
         }
         painter->drawPixmap(rect, thumb);
 
@@ -128,7 +125,7 @@ TimelineItem::ItemData TimelineDelegate::itemData(const QModelIndex &index) cons
         data.isTitle = datas[0].toBool();
         data.path = datas[1].toString();
         data.timeline = datas[2].toString();
-        data.thumbnail = datas[3].value<QPixmap>();
+        data.thumbArray = datas[3].toByteArray();
     }
 
     return data;

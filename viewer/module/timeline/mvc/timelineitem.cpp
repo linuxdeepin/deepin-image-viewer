@@ -68,6 +68,7 @@ int TimelineItem::columnCount() const
 
 TimelineItem::ItemData TimelineItem::data(int column) const
 {
+    // FIXME: It may cause crash
     if (column >= m_datas.count()) {
         return TimelineItem::ItemData();
     }

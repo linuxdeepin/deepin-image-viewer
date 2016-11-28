@@ -70,13 +70,9 @@ QVariant TimelineModel::data(const QModelIndex &index, int role) const
     vl << data.isTitle;
     vl << data.path;
     vl << data.timeline;
-    vl << data.thumbnail;
+    vl << data.thumbArray;
 
     return QVariant(vl);
-//    if (data.isTitle)
-//        return data.timeline;
-//    else
-//        return data.path;
 }
 
 Qt::ItemFlags TimelineModel::flags(const QModelIndex &index) const
