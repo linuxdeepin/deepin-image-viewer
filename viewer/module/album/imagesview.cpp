@@ -52,7 +52,7 @@ ImagesView::ImagesView(QWidget *parent)
 void ImagesView::setAlbum(const QString &album)
 {
     m_album = album;
-
+    m_topTips->setAlbum(m_album);
     m_view->clearData();
     auto infos = dApp->dbM->getInfosByAlbum(album);
     QtConcurrent::run(this, &ImagesView::insertItems, infos);
