@@ -7,7 +7,7 @@
 #include <QVBoxLayout>
 
 const int WIDTH = 330;
-const int HEIGHT = 62;
+const int HEIGHT = 50;
 ProgressWidgetsTips::ProgressWidgetsTips(QWidget *parent)
     : QWidget(parent) {
     initUi();
@@ -19,7 +19,7 @@ void ProgressWidgetsTips::initUi() {
     QFrame* backgroundFrame = new QFrame(this);
     backgroundFrame->setObjectName("ProgressDialog");
     m_cirProgress = new DCircleProgress(this);
-    m_cirProgress->setFixedSize(40, 40);
+    m_cirProgress->setFixedSize(32, 32);
     m_cirProgress->setValue(0);
 
     m_title = new QLabel(this);

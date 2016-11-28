@@ -26,7 +26,7 @@ using namespace Dtk::Widget;
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
-const int ICON_MARGIN = 9;
+const int ICON_MARGIN = 6;
 
 }  // namespace
 
@@ -84,6 +84,9 @@ bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
         if (! window()->isFullScreen()) {
             m_maxb->setMaximized(window()->isMaximized());
         }
+    }
+    if (e->type() == QEvent::Move) {
+        emit updateImportTipsGeo();
     }
     if (e->type() == QEvent::KeyPress) {
         QKeyEvent *ke = static_cast<QKeyEvent *>(e);
@@ -176,55 +179,99 @@ void TopToolbar::initWidgets()
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(0);
 
-    DCircleProgress *importProgress = new DCircleProgress;
-    importProgress->setValue(0);
-    importProgress->setFixedSize(21, 21);
-    importProgress->setVisible(false);
+    DCircleProgress *importDCProg = new DCircleProgress(this);
+    importDCProg->setValue(0);
+    importDCProg->setFixedSize(21, 21);
+    importDCProg->setVisible(false);
     //importProgress's tooltip begin to init;
-    DArrowRectangle *importProgressWidget =
-            new DArrowRectangle(DArrowRectangle::ArrowTop);
-    importProgressWidget->setArrowX(180);
-    importProgressWidget->setArrowWidth(15);
-    importProgressWidget->setArrowHeight(9);
+    DArrowRectangle *importDArrowRect =
+            new DArrowRectangle(DArrowRectangle::ArrowTop, nullptr);
+    importDArrowRect->hide();
+    importDArrowRect->setWindowFlags(Qt::X11BypassWindowManagerHint |
+                                     Qt::WindowStaysOnTopHint);
 
-    ProgressWidgetsTips* progressWidgetTips = new ProgressWidgetsTips;
-    progressWidgetTips->setTitle(tr("Collecting information"));
-    progressWidgetTips->setTips(
+    importDArrowRect->setStyleSheet("background-color:red;");
+    importDArrowRect->setShadowBlurRadius(0);
+    importDArrowRect->setShadowDistance(0);
+    importDArrowRect->setShadowYOffset(0);
+    importDArrowRect->setShadowXOffset(0);
+
+    ProgressWidgetsTips* progTips = new ProgressWidgetsTips(importDArrowRect);
+    progTips->setTitle(tr("Collecting information"));
+    progTips->setTips(
                 QString(tr("%1 folders has been collected, please wait")).arg(0));
     connect(dApp->importer, &Importer::progressChanged,
             [=](double per, int count) {
-        progressWidgetTips->setValue(int(per*100));
-        progressWidgetTips->setTips(
+        progTips->setValue(int(per*100));
+        progTips->setTips(
                     QString(tr("%1 folders has been collected, please wait"))
                     .arg(count));
     });
-    connect(progressWidgetTips, &ProgressWidgetsTips::stopProgress, [=]{
+    connect(progTips, &ProgressWidgetsTips::stopProgress, [=]{
         dApp->importer->cancel();
-        importProgressWidget->hide();
+        progTips->hide();
     });
 
-    importProgressWidget->setContent(progressWidgetTips);
+    connect(dApp->importer, &Importer::imported, [=](bool succeess){
+        if (succeess && importDArrowRect->isVisible()) {
+            importDArrowRect->hide();
+        }
+    });
+
+    importDArrowRect->setContent(progTips);
     //importProgress's tooltip end
     connect(dApp->importer, &Importer::progressChanged,
             this, [=] (double progress) {
-        importProgress->setVisible(progress != 1);
-        if (importProgress->isHidden()) {
-            importProgressWidget->hide();
+        importDCProg->setVisible(progress!=1);
+
+        if (importDArrowRect->isVisible() && progress == 1) {
+            importDArrowRect->hide();
         }
-        importProgress->setValue(progress * 100);
+        importDCProg->setValue(progress * 100);
     });
 
-    connect(importProgress, &DCircleProgress::clicked, [=]{
-        if (importProgressWidget->isHidden()) {
-            progressWidgetTips->show();
-            importProgressWidget->show(window()->x()+window()->width() -
-                                       importProgressWidget->width() / 2 - 6,
-                                       window()->y() + 45);
+    connect(importDCProg, &DCircleProgress::clicked, [=]{
+        if (importDArrowRect->isHidden()) {
+            importDArrowRect->show(window()->width() + window()->x() -
+             161, mapToGlobal(QPoint(0, 45)).y());
         } else {
-            importProgressWidget->hide();
+            importDArrowRect->hide();
         }
     });
 
+    connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
+        if (!importDArrowRect->isHidden()) {
+            importDArrowRect->hide();
+
+            QTimer* delayShowTimer = new QTimer(this);
+            delayShowTimer->start(2000);
+            connect(delayShowTimer, &QTimer::timeout, [=]{
+                importDArrowRect->show(window()->width() + window()->x() -
+                                       161, mapToGlobal(QPoint(0, 45)).y());
+                delayShowTimer->deleteLater();
+            });
+
+        }
+    });
+
+    connect(this, &TopToolbar::updateImportTipsGeo, this, [=]{
+        if (!importDArrowRect->isHidden()) {
+            importDArrowRect->hide();
+
+            QTimer* delayShowTimer = new QTimer(this);
+            delayShowTimer->start(2000);
+            connect(delayShowTimer, &QTimer::timeout, [=]{
+                importDArrowRect->show(window()->width() + window()->x() -
+                                       161, mapToGlobal(QPoint(0, 45)).y());
+                delayShowTimer->deleteLater();
+            });
+        }
+    });
+    connect(dApp, &DApplication::focusChanged, this, [=]{
+        if (!window()->hasFocus() && !importDArrowRect->isHidden()) {
+            importDArrowRect->hide();
+        }
+    });
 
     DWindowOptionButton *ob = new DWindowOptionButton;
     connect(ob, &DWindowOptionButton::clicked, this, [=] {
@@ -243,6 +290,11 @@ void TopToolbar::initWidgets()
     // FIXME it may crash
     connect(minb, SIGNAL(clicked()),
             parentWidget()->parentWidget(), SLOT(showMinimized()));
+    connect(minb,  &DWindowMinButton::clicked, this, [=]{
+        if (!importDArrowRect->isHidden()) {
+            importDArrowRect->hide();
+        }
+    });
 
     m_maxb = new DWindowMaxButton;
     connect(m_maxb, &DWindowMaxButton::clicked, this, [=] {
@@ -254,6 +306,7 @@ void TopToolbar::initWidgets()
             window()->showMaximized();
             m_maxb->setMaximized(true);
         }
+
     });
 
     DWindowCloseButton *cb = new DWindowCloseButton;
@@ -265,11 +318,14 @@ void TopToolbar::initWidgets()
     rightLayout->setContentsMargins(0, 0, 0, 0);
     rightLayout->setSpacing(0);
     rightLayout->addStretch();
-    rightLayout->addWidget(importProgress);
-    rightLayout->addSpacing(6);
+    rightLayout->addWidget(importDCProg);
+    rightLayout->addSpacing(36);
     rightLayout->addWidget(ob);
+    rightLayout->addSpacing(0);
     rightLayout->addWidget(minb);
+    rightLayout->addSpacing(0);
     rightLayout->addWidget(m_maxb);
+    rightLayout->addSpacing(0);
     rightLayout->addWidget(cb);
     rightLayout->addSpacing(ICON_MARGIN);
 
