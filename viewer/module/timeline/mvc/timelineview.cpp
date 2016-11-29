@@ -20,6 +20,35 @@ namespace {
 const QColor BACKGROUND_COLOR = QColor("#1B1B1B");
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 
+QVariant genThumbnail(const QVariant &data)
+{
+    using namespace utils::image;
+
+    QString path = data.toList().first().toString();
+    QModelIndex index = data.toList().last().value<QModelIndex>();
+
+    QVariant result;
+    const QPixmap thumb = getThumbnail(path);
+    if (thumb.isNull()) {
+        // Can't generate thumbnail, remove it from database
+        dApp->dbM->removeImgInfos(QStringList(path));
+    }
+    else {
+        QByteArray inByteArray;
+        QBuffer inBuffer( &inByteArray );
+        inBuffer.open( QIODevice::WriteOnly );
+        // write inPixmap into inByteArray
+        if ( ! cutSquareImage(thumb).save( &inBuffer, "JPG" )) {
+            // qDebug() << "Write pixmap to buffer error!" << info.name;
+        }
+        QVariantList nl;
+        nl << QVariant(index) << QVariant(inByteArray);
+        result = QVariant(nl);
+    }
+
+    return result;
+}
+
 }
 TimelineView::TimelineView(QWidget *parent)
     : QAbstractItemView(parent)
@@ -284,11 +313,33 @@ void TimelineView::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void TimelineView::mouseReleaseEvent(QMouseEvent *e)
+void TimelineView::timerEvent(QTimerEvent *e)
 {
-    m_selectionRect = QRect();
-    this->update();
-    QAbstractItemView::mouseReleaseEvent(e);
+    if (e->timerId() == m_thumbTimerID) {
+        killTimer(m_thumbTimerID);
+        m_thumbTimerID = 0;
+
+        QVariantList pis;
+
+        for (QModelIndex index : m_paintingIndexs) {
+            QVariantList datas = model()->data(index, Qt::DisplayRole).toList();
+            if (datas.count() == 4) { // There is 4 field data inside TimelineData
+                if (datas[3].value<QPixmap>().isNull()
+                        && ! datas[1].toString().isEmpty()) {
+                    QVariantList vs;
+                    vs.append(QVariant(datas[1].toString()));
+                    vs.append(QVariant(index));
+                    pis.append(QVariant(vs));
+                }
+            }
+        }
+
+        if (! pis.isEmpty()) {
+            m_watcher.setPaused(false);
+            QFuture<QVariant> future = QtConcurrent::mapped(pis, genThumbnail);
+            m_watcher.setFuture(future);
+        }
+    }
 }
 
 /*!
@@ -373,6 +424,7 @@ void TimelineView::updateVisualRects()
     m_irMap.clear();
 
     int titleRowCount = model()->rowCount();
+
     int viewportHeight = /*-verticalOffset() + */m_topMargin;
     for (int trc = 0; trc < titleRowCount; trc ++) {
         // Title row
@@ -410,62 +462,30 @@ void TimelineView::updateVisualRects()
 
     m_paintingIndexs = visualIndexs();
     emit paintingIndexsChanged();
-}
-
-void TimelineView::onScrolled()
-{
-    updateVisualRects();
 
     // Note: updateThumbnails() must call after updateVisualRects()
     updateThumbnails();
 }
 
-QVariant genThumbnail(const QVariant &data)
+void TimelineView::onScrolled()
 {
-    using namespace utils::image;
+    updateVisualRects();
+}
 
-    QString path = data.toList().first().toString();
-    QModelIndex index = data.toList().last().value<QModelIndex>();
-
-    QVariant result;
-    const QPixmap thumb = getThumbnail(path);
-    if (thumb.isNull()) {
-        // Can't generate thumbnail, remove it from database
-        dApp->dbM->removeImgInfos(QStringList(path));
-    }
-    else {
-        QVariantList nl;
-        nl << QVariant(index) << QVariant(cutSquareImage(thumb));
-        result = QVariant(nl);
-    }
-
-    return result;
+void TimelineView::mouseReleaseEvent(QMouseEvent *e)
+{
+    m_selectionRect = QRect();
+    this->update();
+    QAbstractItemView::mouseReleaseEvent(e);
 }
 
 void TimelineView::updateThumbnails()
 {
-    QVariantList pis;
-
-    for (QModelIndex index : m_paintingIndexs) {
-        QVariantList datas = model()->data(index, Qt::DisplayRole).toList();
-        if (datas.count() == 4) { // There is 4 field data inside TimelineData
-            if (datas[3].value<QPixmap>().isNull()
-                    && ! datas[1].toString().isEmpty()) {
-                QVariantList vs;
-                vs.append(QVariant(datas[1].toString()));
-                vs.append(QVariant(index));
-                pis.append(QVariant(vs));
-            }
-        }
-    }
-
     m_watcher.setPaused(true);
     m_watcher.cancel();
-    if (! pis.isEmpty()) {
-        m_watcher.setPaused(false);
-        QFuture<QVariant> future = QtConcurrent::mapped(pis, genThumbnail);
-        m_watcher.setFuture(future);
-    }
+
+    killTimer(m_thumbTimerID);
+    m_thumbTimerID = startTimer(1000);
 }
 
 void TimelineView::onThumbnailGenerated(int index)
@@ -482,7 +502,7 @@ void TimelineView::onThumbnailGenerated(int index)
         data.isTitle = datas[0].toBool();
         data.path = datas[1].toString();
         data.timeline = datas[2].toString();
-        data.thumbnail = v[1].value<QPixmap>();
+        data.thumbArray = v[1].toByteArray();
 
         m->updateData(data);
         viewport()->update();

@@ -12,7 +12,7 @@ public:
         bool isTitle;
         QString path;
         QString timeline;
-        QPixmap thumbnail;
+        QByteArray thumbArray; // SKILL: For storage, use QByteArray can save a lot of memory
     };
 
     explicit TimelineItem(TimelineItem *parentItem = 0);
