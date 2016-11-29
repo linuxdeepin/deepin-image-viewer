@@ -21,6 +21,7 @@
 #include <QUrlQuery>
 #include <QDebug>
 #include <QTextStream>
+#include <QtMath>
 
 namespace utils {
 
@@ -36,10 +37,22 @@ QString sizeToHuman(const qlonglong bytes)
         return QString::number(bytes) + " B";
     }
     else if (bytes < sb * sb) {
-        return QString::number((double)bytes / sb, 'f', 1) + " KB";
+        QString vs = QString::number((double)bytes / sb, 'f', 1);
+        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            return QString::number((int)vs.toDouble()) + " KB";
+        }
+        else {
+            return vs + " KB";
+        }
     }
     else if (bytes < sb * sb * sb) {
-        return QString::number((double)bytes / sb / sb, 'f', 1) + " MB";
+        QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
+        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            return QString::number((int)vs.toDouble()) + " MB";
+        }
+        else {
+            return vs + " MB";
+        }
     }
     else {
         return QString::number(bytes);
