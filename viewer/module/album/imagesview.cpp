@@ -596,6 +596,17 @@ void ImagesView::showEvent(QShowEvent *e)
     QScrollArea::showEvent(e);
 }
 
+void ImagesView::wheelEvent(QWheelEvent *e)
+{
+    if (e->modifiers() == Qt::ControlModifier) {
+        emit changeItemSize(e->delta() > 0);
+        e->accept();
+    }
+    else {
+        QScrollArea::wheelEvent(e);
+    }
+}
+
 void ImagesView::initContent()
 {
     m_contentWidget = new QWidget;

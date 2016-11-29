@@ -338,6 +338,8 @@ void AlbumPanel::initAlbumsView()
 {
     m_albumsView = new AlbumsView(this);
     m_albumsView->updateView();
+    connect(m_albumsView, &AlbumsView::changeItemSize,
+            this, &AlbumPanel::updateSliderValue);
     connect(m_albumsView, &AlbumsView::openAlbum,
             this, &AlbumPanel::onOpenAlbum);
     connect(m_albumsView, &AlbumsView::albumCreated,
@@ -358,6 +360,8 @@ void AlbumPanel::initAlbumsView()
 void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
+    connect(m_imagesView, &ImagesView::changeItemSize,
+            this, &AlbumPanel::updateSliderValue);
     connect(m_imagesView, &ImagesView::startSlideShow,
             this, [=] (const QStringList &paths, const QString &path) {
         SignalManager::ViewInfo vinfo;
@@ -432,6 +436,16 @@ void AlbumPanel::updateImagesCount(bool fromDB)
     }
 
     m_slider->setFixedWidth(count > 0 ? SLIDER_WIDTH : 0);
+}
+
+void AlbumPanel::updateSliderValue(bool increase)
+{
+    if (increase) {
+        m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum()));
+    }
+    else {
+        m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum()));
+    }
 }
 
 void AlbumPanel::updateAlbumCount()

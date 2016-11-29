@@ -173,6 +173,17 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
     QListView::mousePressEvent(e);
 }
 
+void AlbumsView::wheelEvent(QWheelEvent *e)
+{
+    if (e->modifiers() == Qt::ControlModifier) {
+        emit changeItemSize(e->delta() > 0);
+        e->accept();
+    }
+    else {
+        QListView::wheelEvent(e);
+    }
+}
+
 int AlbumsView::horizontalOffset() const
 {
     double spacing = 1.0 * (width() % (m_itemSize.width() + ITEM_SPACING) - ITEM_SPACING) / 2;

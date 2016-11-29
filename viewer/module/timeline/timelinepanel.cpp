@@ -274,6 +274,14 @@ void TimelinePanel::initImagesView()
         using namespace controller::popup;
         showMenuContext(QCursor::pos());
     });
+    connect(m_frame, &TimelineFrame::changeItemSize, this, [=] (bool increase) {
+       if (increase) {
+           m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum()));
+       }
+       else {
+           m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum()));
+       }
+    });
 }
 
 void TimelinePanel::initStyleSheet()
