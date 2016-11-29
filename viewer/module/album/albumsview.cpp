@@ -258,20 +258,30 @@ const QString AlbumsView::getNewAlbumName() const
     }
 }
 
-void AlbumsView::initShortcut() {
-    //start slide show
-    QShortcut *sc = new QShortcut(QKeySequence("F5"), this);
+void AlbumsView::initShortcut()
+{
+    // Open album
+    QShortcut *sc = new QShortcut(QKeySequence("Return"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QString albumName = getAlbumName(currentIndex());
+        emit openAlbum(albumName);
+    });
+    // Start slide show
+    sc = new QShortcut(QKeySequence("F5"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
         const QString albumName = getAlbumName(currentIndex());
         emit startSlideShow(paths(albumName));
     });
+    // Rename
     sc = new QShortcut(QKeySequence("F2"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
         if (m_delegate->isEditFinished())
             openPersistentEditor(this->currentIndex());
     });
+    // Copy
     sc = new QShortcut(QKeySequence("Ctrl+C"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
@@ -280,6 +290,7 @@ void AlbumsView::initShortcut() {
         paths.removeAll(" ");
         utils::base::copyImageToClipboard(paths);
     });
+    // Trash
     sc = new QShortcut(QKeySequence("Delete"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{

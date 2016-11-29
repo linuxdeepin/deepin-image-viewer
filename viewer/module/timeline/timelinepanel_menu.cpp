@@ -51,8 +51,24 @@ using namespace Dtk::Widget;
 
 void TimelinePanel::initShortcut()
 {
+    // View
+    QShortcut *sc = new QShortcut(QKeySequence("Return"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=]{
+        const QStringList paths = m_frame->selectedPaths();
+        if (paths.isEmpty()||paths.length() > 1)
+            return;
+        SignalManager::ViewInfo vinfo;
+        vinfo.inDatabase = true;
+        vinfo.lastPanel = this;
+        vinfo.path = paths.first();
+        vinfo.paths = paths;
+        vinfo.fullScreen = false;
+        dApp->signalM->viewImage(vinfo);
+    });
+
     //FullScreen
-    QShortcut *sc = new QShortcut(QKeySequence("F11"), this);
+    sc = new QShortcut(QKeySequence("F11"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
         const QStringList paths = m_frame->selectedPaths();
@@ -173,6 +189,14 @@ void TimelinePanel::initShortcut()
     });
     // Image info
     sc = new QShortcut(QKeySequence("Alt+Return"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        const QStringList paths = m_frame->selectedPaths();
+        if (! paths.isEmpty()) {
+            dApp->signalM->showImageInfo(paths.first());
+        }
+    });
+    sc = new QShortcut(QKeySequence("Alt+Enter"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         const QStringList paths = m_frame->selectedPaths();

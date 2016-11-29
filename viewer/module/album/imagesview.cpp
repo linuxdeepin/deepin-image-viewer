@@ -349,9 +349,24 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
     }
 }
 
-void ImagesView::initShortcut() {
+void ImagesView::initShortcut()
+{
+    // View
+    QShortcut *sc = new QShortcut(QKeySequence("Return"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        QStringList paths = selectedPaths();
+        if (paths.isEmpty()) {
+            return;
+        }
+
+        const QStringList viewPaths = (paths.length() == 1) ? albumPaths() : paths;
+        const QString path = paths.first();
+
+        emit viewImage(path, viewPaths, false);
+    });
     //FullScreen
-    QShortcut *sc = new QShortcut(QKeySequence("F11"), this);
+    sc = new QShortcut(QKeySequence("F11"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=]{
         qDebug() << "selectPaths fullScreen";

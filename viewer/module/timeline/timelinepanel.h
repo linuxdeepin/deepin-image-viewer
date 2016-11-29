@@ -33,7 +33,6 @@ private:
     void initMainStackWidget();
     void initShortcut();
     void initStyleSheet();
-    void showContextMenu(const QPoint &pos);
     void updateBottomToolbarContent(int count);
     void onImageCountChanged(int count);
     QJsonObject createAlbumMenuObj();
