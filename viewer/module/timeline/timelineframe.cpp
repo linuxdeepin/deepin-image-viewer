@@ -47,6 +47,8 @@ TimelineFrame::TimelineFrame(QWidget *parent)
         }
     });
     connect(m_view, &TimelineView::showMenu, this, &TimelineFrame::showMenu);
+    connect(m_view, &TimelineView::changeItemSize,
+            this, &TimelineFrame::changeItemSize);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

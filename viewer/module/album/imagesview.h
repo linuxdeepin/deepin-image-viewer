@@ -35,6 +35,7 @@ public:
     QStringList selectedPaths() const;
 
 signals:
+    void changeItemSize(bool increase);
     void rotated();
     void startSlideShow(const QStringList &paths, const QString &path);
     void viewImage(const QString &path,
@@ -44,6 +45,7 @@ signals:
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
 private:
     enum MenuItemId {

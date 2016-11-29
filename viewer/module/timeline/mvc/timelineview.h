@@ -54,8 +54,9 @@ public:
     void updateView();
 
 signals:
-    void showMenu();
+    void changeItemSize(bool increase);
     void paintingIndexsChanged();
+    void showMenu();
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

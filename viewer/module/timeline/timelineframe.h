@@ -23,8 +23,9 @@ public:
     const QStringList selectedPaths() const;
 
 signals:
-    void viewImage(const QString &path, const QStringList &paths);
+    void changeItemSize(bool increase);
     void showMenu();
+    void viewImage(const QString &path, const QStringList &paths);
 
 private:
     void initTopTip();

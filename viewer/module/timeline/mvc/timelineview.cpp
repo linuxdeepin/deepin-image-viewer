@@ -281,10 +281,15 @@ void TimelineView::wheelEvent(QWheelEvent *e)
             sb->value() <= sb->maximum() &&
             sb->value() >= sb->minimum()) {
         if (e->angleDelta().x() == 0){
-            QWheelEvent ve(e->pos(), e->globalPos(), e->pixelDelta()
-                           , e->angleDelta(), e->delta() * 8/*speed up*/
-                           , Qt::Vertical, e->buttons(), e->modifiers());
-            QApplication::sendEvent(verticalScrollBar(), &ve);
+            if (e->modifiers() == Qt::ControlModifier) {
+                emit changeItemSize(e->delta() > 0);
+            }
+            else {
+                QWheelEvent ve(e->pos(), e->globalPos(), e->pixelDelta()
+                               , e->angleDelta(), e->delta() * 8/*speed up*/
+                               , Qt::Vertical, e->buttons(), e->modifiers());
+                QApplication::sendEvent(verticalScrollBar(), &ve);
+            }
         }
     }
     else {

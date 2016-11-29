@@ -39,12 +39,13 @@ private:
     void initImagesView();
     void initStyleSheet();
 
-    void updateImagesCount(bool fromDB = false);
-    void updateAlbumCount();
-    void showCreateDialog(QStringList imgpaths);
-    void showImportDirDialog(const QString &dir);
     void onImageCountChanged(int count);
     void onInsertIntoAlbum(const DBImgInfo info);
+    void showCreateDialog(QStringList imgpaths);
+    void showImportDirDialog(const QString &dir);
+    void updateAlbumCount();
+    void updateImagesCount(bool fromDB = false);
+    void updateSliderValue(bool increase);
 
 private:
     QString m_currentAlbum;
