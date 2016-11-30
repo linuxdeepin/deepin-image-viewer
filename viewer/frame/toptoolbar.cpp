@@ -85,7 +85,7 @@ bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
             m_maxb->setMaximized(window()->isMaximized());
         }
     }
-    if (e->type() == QEvent::Move) {
+    if (e->type() == QEvent::Move && obj == this) {
         emit updateImportTipsGeo();
     }
     if (e->type() == QEvent::KeyPress) {
@@ -186,7 +186,7 @@ void TopToolbar::initWidgets()
     //importProgress's tooltip begin to init;
     DArrowRectangle *importDArrowRect =
             new DArrowRectangle(DArrowRectangle::ArrowTop, nullptr);
-    importDArrowRect->hide();
+
     importDArrowRect->setWindowFlags(Qt::X11BypassWindowManagerHint |
                                      Qt::WindowStaysOnTopHint);
 
@@ -196,10 +196,12 @@ void TopToolbar::initWidgets()
     importDArrowRect->setShadowYOffset(0);
     importDArrowRect->setShadowXOffset(0);
 
-    ProgressWidgetsTips* progTips = new ProgressWidgetsTips(importDArrowRect);
+    ProgressWidgetsTips* progTips = new ProgressWidgetsTips(/*importDArrowRect*/);
     progTips->setTitle(tr("Collecting information"));
     progTips->setTips(
                 QString(tr("%1 folders has been collected, please wait")).arg(0));
+    importDArrowRect->setContent(progTips);
+    importDArrowRect->hide();
     connect(dApp->importer, &Importer::progressChanged,
             [=](double per, int count) {
         progTips->setValue(int(per*100));
@@ -218,13 +220,12 @@ void TopToolbar::initWidgets()
         }
     });
 
-    importDArrowRect->setContent(progTips);
+
     //importProgress's tooltip end
     connect(dApp->importer, &Importer::progressChanged,
             this, [=] (double progress) {
-        importDCProg->setVisible(progress!=1);
-
-        if (importDArrowRect->isVisible() && progress == 1) {
+        importDCProg->setVisible(progress != 1);
+        if (progress == 1) {
             importDArrowRect->hide();
         }
         importDCProg->setValue(progress * 100);
@@ -232,6 +233,7 @@ void TopToolbar::initWidgets()
 
     connect(importDCProg, &DCircleProgress::clicked, [=]{
         if (importDArrowRect->isHidden()) {
+            importDArrowRect->setContent(progTips);
             importDArrowRect->show(window()->width() + window()->x() -
              161, mapToGlobal(QPoint(0, 45)).y());
         } else {
@@ -242,29 +244,32 @@ void TopToolbar::initWidgets()
     connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
         if (!importDArrowRect->isHidden()) {
             importDArrowRect->hide();
-
-            QTimer* delayShowTimer = new QTimer(this);
-            delayShowTimer->start(2000);
-            connect(delayShowTimer, &QTimer::timeout, [=]{
-                importDArrowRect->show(window()->width() + window()->x() -
-                                       161, mapToGlobal(QPoint(0, 45)).y());
-                delayShowTimer->deleteLater();
-            });
-
+            if (importDCProg->isVisible()) {
+                QTimer* delayShowTimer = new QTimer(this);
+                delayShowTimer->start(2000);
+                connect(delayShowTimer, &QTimer::timeout, [=]{
+                    importDArrowRect->setContent(progTips);
+                    importDArrowRect->show(window()->width() + window()->x() -
+                                           161, mapToGlobal(QPoint(0, 45)).y());
+                    delayShowTimer->deleteLater();
+                });
+            }
         }
     });
 
     connect(this, &TopToolbar::updateImportTipsGeo, this, [=]{
         if (!importDArrowRect->isHidden()) {
             importDArrowRect->hide();
-
-            QTimer* delayShowTimer = new QTimer(this);
-            delayShowTimer->start(2000);
-            connect(delayShowTimer, &QTimer::timeout, [=]{
-                importDArrowRect->show(window()->width() + window()->x() -
-                                       161, mapToGlobal(QPoint(0, 45)).y());
-                delayShowTimer->deleteLater();
-            });
+            if (importDCProg->isVisible()) {
+                QTimer* delayShowTimer = new QTimer(this);
+                delayShowTimer->start(2000);
+                connect(delayShowTimer, &QTimer::timeout, [=]{
+                    importDArrowRect->setContent(progTips);
+                    importDArrowRect->show(window()->width() + window()->x() -
+                                           161, mapToGlobal(QPoint(0, 45)).y());
+                    delayShowTimer->deleteLater();
+                });
+            }
         }
     });
     connect(dApp, &DApplication::focusChanged, this, [=]{
