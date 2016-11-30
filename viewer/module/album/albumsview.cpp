@@ -7,6 +7,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "frame/deletedialog.h"
+#include  "widgets/scrollbar.h"
 
 #include <QDebug>
 #include <QBuffer>
@@ -46,7 +47,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     setSelectionMode(QAbstractItemView::SingleSelection);
     setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBar(new ScrollBar());
     setDragEnabled(false);
 
     installEventFilter(this);
