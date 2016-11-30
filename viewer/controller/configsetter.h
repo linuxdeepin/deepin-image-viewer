@@ -13,6 +13,7 @@ public:
                   const QVariant &value);
     QVariant value(const QString &group, const QString &key,
                    const QVariant &defaultValue = QVariant());
+    QStringList keys(const QString &group);
 
 private:
     explicit ConfigSetter(QObject *parent = 0);

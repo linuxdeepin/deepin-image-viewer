@@ -5,4 +5,5 @@
         <file>resources/images/logo/deepin-image-viewer.png</file>
         <file>resources/images/logo/deepin_image_viewer_24.svg</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

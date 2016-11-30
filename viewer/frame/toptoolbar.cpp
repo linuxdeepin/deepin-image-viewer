@@ -5,6 +5,7 @@
 #include "controller/signalmanager.h"
 #include "frame/mainwindow.h"
 #include "frame/aboutwindow.h"
+#include "settings/settingswindow.h"
 #include "widgets/progresswidgetstips.h"
 #include "utils/shortcut.h"
 #include <dcircleprogress.h>
@@ -40,9 +41,12 @@ TopToolbar::TopToolbar(QWidget *parent)
 
 //    setCoverBrush(QBrush(linearGrad));
     setCoverBrush(QBrush(QColor(30, 30, 30, 204)));
-//    initAboutWindow();
+
     m_about = new AboutWindow(parent);
     m_about->hide();
+
+    m_settingsWindow = new SettingsWindow();
+    m_settingsWindow->hide();
 
     initWidgets();
     initMenu();
@@ -365,7 +369,7 @@ QString TopToolbar::createMenuContent()
     QJsonArray items;
     items.append(createMenuItem(IdCreateAlbum, tr("New album"), false,
                                 "Ctrl+Shift+N"));
-//    items.append(createMenuItem(IdImport, tr("Import"), false, "Ctrl+I"));
+    items.append(createMenuItem(IdSetting, tr("Setting"), false, "Ctrl+I"));
 
     items.append(createMenuItem(IdSeparator, "", true));
 
@@ -406,9 +410,13 @@ void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
     case IdCreateAlbum:
         emit dApp->signalM->createAlbum();
         break;
-//    case IdImport:
-//        dApp->importer->showImportDialog();
-//        break;
+    case IdSetting:
+        m_settingsWindow->move((width() - m_settingsWindow->width()) / 2 +
+                               mapToGlobal(QPoint(0, 0)).x(),
+                               (window()->height() - m_settingsWindow->height()) / 2 +
+                               mapToGlobal(QPoint(0, 0)).y());
+        m_settingsWindow->show();
+        break;
     case IdHelp:
         showManual();
         break;

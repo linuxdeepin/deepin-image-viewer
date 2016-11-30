@@ -10,6 +10,7 @@
 
 class AboutWindow;
 class PopupMenuManager;
+class SettingsWindow;
 class TopToolbar : public BlurFrame
 {
     Q_OBJECT
@@ -28,6 +29,7 @@ signals:
 private:
     enum MenuItemId {
         IdCreateAlbum,
+        IdSetting,
         IdImport,
         IdHelp,
         IdAbout,
@@ -60,6 +62,7 @@ private:
     Dtk::Widget::DWindowMaxButton *m_maxb;
     AboutWindow *m_about;
     PopupMenuManager *m_popupMenu;
+    SettingsWindow *m_settingsWindow;
 };
 
 #endif // TOPTOOLBAR_H
