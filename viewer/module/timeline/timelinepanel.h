@@ -31,17 +31,19 @@ private:
     void initConnection();
     void initImagesView();
     void initMainStackWidget();
+    void initPopupMenu();
     void initShortcut();
     void initStyleSheet();
     void updateBottomToolbarContent(int count);
     void onImageCountChanged(int count);
     QJsonObject createAlbumMenuObj();
+    QString createMenuContent();
+    void onMenuItemClicked(int menuId, const QString &text);
     void popupDelDialog(const QStringList &paths);
     void rotateImage(const QString &path, int degree);
-    //Timeline menu
-    void showMenuContext(QPoint pos);
-    void onMenuItemClicked(int menuId, const QString &text);
+    void updateMenuContents();
 private:
+    PopupMenuManager    *m_popupMenu;
     QLabel              *m_countLabel;
     QStackedWidget      *m_mainStack;
     Slider              *m_slider;

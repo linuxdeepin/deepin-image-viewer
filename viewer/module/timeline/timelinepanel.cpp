@@ -4,13 +4,11 @@
 #include "controller/importer.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
-#include "controller/popupdialogmanager.h"
 #include "timelineframe.h"
 #include "utils/imageutils.h"
 #include "widgets/imagebutton.h"
 #include "widgets/importframe.h"
 #include "widgets/slider.h"
-
 #include <QDebug>
 #include <QDropEvent>
 #include <QLabel>
@@ -32,6 +30,7 @@ const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
 }  //namespace
 
+using namespace Dtk::Widget;
 
 TimelinePanel::TimelinePanel(QWidget *parent)
     : ModulePanel(parent)
@@ -40,6 +39,7 @@ TimelinePanel::TimelinePanel(QWidget *parent)
 
     initMainStackWidget();
     initStyleSheet();
+    initPopupMenu();
     initShortcut();
     initConnection();
 }
@@ -270,18 +270,19 @@ void TimelinePanel::initImagesView()
         vinfo.paths = paths;
         emit dApp->signalM->viewImage(vinfo);
     });
+
     connect(m_frame, &TimelineFrame::showMenu, this, [=] {
-        using namespace controller::popup;
-        showMenuContext(QCursor::pos());
+        updateMenuContents();
+        m_popupMenu->showMenu();
     });
     connect(m_frame, &TimelineFrame::changeItemSize, this, [=] (bool increase) {
-       if (increase) {
-           m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum()));
-       }
-       else {
-           m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum()));
-       }
-    });
+        if (increase) {
+            m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum()));
+        }
+        else {
+            m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum()));
+        }
+     });
 }
 
 void TimelinePanel::initStyleSheet()
@@ -309,4 +310,3 @@ void TimelinePanel::onImageCountChanged(int count)
 
     m_mainStack->setCurrentIndex(count > 0 ? 1 : 0);
 }
-

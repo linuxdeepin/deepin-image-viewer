@@ -50,12 +50,17 @@ private:
     };
 
     bool isCreateIcon(const QModelIndex &index) const;
+//    void initShortCut();
+    const QString createMenuContent(const QModelIndex &index);
     const QString getAlbumName(const QModelIndex &index) const;
     const QString getNewAlbumName() const;
     const QStringList paths(const QString &album) const;
 
-    void initShortcut();
-    void showMenuContext(QPoint pos, const QModelIndex &index);
+    QJsonValue createMenuItem(const MenuItemId id,
+                              const QString &text,
+                              const bool isSeparator = false,
+                              const QString &shortcut = "",
+                              const QJsonObject &subMenu = QJsonObject());
     void onClicked(const QModelIndex &index);
     void onDoubleClicked(const QModelIndex &index);
     void onMenuItemClicked(int menuId);
@@ -66,6 +71,7 @@ private:
     AlbumDelegate *m_delegate;
     QStandardItemModel *m_model;
     QSize m_itemSize;
+    PopupMenuManager *m_popupMenu;
 };
 
 #endif // ALBUMSVIEW_H

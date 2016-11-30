@@ -49,6 +49,7 @@ protected:
 private:
     void initConnect();
     void initFileSystemWatcher();
+    void initPopupMenu();
     void initShortcut();
     void initStack();
     void initStyleSheet();
@@ -63,8 +64,10 @@ private:
     void initNavigation();
 
     // Menu control
+    const QJsonObject   createAlbumMenuObj(bool isRemove);
+    const QString       createMenuContent();
     void                onMenuItemClicked(int menuId, const QString &text);
-    void                showMenuContext(QPoint pos);
+    void                updateMenuContent();
 
     // View control
     void onViewImage(const SignalManager::ViewInfo &vinfo);
@@ -95,6 +98,7 @@ private:
     bool m_isMaximized;
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
+    PopupMenuManager *m_popupMenu;
     QStackedWidget *m_stack;
 
     // Floating component
