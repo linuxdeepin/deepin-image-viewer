@@ -270,7 +270,10 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
     }
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
-        dApp->dbM->insertIntoAlbum(album, paths);
+        if (album != tr("Add to new album"))
+            dApp->dbM->insertIntoAlbum(album, paths);
+        else
+            dApp->signalM->createAlbum(paths);
         break;
     }
     case IdCopy:
@@ -399,6 +402,7 @@ QJsonObject TimelinePanel::createAlbumMenuObj()
     const QStringList paths = m_frame->selectedPaths();
 
     QJsonArray items;
+    bool isAddNewAlbum = false;
     if (! paths.isEmpty()) {
         for (QString album : albums) {
             if (album == FAVORITES_ALBUM_NAME) {
@@ -407,10 +411,19 @@ QJsonObject TimelinePanel::createAlbumMenuObj()
             const QStringList aps = dApp->dbM->getPathsByAlbum(album);
             for (QString path : paths) {
                 if (aps.indexOf(path) == -1) {
+                    if (!isAddNewAlbum) {
+                        isAddNewAlbum = true;
+                        createMI(&items, IdAddToAlbum, tr("Add to new album"));
+                        createMI(&items, IdSeparator, "", "", true);
+                    }
                     createMI(&items, IdAddToAlbum, album);
                     break;
                 }
             }
+        }
+
+        if (!isAddNewAlbum) {
+            createMI(&items, IdAddToAlbum, tr("Add to new album"));
         }
     }
 
