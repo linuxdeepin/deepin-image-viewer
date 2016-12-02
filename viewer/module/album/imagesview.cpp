@@ -274,7 +274,10 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
     }
     case IdAddToAlbum: {
         const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
-        dApp->dbM->insertIntoAlbum(album, paths);
+        if (album != tr("Add to new album"))
+            dApp->dbM->insertIntoAlbum(album, paths);
+        else
+            dApp->signalM->createAlbum(paths);
         break;
     }
     case IdCopy:
@@ -491,14 +494,24 @@ QJsonObject ImagesView::createAlbumMenuObj()
     const QStringList selectPaths = selectedPaths();
 
     QJsonArray items;
+    bool isAddNewAlbum = false;
     if (! selectPaths.isEmpty()) {
         for (QString album : albums) {
             if (album == MY_FAVORITES_ALBUM || album == RECENT_IMPORTED_ALBUM) {
                 continue;
             }
-            else if (! allInAlbum(selectPaths, album)) {
+            else if (!allInAlbum(selectPaths, album)) {
+                if (!isAddNewAlbum) {
+                    isAddNewAlbum = true;
+                    items.append(createMenuItem(IdAddToAlbum, tr("Add to new album")));
+                    items.append(createMenuItem(IdSeparator, "", true));;
+                }
                 items.append(createMenuItem(IdAddToAlbum, album));
             }
+        }
+        if (!isAddNewAlbum) {
+            isAddNewAlbum = true;
+            items.append(createMenuItem(IdAddToAlbum, tr("Add to new album")));
         }
     }
 
