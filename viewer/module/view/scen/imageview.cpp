@@ -147,7 +147,9 @@ void ImageView::setScaleValue(qreal v)
         m_isFitImage = false;
         m_isFitWindow = false;
     }
+
     emit scaled(imageRelativeScale() * 100);
+    emit showScaleLabel();
     emit transformChanged();
 }
 

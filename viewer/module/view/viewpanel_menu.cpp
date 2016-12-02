@@ -278,74 +278,76 @@ void ViewPanel::updateMenuContent()
 
 void ViewPanel::initShortcut()
 {
-//    // Image info
-//    QShortcut *sc = new QShortcut(QKeySequence("Alt+Return"), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        dApp->signalM->showExtensionPanel();
-//        // Update panel info
-//        TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->filePath);}, this);
-//    });
+    // Image info
+    QShortcut *sc = new QShortcut(QKeySequence("Alt+Return"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        dApp->signalM->showExtensionPanel();
+        // Update panel info
+        TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->filePath);}, this);
+    });
 
-//    // Delay image toggle
-//    QTimer *dt = new QTimer(this);
-//    dt->setSingleShot(true);
-//    dt->setInterval(300);
-//    // Previous
-//    sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        if (! dt->isActive()) {
-//            dt->start();
-//            showPrevious();
-//        }
-//    });
-//    // Next
-//    sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        if (! dt->isActive()) {
-//            dt->start();
-//            showNext();
-//        }
-//    });
+    // Delay image toggle
+    QTimer *dt = new QTimer(this);
+    dt->setSingleShot(true);
+    dt->setInterval(300);
+    // Previous
+    sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        if (! dt->isActive()) {
+            dt->start();
+            showPrevious();
+        }
+    });
+    // Next
+    sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        if (! dt->isActive()) {
+            dt->start();
+            showNext();
+        }
+    });
 
-//    // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
-//    sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        m_viewB->setScaleValue(1.1);
-//    });
+    // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
+    sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        qDebug() << "Qt::Key_Up:";
+        m_viewB->setScaleValue(1.1);
+    });
 
-//    // Zoom in
-//    sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
-//    sc->setContext(Qt::WindowShortcut);
-//    connect(sc, &QShortcut::activated, this, [=] {
-//        m_viewB->setScaleValue(0.9);
-//    });
+    // Zoom in
+    sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        qDebug() << "Qt::Key_Down:";
+        m_viewB->setScaleValue(0.9);
+    });
 
-//    // Esc
-//    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-//    esc->setContext(Qt::WindowShortcut);
-//    connect(esc, &QShortcut::activated, this, [=] {
-//        if (window()->isFullScreen()) {
-//            toggleFullScreen();
-//        }
-//        else {
-//            if (m_vinfo.inDatabase) {
-//                backToLastPanel();
-//            }
-//            else {
-//                dApp->quit();
-//            }
-//        }
-//    });
-//    //1:1 size
-//    QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
-//    adaptImage->setContext(Qt::WindowShortcut);
-//    connect(adaptImage, &QShortcut::activated, this, [=]{
-//        m_viewB->fitImage();
-//    });
+    // Esc
+    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    esc->setContext(Qt::WindowShortcut);
+    connect(esc, &QShortcut::activated, this, [=] {
+        if (window()->isFullScreen()) {
+            toggleFullScreen();
+        }
+        else {
+            if (m_vinfo.inDatabase) {
+                backToLastPanel();
+            }
+            else {
+                dApp->quit();
+            }
+        }
+    });
+    //1:1 size
+    QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
+    adaptImage->setContext(Qt::WindowShortcut);
+    connect(adaptImage, &QShortcut::activated, this, [=]{
+        m_viewB->fitImage();
+    });
 }
 
 void ViewPanel::popupDelDialog(const QString path) {
