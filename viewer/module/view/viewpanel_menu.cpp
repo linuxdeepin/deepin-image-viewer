@@ -22,6 +22,9 @@ namespace {
 const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 
+//album_map<key, value>: key is albumName's ellipsis form like NewAlbum...XX,
+// and the value is albumName's fullName like NewAlbumXXXXXXXXXXXXX;
+QMap<QString, QString> album_map;
 }  // namespace
 
 enum MenuItemId {
@@ -160,6 +163,7 @@ const QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
     }
     const QStringList albums = dApp->dbM->getAllAlbumNames();
 
+    bool isAddNewAlbum = false;
     QJsonArray items;
     if (! m_infos.isEmpty()) {
         for (QString album : albums) {
@@ -168,8 +172,22 @@ const QJsonObject ViewPanel::createAlbumMenuObj(bool isRemove)
             }
             const QStringList paths = dApp->dbM->getPathsByAlbum(album);
             if (! paths.contains(m_current->filePath)) {
-                createMI(&items, IdAddToAlbum, album);
+                if (!isAddNewAlbum) {
+                    isAddNewAlbum = true;
+                    createMI(&items, IdAddToAlbum, tr("Add to new album"));
+                    createMI(&items, IdSeparator, "", "", true);
+                }
+
+                QString albumKey = this->fontMetrics().elidedText(album,
+                                                                  Qt::ElideMiddle, 255);
+                album_map.insert(albumKey, album);
+                createMI(&items, IdAddToAlbum, albumKey);
             }
+        }
+
+        if (!isAddNewAlbum) {
+            isAddNewAlbum = true;
+            createMI(&items, IdAddToAlbum, tr("Add to new album"));
         }
     }
 
@@ -187,7 +205,6 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
     using namespace utils::image;
 
     const QString path = m_current->filePath;
-    const QString albumName =text;
 
     switch (MenuItemId(menuId)) {
     case IdFullScreen:
@@ -208,8 +225,11 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdAddToAlbum: {
-        if (albumName != tr("Add to new album")) {
-            dApp->dbM->insertIntoAlbum(albumName, QStringList(path));
+        const QString albumKey = text.split(SHORTCUT_SPLIT_FLAG).first();
+
+        if (albumKey != tr("Add to new album")) {
+            const QString album = album_map.value(albumKey);
+            dApp->dbM->insertIntoAlbum(album, QStringList(path));
         } else {
             dApp->signalM->createAlbum(QStringList(path));
         }

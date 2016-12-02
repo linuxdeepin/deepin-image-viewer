@@ -19,6 +19,9 @@ const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 const QString SETTINGS_GROUP = "TIMEPANEL";
 const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
+//album_map<key, value>: key is albumName's ellipsis form like NewAlbum...XX,
+// and the value is albumName's fullName like NewAlbumXXXXXXXXXXXXX;
+QMap<QString, QString> album_map;
 enum MenuItemId {
     IdView,
     IdFullScreen,
@@ -269,11 +272,13 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdAddToAlbum: {
-        const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
-        if (album != tr("Add to new album"))
+        const QString albumKey = text.split(SHORTCUT_SPLIT_FLAG).first();
+        if (albumKey != tr("Add to new album")) {
+            const QString album = album_map.value(albumKey);
             dApp->dbM->insertIntoAlbum(album, paths);
-        else
+        }else {
             dApp->signalM->createAlbum(paths);
+        }
         break;
     }
     case IdCopy:
@@ -403,6 +408,7 @@ QJsonObject TimelinePanel::createAlbumMenuObj()
 
     QJsonArray items;
     bool isAddNewAlbum = false;
+    album_map.clear();
     if (! paths.isEmpty()) {
         for (QString album : albums) {
             if (album == FAVORITES_ALBUM_NAME) {
@@ -416,7 +422,11 @@ QJsonObject TimelinePanel::createAlbumMenuObj()
                         createMI(&items, IdAddToAlbum, tr("Add to new album"));
                         createMI(&items, IdSeparator, "", "", true);
                     }
-                    createMI(&items, IdAddToAlbum, album);
+
+                    QString albumKey = this->fontMetrics().elidedText(album,
+                        Qt::ElideMiddle, 255);
+                    album_map.insert(albumKey, album);
+                    createMI(&items, IdAddToAlbum, albumKey);
                     break;
                 }
             }

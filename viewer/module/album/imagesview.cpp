@@ -30,6 +30,9 @@ const QString SHORTCUT_SPLIT_FLAG = "@-_-@";
 const QString MY_FAVORITES_ALBUM = "My favorites";
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 
+//album_map<key, value>: key is albumName's ellipsis form like NewAlbum...XX,
+// and the value is albumName's fullName like NewAlbumXXXXXXXXXXXXX;
+QMap<QString, QString> album_map;
 }  // namespace
 
 ImagesView::ImagesView(QWidget *parent)
@@ -273,9 +276,12 @@ void ImagesView::onMenuItemClicked(int menuId, const QString &text)
         break;
     }
     case IdAddToAlbum: {
-        const QString album = text.split(SHORTCUT_SPLIT_FLAG).first();
-        if (album != tr("Add to new album"))
+        const QString albumKey = text.split(SHORTCUT_SPLIT_FLAG).first();
+
+        if (albumKey != tr("Add to new album")) {
+            const QString album = album_map.value(albumKey);
             dApp->dbM->insertIntoAlbum(album, paths);
+        }
         else
             dApp->signalM->createAlbum(paths);
         break;
@@ -494,6 +500,7 @@ QJsonObject ImagesView::createAlbumMenuObj()
     const QStringList selectPaths = selectedPaths();
 
     QJsonArray items;
+    album_map.clear();
     bool isAddNewAlbum = false;
     if (! selectPaths.isEmpty()) {
         for (QString album : albums) {
@@ -506,7 +513,11 @@ QJsonObject ImagesView::createAlbumMenuObj()
                     items.append(createMenuItem(IdAddToAlbum, tr("Add to new album")));
                     items.append(createMenuItem(IdSeparator, "", true));;
                 }
-                items.append(createMenuItem(IdAddToAlbum, album));
+
+                QString albumKey = this->fontMetrics().elidedText(album,
+                    Qt::ElideMiddle, 255);
+                album_map.insert(albumKey, album);
+                items.append(createMenuItem(IdAddToAlbum, albumKey));
             }
         }
         if (!isAddNewAlbum) {

@@ -30,6 +30,7 @@ namespace {
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 
+
 }  // namespace
 
 ViewPanel::ViewPanel(QWidget *parent)
