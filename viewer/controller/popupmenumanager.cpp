@@ -159,3 +159,9 @@ void PopupMenuManager::showMenu()
     }
 }
 
+bool PopupMenuManager::menuIsVisible() {
+    if (m_menu->isVisible())
+        return true;
+    else
+        return false;
+}

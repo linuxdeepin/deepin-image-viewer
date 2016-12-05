@@ -94,6 +94,7 @@ void SlideShowPanel::backToLastPanel()
         }
         else {
             emit dApp->signalM->gotoPanel(m_vinfo.lastPanel);
+            emit dApp->signalM->showBottomToolbar();
         }
     }
     else {
@@ -153,7 +154,8 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
         emit dApp->signalM->gotoPanel(this);
         showFullScreen();
     }
-    else if (event->timerId() == m_hideCursorTid) {
+    else if (event->timerId() == m_hideCursorTid &&
+             !m_menu->menuIsVisible()) {
         dApp->setOverrideCursor(Qt::BlankCursor);
     }
 }
@@ -194,7 +196,8 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo)
     m_player->setCurrentImage(vinfo.path);
 
     m_startTid = startTimer(DELAY_START_INTERVAL);
-    dApp->setOverrideCursor(Qt::BlankCursor);
+    if (!m_menu->menuIsVisible())
+        dApp->setOverrideCursor(Qt::BlankCursor);
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
 }
 

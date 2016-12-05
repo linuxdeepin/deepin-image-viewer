@@ -3,6 +3,7 @@
 
 #include "module/modulepanel.h"
 #include "controller/dbmanager.h"
+#include "controller/popupmenumanager.h"
 #include "anchors.h"
 
 #include <QFileInfo>
@@ -15,7 +16,6 @@ class ImageInfoWidget;
 class ImageView;
 class ImageWidget;
 class NavigationWidget;
-class PopupMenuManager;
 class QFileSystemWatcher;
 class QLabel;
 class QStackedWidget;

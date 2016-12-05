@@ -64,7 +64,7 @@ public:
     void setMenuContent(const QString &menuJsonContent);
     void showMenu();
     void hideMenu();
-
+    bool menuIsVisible();
 signals:
     void menuHided();
     void menuItemClicked(int menuId, const QString &text);
