@@ -246,6 +246,10 @@
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add to new album</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImportDirDialog</name>
@@ -364,6 +368,25 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <source>Blinds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switcher</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ring</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
@@ -451,6 +474,103 @@
     </message>
 </context>
 <context>
+    <name>ShortcutEditor</name>
+    <message>
+        <source>Please enter a new shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ShortcutFrame</name>
+    <message>
+        <source>View Picture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restore to default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ShortcutKey</name>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Throw to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SlideShowPanel</name>
     <message>
         <source>Stop slide show</source>
@@ -458,9 +578,25 @@
     </message>
 </context>
 <context>
-    <name>SliderFrame</name>
+    <name>SlideshowFrame</name>
     <message>
-        <source>%1 images</source>
+        <source>second</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch duration</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -503,13 +639,6 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TimelineImageView</name>
-    <message>
-        <source>dd MMMM yyyy</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -591,11 +720,35 @@
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add to new album</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>TimelineViewFrame</name>
+    <name>TitleFrame</name>
     <message>
-        <source>dd MMMM yyyy</source>
+        <source>Slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -638,6 +791,10 @@
     </message>
     <message>
         <source>%1 folders has been collected, please wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setting</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -713,6 +870,10 @@
     </message>
     <message>
         <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to new album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

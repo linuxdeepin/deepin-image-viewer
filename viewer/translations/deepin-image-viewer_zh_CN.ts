@@ -369,6 +369,10 @@
     </message>
     <message>
         <source>Print</source>
+        <translation type="unfinished">打印</translation>
+    </message>
+    <message>
+        <source>Add to new album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -570,6 +574,22 @@
         <source>Lens model</source>
         <translation type="vanished">镜头型号</translation>
     </message>
+    <message>
+        <source>Blinds</source>
+        <translation>百叶窗</translation>
+    </message>
+    <message>
+        <source>Switcher</source>
+        <translation>开关</translation>
+    </message>
+    <message>
+        <source>Slide</source>
+        <translation>滑移</translation>
+    </message>
+    <message>
+        <source>Ring</source>
+        <translation>圆环</translation>
+    </message>
 </context>
 <context>
     <name>Shortcut</name>
@@ -659,6 +679,127 @@
     </message>
 </context>
 <context>
+    <name>ShortcutEditor</name>
+    <message>
+        <source>Please enter a new shortcut</source>
+        <translation>请输入新的快捷键</translation>
+    </message>
+</context>
+<context>
+    <name>ShortcutFrame</name>
+    <message>
+        <source>View Picture</source>
+        <translation>查看图片</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>相册</translation>
+    </message>
+    <message>
+        <source>Restore to default</source>
+        <translation>恢复默认</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Rename album</source>
+        <translation type="vanished">重命名</translation>
+    </message>
+    <message>
+        <source>Shortcuts</source>
+        <translation>快捷键</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+</context>
+<context>
+    <name>ShortcutKey</name>
+    <message>
+        <source>View</source>
+        <translation>查看</translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation>全屏</translation>
+    </message>
+    <message>
+        <source>Slideshow play</source>
+        <translation type="vanished">幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Quit slideshow</source>
+        <translation type="vanished">退出幻灯片</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <source>Throw to trash</source>
+        <translation>丢到回收站</translation>
+    </message>
+    <message>
+        <source>Remove from album</source>
+        <translation>从相册中移除</translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
+        <translation>收藏</translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation>取消收藏</translation>
+    </message>
+    <message>
+        <source>Clockwise rotation</source>
+        <translation type="vanished">顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Counterclockwise rotation</source>
+        <translation type="vanished">逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Set as wallpaper</source>
+        <translation>设为壁纸</translation>
+    </message>
+    <message>
+        <source>Display in file manager</source>
+        <translation>在文件管理器中显示</translation>
+    </message>
+    <message>
+        <source>Image info</source>
+        <translation>图片信息</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Rename album</source>
+        <translation type="vanished">重命名</translation>
+    </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+</context>
+<context>
     <name>SlideShowPanel</name>
     <message>
         <source>Stop slide show</source>
@@ -669,7 +810,30 @@
     <name>SliderFrame</name>
     <message>
         <source>%1 images</source>
-        <translation>%1 张图片</translation>
+        <translation type="vanished">%1 张图片</translation>
+    </message>
+</context>
+<context>
+    <name>SlideshowFrame</name>
+    <message>
+        <source>second</source>
+        <translation>秒</translation>
+    </message>
+    <message>
+        <source>Slideshow</source>
+        <translation>幻灯片</translation>
+    </message>
+    <message>
+        <source>Switch effect</source>
+        <translation>切换效果</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation>时间</translation>
+    </message>
+    <message>
+        <source>Switch duration</source>
+        <translation>切换时间</translation>
     </message>
 </context>
 <context>
@@ -718,7 +882,7 @@
     <name>TimelineImageView</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>yyyy年MM月dd日</translation>
+        <translation type="vanished">yyyy年MM月dd日</translation>
     </message>
 </context>
 <context>
@@ -801,6 +965,10 @@
     </message>
     <message>
         <source>Print</source>
+        <translation>打印</translation>
+    </message>
+    <message>
+        <source>Add to new album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -808,7 +976,34 @@
     <name>TimelineViewFrame</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>yyyy年MM月dd日</translation>
+        <translation type="vanished">yyyy年MM月dd日</translation>
+    </message>
+</context>
+<context>
+    <name>TitleFrame</name>
+    <message>
+        <source>Slideshow</source>
+        <translation>幻灯片</translation>
+    </message>
+    <message>
+        <source>Effect</source>
+        <translation>效果</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation>时间</translation>
+    </message>
+    <message>
+        <source>Shortcuts</source>
+        <translation>快捷键</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation>查看</translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <translation>相册</translation>
     </message>
 </context>
 <context>
@@ -865,6 +1060,10 @@
     <message>
         <source>%1 folders has been collected, please wait</source>
         <translation>已收集%1个文件夹信息，请稍候</translation>
+    </message>
+    <message>
+        <source>Setting</source>
+        <translation>设置</translation>
     </message>
 </context>
 <context>
@@ -955,6 +1154,10 @@
     </message>
     <message>
         <source>Print</source>
+        <translation type="unfinished">打印</translation>
+    </message>
+    <message>
+        <source>Add to new album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
