@@ -308,6 +308,7 @@ void ViewPanel::timerEvent(QTimerEvent *e)
         dApp->setOverrideCursor(Qt::BlankCursor);
     }
 
+    ModulePanel::timerEvent(e);
 }
 
 void ViewPanel::dropEvent(QDropEvent *event)

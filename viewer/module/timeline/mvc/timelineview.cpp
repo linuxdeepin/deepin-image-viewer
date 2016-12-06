@@ -345,6 +345,10 @@ void TimelineView::timerEvent(QTimerEvent *e)
             m_watcher.setFuture(future);
         }
     }
+
+    // NOTE: QAbstractItemView handling several BasicTimer inside timerEvent
+    // Please make sure it won't be stop
+    QAbstractItemView::timerEvent(e);
 }
 
 /*!

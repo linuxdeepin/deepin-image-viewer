@@ -158,6 +158,8 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
              !m_menu->menuIsVisible()) {
         dApp->setOverrideCursor(Qt::BlankCursor);
     }
+
+    ModulePanel::timerEvent(event);
 }
 
 const QString SlideShowPanel::menuContent()

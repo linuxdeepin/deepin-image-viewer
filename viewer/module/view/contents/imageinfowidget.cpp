@@ -169,6 +169,8 @@ void ImageInfoWidget::timerEvent(QTimerEvent *e)
     updateInfo();
     killTimer(m_updateTid);
     m_updateTid = 0;
+
+    QScrollArea::timerEvent(e);
 }
 
 void ImageInfoWidget::clearLayout(QLayout *layout) {

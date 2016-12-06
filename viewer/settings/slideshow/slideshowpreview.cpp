@@ -101,6 +101,8 @@ void SlideshowPreview::timerEvent(QTimerEvent *e)
 
         this->update();
     }
+
+    QFrame::timerEvent(e);
 }
 
 void SlideshowPreview::enterEvent(QEvent *e)

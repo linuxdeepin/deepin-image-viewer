@@ -6,7 +6,7 @@ CONFIG += \
 	plugin
 
 DESTDIR = imageformats
-LIBS += -L/usr/lib/x86_64-linux-gnu -lfreeimage
+LIBS += -lfreeimage
 
 HEADERS += \
     freeimagehandler.h
