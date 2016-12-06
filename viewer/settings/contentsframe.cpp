@@ -100,6 +100,7 @@ void ContentsFrame::initScrollArea()
     DScrollBar* sb = new DScrollBar();
     DThemeManager::instance()->setTheme("dark");
     m_area->setVerticalScrollBar(sb);
+    sb->setContextMenuPolicy(Qt::PreventContextMenu);
     connect(sb, &DScrollBar::valueChanged,
             this, [=] (int value) {
         QRect gr(this->mapToGlobal(QPoint(0, 0)), rect().size());

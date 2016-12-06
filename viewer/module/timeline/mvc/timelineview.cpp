@@ -60,6 +60,7 @@ TimelineView::TimelineView(QWidget *parent)
     , m_topMargin(44)
 {
     setVerticalScrollBar(new ScrollBar());
+    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
     connect(verticalScrollBar(), &QScrollBar::valueChanged,
             this, &TimelineView::onScrolled);
 

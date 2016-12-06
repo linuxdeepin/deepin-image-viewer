@@ -48,6 +48,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
     setVerticalScrollBar(new ScrollBar());
+    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
     setDragEnabled(false);
 
     installEventFilter(this);
