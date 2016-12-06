@@ -59,11 +59,11 @@ void ShortcutEditor::paintEvent(QPaintEvent *e)
 
     if (keys.isEmpty()) {
         // Draw tips
-        QRect tR(3, 5, width(), height());
+        QRect tR(6, 5, width(), height());
         QFont f;
-        f.setPixelSize(10);
+        f.setPixelSize(11);
         painter.setFont(f);
-        painter.setPen(QPen(NORMAL_BORDER_COLOR));
+        painter.setPen(QPen(QColor(48, 48, 48, 0.4 * 255)));
         painter.drawText(tR, tr("Please enter a new shortcut"));
     }
     else {

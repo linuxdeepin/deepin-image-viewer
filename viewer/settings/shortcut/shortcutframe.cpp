@@ -70,17 +70,19 @@ void ShortcutFrame::initViewShortcut()
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(0, 0, 96, 0);
     QFormLayout *fl = new QFormLayout;
-    fl->setSpacing(10);
+    fl->setVerticalSpacing(10);
+    fl->setHorizontalSpacing(40);
     fl->setContentsMargins(0, 0, 0, 0);
-    fl->setLabelAlignment(Qt::AlignRight);
-    layout->addStretch();
+    fl->setLabelAlignment(Qt::AlignLeft);
+//    layout->addStretch();
+    layout->addSpacing(37);
     layout->addLayout(fl);
 
     for (ShortcutKey *i = ShortcutViewKeys; ! i->key.isEmpty(); i ++) {
         ShortcutEditor * se = new ShortcutEditor(SHORTCUTVIEW, i->key);
         connect(this, &ShortcutFrame::resetAll,
                 se, &ShortcutEditor::forceUpdate);
-        fl->addRow(new Title3(trLabel(i->name)), se);
+        fl->addRow(new Title3(trLabel(i->name) + ":"), se);
     }
 
     m_layout->addLayout(layout);
@@ -96,17 +98,19 @@ void ShortcutFrame::initAlbumShortcut()
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(0, 0, 96, 0);
     QFormLayout *fl = new QFormLayout;
-    fl->setSpacing(10);
+    fl->setVerticalSpacing(10);
+    fl->setHorizontalSpacing(100);
     fl->setContentsMargins(0, 0, 0, 0);
-    fl->setLabelAlignment(Qt::AlignRight);
-    layout->addStretch();
+    fl->setLabelAlignment(Qt::AlignLeft);
+//    layout->addStretch();
+    layout->addSpacing(37);
     layout->addLayout(fl);
 
     for (ShortcutKey *i = ShortcutAlbumKeys; ! i->key.isEmpty(); i ++) {
         ShortcutEditor * se = new ShortcutEditor(SHORTCUTALBUM, i->key);
         connect(this, &ShortcutFrame::resetAll,
                 se, &ShortcutEditor::forceUpdate);
-        fl->addRow(new Title3(trLabel(i->name)), se);
+        fl->addRow(new Title3(trLabel(i->name) + ":"), se);
     }
 
     m_layout->addLayout(layout);
