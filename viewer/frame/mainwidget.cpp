@@ -10,10 +10,15 @@
 #include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "widgets/processtooltip.h"
+
+#include <QFileSystemWatcher>
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QFile>
 #include <QHBoxLayout>
+
+#include <ddialog.h>
+using namespace Dtk::Widget;
 
 namespace {
 
@@ -34,6 +39,9 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initExtensionPanel();
     initTopToolbar();
     initBottomToolbar();
+    // image file's synchronization
+    localImagesMonitor();
+    mountDeviceMonitor();
 
     initConnection();
 }
@@ -127,6 +135,68 @@ void MainWidget::initPanelStack(bool manager)
     m_panelStack->addWidget(m_slideShowPanel);
     ViewPanel *m_viewPanel = new ViewPanel();
     m_panelStack->addWidget(m_viewPanel);
+}
+
+void MainWidget::localImagesMonitor() {
+    QFileSystemWatcher *fileWatcher = new QFileSystemWatcher(this);
+    QStringList filepaths = dApp->dbM->getAllPaths();
+    foreach(QString filepath, filepaths) {
+        if (!(filepath.startsWith("/media")||filepath.startsWith("/run/media")))
+            fileWatcher->addPath(QFileInfo(filepath).absoluteFilePath());
+    }
+
+    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
+        QStringList fpaths = dApp->dbM->getAllPaths();
+        foreach(QString fpath, fpaths) {
+            if (!(fpath.startsWith("/media")||fpath.startsWith("/run/media")))
+                fileWatcher->addPath(QFileInfo(fpath).absoluteFilePath());
+        }
+    });
+
+    connect(fileWatcher, &QFileSystemWatcher::fileChanged, this, [=](const
+            QString &path) {
+        if (!QFileInfo(path).exists())
+            dApp->dbM->removeImgInfos(QStringList(path));
+    });
+}
+
+void MainWidget::mountDeviceMonitor() {
+    VolumeMonitor* volumeMonitor = new VolumeMonitor(this);
+    connect(volumeMonitor, &VolumeMonitor::deviceAdded, this, [=](const QString& path){
+        qDebug() << "path:" << path;
+    });
+    connect(volumeMonitor, &VolumeMonitor::deviceRemoved, this,
+            [=](const QString& path){
+        //TODO: get the imagespath started with path
+        QStringList fpaths = dApp->dbM->getAllPaths();
+        foreach(QString fpath, fpaths) {
+            if (fpath.startsWith(path)) {
+
+                DDialog* synImgDialog = new DDialog(this);
+                synImgDialog->setIconPixmap(QPixmap(":/images/resources/images/synimages.png"));
+                synImgDialog->setTitle(tr("The removable device has been unplugged,"
+                                          " would you like to delete the thumbnails on this device?"));
+                synImgDialog->addButton(tr("Cancel"));
+                synImgDialog->addButton(tr("Ok"));
+
+                synImgDialog->show();
+                synImgDialog->moveToCenter();
+
+                connect(synImgDialog, &DDialog::buttonClicked, this, [=](int index){
+                    synImgDialog->close();
+                    synImgDialog->deleteLater();
+                      if (index == 1)
+                          dApp->dbM->removeImgLike(QStringList(path));
+                  });
+
+                break;
+            } else {
+                continue;
+            }
+        }
+    });
+
+    qDebug() << "volume monitorUI:" << volumeMonitor->start();
 }
 
 void MainWidget::initTopToolbar()

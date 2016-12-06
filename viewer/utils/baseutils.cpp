@@ -294,7 +294,6 @@ QString symFilePath(const QString &path) {
         return path;
     }
 }
-
 }  // namespace base
 
 }  // namespace utils

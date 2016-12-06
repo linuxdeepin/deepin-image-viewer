@@ -242,8 +242,36 @@ void DBManager::removeImgInfos(const QStringList &paths)
         qWarning() << "Remove data from ImageTable2 failed: "
                    << query.lastError();
     }
-    else {
+    else { 
         emit dApp->signalM->imagesRemoved(infos);
+    }
+}
+
+void DBManager::removeImgLike(const QStringList &likePaths) {
+    QSqlDatabase db = getDatabase();
+    if (likePaths.isEmpty() || !db.isValid()) {
+        return;
+    }
+    QStringList likePathRows;
+    foreach(QString likepath, likePaths) {
+        likePathRows << '%' + likepath + '%';
+    }
+
+    QSqlQuery query(db);
+    QString qs = "SELECT * FROM ImageTable2 WHERE FilePath like ?";
+    query.prepare(qs);
+    query.addBindValue(likePathRows);
+    if (! query.execBatch()) {
+        qWarning() << "Remove datas from ImageTable2 failed:"
+                   << query.lastError();
+    } else {
+        qDebug() << "Remove datas from ImageTable like filePath succeed!";
+        QStringList delFilePath;
+        while (query.next()) {
+           delFilePath << query.value(0).toString();
+        }
+
+        removeImgInfos(delFilePath);
     }
 }
 
@@ -546,7 +574,14 @@ void DBManager::checkDatabase()
 {
     QDir dd(DATABASE_PATH);
     if (! dd.exists()) {
+        qDebug() << "create database paths";
         dd.mkpath(DATABASE_PATH);
+        if (dd.exists())
+            qDebug() << "create database succeed!";
+        else
+            qDebug() << "create database failed!";
+    } else {
+        qDebug() << "database is exist!";
     }
     const QSqlDatabase db = getDatabase();
     if (! db.isValid()) {

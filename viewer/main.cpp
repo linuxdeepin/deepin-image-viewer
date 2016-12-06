@@ -2,7 +2,7 @@
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
 #include "dthememanager.h"
-
+#include "controller/volumemonitor.h"
 #include <QApplication>
 #include <DLog>
 #include <QTranslator>
@@ -22,6 +22,10 @@ int main(int argc, char *argv[])
 #endif
     // If platform theme name is empty, fallback to gtk2.
     // gtk2 theme is included in libqt5libqgtk2 package.
+    DLogManager::registerConsoleAppender();
+    DLogManager::registerFileAppender();
+    dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
+
     if (qgetenv(kPlatformThemeName).length() == 0) {
       qputenv(kPlatformThemeName, "gtk2");
     }
@@ -38,9 +42,7 @@ int main(int argc, char *argv[])
     if (cl->processOption()) {
         Dtk::Widget::DThemeManager::instance()->setTheme("dark");
 
-        DLogManager::registerConsoleAppender();
-        DLogManager::registerFileAppender();
-        dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
+
 
         if (Application::isDXcbPlatform()) {
             quick_exit(a.exec());

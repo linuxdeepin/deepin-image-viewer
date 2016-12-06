@@ -49,7 +49,7 @@ public:
     bool                    isImgExist(const QString &path) const;
     void insertImgInfos(const DBImgInfoList &infos);
     void removeImgInfos(const QStringList &paths);
-
+    void removeImgLike(const QStringList& likePaths);
     // TableAlbum
     const DBAlbumInfo       getAlbumInfo(const QString &album) const;
     const QStringList       getAllAlbumNames() const;
