@@ -37,13 +37,10 @@ int main(int argc, char *argv[])
         service::setDefaultImageViewer(true);
     }
 
+    Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     CommandLine *cl = CommandLine::instance();
 
     if (cl->processOption()) {
-        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
-
-
-
         if (Application::isDXcbPlatform()) {
             quick_exit(a.exec());
         } else {
