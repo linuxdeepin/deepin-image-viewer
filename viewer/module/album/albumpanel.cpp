@@ -495,7 +495,8 @@ void AlbumPanel::showCreateDialog(QStringList imgpaths)
             m_stackWidget->setCurrentWidget(m_albumsView);
         }
 
-        dApp->dbM->insertIntoAlbum(d->getCreateAlbumName(), imgpaths);
+        dApp->dbM->insertIntoAlbum(d->getCreateAlbumName(),  imgpaths.isEmpty()
+                                   ? QStringList(" ") : imgpaths);
     });
 }
 
