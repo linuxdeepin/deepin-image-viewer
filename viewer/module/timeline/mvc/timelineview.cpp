@@ -306,18 +306,23 @@ void TimelineView::mousePressEvent(QMouseEvent *e)
         return;
     }
 
-    if (e->button() == Qt::RightButton) {
-        emit showMenu();
-    }
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    if (e->modifiers() == Qt::ControlModifier) {
+    if (e->button() == Qt::RightButton) {
+        if (selectedIndexes().length() <= 1) {
+            selectionModel()->clear();
+            selectionModel()->select(index, QItemSelectionModel::Select);
+        }
+        emit showMenu();
+        return;
+    }  else if (e->modifiers() == Qt::ControlModifier) {
         selectionModel()->select(index, QItemSelectionModel::ToggleCurrent);
-    }
-    else {
+    } else {
         selectionModel()->clear();
         selectionModel()->select(index, QItemSelectionModel::Select);
     }
 }
+
 
 void TimelineView::timerEvent(QTimerEvent *e)
 {
