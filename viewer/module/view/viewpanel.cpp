@@ -9,7 +9,6 @@
 #include "scen/imageview.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
-#include "frame/deletedialog.h"
 
 #include <QApplication>
 #include <QDebug>

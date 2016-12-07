@@ -12,7 +12,7 @@
 #include "widgets/importframe.h"
 #include "widgets/thumbnaillistview.h"
 #include "widgets/scrollbar.h"
-#include "frame/deletedialog.h"
+#include "widgets/dialogs/filedeletedialog.h"
 
 #include <QDebug>
 #include <QFileInfo>
@@ -536,18 +536,6 @@ QJsonObject ImagesView::createAlbumMenuObj()
 
 void ImagesView::popupDelDialog(const QStringList &paths)
 {
-    DeleteDialog* delDialog = new DeleteDialog(paths, false, this);
-    delDialog->show();
-    delDialog->moveToCenter();
-    connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
-        delDialog->hide();
-
-        if (index == 1) {
-            m_view->removeItems(paths);
-            dApp->dbM->removeImgInfos(paths);
-            utils::base::trashFiles(paths);
-        }
-    });
-    connect(delDialog, &DeleteDialog::closed,
-            delDialog, &DeleteDialog::deleteLater);
+    FileDeleteDialog *fdd = new FileDeleteDialog(paths);
+    fdd->show();
 }

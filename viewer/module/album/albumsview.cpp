@@ -6,7 +6,7 @@
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "frame/deletedialog.h"
+#include "widgets/dialogs/albumdeletedialog.h"
 #include  "widgets/scrollbar.h"
 
 #include <QDebug>
@@ -476,11 +476,9 @@ int AlbumsView::indexOf(const QString &name) const
 
 void AlbumsView::popupDelDialog(const QString &albumName) {
     QStringList paths = dApp->dbM->getPathsByAlbum(albumName);
-    DeleteDialog* delDialog = new DeleteDialog(paths, true, this);
-    delDialog->show();
-    delDialog->moveToCenter();
-
-    connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
+    AlbumDeleteDialog *add = new AlbumDeleteDialog(paths);
+    add->show();
+    connect(add, &AlbumDeleteDialog::buttonClicked, this, [=] (int index) {
         if (index == 1) {
             if (albumName != MY_FAVORITES_ALBUM
                     && albumName != RECENT_IMPORTED_ALBUM
@@ -491,7 +489,4 @@ void AlbumsView::popupDelDialog(const QString &albumName) {
             }
         }
     });
-    connect(delDialog, &DeleteDialog::closed,
-            delDialog, &DeleteDialog::deleteLater);
-
 }

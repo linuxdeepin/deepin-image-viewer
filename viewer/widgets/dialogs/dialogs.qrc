@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/dialogs/images">
+        <file>resources/images/del_multi_img.png</file>
+        <file>resources/images/del_single_img.png</file>
+        <file>resources/images/import_dir.png</file>
+        <file>resources/images/album_bg_normal.png</file>
+    </qresource>
+</RCC>

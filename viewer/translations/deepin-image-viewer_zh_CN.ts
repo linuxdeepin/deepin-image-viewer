@@ -36,6 +36,21 @@
     </message>
 </context>
 <context>
+    <name>AlbumDeleteDialog</name>
+    <message>
+        <source>Are your sure to delete this album?</source>
+        <translation>您确定要删除此相册吗？</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+</context>
+<context>
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
@@ -135,23 +150,23 @@
     <name>DeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>您确定要删除此相册吗？</translation>
+        <translation type="vanished">您确定要删除此相册吗？</translation>
     </message>
     <message>
         <source>Are you sure to delete %1 images from Timeline?</source>
-        <translation>您确定要从时间线删除%1张图片吗？</translation>
+        <translation type="vanished">您确定要从时间线删除%1张图片吗？</translation>
     </message>
     <message>
         <source>Are you sure to delete this image from Timeline?</source>
-        <translation>您确定要从时间线删除此图片吗？</translation>
+        <translation type="vanished">您确定要从时间线删除此图片吗？</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="vanished">删除</translation>
     </message>
 </context>
 <context>
@@ -280,6 +295,25 @@
     </message>
 </context>
 <context>
+    <name>FileDeleteDialog</name>
+    <message>
+        <source>Are you sure to delete %1 images from Timeline?</source>
+        <translation>您确定要从时间线删除%1张图片吗？</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this image from Timeline?</source>
+        <translation>您确定要从时间线删除此图片吗？</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+</context>
+<context>
     <name>FilterSetup</name>
     <message>
         <source>Cancel</source>
@@ -369,7 +403,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">打印</translation>
+        <translation>打印</translation>
     </message>
     <message>
         <source>Add to new album</source>
@@ -407,6 +441,18 @@
     <message>
         <source>Imported successfully</source>
         <translation>导入成功</translation>
+    </message>
+    <message>
+        <source>The removable device has been unplugged, would you like to delete the thumbnails on this device?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

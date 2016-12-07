@@ -6,8 +6,7 @@ HEADERS += \
     $$PWD/mainwindow.h \
     $$PWD/toptoolbar.h \
     $$PWD/imageinfodialog.h \
-    $$PWD/aboutwindow.h \
-    $$PWD/deletedialog.h
+    $$PWD/aboutwindow.h
 
 SOURCES += \
     $$PWD/bottomtoolbar.cpp \
@@ -16,8 +15,7 @@ SOURCES += \
     $$PWD/mainwindow.cpp \
     $$PWD/toptoolbar.cpp \
     $$PWD/imageinfodialog.cpp \
-    $$PWD/aboutwindow.cpp \
-    $$PWD/deletedialog.cpp
+    $$PWD/aboutwindow.cpp
 
 RESOURCES += \
     $$PWD/frame.qrc
