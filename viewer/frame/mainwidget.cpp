@@ -329,23 +329,42 @@ void MainWidget::initExtensionPanel()
     });
     connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [=] {
         // Is visible
-        if (m_extensionPanel->pos() == QPoint(0, 0)) {
-            m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-                                                   EXTENSION_PANEL_WIDTH), 0);
-        }
-        else {
+        //m_extensionPanel's height is dependent on the visible of topToolbar
+        if (this->window()->isFullScreen()) {
+            if (m_extensionPanel->height() != window()->height())
+                m_extensionPanel->setFixedHeight(window()->height());
+
+            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+                                          EXTENSION_PANEL_WIDTH), 0);
             m_extensionPanel->moveWithAnimation(0, 0);
+        } else {
+            if (m_extensionPanel->height() != window()->height() - TOP_TOOLBAR_HEIGHT)
+                m_extensionPanel->setFixedHeight(window()->height() - TOP_TOOLBAR_HEIGHT);
+
+            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+                                   EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+            m_extensionPanel->moveWithAnimation(0, TOP_TOOLBAR_HEIGHT);
         }
     });
     connect(dApp->signalM, &SignalManager::hideExtensionPanel,
             this, [=] (bool immediately) {
         if (immediately) {
-            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-                                                   EXTENSION_PANEL_WIDTH), 0);
+            if (m_extensionPanel->height() == window()->height()) {
+                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+                                              EXTENSION_PANEL_WIDTH), 0);
+            } else {
+                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+                                    EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+            }
         }
         else {
-            m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-                                                   EXTENSION_PANEL_WIDTH), 0);
+            if (m_extensionPanel->height() == window()->height()) {
+                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+                                                      EXTENSION_PANEL_WIDTH), 0);
+            } else {
+                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+                                          EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+            }
         }
     });
 }

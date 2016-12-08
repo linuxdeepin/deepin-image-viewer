@@ -263,7 +263,7 @@ QWidget *ViewPanel::extensionPanelContent()
         m_info->setStyleSheet(styleSheet());
     }
 
-    l->addSpacing(TOP_TOOLBAR_HEIGHT);
+    l->addSpacing(0);
     l->addWidget(m_info);
 
     return w;
