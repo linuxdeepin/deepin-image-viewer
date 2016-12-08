@@ -4,9 +4,9 @@
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
 #include "frame/mainwindow.h"
-#include "frame/aboutwindow.h"
 #include "settings/settingswindow.h"
 #include "widgets/progresswidgetstips.h"
+#include "widgets/dialogs/aboutdialog.h"
 #include "utils/shortcut.h"
 #include <dcircleprogress.h>
 #include <dwindowminbutton.h>
@@ -41,9 +41,6 @@ TopToolbar::TopToolbar(QWidget *parent)
 
 //    setCoverBrush(QBrush(linearGrad));
     setCoverBrush(QBrush(QColor(30, 30, 30, 204)));
-
-    m_about = new AboutWindow(parent);
-    m_about->hide();
 
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
@@ -155,27 +152,6 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     p.setPen(bPen);
     p.drawPath(bPath);
 }
-
-//void TopToolbar::initAboutWindow() {
-//    QString icon(":/images/resources/images/deepin_image_viewer.png");
-//    QSignalBlocker blocker(DThemeManager::instance());
-//    Q_UNUSED(blocker);
-//    DThemeManager::instance()->setTheme("light");
-
-    //TODO: if without '\n' the text will be cut.
-//    QString description = QString(tr("Deepin Image Viewer is a fashion & smooth image manager, "
-//     "It is featured with image management, "
-//     "image viewing and basic image editing."));
-
-//    m_about = new DAboutDialog(icon, icon, qApp->applicationDisplayName(),
-//                               tr("Version:") + qApp->applicationVersion(),
-//                               description, this);
-
-
-//    DThemeManager::instance()->setTheme("dark");
-//    m_about->setTitle("");
-//    m_about->hide();
-//}
 
 void TopToolbar::initWidgets()
 {
@@ -420,13 +396,10 @@ void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
     case IdHelp:
         showManual();
         break;
-    case IdAbout:
-        m_about->move((width() - m_about->width()) / 2 +
-                      mapToGlobal(QPoint(0, 0)).x(),
-                      (window()->height() - m_about->height()) / 2 +
-                      mapToGlobal(QPoint(0, 0)).y());
-        m_about->show();
-        break;
+    case IdAbout:{
+        AboutDialog *ad = new AboutDialog;
+        ad->show();
+        break;}
     case IdQuick:
         qApp->quit();
     default:

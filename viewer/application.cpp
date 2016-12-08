@@ -43,9 +43,10 @@ void Application::initChildren()
 void Application::initI18n()
 {
     // install translators
-    QTranslator *translator = new QTranslator;
-    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
-                     + QLocale::system().name() + ".qm");
-    installTranslator(translator);
+//    QTranslator *translator = new QTranslator;
+//    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
+//                     + QLocale::system().name() + ".qm");
+//    installTranslator(translator);
+    loadTranslator(QList<QLocale>() << QLocale::system());
 
 }

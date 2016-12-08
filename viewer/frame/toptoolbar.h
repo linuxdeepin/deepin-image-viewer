@@ -8,7 +8,6 @@
 #include <QProcess>
 #include <QPointer>
 
-class AboutWindow;
 class PopupMenuManager;
 class SettingsWindow;
 class TopToolbar : public BlurFrame
@@ -37,7 +36,6 @@ private:
         IdSeparator
     };
 
-//    void initAboutWindow();
     void initWidgets();
     void initMenu();
 
@@ -60,7 +58,6 @@ private:
     QWidget *m_middleContent;
     QWidget *m_rightContent;
     Dtk::Widget::DWindowMaxButton *m_maxb;
-    AboutWindow *m_about;
     PopupMenuManager *m_popupMenu;
     SettingsWindow *m_settingsWindow;
 };

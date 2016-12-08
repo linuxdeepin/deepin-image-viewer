@@ -2,6 +2,33 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <source>Deepin Image Viewer</source>
+        <translation>深度看图</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
+    </message>
+    <message>
+        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <translation>兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is released under GPL v3.</source>
+        <translation>深度看图遵循GPL v3协议发布。</translation>
+    </message>
+    <message>
+        <source>Version:</source>
+        <translation>版本：</translation>
+    </message>
+    <message>
+        <source>Acknowledgement</source>
+        <translation>致谢</translation>
+    </message>
+</context>
+<context>
     <name>AboutWindow</name>
     <message>
         <source>Deepin Image Viewer</source>
