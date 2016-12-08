@@ -1,3 +1,4 @@
+include (dialogs/dialogs.pri)
 
 HEADERS += \
     $$PWD/importframe.h \

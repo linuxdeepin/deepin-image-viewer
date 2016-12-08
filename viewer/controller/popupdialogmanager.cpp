@@ -1,7 +1,5 @@
 #include "popupdialogmanager.h"
 
-#include "frame/deletedialog.h"
-
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QPainter>

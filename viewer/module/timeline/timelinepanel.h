@@ -39,7 +39,6 @@ private:
     QJsonObject createAlbumMenuObj();
     QString createMenuContent();
     void onMenuItemClicked(int menuId, const QString &text);
-    void popupDelDialog(const QStringList &paths);
     void rotateImage(const QString &path, int degree);
     void updateMenuContents();
 private:

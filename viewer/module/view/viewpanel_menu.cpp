@@ -1,7 +1,6 @@
 #include "viewpanel.h"
 #include "navigationwidget.h"
 #include "contents/imageinfowidget.h"
-#include "frame/deletedialog.h"
 #include "scen/imageview.h"
 
 #include <controller/exporter.h>
@@ -10,6 +9,7 @@
 #include <controller/popupdialogmanager.h>
 #include <utils/baseutils.h>
 #include <utils/imageutils.h>
+#include "widgets/dialogs/filedeletedialog.h"
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QShortcut>
@@ -371,25 +371,7 @@ void ViewPanel::initShortcut()
 }
 
 void ViewPanel::popupDelDialog(const QString path) {
-    using namespace utils::base;
-    if (m_vinfo.inDatabase) {
-        DeleteDialog* delDialog = new DeleteDialog(QStringList(path));
-        delDialog->show();
-        delDialog->moveToCenter();
-        connect(delDialog, &DeleteDialog::buttonClicked, [=](int index){
-            delDialog->hide();
-
-            if (index == 1) {
-                dApp->dbM->removeImgInfos(QStringList(path));
-                trashFile(path);
-            }
-        });
-
-        connect(delDialog, &DeleteDialog::closed,
-                delDialog, &DeleteDialog::deleteLater);
-    } else {
-        dApp->dbM->removeImgInfos(QStringList(path));
-        trashFile(path);
-        removeCurrentImage();
-    }
+    const QStringList paths(path);
+    FileDeleteDialog *fdd = new FileDeleteDialog(paths);
+    fdd->show();
 }

@@ -36,6 +36,21 @@
     </message>
 </context>
 <context>
+    <name>AlbumDeleteDialog</name>
+    <message>
+        <source>Are your sure to delete this album?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumPanel</name>
     <message>
         <source>Import</source>
@@ -128,29 +143,6 @@
     </message>
 </context>
 <context>
-    <name>DeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure to delete %1 images from Timeline?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure to delete this image from Timeline?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Exporter</name>
     <message>
         <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
@@ -166,6 +158,25 @@
     </message>
     <message>
         <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FileDeleteDialog</name>
+    <message>
+        <source>Are you sure to delete %1 images from Timeline?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this image from Timeline?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -281,6 +292,18 @@
     <name>MainWidget</name>
     <message>
         <source>Imported successfully</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The removable device has been unplugged, would you like to delete the thumbnails on this device?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

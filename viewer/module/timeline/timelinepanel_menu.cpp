@@ -1,13 +1,13 @@
 #include "timelinepanel.h"
+#include "timelineframe.h"
 #include "controller/dbmanager.h"
 #include "controller/exporter.h"
 #include "controller/popupmenumanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/popupdialogmanager.h"
-#include "frame/deletedialog.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "timelineframe.h"
+#include "widgets/dialogs/filedeletedialog.h"
 #include <QShortcut>
 #include <QtConcurrent>
 
@@ -285,7 +285,8 @@ void TimelinePanel::onMenuItemClicked(int menuId, const QString &text)
         utils::base::copyImageToClipboard(paths);
         break;
     case IdMoveToTrash: {
-        popupDelDialog(paths);
+        FileDeleteDialog *fdd = new FileDeleteDialog(paths);
+        fdd->show();
         break;
     }
     case IdAddToFavorites:
@@ -454,21 +455,4 @@ void TimelinePanel::rotateImage(const QString &path, int degree)
 //        m_view->updateThumbnails();
         m_frame->updateThumbnails();
     }
-}
-
-void TimelinePanel::popupDelDialog(const QStringList &paths)
-{
-    DeleteDialog* dialog = new DeleteDialog(paths, false, this);
-    dialog->show();
-    dialog->moveToCenter();
-    connect(dialog, &DeleteDialog::buttonClicked, [=](int index){
-        dialog->hide();
-
-        if (index == 1) {
-            dApp->dbM->removeImgInfos(paths);
-            utils::base::trashFiles(paths);
-        }
-    });
-    connect(dialog, &DeleteDialog::closed, dialog, &DeleteDialog::deleteLater);
-
 }
