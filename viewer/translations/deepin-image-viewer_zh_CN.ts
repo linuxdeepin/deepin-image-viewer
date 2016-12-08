@@ -25,6 +25,25 @@
     </message>
 </context>
 <context>
+    <name>AlbumCreateDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>新建</translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation>新建相册</translation>
+    </message>
+    <message>
+        <source>Unnamed</source>
+        <translation>未命名相册</translation>
+    </message>
+</context>
+<context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
@@ -131,19 +150,19 @@
     <name>CreateAlbumDialog</name>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>新建</translation>
+        <translation type="vanished">新建</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation type="vanished">未命名相册</translation>
     </message>
 </context>
 <context>
@@ -167,6 +186,25 @@
     <message>
         <source>Delete</source>
         <translation type="vanished">删除</translation>
+    </message>
+</context>
+<context>
+    <name>DirImportDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Import only</source>
+        <translation>仅导入</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>创建并导入</translation>
+    </message>
+    <message>
+        <source>Create an album named after the imported folder?</source>
+        <translation>是否创建以导入文件夹命名的相册？</translation>
     </message>
 </context>
 <context>
@@ -414,19 +452,19 @@
     <name>ImportDirDialog</name>
     <message>
         <source>Create an album named after the imported folder?</source>
-        <translation>是否创建以导入文件夹命名的相册？</translation>
+        <translation type="vanished">是否创建以导入文件夹命名的相册？</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
         <source>Import only</source>
-        <translation>仅导入</translation>
+        <translation type="vanished">仅导入</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>创建并导入</translation>
+        <translation type="vanished">创建并导入</translation>
     </message>
 </context>
 <context>

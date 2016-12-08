@@ -50,21 +50,6 @@ QLineEdit#AlbumNameLineEdit {
     background: transparent;
 }
 
-QLineEdit#CreateEdit {
-    border: 1px solid rgba(255, 255, 255, 51);
-    border-radius: 3;
-    color: #ffffff;
-    font-size: 12px;
-    selection-background-color: #419bf9;
-    background: rgba(0, 0, 0, .3);
-    height: 20px;
-}
-
-QLabel#CreateTitleLabel {
-    font-size: 12px;
-    color: #FFFFFF;
-}
-
 QLabel#AlbumInfoTipsLabel {
     font-size: 12px;
     color: #FFFFFF;
