@@ -281,6 +281,11 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
         m_viewB->setImage("");
     }
 
+    if (e->type() == QEvent::Resize) {
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+    }
+
     return false;
 }
 
