@@ -1,35 +1,42 @@
 #include "application.h"
-#include "createalbumdialog.h"
+#include "albumcreatedialog.h"
 #include "controller/dbmanager.h"
+#include "utils/baseutils.h"
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QKeyEvent>
+#include <QDebug>
 
-CreateAlbumDialog::CreateAlbumDialog(QWidget* parent)
+AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     :DDialog(parent)
 {
-    setMinimumWidth(450);
+    setModal(true);
 
-    QWidget *w = new QWidget(this);
-    QHBoxLayout *layout = new QHBoxLayout(w);
-    layout->setContentsMargins(25, 0, 36, 0);
-    layout->setSpacing(10);
+    setIconPixmap(QPixmap(":/dialogs/images/resources/images/album_bg_normal.png"));
 
-    QLabel *icon = new QLabel;
-    QPixmap pix(":/images/resources/images/import_dir.png");
-    icon->setPixmap(pix);
-    layout->addWidget(icon);
+    addButton(tr("Cancel"), false, DDialog::ButtonNormal);
+    addButton(tr("OK"), true, DDialog::ButtonRecommend);
 
+    // Input content
+    const QString subStyle =
+    utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     QLabel *title = new QLabel(tr("New album"));
-    title->setObjectName("CreateTitleLabel");
+    title->setStyleSheet(subStyle);
+    title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+
     QLineEdit *edit = new QLineEdit;
-    edit->setObjectName("CreateEdit");
+    edit->setStyleSheet(subStyle);
+    edit->setObjectName("DialogEdit");
     edit->setText(getNewAlbumName());
-    edit->selectAll();
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
-    edit->setMaxLength(255);
+    edit->setFixedSize(240, 22);
+    connect(this, &AlbumCreateDialog::visibleChanged, this, [=] (bool v) {
+        if (! v) return;
+        edit->setFocus();
+        edit->selectAll();
+    });
     connect(edit, &QLineEdit::returnPressed, this, [=] {
         const QString album = edit->text().trimmed();
         if (! album.isEmpty()) {
@@ -38,44 +45,41 @@ CreateAlbumDialog::CreateAlbumDialog(QWidget* parent)
         }
     });
 
-    QVBoxLayout *rl = new QVBoxLayout;
-    rl->setContentsMargins(0, 0, 0, 0);
-    rl->addSpacing(5);
-    rl->addWidget(title);
-    rl->addSpacing(5);
-    rl->addWidget(edit);
-    rl->addStretch(1);
-    layout->addLayout(rl);
+    QWidget *w = new QWidget;
+    QVBoxLayout *layout = new QVBoxLayout(w);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(8);
 
-    addButton(tr("Cancel"), 0);
-    addButton(tr("OK"), 1);
+    layout->addStretch();
+    layout->addWidget(title);
+    layout->addWidget(edit);
+    layout->addStretch();
+    addContent(w);
 
-    connect(this, &CreateAlbumDialog::buttonClicked, this, [=] (int id, const QString &text) {
-        Q_UNUSED(text);
-        if (id == 0) {
-            this->close();
-        }
-        else {
+    connect(this, &AlbumCreateDialog::closed,
+            this, &AlbumCreateDialog::deleteLater);
+    connect(this, &AlbumCreateDialog::buttonClicked, this, [=] (int id) {
+        if (id == 1) {
             if (edit->text().simplified().length()!= 0)
                 createAlbum(edit->text().trimmed());
             else
                 createAlbum(tr("Unnamed"));
-            this->close();
         }
     });
-
-    this->insertContent(0, w);
 }
 
-void CreateAlbumDialog::keyPressEvent(QKeyEvent *e)
+void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape) {
         this->close();
     }
 }
 
-
-const QString CreateAlbumDialog::getNewAlbumName() const
+/*!
+ * \brief AlbumCreateDialog::getNewAlbumName
+ * \return Return a string like "Unnamed3", &etc
+ */
+const QString AlbumCreateDialog::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
     const QStringList albums = dApp->dbM->getAllAlbumNames();
@@ -109,12 +113,12 @@ const QString CreateAlbumDialog::getNewAlbumName() const
     }
 }
 
-const QString CreateAlbumDialog::getCreateAlbumName() const
+const QString AlbumCreateDialog::getCreateAlbumName() const
 {
     return m_createAlbumName;
 }
 
-void CreateAlbumDialog::createAlbum(const QString &newName)
+void AlbumCreateDialog::createAlbum(const QString &newName)
 {
     if (! dApp->dbM->getAllAlbumNames().contains(newName)) {
         m_createAlbumName = newName;
@@ -125,5 +129,5 @@ void CreateAlbumDialog::createAlbum(const QString &newName)
         dApp->dbM->insertIntoAlbum(getNewAlbumName(), QStringList());
     }
 
-    emit finishedAddAlbum();
+    emit albumAdded();
 }

@@ -1,12 +1,12 @@
 #include "albumpanel.h"
 #include "application.h"
-#include "createalbumdialog.h"
-#include "importdirdialog.h"
 #include "controller/configsetter.h"
 #include "controller/dbmanager.h"
 #include "controller/importer.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
+#include "widgets/dialogs/albumcreatedialog.h"
+#include "widgets/dialogs/dirimportdialog.h"
 #include "widgets/imagebutton.h"
 #include "widgets/importframe.h"
 #include "widgets/slider.h"
@@ -476,20 +476,13 @@ void AlbumPanel::showCreateDialog(QStringList imgpaths)
         return;
     }
 
-//TODO: next version change theme to light
-//    QSignalBlocker blocker(DThemeManager::instance());
-//    Q_UNUSED(blocker);
-//    DThemeManager::instance()->setTheme("light");
-    CreateAlbumDialog *d = new CreateAlbumDialog(this);
-//    DThemeManager::instance()->setTheme("dark");
-    connect(d, &CreateAlbumDialog::closed,
-            d, &CreateAlbumDialog::deleteLater);
-    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
+    AlbumCreateDialog *d = new AlbumCreateDialog;
     d->show();
-    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
-            (parentWidget()->height() - d->height()) / 2 + p.y());
+//    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
+//    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
+//            (parentWidget()->height() - d->height()) / 2 + p.y());
 
-    connect(d, &CreateAlbumDialog::finishedAddAlbum, this, [=]{
+    connect(d, &AlbumCreateDialog::albumAdded, this, [=]{
         if (m_stackWidget->currentWidget() != m_albumsView &&
                 m_stackWidget->currentWidget() != m_imagesView) {
             m_stackWidget->setCurrentWidget(m_albumsView);
@@ -506,22 +499,16 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
         return;
     }
 
-//    QSignalBlocker blocker(DThemeManager::instance());
-//    Q_UNUSED(blocker);
-//    DThemeManager::instance()->setTheme("light");
-    ImportDirDialog *d = new ImportDirDialog(this);
-//    DThemeManager::instance()->setTheme("dark");
-    connect(d, &ImportDirDialog::albumCreated,
+    DirImportDialog *d = new DirImportDialog(dir);
+    connect(d, &DirImportDialog::albumCreated,
             m_albumsView, &AlbumsView::updateView);
-    connect(d, &ImportDirDialog::albumCreated,
+    connect(d, &DirImportDialog::albumCreated,
             this, &AlbumPanel::updateAlbumCount);
-    connect(d, &ImportDirDialog::closed,
-            d, &ImportDirDialog::deleteLater);
-    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
     d->show();
-    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
-            (parentWidget()->height() - d->height()) / 2 + p.y());
-    d->import(dir);
+//    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
+//    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
+//            (parentWidget()->height() - d->height()) / 2 + p.y());
+//    d->import(dir);
 }
 
 void AlbumPanel::onImageCountChanged(int count)

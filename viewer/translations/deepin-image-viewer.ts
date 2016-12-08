@@ -25,6 +25,25 @@
     </message>
 </context>
 <context>
+    <name>AlbumCreateDialog</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unnamed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
@@ -124,13 +143,13 @@
     </message>
 </context>
 <context>
-    <name>CreateAlbumDialog</name>
+    <name>DirImportDialog</name>
     <message>
-        <source>New album</source>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cancel</source>
+        <source>Import only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -138,7 +157,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unnamed</source>
+        <source>Create an album named after the imported folder?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -259,25 +278,6 @@
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ImportDirDialog</name>
-    <message>
-        <source>Create an album named after the imported folder?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import only</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
