@@ -313,8 +313,14 @@ void TimelineView::mousePressEvent(QMouseEvent *e)
             selectionModel()->clear();
             selectionModel()->select(index, QItemSelectionModel::Select);
         }
-        emit showMenu();
+
+        QVariantList datas = model()->data(selectedIndexes().at(0),
+                                           Qt::DisplayRole).toList();
+        //the selected index isn't title
+        if (!datas[0].toBool() || selectedIndexes().length() >= 2)
+            emit showMenu();
         return;
+
     }  else if (e->modifiers() == Qt::ControlModifier) {
         selectionModel()->select(index, QItemSelectionModel::ToggleCurrent);
     } else {

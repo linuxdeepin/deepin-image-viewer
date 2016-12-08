@@ -43,7 +43,8 @@ TimelineFrame::TimelineFrame(QWidget *parent)
         QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
         if (datas.count() == 4) { // There is 4 field data inside TimelineData
             const QString path = datas[1].toString();
-            emit viewImage(path, dApp->dbM->getAllPaths());
+            if (!path.isEmpty())
+                emit viewImage(path, dApp->dbM->getAllPaths());
         }
     });
     connect(m_view, &TimelineView::showMenu, this, &TimelineFrame::showMenu);
@@ -114,7 +115,8 @@ const QStringList TimelineFrame::selectedPaths() const
     QModelIndexList il = m_view->selectionModel()->selectedIndexes();
     for (QModelIndex index : il) {
         QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.count() == 4) { // There is 4 field data inside TimelineData
+        // There is 4 field data inside TimelineData
+        if (datas.count() == 4 && !datas[0].toBool()) {
             sPaths << datas[1].toString();
         }
     }
