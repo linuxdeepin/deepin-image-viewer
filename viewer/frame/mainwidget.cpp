@@ -2,7 +2,6 @@
 #include "application.h"
 #include "controller/importer.h"
 #include "controller/configsetter.h"
-#include "imageinfodialog.h"
 #include "module/album/albumpanel.h"
 //#include "module/edit/EditPanel.h"
 #include "module/timeline/timelinepanel.h"
@@ -10,6 +9,7 @@
 #include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "widgets/processtooltip.h"
+#include "widgets/dialogs/imginfodialog.h"
 
 #include <QFileSystemWatcher>
 #include <QDebug>
@@ -97,20 +97,19 @@ void MainWidget::onShowImageInfo(const QString &path)
     else
         m_infoShowingList << path;
 
-    ImageInfoDialog *info = new ImageInfoDialog(this);
-    info->setPath(path);
+    ImgInfoDialog *info = new ImgInfoDialog(path);
     info->move((width() - info->width()) / 2 +
                mapToGlobal(QPoint(0, 0)).x(),
                (window()->height() - info->sizeHint().height()) / 2 +
                mapToGlobal(QPoint(0, 0)).y());
     info->show();
     info->setWindowState(Qt::WindowActive);
-    connect(info, &ImageInfoDialog::closed, this, [=] {
+    connect(info, &ImgInfoDialog::closed, this, [=] {
         info->deleteLater();
         m_infoShowingList.removeAll(path);
     });
     connect(dApp->signalM, &SignalManager::gotoPanel,
-            info, &ImageInfoDialog::close);
+            info, &ImgInfoDialog::close);
 }
 
 void MainWidget::initPanelStack(bool manager)
