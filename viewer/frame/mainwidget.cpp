@@ -322,10 +322,6 @@ void MainWidget::initExtensionPanel()
         if (c != nullptr)
             m_extensionPanel->setContent(c);
     });
-    connect(dApp->signalM, &SignalManager::updateExtensionPanelRect,
-            this, [=] {
-        m_extensionPanel->updateRectWithContent();
-    });
     connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [=] {
         // Is visible
         //m_extensionPanel's height is dependent on the visible of topToolbar

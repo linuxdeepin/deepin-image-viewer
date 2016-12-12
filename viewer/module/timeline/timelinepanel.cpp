@@ -124,18 +124,15 @@ QWidget *TimelinePanel::toolbarBottomContent()
 
 QWidget *TimelinePanel::toolbarTopLeftContent()
 {
-    QWidget *tTopleftContent = new QWidget;
-    tTopleftContent->setFixedWidth((window()->width() - 48*6)/2);
+    QWidget *w = new QWidget;
 
     QLabel *label = new QLabel;
     label->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
-    QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addSpacing(ICON_MARGIN);
-    layout->addWidget(label, 1, Qt::AlignLeft | Qt::AlignVCenter);
-    layout->addStretch();
+    QHBoxLayout *layout = new QHBoxLayout(w);
+    layout->setContentsMargins(ICON_MARGIN, 0, 0, 0);
+    layout->addWidget(label);
 
-    return tTopleftContent;
+    return w;
 }
 
 QWidget *TimelinePanel::toolbarTopMiddleContent()
@@ -226,12 +223,6 @@ void TimelinePanel::initConnection()
     });
     connect(dApp->signalM, &SignalManager::gotoTimelinePanel, this, [=] {
         emit dApp->signalM->gotoPanel(this);
-    });
-
-    connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
-        if (!this->isHidden()) {
-            showPanelEvent(this);
-        }
     });
 }
 

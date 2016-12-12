@@ -3,26 +3,24 @@
 #include "controller/importer.h"
 #include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
-#include "frame/mainwindow.h"
 #include "settings/settingswindow.h"
-#include "widgets/progresswidgetstips.h"
 #include "widgets/dialogs/aboutdialog.h"
+#include "utils/baseutils.h"
 #include "utils/shortcut.h"
+#include <darrowrectangle.h>
 #include <dcircleprogress.h>
 #include <dwindowminbutton.h>
+#include <dwindowmaxbutton.h>
 #include <dwindowclosebutton.h>
 #include <dwindowoptionbutton.h>
-#include <dwindowrestorebutton.h>
-#include <darrowrectangle.h>
 #include <QDebug>
-#include <QGradient>
+#include <QHBoxLayout>
 #include <QPainter>
+#include <QProcess>
 #include <QResizeEvent>
-#include <QStackedWidget>
 #include <QShortcut>
 
-//#include <dthememanager.h>
-using namespace Dtk::Widget;
+DWIDGET_USE_NAMESPACE
 
 namespace {
 
@@ -31,15 +29,31 @@ const int ICON_MARGIN = 6;
 
 }  // namespace
 
+class ImportTip : public DArrowRectangle
+{
+    Q_OBJECT
+public:
+    explicit ImportTip(QWidget * parent = 0);
+    void setValue(int value);
+    void setTitle(QString title);
+    void setMessage(QString message);
+
+signals:
+    void stopProgress();
+
+private:
+    void initWidgets();
+
+private:
+    DCircleProgress *m_cp;
+    QLabel *m_title;
+    QLabel *m_message;
+    QWidget *m_content;
+};
+
 TopToolbar::TopToolbar(QWidget *parent)
     :BlurFrame(parent)
 {
-//    QLinearGradient linearGrad(QPoint(0, this->y()),
-//                               QPoint(0, this->y()+this->height()));
-//    linearGrad.setColorAt(0, QColor(38, 38, 38, 230));
-//    linearGrad.setColorAt(1, QColor(28, 28, 28, 230));
-
-//    setCoverBrush(QBrush(linearGrad));
     setCoverBrush(QBrush(QColor(30, 30, 30, 204)));
 
     m_settingsWindow = new SettingsWindow();
@@ -48,63 +62,38 @@ TopToolbar::TopToolbar(QWidget *parent)
     initWidgets();
     initMenu();
 
-    QShortcut* viewScut = new QShortcut(QKeySequence("Ctrl+Shift+/"),
-                                        this);
+    QShortcut* viewScut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
     connect(viewScut, &QShortcut::activated, this, &TopToolbar::showShortCutView);
-    qApp->installEventFilter(this);
-    parent->installEventFilter(this);
 }
 
 void TopToolbar::setLeftContent(QWidget *content)
 {
     QLayoutItem *child;
-    while ((child = m_leftLayout->takeAt(0)) != 0) {
+    while ((child = m_lLayout->takeAt(0)) != 0) {
         if (child->widget())
             child->widget()->deleteLater();
         delete child;
     }
-    m_leftLayout->addWidget(content);
+
+    m_lLayout->addWidget(content);
 }
 
 void TopToolbar::setMiddleContent(QWidget *content)
 {
     QLayoutItem *child;
-    while ((child = m_middleLayout->takeAt(0)) != 0) {
+    while ((child = m_mLayout->takeAt(0)) != 0) {
         if (child->widget())
             child->widget()->deleteLater();
         delete child;
     }
 
-    m_middleLayout->addWidget(content);
-}
-
-bool TopToolbar::eventFilter(QObject *obj, QEvent *e)
-{
-    Q_UNUSED(obj)
-    if (e->type() == QEvent::Resize) {
-        if (! window()->isFullScreen()) {
-            m_maxb->setMaximized(window()->isMaximized());
-        }
-    }
-    if (e->type() == QEvent::Move && obj == this) {
-        emit updateImportTipsGeo();
-    }
-    if (e->type() == QEvent::KeyPress) {
-        QKeyEvent *ke = static_cast<QKeyEvent *>(e);
-        if (ke && ke->key() == Qt::Key_F1) {
-            showManual();
-        }
-    }
-    return false;
+    m_mLayout->addWidget(content);
 }
 
 void TopToolbar::resizeEvent(QResizeEvent *e)
 {
-    Q_UNUSED(e);
-    emit dApp->signalM->updateTopToolbar();
-    m_leftContent->setFixedWidth((window()->width() - 48*6)/2);
-    m_middleContent->update();
-    m_rightContent->setFixedWidth((window()->width() - 48*6)/2);
+    BlurFrame::resizeEvent(e);
+    updateTipsPos();
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -153,183 +142,150 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     p.drawPath(bPath);
 }
 
-void TopToolbar::initWidgets()
+void TopToolbar::keyPressEvent(QKeyEvent *e)
 {
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
-    mainLayout->setContentsMargins(0, 0, 0, 0);
-    mainLayout->setSpacing(0);
+    BlurFrame::keyPressEvent(e);
+    if (e->type() == QEvent::KeyPress) {
+        QKeyEvent *ke = static_cast<QKeyEvent *>(e);
+        if (ke && ke->key() == Qt::Key_F1) {
+            showManual();
+        }
+    }
+}
 
-    DCircleProgress *importDCProg = new DCircleProgress(this);
-    importDCProg->setValue(0);
-    importDCProg->setFixedSize(21, 21);
-    importDCProg->setVisible(false);
-    //importProgress's tooltip begin to init;
-    DArrowRectangle *importDArrowRect =
-            new DArrowRectangle(DArrowRectangle::ArrowTop, nullptr);
+void TopToolbar::initLeftContent()
+{
+    QWidget *w = new QWidget;
+    m_lLayout = new QHBoxLayout(w);
+    m_lLayout->setContentsMargins(0, 0, 0, 0);
+    m_lLayout->setSpacing(0);
 
-    importDArrowRect->setWindowFlags(Qt::X11BypassWindowManagerHint |
-                                     Qt::WindowStaysOnTopHint);
+    m_layout->addWidget(w, 1, Qt::AlignLeft);
+}
 
-    importDArrowRect->setStyleSheet("background-color:red;");
-    importDArrowRect->setShadowBlurRadius(0);
-    importDArrowRect->setShadowDistance(0);
-    importDArrowRect->setShadowYOffset(0);
-    importDArrowRect->setShadowXOffset(0);
+void TopToolbar::initMiddleContent()
+{
+    QWidget *w = new QWidget;
+    w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    m_mLayout = new QHBoxLayout(w);
+    m_mLayout->setContentsMargins(0, 0, 0, 0);
+    m_mLayout->setSpacing(0);
 
-    ProgressWidgetsTips* progTips = new ProgressWidgetsTips(/*importDArrowRect*/);
-    progTips->setTitle(tr("Collecting information"));
-    progTips->setTips(
-                QString(tr("%1 folders has been collected, please wait")).arg(0));
-    importDArrowRect->setContent(progTips);
-    importDArrowRect->hide();
-    connect(dApp->importer, &Importer::progressChanged,
-            [=](double per, int count) {
-        progTips->setValue(int(per*100));
-        progTips->setTips(
-                    QString(tr("%1 folders has been collected, please wait"))
-                    .arg(count));
+    m_layout->addWidget(w);
+}
+
+void TopToolbar::initRightContent()
+{
+    QWidget *w = new QWidget;
+    m_rLayout = new QHBoxLayout(w);
+    m_rLayout->setContentsMargins(0, 0, 0, 0);
+    m_rLayout->setSpacing(0);
+
+    m_layout->addWidget(w, 1, Qt::AlignRight);
+
+    // Collection progress
+    initImportTips();
+    DCircleProgress *cp = new DCircleProgress(this);
+    cp->setValue(0);
+    cp->setFixedSize(21, 21);
+    cp->setVisible(false);
+    connect(dApp->importer, &Importer::progressChanged, this, [=] (double p) {
+        cp->setVisible(p != 1);
+        if (p == 1) {
+            m_importTips->hide();
+        }
+        cp->setValue(p * 100);
     });
-    connect(progTips, &ProgressWidgetsTips::stopProgress, [=]{
-        dApp->importer->cancel();
-        progTips->hide();
-    });
-
-    connect(dApp->importer, &Importer::imported, [=](bool succeess){
-        if (succeess && importDArrowRect->isVisible()) {
-            importDArrowRect->hide();
+    connect(cp, &DCircleProgress::clicked, [=]{
+        if (m_importTips->isHidden()) {
+            m_importTips->setVisible(true);
+            m_importTips->setFocus();
+            updateTipsPos();
+        }
+        else {
+            m_importTips->hide();
         }
     });
 
-
-    //importProgress's tooltip end
-    connect(dApp->importer, &Importer::progressChanged,
-            this, [=] (double progress) {
-        importDCProg->setVisible(progress != 1);
-        if (progress == 1) {
-            importDArrowRect->hide();
-        }
-        importDCProg->setValue(progress * 100);
-    });
-
-    connect(importDCProg, &DCircleProgress::clicked, [=]{
-        if (importDArrowRect->isHidden()) {
-            importDArrowRect->setContent(progTips);
-            importDArrowRect->show(window()->width() + window()->x() -
-             161, mapToGlobal(QPoint(0, 45)).y());
-        } else {
-            importDArrowRect->hide();
-        }
-    });
-
-    connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
-        if (!importDArrowRect->isHidden()) {
-            importDArrowRect->hide();
-            if (importDCProg->isVisible()) {
-                QTimer* delayShowTimer = new QTimer(this);
-                delayShowTimer->start(2000);
-                connect(delayShowTimer, &QTimer::timeout, [=]{
-                    importDArrowRect->setContent(progTips);
-                    importDArrowRect->show(window()->width() + window()->x() -
-                                           161, mapToGlobal(QPoint(0, 45)).y());
-                    delayShowTimer->deleteLater();
-                });
-            }
-        }
-    });
-
-    connect(this, &TopToolbar::updateImportTipsGeo, this, [=]{
-        if (!importDArrowRect->isHidden()) {
-            importDArrowRect->hide();
-            if (importDCProg->isVisible()) {
-                QTimer* delayShowTimer = new QTimer(this);
-                delayShowTimer->start(2000);
-                connect(delayShowTimer, &QTimer::timeout, [=]{
-                    importDArrowRect->setContent(progTips);
-                    importDArrowRect->show(window()->width() + window()->x() -
-                                           161, mapToGlobal(QPoint(0, 45)).y());
-                    delayShowTimer->deleteLater();
-                });
-            }
-        }
-    });
-    connect(dApp, &DApplication::focusChanged, this, [=]{
-        if (!window()->hasFocus() && !importDArrowRect->isHidden()) {
-            importDArrowRect->hide();
-        }
-    });
-
-    DWindowOptionButton *ob = new DWindowOptionButton;
-    connect(ob, &DWindowOptionButton::clicked, this, [=] {
+    // Windows button
+    DWindowOptionButton *optionBtn = new DWindowOptionButton;
+    connect(optionBtn, &DWindowOptionButton::clicked, this, [=] {
         if (parentWidget()) {
             m_popupMenu->setMenuContent(createMenuContent());
             m_popupMenu->showMenu();
         }
     });
-    connect(dApp->signalM, &SignalManager::enableMainMenu,
-            this, [=] (bool enable) {
-        ob->setVisible(enable);
-        ob->setEnabled(enable);
-        });
-
-    DWindowMinButton *minb = new DWindowMinButton;
-    // FIXME it may crash
-    connect(minb, SIGNAL(clicked()),
-            parentWidget()->parentWidget(), SLOT(showMinimized()));
-    connect(minb,  &DWindowMinButton::clicked, this, [=]{
-        if (!importDArrowRect->isHidden()) {
-            importDArrowRect->hide();
-        }
+    connect(dApp->signalM, &SignalManager::enableMainMenu, this, [=] (bool v) {
+        optionBtn->setVisible(v);
+        optionBtn->setEnabled(v);
     });
-
-    m_maxb = new DWindowMaxButton;
-    connect(m_maxb, &DWindowMaxButton::clicked, this, [=] {
-        if (m_maxb->isMaximized()) {
+    DWindowMinButton *minBtn = new DWindowMinButton;
+    connect(minBtn, &DWindowMinButton::clicked, this, [=] {
+        if (parentWidget() && parentWidget()->parentWidget()) {
+            parentWidget()->parentWidget()->showMinimized();
+        }
+        m_importTips->hide();
+    });
+    DWindowMaxButton *maxBtn = new DWindowMaxButton;
+    connect(maxBtn, &DWindowMaxButton::clicked, this, [=] {
+        if (maxBtn->isMaximized()) {
             window()->showNormal();
-            m_maxb->setMaximized(false);
+            maxBtn->setMaximized(false);
         }
         else {
             window()->showMaximized();
-            m_maxb->setMaximized(true);
+            maxBtn->setMaximized(true);
         }
-
     });
+    DWindowCloseButton *closeBtn = new DWindowCloseButton;
+    connect(closeBtn, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
 
-    DWindowCloseButton *cb = new DWindowCloseButton;
-    connect(cb, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
+    m_rLayout->addWidget(cp);
+    m_rLayout->addWidget(optionBtn);
+    m_rLayout->addWidget(minBtn);
+    m_rLayout->addWidget(maxBtn);
+    m_rLayout->addWidget(closeBtn);
+}
 
-    m_rightContent = new QWidget;
-    m_rightContent->setFixedWidth((window()->width() - 48*6)/2);
-    QHBoxLayout *rightLayout = new QHBoxLayout(m_rightContent);
-    rightLayout->setContentsMargins(0, 0, 0, 0);
-    rightLayout->setSpacing(0);
-    rightLayout->addStretch();
-    rightLayout->addWidget(importDCProg);
-    rightLayout->addSpacing(36);
-    rightLayout->addWidget(ob);
-    rightLayout->addSpacing(0);
-    rightLayout->addWidget(minb);
-    rightLayout->addSpacing(0);
-    rightLayout->addWidget(m_maxb);
-    rightLayout->addSpacing(0);
-    rightLayout->addWidget(cb);
-    rightLayout->addSpacing(ICON_MARGIN);
+void TopToolbar::initImportTips()
+{
+    QString tipStr = tr("%1 folders has been collected, please wait");
+    m_importTips = new ImportTip;
+    m_importTips->setTitle(tr("Collecting information"));
+    m_importTips->setMessage(tipStr.arg(0));
+    m_importTips->hide();
 
-    m_leftContent = new QWidget;
-    m_leftContent->setFixedWidth((window()->width() - 48*6)/2);
-    m_leftLayout = new QHBoxLayout(m_leftContent);
-    m_leftLayout->setContentsMargins(0, 0, 0, 0);
-    m_leftLayout->setSpacing(0);
+    connect(dApp, &DApplication::focusChanged, this, [=]{
+        if (! window()->hasFocus() && ! m_importTips->hasFocus()) {
+//            TIMER_SINGLESHOT(1000, {m_importTips->hide();}, this)
+            m_importTips->hide();
+        }
+    });
+    connect(dApp->importer, &Importer::progressChanged,
+            [=](double per, int count) {
+        m_importTips->setValue(int(per*100));
+        m_importTips->setMessage(tipStr.arg(count));
+    });
+    connect(dApp->importer, &Importer::imported, [=](bool succeess){
+        if (succeess && m_importTips->isVisible()) {
+            m_importTips->hide();
+        }
+    });
+    connect(m_importTips, &ImportTip::stopProgress, [=]{
+        dApp->importer->cancel();
+        m_importTips->hide();
+    });
+}
 
-    m_middleContent = new QWidget;
-    m_middleLayout = new QHBoxLayout(m_middleContent);
-    m_middleLayout->setContentsMargins(0, 0, 0, 0);
-    m_middleLayout->setSpacing(0);
+void TopToolbar::initWidgets()
+{
+    m_layout = new QHBoxLayout(this);
+    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setSpacing(0);
 
-    mainLayout->addWidget(m_leftContent);
-    mainLayout->addStretch(1);
-    mainLayout->addWidget(m_middleContent);
-    mainLayout->addStretch(1);
-    mainLayout->addWidget(m_rightContent);
+    initLeftContent();
+    initMiddleContent();
+    initRightContent();
 }
 
 void TopToolbar::initMenu()
@@ -434,3 +390,83 @@ void TopToolbar::showShortCutView() {
     connect(shortcutViewProcess, SIGNAL(finished(int)),
             shortcutViewProcess, SLOT(deleteLater()));
 }
+
+void TopToolbar::updateTipsPos()
+{
+    m_importTips->move(window()->width() + window()->x() - m_importTips->width() / 2 + 42,
+                       mapToGlobal(QPoint(0, 0)).y() + TOP_TOOLBAR_HEIGHT - 10);
+}
+
+ImportTip::ImportTip(QWidget *parent)
+    :DArrowRectangle(DArrowRectangle::ArrowTop, parent)
+{
+    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::WindowStaysOnTopHint);
+    setShadowBlurRadius(0);
+    setShadowDistance(0);
+    setShadowYOffset(0);
+    setShadowXOffset(0);
+    setMargin(0);
+
+    initWidgets();
+}
+
+void ImportTip::setValue(int value)
+{
+    m_cp->setValue(value);
+}
+
+void ImportTip::setTitle(QString title)
+{
+    m_title->setText(title);
+}
+
+void ImportTip::setMessage(QString message)
+{
+    m_message->setText(message);
+    int width = utils::base::stringWidth(m_message->font(), m_message->text());
+    m_message->setMinimumWidth(width);
+
+    // set content to force recalculate the size of content
+    setContent(m_content);
+}
+
+void ImportTip::initWidgets()
+{
+    const QString ss = utils::base::getFileContent(":/qss/resources/qss/importtip.qss");
+    m_cp = new DCircleProgress(this);
+    m_cp->setFixedSize(32, 32);
+    m_cp->setValue(0);
+
+    m_title = new QLabel(this);
+    m_title->setObjectName("ProgressDialogTitle");
+    m_title->setStyleSheet(ss);
+    m_message = new QLabel(this);
+    m_message->setObjectName("ProgressDialogMessage");
+    m_message->setStyleSheet(ss);
+
+    QVBoxLayout* contentLayout = new QVBoxLayout;
+    contentLayout->setContentsMargins(0, 0, 0 ,0);
+    contentLayout->setSpacing(0);
+    contentLayout->addStretch(1);
+    contentLayout->addWidget(m_title);
+//    contentLayout->addSpacing(5);
+    contentLayout->addWidget(m_message);
+    contentLayout->addStretch(1);
+
+    DImageButton *cb = new DImageButton(this);
+    cb->setNormalPic(":/images/importtip/resources/images/close_normal.png");
+    cb->setHoverPic(":/images/importtip/resources/images/close_hover.png");
+    cb->setPressPic(":/images/importtip/resources/images/close_press.png");
+    connect(cb, &DImageButton::clicked, this, &ImportTip::stopProgress);
+
+    m_content = new QWidget;
+    QHBoxLayout* layout = new QHBoxLayout(m_content);
+    layout->setContentsMargins(15, 13, 11, 12);
+    layout->addWidget(m_cp);
+    layout->addSpacing(10);
+    layout->addLayout(contentLayout);
+    layout->addSpacing(80);
+    layout->addWidget(cb);
+}
+
+#include "toptoolbar.moc"

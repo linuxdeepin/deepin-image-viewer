@@ -25,7 +25,6 @@
         <file>resources/qss/Slider.qss</file>
         <file>resources/qss/Separator.qss</file>
         <file>resources/qss/BlureInfoFrame.qss</file>
-        <file>resources/qss/ProgressDialog.qss</file>
         <file>resources/qss/ScrollBar.qss</file>
         <file>resources/qss/ImportFrame.qss</file>
     </qresource>

@@ -172,11 +172,6 @@ void AlbumPanel::initConnection()
             onOpenAlbum(album);
         }
     });
-    connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
-        if (!this->isHidden()) {
-            showPanelEvent(this);
-        }
-    });
 }
 
 QWidget *AlbumPanel::toolbarTopLeftContent()
@@ -219,7 +214,6 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
         // TODO update icon path
         icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
         layout->addWidget(icon);
-        layout->addStretch();
     }
 
     return tTopleftContent;

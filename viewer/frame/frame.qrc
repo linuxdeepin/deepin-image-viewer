@@ -9,6 +9,11 @@
     </qresource>
     <qresource prefix="/qss">
         <file>resources/qss/frame.qss</file>
-        <file>resources/qss/AboutWindow.qss</file>
+        <file>resources/qss/importtip.qss</file>
+    </qresource>
+    <qresource prefix="/images/importtip">
+        <file>resources/images/close_hover.png</file>
+        <file>resources/images/close_normal.png</file>
+        <file>resources/images/close_press.png</file>
     </qresource>
 </RCC>
