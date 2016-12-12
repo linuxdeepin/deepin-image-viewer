@@ -1,6 +1,7 @@
 #include "slideeffectplayer.h"
 #include <QtCore/QTimerEvent>
 #include <QtDebug>
+#include <QFileInfo>
 #include <QPainter>
 
 SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
@@ -26,7 +27,7 @@ void SlideEffectPlayer::setFrameSize(int width, int height)
     m_h = height;
 }
 
-void SlideEffectPlayer::setImagePaths(const QStringList &paths)
+void SlideEffectPlayer::setImagePaths(const QStringList& paths)
 {
     m_paths = paths;
     m_current = m_paths.constBegin();
@@ -70,13 +71,22 @@ bool SlideEffectPlayer::startNext()
     }
 
     const QString oldPath = currentImagePath();
-    m_current ++;
-    if (m_current == m_paths.constEnd()) {
-        m_current = m_paths.constBegin();
+
+    if (m_paths.length() > 1) {
+
+        m_current ++;
+        if (m_current == m_paths.constEnd()) {
+            m_current = m_paths.constBegin();
+            if (!QFileInfo(*m_current).exists()) {
+                m_current = m_paths.constBegin() + 1;
+            }
+        }
     }
-    const QString newPath = currentImagePath();
+
+    QString newPath = currentImagePath();
     m_effect = SlideEffect::create();
     m_effect->setSize(fSize);
+
     m_effect->setImages(oldPath, newPath);
     if (!m_thread.isRunning())
         m_thread.start();

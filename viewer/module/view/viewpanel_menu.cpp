@@ -216,7 +216,7 @@ void ViewPanel::onMenuItemClicked(int menuId, const QString &text)
         vinfo.lastPanel = this;
         vinfo.path = path;
         vinfo.paths = paths();
-        emit dApp->signalM->startSlideShow(vinfo);
+        emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
         break;
     }
     case IdPrint: {

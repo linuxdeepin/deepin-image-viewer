@@ -3,6 +3,8 @@
 
 #include "module/modulepanel.h"
 
+#include <QFileSystemWatcher>
+
 class PopupMenuManager;
 class QShortcut;
 class SlideEffectPlayer;
@@ -31,11 +33,11 @@ private:
     void initeffectPlay();
     void initMenu();
     void initShortcut();
-
+    void initFileSystemMonitor();
     const QString menuContent();
 
     void setImage(const QImage &img);
-    void startSlideShow(const SignalManager::ViewInfo &vinfo);
+    void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB=true);
 
     void showFullScreen();
     void showNormal();
@@ -49,6 +51,7 @@ private:
     QImage               m_img;
     SlideEffectPlayer   *m_player;
     bool                 m_isMaximized;
+    QFileSystemWatcher  *m_fileSystemMonitor;
 };
 
 #endif // SLIDESHOWPANEL_H

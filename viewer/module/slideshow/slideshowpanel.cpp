@@ -28,9 +28,20 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     initeffectPlay();
     initMenu();
     initShortcut();
+    initFileSystemMonitor();
 
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
+    connect(dApp->signalM, &SignalManager::imagesRemoved, [=](
+            const DBImgInfoList &infos){
+        foreach (DBImgInfo info, infos) {
+            if (m_vinfo.paths.contains(info.filePath)) {
+                m_vinfo.paths.removeOne(info.filePath);
+            }
+        }
+
+        m_player->setImagePaths(m_vinfo.paths);
+    });
 }
 
 QString SlideShowPanel::moduleName()
@@ -143,6 +154,22 @@ void SlideShowPanel::mousePressEvent(QMouseEvent *e) {
         m_sEsc->activated();
 }
 
+void SlideShowPanel::initFileSystemMonitor() {
+    m_fileSystemMonitor = new QFileSystemWatcher(this);
+
+    connect(m_fileSystemMonitor, &QFileSystemWatcher::fileChanged, [=]
+            (const QString&path){
+        if (!QFileInfo(path).exists()) {
+            if (m_vinfo.paths.contains(path)) {
+                m_vinfo.paths.removeOne(path);
+                m_fileSystemMonitor->removePath(path);
+            }
+        }
+
+        m_player->setImagePaths(m_vinfo.paths);
+    });
+}
+
 void SlideShowPanel::timerEvent(QTimerEvent *event)
 {
     // Delay to avoid fast switching causes the system to get stuck
@@ -186,7 +213,8 @@ void SlideShowPanel::setImage(const QImage &img)
     update();
 }
 
-void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo)
+void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
+                                    bool inDB)
 {
     if (vinfo.paths.isEmpty()) {
         qDebug() << "Start SlideShow failed! Paths is empty!";
@@ -201,6 +229,11 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo)
     if (!m_menu->menuIsVisible())
         dApp->setOverrideCursor(Qt::BlankCursor);
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
+
+    if (!inDB) {
+        qDebug() << "startSlideShow fileMonitor";
+        m_fileSystemMonitor->addPaths(m_vinfo.paths);
+    }
 }
 
 void SlideShowPanel::showNormal()
