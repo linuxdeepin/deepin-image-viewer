@@ -8,10 +8,10 @@
 DWIDGET_USE_NAMESPACE
 
 class ImportTip;
-class PopupMenuManager;
 class SettingsWindow;
 class QHBoxLayout;
 class QProcess;
+class QMenu;
 
 class TopToolbar : public BlurFrame
 {
@@ -25,7 +25,6 @@ protected:
     void resizeEvent(QResizeEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
-    void keyPressEvent(QKeyEvent *e) override;
 
 signals:
     void updateImportTipsGeo();
@@ -49,18 +48,14 @@ private:
     void initShortcut();
     void initWidgets();
 
-    QString createMenuContent();
-    QJsonValue createMenuItem(const MenuItemId id,
-                              const QString &text,
-                              const bool isSeparator = false,
-                              const QString &shortcut = "",
-                              const QJsonObject &subMenu = QJsonObject());
-    void onMenuItemClicked(int menuId, const QString &text);
-
-    void showManual();
-    void showShortCutView();
-
     void updateTipsPos();
+
+private slots:
+    void onAbout();
+    void onHelp();
+    void onNewAlbum();
+    void onSetting();
+    void onViewShortcut();
 
 private:
     QPointer<QProcess> m_manualPro;
@@ -70,8 +65,8 @@ private:
     QHBoxLayout *m_rLayout;
 
     ImportTip *m_importTips;
-    PopupMenuManager *m_popupMenu;
     SettingsWindow *m_settingsWindow;
+    QMenu *m_menu;
 };
 
 #endif // TOPTOOLBAR_H

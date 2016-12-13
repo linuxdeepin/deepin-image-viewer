@@ -1,7 +1,6 @@
 #include "toptoolbar.h"
 #include "application.h"
 #include "controller/importer.h"
-#include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
 #include "settings/settingswindow.h"
 #include "widgets/dialogs/aboutdialog.h"
@@ -19,6 +18,8 @@
 #include <QProcess>
 #include <QResizeEvent>
 #include <QShortcut>
+#include <QMenu>
+#include <QStyleFactory>
 
 DWIDGET_USE_NAMESPACE
 
@@ -61,9 +62,6 @@ TopToolbar::TopToolbar(QWidget *parent)
 
     initWidgets();
     initMenu();
-
-    QShortcut* viewScut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
-    connect(viewScut, &QShortcut::activated, this, &TopToolbar::showShortCutView);
 }
 
 void TopToolbar::setLeftContent(QWidget *content)
@@ -142,17 +140,6 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     p.drawPath(bPath);
 }
 
-void TopToolbar::keyPressEvent(QKeyEvent *e)
-{
-    BlurFrame::keyPressEvent(e);
-    if (e->type() == QEvent::KeyPress) {
-        QKeyEvent *ke = static_cast<QKeyEvent *>(e);
-        if (ke && ke->key() == Qt::Key_F1) {
-            showManual();
-        }
-    }
-}
-
 void TopToolbar::initLeftContent()
 {
     QWidget *w = new QWidget;
@@ -211,8 +198,11 @@ void TopToolbar::initRightContent()
     DWindowOptionButton *optionBtn = new DWindowOptionButton;
     connect(optionBtn, &DWindowOptionButton::clicked, this, [=] {
         if (parentWidget()) {
-            m_popupMenu->setMenuContent(createMenuContent());
-            m_popupMenu->showMenu();
+            const QPoint gp = this->mapToGlobal(QPoint(0, 0));
+            const QSize ms = m_menu->sizeHint();
+            const QPoint p(gp.x() + width() - ms.width() - 30,
+                           gp.y() + TOP_TOOLBAR_HEIGHT - 10);
+            m_menu->popup(p);
         }
     });
     connect(dApp->signalM, &SignalManager::enableMainMenu, this, [=] (bool v) {
@@ -257,7 +247,6 @@ void TopToolbar::initImportTips()
 
     connect(dApp, &DApplication::focusChanged, this, [=]{
         if (! window()->hasFocus() && ! m_importTips->hasFocus()) {
-//            TIMER_SINGLESHOT(1000, {m_importTips->hide();}, this)
             m_importTips->hide();
         }
     });
@@ -290,92 +279,31 @@ void TopToolbar::initWidgets()
 
 void TopToolbar::initMenu()
 {
-    m_popupMenu = new PopupMenuManager(this);
-    connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
-            this, &TopToolbar::onMenuItemClicked);
-    m_popupMenu->setMenuContent(createMenuContent());
+    m_menu = new QMenu(this);
+    m_menu->setStyle(QStyleFactory::create("dlight"));
+    QAction *acNA = m_menu->addAction(tr("New album"));
+    QAction *acS = m_menu->addAction(tr("Setting"));
+    m_menu->addSeparator();
+    QAction *acH = m_menu->addAction(tr("Help"));
+    QAction *acA = m_menu->addAction(tr("About"));
+    QAction *acE = m_menu->addAction(tr("Exit"));
+    connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
+    connect(acS, &QAction::triggered, this, &TopToolbar::onSetting);
+    connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
+    connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
+    connect(acE, &QAction::triggered, dApp, &Application::quit);
+
+    QShortcut *scNA = new QShortcut(QKeySequence("Ctrl+Shift+N"), this);
+    QShortcut *scH = new QShortcut(QKeySequence("F1"), this);
+    QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
+    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    connect(scNA, SIGNAL(activated()), this, SLOT(onNewAlbum()));
+    connect(scH, SIGNAL(activated()), this, SLOT(onHelp()));
+    connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 }
 
-QString TopToolbar::createMenuContent()
-{
-    QJsonArray items;
-    items.append(createMenuItem(IdCreateAlbum, tr("New album"), false,
-                                "Ctrl+Shift+N"));
-    items.append(createMenuItem(IdSetting, tr("Setting"), false, "Ctrl+I"));
-
-    items.append(createMenuItem(IdSeparator, "", true));
-
-    items.append(createMenuItem(IdHelp, tr("Help"), false, "F1"));
-    items.append(createMenuItem(IdAbout, tr("About")));
-    items.append(createMenuItem(IdQuick, tr("Exit"), false, "Ctrl+Q"));
-
-    QJsonObject contentObj;
-    const QPoint gp = this->mapToGlobal(QPoint(0, 0));
-    const QSize ms = m_popupMenu->sizeHint();
-    contentObj["x"] = gp.x() + width() - ms.width() - 14;
-    contentObj["y"] = gp.y() + TOP_TOOLBAR_HEIGHT - 10;
-    contentObj["items"] = QJsonValue(items);
-
-    QJsonDocument document(contentObj);
-
-    return QString(document.toJson());
-}
-
-QJsonValue TopToolbar::createMenuItem(const MenuItemId id,
-                                     const QString &text,
-                                     const bool isSeparator,
-                                     const QString &shortcut,
-                                     const QJsonObject &subMenu)
-{
-    return QJsonValue(m_popupMenu->createItemObj(id,
-                                                 text,
-                                                 isSeparator,
-                                                 shortcut,
-                                                 subMenu));
-}
-
-void TopToolbar::onMenuItemClicked(int menuId, const QString &text)
-{
-    Q_UNUSED(text);
-
-    switch (MenuItemId(menuId)) {
-    case IdCreateAlbum:
-        emit dApp->signalM->createAlbum();
-        break;
-    case IdSetting:
-        m_settingsWindow->move((width() - m_settingsWindow->width()) / 2 +
-                               mapToGlobal(QPoint(0, 0)).x(),
-                               (window()->height() - m_settingsWindow->height()) / 2 +
-                               mapToGlobal(QPoint(0, 0)).y());
-        m_settingsWindow->show();
-        break;
-    case IdHelp:
-        showManual();
-        break;
-    case IdAbout:{
-        AboutDialog *ad = new AboutDialog;
-        ad->show();
-        break;}
-    case IdQuick:
-        qApp->quit();
-    default:
-        break;
-    }
-}
-
-void TopToolbar::showManual()
-{
-    if (m_manualPro.isNull()) {
-        const QString pro = "dman";
-        const QStringList args("deepin-image-viewer");
-        m_manualPro = new QProcess(this);
-        connect(m_manualPro.data(), SIGNAL(finished(int)),
-                m_manualPro.data(), SLOT(deleteLater()));
-        m_manualPro->start(pro, args);
-    }
-}
-
-void TopToolbar::showShortCutView() {
+void TopToolbar::onViewShortcut() {
     QRect rect = window()->geometry();
     QPoint pos(rect.x() + rect.width()/2 , rect.y() + rect.height()/2);
     Shortcut sc;
@@ -395,6 +323,38 @@ void TopToolbar::updateTipsPos()
 {
     m_importTips->move(window()->width() + window()->x() - m_importTips->width() / 2 + 42,
                        mapToGlobal(QPoint(0, 0)).y() + TOP_TOOLBAR_HEIGHT - 10);
+}
+
+void TopToolbar::onAbout()
+{
+    AboutDialog *ad = new AboutDialog;
+    ad->show();
+}
+
+void TopToolbar::onHelp()
+{
+    if (m_manualPro.isNull()) {
+        const QString pro = "dman";
+        const QStringList args("deepin-image-viewer");
+        m_manualPro = new QProcess(this);
+        connect(m_manualPro.data(), SIGNAL(finished(int)),
+                m_manualPro.data(), SLOT(deleteLater()));
+        m_manualPro->start(pro, args);
+    }
+}
+
+void TopToolbar::onNewAlbum()
+{
+    emit dApp->signalM->createAlbum();
+}
+
+void TopToolbar::onSetting()
+{
+    m_settingsWindow->move((width() - m_settingsWindow->width()) / 2 +
+                           mapToGlobal(QPoint(0, 0)).x(),
+                           (window()->height() - m_settingsWindow->height()) / 2 +
+                           mapToGlobal(QPoint(0, 0)).y());
+    m_settingsWindow->show();
 }
 
 ImportTip::ImportTip(QWidget *parent)
