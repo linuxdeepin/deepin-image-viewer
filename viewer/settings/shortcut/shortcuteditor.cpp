@@ -13,9 +13,9 @@ namespace {
 const int MAX_WIDTH = 238;
 const int MAX_HEIGHT = 22 + 2*2;
 const int BORDER_RADIUS = 3;
-const int ACTIVE_BORDER_WIDTH = 2;
+const int ACTIVE_BORDER_WIDTH = 1;
 const int NORMAL_BORDER_WIDTH = 1;
-const QColor ACTIVE_BORDER_COLOR = QColor(44, 167, 248, 255*0.5);
+const QColor ACTIVE_BORDER_COLOR = QColor("#2ca7f8");
 const QColor NORMAL_BORDER_COLOR = QColor(0, 0, 0, 255*0.08);
 
 }

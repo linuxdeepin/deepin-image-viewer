@@ -69,6 +69,7 @@ ContentsFrame::ContentsFrame(QWidget *parent)
     connect(cb, &DImageButton::clicked, parent->window(), &QWidget::hide);
     QHBoxLayout *tbl = new QHBoxLayout;
     tbl->setContentsMargins(0, 3, 3, 0);
+    tbl->setSpacing(0);
     tbl->addStretch();
     tbl->addWidget(cb);
     m_layout->addLayout(tbl);
@@ -89,7 +90,7 @@ void ContentsFrame::setCurrentID(const TitleButton::SettingID id)
     connect(animation, &QPropertyAnimation::finished,
             animation, &QPropertyAnimation::deleteLater);
 }
-#include <QDebug>
+
 void ContentsFrame::initScrollArea()
 {
     m_area = new QScrollArea;
@@ -112,6 +113,7 @@ void ContentsFrame::initScrollArea()
     m_area->setFixedWidth(MAX_WIDTH);
     m_area->setContentsMargins(0, 0, 0, 0);
     m_area->setWidgetResizable(true);
+    m_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     QWidget *content = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout(content);

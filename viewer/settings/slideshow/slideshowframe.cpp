@@ -63,8 +63,8 @@ void SlideshowFrame::initInterval()
 
     QHBoxLayout *timeLayout = new QHBoxLayout;
     timeLayout->setContentsMargins(0, 0, 0, 0);
-    timeLayout->setSpacing(20);
-    timeLayout->addStretch();
+    timeLayout->setSpacing(103);
+    timeLayout->addSpacing(37);
     timeLayout->addWidget(new Title3(tr("Switch duration")));
 
     QSignalBlocker blocker(DThemeManager::instance());
@@ -72,7 +72,7 @@ void SlideshowFrame::initInterval()
     DThemeManager::instance()->setTheme("light");
     DSimpleComboBox *dcb = new DSimpleComboBox(this);
     DThemeManager::instance()->setTheme("dark");
-    dcb->setFixedSize(240, 24);
+    dcb->setFixedSize(238, 26);
     QStringList intervalList;
     for (int i = 1; i < 5; i ++){
         intervalList << QString::number(i) + " " + tr("second");
