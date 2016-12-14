@@ -50,7 +50,7 @@ private:
     };
 
     bool isCreateIcon(const QModelIndex &index) const;
-    void appendAction(int id, const QString &text, const QString &shortcut);
+    void appendAction(int id, const QString &text, const QString &shortcut, bool enable = true);
     void updateMenuContent(const QModelIndex &index);
     const QString getAlbumName(const QModelIndex &index) const;
     const QString getNewAlbumName() const;

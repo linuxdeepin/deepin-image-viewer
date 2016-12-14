@@ -216,10 +216,11 @@ bool AlbumsView::isCreateIcon(const QModelIndex &index) const
     return m_model->data(index, Qt::DisplayRole).toList().isEmpty();
 }
 
-void AlbumsView::appendAction(int id, const QString &text, const QString &shortcut)
+void AlbumsView::appendAction(int id, const QString &text, const QString &shortcut, bool enable)
 {
     QAction *ac = new QAction(m_menu);
     addAction(ac);
+    ac->setDisabled(! enable);
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
@@ -290,19 +291,21 @@ void AlbumsView::updateMenuContent(const QModelIndex &index)
 
     if (index.isValid()) {
         bool isSpecial = false;
+        bool isEmpty = false;
         QList<QVariant> datas =
                 index.model()->data(index, Qt::DisplayRole).toList();
         if (! datas.isEmpty()) {
             const QString album = datas[0].toString();
             isSpecial = album == MY_FAVORITES_ALBUM;
+            isEmpty = dApp->dbM->getImgsCountByAlbum(album) < 1;
         }
         appendAction(IdView, tr("View"), ss("View", VIEW_GROUP));
         appendAction(IdStartSlideShow,
-                     tr("Start slide show"), ss("Start slide show", VIEW_GROUP));
+                     tr("Start slide show"), ss("Start slide show", VIEW_GROUP), ! isEmpty);
         m_menu->addSeparator();
         if (! isSpecial)
             appendAction(IdRename, tr("Rename"), ss("Rename", ALBUM_GROUP));
-        appendAction(IdCopy, tr("Copy"), ss("Copy", VIEW_GROUP));
+        appendAction(IdCopy, tr("Copy"), ss("Copy", VIEW_GROUP), ! isEmpty);
         if (! isSpecial)
             appendAction(IdDelete, tr("Delete"), ss("Delete", ALBUM_GROUP));
     }
