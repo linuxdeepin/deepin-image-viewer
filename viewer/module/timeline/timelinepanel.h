@@ -4,8 +4,8 @@
 #include "module/modulepanel.h"
 
 class QLabel;
+class QMenu;
 class QStackedWidget;
-class PopupMenuManager;
 class Slider;
 class TimelineFrame;
 
@@ -32,17 +32,17 @@ private:
     void initImagesView();
     void initMainStackWidget();
     void initPopupMenu();
-    void initShortcut();
     void initStyleSheet();
     void updateBottomToolbarContent(int count);
     void onImageCountChanged(int count);
-    QJsonObject createAlbumMenuObj();
-    QString createMenuContent();
-    void onMenuItemClicked(int menuId, const QString &text);
-    void rotateImage(const QString &path, int degree);
+
+    void appendAction(int id, const QString &text, const QString &shortcut="");
+    QMenu* createAlbumMenu();
+    void onMenuItemClicked(QAction *action);
     void updateMenuContents();
+    void rotateImage(const QString &path, int degree);
 private:
-    PopupMenuManager    *m_popupMenu;
+    QMenu               *m_menu;
     QLabel              *m_countLabel;
     QStackedWidget      *m_mainStack;
     Slider              *m_slider;

@@ -2,7 +2,6 @@
 #include "application.h"
 #include "controller/configsetter.h"
 #include "controller/importer.h"
-#include "controller/popupmenumanager.h"
 #include "controller/signalmanager.h"
 #include "timelineframe.h"
 #include "utils/imageutils.h"
@@ -12,6 +11,7 @@
 #include <QDebug>
 #include <QDropEvent>
 #include <QLabel>
+#include <QMenu>
 #include <QMimeData>
 #include <QStackedWidget>
 #include <QUrl>
@@ -40,7 +40,6 @@ TimelinePanel::TimelinePanel(QWidget *parent)
     initMainStackWidget();
     initStyleSheet();
     initPopupMenu();
-    initShortcut();
     initConnection();
 }
 
@@ -264,7 +263,7 @@ void TimelinePanel::initImagesView()
 
     connect(m_frame, &TimelineFrame::showMenu, this, [=] {
         updateMenuContents();
-        m_popupMenu->showMenu();
+        m_menu->popup(QCursor::pos());
     });
     connect(m_frame, &TimelineFrame::changeItemSize, this, [=] (bool increase) {
         if (increase) {

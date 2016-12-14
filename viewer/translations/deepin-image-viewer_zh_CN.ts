@@ -1036,7 +1036,7 @@
     </message>
     <message>
         <source>Start slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -1052,11 +1052,11 @@
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>丢到回收站</translation>
+        <translation type="vanished">丢到回收站</translation>
     </message>
     <message>
         <source>Add to My favorites</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -1089,6 +1089,18 @@
     <message>
         <source>Add to new album</source>
         <translation>添加到新相册</translation>
+    </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Throw to trash</source>
+        <translation>丢到回收站</translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
+        <translation>收藏</translation>
     </message>
 </context>
 <context>

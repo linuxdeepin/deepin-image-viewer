@@ -25,7 +25,10 @@ namespace {
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 
-}  // namespace
+QString ss(const QString &text)
+{
+    return dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+}
 
 enum MenuItemId {
     IdFullScreen,
@@ -49,6 +52,8 @@ enum MenuItemId {
     IdSubMenu,
 };
 
+}  // namespace
+
 void ViewPanel::initPopupMenu()
 {
     m_menu = new QMenu;
@@ -60,11 +65,6 @@ void ViewPanel::initPopupMenu()
         }
     });
     connect(m_menu, &QMenu::triggered, this, &ViewPanel::onMenuItemClicked);
-}
-
-QString ss(const QString &text)
-{
-    return dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)

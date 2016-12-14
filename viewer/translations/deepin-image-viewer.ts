@@ -700,23 +700,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add to album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to My favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -749,6 +737,18 @@
     </message>
     <message>
         <source>Add to new album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Throw to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
