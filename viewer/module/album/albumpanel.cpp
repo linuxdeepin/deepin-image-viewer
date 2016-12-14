@@ -28,6 +28,7 @@ const int MIN_ICON_SIZE = 96;
 const int ICON_MARGIN = 13;
 const int SLIDER_WIDTH = 120;
 const int MARGIN_DIFF = 82;
+const QString MY_FAVORITES_ALBUM = "My favorites";
 const QString RECENT_IMPORT_ALBUM = "Recent imported";
 const QString SETTINGS_GROUP = "ALBUMPANEL";
 const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
@@ -200,8 +201,12 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
         QLabel *curDirLabel = new QLabel();
         curDirLabel->setObjectName("CurrentDirLabel");
 
-        QString dir = curDirLabel->fontMetrics().elidedText(m_currentAlbum,
-                                     Qt::ElideMiddle, tTopleftContent->width()/2);
+        QString an = m_currentAlbum;
+        if (m_currentAlbum == MY_FAVORITES_ALBUM) {
+            an = tr("My favorites");
+        }
+        QString dir = curDirLabel->fontMetrics().elidedText(
+                    an, Qt::ElideMiddle, tTopleftContent->width()/2);
         curDirLabel->setText(dir);
 
         layout->addWidget(returnButton);

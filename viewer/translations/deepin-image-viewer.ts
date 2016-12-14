@@ -103,6 +103,10 @@
         <source>albums</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>My favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AlbumsView</name>
@@ -217,10 +221,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add to album</source>
         <translation type="unfinished"></translation>
     </message>
@@ -229,15 +229,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove from album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to My favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -278,6 +270,18 @@
     </message>
     <message>
         <source>Add to new album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Throw to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -529,6 +533,10 @@
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortcutKey</name>
@@ -596,11 +604,15 @@
         <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
-        <source>Stop slide show</source>
+        <source>Stop slideshow</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
