@@ -178,7 +178,6 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
     tTopleftContent->setStyleSheet(this->styleSheet());
-    tTopleftContent->setFixedWidth((window()->width() - 48*6)/2);
 
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
     layout->setContentsMargins(0, 0, 0, 0);
