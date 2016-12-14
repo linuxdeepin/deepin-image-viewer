@@ -472,7 +472,7 @@
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished"></translation>
+        <translation>添加到新相册</translation>
     </message>
 </context>
 <context>
@@ -863,7 +863,7 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Clockwise rotation</source>
@@ -908,6 +908,14 @@
     <message>
         <source>Rename</source>
         <translation>重命名</translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation>打印</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation>取消收藏</translation>
     </message>
 </context>
 <context>
@@ -1080,7 +1088,7 @@
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished"></translation>
+        <translation>添加到新相册</translation>
     </message>
 </context>
 <context>
@@ -1185,7 +1193,7 @@
     </message>
     <message>
         <source>Start slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -1213,7 +1221,7 @@
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>丢到回收站</translation>
+        <translation type="vanished">丢到回收站</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -1221,7 +1229,7 @@
     </message>
     <message>
         <source>Add to My favorites</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -1261,15 +1269,27 @@
     </message>
     <message>
         <source>Timeline</source>
-        <translation type="unfinished">时间线</translation>
+        <translation>时间线</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">打印</translation>
+        <translation>打印</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished"></translation>
+        <translation>添加到新相册</translation>
+    </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Throw to trash</source>
+        <translation>丢到回收站</translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
+        <translation>收藏</translation>
     </message>
 </context>
 <context>

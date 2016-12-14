@@ -23,11 +23,12 @@ static ShortcutKey ShortcutViewKeys[] = {
     {"Fullscreen",                  QT_TRANSLATE_NOOP("ShortcutKey", "Fullscreen")},
     {"Start slideshow",             QT_TRANSLATE_NOOP("ShortcutKey", "Start slideshow")},
 //    {"Quit slideshow",              QT_TRANSLATE_NOOP("ShortcutKey", "Quit slideshow")},
+    {"Print",                       QT_TRANSLATE_NOOP("ShortcutKey", "Print")},
     {"Copy",                        QT_TRANSLATE_NOOP("ShortcutKey", "Copy")},
     {"Throw to trash",              QT_TRANSLATE_NOOP("ShortcutKey", "Throw to trash")},
     {"Remove from album",           QT_TRANSLATE_NOOP("ShortcutKey", "Remove from album")},
     {"Add to my favorite",          QT_TRANSLATE_NOOP("ShortcutKey", "Add to my favorite")},
-    {"Remove from my favorite",     QT_TRANSLATE_NOOP("ShortcutKey", "Remove from my favorite")},
+    {"Unfavorite",                  QT_TRANSLATE_NOOP("ShortcutKey", "Unfavorite")},
     {"Rotate clockwise",            QT_TRANSLATE_NOOP("ShortcutKey", "Rotate clockwise")},
     {"Rotate counterclockwise",     QT_TRANSLATE_NOOP("ShortcutKey", "Rotate counterclockwise")},
     {"Set as wallpaper",            QT_TRANSLATE_NOOP("ShortcutKey", "Set as wallpaper")},
@@ -145,11 +146,12 @@ QMap<QString, QString> ShortcutFrame::viewValues()
     vs.insert("Fullscreen", "F11");
     vs.insert("Start slideshow", "F5");
 //    vs.insert("Quit slideshow", "ESC");
+    vs.insert("Print", "Ctrl+P");
     vs.insert("Copy", "Ctrl+C");
     vs.insert("Throw to trash", "Delete");
     vs.insert("Remove from album", "Shift+Delete");
     vs.insert("Add to my favorite", "Ctrl+K");
-    vs.insert("Remove from my favorite", "Ctrl+Shift+K");
+    vs.insert("Unfavorite", "Ctrl+Shift+K");
     vs.insert("Rotate clockwise", "Ctrl+R");
     vs.insert("Rotate counterclockwise", "Ctrl+Shift+R");
     vs.insert("Set as wallpaper", "Ctrl+F8");

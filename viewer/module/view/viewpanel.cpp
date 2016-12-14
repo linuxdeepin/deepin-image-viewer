@@ -307,10 +307,10 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() == m_hideCursorTid &&
-            !m_popupMenu->menuIsVisible()) {
-        dApp->setOverrideCursor(Qt::BlankCursor);
-    }
+//    if (e->timerId() == m_hideCursorTid &&
+//            !m_popupMenu->menuIsVisible()) {
+//        dApp->setOverrideCursor(Qt::BlankCursor);
+//    }///////////////////////////////////////////////////////////////////////////////////////////////////
 
     ModulePanel::timerEvent(e);
 }
@@ -415,9 +415,9 @@ void ViewPanel::toggleFullScreen()
         dApp->setOverrideCursor(Qt::OpenHandCursor);
     } else {
         showFullScreen();
-        if (!m_popupMenu->menuIsVisible())
-            dApp->setOverrideCursor(Qt::BlankCursor);
-        m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
+//        if (!m_popupMenu->menuIsVisible())
+//            dApp->setOverrideCursor(Qt::BlankCursor);
+//        m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);//////////////////////////////////////
     }
 }
 

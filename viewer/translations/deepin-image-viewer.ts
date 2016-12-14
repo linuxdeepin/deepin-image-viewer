@@ -557,10 +557,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove from my favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Set as wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
@@ -590,6 +586,14 @@
     </message>
     <message>
         <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -824,6 +828,18 @@
 <context>
     <name>ViewPanel</name>
     <message>
+        <source>Add to album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to new album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Exit fullscreen</source>
         <translation type="unfinished"></translation>
     </message>
@@ -832,11 +848,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slide show</source>
+        <source>Start slideshow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add to album</source>
+        <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -844,7 +860,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
+        <source>Throw to trash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -852,7 +868,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add to My favorites</source>
+        <source>Add to my favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -885,18 +901,6 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
