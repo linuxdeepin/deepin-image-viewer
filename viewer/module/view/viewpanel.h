@@ -18,6 +18,7 @@ class ImageWidget;
 class NavigationWidget;
 class QFileSystemWatcher;
 class QLabel;
+class QMenu;
 class QStackedWidget;
 class SlideEffectPlayer;
 
@@ -64,10 +65,10 @@ private:
     void initNavigation();
 
     // Menu control
-    const QJsonObject   createAlbumMenuObj(bool isRemove);
-    const QString       createMenuContent();
-    void                onMenuItemClicked(int menuId, const QString &text);
-    void                updateMenuContent();
+    void appendAction(int id, const QString &text, const QString &shortcut="");
+    QMenu* createAlbumMenu();
+    void onMenuItemClicked(QAction *action);
+    void updateMenuContent();
 
     // View control
     void onViewImage(const SignalManager::ViewInfo &vinfo);
@@ -98,7 +99,7 @@ private:
     bool m_isMaximized;
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
-    PopupMenuManager *m_popupMenu;
+    QMenu *m_menu;
     QStackedWidget *m_stack;
 
     // Floating component
