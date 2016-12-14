@@ -4,10 +4,11 @@
 #include "utils/baseutils.h"
 #include <DTitlebar>
 #include <QFrame>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QKeyEvent>
 #include <QLabel>
 #include <QPushButton>
+#include <QVBoxLayout>
 
 SettingsWindow::SettingsWindow(QWidget *parent)
     :DMainWindow(parent)
@@ -41,4 +42,12 @@ SettingsWindow::SettingsWindow(QWidget *parent)
             tf, &TitleFrame::setCurrentID);
 
     mainLayout->addLayout(cbl);
+}
+
+void SettingsWindow::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Escape) {
+        this->close();
+    }
+    DMainWindow::keyPressEvent(e);
 }
