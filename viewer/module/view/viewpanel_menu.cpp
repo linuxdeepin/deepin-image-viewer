@@ -5,7 +5,6 @@
 #include "application.h"
 #include <controller/configsetter.h>
 #include <controller/popupdialogmanager.h>
-#include <controller/popupmenumanager.h>
 #include <controller/wallpapersetter.h>
 #include <utils/baseutils.h>
 #include <utils/imageutils.h>

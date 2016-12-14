@@ -5,7 +5,7 @@
 
 #include <QFileSystemWatcher>
 
-class PopupMenuManager;
+class QMenu;
 class QShortcut;
 class SlideEffectPlayer;
 class SlideShowPanel : public ModulePanel
@@ -34,7 +34,6 @@ private:
     void initMenu();
     void initShortcut();
     void initFileSystemMonitor();
-    const QString menuContent();
 
     void setImage(const QImage &img);
     void startSlideShow(const SignalManager::ViewInfo &vinfo, bool inDB=true);
@@ -47,8 +46,8 @@ private:
     int                  m_startTid;
     QShortcut           *m_sEsc;
     SignalManager::ViewInfo m_vinfo;
-    PopupMenuManager    *m_menu;
     QImage               m_img;
+    QMenu               *m_menu;
     SlideEffectPlayer   *m_player;
     bool                 m_isMaximized;
     QFileSystemWatcher  *m_fileSystemMonitor;

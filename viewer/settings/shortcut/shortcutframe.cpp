@@ -40,6 +40,7 @@ static ShortcutKey ShortcutViewKeys[] = {
 static ShortcutKey ShortcutAlbumKeys[] = {
     {"New album",                   QT_TRANSLATE_NOOP("ShortcutKey", "New album")},
     {"Rename",                      QT_TRANSLATE_NOOP("ShortcutKey", "Rename")},
+    {"Delete",                      QT_TRANSLATE_NOOP("ShortcutKey", "Delete")},
     {"", ""}
 };
 
@@ -166,6 +167,7 @@ QMap<QString, QString> ShortcutFrame::albumValues()
     QMap<QString, QString> vs;
     vs.insert(tr("New album"), "Ctrl+Shift+N");
     vs.insert(tr("Rename"), "F2");
+    vs.insert(tr("Delete"), "Delete");
 
     return vs;
 }

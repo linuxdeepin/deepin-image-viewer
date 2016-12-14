@@ -3,7 +3,6 @@
 
 #include "module/modulepanel.h"
 #include "controller/dbmanager.h"
-#include "controller/popupmenumanager.h"
 #include "anchors.h"
 
 #include <QFileInfo>

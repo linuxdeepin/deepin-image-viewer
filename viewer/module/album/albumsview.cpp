@@ -1,7 +1,7 @@
 #include "albumsview.h"
 #include "albumdelegate.h"
 #include "application.h"
-#include "controller/popupmenumanager.h"
+#include "controller/configsetter.h"
 #include "controller/exporter.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
@@ -9,24 +9,32 @@
 #include "widgets/dialogs/albumdeletedialog.h"
 #include  "widgets/scrollbar.h"
 
-#include <QDebug>
 #include <QBuffer>
-#include <QJsonDocument>
+#include <QDebug>
+#include <QMenu>
 #include <QMouseEvent>
+#include <QStyleFactory>
+#include <QJsonDocument>
 
 namespace {
 
+const QString VIEW_GROUP = "SHORTCUTVIEW";
+const QString ALBUM_GROUP = "SHORTCUTALBUM";
 const QString MY_FAVORITES_ALBUM = "My favorites";
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const int ITEM_SPACING = 61;
 const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 
+QString ss(const QString &text, const QString &group)
+{
+    return dApp->setter->value(group, text).toString();
+}
+
 }  // namespace
 
 AlbumsView::AlbumsView(QWidget *parent)
     : QListView(parent),
-      m_itemSize(ITEM_DEFAULT_SIZE),
-      m_popupMenu(new PopupMenuManager(this))
+      m_itemSize(ITEM_DEFAULT_SIZE)
 {
     setMouseTracking(true);
 
@@ -53,6 +61,10 @@ AlbumsView::AlbumsView(QWidget *parent)
 
     installEventFilter(this);
 
+    m_menu = new QMenu;
+    m_menu->setStyle(QStyleFactory::create("dlight"));
+    connect(m_menu, &QMenu::triggered, this, &AlbumsView::onMenuItemClicked);
+
     connect(this, &AlbumsView::doubleClicked,
             this, &AlbumsView::onDoubleClicked);
     connect(this, &AlbumsView::clicked, this, &AlbumsView::onClicked);
@@ -60,12 +72,10 @@ AlbumsView::AlbumsView(QWidget *parent)
             this, [=] (const QPoint &pos) {
         QModelIndex index = indexAt(pos);
         if (! isCreateIcon(index)) {
-            m_popupMenu->setMenuContent(createMenuContent(indexAt(pos)));
-            m_popupMenu->showMenu();
+            updateMenuContent(index);
+            m_menu->popup(QCursor::pos());
         }
     });
-    connect(m_popupMenu, &PopupMenuManager::menuItemClicked,
-            this, &AlbumsView::onMenuItemClicked);
     connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
         if (success) {
             updateView();
@@ -172,7 +182,7 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
         this->selectionModel()->clearSelection();
     }
     else {
-        m_popupMenu->setMenuContent(createMenuContent(indexAt(e->pos())));
+        updateMenuContent(indexAt(e->pos()));
     }
 
     QListView::mousePressEvent(e);
@@ -204,6 +214,16 @@ int AlbumsView::horizontalOffset() const
 bool AlbumsView::isCreateIcon(const QModelIndex &index) const
 {
     return m_model->data(index, Qt::DisplayRole).toList().isEmpty();
+}
+
+void AlbumsView::appendAction(int id, const QString &text, const QString &shortcut)
+{
+    QAction *ac = new QAction(m_menu);
+    addAction(ac);
+    ac->setText(text);
+    ac->setProperty("MenuID", id);
+    ac->setShortcut(QKeySequence(shortcut));
+    m_menu->addAction(ac);
 }
 
 const QStringList AlbumsView::paths(const QString &album) const
@@ -263,62 +283,32 @@ const QString AlbumsView::getNewAlbumName() const
     }
 }
 
-const QString AlbumsView::createMenuContent(const QModelIndex &index)
+void AlbumsView::updateMenuContent(const QModelIndex &index)
 {
-    QJsonArray items;
+    m_menu->clear();
+    qDeleteAll(this->actions());
+
     if (index.isValid()) {
         bool isSpecial = false;
         QList<QVariant> datas =
                 index.model()->data(index, Qt::DisplayRole).toList();
         if (! datas.isEmpty()) {
-            const QString albumName = datas[0].toString();
-            if (albumName == MY_FAVORITES_ALBUM
-                    || albumName == RECENT_IMPORTED_ALBUM) {
-                isSpecial = true;
-            }
+            const QString album = datas[0].toString();
+            isSpecial = album == MY_FAVORITES_ALBUM;
         }
-
-        items.append(createMenuItem(IdView, tr("View")));
-        items.append(createMenuItem(IdStartSlideShow, tr("Start slide show"),
-                                    false, "F5"));
-        items.append(createMenuItem(IdSeparator, "", true));
+        appendAction(IdView, tr("View"), ss("View", VIEW_GROUP));
+        appendAction(IdStartSlideShow,
+                     tr("Start slide show"), ss("Start slide show", VIEW_GROUP));
+        m_menu->addSeparator();
         if (! isSpecial)
-            items.append(createMenuItem(IdRename, tr("Rename"), false, "F2"));
-        // Hide the export function
-        // items.append(createMenuItem(IdExport, tr("Export")));
-        items.append(createMenuItem(IdCopy, tr("Copy"), false, "Ctrl+C"));
+            appendAction(IdRename, tr("Rename"), ss("Rename", ALBUM_GROUP));
+        appendAction(IdCopy, tr("Copy"), ss("Copy", VIEW_GROUP));
         if (! isSpecial)
-            items.append(createMenuItem(IdDelete, tr("Delete"), false,
-                                        "Delete"));
-        items.append(createMenuItem(IdSeparator, "", true));
-        //        items.append(createMenuItem(IdAlbumInfo, tr("Album info"), false,
-        //                                    "Ctrl+Alt+Return"));
+            appendAction(IdDelete, tr("Delete"), ss("Delete", ALBUM_GROUP));
     }
     else {
-        items.append(createMenuItem(IdCreate, tr("New album")));
+        appendAction(IdCreate, tr("New album"), ss("New album", ALBUM_GROUP));
     }
-
-    QJsonObject contentObj;
-    contentObj["x"] = 0;
-    contentObj["y"] = 0;
-    contentObj["items"] = QJsonValue(items);
-
-    QJsonDocument document(contentObj);
-
-    return QString(document.toJson());
-}
-
-QJsonValue AlbumsView::createMenuItem(const MenuItemId id,
-                                      const QString &text,
-                                      const bool isSeparator,
-                                      const QString &shortcut,
-                                      const QJsonObject &subMenu)
-{
-    return QJsonValue(m_popupMenu->createItemObj(id,
-                                                 text,
-                                                 isSeparator,
-                                                 shortcut,
-                                                 subMenu));
 }
 
 void AlbumsView::onClicked(const QModelIndex &index)
@@ -328,53 +318,11 @@ void AlbumsView::onClicked(const QModelIndex &index)
     }
 }
 
-/*
-void AlbumsView::initShortcut()
-{
-    // Open album
-    QShortcut *sc = new QShortcut(QKeySequence("Return"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=]{
-        const QString albumName = getAlbumName(currentIndex());
-        emit openAlbum(albumName);
-    });
-    // Start slide show
-    sc = new QShortcut(QKeySequence("F5"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=]{
-        const QString albumName = getAlbumName(currentIndex());
-        emit startSlideShow(paths(albumName));
-    });
-    // Rename
-    sc = new QShortcut(QKeySequence("F2"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=]{
-        if (m_delegate->isEditFinished())
-            openPersistentEditor(this->currentIndex());
-    });
-    // Copy
-    sc = new QShortcut(QKeySequence("Ctrl+C"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=]{
-        const QString albumName = getAlbumName(currentIndex());
-        QStringList paths = dApp->dbM->getPathsByAlbum(albumName);
-        paths.removeAll(" ");
-        utils::base::copyImageToClipboard(paths);
-    });
-    // Trash
-    sc = new QShortcut(QKeySequence("Delete"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=]{
-        const QString albumName = getAlbumName(currentIndex());
-        if (!albumName.isEmpty())
-            popupDelDialog(albumName);
-    });
-}*/
-
-void AlbumsView::onMenuItemClicked(int menuId)
+void AlbumsView::onMenuItemClicked(QAction *action)
 {
     const QString albumName = getAlbumName(currentIndex());
-    switch (MenuItemId(menuId)) {
+    const int id = action->property("MenuID").toInt();
+    switch (MenuItemId(id)) {
     case IdCreate:
         createAlbum();
         break;

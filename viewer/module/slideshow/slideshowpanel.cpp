@@ -1,16 +1,18 @@
 #include "slideshowpanel.h"
 #include "slideeffectplayer.h"
 #include "application.h"
-#include "controller/popupmenumanager.h"
+#include "controller/configsetter.h"
 #include "controller/signalmanager.h"
 #include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include <QApplication>
 #include <QDebug>
 #include <QDesktopWidget>
+#include <QMenu>
 #include <QPainter>
 #include <QResizeEvent>
 #include <QShortcut>
+#include <QStyleFactory>
 
 namespace {
 
@@ -23,7 +25,6 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     : ModulePanel(parent)
     , m_hideCursorTid(0)
     , m_startTid(0)
-    , m_menu(new PopupMenuManager(this))
 {
     initeffectPlay();
     initMenu();
@@ -131,14 +132,20 @@ void SlideShowPanel::initeffectPlay()
 
 void SlideShowPanel::initMenu()
 {
-    m_menu = new PopupMenuManager(this);
-    m_menu->setMenuContent(menuContent());
-    connect(m_menu, &PopupMenuManager::menuItemClicked,
-            this, &SlideShowPanel::backToLastPanel);
-
     this->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &SlideShowPanel::customContextMenuRequested,
-            m_menu, &PopupMenuManager::showMenu);
+
+    m_menu = new QMenu;
+    m_menu->setStyle(QStyleFactory::create("dlight"));
+    QAction *ac = new QAction(m_menu);
+    ac->setText(tr("Stop slideshow"));
+    ac->setShortcut(QKeySequence(dApp->setter->value("SHORTCUTVIEW", "Start slideshow").toString()));
+    m_menu->addAction(ac);
+    this->addAction(ac);
+
+    connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::backToLastPanel);
+    connect(this, &SlideShowPanel::customContextMenuRequested, this, [=] {
+        m_menu->popup(QCursor::pos());
+    });
 }
 
 void SlideShowPanel::initShortcut()
@@ -182,29 +189,11 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
         showFullScreen();
     }
     else if (event->timerId() == m_hideCursorTid &&
-             !m_menu->menuIsVisible()) {
+             !m_menu->isVisible()) {
         dApp->setOverrideCursor(Qt::BlankCursor);
     }
 
     ModulePanel::timerEvent(event);
-}
-
-const QString SlideShowPanel::menuContent()
-{
-    QJsonArray items;
-    items.append(QJsonValue(m_menu->createItemObj(10000,
-                                                  tr("Stop slide show"),
-                                                  false,
-                                                  "F5",
-                                                  QJsonObject())));
-    QJsonObject contentObj;
-    contentObj["x"] = 0;
-    contentObj["y"] = 0;
-    contentObj["items"] = QJsonValue(items);
-
-    QJsonDocument document(contentObj);
-
-    return QString(document.toJson());
 }
 
 void SlideShowPanel::setImage(const QImage &img)
@@ -226,7 +215,7 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
     m_player->setCurrentImage(vinfo.path);
 
     m_startTid = startTimer(DELAY_START_INTERVAL);
-    if (!m_menu->menuIsVisible())
+    if (!m_menu->isVisible())
         dApp->setOverrideCursor(Qt::BlankCursor);
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
 

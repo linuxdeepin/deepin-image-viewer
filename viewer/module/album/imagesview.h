@@ -12,7 +12,7 @@
 #include <QObject>
 
 class ImportFrame;
-class PopupMenuManager;
+class QMenu;
 class QStandardItemModel;
 class QStackedWidget;
 class ThumbnailListView;
@@ -71,11 +71,13 @@ private:
         IdSeparator
     };
 
+    void initPopupMenu();
     void initListView();
     void initContent();
     void initTopTips();
 
-    void onMenuItemClicked(int menuId, const QString &text);
+    void appendAction(int id, const QString &text, const QString &shortcut);
+    void onMenuItemClicked(QAction *action);
     void popupDelDialog(const QStringList &paths);
     void rotateImage(const QString &path, int degree);
     void showImportFrame(bool v);
@@ -84,13 +86,7 @@ private:
     void updateTopTipsRect();
     bool allInAlbum(const QStringList &paths, const QString &album);
 
-    QJsonObject createAlbumMenuObj();
-    QString createMenuContent();
-    QJsonValue createMenuItem(const MenuItemId id,
-                              const QString &text,
-                              const bool isSeparator = false,
-                              const QString &shortcut = "",
-                              const QJsonObject &subMenu = QJsonObject());
+    QMenu* createAlbumMenu();
     const QStringList albumPaths();
 
 private:
@@ -99,7 +95,7 @@ private:
     TopAlbumTips *m_topTips;
     ThumbnailListView *m_view;
     QVBoxLayout *m_contentLayout;
-    PopupMenuManager *m_popupMenu;
+    QMenu *m_menu;
     QWidget *m_contentWidget;
     ImportFrame *m_importFrame;
 };

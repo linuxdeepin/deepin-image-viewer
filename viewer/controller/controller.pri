@@ -1,6 +1,5 @@
 HEADERS += \
     $$PWD/importer.h \
-    $$PWD/popupmenumanager.h \
     $$PWD/signalmanager.h \
     $$PWD/wallpapersetter.h \
     $$PWD/commandline.h \
@@ -14,7 +13,6 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/importer.cpp \
-    $$PWD/popupmenumanager.cpp \
     $$PWD/signalmanager.cpp \
     $$PWD/wallpapersetter.cpp \
     $$PWD/commandline.cpp \
