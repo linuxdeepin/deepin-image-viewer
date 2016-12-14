@@ -11,6 +11,7 @@ const QString VERSION = "1.2";
 AboutDialog::AboutDialog()
     : DAboutDialog()
 {
+    setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
     setProductIcon(QIcon(PRODUCT_ICON));
     setProductName(tr("Deepin Image Viewer"));
     setVersion(tr("Version:") + VERSION);
