@@ -562,7 +562,12 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::clicked, this, [=] {
         dApp->signalM->hideExtensionPanel();
     });
-    connect(m_viewB, &ImageView::imageChanged, this, &ViewPanel::imageChanged);
+    connect(m_viewB, &ImageView::imageChanged, this, [=] (QString path) {
+        emit imageChanged(path);
+        // Pixmap is cache in thread, make sure the size would correct after
+        // cache is finish
+        resetImageGeometry();
+    });
 }
 
 void ViewPanel::openImage(const QString &path, bool inDB)
