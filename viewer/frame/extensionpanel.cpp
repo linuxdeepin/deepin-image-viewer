@@ -21,7 +21,8 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
 {
     setCoverBrush(QBrush(QColor(0, 0, 0, 100)));
     setBorderColor(QColor(255, 255, 255, 51));
-    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
+//    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
+    setFixedWidth(EXTENSION_PANEL_WIDTH);
     m_contentLayout = new QHBoxLayout(this);
     m_contentLayout->setContentsMargins(0, 0, 0, 0);
     m_contentLayout->setSpacing(0);

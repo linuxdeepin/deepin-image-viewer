@@ -63,7 +63,7 @@ void MainWidget::resizeEvent(QResizeEvent *)
             m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     }
     if (m_extensionPanel) {
-        m_extensionPanel->resize(m_extensionPanel->width(), height());
+        m_extensionPanel->setFixedHeight(height());
     }
 }
 
