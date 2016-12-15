@@ -165,9 +165,9 @@ QMap<QString, QString> ShortcutFrame::viewValues()
 QMap<QString, QString> ShortcutFrame::albumValues()
 {
     QMap<QString, QString> vs;
-    vs.insert(tr("New album"), "Ctrl+Shift+N");
-    vs.insert(tr("Rename"), "F2");
-    vs.insert(tr("Delete"), "Delete");
+    vs.insert("New album", "Ctrl+Shift+N");
+    vs.insert("Rename", "F2");
+    vs.insert("Delete", "Delete");
 
     return vs;
 }
