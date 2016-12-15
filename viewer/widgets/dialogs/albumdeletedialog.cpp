@@ -31,11 +31,17 @@ QPixmap AlbumDeleteDialog::generateThumbnail(const QStringList &paths)
 
     QPainter pp(&bp);
 
-    QRect thumbRect(7, 7, 45, 45);
+    QRect thumbRect(6, 6, 46, 46);
     using namespace utils::image;
     QPixmap thumb = cutSquareImage(getThumbnail(paths[1]),
                                    thumbRect.size());
     pp.drawPixmap(thumbRect, thumb);
+    if (! thumb.isNull()) {
+        QPainterPath path;
+        path.addRect(thumbRect);
+        pp.setPen(QPen(QColor(0, 0, 0, 0.1 * 255), 1));
+        pp.drawPath(path);
+    }
 
     return bp;
 }
