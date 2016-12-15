@@ -10,7 +10,6 @@ class AboutDialog : public DAboutDialog
     Q_OBJECT
 public:
     explicit AboutDialog();
-
 };
 
 #endif // ABOUTDIALOG_H
