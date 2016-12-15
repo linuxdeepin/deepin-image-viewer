@@ -2,6 +2,7 @@
 #include "application.h"
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
+#include "controller/viewerthememanager.h"
 #include "settings/settingswindow.h"
 #include "widgets/dialogs/aboutdialog.h"
 #include "utils/baseutils.h"
@@ -28,6 +29,14 @@ namespace {
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int ICON_MARGIN = 6;
 
+const QColor DARK_COVERCOLOR = QColor(30, 30, 30, 204);
+const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
+
+const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 20);
+const QColor LIGHT_TOP_BORDERCOLOR = QColor(0, 0, 0, 20);
+
+const QColor DARK_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 51);
+const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
 }  // namespace
 
 class ImportTip : public DArrowRectangle
@@ -55,8 +64,7 @@ private:
 TopToolbar::TopToolbar(QWidget *parent)
     :BlurFrame(parent)
 {
-    setCoverBrush(QBrush(QColor(30, 30, 30, 204)));
-
+    initPaintTheme();
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
 
@@ -103,6 +111,22 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
             window()->showMaximized();
     }
 }
+void TopToolbar::initPaintTheme() {
+    if (dApp->viewerTheme->getCurrentTheme() ==
+            ViewerThemeManager::Dark) {
+        m_coverBrush = DARK_COVERCOLOR;
+        m_topBorderColor = DARK_TOP_BORDERCOLOR;
+        m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
+    } else {
+        m_coverBrush = LIGHT_COVERCOLOR;
+        m_topBorderColor = LIGHT_TOP_BORDERCOLOR;
+        m_bottomBorderColor = LIGHT_BOTTOM_BORDERCOLOR;
+    }
+    setCoverBrush(QBrush(m_coverBrush));
+
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &TopToolbar::onThemeChanged);
+}
 
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
@@ -112,7 +136,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     p.setRenderHint(QPainter::Antialiasing);
 
     // Draw inside top border
-    const QColor tc(255, 255, 255, 20);
+    const QColor tc(m_topBorderColor);
     int borderHeight = 1;
     QPainterPath tPath;
     tPath.moveTo(QPointF(x(), y() + borderHeight - 0.5));
@@ -135,7 +159,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     borderHeight = 0;
     bPath.moveTo(x(), y() + height() - borderHeight - 0.5);
     bPath.lineTo(x() + width(), y() + height() - borderHeight - 0.5);
-    QPen bPen(QColor(0, 0, 0, 51), borderHeight);
+    QPen bPen(m_bottomBorderColor, borderHeight);
     p.setPen(bPen);
     p.drawPath(bPath);
 }
@@ -282,12 +306,14 @@ void TopToolbar::initMenu()
     m_menu = new QMenu(this);
     m_menu->setStyle(QStyleFactory::create("dlight"));
     QAction *acNA = m_menu->addAction(tr("New album"));
+    QAction *acDT = m_menu->addAction(tr("Deep color mode"));
     QAction *acS = m_menu->addAction(tr("Setting"));
     m_menu->addSeparator();
     QAction *acH = m_menu->addAction(tr("Help"));
     QAction *acA = m_menu->addAction(tr("About"));
     QAction *acE = m_menu->addAction(tr("Exit"));
     connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
+    connect(acDT, &QAction::triggered, this, &TopToolbar::onDeepColorMode);
     connect(acS, &QAction::triggered, this, &TopToolbar::onSetting);
     connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
     connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
@@ -348,6 +374,25 @@ void TopToolbar::onNewAlbum()
     emit dApp->signalM->createAlbum();
 }
 
+void TopToolbar::onDeepColorMode() {
+    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+        dApp->viewerTheme->setCurrentTheme(
+                    ViewerThemeManager::Light);
+    } else {
+        dApp->viewerTheme->setCurrentTheme(
+                    ViewerThemeManager::Dark);
+    }
+}
+
+void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
+    initPaintTheme();
+    if (curTheme == ViewerThemeManager::Dark) {
+        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
+    } else {
+        Dtk::Widget::DThemeManager::instance()->setTheme("light");
+    }
+}
+
 void TopToolbar::onSetting()
 {
     m_settingsWindow->move((width() - m_settingsWindow->width()) / 2 +
@@ -392,7 +437,7 @@ void ImportTip::setMessage(QString message)
 
 void ImportTip::initWidgets()
 {
-    const QString ss = utils::base::getFileContent(":/qss/resources/qss/importtip.qss");
+    const QString ss = utils::base::getFileContent(":/resources/dark/qss/importtip.qss");
     m_cp = new DCircleProgress(this);
     m_cp->setFixedSize(32, 32);
     m_cp->setValue(0);
@@ -414,9 +459,9 @@ void ImportTip::initWidgets()
     contentLayout->addStretch(1);
 
     DImageButton *cb = new DImageButton(this);
-    cb->setNormalPic(":/images/importtip/resources/images/close_normal.png");
-    cb->setHoverPic(":/images/importtip/resources/images/close_hover.png");
-    cb->setPressPic(":/images/importtip/resources/images/close_press.png");
+    cb->setNormalPic(":/resources/dark/images/importtip/close_normal.png");
+    cb->setHoverPic(":/resources/dark/images/importtip/close_hover.png");
+    cb->setPressPic(":/resources/dark/images/importtip/close_press.png");
     connect(cb, &DImageButton::clicked, this, &ImportTip::stopProgress);
 
     m_content = new QWidget;

@@ -16,4 +16,6 @@ SOURCES += \
     $$PWD/timelineframe.cpp
 
 RESOURCES += \
-    $$PWD/timeline.qrc
+    $$PWD/timelinetheme.qrc
+
+DISTFILES +=

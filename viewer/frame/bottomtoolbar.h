@@ -2,7 +2,10 @@
 #define BOTTOMTOOLBAR_H
 
 #include "widgets/blureframe.h"
+#include "controller/viewerthememanager.h"
+
 #include <QHBoxLayout>
+
 
 class BottomToolbar : public BlurFrame
 {
@@ -14,8 +17,12 @@ public:
 protected:
     void mouseMoveEvent(QMouseEvent *) override;
 
+private slots:
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
+    QColor m_coverBrush;
     QHBoxLayout *m_mainLayout;
+
 };
 
 #endif // BOTTOMTOOLBAR_H

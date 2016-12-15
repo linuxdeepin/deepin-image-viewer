@@ -1,8 +1,7 @@
 #include "application.h"
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
-#include "dthememanager.h"
-#include "controller/volumemonitor.h"
+
 #include <QApplication>
 #include <DLog>
 #include <QTranslator>
@@ -37,7 +36,6 @@ int main(int argc, char *argv[])
         service::setDefaultImageViewer(true);
     }
 
-    Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     CommandLine *cl = CommandLine::instance();
 
     if (cl->processOption()) {

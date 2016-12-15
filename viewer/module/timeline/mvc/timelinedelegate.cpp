@@ -1,5 +1,7 @@
 #include "timelinedelegate.h"
 #include "utils/imageutils.h"
+#include "application.h"
+
 #include <QDateTime>
 #include <QDebug>
 #include <QHBoxLayout>
@@ -13,7 +15,16 @@ namespace {
 const int BORDER_RADIUS = 0;
 const int BORDER_WIDTH = 1;
 const int BORDER_WIDTH_SELECTED = 2;
-const QColor BORDER_COLOR = QColor(255, 255, 255, 35);
+
+const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 35);
+const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 35);
+
+const QColor DARK_DATECOLOR = QColor("#FFFFFF");
+const QColor LIGHT_DATECOLOR = QColor(48, 48, 48);
+
+const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);
+const QColor LIGHT_SEPERATOR_COLOR = QColor(0, 0, 0, 20);
+
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
@@ -23,9 +34,22 @@ const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 TimelineDelegate::TimelineDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &TimelineDelegate::onThemeChanged);
 }
 
+void TimelineDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        m_borderColor = DARK_BORDER_COLOR;
+        m_dateColor = DARK_DATECOLOR;
+        m_seperatorColor = DARK_SEPERATOR_COLOR;
+    } else {
+        m_borderColor = LIGHT_BORDER_COLOR;
+        m_dateColor = LIGHT_DATECOLOR;
+        m_seperatorColor = LIGHT_SEPERATOR_COLOR;
+    }
+}
 void TimelineDelegate::clearPaintingList()
 {
     m_paintingPaths.clear();
@@ -49,7 +73,7 @@ void TimelineDelegate::paint(QPainter *painter,
     // Draw Timeline title
     if (data.isTitle) {
         // Draw text
-        QPen p(QColor("#FFFFFF"));
+        QPen p(m_dateColor);
         QFont f;f.setPixelSize(12);
         painter->setPen(p);
         painter->setFont(f);
@@ -58,7 +82,7 @@ void TimelineDelegate::paint(QPainter *painter,
         // Draw separator
         QRect r = option.rect;
         r = QRect(r.x(), r.y() + r.height() - 8, r.width(), 1);
-        painter->fillRect(r, QColor(255, 255, 255, 20));
+        painter->fillRect(r, m_seperatorColor);
     }
     // Draw thumbnail
     else {
@@ -95,7 +119,7 @@ void TimelineDelegate::paint(QPainter *painter,
         painter->drawPixmap(rect, thumb);
 
         // Draw inside border
-        QPen p(selected ? BORDER_COLOR_SELECTED : BORDER_COLOR,
+        QPen p(selected ? BORDER_COLOR_SELECTED : m_borderColor,
                selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
         painter->setPen(p);
         QPainterPathStroker stroker;

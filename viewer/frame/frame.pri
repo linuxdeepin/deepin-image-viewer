@@ -14,4 +14,4 @@ SOURCES += \
     $$PWD/toptoolbar.cpp
 
 RESOURCES += \
-    $$PWD/frame.qrc
+    $$PWD/frametheme.qrc

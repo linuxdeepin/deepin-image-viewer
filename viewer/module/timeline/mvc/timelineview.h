@@ -78,6 +78,7 @@ private slots:
     void onThumbnailGenerated(int index);
 
 private:
+    QColor m_backgroundColor;
     int m_itemSize;
     int m_titleHeight;
     int m_hItemSpacing;

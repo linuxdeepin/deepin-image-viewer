@@ -2,6 +2,7 @@
 #define TIMELINEPANEL_H
 
 #include "module/modulepanel.h"
+#include "controller/viewerthememanager.h"
 
 class QLabel;
 class QMenu;
@@ -41,6 +42,7 @@ private:
     void onMenuItemClicked(QAction *action);
     void updateMenuContents();
     void rotateImage(const QString &path, int degree);
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     QMenu               *m_menu;
     QLabel              *m_countLabel;

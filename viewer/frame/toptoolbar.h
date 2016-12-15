@@ -2,6 +2,8 @@
 #define TOPTOOLBAR_H
 
 #include "widgets/blureframe.h"
+#include "controller/viewerthememanager.h"
+
 #include <QJsonObject>
 #include <QPointer>
 
@@ -32,6 +34,7 @@ signals:
 private:
     enum MenuItemId {
         IdCreateAlbum,
+        IdSwitchTheme,
         IdSetting,
         IdImport,
         IdHelp,
@@ -47,7 +50,7 @@ private:
     void initMenu();
     void initShortcut();
     void initWidgets();
-
+    void initPaintTheme();
     void updateTipsPos();
 
 private slots:
@@ -56,8 +59,14 @@ private slots:
     void onNewAlbum();
     void onSetting();
     void onViewShortcut();
+    void onDeepColorMode();
 
+    void onThemeChanged(ViewerThemeManager::AppTheme curTheme);
 private:
+    QColor m_coverBrush;
+    QColor m_topBorderColor;
+    QColor m_bottomBorderColor;
+
     QPointer<QProcess> m_manualPro;
     QHBoxLayout *m_layout;
     QHBoxLayout *m_lLayout;

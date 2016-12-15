@@ -3,21 +3,28 @@
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/divdbuscontroller.h"
+#include "controller/configsetter.h"
 #include "service/deepinimageviewerdbus.h"
 #include "frame/mainwindow.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
+
+#include "dthememanager.h"
+
 #include <QCommandLineOption>
 #include <QDBusConnection>
 #include <QDesktopWidget>
 #include <QDebug>
 #include <QFileInfo>
 
+using namespace Dtk::Widget;
+
 namespace {
 
 const QString DBUS_PATH = "/com/deepin/DeepinImageViewer";
 const QString DBUS_NAME = "com.deepin.DeepinImageViewer";
-
+const QString THEME_GROUP = "APP";
+const QString THEME_TEXT = "AppTheme";
 }
 
 struct CMOption {
@@ -109,6 +116,16 @@ bool CommandLine::processOption()
     if (! m_cmdParser.parse(dApp->arguments())) {
         showHelp();
         return false;
+    }
+
+    QString defaulttheme = dApp->setter->value(THEME_GROUP,
+                                                   THEME_TEXT).toString();
+    if (defaulttheme.isEmpty()||defaulttheme == "Dark") {
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
+    } else {
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+        Dtk::Widget::DThemeManager::instance()->setTheme("light");
     }
 
     DeepinImageViewerDBus *dd = new DeepinImageViewerDBus(dApp->signalM);

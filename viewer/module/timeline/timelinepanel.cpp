@@ -57,6 +57,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
 {
     QWidget *tBottomContent = new QWidget;
     tBottomContent->setStyleSheet(this->styleSheet());
+
     const int sizeScale = dApp->setter->value(SETTINGS_GROUP,
                                               SETTINGS_ICON_SCALE_KEY,
                                               QVariant(0)).toInt();
@@ -80,10 +81,9 @@ QWidget *TimelinePanel::toolbarBottomContent()
     updateBottomToolbarContent(dApp->dbM->getImgsCount());
 
     ImageButton *ib = new ImageButton;
+    ib->setObjectName("ImportBtn");
     ib->setToolTip(tr("Import"));
-    ib->setNormalPic(":/images/resources/images/import_normal.png");
-    ib->setHoverPic(":/images/resources/images/import_hover.png");
-    ib->setPressPic(":/images/resources/images/import_press.png");
+
     connect(ib, &DImageButton::clicked, this, [=] {
         dApp->importer->showImportDialog();
     });
@@ -137,13 +137,14 @@ QWidget *TimelinePanel::toolbarTopLeftContent()
 QWidget *TimelinePanel::toolbarTopMiddleContent()
 {
     QWidget *tTopMiddleContent = new QWidget;
+    tTopMiddleContent->setStyleSheet(this->styleSheet());
     QLabel *timelineButton = new QLabel();
-
-    timelineButton->setPixmap(QPixmap(":/images/resources/images/timeline_press.png"));
+    timelineButton->setFixedSize(48, 40);
+    timelineButton->setObjectName("TimelineLabel");
 
     ImageButton *albumButton = new ImageButton();
-    albumButton->setNormalPic(":/images/resources/images/album_normal.png");
-    albumButton->setHoverPic(":/images/resources/images/album_hover.png");
+    albumButton->setObjectName("AlbumBtn");
+
     connect(albumButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Album Panel...";
         emit dApp->signalM->gotoAlbumPanel();
@@ -223,6 +224,8 @@ void TimelinePanel::initConnection()
     connect(dApp->signalM, &SignalManager::gotoTimelinePanel, this, [=] {
         emit dApp->signalM->gotoPanel(this);
     });
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &TimelinePanel::onThemeChanged);
 }
 
 void TimelinePanel::initMainStackWidget()
@@ -275,9 +278,20 @@ void TimelinePanel::initImagesView()
      });
 }
 
+void TimelinePanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    Q_UNUSED(theme)
+    initStyleSheet();
+    emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+    emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+}
 void TimelinePanel::initStyleSheet()
 {
-    setStyleSheet(utils::base::getFileContent(":/qss/resources/qss/timeline.qss"));
+    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+        setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/timeline.qss"));
+    }
+    else {
+        setStyleSheet(utils::base::getFileContent(":/resources/light/qss/timeline.qss"));
+    }
 }
 
 void TimelinePanel::updateBottomToolbarContent(int count)

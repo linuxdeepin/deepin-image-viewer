@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QDateTime>
 #include <QStyledItemDelegate>
+
 #include "timelineitem.h"
+#include "controller/viewerthememanager.h"
 
 class TimelineDelegate : public QStyledItemDelegate {
     Q_OBJECT
@@ -22,8 +24,12 @@ public:
 
 private:
     TimelineItem::ItemData itemData(const QModelIndex &index) const;
-
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
+    QColor m_borderColor;
+    QColor m_dateColor;
+    QColor m_seperatorColor;
+
     mutable QStringList m_paintingPaths;
 };
 

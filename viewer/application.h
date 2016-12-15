@@ -11,7 +11,7 @@ class Exporter;
 class Importer;
 class SignalManager;
 class WallpaperSetter;
-
+class ViewerThemeManager;
 #if defined(dApp)
 #undef dApp
 #endif
@@ -31,7 +31,7 @@ public:
     Importer *importer = nullptr;
     SignalManager *signalM = nullptr;
     WallpaperSetter *wpSetter = nullptr;
-
+    ViewerThemeManager *viewerTheme = nullptr;
 private:
     void initChildren();
     void initI18n();

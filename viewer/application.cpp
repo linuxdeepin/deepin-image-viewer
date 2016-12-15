@@ -7,6 +7,7 @@
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
+#include "controller/viewerthememanager.h"
 
 #include <QDebug>
 #include <QTranslator>
@@ -37,6 +38,7 @@ void Application::initChildren()
     importer = Importer::instance();
     signalM = SignalManager::instance();
     wpSetter = WallpaperSetter::instance();
+    viewerTheme = ViewerThemeManager::instance();
     dbM = new DBManager();
 }
 

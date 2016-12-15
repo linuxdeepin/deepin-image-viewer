@@ -8,8 +8,9 @@
         <file>resources/images/synimages.png</file>
     </qresource>
     <qresource prefix="/qss">
-        <file>resources/qss/frame.qss</file>
         <file>resources/qss/importtip.qss</file>
+        <file>resources/qss/dark_frame.qss</file>
+        <file>resources/qss/light_frame.qss</file>
     </qresource>
     <qresource prefix="/images/importtip">
         <file>resources/images/close_hover.png</file>

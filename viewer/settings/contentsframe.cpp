@@ -97,9 +97,9 @@ void ContentsFrame::initScrollArea()
 
     QSignalBlocker blocker(DThemeManager::instance());
     Q_UNUSED(blocker);
-    DThemeManager::instance()->setTheme("light");
+//    DThemeManager::instance()->setTheme("light");
     DScrollBar* sb = new DScrollBar();
-    DThemeManager::instance()->setTheme("dark");
+//    DThemeManager::instance()->setTheme("dark");
     m_area->setVerticalScrollBar(sb);
     sb->setContextMenuPolicy(Qt::PreventContextMenu);
     connect(sb, &DScrollBar::valueChanged,

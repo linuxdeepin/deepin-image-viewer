@@ -1,0 +1,123 @@
+QLabel#TimelineFrameTitle {
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 12px;
+    margin-left: 11px;
+}
+
+QPushButton#AddToAlbumCancel {
+    background: rgba(255, 255, 255, 51);
+    border: none;
+    border-radius: 3;
+    outline: none;
+    padding: 3px 23px 4px 23px;
+    color: #b4b4b4;
+    font-size: 12px;
+}
+
+QPushButton#AddToAlbumCancel:hover {
+    background: rgba(255, 255, 255, 76.5);
+}
+
+QPushButton#AddToAlbumCancel:pressed {
+    background: rgba(255, 255, 255, 25.5);
+}
+
+QPushButton#AddToAlbumAdd  {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #3BC1FF, stop:1 #079DFF);
+    border: none;
+    border-radius: 3;
+    outline: none;
+    padding: 3px 23px 4px 23px;
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+QPushButton#AddToAlbumAdd:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 #6EC9FF, stop:1 #2DA9F6);
+}
+
+QPushButton#AddToAlbumAdd:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+            stop:0 #0B8Cff, stop:1 #0AA1FF);
+    color: rgba(255, 255, 255, 178.5);
+}
+
+QLabel#TimelineLabel {
+    border-image: url(:/resources/light/images/timeline_press.png);
+}
+
+ImageButton#AlbumBtn {
+    qproperty-normalPic: url(:/resources/light/images/album_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/album_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/album_press.png);
+}
+
+QLabel#ImportFrameTooltip {
+    color: #616161;
+    font-size: 12px;
+}
+
+QLabel#AddToAlbumTitle, QLabel#TooltipTimelineLabel {
+    background-color: green;
+    font-size: 11px;
+    color: #FFFFFF;
+}
+
+QLabel#CountLabel {
+    color: rgba(0, 0, 0, .7);
+    font-size: 11px;
+}
+
+QLabel#TimelineSeparator {
+    background: rgba(255, 255, 255, 20);
+    margin-left: 14px;
+    margin-right: 15px;
+}
+QLabel#BtmSeparatorLine {
+    background-color:rgba(255, 255, 255, .1);
+    margin-left: 15px;
+    margin-right: 15px;
+}
+QLabel#TooltipCountLabel {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 130);
+}
+
+QLabel#TopTimelineTip {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 230);
+    border-image: url(:/resources/light/images/lineargradient.png) repeat;
+}
+
+QFrame#TimelinesContent {
+    background: transparent;
+    border:none;
+}
+ScaleSlider {
+    qproperty-penColor: rgba(255, 255, 255, 51);
+}
+
+ImageButton#ImportBtn {
+    qproperty-normalPic: url(:/resources/light/images/import_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/import_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/import_press.png);
+}
+
+QSlider::handle:vertical  {
+    image: url(:/images/resources/images/slider_handle.svg)
+}
+
+QLabel#BTopLightLine{
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+QLabel#BTopDarkLine{
+    background-color: rgba(0, 0, 0, 25);
+}
+
+QLabel#BtmLightLine{
+    background-color: rgba(255, 255, 255, 0.02);
+}

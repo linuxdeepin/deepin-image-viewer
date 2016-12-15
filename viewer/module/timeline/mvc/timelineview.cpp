@@ -3,6 +3,8 @@
 #include "timelineitem.h"
 #include "timelinemodel.h"
 #include "controller/dbmanager.h"
+#include "controller/viewerthememanager.h"
+
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/scrollbar.h"
@@ -17,7 +19,9 @@
 
 namespace {
 
-const QColor BACKGROUND_COLOR = QColor("#1B1B1B");
+const QColor DARK_BACKGROUND_COLOR = QColor("#1B1B1B");
+const QColor LIGHT_BACKGROUND_COLOR = QColor("#FFFFFF");
+
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 
 QVariant genThumbnail(const QVariant &data)
@@ -61,11 +65,25 @@ TimelineView::TimelineView(QWidget *parent)
 {
     setVerticalScrollBar(new ScrollBar());
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
+    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::AppTheme::Dark) {
+        m_backgroundColor = DARK_BACKGROUND_COLOR;
+    } else {
+        m_backgroundColor = LIGHT_BACKGROUND_COLOR;
+    }
+
     connect(verticalScrollBar(), &QScrollBar::valueChanged,
             this, &TimelineView::onScrolled);
 
     connect(&m_watcher, SIGNAL(resultReadyAt(int)),
             this, SLOT(onThumbnailGenerated(int)));
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, [=](
+            ViewerThemeManager::AppTheme theme){
+        if (theme == ViewerThemeManager::AppTheme::Dark) {
+            m_backgroundColor = DARK_BACKGROUND_COLOR;
+        } else {
+            m_backgroundColor = LIGHT_BACKGROUND_COLOR;
+        }
+    });
 }
 
 void TimelineView::setItemSize(int size)
@@ -242,7 +260,7 @@ void TimelineView::paintEvent(QPaintEvent *event)
 
     QModelIndexList sis = selectionModel()->selectedIndexes();
     QStyleOptionViewItem option = viewOptions();
-    painter.fillRect(this->rect(), BACKGROUND_COLOR);
+    painter.fillRect(this->rect(), m_backgroundColor);
 
     for (auto index : m_paintingIndexs) {
         if (sis.contains(index)) {

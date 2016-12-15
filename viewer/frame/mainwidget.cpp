@@ -172,7 +172,7 @@ void MainWidget::mountDeviceMonitor() {
             if (fpath.startsWith(path)) {
 
                 DDialog* synImgDialog = new DDialog(this);
-                synImgDialog->setIconPixmap(QPixmap(":/images/resources/images/synimages.png"));
+                synImgDialog->setIconPixmap(QPixmap(":/resources/common/synimages.png"));
                 synImgDialog->setTitle(tr("The removable device has been unplugged,"
                                           " would you like to delete the thumbnails on this device?"));
                 synImgDialog->addButton(tr("Cancel"));
@@ -270,6 +270,8 @@ void MainWidget::initConnection()
     connect(dApp->importer, &Importer::imported, this, [=] (bool v) {
         onImported(tr("Imported successfully"), v);
     });
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &MainWidget::initStyleSheet);
 }
 
 void MainWidget::initBottomToolbar()
@@ -366,12 +368,9 @@ void MainWidget::initExtensionPanel()
 
 void MainWidget::initStyleSheet()
 {
-    QFile sf(":/qss/resources/qss/frame.qss");
-    if (!sf.open(QIODevice::ReadOnly)) {
-        qWarning() << "Open style-sheet file error:" << sf.errorString();
-        return;
+    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+        this->setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/frame.qss"));
+    } else {
+        this->setStyleSheet(utils::base::getFileContent(":/resources/light/qss/frame.qss"));
     }
-
-    qApp->setStyleSheet(QString(sf.readAll()));
-    sf.close();
 }

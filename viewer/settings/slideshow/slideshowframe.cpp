@@ -69,9 +69,9 @@ void SlideshowFrame::initInterval()
 
     QSignalBlocker blocker(DThemeManager::instance());
     Q_UNUSED(blocker);
-    DThemeManager::instance()->setTheme("light");
+//    DThemeManager::instance()->setTheme("light");
     DSimpleComboBox *dcb = new DSimpleComboBox(this);
-    DThemeManager::instance()->setTheme("dark");
+//    DThemeManager::instance()->setTheme("dark");
     dcb->setFixedSize(238, 26);
     QStringList intervalList;
     for (int i = 1; i < 5; i ++){

@@ -44,6 +44,15 @@ QPushButton#AddToAlbumAdd:pressed {
             stop:0 #0B8Cff, stop:1 #0AA1FF);
     color: rgba(255, 255, 255, 178.5);
 }
+QLabel#TimelineLabel {
+    background-image: url(:/resources/dark/images/timeline_press.png);
+}
+
+ImageButton#AlbumBtn {
+    qproperty-normalPic: url(:/resources/dark/images/album_normal.png);
+    qproperty-hoverPic: url(:/resources/dark/images/album_hover.png);
+    qproperty-pressPic: url(:/resources/dark/images/album_press.png);
+}
 
 QLabel#ImportFrameTooltip {
     color: #616161;
@@ -79,7 +88,7 @@ QLabel#TooltipCountLabel {
 QLabel#TopTimelineTip {
     font-size: 12px;
     color: #FFFFFF;
-    border-image: url(:/images/resources/images/lineargradient.png) repeat;
+    border-image: url(:/resources/dark/images/lineargradient.png) repeat;
 }
 
 QFrame#TimelinesContent {
@@ -88,6 +97,12 @@ QFrame#TimelinesContent {
 }
 ScaleSlider {
     qproperty-penColor: rgba(255, 255, 255, 51);
+}
+
+ImageButton#ImportBtn {
+    qproperty-normalPic: url(:/resources/dark/images/import_normal.png);
+    qproperty-hoverPic: url(:/resources/dark/images/import_hover.png);
+    qproperty-pressPic: url(:/resources/dark/images/import_press.png);
 }
 
 QSlider::handle:vertical  {
