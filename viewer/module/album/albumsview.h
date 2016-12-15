@@ -31,9 +31,9 @@ signals:
     void startSlideShow(const QStringList &paths);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
     int horizontalOffset() const Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
 private:

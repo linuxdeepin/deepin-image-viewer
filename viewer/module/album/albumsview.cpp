@@ -59,8 +59,6 @@ AlbumsView::AlbumsView(QWidget *parent)
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
     setDragEnabled(false);
 
-    installEventFilter(this);
-
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(m_menu, &QMenu::triggered, this, &AlbumsView::onMenuItemClicked);
@@ -161,21 +159,6 @@ void AlbumsView::setItemSizeMultiple(int multiple)
     emit m_delegate->sizeHintChanged(m_model->index(m_model->rowCount() - 1, 0));
 }
 
-bool AlbumsView::eventFilter(QObject *obj, QEvent *e)
-{
-    Q_UNUSED(obj)
-    if (e->type() == QEvent::Hide) {
-//        m_model->clear();
-    }
-    else if (e->type() == QEvent::Show) {
-        // Aways has Favorites album
-        dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, QStringList(" "));
-        updateView();
-    }
-
-    return false;
-}
-
 void AlbumsView::mousePressEvent(QMouseEvent *e)
 {
     if (! indexAt(e->pos()).isValid()) {
@@ -186,6 +169,14 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
     }
 
     QListView::mousePressEvent(e);
+}
+
+void AlbumsView::showEvent(QShowEvent *e)
+{
+    QListView::showEvent(e);
+    // Aways has Favorites album
+    dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, QStringList(" "));
+    updateView();
 }
 
 void AlbumsView::wheelEvent(QWheelEvent *e)
@@ -391,12 +382,16 @@ void AlbumsView::appendCreateIcon()
 
 void AlbumsView::createAlbum()
 {
+    // NOTE: Grab focus from editor to avoid crash
+    this->setFocus();
+    closePersistentEditor(this->currentIndex());
     const QString name = getNewAlbumName();
     dApp->dbM->insertIntoAlbum(name, QStringList(" "));
     QModelIndex index = addAlbum(dApp->dbM->getAlbumInfo(name));
+    setCurrentIndex(index);
+    // Make sure the create icon is visable
+    scrollTo(m_model->index(index.row() + 1, 0, index.parent()));
     openPersistentEditor(index);
-    scrollTo(index);
-    this->selectionModel()->clearSelection();
 }
 
 void AlbumsView::updateView()

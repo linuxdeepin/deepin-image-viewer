@@ -39,7 +39,8 @@ const QColor DATELABEL_COLOR = QColor(255, 255, 255, 153);
 }
 
 AlbumDelegate::AlbumDelegate(QObject *parent)
-    : QStyledItemDelegate(parent), m_editingIndex(QModelIndex())
+    : QStyledItemDelegate(parent)
+    , m_editingIndex(QModelIndex())
 {
 
 }
@@ -58,7 +59,7 @@ QWidget *AlbumDelegate::createEditor(QWidget *parent,
     font.setPixelSize(TITLE_FONT_SIZE);
     lineEdit->setFont(font);
     lineEdit->setAlignment(Qt::AlignCenter);
-    lineEdit->setFocus();
+//    lineEdit->setFocus();
     connect(lineEdit, &QLineEdit::editingFinished,
             this, &AlbumDelegate::onEditFinished);
 
@@ -387,14 +388,12 @@ const
 
 void AlbumDelegate::onEditFinished()
 {
-    QWidget *editor = qobject_cast<QWidget *>(sender());
-    emit closeEditor(editor);
     emit editingFinished(m_editingIndex);
     m_editingIndex = QModelIndex();
 }
 
 bool AlbumDelegate::isEditFinished() {
-    if (m_editingIndex == QModelIndex())
+    if (! m_editingIndex.isValid())
         return true;
     else
         return false;
