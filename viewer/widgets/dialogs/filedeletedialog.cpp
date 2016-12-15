@@ -57,6 +57,10 @@ QPixmap FileDeleteDialog::generateThumbnail(const QStringList &paths)
     QPixmap thumb = cutSquareImage(getThumbnail(paths.first()),
                                    thumbRect.size());
     pp.drawPixmap(thumbRect, thumb);
+    QPainterPath path;
+    path.addRect(thumbRect);
+    pp.setPen(QPen(QColor(0, 0, 0, 0.1 * 255), 1));
+    pp.drawPath(path);
 
     return bp;
 }
