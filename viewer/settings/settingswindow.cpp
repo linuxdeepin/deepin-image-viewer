@@ -13,6 +13,7 @@
 SettingsWindow::SettingsWindow(QWidget *parent)
     :DMainWindow(parent)
 {
+    setWindowModality(Qt::ApplicationModal);
     setStyleSheet(utils::base::getFileContent(
                       ":/settings/qss/resources/qss/settings.qss"));
 
