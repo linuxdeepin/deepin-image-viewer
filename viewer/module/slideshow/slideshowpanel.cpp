@@ -78,7 +78,7 @@ void SlideShowPanel::paintEvent(QPaintEvent *e)
         return;
 
     QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);
+//    p.setRenderHint(QPainter::Antialiasing);
     p.drawPixmap(this->rect(), QPixmap::fromImage(m_img));
 }
 
@@ -271,6 +271,7 @@ QImage SlideShowPanel::getFitImage(const QString &path)
     }
 
     QPainter painter(&ti);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.fillRect(0, 0, dww, dwh, QColor(27, 27, 27));
     painter.drawImage(target, image, source);
 
