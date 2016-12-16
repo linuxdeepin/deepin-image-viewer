@@ -37,7 +37,7 @@ AlbumsView::AlbumsView(QWidget *parent)
       m_itemSize(ITEM_DEFAULT_SIZE)
 {
     setMouseTracking(true);
-
+    setObjectName("AlbumView");
     m_delegate = new AlbumDelegate(this);
     connect(m_delegate, &AlbumDelegate::editingFinished,
             this, [=](const QModelIndex &index) {
@@ -60,7 +60,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     m_menu = new QMenu;
-    m_menu->setStyle(QStyleFactory::create("dlight"));
+    m_menu->setStyle(QStyleFactory::create("light"));
     connect(m_menu, &QMenu::triggered, this, &AlbumsView::onMenuItemClicked);
 
     connect(this, &AlbumsView::doubleClicked,

@@ -42,6 +42,7 @@ QString ss(const QString &text)
 ImagesView::ImagesView(QWidget *parent)
     : QScrollArea(parent)
 {
+    setObjectName("ImagesView");
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
     setVerticalScrollBar(new ScrollBar(this));

@@ -94,7 +94,6 @@ void ContentsFrame::setCurrentID(const TitleButton::SettingID id)
 void ContentsFrame::initScrollArea()
 {
     m_area = new QScrollArea;
-
     QSignalBlocker blocker(DThemeManager::instance());
     Q_UNUSED(blocker);
 //    DThemeManager::instance()->setTheme("light");

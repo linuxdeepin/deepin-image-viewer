@@ -1,0 +1,101 @@
+QWidget#ImagesViewContent {
+    background: rgb(255, 255, 255);
+}
+
+QPushButton#ImportFromTimelineButton {
+    font-size: 12px;
+    color: #52abff;
+    outline: none;
+    background: transparent;
+    border: none;
+}
+
+QPushButton#ImportFromTimelineButton:hover {
+    color: #54D7FF;
+}
+
+QPushButton#ImportFromTimelineButton:pressed {
+    color: #01BDFF;
+}
+
+QLabel#ImportFrameTooltip {
+    color: #616161;
+    font-size: 12px;
+}
+
+QLineEdit#AlbumNameLineEdit {
+    border: 1px solid #01bdff;
+    border-radius: 3;
+    color: rgba(48, 48, 48, 255);
+    selection-background-color: #01bdff;
+    background: transparent;
+}
+
+ImageButton#ReturnBtn {
+    qproperty-normalPic: url(:/resources/light/images/return_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/return_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/return_press.png);
+}
+
+ImageButton#ImportBtn {
+    qproperty-normalPic: url(:/resources/light/images/import_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/import_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/import_press.png);
+}
+
+ImageButton#TimelineBtn {
+    qproperty-normalPic: url(:/resources/light/images/timeline_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/timeline_hover.png);
+}
+
+ImageButton#AlbumBtn {
+    qproperty-normalPic: url(:/resources/light/images/album_press.png);
+    qproperty-hoverPic: url(:/resources/light/images/album_press.png);
+    qproperty-pressPic: url(:/resources/light/images/album_press.png);
+}
+
+QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {
+    color: #FFFFFF;
+    font-size: 12px;
+}
+QLabel#CountLabel {
+    color: rgba(0, 0, 0, .7);
+    font-size: 11px;
+}
+
+QLabel#TooltipCountLabel {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 130);
+}
+
+QLabel#AlbumInfoTipsLabel {
+    font-size: 12px;
+    color: rgba(0, 0, 0, .7);
+}
+
+QPushButton#ActionButton {
+    font-size: 12px;
+}
+
+TopAlbumTips {
+    height: 24px;
+    border-image: url(:/resources/light/images/lineargradient.png) repeat;
+}
+
+QLabel#BTopLightLine{
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+QLabel#BTopDarkLine{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+QLabel#BtmLightLine{
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+QLabel#CurrentDirLabel {
+    color: rgba(255, 255, 255, .6);
+    font-size: 12px;
+    text-align: center;
+}

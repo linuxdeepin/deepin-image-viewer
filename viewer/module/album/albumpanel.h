@@ -4,6 +4,8 @@
 #include "albumsview.h"
 #include "imagesview.h"
 #include "module/modulepanel.h"
+#include "controller/viewerthememanager.h"
+
 #include <QStackedWidget>
 #include <QPointer>
 
@@ -46,7 +48,7 @@ private:
     void updateAlbumCount();
     void updateImagesCount(bool fromDB = false);
     void updateSliderValue(bool increase);
-
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     QString m_currentAlbum;
     QPointer<QLabel> m_countLabel;

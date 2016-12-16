@@ -13,4 +13,4 @@ SOURCES += \
     $$PWD/topalbumtips.cpp
 
 RESOURCES += \
-    $$PWD/album.qrc
+    $$PWD/albumtheme.qrc

@@ -40,8 +40,8 @@ AlbumPanel::AlbumPanel(QWidget *parent)
     : ModulePanel(parent)
 {
     setAcceptDrops(true);
-    initMainStackWidget();
     initStyleSheet();
+    initMainStackWidget();
     initConnection();
 }
 
@@ -85,10 +85,8 @@ QWidget *AlbumPanel::toolbarBottomContent()
     updateImagesCount(true);
 
     ImageButton *ib = new ImageButton;
+    ib->setObjectName("ImportBtn");
     ib->setToolTip(tr("Import"));
-    ib->setNormalPic(":/images/resources/images/import_normal.png");
-    ib->setHoverPic(":/images/resources/images/import_hover.png");
-    ib->setPressPic(":/images/resources/images/import_press.png");
     connect(ib, &DImageButton::clicked, this, [=] {
         if (m_stackWidget->currentWidget() == m_imagesView) {
             dApp->importer->showImportDialog(m_imagesView->getCurrentAlbum());
@@ -187,10 +185,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
     if (m_stackWidget->currentWidget() == m_imagesView) {
 
         ImageButton *returnButton = new ImageButton();
-
-        returnButton->setNormalPic(":/images/resources/images/return_normal.png");
-        returnButton->setHoverPic(":/images/resources/images/return_hover.png");
-        returnButton->setPressPic(":/images/resources/images/return_press.png");
+        returnButton->setObjectName("ReturnBtn");
         connect(returnButton, &ImageButton::clicked, this, [=] {
             m_stackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
@@ -226,10 +221,9 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 QWidget *AlbumPanel::toolbarTopMiddleContent()
 {
     QWidget *tTopMiddleContent = new QWidget;
-
+    tTopMiddleContent->setStyleSheet(this->styleSheet());
     ImageButton *timelineButton = new ImageButton();
-    timelineButton->setNormalPic(":/images/resources/images/timeline_normal.png");
-    timelineButton->setHoverPic(":/images/resources/images/timeline_hover.png");
+    timelineButton->setObjectName("TimelineBtn");
     connect(timelineButton, &ImageButton::clicked, this, [=] {
         qDebug() << "Change to Timeline Panel...";
         emit dApp->signalM->gotoTimelinePanel();
@@ -237,9 +231,7 @@ QWidget *AlbumPanel::toolbarTopMiddleContent()
     timelineButton->setToolTip(tr("Timeline"));
 
     ImageButton *albumButton = new ImageButton();
-    albumButton->setNormalPic(":/images/resources/images/album_press.png");
-    albumButton->setHoverPic(":/images/resources/images/album_press.png");
-    albumButton->setPressPic(":/images/resources/images/album_press.png");
+    albumButton->setObjectName("AlbumBtn");
     albumButton->setTooltipVisible(true);
 
     connect(albumButton, &ImageButton::clicked, this, [=]{
@@ -396,20 +388,30 @@ void AlbumPanel::initImagesView()
             onInsertIntoAlbum(info);
         }
     });
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &AlbumPanel::onThemeChanged);
 }
 
 void AlbumPanel::initStyleSheet()
 {
-    QFile sf(":/qss/resources/qss/album.qss");
-    if (!sf.open(QIODevice::ReadOnly)) {
-        qWarning() << "Open style-sheet file error:" << sf.errorString();
-        return;
+    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+        setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/album.qss"));
+    } else {
+
+        setStyleSheet(utils::base::getFileContent(":/resources/light/qss/album.qss"));
     }
 
-    setStyleSheet(QString(sf.readAll()));
-    sf.close();
 }
 
+void AlbumPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/album.qss"));
+    } else {
+        setStyleSheet(utils::base::getFileContent(":/resources/light/qss/album.qss"));
+    }
+
+//    m_stackWidget->setStyleSheet("background-color: red;");
+}
 void AlbumPanel::updateImagesCount(bool fromDB)
 {
     if (m_countLabel.isNull())

@@ -18,14 +18,32 @@ QPushButton#ImportFromTimelineButton:pressed {
     color: #01BDFF;
 }
 
-QListView {
-    background: #1B1B1B;
-    border:none;
-}
-
 QLabel#ImportFrameTooltip {
     color: #616161;
     font-size: 12px;
+}
+
+ImageButton#ReturnBtn {
+    qproperty-normalPic: url(:/resources/dark/images/return_normal.png);
+    qproperty-hoverPic: url(:/resources/dark/images/return_hover.png);
+    qproperty-pressPic: url(:/resources/dark/images/return_press.png);
+}
+
+ImageButton#TimelineBtn {
+    qproperty-normalPic: url(:/resources/dark/images/timeline_normal.png);
+    qproperty-hoverPic: url(:/resources/dark/images/timeline_hover.png);
+}
+
+ImageButton#AlbumBtn {
+    qproperty-normalPic: url(:/resources/dark/images/album_press.png);
+    qproperty-hoverPic: url(:/resources/dark/images/album_press.png);
+    qproperty-pressPic: url(:/resources/dark/images/album_press.png);
+}
+
+ImageButton#ImportBtn {
+    qproperty-normalPic: url(:/resources/dark/images/import_normal.png);
+    qproperty-hoverPic: url(:/resources/dark/images/import_hover.png);
+    qproperty-pressPic: url(:/resources/dark/images/import_press.png);
 }
 
 QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {
@@ -61,7 +79,7 @@ QPushButton#ActionButton {
 
 TopAlbumTips {
     height: 24px;
-    border-image: url(:/images/resources/images/lineargradient.png) repeat;
+    border-image: url(:/resources/dark/images/lineargradient.png) repeat;
 }
 
 QLabel#BTopLightLine{

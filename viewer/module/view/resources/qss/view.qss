@@ -16,6 +16,7 @@ SimpleFormLabel {
 
 QScrollArea#ImageInfoScrollArea {
     background: rgba(0, 0, 0, .2);
+    border:none;
 }
 
 QPushButton#ShowExtendInfoButton {

@@ -12,19 +12,21 @@
 
 namespace {
 
-const QColor BG_COLOR_NORMAL = QColor(255, 255, 255, 0);
-const QColor BG_COLOR_HOVER = QColor(255, 255, 255, 26);
-const QColor BG_COLOR_SELECTED = QColor(255, 255, 255, 0);//QColor(0, 188, 255, 128);
+//const QColor BG_COLOR_NORMAL = QColor(255, 255, 255, 0);
+//const QColor BG_COLOR_HOVER = QColor(255, 255, 255, 26);
+//const QColor BG_COLOR_SELECTED = QColor(255, 255, 255, 0);//QColor(0, 188, 255, 128);
 
-const QColor BORDER_COLOR_NORMAL = QColor(255, 255, 255, 0);
-const QColor BORDER_COLOR_HOVER = QColor(255, 255, 255, 26);
-const QColor BORDER_COLOR_SELECTED = QColor(255, 255, 255, 0);//QColor("#01bdff");
+//const QColor BORDER_COLOR_NORMAL = QColor(255, 255, 255, 0);
+//const QColor BORDER_COLOR_HOVER = QColor(255, 255, 255, 26);
+//const QColor BORDER_COLOR_SELECTED = QColor(255, 255, 255, 0);//QColor("#01bdff");
 
 const int BORDER_WIDTH = 1;
 const int BORDER_RADIUS = 5;
 
 const int TITLE_FONT_SIZE = 12;
-const QColor TITLE_COLOR = QColor(255, 255, 255);
+const QColor DARK_TITLE_COLOR = QColor(255, 255, 255);
+const QColor LIGHT_TITLE_COLOR = QColor(48, 48, 48);
+
 const QColor TITLE_SELECTED_COLOR = QColor("#2ca7f8");
 const int TITLE_EDIT_MARGIN = 20;
 
@@ -34,15 +36,69 @@ const int TEXTRECT_MARGIN = 20;
 const int ALBUMNAME_FONTSIZE = 12;
 
 //const int DATELABEL_FONT_SIZE = 9;
-const QColor DATELABEL_COLOR = QColor(255, 255, 255, 153);
+const QColor DARK_DATELABEL_COLOR = QColor(255, 255, 255, 153);
+const QColor LIGHT_DATELABEL_COLOR = QColor(48, 48, 48, 255);
 
+const QString DARK_CREATEALBUM_NORMALPIC = ":/resources/dark/images/"
+                                           "create_album_normal.png";
+const QString DARK_CREATEALBUM_HOVERPIC = ":/resources/dark/images/"
+                                          "create_album_hover.png";
+const QString DARK_CREATEALBUM_PRESSPIC = ":/resources/dark/images/"
+                                          "create_album_press.png";
+const QString LIGHT_CREATEALBUM_NORMALPIC = ":/resources/light/images/"
+                                           "create_album_normal.png";
+const QString LIGHT_CREATEALBUM_HOVERPIC = ":/resources/light/images/"
+                                          "create_album_hover.png";
+const QString LIGHT_CREATEALBUM_PRESSPIC = ":/resources/light/images/"
+                                          "create_album_press.png";
+
+const QString DARK_ADDPIC = ":/resources/dark/images/album_add.png";
+const QString LIGHT_ADDPIC = ":/resources/light/images/album_add.png";
+
+const QString DARK_ALBUM_BG_NORMALPIC = ":/resources/dark/images/"
+                                        "album_bg_normal.png";
+const QString DARK_ALBUM_BG_PRESSPIC = ":/resources/dark/images/"
+                                       "album_bg_press.png";
+
+const QString LIGHT_ALBUM_BG_NORMALPIC = ":/resources/light/images/"
+                                        "album_bg_normal.png";
+const QString LIGHT_ALBUM_BG_HOVERPIC = ":/resources/light/images/"
+                                       "album_bg_hover.png";
+const QString LIGHT_ALBUM_BG_PRESSPIC = ":/resources/light/images/"
+                                       "album_bg_press.png";
 }
 
 AlbumDelegate::AlbumDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
     , m_editingIndex(QModelIndex())
 {
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &AlbumDelegate::onThemeChanged);
+}
 
+void AlbumDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        m_titleColor = DARK_TITLE_COLOR;
+        m_dateColor = DARK_DATELABEL_COLOR;
+        m_createAlbumNormalPic = DARK_CREATEALBUM_NORMALPIC;
+        m_createAlbumHoverPic = DARK_CREATEALBUM_HOVERPIC;
+        m_createAlbumPressPic = DARK_CREATEALBUM_PRESSPIC;
+
+        m_addPic = DARK_ADDPIC;
+        m_albumBgNormalPic = DARK_ALBUM_BG_NORMALPIC;
+        m_albumBgPressPic = DARK_ALBUM_BG_PRESSPIC;
+    } else {
+        m_titleColor = LIGHT_TITLE_COLOR;
+        m_dateColor = LIGHT_DATELABEL_COLOR;
+        m_createAlbumNormalPic = LIGHT_CREATEALBUM_NORMALPIC;
+        m_createAlbumHoverPic = LIGHT_CREATEALBUM_HOVERPIC;
+        m_createAlbumPressPic = LIGHT_CREATEALBUM_PRESSPIC;
+
+        m_addPic = LIGHT_ADDPIC;
+        m_albumBgNormalPic = LIGHT_ALBUM_BG_NORMALPIC;
+        m_albumBgPressPic = LIGHT_ALBUM_BG_PRESSPIC;
+    }
 }
 
 QWidget *AlbumDelegate::createEditor(QWidget *parent,
@@ -64,6 +120,7 @@ QWidget *AlbumDelegate::createEditor(QWidget *parent,
             this, &AlbumDelegate::onEditFinished);
 
     m_editingIndex = index;
+
     return lineEdit;
 }
 
@@ -157,18 +214,17 @@ void AlbumDelegate::paint(QPainter *painter,
         drawTitle(option, index, painter);
     }
     else {
-        QString createIcon = ":/images/resources/images/"
-                             "create_album_normal.png";
+        QString createIcon = m_createAlbumNormalPic;
         if ((option.state & QStyle::State_MouseOver) &&
                 (option.state & QStyle::State_Selected) == 0) {
-            createIcon = ":/images/resources/images/create_album_hover.png";
+            createIcon = m_createAlbumHoverPic;
         }
 
         QPixmap cip = QPixmap(createIcon).scaled(pixmapSize, pixmapSize);
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN,
                             rect.y() + THUMBNAIL_BG_MARGIN,
                             pixmapSize, pixmapSize, cip);
-        QPixmap plus = QPixmap(":/images/resources/images/album_add.png");
+        QPixmap plus = QPixmap(m_addPic);
         int plusX =  (cip.width() -plus.width()) / 2;
         int plusY = (cip.height() -plus.height()) / 2;
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN + plusX,rect.y() +
@@ -183,35 +239,35 @@ QSize AlbumDelegate::sizeHint(const QStyleOptionViewItem &option,
     return index.model()->data(index, Qt::SizeHintRole).toSize();
 }
 
-void AlbumDelegate::drawBG(const QStyleOptionViewItem &option,
-                           QPainter *painter) const
-{
-    QRect rect = option.rect;
-    rect.setSize(QSize(rect.width() - 1, rect.height() - 1));
+//void AlbumDelegate::drawBG(const QStyleOptionViewItem &option,
+//                           QPainter *painter) const
+//{
+//    QRect rect = option.rect;
+//    rect.setSize(QSize(rect.width() - 1, rect.height() - 1));
 
-    QColor bgColor;
-    QColor borderColor;
-    if ((option.state & QStyle::State_MouseOver) &&
-            (option.state & QStyle::State_Selected) == 0) {
-        bgColor = BG_COLOR_HOVER;
-        borderColor = BORDER_COLOR_HOVER;
-    }
-    else if (option.state & QStyle::State_Selected) {
-        bgColor = BG_COLOR_SELECTED;
-        borderColor = BORDER_COLOR_SELECTED;
-    }
-    else {
-        bgColor = BG_COLOR_NORMAL;
-        borderColor = BORDER_COLOR_NORMAL;
-    }
-    QPainterPath bgPath;
-    bgPath.addRoundedRect(rect.x(), rect.y(), rect.width(), rect.height(),
-                          BORDER_RADIUS, BORDER_RADIUS);
-    painter->fillPath(bgPath, QBrush(bgColor));
-    QPen borderPen(QBrush(borderColor), BORDER_WIDTH);
-    painter->setPen(borderPen);
-    painter->drawPath(bgPath);
-}
+//    QColor bgColor;
+//    QColor borderColor;
+//    if ((option.state & QStyle::State_MouseOver) &&
+//            (option.state & QStyle::State_Selected) == 0) {
+//        bgColor = BG_COLOR_HOVER;
+//        borderColor = BORDER_COLOR_HOVER;
+//    }
+//    else if (option.state & QStyle::State_Selected) {
+//        bgColor = BG_COLOR_SELECTED;
+//        borderColor = BORDER_COLOR_SELECTED;
+//    }
+//    else {
+//        bgColor = BG_COLOR_NORMAL;
+//        borderColor = BORDER_COLOR_NORMAL;
+//    }
+//    QPainterPath bgPath;
+//    bgPath.addRoundedRect(rect.x(), rect.y(), rect.width(), rect.height(),
+//                          BORDER_RADIUS, BORDER_RADIUS);
+//    painter->fillPath(bgPath, QBrush(bgColor));
+//    QPen borderPen(QBrush(borderColor), BORDER_WIDTH);
+//    painter->setPen(borderPen);
+//    painter->drawPath(bgPath);
+//}
 
 void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
                               const QModelIndex &index,
@@ -221,7 +277,7 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         QRect rect = option.rect;
         QFont font;
         font.setPixelSize(TITLE_FONT_SIZE);
-        QPen titlePen(TITLE_COLOR);
+        QPen titlePen(m_titleColor);
 
         QList<QVariant> datas = index.model()->data(index,
                                                     Qt::DisplayRole).toList();
@@ -282,13 +338,13 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     QSize bgSize;
     bgSize.setWidth(option.rect.width() - THUMBNAIL_BG_MARGIN * 2);
     bgSize.setHeight(bgSize.width());
-    QString bgFilePath = ":/images/resources/images/album_bg_normal.png";
+    QString bgFilePath = m_albumBgNormalPic;
     if ((option.state & QStyle::State_MouseOver) &&
             (option.state & QStyle::State_Selected) == 0) {
-        bgFilePath = ":/images/resources/images/album_bg_hover.png";
+        bgFilePath = m_albumBgNormalPic;
     }
     else if (option.state & QStyle::State_Selected && m_editingIndex != index) {
-        bgFilePath = ":/images/resources/images/album_bg_selected.png";
+        bgFilePath = m_albumBgPressPic;
     }
     QPixmap bgPixmap = QPixmap(bgFilePath).scaled(bgSize,
                                                   Qt::KeepAspectRatio,
@@ -312,15 +368,15 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     // Draw special mark
     int markSize = tRect.width() * 0.5;
     if (albumName == "Recent imported") {
-        QPixmap p = QPixmap(":/images/resources/images/"
-            "album_recent_imported.png").scaled(markSize, markSize,
+        QPixmap p = QPixmap(":/resources/dark/images/"
+                    "album_recent_imported.png").scaled(markSize, markSize,
             Qt::KeepAspectRatio, Qt::SmoothTransformation);
         painter.drawPixmap(tRect.x() + (tRect.width() - markSize) / 2,
                            tRect.y() + (tRect.height() - markSize) / 2,
                            markSize, markSize, p);
     }
     else if (albumName == "My favorites") {
-        QPixmap p = QPixmap(":/images/resources/images/album_favorites.png")
+        QPixmap p = QPixmap(":/resources/dark/images/album_favorites.png")
                 .scaled(markSize, markSize,
                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
         painter.drawPixmap(tRect.x() + (tRect.width() - markSize) / 2,
@@ -332,7 +388,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     const QString title = yearTitle(beginTime, endTime);
     QFont font;
     font.setPixelSize(bgSize.height() * 0.068);
-    QPen titlePen(DATELABEL_COLOR);
+    QPen titlePen(m_dateColor);
     painter.setFont(font);
     painter.setPen(titlePen);
     painter.drawText(yearTitleRect(bgSize, title), title,
