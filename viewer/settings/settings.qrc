@@ -10,62 +10,6 @@
         <file>resources/qss/settings.qss</file>
     </qresource>
     <qresource prefix="/settings/images/slideshow">
-        <file>resources/images/slideshow/Circle/0.png</file>
-        <file>resources/images/slideshow/Circle/1.png</file>
-        <file>resources/images/slideshow/Circle/2.png</file>
-        <file>resources/images/slideshow/Circle/3.png</file>
-        <file>resources/images/slideshow/Circle/4.png</file>
-        <file>resources/images/slideshow/Circle/5.png</file>
-        <file>resources/images/slideshow/Circle/6.png</file>
-        <file>resources/images/slideshow/Circle/7.png</file>
-        <file>resources/images/slideshow/Circle/8.png</file>
-        <file>resources/images/slideshow/Circle/9.png</file>
-        <file>resources/images/slideshow/Circle/10.png</file>
-        <file>resources/images/slideshow/Circle/11.png</file>
-        <file>resources/images/slideshow/Circle/12.png</file>
-        <file>resources/images/slideshow/Circle/13.png</file>
-        <file>resources/images/slideshow/Circle/14.png</file>
-        <file>resources/images/slideshow/Circle/15.png</file>
-        <file>resources/images/slideshow/Circle/16.png</file>
-        <file>resources/images/slideshow/Circle/17.png</file>
-        <file>resources/images/slideshow/Circle/18.png</file>
-        <file>resources/images/slideshow/Circle/19.png</file>
-        <file>resources/images/slideshow/Circle/20.png</file>
-        <file>resources/images/slideshow/Circle/21.png</file>
-        <file>resources/images/slideshow/Circle/22.png</file>
-        <file>resources/images/slideshow/Circle/23.png</file>
-        <file>resources/images/slideshow/Circle/24.png</file>
-        <file>resources/images/slideshow/Circle/25.png</file>
-        <file>resources/images/slideshow/Circle/26.png</file>
-        <file>resources/images/slideshow/Circle/27.png</file>
-        <file>resources/images/slideshow/Circle/28.png</file>
-        <file>resources/images/slideshow/Circle/29.png</file>
-        <file>resources/images/slideshow/Circle/30.png</file>
-        <file>resources/images/slideshow/Circle/31.png</file>
-        <file>resources/images/slideshow/Circle/32.png</file>
-        <file>resources/images/slideshow/Circle/33.png</file>
-        <file>resources/images/slideshow/Circle/34.png</file>
-        <file>resources/images/slideshow/Circle/35.png</file>
-        <file>resources/images/slideshow/Circle/36.png</file>
-        <file>resources/images/slideshow/Circle/37.png</file>
-        <file>resources/images/slideshow/Circle/38.png</file>
-        <file>resources/images/slideshow/Circle/39.png</file>
-        <file>resources/images/slideshow/Circle/40.png</file>
-        <file>resources/images/slideshow/Circle/41.png</file>
-        <file>resources/images/slideshow/Circle/42.png</file>
-        <file>resources/images/slideshow/Circle/43.png</file>
-        <file>resources/images/slideshow/Circle/44.png</file>
-        <file>resources/images/slideshow/Circle/45.png</file>
-        <file>resources/images/slideshow/Circle/46.png</file>
-        <file>resources/images/slideshow/Circle/47.png</file>
-        <file>resources/images/slideshow/Circle/48.png</file>
-        <file>resources/images/slideshow/Circle/49.png</file>
-        <file>resources/images/slideshow/Circle/50.png</file>
-        <file>resources/images/slideshow/Circle/51.png</file>
-        <file>resources/images/slideshow/Circle/52.png</file>
-        <file>resources/images/slideshow/Circle/53.png</file>
-        <file>resources/images/slideshow/Circle/54.png</file>
-        <file>resources/images/slideshow/Circle/55.png</file>
         <file>resources/images/slideshow/Blinds/0.png</file>
         <file>resources/images/slideshow/Blinds/1.png</file>
         <file>resources/images/slideshow/Blinds/2.png</file>
@@ -122,6 +66,62 @@
         <file>resources/images/slideshow/Blinds/53.png</file>
         <file>resources/images/slideshow/Blinds/54.png</file>
         <file>resources/images/slideshow/Blinds/55.png</file>
+        <file>resources/images/slideshow/Circle/0.png</file>
+        <file>resources/images/slideshow/Circle/1.png</file>
+        <file>resources/images/slideshow/Circle/2.png</file>
+        <file>resources/images/slideshow/Circle/3.png</file>
+        <file>resources/images/slideshow/Circle/4.png</file>
+        <file>resources/images/slideshow/Circle/5.png</file>
+        <file>resources/images/slideshow/Circle/6.png</file>
+        <file>resources/images/slideshow/Circle/7.png</file>
+        <file>resources/images/slideshow/Circle/8.png</file>
+        <file>resources/images/slideshow/Circle/9.png</file>
+        <file>resources/images/slideshow/Circle/10.png</file>
+        <file>resources/images/slideshow/Circle/11.png</file>
+        <file>resources/images/slideshow/Circle/12.png</file>
+        <file>resources/images/slideshow/Circle/13.png</file>
+        <file>resources/images/slideshow/Circle/14.png</file>
+        <file>resources/images/slideshow/Circle/15.png</file>
+        <file>resources/images/slideshow/Circle/16.png</file>
+        <file>resources/images/slideshow/Circle/17.png</file>
+        <file>resources/images/slideshow/Circle/18.png</file>
+        <file>resources/images/slideshow/Circle/19.png</file>
+        <file>resources/images/slideshow/Circle/20.png</file>
+        <file>resources/images/slideshow/Circle/21.png</file>
+        <file>resources/images/slideshow/Circle/22.png</file>
+        <file>resources/images/slideshow/Circle/23.png</file>
+        <file>resources/images/slideshow/Circle/24.png</file>
+        <file>resources/images/slideshow/Circle/25.png</file>
+        <file>resources/images/slideshow/Circle/26.png</file>
+        <file>resources/images/slideshow/Circle/27.png</file>
+        <file>resources/images/slideshow/Circle/28.png</file>
+        <file>resources/images/slideshow/Circle/29.png</file>
+        <file>resources/images/slideshow/Circle/30.png</file>
+        <file>resources/images/slideshow/Circle/31.png</file>
+        <file>resources/images/slideshow/Circle/32.png</file>
+        <file>resources/images/slideshow/Circle/33.png</file>
+        <file>resources/images/slideshow/Circle/34.png</file>
+        <file>resources/images/slideshow/Circle/35.png</file>
+        <file>resources/images/slideshow/Circle/36.png</file>
+        <file>resources/images/slideshow/Circle/37.png</file>
+        <file>resources/images/slideshow/Circle/38.png</file>
+        <file>resources/images/slideshow/Circle/39.png</file>
+        <file>resources/images/slideshow/Circle/40.png</file>
+        <file>resources/images/slideshow/Circle/41.png</file>
+        <file>resources/images/slideshow/Circle/42.png</file>
+        <file>resources/images/slideshow/Circle/43.png</file>
+        <file>resources/images/slideshow/Circle/44.png</file>
+        <file>resources/images/slideshow/Circle/45.png</file>
+        <file>resources/images/slideshow/Circle/46.png</file>
+        <file>resources/images/slideshow/Circle/47.png</file>
+        <file>resources/images/slideshow/Circle/48.png</file>
+        <file>resources/images/slideshow/Circle/49.png</file>
+        <file>resources/images/slideshow/Circle/50.png</file>
+        <file>resources/images/slideshow/Circle/51.png</file>
+        <file>resources/images/slideshow/Circle/52.png</file>
+        <file>resources/images/slideshow/Circle/53.png</file>
+        <file>resources/images/slideshow/Circle/54.png</file>
+        <file>resources/images/slideshow/Circle/55.png</file>
         <file>resources/images/slideshow/Slide/0.png</file>
         <file>resources/images/slideshow/Slide/1.png</file>
         <file>resources/images/slideshow/Slide/2.png</file>

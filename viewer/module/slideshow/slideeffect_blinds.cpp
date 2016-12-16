@@ -28,6 +28,9 @@ class SlideEffect_Blinds : public SlideEffect
 {
 public:
     virtual bool prepare();
+    virtual EffectName effectName() const {
+        return Blinds;
+    }
     virtual QVector<EffectId> supportedTypes() const {
         return QVector<EffectId>() << kBlindsBottomToTop << kBlindsLeftToRight
                 << kBlindsRightToLeft << kBlindsTopToBottom;

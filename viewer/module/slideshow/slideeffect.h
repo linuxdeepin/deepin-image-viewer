@@ -31,6 +31,12 @@ class SlideEffect : public QObject
 {
     Q_OBJECT
 public:
+    enum EffectName {
+        Blinds,
+        Switcher,
+        Slide,
+        Circle
+    };
     // default id will return an object randomly
     static SlideEffect* create(const EffectId& id = EffectId());
     template<class C> static void registerEffect(const EffectId& id) {
@@ -52,6 +58,7 @@ public:
 /*!
   Some class may have several effect types.
 */
+    virtual EffectName effectName() const = 0;
     virtual QVector<EffectId> supportedTypes() const = 0;
     void setSpeed(qreal s);
     void setFrames(int frames);

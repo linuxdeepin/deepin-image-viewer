@@ -28,6 +28,9 @@ class SlideEffect_Enter : public SlideEffect
 {
 public:
     virtual bool prepare();
+    virtual EffectName effectName() const {
+        return Slide;
+    }
     virtual QVector<EffectId> supportedTypes() const {
         return QVector<EffectId>() << kEnterFromBottom << kEnterFromLeft
                  << kEnterFromRight  << kEnterFromTop;
@@ -46,6 +49,7 @@ private:
     typedef void (SlideEffect_Enter::*calculateRegion_Func)(qreal);
     calculateRegion_Func calculateRegion_ptr;
 };
+
 REGISTER_EFFECTS(SlideEffect_Enter)
 
 bool SlideEffect_Enter::prepare()

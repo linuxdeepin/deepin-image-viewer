@@ -1,8 +1,18 @@
 #include "slideeffectplayer.h"
-#include <QtCore/QTimerEvent>
-#include <QtDebug>
+#include "application.h"
+#include "controller/configsetter.h"
+#include <QDebug>
 #include <QFileInfo>
+#include <QTimerEvent>
 #include <QPainter>
+
+namespace {
+
+const QString DURATION_SETTING_GROUP = "SLIDESHOWDURATION";
+const QString DURATION_SETTING_KEY = "Duration";
+const int ANIMATION_DURATION  = 1000;
+
+} // namespace
 
 SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
     : QObject(parent)
@@ -19,6 +29,12 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
     if (! startNext()) {
         stop();
     }
+}
+
+int SlideEffectPlayer::duration() const
+{
+    return dApp->setter->value(DURATION_SETTING_GROUP,
+                               DURATION_SETTING_KEY).toInt() * 1000;
 }
 
 void SlideEffectPlayer::setFrameSize(int width, int height)
@@ -57,7 +73,7 @@ void SlideEffectPlayer::start()
     if (m_paths.isEmpty())
         return;
     m_running = true;
-    m_tid = startTimer(2500);
+    m_tid = startTimer(duration());
 }
 
 bool SlideEffectPlayer::startNext()
@@ -85,6 +101,7 @@ bool SlideEffectPlayer::startNext()
 
     QString newPath = currentImagePath();
     m_effect = SlideEffect::create();
+    m_effect->setDuration(ANIMATION_DURATION);
     m_effect->setSize(fSize);
 
     m_effect->setImages(oldPath, newPath);

@@ -1,5 +1,5 @@
 /******************************************************************************
-    SlideEffect_Center: Open from or close to center effect.
+    SlideEffect_Circle: Open from or close to center effect.
     Copyright (C) 2011-2013 Wang Bin <wbsecg1@gmail.com>
 
 	This program is free software; you can redistribute it and/or modify
@@ -21,19 +21,18 @@
 #include <cmath>
 #include <QtGui/QMatrix>
 
-static const EffectId kEllipseOpen = "ellipse_open"; static const EffectId kEllipseClose = "ellipse_close";
-static const EffectId kHorizontalOpen = "horizontal_open";
-static const EffectId kHorizontalClose = "horizontal_close";
-static const EffectId kVerticalOpen = "vertical_open";
-static const EffectId kVerticalClose = "vertical_close";
-class SlideEffect_Center : public SlideEffect
+static const EffectId kEllipseOpen = "ellipse_open";
+static const EffectId kEllipseClose = "ellipse_close";
+class SlideEffect_Circle : public SlideEffect
 {
 public:
-    SlideEffect_Center();
+    SlideEffect_Circle();
     virtual bool prepare();
+    virtual EffectName effectName() const {
+        return Circle;
+    }
     virtual QVector<EffectId> supportedTypes() const {
-        return QVector<EffectId>() << kEllipseClose << kEllipseOpen
-                << kHorizontalOpen << kHorizontalClose << kVerticalOpen << kVerticalClose;
+        return QVector<EffectId>() << kEllipseClose << kEllipseOpen;
     }
 
 protected:
@@ -43,41 +42,28 @@ protected:
 private:
     bool prepareFrameAt_EllipseOpen(int frame);
     bool prepareFrameAt_EllipseClose(int frame);
-    bool prepareFrameAt_HorizontalOpen(int frame);
-    bool prepareFrameAt_HorizontalClose(int frame);
-    bool prepareFrameAt_VerticalOpen(int frame);
-    bool prepareFrameAt_VerticalClose(int frame);
     //bool prepareFrameAt_RectZoomOpen(int frame);
 
-    typedef bool (SlideEffect_Center::*prepareFrameAt_Func)(int);
+    typedef bool (SlideEffect_Circle::*prepareFrameAt_Func)(int);
     prepareFrameAt_Func func;
 };
-REGISTER_EFFECTS(SlideEffect_Center)
 
-SlideEffect_Center::SlideEffect_Center()
+REGISTER_EFFECTS(SlideEffect_Circle)
+
+SlideEffect_Circle::SlideEffect_Circle()
 {
 #ifndef NO_EASINGCURVE
 	setEasingCurve(QEasingCurve::InOutQuint);
 #endif //NO_EASINGCURVE
 }
 
-bool SlideEffect_Center::prepare()
+bool SlideEffect_Circle::prepare()
 {
     SlideEffect::prepare(); //Important!!!
     if (effect_type == kEllipseOpen) {
-        func = &SlideEffect_Center::prepareFrameAt_EllipseOpen;
-    } else if (effect_type == kEllipseClose) {
-        func = &SlideEffect_Center::prepareFrameAt_EllipseClose;
-    } else if (effect_type == kHorizontalOpen) {
-        func = &SlideEffect_Center::prepareFrameAt_HorizontalOpen;
-    } else if (effect_type == kHorizontalClose) {
-        func = &SlideEffect_Center::prepareFrameAt_HorizontalClose;
-    } else if (effect_type == kVerticalOpen) {
-        func = &SlideEffect_Center::prepareFrameAt_VerticalOpen;
-    } else if (effect_type == kVerticalClose) {
-        func = &SlideEffect_Center::prepareFrameAt_VerticalClose;
+        func = &SlideEffect_Circle::prepareFrameAt_EllipseOpen;
     } else {
-        func = &SlideEffect_Center::prepareFrameAt_VerticalOpen;
+        func = &SlideEffect_Circle::prepareFrameAt_EllipseClose;
     }
 
 	current_clip_region = QRegion();
@@ -86,13 +72,13 @@ bool SlideEffect_Center::prepare()
 	return true;
 }
 
-bool SlideEffect_Center::prepareFrameAt(int frame)
+bool SlideEffect_Circle::prepareFrameAt(int frame)
 {
     return (this->*func)(frame);
 }
 //TODO: to use easingcurve, the total steps must be fixed, k<=1;
 /*
-bool SlideEffect_Center::isEndFrame(int frame)
+bool SlideEffect_Circle::isEndFrame(int frame)
 {
 	//current_clip_region.isEmpty() is true at first frame
 	if (current_clip_region.isEmpty() && current_frame>1)
@@ -103,7 +89,7 @@ bool SlideEffect_Center::isEndFrame(int frame)
 	return false;
 }
 */
-bool SlideEffect_Center::prepareFrameAt_EllipseOpen(int frame)
+bool SlideEffect_Circle::prepareFrameAt_EllipseOpen(int frame)
 {
 	if (isEndFrame(frame))
 		return false;
@@ -131,7 +117,7 @@ bool SlideEffect_Center::prepareFrameAt_EllipseOpen(int frame)
 }
 
 //Circle -> ellipse
-bool SlideEffect_Center::prepareFrameAt_EllipseClose(int frame)
+bool SlideEffect_Circle::prepareFrameAt_EllipseClose(int frame)
 {
 	if (isEndFrame(frame))
 		return false;
@@ -147,46 +133,6 @@ bool SlideEffect_Center::prepareFrameAt_EllipseClose(int frame)
 	m.translate(-width*0.5, -height*0.5);
 	E = m.map(E);
 	current_clip_region = E & QRegion(0, 0, width, height);//the initial current_clip_region is null
-	next_clip_region = QRegion(0, 0, width, height) - current_clip_region;
-	return true;
-}
-
-bool SlideEffect_Center::prepareFrameAt_HorizontalOpen(int frame)
-{
-	if (isEndFrame(frame))
-		return false;
-	qreal k = easing_.valueForProgress(progress_);
-	next_clip_region = QRegion(width*(1.0-k)*0.5, 0, width*k, height);
-	current_clip_region = QRegion(0, 0, width, height) - next_clip_region;
-	return true;
-}
-
-bool SlideEffect_Center::prepareFrameAt_HorizontalClose(int frame)
-{
-	if (isEndFrame(frame))
-		return false;
-	qreal k = easing_.valueForProgress(progress_);
-	current_clip_region = QRegion(width*k*0.5, 0, width*(1.0-k), height);
-	next_clip_region = QRegion(0, 0, width, height) - current_clip_region;
-	return true;
-}
-
-bool SlideEffect_Center::prepareFrameAt_VerticalOpen(int frame)
-{
-	if (isEndFrame(frame))
-		return false;
-	qreal k = easing_.valueForProgress(progress_);
-	next_clip_region = QRegion(0, height*(1.0-k)*0.5, width, height*k);
-	current_clip_region = QRegion(0, 0, width, height) - next_clip_region;
-	return true;
-}
-
-bool SlideEffect_Center::prepareFrameAt_VerticalClose(int frame)
-{
-	if (isEndFrame(frame))
-		return false;
-	qreal k = easing_.valueForProgress(progress_);
-	current_clip_region = QRegion(0, height*k*0.5, width, height*(1.0-k));
 	next_clip_region = QRegion(0, 0, width, height) - current_clip_region;
 	return true;
 }

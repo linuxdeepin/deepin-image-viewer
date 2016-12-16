@@ -51,8 +51,7 @@ SlideshowPreview::SlideshowPreview(SlideshowEffect effect, QWidget *parent)
 {
     setFixedSize(MAX_WIDTH, MAX_HEIGHT);
 
-    m_checked = dApp->setter->value(SETTING_GROUP,
-        QString::number(m_effect), QVariant(true)).toBool();
+    m_checked = defaultValue();
 }
 
 void SlideshowPreview::paintEvent(QPaintEvent *e)
@@ -122,7 +121,11 @@ void SlideshowPreview::leaveEvent(QEvent *e)
 
 void SlideshowPreview::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton) {
+    // One effect at least
+    if (activedEffectCount() <= 1 && m_checked) {
+        QFrame::mousePressEvent(e);
+    }
+    else if (e->button() == Qt::LeftButton) {
         e->accept();
         dApp->setter->setValue(SETTING_GROUP, QString::number(m_effect),
                                QVariant(! m_checked));
@@ -131,9 +134,33 @@ void SlideshowPreview::mousePressEvent(QMouseEvent *e)
     }
 }
 
+int SlideshowPreview::activedEffectCount() const
+{
+    int count = 0;
+    QStringList keys = dApp->setter->keys(SETTING_GROUP);
+    for (QString key : keys) {
+        if (dApp->setter->value(SETTING_GROUP, key).toBool()) {
+            count ++;
+        }
+    }
+    return count;
+}
+
 bool SlideshowPreview::checked() const
 {
     return m_checked;
+}
+
+bool SlideshowPreview::defaultValue() const
+{
+    QVariant v = dApp->setter->value(SETTING_GROUP, QString::number(m_effect));
+    if (v.isNull()) {
+        dApp->setter->setValue(SETTING_GROUP, QString::number(m_effect), true);
+        return true;
+    }
+    else {
+        return v.toBool();
+    }
 }
 
 void SlideshowPreview::setChecked(bool checked)

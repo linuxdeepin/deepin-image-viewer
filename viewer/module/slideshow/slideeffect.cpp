@@ -1,7 +1,15 @@
 #include "slideeffect.h"
+#include "application.h"
+#include "controller/configsetter.h"
 #include "utils/imageutils.h"
-#include <qpainter.h>
+#include <QPainter>
 #include <QtCore/QTimerEvent>
+
+namespace {
+
+const QString EFFECT_SETTING_GROUP = "SLIDESHOWEFFECT";
+
+} // namespace
 
 QHash<EffectId, std::function<SlideEffect*()> > SlideEffect::effects;
 
@@ -9,11 +17,21 @@ SlideEffect* SlideEffect::create(const EffectId &id)
 {
     if (id == EffectId()) {
         srand(time(0));
-        QList<std::function<SlideEffect*()>> cs = effects.values();
-        const int idx = rand() % cs.size();
-        std::function<SlideEffect*()> c = cs.at(idx);
-        SlideEffect *e = c();
-        return e;
+        int count = 0; // To avoid find no match effect
+        while (true || count < 100) {
+            QList<std::function<SlideEffect*()>> cs = effects.values();
+            const int idx = rand() % cs.size();
+            std::function<SlideEffect*()> c = cs.at(idx);
+            SlideEffect *e = c();
+            // Check if effect should show
+            if (dApp->setter->value(EFFECT_SETTING_GROUP,
+                                    QString::number(e->effectName()),
+                                    true).toBool()) {
+                return e;
+            }
+            count ++;
+        }
+        return NULL;
     }
     if (effects.contains(id))
         return effects.value(id)();
@@ -31,7 +49,7 @@ void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
 
 SlideEffect::SlideEffect()
 {
-    duration_ms = 1500;
+    duration_ms = 800;
     tid = 0;
     mode = Qt::KeepAspectRatio;
     finished = false;
