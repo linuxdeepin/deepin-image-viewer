@@ -264,6 +264,8 @@ void TimelinePanel::initImagesView()
         emit dApp->signalM->viewImage(vinfo);
     });
 
+    connect(m_frame, &TimelineFrame::currentIndexChanged,
+            this, &TimelinePanel::updateMenuContents);
     connect(m_frame, &TimelineFrame::showMenu, this, [=] {
         updateMenuContents();
         m_menu->popup(QCursor::pos());

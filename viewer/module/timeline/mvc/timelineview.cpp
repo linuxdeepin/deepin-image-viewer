@@ -108,6 +108,12 @@ void TimelineView::updateView()
     updateVerticalScrollbar();
 }
 
+void TimelineView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    QAbstractItemView::currentChanged(current, previous);
+    emit currentIndexChanged(current);
+}
+
 QSize TimelineView::viewportSizeHint() const
 {
     int titleRowCount = model()->rowCount();
