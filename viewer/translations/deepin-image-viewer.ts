@@ -25,6 +25,33 @@
     </message>
 </context>
 <context>
+    <name>AlbumBTContent</name>
+    <message>
+        <source>image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>albums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Importing: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
@@ -88,22 +115,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>My favorites</source>
         <translation type="unfinished"></translation>
     </message>
@@ -143,6 +154,44 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BTContent</name>
+    <message>
+        <source>%1 image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Importing: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CancelImportDialog</name>
+    <message>
+        <source>Are you sure to close?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The close operation will terminate current import task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -522,19 +571,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -696,14 +733,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
@@ -825,15 +854,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Collecting information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 folders has been collected, please wait</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Setting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deep color mode</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

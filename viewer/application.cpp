@@ -35,7 +35,7 @@ void Application::initChildren()
 {
     setter = ConfigSetter::instance();
     exporter = Exporter::instance();
-    importer = Importer::instance();
+    importer = new Importer();
     signalM = SignalManager::instance();
     wpSetter = WallpaperSetter::instance();
     viewerTheme = ViewerThemeManager::instance();

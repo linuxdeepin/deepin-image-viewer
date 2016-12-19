@@ -9,7 +9,7 @@
 #include <QStackedWidget>
 #include <QPointer>
 
-class Slider;
+class AlbumBTContent;
 class ImportFrame;
 class AlbumPanel : public ModulePanel
 {
@@ -41,20 +41,16 @@ private:
     void initImagesView();
     void initStyleSheet();
 
-    void onImageCountChanged(int count);
+    void onImageCountChanged();
     void onInsertIntoAlbum(const DBImgInfo info);
     void showCreateDialog(QStringList imgpaths);
     void showImportDirDialog(const QString &dir);
-    void updateAlbumCount();
-    void updateImagesCount(bool fromDB = false);
-    void updateSliderValue(bool increase);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     QString m_currentAlbum;
-    QPointer<QLabel> m_countLabel;
-    Slider *m_slider;
 
     ImportFrame *m_importFrame;
+    QPointer<AlbumBTContent> m_mContent;
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;
     QStackedWidget *m_stackWidget = NULL;

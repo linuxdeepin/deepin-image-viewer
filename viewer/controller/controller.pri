@@ -1,5 +1,4 @@
 HEADERS += \
-    $$PWD/importer.h \
     $$PWD/signalmanager.h \
     $$PWD/wallpapersetter.h \
     $$PWD/commandline.h \
@@ -10,10 +9,10 @@ HEADERS += \
     $$PWD/dbmanager.h \
     $$PWD/popupdialogmanager.h \
     $$PWD/volumemonitor.h \
-    $$PWD/viewerthememanager.h
+    $$PWD/viewerthememanager.h \
+    $$PWD/importer.h
 
 SOURCES += \
-    $$PWD/importer.cpp \
     $$PWD/signalmanager.cpp \
     $$PWD/wallpapersetter.cpp \
     $$PWD/commandline.cpp \
@@ -24,4 +23,5 @@ SOURCES += \
     $$PWD/dbmanager.cpp \
     $$PWD/popupdialogmanager.cpp \
     $$PWD/volumemonitor.cpp \
-    $$PWD/viewerthememanager.cpp
+    $$PWD/viewerthememanager.cpp \
+    $$PWD/importer.cpp

@@ -81,7 +81,7 @@ void ThumbnailListView::updateThumbnails()
     // Update painting list
     viewport()->update();
 
-    m_thumbTimer->start();
+//    m_thumbTimer->start();
 }
 
 void ThumbnailListView::setIconSize(const QSize &size)
@@ -345,15 +345,15 @@ void ThumbnailListView::initThumbnailTimer()
     m_thumbTimer = new QTimer(this);
     m_thumbTimer->setSingleShot(true);
     m_thumbTimer->setInterval(1000);
-    connect(m_thumbTimer, &QTimer::timeout, this, [=] {
-        QStringList paths = m_delegate->paintingPaths();
-        if (! paths.isEmpty()) {
-            m_watcher.setPaused(false);
-            QFuture<QVariant> future = QtConcurrent::mapped(paths, generateThumbnail);
-            m_watcher.setFuture(future);
-            m_delegate->clearPaintingList();
-        }
-    });
+//    connect(m_thumbTimer, &QTimer::timeout, this, [=] {
+//        QStringList paths = m_delegate->paintingPaths();
+//        if (! paths.isEmpty()) {
+//            m_watcher.setPaused(false);
+//            QFuture<QVariant> future = QtConcurrent::mapped(paths, generateThumbnail);
+//            m_watcher.setFuture(future);
+//            m_delegate->clearPaintingList();
+//        }
+//    });
 
     connect(&m_watcher, SIGNAL(resultReadyAt(int)),
             this, SLOT(onThumbnailGenerated(int)));

@@ -65,7 +65,7 @@ QLabel#AddToAlbumTitle, QLabel#TooltipTimelineLabel {
     color: #FFFFFF;
 }
 
-QLabel#CountLabel {
+QLabel#CountLabel, QLabel#ImportLabel {
     color: rgba(255, 255, 255, .7);
     font-size: 11px;
 }
@@ -107,16 +107,4 @@ ImageButton#ImportBtn {
 
 QSlider::handle:vertical  {
     image: url(:/images/resources/images/slider_handle.svg)
-}
-
-QLabel#BTopLightLine{
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-QLabel#BTopDarkLine{
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-QLabel#BtmLightLine{
-    background-color: rgba(255, 255, 255, 0.02);
 }

@@ -5,6 +5,7 @@
 #include "controller/viewerthememanager.h"
 #include "settings/settingswindow.h"
 #include "widgets/dialogs/aboutdialog.h"
+#include "widgets/dialogs/cancelimportdialog.h"
 #include "utils/baseutils.h"
 #include "utils/shortcut.h"
 #include <darrowrectangle.h>
@@ -94,12 +95,6 @@ void TopToolbar::setMiddleContent(QWidget *content)
     }
 
     m_mLayout->addWidget(content);
-}
-
-void TopToolbar::resizeEvent(QResizeEvent *e)
-{
-    updateTipsPos();
-    BlurFrame::resizeEvent(e);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -199,30 +194,6 @@ void TopToolbar::initRightContent()
 
     m_layout->addWidget(w, 1, Qt::AlignRight);
 
-    // Collection progress
-    initImportTips();
-    DCircleProgress *cp = new DCircleProgress(this);
-    cp->setValue(0);
-    cp->setFixedSize(21, 21);
-    cp->setVisible(false);
-    connect(dApp->importer, &Importer::progressChanged, this, [=] (double p) {
-        cp->setVisible(p != 1);
-        if (p == 1) {
-            m_importTips->hide();
-        }
-        cp->setValue(p * 100);
-    });
-    connect(cp, &DCircleProgress::clicked, [=]{
-        if (m_importTips->isHidden()) {
-            m_importTips->setVisible(true);
-            m_importTips->setFocus();
-            updateTipsPos();
-        }
-        else {
-            m_importTips->hide();
-        }
-    });
-
     // Windows button
     DWindowOptionButton *optionBtn = new DWindowOptionButton;
     connect(optionBtn, &DWindowOptionButton::clicked, this, [=] {
@@ -243,7 +214,6 @@ void TopToolbar::initRightContent()
         if (parentWidget() && parentWidget()->parentWidget()) {
             parentWidget()->parentWidget()->showMinimized();
         }
-        m_importTips->hide();
     });
     DWindowMaxButton *maxBtn = new DWindowMaxButton;
     connect(maxBtn, &DWindowMaxButton::clicked, this, [=] {
@@ -257,42 +227,20 @@ void TopToolbar::initRightContent()
         }
     });
     DWindowCloseButton *closeBtn = new DWindowCloseButton;
-    connect(closeBtn, &DWindowCloseButton::clicked, qApp, &QApplication::quit);
+    connect(closeBtn, &DWindowCloseButton::clicked, this, [=] {
+        if (dApp->importer->isRunning()) {
+            CancelImportDialog *cd = new CancelImportDialog;
+            cd->show();
+        }
+        else {
+            dApp->quit();
+        }
+    });
 
-    m_rLayout->addWidget(cp);
     m_rLayout->addWidget(optionBtn);
     m_rLayout->addWidget(minBtn);
     m_rLayout->addWidget(maxBtn);
     m_rLayout->addWidget(closeBtn);
-}
-
-void TopToolbar::initImportTips()
-{
-    QString tipStr = tr("%1 folders has been collected, please wait");
-    m_importTips = new ImportTip;
-    m_importTips->setTitle(tr("Collecting information"));
-    m_importTips->setMessage(tipStr.arg(0));
-    m_importTips->hide();
-
-    connect(dApp, &DApplication::focusChanged, this, [=]{
-        if (! window()->hasFocus() && ! m_importTips->hasFocus()) {
-            m_importTips->hide();
-        }
-    });
-    connect(dApp->importer, &Importer::progressChanged,
-            [=](double per, int count) {
-        m_importTips->setValue(int(per*100));
-        m_importTips->setMessage(tipStr.arg(count));
-    });
-    connect(dApp->importer, &Importer::imported, [=](bool succeess){
-        if (succeess && m_importTips->isVisible()) {
-            m_importTips->hide();
-        }
-    });
-    connect(m_importTips, &ImportTip::stopProgress, [=]{
-        dApp->importer->cancel();
-        m_importTips->hide();
-    });
 }
 
 void TopToolbar::initWidgets()
@@ -348,12 +296,6 @@ void TopToolbar::onViewShortcut() {
 
     connect(shortcutViewProcess, SIGNAL(finished(int)),
             shortcutViewProcess, SLOT(deleteLater()));
-}
-
-void TopToolbar::updateTipsPos()
-{
-    m_importTips->move(window()->width() + window()->x() - m_importTips->width() / 2 + 42,
-                       mapToGlobal(QPoint(0, 0)).y() + TOP_TOOLBAR_HEIGHT - 10);
 }
 
 void TopToolbar::onAbout()

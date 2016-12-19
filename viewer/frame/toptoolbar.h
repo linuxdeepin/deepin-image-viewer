@@ -9,7 +9,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-class ImportTip;
 class SettingsWindow;
 class QHBoxLayout;
 class QProcess;
@@ -24,7 +23,6 @@ public:
     void setMiddleContent(QWidget *content);
 
 protected:
-    void resizeEvent(QResizeEvent *e) override;
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
 
@@ -46,11 +44,9 @@ private:
     void initLeftContent();
     void initMiddleContent();
     void initRightContent();
-    void initImportTips();
     void initMenu();
     void initShortcut();
     void initWidgets();
-    void updateTipsPos();
 
 private slots:
     void onAbout();
@@ -72,7 +68,6 @@ private:
     QHBoxLayout *m_mLayout;
     QHBoxLayout *m_rLayout;
 
-    ImportTip *m_importTips;
     SettingsWindow *m_settingsWindow;
     QMenu *m_menu;
 };

@@ -4,7 +4,8 @@ HEADERS += \
     $$PWD/mvc/timelineitem.h \
     $$PWD/mvc/timelinemodel.h \
     $$PWD/mvc/timelineview.h \
-    $$PWD/timelineframe.h
+    $$PWD/timelineframe.h \
+    $$PWD/contents/btcontent.h
 
 SOURCES += \
     $$PWD/timelinepanel.cpp \
@@ -13,7 +14,8 @@ SOURCES += \
     $$PWD/mvc/timelineitem.cpp \
     $$PWD/mvc/timelinemodel.cpp \
     $$PWD/mvc/timelineview.cpp \
-    $$PWD/timelineframe.cpp
+    $$PWD/timelineframe.cpp \
+    $$PWD/contents/btcontent.cpp
 
 RESOURCES += \
     $$PWD/timelinetheme.qrc

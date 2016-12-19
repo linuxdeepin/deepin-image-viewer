@@ -52,6 +52,33 @@
     </message>
 </context>
 <context>
+    <name>AlbumBTContent</name>
+    <message>
+        <source>image</source>
+        <translation>张图片</translation>
+    </message>
+    <message>
+        <source>images</source>
+        <translation>张图片</translation>
+    </message>
+    <message>
+        <source>album</source>
+        <translation>个相册</translation>
+    </message>
+    <message>
+        <source>albums</source>
+        <translation>个相册</translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation>导入</translation>
+    </message>
+    <message>
+        <source>Importing: </source>
+        <translation>正在导入：</translation>
+    </message>
+</context>
+<context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
@@ -116,19 +143,19 @@
     </message>
     <message>
         <source>image</source>
-        <translation>张图片</translation>
+        <translation type="vanished">张图片</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>张图片</translation>
+        <translation type="vanished">张图片</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>个相册</translation>
+        <translation type="vanished">个相册</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>个相册</translation>
+        <translation type="vanished">个相册</translation>
     </message>
     <message>
         <source>My favorites</source>
@@ -175,6 +202,44 @@
     <message>
         <source>Deepin Image Viewer</source>
         <translation>深度看图</translation>
+    </message>
+</context>
+<context>
+    <name>BTContent</name>
+    <message>
+        <source>%1 image</source>
+        <translation>%1 张图片</translation>
+    </message>
+    <message>
+        <source>%1 images</source>
+        <translation>%1 张图片</translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation>导入</translation>
+    </message>
+    <message>
+        <source>Importing: </source>
+        <translation>正在导入：</translation>
+    </message>
+</context>
+<context>
+    <name>CancelImportDialog</name>
+    <message>
+        <source>Are you sure to close?</source>
+        <translation>确定关闭吗？</translation>
+    </message>
+    <message>
+        <source>The close operation will terminate current import task</source>
+        <translation>关闭将会终止当前的导入任务</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>关闭</translation>
     </message>
 </context>
 <context>
@@ -529,7 +594,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Ok</source>
@@ -828,7 +893,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
     </message>
     <message>
         <source>Rename album</source>
@@ -840,11 +905,11 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation type="vanished">重命名</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="vanished">删除</translation>
     </message>
 </context>
 <context>
@@ -950,7 +1015,7 @@
     </message>
     <message>
         <source>Stop slideshow</source>
-        <translation type="unfinished"></translation>
+        <translation>退出幻灯片</translation>
     </message>
 </context>
 <context>
@@ -1048,11 +1113,11 @@
     </message>
     <message>
         <source>%1 image</source>
-        <translation>%1 张图片</translation>
+        <translation type="vanished">%1 张图片</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 张图片</translation>
+        <translation type="vanished">%1 张图片</translation>
     </message>
     <message>
         <source>View</source>
@@ -1214,15 +1279,19 @@
     </message>
     <message>
         <source>Collecting information</source>
-        <translation>正在收集信息</translation>
+        <translation type="vanished">正在收集信息</translation>
     </message>
     <message>
         <source>%1 folders has been collected, please wait</source>
-        <translation>已收集%1个文件夹信息，请稍候</translation>
+        <translation type="vanished">已收集%1个文件夹信息，请稍候</translation>
     </message>
     <message>
         <source>Setting</source>
         <translation>设置</translation>
+    </message>
+    <message>
+        <source>Deep color mode</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

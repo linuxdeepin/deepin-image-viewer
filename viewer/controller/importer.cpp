@@ -1,16 +1,8 @@
 #include "importer.h"
 #include "application.h"
-#include "controller/dbmanager.h"
-#include "controller/signalmanager.h"
 #include "utils/imageutils.h"
-#include <QDebug>
-#include <QDir>
 #include <QDirIterator>
 #include <QFileDialog>
-#include <QFileInfo>
-#include <QMutex>
-#include <QtConcurrent>
-#include <QVariant>
 
 namespace {
 
@@ -27,73 +19,95 @@ QStringList collectSubDirs(const QString &path)
     return dirs;
 }
 
-QMutex mutex;
-void importDir(const QString &path, const QString &album)
+void insertIntoAlbum(QMap<QString, QFileInfoList> vs)
 {
-    QMutexLocker locker(&mutex);
-    const QFileInfoList fileInfos = utils::image::getImagesInfo(path, false);
-    if(fileInfos.isEmpty() ) {
-        return;
-    }
-
-    QStringList paths;
-    DBImgInfoList imgInfos;
-    for (QFileInfo finfo : fileInfos) {
-        const QString p = finfo.absoluteFilePath();
-        DBImgInfo imgInfo;
-        imgInfo.fileName = finfo.fileName();
-        imgInfo.filePath = p;
-        imgInfo.time = utils::image::getCreateDateTime(p);
-
-        paths << p;
-        imgInfos << imgInfo;
-    }
-    dApp->dbM->insertImgInfos(imgInfos);
-    paths << " "; // For empty album
-    dApp->dbM->insertIntoAlbum(album, paths);
-}
-
-void importFiles(const QStringList &paths, const QString &album)
-{
-    QMutexLocker locker(&mutex);
-    DBImgInfoList imgInfos;
-    for (QString p : paths) {
-        if (! utils::image::imageSupportRead(p)) {
-            continue;
+    QStringList albums = vs.keys();
+    albums.removeAll(" ");
+    for (QString album : albums) {
+        auto infos = vs[album];
+        QStringList paths;
+        for (auto info : infos) {
+            paths << info.absoluteFilePath();
         }
-        QFileInfo info(p);
-        DBImgInfo imgInfo;
-        imgInfo.fileName = info.fileName();
-        imgInfo.filePath = p;
-        imgInfo.time = utils::image::getCreateDateTime(p);
-
-        imgInfos << imgInfo;
-
+        dApp->dbM->insertIntoAlbum(album, paths);
     }
-    dApp->dbM->insertImgInfos(imgInfos);
-    dApp->dbM->insertIntoAlbum(album, QStringList(paths) << " "); // For empty album
 }
 
 }  // namespace
 
 Importer::Importer(QObject *parent)
     : QObject(parent)
-    , m_progress(1)
-    , m_tid(0)
-    , m_pool(new QThreadPool())
 {
-    m_pool->setMaxThreadCount(1);
-    m_pool->setExpiryTimeout(60000*30);
+
 }
 
-Importer *Importer::m_importer = NULL;
-Importer *Importer::instance()
+bool Importer::isRunning() const
 {
-    if (!m_importer) {
-        m_importer = new Importer();
+    return ! m_threads.isEmpty();
+}
+
+void Importer::appendDir(const QString &path, const QString &album)
+{
+    if (m_dirs.contains(path))
+        return;
+    else
+        m_dirs << path;
+
+    emit progressChanged();
+    emit currentImport(path);
+
+    DirCollectThread *dt = new DirCollectThread(path, album);
+    connect(dt, &DirCollectThread::resultReady,
+            dApp->dbM, &DBManager::insertImgInfos, Qt::QueuedConnection);
+    connect(dt, &DirCollectThread::insertAlbumRequest,
+            dApp->dbM, &DBManager::insertIntoAlbum);
+    connect(dt, &DirCollectThread::currentImport,
+            this, &Importer::currentImport, Qt::QueuedConnection);
+    connect(dt, &DirCollectThread::finished,
+            this, [=] {
+        m_threads.removeAll(dt);
+        if (m_threads.isEmpty()) {
+            emit imported(true);
+            m_dirs.clear();
+        }
+
+        dt->deleteLater();
+    });
+    dt->start();
+    m_threads.append(dt);
+}
+
+void Importer::appendFiles(const QStringList &paths, const QString &album)
+{
+    emit progressChanged();
+
+    FilesCollectThread *ft = new FilesCollectThread(paths, album);
+    connect(ft, &FilesCollectThread::resultReady,
+            dApp->dbM, &DBManager::insertImgInfos);
+    connect(ft, &FilesCollectThread::insertAlbumRequest,
+            dApp->dbM, &DBManager::insertIntoAlbum);
+    connect(ft, &FilesCollectThread::currentImport,
+            this, &Importer::currentImport);
+    connect(ft, &FilesCollectThread::finished,
+            this, [=] {
+        m_threads.removeAll(ft);
+        if (m_threads.isEmpty())
+            emit imported(true);
+
+        ft->deleteLater();
+    });
+    ft->start();
+    m_threads.append(ft);
+}
+
+void Importer::stop()
+{
+    for (auto t : m_threads) {
+        t->quit();
+        t->wait();
     }
 
-    return m_importer;
+    emit imported(true);
 }
 
 void Importer::showImportDialog(const QString &album)
@@ -106,94 +120,86 @@ void Importer::showImportDialog(const QString &album)
     appendDir(dir, album);
 }
 
-void Importer::appendDir(const QString &path, const QString &album)
+DirCollectThread::DirCollectThread(const QString &root, const QString &album)
+    :QThread(NULL)
+    , m_album(album)
+    , m_root(root)
 {
-    if (! QDir(path).exists() || m_cacheDirs.contains(path)) {
-        return;
-    }
-    if (m_progress == 1) {
-        emit progressChanged(0, 0);
-    }
-    m_cacheDirs << path;
-    // If path is root or something like that, collect sub-dirs will spend a lot of time
-    QFuture<QStringList> df = QtConcurrent::run(collectSubDirs, path);
-    QTimer *t = new QTimer(this);
-    t->setSingleShot(false);
-    connect(t, &QTimer::timeout, this, [=] {
-        if (df.isFinished()) {
-            if (m_tid == 0) {
-                m_tid = startTimer(1000);
-            }
-            QStringList dirs = df.result();
-            for (QString dir : dirs) {
-                QFuture<void> future = QtConcurrent::run(m_pool, importDir, dir, album);
-                m_futures.append(future);
-            }
 
-            t->deleteLater();
-        }
-    });
-    t->start(200);
 }
 
-void Importer::appendFiles(const QStringList &paths, const QString &album)
+void DirCollectThread::run()
 {
-    if (paths.isEmpty()) {
-        return;
-    }
-    if (m_tid == 0) {
-        m_tid = startTimer(1000);
-    }
-    QFuture<void> future = QtConcurrent::run(m_pool, importFiles, paths, album);
-    m_futures.append(future);
-}
+    QStringList subDirs = collectSubDirs(m_root);
+    DBImgInfoList dbInfos;
+    QStringList paths;
+    for (QString dir : subDirs) {
+        auto fileInfos = utils::image::getImagesInfo(dir, false);
+        for (auto fi : fileInfos) {
+            const QString path = fi.absoluteFilePath();
+            paths << path;
+            DBImgInfo dbi;
+            dbi.fileName = fi.fileName();
+            dbi.filePath = path;
+            dbi.time = utils::image::getCreateDateTime(path);
 
-void Importer::cancel()
-{
-    m_pool->clear();
-    killTimer(m_tid);
-    m_tid = 0;
-    m_progress = 1;
-    m_futures.clear();
-    m_cacheDirs.clear();
-    emit imported(true);
-    emit progressChanged(1, 0);
-}
+            dbInfos << dbi;
 
-double Importer::progress() const
-{
-    return m_progress;
-}
+            // Generate thumbnail and storage into cache dir
+            if (! utils::image::thumbnailExist(path))
+                utils::image::generateThumbnail(path);
 
-void Importer::timerEvent(QTimerEvent *event)
-{
-    // Check if import progress is finish
-    if (event->timerId() == m_tid) {
-        bool allFinished = true;
-        int dcount = 0;
-        for (auto f : m_futures) {
-            if (f.isRunning()) {
-                allFinished = false;
+            if (dbInfos.length() > 50) {
+                emit resultReady(dbInfos);
+                dbInfos.clear();
             }
-            else if (f.isFinished()) {
-                dcount ++;
-            }
+
+            emit currentImport(path);
         }
-        if (allFinished) {
-            killTimer(m_tid);
-            m_tid = 0;
-            m_progress = 1;
-            m_futures.clear();
-            m_cacheDirs.clear();
-            emit imported(true);
-            emit progressChanged(1, dcount);
-        }
-        else {
-            m_progress = 1.0 * dcount / m_futures.count();
-            emit progressChanged(m_progress, dcount);
-        }
-        // Note: if m_futures is too large, the m_pool will auto reserveThread
-        // and i do not know why
-        m_pool->releaseThread();
     }
+    emit resultReady(dbInfos);
+    if (! m_album.isEmpty())
+        emit insertAlbumRequest(m_album, paths);
+}
+
+FilesCollectThread::FilesCollectThread(const QStringList &paths, const QString &album)
+    : QThread(NULL)
+    , m_album(album)
+    , m_paths(paths)
+{
+
+}
+
+void FilesCollectThread::run()
+{
+    DBImgInfoList dbInfos;
+    QStringList supportPaths;
+    using namespace utils::image;
+    for (auto path : m_paths) {
+        if (! imageSupportRead(path)) {
+            continue;
+        }
+        supportPaths << path;
+        QFileInfo fi(path);
+        DBImgInfo dbi;
+        dbi.fileName = fi.fileName();
+        dbi.filePath = path;
+        dbi.time = utils::image::getCreateDateTime(path);
+
+        dbInfos << dbi;
+
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(path))
+            utils::image::generateThumbnail(path);
+
+        if (dbInfos.length() > 50) {
+            emit resultReady(dbInfos);
+            dbInfos.clear();
+        }
+
+        emit currentImport(path);
+    }
+    emit resultReady(dbInfos);
+    if (! m_album.isEmpty())
+        emit insertAlbumRequest(m_album, supportPaths);
 }

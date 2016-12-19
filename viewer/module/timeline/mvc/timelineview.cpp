@@ -527,11 +527,11 @@ void TimelineView::mouseReleaseEvent(QMouseEvent *e)
 
 void TimelineView::updateThumbnails()
 {
-    m_watcher.setPaused(true);
-    m_watcher.cancel();
+//    m_watcher.setPaused(true);
+//    m_watcher.cancel();
 
-    killTimer(m_thumbTimerID);
-    m_thumbTimerID = startTimer(1000);
+//    killTimer(m_thumbTimerID);
+//    m_thumbTimerID = startTimer(1000);
 }
 
 void TimelineView::onThumbnailGenerated(int index)

@@ -597,8 +597,9 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
 
     if (inDB) {
+        // TODO
         // Check whether the thumbnail is been rotated in outside
-        QtConcurrent::run(utils::image::removeThumbnail, path);
+//        QtConcurrent::run(utils::image::removeThumbnail, path);
     }
 
     m_viewB->setImage(path);

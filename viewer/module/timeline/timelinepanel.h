@@ -5,10 +5,8 @@
 #include "controller/viewerthememanager.h"
 #include "widgets/importframe.h"
 
-class QLabel;
 class QMenu;
 class QStackedWidget;
-class Slider;
 class TimelineFrame;
 
 class TimelinePanel : public ModulePanel
@@ -35,8 +33,7 @@ private:
     void initMainStackWidget();
     void initPopupMenu();
     void initStyleSheet();
-    void updateBottomToolbarContent(int count);
-    void onImageCountChanged(int count);
+    void onImageCountChanged();
 
     void appendAction(int id, const QString &text, const QString &shortcut="");
     QMenu* createAlbumMenu();
@@ -47,10 +44,8 @@ private:
 
 private:
     QMenu               *m_menu;
-    QLabel              *m_countLabel;
     QStackedWidget      *m_mainStack;
     ImportFrame         *m_importFrame;
-    Slider              *m_slider;
     TimelineFrame       *m_frame;
 
     QStringList         m_rotateList;

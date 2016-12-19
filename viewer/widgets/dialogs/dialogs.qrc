@@ -7,6 +7,7 @@
         <file>resources/images/close_hover.svg</file>
         <file>resources/images/close_normal.svg</file>
         <file>resources/images/close_press.svg</file>
+        <file>resources/images/warning.png</file>
     </qresource>
     <qresource prefix="/dialogs/qss">
         <file>resources/qss/inputdialog.qss</file>

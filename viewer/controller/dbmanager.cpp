@@ -4,6 +4,7 @@
 #include "utils/baseutils.h"
 #include <QDebug>
 #include <QDir>
+#include <QMutex>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -171,8 +172,11 @@ bool DBManager::isImgExist(const QString &path) const
     return false;
 }
 
+QMutex mutex;
 void DBManager::insertImgInfos(const DBImgInfoList &infos)
 {
+    QMutexLocker locker(&mutex);
+
     const QSqlDatabase db = getDatabase();
     if (infos.isEmpty() || ! db.isValid()) {
         return;

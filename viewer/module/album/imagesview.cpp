@@ -61,7 +61,8 @@ void ImagesView::setAlbum(const QString &album)
     m_topTips->setAlbum(m_album);
     m_view->clearData();
     auto infos = dApp->dbM->getInfosByAlbum(album);
-    QtConcurrent::run(this, &ImagesView::insertItems, infos);
+//    QtConcurrent::run(this, &ImagesView::insertItems, infos);
+    insertItems(infos);
 }
 
 void ImagesView::removeItems(const QStringList &paths)

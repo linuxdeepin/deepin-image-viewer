@@ -1,38 +1,63 @@
 #ifndef IMPORTER_H
 #define IMPORTER_H
 
+#include "dbmanager.h"
+#include <QFileInfo>
+#include <QFutureWatcher>
 #include <QObject>
-#include <QFuture>
+#include <QThread>
 
-class QThreadPool;
+class DirCollectThread : public QThread
+{
+    Q_OBJECT
+public:
+    DirCollectThread(const QString &root, const QString &album);
+    void run() Q_DECL_OVERRIDE;
+signals:
+    void currentImport(const QString &path);
+    void resultReady(const DBImgInfoList &infos);
+    void insertAlbumRequest(const QString &album, const QStringList &paths);
+private:
+    QString m_album;
+    QString m_root;
+};
+
+
+class FilesCollectThread : public QThread
+{
+    Q_OBJECT
+public:
+    FilesCollectThread(const QStringList &paths, const QString &album);
+    void run() Q_DECL_OVERRIDE;
+signals:
+    void currentImport(const QString &path);
+    void resultReady(const DBImgInfoList &infos);
+    void insertAlbumRequest(const QString &album, const QStringList &paths);
+private:
+    QString m_album;
+    QStringList m_paths;
+};
+
+
 class Importer : public QObject
 {
     Q_OBJECT
 public:
-    static Importer *instance();
-    void showImportDialog(const QString &album = "");
+    explicit Importer(QObject *parent = 0);
+    bool isRunning() const;
     void appendDir(const QString &path, const QString &album = "");
     void appendFiles(const QStringList &paths, const QString &album = "");
-    void cancel();
-    double progress() const;
+    void stop();
+    void showImportDialog(const QString &album = "");
 
 signals:
+    void currentImport(const QString &path);
     void imported(bool success);
-    void progressChanged(double progress, int count);
-
-protected:
-    void timerEvent(QTimerEvent *event);
+    void progressChanged();
 
 private:
-    explicit Importer(QObject *parent = 0);
-
-private:
-    static Importer         *m_importer;
-    double                  m_progress;
-    int                     m_tid;
-    QList<QFuture<void>>    m_futures;
-    QStringList             m_cacheDirs;
-    QThreadPool             *m_pool;
+    QList<QThread *> m_threads;
+    QStringList m_dirs;
 };
 
 #endif // IMPORTER_H

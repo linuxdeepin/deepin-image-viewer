@@ -2,6 +2,7 @@
 #include "dirimportdialog.h"
 #include "controller/dbmanager.h"
 #include "controller/importer.h"
+#include "controller/importer.h"
 #include "utils/baseutils.h"
 #include <QFileInfo>
 #include <QHBoxLayout>

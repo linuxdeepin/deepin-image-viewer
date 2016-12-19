@@ -58,7 +58,7 @@ QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {
     color: #FFFFFF;
     font-size: 12px;
 }
-QLabel#CountLabel {
+QLabel#CountLabel, QLabel#ImportLabel {
     color: rgba(0, 0, 0, .7);
     font-size: 11px;
 }
@@ -80,18 +80,6 @@ QPushButton#ActionButton {
 TopAlbumTips {
     height: 24px;
     border-image: url(:/resources/light/images/lineargradient.png) repeat;
-}
-
-QLabel#BTopLightLine{
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-QLabel#BTopDarkLine{
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-QLabel#BtmLightLine{
-    background-color: rgba(255, 255, 255, 0.02);
 }
 
 QLabel#CurrentDirLabel {
