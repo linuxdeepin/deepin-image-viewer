@@ -9,6 +9,9 @@ class SlideEffect_Tile : public SlideEffect
 {
 public:
     SlideEffect_Tile();
+    virtual EffectName effectName() const {
+        return Tile;
+    }
     virtual QVector<EffectId> supportedTypes() const {
         return QVector<EffectId>() << kTile;
     }

@@ -11,6 +11,7 @@ public:
     explicit SlideshowFrame(QWidget *parent);
 
 private:
+    int defaultDuration() const;
     void initPreview();
     void initInterval();
 

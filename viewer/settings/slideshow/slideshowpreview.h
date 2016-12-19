@@ -24,7 +24,9 @@ protected:
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 
 private:
+    int activedEffectCount() const;
     bool checked() const;
+    bool defaultValue() const;
     void setChecked(bool checked);
 
 private:

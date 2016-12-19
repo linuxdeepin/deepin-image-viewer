@@ -6,8 +6,9 @@ HEADERS += \
 SOURCES += \
     $$PWD/slideeffect.cpp \
     $$PWD/slideeffect_blinds.cpp \
-    $$PWD/slideeffect_center.cpp \
     $$PWD/slideeffect_enter.cpp \
     $$PWD/slideeffectplayer.cpp \
     $$PWD/slideeffect_tile.cpp \
-    $$PWD/slideshowpanel.cpp
+    $$PWD/slideshowpanel.cpp \
+    $$PWD/slideeffect_switcher.cpp \
+    $$PWD/slideeffect_circle.cpp

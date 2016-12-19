@@ -6,13 +6,14 @@
 #include <dsimplecombobox.h>
 #include <dthememanager.h>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QStyleFactory>
 #include <QPushButton>
+#include <QVBoxLayout>
 
 namespace {
 
-const QString SETTING_GROUP = "SLIDESHOWDURATION";
-const QString SETTING_KEY = "Duration";
+const QString DURATION_SETTING_GROUP = "SLIDESHOWDURATION";
+const QString DURATION_SETTING_KEY = "Duration";
 
 }
 
@@ -30,6 +31,18 @@ SlideshowFrame::SlideshowFrame(QWidget *parent)
 
     initPreview();
     initInterval();
+}
+
+int SlideshowFrame::defaultDuration() const
+{
+    QVariant v = dApp->setter->value(DURATION_SETTING_GROUP, DURATION_SETTING_KEY);
+    if (v.isNull()) {
+        dApp->setter->setValue(DURATION_SETTING_GROUP, DURATION_SETTING_KEY, 1);
+        return 1;
+    }
+    else {
+        return v.toInt();
+    }
 }
 
 void SlideshowFrame::initPreview()
@@ -55,7 +68,6 @@ void SlideshowFrame::initPreview()
 
 void SlideshowFrame::initInterval()
 {
-    
     // Duration
     Title2 *tlDuration = new Title2(tr("Duration"));
     m_layout->addSpacing(20);
@@ -69,24 +81,23 @@ void SlideshowFrame::initInterval()
 
     QSignalBlocker blocker(DThemeManager::instance());
     Q_UNUSED(blocker);
-//    DThemeManager::instance()->setTheme("light");
+    DThemeManager::instance()->setTheme("light");
     DSimpleComboBox *dcb = new DSimpleComboBox(this);
-//    DThemeManager::instance()->setTheme("dark");
+    DThemeManager::instance()->setTheme("dark");
+//    dcb->setStyle(QStyleFactory::create("dlight"));
     dcb->setFixedSize(238, 26);
     QStringList intervalList;
-    for (int i = 1; i < 5; i ++){
+    for (int i = 2; i < 6; i ++){
         intervalList << QString::number(i) + " " + tr("second");
     }
     dcb->addItems(intervalList);
     dcb->setEditable(false);
-    dcb->setCurrentIndex(dApp->setter->value(SETTING_GROUP,
-                                             SETTING_KEY,
-                                             QVariant(1)).toInt() - 1);
+    dcb->setCurrentIndex(defaultDuration() - 1);
     connect(dcb, &DSimpleComboBox::currentTextChanged,
             this, [=] (const QString &text) {
         int i = QString(text.split(" ").first()).toInt();
         if (i != 0) {
-            dApp->setter->setValue(SETTING_GROUP, SETTING_KEY, i);
+            dApp->setter->setValue(DURATION_SETTING_GROUP, DURATION_SETTING_KEY, i);
         }
     });
 

@@ -30,6 +30,7 @@ protected:
     void timerEvent(QTimerEvent *e);
 
 private:
+    int duration() const;
     bool startNext();
 
     bool m_running = false;
