@@ -3,6 +3,7 @@
 
 #include "module/modulepanel.h"
 #include "controller/dbmanager.h"
+#include "controller/viewerthememanager.h"
 #include "anchors.h"
 
 #include <QFileInfo>
@@ -52,7 +53,6 @@ private:
     void initPopupMenu();
     void initShortcut();
     void initStack();
-    void initStyleSheet();
     void initViewContent();
     void popupDelDialog(const QString path);
     void popupPrintDialog(const QString path);
@@ -91,7 +91,7 @@ private:
     const QStringList paths() const;
 private slots:
     void resetImageGeometry();
-
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     int m_hideCursorTid;
 

@@ -50,7 +50,6 @@ private:
     void initMenu();
     void initShortcut();
     void initWidgets();
-    void initPaintTheme();
     void updateTipsPos();
 
 private slots:

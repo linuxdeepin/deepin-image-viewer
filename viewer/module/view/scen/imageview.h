@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QFutureWatcher>
+#include "controller/viewerthememanager.h"
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -67,10 +68,11 @@ protected:
 
 private slots:
     void onCacheFinish();
-
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     bool m_isFitImage;
     bool m_isFitWindow;
+    QColor m_backgroundColor;
     RendererType m_renderer;
     QFutureWatcher<QVariantList> m_watcher;
     QString m_path;

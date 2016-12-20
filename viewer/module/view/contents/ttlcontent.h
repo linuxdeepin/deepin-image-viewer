@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include "controller/viewerthememanager.h"
 
 class TTLContent : public QWidget
 {
@@ -14,6 +15,8 @@ signals:
     void clicked();
 public slots:
     void setCurrentDir(QString text);
+private slots:
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     QLabel* m_curDirLabel;
 };

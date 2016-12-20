@@ -1,0 +1,17 @@
+QSlider {
+    border-image: url(:/images/resources/images/slider_background.png);
+    margin: 5px 9px 10px 8px;
+}
+QSlider::handle:vertical {
+    width: 22px;
+    height: 14px;
+    image: url(:/images/resources/images/rectangle.png);
+}
+
+QLabel#Tooltip {
+    border-image:url(:/images/resources/images/lefttooltip.png) stretch no-repeat;
+}
+
+QLabel#TooltipValueLabel {
+    color: white;
+}

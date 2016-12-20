@@ -1,6 +1,8 @@
 #ifndef IMAGEINFOWIDGET_H
 #define IMAGEINFOWIDGET_H
 
+#include "controller/viewerthememanager.h"
+
 #include <QWidget>
 #include <QLabel>
 #include <QScrollArea>
@@ -27,7 +29,7 @@ private:
     const QString trLabel(const char *str);
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
-
+    void onThemeChanged(ViewerThemeManager::AppTheme dark);
 private:
     int m_updateTid = 0;
     int m_maxTitleWidth;  //For align colon

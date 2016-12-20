@@ -64,7 +64,7 @@ private:
 TopToolbar::TopToolbar(QWidget *parent)
     :BlurFrame(parent)
 {
-    initPaintTheme();
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
 
@@ -98,8 +98,8 @@ void TopToolbar::setMiddleContent(QWidget *content)
 
 void TopToolbar::resizeEvent(QResizeEvent *e)
 {
-    BlurFrame::resizeEvent(e);
     updateTipsPos();
+    BlurFrame::resizeEvent(e);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -110,17 +110,22 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
         else if (! window()->isFullScreen())  // It would be normal state
             window()->showMaximized();
     }
+
+    BlurFrame::mouseDoubleClickEvent(e);
 }
-void TopToolbar::initPaintTheme() {
-    if (dApp->viewerTheme->getCurrentTheme() ==
-            ViewerThemeManager::Dark) {
+void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
+    if (curTheme == ViewerThemeManager::Dark) {
         m_coverBrush = DARK_COVERCOLOR;
         m_topBorderColor = DARK_TOP_BORDERCOLOR;
         m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
+
+        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     } else {
         m_coverBrush = LIGHT_COVERCOLOR;
         m_topBorderColor = LIGHT_TOP_BORDERCOLOR;
         m_bottomBorderColor = LIGHT_BOTTOM_BORDERCOLOR;
+
+        Dtk::Widget::DThemeManager::instance()->setTheme("light");
     }
     setCoverBrush(QBrush(m_coverBrush));
 
@@ -381,15 +386,6 @@ void TopToolbar::onDeepColorMode() {
     } else {
         dApp->viewerTheme->setCurrentTheme(
                     ViewerThemeManager::Dark);
-    }
-}
-
-void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
-    initPaintTheme();
-    if (curTheme == ViewerThemeManager::Dark) {
-        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
-    } else {
-        Dtk::Widget::DThemeManager::instance()->setTheme("light");
     }
 }
 

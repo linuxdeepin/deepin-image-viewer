@@ -1,4 +1,4 @@
-#include "ttmcontent.h"
+﻿#include "ttmcontent.h"
 #include "application.h"
 #include "controller/dbmanager.h"
 #include "utils/baseutils.h"
@@ -12,34 +12,31 @@ namespace {
 
 const QString FAVORITES_ALBUM = "My favorites";
 const int MARGIN_DIFF = 82;
-
+const QSize ICON_SIZE = QSize(48, 40);
 }  // namespace
 
 TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     : QWidget(parent)
 {
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
     m_layout->addStretch();
-
-    const QString res = ":/images/resources/images/";
-
     // Adapt buttons////////////////////////////////////////////////////////////
-    m_adaptImageBtn = new ImageButton(res + "adapt_image_normal.png"
-                                      , res + "adapt_image_hover.png"
-                                      , res + "adapt_image_press.png"
-                                      , res + "adapt_image_disable.png");
+    m_adaptImageBtn = new ImageButton();
+    m_adaptImageBtn->setObjectName("AdaptBtn");
+    m_adaptImageBtn->setFixedSize(ICON_SIZE);
+
     m_adaptImageBtn->setToolTip(tr("1:1 Size"));
     m_layout->addWidget(m_adaptImageBtn);
     connect(m_adaptImageBtn, &ImageButton::clicked, [this](){
         emit resetTransform(false);
     });
 
-    m_adaptScreenBtn = new ImageButton(res + "adapt_screen_normal.png"
-                                       , res + "adapt_screen_hover.png"
-                                       , res + "adapt_screen_press.png"
-                                       , res + "adapt_screen_disable.png");
+    m_adaptScreenBtn = new ImageButton();
+    m_adaptScreenBtn->setFixedSize(ICON_SIZE);
+    m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
     m_adaptScreenBtn->setToolTip(tr("Fit to window"));
     m_layout->addWidget(m_adaptScreenBtn);
     connect(m_adaptScreenBtn, &ImageButton::clicked, [this](){
@@ -48,8 +45,11 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
 
 
     // Collection button////////////////////////////////////////////////////////
+    m_clBT = new ImageButton();
+    m_clBT->setObjectName("CollectBtn");
+    m_clBT->setCheckable(true);
     if (! fromFileManager) {
-        m_clBT = new ImageButton();
+
         m_layout->addWidget(m_clBT);
         connect(m_clBT, &ImageButton::clicked, [=] {
             if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
@@ -63,34 +63,43 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         updateCollectButton();
     }
 
-    m_rotateRBtn = new ImageButton(res + "contrarotate_normal.png"
-                                   , res + "contrarotate_hover.png"
-                                   , res + "contrarotate_press.png"
-                                   , res + "contrarotate_disable.png");
+    m_rotateRBtn = new ImageButton();
+    m_rotateRBtn->setFixedSize(ICON_SIZE);
+    m_rotateRBtn->setObjectName("RotateCounterBtn");
     m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
     m_layout->addWidget(m_rotateRBtn);
     connect(m_rotateRBtn, &ImageButton::clicked,
             this, &TTMContent::rotateClockwise);
 
-    m_rotateLBtn = new ImageButton(res + "clockwise_rotation_normal.png"
-                                   , res + "clockwise_rotation_hover.png"
-                                   , res + "clockwise_rotation_press.png"
-                                   , res + "clockwise_rotation_disable.png");
+    m_rotateLBtn = new ImageButton();
+    m_rotateLBtn->setFixedSize(ICON_SIZE);
+    m_rotateLBtn->setObjectName("RotateBtn");
     m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
     m_layout->addWidget(m_rotateLBtn);
     connect(m_rotateLBtn, &ImageButton::clicked,
             this, &TTMContent::rotateCounterClockwise);
 
-    m_trashBtn = new ImageButton(res + "delete_normal.png"
-                                 , res + "delete_hover.png"
-                                 , res + "delete_press.png"
-                                 , res + "delete_disable.png");
+    m_trashBtn = new ImageButton();
+    m_trashBtn->setFixedSize(ICON_SIZE);
+    m_trashBtn->setObjectName("TrashBtn");
     m_trashBtn->setToolTip(tr("Throw to Trash"));
     m_layout->addWidget(m_trashBtn);
     m_layout->addStretch();
+
     connect(m_trashBtn, &ImageButton::clicked, this, &TTMContent::removed);
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &TTMContent::onThemeChanged);
 }
 
+void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        this->setStyleSheet(utils::base::getFileContent(
+                                ":/resources/dark/qss/ttm.qss"));
+    } else {
+        this->setStyleSheet(utils::base::getFileContent(
+                                ":/resources/light/qss/ttm.qss"));
+    }
+}
 void TTMContent::onImageChanged(const QString &path)
 {
     m_imagePath = path;
@@ -129,21 +138,16 @@ void TTMContent::updateCollectButton()
         m_clBT->setDisabled(false);
 
     if (! m_clBT->isEnabled()) {
-        m_clBT->setNormalPic(":/images/resources/images/collect_disable.png");
-        m_clBT->setHoverPic(":/images/resources/images/collect_disable.png");
-        m_clBT->setPressPic(":/images/resources/images/collect_disable.png");
+        m_clBT->setDisabled(true);
     }
     else if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
         m_clBT->setToolTip(tr("Unfavorite"));
-        m_clBT->setNormalPic(":/images/resources/images/collect_press.png");
-        m_clBT->setHoverPic(":/images/resources/images/collect_press.png");
-        m_clBT->setPressPic(":/images/resources/images/collect_press.png");
+        m_clBT->setChecked(true);
     }
     else {
         m_clBT->setToolTip(tr("Add to My favorites"));
-        m_clBT->setNormalPic(":/images/resources/images/collect_normal.png");
-        m_clBT->setHoverPic(":/images/resources/images/collect_hover.png");
-        m_clBT->setPressPic(":/images/resources/images/collect_hover.png");
+        m_clBT->setChecked(false);
+        m_clBT->setDisabled(false);
     }
 }
 

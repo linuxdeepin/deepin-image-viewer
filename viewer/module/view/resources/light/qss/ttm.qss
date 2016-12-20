@@ -1,0 +1,44 @@
+ImageButton#AdaptBtn {
+    qproperty-normalPic: url(:/resources/light/images/adapt_image_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/adapt_image_hover.png);
+    qproperty-pressPic: url(::/resources/light/images/adapt_image_press.png);
+    qproperty-disablePic: url(:/resources/light/images/adapt_image_disable.png);
+    qproperty-checkedPic: url(:/resources/light/images/adapt_image_press.png);
+}
+
+ImageButton#AdaptScreenBtn {
+    qproperty-normalPic: url(:/resources/light/images/adapt_screen_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/adapt_screen_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/adapt_screen_press.png);
+    qproperty-disablePic: url(:/resources/light/images/adapt_screen_disable.png);
+    qproperty-checkedPic: url(:/resources/light/images/adapt_screen_press.png);
+}
+
+ImageButton#CollectBtn {
+    qproperty-normalPic: url(:/resources/light/images/collect_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/collect_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/collect_press.png);
+    qproperty-disablePic: url(:/resources/light/images/collect_disable.png);
+    qproperty-checkedPic: url(:/resources/light/images/collect_press.png);
+}
+ImageButton#RotateBtn {
+    qproperty-normalPic: url(:/resources/light/images/clockwise_rotation_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/clockwise_rotation_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/clockwise_rotation_press.png);
+    qproperty-disablePic: url(:/resources/light/images/clockwise_rotation_disable.png);
+    qproperty-checkedPic: url(:/resources/light/images/clockwise_rotation_press.png);
+}
+ImageButton#RotateCounterBtn {
+    qproperty-normalPic: url(:/resources/light/images/contrarotate_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/contrarotate_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/contrarotate_press.png);
+    qproperty-disablePic: url(:/resources/light/images/contrarotate_disable.png);
+    qproperty-checkedPic: url(:/resources/light/images/contrarotate_press.png);
+}
+ImageButton#TrashBtn {
+    qproperty-normalPic: url(:/resources/light/images/delete_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/delete_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/delete_press.png);
+    qproperty-disablePic: url(:/resources/light/images/delete_disable.png);
+    qproperty-checkedPic: url(:/resources/light/images/contrarotate_press.png);
+}

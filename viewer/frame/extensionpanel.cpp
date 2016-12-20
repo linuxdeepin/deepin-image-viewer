@@ -14,12 +14,14 @@ namespace {
 const int EXTENSION_PANEL_WIDTH = 240;
 const int EXTENSION_PANEL_MAX_WIDTH = 340;
 
+const QColor DARK_COVERBRUSH = QColor(0, 0, 0, 100);
+const QColor LIGHT_COVERBRUSH = QColor(255, 255, 255, 179);
 }  // namespace
 
 ExtensionPanel::ExtensionPanel(QWidget *parent)
     : BlurFrame(parent)
 {
-    setCoverBrush(QBrush(QColor(0, 0, 0, 100)));
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setBorderColor(QColor(255, 255, 255, 51));
 //    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
     setFixedWidth(EXTENSION_PANEL_WIDTH);
@@ -27,6 +29,8 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     m_contentLayout->setContentsMargins(0, 0, 0, 0);
     m_contentLayout->setSpacing(0);
 
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &ExtensionPanel::onThemeChanged);
 //    DArrowButton *hideButton = new DArrowButton();
 //    hideButton->setFixedSize(CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_WIDTH);
 //    hideButton->setArrowDirection(DArrowButton::ArrowLeft);
@@ -41,6 +45,15 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
 //    mainLayout->addLayout(m_contentLayout);
 //    mainLayout->addWidget(hideButton);
 //    mainLayout->addSpacing(5);
+}
+
+void ExtensionPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        m_coverBrush = DARK_COVERBRUSH;
+    } else {
+        m_coverBrush = LIGHT_COVERBRUSH;
+    }
+    setCoverBrush(m_coverBrush);
 }
 
 void ExtensionPanel::setContent(QWidget *content)

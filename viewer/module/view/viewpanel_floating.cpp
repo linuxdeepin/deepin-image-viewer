@@ -19,9 +19,7 @@ void ViewPanel::initSwitchButtons()
     Anchors<ImageButton> preButton = new ImageButton(this);
     preButton->setTooltipVisible(true);
     preButton->setObjectName("PreviousButton");
-    preButton->setNormalPic(":/images/resources/images/previous_hover.png");
-    preButton->setHoverPic(":/images/resources/images/previous_hover.png");
-    preButton->setPressPic(":/images/resources/images/previous_press.png");
+
     preButton.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
     // The preButton is anchored to the left of this
     preButton.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
@@ -34,9 +32,6 @@ void ViewPanel::initSwitchButtons()
     Anchors<ImageButton> nextButton = new ImageButton(this);
     nextButton->setTooltipVisible(true);
     nextButton->setObjectName("NextButton");
-    nextButton->setNormalPic(":/images/resources/images/next_hover.png");
-    nextButton->setHoverPic(":/images/resources/images/next_hover.png");
-    nextButton->setPressPic(":/images/resources/images/next_press.png");
     nextButton.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
     nextButton.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
     nextButton->setFixedSize(53, 53);

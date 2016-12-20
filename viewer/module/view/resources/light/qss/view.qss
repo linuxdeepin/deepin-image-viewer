@@ -1,0 +1,131 @@
+ImageView {
+    background-color: white;
+}
+ViewSeparator {
+    background: rgba(0, 0, 0, .1);
+}
+
+SimpleFormField {
+    color: rgba(48, 48, 48, 255);
+    font-size: 11px;
+    margin-bottom: 1px;
+}
+
+SimpleFormLabel {
+    color: rgba(48, 48, 48, .7);
+    font-size: 11px;
+    margin-bottom: 1px;
+}
+
+QScrollArea#ImageInfoScrollArea {
+    background: transparent;
+    border-left: none;
+    border-top : none;
+    border-right : 1px solid rgba(0, 0, 0, .08);
+    border-bottom: none;
+}
+
+QPushButton#ShowExtendInfoButton {
+    font-size: 12px;
+    color: #6097cb;
+    outline: none;
+    background: transparent;
+    border: none;
+}
+
+QPushButton#ShowExtendInfoButton:hover {
+    color: #54D7FF;
+}
+
+QPushButton#ShowExtendInfoButton:pressed {
+    color: #01BDFF;
+}
+
+QScrollBar {
+    background-color: transparent;
+    border: none;
+}
+
+QScrollBar::handle::horizontal {
+    image: url(:/resources/light/images/scrollbar_handle_h_normal.png);
+}
+
+QScrollBar::handle::horizontal:hover {
+    image: url(:/resources/light/images/scrollbar_handle_h_hover.png);
+}
+
+QScrollBar::handle:vertical {
+    image: url(:/resources/light/images/scrollbar_handle_v_normal.png);
+}
+
+QScrollBar::handle:vertical:hover {
+    image: url(:/resources/light/images/scrollbar_handle_v_hover.png);
+}
+
+QScrollBar::up-arrow {
+    border: none;
+    background: none;
+}
+
+QScrollBar::down-arrow {
+    border: none;
+    background: none;
+}
+
+QScrollBar::add-line {
+    border: none;
+    background: none;
+}
+
+QScrollBar::sub-line {
+    border: none;
+    background: none;
+}
+
+ImageButton#PreviousButton {
+    border-image: url(:/resources/light/images/previous_next.png);
+    padding: 6px 20px 14px 13px;
+}
+
+ImageButton#NextButton {
+    border-image: url(:/resources/light/images/previous_next.png);
+    padding: 4px 21px 12px  15px;
+}
+
+QLabel#ScaleLabel {
+    border-image: url(:/resources/light/images/scale_background.png);
+    color: rgba(0, 0, 0, .9);
+    padding: 0px 0px 10px 0px;
+    font-size: 14px;
+}
+
+QLabel#CurrentDirLabel{
+    color: rgb(0, 0, 0, 235);
+    font-size: 12px;
+    text-align: center;
+}
+
+ImageButton#PreviousButton {
+    qproperty-normalPic: url(:/resources/light/images/previous_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/previous_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/previous_press.png);
+}
+
+ImageButton#NextButton {
+    qproperty-normalPic: url(:/resources/light/images/next_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/next_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/next_press.png);
+}
+
+ImageButton#ReturnBtn {
+    qproperty-normalPic: url(:/resources/light/images/return_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/return_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/return_press.png);
+}
+
+ImageButton#FolderBtn {
+    qproperty-normalPic: url(:/resources/light/images/folder_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/folder_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/folder_press.png);
+}
+

@@ -1,6 +1,7 @@
 #include "imageview.h"
 #include "graphicsmovieitem.h"
 #include "utils/imageutils.h"
+#include "application.h"
 #include <QDebug>
 #include <QFile>
 #include <QOpenGLWidget>
@@ -23,7 +24,10 @@ namespace {
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#353535");
 const QColor DARK_CHECKER_COLOR = QColor("#050505");
-const QColor BACKGROUND_COLOR = QColor("#1B1B1B");
+
+const QColor DARK_BACKGROUND_COLOR = QColor("#1B1B1B");
+const QColor LIGHT_BACKGROUND_COLOR = QColor(255, 255, 255);
+
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
 
@@ -45,6 +49,7 @@ ImageView::ImageView(QWidget *parent)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
 {
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setScene(new QGraphicsScene(this));
     setTransformationAnchor(AnchorUnderMouse);
     setDragMode(ScrollHandDrag);
@@ -55,6 +60,8 @@ ImageView::ImageView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     connect(&m_watcher, SIGNAL(finished()), this, SLOT(onCacheFinish()));
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
     // TODO
     //    QPixmap pm(12, 12);
@@ -304,6 +311,7 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
     else {
         emit transformChanged();
     }
+
     QGraphicsView::mouseMoveEvent(e);
 }
 
@@ -320,7 +328,7 @@ void ImageView::dragEnterEvent(QDragEnterEvent *e)
 void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 {
     painter->save();
-    painter->fillRect(rect, BACKGROUND_COLOR);
+    painter->fillRect(rect, m_backgroundColor);
     painter->restore();
 }
 
@@ -342,6 +350,15 @@ void ImageView::onCacheFinish()
             emit imageChanged(path);
         }
     }
+}
+
+void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        m_backgroundColor = DARK_BACKGROUND_COLOR;
+    } else {
+        m_backgroundColor = LIGHT_BACKGROUND_COLOR;
+    }
+    update();
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)

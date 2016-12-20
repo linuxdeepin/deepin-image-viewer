@@ -1,6 +1,7 @@
 #ifndef TTMCONTENT_H
 #define TTMCONTENT_H
 
+#include "controller/viewerthememanager.h"
 #include <QWidget>
 
 class ImageButton;
@@ -10,7 +11,6 @@ class TTMContent : public QWidget
     Q_OBJECT
 public:
     explicit TTMContent(bool fromFileManager, QWidget *parent = 0);
-
 public slots:
     void onImageChanged(const QString &path);
     void updateCollectButton();
@@ -23,14 +23,17 @@ signals:
     void removed();
     void imageEmpty(bool v);
 
+private slots:
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
-    QHBoxLayout *m_layout;
-    ImageButton *m_adaptImageBtn;
-    ImageButton *m_adaptScreenBtn;
-    ImageButton *m_rotateLBtn;
-    ImageButton *m_rotateRBtn;
-    ImageButton *m_trashBtn;
-    ImageButton *m_clBT = nullptr;
+    QHBoxLayout* m_layout;
+    ImageButton* m_adaptImageBtn;
+    ImageButton* m_adaptScreenBtn;
+    ImageButton* m_clBT;
+    ImageButton* m_rotateLBtn;
+    ImageButton* m_rotateRBtn;
+    ImageButton* m_trashBtn;
+
     QString m_imagePath;
 };
 

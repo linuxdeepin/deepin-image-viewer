@@ -283,8 +283,11 @@ void TimelinePanel::initImagesView()
 void TimelinePanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     Q_UNUSED(theme)
     initStyleSheet();
-    emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
-    emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+    if (this->isVisible()) {
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+    }
 }
 void TimelinePanel::initStyleSheet()
 {

@@ -409,9 +409,13 @@ void AlbumPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     } else {
         setStyleSheet(utils::base::getFileContent(":/resources/light/qss/album.qss"));
     }
-
-//    m_stackWidget->setStyleSheet("background-color: red;");
+    if (this->isVisible()) {
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+        emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+    }
 }
+
 void AlbumPanel::updateImagesCount(bool fromDB)
 {
     if (m_countLabel.isNull())

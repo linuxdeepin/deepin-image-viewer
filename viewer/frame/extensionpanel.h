@@ -3,6 +3,7 @@
 
 #include <QHBoxLayout>
 #include "widgets/blureframe.h"
+#include "controller/viewerthememanager.h"
 
 class ExtensionPanel : public BlurFrame
 {
@@ -15,8 +16,10 @@ public:
 protected:
 //    void paintEvent(QPaintEvent *) override;
     void mouseMoveEvent(QMouseEvent *e) override;
-
+public slots:
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
+    QColor m_coverBrush;
     QWidget *m_content;
     QHBoxLayout *m_contentLayout;
 };

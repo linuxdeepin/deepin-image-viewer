@@ -19,7 +19,6 @@ ImageButton::ImageButton(const QString &normalPic, const QString &hoverPic,
                           QWidget *parent)
     : DImageButton(normalPic, hoverPic, pressPic, parent)
     , m_tooltipVisiable(false)
-    , m_normalPic_(normalPic)
     , m_disablePic_(disablePic)
 {
     initStyleSheet();
@@ -36,7 +35,7 @@ void ImageButton::setDisabled(bool d)
         setNormalPic(m_disablePic_);
     }
     else {
-        setNormalPic(m_normalPic_);
+        setNormalPic(this->getNormalPic());
     }
     DImageButton::setDisabled(d);
 }
@@ -50,9 +49,13 @@ bool ImageButton::event(QEvent *e)
             return false;
         }
     }
-    else if (e->type() == QEvent::Leave ||
-             e->type() == QEvent::MouseButtonPress) {
+    else if (e->type() == QEvent::Leave)  {
         emit mouseLeave();
+        DImageButton::leaveEvent(e);
+    }
+    else if (e->type() == QEvent::MouseButtonPress) {
+        emit mouseLeave();
+
     }
 
     return DImageButton::event(e);

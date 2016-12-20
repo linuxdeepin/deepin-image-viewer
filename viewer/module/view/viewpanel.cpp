@@ -9,10 +9,12 @@
 #include "scen/imageview.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
+#include "widgets/imagebutton.h"
 
 #include <QApplication>
 #include <QDebug>
 #include <QFileInfo>
+#include <QProxyStyle>
 #include <QFileSystemWatcher>
 #include <QHBoxLayout>
 #include <QKeySequence>
@@ -29,7 +31,7 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
-
+const QSize ICON_SIZE = QSize(48, 40);
 
 }  // namespace
 
@@ -41,13 +43,12 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_stack(nullptr)
 {
     m_vinfo.inDatabase = false;
-
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();
     initFloatingComponent();
 
     initConnect();
     initShortcut();
-    initStyleSheet();
     initFileSystemWatcher();
 
     initPopupMenu();
@@ -76,6 +77,10 @@ void ViewPanel::initConnect() {
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
     connect(dApp->signalM, &SignalManager::viewImage, [=](const SignalManager::ViewInfo &vinfo){
+
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+
         onViewImage(vinfo);
         if (NULL == vinfo.lastPanel) {
             return;
@@ -148,9 +153,14 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void ViewPanel::initStyleSheet()
-{
-    setStyleSheet(utils::base::getFileContent(":/qss/resources/qss/view.qss"));
+void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        setStyleSheet(utils::base::getFileContent(
+                          ":/resources/dark/qss/view.qss"));
+    } else {
+        setStyleSheet(utils::base::getFileContent(
+                          ":/resources/light/qss/view.qss"));
+    }
 }
 
 void ViewPanel::showNormal()
@@ -218,6 +228,7 @@ QWidget *ViewPanel::toolbarBottomContent()
 QWidget *ViewPanel::toolbarTopLeftContent()
 {
     TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
+
     ttlc->setFixedWidth((window()->width() - 48*6)/2);
     ttlc->setCurrentDir(m_currentImageLastDir);
     connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
@@ -228,6 +239,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
     TTMContent *ttmc = new TTMContent(! m_vinfo.inDatabase);
+
     connect(this, &ViewPanel::updateCollectButton,
             ttmc, &TTMContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::onImageChanged);
@@ -256,6 +268,7 @@ QWidget *ViewPanel::extensionPanelContent()
 {
     QWidget *w = new QWidget;
     w->setAttribute(Qt::WA_TranslucentBackground);
+
     QVBoxLayout *l = new QVBoxLayout(w);
     l->setContentsMargins(0, 0, 0, 0);
 
@@ -343,12 +356,14 @@ void ViewPanel::dropEvent(QDropEvent *event)
         viewOnNewProcess(paths);
 
     event->accept();
+    ModulePanel::dropEvent(event);
 }
 
 void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 {
     event->setDropAction(Qt::CopyAction);
     event->accept();
+    ModulePanel::dragEnterEvent(event);
 }
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
@@ -556,6 +571,7 @@ void ViewPanel::rotateImage(bool clockWise)
 void ViewPanel::initViewContent()
 {
     m_viewB = new ImageView;
+
     connect(m_viewB, &ImageView::doubleClicked, [this]() {
         toggleFullScreen();
     });
