@@ -80,7 +80,6 @@ private:
     void onMenuItemClicked(QAction *action);
     void popupDelDialog(const QStringList &paths);
     void rotateImage(const QString &path, int degree);
-    void showImportFrame(bool v);
     void updateMenuContents();
     void updateContent();
     void updateTopTipsRect();

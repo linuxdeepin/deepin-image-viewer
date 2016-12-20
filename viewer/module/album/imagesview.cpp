@@ -68,9 +68,7 @@ void ImagesView::removeItems(const QStringList &paths)
     m_view->removeItems(paths);
 
     m_topTips->setAlbum(m_album);
-    if (m_view->count() == 0) {
-        showImportFrame(true);
-    }
+    updateContent();
 }
 
 int ImagesView::count() const
@@ -140,7 +138,7 @@ void ImagesView::insertItem(const DBImgInfo &info, bool update)
     if (update) {
         m_view->updateThumbnails();
         m_topTips->setAlbum(m_album);
-        showImportFrame(false);
+        updateContent();
     }
 }
 
@@ -155,9 +153,7 @@ void ImagesView::insertItems(const DBImgInfoList &infos)
 
         m_view->insertItem(vi);
     }
-    if (m_view->count() > 0) {
-        showImportFrame(false);
-    }
+    updateContent();
 }
 
 void ImagesView::updateMenuContents()
@@ -318,25 +314,6 @@ void ImagesView::rotateImage(const QString &path, int degree)
     }
 }
 
-void ImagesView::showImportFrame(bool v)
-{
-    if (v) {
-        // For avoid widget destroy
-        takeWidget();
-        m_contentWidget->setVisible(false);
-        setWidget(m_importFrame);
-        m_importFrame->setVisible(true);
-    }
-    else {
-        // For avoid widget destroy
-        takeWidget();
-        m_importFrame->setVisible(false);
-        setWidget(m_contentWidget);
-        m_contentWidget->setVisible(true);
-        updateTopTipsRect();
-    }
-}
-
 bool ImagesView::allInAlbum(const QStringList &paths, const QString &album)
 {
     const QStringList pl = dApp->dbM->getPathsByAlbum(album);
@@ -406,9 +383,7 @@ void ImagesView::showEvent(QShowEvent *e)
             insertItem(info, false);
         }
         m_topTips->setAlbum(m_album);
-        if (m_view->count() == 0) {
-            showImportFrame(true);
-        }
+        updateContent();
     }
 
     m_view->updateThumbnails();
@@ -457,7 +432,7 @@ void ImagesView::initContent()
 
 void ImagesView::updateContent()
 {
-    if (m_view->count() == 0) {
+    if (dApp->dbM->getImgsCountByAlbum(m_album) < 1) {
         // For avoid widget destroy
         takeWidget();
         m_contentWidget->setVisible(false);
