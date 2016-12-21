@@ -36,10 +36,10 @@ ProcessTooltip::ProcessTooltip(QWidget *parent)
 void ProcessTooltip::showTooltip(const QString &message, bool success)
 {
     if (success) {
-        m_icon->setPixmap(QPixmap(":/images/resources/images/success_tick.png"));
+        m_icon->setPixmap(QPixmap(":/resources/common/images/success_tick.png"));
     }
     else {
-        m_icon->setPixmap(QPixmap(":/images/resources/images/failure_cross.png"));
+        m_icon->setPixmap(QPixmap(":/resources/common/images/failure_cross.png"));
     }
     m_message->setText(message);
 

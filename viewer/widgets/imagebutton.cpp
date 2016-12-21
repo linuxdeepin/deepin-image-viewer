@@ -63,13 +63,28 @@ bool ImageButton::event(QEvent *e)
 
 void ImageButton::initStyleSheet()
 {
-    QFile f(":/qss/resources/qss/ImageButton.qss");
+    QFile f(":/resources/dark/qss/ImageButton.qss");
     if (f.open(QIODevice::ReadOnly)) {
         setStyleSheet(f.readAll());
         f.close();
     }
     else {
         qDebug() << "Set style sheet for ImageButton failed";
+    }
+}
+
+void ImageButton::setDarkTheme(bool dark) {
+    if (dark) {
+        initStyleSheet();
+    } else {
+        QFile f(":/resources/light/qss/ImageButton.qss");
+        if (f.open(QIODevice::ReadOnly)) {
+            setStyleSheet(f.readAll());
+            f.close();
+        }
+        else {
+            qDebug() << "Set style sheet for ImageButton failed";
+        }
     }
 }
 

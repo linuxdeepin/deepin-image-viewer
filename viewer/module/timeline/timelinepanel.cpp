@@ -232,16 +232,21 @@ void TimelinePanel::initMainStackWidget()
 {
     initImagesView();
 
-    ImportFrame *frame = new ImportFrame(this);
-    frame->setButtonText(tr("Import"));
-    frame->setTitle(tr("Import or drag image to timeline"));
-    connect(frame, &ImportFrame::clicked, this, [=] {
+    m_importFrame = new ImportFrame(this);
+    if (dApp->viewerTheme->getCurrentTheme() != ViewerThemeManager::Dark) {
+        m_importFrame->setDarkTheme(false);
+    } else {
+        m_importFrame->setDarkTheme(true);
+    }
+    m_importFrame->setButtonText(tr("Import"));
+    m_importFrame->setTitle(tr("Import or drag image to timeline"));
+    connect(m_importFrame, &ImportFrame::clicked, this, [=] {
         dApp->importer->showImportDialog();
     });
 
     m_mainStack = new QStackedWidget;
     m_mainStack->setContentsMargins(0, 0, 0, 0);
-    m_mainStack->addWidget(frame);
+    m_mainStack->addWidget(m_importFrame);
 //    m_mainStack->addWidget(m_view);
     m_mainStack->addWidget(m_frame);
     //show import frame if no images in database
@@ -283,6 +288,10 @@ void TimelinePanel::initImagesView()
 void TimelinePanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     Q_UNUSED(theme)
     initStyleSheet();
+    if (theme == ViewerThemeManager::Dark)
+        m_importFrame->setDarkTheme(true);
+    else
+        m_importFrame->setDarkTheme(false);
     if (this->isVisible()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());

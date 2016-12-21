@@ -13,12 +13,13 @@ public:
     void setTitle(const QString &title);
     void setButtonText(const QString &text);
     const QString buttonText() const;
-
+public slots:
+    void setDarkTheme(bool dark);
 signals:
     void clicked();
-
 private:
     QPushButton *m_importButton;
+    QLabel *m_bgLabel;
     QLabel *m_titleLabel;
 };
 

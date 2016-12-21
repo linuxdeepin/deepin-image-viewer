@@ -18,7 +18,8 @@ namespace {
 
 const int DELAY_START_INTERVAL = 500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
-
+const QColor DARK_BG_COLOR = QColor(27, 27, 27);
+const QColor LIGHT_BG_COLOR = QColor(255, 255, 255);
 }  // namespace
 
 SlideShowPanel::SlideShowPanel(QWidget *parent)
@@ -26,6 +27,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     , m_hideCursorTid(0)
     , m_startTid(0)
 {
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initeffectPlay();
     initMenu();
     initShortcut();
@@ -43,6 +45,8 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 
         m_player->setImagePaths(m_vinfo.paths);
     });
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &SlideShowPanel::onThemeChanged);
 }
 
 QString SlideShowPanel::moduleName()
@@ -272,8 +276,17 @@ QImage SlideShowPanel::getFitImage(const QString &path)
 
     QPainter painter(&ti);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter.fillRect(0, 0, dww, dwh, QColor(27, 27, 27));
+    painter.fillRect(0, 0, dww, dwh, m_bgColor);
     painter.drawImage(target, image, source);
 
     return ti;
+}
+
+void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark) {
+    if (dark == ViewerThemeManager::Dark) {
+        m_bgColor = DARK_BG_COLOR;
+    } else {
+        m_bgColor = LIGHT_BG_COLOR;
+    }
+    update();
 }

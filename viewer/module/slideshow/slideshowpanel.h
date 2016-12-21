@@ -2,7 +2,7 @@
 #define SLIDESHOWPANEL_H
 
 #include "module/modulepanel.h"
-
+#include "controller/viewerthememanager.h"
 #include <QFileSystemWatcher>
 
 class QMenu;
@@ -40,7 +40,7 @@ private:
 
     void showFullScreen();
     void showNormal();
-
+    void onThemeChanged(ViewerThemeManager::AppTheme dark);
 private:
     int                  m_hideCursorTid;
     int                  m_startTid;
@@ -51,6 +51,8 @@ private:
     SlideEffectPlayer   *m_player;
     bool                 m_isMaximized;
     QFileSystemWatcher  *m_fileSystemMonitor;
+
+    QColor               m_bgColor;
 };
 
 #endif // SLIDESHOWPANEL_H

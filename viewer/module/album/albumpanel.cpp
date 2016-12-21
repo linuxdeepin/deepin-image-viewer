@@ -186,6 +186,10 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 
         ImageButton *returnButton = new ImageButton();
         returnButton->setObjectName("ReturnBtn");
+        if (dApp->viewerTheme->getCurrentTheme()!= ViewerThemeManager::Dark) {
+            returnButton->setDarkTheme(false);
+        }
+
         connect(returnButton, &ImageButton::clicked, this, [=] {
             m_stackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
@@ -297,16 +301,24 @@ void AlbumPanel::initMainStackWidget()
     initImagesView();
     initAlbumsView();
 
-    ImportFrame *importFrame = new ImportFrame(this);
-    importFrame->setButtonText(tr("Import"));
-    importFrame->setTitle(tr("Import or drag image to timeline"));
-    connect(importFrame, &ImportFrame::clicked, this, [=] {
+    m_importFrame = new ImportFrame(this);
+    if (dApp->viewerTheme->getCurrentTheme() !=
+            ViewerThemeManager::Dark) {
+          m_importFrame->setDarkTheme(false);
+
+    } else {
+        m_importFrame->setDarkTheme(true);
+    }
+
+    m_importFrame->setButtonText(tr("Import"));
+    m_importFrame->setTitle(tr("Import or drag image to timeline"));
+    connect(m_importFrame, &ImportFrame::clicked, this, [=] {
         dApp->importer->showImportDialog();
     });
 
     m_stackWidget = new QStackedWidget;
     m_stackWidget->setContentsMargins(0, 0, 0, 0);
-    m_stackWidget->addWidget(importFrame);
+    m_stackWidget->addWidget(m_importFrame);
     m_stackWidget->addWidget(m_albumsView);
     m_stackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
@@ -406,9 +418,12 @@ void AlbumPanel::initStyleSheet()
 void AlbumPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
         setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/album.qss"));
+        m_importFrame->setDarkTheme(true);
     } else {
         setStyleSheet(utils::base::getFileContent(":/resources/light/qss/album.qss"));
+        m_importFrame->setDarkTheme(false);
     }
+
     if (this->isVisible()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());

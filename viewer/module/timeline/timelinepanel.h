@@ -3,6 +3,7 @@
 
 #include "module/modulepanel.h"
 #include "controller/viewerthememanager.h"
+#include "widgets/importframe.h"
 
 class QLabel;
 class QMenu;
@@ -47,6 +48,7 @@ private:
     QMenu               *m_menu;
     QLabel              *m_countLabel;
     QStackedWidget      *m_mainStack;
+    ImportFrame         *m_importFrame;
     Slider              *m_slider;
     TimelineFrame       *m_frame;
 

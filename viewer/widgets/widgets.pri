@@ -31,4 +31,4 @@ SOURCES += \
     $$PWD/thumbnaildelegate.cpp
 
 RESOURCES += \
-    $$PWD/widgets.qrc
+    $$PWD/widgetstheme.qrc

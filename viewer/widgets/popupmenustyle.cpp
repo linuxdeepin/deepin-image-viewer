@@ -9,9 +9,9 @@
 namespace {
 
 const QString SUB_MENU_NORMAL_ICON =
-        ":/images/resources/images/sub_menu_normal.png";
+        ":/resources/common/images/sub_menu_normal.png";
 const QString SUB_MENU_HOVER_ICON =
-        ":/images/resources/images/sub_menu_hover.png";
+        ":/resources/common/images/sub_menu_hover.png";
 
 const qreal FRAME_BORDER_WIDTH = 0.5;
 const int FRAME_BORDER_RADIUS = 4;

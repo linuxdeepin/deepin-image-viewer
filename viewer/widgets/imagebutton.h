@@ -26,6 +26,7 @@ public:
     bool tooltipVisible();
 
     inline const QString getDisablePic() const { return m_disablePic_; }
+    void setDarkTheme(bool dark);
 signals:
     void mouseLeave();
 

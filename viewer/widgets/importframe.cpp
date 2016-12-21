@@ -5,18 +5,20 @@
 
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QStyle>
 #include <QFileDialog>
 #include <QLabel>
 
 ImportFrame::ImportFrame(QWidget *parent)
     : QWidget(parent)
 {
-    setStyleSheet(utils::base::getFileContent(
-                      ":/qss/resources/qss/ImportFrame.qss"));
     this->setAcceptDrops(true);
 
-    QLabel* bgLabel = new QLabel();
-    bgLabel->setPixmap(QPixmap(":/images/resources/images/no_picture.png"));
+    setDarkTheme(true);
+    m_bgLabel = new QLabel();
+    m_bgLabel->setFixedSize(164, 104);
+    m_bgLabel->setObjectName("ImportBgLabel");
+
 
     m_importButton = new QPushButton();
     m_importButton->setFixedSize(120, 20);
@@ -30,12 +32,13 @@ ImportFrame::ImportFrame(QWidget *parent)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addStretch(1);
-    layout->addWidget(bgLabel, 0, Qt::AlignHCenter);
+    layout->addWidget(m_bgLabel, 0, Qt::AlignHCenter);
     layout->addSpacing(18);
     layout->addWidget(m_importButton, 0, Qt::AlignHCenter);
     layout->addSpacing(10);
     layout->addWidget(m_titleLabel, 0, Qt::AlignHCenter);
     layout->addStretch(1);
+
 }
 
 void ImportFrame::setTitle(const QString &title)
@@ -56,3 +59,12 @@ const QString ImportFrame::buttonText() const
     return m_importButton->text();
 }
 
+void ImportFrame::setDarkTheme(bool dark) {
+    if (dark) {
+        this->setStyleSheet(utils::base::getFileContent(
+                          ":/resources/dark/qss/ImportFrame.qss"));
+    } else {
+        this->setStyleSheet(utils::base::getFileContent(
+                          ":/resources/light/qss/ImportFrame.qss"));
+    }
+}

@@ -1,0 +1,33 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/common/images/closewindow_hover.png</file>
+        <file>resources/common/images/closewindow_normal.png</file>
+        <file>resources/common/images/closewindow_press.png</file>
+        <file>resources/common/images/failure_cross.png</file>
+        <file>resources/common/images/item_selected.png</file>
+        <file>resources/common/images/slidder_handle.png</file>
+        <file>resources/common/images/slidder_handle.svg</file>
+        <file>resources/common/images/sub_menu_hover.png</file>
+        <file>resources/common/images/sub_menu_normal.png</file>
+        <file>resources/common/images/success_tick.png</file>
+        <file>resources/common/images/tooltip.svg</file>
+        <file>resources/common/images/window_close_hover.png</file>
+        <file>resources/common/images/window_close_normal.png</file>
+        <file>resources/common/images/window_close_press.png</file>
+        <file>resources/common/qss/BlureDialog.qss</file>
+        <file>resources/common/qss/BlureInfoFrame.qss</file>
+        <file>resources/common/qss/ScrollBar.qss</file>
+        <file>resources/common/qss/Separator.qss</file>
+        <file>resources/common/qss/Slider.qss</file>
+        <file>resources/common/qss/ThumbnailListView.qss</file>
+        <file>resources/common/qss/Tooltip.qss</file>
+        <file>resources/dark/qss/ImageButton.qss</file>
+        <file>resources/dark/images/default_thumbnail.png</file>
+        <file>resources/dark/images/no_picture.png</file>
+        <file>resources/light/images/default_thumbnail.png</file>
+        <file>resources/light/images/no_picture.png</file>
+        <file>resources/dark/qss/ImportFrame.qss</file>
+        <file>resources/light/qss/ImageButton.qss</file>
+        <file>resources/light/qss/ImportFrame.qss</file>
+    </qresource>
+</RCC>

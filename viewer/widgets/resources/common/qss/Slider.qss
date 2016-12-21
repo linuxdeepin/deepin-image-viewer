@@ -1,6 +1,6 @@
 QSlider::handle:horizontal {
     margin: -5px -1; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
-    image: url(:/images/resources/images/slidder_handle.svg);
+    image: url(:/resources/common/images/slidder_handle.svg);
 }
 
 QSlider::sub-page {

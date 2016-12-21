@@ -3,6 +3,8 @@
 
 #include "topalbumtips.h"
 #include "controller/dbmanager.h"
+#include "controller/viewerthememanager.h"
+
 #include <QWidget>
 #include <QScrollArea>
 #include <QJsonObject>
@@ -88,6 +90,7 @@ private:
     QMenu* createAlbumMenu();
     const QStringList albumPaths();
 
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     QStringList m_rotateList;
     QString m_album;

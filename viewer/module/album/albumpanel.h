@@ -54,6 +54,7 @@ private:
     QPointer<QLabel> m_countLabel;
     Slider *m_slider;
 
+    ImportFrame *m_importFrame;
     AlbumsView *m_albumsView = NULL;
     ImagesView *m_imagesView = NULL;
     QStackedWidget *m_stackWidget = NULL;

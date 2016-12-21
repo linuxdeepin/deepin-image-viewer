@@ -1,4 +1,0 @@
-
-Tooltip {
-    border-image: url(:/images/resources/images/tooltip.svg) stretch;
-}
