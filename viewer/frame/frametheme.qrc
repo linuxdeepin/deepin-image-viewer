@@ -12,5 +12,6 @@
         <file>resources/dark/images/importtip/close_hover.png</file>
         <file>resources/dark/images/importtip/close_normal.png</file>
         <file>resources/dark/images/importtip/close_press.png</file>
+        <file>resources/dark/images/item_selected.png</file>
     </qresource>
 </RCC>

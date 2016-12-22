@@ -120,12 +120,12 @@ bool CommandLine::processOption()
 
     QString defaulttheme = dApp->setter->value(THEME_GROUP,
                                                    THEME_TEXT).toString();
-    if (defaulttheme.isEmpty()||defaulttheme == "Dark") {
-        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
-    } else {
+    if (defaulttheme.isEmpty()||defaulttheme == "Light") {
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
         Dtk::Widget::DThemeManager::instance()->setTheme("light");
+    } else {
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     }
 
     DeepinImageViewerDBus *dd = new DeepinImageViewerDBus(dApp->signalM);

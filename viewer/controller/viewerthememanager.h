@@ -21,6 +21,6 @@ public slots:
 
 private:
     static ViewerThemeManager* m_viewerTheme;
-    AppTheme m_currentTheme = AppTheme::Dark;
+    AppTheme m_currentTheme = AppTheme::Light;
 };
 #endif // VIEWERTHEMEMANAGER_H

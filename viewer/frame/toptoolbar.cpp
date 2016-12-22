@@ -260,6 +260,21 @@ void TopToolbar::initMenu()
     m_menu->setStyle(QStyleFactory::create("dlight"));
     QAction *acNA = m_menu->addAction(tr("New album"));
     QAction *acDT = m_menu->addAction(tr("Deep color mode"));
+    bool checkSelected = dApp->viewerTheme->getCurrentTheme() ==
+            ViewerThemeManager::Dark;
+    acDT->setCheckable(checkSelected);
+    acDT->setChecked(checkSelected);
+
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            [=](ViewerThemeManager::AppTheme dark){
+        if (dark == ViewerThemeManager::Dark) {
+            acDT->setCheckable(true);
+            acDT->setChecked(true);
+        } else {
+            acDT->setCheckable(false);
+            acDT->setChecked(false);
+        }
+    });
     QAction *acS = m_menu->addAction(tr("Setting"));
     m_menu->addSeparator();
     QAction *acH = m_menu->addAction(tr("Help"));
