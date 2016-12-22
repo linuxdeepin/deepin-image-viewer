@@ -260,6 +260,7 @@ bool trashFiles(const QStringList &files)
         if (! trashFile(file))
             v = false;
     }
+
     return v;
 }
 

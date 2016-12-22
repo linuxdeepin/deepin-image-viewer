@@ -124,22 +124,31 @@ void ViewPanel::initFileSystemWatcher()
 
         if (! info.inDatabase) {
             sw->addPath(QFileInfo(info.path).dir().absolutePath());
+            sw->addPath(QFileInfo(info.path).absolutePath());
         }
     });
     connect(sw, &QFileSystemWatcher::directoryChanged, this, [=] {
         if (m_current == m_infos.cend() || m_infos.isEmpty())
             return;
-        const QString cp = m_current->filePath;
-        m_infos = getImageInfos(getFileInfos(cp));
-        m_current = m_infos.cbegin();
-        for (; m_current != m_infos.cend(); m_current ++) {
-            if (m_current->filePath == cp) {
-                return;
-            }
-        }
+        updateLocalImages();
+    });
+    connect(sw, &QFileSystemWatcher::fileChanged, this, [=] {
+        if (m_current == m_infos.cend() || m_infos.isEmpty())
+            return;
+        updateLocalImages();
     });
 }
 
+void ViewPanel::updateLocalImages() {
+    const QString cp = m_current->filePath;
+    m_infos = getImageInfos(getFileInfos(cp));
+    m_current = m_infos.cbegin();
+    for (; m_current != m_infos.cend(); m_current ++) {
+        if (m_current->filePath == cp) {
+            return;
+        }
+    }
+}
 void ViewPanel::mousePressEvent(QMouseEvent *e)
 {
     emit dApp->signalM->hideExtensionPanel();
@@ -250,13 +259,29 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         rotateImage(false);
     });
     connect(ttmc, &TTMContent::removed, this, [=] {
-        popupDelDialog(m_current->filePath);
+        if (m_vinfo.inDatabase) {
+            popupDelDialog(m_current->filePath);
+        } else {
+            //FIXME: m_infos.length == 1, showNext() will lead to crash!
+            bool lastOnly = false;
+            if (m_infos.length()==1) {
+                lastOnly = true;
+            }
+            QString trashfile = m_current->filePath;
+            bool trashResult = utils::base::trashFile(trashfile);
+
+            if (lastOnly && trashResult) {
+                 m_stack->setCurrentWidget(m_emptyFrame);
+                 emit ttmc->onImageChanged("");
+            } else {
+                showNext();
+            }
+        }
     });
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
         if (fitWindow) {
             m_viewB->fitWindow();
-        }
-        else {
+        } else {
             m_viewB->fitImage();
         }
     });
@@ -453,8 +478,9 @@ bool ViewPanel::showNext()
 {
     if (m_infos.isEmpty())
         return false;
-    if (m_current == m_infos.cend())
+    if (m_current == m_infos.cend()) {
         m_current = m_infos.cbegin();
+    }
     ++m_current;
     if (m_current == m_infos.cend())
         m_current = m_infos.cbegin();
@@ -520,17 +546,18 @@ void ViewPanel::initStack()
     vl->addWidget(m_stack);
 
     // Empty frame
-    QFrame *emptyFrame = new QFrame;
-    emptyFrame->setMouseTracking(true);
-    emptyFrame->setAttribute(Qt::WA_TranslucentBackground);
+    m_emptyFrame = new QFrame;
+    m_emptyFrame->setMouseTracking(true);
+    m_emptyFrame->setAttribute(Qt::WA_TranslucentBackground);
     QLabel *icon = new QLabel;
-    icon->setPixmap(QPixmap(":/images/resources/images/no_picture.png"));
-    QHBoxLayout *il = new QHBoxLayout(emptyFrame);
+    icon->setObjectName("EmptyFrame");
+    icon->setFixedSize(164, 104);
+    QHBoxLayout *il = new QHBoxLayout(m_emptyFrame);
     il->setContentsMargins(0, 0, 0, 0);
     il->addWidget(icon, 0, Qt::AlignCenter);
 
     m_stack->addWidget(m_viewB);
-    m_stack->addWidget(emptyFrame);
+    m_stack->addWidget(m_emptyFrame);
 }
 
 void ViewPanel::backToLastPanel()
