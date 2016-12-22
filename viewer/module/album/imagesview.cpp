@@ -186,17 +186,19 @@ void ImagesView::updateMenuContents()
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
     m_menu->addSeparator();
     /**************************************************************************/
-    bool isCollected = false;
+    bool isCollected = false, unFavor = false;
     for (QString img : paths) {
         if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME, img)) {
             isCollected = true;
-            break;
+            continue;
+        } else {
+            unFavor = true;
         }
     }
-    if (isCollected) {
+    if (!unFavor && paths.length() == 1) {
         appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
     }
-    else {
+    else if (!isCollected || unFavor ) {
         appendAction(IdAddToFavorites,
                      tr("Add to my favorite"), ss("Add to my favorite"));
     }
