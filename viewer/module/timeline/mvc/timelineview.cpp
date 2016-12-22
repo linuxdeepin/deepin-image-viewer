@@ -63,7 +63,8 @@ TimelineView::TimelineView(QWidget *parent)
     , m_bottomMargin(30)
     , m_topMargin(44)
 {
-    setVerticalScrollBar(new ScrollBar());
+    setVerticalScrollBar(new QScrollBar());
+
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::AppTheme::Dark) {
         m_backgroundColor = DARK_BACKGROUND_COLOR;

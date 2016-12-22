@@ -55,7 +55,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     setSelectionMode(QAbstractItemView::SingleSelection);
     setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
-    setVerticalScrollBar(new ScrollBar());
+    setVerticalScrollBar(new QScrollBar());
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
     setDragEnabled(false);
 
