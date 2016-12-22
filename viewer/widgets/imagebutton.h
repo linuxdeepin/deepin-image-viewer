@@ -3,6 +3,8 @@
 
 #include <QEvent>
 #include <QLabel>
+
+#include "controller/viewerthememanager.h"
 #include <dimagebutton.h>
 
 using namespace Dtk::Widget;
@@ -26,7 +28,6 @@ public:
     bool tooltipVisible();
 
     inline const QString getDisablePic() const { return m_disablePic_; }
-    void setDarkTheme(bool dark);
 signals:
     void mouseLeave();
 
@@ -35,9 +36,8 @@ protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    void initStyleSheet();
     void showTooltip(const QPoint &gPos);
-
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     bool m_tooltipVisiable;
     QString m_disablePic_;

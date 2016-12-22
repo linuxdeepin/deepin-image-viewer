@@ -233,11 +233,6 @@ void TimelinePanel::initMainStackWidget()
     initImagesView();
 
     m_importFrame = new ImportFrame(this);
-    if (dApp->viewerTheme->getCurrentTheme() != ViewerThemeManager::Dark) {
-        m_importFrame->setDarkTheme(false);
-    } else {
-        m_importFrame->setDarkTheme(true);
-    }
     m_importFrame->setButtonText(tr("Import"));
     m_importFrame->setTitle(tr("Import or drag image to timeline"));
     connect(m_importFrame, &ImportFrame::clicked, this, [=] {
@@ -288,10 +283,6 @@ void TimelinePanel::initImagesView()
 void TimelinePanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     Q_UNUSED(theme)
     initStyleSheet();
-    if (theme == ViewerThemeManager::Dark)
-        m_importFrame->setDarkTheme(true);
-    else
-        m_importFrame->setDarkTheme(false);
     if (this->isVisible()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());

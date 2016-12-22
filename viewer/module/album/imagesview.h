@@ -90,7 +90,6 @@ private:
     QMenu* createAlbumMenu();
     const QStringList albumPaths();
 
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     QStringList m_rotateList;
     QString m_album;

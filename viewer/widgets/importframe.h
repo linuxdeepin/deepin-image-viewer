@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "controller/viewerthememanager.h"
+
 class QPushButton;
 class QLabel;
 class ImportFrame : public QWidget
@@ -13,8 +15,8 @@ public:
     void setTitle(const QString &title);
     void setButtonText(const QString &text);
     const QString buttonText() const;
-public slots:
-    void setDarkTheme(bool dark);
+private slots:
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 signals:
     void clicked();
 private:

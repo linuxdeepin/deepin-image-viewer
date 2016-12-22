@@ -1,4 +1,5 @@
 #include "imagebutton.h"
+#include "application.h"
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QFrame>
@@ -11,7 +12,9 @@
 ImageButton::ImageButton(QWidget *parent)
     : DImageButton(parent), m_tooltipVisiable(false)
 {
-    initStyleSheet();
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &ImageButton::onThemeChanged);
 }
 
 ImageButton::ImageButton(const QString &normalPic, const QString &hoverPic,
@@ -21,7 +24,9 @@ ImageButton::ImageButton(const QString &normalPic, const QString &hoverPic,
     , m_tooltipVisiable(false)
     , m_disablePic_(disablePic)
 {
-    initStyleSheet();
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &ImageButton::onThemeChanged);
 }
 
 void ImageButton::setDisablePic(const QString &path)
@@ -61,29 +66,22 @@ bool ImageButton::event(QEvent *e)
     return DImageButton::event(e);
 }
 
-void ImageButton::initStyleSheet()
-{
-    QFile f(":/resources/dark/qss/ImageButton.qss");
-    if (f.open(QIODevice::ReadOnly)) {
-        setStyleSheet(f.readAll());
-        f.close();
-    }
-    else {
-        qDebug() << "Set style sheet for ImageButton failed";
-    }
-}
-
-void ImageButton::setDarkTheme(bool dark) {
-    if (dark) {
-        initStyleSheet();
-    } else {
-        QFile f(":/resources/light/qss/ImageButton.qss");
-        if (f.open(QIODevice::ReadOnly)) {
-            setStyleSheet(f.readAll());
-            f.close();
+void ImageButton::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    QFile darkF(":/resources/dark/qss/ImageButton.qss"),
+          lightF(":/resources/light/qss/ImageButton.qss");
+    if (theme == ViewerThemeManager::Dark) {
+        if (darkF.open(QIODevice::ReadOnly)) {
+            setStyleSheet(darkF.readAll());
+            darkF.close();
+        } else {
+            qDebug() << "Set dark style sheet for ImageButton failed";
         }
-        else {
-            qDebug() << "Set style sheet for ImageButton failed";
+    } else {
+        if (lightF.open(QIODevice::ReadOnly)) {
+            setStyleSheet(lightF.readAll());
+            lightF.close();
+        } else {
+            qDebug() << "Set light style sheet for ImageButton failed";
         }
     }
 }
@@ -129,7 +127,7 @@ void ImageButton::showTooltip(const QPoint &gPos)
     if (y > dr.y() + dr.height()) {
         y = gPos.y() - tf->height() - 10;
     }
-    tf->move(gPos.x(), y);
+    tf->move(gPos.x() - tf->width()/3, y - tf->height()/3);
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 

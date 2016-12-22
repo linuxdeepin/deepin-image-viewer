@@ -186,9 +186,6 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 
         ImageButton *returnButton = new ImageButton();
         returnButton->setObjectName("ReturnBtn");
-        if (dApp->viewerTheme->getCurrentTheme()!= ViewerThemeManager::Dark) {
-            returnButton->setDarkTheme(false);
-        }
 
         connect(returnButton, &ImageButton::clicked, this, [=] {
             m_stackWidget->setCurrentWidget(m_albumsView);
@@ -302,13 +299,6 @@ void AlbumPanel::initMainStackWidget()
     initAlbumsView();
 
     m_importFrame = new ImportFrame(this);
-    if (dApp->viewerTheme->getCurrentTheme() !=
-            ViewerThemeManager::Dark) {
-          m_importFrame->setDarkTheme(false);
-
-    } else {
-        m_importFrame->setDarkTheme(true);
-    }
 
     m_importFrame->setButtonText(tr("Import"));
     m_importFrame->setTitle(tr("Import or drag image to timeline"));
@@ -418,10 +408,8 @@ void AlbumPanel::initStyleSheet()
 void AlbumPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
         setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/album.qss"));
-        m_importFrame->setDarkTheme(true);
     } else {
         setStyleSheet(utils::base::getFileContent(":/resources/light/qss/album.qss"));
-        m_importFrame->setDarkTheme(false);
     }
 
     if (this->isVisible()) {

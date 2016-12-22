@@ -418,14 +418,13 @@ void ImagesView::initContent()
     m_contentLayout->setContentsMargins(10, 70, 6, 20);
 
     m_importFrame = new ImportFrame(this);
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+
     m_importFrame->setButtonText(tr("Import"));
     m_importFrame->setTitle(tr("Import or drag image to timeline"));
     connect(m_importFrame, &ImportFrame::clicked, this, [=] {
         dApp->importer->showImportDialog(m_album);
     });
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &ImagesView::onThemeChanged);
+
     initListView();
     initTopTips();
 
@@ -487,12 +486,4 @@ void ImagesView::popupDelDialog(const QStringList &paths)
 {
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);
     fdd->show();
-}
-
-void ImagesView::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    if (theme == ViewerThemeManager::Dark) {
-        m_importFrame->setDarkTheme(true);
-    } else {
-        m_importFrame->setDarkTheme(false);
-    }
 }

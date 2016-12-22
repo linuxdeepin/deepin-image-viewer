@@ -44,6 +44,7 @@ private:
     void updateMenuContents();
     void rotateImage(const QString &path, int degree);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+
 private:
     QMenu               *m_menu;
     QLabel              *m_countLabel;

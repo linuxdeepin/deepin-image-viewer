@@ -1,4 +1,5 @@
 #include "importframe.h"
+#include "application.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include <QDropEvent>
@@ -12,9 +13,8 @@
 ImportFrame::ImportFrame(QWidget *parent)
     : QWidget(parent)
 {
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     this->setAcceptDrops(true);
-
-    setDarkTheme(true);
     m_bgLabel = new QLabel();
     m_bgLabel->setFixedSize(164, 104);
     m_bgLabel->setObjectName("ImportBgLabel");
@@ -39,6 +39,9 @@ ImportFrame::ImportFrame(QWidget *parent)
     layout->addWidget(m_titleLabel, 0, Qt::AlignHCenter);
     layout->addStretch(1);
 
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &ImportFrame::onThemeChanged);
+
 }
 
 void ImportFrame::setTitle(const QString &title)
@@ -59,8 +62,8 @@ const QString ImportFrame::buttonText() const
     return m_importButton->text();
 }
 
-void ImportFrame::setDarkTheme(bool dark) {
-    if (dark) {
+void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
         this->setStyleSheet(utils::base::getFileContent(
                           ":/resources/dark/qss/ImportFrame.qss"));
     } else {
