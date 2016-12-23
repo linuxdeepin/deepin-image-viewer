@@ -131,16 +131,6 @@ void TimelinePanel::dragEnterEvent(QDragEnterEvent *event)
     event->accept();
 }
 
-void TimelinePanel::showPanelEvent(ModulePanel *p)
-{
-    ModulePanel::showPanelEvent(p);
-    emit dApp->signalM->showTopToolbar();
-//    emit dApp->signalM->showBottomToolbar();
-    emit dApp->signalM->hideExtensionPanel(true);
-    emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent(),
-                                                   false);
-}
-
 void TimelinePanel::initConnection()
 {
     connect(dApp->importer, &Importer::imported, this, [=] (bool success) {

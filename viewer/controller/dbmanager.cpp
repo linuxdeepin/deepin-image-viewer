@@ -172,11 +172,8 @@ bool DBManager::isImgExist(const QString &path) const
     return false;
 }
 
-QMutex mutex;
 void DBManager::insertImgInfos(const DBImgInfoList &infos)
 {
-    QMutexLocker locker(&mutex);
-
     const QSqlDatabase db = getDatabase();
     if (infos.isEmpty() || ! db.isValid()) {
         return;
@@ -449,8 +446,6 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path) con
 
 void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
 {
-    QMutexLocker locker(&mutex);
-
     const QSqlDatabase db = getDatabase();
     if (! db.isValid() || album.isEmpty()) {
         return;

@@ -115,7 +115,7 @@ void AlbumBTContent::initMiddleContent()
     LoadingIcon *lIcon = new LoadingIcon(this);
     hl->addWidget(lIcon);
     QLabel *l = new QLabel;
-    l->setFixedWidth(260);
+    l->setMaximumWidth(350);
     l->setObjectName("ImportLabel");
     hl->addWidget(l);
     hl->addStretch();
@@ -144,7 +144,7 @@ void AlbumBTContent::initMiddleContent()
     });
     connect(dApp->importer, &Importer::currentImport, this, [=] (const QString &path) {
         QFontMetrics fm(l->font());
-        l->setText(tr("Importing: ") + fm.elidedText(path, Qt::ElideMiddle, 200));
+        l->setText(tr("Importing: ") + fm.elidedText(path, Qt::ElideMiddle, 230));
     });
 
     m_layout->addLayout(layout);

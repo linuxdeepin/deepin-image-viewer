@@ -90,8 +90,7 @@ void Importer::appendFiles(const QStringList &paths, const QString &album)
             dApp->dbM, &DBManager::insertIntoAlbum);
     connect(ft, &FilesCollectThread::currentImport,
             this, &Importer::currentImport);
-    connect(ft, &FilesCollectThread::finished,
-            this, [=] {
+    connect(ft, &FilesCollectThread::finished, this, [=] {
         m_threads.removeAll(ft);
         if (m_threads.isEmpty())
             emit imported(true);
@@ -159,7 +158,7 @@ void DirCollectThread::run()
                 cacheCount ++;
             }
 
-            if (generateCount > 50 || cacheCount > 2000) {
+            if (generateCount > 10 || cacheCount > 2000) {
                 emit resultReady(dbInfos);
                 dbInfos.clear();
                 generateCount = 0;
@@ -212,7 +211,7 @@ void FilesCollectThread::run()
             cacheCount ++;
         }
 
-        if (generateCount > 50 || cacheCount > 2000) {
+        if (generateCount > 10 || cacheCount > 2000) {
             emit resultReady(dbInfos);
             dbInfos.clear();
             generateCount = 0;

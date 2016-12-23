@@ -222,14 +222,13 @@ void AlbumPanel::dropEvent(QDropEvent *event)
     if (! files.isEmpty()) {
         dApp->importer->appendFiles(files, withAlbum ? m_currentAlbum : "");
     }
+    event->accept();
 }
 
 void AlbumPanel::dragEnterEvent(QDragEnterEvent *event)
 {
-    if (m_currentAlbum != RECENT_IMPORT_ALBUM) {
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
-    }
+    event->setDropAction(Qt::CopyAction);
+    event->accept();
 }
 
 void AlbumPanel::initMainStackWidget()
@@ -445,6 +444,7 @@ void AlbumPanel::onOpenAlbum(const QString &album)
 
     m_stackWidget->setCurrentWidget(m_imagesView);
     if (! m_mContent.isNull()) {
+        m_mContent->setAlbum(album);
         m_mContent->setInAlbumView(false);
         m_mContent->updateCount();
         m_mContent->updateSliderDefaultValue();
@@ -462,6 +462,7 @@ void AlbumPanel::onCreateAlbum(QStringList imagepaths)
 void AlbumPanel::showEvent(QShowEvent *e)
 {
     // Make sure BottomContent have been init
-    emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+//    emit dApp->signalM->updateBottomToolbarContent(toolbarBottomContent());
+    onImageCountChanged();
     ModulePanel::showEvent(e);
 }

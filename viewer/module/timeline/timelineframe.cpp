@@ -59,7 +59,9 @@ TimelineFrame::TimelineFrame(QWidget *parent)
 
     // Item append and remove
     connect(dApp->signalM, &SignalManager::imagesInserted,
-            this, &TimelineFrame::insertItems);
+            this, [=] (const DBImgInfoList infos){
+        QtConcurrent::run(this, &TimelineFrame::insertItems, infos);
+    });
     connect(dApp->signalM, &SignalManager::imagesRemoved,
             this, [=] (const DBImgInfoList &infos) {
         for (auto info : infos) {
@@ -157,6 +159,7 @@ void TimelineFrame::insertItems(const DBImgInfoList &infos)
 {
     using namespace utils::base;
     using namespace utils::image;
+    QStringList errorPaths;
     for (auto info : infos) {
         TimelineItem::ItemData data;
         data.isTitle = false;
@@ -166,12 +169,17 @@ void TimelineFrame::insertItems(const DBImgInfoList &infos)
         inBuffer.open( QIODevice::WriteOnly );
         // write inPixmap into inByteArray
         if ( ! cutSquareImage(getThumbnail(data.path, true)).save( &inBuffer, "JPG" )) {
-            // qDebug() << "Write pixmap to buffer error!" << info.name;
+             errorPaths << info.filePath;
         }
         data.timeline = timeToString(info.time, true);
 
         m_model.appendData(data);
     }
+//    // dApp->importer thread may cause crash
+//    if (errorPaths.length() > 0 && ! dApp->importer->isRunning()) {
+//        qDebug() << "Remove some unsupport images: " << errorPaths.length();
+//        dApp->dbM->removeImgInfos(errorPaths);
+//    }
 
     m_view->updateView();
     m_view->update();

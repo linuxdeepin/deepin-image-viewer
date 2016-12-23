@@ -8,7 +8,7 @@ LoadingIcon::LoadingIcon(QWidget *parent)
     updateIconPath();
     setPictureSequence(m_iconPaths);
     setFixedSize(14, 14);
-    setSpeed(20);
+    setSpeed(40);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &LoadingIcon::updateIconPath);
 }
@@ -20,7 +20,7 @@ void LoadingIcon::updateIconPath()
         iconPath = ":/images/loadings/resources/dark/images/dark_loading/loading_%1.png";
     }
     else {
-        iconPath = ":/images/loadings/resources/dark/images/white_loading/loading_%1.png";
+        iconPath = ":/images/loadings/resources/light/images/white_loading/loading_%1.png";
     }
     m_iconPaths.clear();
 
