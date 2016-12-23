@@ -43,9 +43,12 @@ private:
 
     void onImageCountChanged();
     void onInsertIntoAlbum(const DBImgInfo info);
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void showCreateDialog(QStringList imgpaths);
     void showImportDirDialog(const QString &dir);
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
+    void updateMContentCount();
+    void updateMItemSize(int size);
+
 private:
     QString m_currentAlbum;
 
