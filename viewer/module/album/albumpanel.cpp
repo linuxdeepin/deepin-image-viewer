@@ -63,17 +63,6 @@ QWidget *AlbumPanel::toolbarBottomContent()
         m_albumsView->setItemSizeMultiple(m);
     });
 
-    connect(m_albumsView, &AlbumsView::changeItemSize,
-            m_mContent, &AlbumBTContent::changeItemSize);
-    connect(m_albumsView, &AlbumsView::albumCreated,
-            m_mContent, &AlbumBTContent::updateCount,
-            Qt::QueuedConnection);
-    connect(m_albumsView, &AlbumsView::albumRemoved,
-            m_mContent, &AlbumBTContent::updateCount);
-
-    connect(m_imagesView, &ImagesView::changeItemSize,
-            m_mContent, &AlbumBTContent::changeItemSize);
-
     return m_mContent;
 }
 
@@ -265,8 +254,10 @@ void AlbumPanel::initMainStackWidget()
     m_stackWidget->setCurrentIndex((dApp->dbM->getImgsCount() > 0 ||
                                     dApp->dbM->getAlbumsCount() > 1) ? 1 : 0);
     connect(m_stackWidget, &QStackedWidget::currentChanged, this, [=] (int i) {
-        m_mContent->setInAlbumView(i == 1);
-        m_mContent->updateCount();
+        if (! m_mContent.isNull()) {
+            m_mContent->setInAlbumView(i == 1);
+            m_mContent->updateCount();
+        }
         emit dApp->signalM->updateTopToolbarLeftContent(
                     toolbarTopLeftContent());
     });
@@ -280,6 +271,13 @@ void AlbumPanel::initAlbumsView()
 {
     m_albumsView = new AlbumsView(this);
     m_albumsView->updateView();
+    connect(m_albumsView, &AlbumsView::changeItemSize,
+            this, &AlbumPanel::updateMItemSize);
+    connect(m_albumsView, &AlbumsView::albumCreated,
+            this, &AlbumPanel::updateMContentCount,
+            Qt::QueuedConnection);
+    connect(m_albumsView, &AlbumsView::albumRemoved,
+            this, &AlbumPanel::updateMContentCount);
     connect(m_albumsView, &AlbumsView::openAlbum,
             this, &AlbumPanel::onOpenAlbum);
     connect(m_albumsView, &AlbumsView::startSlideShow,
@@ -300,6 +298,8 @@ void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
 
+    connect(m_imagesView, &ImagesView::changeItemSize,
+            this, &AlbumPanel::updateMItemSize);
     connect(m_imagesView, &ImagesView::startSlideShow,
             this, [=] (const QStringList &paths, const QString &path) {
         SignalManager::ViewInfo vinfo;
@@ -325,7 +325,7 @@ void AlbumPanel::initImagesView()
             this, [=] (const QString &album, const QStringList &paths) {
         if (album == m_imagesView->getCurrentAlbum())
             m_imagesView->removeItems(paths);
-        m_mContent->updateCount();
+        updateMContentCount();
     });
     connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
         if (! success) {
@@ -391,15 +391,27 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
     DirImportDialog *d = new DirImportDialog(dir);
     connect(d, &DirImportDialog::albumCreated,
             m_albumsView, &AlbumsView::updateView);
-    connect(d, &DirImportDialog::albumCreated, this, [=] {
-        if (! m_mContent.isNull())
-            m_mContent->updateCount();
-    });
+    connect(d, &DirImportDialog::albumCreated,
+            this, &AlbumPanel::updateMContentCount);
     d->show();
 //    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
 //    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
 //            (parentWidget()->height() - d->height()) / 2 + p.y());
-//    d->import(dir);
+    //    d->import(dir);
+}
+
+void AlbumPanel::updateMContentCount()
+{
+    if (! m_mContent.isNull()) {
+        m_mContent->updateCount();
+    }
+}
+
+void AlbumPanel::updateMItemSize(int size)
+{
+    if (! m_mContent.isNull()) {
+        m_mContent->changeItemSize(size);
+    }
 }
 
 void AlbumPanel::onImageCountChanged()
