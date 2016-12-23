@@ -3,6 +3,8 @@
 #include "utils/imageutils.h"
 #include <QDirIterator>
 #include <QFileDialog>
+#include <QTimer>
+#include <QDebug>
 
 namespace {
 
@@ -58,11 +60,11 @@ void Importer::appendDir(const QString &path, const QString &album)
 
     DirCollectThread *dt = new DirCollectThread(path, album);
     connect(dt, &DirCollectThread::resultReady,
-            dApp->dbM, &DBManager::insertImgInfos, Qt::QueuedConnection);
+            dApp->dbM, &DBManager::insertImgInfos, Qt::DirectConnection);
     connect(dt, &DirCollectThread::insertAlbumRequest,
-            dApp->dbM, &DBManager::insertIntoAlbum);
+            dApp->dbM, &DBManager::insertIntoAlbum, Qt::DirectConnection);
     connect(dt, &DirCollectThread::currentImport,
-            this, &Importer::currentImport, Qt::QueuedConnection);
+            this, &Importer::currentImport);
     connect(dt, &DirCollectThread::finished,
             this, [=] {
         m_threads.removeAll(dt);
@@ -133,6 +135,9 @@ void DirCollectThread::run()
     QStringList subDirs = collectSubDirs(m_root);
     DBImgInfoList dbInfos;
     QStringList paths;
+
+    int generateCount = 0;
+    int cacheCount = 0;
     for (QString dir : subDirs) {
         auto fileInfos = utils::image::getImagesInfo(dir, false);
         for (auto fi : fileInfos) {
@@ -146,12 +151,19 @@ void DirCollectThread::run()
             dbInfos << dbi;
 
             // Generate thumbnail and storage into cache dir
-            if (! utils::image::thumbnailExist(path))
+            if (! utils::image::thumbnailExist(path)) {
                 utils::image::generateThumbnail(path);
+                generateCount ++;
+            }
+            else {
+                cacheCount ++;
+            }
 
-            if (dbInfos.length() > 50) {
+            if (generateCount > 50 || cacheCount > 2000) {
                 emit resultReady(dbInfos);
                 dbInfos.clear();
+                generateCount = 0;
+                cacheCount = 0;
             }
 
             emit currentImport(path);
@@ -175,6 +187,9 @@ void FilesCollectThread::run()
     DBImgInfoList dbInfos;
     QStringList supportPaths;
     using namespace utils::image;
+
+    int generateCount = 0;
+    int cacheCount = 0;
     for (auto path : m_paths) {
         if (! imageSupportRead(path)) {
             continue;
@@ -189,12 +204,19 @@ void FilesCollectThread::run()
         dbInfos << dbi;
 
         // Generate thumbnail and storage into cache dir
-        if (! utils::image::thumbnailExist(path))
+        if (! utils::image::thumbnailExist(path)) {
             utils::image::generateThumbnail(path);
+            generateCount ++;
+        }
+        else {
+            cacheCount ++;
+        }
 
-        if (dbInfos.length() > 50) {
+        if (generateCount > 50 || cacheCount > 2000) {
             emit resultReady(dbInfos);
             dbInfos.clear();
+            generateCount = 0;
+            cacheCount = 0;
         }
 
         emit currentImport(path);

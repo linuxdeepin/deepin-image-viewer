@@ -17,6 +17,7 @@ signals:
     void currentImport(const QString &path);
     void resultReady(const DBImgInfoList &infos);
     void insertAlbumRequest(const QString &album, const QStringList &paths);
+
 private:
     QString m_album;
     QString m_root;

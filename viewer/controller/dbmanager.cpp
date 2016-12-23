@@ -449,6 +449,8 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path) con
 
 void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
 {
+    QMutexLocker locker(&mutex);
+
     const QSqlDatabase db = getDatabase();
     if (! db.isValid() || album.isEmpty()) {
         return;

@@ -54,7 +54,7 @@ void BTContent::updateImageCount()
         m_label->setText(tr("%1 images").arg(count));
     }
 
-    m_slider->setFixedWidth(count > 1 ? SLIDER_WIDTH : 0);
+    m_slider->setFixedHeight(count > 0 ? 14 : 0);
 }
 
 void BTContent::changeItemSize(bool increase)
@@ -156,6 +156,7 @@ void BTContent::initSlider()
     m_slider->setMaximum(3);
     m_slider->setValue(sizeScale);
     m_slider->setPageStep(1);
+    m_slider->setFixedWidth(SLIDER_WIDTH);
     connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
         int newSize = MIN_ICON_SIZE + multiple * 32;
         emit itemSizeChanged(newSize);

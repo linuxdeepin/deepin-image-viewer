@@ -8,7 +8,7 @@ LoadingIcon::LoadingIcon(QWidget *parent)
     updateIconPath();
     setPictureSequence(m_iconPaths);
     setFixedSize(14, 14);
-    setSpeed(15);
+    setSpeed(20);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &LoadingIcon::updateIconPath);
 }
