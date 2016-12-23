@@ -94,14 +94,14 @@ void TimelineView::setItemSize(int size)
     }
     m_itemSize = size;
     updateVisualRects();
-    viewport()->update();
+    this->update();
 }
 
 void TimelineView::setTitleHeight(int height)
 {
     m_titleHeight = height;
     updateVisualRects();
-    viewport()->update();
+    this->update();
 }
 
 void TimelineView::updateView()
@@ -295,9 +295,8 @@ void TimelineView::resizeEvent(QResizeEvent *event)
     QAbstractItemView::resizeEvent(event);
 
     updateVerticalScrollbar();
-
-    // NOTE: paintEvent may read the IndexRectList during updating
-    TIMER_SINGLESHOT(100, {updateVisualRects();}, this)
+    updateVisualRects();
+    this->update();
 }
 
 void TimelineView::wheelEvent(QWheelEvent *e)
