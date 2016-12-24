@@ -468,7 +468,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     }
 
     query.exec("COMMIT");
-    //    emit dApp->signalM->insertIntoAlbum(info);                                // TODO
+//    emit dApp->signalM->insertIntoAlbum(info);                                // TODO
 }
 
 void DBManager::removeAlbum(const QString &album)

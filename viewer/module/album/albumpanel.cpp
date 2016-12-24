@@ -273,8 +273,7 @@ void AlbumPanel::initAlbumsView()
     connect(m_albumsView, &AlbumsView::changeItemSize,
             this, &AlbumPanel::updateMItemSize);
     connect(m_albumsView, &AlbumsView::albumCreated,
-            this, &AlbumPanel::updateMContentCount,
-            Qt::QueuedConnection);
+            this, &AlbumPanel::updateMContentCount, Qt::QueuedConnection);
     connect(m_albumsView, &AlbumsView::albumRemoved,
             this, &AlbumPanel::updateMContentCount);
     connect(m_albumsView, &AlbumsView::openAlbum,
@@ -318,8 +317,6 @@ void AlbumPanel::initImagesView()
         vinfo.paths = paths;
         emit dApp->signalM->viewImage(vinfo);
     });
-    connect(dApp->signalM, &SignalManager::insertIntoAlbum,
-            this, &AlbumPanel::onInsertIntoAlbum, Qt::QueuedConnection);
     connect(dApp->signalM, &SignalManager::removedFromAlbum,
             this, [=] (const QString &album, const QStringList &paths) {
         if (album == m_imagesView->getCurrentAlbum())
@@ -335,8 +332,8 @@ void AlbumPanel::initImagesView()
             onInsertIntoAlbum(info);
         }
     });
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &AlbumPanel::onThemeChanged);
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
+            this, &AlbumPanel::onThemeChanged);
 }
 
 void AlbumPanel::initStyleSheet()

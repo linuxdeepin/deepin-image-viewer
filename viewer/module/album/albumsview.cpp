@@ -168,6 +168,10 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
         updateMenuContent(indexAt(e->pos()));
     }
 
+    // NOTE: Grab focus from editor to avoid crash
+    this->setFocus();
+    closePersistentEditor(this->currentIndex());
+
     QListView::mousePressEvent(e);
 }
 
@@ -392,6 +396,7 @@ void AlbumsView::createAlbum()
     // Make sure the create icon is visable
     scrollTo(m_model->index(index.row() + 1, 0, index.parent()));
     openPersistentEditor(index);
+    emit albumCreated();
 }
 
 void AlbumsView::updateView()
