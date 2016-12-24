@@ -16,7 +16,8 @@ public:
     void clearSelection();
     void selectAll();
     void setIconSize(int size);
-    void updateThumbnails();
+    void updateThumbnails(const QString &path);
+    void updateView();
 
     bool isEmpty() const;
     const QString currentMonth() const;
