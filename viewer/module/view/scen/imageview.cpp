@@ -86,7 +86,8 @@ void ImageView::setImage(const QString &path)
     m_path = path;
     QGraphicsScene *s = scene();
 
-    if (QSvgRenderer().load(path)) {
+    // The suffix of svf file should be svg
+    if (QFileInfo(path).suffix() == "svg" && QSvgRenderer().load(path)) {
         m_movieItem = nullptr;
         m_pixmapItem = nullptr;
         s->clear();
@@ -117,7 +118,7 @@ void ImageView::setImage(const QString &path)
         else {
             m_movieItem = nullptr;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-            if (m_watcher.isFinished()) {
+            if (! m_watcher.isRunning()) {
                 m_watcher.setFuture(f);
             }
         }
