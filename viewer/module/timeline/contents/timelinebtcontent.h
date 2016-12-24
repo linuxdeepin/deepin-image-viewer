@@ -1,18 +1,19 @@
-#ifndef BTCONTENT_H
-#define BTCONTENT_H
+#ifndef TIMELINEBTCONTENT_H
+#define TIMELINEBTCONTENT_H
 
 #include <QWidget>
 
 class Slider;
 class QHBoxLayout;
 class QLabel;
-class BTContent : public QWidget
+class TimelineBTContent : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BTContent(QWidget *parent = 0);
+    explicit TimelineBTContent(QWidget *parent = 0);
     void updateImageCount();
     void changeItemSize(bool increase);
+    int iconSize() const;
 
 signals:
     void itemSizeChanged(int size);
@@ -37,4 +38,4 @@ private:
     QColor m_blColor;
 };
 
-#endif // BTCONTENT_H
+#endif // TIMELINEBTCONTENT_H

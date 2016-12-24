@@ -1,5 +1,5 @@
 #include "timelinepanel.h"
-#include "contents/btcontent.h"
+#include "contents/timelinebtcontent.h"
 #include "application.h"
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
@@ -49,12 +49,13 @@ QString TimelinePanel::moduleName()
 
 QWidget *TimelinePanel::toolbarBottomContent()
 {
-    BTContent *c = new BTContent;
+    TimelineBTContent *c = new TimelineBTContent;
     c->setStyleSheet(this->styleSheet());
     connect(m_frame, &TimelineFrame::changeItemSize,
-            c, &BTContent::changeItemSize);
-    connect(c, &BTContent::itemSizeChanged,
+            c, &TimelineBTContent::changeItemSize);
+    connect(c, &TimelineBTContent::itemSizeChanged,
             m_frame, &TimelineFrame::setIconSize);
+    m_frame->setIconSize(c->iconSize());
     return c;
 }
 

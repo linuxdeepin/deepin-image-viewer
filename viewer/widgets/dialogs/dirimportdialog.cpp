@@ -37,7 +37,7 @@ DirImportDialog::DirImportDialog(const QString &dir, QWidget* parent)
     edit->setObjectName("DialogEdit");
     edit->setContextMenuPolicy(Qt::PreventContextMenu);
     edit->setFixedSize(240, 22);
-    edit->setText(QFileInfo(dir).baseName());
+    edit->setText(QFileInfo(dir).fileName());
     connect(this, &DirImportDialog::visibleChanged, this, [=] (bool v) {
         if (! v) return;
         edit->setFocus();

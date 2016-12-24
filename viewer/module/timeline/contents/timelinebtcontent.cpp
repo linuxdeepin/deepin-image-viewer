@@ -1,4 +1,4 @@
-#include "btcontent.h"
+#include "timelinebtcontent.h"
 #include "application.h"
 #include "controller/configsetter.h"
 #include "controller/dbmanager.h"
@@ -27,7 +27,7 @@ const QColor BOTTOM_LINE_COLOR_LIGHT = QColor(255, 255, 255, 0.02 * 255);
 
 }  // namespace
 
-BTContent::BTContent(QWidget *parent)
+TimelineBTContent::TimelineBTContent(QWidget *parent)
     : QWidget(parent)
 {
     m_layout = new QHBoxLayout(this);
@@ -41,10 +41,10 @@ BTContent::BTContent(QWidget *parent)
     updateImageCount();
     updateColor();
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
-            this, &BTContent::updateColor);
+            this, &TimelineBTContent::updateColor);
 }
 
-void BTContent::updateImageCount()
+void TimelineBTContent::updateImageCount()
 {
     int count = dApp->dbM->getImgsCount();
     if (count <= 1) {
@@ -57,7 +57,7 @@ void BTContent::updateImageCount()
     m_slider->setFixedHeight(count > 0 ? 14 : 0);
 }
 
-void BTContent::changeItemSize(bool increase)
+void TimelineBTContent::changeItemSize(bool increase)
 {
     if (increase) {
         m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum()));
@@ -67,7 +67,16 @@ void BTContent::changeItemSize(bool increase)
     }
 }
 
-void BTContent::paintEvent(QPaintEvent *e)
+int TimelineBTContent::iconSize() const
+{
+
+    const int sizeScale = dApp->setter->value(SETTINGS_GROUP,
+                                              SETTINGS_ICON_SCALE_KEY,
+                                              QVariant(0)).toInt();
+    return (MIN_ICON_SIZE + sizeScale * 32);
+}
+
+void TimelineBTContent::paintEvent(QPaintEvent *e)
 {
     QWidget::paintEvent(e);
 
@@ -78,7 +87,7 @@ void BTContent::paintEvent(QPaintEvent *e)
     p.fillRect(QRect(0, height() - 1, width(), 1), m_blColor);
 }
 
-void BTContent::initImportBtn()
+void TimelineBTContent::initImportBtn()
 {
     ImageButton *ib = new ImageButton;
     ib->setFixedWidth(SLIDER_WIDTH);
@@ -93,7 +102,7 @@ void BTContent::initImportBtn()
     m_layout->addStretch(1);
 }
 
-void BTContent::initMiddleContent()
+void TimelineBTContent::initMiddleContent()
 {
     m_label = new QLabel;
     m_label->setAlignment(Qt::AlignCenter);
@@ -122,9 +131,9 @@ void BTContent::initMiddleContent()
     }
 
     connect(dApp->signalM, &SignalManager::imagesInserted,
-            this, &BTContent::updateImageCount);
+            this, &TimelineBTContent::updateImageCount);
     connect(dApp->signalM, &SignalManager::imagesRemoved,
-            this, &BTContent::updateImageCount);
+            this, &TimelineBTContent::updateImageCount);
     connect(dApp->importer, &Importer::progressChanged, this, [=] {
         layout->setCurrentIndex(1);
         lIcon->play();
@@ -143,7 +152,7 @@ void BTContent::initMiddleContent()
     m_layout->addStretch(1);
 }
 
-void BTContent::initSlider()
+void TimelineBTContent::initSlider()
 {
     const int sizeScale = dApp->setter->value(SETTINGS_GROUP,
                                               SETTINGS_ICON_SCALE_KEY,
@@ -167,7 +176,7 @@ void BTContent::initSlider()
     m_layout->addWidget(m_slider);
 }
 
-void BTContent::updateColor()
+void TimelineBTContent::updateColor()
 {
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
         m_tl1Color = TOP_LINE1_COLOR_DARK;

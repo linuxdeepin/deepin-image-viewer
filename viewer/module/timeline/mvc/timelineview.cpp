@@ -93,6 +93,7 @@ void TimelineView::setItemSize(int size)
         return;
     }
     m_itemSize = size;
+    updateVerticalScrollbar();
     updateVisualRects();
     this->update();
 }
@@ -100,6 +101,7 @@ void TimelineView::setItemSize(int size)
 void TimelineView::setTitleHeight(int height)
 {
     m_titleHeight = height;
+    updateVerticalScrollbar();
     updateVisualRects();
     this->update();
 }
