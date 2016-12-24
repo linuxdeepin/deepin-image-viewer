@@ -8,6 +8,8 @@
 
 namespace {
 
+const int REFRESH_DELAY = 3000;
+
 QStringList collectSubDirs(const QString &path)
 {
     QStringList dirs;
@@ -60,13 +62,12 @@ void Importer::appendDir(const QString &path, const QString &album)
 
     DirCollectThread *dt = new DirCollectThread(path, album);
     connect(dt, &DirCollectThread::resultReady,
-            dApp->dbM, &DBManager::insertImgInfos, Qt::DirectConnection);
+            dApp->dbM, &DBManager::insertImgInfos);
     connect(dt, &DirCollectThread::insertAlbumRequest,
-            dApp->dbM, &DBManager::insertIntoAlbum, Qt::DirectConnection);
+            dApp->dbM, &DBManager::insertIntoAlbum);
     connect(dt, &DirCollectThread::currentImport,
             this, &Importer::currentImport);
-    connect(dt, &DirCollectThread::finished,
-            this, [=] {
+    connect(dt, &DirCollectThread::finished, this, [=] {
         m_threads.removeAll(dt);
         if (m_threads.isEmpty()) {
             emit imported(true);
@@ -106,6 +107,7 @@ void Importer::stop()
     for (auto t : m_threads) {
         t->quit();
         t->wait();
+        t->deleteLater();
     }
 
     emit imported(true);
@@ -135,12 +137,20 @@ void DirCollectThread::run()
     DBImgInfoList dbInfos;
     QStringList paths;
 
-    int generateCount = 0;
-    int cacheCount = 0;
+    qint64 bt = QDateTime::currentMSecsSinceEpoch();
     for (QString dir : subDirs) {
         auto fileInfos = utils::image::getImagesInfo(dir, false);
         for (auto fi : fileInfos) {
             const QString path = fi.absoluteFilePath();
+
+            // Generate thumbnail and storage into cache dir
+            if (! utils::image::thumbnailExist(path)) {
+                // Generate thumbnail failed, do not insert into DB
+                if (! utils::image::generateThumbnail(path)) {
+                    continue;
+                }
+            }
+
             paths << path;
             DBImgInfo dbi;
             dbi.fileName = fi.fileName();
@@ -149,26 +159,20 @@ void DirCollectThread::run()
 
             dbInfos << dbi;
 
-            // Generate thumbnail and storage into cache dir
-            if (! utils::image::thumbnailExist(path)) {
-                utils::image::generateThumbnail(path);
-                generateCount ++;
-            }
-            else {
-                cacheCount ++;
-            }
-
-            if (generateCount > 10 || cacheCount > 2000) {
-                emit resultReady(dbInfos);
-                dbInfos.clear();
-                generateCount = 0;
-                cacheCount = 0;
+            qint64 et = QDateTime::currentMSecsSinceEpoch();
+            if (et - bt > REFRESH_DELAY) {
+                bt = et;
+                if (! dbInfos.isEmpty()) {
+                    emit resultReady(dbInfos);
+                    dbInfos.clear();
+                }
             }
 
             emit currentImport(path);
         }
     }
-    emit resultReady(dbInfos);
+    if (! dbInfos.isEmpty())
+        emit resultReady(dbInfos);
     if (! m_album.isEmpty())
         emit insertAlbumRequest(m_album, paths);
 }
@@ -187,12 +191,20 @@ void FilesCollectThread::run()
     QStringList supportPaths;
     using namespace utils::image;
 
-    int generateCount = 0;
-    int cacheCount = 0;
+    qint64 bt = QDateTime::currentMSecsSinceEpoch();
     for (auto path : m_paths) {
         if (! imageSupportRead(path)) {
             continue;
         }
+
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(path)) {
+            // Generate thumbnail failed, do not insert into DB
+            if (! utils::image::generateThumbnail(path)) {
+                continue;
+            }
+        }
+
         supportPaths << path;
         QFileInfo fi(path);
         DBImgInfo dbi;
@@ -202,20 +214,13 @@ void FilesCollectThread::run()
 
         dbInfos << dbi;
 
-        // Generate thumbnail and storage into cache dir
-        if (! utils::image::thumbnailExist(path)) {
-            utils::image::generateThumbnail(path);
-            generateCount ++;
-        }
-        else {
-            cacheCount ++;
-        }
-
-        if (generateCount > 10 || cacheCount > 2000) {
-            emit resultReady(dbInfos);
-            dbInfos.clear();
-            generateCount = 0;
-            cacheCount = 0;
+        qint64 et = QDateTime::currentMSecsSinceEpoch();
+        if (et - bt > REFRESH_DELAY) {
+            bt = et;
+            if (! dbInfos.isEmpty()) {
+                emit resultReady(dbInfos);
+                dbInfos.clear();
+            }
         }
 
         emit currentImport(path);

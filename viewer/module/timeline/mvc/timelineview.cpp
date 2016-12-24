@@ -104,9 +104,13 @@ void TimelineView::setTitleHeight(int height)
     this->update();
 }
 
-void TimelineView::updateView()
+void TimelineView::updateView(bool repainRequest)
 {
     updateVerticalScrollbar();
+    if (repainRequest) {
+        updateVisualRects();
+        update();
+    }
 }
 
 void TimelineView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
@@ -396,10 +400,12 @@ void TimelineView::timerEvent(QTimerEvent *e)
 QModelIndexList TimelineView::visualIndexs() const
 {
     QList<QModelIndex> indexs;
-    if (m_irList.length() == 2) {
-        return QModelIndexList()
-                << m_irList.first().index
-                << m_irList.last().index;
+    if (m_irList.length() < 10) {
+        QModelIndexList ils;
+        for (auto i : m_irList) {
+            ils << i.index;
+        }
+        return ils;
     }
 
     // 二分法
@@ -463,6 +469,7 @@ void TimelineView::updateVerticalScrollbar()
  * The VisualRects should update after resized, item-changed or iconsize-changed
  * Note: it sholud consider about verticalOffset()
  */
+
 void TimelineView::updateVisualRects()
 {
     m_irList.clear();

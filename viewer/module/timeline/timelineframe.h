@@ -35,6 +35,7 @@ private:
     void removeItem(const DBImgInfo &info);
 
 private:
+    DBImgInfoList       m_infos;
     TimelineModel       m_model;
     TimelineView        *m_view;
     TopTimelineTip      *m_tip;

@@ -34,8 +34,6 @@ public:
 TimelineFrame::TimelineFrame(QWidget *parent)
     : QFrame(parent)
 {
-    initItems();
-
     m_view = new TimelineView(this);
     m_view->setItemDelegate(new TimelineDelegate());
     m_view->setModel(&m_model);
@@ -60,7 +58,8 @@ TimelineFrame::TimelineFrame(QWidget *parent)
     // Item append and remove
     connect(dApp->signalM, &SignalManager::imagesInserted,
             this, [=] (const DBImgInfoList infos){
-        QtConcurrent::run(this, &TimelineFrame::insertItems, infos);
+        insertItems(infos);
+//        QtConcurrent::run(this, &TimelineFrame::insertItems, infos);
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved,
             this, [=] (const DBImgInfoList &infos) {
@@ -68,10 +67,10 @@ TimelineFrame::TimelineFrame(QWidget *parent)
             removeItem(info);
         }
     });
-    connect(dApp->importer, &Importer::imported, this, &TimelineFrame::initItems);
 
     // Top-Tip
     initTopTip();
+    initItems();
 }
 
 void TimelineFrame::clearSelection()
@@ -151,7 +150,9 @@ void TimelineFrame::initItems()
     for (int i = 0; i < infos.length(); i += 500) {
         i = qMin(i, infos.length() - 1);
         auto subInfos = infos.mid(i, 500);
-        QtConcurrent::run(this, &TimelineFrame::insertItems, subInfos);
+        // Use thread will cause painting crash
+        // And QMutex not working, don't know why
+        TIMER_SINGLESHOT(4 * (i + 500), {insertItems(subInfos);}, this, subInfos)
     }
 }
 
@@ -159,7 +160,6 @@ void TimelineFrame::insertItems(const DBImgInfoList &infos)
 {
     using namespace utils::base;
     using namespace utils::image;
-    QStringList errorPaths;
     for (auto info : infos) {
         TimelineItem::ItemData data;
         data.isTitle = false;
@@ -169,20 +169,21 @@ void TimelineFrame::insertItems(const DBImgInfoList &infos)
         inBuffer.open( QIODevice::WriteOnly );
         // write inPixmap into inByteArray
         if ( ! cutSquareImage(getThumbnail(data.path, true)).save( &inBuffer, "JPG" )) {
-             errorPaths << info.filePath;
+//             errorPaths << info.filePath;
         }
         data.timeline = timeToString(info.time, true);
 
         m_model.appendData(data);
     }
-//    // dApp->importer thread may cause crash
-//    if (errorPaths.length() > 0 && ! dApp->importer->isRunning()) {
-//        qDebug() << "Remove some unsupport images: " << errorPaths.length();
-//        dApp->dbM->removeImgInfos(errorPaths);
-//    }
+    m_infos << infos;
 
-    m_view->updateView();
-    m_view->update();
+    // Make sure the firse screen will fill with images while importing
+    if (m_infos.length() > 300 && dApp->importer->isRunning()) {
+        m_view->updateView(false);
+    }
+    else {
+        m_view->updateView();
+    }
 }
 
 void TimelineFrame::removeItem(const DBImgInfo &info)
@@ -193,6 +194,7 @@ void TimelineFrame::removeItem(const DBImgInfo &info)
     data.timeline = utils::base::timeToString(info.time, true);
 
     m_model.removeData(data);
+    m_infos.removeAll(info);
 
     m_view->updateView();
 }

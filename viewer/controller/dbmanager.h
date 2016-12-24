@@ -16,6 +16,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QMutex>
+#include <QDebug>
 
 struct DBAlbumInfo {
     QString name;
@@ -28,6 +29,22 @@ struct DBImgInfo {
     QString filePath;
     QString fileName;
     QDateTime time;
+
+    bool operator==(const DBImgInfo& other)
+    {
+        return (filePath == other.filePath &&
+                fileName == other.fileName &&
+                time == other.time);
+    }
+
+    friend QDebug operator<<(QDebug &dbg, const DBImgInfo& info) {
+        dbg << "(DBImgInfo)["
+            << "Path:" << info.filePath
+            << "Name:" << info.fileName
+            << "Time:" << info.time
+            << "]";
+        return dbg;
+    }
 };
 typedef QList<DBImgInfo> DBImgInfoList;
 

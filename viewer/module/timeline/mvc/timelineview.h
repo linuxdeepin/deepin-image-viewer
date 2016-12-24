@@ -51,7 +51,7 @@ public:
     int titleHeight() const;
     void setTitleHeight(int height);
 
-    void updateView();
+    void updateView(bool repainRequest = true);
 
 signals:
     void currentIndexChanged(const QModelIndex &current);
