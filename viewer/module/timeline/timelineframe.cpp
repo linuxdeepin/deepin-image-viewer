@@ -1,5 +1,4 @@
 #include "timelineframe.h"
-#include "anchors.h"
 #include "application.h"
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
@@ -11,6 +10,7 @@
 #include "utils/imageutils.h"
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QScrollBar>
 #include <QtConcurrent>
 
 namespace {
@@ -144,20 +144,29 @@ const QStringList TimelineFrame::selectedPaths() const
     return sPaths;
 }
 
+void TimelineFrame::resizeEvent(QResizeEvent *e)
+{
+    QFrame::resizeEvent(e);
+    m_tip->setFixedWidth(e->size().width());
+}
+
 void TimelineFrame::initTopTip()
 {
     // Top-Tips
-    Anchors<TopTimelineTip> tip = new TopTimelineTip(this);
-    tip.setAnchor(Qt::AnchorTop, this, Qt::AnchorTop);
+    m_tip = new TopTimelineTip(this);
+    m_tip.setAnchor(Qt::AnchorTop, this, Qt::AnchorTop);
     // The preButton is anchored to the left of this
-    tip.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
+    m_tip.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
     // NOTE: this is a bug of Anchors,the button should be resize after set anchor
-    tip->setFixedWidth(this->width());
-    tip.setTopMargin(TOP_TOOLBAR_HEIGHT);
-    tip->setLeftMargin(m_view->horizontalOffset());
+    m_tip->setFixedWidth(this->width());
+    m_tip.setTopMargin(TOP_TOOLBAR_HEIGHT);
+    m_tip->setLeftMargin(m_view->horizontalOffset());
     connect(m_view, &TimelineView::paintingIndexsChanged, this, [=] {
-        tip->setText(currentMonth());
-        tip->setLeftMargin(m_view->horizontalOffset());
+        if (m_view->verticalOffset() > 10)
+            m_tip->setText(currentMonth());
+        else
+            m_tip->setText("");
+        m_tip->setLeftMargin(m_view->horizontalOffset());
     });
 }
 
