@@ -38,7 +38,7 @@ void TimelineModel::removeData(const TimelineItem::ItemData &data)
     TimelineItem *titleItem = timelineItem(data.timeline);
     TimelineItem *dataItem = titleItem->child(titleItem->childCount() - 1); // Last child
 
-    if (dataItem->columnCount() <= 0) {
+    if (dataItem->columnCount() <= 1) {
         rootItem->removeChild(titleItem);
     }
     else {
