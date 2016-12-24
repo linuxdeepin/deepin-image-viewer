@@ -243,7 +243,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
         qWarning() << "Remove data from ImageTable2 failed: "
                    << query.lastError();
     }
-    else { 
+    else {
         emit dApp->signalM->imagesRemoved(infos);
     }
 }
@@ -466,9 +466,33 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
         qWarning() << "Insert data into AlbumTable2 failed: "
                    << query.lastError();
     }
-
     query.exec("COMMIT");
-//    emit dApp->signalM->insertIntoAlbum(info);                                // TODO
+
+    //FIXME: Don't insert the repeated filepath into the same album
+    //Delete the same data
+    query.prepare("DELETE FROM AlbumTable2 where AlbumId NOT IN"
+                  "(SELECT min(AlbumId) FROM AlbumTable2 GROUP BY"
+                  " AlbumName, FilePath)");
+    if (!query.exec()) {
+        qDebug() << "delete same date failed!";
+    }
+    query.exec("COMMIT");
+
+    if (album == "My favorites") {
+        if (getPathsByAlbum(album).length() > 1) {
+            qDebug() << "My favorites album contain imgs num:"
+                     << getPathsByAlbum(album).length();
+            query.prepare("DELETE FROM AlbumTable2 WHERE AlbumName == "
+                          "\'My favorites\' AND FilePath == \' \'");
+            if(!query.exec()) {
+                qDebug() << "delete empty string in favorites!";
+            }
+            query.exec("COMMIT");
+        }
+    }
+    //FIXME.
+    //    emit dApp->signalM->insertIntoAlbum(info);                                // TODO
+
 }
 
 void DBManager::removeAlbum(const QString &album)
@@ -616,7 +640,7 @@ void DBManager::checkDatabase()
         query.exec( QString("CREATE TABLE IF NOT EXISTS AlbumTable2 ( "
                             "AlbumId INTEGER primary key, "
                             "AlbumName TEXT, "
-                            "FilePath TEXT )") );
+                            "FilePath TEXT)") );
 
         // Check if there is an old version table exist or not
 
