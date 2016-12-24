@@ -88,9 +88,27 @@ void TimelineFrame::setIconSize(int size)
     m_view->setItemSize(size);
 }
 
-void TimelineFrame::updateThumbnails()
+void TimelineFrame::updateThumbnails(const QString &path)
 {
+    using namespace utils::image;
+    using namespace utils::base;
+    auto info = dApp->dbM->getInfoByPath(path);
+    TimelineItem::ItemData data;
+    data.isTitle = false;
+    data.path = path;
 
+    QBuffer inBuffer( &data.thumbArray );
+    inBuffer.open( QIODevice::WriteOnly );
+    // write inPixmap into inByteArray
+    cutSquareImage(getThumbnail(data.path, true)).save( &inBuffer, "JPG" );
+    data.timeline = timeToString(info.time, true);
+
+    m_model.updateData(data);
+}
+
+void TimelineFrame::updateView()
+{
+    m_view->updateView();
 }
 
 bool TimelineFrame::isEmpty() const
