@@ -76,9 +76,10 @@ void ViewPanel::initScaleLabel()
         Anchors<QLabel> scalePerc = new QLabel(this);
         scalePerc->setObjectName("ScaleLabel");
         scalePerc->setAttribute(Qt::WA_TransparentForMouseEvents);
-        scalePerc->setAlignment(Qt::AlignCenter);
-        scalePerc.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
         scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
+        scalePerc.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
+        scalePerc.setBottomMargin(54);
+        scalePerc->setAlignment(Qt::AlignCenter);
         scalePerc->setFixedSize(82, 48);
         scalePerc->setText("100%");
         scalePerc->hide();
@@ -92,7 +93,7 @@ void ViewPanel::initScaleLabel()
         });
         connect(m_viewB, &ImageView::showScaleLabel, this, [=](){
             scalePerc->show();
-            hideT->start(2000);
+            hideT->start(1000);
         });
 }
 

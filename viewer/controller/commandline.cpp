@@ -124,7 +124,7 @@ bool CommandLine::processOption()
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
         Dtk::Widget::DThemeManager::instance()->setTheme("light");
     } else {
-        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
         Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     }
 
