@@ -63,6 +63,7 @@ TimelineView::TimelineView(QWidget *parent)
     , m_bottomMargin(30)
     , m_topMargin(44)
 {
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
     setVerticalScrollBar(new QScrollBar());
 
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -118,7 +119,24 @@ void TimelineView::updateView(bool repainRequest)
 void TimelineView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     QAbstractItemView::currentChanged(current, previous);
+
     emit currentIndexChanged(current);
+}
+
+void TimelineView::keyPressEvent(QKeyEvent *e)
+{
+    QAbstractItemView::keyPressEvent(e);
+
+    if (e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_A) {
+        QItemSelection selection;
+        for (auto i : m_irList) {
+            QItemSelection s;
+            s.select(i.index, i.index);
+            selection.merge(s, QItemSelectionModel::Select);
+        }
+        selectionModel()->select(selection, QItemSelectionModel::Select);
+    }
+    this->update();
 }
 
 QSize TimelineView::viewportSizeHint() const
@@ -151,16 +169,23 @@ QModelIndex TimelineView::indexAt(const QPoint &point) const
 
 void TimelineView::scrollTo(const QModelIndex &index, QAbstractItemView::ScrollHint hint)
 {
-    if (index.parent() != rootIndex() /*|| index.column() != d->column*/)
-        return;
-
     const QRect rect = visualRect(index);
-    if (hint == EnsureVisible && viewport()->rect().contains(rect)) {
-        viewport()->update(rect);
-        return;
+    if (hint == EnsureVisible && ! viewport()->rect().contains(rect)) {
+        int viewportHeight = viewportSizeHint().height();
+        double scrollPer = 1.0 * (m_itemSize + m_vItemSpacing) / viewportHeight;
+        int scrollValue = verticalScrollBar()->value();
+        if (rect.y() < viewport()->y()) {
+            scrollValue -= (verticalScrollBar()->maximum() -
+                            verticalScrollBar()->minimum()) * scrollPer;
+        }
+        else {
+            scrollValue += (verticalScrollBar()->maximum() -
+                            verticalScrollBar()->minimum()) * scrollPer;
+        }
+
+        verticalScrollBar()->setValue(scrollValue);
     }
 
-//    verticalScrollBar()->setValue(d->verticalScrollToValue(index, rect, hint));
 }
 
 QRect TimelineView::visualRect(const QModelIndex &index) const
@@ -187,46 +212,64 @@ bool TimelineView::isIndexHidden(const QModelIndex &index) const
 QModelIndex TimelineView::moveCursor(QAbstractItemView::CursorAction cursorAction,
                                  Qt::KeyboardModifiers modifiers)
 {
-    // the child views which have focus get to deal with this first and if
-    // they don't accept it then it comes up this view and we only grip left/right
     Q_UNUSED(modifiers);
     if (! model())
         return QModelIndex();
 
     auto indexs = selectionModel()->selectedIndexes();
-    if (indexs.length() != 1)
-        return QModelIndex();
+    QModelIndex current = selectionModel()->currentIndex();
+    if (indexs.length() < 1) {
+        current = indexAt(QPoint(m_itemSize / 2, m_itemSize / 2));
+    }
+    else {
+        if (modifiers == Qt::ShiftModifier
+                && selectionModel()->currentIndex().isValid()) {
+            current = selectionModel()->currentIndex();
+        }
+        else {
+            switch (cursorAction) {
+            case MoveRight:
+            case MoveDown:
+                current = indexs.last();
+                break;
+            default:
+                current = indexs.first();
+                break;
+            }
+        }
+    }
 
-//    QModelIndex current = currentIndex();
-//    switch (cursorAction) {
-//    case MoveLeft:
-//        if (current.parent().isValid() && current.parent() != rootIndex())
-//            return (current.parent());
-//        else
-//            return current;
-
-//    case MoveRight:
-//        if (model()->hasChildren(current))
-//            return model()->index(0, 0, current);
-//        else
-//            return current.sibling(current.row() + 1, current.column());
-
-//    case MoveNext:
-//        if (model()->hasChildren(current)) {
-//            return model()->index(0, 0, current);
-//        }
-//        else {
-//            return model()->index(0, 0);
-//        }
-//    default:
-//        break;
-//    }
-
-    return QModelIndex();
+    QPoint ccp = visualRect(current).center();
+    switch (cursorAction) {
+    case MoveLeft:
+         ccp.setX(ccp.x() - m_itemSize - m_hItemSpacing);
+         break;
+    case MoveRight:
+        ccp.setX(ccp.x() + m_itemSize + m_hItemSpacing);
+        break;
+    case MoveUp:
+        ccp.setY(ccp.y() - m_itemSize - m_vItemSpacing);
+        break;
+    case MoveDown:
+        ccp.setY(ccp.y() + m_itemSize + m_vItemSpacing);
+        break;
+    default:
+        break;
+    }
+    QModelIndex ni = indexAt(ccp);
+    if (ni.isValid())
+        return ni;
+    else
+        return current;
 }
 
 void TimelineView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags)
 {
+    if (flags & QItemSelectionModel::Clear) {
+        selectionModel()->clear();
+    }
+
+    // For mouse draging border
     QRect vr;
     if (flags & QItemSelectionModel::Current) {
         int x = rect.width() < 0 ? rect.x() + rect.width() : rect.x();
@@ -236,16 +279,31 @@ void TimelineView::setSelection(const QRect &rect, QItemSelectionModel::Selectio
     else {
         vr = QRect();
     }
-    m_selectionRect = vr;
-    QItemSelection is;
-    for (auto index : m_paintingIndexs) {
-        if (! visualRect(index).intersected(vr).isEmpty()) {
-            QItemSelection s;
-            s.select(index, index);
-            is.merge(s, flags);
-        }
+
+    // Do not draw drag border if Qt::ShiftModifier is pressed
+    if (flags == QItemSelectionModel::SelectCurrent) {
+        m_selectionRect = QRect();
     }
-    selectionModel()->select(is, flags);
+    else {
+        m_selectionRect = vr;
+    }
+
+    if (! vr.isEmpty()) {
+        QItemSelection selection;
+        for (auto index : m_paintingIndexs) {
+            if (! visualRect(index).intersected(vr).isEmpty()) {
+                QItemSelection s;
+                s.select(index, index);
+                selection.merge(s, flags);
+            }
+        }
+        selectionModel()->select(selection, flags);
+    }
+    else {
+        QModelIndex index = indexAt(rect.topLeft());
+        selectionModel()->select(index, flags);
+        scrollTo(index);
+    }
     this->update();
 }
 
@@ -330,13 +388,10 @@ void TimelineView::wheelEvent(QWheelEvent *e)
 
 void TimelineView::mousePressEvent(QMouseEvent *e)
 {
-    QAbstractItemView::mousePressEvent(e);
     QModelIndex index = indexAt(e->pos());
     if (! index.isValid()) {
         return;
     }
-
-    setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     if (e->button() == Qt::RightButton) {
         if (selectedIndexes().length() <= 1) {
@@ -351,12 +406,9 @@ void TimelineView::mousePressEvent(QMouseEvent *e)
             emit showMenu();
         return;
 
-    }  else if (e->modifiers() == Qt::ControlModifier) {
-        selectionModel()->select(index, QItemSelectionModel::ToggleCurrent);
-    } else {
-        selectionModel()->clear();
-        selectionModel()->select(index, QItemSelectionModel::Select);
     }
+
+    QAbstractItemView::mousePressEvent(e);
 }
 
 
