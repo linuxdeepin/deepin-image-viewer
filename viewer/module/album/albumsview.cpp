@@ -2,6 +2,7 @@
 #include "albumdelegate.h"
 #include "application.h"
 #include "controller/configsetter.h"
+#include "controller/signalmanager.h"
 #include "controller/exporter.h"
 #include "controller/importer.h"
 #include "utils/baseutils.h"
@@ -79,6 +80,8 @@ AlbumsView::AlbumsView(QWidget *parent)
             updateView();
         }
     });
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this,
+            &AlbumsView::updateView);
 }
 
 QModelIndex AlbumsView::addAlbum(const DBAlbumInfo &info)
