@@ -4,6 +4,7 @@
 #include "topalbumtips.h"
 #include "controller/dbmanager.h"
 #include "controller/viewerthememanager.h"
+#include "widgets/thumbnaillistview.h"
 
 #include <QWidget>
 #include <QScrollArea>
@@ -12,18 +13,21 @@
 #include <QVBoxLayout>
 #include <QKeyEvent>
 #include <QObject>
+#include <QThread>
 
 class ImportFrame;
+class LoadThread;
 class QMenu;
 class QStandardItemModel;
 class QStackedWidget;
-class ThumbnailListView;
+
 class ImagesView : public QScrollArea
 {
     Q_OBJECT
 public:
     explicit ImagesView(QWidget *parent = 0);
 
+    void cancelLoadImages();
     void insertItem(const DBImgInfo &info, bool update = true);
     void insertItems(const DBImgInfoList &infos);
     void setAlbum(const QString &album);
@@ -46,7 +50,6 @@ signals:
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
 private:
@@ -73,6 +76,7 @@ private:
         IdSeparator
     };
 
+    void initItems();
     void initPopupMenu();
     void initListView();
     void initContent();
@@ -99,6 +103,7 @@ private:
     QMenu *m_menu;
     QWidget *m_contentWidget;
     ImportFrame *m_importFrame;
+    QList<LoadThread *> m_loadingThreads;
 };
 
 #endif // IMAGESVIEW_H

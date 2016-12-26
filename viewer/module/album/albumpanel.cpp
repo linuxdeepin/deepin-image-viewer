@@ -69,6 +69,7 @@ QWidget *AlbumPanel::toolbarBottomContent()
 void AlbumPanel::keyPressEvent(QKeyEvent *e) {
     if (e->key() == Qt::Key_Escape) {
         m_stackWidget->setCurrentWidget(m_albumsView);
+        m_imagesView->cancelLoadImages();
         // Make sure top toolbar content still show as album content
         // during adding images from timeline
         emit dApp->signalM->gotoPanel(this);
@@ -78,6 +79,7 @@ void AlbumPanel::keyPressEvent(QKeyEvent *e) {
 void AlbumPanel::mousePressEvent(QMouseEvent *e) {
     if (e->button() == Qt::BackButton) {
         m_stackWidget->setCurrentWidget(m_albumsView);
+        m_imagesView->cancelLoadImages();
         // Make sure top toolbar content still show as album content
         // during adding images from timeline
         emit dApp->signalM->gotoPanel(this);
@@ -129,6 +131,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
         returnButton->setObjectName("ReturnBtn");
 
         connect(returnButton, &ImageButton::clicked, this, [=] {
+            m_imagesView->cancelLoadImages();
             m_stackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
             // during adding images from timeline

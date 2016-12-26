@@ -10,7 +10,6 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/importframe.h"
-#include "widgets/thumbnaillistview.h"
 #include "widgets/scrollbar.h"
 #include "widgets/dialogs/filedeletedialog.h"
 
@@ -39,6 +38,27 @@ QString ss(const QString &text)
 
 }  // namespace
 
+class LoadThread : public QThread
+{
+    Q_OBJECT
+public:
+    explicit LoadThread(const QString &album);
+
+    void setDone(bool done);
+
+protected:
+    void run() Q_DECL_OVERRIDE;
+
+signals:
+    void ready(ThumbnailListView::ItemInfo);
+
+private:
+    bool m_done;
+    QString m_album;
+};
+
+#include "imagesview.moc"
+
 ImagesView::ImagesView(QWidget *parent)
     : QScrollArea(parent)
 {
@@ -52,6 +72,21 @@ ImagesView::ImagesView(QWidget *parent)
     initContent();
     initPopupMenu();
     updateMenuContents();
+
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
+            this, &ImagesView::initItems);
+}
+
+void ImagesView::cancelLoadImages()
+{
+    for (auto t : m_loadingThreads) {
+        t->setDone(true);
+        t->disconnect();
+        t->quit();
+        t->wait();
+        t->deleteLater();
+    }
+    m_loadingThreads.clear();
 }
 
 void ImagesView::setAlbum(const QString &album)
@@ -59,9 +94,8 @@ void ImagesView::setAlbum(const QString &album)
     m_album = album;
     m_topTips->setAlbum(m_album);
     m_view->clearData();
-    auto infos = dApp->dbM->getInfosByAlbum(album);
-//    QtConcurrent::run(this, &ImagesView::insertItems, infos);
-    insertItems(infos);
+
+    initItems();
 }
 
 void ImagesView::removeItems(const QStringList &paths)
@@ -260,7 +294,7 @@ void ImagesView::onMenuItemClicked(QAction *action)
             dApp->dbM->insertIntoAlbum(album, paths);
         }
         else {
-            dApp->signalM->createAlbum(paths);
+            emit dApp->signalM->createAlbum(paths);
         }
         break;
     }
@@ -383,23 +417,6 @@ void ImagesView::resizeEvent(QResizeEvent *e)
     updateTopTipsRect();
 }
 
-void ImagesView::showEvent(QShowEvent *e)
-{
-    // For import from timeline update
-    if (count() != dApp->dbM->getImgsCountByAlbum(m_album)) {
-        const auto infos = dApp->dbM->getInfosByAlbum(m_album);
-        for (auto info : infos) {
-            insertItem(info, false);
-        }
-        m_topTips->setAlbum(m_album);
-        updateContent();
-    }
-
-    m_view->updateThumbnails();
-
-    QScrollArea::showEvent(e);
-}
-
 void ImagesView::wheelEvent(QWheelEvent *e)
 {
     if (e->modifiers() == Qt::ControlModifier) {
@@ -409,6 +426,22 @@ void ImagesView::wheelEvent(QWheelEvent *e)
     else {
         QScrollArea::wheelEvent(e);
     }
+}
+
+void ImagesView::initItems()
+{
+    LoadThread *t = new LoadThread(m_album);
+    qRegisterMetaType<QVector<int>>("QVector<int>");
+    connect(t, &LoadThread::ready, m_view, &ThumbnailListView::insertItem,
+            Qt::DirectConnection);
+    connect(t, &LoadThread::finished, this, [=] {
+        disconnect(t, &LoadThread::ready, m_view, &ThumbnailListView::insertItem);
+        m_loadingThreads.removeAll(t);
+        t->deleteLater();
+    });
+    m_loadingThreads.append(t);
+    t->start();
+    updateContent();
 }
 
 void ImagesView::initPopupMenu()
@@ -494,4 +527,33 @@ void ImagesView::popupDelDialog(const QStringList &paths)
 {
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);
     fdd->show();
+}
+
+LoadThread::LoadThread(const QString &album)
+    :QThread(nullptr)
+    , m_done(false)
+    , m_album(album)
+{
+
+}
+
+void LoadThread::run()
+{
+    auto infos = dApp->dbM->getInfosByAlbum(m_album);
+
+    using namespace utils::image;
+    for (auto info : infos) {
+        if (m_done)
+            return;
+        ThumbnailListView::ItemInfo vi;
+        vi.name = info.fileName;
+        vi.path = info.filePath;
+        vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
+        emit ready(vi);
+    }
+}
+
+void LoadThread::setDone(bool done)
+{
+    m_done = done;
 }

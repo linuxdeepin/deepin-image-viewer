@@ -487,9 +487,8 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
         qDebug() << "delete same date failed!";
     }
     query.exec("COMMIT");
-    //FIXME.
-    //    emit dApp->signalM->insertIntoAlbum(info);                                // TODO
 
+    emit dApp->signalM->insertedIntoAlbum(album, paths);
 }
 
 void DBManager::removeAlbum(const QString &album)
