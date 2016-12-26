@@ -179,7 +179,7 @@ void TimelineFrame::initItems()
         auto subInfos = infos.mid(i, 500);
         // Use thread will cause painting crash
         // And QMutex not working, don't know why
-        TIMER_SINGLESHOT(4 * (i + 500), {insertItems(subInfos);}, this, subInfos)
+        TIMER_SINGLESHOT(4 * i, {insertItems(subInfos);}, this, subInfos)
     }
 }
 

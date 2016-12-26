@@ -10,6 +10,8 @@
 #include <QEvent>
 #include <QFile>
 #include <QPaintEvent>
+#include <QPainter>
+#include <QPen>
 #include <QScrollBar>
 #include <QStandardItemModel>
 #include <QtConcurrent>
@@ -21,12 +23,15 @@ namespace {
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
 
+const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
+
 }  //namespace
 
 ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent),
       m_model(new QStandardItemModel(this))
 {
+    setSelectionRectVisible(false);
     setIconSize(QSize(THUMBNAIL_MIN_SIZE, THUMBNAIL_MIN_SIZE));
     m_delegate = new ThumbnailDelegate(this);
     setItemDelegate(m_delegate);
@@ -212,6 +217,52 @@ const QList<ThumbnailListView::ItemInfo> ThumbnailListView::selectedItemInfos()
     return infos;
 }
 
+void ThumbnailListView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags)
+{
+//    if (flags & QItemSelectionModel::Clear) {
+//        selectionModel()->clear();
+//    }
+
+    // For mouse draging border
+    QRect vr;
+    if (flags & QItemSelectionModel::Current) {
+        int x = rect.width() < 0 ? rect.x() + rect.width() : rect.x();
+        int y = rect.height() < 0 ? rect.y() + rect.height() : rect.y();
+        vr = QRect(x, y, qAbs(rect.width()), qAbs(rect.height()));
+    }
+    else {
+        vr = QRect();
+    }
+
+    // Do not draw drag border if Qt::ShiftModifier is pressed
+    if (flags == QItemSelectionModel::SelectCurrent) {
+        m_selectionRect = QRect();
+    }
+    else {
+        m_selectionRect = vr;
+    }
+
+//    if (! vr.isEmpty()) {
+//        QItemSelection selection;
+//        for (auto index : m_paintingIndexs) {
+//            if (! visualRect(index).intersected(vr).isEmpty()) {
+//                QItemSelection s;
+//                s.select(index, index);
+//                selection.merge(s, flags);
+//            }
+//        }
+//        selectionModel()->select(selection, flags);
+//    }
+//    else {
+//        QModelIndex index = indexAt(rect.topLeft());
+//        selectionModel()->select(index, flags);
+//        scrollTo(index);
+//    }
+//    this->update();
+    QListView::setSelection(rect, flags);
+    this->update();
+}
+
 bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
 {
     if ( obj == viewport() && event->type() == QEvent::Paint) {
@@ -224,41 +275,24 @@ bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
 void ThumbnailListView::keyPressEvent(QKeyEvent *e)
 {
     QListView::keyPressEvent(e);
-    //  QAbstractItemView::selectionChanged is too inefficient
-    if (e->key() == Qt::Key_Left ||
-            e->key() == Qt::Key_Right ||
-            e->key() == Qt::Key_Up ||
-            e->key() == Qt::Key_Down) {
-        emit clicked(currentIndex());
-    }
-}
 
-void ThumbnailListView::mousePressEvent(QMouseEvent *e)
-{
-    if (e->button() == Qt::RightButton) {
-        emit singleClicked(e);
+    if (e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_A) {
+        this->selectAll();
     }
-    else {
-        if(e->modifiers() & Qt::ControlModifier ||
-                e->modifiers() & Qt::ShiftModifier){
-            setSelectionMode(QAbstractItemView::ExtendedSelection);
-        }
-        else {
-            emit singleClicked(e);
-        }
-    }
-
-    QListView::mousePressEvent(e);
-}
-
-void ThumbnailListView::mouseMoveEvent(QMouseEvent *e)
-{
-    Q_UNUSED(e);
+    this->update();
 }
 
 void ThumbnailListView::paintEvent(QPaintEvent *e)
 {
     QListView::paintEvent(e);
+
+    // Draw selection box
+    QPainter painter(viewport());
+    QPainterPath bp;
+    bp.addRect(m_selectionRect);
+    QPen sp(BORDER_COLOR_SELECTED, 1);
+    painter.setPen(sp);
+    painter.drawPath(bp);
 }
 
 void ThumbnailListView::wheelEvent(QWheelEvent *e)
@@ -272,6 +306,13 @@ int ThumbnailListView::horizontalOffset() const
               - contentsHMargin()
               - maxColumn() * (iconSize().width() + ITEM_SPACING))
              / 2);
+}
+
+void ThumbnailListView::mouseReleaseEvent(QMouseEvent *e)
+{
+    m_selectionRect = QRect();
+    this->update();
+    QListView::mouseReleaseEvent(e);
 }
 
 void ThumbnailListView::fixedViewPortSize(bool proactive)

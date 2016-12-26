@@ -50,15 +50,6 @@ void TimelineDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
         m_seperatorColor = LIGHT_SEPERATOR_COLOR;
     }
 }
-void TimelineDelegate::clearPaintingList()
-{
-    m_paintingPaths.clear();
-}
-
-const QStringList TimelineDelegate::paintingPaths() const
-{
-    return m_paintingPaths;
-}
 
 void TimelineDelegate::paint(QPainter *painter,
                           const QStyleOptionViewItem &option,
@@ -106,11 +97,6 @@ void TimelineDelegate::paint(QPainter *painter,
                 const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
                 thumb = cutSquareImage(QPixmap(":/images/resources/images/default_thumbnail.png"), ms);
                 QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
-            }
-
-            // Generate thumbnail and update data from view
-            if (m_paintingPaths.indexOf(data.path) == -1) {
-                m_paintingPaths << data.path;
             }
         }
         else {
