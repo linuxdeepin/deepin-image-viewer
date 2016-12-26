@@ -92,12 +92,14 @@ private:
 private slots:
     void resetImageGeometry();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+    void updateLocalImages();
 private:
     int m_hideCursorTid;
 
     bool m_isMaximized;
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
+    QFrame *m_emptyFrame=nullptr;
     QMenu *m_menu;
     QStackedWidget *m_stack;
 

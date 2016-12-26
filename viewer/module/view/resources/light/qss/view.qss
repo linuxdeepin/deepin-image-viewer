@@ -82,6 +82,10 @@ QScrollBar::sub-line {
     background: none;
 }
 
+QLabel#EmptyFrame {
+    border-image: url(:/resources/light/images/no_picture.png);
+}
+
 ImageButton#PreviousButton {
     border-image: url(:/resources/light/images/previous_next.png);
     padding: 6px 20px 14px 13px;

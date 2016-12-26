@@ -108,5 +108,6 @@
         <file>resources/light/images/folder_hover.png</file>
         <file>resources/light/images/folder_press.png</file>
         <file>resources/light/images/naviwindow_bg.png</file>
+        <file>resources/light/images/no_picture.png</file>
     </qresource>
 </RCC>
