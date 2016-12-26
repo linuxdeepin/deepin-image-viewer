@@ -95,8 +95,8 @@ QVariant TimelineModel::headerData(int section, Qt::Orientation orientation,
 
 QModelIndex TimelineModel::index(int row, int column, const QModelIndex &parent) const
 {
-//    if (!hasIndex(row, column, parent))
-//        return QModelIndex();
+    if (!hasIndex(row, column, parent))
+        return QModelIndex();
 
     TimelineItem *parentItem;
 
@@ -123,7 +123,9 @@ QModelIndex TimelineModel::parent(const QModelIndex &index) const
     if (parentItem == rootItem)
         return QModelIndex();
 
-    return createIndex(parentItem->row(), 0, parentItem);
+    // FIXME: parentItem of same childItem will change and cause crash
+    // don't know why
+    return createIndex(/*parentItem->row()*/0, 0, parentItem);
 }
 
 /*!
