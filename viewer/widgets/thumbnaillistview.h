@@ -37,11 +37,11 @@ signals:
     void singleClicked(QMouseEvent *e);
 
 protected:
+    void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags) Q_DECL_OVERRIDE;
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
     int horizontalOffset() const Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
@@ -58,6 +58,7 @@ private:
     void initThumbnailTimer();
 
 private:
+    QRect m_selectionRect;
     QTimer *m_thumbTimer;
     QFutureWatcher<QVariant> m_watcher;
     QStandardItemModel *m_model;

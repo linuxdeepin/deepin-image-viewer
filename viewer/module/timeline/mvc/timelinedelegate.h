@@ -13,8 +13,6 @@ class TimelineDelegate : public QStyledItemDelegate {
 
 public:
     explicit TimelineDelegate(QObject *parent = NULL);
-    void clearPaintingList();
-    const QStringList paintingPaths() const;
 
     void paint(QPainter* painter,
                const QStyleOptionViewItem& option,
@@ -29,8 +27,6 @@ private:
     QColor m_borderColor;
     QColor m_dateColor;
     QColor m_seperatorColor;
-
-    mutable QStringList m_paintingPaths;
 };
 
 #endif // TIMELINE_DELEGATE_H
