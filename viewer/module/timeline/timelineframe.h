@@ -27,7 +27,6 @@ public:
     const QStringList selectedPaths() const;
 
 signals:
-    void currentIndexChanged(const QModelIndex &current);
     void changeItemSize(bool increase);
     void showMenu();
     void viewImage(const QString &path, const QStringList &paths);

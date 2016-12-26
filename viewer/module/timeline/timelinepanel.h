@@ -25,6 +25,7 @@ public:
 protected:
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
 
 private:
     void initConnection();

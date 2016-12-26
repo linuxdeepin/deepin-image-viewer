@@ -54,13 +54,11 @@ public:
     void updateView(bool repainRequest = true);
 
 signals:
-    void currentIndexChanged(const QModelIndex &current);
     void changeItemSize(bool increase);
     void paintingIndexsChanged();
     void showMenu();
 
 protected:
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous) Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

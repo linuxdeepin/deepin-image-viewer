@@ -132,6 +132,13 @@ void TimelinePanel::dragEnterEvent(QDragEnterEvent *event)
     event->accept();
 }
 
+void TimelinePanel::showEvent(QShowEvent *e)
+{
+    ModulePanel::showEvent(e);
+
+    updateMenuContents();
+}
+
 void TimelinePanel::initConnection()
 {
     connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
@@ -187,8 +194,6 @@ void TimelinePanel::initImagesView()
         emit dApp->signalM->viewImage(vinfo);
     });
 
-    connect(m_frame, &TimelineFrame::currentIndexChanged,
-            this, &TimelinePanel::updateMenuContents);
     connect(m_frame, &TimelineFrame::showMenu, this, [=] {
         updateMenuContents();
         m_menu->popup(QCursor::pos());

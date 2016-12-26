@@ -116,13 +116,6 @@ void TimelineView::updateView(bool repainRequest)
     }
 }
 
-void TimelineView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
-{
-    QAbstractItemView::currentChanged(current, previous);
-
-    emit currentIndexChanged(current);
-}
-
 void TimelineView::keyPressEvent(QKeyEvent *e)
 {
     QAbstractItemView::keyPressEvent(e);

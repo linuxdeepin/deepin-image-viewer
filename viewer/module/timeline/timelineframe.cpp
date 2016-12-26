@@ -46,8 +46,6 @@ TimelineFrame::TimelineFrame(QWidget *parent)
         }
     });
     connect(m_view, &TimelineView::showMenu, this, &TimelineFrame::showMenu);
-    connect(m_view, &TimelineView::currentIndexChanged,
-            this, &TimelineFrame::currentIndexChanged);
     connect(m_view, &TimelineView::changeItemSize,
             this, &TimelineFrame::changeItemSize);
 
