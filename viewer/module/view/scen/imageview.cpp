@@ -81,8 +81,16 @@ ImageView::ImageView(QWidget *parent)
     //    setRenderer(OpenGL);
 }
 
+void ImageView::clear()
+{
+    scene()->clear();
+}
+
 void ImageView::setImage(const QString &path)
 {
+    // Empty path will cause crash in release-build mode
+    if (path.isEmpty())
+        return;
     m_path = path;
     QGraphicsScene *s = scene();
 

@@ -23,6 +23,7 @@ public:
 
     ImageView(QWidget *parent = 0);
 
+    void clear();
     void fitWindow();
     void fitImage();
     void rotateClockWise();

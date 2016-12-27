@@ -306,7 +306,7 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
     if (e->type() == QEvent::Hide) {
-        m_viewB->setImage("");
+        m_viewB->clear();
     }
 
     if (e->type() == QEvent::Resize && this->isVisible()) {
