@@ -149,7 +149,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         copyImageToClipboard(QStringList(path));
         break;
     case IdMoveToTrash:
-        popupDelDialog(path);
+        if (m_vinfo.inDatabase) {
+            popupDelDialog(path);
+        } else {
+            removeCurrentImage();
+            utils::base::trashFile(path);
+        }
         break;
     case IdRemoveFromAlbum:
         dApp->dbM->removeFromAlbum(m_vinfo.album, QStringList(path));
