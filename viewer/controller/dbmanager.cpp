@@ -221,22 +221,13 @@ void DBManager::removeImgInfos(const QStringList &paths)
 
     QSqlQuery query(db);
     // Remove from albums table
-    QString qs = "DELETE FROM AlbumTable2 WHERE FilePath=?";
-    query.prepare(qs);
-    query.addBindValue(paths);
-    if (! query.execBatch()) {
-        qWarning() << "Remove datas from AlbumTable2 failed: "
-                   << query.lastError();
-    }
-    else {
-        const QStringList al = getAllAlbumNames();
-        for (QString album : al) {
-            emit dApp->signalM->removedFromAlbum(album, paths);
-        }
+    const QStringList al = getAllAlbumNames();
+    for (QString album : al) {
+        removeFromAlbum(album, paths);
     }
 
     // Remove from image table
-    qs = "DELETE FROM ImageTable2 WHERE FilePath=?";
+    QString qs = "DELETE FROM ImageTable2 WHERE FilePath=?";
     query.prepare(qs);
     query.addBindValue(paths);
     if (! query.execBatch()) {
@@ -517,6 +508,16 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     }
 
     QSqlQuery query(db);
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    if (getPathsByAlbum(album).length() == paths.length()) {
+        query.prepare("REPLACE INTO AlbumTable2 (AlbumId, AlbumName, FilePath)"
+                      "VALUES (null, :album, \' \')");
+        query.bindValue(":album", album);
+        if (!query.exec()) {
+            qDebug() << "insert empty str into album";
+        }
+    }
+
     // Remove from albums table
     QString qs("DELETE FROM AlbumTable2 WHERE AlbumName=\"%1\" AND FilePath=?");
     query.prepare(qs.arg(album));
@@ -527,6 +528,7 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     else {
         emit dApp->signalM->removedFromAlbum(album, paths);
     }
+    query.exec("COMMIT");
 }
 
 void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
