@@ -496,7 +496,11 @@ QModelIndexList TimelineView::visualIndexs() const
 
 int TimelineView::maxColumnCount() const
 {
-    return this->width() / (m_itemSize + m_hItemSpacing);
+    int c = width() / (m_itemSize + m_hItemSpacing);
+    if (c <=0)
+        return 1;
+    else
+        return c;
 }
 
 void TimelineView::updateVerticalScrollbar()
