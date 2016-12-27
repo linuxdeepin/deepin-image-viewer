@@ -262,20 +262,9 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         if (m_vinfo.inDatabase) {
             popupDelDialog(m_current->filePath);
         } else {
-            //FIXME: m_infos.length == 1, showNext() will lead to crash!
-            bool lastOnly = false;
-            if (m_infos.length()==1) {
-                lastOnly = true;
-            }
-            QString trashfile = m_current->filePath;
-            bool trashResult = utils::base::trashFile(trashfile);
-
-            if (lastOnly && trashResult) {
-                 m_stack->setCurrentWidget(m_emptyFrame);
-                 emit ttmc->onImageChanged("");
-            } else {
-                showNext();
-            }
+            const QString path = m_current->filePath;
+            removeCurrentImage();
+            utils::base::trashFile(path);
         }
     });
     connect(ttmc, &TTMContent::resetTransform, this, [=] (bool fitWindow) {
@@ -492,16 +481,34 @@ bool ViewPanel::showNext()
 void ViewPanel::removeCurrentImage()
 {
     if (m_infos.isEmpty())
-        return;
+         return;
 
-    m_infos.removeAt(imageIndex(m_current->filePath));
-    if (! showNext()) {
-        if (! showPrevious()) {
-            qDebug() << "No images to show!";
-            emit imageChanged("");
-            m_stack->setCurrentIndex(1);
-        }
-    }
+     bool lastOnly = false;
+     //FIXME: if m_infos.length == 1, m_infos.removeAt() will be crash
+     if (m_infos.length()==1) {
+         lastOnly = true;
+         if (lastOnly) {
+              m_stack->setCurrentWidget(m_emptyFrame);
+              emit imageChanged("");
+         } else {
+             if (!showNext()) {
+                 if (!showPrevious()) {
+                     qDebug() << "No images to show!";
+                     emit imageChanged("");
+                     m_stack->setCurrentIndex(1);
+                 }
+             }
+         }
+     } else {
+         m_infos.removeAt(imageIndex(m_current->filePath));
+         if (! showNext()) {
+             if (! showPrevious()) {
+                 qDebug() << "No images to show!";
+                 emit imageChanged("");
+                 m_stack->setCurrentIndex(1);
+             }
+         }
+     }
 }
 
 void ViewPanel::resetImageGeometry()
