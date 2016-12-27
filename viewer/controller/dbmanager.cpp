@@ -478,18 +478,18 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     }
     query.exec("COMMIT");
 
-    if (album == "My favorites") {
-        if (getPathsByAlbum(album).length() > 1) {
-            qDebug() << "My favorites album contain imgs num:"
-                     << getPathsByAlbum(album).length();
-            query.prepare("DELETE FROM AlbumTable2 WHERE AlbumName == "
-                          "\'My favorites\' AND FilePath == \' \'");
-            if(!query.exec()) {
-                qDebug() << "delete empty string in favorites!";
-            }
-            query.exec("COMMIT");
+    if (getPathsByAlbum(album).length() > 1) {
+        qDebug() << "My favorites album contain imgs num:"
+                 << getPathsByAlbum(album).length();
+        query.prepare("DELETE FROM AlbumTable2 WHERE AlbumName =:album"
+                      " AND FilePath == \' \'");
+        query.bindValue(":album", album);
+        if(!query.exec()) {
+            qDebug() << "delete empty string in favorites!";
         }
+        query.exec("COMMIT");
     }
+
     //FIXME.
     //    emit dApp->signalM->insertIntoAlbum(info);                                // TODO
 
