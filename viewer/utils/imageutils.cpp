@@ -293,13 +293,9 @@ const QPixmap cachePixmap(const QString &path)
     return pp;
 }
 
-const QString toMd5(const QString data)
+const QString toMd5(const QByteArray &data)
 {
-    QByteArray bdata;
-    bdata.append(data);
-    QString md5 = QCryptographicHash::hash(bdata, QCryptographicHash::Md5)
-            .toHex().data();
-    return md5;
+    return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
 }
 
 /*!
@@ -318,7 +314,7 @@ QMap<QString,QString> thumbnailAttribute(const QUrl&  url)
         set.insert("Thumb::Mimetype", QMimeDatabase().mimeTypeForFile(path).name());
         set.insert("Thumb::Size", QString::number(info.size()));
         set.insert("Thumb::URI", url.toString());
-        set.insert("Thumb::MTime", QString::number(info.lastModified().toMSecsSinceEpoch()/1000));
+        set.insert("Thumb::MTime", QString::number(info.lastModified().toTime_t()));
         set.insert("Software", "Deepin Image Viewer");
 
         QImageReader reader(path);
@@ -363,8 +359,8 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
     QMutexLocker locker(&mutex);
     const QString cacheP = thumbnailCachePath();
-    const QUrl url("file://" + path);
-    const QString md5s = toMd5(url.toString());
+    const QUrl url = QUrl::fromLocalFile(path);
+    const QString md5s = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
     const QString encodePath = cacheP + "/large/" + md5s + ".png";
     const QString failEncodePath = cacheP + "/fail/" + md5s + ".png";
     if (QFileInfo(encodePath).exists()) {
@@ -407,8 +403,8 @@ bool generateThumbnail(const QString &path)
         return false;
     }
 
-    const QUrl url("file://" + path);
-    const QString md5 = toMd5(url.toString());
+    const QUrl url = QUrl::fromLocalFile(path);
+    const QString md5 = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
     const auto attributes = thumbnailAttribute(url);
     const QString cacheP = thumbnailCachePath();
 
@@ -458,8 +454,8 @@ bool generateThumbnail(const QString &path)
 const QString thumbnailPath(const QString &path, ThumbnailType type)
 {
     const QString cacheP = thumbnailCachePath();
-    const QUrl url("file://" + path);
-    const QString md5s = toMd5(url.toString());
+    const QUrl url = QUrl::fromLocalFile(path);
+    const QString md5s = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
     QString tp;
     switch (type) {
     case ThumbNormal:

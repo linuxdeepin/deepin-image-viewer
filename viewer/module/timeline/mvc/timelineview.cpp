@@ -13,7 +13,6 @@
 #include <QHeaderView>
 #include <QPaintEvent>
 #include <QPainter>
-#include <QScrollBar>
 #include <QtConcurrent>
 #include <QtMath>
 
@@ -64,7 +63,7 @@ TimelineView::TimelineView(QWidget *parent)
     , m_topMargin(44)
 {
     setSelectionMode(QAbstractItemView::ExtendedSelection);
-    setVerticalScrollBar(new QScrollBar());
+    setVerticalScrollBar(new ScrollBar());
 
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::AppTheme::Dark) {
@@ -362,16 +361,11 @@ void TimelineView::wheelEvent(QWheelEvent *e)
     if (e->orientation() == Qt::Vertical &&
             sb->value() <= sb->maximum() &&
             sb->value() >= sb->minimum()) {
-        if (e->angleDelta().x() == 0){
-            if (e->modifiers() == Qt::ControlModifier) {
-                emit changeItemSize(e->delta() > 0);
-            }
-            else {
-                QWheelEvent ve(e->pos(), e->globalPos(), e->pixelDelta()
-                               , e->angleDelta(), e->delta() * 8/*speed up*/
-                               , Qt::Vertical, e->buttons(), e->modifiers());
-                QApplication::sendEvent(verticalScrollBar(), &ve);
-            }
+        if (e->modifiers() == Qt::ControlModifier) {
+            emit changeItemSize(e->delta() > 0);
+        }
+        else {
+            QApplication::sendEvent(sb, e);
         }
     }
     else {
@@ -381,12 +375,13 @@ void TimelineView::wheelEvent(QWheelEvent *e)
 
 void TimelineView::mousePressEvent(QMouseEvent *e)
 {
-    QModelIndex index = indexAt(e->pos());
-    if (! index.isValid()) {
-        return;
+    ScrollBar *sb = dynamic_cast<ScrollBar *>(verticalScrollBar());
+    if (sb) {
+        sb->stopScroll();
     }
 
-    if (e->button() == Qt::RightButton) {
+    QModelIndex index = indexAt(e->pos());
+    if (index.isValid() && e->button() == Qt::RightButton) {
         if (selectedIndexes().length() <= 1) {
             selectionModel()->clear();
             selectionModel()->select(index, QItemSelectionModel::Select);
@@ -398,7 +393,6 @@ void TimelineView::mousePressEvent(QMouseEvent *e)
         if (!datas[0].toBool() || selectedIndexes().length() >= 2)
             emit showMenu();
         return;
-
     }
 
     QAbstractItemView::mousePressEvent(e);
