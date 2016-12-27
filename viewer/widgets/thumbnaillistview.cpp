@@ -315,6 +315,12 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *e)
     QListView::mouseReleaseEvent(e);
 }
 
+void ThumbnailListView::mousePressEvent(QMouseEvent *e)
+{
+    QListView::mousePressEvent(e);
+    emit mousePressed(e);
+}
+
 void ThumbnailListView::fixedViewPortSize(bool proactive)
 {
     int hMargin = contentsHMargin();

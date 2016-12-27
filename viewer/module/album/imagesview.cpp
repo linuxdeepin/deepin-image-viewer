@@ -1,6 +1,5 @@
 #include "imagesview.h"
 #include "application.h"
-#include "dscrollbar.h"
 #include "controller/configsetter.h"
 #include "controller/exporter.h"
 #include "controller/importer.h"
@@ -46,7 +45,7 @@ ImagesView::ImagesView(QWidget *parent)
     setObjectName("ImagesView");
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
-    setVerticalScrollBar(new QScrollBar(this));
+    setVerticalScrollBar(new ScrollBar(this));
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
 
@@ -90,6 +89,8 @@ void ImagesView::initListView()
             m_view, &ThumbnailListView::updateThumbnails);
     connect(verticalScrollBar(), &QScrollBar::valueChanged,
             m_view, &ThumbnailListView::updateThumbnails);
+    connect(m_view, &ThumbnailListView::clicked,
+            this, &ImagesView::updateMenuContents);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         const QString path = m_view->itemInfo(index).path;
@@ -102,8 +103,12 @@ void ImagesView::initListView()
             m_menu->popup(QCursor::pos());
         }
     });
-    connect(m_view, &ThumbnailListView::clicked,
-            this, &ImagesView::updateMenuContents);
+    connect(m_view, &ThumbnailListView::mousePressed, this, [=] {
+        ScrollBar *sb = dynamic_cast<ScrollBar *>(verticalScrollBar());
+        if (sb) {
+            sb->stopScroll();
+        }
+    });
 }
 
 void ImagesView::initTopTips()

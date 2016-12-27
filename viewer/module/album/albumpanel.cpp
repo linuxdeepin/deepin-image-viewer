@@ -82,6 +82,8 @@ void AlbumPanel::mousePressEvent(QMouseEvent *e) {
         // during adding images from timeline
         emit dApp->signalM->gotoPanel(this);
     }
+
+    ModulePanel::mousePressEvent(e);
 }
 
 void AlbumPanel::initConnection()
