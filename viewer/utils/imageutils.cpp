@@ -22,29 +22,46 @@ namespace utils {
 
 namespace image {
 
-const QPixmap scaleImage(const QString &path, const QSize &size)
+const QImage scaleImage(const QString &path, const QSize &size)
 {
-    QImage img = getRotatedImage(path);
-    if (img.isNull())
-        return QPixmap();
-    QSize targetSize;
-    if (img.width() > img.height()) {
-        targetSize = QSize(size.width(),
-                           (double)size.width() / img.width() *
-                           img.height());
-    }
-    else {
-        targetSize = QSize((double)size.height() / img.height() *
-                           img.width(), size.height());
+    QImageReader reader(path);
+    reader.setAutoTransform(true);
+    if (! reader.canRead()) {
+        qDebug() << "Can't read image: " << path;
+        return QImage();
     }
 
-    // pre-scale improve performance
-    const QImage tmpImg = img.scaled(targetSize * 2,
-                                     Qt::IgnoreAspectRatio,
-                                     Qt::SmoothTransformation);
-    return QPixmap::fromImage(tmpImg.scaled(targetSize,
-                                            Qt::IgnoreAspectRatio,
-                                            Qt::SmoothTransformation));
+    QSize tSize = reader.size();
+    if (! tSize.isValid()) {
+        QStringList rl = getAllMetaData(path).value("Resolution").split("x");
+        if (rl.length() == 2) {
+            tSize = QSize(QString(rl.first()).toInt(),
+                           QString(rl.last()).toInt());
+        }
+    }
+    tSize.scale(size, Qt::KeepAspectRatio);
+    reader.setScaledSize(tSize);
+    QImage tImg = reader.read();
+    // Some format unsupport scaling
+    if (tImg.width() > size.width() || tImg.height() > size.height()) {
+        if (tImg.isNull()) {
+            return QImage();
+        }
+        else {
+            // Save as support format and scale it again
+            const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
+            QFile::remove(tmp);
+            if (tImg.save(tmp, "png", 50)) {
+                return scaleImage(tmp, size);
+            }
+            else {
+                return QImage();
+            }
+        }
+    }
+    else {
+        return tImg;
+    }
 }
 
 const QDateTime getCreateDateTime(const QString &path)
@@ -396,25 +413,14 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
  */
 bool generateThumbnail(const QString &path)
 {
-    QImageReader reader(path);
-    reader.setAutoTransform(true);
-    if (! reader.canRead()) {
-        qDebug() << "Can't read image: " << path;
-        return false;
-    }
-
     const QUrl url = QUrl::fromLocalFile(path);
     const QString md5 = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
     const auto attributes = thumbnailAttribute(url);
     const QString cacheP = thumbnailCachePath();
 
     // Large thumbnail
-    QSize lSize = reader.size();
-    lSize.scale(QSize(qMin(THUMBNAIL_MAX_SIZE, lSize.width()),
-                      qMin(THUMBNAIL_MAX_SIZE, lSize.height())),
-                Qt::KeepAspectRatio);
-    reader.setScaledSize(lSize);
-    QImage lImg = reader.read();
+    QImage lImg = scaleImage(path,
+                             QSize(THUMBNAIL_MAX_SIZE, THUMBNAIL_MAX_SIZE));
 
     // Normal thumbnail
     QImage nImg = lImg.scaled(
