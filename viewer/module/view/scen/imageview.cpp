@@ -1,5 +1,5 @@
 #include "imageview.h"
-#include "graphicsmovieitem.h"
+#include "graphicsitem.h"
 #include "utils/imageutils.h"
 #include "application.h"
 #include <QDebug>
@@ -39,7 +39,7 @@ QVariantList cachePixmap(const QString &path)
     return vl;
 }
 
-}
+}  // namespace
 
 ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
@@ -350,7 +350,7 @@ void ImageView::onCacheFinish()
         if (path == m_path) {
             scene()->clear();
             resetTransform();
-            m_pixmapItem = new QGraphicsPixmapItem(pixmap);
+            m_pixmapItem = new GraphicsPixmapItem(pixmap);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             // Make sure item show in center of view after reload
             setSceneRect(m_pixmapItem->boundingRect());

@@ -1,4 +1,4 @@
-#include "graphicsmovieitem.h"
+#include "graphicsitem.h"
 #include <QMovie>
 
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent)
@@ -13,6 +13,12 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *par
 
 GraphicsMovieItem::~GraphicsMovieItem()
 {
+    // Prepares the item for a geometry change. Call this function
+    // before changing the bounding rect of an item to keep
+    // QGraphicsScene's index up to date.
+    // If not doing this, it may crash
+    prepareGeometryChange();
+
     m_movie->deleteLater();
     m_movie = nullptr;
 }
@@ -38,3 +44,14 @@ void GraphicsMovieItem::stop()
     m_movie->stop();
 }
 
+
+GraphicsPixmapItem::GraphicsPixmapItem(const QPixmap &pixmap)
+    : QGraphicsPixmapItem(pixmap, NULL)
+{
+
+}
+
+GraphicsPixmapItem::~GraphicsPixmapItem()
+{
+    prepareGeometryChange();
+}

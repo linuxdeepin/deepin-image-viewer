@@ -10,6 +10,7 @@ class QWheelEvent;
 class QPaintEvent;
 class QFile;
 class GraphicsMovieItem;
+class GraphicsPixmapItem;
 class QGraphicsSvgItem;
 class QThreadPool;
 QT_END_NAMESPACE
@@ -81,6 +82,6 @@ private:
 
     QGraphicsSvgItem *m_svgItem;
     GraphicsMovieItem *m_movieItem;
-    QGraphicsPixmapItem *m_pixmapItem;
+    GraphicsPixmapItem *m_pixmapItem;
 };
 #endif // SVGVIEW_H
