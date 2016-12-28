@@ -108,11 +108,7 @@ void TimelineDelegate::paint(QPainter *painter,
         QPen p(selected ? BORDER_COLOR_SELECTED : m_borderColor,
                selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
         painter->setPen(p);
-        QPainterPathStroker stroker;
-        stroker.setWidth(selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
-        stroker.setJoinStyle(Qt::RoundJoin);
-        QPainterPath borderPath = stroker.createStroke(bp);
-        painter->drawPath(borderPath);
+        painter->drawPath(bp);
     }
 }
 

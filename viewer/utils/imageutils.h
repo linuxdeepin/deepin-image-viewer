@@ -33,7 +33,7 @@ bool                                imageSupportRead(const QString &path);
 bool                                imageSupportSave(const QString &path);
 bool                                imageSupportWrite(const QString &path);
 bool                                rotate(const QString &path, int degree);
-const QPixmap                       scaleImage(const QString &path,
+const QImage                        scaleImage(const QString &path,
                                                const QSize &size = QSize(384, 383));
 
 bool                                generateThumbnail(const QString &path);
