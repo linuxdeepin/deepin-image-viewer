@@ -74,6 +74,7 @@ public:
     const DBImgInfoList     getInfosByAlbum(const QString &album) const;
     int                     getImgsCountByAlbum(const QString &album) const;
     int                     getAlbumsCount() const;
+    bool                    isAlbumExistInDB(const QString &album) const;
     bool                    isImgExistInAlbum(const QString &album, const QString &path) const;
     void insertIntoAlbum(const QString &album, const QStringList &paths);
     void removeAlbum(const QString &album);

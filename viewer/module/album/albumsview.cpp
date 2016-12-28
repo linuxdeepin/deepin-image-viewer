@@ -182,7 +182,8 @@ void AlbumsView::showEvent(QShowEvent *e)
 {
     QListView::showEvent(e);
     // Aways has Favorites album
-    dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, QStringList(" "));
+    if (!dApp->dbM->isAlbumExistInDB(MY_FAVORITES_ALBUM))
+        dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, QStringList(" "));
     updateView();
 }
 

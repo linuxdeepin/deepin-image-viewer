@@ -122,11 +122,11 @@ void AlbumCreateDialog::createAlbum(const QString &newName)
 {
     if (! dApp->dbM->getAllAlbumNames().contains(newName)) {
         m_createAlbumName = newName;
-        dApp->dbM->insertIntoAlbum(newName, QStringList());
+        dApp->dbM->insertIntoAlbum(newName, QStringList(" "));
     }
     else {
         m_createAlbumName = getNewAlbumName();
-        dApp->dbM->insertIntoAlbum(getNewAlbumName(), QStringList());
+        dApp->dbM->insertIntoAlbum(getNewAlbumName(), QStringList(" "));
     }
 
     emit albumAdded();

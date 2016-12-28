@@ -67,7 +67,7 @@ DirImportDialog::DirImportDialog(const QString &dir, QWidget* parent)
             const QString album = edit->text().trimmed();
             dApp->importer->appendDir(dir, album);
             // For UI update
-            dApp->dbM->insertIntoAlbum(album, QStringList());//FIXDB
+            dApp->dbM->insertIntoAlbum(album, QStringList(" "));//FIXDB
             emit albumCreated();
         }
     });

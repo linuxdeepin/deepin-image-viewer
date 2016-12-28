@@ -435,8 +435,27 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path) con
     }
 }
 
+bool DBManager::isAlbumExistInDB(const QString &album) const
+{
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return false;
+    }
+    QSqlQuery query( db );
+    query.prepare( "SELECT COUNT(*) FROM AlbumTable2 WHERE AlbumName = :album");
+    query.bindValue( ":album", album );
+    if (query.exec()) {
+        query.first();
+        return (query.value(0).toInt() >= 1);
+    }
+    else {
+        return false;
+    }
+}
+
 void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
 {
+
     const QSqlDatabase db = getDatabase();
     if (! db.isValid() || album.isEmpty()) {
         return;
@@ -463,24 +482,11 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
     //Delete the same data
     query.prepare("DELETE FROM AlbumTable2 where AlbumId NOT IN"
                   "(SELECT min(AlbumId) FROM AlbumTable2 GROUP BY"
-                  " AlbumName, FilePath)");
+                  " AlbumName, FilePath) AND FilePath != \" \"");
     if (!query.exec()) {
         qDebug() << "delete same date failed!";
     }
     query.exec("COMMIT");
-
-    if (getPathsByAlbum(album).length() > 1) {
-        qDebug() << "My favorites album contain imgs num:"
-                 << getPathsByAlbum(album).length();
-        query.prepare("DELETE FROM AlbumTable2 WHERE AlbumName =:album"
-                      " AND FilePath == \' \'");
-        query.bindValue(":album", album);
-        if(!query.exec()) {
-            qDebug() << "delete empty string in favorites!";
-        }
-        query.exec("COMMIT");
-    }
-
     //FIXME.
     //    emit dApp->signalM->insertIntoAlbum(info);                                // TODO
 
@@ -509,15 +515,6 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
 
     QSqlQuery query(db);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
-    if (getPathsByAlbum(album).length() == paths.length()) {
-        query.prepare("REPLACE INTO AlbumTable2 (AlbumId, AlbumName, FilePath)"
-                      "VALUES (null, :album, \' \')");
-        query.bindValue(":album", album);
-        if (!query.exec()) {
-            qDebug() << "insert empty str into album";
-        }
-    }
-
     // Remove from albums table
     QString qs("DELETE FROM AlbumTable2 WHERE AlbumName=\"%1\" AND FilePath=?");
     query.prepare(qs.arg(album));
