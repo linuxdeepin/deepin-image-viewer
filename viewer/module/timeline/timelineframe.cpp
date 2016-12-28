@@ -193,7 +193,7 @@ void TimelineFrame::insertItems(const DBImgInfoList &infos)
         QBuffer inBuffer( &data.thumbArray );
         inBuffer.open( QIODevice::WriteOnly );
         // write inPixmap into inByteArray
-        if ( ! cutSquareImage(getThumbnail(data.path, true)).save( &inBuffer, "JPG" )) {
+        if ( ! cutSquareImage(getThumbnail(data.path, true)).save( &inBuffer, "JPG", 100 )) {
 //             errorPaths << info.filePath;
         }
         data.timeline = timeToString(info.time, true);

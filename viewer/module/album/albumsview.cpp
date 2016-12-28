@@ -107,7 +107,7 @@ QModelIndex AlbumsView::addAlbum(const DBAlbumInfo &info)
     }
     if (! priPath.isEmpty()){
         QPixmap p = utils::image::getThumbnail(priPath);
-        if (! p.save(&inBuffer, "JPG")) {
+        if (! p.save(&inBuffer, "JPG", 100)) {
             qWarning() << "Can't get thumbnail for album: " << info.name;
         }
     }

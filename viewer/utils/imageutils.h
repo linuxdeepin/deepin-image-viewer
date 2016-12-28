@@ -10,7 +10,7 @@ namespace utils {
 
 namespace image {
 
-const int THUMBNAIL_MAX_SIZE = 256;
+const int THUMBNAIL_MAX_SIZE = 291;
 const int THUMBNAIL_NORMAL_SIZE = 128;
 
 enum ThumbnailType {
