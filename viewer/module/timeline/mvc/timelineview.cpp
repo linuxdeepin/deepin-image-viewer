@@ -108,7 +108,7 @@ void TimelineView::setTitleHeight(int height)
 
 void TimelineView::updateView(bool repainRequest)
 {
-    updateVerticalScrollbar();
+    updateVerticalScrollbar(true);
     if (repainRequest) {
         updateVisualRects();
         update();
@@ -365,6 +365,9 @@ void TimelineView::wheelEvent(QWheelEvent *e)
             emit changeItemSize(e->delta() > 0);
         }
         else {
+            if (! m_paintingIndexs.isEmpty())
+                m_anchorIndex = m_paintingIndexs.first();
+
             QApplication::sendEvent(sb, e);
         }
     }
@@ -503,10 +506,13 @@ int TimelineView::maxColumnCount() const
         return c;
 }
 
-void TimelineView::updateVerticalScrollbar()
+void TimelineView::updateVerticalScrollbar(bool keepAnchor)
 {
     verticalScrollBar()->setPageStep(viewport()->height());
     verticalScrollBar()->setRange(0, viewportSizeHint().height() - viewport()->height());
+    if (keepAnchor && m_anchorIndex.isValid()) {
+        scrollTo(m_anchorIndex);
+    }
 }
 
 /*!
