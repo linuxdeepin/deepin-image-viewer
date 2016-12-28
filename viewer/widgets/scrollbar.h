@@ -17,6 +17,7 @@ protected:
 private:
     QPropertyAnimation *m_animation;
     double m_speedTime;
+    int m_directionFlag;
 };
 
 #endif // SCROLLBAR_H

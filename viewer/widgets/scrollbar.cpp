@@ -14,6 +14,7 @@ const int ANIMATION_DUARTION = 1400;
 ScrollBar::ScrollBar(QWidget *parent)
     : QScrollBar(parent)
     , m_speedTime(DEFAULT_SPEED_TIME)
+    , m_directionFlag(1)
 {
     m_animation = new QPropertyAnimation(this, "value");
     m_animation->setEasingCurve(QEasingCurve::OutQuint);
@@ -21,6 +22,19 @@ ScrollBar::ScrollBar(QWidget *parent)
     connect(m_animation, &QPropertyAnimation::finished, this, [=] {
         m_animation->setEasingCurve(QEasingCurve::OutQuint);
         m_animation->setDuration(ANIMATION_DUARTION);
+    });
+    connect(m_animation, &QPropertyAnimation::valueChanged,
+            this, [=] (const QVariant &v) {
+       int iv = v.toInt();
+       int startV = m_animation->startValue().toInt();
+       int endV = m_animation->endValue().toInt();
+       // Reset speedtime when animation almost done
+       if ((startV < endV) && (iv > (endV - 40))) {
+               m_speedTime = DEFAULT_SPEED_TIME;
+       }
+       else if (startV > endV && iv < (endV + 40) && iv > 0) {
+            m_speedTime = DEFAULT_SPEED_TIME;
+       }
     });
 }
 
@@ -41,7 +55,13 @@ void ScrollBar::wheelEvent(QWheelEvent *e)
     }
     // Active by mouse
     else {
-        int offset = - e->delta() * 3;
+        // Direction inverted
+        if (m_directionFlag * e->delta() < 0) {
+            m_speedTime = DEFAULT_SPEED_TIME;
+            m_directionFlag = e->delta();
+        }
+
+        int offset = - e->delta() * 2.5;
         if (m_animation->state() == QPropertyAnimation::Running) {
             m_speedTime += 0.4;
         }
