@@ -22,9 +22,13 @@ int main(int argc, char *argv[])
     // If platform theme name is empty, fallback to gtk2.
     // gtk2 theme is included in libqt5libqgtk2 package.
 
-    if (qgetenv(kPlatformThemeName).length() == 0) {
-      qputenv(kPlatformThemeName, "gtk2");
-    }
+    //TODO: the Qt default theme's name is empty.
+    //so i comment out the code.
+    // if (qgetenv(kPlatformThemeName).length() == 0) {
+    //        qDebug() << qgetenv(kPlatformThemeName);
+    //      qputenv(kPlatformThemeName, "gtk2");
+    //    }
+
     Application::loadDXcbPlugin();
     Application a(argc, argv);
 
