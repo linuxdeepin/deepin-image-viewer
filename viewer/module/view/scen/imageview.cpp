@@ -33,7 +33,13 @@ const qreal MIN_SCALE_FACTOR = 0.02;
 
 QVariantList cachePixmap(const QString &path)
 {
-    QPixmap p = QPixmap::fromImage(utils::image::getRotatedImage(path));
+    QImage tImg;
+    QImageReader reader(path);
+    reader.setAutoTransform(true);
+    if (reader.canRead()) {
+        tImg = reader.read();
+    }
+    QPixmap p = QPixmap::fromImage(tImg);
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
     return vl;
