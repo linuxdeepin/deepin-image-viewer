@@ -4,5 +4,5 @@
 Separator::Separator(QWidget *parent) : QLabel(parent)
 {
     setStyleSheet(utils::base::getFileContent(
-                      ":/qss/resources/qss/Separator.qss"));
+                      ":/resources/common/qss/Separator.qss"));
 }
