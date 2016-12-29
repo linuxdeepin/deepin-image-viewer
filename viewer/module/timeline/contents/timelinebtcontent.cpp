@@ -18,12 +18,8 @@ const int SLIDER_WIDTH = 120;
 const QString SETTINGS_GROUP = "TIMEPANEL";
 const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
-const QColor TOP_LINE1_COLOR_DARK = QColor(0, 0, 0, 0.5 * 255);
-const QColor TOP_LINE2_COLOR_DARK = QColor(255, 255, 255, 0.05 * 255);
-const QColor BOTTOM_LINE_COLOR_DARK = QColor(255, 255, 255, 0.02 * 255);
-const QColor TOP_LINE1_COLOR_LIGHT = QColor(0, 0, 0, 25);
-const QColor TOP_LINE2_COLOR_LIGHT = QColor(255, 255, 255, 0.05 * 255);
-const QColor BOTTOM_LINE_COLOR_LIGHT = QColor(255, 255, 255, 0.02 * 255);
+const QColor TOP_LINE2_COLOR_DARK = QColor(255, 255, 255, 13);
+const QColor TOP_LINE2_COLOR_LIGHT = QColor(255, 255, 255, 153);
 
 }  // namespace
 
@@ -82,9 +78,7 @@ void TimelineBTContent::paintEvent(QPaintEvent *e)
 
     QPainter p(this);
     // Draw border line
-    p.fillRect(QRect(0, 0, width(), 1), m_tl1Color);
-    p.fillRect(QRect(0, 1, width(), 1), m_tl2Color);
-    p.fillRect(QRect(0, height() - 1, width(), 1), m_blColor);
+    p.fillRect(QRect(0, 0, width(), 1), m_tl2Color);
 }
 
 void TimelineBTContent::initImportBtn()
@@ -179,13 +173,9 @@ void TimelineBTContent::initSlider()
 void TimelineBTContent::updateColor()
 {
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        m_tl1Color = TOP_LINE1_COLOR_DARK;
         m_tl2Color = TOP_LINE2_COLOR_DARK;
-        m_blColor = BOTTOM_LINE_COLOR_DARK;
     }
     else {
-        m_tl1Color = TOP_LINE1_COLOR_LIGHT;
         m_tl2Color = TOP_LINE2_COLOR_LIGHT;
-        m_blColor = BOTTOM_LINE_COLOR_LIGHT;
     }
 }

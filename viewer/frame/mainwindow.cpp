@@ -23,6 +23,7 @@ const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 MainWindow::MainWindow(bool manager, QWidget *parent):
     DMainWindow(parent)
 {
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.65 < MAINWIDGET_MINIMUN_WIDTH
             ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.65;
@@ -43,7 +44,8 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 //    QHBoxLayout *l = new QHBoxLayout(this);
 //    l->setContentsMargins(0, 0, 0, 0);
 //    l->addWidget(m_mainWidget);
-
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &MainWindow::onThemeChanged);
 }
 
 void MainWindow::moveFirstWindow() {
@@ -96,6 +98,14 @@ void MainWindow::moveCenter() {
 
     this->move(primaryGeometry.x() + (primaryGeometry.width() - this->width())/2,
                primaryGeometry.y() + (primaryGeometry.height() - this->height())/2);
+}
+
+void MainWindow::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        setBorderColor(QColor(0, 0, 0, 204));
+    } else {
+        setBorderColor(QColor(0, 0, 0, 38));
+    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)

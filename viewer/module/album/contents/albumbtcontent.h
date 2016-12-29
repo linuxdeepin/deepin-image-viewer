@@ -41,9 +41,10 @@ private:
     QHBoxLayout *m_layout;
     QLabel *m_label;
 
-    QColor m_tl1Color;
+    //the m_tl1Color is the outside border,
+    //which is draw by other widgets.
     QColor m_tl2Color;
-    QColor m_blColor;
+
     QString m_album;
 };
 

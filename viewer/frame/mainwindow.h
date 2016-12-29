@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "frame/mainwidget.h"
+#include "controller/viewerthememanager.h"
 #include <DMainWindow>
 #include <QWidget>
 
@@ -14,6 +15,7 @@ public:
     // initialize to save resource and avoid DB file lock.
     MainWindow(bool manager, QWidget *parent=0);
 
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 protected:
     void resizeEvent(QResizeEvent *e) override;
 

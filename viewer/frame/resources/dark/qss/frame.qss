@@ -5,3 +5,7 @@ QStackedWidget#PanelStack {
 QFrame {
     border:none;
 }
+
+QLabel#BtmSeperatorLine {
+    background-color: rgba(0, 0, 0, .2);
+}

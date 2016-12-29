@@ -13,6 +13,7 @@
 #include "widgets/dialogs/imginfodialog.h"
 
 #include <QFileSystemWatcher>
+#include <QLabel>
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QFile>
@@ -284,6 +285,13 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar = new BottomToolbar(this);
     m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
+
+    QLabel*  btmSeperatorLine = new QLabel(this);
+    btmSeperatorLine->resize(window()->width(), 1);
+    btmSeperatorLine->setObjectName("BtmSeperatorLine");
+    btmSeperatorLine->move(0, window()->height() -
+                           m_bottomToolbar->height() - 1);
+
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
             this, [=](QWidget *c, bool wideMode) {
         if (c == nullptr)
@@ -299,6 +307,7 @@ void MainWidget::initBottomToolbar()
     });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
         m_bottomToolbar->setVisible(true);
+        btmSeperatorLine->setVisible(m_bottomToolbar->isVisible());
         m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
 //        // Make the bottom toolbar always stay at the bottom after windows resize
 //        m_bottomToolbar->move(0, height());
@@ -309,6 +318,7 @@ void MainWidget::initBottomToolbar()
             this, [=](bool immediately) {
         m_bottomToolbar->move(0, height());
         m_bottomToolbar->setVisible(false);
+        btmSeperatorLine->setVisible(m_bottomToolbar->isVisible());
         Q_UNUSED(immediately)
 //        if (immediately) {
 //            m_bottomToolbar->move(0, height());
