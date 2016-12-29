@@ -88,23 +88,17 @@ QModelIndex AlbumsView::addAlbum(const DBAlbumInfo &info)
 {
     // AlbumName ImageCount BeginTime EndTime
     QStringList paths = dApp->dbM->getPathsByAlbum(info.name);
-    if (paths.isEmpty()) {
-        return QModelIndex();
-    }
 
     QByteArray thumbnailByteArray;
     QBuffer inBuffer( &thumbnailByteArray );
     inBuffer.open( QIODevice::WriteOnly );
     // write inPixmap into inByteArray
-    QString priPath = paths.first();
-    if (priPath.isEmpty() || priPath == " ") {
-        for (QString path : paths) {
-            if (! path.isEmpty() && path != " ") {
-                priPath = path;
-                break;
-            }
-        }
-    }
+    QString priPath;
+    if (!paths.isEmpty())
+        priPath = paths.first();
+    else
+        priPath = " ";
+
     if (! priPath.isEmpty()){
         QPixmap p = utils::image::getThumbnail(priPath);
         if (! p.save(&inBuffer, "JPG", 100)) {

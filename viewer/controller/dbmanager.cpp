@@ -335,7 +335,7 @@ const QStringList DBManager::getPathsByAlbum(const QString &album) const
     }
     QSqlQuery query( db );
     query.prepare( "SELECT DISTINCT FilePath FROM AlbumTable2 "
-                   "WHERE AlbumName=:album" );
+                   "WHERE AlbumName=:album AND FilePath != \" \"" );
     query.bindValue(":album", album);
     if (! query.exec() ) {
         qWarning() << "Get Paths from AlbumTable2 failed: " << query.lastError();
