@@ -27,6 +27,9 @@ const QColor LIGHT_SEPERATOR_COLOR = QColor(0, 0, 0, 20);
 
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 
+const QString DARK_DEFAULT_THUMBNAIL = ":/resources/dark/images/default_thumbnail.png";
+const QString LIGHT_DEFAULT_THUMBNAIL = ":/resources/light/images/default_thumbnail.png";
+
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }
@@ -44,10 +47,12 @@ void TimelineDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
         m_borderColor = DARK_BORDER_COLOR;
         m_dateColor = DARK_DATECOLOR;
         m_seperatorColor = DARK_SEPERATOR_COLOR;
+        m_defaultThumbnail = DARK_DEFAULT_THUMBNAIL;
     } else {
         m_borderColor = LIGHT_BORDER_COLOR;
         m_dateColor = LIGHT_DATECOLOR;
         m_seperatorColor = LIGHT_SEPERATOR_COLOR;
+        m_defaultThumbnail = LIGHT_DEFAULT_THUMBNAIL;
     }
 }
 
@@ -95,7 +100,7 @@ void TimelineDelegate::paint(QPainter *painter,
             // Cache thumbnail not exist but model's thumbnail still exist, use the model one
             if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
                 const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-                thumb = cutSquareImage(QPixmap(":/images/resources/images/default_thumbnail.png"), ms);
+                thumb = cutSquareImage(QPixmap(m_defaultThumbnail), ms);
                 QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
             }
         }

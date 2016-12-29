@@ -27,6 +27,7 @@ private:
     QColor m_borderColor;
     QColor m_dateColor;
     QColor m_seperatorColor;
+    QString m_defaultThumbnail;
 };
 
 #endif // TIMELINE_DELEGATE_H
