@@ -335,8 +335,11 @@ void AlbumsView::onMenuItemClicked(QAction *action)
         emit startSlideShow(paths(albumName));
         break;
     case IdRename:
-        if (m_delegate->isEditFinished())
-            openPersistentEditor(this->currentIndex());
+        if (m_delegate->isEditFinished()) {
+            QModelIndex renameIndex = this->currentIndex();
+            this->clearSelection();
+            openPersistentEditor(renameIndex);
+        }
         break;
     case IdExport:
         dApp->exporter->exportAlbum(albumName);
