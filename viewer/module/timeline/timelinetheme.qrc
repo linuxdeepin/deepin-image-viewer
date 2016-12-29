@@ -32,5 +32,7 @@
         <file>resources/light/images/timeline_normal.png</file>
         <file>resources/light/images/timeline_press.png</file>
         <file>resources/light/images/lineargradient.png</file>
+        <file>resources/dark/images/default_thumbnail.png</file>
+        <file>resources/light/images/default_thumbnail.png</file>
     </qresource>
 </RCC>
