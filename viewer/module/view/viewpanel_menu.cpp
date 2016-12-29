@@ -21,6 +21,7 @@
 
 namespace {
 
+const int SWITCH_IMAGE_DELAY = 300;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 
@@ -281,7 +282,7 @@ void ViewPanel::initShortcut()
     // Delay image toggle
     QTimer *dt = new QTimer(this);
     dt->setSingleShot(true);
-    dt->setInterval(300);
+    dt->setInterval(SWITCH_IMAGE_DELAY);
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);

@@ -18,4 +18,11 @@ private:
     QPointer<QMovie> m_movie;
 };
 
+class GraphicsPixmapItem : public QGraphicsPixmapItem
+{
+public:
+    explicit GraphicsPixmapItem(const QPixmap &pixmap);
+    ~GraphicsPixmapItem();
+};
+
 #endif // GRAPHICSMOVIEITEM_H
