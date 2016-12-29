@@ -8,8 +8,9 @@
 #include "mvc/timelineview.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include <QLabel>
 #include <QHBoxLayout>
+#include <QLabel>
+#include <QMutex>
 #include <QScrollBar>
 #include <QtConcurrent>
 
@@ -17,6 +18,22 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 22;
+
+class LoadThread : public QThread
+{
+    Q_OBJECT
+public:
+    explicit LoadThread(const DBImgInfoList &infos);
+
+protected:
+    void run() Q_DECL_OVERRIDE;
+
+signals:
+    void ready(TimelineItem::ItemData data);
+
+private:
+    DBImgInfoList m_infos;
+};
 
 }   // namespace
 
@@ -54,10 +71,18 @@ TimelineFrame::TimelineFrame(QWidget *parent)
     layout->addWidget(m_view);
 
     // Item append and remove
+    connect(dApp->importer, &Importer::imported,
+            this, &TimelineFrame::updateView);
     connect(dApp->signalM, &SignalManager::imagesInserted,
             this, [=] (const DBImgInfoList infos){
-        insertItems(infos);
-//        QtConcurrent::run(this, &TimelineFrame::insertItems, infos);
+        LoadThread *t = new LoadThread(infos);
+        connect(t, &LoadThread::ready,
+                this, &TimelineFrame::insertItems, Qt::DirectConnection);
+        connect(t, &LoadThread::finished, this, [=] {
+            t->deleteLater();
+            m_infos << infos;
+        }, Qt::DirectConnection);
+        t->start();
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved,
             this, [=] (const DBImgInfoList &infos) {
@@ -107,6 +132,11 @@ void TimelineFrame::updateThumbnails(const QString &path)
 void TimelineFrame::updateView()
 {
     m_view->updateView();
+    // FIXME: the value of m_view's verticzalScrollBar won't change event if
+    // it's range is changed, if the scrollbar's slider is at the top, the
+    // painting_indexs won't be update, so need to scroll it here to force update
+    const int vv = m_view->verticalScrollBar()->value();
+    m_view->verticalScrollBar()->setValue(vv + 1);
 }
 
 bool TimelineFrame::isEmpty() const
@@ -170,45 +200,25 @@ void TimelineFrame::initTopTip()
 
 void TimelineFrame::initItems()
 {
+    QMutexLocker locker(&m_mutex);
+
     auto infos = dApp->dbM->getAllInfos();
 
-    for (int i = 0; i < infos.length(); i += 500) {
-        i = qMin(i, infos.length() - 1);
-        auto subInfos = infos.mid(i, 500);
-        // Use thread will cause painting crash
-        // And QMutex not working, don't know why
-        TIMER_SINGLESHOT(4 * i, {insertItems(subInfos);}, this, subInfos)
-    }
+    LoadThread *t = new LoadThread(infos);
+    connect(t, &LoadThread::ready,
+            this, &TimelineFrame::insertItems, Qt::DirectConnection);
+    connect(t, &LoadThread::finished, this, [=] {
+        t->deleteLater();
+        m_infos << infos;
+        updateView();
+    }, Qt::DirectConnection);
+    t->start();
 }
 
-void TimelineFrame::insertItems(const DBImgInfoList &infos)
+void TimelineFrame::insertItems(const TimelineItem::ItemData &data)
 {
-    using namespace utils::base;
-    using namespace utils::image;
-    for (auto info : infos) {
-        TimelineItem::ItemData data;
-        data.isTitle = false;
-        data.path = info.filePath;
-
-        QBuffer inBuffer( &data.thumbArray );
-        inBuffer.open( QIODevice::WriteOnly );
-        // write inPixmap into inByteArray
-        if ( ! cutSquareImage(getThumbnail(data.path, true)).save( &inBuffer, "JPG", 100 )) {
-//             errorPaths << info.filePath;
-        }
-        data.timeline = timeToString(info.time, true);
-
-        m_model.appendData(data);
-    }
-    m_infos << infos;
-
-    // Make sure the firse screen will fill with images while importing
-    if (m_infos.length() > 100 && dApp->importer->isRunning()) {
-        m_view->updateView(false);
-    }
-    else {
-        m_view->updateView();
-    }
+    m_model.appendData(data);
+    m_view->updateView(dApp->importer->isRunning());
 }
 
 void TimelineFrame::removeItem(const DBImgInfo &info)
@@ -221,5 +231,34 @@ void TimelineFrame::removeItem(const DBImgInfo &info)
     m_model.removeData(data);
     m_infos.removeAll(info);
 
-    m_view->updateView();
+    updateView();
+}
+
+#include "timelineframe.moc"
+LoadThread::LoadThread(const DBImgInfoList &infos)
+    : QThread(nullptr)
+    , m_infos(infos)
+{
+
+}
+
+void LoadThread::run()
+{
+    using namespace utils::base;
+    using namespace utils::image;
+    for (auto info : m_infos) {
+        TimelineItem::ItemData data;
+        data.isTitle = false;
+        data.path = info.filePath;
+
+        QBuffer inBuffer( &data.thumbArray );
+        inBuffer.open( QIODevice::WriteOnly );
+        // write inPixmap into inByteArray
+        if ( ! cutSquareImage(getThumbnail(data.path, true)).save( &inBuffer, "JPG", 100 )) {
+//             errorPaths << info.filePath;
+        }
+        data.timeline = timeToString(info.time, true);
+
+        emit ready(data);
+    }
 }

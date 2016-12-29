@@ -5,6 +5,7 @@
 #include <QVariant>
 #include <QPixmap>
 
+class QMutex;
 class TimelineItem
 {
 public:
@@ -35,6 +36,7 @@ public:
     TimelineItem *parentItem();
 
 private:
+    QMutex *m_mutex;
     QList<TimelineItem*> m_childItems;
     QMap<QString, ItemData> m_datas;
     TimelineItem *m_parentItem;
