@@ -203,7 +203,7 @@ void TimelineFrame::insertItems(const DBImgInfoList &infos)
     m_infos << infos;
 
     // Make sure the firse screen will fill with images while importing
-    if (m_infos.length() > 300 && dApp->importer->isRunning()) {
+    if (m_infos.length() > 100 && dApp->importer->isRunning()) {
         m_view->updateView(false);
     }
     else {
