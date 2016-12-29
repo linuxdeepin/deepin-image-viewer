@@ -30,11 +30,11 @@ namespace {
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int ICON_MARGIN = 6;
 
-const QColor DARK_COVERCOLOR = QColor(30, 30, 30, 204);
-const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
+//const QColor DARK_COVERCOLOR = QColor(30, 30, 30, 204);
+//const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
 
-const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 20);
-const QColor LIGHT_TOP_BORDERCOLOR = QColor(0, 0, 0, 20);
+const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 13);
+const QColor LIGHT_TOP_BORDERCOLOR = QColor(255, 255, 255, 153);
 
 const QColor DARK_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 51);
 const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
@@ -109,20 +109,28 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
     BlurFrame::mouseDoubleClickEvent(e);
 }
 void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
+    QLinearGradient darkLinearGrad;
+    darkLinearGrad.setColorAt(0, QColor(30, 30, 30, 204));
+    darkLinearGrad.setColorAt(1, QColor(30, 30, 30, 204));
+
+    QLinearGradient lightLinearGrad;
+    lightLinearGrad.setColorAt(0, QColor(255, 255, 255, 230));
+    lightLinearGrad.setColorAt(1, QColor(248, 248, 248, 230));
+
     if (curTheme == ViewerThemeManager::Dark) {
-        m_coverBrush = DARK_COVERCOLOR;
+        setCoverBrush(QBrush(darkLinearGrad));
         m_topBorderColor = DARK_TOP_BORDERCOLOR;
         m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
 
         Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     } else {
-        m_coverBrush = LIGHT_COVERCOLOR;
+        setCoverBrush(QBrush(lightLinearGrad));
         m_topBorderColor = LIGHT_TOP_BORDERCOLOR;
         m_bottomBorderColor = LIGHT_BOTTOM_BORDERCOLOR;
 
         Dtk::Widget::DThemeManager::instance()->setTheme("light");
     }
-    setCoverBrush(QBrush(m_coverBrush));
+
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &TopToolbar::onThemeChanged);
@@ -141,27 +149,28 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     QPainterPath tPath;
     tPath.moveTo(QPointF(x(), y() + borderHeight - 0.5));
     tPath.lineTo(QPointF(x() + width(), y() + borderHeight - 0.5));
-
-    QPen tPen(tc);
-    QLinearGradient linearGrad;
-    linearGrad.setStart(x(), y());
-    linearGrad.setFinalStop(x() + width(), y());
-    linearGrad.setColorAt(0, Qt::transparent);
-    linearGrad.setColorAt(0.005, tc);
-    linearGrad.setColorAt(0.995, tc);
-    linearGrad.setColorAt(1, Qt::transparent);
-    tPen.setBrush(QBrush(linearGrad));
-    p.setPen(tPen);
+    p.setPen(QPen(tc));
     p.drawPath(tPath);
+//    QPen tPen(tc);
+//    QLinearGradient linearGrad;
+//    linearGrad.setStart(x(), y());
+//    linearGrad.setFinalStop(x() + width(), y());
+//    linearGrad.setColorAt(0, Qt::transparent);
+//    linearGrad.setColorAt(0.005, tc);
+//    linearGrad.setColorAt(0.995, tc);
+//    linearGrad.setColorAt(1, Qt::transparent);
+//    tPen.setBrush(QBrush(linearGrad));
+//    p.setPen(tPen);
+//    p.drawPath(tPath);
 
     // Draw inside bottom border
-    QPainterPath bPath;
-    borderHeight = 0;
-    bPath.moveTo(x(), y() + height() - borderHeight - 0.5);
-    bPath.lineTo(x() + width(), y() + height() - borderHeight - 0.5);
-    QPen bPen(m_bottomBorderColor, borderHeight);
-    p.setPen(bPen);
-    p.drawPath(bPath);
+//    QPainterPath bPath;
+//    borderHeight = 0;
+//    bPath.moveTo(x(), y() + height() - borderHeight - 0.5);
+//    bPath.lineTo(x() + width(), y() + height() - borderHeight - 0.5);
+//    QPen bPen(m_bottomBorderColor, borderHeight);
+//    p.setPen(bPen);
+//    p.drawPath(bPath);
 }
 
 void TopToolbar::initLeftContent()

@@ -8,6 +8,7 @@
 #include "module/slideshow/slideshowpanel.h"
 #include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
+#include "widgets/separator.h"
 #include "widgets/processtooltip.h"
 #include "widgets/dialogs/imginfodialog.h"
 
@@ -204,6 +205,10 @@ void MainWidget::initTopToolbar()
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
+    Separator* topToolbarSeparatorLine = new Separator(this);
+    topToolbarSeparatorLine->resize(window()->width(), 1);
+    topToolbarSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
+
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent,
             this, [=](QWidget *c) {
         if (c != nullptr)
