@@ -71,10 +71,14 @@ ImagesView::ImagesView(QWidget *parent)
 
     initContent();
     initPopupMenu();
-    updateMenuContents();
 
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
             this, &ImagesView::initItems);
+    connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] (const QString &g) {
+       if (g == SHORTCUTVIEW_GROUP) {
+           updateMenuContents();
+       }
+    });
 }
 
 void ImagesView::cancelLoadImages()
@@ -124,6 +128,8 @@ void ImagesView::initListView()
     connect(verticalScrollBar(), &QScrollBar::valueChanged,
             m_view, &ThumbnailListView::updateThumbnails);
     connect(m_view, &ThumbnailListView::clicked,
+            this, &ImagesView::updateMenuContents);
+    connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
             this, &ImagesView::updateMenuContents);
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
@@ -199,10 +205,13 @@ void ImagesView::insertItems(const DBImgInfoList &infos)
 
 void ImagesView::updateMenuContents()
 {
+    const QStringList paths = selectedPaths();
+    if (paths.isEmpty())
+        return;
+
     m_menu->clear();
     qDeleteAll(this->actions());
 
-    const QStringList paths = selectedPaths();
     const int selectedCount = paths.length();
     auto supportPath = std::find_if_not(paths.cbegin(), paths.cend(),
                                         utils::image::imageSupportSave);

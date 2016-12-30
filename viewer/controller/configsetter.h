@@ -15,6 +15,10 @@ public:
                    const QVariant &defaultValue = QVariant());
     QStringList keys(const QString &group);
 
+signals:
+    void valueChanged(const QString &group, const QString &key,
+                      const QVariant &value);
+
 private:
     explicit ConfigSetter(QObject *parent = 0);
 

@@ -65,6 +65,8 @@ TimelineFrame::TimelineFrame(QWidget *parent)
     connect(m_view, &TimelineView::showMenu, this, &TimelineFrame::showMenu);
     connect(m_view, &TimelineView::changeItemSize,
             this, &TimelineFrame::changeItemSize);
+    connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &TimelineFrame::selectIndexChanged);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

@@ -98,10 +98,13 @@ QMenu *TimelinePanel::createAlbumMenu()
 
 void TimelinePanel::updateMenuContents()
 {
+    auto paths = m_frame->selectedPaths();
+    if (paths.isEmpty())
+        return;
+
     m_menu->clear();
     qDeleteAll(this->actions());
 
-    auto paths = m_frame->selectedPaths();
     auto supportPath = std::find_if_not(paths.cbegin(), paths.cend(),
                                         utils::image::imageSupportSave);
     bool canSave = supportPath == paths.cend();

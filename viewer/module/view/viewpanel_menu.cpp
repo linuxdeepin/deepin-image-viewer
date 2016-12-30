@@ -1,13 +1,13 @@
 #include "viewpanel.h"
-#include "navigationwidget.h"
-#include "contents/imageinfowidget.h"
-#include "scen/imageview.h"
 #include "application.h"
-#include <controller/configsetter.h>
-#include <controller/popupdialogmanager.h>
-#include <controller/wallpapersetter.h>
-#include <utils/baseutils.h>
-#include <utils/imageutils.h>
+#include "contents/imageinfowidget.h"
+#include "controller/configsetter.h"
+#include "controller/popupdialogmanager.h"
+#include "controller/wallpapersetter.h"
+#include "navigationwidget.h"
+#include "scen/imageview.h"
+#include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include "widgets/dialogs/filedeletedialog.h"
 #include <QMenu>
 #include <QKeySequence>
@@ -65,6 +65,11 @@ void ViewPanel::initPopupMenu()
         }
     });
     connect(m_menu, &QMenu::triggered, this, &ViewPanel::onMenuItemClicked);
+    connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] {
+        if (this && this->isVisible()) {
+            updateMenuContent();
+        }
+    });
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)

@@ -74,13 +74,23 @@ AlbumsView::AlbumsView(QWidget *parent)
             m_menu->popup(QCursor::pos());
         }
     });
+    connect(selectionModel(), &QItemSelectionModel::currentChanged,
+            this, [=] (const QModelIndex &current) {
+        updateMenuContent(current);
+    });
+    connect(dApp->setter, &ConfigSetter::valueChanged,
+            this, [=] (const QString &group) {
+        if (group == VIEW_GROUP || group == ALBUM_GROUP) {
+            updateMenuContent(currentIndex());
+        }
+    });
     connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
         if (success) {
             updateView();
         }
     });
-    connect(dApp->signalM, &SignalManager::imagesRemoved, this,
-            &AlbumsView::updateView);
+    connect(dApp->signalM, &SignalManager::imagesRemoved,
+            this, &AlbumsView::updateView);
 }
 
 QModelIndex AlbumsView::addAlbum(const DBAlbumInfo &info)
@@ -159,9 +169,6 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
 {
     if (! indexAt(e->pos()).isValid()) {
         this->selectionModel()->clearSelection();
-    }
-    else {
-        updateMenuContent(indexAt(e->pos()));
     }
 
     destroyEditor(currentIndex());
@@ -276,32 +283,34 @@ const QString AlbumsView::getNewAlbumName() const
 
 void AlbumsView::updateMenuContent(const QModelIndex &index)
 {
+    if (! index.isValid() || isCreateIcon(index))
+        return;
+
     m_menu->clear();
     qDeleteAll(this->actions());
 
-    if (index.isValid()) {
-        bool isSpecial = false;
-        bool isEmpty = false;
-        QList<QVariant> datas =
-                index.model()->data(index, Qt::DisplayRole).toList();
-        if (! datas.isEmpty()) {
-            const QString album = datas[0].toString();
-            isSpecial = album == MY_FAVORITES_ALBUM;
-            isEmpty = dApp->dbM->getImgsCountByAlbum(album) < 1;
-        }
-        appendAction(IdView, tr("View"), ss("View", VIEW_GROUP));
-        appendAction(IdStartSlideShow,
-                     tr("Start slide show"), ss("Start slide show", VIEW_GROUP), ! isEmpty);
-        m_menu->addSeparator();
-        if (! isSpecial)
-            appendAction(IdRename, tr("Rename"), ss("Rename", ALBUM_GROUP));
-        appendAction(IdCopy, tr("Copy"), ss("Copy", VIEW_GROUP), ! isEmpty);
-        if (! isSpecial)
-            appendAction(IdDelete, tr("Delete"), ss("Delete", ALBUM_GROUP));
+    bool isSpecial = false;
+    bool isEmpty = false;
+    QList<QVariant> datas =
+            index.model()->data(index, Qt::DisplayRole).toList();
+    if (! datas.isEmpty()) {
+        const QString album = datas[0].toString();
+        isSpecial = album == MY_FAVORITES_ALBUM;
+        isEmpty = dApp->dbM->getImgsCountByAlbum(album) < 1;
     }
-    else {
-        appendAction(IdCreate, tr("New album"), ss("New album", ALBUM_GROUP));
-    }
+    appendAction(IdView, tr("View"), ss("View", VIEW_GROUP));
+    appendAction(IdStartSlideShow,
+                 tr("Start slideshow"), ss("Start slideshow", VIEW_GROUP), ! isEmpty);
+    m_menu->addSeparator();
+    if (! isSpecial)
+        appendAction(IdRename, tr("Rename"), ss("Rename", ALBUM_GROUP));
+    appendAction(IdCopy, tr("Copy"), ss("Copy", VIEW_GROUP), ! isEmpty);
+    if (! isSpecial)
+        appendAction(IdDelete, tr("Delete"), ss("Delete", ALBUM_GROUP));
+
+//    else {
+//        appendAction(IdCreate, tr("New album"), ss("New album", ALBUM_GROUP));
+//    }
 }
 
 void AlbumsView::onClicked(const QModelIndex &index)

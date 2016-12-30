@@ -20,6 +20,8 @@ const int DELAY_START_INTERVAL = 500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 const QColor DARK_BG_COLOR = QColor(27, 27, 27);
 const QColor LIGHT_BG_COLOR = QColor(255, 255, 255);
+const QString SHORTCUT_GROUP = "SHORTCUTVIEW";
+
 }  // namespace
 
 SlideShowPanel::SlideShowPanel(QWidget *parent)
@@ -142,13 +144,21 @@ void SlideShowPanel::initMenu()
     m_menu->setStyle(QStyleFactory::create("dlight"));
     QAction *ac = new QAction(m_menu);
     ac->setText(tr("Stop slideshow"));
-    ac->setShortcut(QKeySequence(dApp->setter->value("SHORTCUTVIEW", "Start slideshow").toString()));
+    ac->setShortcut(QKeySequence(dApp->setter->value(SHORTCUT_GROUP,
+        "Start slideshow").toString()));
     m_menu->addAction(ac);
     this->addAction(ac);
 
     connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::backToLastPanel);
     connect(this, &SlideShowPanel::customContextMenuRequested, this, [=] {
         m_menu->popup(QCursor::pos());
+    });
+    connect(dApp->setter, &ConfigSetter::valueChanged,
+            this, [=] (const QString &group) {
+        if (group == SHORTCUT_GROUP) {
+            ac->setShortcut(QKeySequence(dApp->setter->value(SHORTCUT_GROUP,
+                "Start slideshow").toString()));
+        }
     });
 }
 

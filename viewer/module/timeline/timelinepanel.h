@@ -29,7 +29,7 @@ protected:
 
 private:
     void initConnection();
-    void initImagesView();
+    void initImagesFrame();
     void initMainStackWidget();
     void initPopupMenu();
     void initStyleSheet();

@@ -23,6 +23,8 @@ void ConfigSetter::setValue(const QString &group, const QString &key,
     m_settings->beginGroup(group);
     m_settings->setValue(key, value);
     m_settings->endGroup();
+
+    emit valueChanged(group, key, value);
 }
 
 QVariant ConfigSetter::value(const QString &group, const QString &key,

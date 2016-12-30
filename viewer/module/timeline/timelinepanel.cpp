@@ -1,6 +1,7 @@
 #include "timelinepanel.h"
 #include "contents/timelinebtcontent.h"
 #include "application.h"
+#include "controller/configsetter.h"
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
 #include "timelineframe.h"
@@ -147,6 +148,8 @@ void TimelinePanel::initConnection()
         }
         onImageCountChanged();
     });
+    connect(dApp->setter, &ConfigSetter::valueChanged,
+            this, &TimelinePanel::updateMenuContents);
     connect(dApp->signalM, &SignalManager::imagesInserted,
             this, &TimelinePanel::onImageCountChanged);
     connect(dApp->signalM, &SignalManager::imagesRemoved,
@@ -160,7 +163,7 @@ void TimelinePanel::initConnection()
 
 void TimelinePanel::initMainStackWidget()
 {
-    initImagesView();
+    initImagesFrame();
 
     m_importFrame = new ImportFrame(this);
     m_importFrame->setButtonText(tr("Import"));
@@ -182,7 +185,7 @@ void TimelinePanel::initMainStackWidget()
     layout->addWidget(m_mainStack);
 }
 
-void TimelinePanel::initImagesView()
+void TimelinePanel::initImagesFrame()
 {
     m_frame = new TimelineFrame;
     connect(m_frame, &TimelineFrame::viewImage,
@@ -194,6 +197,9 @@ void TimelinePanel::initImagesView()
         emit dApp->signalM->viewImage(vinfo);
     });
 
+    // NOTE: It's important to use Qt::QueuedConnection to avoid crash
+    connect(m_frame, &TimelineFrame::selectIndexChanged,
+            this, &TimelinePanel::updateMenuContents, Qt::QueuedConnection);
     connect(m_frame, &TimelineFrame::showMenu, this, [=] {
         updateMenuContents();
         m_menu->popup(QCursor::pos());
