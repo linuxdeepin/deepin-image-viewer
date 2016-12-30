@@ -109,16 +109,15 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
     BlurFrame::mouseDoubleClickEvent(e);
 }
 void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
-    QLinearGradient darkLinearGrad;
-    darkLinearGrad.setColorAt(0, QColor(30, 30, 30, 204));
-    darkLinearGrad.setColorAt(1, QColor(30, 30, 30, 204));
-
     QLinearGradient lightLinearGrad;
     lightLinearGrad.setColorAt(0, QColor(255, 255, 255, 230));
     lightLinearGrad.setColorAt(1, QColor(248, 248, 248, 230));
+    lightLinearGrad.setStart(x(), y());
+    lightLinearGrad.setFinalStop(x(), y() + height());
+
 
     if (curTheme == ViewerThemeManager::Dark) {
-        setCoverBrush(QBrush(darkLinearGrad));
+        setCoverBrush(QBrush(QColor(30, 30, 30, 204)));
         m_topBorderColor = DARK_TOP_BORDERCOLOR;
         m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
 

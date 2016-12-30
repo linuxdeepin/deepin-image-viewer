@@ -6,6 +6,8 @@
 #include "toptoolbar.h"
 #include "controller/signalmanager.h"
 #include "controller/volumemonitor.h"
+#include "widgets/separator.h"
+
 #include <QFrame>
 #include <QStackedWidget>
 
@@ -44,6 +46,8 @@ private:
     BottomToolbar   *m_bottomToolbar;
     ExtensionPanel  *m_extensionPanel;
     TopToolbar      *m_topToolbar;
+    Separator       *m_topSeparatorLine;
+    Separator       *m_btmSeparatorLine;
 };
 
 #endif // MAINWIDGET_H

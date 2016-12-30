@@ -67,6 +67,16 @@ void MainWidget::resizeEvent(QResizeEvent *)
     if (m_extensionPanel) {
         m_extensionPanel->setFixedHeight(height());
     }
+    if (m_topSeparatorLine) {
+        m_topSeparatorLine->resize(window()->width(), 1);
+        m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
+    }
+
+    if (m_btmSeparatorLine) {
+        m_btmSeparatorLine->resize(window()->width(), 1);
+        m_btmSeparatorLine->move(0, window()->height() -
+                               m_bottomToolbar->height() - 1);
+    }
 }
 
 void MainWidget::onGotoPanel(ModulePanel *panel)
@@ -206,9 +216,10 @@ void MainWidget::initTopToolbar()
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
-    Separator* topToolbarSeparatorLine = new Separator(this);
-    topToolbarSeparatorLine->resize(window()->width(), 1);
-    topToolbarSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
+    m_topSeparatorLine = new Separator(this);
+    m_topSeparatorLine->resize(window()->width(), 1);
+    qDebug() << window()->width() << this->width() << m_topSeparatorLine->width();
+    m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
 
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent,
             this, [=](QWidget *c) {
@@ -286,10 +297,10 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
 
-    QLabel*  btmSeperatorLine = new QLabel(this);
-    btmSeperatorLine->resize(window()->width(), 1);
-    btmSeperatorLine->setObjectName("BtmSeperatorLine");
-    btmSeperatorLine->move(0, window()->height() -
+    m_btmSeparatorLine = new Separator(this);
+    m_btmSeparatorLine->setObjectName("BtmSeperatorLine");
+    m_btmSeparatorLine->resize(window()->width(), 1);
+    m_btmSeparatorLine->move(0, window()->height() -
                            m_bottomToolbar->height() - 1);
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
@@ -307,8 +318,7 @@ void MainWidget::initBottomToolbar()
     });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
         m_bottomToolbar->setVisible(true);
-        btmSeperatorLine->setVisible(m_bottomToolbar->isVisible());
-        m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
+        m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
 //        // Make the bottom toolbar always stay at the bottom after windows resize
 //        m_bottomToolbar->move(0, height());
 //        m_bottomToolbar->moveWithAnimation(0, height() - m_bottomToolbar->height());
@@ -318,7 +328,7 @@ void MainWidget::initBottomToolbar()
             this, [=](bool immediately) {
         m_bottomToolbar->move(0, height());
         m_bottomToolbar->setVisible(false);
-        btmSeperatorLine->setVisible(m_bottomToolbar->isVisible());
+        m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         Q_UNUSED(immediately)
 //        if (immediately) {
 //            m_bottomToolbar->move(0, height());
