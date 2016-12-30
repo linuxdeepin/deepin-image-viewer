@@ -40,11 +40,10 @@ AlbumsView::AlbumsView(QWidget *parent)
     setMouseTracking(true);
     setObjectName("AlbumView");
     m_delegate = new AlbumDelegate(this);
+    // Key event and focusout event will active this signal twice
+    // Use QueuedConnection to avoid crash
     connect(m_delegate, &AlbumDelegate::editingFinished,
-            this, [=](const QModelIndex &index) {
-        closePersistentEditor(index);
-        emit albumCreated();
-    });
+            this, &AlbumsView::destroyEditor, Qt::QueuedConnection);
 
     setItemDelegate(m_delegate);
     m_model = new QStandardItemModel(this);
@@ -165,9 +164,7 @@ void AlbumsView::mousePressEvent(QMouseEvent *e)
         updateMenuContent(indexAt(e->pos()));
     }
 
-    // NOTE: Grab focus from editor to avoid crash
-    this->setFocus();
-    closePersistentEditor(this->currentIndex());
+    destroyEditor(currentIndex());
 
     QListView::mousePressEvent(e);
 }
@@ -323,7 +320,12 @@ void AlbumsView::onMenuItemClicked(QAction *action)
         createAlbum();
         break;
     case IdView:
-        emit openAlbum(albumName);
+        if (m_delegate->isEditFinished()) {
+            emit openAlbum(albumName);
+        }
+        else {
+            destroyEditor(currentIndex());
+        }
         break;
     case IdStartSlideShow:
         emit startSlideShow(paths(albumName));
@@ -385,11 +387,18 @@ void AlbumsView::appendCreateIcon()
     }
 }
 
+void AlbumsView::destroyEditor(const QModelIndex &index)
+{
+    if (! index.isValid())
+        return;
+    if (indexWidget(index)) {
+        closePersistentEditor(index);
+    }
+}
+
 void AlbumsView::createAlbum()
 {
-    // NOTE: Grab focus from editor to avoid crash
-    this->setFocus();
-    closePersistentEditor(this->currentIndex());
+    destroyEditor(currentIndex());
     const QString name = getNewAlbumName();
     dApp->dbM->insertIntoAlbum(name, QStringList(" "));
     QModelIndex index = addAlbum(dApp->dbM->getAlbumInfo(name));
