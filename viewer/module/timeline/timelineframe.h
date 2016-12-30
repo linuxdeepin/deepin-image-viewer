@@ -37,12 +37,13 @@ protected:
 private:
     void initTopTip();
     void initItems();
-    void insertItems(const DBImgInfoList &infos);
+    void insertItems(const TimelineItem::ItemData &data);
     void removeItem(const DBImgInfo &info);
 
 private:
     Anchors<TopTimelineTip> m_tip;
     DBImgInfoList           m_infos;
+    QMutex                  m_mutex;
     TimelineModel           m_model;
     TimelineView            *m_view;
 };

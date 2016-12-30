@@ -4,6 +4,7 @@
 #include <QAbstractItemView>
 #include <QFutureWatcher>
 
+class ScrollBar;
 class TimelineView : public QAbstractItemView
 {
     Q_OBJECT
@@ -51,7 +52,7 @@ public:
     int titleHeight() const;
     void setTitleHeight(int height);
 
-    void updateView(bool repainRequest = true);
+    void updateView(bool keepAnchor = false);
 
 signals:
     void changeItemSize(bool increase);
@@ -70,7 +71,7 @@ protected:
 private:
     QModelIndexList visualIndexs() const;
     int maxColumnCount() const;
-    void updateVerticalScrollbar(bool keepAnchor = false);
+    void updateVerticalScrollbar();
     void updateVisualRects();
     void updateThumbnails();
 
@@ -87,7 +88,8 @@ private:
     int m_bottomMargin;
     int m_topMargin;
 
-    QModelIndex m_anchorIndex;  // 为了在导入、resize等情况下保持当前屏不会大幅度跳动
+    ScrollBar *m_sb;
+    QMutex m_mutex;
     QRect m_selectionRect;  // 为了绘制划定选中的方框
     QMap<QModelIndex, QRect> m_irMap;  // 为了知道index的情况下加快查找速度
     QList<IndexRect> m_irList;  // 为了二分法加快查找速度

@@ -63,20 +63,22 @@ TimelineView::TimelineView(QWidget *parent)
     , m_topMargin(44)
 {
     setSelectionMode(QAbstractItemView::ExtendedSelection);
-    setVerticalScrollBar(new ScrollBar());
 
-    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
+    // Scrollbar
+    m_sb = new ScrollBar;
+    setVerticalScrollBar(m_sb);
+    m_sb->setContextMenuPolicy(Qt::PreventContextMenu);
+    connect(m_sb, &ScrollBar::valueChanged, this, &TimelineView::onScrolled);
+
+    connect(&m_watcher, SIGNAL(resultReadyAt(int)),
+            this, SLOT(onThumbnailGenerated(int)));
+
+    // Theme
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::AppTheme::Dark) {
         m_backgroundColor = DARK_BACKGROUND_COLOR;
     } else {
         m_backgroundColor = LIGHT_BACKGROUND_COLOR;
     }
-
-    connect(verticalScrollBar(), &QScrollBar::valueChanged,
-            this, &TimelineView::onScrolled);
-
-    connect(&m_watcher, SIGNAL(resultReadyAt(int)),
-            this, SLOT(onThumbnailGenerated(int)));
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, [=](
             ViewerThemeManager::AppTheme theme){
         if (theme == ViewerThemeManager::AppTheme::Dark) {
@@ -106,13 +108,12 @@ void TimelineView::setTitleHeight(int height)
     this->update();
 }
 
-void TimelineView::updateView(bool repainRequest)
+void TimelineView::updateView(bool keepAnchor)
 {
-    updateVerticalScrollbar(true);
-    if (repainRequest) {
-        updateVisualRects();
-        update();
-    }
+    if (keepAnchor && m_sb->isScrolling())
+        return;
+
+    updateVerticalScrollbar();
 }
 
 void TimelineView::keyPressEvent(QKeyEvent *e)
@@ -365,9 +366,6 @@ void TimelineView::wheelEvent(QWheelEvent *e)
             emit changeItemSize(e->delta() > 0);
         }
         else {
-            if (! m_paintingIndexs.isEmpty())
-                m_anchorIndex = m_paintingIndexs.first();
-
             QApplication::sendEvent(sb, e);
         }
     }
@@ -506,13 +504,10 @@ int TimelineView::maxColumnCount() const
         return c;
 }
 
-void TimelineView::updateVerticalScrollbar(bool keepAnchor)
+void TimelineView::updateVerticalScrollbar()
 {
     verticalScrollBar()->setPageStep(viewport()->height());
     verticalScrollBar()->setRange(0, viewportSizeHint().height() - viewport()->height());
-    if (keepAnchor && m_anchorIndex.isValid()) {
-        scrollTo(m_anchorIndex);
-    }
 }
 
 /*!
@@ -520,9 +515,10 @@ void TimelineView::updateVerticalScrollbar(bool keepAnchor)
  * The VisualRects should update after resized, item-changed or iconsize-changed
  * Note: it sholud consider about verticalOffset()
  */
-
 void TimelineView::updateVisualRects()
 {
+    QMutexLocker locker(&m_mutex);
+
     m_irList.clear();
     m_irMap.clear();
 

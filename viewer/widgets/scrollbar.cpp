@@ -1,13 +1,15 @@
 #include "scrollbar.h"
 #include <QDebug>
-#include <QWheelEvent>
 #include <QPropertyAnimation>
+#include <QTimer>
+#include <QWheelEvent>
 
 namespace {
 
-const int DEFAULT_SPEED_TIME = 1;
-const double MAX_SPEED_TIME = 14;
 const int ANIMATION_DUARTION = 1400;
+const int DEFAULT_SPEED_TIME = 1;
+const int MARK_DELAY = 1000;
+const double MAX_SPEED_TIME = 14;
 
 }  // namespace
 
@@ -16,12 +18,15 @@ ScrollBar::ScrollBar(QWidget *parent)
     , m_speedTime(DEFAULT_SPEED_TIME)
     , m_directionFlag(1)
 {
+    m_timer = new QTimer;
+    m_timer->setSingleShot(true);
+    m_timer->setInterval(MARK_DELAY);
+
     m_animation = new QPropertyAnimation(this, "value");
-    m_animation->setEasingCurve(QEasingCurve::OutQuint);
+    m_animation->setEasingCurve(QEasingCurve::OutQuart);
     m_animation->setDuration(ANIMATION_DUARTION);
     connect(m_animation, &QPropertyAnimation::finished, this, [=] {
-        m_animation->setEasingCurve(QEasingCurve::OutQuint);
-        m_animation->setDuration(ANIMATION_DUARTION);
+        m_timer->start();
     });
     connect(m_animation, &QPropertyAnimation::valueChanged,
             this, [=] (const QVariant &v) {
@@ -44,6 +49,12 @@ void ScrollBar::stopScroll()
     m_animation->stop();
 }
 
+bool ScrollBar::isScrolling() const
+{
+    return (m_animation->state() == QPropertyAnimation::Running ||
+            m_timer->isActive());
+}
+
 void ScrollBar::wheelEvent(QWheelEvent *e)
 {
     // Active by touchpad
@@ -52,6 +63,7 @@ void ScrollBar::wheelEvent(QWheelEvent *e)
                        , e->angleDelta(), e->delta() * 16/*speed up*/
                        , Qt::Vertical, e->buttons(), e->modifiers());
         QScrollBar::wheelEvent(&ve);
+        m_timer->start();
     }
     // Active by mouse
     else {

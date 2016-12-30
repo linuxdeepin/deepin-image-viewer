@@ -4,13 +4,15 @@
     A container for items of data supplied by the simple tree model.
 */
 
-#include <QStringList>
 #include <QDebug>
+#include <QStringList>
+#include <QMutex>
 
 #include "timelineitem.h"
 
 TimelineItem::TimelineItem(TimelineItem *parent)
 {
+    m_mutex = new QMutex;
     m_parentItem = parent;
 }
 
@@ -21,6 +23,8 @@ TimelineItem::~TimelineItem()
 
 void TimelineItem::appendData(const ItemData &data)
 {
+    QMutexLocker locker(m_mutex);
+
     m_datas.insert(data.path, data);
 }
 
