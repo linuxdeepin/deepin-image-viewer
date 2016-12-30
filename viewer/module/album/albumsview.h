@@ -49,17 +49,18 @@ private:
         IdSeparator
     };
 
-    bool isCreateIcon(const QModelIndex &index) const;
     void appendAction(int id, const QString &text, const QString &shortcut, bool enable = true);
-    void updateMenuContent(const QModelIndex &index);
-    const QString getAlbumName(const QModelIndex &index) const;
-    const QString getNewAlbumName() const;
-    const QStringList paths(const QString &album) const;
+    void appendCreateIcon();
+    void destroyEditor(const QModelIndex &index);
+    bool isCreateIcon(const QModelIndex &index) const;
     void onClicked(const QModelIndex &index);
     void onDoubleClicked(const QModelIndex &index);
     void onMenuItemClicked(QAction *action);
+    const QString getAlbumName(const QModelIndex &index) const;
+    const QString getNewAlbumName() const;
+    const QStringList paths(const QString &album) const;
     void removeCreateIcon();
-    void appendCreateIcon();
+    void updateMenuContent(const QModelIndex &index);
 
 private:
     AlbumDelegate *m_delegate;

@@ -115,7 +115,7 @@ QWidget *AlbumDelegate::createEditor(QWidget *parent,
     font.setPixelSize(TITLE_FONT_SIZE);
     lineEdit->setFont(font);
     lineEdit->setAlignment(Qt::AlignCenter);
-//    lineEdit->setFocus();
+    lineEdit->setFocus();
     connect(lineEdit, &QLineEdit::editingFinished,
             this, &AlbumDelegate::onEditFinished);
 
@@ -127,9 +127,10 @@ QWidget *AlbumDelegate::createEditor(QWidget *parent,
 void AlbumDelegate::destroyEditor(QWidget *editor,
                                   const QModelIndex &index) const
 {
-    Q_UNUSED(index)
+    if (index.isValid()) {
+        delete editor;
+    }
     m_editingIndex = QModelIndex();
-    editor->deleteLater();
 }
 
 void AlbumDelegate::setEditorData(QWidget *editor,
