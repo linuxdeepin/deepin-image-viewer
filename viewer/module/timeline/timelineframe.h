@@ -20,7 +20,7 @@ public:
     void selectAll();
     void setIconSize(int size);
     void updateThumbnails(const QString &path);
-    void updateView();
+    void updateScrollRange();
 
     bool isEmpty() const;
     const QString currentMonth() const;

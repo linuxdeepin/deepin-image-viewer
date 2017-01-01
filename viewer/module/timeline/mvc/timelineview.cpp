@@ -55,6 +55,7 @@ QVariant genThumbnail(const QVariant &data)
 }
 TimelineView::TimelineView(QWidget *parent)
     : QAbstractItemView(parent)
+    , m_needReAnchor(false)
     , m_itemSize(96)
     , m_titleHeight(30)
     , m_hItemSpacing(4)
@@ -108,12 +109,25 @@ void TimelineView::setTitleHeight(int height)
     this->update();
 }
 
-void TimelineView::updateView(bool keepAnchor)
+bool TimelineView::isScrolling()
+{
+    return m_sb->isScrolling();
+}
+
+void TimelineView::updateScrollbarRange(bool keepAnchor)
 {
     if (keepAnchor && m_sb->isScrolling())
         return;
 
+    if (keepAnchor)
+        m_needReAnchor = true;
     updateVerticalScrollbar();
+}
+
+void TimelineView::updateView()
+{
+    updateVisualRects();
+    this->update();
 }
 
 void TimelineView::keyPressEvent(QKeyEvent *e)
@@ -358,6 +372,14 @@ void TimelineView::resizeEvent(QResizeEvent *event)
 
 void TimelineView::wheelEvent(QWheelEvent *e)
 {
+    if (m_needReAnchor && ! m_paintingIndexs.isEmpty()) {
+        m_needReAnchor = false;
+        QModelIndex index = m_paintingIndexs.first();
+        updateVisualRects();
+        scrollTo(index);
+        return;
+    }
+
     QScrollBar *sb = verticalScrollBar();
     if (e->orientation() == Qt::Vertical &&
             sb->value() <= sb->maximum() &&

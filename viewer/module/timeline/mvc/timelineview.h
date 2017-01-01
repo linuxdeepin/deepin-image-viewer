@@ -52,7 +52,10 @@ public:
     int titleHeight() const;
     void setTitleHeight(int height);
 
-    void updateView(bool keepAnchor = false);
+    bool isScrolling();
+
+    void updateScrollbarRange(bool keepAnchor = false);
+    void updateView();
 
 signals:
     void changeItemSize(bool increase);
@@ -81,6 +84,7 @@ private slots:
 
 private:
     QColor m_backgroundColor;
+    bool m_needReAnchor;
     int m_itemSize;
     int m_titleHeight;
     int m_hItemSpacing;
