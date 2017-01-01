@@ -1,5 +1,6 @@
 #include "toptoolbar.h"
 #include "application.h"
+#include "controller/configsetter.h"
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
@@ -135,6 +136,11 @@ void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
             &TopToolbar::onThemeChanged);
 }
 
+const QString TopToolbar::newAlbumShortcut() const
+{
+    return dApp->setter->value("SHORTCUTALBUM", "New album", "Ctrl+Shift+N").toString();
+}
+
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
     BlurFrame::paintEvent(e);
@@ -268,21 +274,10 @@ void TopToolbar::initMenu()
     m_menu->setStyle(QStyleFactory::create("dlight"));
     QAction *acNA = m_menu->addAction(tr("New album"));
     QAction *acDT = m_menu->addAction(tr("Deep color mode"));
-    bool checkSelected = dApp->viewerTheme->getCurrentTheme() ==
-            ViewerThemeManager::Dark;
+    bool checkSelected =
+            dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark;
     acDT->setCheckable(checkSelected);
     acDT->setChecked(checkSelected);
-
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            [=](ViewerThemeManager::AppTheme dark){
-        if (dark == ViewerThemeManager::Dark) {
-            acDT->setCheckable(true);
-            acDT->setChecked(true);
-        } else {
-            acDT->setCheckable(false);
-            acDT->setChecked(false);
-        }
-    });
     QAction *acS = m_menu->addAction(tr("Setting"));
     m_menu->addSeparator();
     QAction *acH = m_menu->addAction(tr("Help"));
@@ -295,7 +290,7 @@ void TopToolbar::initMenu()
     connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
     connect(acE, &QAction::triggered, dApp, &Application::quit);
 
-    QShortcut *scNA = new QShortcut(QKeySequence("Ctrl+Shift+N"), this);
+    QShortcut *scNA = new QShortcut(QKeySequence(newAlbumShortcut()), this);
     QShortcut *scH = new QShortcut(QKeySequence("F1"), this);
     QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
@@ -303,6 +298,23 @@ void TopToolbar::initMenu()
     connect(scH, SIGNAL(activated()), this, SLOT(onHelp()));
     connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
+
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            [=](ViewerThemeManager::AppTheme dark){
+        if (dark == ViewerThemeManager::Dark) {
+            acDT->setCheckable(true);
+            acDT->setChecked(true);
+        } else {
+            acDT->setCheckable(false);
+            acDT->setChecked(false);
+        }
+    });
+
+    connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] (const QString &group) {
+        if (group == "SHORTCUTALBUM") {
+            scNA->setKey(QKeySequence(newAlbumShortcut()));
+        }
+    });
 }
 
 void TopToolbar::onViewShortcut() {

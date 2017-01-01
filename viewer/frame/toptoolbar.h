@@ -57,6 +57,10 @@ private slots:
     void onDeepColorMode();
 
     void onThemeChanged(ViewerThemeManager::AppTheme curTheme);
+
+private:
+    const QString newAlbumShortcut() const;
+
 private:
     QColor m_coverBrush;
     QColor m_topBorderColor;
