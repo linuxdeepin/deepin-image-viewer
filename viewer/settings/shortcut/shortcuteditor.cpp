@@ -55,7 +55,9 @@ void ShortcutEditor::paintEvent(QPaintEvent *e)
     painter.restore();
 
     // Draw key
-    QStringList keys = m_shortcut.split("+", QString::SkipEmptyParts);
+    // "Return" and "Enter" should show as "Enter" only
+    QString s = m_shortcut.replace("Return", "Enter");
+    QStringList keys = s.split("+", QString::SkipEmptyParts);
 
     if (keys.isEmpty()) {
         // Draw tips

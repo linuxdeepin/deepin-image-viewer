@@ -143,7 +143,7 @@ const QString ShortcutFrame::trLabel(const char *str)
 QMap<QString, QString> ShortcutFrame::viewValues()
 {
     QMap<QString, QString> vs;
-    vs.insert("View", "Enter");
+    vs.insert("View", "Return");
     vs.insert("Fullscreen", "F11");
     vs.insert("Start slideshow", "F5");
 //    vs.insert("Quit slideshow", "ESC");
@@ -157,7 +157,7 @@ QMap<QString, QString> ShortcutFrame::viewValues()
     vs.insert("Rotate counterclockwise", "Ctrl+Shift+R");
     vs.insert("Set as wallpaper", "Ctrl+F8");
     vs.insert("Display in file manager", "Ctrl+D");
-    vs.insert("Image info", "Alt+Enter");
+    vs.insert("Image info", "Alt+Return");
 
     return vs;
 }
