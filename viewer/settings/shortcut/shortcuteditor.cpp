@@ -114,8 +114,13 @@ void ShortcutEditor::keyPressEvent(QKeyEvent *e)
         if (isModifiersKey(e->key()) || ! m_canSet)
             return;
         m_canSet = false;
-        m_shortcut = QKeySequence(e->modifiers()).toString()
-                + QKeySequence(e->key()).toString();
+        if (e->key() == Qt::Key_Delete) {
+            m_shortcut = QKeySequence(e->modifiers()).toString() + "Delete";
+        }
+        else {
+            m_shortcut = QKeySequence(e->modifiers()).toString()
+                    + QKeySequence(e->key()).toString();
+        }
         updateValue();
     }
     else {
