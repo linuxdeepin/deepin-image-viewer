@@ -166,7 +166,8 @@ void TimelinePanel::updateMenuContents()
 
 void TimelinePanel::onMenuItemClicked(QAction *action)
 {
-    const QStringList paths = m_frame->selectedPaths();
+    QStringList paths = m_frame->selectedPaths();
+    paths.removeAll(QString(""));
     if (paths.isEmpty()) {
         return;
     }

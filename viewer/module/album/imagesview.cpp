@@ -274,6 +274,7 @@ void ImagesView::updateMenuContents()
 void ImagesView::onMenuItemClicked(QAction *action)
 {
     QStringList paths = selectedPaths();
+    paths.removeAll(QString(""));
     if (paths.isEmpty()) {
         return;
     }
