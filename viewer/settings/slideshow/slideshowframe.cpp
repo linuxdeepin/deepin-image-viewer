@@ -37,7 +37,7 @@ int SlideshowFrame::defaultDuration() const
 {
     QVariant v = dApp->setter->value(DURATION_SETTING_GROUP, DURATION_SETTING_KEY);
     if (v.isNull()) {
-        dApp->setter->setValue(DURATION_SETTING_GROUP, DURATION_SETTING_KEY, 1);
+        dApp->setter->setValue(DURATION_SETTING_GROUP, DURATION_SETTING_KEY, 2);
         return 1;
     }
     else {
@@ -57,10 +57,18 @@ void SlideshowFrame::initPreview()
     previewLayout->setContentsMargins(0, 0, 0, 0);
     previewLayout->setSpacing(7);
     previewLayout->addStretch();
-    previewLayout->addWidget(new SlideshowPreview(SlideshowPreview::Blinds));
-    previewLayout->addWidget(new SlideshowPreview(SlideshowPreview::Slide));
-    previewLayout->addWidget(new SlideshowPreview(SlideshowPreview::Switcher));
-    previewLayout->addWidget(new SlideshowPreview(SlideshowPreview::Circle));
+    SlideshowPreview *sp = new SlideshowPreview(SlideshowPreview::Blinds);
+    connect(this, &SlideshowFrame::requestReset, sp, &SlideshowPreview::resetValue);
+    previewLayout->addWidget(sp);
+    sp = new SlideshowPreview(SlideshowPreview::Slide);
+    connect(this, &SlideshowFrame::requestReset, sp, &SlideshowPreview::resetValue);
+    previewLayout->addWidget(sp);
+    sp = new SlideshowPreview(SlideshowPreview::Switcher);
+    connect(this, &SlideshowFrame::requestReset, sp, &SlideshowPreview::resetValue);
+    previewLayout->addWidget(sp);
+    sp = new SlideshowPreview(SlideshowPreview::Circle);
+    connect(this, &SlideshowFrame::requestReset, sp, &SlideshowPreview::resetValue);
+    previewLayout->addWidget(sp);
     previewLayout->addStretch();
     m_layout->addSpacing(16);
     m_layout->addLayout(previewLayout);
@@ -92,13 +100,17 @@ void SlideshowFrame::initInterval()
     }
     dcb->addItems(intervalList);
     dcb->setEditable(false);
-    dcb->setCurrentIndex(defaultDuration() - 1);
+    dcb->setCurrentIndex(defaultDuration() - 2);
     connect(dcb, &DSimpleComboBox::currentTextChanged,
             this, [=] (const QString &text) {
         int i = QString(text.split(" ").first()).toInt();
         if (i != 0) {
             dApp->setter->setValue(DURATION_SETTING_GROUP, DURATION_SETTING_KEY, i);
         }
+    });
+    connect(this, &SlideshowFrame::requestReset, this, [=] {
+        dApp->setter->setValue(DURATION_SETTING_GROUP, DURATION_SETTING_KEY, 2);
+        dcb->setCurrentIndex(defaultDuration() - 2);
     });
 
     timeLayout->addWidget(dcb);

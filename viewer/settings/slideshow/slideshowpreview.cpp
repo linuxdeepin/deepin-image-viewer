@@ -54,6 +54,13 @@ SlideshowPreview::SlideshowPreview(SlideshowEffect effect, QWidget *parent)
     m_checked = defaultValue();
 }
 
+void SlideshowPreview::resetValue()
+{
+    dApp->setter->setValue(SETTING_GROUP, QString::number(m_effect), true);
+    m_checked = true;
+    this->update();
+}
+
 void SlideshowPreview::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e)

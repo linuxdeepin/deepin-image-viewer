@@ -10,6 +10,9 @@ class SlideshowFrame : public QFrame
 public:
     explicit SlideshowFrame(QWidget *parent);
 
+signals:
+    void requestReset();
+
 private:
     int defaultDuration() const;
     void initPreview();

@@ -121,6 +121,8 @@ void ContentsFrame::initScrollArea()
 
     SlideshowFrame *slideshow = new SlideshowFrame(this);
     ShortcutFrame *shortcut = new ShortcutFrame(this);
+    connect(shortcut, &ShortcutFrame::resetAll,
+            slideshow, &SlideshowFrame::requestReset);
 
     layout->addWidget(slideshow);
     layout->addWidget(shortcut);

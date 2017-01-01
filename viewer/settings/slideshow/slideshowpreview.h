@@ -15,6 +15,7 @@ public:
     };
 
     explicit SlideshowPreview(SlideshowEffect effect, QWidget *parent = 0);
+    void resetValue();
 
 protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
