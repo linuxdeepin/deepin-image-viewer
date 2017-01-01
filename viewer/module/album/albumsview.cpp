@@ -322,6 +322,8 @@ void AlbumsView::onClicked(const QModelIndex &index)
 
 void AlbumsView::onMenuItemClicked(QAction *action)
 {
+    if (isCreateIcon(currentIndex()))
+        return;
     const QString albumName = getAlbumName(currentIndex());
     const int id = action->property("MenuID").toInt();
     switch (MenuItemId(id)) {
