@@ -196,9 +196,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         emit dApp->signalM->showInFileManager(path);
         break;
     case IdImageInfo:
-        emit dApp->signalM->showExtensionPanel();
+        if (m_isInfoShowed)
+            emit dApp->signalM->hideExtensionPanel();
+        else
+            emit dApp->signalM->showExtensionPanel();
         // Update panel info
-        TIMER_SINGLESHOT(100, {m_info->setImagePath(path);}, this, path);
+        m_info->setImagePath(path);
         break;
     default:
         break;
@@ -280,21 +283,12 @@ void ViewPanel::updateMenuContent()
 
 void ViewPanel::initShortcut()
 {
-    // Image info
-    QShortcut *sc = new QShortcut(QKeySequence("Alt+Return"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
-        dApp->signalM->showExtensionPanel();
-        // Update panel info
-        TIMER_SINGLESHOT(100, {m_info->setImagePath(m_current->filePath);}, this);
-    });
-
     // Delay image toggle
     QTimer *dt = new QTimer(this);
     dt->setSingleShot(true);
     dt->setInterval(SWITCH_IMAGE_DELAY);
     // Previous
-    sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
+    QShortcut *sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         if (! dt->isActive()) {
@@ -343,6 +337,7 @@ void ViewPanel::initShortcut()
                 dApp->quit();
             }
         }
+        emit dApp->signalM->hideExtensionPanel(true);
     });
     //1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);

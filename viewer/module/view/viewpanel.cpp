@@ -37,6 +37,7 @@ const QSize ICON_SIZE = QSize(48, 40);
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
+    , m_isInfoShowed(false)
     , m_hideCursorTid(0)
     , m_viewB(nullptr)
     , m_info(nullptr)
@@ -73,6 +74,12 @@ void ViewPanel::initConnect() {
             emit dApp->signalM->showTopToolbar();
             emit dApp->signalM->hideBottomToolbar(true);
         }
+    });
+    connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [=] {
+        m_isInfoShowed = true;
+    });
+    connect(dApp->signalM, &SignalManager::hideExtensionPanel, this, [=] {
+        m_isInfoShowed = false;
     });
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
