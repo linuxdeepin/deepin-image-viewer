@@ -248,10 +248,13 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
     TTMContent *ttmc = new TTMContent(! m_vinfo.inDatabase);
+    if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
+        ttmc->setImage(m_current->filePath);
+    }
 
     connect(this, &ViewPanel::updateCollectButton,
             ttmc, &TTMContent::updateCollectButton);
-    connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::onImageChanged);
+    connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::setImage);
     connect(ttmc, &TTMContent::rotateClockwise, this, [=]{
         rotateImage(true);
     });

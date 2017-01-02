@@ -36,12 +36,12 @@ void ImageButton::setDisablePic(const QString &path)
 
 void ImageButton::setDisabled(bool d)
 {
-    if (d) {
-        setNormalPic(m_disablePic_);
-    }
-    else {
-        setNormalPic(this->getNormalPic());
-    }
+//    if (d) {
+//        setNormalPic(m_disablePic_);
+//    }
+//    else {
+//        setNormalPic(this->getNormalPic());
+//    }
     DImageButton::setDisabled(d);
 }
 

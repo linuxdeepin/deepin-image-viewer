@@ -100,7 +100,7 @@ void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
                                 ":/resources/light/qss/ttm.qss"));
     }
 }
-void TTMContent::onImageChanged(const QString &path)
+void TTMContent::setImage(const QString &path)
 {
     m_imagePath = path;
     if (path.isEmpty()) {
