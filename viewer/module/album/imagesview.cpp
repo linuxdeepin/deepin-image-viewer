@@ -492,7 +492,7 @@ void ImagesView::updateContent()
         setWidget(m_importFrame);
         m_importFrame->setVisible(true);
     }
-    else {
+    else if (widget() != m_contentWidget){
         // For avoid widget destroy
         takeWidget();
         m_importFrame->setVisible(false);

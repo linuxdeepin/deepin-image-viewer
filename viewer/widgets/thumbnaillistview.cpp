@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QEvent>
 #include <QFile>
+#include <QMutex>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPen>
@@ -99,8 +100,10 @@ void ThumbnailListView::setIconSize(const QSize &size)
     updateViewPortSize();
 }
 
+QMutex mutex;
 void ThumbnailListView::insertItem(const ItemInfo &info)
 {
+    QMutexLocker locker(&mutex);
     // Diffrent thread connection cause duplicate insert
     if (indexOf(info.path) != -1)
         return;
