@@ -73,8 +73,12 @@ TimelineFrame::TimelineFrame(QWidget *parent)
     layout->addWidget(m_view);
 
     // Item append and remove
-    connect(dApp->importer, &Importer::imported,
-            this, &TimelineFrame::updateView);
+    connect(dApp->importer, &Importer::imported, this, [=] {
+        updateScrollRange();
+        // Call initItems to reinsert those datas which miss by user scroll view
+        initItems();
+        TIMER_SINGLESHOT(1000, {m_view->updateView();}, this)
+    });
     connect(dApp->signalM, &SignalManager::imagesInserted,
             this, [=] (const DBImgInfoList infos){
         LoadThread *t = new LoadThread(infos);
@@ -131,9 +135,9 @@ void TimelineFrame::updateThumbnails(const QString &path)
     m_model.updateData(data);
 }
 
-void TimelineFrame::updateView()
+void TimelineFrame::updateScrollRange()
 {
-    m_view->updateView();
+    m_view->updateScrollbarRange();
     // FIXME: the value of m_view's verticzalScrollBar won't change event if
     // it's range is changed, if the scrollbar's slider is at the top, the
     // painting_indexs won't be update, so need to scroll it here to force update
@@ -202,8 +206,6 @@ void TimelineFrame::initTopTip()
 
 void TimelineFrame::initItems()
 {
-    QMutexLocker locker(&m_mutex);
-
     auto infos = dApp->dbM->getAllInfos();
 
     LoadThread *t = new LoadThread(infos);
@@ -212,15 +214,20 @@ void TimelineFrame::initItems()
     connect(t, &LoadThread::finished, this, [=] {
         t->deleteLater();
         m_infos << infos;
-        updateView();
+        updateScrollRange();
     }, Qt::DirectConnection);
     t->start();
 }
 
 void TimelineFrame::insertItems(const TimelineItem::ItemData &data)
 {
+    // Do not update model if user is scroll and importing, the missing datas
+    // will be insert again after import thread finished by call initItems
+    if (dApp->importer->isRunning() && m_view->isScrolling()) {
+        return;
+    }
     m_model.appendData(data);
-    m_view->updateView(dApp->importer->isRunning());
+    m_view->updateScrollbarRange();
 }
 
 void TimelineFrame::removeItem(const DBImgInfo &info)
@@ -233,7 +240,8 @@ void TimelineFrame::removeItem(const DBImgInfo &info)
     m_model.removeData(data);
     m_infos.removeAll(info);
 
-    updateView();
+    m_view->updateScrollbarRange();
+    m_view->updateView();
 }
 
 #include "timelineframe.moc"

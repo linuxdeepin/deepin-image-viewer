@@ -262,6 +262,6 @@ void TimelinePanel::rotateImage(const QString &path, int degree)
     m_frame->updateThumbnails(path);
     if (m_rotateList.isEmpty()) {
         qDebug() << "Rotate finish!";
-        m_frame->updateView();
+        m_frame->updateScrollRange();
     }
 }
