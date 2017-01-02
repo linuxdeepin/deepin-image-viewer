@@ -84,7 +84,6 @@ void TimelineBTContent::paintEvent(QPaintEvent *e)
 void TimelineBTContent::initImportBtn()
 {
     ImageButton *ib = new ImageButton;
-    ib->setFixedWidth(SLIDER_WIDTH);
     ib->setObjectName("ImportBtn");
     ib->setToolTip(tr("Import"));
 
@@ -101,10 +100,11 @@ void TimelineBTContent::initMiddleContent()
     m_label = new QLabel;
     m_label->setAlignment(Qt::AlignCenter);
     m_label->setObjectName("CountLabel");
+    m_label->setContentsMargins(SLIDER_WIDTH, 0, 0, 0);
 
     QWidget *w = new QWidget;
     QHBoxLayout *hl = new QHBoxLayout(w);
-    hl->setContentsMargins(0, 0, 0, 0);
+    hl->setContentsMargins(SLIDER_WIDTH, 0, 0, 0);
     hl->setSpacing(5);
 
     LoadingIcon *lIcon = new LoadingIcon(this);
