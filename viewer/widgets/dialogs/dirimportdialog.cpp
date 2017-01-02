@@ -58,7 +58,9 @@ DirImportDialog::DirImportDialog(const QString &dir, QWidget* parent)
     connect(this, &DirImportDialog::closed,
             this, &DirImportDialog::deleteLater);
     connect(this, &DirImportDialog::buttonClicked, this, [=] (int id) {
-        if (edit->text().isEmpty()) return;
+        if (edit->text().isEmpty()) {
+            edit->setText(QFileInfo(dir).fileName());
+        }
 
         if(id == 1){
             dApp->importer->appendDir(dir);
