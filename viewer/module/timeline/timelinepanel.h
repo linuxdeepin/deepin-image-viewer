@@ -41,6 +41,7 @@ private:
     void updateMenuContents();
     void rotateImage(const QString &path, int degree);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+    void showPrintDialog(const QString& imgPath);
 
 private:
     QMenu               *m_menu;

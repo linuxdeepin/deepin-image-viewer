@@ -2,7 +2,6 @@
 #include "application.h"
 #include "contents/imageinfowidget.h"
 #include "controller/configsetter.h"
-#include "controller/popupdialogmanager.h"
 #include "controller/wallpapersetter.h"
 #include "navigationwidget.h"
 #include "scen/imageview.h"
@@ -139,8 +138,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        using namespace controller::popup;
-        printDialog(path);
+        showPrintDialog(path);
         break;
     }
     case IdAddToAlbum: {

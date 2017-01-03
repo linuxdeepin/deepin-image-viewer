@@ -3,7 +3,6 @@
 #include "controller/configsetter.h"
 #include "controller/exporter.h"
 #include "controller/importer.h"
-#include "controller/popupdialogmanager.h"
 #include "controller/signalmanager.h"
 
 #include "controller/wallpapersetter.h"
@@ -23,6 +22,10 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <math.h>
+
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPainter>
 
 namespace {
 
@@ -293,8 +296,7 @@ void ImagesView::onMenuItemClicked(QAction *action)
         emit startSlideShow(viewPaths, path);
         break;
     case IdPrint: {
-        using namespace controller::popup;
-        printDialog(path);
+        showPrintDialog(path);
         break;
     }
     case IdAddToAlbum: {
@@ -542,6 +544,36 @@ void ImagesView::popupDelDialog(const QStringList &paths)
 {
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);
     fdd->show();
+}
+
+void  ImagesView::showPrintDialog(const QString& imgPath) {
+    QPrinter printer(QPrinter::ScreenResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    QPixmap img;
+    qDebug() << "img load result:" << img.load(imgPath);
+    if (img.width() > img.height())
+        printer.setPageOrientation(QPageLayout::Landscape);
+
+    QRect pageOriginRect = printer.pageRect();
+    QSize pageRect = QSize(pageOriginRect.width() - 8,
+                           pageOriginRect.height() - 8);
+
+    img = img.scaled(pageRect, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QPrintDialog* printDialog = new QPrintDialog(&printer, this);
+    printDialog->resize(400, 300);
+    if (printDialog->exec() == QDialog::Accepted) {
+        QPainter painter(&printer);
+        painter.drawPixmap(0, 0, img);
+        painter.end();
+        qDebug() << "print succeed!";
+        return;
+    }
+
+    QObject::connect(printDialog, &QPrintDialog::finished, printDialog,
+            &QPrintDialog::deleteLater);
+
+    qDebug() << "print failed!";
 }
 
 LoadThread::LoadThread(const QString &album)

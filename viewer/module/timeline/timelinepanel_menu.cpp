@@ -5,7 +5,6 @@
 #include "controller/dbmanager.h"
 #include "controller/exporter.h"
 #include "controller/wallpapersetter.h"
-#include "controller/popupdialogmanager.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/dialogs/filedeletedialog.h"
@@ -13,6 +12,10 @@
 #include <QShortcut>
 #include <QStyleFactory>
 #include <QtConcurrent>
+
+#include <QPainter>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
 
 namespace {
 
@@ -198,8 +201,7 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
         dApp->signalM->startSlideShow(vinfo);
         break;
     case IdPrint: {
-        using namespace controller::popup;
-        printDialog(dpath);
+        showPrintDialog(dpath);
         break;
     }
     case IdAddToAlbum: {
@@ -269,4 +271,34 @@ void TimelinePanel::rotateImage(const QString &path, int degree)
         qDebug() << "Rotate finish!";
         m_frame->updateScrollRange();
     }
+}
+
+void  TimelinePanel::showPrintDialog(const QString &imgPath) {
+    QPrinter printer(QPrinter::ScreenResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    QPixmap img;
+    qDebug() << "img load result:" << img.load(imgPath);
+    if (img.width() > img.height())
+        printer.setPageOrientation(QPageLayout::Landscape);
+
+    QRect pageOriginRect = printer.pageRect();
+    QSize pageRect = QSize(pageOriginRect.width() - 8,
+                           pageOriginRect.height() - 8);
+
+    img = img.scaled(pageRect, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QPrintDialog* printDialog = new QPrintDialog(&printer, this);
+    printDialog->resize(400, 300);
+    if (printDialog->exec() == QDialog::Accepted) {
+        QPainter painter(&printer);
+        painter.drawPixmap(0, 0, img);
+        painter.end();
+        qDebug() << "print succeed!";
+        return;
+    }
+
+    QObject::connect(printDialog, &QPrintDialog::finished, printDialog,
+            &QPrintDialog::deleteLater);
+
+    qDebug() << "print failed!";
 }

@@ -25,6 +25,10 @@
 #include <QStackedWidget>
 #include <QtConcurrent>
 
+#include <QPrinter>
+#include <QPainter>
+#include <QPrintDialog>
+
 using namespace Dtk::Widget;
 
 namespace {
@@ -347,7 +351,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == m_hideCursorTid &&
-            !m_menu->isVisible()) {
+            !m_menu->isVisible() && !m_printDialogVisible) {
         dApp->setOverrideCursor(Qt::BlankCursor);
     }
 
@@ -658,4 +662,37 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     if (inDB) {
         emit updateCollectButton();
     }
+}
+
+void  ViewPanel::showPrintDialog(const QString imgPath) {
+    QPrinter printer(QPrinter::ScreenResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    QPixmap img;
+    qDebug() << "img load result:" << img.load(imgPath);
+    if (img.width() > img.height())
+        printer.setPageOrientation(QPageLayout::Landscape);
+
+    QRect pageOriginRect = printer.pageRect();
+    QSize pageRect = QSize(pageOriginRect.width() - 8,
+                           pageOriginRect.height() - 8);
+
+    img = img.scaled(pageRect, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QPrintDialog* printDialog = new QPrintDialog(&printer, this);
+    printDialog->resize(400, 300);
+    m_printDialogVisible = true;
+    if (printDialog->exec() == QDialog::Accepted) {
+        QPainter painter(&printer);
+        painter.drawPixmap(0, 0, img);
+        painter.end();
+        qDebug() << "print succeed!";
+        return;
+    }
+
+    QObject::connect(printDialog, &QPrintDialog::finished,  this, [=]{
+        printDialog->deleteLater();
+        m_printDialogVisible =  false;
+    });
+
+    qDebug() << "print failed!";
 }
