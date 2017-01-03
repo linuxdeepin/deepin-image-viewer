@@ -57,6 +57,7 @@ void MainWidget::resizeEvent(QResizeEvent *)
 {
     if (m_topToolbar) {
         m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+        m_topSeparatorLine->setVisible(true);
 //        m_topToolbar->move(0, 0);
     }
     if (m_bottomToolbar) {
@@ -70,6 +71,12 @@ void MainWidget::resizeEvent(QResizeEvent *)
     if (m_topSeparatorLine) {
         m_topSeparatorLine->resize(window()->width(), 1);
         m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
+    }
+
+    if (window()->isFullScreen()) {
+        m_topSeparatorLine->setVisible(false);
+    } else {
+        m_topSeparatorLine->setVisible(true);
     }
 
     if (m_btmSeparatorLine) {
