@@ -126,6 +126,12 @@ void showInFileManager(const QString &path)
         fp->deleteLater();
     }
 }
+void copyOneImageToClipboard(const QString &path) {
+    QImage img(path);
+    Q_ASSERT(!img.isNull());
+    QClipboard *cb = QApplication::clipboard();
+    cb->setImage(img, QClipboard::Clipboard);
+}
 
 void copyImageToClipboard(const QStringList &paths)
 {

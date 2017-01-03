@@ -37,6 +37,7 @@ enum MenuItemId {
     IdPrint,
     IdAddToAlbum,
     IdCopy,
+    IdCopyToClipboard,
     IdMoveToTrash,
     IdRemoveFromTimeline,
     IdRemoveFromAlbum,
@@ -154,6 +155,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdCopy:
         copyImageToClipboard(QStringList(path));
         break;
+    case IdCopyToClipboard:
+        copyOneImageToClipboard(path);
+        break;
     case IdMoveToTrash:
         if (m_vinfo.inDatabase) {
             popupDelDialog(path);
@@ -224,7 +228,8 @@ void ViewPanel::updateMenuContent()
     }
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdCopy, tr("Copy"), ss("Copy"));
+    appendAction(IdCopy, tr("Copy Image Path"), ss("Copy Image Path"));
+    appendAction(IdCopyToClipboard, tr("Copy Image"), ss("Copy Image"));
     appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
     if (! m_vinfo.album.isEmpty()) {
         appendAction(IdRemoveFromAlbum,

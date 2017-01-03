@@ -34,6 +34,7 @@ enum MenuItemId {
     IdPrint,
     IdAddToAlbum,
     IdCopy,
+    IdCopyToClipboard,
     IdMoveToTrash,
     IdRemoveFromTimeline,
     IdAddToFavorites,
@@ -121,7 +122,9 @@ void TimelinePanel::updateMenuContents()
     }
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdCopy, tr("Copy"), ss("Copy"));
+    appendAction(IdCopy, tr("Copy Image Path"), ss("Copy Image Path"));
+    if (paths.length() == 1)
+        appendAction(IdCopyToClipboard, tr("Copy Image"), ss("Copy Image"));
     appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
     m_menu->addSeparator();
     /**************************************************************************/
@@ -210,6 +213,9 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
     }
     case IdCopy:
         utils::base::copyImageToClipboard(paths);
+        break;
+    case IdCopyToClipboard:
+        utils::base::copyOneImageToClipboard(dpath);
         break;
     case IdMoveToTrash: {
         FileDeleteDialog *fdd = new FileDeleteDialog(paths);

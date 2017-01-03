@@ -1,7 +1,7 @@
 ImageButton#AdaptBtn {
     qproperty-normalPic: url(:/resources/dark/images/adapt_image_normal.png);
     qproperty-hoverPic: url(:/resources/dark/images/adapt_image_hover.png);
-    qproperty-pressPic: url(::/resources/dark/images/adapt_image_press.png);
+    qproperty-pressPic: url(:/resources/dark/images/adapt_image_press.png);
     qproperty-disablePic: url(:/resources/dark/images/adapt_image_disable.png);
     qproperty-checkedPic: url(:/resources/dark/images/adapt_image_press.png);
 }

@@ -61,6 +61,7 @@ private:
         IdAddToAlbum,
         IdExport,
         IdCopy,
+        IdCopyToClipboard,
         IdMoveToTrash,
         IdRemoveFromAlbum,
         IdEdit,
