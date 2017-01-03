@@ -16,6 +16,7 @@ namespace {
 
 const int MIN_ICON_SIZE = 96;
 const int SLIDER_WIDTH = 120;
+const int SLIDER_HEIGHT = 17;
 const QString SETTINGS_GROUP = "ALBUMPANEL";
 const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
 const QString SETTINGS_IMAGE_ICON_SCALE_KEY = "ImageIconScale";
@@ -50,14 +51,14 @@ void AlbumBTContent::updateCount()
         QString text = QString::number(count) + " " +
                 (count <= 1 ? tr("image") : tr("images"));
         m_label->setText(text);
-        m_slider->setFixedHeight(count > 0 ? 14 : 0);
+        m_slider->setFixedHeight(count > 0 ? SLIDER_HEIGHT : 0);
     }
     else {
         const int count = dApp->dbM->getAlbumsCount();
         QString text = QString::number(count) + " " +
                 (count <= 1 ? tr("album") : tr("albums"));
         m_label->setText(text);
-        m_slider->setFixedHeight(count > 0 ? 14 : 0);
+        m_slider->setFixedHeight(count > 0 ? SLIDER_HEIGHT : 0);
     }
 }
 
@@ -151,7 +152,7 @@ void AlbumBTContent::initSlider()
     m_slider->setMinimum(0);
     m_slider->setMaximum(3);
     m_slider->setPageStep(1);
-    m_slider->setFixedWidth(SLIDER_WIDTH);
+    m_slider->setFixedSize(SLIDER_WIDTH, SLIDER_HEIGHT);
     updateSliderDefaultValue();
     connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
         int newSize = MIN_ICON_SIZE + multiple * 32;
