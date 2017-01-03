@@ -203,7 +203,7 @@ void TopToolbar::initRightContent()
 {
     QWidget *w = new QWidget;
     m_rLayout = new QHBoxLayout(w);
-    m_rLayout->setContentsMargins(0, 0, 0, 0);
+    m_rLayout->setContentsMargins(0, 0, 6, 0);
     m_rLayout->setSpacing(0);
 
     m_layout->addWidget(w, 1, Qt::AlignRight);
