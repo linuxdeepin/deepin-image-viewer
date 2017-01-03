@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QPixmapCache>
 #include <QStandardItemModel>
+#include <QThread>
 
 namespace {
 
@@ -16,25 +17,33 @@ const int BORDER_WIDTH = 1;
 const int BORDER_WIDTH_SELECTED = 2;
 const QColor BORDER_COLOR = QColor(255, 255, 255, 35);
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
+const QString DEFAULT_THUMB = ":/images/resources/images/default_thumbnail.png";
 
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
-}
+}  // namespace
+
+class TDThumbnailThread : public QThread {
+    Q_OBJECT
+public:
+    explicit TDThumbnailThread(const QString &path);
+    const QString path() const;
+
+signals:
+    void ready(const QString &path);
+
+protected:
+    void run() Q_DECL_OVERRIDE;
+
+private:
+    QString m_path;
+};
+
 
 ThumbnailDelegate::ThumbnailDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
 
-}
-
-void ThumbnailDelegate::clearPaintingList()
-{
-    m_paintingPaths.clear();
-}
-
-const QStringList ThumbnailDelegate::paintingPaths() const
-{
-    return m_paintingPaths;
 }
 
 void ThumbnailDelegate::paint(QPainter *painter,
@@ -57,30 +66,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
     QPainterPath bp;
     bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
     painter->setClipPath(bp);
-    QPixmap thumb;
-    using namespace utils::image;
-    // When a thumbnail is changed externally, is no longer used in the data model
-    if (! thumbnailExist(data.path) || data.thumbnail.isNull()) {
-        // Cache thumbnail not exist but model's thumbnail still exist, use the model one
-        if (! data.thumbnail.isNull()) {
-            thumb = data.thumbnail;
-        }
-        else if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
-            const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-            thumb = cutSquareImage(QPixmap(
-                ":/images/resources/images/default_thumbnail.png"), ms);
-            QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
-        }
-
-        // Generate thumbnail and update data from view
-        if (m_paintingPaths.indexOf(data.path) == -1) {
-            m_paintingPaths << data.path;
-        }
-    }
-    else {
-        thumb = data.thumbnail;
-    }
-    painter->drawPixmap(rect, thumb);
+    painter->drawPixmap(rect, thumbnail(data));
 
     // Draw inside border
     QPen p(selected ? BORDER_COLOR_SELECTED : BORDER_COLOR,
@@ -120,8 +106,75 @@ ThumbnailDelegate::ItemData ThumbnailDelegate::itemData(const QModelIndex &index
     return data;
 }
 
+QPixmap ThumbnailDelegate::thumbnail(const ThumbnailDelegate::ItemData &data) const
+{
+    QPixmap thumb;
+    using namespace utils::image;
+    if (! thumbnailExist(data.path)) {
+        if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
+            const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+            thumb = cutSquareImage(QPixmap(DEFAULT_THUMB), ms);
+            QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
+        }
+        startThumbnailThread(data.path);
+    }
+    else {
+        QString thumbMTime = getThumbnail(data.path, true).toImage().text("Thumb::MTime");
+        QString sourceMTime = QString::number(QFileInfo(data.path).lastModified().toTime_t());
+        // If the file has been changed and thumbnail didn't
+        if (thumbMTime != sourceMTime) {
+            startThumbnailThread(data.path);
+        }
+        else {
+            // The thumbnail may regenerate by other model
+            if (data.thumbnail.toImage().text("Thumb::MTime") != sourceMTime) {
+                startThumbnailThread(data.path);
+            }
+            else {
+                thumb = data.thumbnail;
+            }
+        }
+    }
+
+    return thumb;
+}
+
+void ThumbnailDelegate::startThumbnailThread(const QString &path) const
+{
+    for (auto t : m_threads) {
+        if (t->path() == path)
+            return;
+    }
+    TDThumbnailThread *t = new TDThumbnailThread(path);
+    connect(t, &TDThumbnailThread::finished, this, [=] {
+        m_threads.removeAll(t);
+        t->deleteLater();
+    });
+    connect(t, &TDThumbnailThread::ready, this,
+            &ThumbnailDelegate::thumbnailGenerated);
+    t->start();
+}
+
 void ThumbnailDelegate::setIsDataLocked(bool value)
 {
     m_isDataLocked = value;
 }
 
+#include "thumbnaildelegate.moc"
+TDThumbnailThread::TDThumbnailThread(const QString &path)
+    : QThread()
+    , m_path(path)
+{
+
+}
+
+const QString TDThumbnailThread::path() const
+{
+    return m_path;
+}
+
+void TDThumbnailThread::run()
+{
+    utils::image::generateThumbnail(m_path);
+    emit ready(m_path);
+}

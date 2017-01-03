@@ -263,9 +263,8 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
 void TimelinePanel::rotateImage(const QString &path, int degree)
 {
     utils::image::rotate(path, degree);
-    utils::image::generateThumbnail(path);
     m_rotateList.removeAll(path);
-    m_frame->updateThumbnails(path);
+    m_frame->updateThumbnail(path);
     if (m_rotateList.isEmpty()) {
         qDebug() << "Rotate finish!";
         m_frame->updateScrollRange();

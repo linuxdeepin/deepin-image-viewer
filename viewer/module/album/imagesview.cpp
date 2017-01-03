@@ -123,10 +123,6 @@ void ImagesView::initListView()
     m_contentLayout->addWidget(m_view);
     m_contentLayout->addStretch(1);
 
-    connect(this, &ImagesView::rotated,
-            m_view, &ThumbnailListView::updateThumbnails);
-    connect(verticalScrollBar(), &QScrollBar::valueChanged,
-            m_view, &ThumbnailListView::updateThumbnails);
     connect(m_view, &ThumbnailListView::clicked,
             this, &ImagesView::updateMenuContents);
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
@@ -183,7 +179,7 @@ void ImagesView::insertItem(const DBImgInfo &info, bool update)
     m_view->insertItem(vi);
 
     if (update) {
-        m_view->updateThumbnails();
+        m_view->update();
         m_topTips->setAlbum(m_album);
         updateContent();
     }
@@ -206,6 +202,7 @@ void ImagesView::insertItems(const DBImgInfoList &infos)
 void ImagesView::updateMenuContents()
 {
     const QStringList paths = selectedPaths();
+
     if (paths.isEmpty())
         return;
 
@@ -366,9 +363,10 @@ void ImagesView::rotateImage(const QString &path, int degree)
 {
     utils::image::rotate(path, degree);
     m_rotateList.removeAll(path);
+    m_view->updateThumbnail(path);
     if (m_rotateList.isEmpty()) {
         qDebug() << "Rotate finish!";
-        emit rotated();
+        emit rotateFinished();
     }
 }
 
@@ -464,6 +462,8 @@ void ImagesView::initPopupMenu()
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(m_menu, &QMenu::triggered, this, &ImagesView::onMenuItemClicked);
+    connect(this, &ImagesView::rotateFinished,
+            this, &ImagesView::updateMenuContents);
 }
 
 void ImagesView::initContent()

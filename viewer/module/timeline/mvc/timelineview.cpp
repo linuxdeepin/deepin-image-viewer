@@ -20,39 +20,10 @@ namespace {
 
 const QColor DARK_BACKGROUND_COLOR = QColor("#1B1B1B");
 const QColor LIGHT_BACKGROUND_COLOR = QColor("#FFFFFF");
-
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 
-QVariant genThumbnail(const QVariant &data)
-{
-    using namespace utils::image;
+}  // namespace
 
-    QString path = data.toList().first().toString();
-    QModelIndex index = data.toList().last().value<QModelIndex>();
-
-    QVariant result;
-    const QPixmap thumb = getThumbnail(path);
-    if (thumb.isNull()) {
-        // Can't generate thumbnail, remove it from database
-        dApp->dbM->removeImgInfos(QStringList(path));
-    }
-    else {
-        QByteArray inByteArray;
-        QBuffer inBuffer( &inByteArray );
-        inBuffer.open( QIODevice::WriteOnly );
-        // write inPixmap into inByteArray
-        if ( ! cutSquareImage(thumb).save( &inBuffer, "JPG" )) {
-            // qDebug() << "Write pixmap to buffer error!" << info.name;
-        }
-        QVariantList nl;
-        nl << QVariant(index) << QVariant(inByteArray);
-        result = QVariant(nl);
-    }
-
-    return result;
-}
-
-}
 TimelineView::TimelineView(QWidget *parent)
     : QAbstractItemView(parent)
     , m_needReAnchor(false)
@@ -70,9 +41,6 @@ TimelineView::TimelineView(QWidget *parent)
     setVerticalScrollBar(m_sb);
     m_sb->setContextMenuPolicy(Qt::PreventContextMenu);
     connect(m_sb, &ScrollBar::valueChanged, this, &TimelineView::onScrolled);
-
-    connect(&m_watcher, SIGNAL(resultReadyAt(int)),
-            this, SLOT(onThumbnailGenerated(int)));
 
     // Theme
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::AppTheme::Dark) {
@@ -421,40 +389,6 @@ void TimelineView::mousePressEvent(QMouseEvent *e)
     QAbstractItemView::mousePressEvent(e);
 }
 
-
-void TimelineView::timerEvent(QTimerEvent *e)
-{
-    if (e->timerId() == m_thumbTimerID) {
-        killTimer(m_thumbTimerID);
-        m_thumbTimerID = 0;
-
-        QVariantList pis;
-
-        for (QModelIndex index : m_paintingIndexs) {
-            QVariantList datas = model()->data(index, Qt::DisplayRole).toList();
-            if (datas.count() == 4) { // There is 4 field data inside TimelineData
-                if (datas[3].value<QPixmap>().isNull()
-                        && ! datas[1].toString().isEmpty()) {
-                    QVariantList vs;
-                    vs.append(QVariant(datas[1].toString()));
-                    vs.append(QVariant(index));
-                    pis.append(QVariant(vs));
-                }
-            }
-        }
-
-        if (! pis.isEmpty()) {
-            m_watcher.setPaused(false);
-            QFuture<QVariant> future = QtConcurrent::mapped(pis, genThumbnail);
-            m_watcher.setFuture(future);
-        }
-    }
-
-    // NOTE: QAbstractItemView handling several BasicTimer inside timerEvent
-    // Please make sure it won't be stop
-    QAbstractItemView::timerEvent(e);
-}
-
 /*!
  * \brief TimelineView::intersectedIndexs
  * \param rect
@@ -583,9 +517,6 @@ void TimelineView::updateVisualRects()
 
     m_paintingIndexs = visualIndexs();
     emit paintingIndexsChanged();
-
-    // Note: updateThumbnails() must call after updateVisualRects()
-    updateThumbnails();
 }
 
 void TimelineView::onScrolled()
@@ -598,38 +529,6 @@ void TimelineView::mouseReleaseEvent(QMouseEvent *e)
     m_selectionRect = QRect();
     this->update();
     QAbstractItemView::mouseReleaseEvent(e);
-}
-
-void TimelineView::updateThumbnails()
-{
-//    m_watcher.setPaused(true);
-//    m_watcher.cancel();
-
-//    killTimer(m_thumbTimerID);
-//    m_thumbTimerID = startTimer(1000);
-}
-
-void TimelineView::onThumbnailGenerated(int index)
-{
-    QVariantList v = m_watcher.resultAt(index).toList();
-    if (v.length() != 2) return;
-
-    QModelIndex i = v[0].value<QModelIndex>();
-
-    TimelineModel *m = dynamic_cast<TimelineModel *>(model());
-    QVariantList datas = m->data(i, Qt::DisplayRole).toList();
-    if (datas.count() == 4) { // There is 4 field data inside TimelineData
-        TimelineItem::ItemData data;
-        data.isTitle = datas[0].toBool();
-        data.path = datas[1].toString();
-        data.timeline = datas[2].toString();
-        data.thumbArray = v[1].toByteArray();
-
-        m->updateData(data);
-        viewport()->update();
-
-        return;
-    }
 }
 
 int TimelineView::titleHeight() const

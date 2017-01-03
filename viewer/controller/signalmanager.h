@@ -58,8 +58,6 @@ signals:
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);
 
-//    void windowStatesChanged(const Qt::WindowStates state);
-
 private:
     explicit SignalManager(QObject *parent = 0);
 

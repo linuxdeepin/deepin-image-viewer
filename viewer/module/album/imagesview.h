@@ -41,8 +41,8 @@ public:
     QStringList selectedPaths() const;
 
 signals:
+    void rotateFinished();
     void changeItemSize(bool increase);
-    void rotated();
     void startSlideShow(const QStringList &paths, const QString &path);
     void viewImage(const QString &path,
                    const QStringList &paths,

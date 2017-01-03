@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QPixmapCache>
 #include <QStandardItemModel>
+#include <QThread>
 
 namespace {
 
@@ -32,7 +33,25 @@ const QString LIGHT_DEFAULT_THUMBNAIL = ":/resources/light/images/default_thumbn
 
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
-}
+}  // namespace
+
+
+class TLThumbnailThread : public QThread {
+    Q_OBJECT
+public:
+    explicit TLThumbnailThread(const QString &path);
+    const QString path() const;
+
+signals:
+    void ready(const QString &path);
+
+protected:
+    void run() Q_DECL_OVERRIDE;
+
+private:
+    QString m_path;
+};
+
 
 TimelineDelegate::TimelineDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -93,21 +112,7 @@ void TimelineDelegate::paint(QPainter *painter,
         QPainterPath bp;
         bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
         painter->setClipPath(bp);
-        QPixmap thumb;
-        using namespace utils::image;
-        // When a thumbnail is changed externally, is no longer used in the data model
-        if (! thumbnailExist(data.path)) {
-            // Cache thumbnail not exist but model's thumbnail still exist, use the model one
-            if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
-                const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-                thumb = cutSquareImage(QPixmap(m_defaultThumbnail), ms);
-                QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
-            }
-        }
-        else {
-            thumb.loadFromData(data.thumbArray);
-        }
-        painter->drawPixmap(rect, thumb);
+        painter->drawPixmap(rect, thumbnail(data));
 
         // Draw inside border
         QPen p(selected ? BORDER_COLOR_SELECTED : m_borderColor,
@@ -142,3 +147,70 @@ TimelineItem::ItemData TimelineDelegate::itemData(const QModelIndex &index) cons
     return data;
 }
 
+QPixmap TimelineDelegate::thumbnail(const TimelineItem::ItemData &data) const
+{
+    QPixmap thumb;
+    using namespace utils::image;
+    const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+    // When a thumbnail is changed externally, is no longer used in the data model
+    if (! thumbnailExist(data.path)) {
+        if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
+            thumb = cutSquareImage(QPixmap(m_defaultThumbnail), ms);
+            QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
+        }
+        startThumbnailThread(data.path);
+    }
+    else {
+        QString thumbMTime = getThumbnail(data.path, true).toImage().text("Thumb::MTime");
+        QString sourceMTime = QString::number(QFileInfo(data.path).lastModified().toTime_t());
+        // If the file has been changed and thumbnail didn't
+        if (thumbMTime != sourceMTime) {
+            startThumbnailThread(data.path);
+        }
+        else {
+            thumb.loadFromData(data.thumbArray);
+            // The thumbnail may regenerate by other model
+            if (thumb.toImage().text("Thumb::MTime") != sourceMTime) {
+                thumb = QPixmap();
+                startThumbnailThread(data.path);
+            }
+        }
+    }
+
+    return thumb;
+}
+
+void TimelineDelegate::startThumbnailThread(const QString &path) const
+{
+    for (auto t : m_threads) {
+        if (t->path() == path)
+            return;
+    }
+    TLThumbnailThread *t = new TLThumbnailThread(path);
+    connect(t, &TLThumbnailThread::finished, this, [=] {
+        m_threads.removeAll(t);
+        t->deleteLater();
+    });
+    connect(t, &TLThumbnailThread::ready, this,
+            &TimelineDelegate::thumbnailGenerated);
+    t->start();
+}
+
+#include "timelinedelegate.moc"
+TLThumbnailThread::TLThumbnailThread(const QString &path)
+    : QThread()
+    , m_path(path)
+{
+
+}
+
+const QString TLThumbnailThread::path() const
+{
+    return m_path;
+}
+
+void TLThumbnailThread::run()
+{
+    utils::image::generateThumbnail(m_path);
+    emit ready(m_path);
+}

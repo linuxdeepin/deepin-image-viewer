@@ -19,7 +19,7 @@ public:
     void clearSelection();
     void selectAll();
     void setIconSize(int size);
-    void updateThumbnails(const QString &path);
+    void updateThumbnail(const QString &path);
     void updateScrollRange();
 
     bool isEmpty() const;
@@ -36,6 +36,8 @@ protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
 private:
+    void initConnection();
+    void initView();
     void initTopTip();
     void initItems();
     void insertItems(const TimelineItem::ItemData &data);

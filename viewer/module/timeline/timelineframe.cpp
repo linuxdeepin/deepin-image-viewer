@@ -51,51 +51,10 @@ public:
 TimelineFrame::TimelineFrame(QWidget *parent)
     : QFrame(parent)
 {
-    m_view = new TimelineView(this);
-    m_view->setItemDelegate(new TimelineDelegate());
-    m_view->setModel(&m_model);
-    connect(m_view, &TimelineView::doubleClicked, this, [=] (const QModelIndex &index){
-        QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
-        if (datas.count() == 4) { // There is 4 field data inside TimelineData
-            const QString path = datas[1].toString();
-            if (!path.isEmpty())
-                emit viewImage(path, dApp->dbM->getAllPaths());
-        }
-    });
-    connect(m_view, &TimelineView::showMenu, this, &TimelineFrame::showMenu);
-    connect(m_view, &TimelineView::changeItemSize,
-            this, &TimelineFrame::changeItemSize);
-    connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
-            this, &TimelineFrame::selectIndexChanged);
-
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
+    initView();
     layout->addWidget(m_view);
-
-    // Item append and remove
-    connect(dApp->importer, &Importer::imported, this, [=] {
-        updateScrollRange();
-        // Call initItems to reinsert those datas which miss by user scroll view
-        initItems();
-        TIMER_SINGLESHOT(1000, {m_view->updateView();}, this)
-    });
-    connect(dApp->signalM, &SignalManager::imagesInserted,
-            this, [=] (const DBImgInfoList infos){
-        LoadThread *t = new LoadThread(infos);
-        connect(t, &LoadThread::ready,
-                this, &TimelineFrame::insertItems, Qt::DirectConnection);
-        connect(t, &LoadThread::finished, this, [=] {
-            t->deleteLater();
-            m_infos << infos;
-        }, Qt::DirectConnection);
-        t->start();
-    });
-    connect(dApp->signalM, &SignalManager::imagesRemoved,
-            this, [=] (const DBImgInfoList &infos) {
-        for (auto info : infos) {
-            removeItem(info);
-        }
-    });
 
     // Top-Tip
     initTopTip();
@@ -117,7 +76,7 @@ void TimelineFrame::setIconSize(int size)
     m_view->setItemSize(size);
 }
 
-void TimelineFrame::updateThumbnails(const QString &path)
+void TimelineFrame::updateThumbnail(const QString &path)
 {
     using namespace utils::image;
     using namespace utils::base;
@@ -133,6 +92,7 @@ void TimelineFrame::updateThumbnails(const QString &path)
     data.timeline = timeToString(info.time, true);
 
     m_model.updateData(data);
+    m_view->update();
 }
 
 void TimelineFrame::updateScrollRange()
@@ -182,6 +142,57 @@ void TimelineFrame::resizeEvent(QResizeEvent *e)
 {
     QFrame::resizeEvent(e);
     m_tip->setFixedWidth(e->size().width());
+}
+
+void TimelineFrame::initConnection()
+{
+    // Item append and remove
+    connect(dApp->importer, &Importer::imported, this, [=] {
+        updateScrollRange();
+        // Call initItems to reinsert those datas which miss by user scroll view
+        initItems();
+        TIMER_SINGLESHOT(1000, {m_view->updateView();}, this)
+    });
+    connect(dApp->signalM, &SignalManager::imagesInserted,
+            this, [=] (const DBImgInfoList infos){
+        LoadThread *t = new LoadThread(infos);
+        connect(t, &LoadThread::ready,
+                this, &TimelineFrame::insertItems, Qt::DirectConnection);
+        connect(t, &LoadThread::finished, this, [=] {
+            t->deleteLater();
+            m_infos << infos;
+        }, Qt::DirectConnection);
+        t->start();
+    });
+    connect(dApp->signalM, &SignalManager::imagesRemoved,
+            this, [=] (const DBImgInfoList &infos) {
+        for (auto info : infos) {
+            removeItem(info);
+        }
+    });
+}
+
+void TimelineFrame::initView()
+{
+    m_view = new TimelineView(this);
+    TimelineDelegate *delegate = new TimelineDelegate();
+    connect(delegate, &TimelineDelegate::thumbnailGenerated,
+            this, &TimelineFrame::updateThumbnail);
+    m_view->setItemDelegate(delegate);
+    m_view->setModel(&m_model);
+    connect(m_view, &TimelineView::doubleClicked, this, [=] (const QModelIndex &index){
+        QVariantList datas = index.model()->data(index, Qt::DisplayRole).toList();
+        if (datas.count() == 4) { // There is 4 field data inside TimelineData
+            const QString path = datas[1].toString();
+            if (!path.isEmpty())
+                emit viewImage(path, dApp->dbM->getAllPaths());
+        }
+    });
+    connect(m_view, &TimelineView::showMenu, this, &TimelineFrame::showMenu);
+    connect(m_view, &TimelineView::changeItemSize,
+            this, &TimelineFrame::changeItemSize);
+    connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &TimelineFrame::selectIndexChanged);
 }
 
 void TimelineFrame::initTopTip()

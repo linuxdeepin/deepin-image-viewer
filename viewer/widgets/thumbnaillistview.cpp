@@ -15,9 +15,6 @@
 #include <QPen>
 #include <QScrollBar>
 #include <QStandardItemModel>
-#include <QtConcurrent>
-#include <QTimer>
-#include <QThreadPool>
 
 namespace {
 
@@ -35,6 +32,8 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setSelectionRectVisible(false);
     setIconSize(QSize(THUMBNAIL_MIN_SIZE, THUMBNAIL_MIN_SIZE));
     m_delegate = new ThumbnailDelegate(this);
+    connect(m_delegate, &ThumbnailDelegate::thumbnailGenerated,
+            this, &ThumbnailListView::updateThumbnail);
     setItemDelegate(m_delegate);
     setModel(m_model);
     setStyleSheet(utils::base::getFileContent(
@@ -52,10 +51,6 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
-
-    initThumbnailTimer();
-    // FIXME getThumbnail函数实际使用了QMutexLocker会导致资源被锁，所以实际只有一个线程
-    QThreadPool::globalInstance()->setMaxThreadCount(2);
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -75,19 +70,14 @@ void ThumbnailListView::updateViewPortSize()
     QMetaObject::invokeMethod(this, "fixedViewPortSize", Qt::QueuedConnection, Q_ARG(bool, true));
 }
 
-void ThumbnailListView::updateThumbnails()
+void ThumbnailListView::updateThumbnail(const QString &path)
 {
-    m_delegate->clearPaintingList();
-
-    m_watcher.pause();
-    m_watcher.cancel();
-    // waitForFinished will stuck main UI thread
-//    m_thumbnailWatcher.waitForFinished();
-
-    // Update painting list
-    viewport()->update();
-
-//    m_thumbTimer->start();
+    ItemInfo info;
+    info.name = QFileInfo(path).fileName();
+    info.path = path;
+    info.thumb = utils::image::getThumbnail(path, true);
+    updateItem(info);
+    this->update();
 }
 
 void ThumbnailListView::setIconSize(const QSize &size)
@@ -117,7 +107,16 @@ void ThumbnailListView::insertItem(const ItemInfo &info)
     m_model->setData(index, QVariant(getVariantList(info)), Qt::DisplayRole);
     m_model->setData(index, QVariant(iconSize()), Qt::SizeHintRole);
     m_delegate->setIsDataLocked(false);
-//    updateViewPortSize();
+    //    updateViewPortSize();
+}
+
+void ThumbnailListView::updateItem(const ThumbnailListView::ItemInfo &info)
+{
+    int i = indexOf(info.path);
+    if (i == -1)
+        return;
+    QModelIndex index = m_model->index(i, 0);
+    m_model->setData(index, QVariant(getVariantList(info)), Qt::DisplayRole);
 }
 
 void ThumbnailListView::removeItems(const QStringList &paths)
@@ -358,63 +357,6 @@ int ThumbnailListView::contentsHMargin() const
 int ThumbnailListView::contentsVMargin() const
 {
     return contentsMargins().top() + contentsMargins().bottom();
-}
-
-QVariant generateThumbnail(const QString &path)
-{
-    using namespace utils::image;
-    QVariant result;
-    const QString name = QFileInfo(path).fileName();
-    const QPixmap thumb = getThumbnail(path);
-    if (thumb.isNull()) {
-        // Can't generate thumbnail, remove it from database
-        dApp->dbM->removeImgInfos(QStringList(path));
-    }
-    else {
-        QByteArray inByteArray;
-        QBuffer inBuffer( &inByteArray );
-        inBuffer.open( QIODevice::WriteOnly );
-        // write inPixmap into inByteArray
-        if ( ! cutSquareImage(thumb).save( &inBuffer, "JPG", 100 )) {
-            // qDebug() << "Write pixmap to buffer error!" << info.name;
-        }
-        QVariantList nl;
-        nl << QVariant(name) << QVariant(path) << QVariant(inByteArray);
-        result = QVariant(nl);
-    }
-
-    return result;
-}
-
-/*!
- * \brief ThumbnailListView::initThumbnailTimer
- * Check for update delegate's thumbnail incase thumbnail regenerate
- */
-void ThumbnailListView::initThumbnailTimer()
-{
-    m_thumbTimer = new QTimer(this);
-    m_thumbTimer->setSingleShot(true);
-    m_thumbTimer->setInterval(1000);
-//    connect(m_thumbTimer, &QTimer::timeout, this, [=] {
-//        QStringList paths = m_delegate->paintingPaths();
-//        if (! paths.isEmpty()) {
-//            m_watcher.setPaused(false);
-//            QFuture<QVariant> future = QtConcurrent::mapped(paths, generateThumbnail);
-//            m_watcher.setFuture(future);
-//            m_delegate->clearPaintingList();
-//        }
-//    });
-
-    connect(&m_watcher, SIGNAL(resultReadyAt(int)),
-            this, SLOT(onThumbnailGenerated(int)));
-}
-
-void ThumbnailListView::onThumbnailGenerated(int index)
-{
-    QVariantList v = m_watcher.resultAt(index).toList();
-    if (v.length() != 3) return;
-    const QString path = v[1].toString();
-    m_model->setData(m_model->index(indexOf(path), 0), v, Qt::DisplayRole);
 }
 
 const QVariantList ThumbnailListView::getVariantList(const ItemInfo &info)

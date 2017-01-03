@@ -6,7 +6,6 @@
 
 class QStandardItemModel;
 class ThumbnailDelegate;
-class QTimer;
 class ThumbnailListView : public QListView
 {
     Q_OBJECT
@@ -21,9 +20,10 @@ public:
     ~ThumbnailListView();
     void clearData();
     void updateViewPortSize();
-    void updateThumbnails();
+    void updateThumbnail(const QString &path);
     void setIconSize(const QSize &size);
     void insertItem(const ItemInfo &info);
+    void updateItem(const ItemInfo &info);
     void removeItems(const QStringList &paths);
     bool contain(const QModelIndex &index) const;
     int indexOf(const QString &path);
@@ -47,7 +47,6 @@ protected:
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
 private slots:
-    void onThumbnailGenerated(int index);
     void fixedViewPortSize(bool proactive = false);
 
 private:
@@ -56,12 +55,8 @@ private:
     int maxColumn() const;
     const QVariantList getVariantList(const ItemInfo &info);
 
-    void initThumbnailTimer();
-
 private:
     QRect m_selectionRect;
-    QTimer *m_thumbTimer;
-    QFutureWatcher<QVariant> m_watcher;
     QStandardItemModel *m_model;
     ThumbnailDelegate *m_delegate;
 };

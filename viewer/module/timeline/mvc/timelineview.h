@@ -69,18 +69,15 @@ protected:
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
 
 private:
     QModelIndexList visualIndexs() const;
     int maxColumnCount() const;
     void updateVerticalScrollbar();
     void updateVisualRects();
-    void updateThumbnails();
 
 private slots:
     void onScrolled();
-    void onThumbnailGenerated(int index);
 
 private:
     QColor m_backgroundColor;
@@ -98,9 +95,6 @@ private:
     QMap<QModelIndex, QRect> m_irMap;  // 为了知道index的情况下加快查找速度
     QList<IndexRect> m_irList;  // 为了二分法加快查找速度
     QModelIndexList m_paintingIndexs;  // 通常，可视区域都不会改变，在点击等操作需要重绘时也没必要重新计算可视区域的indexs
-
-    QFutureWatcher<QVariant> m_watcher;
-    int m_thumbTimerID = 0;
 };
 
 #endif // TIMELINEVIEW_H
