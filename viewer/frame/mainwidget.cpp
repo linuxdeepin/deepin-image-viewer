@@ -127,8 +127,8 @@ void MainWidget::onShowImageInfo(const QString &path)
         info->deleteLater();
         m_infoShowingList.removeAll(path);
     });
-    connect(dApp->signalM, &SignalManager::gotoPanel,
-            info, &ImgInfoDialog::close);
+//    connect(dApp->signalM, &SignalManager::gotoPanel,
+//            info, &ImgInfoDialog::close);
 }
 
 void MainWidget::initPanelStack(bool manager)

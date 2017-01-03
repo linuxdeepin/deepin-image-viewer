@@ -83,7 +83,8 @@ void ViewPanel::initConnect() {
     });
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
-    connect(dApp->signalM, &SignalManager::viewImage, [=](const SignalManager::ViewInfo &vinfo){
+    connect(dApp->signalM, &SignalManager::viewImage,
+            this, [=](const SignalManager::ViewInfo &vinfo){
 
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
