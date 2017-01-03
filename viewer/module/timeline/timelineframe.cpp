@@ -59,6 +59,7 @@ TimelineFrame::TimelineFrame(QWidget *parent)
     // Top-Tip
     initTopTip();
     initItems();
+    initConnection();
 }
 
 void TimelineFrame::clearSelection()
