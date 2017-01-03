@@ -113,7 +113,7 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     if (! isMaximized()
             && m_mainWidget->isVisible()
             && ! window()->isFullScreen()
-            && ! window()->isMaximized()) {
+            && ! window()->isMaximized() && !windowAtEdge()) {
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                QVariant(m_mainWidget->width()));
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
@@ -121,4 +121,16 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     }
 
     DMainWindow::resizeEvent(e);
+}
+
+bool MainWindow::windowAtEdge() {
+    //TODO: process the multi-screen
+    QRect currentRect = window()->rect();
+    bool atSeperScreenPos = false;
+    if (currentRect.x() == 0 || currentRect.x() ==
+            window()->x() + window()->width()) {
+        atSeperScreenPos = true;
+    }
+
+    return atSeperScreenPos;
 }
