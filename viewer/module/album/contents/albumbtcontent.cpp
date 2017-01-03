@@ -16,7 +16,7 @@ namespace {
 
 const int MIN_ICON_SIZE = 96;
 const int SLIDER_WIDTH = 120;
-const int SLIDER_HEIGHT = 17;
+const int SLIDER_HEIGHT = 22;
 const QString SETTINGS_GROUP = "ALBUMPANEL";
 const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
 const QString SETTINGS_IMAGE_ICON_SCALE_KEY = "ImageIconScale";

@@ -15,7 +15,7 @@ namespace {
 
 const int MIN_ICON_SIZE = 96;
 const int SLIDER_WIDTH = 120;
-const int SLIDER_HEIGHT = 17;
+const int SLIDER_HEIGHT = 22;
 const QString SETTINGS_GROUP = "TIMEPANEL";
 const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
