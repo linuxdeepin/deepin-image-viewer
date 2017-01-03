@@ -20,7 +20,6 @@ private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     PushButton *m_returnBtn;
-    QLabel* m_curDirLabel;
 };
 
 #endif // TTLCONTENT_H

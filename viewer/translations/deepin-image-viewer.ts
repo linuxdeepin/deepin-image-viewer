@@ -130,10 +130,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
@@ -146,7 +142,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>New album</source>
+        <source>Start slideshow</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -154,25 +150,6 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>BTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Importing: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -331,6 +308,10 @@
     </message>
     <message>
         <source>Add to my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -686,6 +667,10 @@
         <source>Image management</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>My favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TTMContent</name>
@@ -715,6 +700,25 @@
     </message>
     <message>
         <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TimelineBTContent</name>
+    <message>
+        <source>%1 image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Importing: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -790,6 +794,10 @@
     </message>
     <message>
         <source>Add to my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -938,6 +946,10 @@
     </message>
     <message>
         <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
