@@ -1,9 +1,10 @@
 QLineEdit#DialogEdit {
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 3;
-    color: rgba(48, 48, 48, 0.5);
+    color: #303030;
     font-size: 12px;
     selection-background-color: #419bf9;
+    selection-color:white;
     background: #ffffff;
 }
 
