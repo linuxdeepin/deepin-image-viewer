@@ -274,25 +274,13 @@ const QString getOrientation(const QString &path)
  */
 const QImage getRotatedImage(const QString &path)
 {
-    // FIXME it should read the orientation enum value
-    QImage img(path);
-
-    const QString o = getOrientation(path);
-    if (o.isEmpty() || o == "top, left side")
-        return img;
-    QTransform t;
-    if (o == "bottom, right side") {
-        t.rotate(-180);
+    QImage tImg;
+    QImageReader reader(path);
+    reader.setAutoTransform(true);
+    if (reader.canRead()) {
+        tImg = reader.read();
     }
-    else if (o == "left, bottom side") {
-        t.rotate(-90);
-    }
-    else if (o == "right, top side") {
-        t.rotate(90);
-    }
-    img = img.transformed(t, Qt::SmoothTransformation);
-
-    return img;
+    return tImg;
 }
 
 const QMap<QString, QString> getAllMetaData(const QString &path)

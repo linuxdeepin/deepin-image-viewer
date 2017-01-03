@@ -5,6 +5,7 @@
 #include "controller/signalmanager.h"
 #include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
+#include "utils/imageutils.h"
 #include <QApplication>
 #include <QDebug>
 #include <QDesktopWidget>
@@ -272,7 +273,7 @@ QImage SlideShowPanel::getFitImage(const QString &path)
     const int dwh = dw->screenGeometry(window()).height();
 
     QImage ti(dww, dwh, QImage::Format_ARGB32);
-    QImage image(path);
+    QImage image = utils::image::getRotatedImage(path);
     QRectF source(0.0, 0.0, image.width(), image.height());
     QRectF target;
     if (1.0 * dww / dwh > 1.0 * image.width() / image.height()) {
