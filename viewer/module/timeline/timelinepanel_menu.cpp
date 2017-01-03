@@ -122,9 +122,9 @@ void TimelinePanel::updateMenuContents()
     }
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdCopy, tr("Copy Image Path"), ss("Copy Image Path"));
+    appendAction(IdCopy, tr("Copy"), ss("Copy"));
     if (paths.length() == 1)
-        appendAction(IdCopyToClipboard, tr("Copy Image"), ss("Copy Image"));
+        appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
     appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
     m_menu->addSeparator();
     /**************************************************************************/
