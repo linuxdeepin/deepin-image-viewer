@@ -15,6 +15,7 @@ namespace {
 
 const int MIN_ICON_SIZE = 96;
 const int SLIDER_WIDTH = 120;
+const int SLIDER_HEIGHT = 17;
 const QString SETTINGS_GROUP = "TIMEPANEL";
 const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
@@ -50,7 +51,7 @@ void TimelineBTContent::updateImageCount()
         m_label->setText(tr("%1 images").arg(count));
     }
 
-    m_slider->setFixedHeight(count > 0 ? 14 : 0);
+    m_slider->setFixedHeight(count > 0 ? SLIDER_HEIGHT : 0);
 }
 
 void TimelineBTContent::changeItemSize(bool increase)
@@ -159,7 +160,7 @@ void TimelineBTContent::initSlider()
     m_slider->setMaximum(3);
     m_slider->setValue(sizeScale);
     m_slider->setPageStep(1);
-    m_slider->setFixedWidth(SLIDER_WIDTH);
+    m_slider->setFixedSize(SLIDER_WIDTH, SLIDER_HEIGHT);
     connect(m_slider, &Slider::valueChanged, this, [=] (int multiple) {
         int newSize = MIN_ICON_SIZE + multiple * 32;
         emit itemSizeChanged(newSize);
