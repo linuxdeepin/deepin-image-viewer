@@ -22,6 +22,7 @@ protected:
 private:
     void moveFirstWindow();
     void moveCenter();
+    bool windowAtEdge();
 
     MainWidget *m_mainWidget;
 };
