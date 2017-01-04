@@ -13,8 +13,9 @@ namespace {
 
 const QString SETTINGS_GROUP = "VIEWPANEL";
 const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
-const int IMAGE_MARGIN = 6;
-const int IMAGE_MARGIN_BOTTOM = 9;
+const int IMAGE_MARGIN = 5;
+const int IMAGE_MARGIN_BOTTOM = 5;
+const int BORDER_WIDTH = 1;
 
 const QString DARK_BG_IMG = ":/resources/dark/images/naviwindow_bg.png";
 const QColor DARK_BG_COLOR = QColor(0, 0, 0, 100);
@@ -45,9 +46,9 @@ NavigationWidget::NavigationWidget(QWidget *parent)
     });
 
     m_mainRect = QRect(rect().x() + IMAGE_MARGIN,
-                       rect().y(),
+                       rect().y() + IMAGE_MARGIN_BOTTOM,
                        rect().width() - IMAGE_MARGIN*2,
-                       rect().height() - IMAGE_MARGIN_BOTTOM);
+                       rect().height() - IMAGE_MARGIN_BOTTOM*2);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &NavigationWidget::onThemeChanged);
 }
@@ -145,13 +146,14 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     QImage background(m_bgImgUrl);
 
     p.drawImage(this->rect(), background);
-    QRect imageDrawRect = QRect((m_mainRect.width() - img.width())/2 + IMAGE_MARGIN,
-                                (m_mainRect.height() - img.height())/2 + IMAGE_MARGIN, img.width(),
-                                img.height() - IMAGE_MARGIN_BOTTOM);
-
+    QRect imageDrawRect =  QRect((m_mainRect.width() - m_img.width())/2 + IMAGE_MARGIN,
+                                 (m_mainRect.height() - m_img.height())/2 + BORDER_WIDTH,
+                                 m_img.width(), m_img.height());
     p.drawImage(imageDrawRect, img);
+    QRect borderRect = QRect(imageDrawRect.x(), imageDrawRect.y(), imageDrawRect.width()
+                             - BORDER_WIDTH, imageDrawRect.height() - BORDER_WIDTH);
     p.setPen(m_imgRBorderColor);
-    p.drawRect(imageDrawRect);
+    p.drawRect(borderRect);
     p.end();
 }
 
