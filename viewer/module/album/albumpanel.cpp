@@ -256,7 +256,9 @@ void AlbumPanel::initMainStackWidget()
             m_mContent->setInAlbumView(i == 1);
             m_mContent->updateCount();
         }
-        emit dApp->signalM->updateTopToolbarLeftContent(
+
+        if (this->isVisible())
+            emit dApp->signalM->updateTopToolbarLeftContent(
                     toolbarTopLeftContent());
     });
 
