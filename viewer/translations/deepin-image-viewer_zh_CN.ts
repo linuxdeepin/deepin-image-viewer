@@ -174,7 +174,7 @@
     </message>
     <message>
         <source>Start slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -194,7 +194,11 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation type="vanished">新建相册</translation>
+    </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation>幻灯片放映</translation>
     </message>
 </context>
 <context>
@@ -208,19 +212,19 @@
     <name>BTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 张图片</translation>
+        <translation type="vanished">%1 张图片</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 张图片</translation>
+        <translation type="vanished">%1 张图片</translation>
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="vanished">导入</translation>
     </message>
     <message>
         <source>Importing: </source>
-        <translation>正在导入：</translation>
+        <translation type="vanished">正在导入：</translation>
     </message>
 </context>
 <context>
@@ -425,7 +429,7 @@
     </message>
     <message>
         <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -555,6 +559,10 @@
         <source>Add to my favorite</source>
         <translation>收藏</translation>
     </message>
+    <message>
+        <source>Copy to clipboard</source>
+        <translation>复制到剪贴板</translation>
+    </message>
 </context>
 <context>
     <name>ImportDirDialog</name>
@@ -590,7 +598,7 @@
     </message>
     <message>
         <source>The removable device has been unplugged, would you like to delete the thumbnails on this device?</source>
-        <translation type="unfinished"></translation>
+        <translation>移动设备已拔出，是否要删除该移动设备上的缩略图？</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -598,7 +606,7 @@
     </message>
     <message>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>删除</translation>
     </message>
 </context>
 <context>
@@ -1058,6 +1066,10 @@
         <source>Image management</source>
         <translation>图片管理</translation>
     </message>
+    <message>
+        <source>My favorites</source>
+        <translation>我的收藏</translation>
+    </message>
 </context>
 <context>
     <name>TTMContent</name>
@@ -1088,6 +1100,25 @@
     <message>
         <source>Add to My favorites</source>
         <translation>收藏</translation>
+    </message>
+</context>
+<context>
+    <name>TimelineBTContent</name>
+    <message>
+        <source>%1 image</source>
+        <translation>%1 张图片</translation>
+    </message>
+    <message>
+        <source>%1 images</source>
+        <translation>%1 张图片</translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation>导入</translation>
+    </message>
+    <message>
+        <source>Importing: </source>
+        <translation>正在导入：</translation>
     </message>
 </context>
 <context>
@@ -1195,6 +1226,10 @@
         <source>Add to my favorite</source>
         <translation>收藏</translation>
     </message>
+    <message>
+        <source>Copy to clipboard</source>
+        <translation>复制到剪贴板</translation>
+    </message>
 </context>
 <context>
     <name>TimelineViewFrame</name>
@@ -1291,7 +1326,7 @@
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation type="unfinished"></translation>
+        <translation>深色主题</translation>
     </message>
 </context>
 <context>
@@ -1400,12 +1435,20 @@
         <source>Add to my favorite</source>
         <translation>收藏</translation>
     </message>
+    <message>
+        <source>Copy to clipboard</source>
+        <translation>复制到剪贴板</translation>
+    </message>
+    <message>
+        <source>My favorites</source>
+        <translation type="vanished">我的收藏</translation>
+    </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <source>Value that use for options.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>
