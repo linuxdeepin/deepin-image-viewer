@@ -42,8 +42,8 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initTopToolbar();
     initBottomToolbar();
     // image file's synchronization
-    localImagesMonitor();
-    mountDeviceMonitor();
+    initLocalImagesMonitor();
+    initVolumeMonitor();
 
     initConnection();
 }
@@ -155,7 +155,7 @@ void MainWidget::initPanelStack(bool manager)
     m_panelStack->addWidget(m_viewPanel);
 }
 
-void MainWidget::localImagesMonitor() {
+void MainWidget::initLocalImagesMonitor() {
     QFileSystemWatcher *fileWatcher = new QFileSystemWatcher(this);
     QStringList filepaths = dApp->dbM->getAllPaths();
     foreach(QString filepath, filepaths) {
@@ -178,40 +178,29 @@ void MainWidget::localImagesMonitor() {
     });
 }
 
-void MainWidget::mountDeviceMonitor() {
+void MainWidget::initVolumeMonitor() {
     VolumeMonitor* volumeMonitor = new VolumeMonitor(this);
-    connect(volumeMonitor, &VolumeMonitor::deviceAdded, this, [=](const QString& path){
-        qDebug() << "path:" << path;
-    });
-    connect(volumeMonitor, &VolumeMonitor::deviceRemoved, this,
-            [=](const QString& path){
-        //TODO: get the imagespath started with path
-        QStringList fpaths = dApp->dbM->getAllPaths();
-        foreach(QString fpath, fpaths) {
-            if (fpath.startsWith(path)) {
+    connect(volumeMonitor, &VolumeMonitor::deviceRemoved,
+            this, [=] (const QString &mountPoint) {
+        if (dApp->dbM->getImgsCountByMountPoint(mountPoint) == 0)
+            return;
+        DDialog* synImgDialog = new DDialog(this);
+        synImgDialog->setIconPixmap(QPixmap(":/resources/common/synimages.png"));
+        synImgDialog->setTitle(tr("The removable device has been unplugged,"
+            " would you like to delete the thumbnails on this device?"));
+        synImgDialog->addButton(tr("Cancel"));
+        synImgDialog->addButton(tr("Ok"));
 
-                DDialog* synImgDialog = new DDialog(this);
-                synImgDialog->setIconPixmap(QPixmap(":/resources/common/synimages.png"));
-                synImgDialog->setTitle(tr("The removable device has been unplugged,"
-                                          " would you like to delete the thumbnails on this device?"));
-                synImgDialog->addButton(tr("Cancel"));
-                synImgDialog->addButton(tr("Ok"));
+        synImgDialog->show();
+        synImgDialog->moveToCenter();
 
-                synImgDialog->show();
-                synImgDialog->moveToCenter();
-
-                connect(synImgDialog, &DDialog::buttonClicked, this, [=](int index){
-                    synImgDialog->close();
-                    synImgDialog->deleteLater();
-                      if (index == 1)
-                          dApp->dbM->removeImgLike(QStringList(path));
-                  });
-
-                break;
-            } else {
-                continue;
-            }
-        }
+        connect(synImgDialog, &DDialog::buttonClicked, this, [=](int index){
+            synImgDialog->close();
+            synImgDialog->deleteLater();
+            if (index == 0)
+                return;
+            dApp->dbM->removeMountPoint(mountPoint);
+        });
     });
 
     qDebug() << "volume monitorUI:" << volumeMonitor->start();

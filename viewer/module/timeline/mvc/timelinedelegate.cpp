@@ -158,8 +158,11 @@ QPixmap TimelineDelegate::thumbnail(const TimelineItem::ItemData &data) const
     QPixmap thumb;
     using namespace utils::image;
     const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-    // When a thumbnail is changed externally, is no longer used in the data model
-    if (! thumbnailExist(data.path)) {
+    if (! QFileInfo(data.path).exists()) {
+        thumb.loadFromData(data.thumbArray);
+        return thumb;
+    }
+    else if (! thumbnailExist(data.path)) {
         if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
             thumb = cutSquareImage(QPixmap(m_defaultThumbnail), ms);
             QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);

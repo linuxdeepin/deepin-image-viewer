@@ -5,10 +5,36 @@
 #include <QFileDialog>
 #include <QTimer>
 #include <QDebug>
+#include <QStorageInfo>
 
 namespace {
 
 const int REFRESH_DELAY = 3000;
+
+
+QStringList mountPoints()
+{
+    QStringList paths;
+    QList<QStorageInfo> infos = QStorageInfo::mountedVolumes();
+    for (auto info : infos) {
+        const QString rp = info.rootPath();
+        if (rp.startsWith("/media") || rp.startsWith("/run/media")) {
+            paths << rp;
+        }
+    }
+
+    return paths;
+}
+
+QString mountPoint(const QString &path, const QStringList &points)
+{
+    for (QString point : points) {
+        if (path.startsWith(point))
+            return point;
+    }
+
+    return QString();
+}
 
 QStringList collectSubDirs(const QString &path)
 {
@@ -136,6 +162,7 @@ void DirCollectThread::run()
     QStringList subDirs = collectSubDirs(m_root);
     DBImgInfoList dbInfos;
     QStringList paths;
+    QStringList points = mountPoints();
 
     qint64 bt = QDateTime::currentMSecsSinceEpoch();
     for (QString dir : subDirs) {
@@ -155,6 +182,7 @@ void DirCollectThread::run()
             DBImgInfo dbi;
             dbi.fileName = fi.fileName();
             dbi.filePath = path;
+            dbi.mountPoint = mountPoint(path, points);
             dbi.time = utils::image::getCreateDateTime(path);
 
             dbInfos << dbi;
@@ -189,6 +217,7 @@ void FilesCollectThread::run()
 {
     DBImgInfoList dbInfos;
     QStringList supportPaths;
+    QStringList points = mountPoints();
     using namespace utils::image;
 
     qint64 bt = QDateTime::currentMSecsSinceEpoch();
@@ -210,6 +239,7 @@ void FilesCollectThread::run()
         DBImgInfo dbi;
         dbi.fileName = fi.fileName();
         dbi.filePath = path;
+        dbi.mountPoint = mountPoint(path, points);
         dbi.time = utils::image::getCreateDateTime(path);
 
         dbInfos << dbi;

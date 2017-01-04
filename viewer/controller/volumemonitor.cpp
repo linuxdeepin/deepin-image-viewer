@@ -1,13 +1,12 @@
 #include "volumemonitor.h"
 
+#include "utils/baseutils.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <QFile>
 #include <QSet>
 #include <QTextStream>
 #include <QDebug>
-
-#include "utils/baseutils.h"
 
 namespace {
     const char mountFile[] = "/proc/mounts";

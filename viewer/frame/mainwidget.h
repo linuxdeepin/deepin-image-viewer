@@ -27,8 +27,6 @@ private slots:
     void onImported(const QString &message, bool success);
     void onShowImageInfo(const QString &path);
 
-    void localImagesMonitor();
-    void mountDeviceMonitor();
 private:
     void initBottomToolbar();
     void initExtensionPanel();
@@ -37,6 +35,9 @@ private:
     void initConnection();
     void initPanelStack(bool manager);
     void initStyleSheet();
+
+    void initVolumeMonitor();
+    void initLocalImagesMonitor();
 
 private:
     QStringList m_infoShowingList;

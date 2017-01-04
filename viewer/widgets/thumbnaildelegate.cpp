@@ -110,7 +110,10 @@ QPixmap ThumbnailDelegate::thumbnail(const ThumbnailDelegate::ItemData &data) co
 {
     QPixmap thumb;
     using namespace utils::image;
-    if (! thumbnailExist(data.path)) {
+    if (! QFileInfo(data.path).exists()) {
+        return data.thumbnail;
+    }
+    else if (! thumbnailExist(data.path)) {
         if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
             const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
             thumb = cutSquareImage(QPixmap(DEFAULT_THUMB), ms);

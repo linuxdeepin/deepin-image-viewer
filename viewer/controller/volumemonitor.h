@@ -21,6 +21,7 @@ public slots:
     bool stop();
     bool isRunning();
     void onFileChanged();
+
 private:
     int m_fileKde = -1;
     QSocketNotifier* m_socketNotifier;

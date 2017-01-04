@@ -2,10 +2,10 @@
 #define DBMANAGER_H
 
 // ImageTable
-//////////////////////////////////////////
-//FilePath           | FileName | Time  //
-//TEXT primari key   | TEXT     | TEXT  //
-//////////////////////////////////////////
+///////////////////////////////////////////////////////
+//FilePath           | FileName | MountPoint | Time  //
+//TEXT primari key   | TEXT     | TEXT       | TEXT  //
+///////////////////////////////////////////////////////
 
 // AlbumTable
 /////////////////////////////////////////////////////
@@ -28,6 +28,7 @@ struct DBAlbumInfo {
 struct DBImgInfo {
     QString filePath;
     QString fileName;
+    QString mountPoint;
     QDateTime time;
 
     bool operator==(const DBImgInfo& other)
@@ -41,6 +42,7 @@ struct DBImgInfo {
         dbg << "(DBImgInfo)["
             << "Path:" << info.filePath
             << "Name:" << info.fileName
+            << "MountPoint:" << info.mountPoint
             << "Time:" << info.time
             << "]";
         return dbg;
@@ -63,10 +65,11 @@ public:
     const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
     int                     getImgsCount() const;
+    int                     getImgsCountByMountPoint(const QString &mountPoint) const;
     bool                    isImgExist(const QString &path) const;
     void insertImgInfos(const DBImgInfoList &infos);
     void removeImgInfos(const QStringList &paths);
-    void removeImgLike(const QStringList& likePaths);
+    void removeMountPoint(const QString &mountPoint);
     // TableAlbum
     const DBAlbumInfo       getAlbumInfo(const QString &album) const;
     const QStringList       getAllAlbumNames() const;
@@ -86,6 +89,7 @@ private:
     const QSqlDatabase getDatabase() const;
     void checkDatabase();
     void importVersion1Data();
+    void importVersion2Data();
 
 private:
     QString m_connectionName;
