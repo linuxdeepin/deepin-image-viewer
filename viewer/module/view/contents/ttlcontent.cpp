@@ -1,44 +1,45 @@
 #include "ttlcontent.h"
 #include "application.h"
 #include "utils/baseutils.h"
-#include "widgets/imagebutton.h"
+#include "widgets/pushbutton.h"
 #include <QHBoxLayout>
 #include <QDebug>
 
-const int ICON_MARGIN = 13;
+namespace {
+
+const int LEFT_MARGIN = 13;
+const int MAX_BUTTON_WIDTH = 200;
+
+}  // namespace
+
 TTLContent::TTLContent(bool inDB, QWidget *parent) : QWidget(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(0, 0, 0, 0);
+    hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
-    hb->addSpacing(ICON_MARGIN);
-    ImageButton *returnBtn = new ImageButton();
-    returnBtn->setObjectName("ReturnBtn");
-    returnBtn->setToolTip(tr("Back"));
-    ImageButton *folderBtn = new ImageButton();
+    m_returnBtn = new PushButton();
+    m_returnBtn->setMaximumWidth(MAX_BUTTON_WIDTH);
+    m_returnBtn->setObjectName("ReturnBtn");
+    m_returnBtn->setToolTip(tr("Back"));
+    PushButton *folderBtn = new PushButton();
     folderBtn->setObjectName("FolderBtn");
     folderBtn->setToolTip(tr("Image management"));
     if(inDB) {
-        hb->addWidget(returnBtn);
+        hb->addWidget(m_returnBtn);
     } else {
        hb->addWidget(folderBtn);
     }
-
-    m_curDirLabel = new QLabel(this);
-    m_curDirLabel->setObjectName("CurrentDirLabel");
-
-    hb->addWidget(m_curDirLabel);
     hb->addStretch();
 
-    connect(returnBtn, &ImageButton::clicked, this, [=] {
+    connect(m_returnBtn, &PushButton::clicked, this, [=] {
         emit clicked();
     });
-    connect(folderBtn, &ImageButton::clicked, this, [=] {
+    connect(folderBtn, &PushButton::clicked, this, [=] {
         emit clicked();
     });
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &TTLContent::onThemeChanged);
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
+            this, &TTLContent::onThemeChanged);
 }
 
 void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
@@ -52,8 +53,6 @@ void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
 }
 
 void TTLContent::setCurrentDir(QString text) {
-    QString dir = m_curDirLabel->fontMetrics().elidedText(text, Qt::ElideMiddle,
-                                                          this->width()/2);
-    m_curDirLabel->setText(dir);
+    m_returnBtn->setText(text);
     update();
 }

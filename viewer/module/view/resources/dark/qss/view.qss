@@ -109,19 +109,17 @@ QLabel#ScaleLabel {
     font-size: 14px;
 }
 
-QLabel#CurrentDirLabel{
-    color: rgba(255, 255, 255, 235);
-    font-size: 12px;
-    text-align: center;
-}
-
-ImageButton#ReturnBtn {
+PushButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/dark/images/return_normal.png);
     qproperty-hoverPic: url(:/resources/dark/images/return_hover.png);
     qproperty-pressPic: url(:/resources/dark/images/return_press.png);
+    qproperty-normalColor: rgba(255, 255, 255, .6);
+    qproperty-hoverColor: rgba(255, 255, 255, 1);
+    qproperty-pressColor: rgba(1, 188, 255, 1);
+    font-size: 12px;
 }
 
-ImageButton#FolderBtn {
+PushButton#FolderBtn {
     qproperty-normalPic: url(:/resources/dark/images/folder_normal.png);
     qproperty-hoverPic: url(:/resources/dark/images/folder_hover.png);
     qproperty-pressPic: url(:/resources/dark/images/folder_press.png);

@@ -9,6 +9,7 @@
 #include "widgets/dialogs/albumcreatedialog.h"
 #include "widgets/dialogs/dirimportdialog.h"
 #include "widgets/imagebutton.h"
+#include "widgets/pushbutton.h"
 #include "widgets/importframe.h"
 
 #include <QDebug>
@@ -23,6 +24,7 @@ DWIDGET_USE_NAMESPACE
 namespace {
 
 const int ICON_MARGIN = 13;
+const int MAX_BUTTON_WIDTH = 200;
 const int MARGIN_DIFF = 82;
 const QString MY_FAVORITES_ALBUM = "My favorites";
 const QString RECENT_IMPORT_ALBUM = "Recent imported";
@@ -120,43 +122,35 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 {
     QWidget *tTopleftContent = new QWidget;
     tTopleftContent->setStyleSheet(this->styleSheet());
-
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(ICON_MARGIN, 0, 0, 0);
     layout->setSpacing(0);
-    layout->addSpacing(ICON_MARGIN);
     if (m_stackWidget->currentWidget() == m_imagesView) {
-
-        ImageButton *returnButton = new ImageButton();
+        PushButton *returnButton = new PushButton();
+        returnButton->setMaximumWidth(MAX_BUTTON_WIDTH);
         returnButton->setObjectName("ReturnBtn");
+        returnButton->setToolTip(tr("Back"));
 
-        connect(returnButton, &ImageButton::clicked, this, [=] {
+        connect(returnButton, &PushButton::clicked, this, [=] {
             m_imagesView->cancelLoadImages();
             m_stackWidget->setCurrentWidget(m_albumsView);
             // Make sure top toolbar content still show as album content
             // during adding images from timeline
             emit dApp->signalM->gotoAlbumPanel();
         });
-        returnButton->setToolTip(tr("Back"));
-        QLabel *curDirLabel = new QLabel();
-        curDirLabel->setObjectName("CurrentDirLabel");
 
         QString an = m_currentAlbum;
         if (m_currentAlbum == MY_FAVORITES_ALBUM) {
             an = tr("My favorites");
         }
-        QString dir = curDirLabel->fontMetrics().elidedText(
-                    an, Qt::ElideMiddle, tTopleftContent->width()/2);
-        curDirLabel->setText(dir);
+        returnButton->setText(an);
 
         layout->addWidget(returnButton);
-        layout->addWidget(curDirLabel);
         layout->addStretch();
     }
     else {
-        QLabel *icon = new QLabel;
-        // TODO update icon path
-        icon->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
+        PushButton *icon = new PushButton;
+        icon->setNormalPic(":/images/logo/resources/images/logo/deepin_image_viewer_24.png");
         layout->addWidget(icon);
     }
 
