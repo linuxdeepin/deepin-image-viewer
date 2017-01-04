@@ -260,9 +260,6 @@ const QString AlbumsView::getNewAlbumName() const
     if (countList.isEmpty()) {
         return nan;
     }
-    else if (countList.length() == 1) {
-        return nan + QString::number(2);
-    }
     else {
         qSort(countList.begin(), countList.end());
         if (countList.first() != 0)
