@@ -30,7 +30,8 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     , m_hideCursorTid(0)
     , m_startTid(0)
 {
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    m_bgColor = DARK_BG_COLOR;
     initeffectPlay();
     initMenu();
     initShortcut();
@@ -48,8 +49,8 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 
         m_player->setImagePaths(m_vinfo.paths);
     });
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &SlideShowPanel::onThemeChanged);
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            &SlideShowPanel::onThemeChanged);
 }
 
 QString SlideShowPanel::moduleName()
@@ -86,6 +87,7 @@ void SlideShowPanel::paintEvent(QPaintEvent *e)
 
     QPainter p(this);
 //    p.setRenderHint(QPainter::Antialiasing);
+    p.fillRect(this->rect(), QBrush(QColor(m_bgColor)));
     p.drawPixmap(this->rect(), QPixmap::fromImage(m_img));
 }
 
@@ -297,7 +299,7 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark) {
     if (dark == ViewerThemeManager::Dark) {
         m_bgColor = DARK_BG_COLOR;
     } else {
-        m_bgColor = LIGHT_BG_COLOR;
+        m_bgColor = DARK_BG_COLOR;
     }
     update();
 }
