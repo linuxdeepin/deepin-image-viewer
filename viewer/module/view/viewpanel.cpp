@@ -200,6 +200,7 @@ void ViewPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
     window()->showFullScreen();
+    m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
 }
 
 int ViewPanel::imageIndex(const QString &path)
@@ -350,6 +351,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
+
     if (e->timerId() == m_hideCursorTid &&
             !m_menu->isVisible() && !m_printDialogVisible) {
         dApp->setOverrideCursor(Qt::BlankCursor);
