@@ -26,14 +26,14 @@ QPixmap AlbumDeleteDialog::generateThumbnail(const QStringList &paths)
     QPixmap bp(":/dialogs/images/resources/images/album_bg_normal.png");
     bp.scaled(64, 64);
 
-    if (paths.length() < 2)
+    if (paths.length() <1)
         return bp;
 
     QPainter pp(&bp);
 
     QRect thumbRect(6, 6, 46, 46);
     using namespace utils::image;
-    QPixmap thumb = cutSquareImage(getThumbnail(paths[1]),
+    QPixmap thumb = cutSquareImage(getThumbnail(paths[0]),
                                    thumbRect.size());
     pp.drawPixmap(thumbRect, thumb);
     if (! thumb.isNull()) {
