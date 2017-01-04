@@ -28,7 +28,7 @@ TimelineBTContent::TimelineBTContent(QWidget *parent)
     : QWidget(parent)
 {
     m_layout = new QHBoxLayout(this);
-    m_layout->setContentsMargins(8, 0, 14, 0);
+    m_layout->setContentsMargins(5, 0, 14, 0);
     m_layout->setSpacing(0);
 
     initImportBtn();
