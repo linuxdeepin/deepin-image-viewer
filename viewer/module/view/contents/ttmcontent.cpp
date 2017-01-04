@@ -62,14 +62,6 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         updateCollectButton();
     }
 
-    m_rotateRBtn = new PushButton();
-    m_rotateRBtn->setFixedSize(ICON_SIZE);
-    m_rotateRBtn->setObjectName("RotateCounterBtn");
-    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
-    m_layout->addWidget(m_rotateRBtn);
-    connect(m_rotateRBtn, &PushButton::clicked,
-            this, &TTMContent::rotateClockwise);
-
     m_rotateLBtn = new PushButton();
     m_rotateLBtn->setFixedSize(ICON_SIZE);
     m_rotateLBtn->setObjectName("RotateBtn");
@@ -77,6 +69,14 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     m_layout->addWidget(m_rotateLBtn);
     connect(m_rotateLBtn, &PushButton::clicked,
             this, &TTMContent::rotateCounterClockwise);
+
+    m_rotateRBtn = new PushButton();
+    m_rotateRBtn->setFixedSize(ICON_SIZE);
+    m_rotateRBtn->setObjectName("RotateCounterBtn");
+    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    m_layout->addWidget(m_rotateRBtn);
+    connect(m_rotateRBtn, &PushButton::clicked,
+            this, &TTMContent::rotateClockwise);
 
     m_trashBtn = new PushButton();
     m_trashBtn->setFixedSize(ICON_SIZE);
