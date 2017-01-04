@@ -4,7 +4,7 @@
 #include "controller/viewerthememanager.h"
 #include <QWidget>
 
-class ImageButton;
+class PushButton;
 class QHBoxLayout;
 class TTMContent : public QWidget
 {
@@ -27,12 +27,12 @@ private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     QHBoxLayout* m_layout;
-    ImageButton* m_adaptImageBtn;
-    ImageButton* m_adaptScreenBtn;
-    ImageButton* m_clBT;
-    ImageButton* m_rotateLBtn;
-    ImageButton* m_rotateRBtn;
-    ImageButton* m_trashBtn;
+    PushButton* m_adaptImageBtn;
+    PushButton* m_adaptScreenBtn;
+    PushButton* m_clBT;
+    PushButton* m_rotateLBtn;
+    PushButton* m_rotateRBtn;
+    PushButton* m_trashBtn;
 
     QString m_imagePath;
 };

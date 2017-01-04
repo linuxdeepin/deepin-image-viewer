@@ -31,10 +31,14 @@ QLineEdit#AlbumNameLineEdit {
     background: transparent;
 }
 
-ImageButton#ReturnBtn {
+PushButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/light/images/return_normal.png);
     qproperty-hoverPic: url(:/resources/light/images/return_hover.png);
     qproperty-pressPic: url(:/resources/light/images/return_press.png);
+    qproperty-normalColor: #303030;
+    qproperty-hoverColor: #000000;
+    qproperty-pressColor: #01BCFF;
+    font-size: 12px;
 }
 
 ImageButton#ImportBtn {
@@ -80,10 +84,4 @@ QPushButton#ActionButton {
 TopAlbumTips {
     height: 24px;
     border-image: url(:/resources/light/images/lineargradient.png) repeat;
-}
-
-QLabel#CurrentDirLabel {
-    color: rgba(0, 0, 0, .9);
-    font-size: 12px;
-    text-align: center;
 }

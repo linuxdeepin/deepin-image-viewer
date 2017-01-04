@@ -23,10 +23,14 @@ QLabel#ImportFrameTooltip {
     font-size: 12px;
 }
 
-ImageButton#ReturnBtn {
+PushButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/dark/images/return_normal.png);
     qproperty-hoverPic: url(:/resources/dark/images/return_hover.png);
     qproperty-pressPic: url(:/resources/dark/images/return_press.png);
+    qproperty-normalColor: rgba(255, 255, 255, .6);
+    qproperty-hoverColor: rgba(255, 255, 255, 1);
+    qproperty-pressColor: rgba(1, 188, 255, 1);
+    font-size: 12px;
 }
 
 ImageButton#TimelineBtn {
@@ -82,8 +86,3 @@ TopAlbumTips {
     border-image: url(:/resources/dark/images/lineargradient.png) repeat;
 }
 
-QLabel#CurrentDirLabel {
-    color: rgba(255, 255, 255, .6);
-    font-size: 12px;
-    text-align: center;
-}

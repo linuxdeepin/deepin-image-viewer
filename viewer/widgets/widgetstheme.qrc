@@ -29,6 +29,8 @@
         <file>resources/dark/qss/ImportFrame.qss</file>
         <file>resources/light/qss/ImageButton.qss</file>
         <file>resources/light/qss/ImportFrame.qss</file>
+        <file>resources/dark/qss/PushButton.qss</file>
+        <file>resources/light/qss/PushButton.qss</file>
     </qresource>
     <qresource prefix="/images/loadings">
         <file>resources/dark/images/dark_loading/loading_1.png</file>

@@ -14,7 +14,8 @@ HEADERS += \
     $$PWD/blureinfoframe.h \
     $$PWD/separator.h \
     $$PWD/thumbnaildelegate.h \
-    $$PWD/loadingicon.h
+    $$PWD/loadingicon.h \
+    $$PWD/pushbutton.h
 
 SOURCES += \
     $$PWD/importframe.cpp \
@@ -30,7 +31,8 @@ SOURCES += \
     $$PWD/blureinfoframe.cpp \
     $$PWD/separator.cpp \
     $$PWD/thumbnaildelegate.cpp \
-    $$PWD/loadingicon.cpp
+    $$PWD/loadingicon.cpp \
+    $$PWD/pushbutton.cpp
 
 RESOURCES += \
     $$PWD/widgetstheme.qrc

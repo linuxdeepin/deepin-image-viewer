@@ -3,7 +3,7 @@
 #include "controller/dbmanager.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
-#include "widgets/imagebutton.h"
+#include "widgets/pushbutton.h"
 #include <QBoxLayout>
 #include <QDebug>
 #include <QFileInfo>
@@ -24,34 +24,33 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
     m_layout->setSpacing(0);
     m_layout->addStretch();
     // Adapt buttons////////////////////////////////////////////////////////////
-    m_adaptImageBtn = new ImageButton();
+    m_adaptImageBtn = new PushButton();
     m_adaptImageBtn->setObjectName("AdaptBtn");
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
 
     m_adaptImageBtn->setToolTip(tr("1:1 Size"));
     m_layout->addWidget(m_adaptImageBtn);
-    connect(m_adaptImageBtn, &ImageButton::clicked, [this](){
+    connect(m_adaptImageBtn, &PushButton::clicked, this, [=] {
         emit resetTransform(false);
     });
 
-    m_adaptScreenBtn = new ImageButton();
+    m_adaptScreenBtn = new PushButton();
     m_adaptScreenBtn->setFixedSize(ICON_SIZE);
     m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
     m_adaptScreenBtn->setToolTip(tr("Fit to window"));
     m_layout->addWidget(m_adaptScreenBtn);
-    connect(m_adaptScreenBtn, &ImageButton::clicked, [this](){
+    connect(m_adaptScreenBtn, &PushButton::clicked, this, [=] {
         emit resetTransform(true);
     });
 
 
     // Collection button////////////////////////////////////////////////////////
-    m_clBT = new ImageButton();
+    m_clBT = new PushButton();
     m_clBT->setObjectName("CollectBtn");
-    m_clBT->setCheckable(true);
     if (! fromFileManager) {
 
         m_layout->addWidget(m_clBT);
-        connect(m_clBT, &ImageButton::clicked, [=] {
+        connect(m_clBT, &PushButton::clicked, this, [=] {
             if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
                 dApp->dbM->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
             }
@@ -63,30 +62,30 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
         updateCollectButton();
     }
 
-    m_rotateRBtn = new ImageButton();
+    m_rotateRBtn = new PushButton();
     m_rotateRBtn->setFixedSize(ICON_SIZE);
     m_rotateRBtn->setObjectName("RotateCounterBtn");
     m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
     m_layout->addWidget(m_rotateRBtn);
-    connect(m_rotateRBtn, &ImageButton::clicked,
+    connect(m_rotateRBtn, &PushButton::clicked,
             this, &TTMContent::rotateClockwise);
 
-    m_rotateLBtn = new ImageButton();
+    m_rotateLBtn = new PushButton();
     m_rotateLBtn->setFixedSize(ICON_SIZE);
     m_rotateLBtn->setObjectName("RotateBtn");
     m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
     m_layout->addWidget(m_rotateLBtn);
-    connect(m_rotateLBtn, &ImageButton::clicked,
+    connect(m_rotateLBtn, &PushButton::clicked,
             this, &TTMContent::rotateCounterClockwise);
 
-    m_trashBtn = new ImageButton();
+    m_trashBtn = new PushButton();
     m_trashBtn->setFixedSize(ICON_SIZE);
     m_trashBtn->setObjectName("TrashBtn");
     m_trashBtn->setToolTip(tr("Throw to Trash"));
     m_layout->addWidget(m_trashBtn);
     m_layout->addStretch();
 
-    connect(m_trashBtn, &ImageButton::clicked, this, &TTMContent::removed);
+    connect(m_trashBtn, &PushButton::clicked, this, &TTMContent::removed);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &TTMContent::onThemeChanged);
 }

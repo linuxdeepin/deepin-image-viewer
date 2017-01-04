@@ -5,6 +5,7 @@
 #include <QLabel>
 #include "controller/viewerthememanager.h"
 
+class PushButton;
 class TTLContent : public QWidget
 {
     Q_OBJECT
@@ -18,6 +19,7 @@ public slots:
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
+    PushButton *m_returnBtn;
     QLabel* m_curDirLabel;
 };
 

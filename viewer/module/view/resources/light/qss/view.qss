@@ -103,12 +103,6 @@ QLabel#ScaleLabel {
     font-size: 14px;
 }
 
-QLabel#CurrentDirLabel{
-    color: rgb(0, 0, 0, 235);
-    font-size: 12px;
-    text-align: center;
-}
-
 ImageButton#PreviousButton {
     qproperty-normalPic: url(:/resources/light/images/previous_normal.png);
     qproperty-hoverPic: url(:/resources/light/images/previous_hover.png);
@@ -121,13 +115,17 @@ ImageButton#NextButton {
     qproperty-pressPic: url(:/resources/light/images/next_press.png);
 }
 
-ImageButton#ReturnBtn {
+PushButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/light/images/return_normal.png);
     qproperty-hoverPic: url(:/resources/light/images/return_hover.png);
     qproperty-pressPic: url(:/resources/light/images/return_press.png);
+    qproperty-normalColor: #303030;
+    qproperty-hoverColor: #000000;
+    qproperty-pressColor: #01BCFF;
+    font-size: 12px;
 }
 
-ImageButton#FolderBtn {
+PushButton#FolderBtn {
     qproperty-normalPic: url(:/resources/light/images/folder_normal.png);
     qproperty-hoverPic: url(:/resources/light/images/folder_hover.png);
     qproperty-pressPic: url(:/resources/light/images/folder_press.png);
