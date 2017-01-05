@@ -19,7 +19,6 @@ public:
     explicit ThumbnailListView(QWidget *parent = 0);
     ~ThumbnailListView();
     void clearData();
-    void updateViewPortSize();
     void updateThumbnail(const QString &path);
     void setIconSize(const QSize &size);
     void insertItem(const ItemInfo &info);
@@ -37,8 +36,9 @@ signals:
     void mousePressed(QMouseEvent *e);
 
 protected:
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
+    QSize viewportSizeHint() const Q_DECL_OVERRIDE;
     void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags) Q_DECL_OVERRIDE;
-    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
     int horizontalOffset() const Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
@@ -47,7 +47,7 @@ protected:
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
 private slots:
-    void fixedViewPortSize(bool proactive = false);
+    void fixedViewPortSize();
 
 private:
     int contentsHMargin() const;

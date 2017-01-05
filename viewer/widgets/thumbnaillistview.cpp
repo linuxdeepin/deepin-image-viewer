@@ -15,9 +15,11 @@
 #include <QPen>
 #include <QScrollBar>
 #include <QStandardItemModel>
+#include <QtMath>
 
 namespace {
 
+const int LEFT_RIGHT_MARGIN = 16;
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
 
@@ -51,6 +53,10 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setDragEnabled(false);
 
     viewport()->installEventFilter(this);
+    connect(model(), &QAbstractItemModel::rowsInserted,
+            this, &ThumbnailListView::fixedViewPortSize);
+    connect(model(), &QAbstractItemModel::rowsRemoved,
+            this, &ThumbnailListView::fixedViewPortSize);
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -61,13 +67,6 @@ ThumbnailListView::~ThumbnailListView()
 void ThumbnailListView::clearData()
 {
     m_model->clear();
-}
-
-void ThumbnailListView::updateViewPortSize()
-{
-    // For expand all items
-//    TIMER_SINGLESHOT(100, {fixedViewPortSize(true);}, this)
-    QMetaObject::invokeMethod(this, "fixedViewPortSize", Qt::QueuedConnection, Q_ARG(bool, true));
 }
 
 void ThumbnailListView::updateThumbnail(const QString &path)
@@ -87,7 +86,7 @@ void ThumbnailListView::setIconSize(const QSize &size)
         m_model->setData(m_model->index(i, 0), QVariant(size), Qt::SizeHintRole);
     }
 
-    updateViewPortSize();
+    fixedViewPortSize();
 }
 
 QMutex mutex;
@@ -107,7 +106,6 @@ void ThumbnailListView::insertItem(const ItemInfo &info)
     m_model->setData(index, QVariant(getVariantList(info)), Qt::DisplayRole);
     m_model->setData(index, QVariant(iconSize()), Qt::SizeHintRole);
     m_delegate->setIsDataLocked(false);
-    //    updateViewPortSize();
 }
 
 void ThumbnailListView::updateItem(const ThumbnailListView::ItemInfo &info)
@@ -127,7 +125,6 @@ void ThumbnailListView::removeItems(const QStringList &paths)
             m_model->removeRow(i);
         }
     }
-    updateViewPortSize();
 }
 
 bool ThumbnailListView::contain(const QModelIndex &index) const
@@ -219,6 +216,27 @@ const QList<ThumbnailListView::ItemInfo> ThumbnailListView::selectedItemInfos()
     return infos;
 }
 
+bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
+{
+    if (obj == viewport() && e->type() == QEvent::Paint) {
+        fixedViewPortSize();
+    }
+
+    return QListView::eventFilter(obj, e);
+}
+
+QSize ThumbnailListView::viewportSizeHint() const
+{
+    if (! model()) {
+        return QSize(-1, -1);
+    }
+    int count = model()->rowCount();
+    int row = qCeil(1.0 * count / maxColumn());
+    int h = row * (iconSize().height() + ITEM_SPACING);
+    int w = maxColumn() * (iconSize().width() + ITEM_SPACING) + ITEM_SPACING * 2;
+    return QSize(w, h);
+}
+
 void ThumbnailListView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags)
 {
 //    if (flags & QItemSelectionModel::Clear) {
@@ -265,15 +283,6 @@ void ThumbnailListView::setSelection(const QRect &rect, QItemSelectionModel::Sel
     this->update();
 }
 
-bool ThumbnailListView::eventFilter(QObject *obj, QEvent *event)
-{
-    if ( obj == viewport() && event->type() == QEvent::Paint) {
-        fixedViewPortSize();
-    }
-
-    return false;
-}
-
 void ThumbnailListView::keyPressEvent(QKeyEvent *e)
 {
     QListView::keyPressEvent(e);
@@ -302,12 +311,14 @@ void ThumbnailListView::wheelEvent(QWheelEvent *e)
     e->ignore();
 }
 
+void ThumbnailListView::fixedViewPortSize()
+{
+    setFixedSize(viewportSizeHint());
+}
+
 int ThumbnailListView::horizontalOffset() const
 {
-    return -((width()
-              - contentsHMargin()
-              - maxColumn() * (iconSize().width() + ITEM_SPACING))
-             / 2);
+    return -ITEM_SPACING;
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *e)
@@ -323,35 +334,17 @@ void ThumbnailListView::mousePressEvent(QMouseEvent *e)
     emit mousePressed(e);
 }
 
-void ThumbnailListView::fixedViewPortSize(bool proactive)
-{
-    int hMargin = contentsHMargin();
-    int vMargin = contentsVMargin();
-    if (! proactive && width() - hMargin == contentsRect().width()
-            && height() - vMargin == contentsSize().height())
-        return;
-
-    if (contentsSize().isValid()) {
-        setFixedHeight(contentsSize().height());
-    }
-}
-
 int ThumbnailListView::maxColumn() const
 {
     int hMargin = contentsHMargin();
 
-    int i = 0;
-    while (i * (iconSize().width() + ITEM_SPACING) + hMargin < size().width()) {
-        i ++;
-    }
-    i --;
-
-    return i;
+    int c = (parentWidget()->width() - hMargin - ITEM_SPACING) / (iconSize().width() + ITEM_SPACING);
+    return c;
 }
 
 int ThumbnailListView::contentsHMargin() const
 {
-    return contentsMargins().left() + contentsMargins().right();
+    return LEFT_RIGHT_MARGIN*2;
 }
 
 int ThumbnailListView::contentsVMargin() const
