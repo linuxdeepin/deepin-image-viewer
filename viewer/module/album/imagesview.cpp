@@ -123,7 +123,7 @@ void ImagesView::initListView()
     m_view = new ThumbnailListView();
     m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
-    m_contentLayout->addWidget(m_view);
+    m_contentLayout->addWidget(m_view, 0, Qt::AlignCenter);
     m_contentLayout->addStretch(1);
 
     connect(m_view, &ThumbnailListView::clicked,
@@ -473,7 +473,7 @@ void ImagesView::initContent()
     m_contentWidget = new QWidget;
     m_contentWidget->setObjectName("ImagesViewContent");
     m_contentLayout = new QVBoxLayout(m_contentWidget);
-    m_contentLayout->setContentsMargins(10, 70, 6, 20);
+    m_contentLayout->setContentsMargins(0, 70, 0, 20);
 
     m_importFrame = new ImportFrame(this);
 

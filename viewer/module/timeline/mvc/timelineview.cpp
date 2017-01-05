@@ -18,6 +18,7 @@
 
 namespace {
 
+const int LEFT_RIGHT_MARGIN = 24;
 const QColor DARK_BACKGROUND_COLOR = QColor("#1B1B1B");
 const QColor LIGHT_BACKGROUND_COLOR = QColor("#FFFFFF");
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
@@ -453,7 +454,7 @@ QModelIndexList TimelineView::visualIndexs() const
 
 int TimelineView::maxColumnCount() const
 {
-    int c = width() / (m_itemSize + m_hItemSpacing);
+    int c = (width() - LEFT_RIGHT_MARGIN*2) / (m_itemSize + m_hItemSpacing);
     if (c <=0)
         return 1;
     else
