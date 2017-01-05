@@ -39,7 +39,6 @@ private:
     void initMainStackWidget();
     void initAlbumsView();
     void initImagesView();
-    void initStyleSheet();
 
     void onImageCountChanged();
     void onInsertIntoAlbum(const DBImgInfo info);

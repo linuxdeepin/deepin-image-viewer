@@ -26,8 +26,9 @@ const QColor TOP_LINE2_COLOR_LIGHT = QColor(255, 255, 255, 153);
 
 }  // namespace
 
-AlbumBTContent::AlbumBTContent(QWidget *parent)
-    : QWidget(parent)
+AlbumBTContent::AlbumBTContent(const QString &darkStyle, const QString &lightStyle,
+                               QWidget *parent)
+    : ThemeWidget(darkStyle, lightStyle, parent)
     , m_inAlbumView(true)
 {
     m_layout = new QHBoxLayout(this);

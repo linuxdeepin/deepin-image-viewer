@@ -8,6 +8,8 @@
 #include "utils/imageutils.h"
 #include "widgets/imagebutton.h"
 #include "widgets/importframe.h"
+#include "widgets/themewidget.h"
+
 #include <QDebug>
 #include <QDropEvent>
 #include <QLabel>
@@ -50,7 +52,8 @@ QString TimelinePanel::moduleName()
 
 QWidget *TimelinePanel::toolbarBottomContent()
 {
-    TimelineBTContent *c = new TimelineBTContent;
+    TimelineBTContent *c = new TimelineBTContent(":/resources/dark/qss/timeline.qss",
+                                                 ":/resources/light/qss/timeline.qss");
     c->setStyleSheet(this->styleSheet());
     connect(m_frame, &TimelineFrame::changeItemSize,
             c, &TimelineBTContent::changeItemSize);
@@ -75,8 +78,8 @@ QWidget *TimelinePanel::toolbarTopLeftContent()
 
 QWidget *TimelinePanel::toolbarTopMiddleContent()
 {
-    QWidget *tTopMiddleContent = new QWidget;
-    tTopMiddleContent->setStyleSheet(this->styleSheet());
+    ThemeWidget *tTopMiddleContent = new ThemeWidget(":/resources/dark/qss/timeline.qss",
+                                                     ":/resources/light/qss/timeline.qss");
     QLabel *timelineButton = new QLabel();
     timelineButton->setFixedSize(48, 40);
     timelineButton->setObjectName("TimelineLabel");

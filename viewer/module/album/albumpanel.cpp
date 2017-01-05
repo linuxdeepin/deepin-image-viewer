@@ -11,6 +11,7 @@
 #include "widgets/imagebutton.h"
 #include "widgets/pushbutton.h"
 #include "widgets/importframe.h"
+#include "widgets/themewidget.h"
 
 #include <QDebug>
 #include <QDropEvent>
@@ -37,7 +38,7 @@ AlbumPanel::AlbumPanel(QWidget *parent)
     : ModulePanel(parent)
 {
     setAcceptDrops(true);
-    initStyleSheet();
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initMainStackWidget();
     initConnection();
 }
@@ -55,8 +56,8 @@ QString AlbumPanel::moduleName()
 
 QWidget *AlbumPanel::toolbarBottomContent()
 {
-    m_mContent = new AlbumBTContent;
-    m_mContent->setStyleSheet(this->styleSheet());
+    m_mContent = new AlbumBTContent(":/resources/dark/qss/album.qss",
+                                    ":/resources/light/qss/album.qss");
     m_mContent->setAlbum(m_currentAlbum);
     connect(m_mContent, &AlbumBTContent::itemSizeChanged, this, [=] (int size) {
         m_imagesView->setIconSize(QSize(size, size));
@@ -120,8 +121,8 @@ void AlbumPanel::initConnection()
 
 QWidget *AlbumPanel::toolbarTopLeftContent()
 {
-    QWidget *tTopleftContent = new QWidget;
-    tTopleftContent->setStyleSheet(this->styleSheet());
+    ThemeWidget *tTopleftContent = new ThemeWidget(":/resources/dark/qss/album.qss",
+                                   ":/resources/light/qss/album.qss");
     QHBoxLayout *layout = new QHBoxLayout(tTopleftContent);
     layout->setContentsMargins(ICON_MARGIN, 0, 0, 0);
     layout->setSpacing(0);
@@ -159,8 +160,8 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 
 QWidget *AlbumPanel::toolbarTopMiddleContent()
 {
-    QWidget *tTopMiddleContent = new QWidget;
-    tTopMiddleContent->setStyleSheet(this->styleSheet());
+    ThemeWidget *tTopMiddleContent = new ThemeWidget(":/resources/dark/qss/album.qss",
+                                   ":/resources/light/qss/album.qss");
     ImageButton *timelineButton = new ImageButton();
     timelineButton->setObjectName("TimelineBtn");
     connect(timelineButton, &ImageButton::clicked, this, [=] {
@@ -265,6 +266,9 @@ void AlbumPanel::initMainStackWidget()
     QLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_stackWidget);
+
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
+            this, &AlbumPanel::onThemeChanged);
 }
 
 void AlbumPanel::initAlbumsView()
@@ -333,18 +337,6 @@ void AlbumPanel::initImagesView()
             onInsertIntoAlbum(info);
         }
     });
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
-            this, &AlbumPanel::onThemeChanged);
-}
-
-void AlbumPanel::initStyleSheet()
-{
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/album.qss"));
-    } else {
-
-        setStyleSheet(utils::base::getFileContent(":/resources/light/qss/album.qss"));
-    }
 
 }
 

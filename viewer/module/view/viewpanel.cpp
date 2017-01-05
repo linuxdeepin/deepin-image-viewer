@@ -304,8 +304,8 @@ QWidget *ViewPanel::extensionPanelContent()
     l->setContentsMargins(0, 0, 0, 0);
 
     if (! m_info) {
-        m_info = new ImageInfoWidget();
-        m_info->setStyleSheet(styleSheet());
+        m_info = new ImageInfoWidget(":/resources/dark/qss/view.qss",
+                                     ":/resources/light/qss/view.qss");
     }
 
     l->addSpacing(0);
