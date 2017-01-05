@@ -216,8 +216,9 @@ void AlbumDelegate::paint(QPainter *painter,
     }
     else {
         QString createIcon = m_createAlbumNormalPic;
-        if ((option.state & QStyle::State_MouseOver) &&
-                (option.state & QStyle::State_Selected) == 0) {
+        if (option.state & QStyle::State_Selected) {
+            createIcon = m_createAlbumPressPic;
+        } else if ((option.state & QStyle::State_MouseOver)) {
             createIcon = m_createAlbumHoverPic;
         }
 
