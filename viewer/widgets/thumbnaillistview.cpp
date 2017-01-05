@@ -5,6 +5,7 @@
 #include "controller/importer.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "widgets/scrollbar.h"
 #include <QBuffer>
 #include <QDebug>
 #include <QEvent>
@@ -19,7 +20,10 @@
 
 namespace {
 
-const int LEFT_RIGHT_MARGIN = 16;
+const int TOP_SPACING = 65;
+const int BOTTOM_SPACING = 30;
+const int LEFT_MARGIN = 16;
+const int RIGHT_MARGIN = 16;
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
 
@@ -31,6 +35,9 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     : QListView(parent),
       m_model(new QStandardItemModel(this))
 {
+    setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
+    m_scrollbar = new ScrollBar;
+    setVerticalScrollBar(m_scrollbar);
     setSelectionRectVisible(false);
     setIconSize(QSize(THUMBNAIL_MIN_SIZE, THUMBNAIL_MIN_SIZE));
     m_delegate = new ThumbnailDelegate(this);
@@ -41,22 +48,14 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setStyleSheet(utils::base::getFileContent(
                       ":/qss/resources/qss/ThumbnailListView.qss"));
 
-    setMovement(QListView::Free);
-    setFrameStyle(QFrame::NoFrame);
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);
     setFlow(QListView::LeftToRight);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     setDragEnabled(false);
-
-    viewport()->installEventFilter(this);
-    connect(model(), &QAbstractItemModel::rowsInserted,
-            this, &ThumbnailListView::fixedViewPortSize);
-    connect(model(), &QAbstractItemModel::rowsRemoved,
-            this, &ThumbnailListView::fixedViewPortSize);
 }
 
 ThumbnailListView::~ThumbnailListView()
@@ -85,8 +84,6 @@ void ThumbnailListView::setIconSize(const QSize &size)
     for (int i = 0; i < m_model->rowCount(); i ++) {
         m_model->setData(m_model->index(i, 0), QVariant(size), Qt::SizeHintRole);
     }
-
-    fixedViewPortSize();
 }
 
 QMutex mutex;
@@ -99,13 +96,11 @@ void ThumbnailListView::insertItem(const ItemInfo &info)
 
     // Lock for model's data reading and setting in diffrent thread
     // Can not use QMutex because the data-operation not in the same class
-    m_delegate->setIsDataLocked(true);
-    m_model->appendRow(new QStandardItem());
-
-    QModelIndex index = m_model->index(m_model->rowCount() - 1, 0);
-    m_model->setData(index, QVariant(getVariantList(info)), Qt::DisplayRole);
-    m_model->setData(index, QVariant(iconSize()), Qt::SizeHintRole);
-    m_delegate->setIsDataLocked(false);
+//    m_delegate->setIsDataLocked(true);
+    QStandardItem *item = new QStandardItem;
+    item->setData(QVariant(getVariantList(info)), Qt::DisplayRole);
+    item->setData(QVariant(iconSize()), Qt::SizeHintRole);
+    m_model->appendRow(item);
 }
 
 void ThumbnailListView::updateItem(const ThumbnailListView::ItemInfo &info)
@@ -216,27 +211,6 @@ const QList<ThumbnailListView::ItemInfo> ThumbnailListView::selectedItemInfos()
     return infos;
 }
 
-bool ThumbnailListView::eventFilter(QObject *obj, QEvent *e)
-{
-    if (obj == viewport() && e->type() == QEvent::Paint) {
-        fixedViewPortSize();
-    }
-
-    return QListView::eventFilter(obj, e);
-}
-
-QSize ThumbnailListView::viewportSizeHint() const
-{
-    if (! model()) {
-        return QSize(-1, -1);
-    }
-    int count = model()->rowCount();
-    int row = qCeil(1.0 * count / maxColumn());
-    int h = row * (iconSize().height() + ITEM_SPACING);
-    int w = maxColumn() * (iconSize().width() + ITEM_SPACING) + ITEM_SPACING * 2;
-    return QSize(w, h);
-}
-
 void ThumbnailListView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags)
 {
 //    if (flags & QItemSelectionModel::Clear) {
@@ -308,17 +282,38 @@ void ThumbnailListView::paintEvent(QPaintEvent *e)
 
 void ThumbnailListView::wheelEvent(QWheelEvent *e)
 {
-    e->ignore();
-}
-
-void ThumbnailListView::fixedViewPortSize()
-{
-    setFixedSize(viewportSizeHint());
+    QScrollBar *sb = verticalScrollBar();
+    if (e->orientation() == Qt::Vertical &&
+            sb->value() <= sb->maximum() &&
+            sb->value() >= sb->minimum()) {
+        if (e->modifiers() == Qt::ControlModifier) {
+            emit changeItemSize(e->delta() > 0);
+        }
+        else {
+            QApplication::sendEvent(sb, e);
+        }
+    }
+    else {
+        QApplication::sendEvent(horizontalScrollBar(), e);
+    }
 }
 
 int ThumbnailListView::horizontalOffset() const
 {
-    return -ITEM_SPACING;
+    const int contentWidth = (iconSize().width() + ITEM_SPACING) * maxColumn();
+    return -(this->width() - contentWidth - contentsHMargin()) / 2;
+}
+
+int ThumbnailListView::verticalOffset() const
+{
+    // FIXME:
+    // 此处是为了让VIew在最顶端时能有一个topmargin而在滚动 的时候又能穿透到最上面，
+    // 但这不是一个好方法
+    if (m_scrollbar->value() == 0 ||
+            m_scrollbar->value() < (m_scrollbar->maximum() - m_scrollbar->minimum()) / 2)
+        return QListView::verticalOffset() - TOP_SPACING;
+    else
+        return QListView::verticalOffset() + BOTTOM_SPACING;
 }
 
 void ThumbnailListView::mouseReleaseEvent(QMouseEvent *e)
@@ -331,6 +326,7 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *e)
 void ThumbnailListView::mousePressEvent(QMouseEvent *e)
 {
     QListView::mousePressEvent(e);
+    m_scrollbar->stopScroll();
     emit mousePressed(e);
 }
 
@@ -338,13 +334,13 @@ int ThumbnailListView::maxColumn() const
 {
     int hMargin = contentsHMargin();
 
-    int c = (parentWidget()->width() - hMargin - ITEM_SPACING) / (iconSize().width() + ITEM_SPACING);
+    int c = (parentWidget()->width() - hMargin - ITEM_SPACING*3) / (iconSize().width() + ITEM_SPACING);
     return c;
 }
 
 int ThumbnailListView::contentsHMargin() const
 {
-    return LEFT_RIGHT_MARGIN*2;
+    return viewportMargins().left() + viewportMargins().right();
 }
 
 int ThumbnailListView::contentsVMargin() const

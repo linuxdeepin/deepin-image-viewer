@@ -31,11 +31,10 @@ signals:
 private:
     ItemData itemData(const QModelIndex &index) const;
     QPixmap thumbnail(const ThumbnailDelegate::ItemData &data) const;
-    void startThumbnailThread(const QString &path) const;
+    void startThumbnailThread(const ThumbnailDelegate::ItemData &data) const;
 
 private:
-    bool m_isDataLocked;
-    mutable QList<TDThumbnailThread *> m_threads;
+    mutable QMap<QString, TDThumbnailThread *> m_threads;
 };
 
 #endif // ALBUMDELEGATE_H

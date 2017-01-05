@@ -4,6 +4,7 @@
 #include <QListView>
 #include <QFutureWatcher>
 
+class ScrollBar;
 class QStandardItemModel;
 class ThumbnailDelegate;
 class ThumbnailListView : public QListView
@@ -34,20 +35,17 @@ public:
 
 signals:
     void mousePressed(QMouseEvent *e);
+    void changeItemSize(bool increase);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
-    QSize viewportSizeHint() const Q_DECL_OVERRIDE;
     void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags) Q_DECL_OVERRIDE;
     int horizontalOffset() const Q_DECL_OVERRIDE;
+    int verticalOffset() const Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
-
-private slots:
-    void fixedViewPortSize();
 
 private:
     int contentsHMargin() const;
@@ -59,6 +57,7 @@ private:
     QRect m_selectionRect;
     QStandardItemModel *m_model;
     ThumbnailDelegate *m_delegate;
+    ScrollBar *m_scrollbar;
 };
 
 #endif // THUMBNAILLISTVIEW_H

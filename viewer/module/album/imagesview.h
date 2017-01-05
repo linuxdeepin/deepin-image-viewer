@@ -14,6 +14,7 @@
 #include <QKeyEvent>
 #include <QObject>
 #include <QThread>
+#include <QStackedWidget>
 
 class ImportFrame;
 class LoadThread;
@@ -21,7 +22,7 @@ class QMenu;
 class QStandardItemModel;
 class QStackedWidget;
 
-class ImagesView : public QScrollArea
+class ImagesView : public QStackedWidget
 {
     Q_OBJECT
 public:
@@ -50,7 +51,6 @@ signals:
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 
 private:
     enum MenuItemId {
@@ -101,9 +101,7 @@ private:
     QString m_album;
     TopAlbumTips *m_topTips;
     ThumbnailListView *m_view;
-    QVBoxLayout *m_contentLayout;
     QMenu *m_menu;
-    QWidget *m_contentWidget;
     ImportFrame *m_importFrame;
     QList<LoadThread *> m_loadingThreads;
 };

@@ -363,6 +363,7 @@ QMutex mutex;
 const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
     QMutexLocker locker(&mutex);
+
     const QString cacheP = thumbnailCachePath();
     const QUrl url = QUrl::fromLocalFile(path);
     const QString md5s = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());
@@ -384,14 +385,6 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
             return QPixmap();
         }
     }
-//    if (getOrientation(path).isEmpty() && ! highQuality) {
-//        auto bitmap = freeimage::makeThumbnail(path, THUMBNAIL_MAX_SIZE);
-//        if (bitmap != NULL) {
-//            return QPixmap::fromImage(freeimage::FIBitmapToQImage(bitmap));
-//        }
-//    }
-
-//    return scaleImage(path);
 }
 
 /*!
