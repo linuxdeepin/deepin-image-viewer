@@ -1,16 +1,18 @@
 ﻿#ifndef TIMELINEBTCONTENT_H
 #define TIMELINEBTCONTENT_H
 
-#include <QWidget>
+#include "widgets/themewidget.h"
 
 class Slider;
 class QHBoxLayout;
 class QLabel;
-class TimelineBTContent : public QWidget
+class TimelineBTContent : public ThemeWidget
 {
     Q_OBJECT
 public:
-    explicit TimelineBTContent(QWidget *parent = 0);
+    explicit TimelineBTContent(const QString& darkStyle,
+                               const QString& lightStyle,
+                               QWidget *parent = 0);
     void updateImageCount();
     void changeItemSize(bool increase);
     int iconSize() const;

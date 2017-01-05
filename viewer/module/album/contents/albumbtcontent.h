@@ -1,16 +1,18 @@
 #ifndef ALBUMBTCONTENT_H
 #define ALBUMBTCONTENT_H
 
-#include <QWidget>
+#include "widgets/themewidget.h"
 
 class Slider;
 class QHBoxLayout;
 class QLabel;
-class AlbumBTContent : public QWidget
+class AlbumBTContent : public ThemeWidget
 {
     Q_OBJECT
 public:
-    explicit AlbumBTContent(QWidget *parent = 0);
+    explicit AlbumBTContent(const QString& darkStyle,
+                            const QString& lightStyle,
+                            QWidget *parent = 0);
     void updateCount();
     void changeItemSize(bool increase);
 

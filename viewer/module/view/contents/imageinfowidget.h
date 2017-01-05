@@ -2,6 +2,7 @@
 #define IMAGEINFOWIDGET_H
 
 #include "controller/viewerthememanager.h"
+#include "widgets/themewidget.h"
 
 #include <QWidget>
 #include <QLabel>
@@ -11,11 +12,13 @@
 class QFormLayout;
 class QVBoxLayout;
 class ViewSeparator;
-class ImageInfoWidget : public QScrollArea
+class ImageInfoWidget : public ThemeScrollArea
 {
     Q_OBJECT
 public:
-    explicit ImageInfoWidget(QWidget *parent = 0);
+    explicit ImageInfoWidget(const QString& darkStyle,
+                             const QString& lightStyle,
+                             QWidget *parent = 0);
     void setImagePath(const QString &path);
     void updateInfo();
 //    QSize sizeHint() const override;
@@ -29,7 +32,7 @@ private:
     const QString trLabel(const char *str);
     void updateBaseInfo(const QMap<QString, QString> &infos);
     void updateDetailsInfo(const QMap<QString, QString> &infos);
-    void onThemeChanged(ViewerThemeManager::AppTheme dark);
+
 private:
     int m_updateTid = 0;
     int m_maxTitleWidth;  //For align colon

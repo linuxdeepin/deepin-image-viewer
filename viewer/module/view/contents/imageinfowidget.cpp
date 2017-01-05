@@ -100,11 +100,10 @@ protected:
 
 #include "imageinfowidget.moc"
 
-ImageInfoWidget::ImageInfoWidget(QWidget *parent)
-    : QScrollArea(parent),
+ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightStyle, QWidget *parent)
+    : ThemeScrollArea(darkStyle, lightStyle, parent),
       m_maxTitleWidth(maxTitleWidth())
 {
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setObjectName("ImageInfoScrollArea");
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
@@ -144,8 +143,6 @@ ImageInfoWidget::ImageInfoWidget(QWidget *parent)
     contentLayout->addStretch();
 
     setWidget(content);
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &ImageInfoWidget::onThemeChanged);
 }
 
 
@@ -261,14 +258,4 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
     }
 
     m_separator->setVisible(m_exifLayout_details->count() > 0);
-}
-
-void ImageInfoWidget::onThemeChanged(ViewerThemeManager::AppTheme dark) {
-    if (dark == ViewerThemeManager::Dark) {
-        this->setStyleSheet(utils::base::getFileContent(
-                                ":/resources/dark/qss/view.qss"));
-    } else {
-        this->setStyleSheet(utils::base::getFileContent(
-                                ":/resources/light/qss/view.qss"));
-    }
 }
