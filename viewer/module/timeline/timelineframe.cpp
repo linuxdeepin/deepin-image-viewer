@@ -252,6 +252,10 @@ void TimelineFrame::removeItem(const DBImgInfo &info)
     data.path = info.filePath;
     data.timeline = utils::base::timeToString(info.time, true);
 
+    // NOTE: THIS IS IMPORTANT
+    // clear the selection to avoid call selectedPaths read some invalid data
+    clearSelection();
+
     m_model.removeData(data);
     m_infos.removeAll(info);
 
