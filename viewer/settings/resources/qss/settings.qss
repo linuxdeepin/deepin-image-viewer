@@ -1,4 +1,4 @@
-* {
+QScrollArea,SlideshowFrame,ShortcutFrame, TitleFrame, QFrame#CloseButtonFrame {
     background: white;
     border:none;
 }

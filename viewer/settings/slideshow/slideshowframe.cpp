@@ -9,6 +9,7 @@
 #include <QStyleFactory>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QStyleFactory>
 
 namespace {
 
@@ -87,12 +88,8 @@ void SlideshowFrame::initInterval()
     timeLayout->addSpacing(37);
     timeLayout->addWidget(new Title3(tr("Switch duration")));
 
-    QSignalBlocker blocker(DThemeManager::instance());
-    Q_UNUSED(blocker);
-//    DThemeManager::instance()->setTheme("light");
     DSimpleComboBox *dcb = new DSimpleComboBox(this);
-//    DThemeManager::instance()->setTheme("dark");
-//    dcb->setStyle(QStyleFactory::create("dlight"));
+    dcb->setStyle(QStyleFactory::create("dlight"));
     dcb->setFixedSize(238, 26);
     QStringList intervalList;
     for (int i = 2; i < 6; i ++){

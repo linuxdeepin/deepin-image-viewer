@@ -2,9 +2,9 @@
 #define TITLEFRAME_H
 
 #include "titlebutton.h"
-#include <QWidget>
+#include <QFrame>
 
-class TitleFrame : public QWidget
+class TitleFrame : public QFrame
 {
     Q_OBJECT
 public:

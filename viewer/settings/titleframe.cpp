@@ -10,7 +10,7 @@ const int MAX_HEIGHT = 560;
 }
 
 TitleFrame::TitleFrame(QWidget *parent)
-    : QWidget(parent)
+    : QFrame(parent)
 {
     setFixedSize(MAX_WIDTH, MAX_HEIGHT);
 

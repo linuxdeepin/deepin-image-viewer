@@ -47,7 +47,7 @@ static ShortcutKey ShortcutAlbumKeys[] = {
 }
 
 ShortcutFrame::ShortcutFrame(QWidget *parent)
-    :QWidget(parent)
+    :QFrame(parent)
 {
     checkShortcut();
 
