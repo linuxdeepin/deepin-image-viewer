@@ -1,5 +1,6 @@
 #include "baseutils.h"
 #include <FreeImage.h>
+#include <QDateTime>
 #include <QFileInfo>
 #include <QImage>
 #include <QImageReader>
@@ -124,9 +125,16 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     QFileInfo info(path);
     QImageReader reader(path);
     if (admMap.isEmpty()) {
+        admMap.insert("DateTimeOriginal", info.created().toString("yyyy.MM.dd HH:mm:ss"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy.MM.dd HH:mm:ss"));
+    }
+    else {
+        // ReFormat the date-time
         using namespace utils::base;
-        admMap.insert("DateTimeOriginal", timeToString(info.created()));
-        admMap.insert("DateTimeDigitized", timeToString(info.lastModified()));
+        QDateTime ot = stringToDateTime(admMap.value("DateTimeOriginal"));
+        QDateTime dt = stringToDateTime(admMap.value("DateTimeDigitized"));
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy.MM.dd HH:mm:ss"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy.MM.dd HH:mm:ss"));
     }
     // The value of width and height might incorrect
     int w = reader.size().width();

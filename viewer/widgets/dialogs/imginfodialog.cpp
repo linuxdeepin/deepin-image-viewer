@@ -120,7 +120,7 @@ void ImgInfoDialog::initInfos(const QString &path)
         ll->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
 
         QFontMetrics fm(this->font());
-        v = fm.elidedText(v, Qt::ElideMiddle, 140);
+        v = fm.elidedText(v, Qt::ElideMiddle, 250);
         QLabel * rl = new QLabel(v);
         rl->setObjectName("DataField");
         infoLayout->addRow(ll, rl);
