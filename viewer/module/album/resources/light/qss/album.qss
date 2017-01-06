@@ -65,6 +65,7 @@ QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {
 QLabel#CountLabel, QLabel#ImportLabel {
     color: rgba(0, 0, 0, .7);
     font-size: 11px;
+    font-weight: light;
 }
 
 

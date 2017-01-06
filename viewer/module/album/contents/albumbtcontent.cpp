@@ -102,9 +102,7 @@ void AlbumBTContent::initMiddleContent()
     m_label->setAlignment(Qt::AlignCenter);
     m_label->setObjectName("CountLabel");
     m_label->setContentsMargins(SLIDER_WIDTH, 0, 0, 0);
-    QFont font;
-    font.setWeight(25);
-    m_label->setFont(font);
+
     QWidget *w = new QWidget;
     QHBoxLayout *hl = new QHBoxLayout(w);
     hl->setContentsMargins(SLIDER_WIDTH, 0, 0, 0);

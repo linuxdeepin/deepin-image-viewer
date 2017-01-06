@@ -194,9 +194,7 @@ void PushButton::paintEvent(QPaintEvent *e)
         spacing = m_spacing;
     }
 
-    QFont font;
-    font.setWeight(25);
-    QFontMetrics fm(font);
+    QFontMetrics fm(font());
     const int tw = width() - m.left() - spacing - ph - m.right();
     const int th = fm.height();
     const QRect textRect(m.left() + ph + spacing, (height() - th) / 2,

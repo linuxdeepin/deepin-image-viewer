@@ -5,4 +5,5 @@ QLabel#ButtonTooltip {
     padding: 4px 7px 4px 7px;
     color: #303030;
     font-size: 12px;
+    font-weight: light;
 }

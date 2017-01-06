@@ -57,6 +57,7 @@ QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {
 QLabel#CountLabel, QLabel#ImportLabel {
     color: #FFFFFF;
     font-size: 11px;
+    font-weight: light;
 }
 
 QLineEdit#AlbumNameLineEdit {
