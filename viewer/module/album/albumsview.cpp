@@ -60,7 +60,7 @@ AlbumsView::AlbumsView(QWidget *parent)
     setDragEnabled(false);
 
     m_menu = new QMenu;
-    m_menu->setStyle(QStyleFactory::create("light"));
+    m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(m_menu, &QMenu::triggered, this, &AlbumsView::onMenuItemClicked);
 
     connect(this, &AlbumsView::doubleClicked,
