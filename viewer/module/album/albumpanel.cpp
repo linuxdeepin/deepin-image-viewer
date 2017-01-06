@@ -416,6 +416,12 @@ void AlbumPanel::onImageCountChanged()
              && albumCounts == 1) {
         m_stackWidget->setCurrentIndex(0);
     }
+
+    if (! m_mContent.isNull()) {
+        m_mContent->setInAlbumView(m_stackWidget->currentIndex() == 1);
+        m_mContent->updateCount();
+        m_mContent->updateSliderDefaultValue();
+    }
 }
 
 void AlbumPanel::onInsertIntoAlbum(const DBImgInfo info)
