@@ -1,3 +1,6 @@
+QLabel#TopleftLogo {
+    border-image: url(:/resources/dark/images/deepin_image_viewer_24.png);
+}
 QLabel#TimelineFrameTitle {
     background: transparent;
     color: #FFFFFF;

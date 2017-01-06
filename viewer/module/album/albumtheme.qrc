@@ -49,5 +49,7 @@
         <file>resources/light/images/return_hover.png</file>
         <file>resources/light/images/return_normal.png</file>
         <file>resources/light/images/return_press.png</file>
+        <file>resources/dark/images/deepin_image_viewer_24.png</file>
+        <file>resources/light/images/deepin_image_viewer_24.png</file>
     </qresource>
 </RCC>

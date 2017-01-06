@@ -1,3 +1,7 @@
+QLabel#TopleftLogo {
+    border-image: url(:/resources/dark/images/deepin_image_viewer_24.png);
+}
+
 QWidget#ImagesViewContent {
     background: #1B1B1B;
 }

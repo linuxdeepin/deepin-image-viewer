@@ -65,10 +65,12 @@ QWidget *TimelinePanel::toolbarBottomContent()
 
 QWidget *TimelinePanel::toolbarTopLeftContent()
 {
-    QWidget *w = new QWidget;
+    ThemeWidget *w = new ThemeWidget(":/resources/dark/qss/timeline.qss",
+                                     ":/resources/light/qss/timeline.qss");
 
     QLabel *label = new QLabel;
-    label->setPixmap(QPixmap(":/images/logo/resources/images/logo/deepin_image_viewer_24.png"));
+    label->setObjectName("TopleftLogo");
+    label->setFixedSize(24, 24);
     QHBoxLayout *layout = new QHBoxLayout(w);
     layout->setContentsMargins(ICON_MARGIN, 0, 0, 0);
     layout->addWidget(label);

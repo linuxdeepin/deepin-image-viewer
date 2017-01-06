@@ -34,5 +34,7 @@
         <file>resources/light/images/lineargradient.png</file>
         <file>resources/dark/images/default_thumbnail.png</file>
         <file>resources/light/images/default_thumbnail.png</file>
+        <file>resources/dark/images/deepin_image_viewer_24.png</file>
+        <file>resources/light/images/deepin_image_viewer_24.png</file>
     </qresource>
 </RCC>

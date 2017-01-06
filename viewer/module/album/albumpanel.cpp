@@ -150,8 +150,9 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
         layout->addStretch();
     }
     else {
-        PushButton *icon = new PushButton;
-        icon->setNormalPic(":/images/logo/resources/images/logo/deepin_image_viewer_24.png");
+        QLabel *icon = new QLabel;
+        icon->setObjectName("TopleftLogo");
+        icon->setFixedSize(24, 24);
         layout->addWidget(icon);
     }
 
