@@ -80,10 +80,6 @@ QLabel#BtmSeparatorLine {
     margin-left: 15px;
     margin-right: 15px;
 }
-QLabel#TooltipCountLabel {
-    font-size: 8px;
-    color: rgba(255, 255, 255, 130);
-}
 
 QLabel#TopTimelineTip {
     font-size: 12px;

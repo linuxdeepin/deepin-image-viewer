@@ -44,6 +44,9 @@ public:
         setObjectName("TopTimelineTip");
         setStyleSheet(parent->styleSheet());
         setFixedHeight(24);
+        QFont font;
+        font.setWeight(12);
+        setFont(font);
     }
     void setLeftMargin(int v) {setContentsMargins(v, 0, 0, 0);}
 };

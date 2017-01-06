@@ -14,6 +14,9 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
     m_infoLabel = new QLabel();
     m_infoLabel->setObjectName("AlbumInfoTipsLabel");
 
+    QFont font;
+    font.setWeight(25);
+    m_infoLabel->setFont(font);
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(13, 0, 13, 0);
     m_layout->addWidget(m_infoLabel);

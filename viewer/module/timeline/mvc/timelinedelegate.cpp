@@ -99,6 +99,7 @@ void TimelineDelegate::paint(QPainter *painter,
         // Draw text
         QPen p(m_dateColor);
         QFont f;f.setPixelSize(12);
+        f.setWeight(25);
         painter->setPen(p);
         painter->setFont(f);
         painter->drawText(option.rect, data.timeline);

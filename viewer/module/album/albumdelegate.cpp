@@ -34,7 +34,7 @@ const int THUMBNAIL_BG_MARGIN = 8;
 const int BG_TEXT_SPACING = 5;
 const int TEXTRECT_MARGIN = 20;
 const int ALBUMNAME_FONTSIZE = 12;
-
+const int FONT_WEIGHT = 25;
 //const int DATELABEL_FONT_SIZE = 9;
 const QColor DARK_DATELABEL_COLOR = QColor(255, 255, 255, 153);
 const QColor LIGHT_DATELABEL_COLOR = QColor(48, 48, 48, 255);
@@ -298,7 +298,7 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         albumNameOption.setWrapMode(QTextOption::WordWrap);
         QFont albumNameFont(painter->font());
         albumNameFont.setPixelSize(ALBUMNAME_FONTSIZE);
-
+        albumNameFont.setWeight(FONT_WEIGHT);
         const QFontMetrics fm(albumNameFont);
         QSize ts(qMin(fm.width(albumName) + TEXTRECT_MARGIN, rect.width()),
                  fm.height() + 2);
@@ -390,6 +390,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     const QString title = yearTitle(beginTime, endTime);
     QFont font;
     font.setPixelSize(bgSize.height() * 0.068);
+    font.setWeight(FONT_WEIGHT);
     QPen titlePen(m_dateColor);
     painter.setFont(font);
     painter.setPen(titlePen);

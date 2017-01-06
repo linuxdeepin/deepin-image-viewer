@@ -55,13 +55,8 @@ QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {
     font-size: 12px;
 }
 QLabel#CountLabel, QLabel#ImportLabel {
-    color: rgba(255, 255, 255, .7);
+    color: #FFFFFF;
     font-size: 11px;
-}
-
-QLabel#TooltipCountLabel {
-    font-size: 8px;
-    color: rgba(255, 255, 255, 130);
 }
 
 QLineEdit#AlbumNameLineEdit {
@@ -77,12 +72,9 @@ QLabel#AlbumInfoTipsLabel {
     color: #FFFFFF;
 }
 
-QPushButton#ActionButton {
-    font-size: 12px;
-}
-
 TopAlbumTips {
     height: 24px;
+    font-size: 12px;
     border-image: url(:/resources/dark/images/lineargradient.png) repeat;
 }
 
