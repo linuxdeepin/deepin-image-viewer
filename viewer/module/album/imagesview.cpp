@@ -9,7 +9,6 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/importframe.h"
-#include "widgets/scrollbar.h"
 #include "widgets/dialogs/filedeletedialog.h"
 
 #include <QDebug>
@@ -63,14 +62,9 @@ private:
 #include "imagesview.moc"
 
 ImagesView::ImagesView(QWidget *parent)
-    : QScrollArea(parent)
+    : QStackedWidget(parent)
 {
     setObjectName("ImagesView");
-    setFrameStyle(QFrame::NoFrame);
-    setWidgetResizable(true);
-    setVerticalScrollBar(new ScrollBar(this));
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
 
     initContent();
     initPopupMenu();
@@ -123,9 +117,11 @@ void ImagesView::initListView()
     m_view = new ThumbnailListView();
     m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
-    m_contentLayout->addWidget(m_view, 0, Qt::AlignCenter);
-    m_contentLayout->addStretch(1);
 
+    addWidget(m_view);
+
+    connect(m_view, &ThumbnailListView::changeItemSize,
+            this, &ImagesView::changeItemSize);
     connect(m_view, &ThumbnailListView::clicked,
             this, &ImagesView::updateMenuContents);
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
@@ -140,12 +136,6 @@ void ImagesView::initListView()
         if (m_view->indexAt(pos).isValid()) {
             updateMenuContents();
             m_menu->popup(QCursor::pos());
-        }
-    });
-    connect(m_view, &ThumbnailListView::mousePressed, this, [=] {
-        ScrollBar *sb = dynamic_cast<ScrollBar *>(verticalScrollBar());
-        if (sb) {
-            sb->stopScroll();
         }
     });
 }
@@ -386,15 +376,9 @@ bool ImagesView::allInAlbum(const QStringList &paths, const QString &album)
 
 void ImagesView::updateTopTipsRect()
 {
-    if (this->widget() != m_contentWidget) {
-        m_topTips->setVisible(false);
-        return;
-    }
-
     m_topTips->move(0, TOP_TOOLBAR_HEIGHT);
     m_topTips->resize(width(), m_topTips->height());
-    const int lm =
-            - m_view->hOffset() + m_contentLayout->contentsMargins().left();
+    const int lm = - m_view->hOffset();
     m_topTips->setLeftMargin(lm);
     m_topTips->setVisible(true);
 }
@@ -428,19 +412,8 @@ QStringList ImagesView::selectedPaths() const
 
 void ImagesView::resizeEvent(QResizeEvent *e)
 {
-    QScrollArea::resizeEvent(e);
+    QStackedWidget::resizeEvent(e);
     updateTopTipsRect();
-}
-
-void ImagesView::wheelEvent(QWheelEvent *e)
-{
-    if (e->modifiers() == Qt::ControlModifier) {
-        emit changeItemSize(e->delta() > 0);
-        e->accept();
-    }
-    else {
-        QScrollArea::wheelEvent(e);
-    }
 }
 
 void ImagesView::initItems()
@@ -470,11 +443,6 @@ void ImagesView::initPopupMenu()
 
 void ImagesView::initContent()
 {
-    m_contentWidget = new QWidget;
-    m_contentWidget->setObjectName("ImagesViewContent");
-    m_contentLayout = new QVBoxLayout(m_contentWidget);
-    m_contentLayout->setContentsMargins(0, 70, 0, 20);
-
     m_importFrame = new ImportFrame(this);
 
     m_importFrame->setButtonText(tr("Import"));
@@ -486,26 +454,16 @@ void ImagesView::initContent()
     initListView();
     initTopTips();
 
-    setWidget(m_contentWidget);
-    m_importFrame->setVisible(false);
+    addWidget(m_importFrame);
 }
 
 void ImagesView::updateContent()
 {
     if (dApp->dbM->getImgsCountByAlbum(m_album) < 1) {
-        // For avoid widget destroy
-        takeWidget();
-        m_contentWidget->setVisible(false);
-        setWidget(m_importFrame);
-        m_importFrame->setVisible(true);
+        setCurrentWidget(m_importFrame);
     }
-    else if (widget() != m_contentWidget){
-        // For avoid widget destroy
-        takeWidget();
-        m_importFrame->setVisible(false);
-        setWidget(m_contentWidget);
-        m_contentWidget->setVisible(true);
-        updateTopTipsRect();
+    else {
+        setCurrentWidget(m_view);
     }
 }
 

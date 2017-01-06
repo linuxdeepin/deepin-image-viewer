@@ -1,13 +1,15 @@
 #ifndef TIMELINE_DELEGATE_H
 #define TIMELINE_DELEGATE_H
 
-#include <QObject>
 #include <QDateTime>
+#include <QMap>
+#include <QObject>
 #include <QStyledItemDelegate>
 
 #include "timelineitem.h"
 #include "controller/viewerthememanager.h"
 
+class QMutex;
 class TLThumbnailThread;
 class TimelineDelegate : public QStyledItemDelegate {
     Q_OBJECT
@@ -27,7 +29,7 @@ signals:
 private:
     TimelineItem::ItemData itemData(const QModelIndex &index) const;
     QPixmap thumbnail(const TimelineItem::ItemData &data) const;
-    void startThumbnailThread(const QString &path) const;
+    void startThumbnailThread(const TimelineItem::ItemData &data) const;
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
 private:
@@ -35,7 +37,7 @@ private:
     QColor m_dateColor;
     QColor m_seperatorColor;
     QString m_defaultThumbnail;
-    mutable QList<TLThumbnailThread *> m_threads;
+    mutable QMap<QString, TLThumbnailThread *> m_threads;
 };
 
 #endif // TIMELINE_DELEGATE_H

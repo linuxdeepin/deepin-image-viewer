@@ -39,23 +39,32 @@ const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 class TLThumbnailThread : public QThread {
     Q_OBJECT
 public:
-    explicit TLThumbnailThread(const QString &path);
+    explicit TLThumbnailThread(const TimelineItem::ItemData &data);
     const QString path() const;
 
 signals:
-    void ready(const QString &path);
+    void reGenerated(const QString &path);
+    void cached(QString path, QPixmap pixmap);
 
 protected:
     void run() Q_DECL_OVERRIDE;
 
 private:
     QString m_path;
+    TimelineItem::ItemData m_data;
 };
 
 
 TimelineDelegate::TimelineDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
+    // Avoid thumbnail-thread being called too ofen
+    QTimer *t = new QTimer(this);
+    connect(t, &QTimer::timeout, this, [=] {
+        m_threads.clear();
+    });
+    t->start(1000);
+
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &TimelineDelegate::onThemeChanged);
@@ -156,70 +165,66 @@ TimelineItem::ItemData TimelineDelegate::itemData(const QModelIndex &index) cons
 QPixmap TimelineDelegate::thumbnail(const TimelineItem::ItemData &data) const
 {
     QPixmap thumb;
-    using namespace utils::image;
-    const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-    if (! QFileInfo(data.path).exists()) {
-        thumb.loadFromData(data.thumbArray);
-        return thumb;
-    }
-    else if (! thumbnailExist(data.path)) {
+    thumb.loadFromData(data.thumbArray);
+    if (thumb.isNull()) {
         if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
-            thumb = cutSquareImage(QPixmap(m_defaultThumbnail), ms);
+            const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+            thumb = utils::image::cutSquareImage(QPixmap(m_defaultThumbnail), ms);
             QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
         }
-        startThumbnailThread(data.path);
     }
-    else {
-        QString thumbMTime = getThumbnail(data.path, true).toImage().text("Thumb::MTime");
-        QString sourceMTime = QString::number(QFileInfo(data.path).lastModified().toTime_t());
-        // If the file has been changed and thumbnail didn't
-        if (thumbMTime != sourceMTime) {
-            startThumbnailThread(data.path);
-        }
-        else {
-            thumb.loadFromData(data.thumbArray);
-            // The thumbnail may regenerate by other model
-            if (thumb.toImage().text("Thumb::MTime") != sourceMTime) {
-                thumb = QPixmap();
-                startThumbnailThread(data.path);
-            }
-        }
-    }
+    startThumbnailThread(data);
 
     return thumb;
 }
 
-void TimelineDelegate::startThumbnailThread(const QString &path) const
+void TimelineDelegate::startThumbnailThread(const TimelineItem::ItemData &data) const
 {
-    for (auto t : m_threads) {
-        if (t->path() == path)
-            return;
+    if (m_threads.keys().contains(data.path)) {
+        return;
     }
-    TLThumbnailThread *t = new TLThumbnailThread(path);
+
+    TLThumbnailThread *t = new TLThumbnailThread(data);
     connect(t, &TLThumbnailThread::finished, this, [=] {
-        m_threads.removeAll(t);
         t->deleteLater();
     });
-    connect(t, &TLThumbnailThread::ready, this,
-            &TimelineDelegate::thumbnailGenerated);
+    connect(t, &TLThumbnailThread::reGenerated,
+            this, &TimelineDelegate::thumbnailGenerated);
+    m_threads.insert(data.path, t);
     t->start();
 }
 
 #include "timelinedelegate.moc"
-TLThumbnailThread::TLThumbnailThread(const QString &path)
+TLThumbnailThread::TLThumbnailThread(const TimelineItem::ItemData &data)
     : QThread()
-    , m_path(path)
+    , m_data(data)
 {
 
 }
 
 const QString TLThumbnailThread::path() const
 {
-    return m_path;
+    return m_data.path;
 }
 
 void TLThumbnailThread::run()
 {
-    utils::image::generateThumbnail(m_path);
-    emit ready(m_path);
+    using namespace utils::image;
+    QString thumbMTime = getThumbnail(m_data.path, true).toImage().text("Thumb::MTime");
+    QString sourceMTime = QString::number(QFileInfo(m_data.path).lastModified().toTime_t());
+    // If the file has been changed and thumbnail didn't
+    if (thumbMTime != sourceMTime) {
+        generateThumbnail(m_data.path);
+        // Emit this signal to make model update
+        emit reGenerated(m_data.path);
+    }
+    else {
+        QPixmap thumb;
+        thumb.loadFromData(m_data.thumbArray);
+        // The thumbnail may regenerate by other model
+        if (thumb.toImage().text("Thumb::MTime") != sourceMTime) {
+            generateThumbnail(m_data.path);
+            emit reGenerated(m_data.path);
+        }
+    }
 }
