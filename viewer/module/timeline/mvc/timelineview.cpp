@@ -148,15 +148,15 @@ void TimelineView::scrollTo(const QModelIndex &index, QAbstractItemView::ScrollH
     const QRect rect = visualRect(index);
     if (hint == EnsureVisible && ! viewport()->rect().contains(rect)) {
         int viewportHeight = viewportSizeHint().height();
-        double scrollPer = 1.0 * (m_itemSize + m_vItemSpacing) / viewportHeight;
-        int scrollValue = verticalScrollBar()->value();
-        if (rect.y() < viewport()->y()) {
-            scrollValue -= (verticalScrollBar()->maximum() -
-                            verticalScrollBar()->minimum()) * scrollPer;
-        }
-        else {
-            scrollValue += (verticalScrollBar()->maximum() -
-                            verticalScrollBar()->minimum()) * scrollPer;
+        int scrollLen = verticalScrollBar()->maximum()
+                - verticalScrollBar()->minimum()
+                + verticalScrollBar()->pageStep();
+        int scrollValue = (1.0 * rect.y() + verticalOffset()) / viewportHeight
+                * scrollLen;
+
+        if (m_cursorAction == MoveDown
+                || m_cursorAction == MovePageDown) {
+            scrollValue -= this->height() - m_itemSize - m_vItemSpacing;
         }
 
         verticalScrollBar()->setValue(scrollValue);
@@ -192,6 +192,7 @@ QModelIndex TimelineView::moveCursor(QAbstractItemView::CursorAction cursorActio
     if (! model())
         return QModelIndex();
 
+    m_cursorAction = cursorAction;
     auto indexs = selectionModel()->selectedIndexes();
     QModelIndex current = selectionModel()->currentIndex();
     if (indexs.length() < 1) {
@@ -229,6 +230,10 @@ QModelIndex TimelineView::moveCursor(QAbstractItemView::CursorAction cursorActio
     case MoveDown:
         ccp.setY(ccp.y() + m_itemSize + m_vItemSpacing);
         break;
+    case MovePageUp:
+        return movePageUp();
+    case MovePageDown:
+        return movePageDown();
     default:
         break;
     }
@@ -459,6 +464,44 @@ int TimelineView::maxColumnCount() const
         return 1;
     else
         return c;
+}
+
+QModelIndex TimelineView::movePageUp()
+{
+    auto indexs = selectionModel()->selectedIndexes();
+    if (indexs.isEmpty())
+        return QModelIndex();
+    QModelIndex index = indexs.first();
+    QPoint p = visualRect(index).topLeft();
+    p.setY(p.y()  - verticalScrollBar()->pageStep() + m_itemSize + m_vItemSpacing);
+    QModelIndex ti = indexAt(p);
+    if (! ti.isValid()) {
+        // Return the first ThumbnailItem
+        QModelIndex titleIndex = model()->index(0, 0);
+        return model()->index(0, 0, titleIndex);
+    }
+    else {
+        return ti;
+    }
+}
+
+QModelIndex TimelineView::movePageDown()
+{
+    auto indexs = selectionModel()->selectedIndexes();
+    if (indexs.isEmpty())
+        return QModelIndex();
+    QModelIndex index = indexs.first();
+    QPoint p = visualRect(index).topLeft();
+    p.setY(p.y()  + verticalScrollBar()->pageStep()*2 - m_itemSize - m_vItemSpacing);
+    QModelIndex ti = indexAt(p);
+    if (! ti.isValid()) {
+        // Return the last ThumbnailItem
+        QModelIndex titleIndex = model()->index(model()->rowCount() - 1, 0);
+        return model()->index(0, model()->columnCount(titleIndex) - 1, titleIndex);
+    }
+    else {
+        return ti;
+    }
 }
 
 void TimelineView::updateVerticalScrollbar()

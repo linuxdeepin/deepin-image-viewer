@@ -73,6 +73,8 @@ protected:
 private:
     QModelIndexList visualIndexs() const;
     int maxColumnCount() const;
+    QModelIndex movePageUp();
+    QModelIndex movePageDown();
     void updateVerticalScrollbar();
     void updateVisualRects();
 
@@ -89,6 +91,7 @@ private:
     int m_bottomMargin;
     int m_topMargin;
 
+    CursorAction m_cursorAction;
     ScrollBar *m_sb;
     QMutex m_mutex;
     QRect m_selectionRect;  // 为了绘制划定选中的方框
