@@ -105,6 +105,7 @@ void ImagesView::removeItems(const QStringList &paths)
 {
     m_view->removeItems(paths);
 
+    // Update tip's info
     m_topTips->setAlbum(m_album);
     updateContent();
 }
@@ -181,10 +182,11 @@ void ImagesView::insertItem(const DBImgInfo &info, bool update)
     vi.thumb = cutSquareImage(getThumbnail(vi.path, true));
 
     m_view->insertItem(vi);
+    // Update tip's info
+    m_topTips->setAlbum(m_album);
 
     if (update) {
         m_view->update();
-        m_topTips->setAlbum(m_album);
         updateContent();
     }
 }
@@ -200,6 +202,10 @@ void ImagesView::insertItems(const DBImgInfoList &infos)
 
         m_view->insertItem(vi);
     }
+
+    // Update tip's info
+    m_topTips->setAlbum(m_album);
+
     updateContent();
 }
 
@@ -442,6 +448,9 @@ void ImagesView::initItems()
     });
     m_loadingThreads.append(t);
     t->start();
+
+    // Update tip's info
+    m_topTips->setAlbum(m_album);
     updateContent();
 }
 
