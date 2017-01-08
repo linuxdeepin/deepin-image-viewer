@@ -124,8 +124,16 @@ void ImagesView::initListView()
             this, &ImagesView::changeItemSize);
     connect(m_view, &ThumbnailListView::clicked,
             this, &ImagesView::updateMenuContents);
+    // When user use cursor to drag to select area
+    // The signal will be triggered frequently
+    // Use timer to reset it
+    QTimer *t = new QTimer(this);
+    t->setSingleShot(true);
+    connect(t, &QTimer::timeout, this, &ImagesView::updateMenuContents);
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
-            this, &ImagesView::updateMenuContents);
+            this, [=] {
+        t->start(200);
+    });
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
         const QString path = m_view->itemInfo(index).path;

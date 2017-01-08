@@ -192,8 +192,19 @@ void TimelineFrame::initView()
     connect(m_view, &TimelineView::showMenu, this, &TimelineFrame::showMenu);
     connect(m_view, &TimelineView::changeItemSize,
             this, &TimelineFrame::changeItemSize);
+
+    // When user use cursor to drag to select area
+    // The signal will be triggered frequently
+    // Use timer to reset it
+    QTimer *t = new QTimer(this);
+    t->setSingleShot(true);
+    connect(t, &QTimer::timeout, this, [=] {
+        emit selectIndexChanged(m_view->selectionModel()->currentIndex());
+    });
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
-            this, &TimelineFrame::selectIndexChanged);
+            this, [=] {
+        t->start(200);
+    });
 }
 
 void TimelineFrame::initTopTip()
