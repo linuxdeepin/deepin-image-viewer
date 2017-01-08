@@ -115,11 +115,20 @@ const QString TimelineFrame::currentMonth() const
 {
     using namespace utils::base;
     if (m_view->paintingIndexs().length() > 0) {
-        QModelIndex index = m_view->paintingIndexs().first();
-        QVariantList datas = m_model.data(index, Qt::DisplayRole).toList();
-        if (datas.count() == 4) { // There is 4 field data inside TimelineData
-            return datas[2].toString();
-        }
+        QPoint p(m_view->horizontalOffset() + m_view->itemSize() / 2, m_view->itemSize() / 2);
+        int count = 0;
+        while (count <= 3) {
+            QModelIndex index = m_view->indexAt(p);
+            QVariantList datas = m_model.data(index, Qt::DisplayRole).toList();
+            if (datas.count() == 4) { // There is 4 field data inside TimelineData
+                return datas[2].toString();
+            }
+            else {
+                // The p may contain by title-index
+                p.setY(p.y() + m_view->titleHeight());
+            }
+            count ++;
+        };
     }
 
     return QString();

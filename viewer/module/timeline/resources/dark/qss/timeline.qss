@@ -87,6 +87,7 @@ QLabel#BtmSeparatorLine {
 
 QLabel#TopTimelineTip {
     font-size: 12px;
+    font-weight: 25;
     color: #FFFFFF;
     border-image: url(:/resources/dark/images/lineargradient.png) repeat;
 }
