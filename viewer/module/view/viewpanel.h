@@ -93,7 +93,7 @@ private slots:
     void resetImageGeometry();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateLocalImages();
-    void showPrintDialog(const QString imgPath);
+    void showPrintDialog(const QStringList &paths);
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;

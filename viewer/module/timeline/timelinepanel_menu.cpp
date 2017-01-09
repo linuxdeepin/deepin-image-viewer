@@ -16,6 +16,7 @@
 #include <QPainter>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
+#include <iterator>
 
 namespace {
 
@@ -201,7 +202,7 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
         dApp->signalM->startSlideShow(vinfo);
         break;
     case IdPrint: {
-        showPrintDialog(dpath);
+        showPrintDialog(paths);
         break;
     }
     case IdAddToAlbum: {
@@ -273,25 +274,34 @@ void TimelinePanel::rotateImage(const QString &path, int degree)
     }
 }
 
-void  TimelinePanel::showPrintDialog(const QString &imgPath) {
-    QPrinter printer(QPrinter::ScreenResolution);
+void  TimelinePanel::showPrintDialog(const QStringList &paths) {
+    QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
     QPixmap img;
-    qDebug() << "img load result:" << img.load(imgPath);
-    if (img.width() > img.height())
-        printer.setPageOrientation(QPageLayout::Landscape);
-
-    QRect pageOriginRect = printer.pageRect();
-    QSize pageRect = QSize(pageOriginRect.width() - 8,
-                           pageOriginRect.height() - 8);
-
-    img = img.scaled(pageRect, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     QPrintDialog* printDialog = new QPrintDialog(&printer, this);
     printDialog->resize(400, 300);
     if (printDialog->exec() == QDialog::Accepted) {
         QPainter painter(&printer);
-        painter.drawPixmap(0, 0, img);
+        QList<QString>::const_iterator i;
+        for(i = paths.begin(); i!= paths.end(); ++i){
+            if (!img.load(*i)) {
+                qDebug() << "img load failed" << *i;
+                continue;
+            }
+            if (img.width() > img.height())
+                printer.setPageOrientation(QPageLayout::Landscape);
+            else
+                printer.setPageOrientation(QPageLayout::Portrait);
+            QRect pageOriginRect = printer.pageRect();
+            QSize pageRect = QSize(pageOriginRect.width() - 8,
+                                   pageOriginRect.height() - 8);
+            img = img.scaled(pageRect, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+            painter.drawPixmap(0, 0, img);
+            if (i != paths.end() - 1)
+                printer.newPage();
+        }
         painter.end();
         qDebug() << "print succeed!";
         return;

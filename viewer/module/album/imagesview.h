@@ -86,7 +86,7 @@ private:
     void appendAction(int id, const QString &text, const QString &shortcut);
     void onMenuItemClicked(QAction *action);
     void popupDelDialog(const QStringList &paths);
-    void showPrintDialog(const QString& imgPath);
+    void showPrintDialog(const QStringList &paths);
     void rotateImage(const QString &path, int degree);
     void updateMenuContents();
     void updateContent();
