@@ -7,6 +7,7 @@
 #include <QCursor>
 #include <QPropertyAnimation>
 #include <QVBoxLayout>
+#include <QStyleFactory>
 
 namespace {
 
@@ -67,12 +68,15 @@ ContentsFrame::ContentsFrame(QWidget *parent)
                                         ":/settings/images/resources/images/close_hover.png",
                                         ":/settings/images/resources/images/close_press.png");
     connect(cb, &DImageButton::clicked, parent->window(), &QWidget::hide);
-    QHBoxLayout *tbl = new QHBoxLayout;
+    QFrame *cbf = new QFrame;
+    cbf->setObjectName("CloseButtonFrame");
+    cbf->setContentsMargins(0, 0, 0, 0);
+    QHBoxLayout *tbl = new QHBoxLayout(cbf);
     tbl->setContentsMargins(0, 3, 3, 0);
     tbl->setSpacing(0);
     tbl->addStretch();
     tbl->addWidget(cb);
-    m_layout->addLayout(tbl);
+    m_layout->addWidget(cbf);
 
     // Scroll area
     initScrollArea();
@@ -94,11 +98,8 @@ void ContentsFrame::setCurrentID(const TitleButton::SettingID id)
 void ContentsFrame::initScrollArea()
 {
     m_area = new QScrollArea;
-    QSignalBlocker blocker(DThemeManager::instance());
-    Q_UNUSED(blocker);
-//    DThemeManager::instance()->setTheme("light");
-    DScrollBar* sb = new DScrollBar();
-//    DThemeManager::instance()->setTheme("dark");
+    QScrollBar* sb = new QScrollBar();
+    sb->setStyle(QStyleFactory::create("dlight"));
     m_area->setVerticalScrollBar(sb);
     sb->setContextMenuPolicy(Qt::PreventContextMenu);
     connect(sb, &DScrollBar::valueChanged,

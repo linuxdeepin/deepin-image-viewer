@@ -1,10 +1,10 @@
 #ifndef SHORTCUTFRAME_H
 #define SHORTCUTFRAME_H
 
-#include <QWidget>
+#include <QFrame>
 
 class QVBoxLayout;
-class ShortcutFrame : public QWidget
+class ShortcutFrame : public QFrame
 {
     Q_OBJECT
 public:
