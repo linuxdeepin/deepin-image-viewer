@@ -212,7 +212,8 @@ void MainWidget::initTopToolbar()
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
-    m_topSeparatorLine = new Separator(this);
+    m_topSeparatorLine = new QLabel(this);
+    m_topSeparatorLine->setObjectName("TopSeperatorLine");
     m_topSeparatorLine->resize(window()->width(), 1);
     qDebug() << window()->width() << this->width() << m_topSeparatorLine->width();
     m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
@@ -293,7 +294,7 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
 
-    m_btmSeparatorLine = new Separator(this);
+    m_btmSeparatorLine = new QLabel(this);
     m_btmSeparatorLine->setObjectName("BtmSeperatorLine");
     m_btmSeparatorLine->resize(window()->width(), 1);
     m_btmSeparatorLine->move(0, window()->height() -

@@ -7,5 +7,9 @@ QFrame {
 }
 
 QLabel#BtmSeperatorLine {
-    background-color: rgba(0, 0, 0, .2);
+    background-color: rgba(0, 0, 0, .5);
+}
+
+QLabel#TopSeperatorLine {
+    background-color: rgba(0, 0, 0, 0.95);
 }

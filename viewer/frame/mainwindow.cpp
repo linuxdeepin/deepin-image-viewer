@@ -125,10 +125,11 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 
 bool MainWindow::windowAtEdge() {
     //TODO: process the multi-screen
-    QRect currentRect = window()->rect();
+    QRect currentRect = window()->geometry();
     bool atSeperScreenPos = false;
-    if (currentRect.x() == 0 || currentRect.x() ==
-            window()->x() + window()->width()) {
+
+    if (currentRect.x() == 0 || qAbs(currentRect.right() -
+           dApp->primaryScreen()->geometry().width()) <= 5) {
         atSeperScreenPos = true;
     }
 

@@ -1,7 +1,7 @@
 #include "bottomtoolbar.h"
 #include "application.h"
 namespace {
-const QColor DARK_COVERCOLOR = QColor(30, 30, 30, 204);
+const QColor DARK_COVERCOLOR = QColor(26, 26, 26, 204);
 const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
 }
 BottomToolbar::BottomToolbar(QWidget *parent)

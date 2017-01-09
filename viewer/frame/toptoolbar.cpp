@@ -31,7 +31,7 @@ namespace {
 const int TOP_TOOLBAR_HEIGHT = 40;
 const int ICON_MARGIN = 6;
 
-//const QColor DARK_COVERCOLOR = QColor(30, 30, 30, 204);
+//const QColor DARK_COVERCOLOR = QColor(0, 0, 0, 217);
 //const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
 
 const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 13);
@@ -118,7 +118,7 @@ void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
 
 
     if (curTheme == ViewerThemeManager::Dark) {
-        setCoverBrush(QBrush(QColor(30, 30, 30, 204)));
+        setCoverBrush(QBrush(QColor(0, 0, 0, 217)));
         m_topBorderColor = DARK_TOP_BORDERCOLOR;
         m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
 

@@ -47,8 +47,8 @@ private:
     BottomToolbar   *m_bottomToolbar;
     ExtensionPanel  *m_extensionPanel;
     TopToolbar      *m_topToolbar;
-    Separator       *m_topSeparatorLine;
-    Separator       *m_btmSeparatorLine;
+    QLabel          *m_topSeparatorLine;
+    QLabel          *m_btmSeparatorLine;
 };
 
 #endif // MAINWIDGET_H
