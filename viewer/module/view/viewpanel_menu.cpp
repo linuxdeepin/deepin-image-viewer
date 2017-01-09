@@ -138,7 +138,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        showPrintDialog(path);
+        showPrintDialog(QStringList(path));
         break;
     }
     case IdAddToAlbum: {
