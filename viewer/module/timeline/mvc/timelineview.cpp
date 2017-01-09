@@ -469,8 +469,12 @@ int TimelineView::maxColumnCount() const
 QModelIndex TimelineView::movePageUp()
 {
     auto indexs = selectionModel()->selectedIndexes();
-    if (indexs.isEmpty())
-        return QModelIndex();
+    if (indexs.isEmpty()) {
+        indexs = m_paintingIndexs;
+        if (indexs.isEmpty()) {
+            return QModelIndex();
+        }
+    }
     QModelIndex index = indexs.first();
     QPoint p = visualRect(index).topLeft();
     p.setY(p.y()  - verticalScrollBar()->pageStep() + m_itemSize + m_vItemSpacing);
@@ -488,8 +492,12 @@ QModelIndex TimelineView::movePageUp()
 QModelIndex TimelineView::movePageDown()
 {
     auto indexs = selectionModel()->selectedIndexes();
-    if (indexs.isEmpty())
-        return QModelIndex();
+    if (indexs.isEmpty()) {
+        indexs = m_paintingIndexs;
+        if (indexs.isEmpty()) {
+            return QModelIndex();
+        }
+    }
     QModelIndex index = indexs.first();
     QPoint p = visualRect(index).topLeft();
     p.setY(p.y()  + verticalScrollBar()->pageStep()*2 - m_itemSize - m_vItemSpacing);

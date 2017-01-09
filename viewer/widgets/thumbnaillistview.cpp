@@ -211,19 +211,6 @@ const QList<ThumbnailListView::ItemInfo> ThumbnailListView::selectedItemInfos()
     return infos;
 }
 
-QModelIndex ThumbnailListView::moveCursor(QAbstractItemView::CursorAction cursorAction,
-                                          Qt::KeyboardModifiers modifiers)
-{
-    switch (cursorAction) {
-    case MovePageUp:
-        return movePageUp();
-    case MovePageDown:
-        return movePageDown();
-    default:
-        return QListView::moveCursor(cursorAction, modifiers);
-    }
-}
-
 void ThumbnailListView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags)
 {
 //    if (flags & QItemSelectionModel::Clear) {
@@ -349,40 +336,6 @@ int ThumbnailListView::maxColumn() const
 
     int c = (parentWidget()->width() - hMargin - ITEM_SPACING*3) / (iconSize().width() + ITEM_SPACING);
     return c;
-}
-
-QModelIndex ThumbnailListView::movePageUp()
-{
-    auto indexs = selectionModel()->selectedIndexes();
-    if (indexs.isEmpty())
-        return QModelIndex();
-    QModelIndex index = indexs.first();
-    QPoint p = visualRect(index).topLeft();
-    p.setY(p.y()  - verticalScrollBar()->pageStep() + iconSize().height() + ITEM_SPACING);
-    QModelIndex ti = indexAt(p);
-    if (! ti.isValid()) {
-        return model()->index(0, 0);
-    }
-    else {
-        return ti;
-    }
-}
-
-QModelIndex ThumbnailListView::movePageDown()
-{
-    auto indexs = selectionModel()->selectedIndexes();
-    if (indexs.isEmpty())
-        return QModelIndex();
-    QModelIndex index = indexs.first();
-    QPoint p = visualRect(index).topLeft();
-    p.setY(p.y()  + verticalScrollBar()->pageStep()*2 - iconSize().height() - ITEM_SPACING);
-    QModelIndex ti = indexAt(p);
-    if (! ti.isValid()) {
-        return model()->index(model()->rowCount() - 1, 0);
-    }
-    else {
-        return ti;
-    }
 }
 
 int ThumbnailListView::contentsHMargin() const

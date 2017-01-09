@@ -38,7 +38,6 @@ signals:
     void changeItemSize(bool increase);
 
 protected:
-    QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers) Q_DECL_OVERRIDE;
     void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags) Q_DECL_OVERRIDE;
     int horizontalOffset() const Q_DECL_OVERRIDE;
     int verticalOffset() const Q_DECL_OVERRIDE;
@@ -52,8 +51,6 @@ private:
     int contentsHMargin() const;
     int contentsVMargin() const;
     int maxColumn() const;
-    QModelIndex movePageUp();
-    QModelIndex movePageDown();
     const QVariantList getVariantList(const ItemInfo &info);
 
 private:
