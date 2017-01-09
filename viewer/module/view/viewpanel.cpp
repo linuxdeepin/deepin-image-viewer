@@ -677,22 +677,23 @@ void  ViewPanel::showPrintDialog(const QStringList &paths) {
     m_printDialogVisible = true;
     if (printDialog->exec() == QDialog::Accepted) {
         QPainter painter(&printer);
+        QRectF drawRectF; QRect wRect;
         QList<QString>::const_iterator i;
         for(i = paths.begin(); i!= paths.end(); ++i){
             if (!img.load(*i)) {
                 qDebug() << "img load failed" << *i;
                 continue;
             }
-            if (img.width() > img.height())
-                printer.setPageOrientation(QPageLayout::Landscape);
-            else
-                printer.setPageOrientation(QPageLayout::Portrait);
-            QRect pageOriginRect = printer.pageRect();
-            QSize pageRect = QSize(pageOriginRect.width() - 8,
-                                   pageOriginRect.height() - 8);
-            img = img.scaled(pageRect, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-            painter.drawPixmap(0, 0, img);
+            wRect = printer.pageRect();
+            if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                img = img.scaled(wRect.size(), Qt::KeepAspectRatio,
+                                 Qt::SmoothTransformation);
+            }
+            drawRectF = QRectF(qreal(wRect.width() - img.width())/2,
+                               qreal(wRect.height() - img.height())/2,
+                              img.width(), img.height());
+            painter.drawPixmap(drawRectF.x(), drawRectF.y(), img.width(),
+                               img.height(), img);
             if (i != paths.end() - 1)
                 printer.newPage();
         }
