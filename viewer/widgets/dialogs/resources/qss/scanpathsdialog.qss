@@ -1,0 +1,91 @@
+ScanPathsDialog {
+    background: white;
+}
+
+QWidget#PathsContent {
+    background: white;
+}
+
+QScrollArea#PathsScrollArea {
+    background: white;
+    border: none;
+}
+
+QLabel#TitleLabel {
+    font-size: 12px;
+    color: #303030;
+}
+
+QLabel#MessageLabel {
+    font-size: 12px;
+    color: #424242;
+}
+
+QLabel#EmptyFrame {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    color: #bcbcbc;
+}
+
+QPushButton#AddButton {
+    border-image: url(:/dialogs/images/resources/images/add_btn_normal.png) 3 0 0 0;
+    padding-bottom: 3px;
+    outline: none;
+    color: #0699ff;
+    font-size: 14px;
+}
+
+QPushButton#AddButton:hover {
+    border-image: url(:/dialogs/images/resources/images/add_btn_hover.png) 3 0 0 0;
+    color: #ffffff;
+}
+
+QPushButton#AddButton:pressed {
+    border-image: url(:/dialogs/images/resources/images/add_btn_press.png) 3 0 0 0;
+    color: #ffffff;
+}
+
+ImageButton#CloseButton {
+    qproperty-normalPic: url(":/dialogs/images/resources/images/close_normal.svg");
+    qproperty-hoverPic: url(":/dialogs/images/resources/images/close_hover.svg");
+    qproperty-pressPic: url(":/dialogs/images/resources/images/close_press.svg");
+}
+
+/******************************************************************************/
+PathItem {
+    border-radius: 4;
+    background: white;
+}
+
+PathItem:hover {
+    border-radius: 4;
+    background: rgba(0, 0, 0, 0.05);
+}
+QLabel#PathItemIcon {
+    image: url(:/dialogs/images/resources/images/dir.png);
+}
+QLabel#PathItemDirLabel {
+    font-size: 12px;
+    color: #303030;
+}
+QLabel#PathItemPathLabel {
+    font-size: 12px;
+    color: rgba(48,48,48,0.5);
+}
+QLabel#PathItemCountLabel {
+    font-size: 12px;
+    color: rgba(48,48,48,0.5);
+}
+QFrame#PathItemMiddleContent {
+    border-width: 0px 0px 1px 0px;
+    border-color: rgba(0, 0, 0, 0.05);
+    border-style: solid;
+}
+QFrame#PathItemMiddleContent:hover {
+    border: none;
+}
+ImageButton#PathItemRemoveButton {
+    qproperty-normalPic: url(:/dialogs/images/resources/images/tab-close-normal.png);
+    qproperty-hoverPic: url(:/dialogs/images/resources/images/tab-close-hover.png);
+    qproperty-pressPic: url(:/dialogs/images/resources/images/tab-close-press.png);
+}

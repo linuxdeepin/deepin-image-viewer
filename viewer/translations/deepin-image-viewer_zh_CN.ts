@@ -247,6 +247,13 @@
     </message>
 </context>
 <context>
+    <name>CountingThread</name>
+    <message>
+        <source>Images</source>
+        <translation>张图片</translation>
+    </message>
+</context>
+<context>
     <name>CreateAlbumDialog</name>
     <message>
         <source>New album</source>
@@ -693,6 +700,13 @@
     </message>
 </context>
 <context>
+    <name>PathItem</name>
+    <message>
+        <source>Calculating...</source>
+        <translation>正在计算...</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Date photoed</source>
@@ -789,6 +803,37 @@
     <message>
         <source>Ring</source>
         <translation>圆环</translation>
+    </message>
+</context>
+<context>
+    <name>ScanPathsDialog</name>
+    <message>
+        <source>Select Directory</source>
+        <translation>选择文件夹</translation>
+    </message>
+    <message>
+        <source>This Directory can not be select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The path is already in scan paths list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The path is contain by scan paths list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add folder</source>
+        <translation>添加文件夹</translation>
+    </message>
+    <message>
+        <source>Auto scan directory manage</source>
+        <translation>自动扫描目录管理</translation>
+    </message>
+    <message>
+        <source>The folder list is empty</source>
+        <translation>目录列表为空</translation>
     </message>
 </context>
 <context>

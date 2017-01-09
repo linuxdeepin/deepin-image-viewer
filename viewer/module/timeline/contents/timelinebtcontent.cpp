@@ -8,6 +8,7 @@
 #include "widgets/imagebutton.h"
 #include "widgets/loadingicon.h"
 #include "widgets/slider.h"
+#include "widgets/dialogs/scanpathsdialog.h"
 #include <QHBoxLayout>
 #include <QStackedLayout>
 
@@ -90,7 +91,8 @@ void TimelineBTContent::initImportBtn()
     ib->setToolTip(tr("Import"));
 
     connect(ib, &ImageButton::clicked, this, [=] {
-        dApp->importer->showImportDialog();
+//        dApp->importer->showImportDialog();
+        ScanPathsDialog::instance()->show();
     });
 
     m_layout->addWidget(ib);
