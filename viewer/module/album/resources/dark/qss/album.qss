@@ -6,6 +6,10 @@ QWidget#ImagesViewContent {
     background: #1B1B1B;
 }
 
+QListView#AlbumsView {
+    background-color: transparent;
+}
+
 QPushButton#ImportFromTimelineButton {
     font-size: 12px;
     color: #52abff;

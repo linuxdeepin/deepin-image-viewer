@@ -115,6 +115,7 @@ int ImagesView::count() const
 void ImagesView::initListView()
 {
     m_view = new ThumbnailListView();
+
     m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
 

@@ -46,7 +46,7 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     setItemDelegate(m_delegate);
     setModel(m_model);
     setStyleSheet(utils::base::getFileContent(
-                      ":/qss/resources/qss/ThumbnailListView.qss"));
+                      ":/resources/common/qss/ThumbnailListView.qss"));
 
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);

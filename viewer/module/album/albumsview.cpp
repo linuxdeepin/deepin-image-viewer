@@ -38,7 +38,7 @@ AlbumsView::AlbumsView(QWidget *parent)
       m_itemSize(ITEM_DEFAULT_SIZE)
 {
     setMouseTracking(true);
-    setObjectName("AlbumView");
+    setObjectName("AlbumsView");
     m_delegate = new AlbumDelegate(this);
     // Key event and focusout event will active this signal twice
     // Use QueuedConnection to avoid crash

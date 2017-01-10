@@ -301,7 +301,6 @@ void AlbumPanel::initAlbumsView()
 void AlbumPanel::initImagesView()
 {
     m_imagesView = new ImagesView(this);
-
     connect(m_imagesView, &ImagesView::changeItemSize,
             this, &AlbumPanel::updateMItemSize);
     connect(m_imagesView, &ImagesView::startSlideShow,
