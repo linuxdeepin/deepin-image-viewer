@@ -1,5 +1,5 @@
 QStackedWidget#PanelStack {
-    background: #1B1B1B;
+    background: #202020;
 }
 
 QFrame {

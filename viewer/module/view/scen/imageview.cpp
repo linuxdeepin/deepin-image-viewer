@@ -25,7 +25,7 @@ namespace {
 const QColor LIGHT_CHECKER_COLOR = QColor("#353535");
 const QColor DARK_CHECKER_COLOR = QColor("#050505");
 
-const QColor DARK_BACKGROUND_COLOR = QColor("#1B1B1B");
+const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
 const QColor LIGHT_BACKGROUND_COLOR = QColor(255, 255, 255);
 
 const qreal MAX_SCALE_FACTOR = 20.0;

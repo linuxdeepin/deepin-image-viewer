@@ -19,7 +19,7 @@
 namespace {
 
 const int LEFT_RIGHT_MARGIN = 24;
-const QColor DARK_BACKGROUND_COLOR = QColor("#1B1B1B");
+const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
 const QColor LIGHT_BACKGROUND_COLOR = QColor("#FFFFFF");
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 
