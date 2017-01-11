@@ -22,7 +22,7 @@ namespace {
 
 const int SWITCH_IMAGE_DELAY = 300;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
-const QString FAVORITES_ALBUM_NAME = "My favorites";
+const QString FAVORITES_ALBUM_NAME = "My favorite";
 
 QString ss(const QString &text)
 {
@@ -246,7 +246,8 @@ void ViewPanel::updateMenuContent()
                          tr("Add to my favorite"), ss("Add to my favorite"));
         } else {
             appendAction(IdRemoveFromFavorites,
-                         tr("Unfavorite"), ss("Unfavorite"));
+                         tr("Remove from my favorite"),
+                         ss("Remove from my favorite"));
         }
     }
     m_menu->addSeparator();

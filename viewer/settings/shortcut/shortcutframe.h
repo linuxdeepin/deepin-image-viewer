@@ -20,9 +20,9 @@ private:
     void initAlbumShortcut();
     void initResetButton();
     const QString trLabel(const char *str);
-    QMap<QString, QString> albumValues();
-    QMap<QString, QString> viewValues();
 
+    QMap<QString, QString> viewValues();
+    QMap<QString, QString> albumValues();
 private:
     QVBoxLayout *m_layout;
 };

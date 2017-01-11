@@ -27,7 +27,7 @@ namespace {
 const int ICON_MARGIN = 13;
 const int MAX_BUTTON_WIDTH = 200;
 const int MARGIN_DIFF = 82;
-const QString MY_FAVORITES_ALBUM = "My favorites";
+const QString MY_FAVORITES_ALBUM = "My favorite";
 const QString RECENT_IMPORT_ALBUM = "Recent imported";
 const QString SETTINGS_GROUP = "ALBUMPANEL";
 const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
@@ -142,7 +142,7 @@ QWidget *AlbumPanel::toolbarTopLeftContent()
 
         QString an = m_currentAlbum;
         if (m_currentAlbum == MY_FAVORITES_ALBUM) {
-            an = tr("My favorites");
+            an = tr("My favorite");
         }
         returnButton->setText(an);
 
