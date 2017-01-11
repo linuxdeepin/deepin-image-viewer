@@ -44,6 +44,7 @@ PushButton#ReturnBtn {
 ImageButton#TimelineBtn {
     qproperty-normalPic: url(:/resources/dark/images/timeline_normal.png);
     qproperty-hoverPic: url(:/resources/dark/images/timeline_hover.png);
+    qproperty-pressPic: url(:/resources/dark/images/timeline_press.png);
 }
 
 ImageButton#AlbumBtn {

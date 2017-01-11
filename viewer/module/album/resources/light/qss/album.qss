@@ -58,6 +58,7 @@ ImageButton#ImportBtn {
 ImageButton#TimelineBtn {
     qproperty-normalPic: url(:/resources/light/images/timeline_normal.png);
     qproperty-hoverPic: url(:/resources/light/images/timeline_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/timeline_press.png);
 }
 
 ImageButton#AlbumBtn {
