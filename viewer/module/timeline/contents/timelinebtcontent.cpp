@@ -112,7 +112,7 @@ void TimelineBTContent::initMiddleContent()
     LoadingIcon *lIcon = new LoadingIcon(this);
     hl->addWidget(lIcon);
     QLabel *l = new QLabel;
-    l->setMaximumWidth(350);
+    l->setFixedWidth(350);
     l->setObjectName("ImportLabel");
     hl->addWidget(l);
     hl->addStretch();
@@ -141,7 +141,8 @@ void TimelineBTContent::initMiddleContent()
     });
     connect(dApp->importer, &Importer::currentImport, this, [=] (const QString &path) {
         QFontMetrics fm(l->font());
-        l->setText(tr("Importing: ") + fm.elidedText(path, Qt::ElideMiddle, 230));
+        const QString s = tr("Importing: ") + path;
+        l->setText(fm.elidedText(s, Qt::ElideMiddle, l->width()));
     });
 
     m_layout->addLayout(layout);
