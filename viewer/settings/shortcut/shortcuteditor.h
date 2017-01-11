@@ -15,12 +15,14 @@ protected:
     void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
     void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 
 private:
     QSize stringSize(const QString &str);
     QRect drawTextRect(const QRect &lastRect, const QString &str, QPainter &painter);
     QString defaultValue();
     void updateValue();
+    void setShortcut(const QString &shortcut);
 
 private:
     int m_borderWidth;

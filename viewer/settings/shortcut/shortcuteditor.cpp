@@ -111,22 +111,28 @@ bool isModifiersKey(int key)
 void ShortcutEditor::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() != Qt::Key_Backspace) {
-        if (isModifiersKey(e->key()) || ! m_canSet)
+        if (isModifiersKey(e->key()) /*|| ! m_canSet*/)
             return;
         m_canSet = false;
         if (e->key() == Qt::Key_Delete) {
-            m_shortcut = QKeySequence(e->modifiers()).toString() + "Delete";
+            setShortcut(QKeySequence(e->modifiers()).toString() + "Delete");
         }
         else {
-            m_shortcut = QKeySequence(e->modifiers()).toString()
-                    + QKeySequence(e->key()).toString();
+            setShortcut(QKeySequence(e->modifiers()).toString()
+                        + QKeySequence(e->key()).toString());
         }
-        updateValue();
     }
     else {
         m_canSet = true;
         m_shortcut = QString();
     }
+    this->update();
+}
+
+void ShortcutEditor::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    QWidget::mouseDoubleClickEvent(e);
+    m_shortcut = QString();
     this->update();
 }
 
@@ -168,9 +174,9 @@ QRect ShortcutEditor::drawTextRect(const QRect &lastRect, const QString &str, QP
     painter.drawPath(borderPath);
 
     // Draw text
-    QRect tR(r.x() + 6, 5, r.width(), r.height());
+    QRect tR(r.x() + 6, 4, r.width(), r.height());
     QFont f;
-    f.setPixelSize(10);
+    f.setPixelSize(11);
     painter.setFont(f);
     painter.setPen(QPen(QColor("#434343")));
     painter.drawText(tR, str);
@@ -186,4 +192,18 @@ QString ShortcutEditor::defaultValue()
 void ShortcutEditor::updateValue()
 {
     dApp->setter->setValue(m_group, m_key, m_shortcut);
+}
+
+void ShortcutEditor::setShortcut(const QString &shortcut)
+{
+    QStringList keys = dApp->setter->keys(m_group);
+    for (QString key : keys) {
+        if (dApp->setter->value(m_group, key).toString() == shortcut) {
+            m_shortcut = defaultValue();
+            return;
+        }
+    }
+
+    m_shortcut = shortcut;
+    updateValue();
 }
