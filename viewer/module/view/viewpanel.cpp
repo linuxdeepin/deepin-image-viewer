@@ -33,9 +33,9 @@ using namespace Dtk::Widget;
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 40;
+const int TOP_TOOLBAR_HEIGHT = 39;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
-const QSize ICON_SIZE = QSize(48, 40);
+//const QSize ICON_SIZE = QSize(48, 40);
 
 }  // namespace
 

@@ -81,7 +81,7 @@ ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     if (titleBar()) titleBar()->setFixedHeight(0);
     setFixedSize(DIALOG_WIDTH, DIALOG_HEIGHT);
     setStyleSheet(utils::base::getFileContent(
-                      ":/dialogs/qss/resources/qss/scanpathsdialog.qss"));
+                      ":/resources/qss/scanpathsdialog.qss"));
 
     QWidget *w = new QWidget(this);
     setCentralWidget(w);

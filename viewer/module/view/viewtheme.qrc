@@ -109,5 +109,8 @@
         <file>resources/light/images/folder_press.png</file>
         <file>resources/light/images/naviwindow_bg.png</file>
         <file>resources/light/images/no_picture.png</file>
+        <file>resources/common/close_hover.png</file>
+        <file>resources/common/close_normal.png</file>
+        <file>resources/common/close_press.png</file>
     </qresource>
 </RCC>

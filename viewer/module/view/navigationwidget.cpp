@@ -1,6 +1,7 @@
 #include "application.h"
 #include "controller/configsetter.h"
 #include "navigationwidget.h"
+#include "widgets/imagebutton.h"
 
 #include <QPainter>
 #include <dwindowclosebutton.h>
@@ -38,10 +39,15 @@ NavigationWidget::NavigationWidget(QWidget *parent)
 {
     resize(150, 112);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    DWindowCloseButton *b = new DWindowCloseButton(this);
-    b->move(QPoint(this->x() + this->width() - 28,
-                   rect().topRight().y() + 2));
-    connect(b, &DWindowCloseButton::clicked, [this](){
+    ImageButton *closeBtn = new ImageButton(":/resources/common/close_normal.png",
+                ":/resources/common/close_hover.png",
+                ":/resources/common/close_press.png",
+                ":/resources/common/close_normal.png", this);
+    closeBtn->setFixedSize(27, 23);
+    closeBtn->move(QPoint(this->x() + this->width() - 27 - 6,
+                   rect().topRight().y() + 4));
+    closeBtn->show();
+    connect(closeBtn, &ImageButton::clicked, [this](){
         setAlwaysHidden(true);
     });
 

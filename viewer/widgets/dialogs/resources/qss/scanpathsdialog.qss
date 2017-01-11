@@ -28,7 +28,7 @@ QLabel#EmptyFrame {
 }
 
 QPushButton#AddButton {
-    border-image: url(:/dialogs/images/resources/images/add_btn_normal.png) 3 0 0 0;
+    border-image: url(:/resources/images/add_btn_normal.png) 3 0 0 0;
     padding-bottom: 3px;
     outline: none;
     color: #0699ff;
@@ -36,19 +36,19 @@ QPushButton#AddButton {
 }
 
 QPushButton#AddButton:hover {
-    border-image: url(:/dialogs/images/resources/images/add_btn_hover.png) 3 0 0 0;
+    border-image: url(:/resources/images/add_btn_hover.png) 3 0 0 0;
     color: #ffffff;
 }
 
 QPushButton#AddButton:pressed {
-    border-image: url(:/dialogs/images/resources/images/add_btn_press.png) 3 0 0 0;
+    border-image: url(:/resources/images/add_btn_press.png) 3 0 0 0;
     color: #ffffff;
 }
 
 ImageButton#CloseButton {
-    qproperty-normalPic: url(":/dialogs/images/resources/images/close_normal.svg");
-    qproperty-hoverPic: url(":/dialogs/images/resources/images/close_hover.svg");
-    qproperty-pressPic: url(":/dialogs/images/resources/images/close_press.svg");
+    qproperty-normalPic: url(":/resources/images/close_normal.png");
+    qproperty-hoverPic: url(":/resources/images/close_hover.png");
+    qproperty-pressPic: url(":/resources/images/close_press.png");
 }
 
 /******************************************************************************/
@@ -62,7 +62,7 @@ PathItem:hover {
     background: rgba(0, 0, 0, 0.05);
 }
 QLabel#PathItemIcon {
-    image: url(:/dialogs/images/resources/images/dir.png);
+    image: url(:/resources/images/dir.png);
 }
 QLabel#PathItemDirLabel {
     font-size: 12px;
@@ -85,7 +85,7 @@ QFrame#PathItemMiddleContent:hover {
     border: none;
 }
 ImageButton#PathItemRemoveButton {
-    qproperty-normalPic: url(:/dialogs/images/resources/images/tab-close-normal.png);
-    qproperty-hoverPic: url(:/dialogs/images/resources/images/tab-close-hover.png);
-    qproperty-pressPic: url(:/dialogs/images/resources/images/tab-close-press.png);
+    qproperty-normalPic: url(:/resources/images/tab-close-normal.png);
+    qproperty-hoverPic: url(:/resources/images/tab-close-hover.png);
+    qproperty-pressPic: url(:/resources/images/tab-close-press.png);
 }

@@ -28,7 +28,7 @@
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 40;
+const int TOP_TOOLBAR_HEIGHT = 39;
 const QString FAVORITES_ALBUM_NAME = "My favorites";
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";

@@ -24,7 +24,7 @@ using namespace Dtk::Widget;
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 40;
+const int TOP_TOOLBAR_HEIGHT = 39;
 const int BOTTOM_TOOLBAR_HEIGHT = 22;
 const int EXTENSION_PANEL_WIDTH = 240;
 

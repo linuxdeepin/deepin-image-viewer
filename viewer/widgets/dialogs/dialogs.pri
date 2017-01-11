@@ -20,3 +20,4 @@ SOURCES += \
 
 RESOURCES += \
     $$PWD/dialogs.qrc
+

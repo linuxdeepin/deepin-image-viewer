@@ -12,7 +12,7 @@ namespace {
 
 const QString FAVORITES_ALBUM = "My favorites";
 const int MARGIN_DIFF = 82;
-const QSize ICON_SIZE = QSize(48, 40);
+const QSize ICON_SIZE = QSize(48, 39);
 }  // namespace
 
 TTMContent::TTMContent(bool fromFileManager, QWidget *parent)

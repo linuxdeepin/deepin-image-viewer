@@ -82,9 +82,8 @@ QWidget *TimelinePanel::toolbarTopMiddleContent()
 {
     ThemeWidget *tTopMiddleContent = new ThemeWidget(":/resources/dark/qss/timeline.qss",
                                                      ":/resources/light/qss/timeline.qss");
-    QLabel *timelineButton = new QLabel();
-    timelineButton->setFixedSize(48, 40);
-    timelineButton->setObjectName("TimelineLabel");
+    ImageButton *timelineButton = new ImageButton();
+    timelineButton->setObjectName("TimelineBtn");
 
     ImageButton *albumButton = new ImageButton();
     albumButton->setObjectName("AlbumBtn");

@@ -47,8 +47,10 @@ QPushButton#AddToAlbumAdd:pressed {
             stop:0 #0B8Cff, stop:1 #0AA1FF);
     color: rgba(255, 255, 255, 178.5);
 }
-QLabel#TimelineLabel {
-    background-image: url(:/resources/dark/images/timeline_press.png);
+ImageButton#TimelineBtn {
+    qproperty-normalPic: url(:/resources/dark/images/timeline_press.png);
+    qproperty-hoverPic: url(:/resources/dark/images/timeline_press.png);
+    qproperty-pressPic: url(:/resources/dark/images/time_press.png);
 }
 
 ImageButton#AlbumBtn {
