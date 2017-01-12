@@ -21,7 +21,7 @@ namespace {
 
 const QString VIEW_GROUP = "SHORTCUTVIEW";
 const QString ALBUM_GROUP = "SHORTCUTALBUM";
-const QString MY_FAVORITES_ALBUM = "My favorites";
+const QString MY_FAVORITES_ALBUM = "My favorite";
 const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const int ITEM_SPACING = 61;
 const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);

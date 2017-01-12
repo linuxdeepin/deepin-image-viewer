@@ -9,7 +9,7 @@ namespace {
 
 const int LEFT_MARGIN = 13;
 const int MAX_BUTTON_WIDTH = 200;
-const QString FAVORITES_ALBUM_NAME = "My favorites";
+const QString FAVORITES_ALBUM_NAME = "My favorite";
 }  // namespace
 
 TTLContent::TTLContent(bool inDB, QWidget *parent) : QWidget(parent)
@@ -54,7 +54,7 @@ void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
 
 void TTLContent::setCurrentDir(QString text) {
     if (text == FAVORITES_ALBUM_NAME) {
-        text = tr("My favorites");
+        text = tr("My favorite");
     }
     m_returnBtn->setText(text);
     m_returnBtn->setMaximumWidth(this->width()/2);

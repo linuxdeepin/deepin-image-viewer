@@ -115,7 +115,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My favorites</source>
+        <source>My favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -266,10 +266,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rotate clockwise</source>
         <translation type="unfinished"></translation>
     </message>
@@ -319,6 +315,10 @@
     </message>
     <message>
         <source>Copy to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -499,18 +499,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stop slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -520,14 +508,6 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to My favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unfavorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -574,6 +554,46 @@
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop slide show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -603,22 +623,6 @@
 </context>
 <context>
     <name>ShortcutKey</name>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Remove from album</source>
         <translation type="unfinished"></translation>
@@ -664,11 +668,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
+        <source>Remove from my favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -713,7 +713,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My favorites</source>
+        <source>My favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -732,19 +732,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to My favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>1:1 Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -798,10 +798,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rotate clockwise</source>
         <translation type="unfinished"></translation>
     </message>
@@ -845,6 +841,10 @@
         <source>Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TitleFrame</name>
@@ -880,11 +880,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My favorites</source>
+        <source>Recent imported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Recent imported</source>
+        <source>My favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -962,10 +962,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Show navigation window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -995,6 +991,10 @@
     </message>
     <message>
         <source>Copy to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

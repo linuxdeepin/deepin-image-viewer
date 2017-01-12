@@ -20,7 +20,7 @@
 
 namespace {
 
-const QString FAVORITES_ALBUM_NAME = "My favorites";
+const QString FAVORITES_ALBUM_NAME = "My favorite";
 
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const QString SETTINGS_GROUP = "TIMEPANEL";
@@ -144,7 +144,8 @@ void TimelinePanel::updateMenuContents()
 
     //Multi-select don't support Unfavorites
     if (!unFavor && paths.length() == 1) {
-        appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
+        appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
+                     ss("Remove from my favorite"));
     } else if (!isCollected || unFavor) {
         appendAction(IdAddToFavorites,
                      tr("Add to my favorite"), ss("Add to my favorite"));

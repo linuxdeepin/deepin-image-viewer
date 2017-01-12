@@ -41,8 +41,8 @@ void TopAlbumTips::setLeftMargin(int v)
 
 const QString TopAlbumTips::trName(const QString &name) const
 {
-    if (name == "My favorites") {
-        return tr("My favorites");
+    if (name == "My favorite") {
+        return tr("My favorite");
     }
     else if (name == "Recent imported") {
         return tr("Recent imported");

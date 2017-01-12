@@ -17,6 +17,7 @@ ConfigSetter *ConfigSetter::instance()
     return m_setter;
 }
 
+
 void ConfigSetter::setValue(const QString &group, const QString &key,
                             const QVariant &value)
 {

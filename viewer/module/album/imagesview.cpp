@@ -245,7 +245,8 @@ void ImagesView::updateMenuContents()
         }
     }
     if (!unFavor && paths.length() == 1) {
-        appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
+        appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
+                     ss("Remove from my favorite"));
     }
     else if (!isCollected || unFavor ) {
         appendAction(IdAddToFavorites,

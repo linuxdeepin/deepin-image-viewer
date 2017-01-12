@@ -159,6 +159,10 @@
     </message>
     <message>
         <source>My favorites</source>
+        <translation type="vanished">我的收藏</translation>
+    </message>
+    <message>
+        <source>My favorite</source>
         <translation>我的收藏</translation>
     </message>
 </context>
@@ -516,7 +520,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -569,6 +573,10 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>复制到剪贴板</translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation>取消收藏</translation>
     </message>
 </context>
 <context>
@@ -848,7 +856,7 @@
     </message>
     <message>
         <source>Start slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Stop slide show</source>
@@ -856,7 +864,7 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="vanished">导入</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -872,11 +880,11 @@
     </message>
     <message>
         <source>Add to My favorites</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Unfavorites</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -921,6 +929,42 @@
     <message>
         <source>Settings</source>
         <translation>设置</translation>
+    </message>
+    <message>
+        <source>Start slideshow</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
+        <translation>收藏</translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation>取消收藏</translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation>查看</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>上一张</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一张</translation>
+    </message>
+    <message>
+        <source>Previous screen</source>
+        <translation>上一屏</translation>
+    </message>
+    <message>
+        <source>Next screen</source>
+        <translation>下一屏</translation>
+    </message>
+    <message>
+        <source>Display shortcuts</source>
+        <translation>显示快捷键</translation>
     </message>
 </context>
 <context>
@@ -969,11 +1013,11 @@
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation type="vanished">查看</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation type="vanished">全屏</translation>
     </message>
     <message>
         <source>Slideshow play</source>
@@ -985,11 +1029,11 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation type="vanished">复制</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation type="vanished">丢到回收站</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -1001,7 +1045,7 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
-        <translation type="vanished">取消收藏</translation>
+        <translation>取消收藏</translation>
     </message>
     <message>
         <source>Clockwise rotation</source>
@@ -1053,11 +1097,15 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="vanished">删除</translation>
+    </message>
+    <message>
+        <source>Throw to Trash</source>
+        <translation type="vanished">丢到回收站</translation>
     </message>
 </context>
 <context>
@@ -1113,6 +1161,10 @@
     </message>
     <message>
         <source>My favorites</source>
+        <translation type="vanished">我的收藏</translation>
+    </message>
+    <message>
+        <source>My favorite</source>
         <translation>我的收藏</translation>
     </message>
 </context>
@@ -1140,10 +1192,18 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Add to My favorites</source>
+        <translation type="vanished">收藏</translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation>取消收藏</translation>
+    </message>
+    <message>
+        <source>Add to my favorite</source>
         <translation>收藏</translation>
     </message>
 </context>
@@ -1229,7 +1289,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -1275,6 +1335,10 @@
         <source>Copy to clipboard</source>
         <translation>复制到剪贴板</translation>
     </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation>取消收藏</translation>
+    </message>
 </context>
 <context>
     <name>TimelineViewFrame</name>
@@ -1319,12 +1383,16 @@
     <message>
         <source>My favorites</source>
         <translatorcomment>我的收藏</translatorcomment>
-        <translation>我的收藏</translation>
+        <translation type="vanished">我的收藏</translation>
     </message>
     <message>
         <source>Recent imported</source>
         <translatorcomment>最近导入</translatorcomment>
         <translation>最近导入</translation>
+    </message>
+    <message>
+        <source>My favorite</source>
+        <translation>我的收藏</translation>
     </message>
 </context>
 <context>
@@ -1422,7 +1490,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -1487,6 +1555,10 @@
     <message>
         <source>My favorites</source>
         <translation type="vanished">我的收藏</translation>
+    </message>
+    <message>
+        <source>Remove from my favorite</source>
+        <translation>取消收藏</translation>
     </message>
 </context>
 <context>
