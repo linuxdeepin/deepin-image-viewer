@@ -97,17 +97,20 @@ void TimelineDelegate::paint(QPainter *painter,
     // Draw Timeline title
     if (data.isTitle) {
         // Draw text
+
         QPen p(m_dateColor);
         QFont f;f.setPixelSize(12);
         f.setWeight(25);
         painter->setPen(p);
         painter->setFont(f);
-        painter->drawText(option.rect, data.timeline);
+        QRect r = option.rect;
+        QRect texRect = QRect(r.x(), r.y() + 16, r.width(), r.height());
+        painter->drawText(texRect, data.timeline);
 
         // Draw separator
-        QRect r = option.rect;
-        r = QRect(r.x(), r.y() + r.height() - 8, r.width(), 1);
-        painter->fillRect(r, m_seperatorColor);
+
+        QRect sepRect = QRect(r.x(), r.y() + r.height() - 8, r.width(), 1);
+        painter->fillRect(sepRect, m_seperatorColor);
     }
     // Draw thumbnail
     else {
