@@ -5,7 +5,6 @@
 #include "extensionpanel.h"
 #include "toptoolbar.h"
 #include "controller/signalmanager.h"
-#include "controller/volumemonitor.h"
 #include "widgets/separator.h"
 
 #include <QFrame>
@@ -36,7 +35,6 @@ private:
     void initPanelStack(bool manager);
     void initStyleSheet();
 
-    void initVolumeMonitor();
     void initLocalImagesMonitor();
 
 private:

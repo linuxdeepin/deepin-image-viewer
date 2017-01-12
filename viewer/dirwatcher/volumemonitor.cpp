@@ -9,21 +9,37 @@
 #include <QDebug>
 
 namespace {
-    const char mountFile[] = "/proc/mounts";
-    QSet<QString> parseMountFile() {
-        using namespace utils::base;
-        QString fileContent = getFileContent(mountFile);
-        return QSet<QString>::fromList(fileContent.split("\n"));
+
+const char mountFile[] = "/proc/mounts";
+
+QSet<QString> parseMountFile()
+{
+    using namespace utils::base;
+    QString fileContent = getFileContent(mountFile);
+    return QSet<QString>::fromList(fileContent.split("\n"));
+}
+
+QString getMountPoint(const QString& record)
+{
+    const QStringList items = record.split(" ");
+    if (items.length() > 4) {
+        return items.at(1);
+    } else {
+        return "";
+    }
+}
+
+}  // namespace
+
+VolumeMonitor *VolumeMonitor::m_monitor = NULL;
+VolumeMonitor *VolumeMonitor::instance()
+{
+    if (! m_monitor) {
+        m_monitor = new VolumeMonitor;
+        m_monitor->start();
     }
 
-    QString getMountPoint(const QString& record) {
-        const QStringList items = record.split(" ");
-        if (items.length() > 4) {
-            return items.at(1);
-        } else {
-            return "";
-        }
-    }
+    return m_monitor;
 }
 
 VolumeMonitor::VolumeMonitor(QObject *parent)
@@ -32,7 +48,8 @@ VolumeMonitor::VolumeMonitor(QObject *parent)
     this->setObjectName("VolumeMonitor");
 }
 
-bool VolumeMonitor::start() {
+bool VolumeMonitor::start()
+{
     //get the set of mounted device's info;
     m_fileContentSet = parseMountFile();
 
@@ -50,26 +67,31 @@ bool VolumeMonitor::start() {
     return true;
 }
 
-bool VolumeMonitor::isRunning() {
+bool VolumeMonitor::isRunning()
+{
     if (m_fileKde!= -1 && m_socketNotifier) {
         return true;
-    } else {
+    }
+    else {
         return false;
     }
 }
 
-bool VolumeMonitor::stop() {
+bool VolumeMonitor::stop()
+{
     if (this->isRunning()) {
         close(m_fileKde);
         m_fileKde = -1;
         delete m_socketNotifier;
         m_socketNotifier = nullptr;
         return true;
-    } else {
+    }
+    else {
         return false;
     }
 }
-void VolumeMonitor::onFileChanged() {
+void VolumeMonitor::onFileChanged()
+{
     QSet <QString> changedItemSet = parseMountFile();
     for(const QString& item: changedItemSet - m_fileContentSet) {
         emit this->deviceAdded(getMountPoint(item));

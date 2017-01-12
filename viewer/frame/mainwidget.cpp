@@ -43,7 +43,6 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initBottomToolbar();
     // image file's synchronization
     initLocalImagesMonitor();
-    initVolumeMonitor();
 
     initConnection();
 }
@@ -176,34 +175,6 @@ void MainWidget::initLocalImagesMonitor() {
         if (!QFileInfo(path).exists())
             dApp->dbM->removeImgInfos(QStringList(path));
     });
-}
-
-void MainWidget::initVolumeMonitor() {
-    VolumeMonitor* volumeMonitor = new VolumeMonitor(this);
-    connect(volumeMonitor, &VolumeMonitor::deviceRemoved,
-            this, [=] (const QString &mountPoint) {
-        if (dApp->dbM->getImgsCountByMountPoint(mountPoint) == 0)
-            return;
-        DDialog* synImgDialog = new DDialog(this);
-        synImgDialog->setIconPixmap(QPixmap(":/resources/common/synimages.png"));
-        synImgDialog->setTitle(tr("The removable device has been unplugged,"
-            " would you like to delete the thumbnails on this device?"));
-        synImgDialog->addButton(tr("Cancel"));
-        synImgDialog->addButton(tr("Ok"));
-
-        synImgDialog->show();
-        synImgDialog->moveToCenter();
-
-        connect(synImgDialog, &DDialog::buttonClicked, this, [=](int index){
-            synImgDialog->close();
-            synImgDialog->deleteLater();
-            if (index == 0)
-                return;
-            dApp->dbM->removeMountPoint(mountPoint);
-        });
-    });
-
-    qDebug() << "volume monitorUI:" << volumeMonitor->start();
 }
 
 void MainWidget::initTopToolbar()

@@ -5,8 +5,7 @@ HEADERS += \
     $$PWD/dirimportdialog.h \
     $$PWD/aboutdialog.h \
     $$PWD/imginfodialog.h \
-    $$PWD/cancelimportdialog.h \
-    $$PWD/scanpathsdialog.h
+    $$PWD/cancelimportdialog.h
 
 SOURCES += \
     $$PWD/filedeletedialog.cpp \
@@ -15,8 +14,7 @@ SOURCES += \
     $$PWD/dirimportdialog.cpp \
     $$PWD/aboutdialog.cpp \
     $$PWD/imginfodialog.cpp \
-    $$PWD/cancelimportdialog.cpp \
-    $$PWD/scanpathsdialog.cpp
+    $$PWD/cancelimportdialog.cpp
 
 RESOURCES += \
     $$PWD/dialogs.qrc

@@ -5,10 +5,10 @@
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
+#include "dirwatcher/scanpathsdialog.h"
 #include "widgets/imagebutton.h"
 #include "widgets/loadingicon.h"
 #include "widgets/slider.h"
-#include "widgets/dialogs/scanpathsdialog.h"
 #include <QHBoxLayout>
 #include <QStackedLayout>
 

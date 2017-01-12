@@ -30,6 +30,7 @@ include (utils/utils.pri)
 include (controller/controller.pri)
 include (service/service.pri)
 include (settings/settings.pri)
+include (dirwatcher/dirwatcher.pri)
 
 HEADERS += \
     application.h

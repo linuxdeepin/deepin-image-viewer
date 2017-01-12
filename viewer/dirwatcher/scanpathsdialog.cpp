@@ -1,20 +1,17 @@
 #include "scanpathsdialog.h"
+#include "scanpathsitem.h"
 #include "application.h"
 #include <ddialog.h>
 #include <dtitlebar.h>
 #include "controller/configsetter.h"
 #include "utils/baseutils.h"
-#include "utils/imageutils.h"
-#include "../imagebutton.h"
+#include "widgets/imagebutton.h"
 #include <QFileDialog>
-#include <QFileInfo>
-#include <QFontMetrics>
 #include <QPushButton>
 #include <QScreen>
 #include <QScrollArea>
 #include <QStackedWidget>
 #include <QStandardPaths>
-#include <QThread>
 #include <QVBoxLayout>
 #include <QDebug>
 
@@ -31,48 +28,6 @@ const QString SCANPATHS_KEY = "SCANPATHSKEY";
 
 }  // namespace
 
-// CountingThread
-class CountingThread : public QThread {
-    Q_OBJECT
-public:
-    CountingThread(const QString &path)
-        :QThread()
-        ,m_path(path) {}
-
-    void run() Q_DECL_OVERRIDE {
-        int count = utils::image::getImagesInfo(m_path, true).length();
-        emit ready(QString::number(count) + " " + tr("Images"));
-    }
-
-signals:
-    void ready(const QString &text);
-
-private:
-    QString m_path;
-};
-
-// PathItem
-class PathItem : public QFrame {
-    Q_OBJECT
-public:
-    PathItem(const QString &path);
-
-protected:
-    void enterEvent(QEvent *e) Q_DECL_OVERRIDE {
-        QFrame::enterEvent(e);
-        emit showRemoveIconChanged(true);
-    }
-    void leaveEvent(QEvent *e) Q_DECL_OVERRIDE {
-        QFrame::leaveEvent(e);
-        emit showRemoveIconChanged(false);
-    }
-
-signals:
-    void remove(QString path);
-    void requestUpdateCount();
-    void showRemoveIconChanged(bool show);
-};
-
 ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     : DMainWindow(parent)
     ,m_messageTID(0)
@@ -81,7 +36,7 @@ ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     if (titleBar()) titleBar()->setFixedHeight(0);
     setFixedSize(DIALOG_WIDTH, DIALOG_HEIGHT);
     setStyleSheet(utils::base::getFileContent(
-                      ":/resources/qss/scanpathsdialog.qss"));
+                      ":/dirwatcher/qss/resources/qss/scanpathsdialog.qss"));
 
     QWidget *w = new QWidget(this);
     setCentralWidget(w);
@@ -93,13 +48,6 @@ ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     initPathsArea();
     initMessageLabel();
     initAddButton();
-
-//    // Add Pictures as default
-//    const QStringList picturesPaths =
-//            QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-//    if (! picturesPaths.isEmpty()) {
-//        addPath(picturesPaths.first());
-//    }
 }
 
 ScanPathsDialog *ScanPathsDialog::m_dialog = NULL;
@@ -136,6 +84,7 @@ void ScanPathsDialog::timerEvent(QTimerEvent *e)
     if (e->timerId() == m_messageTID) {
         m_messageLabel->setText("");
         killTimer(m_messageTID);
+        m_messageTID = 0;
     }
     else {
         DMainWindow::timerEvent(e);
@@ -146,10 +95,12 @@ void ScanPathsDialog::showSelectDialog()
 {
     QFileDialog *dialog = new QFileDialog;
     dialog->setWindowTitle(tr("Select Directory"));
-    dialog->setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first());
+    dialog->setDirectory(QStandardPaths::standardLocations(
+                             QStandardPaths::PicturesLocation).first());
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
     dialog->setFileMode(QFileDialog::Directory);
-    dialog->setOptions(QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    dialog->setOptions(
+                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if (dialog->exec()) {
         auto files = dialog->selectedFiles();
         if (! files.isEmpty()) {
@@ -178,11 +129,11 @@ void ScanPathsDialog::addPath(const QString &path, bool check)
             m_contentStack->setCurrentIndex(1);
         }
 
-        PathItem *item = new PathItem(path);
+        ScanPathsItem *item = new ScanPathsItem(path);
         emit item->requestUpdateCount();
         connect(this, &ScanPathsDialog::requestUpdateCount,
-                item, &PathItem::requestUpdateCount);
-        connect(item, &PathItem::remove, this, [=] (const QString &path) {
+                item, &ScanPathsItem::requestUpdateCount);
+        connect(item, &ScanPathsItem::remove, this, [=] (const QString &path) {
             removePath(path);
             m_pathsLayout->removeWidget(item);
             item->deleteLater();
@@ -362,93 +313,4 @@ void ScanPathsDialog::removeFromScanPaths(const QString &path)
     }
     v.remove(v.length() - 1, 1);
     dApp->setter->setValue(SCANPATHS_GROUP, SCANPATHS_KEY, v);
-}
-
-
-#include "scanpathsdialog.moc"
-PathItem::PathItem(const QString &path)
-    : QFrame()
-{
-    setObjectName("PathItem");
-    setFixedSize(354, 56);
-
-    // Left icon
-    QLabel *icon = new QLabel;
-    icon->setFixedSize(40, 40);
-    icon->setObjectName("PathItemIcon");
-
-    // Middle content
-    QLabel *dirLabel = new QLabel;
-    dirLabel->setObjectName("PathItemDirLabel");
-    dirLabel->setText(QFontMetrics(dirLabel->font()).elidedText(
-                          QFileInfo(path).fileName(), Qt::ElideRight, 200));
-    QLabel *pathLabel = new QLabel;
-    pathLabel->setObjectName("PathItemPathLabel");
-    pathLabel->setText(QFontMetrics(pathLabel->font()).elidedText(
-                           path, Qt::ElideMiddle, 200));
-    QVBoxLayout *dirLayout = new QVBoxLayout;
-    dirLayout->setContentsMargins(0, 0, 0, 0);
-    dirLayout->setSpacing(0);
-    dirLayout->addStretch();
-    dirLayout->addWidget(dirLabel);
-    dirLayout->addWidget(pathLabel);
-    dirLayout->addStretch();
-
-    QLabel *countLabel = new QLabel;
-    countLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    countLabel->setObjectName("PathItemCountLabel");
-    connect(this, &PathItem::requestUpdateCount, this, [=] {
-        if (countLabel->text().isEmpty()) {
-            countLabel->setText(tr("Calculating..."));
-        }
-        CountingThread *ct = new CountingThread(path);
-        connect(ct, &CountingThread::ready, this, [=] (const QString &text) {
-            countLabel->setText(text);
-            // Length of path and dir label need to be update after count changed
-            const int w = countLabel->sizeHint().width();
-            dirLabel->setText(QFontMetrics(dirLabel->font()).elidedText(
-                                  QFileInfo(path).fileName(), Qt::ElideRight, 273 - 16 - 7 - w));
-            pathLabel->setText(QFontMetrics(pathLabel->font()).elidedText(
-                                   path, Qt::ElideMiddle, 273 - 16 -7 - w));
-        });
-        connect(ct, &CountingThread::finished, ct, &CountingThread::deleteLater);
-        ct->start();
-    });
-
-    QFrame *middleContent = new QFrame;
-    middleContent->setObjectName("PathItemMiddleContent");
-    middleContent->setFixedSize(273, 56);
-    QHBoxLayout *middleLayout = new QHBoxLayout(middleContent);
-    middleLayout->setContentsMargins(0, 0, 7, 0);
-    middleLayout->setSpacing(0);
-    middleLayout->addLayout(dirLayout);
-    middleLayout->addWidget(countLabel);
-
-    // Remove icon
-    ImageButton *button = new ImageButton;
-    button->setFixedSize(1, 1);
-    button->setObjectName("PathItemRemoveButton");
-    connect(button, &ImageButton::clicked, this, [=] {
-        emit remove(path);
-    });
-    connect(this, &PathItem::showRemoveIconChanged, this, [=] (bool show) {
-        if (show) {
-            button->setFixedSize(24, 24);
-        }
-        else {
-            button->setFixedSize(1, 1);
-        }
-    });
-
-    // Main layout
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
-    mainLayout->setContentsMargins(0, 0, 0, 0);
-    mainLayout->setSpacing(0);
-    mainLayout->addSpacing(10);
-    mainLayout->addWidget(icon);
-    mainLayout->addSpacing(10);
-    mainLayout->addWidget(middleContent);
-    mainLayout->addSpacing(7);
-    mainLayout->addWidget(button, 1, Qt::AlignRight | Qt::AlignVCenter);
-    mainLayout->addSpacing(1);
 }

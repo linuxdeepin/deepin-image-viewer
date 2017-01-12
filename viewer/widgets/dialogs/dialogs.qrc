@@ -1,8 +1,5 @@
 <RCC>
     <qresource prefix="/dialogs/images">
-        <file>resources/images/add_btn_hover.png</file>
-        <file>resources/images/add_btn_normal.png</file>
-        <file>resources/images/add_btn_press.png</file>
         <file>resources/images/album_bg_normal.png</file>
         <file>resources/images/close_hover.png</file>
         <file>resources/images/close_normal.png</file>
@@ -10,15 +7,11 @@
         <file>resources/images/deepin-image-viewer.png</file>
         <file>resources/images/del_multi_img.png</file>
         <file>resources/images/del_single_img.png</file>
-        <file>resources/images/dir.png</file>
-        <file>resources/images/tab-close-hover.png</file>
         <file>resources/images/warning.png</file>
-        <file>resources/images/tab-close-press.png</file>
-        <file>resources/images/tab-close-normal.png</file>
+        <file>resources/images/warning.png</file>
     </qresource>
     <qresource prefix="/dialogs/qss">
         <file>resources/qss/imginfodialog.qss</file>
         <file>resources/qss/inputdialog.qss</file>
-        <file>resources/qss/scanpathsdialog.qss</file>
     </qresource>
 </RCC>

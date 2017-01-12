@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/dirwatcher/images">
+        <file>resources/images/add_btn_hover.png</file>
+        <file>resources/images/add_btn_normal.png</file>
+        <file>resources/images/add_btn_press.png</file>
+        <file>resources/images/close_hover.svg</file>
+        <file>resources/images/close_normal.svg</file>
+        <file>resources/images/close_press.svg</file>
+        <file>resources/images/dir.png</file>
+        <file>resources/images/tab-close-hover.png</file>
+        <file>resources/images/tab-close-normal.png</file>
+        <file>resources/images/tab-close-press.png</file>
+    </qresource>
+    <qresource prefix="/dirwatcher/qss">
+        <file>resources/qss/scanpathsdialog.qss</file>
+    </qresource>
+</RCC>

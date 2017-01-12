@@ -9,7 +9,8 @@ class VolumeMonitor : public QObject
 {
     Q_OBJECT
 public:
-    VolumeMonitor(QObject *parent = 0);
+    static VolumeMonitor *instance();
+    bool isRunning();
     ~VolumeMonitor();
 
 signals:
@@ -19,13 +20,18 @@ signals:
 public slots:
     bool start();
     bool stop();
-    bool isRunning();
+
+private slots:
     void onFileChanged();
+
+private:
+    VolumeMonitor(QObject *parent = 0);
 
 private:
     int m_fileKde = -1;
     QSocketNotifier* m_socketNotifier;
     QSet<QString> m_fileContentSet;
+    static VolumeMonitor *m_monitor;
 };
 
 #endif // VOLUMEMONITOR_H
