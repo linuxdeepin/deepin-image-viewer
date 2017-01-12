@@ -8,6 +8,7 @@
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/viewerthememanager.h"
+#include "dirwatcher/scanpathsdialog.h"
 
 #include <QDebug>
 #include <QTranslator>
@@ -33,12 +34,13 @@ Application::Application(int& argc, char** argv)
 
 void Application::initChildren()
 {
+    viewerTheme = ViewerThemeManager::instance();
     setter = ConfigSetter::instance();
     exporter = Exporter::instance();
     importer = new Importer();
+    scanDialog = ScanPathsDialog::instance();
     signalM = SignalManager::instance();
     wpSetter = WallpaperSetter::instance();
-    viewerTheme = ViewerThemeManager::instance();
     dbM = new DBManager();
 }
 

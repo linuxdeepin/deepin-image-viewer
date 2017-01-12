@@ -7,6 +7,22 @@
 
 class QHBoxLayout;
 class QLabel;
+
+// CountingThread
+class CountingThread : public QThread {
+    Q_OBJECT
+public:
+    CountingThread(const QString &path);
+
+    void run() Q_DECL_OVERRIDE;
+
+signals:
+    void ready(const QString &text);
+
+private:
+    QString m_path;
+};
+
 class ScanPathsItem : public QFrame {
     Q_OBJECT
 public:
@@ -31,6 +47,7 @@ protected:
     void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
 
 private:
+    void initCountThread();
     void initLeftIcon();
     void initMiddleContent();
     void initRemoveIcon();
@@ -43,31 +60,12 @@ private:
 
 private:
     int m_countTID;
+    CountingThread *m_thread = nullptr;
     QString m_path;
     QLabel *m_dirLabel;
     QLabel *m_pathLabel;
     QLabel *m_countLabel;
     QHBoxLayout *m_mainLayout;
-};
-
-// CountingThread
-class CountingThread : public QThread {
-    Q_OBJECT
-public:
-    CountingThread(const QString &path)
-        :QThread()
-        ,m_path(path) {}
-
-    void run() Q_DECL_OVERRIDE {
-        int count = utils::image::getImagesInfo(m_path, true).length();
-        emit ready(QString::number(count) + " " + tr("Images"));
-    }
-
-signals:
-    void ready(const QString &text);
-
-private:
-    QString m_path;
 };
 
 #endif // SCANPATHSITEM_H

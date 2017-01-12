@@ -1,10 +1,15 @@
+#include "application.h"
 #include "scanpathsitem.h"
 #include "volumemonitor.h"
+#include "controller/dbmanager.h"
+#include "controller/importer.h"
 #include "widgets/imagebutton.h"
+#include <QDirIterator>
 #include <QFileInfo>
 #include <QFileSystemWatcher>
 #include <QFontMetrics>
 #include <QLabel>
+#include <QStringList>
 #include <QStyle>
 #include <QVBoxLayout>
 #include <QDebug>
@@ -16,6 +21,19 @@ const int ITEM_HEIGHT = 56;
 const int ICON_SIZE = 40;
 const int LABEL_DEFAULT_WIDTH = 200;
 const int MIDDLE_CONTENT_WIDTH = 273;
+
+QStringList collectSubDirs(const QString &path)
+{
+    QStringList dirs;
+    QDirIterator dirIterator(path,
+                             QDir::Dirs | QDir::NoDotDot | QDir::NoDot,
+                             QDirIterator::Subdirectories);
+    while(dirIterator.hasNext()) {
+        dirIterator.next();
+        dirs.append(dirIterator.filePath());
+    }
+    return dirs;
+}
 
 }  // namespace
 
@@ -33,13 +51,16 @@ ScanPathsItem::ScanPathsItem(const QString &path)
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setSpacing(0);
 
+    initCountThread();
     initLeftIcon();
     initMiddleContent();
     initRemoveIcon();
 
+    auto subs = collectSubDirs(path);
+    subs << path;
+    subs << QFileInfo(path).path();
     QFileSystemWatcher *wc = new QFileSystemWatcher(QStringList(path));
-    wc->addPath(path);
-    wc->addPath(QFileInfo(path).path());
+    wc->addPaths(subs);
 
     connect(wc, &QFileSystemWatcher::directoryChanged,
             this, &ScanPathsItem::updateCount);
@@ -50,8 +71,7 @@ ScanPathsItem::ScanPathsItem(const QString &path)
     connect(VolumeMonitor::instance(), &VolumeMonitor::deviceAdded,
             this, [=] (const QString &dev) {
         if (path.startsWith(dev)) {
-            wc->addPath(path);
-            wc->addPath(QFileInfo(path).path());
+            wc->addPaths(subs);
             updateCount();
         }
     });
@@ -63,24 +83,29 @@ void ScanPathsItem::timerEvent(QTimerEvent *e)
         killTimer(m_countTID);
         m_countTID = 0;
 
-        CountingThread *ct = new CountingThread(m_path);
-        connect(ct, &CountingThread::finished, ct, &CountingThread::deleteLater);
-        connect(ct, &CountingThread::ready, this, [=] (const QString &text) {
-            if (! dirExist())
-                return;
-            m_countLabel->setText(text);
-
-            // Length of path and dir label need to be update after count changed
-            const int w = m_countLabel->sizeHint().width();
-            m_dirLabel->setText(QFontMetrics(m_dirLabel->font()).elidedText(
-                                  QFileInfo(m_path).fileName(), Qt::ElideRight,
-                                  MIDDLE_CONTENT_WIDTH - 16 - 7 - w));
-            m_pathLabel->setText(QFontMetrics(m_pathLabel->font()).elidedText(
-                                   m_path, Qt::ElideMiddle,
-                                   MIDDLE_CONTENT_WIDTH - 16 -7 - w));
-        });
-        ct->start();
+        if (! m_thread->isRunning()) {
+            m_thread->start();
+        }
     }
+}
+
+void ScanPathsItem::initCountThread()
+{
+    m_thread = new CountingThread(m_path);
+    connect(m_thread, &CountingThread::ready, this, [=] (const QString &text) {
+        if (! dirExist())
+            return;
+        m_countLabel->setText(text);
+
+        // Length of path and dir label need to be update after count changed
+        const int w = m_countLabel->sizeHint().width();
+        m_dirLabel->setText(QFontMetrics(m_dirLabel->font()).elidedText(
+                              QFileInfo(m_path).fileName(), Qt::ElideRight,
+                              MIDDLE_CONTENT_WIDTH - 16 - 7 - w));
+        m_pathLabel->setText(QFontMetrics(m_pathLabel->font()).elidedText(
+                               m_path, Qt::ElideMiddle,
+                               MIDDLE_CONTENT_WIDTH - 16 -7 - w));
+    });
 }
 
 void ScanPathsItem::initLeftIcon()
@@ -160,10 +185,12 @@ void ScanPathsItem::updateCount()
         style()->polish(m_pathLabel);
         m_countLabel->setText(QString("0 ") + tr("Images"));
         if (onMountDevice() && ! mountDeviceExist()) {
-            m_pathLabel->setText(tr("The removable device has been plugged out, please plug in again"));
+            m_pathLabel->setText(tr("The removable device has been plugged out, "
+                                    "please plug in again"));
         }
         else {
-            // TODO Remove images from DB
+            // Remove images from DB
+            dApp->dbM->removeDir(m_path);
             m_pathLabel->setText(tr("This folder has already not exist"));
         }
         return;
@@ -202,4 +229,61 @@ bool ScanPathsItem::mountDeviceExist() const
 bool ScanPathsItem::onMountDevice() const
 {
     return (m_path.startsWith("/media/") || m_path.startsWith("/run/media/"));
+}
+
+CountingThread::CountingThread(const QString &path)
+    :QThread()
+    ,m_path(path)
+{
+
+}
+
+void CountingThread::run()
+{
+    auto infos = utils::image::getImagesInfo(m_path, true);
+    QStringList dirPaths;
+    for (auto info : infos) {
+        const QString path = info.filePath();
+        // Generate thumbnail and storage into cache dir
+        if (! utils::image::thumbnailExist(path, utils::image::ThumbLarge)) {
+            // Failed thumbnail already exist
+            if (utils::image::thumbnailExist(path, utils::image::ThumbFail)) {
+                continue;
+            }
+        }
+        dirPaths << path;
+    }
+
+    // Remove images which is not exist
+    QStringList dbPaths = dApp->dbM->getPathsByDir(m_path);
+    QStringList rmPaths;
+    for (QString path : dbPaths) {
+        if (! dirPaths.contains(path)) {
+            rmPaths << path;
+        }
+    }
+    if (! rmPaths.isEmpty()) {
+        dApp->dbM->removeImgInfos(rmPaths);
+        dbPaths = dApp->dbM->getPathsByDir(m_path);
+    }
+
+    // Append the new images
+    if (dbPaths.length() != dirPaths.length()) {
+        // Reimport
+        qDebug() << "New images added, reimport...###" << m_path
+                 << dbPaths.length() << infos.length();
+        dApp->importer->appendDir(m_path);
+    }
+    else {
+        dirPaths.sort();
+        dbPaths.sort();
+        if (dirPaths != dbPaths) {
+            // Reimport
+            qDebug() << "New images added, reimport..." << m_path;
+            dApp->importer->appendDir(m_path);
+        }
+    }
+
+    int count = infos.length();
+    emit ready(QString::number(count) + " " + tr("Images"));
 }

@@ -467,9 +467,9 @@ void removeThumbnail(const QString &path)
     QFile(thumbnailPath(path, ThumbFail)).remove();
 }
 
-bool thumbnailExist(const QString &path)
+bool thumbnailExist(const QString &path, ThumbnailType type)
 {
-    if (QFileInfo(thumbnailPath(path, ThumbLarge)).exists()
+    if (QFileInfo(thumbnailPath(path, type)).exists()
 //            || QFileInfo(thumbnailPath(path, ThumbNormal)).exists()
 //            || QFileInfo(thumbnailPath(path, ThumbFail)).exists()
             ) {

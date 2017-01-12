@@ -4,6 +4,7 @@
 #include <ddialog.h>
 #include <dtitlebar.h>
 #include "controller/configsetter.h"
+#include "controller/dbmanager.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
 #include <QFileDialog>
@@ -76,7 +77,7 @@ void ScanPathsDialog::show()
     qr.moveCenter(gr.center());
     move(qr.topLeft());
 
-    emit requestUpdateCount();
+//    emit requestUpdateCount();
 }
 
 void ScanPathsDialog::timerEvent(QTimerEvent *e)
@@ -144,6 +145,10 @@ void ScanPathsDialog::addPath(const QString &path, bool check)
 
 void ScanPathsDialog::removePath(const QString &path)
 {
+    // Remove data from DB
+    dApp->dbM->removeDir(path);
+
+    // Remove from config-file
     removeFromScanPaths(path);
     if (scanpaths().isEmpty()) {
         m_contentStack->setCurrentIndex(0);

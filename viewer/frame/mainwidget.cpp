@@ -155,26 +155,26 @@ void MainWidget::initPanelStack(bool manager)
 }
 
 void MainWidget::initLocalImagesMonitor() {
-    QFileSystemWatcher *fileWatcher = new QFileSystemWatcher(this);
-    QStringList filepaths = dApp->dbM->getAllPaths();
-    foreach(QString filepath, filepaths) {
-        if (!(filepath.startsWith("/media")||filepath.startsWith("/run/media")))
-            fileWatcher->addPath(QFileInfo(filepath).absoluteFilePath());
-    }
+//    QFileSystemWatcher *fileWatcher = new QFileSystemWatcher(this);
+//    QStringList filepaths = dApp->dbM->getAllPaths();
+//    foreach(QString filepath, filepaths) {
+//        if (!(filepath.startsWith("/media")||filepath.startsWith("/run/media")))
+//            fileWatcher->addPath(QFileInfo(filepath).absoluteFilePath());
+//    }
 
-    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
-        QStringList fpaths = dApp->dbM->getAllPaths();
-        foreach(QString fpath, fpaths) {
-            if (!(fpath.startsWith("/media")||fpath.startsWith("/run/media")))
-                fileWatcher->addPath(QFileInfo(fpath).absoluteFilePath());
-        }
-    });
+//    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
+//        QStringList fpaths = dApp->dbM->getAllPaths();
+//        foreach(QString fpath, fpaths) {
+//            if (!(fpath.startsWith("/media")||fpath.startsWith("/run/media")))
+//                fileWatcher->addPath(QFileInfo(fpath).absoluteFilePath());
+//        }
+//    });
 
-    connect(fileWatcher, &QFileSystemWatcher::fileChanged, this, [=](const
-            QString &path) {
-        if (!QFileInfo(path).exists())
-            dApp->dbM->removeImgInfos(QStringList(path));
-    });
+//    connect(fileWatcher, &QFileSystemWatcher::fileChanged, this, [=](const
+//            QString &path) {
+//        if (!QFileInfo(path).exists())
+//            dApp->dbM->removeImgInfos(QStringList(path));
+//    });
 }
 
 void MainWidget::initTopToolbar()

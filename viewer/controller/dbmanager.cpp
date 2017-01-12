@@ -55,7 +55,7 @@ const DBImgInfoList DBManager::getAllInfos() const
         return infos;
     }
     QSqlQuery query( db );
-    query.prepare( "SELECT FilePath, FileName, MountPoint, Time "
+    query.prepare( "SELECT FilePath, FileName, Dir, Time "
                    "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
         qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
@@ -67,7 +67,7 @@ const DBImgInfoList DBManager::getAllInfos() const
             DBImgInfo info;
             info.filePath = query.value(0).toString();
             info.fileName = query.value(1).toString();
-            info.mountPoint = query.value(2).toString();
+            info.dir = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
 
             infos << info;
@@ -152,25 +152,48 @@ int DBManager::getImgsCount() const
     return 0;
 }
 
-int DBManager::getImgsCountByMountPoint(const QString &mountPoint) const
+int DBManager::getImgsCountByDir(const QString &dir) const
 {
     const QSqlDatabase db = getDatabase();
-    if (mountPoint.isEmpty() || ! db.isValid()) {
+    if (dir.isEmpty() || ! db.isValid()) {
         return 0;
     }
 
     QSqlQuery query( db );
     query.prepare("SELECT COUNT(*) FROM ImageTable3 "
-                          "WHERE MountPoint=:MountPoint AND FilePath !=\" \"");
-    query.bindValue(":MountPoint", mountPoint);
+                          "WHERE Dir=:Dir AND FilePath !=\" \"");
+    query.bindValue(":Dir", dir);
     if (query.exec()) {
         query.first();
         return query.value(0).toInt();
     }
     else {
-        qDebug() << "Get images count by MountPoint failed :" << query.lastError();
+        qDebug() << "Get images count by Dir failed :" << query.lastError();
         return 0;
     }
+}
+
+const QStringList DBManager::getPathsByDir(const QString &dir) const
+{
+    QStringList list;
+    const QSqlDatabase db = getDatabase();
+    if (! db.isValid()) {
+        return list;
+    }
+    QSqlQuery query( db );
+    query.prepare( "SELECT DISTINCT FilePath FROM ImageTable3 "
+                   "WHERE Dir=:dir " );
+    query.bindValue(":dir", dir);
+    if (! query.exec() ) {
+        qWarning() << "Get Paths from AlbumTable3 failed: " << query.lastError();
+    }
+    else {
+        while (query.next()) {
+            list << query.value(0).toString();
+        }
+    }
+
+    return list;
 }
 
 bool DBManager::isImgExist(const QString &path) const
@@ -201,12 +224,12 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         return;
     }
 
-    QVariantList filenames, filepaths, mountpoints, times;
+    QVariantList filenames, filepaths, dirs, times;
 
     for (DBImgInfo info : infos) {
         filenames << info.fileName;
         filepaths << info.filePath;
-        mountpoints << info.mountPoint;
+        dirs << info.dir;
         times << utils::base::timeToString(info.time, true);
     }
 
@@ -214,10 +237,10 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
     QSqlQuery query( db );
     query.exec("BEGIN IMMEDIATE TRANSACTION");
     query.prepare( "REPLACE INTO ImageTable3 "
-                   "(FilePath, FileName, MountPoint, Time) VALUES (?, ?, ?, ?)" );
+                   "(FilePath, FileName, Dir, Time) VALUES (?, ?, ?, ?)" );
     query.addBindValue(filepaths);
     query.addBindValue(filenames);
-    query.addBindValue(mountpoints);
+    query.addBindValue(dirs);
     query.addBindValue(times);
     if (! query.execBatch()) {
         qWarning() << "Insert data into ImageTable3 failed: "
@@ -251,27 +274,30 @@ void DBManager::removeImgInfos(const QStringList &paths)
     }
 
     // Remove from image table
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
     QString qs = "DELETE FROM ImageTable3 WHERE FilePath=?";
     query.prepare(qs);
     query.addBindValue(paths);
     if (! query.execBatch()) {
         qWarning() << "Remove data from ImageTable3 failed: "
                    << query.lastError();
+        query.exec("COMMIT");
     }
     else {
         emit dApp->signalM->imagesRemoved(infos);
+        query.exec("COMMIT");
     }
 }
 
-void DBManager::removeMountPoint(const QString &mountPoint)
+void DBManager::removeDir(const QString &dir)
 {
     QSqlDatabase db = getDatabase();
-    if (mountPoint.isEmpty() || ! db.isValid()) {
+    if (dir.isEmpty() || ! db.isValid()) {
         return;
     }
 
     // Collect info before removing data
-    DBImgInfoList infos = getImgInfos("MountPoint", mountPoint);
+    DBImgInfoList infos = getImgInfos("Dir", dir);
     QStringList paths;
     for (auto info : infos) {
         paths << info.filePath;
@@ -285,15 +311,18 @@ void DBManager::removeMountPoint(const QString &mountPoint)
     }
 
     // Remove from image table
-    QString qs = "DELETE FROM ImageTable3 WHERE MountPoint=:point";
+    query.exec("BEGIN IMMEDIATE TRANSACTION");
+    QString qs = "DELETE FROM ImageTable3 WHERE Dir=:Dir";
     query.prepare(qs);
-    query.bindValue(":point", mountPoint);
+    query.bindValue(":Dir", dir);
     if (! query.exec()) {
-        qWarning() << "Remove mount-device data from ImageTable3 failed: "
+        qWarning() << "Remove dir's images from ImageTable3 failed: "
                    << query.lastError();
+        query.exec("COMMIT");
     }
     else {
         emit dApp->signalM->imagesRemoved(infos);
+        query.exec("COMMIT");
     }
 }
 
@@ -387,7 +416,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
         return infos;
     }
     QSqlQuery query( db );
-    query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.MountPoint, i.Time "
+    query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time "
                   "FROM ImageTable3 AS i, AlbumTable3 AS a "
                   "WHERE i.FilePath=a.FilePath AND a.AlbumName=:album");
     query.bindValue(":album", album);
@@ -400,7 +429,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
             DBImgInfo info;
             info.filePath = query.value(0).toString();
             info.fileName = query.value(1).toString();
-            info.mountPoint = query.value(2).toString();
+            info.dir = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
 
             infos << info;
@@ -583,7 +612,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
         return infos;
     }
     QSqlQuery query( db );
-    query.prepare(QString("SELECT FilePath, FileName, MountPoint, Time FROM ImageTable3 "
+    query.prepare(QString("SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
                           "WHERE %1= :value ORDER BY Time DESC").arg(key));
     query.bindValue(":value", value);
     if (!query.exec()) {
@@ -595,7 +624,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
             DBImgInfo info;
             info.filePath = query.value(0).toString();
             info.fileName = query.value(1).toString();
-            info.mountPoint = query.value(2).toString();
+            info.dir = query.value(2).toString();
             info.time = stringToDateTime(query.value(3).toString());
 
             infos << info;
@@ -654,13 +683,13 @@ void DBManager::checkDatabase()
         QSqlQuery query(db);
         // ImageTable3
         ///////////////////////////////////////////////////////
-        //FilePath           | FileName | MountPoint | Time  //
+        //FilePath           | FileName | Dir        | Time  //
         //TEXT primari key   | TEXT     | TEXT       | TEXT  //
         ///////////////////////////////////////////////////////
         query.exec( QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
                             "FilePath TEXT primary key, "
                             "FileName TEXT, "
-                            "MountPoint TEXT, "
+                            "Dir TEXT, "
                             "Time TEXT )"));
 
         // AlbumTable3

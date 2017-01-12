@@ -3,6 +3,7 @@
 #include "controller/dbmanager.h"
 #include "controller/importer.h"
 #include "controller/importer.h"
+#include "dirwatcher/scanpathsdialog.h"
 #include "utils/baseutils.h"
 #include <QFileInfo>
 #include <QHBoxLayout>
@@ -64,10 +65,12 @@ DirImportDialog::DirImportDialog(const QString &dir, QWidget* parent)
 
         if(id == 1){
             dApp->importer->appendDir(dir);
+            dApp->scanDialog->addPath(dir);
         }
         else if (id == 2) {
             const QString album = edit->text().trimmed();
             dApp->importer->appendDir(dir, album);
+            dApp->scanDialog->addPath(dir);
             // For UI update
             dApp->dbM->insertIntoAlbum(album, QStringList(" "));//FIXDB
             emit albumCreated();

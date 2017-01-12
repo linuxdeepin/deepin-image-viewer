@@ -9,6 +9,7 @@ class DatabaseManager;
 class DBManager;
 class Exporter;
 class Importer;
+class ScanPathsDialog;
 class SignalManager;
 class WallpaperSetter;
 class ViewerThemeManager;
@@ -29,6 +30,7 @@ public:
     DBManager *dbM = nullptr;
     Exporter *exporter = nullptr;
     Importer *importer = nullptr;
+    ScanPathsDialog *scanDialog = nullptr;
     SignalManager *signalM = nullptr;
     WallpaperSetter *wpSetter = nullptr;
     ViewerThemeManager *viewerTheme = nullptr;

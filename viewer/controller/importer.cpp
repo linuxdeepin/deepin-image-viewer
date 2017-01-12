@@ -11,36 +11,11 @@ namespace {
 
 const int REFRESH_DELAY = 3000;
 
-
-QStringList mountPoints()
-{
-    QStringList paths;
-    QList<QStorageInfo> infos = QStorageInfo::mountedVolumes();
-    for (auto info : infos) {
-        const QString rp = info.rootPath();
-        if (rp.startsWith("/media") || rp.startsWith("/run/media")) {
-            paths << rp;
-        }
-    }
-
-    return paths;
-}
-
-QString mountPoint(const QString &path, const QStringList &points)
-{
-    for (QString point : points) {
-        if (path.startsWith(point))
-            return point;
-    }
-
-    return QString();
-}
-
 QStringList collectSubDirs(const QString &path)
 {
     QStringList dirs;
     QDirIterator dirIterator(path,
-                             QDir::Dirs | QDir::NoDotDot,
+                             QDir::Dirs | QDir::NoDotDot | QDir::NoDot,
                              QDirIterator::Subdirectories);
     while(dirIterator.hasNext()) {
         dirIterator.next();
@@ -162,13 +137,22 @@ void DirCollectThread::run()
     QStringList subDirs = collectSubDirs(m_root);
     DBImgInfoList dbInfos;
     QStringList paths;
-    QStringList points = mountPoints();
 
     qint64 bt = QDateTime::currentMSecsSinceEpoch();
+    for (QString dir : subDirs) {
+        // Remove the subdir's images to avoid repeat insert
+        dApp->dbM->removeDir(dir);
+    }
+
+    subDirs << m_root;
+    QStringList dbPaths = dApp->dbM->getAllPaths();
     for (QString dir : subDirs) {
         auto fileInfos = utils::image::getImagesInfo(dir, false);
         for (auto fi : fileInfos) {
             const QString path = fi.absoluteFilePath();
+            if (dbPaths.contains(path)) {
+                continue;
+            }
 
             // Generate thumbnail and storage into cache dir
             if (! utils::image::thumbnailExist(path)) {
@@ -182,7 +166,7 @@ void DirCollectThread::run()
             DBImgInfo dbi;
             dbi.fileName = fi.fileName();
             dbi.filePath = path;
-            dbi.mountPoint = mountPoint(path, points);
+            dbi.dir = m_root;
             dbi.time = utils::image::getCreateDateTime(path);
 
             dbInfos << dbi;
@@ -217,12 +201,12 @@ void FilesCollectThread::run()
 {
     DBImgInfoList dbInfos;
     QStringList supportPaths;
-    QStringList points = mountPoints();
+    QStringList dbPaths = dApp->dbM->getAllPaths();
     using namespace utils::image;
 
     qint64 bt = QDateTime::currentMSecsSinceEpoch();
     for (auto path : m_paths) {
-        if (! imageSupportRead(path)) {
+        if (dbPaths.contains(path) || ! imageSupportRead(path)) {
             continue;
         }
 
@@ -239,7 +223,7 @@ void FilesCollectThread::run()
         DBImgInfo dbi;
         dbi.fileName = fi.fileName();
         dbi.filePath = path;
-        dbi.mountPoint = mountPoint(path, points);
+        dbi.dir = QString();
         dbi.time = utils::image::getCreateDateTime(path);
 
         dbInfos << dbi;
@@ -255,7 +239,8 @@ void FilesCollectThread::run()
 
         emit currentImport(path);
     }
-    emit resultReady(dbInfos);
+    if (! dbInfos.isEmpty())
+        emit resultReady(dbInfos);
     if (! m_album.isEmpty())
         emit insertAlbumRequest(m_album, supportPaths);
 }

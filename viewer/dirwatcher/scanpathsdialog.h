@@ -14,6 +14,7 @@ class ScanPathsDialog : public DMainWindow
     Q_OBJECT
 public:
     static ScanPathsDialog *instance();
+    void addPath(const QString &path, bool check=true);
     void show();
 
 signals:
@@ -27,7 +28,6 @@ private slots:
 
 private:
     explicit ScanPathsDialog(QWidget *parent = 0);
-    void addPath(const QString &path, bool check=true);
     void removePath(const QString &path);
     void initTitle();
     void initPathsArea();

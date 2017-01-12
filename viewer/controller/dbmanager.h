@@ -3,7 +3,7 @@
 
 // ImageTable
 ///////////////////////////////////////////////////////
-//FilePath           | FileName | MountPoint | Time  //
+//FilePath           | FileName | Dir        | Time  //
 //TEXT primari key   | TEXT     | TEXT       | TEXT  //
 ///////////////////////////////////////////////////////
 
@@ -28,7 +28,7 @@ struct DBAlbumInfo {
 struct DBImgInfo {
     QString filePath;
     QString fileName;
-    QString mountPoint;
+    QString dir;
     QDateTime time;
 
     bool operator==(const DBImgInfo& other)
@@ -42,7 +42,7 @@ struct DBImgInfo {
         dbg << "(DBImgInfo)["
             << "Path:" << info.filePath
             << "Name:" << info.fileName
-            << "MountPoint:" << info.mountPoint
+            << "Dir:" << info.dir
             << "Time:" << info.time
             << "]";
         return dbg;
@@ -65,11 +65,13 @@ public:
     const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
     int                     getImgsCount() const;
-    int                     getImgsCountByMountPoint(const QString &mountPoint) const;
+    int                     getImgsCountByDir(const QString &dir) const;
+    const QStringList       getPathsByDir(const QString &dir) const;
     bool                    isImgExist(const QString &path) const;
     void insertImgInfos(const DBImgInfoList &infos);
     void removeImgInfos(const QStringList &paths);
-    void removeMountPoint(const QString &mountPoint);
+    void removeDir(const QString &dir);
+
     // TableAlbum
     const DBAlbumInfo       getAlbumInfo(const QString &album) const;
     const QStringList       getAllAlbumNames() const;
