@@ -35,7 +35,7 @@ AlbumBTContent::AlbumBTContent(const QString &darkStyle, const QString &lightSty
     m_layout->setContentsMargins(5, 0, 14, 0);
     m_layout->setSpacing(0);
 
-    initImportBtn();
+    initSynchroBtn();
     initMiddleContent();
     initSlider();
 
@@ -82,17 +82,17 @@ void AlbumBTContent::paintEvent(QPaintEvent *e)
     p.fillRect(QRect(0, 0, width(), 1), m_tl2Color);
 }
 
-void AlbumBTContent::initImportBtn()
+void AlbumBTContent::initSynchroBtn()
 {
-    ImageButton *ib = new ImageButton;
-    ib->setObjectName("ImportBtn");
-    ib->setToolTip(tr("Import"));
+    ImageButton *synb = new ImageButton;
+    synb->setObjectName("SynchroBtn");
+    synb->setToolTip(tr("Sync manage"));
 
-    connect(ib, &ImageButton::clicked, this, [=] {
+    connect(synb, &ImageButton::clicked, this, [=] {
         dApp->importer->showImportDialog();
     });
 
-    m_layout->addWidget(ib);
+    m_layout->addWidget(synb);
     m_layout->addStretch(1);
 }
 

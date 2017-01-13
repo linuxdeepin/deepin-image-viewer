@@ -104,10 +104,10 @@ ScaleSlider {
     qproperty-penColor: rgba(255, 255, 255, 51);
 }
 
-ImageButton#ImportBtn {
-    qproperty-normalPic: url(:/resources/light/images/import_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/import_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/import_press.png);
+ImageButton#SynchroBtn {
+    qproperty-normalPic: url(:/resources/light/images/synchro_normal.png);
+    qproperty-hoverPic: url(:/resources/light/images/synchro_hover.png);
+    qproperty-pressPic: url(:/resources/light/images/synchro_press.png);
 }
 
 QSlider::handle:vertical  {

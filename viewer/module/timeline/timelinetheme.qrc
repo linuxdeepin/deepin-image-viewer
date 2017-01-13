@@ -5,9 +5,6 @@
         <file>resources/dark/images/album_normal.png</file>
         <file>resources/dark/images/album_press.png</file>
         <file>resources/dark/images/drag_handle.png</file>
-        <file>resources/dark/images/import_hover.png</file>
-        <file>resources/dark/images/import_normal.png</file>
-        <file>resources/dark/images/import_press.png</file>
         <file>resources/dark/images/item_selected.png</file>
         <file>resources/dark/images/lineargradient.png</file>
         <file>resources/dark/images/search_hover_24px.png</file>
@@ -24,9 +21,6 @@
         <file>resources/light/images/album_hover.png</file>
         <file>resources/light/images/album_normal.png</file>
         <file>resources/light/images/album_press.png</file>
-        <file>resources/light/images/import_hover.png</file>
-        <file>resources/light/images/import_normal.png</file>
-        <file>resources/light/images/import_press.png</file>
         <file>resources/light/images/light_slider_handle.png</file>
         <file>resources/light/images/timeline_hover.png</file>
         <file>resources/light/images/timeline_normal.png</file>
@@ -36,5 +30,11 @@
         <file>resources/light/images/default_thumbnail.png</file>
         <file>resources/dark/images/deepin_image_viewer_24.png</file>
         <file>resources/light/images/deepin_image_viewer_24.png</file>
+        <file>resources/dark/images/synchro_press.png</file>
+        <file>resources/dark/images/synchro_normal.png</file>
+        <file>resources/dark/images/synchro_hover.png</file>
+        <file>resources/light/images/synchro_hover.png</file>
+        <file>resources/light/images/synchro_normal.png</file>
+        <file>resources/light/images/synchro_press.png</file>
     </qresource>
 </RCC>
