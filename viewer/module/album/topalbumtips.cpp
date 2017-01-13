@@ -11,6 +11,7 @@
 TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
 {
     setFixedHeight(24);
+    setAttribute(Qt::WA_TransparentForMouseEvents);
     m_infoLabel = new QLabel();
     m_infoLabel->setObjectName("AlbumInfoTipsLabel");
 

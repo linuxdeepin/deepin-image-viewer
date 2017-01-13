@@ -57,7 +57,7 @@ private:
     QRect m_selectionRect;
     QStandardItemModel *m_model;
     ThumbnailDelegate *m_delegate;
-    ScrollBar *m_scrollbar;
+    ScrollBar* m_scrollbar = nullptr;
 };
 
 #endif // THUMBNAILLISTVIEW_H

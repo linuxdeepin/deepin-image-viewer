@@ -3,6 +3,7 @@
 #include "application.h"
 #include "controller/dbmanager.h"
 #include "controller/importer.h"
+#include "controller/viewerthememanager.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/scrollbar.h"
@@ -18,6 +19,8 @@
 #include <QStandardItemModel>
 #include <QtMath>
 
+#include "denhancedwidget.h"
+
 namespace {
 
 const int TOP_SPACING = 65;
@@ -26,7 +29,8 @@ const int LEFT_MARGIN = 16;
 const int RIGHT_MARGIN = 16;
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
-
+const int TOP_TOOLBAR_THEIGHT = 40;
+const int BOTTOM_TOOLBAR_HEIGHT = 22;
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 
 }  //namespace
@@ -36,8 +40,6 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
       m_model(new QStandardItemModel(this))
 {
     setViewportMargins(LEFT_MARGIN, 0, RIGHT_MARGIN, 0);
-    m_scrollbar = new ScrollBar;
-    setVerticalScrollBar(m_scrollbar);
     setSelectionRectVisible(false);
     setIconSize(QSize(THUMBNAIL_MIN_SIZE, THUMBNAIL_MIN_SIZE));
     m_delegate = new ThumbnailDelegate(this);
@@ -45,6 +47,22 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
             this, &ThumbnailListView::updateThumbnail);
     setItemDelegate(m_delegate);
     setModel(m_model);
+
+    m_scrollbar = new ScrollBar(this);
+    DEnhancedWidget *enhanced_scrollbar = new DEnhancedWidget(m_scrollbar, m_scrollbar);
+    connect(enhanced_scrollbar, &DEnhancedWidget::heightChanged, m_scrollbar,
+            [this] {
+        m_scrollbar->move(m_scrollbar->x(), TOP_TOOLBAR_THEIGHT);
+        m_scrollbar->resize(m_scrollbar->width(), m_scrollbar->parentWidget()->height()
+                     - TOP_TOOLBAR_THEIGHT - BOTTOM_TOOLBAR_HEIGHT);
+    });
+    setVerticalScrollBar(m_scrollbar);
+    m_scrollbar->setContextMenuPolicy(Qt::PreventContextMenu);
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, [=]{
+        QTimer::singleShot(500, [=]{
+            emit enhanced_scrollbar->heightChanged(0);
+        });
+    });
     setStyleSheet(utils::base::getFileContent(
                       ":/resources/common/qss/ThumbnailListView.qss"));
 

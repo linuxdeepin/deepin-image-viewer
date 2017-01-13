@@ -67,6 +67,7 @@ private:
     QStandardItemModel *m_model;
     QSize m_itemSize;
     QMenu *m_menu;
+
 };
 
 #endif // ALBUMSVIEW_H

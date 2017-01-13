@@ -44,6 +44,7 @@ public:
         setObjectName("TopTimelineTip");
         setStyleSheet(parent->styleSheet());
         setFixedHeight(24);
+        setAttribute(Qt::WA_TransparentForMouseEvents);
     }
     void setLeftMargin(int v) {setContentsMargins(v, 0, 0, 0);}
 };

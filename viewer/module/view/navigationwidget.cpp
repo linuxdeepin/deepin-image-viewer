@@ -43,6 +43,7 @@ NavigationWidget::NavigationWidget(QWidget *parent)
                 ":/resources/common/close_hover.png",
                 ":/resources/common/close_press.png",
                 ":/resources/common/close_normal.png", this);
+    closeBtn->setTooltipVisible(true);
     closeBtn->setFixedSize(27, 23);
     closeBtn->move(QPoint(this->x() + this->width() - 27 - 6,
                    rect().topRight().y() + 4));

@@ -5,10 +5,12 @@
 #include "controller/signalmanager.h"
 #include "controller/exporter.h"
 #include "controller/importer.h"
+#include "controller/viewerthememanager.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/dialogs/albumdeletedialog.h"
 #include  "widgets/scrollbar.h"
+#include "denhancedwidget.h"
 
 #include <QBuffer>
 #include <QDebug>
@@ -26,6 +28,9 @@ const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const int ITEM_SPACING = 61;
 const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 
+const int TOP_TOOLBAR_THEIGHT = 40;
+const int BOTTOM_TOOLBAR_HEIGHT = 22;
+
 QString ss(const QString &text, const QString &group)
 {
     return dApp->setter->value(group, text).toString();
@@ -39,6 +44,7 @@ AlbumsView::AlbumsView(QWidget *parent)
 {
     setMouseTracking(true);
     setObjectName("AlbumsView");
+
     m_delegate = new AlbumDelegate(this);
     // Key event and focusout event will active this signal twice
     // Use QueuedConnection to avoid crash
@@ -55,10 +61,22 @@ AlbumsView::AlbumsView(QWidget *parent)
     setSelectionMode(QAbstractItemView::SingleSelection);
     setUniformItemSizes(true);
     setSpacing(ITEM_SPACING);
-    setVerticalScrollBar(new QScrollBar());
-    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
     setDragEnabled(false);
 
+    QScrollBar* sb = new QScrollBar(this);
+    DEnhancedWidget *enhanced_scrollbar = new DEnhancedWidget(sb, sb);
+    connect(enhanced_scrollbar, &DEnhancedWidget::heightChanged, this, [sb] {
+        sb->move(sb->x(), TOP_TOOLBAR_THEIGHT);
+        sb->resize(sb->width(), sb->parentWidget()->height()
+                     - TOP_TOOLBAR_THEIGHT - BOTTOM_TOOLBAR_HEIGHT);
+    });
+    setVerticalScrollBar(sb);
+    sb->setContextMenuPolicy(Qt::PreventContextMenu);
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, [=]{
+        QTimer::singleShot(500, [=]{
+            emit enhanced_scrollbar->heightChanged(0);
+        });
+    });
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(m_menu, &QMenu::triggered, this, &AlbumsView::onMenuItemClicked);

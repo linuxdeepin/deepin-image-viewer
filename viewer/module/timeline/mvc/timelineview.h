@@ -92,7 +92,7 @@ private:
     int m_topMargin;
 
     CursorAction m_cursorAction;
-    ScrollBar *m_sb;
+    ScrollBar *m_sb = nullptr;
     QMutex m_mutex;
     QRect m_selectionRect;  // 为了绘制划定选中的方框
     QMap<QModelIndex, QRect> m_irMap;  // 为了知道index的情况下加快查找速度
