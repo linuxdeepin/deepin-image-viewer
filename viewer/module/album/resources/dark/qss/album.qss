@@ -53,10 +53,10 @@ ImageButton#AlbumBtn {
     qproperty-pressPic: url(:/resources/dark/images/album_press.png);
 }
 
-ImageButton#ImportBtn {
-    qproperty-normalPic: url(:/resources/dark/images/import_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/import_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/import_press.png);
+ImageButton#SynchroBtn {
+    qproperty-normalPic: url(:/resources/dark/images/synchro_normal.png);
+    qproperty-hoverPic: url(:/resources/dark/images/synchro_hover.png);
+    qproperty-pressPic: url(:/resources/dark/images/synchro_press.png);
 }
 
 QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {

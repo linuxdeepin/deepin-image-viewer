@@ -31,7 +31,7 @@ protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    void initImportBtn();
+    void initSynchroBtn();
     void initMiddleContent();
     void initSlider();
 
