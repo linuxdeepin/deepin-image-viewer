@@ -42,6 +42,7 @@ private:
     void initItems();
     void insertItems(const TimelineItem::ItemData &data);
     void removeItem(const DBImgInfo &info);
+    void removeItems(const DBImgInfoList &infos);
 
 private:
     Anchors<TopTimelineTip> m_tip;
