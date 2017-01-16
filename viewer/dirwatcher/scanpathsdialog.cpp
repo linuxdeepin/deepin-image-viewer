@@ -34,6 +34,7 @@ ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     ,m_messageTID(0)
 {
     setWindowModality(Qt::ApplicationModal);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Widget);
     if (titleBar()) titleBar()->setFixedHeight(0);
     setFixedSize(DIALOG_WIDTH, DIALOG_HEIGHT);
     setStyleSheet(utils::base::getFileContent(
@@ -94,7 +95,7 @@ void ScanPathsDialog::timerEvent(QTimerEvent *e)
 
 void ScanPathsDialog::showSelectDialog()
 {
-    QFileDialog *dialog = new QFileDialog;
+    QFileDialog *dialog = new QFileDialog(this);
     dialog->setWindowTitle(tr("Select Directory"));
     dialog->setDirectory(QStandardPaths::standardLocations(
                              QStandardPaths::PicturesLocation).first());
@@ -107,6 +108,10 @@ void ScanPathsDialog::showSelectDialog()
         if (! files.isEmpty()) {
             addPath(files.first());
         }
+
+        dialog->deleteLater();
+    } else {
+        dialog->deleteLater();
     }
 }
 
