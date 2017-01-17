@@ -50,7 +50,7 @@ QPushButton#AddToAlbumAdd:pressed {
 ImageButton#TimelineBtn {
     qproperty-normalPic: url(:/resources/dark/images/timeline_press.png);
     qproperty-hoverPic: url(:/resources/dark/images/timeline_press.png);
-    qproperty-pressPic: url(:/resources/dark/images/time_press.png);
+    qproperty-pressPic: url(:/resources/dark/images/timeline_press.png);
 }
 
 ImageButton#AlbumBtn {

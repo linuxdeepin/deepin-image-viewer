@@ -103,7 +103,7 @@ void ImageButton::enterEvent(QEvent *e)
 
 void ImageButton::showTooltip(const QPoint &gPos)
 {
-    if (m_tooltipVisiable) {
+    if (toolTip().trimmed().isEmpty() || m_tooltipVisiable) {
         return;
     }
     else {
