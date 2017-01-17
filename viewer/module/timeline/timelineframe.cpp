@@ -176,11 +176,7 @@ void TimelineFrame::initConnection()
         t->start();
     });
     connect(dApp->signalM, &SignalManager::imagesRemoved,
-            this, [=] (const DBImgInfoList &infos) {
-        for (auto info : infos) {
-            removeItem(info);
-        }
-    });
+            this, &TimelineFrame::removeItems);
 }
 
 void TimelineFrame::initView()
@@ -277,6 +273,27 @@ void TimelineFrame::removeItem(const DBImgInfo &info)
     m_model.removeData(data);
     m_infos.removeAll(info);
 
+    m_view->updateScrollbarRange();
+    m_view->updateView();
+}
+
+void TimelineFrame::removeItems(const DBImgInfoList &infos)
+{
+    // NOTE: THIS IS IMPORTANT
+    // clear the selection to avoid call selectedPaths read some invalid data
+    clearSelection();
+
+    for (auto info : infos) {
+        TimelineItem::ItemData data;
+        data.isTitle = false;
+        data.path = info.filePath;
+        data.timeline = utils::base::timeToString(info.time, true);
+
+
+        m_model.removeData(data);
+        m_infos.removeAll(info);
+
+    }
     m_view->updateScrollbarRange();
     m_view->updateView();
 }

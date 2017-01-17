@@ -6,6 +6,7 @@
 #include <linux/fs.h>
 #include <QApplication>
 #include <QClipboard>
+#include <QCryptographicHash>
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QDBusInterface>
@@ -301,6 +302,13 @@ QString symFilePath(const QString &path) {
         return path;
     }
 }
+
+QString hash(const QString &str)
+{
+    return QString(QCryptographicHash::hash(str.toUtf8(),
+                                            QCryptographicHash::Md5).toHex());
+}
+
 }  // namespace base
 
 }  // namespace utils

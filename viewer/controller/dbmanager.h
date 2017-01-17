@@ -28,7 +28,7 @@ struct DBAlbumInfo {
 struct DBImgInfo {
     QString filePath;
     QString fileName;
-    QString dir;
+    QString dirHash;
     QDateTime time;
 
     bool operator==(const DBImgInfo& other)
@@ -42,7 +42,7 @@ struct DBImgInfo {
         dbg << "(DBImgInfo)["
             << "Path:" << info.filePath
             << "Name:" << info.fileName
-            << "Dir:" << info.dir
+            << "Dir:" << info.dirHash
             << "Time:" << info.time
             << "]";
         return dbg;
@@ -64,6 +64,7 @@ public:
     const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
     const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
+    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
     int                     getImgsCount() const;
     int                     getImgsCountByDir(const QString &dir) const;
     const QStringList       getPathsByDir(const QString &dir) const;
