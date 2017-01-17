@@ -173,7 +173,7 @@ int DBManager::getImgsCountByDir(const QString &dir) const
     QSqlQuery query( db );
     query.prepare("SELECT COUNT(*) FROM ImageTable3 "
                           "WHERE Dir=:Dir AND FilePath !=\" \"");
-    query.bindValue(":Dir", dir);
+    query.bindValue(":Dir", utils::base::hash(dir));
     if (query.exec()) {
         query.first();
         return query.value(0).toInt();
@@ -194,7 +194,7 @@ const QStringList DBManager::getPathsByDir(const QString &dir) const
     QSqlQuery query( db );
     query.prepare( "SELECT DISTINCT FilePath FROM ImageTable3 "
                    "WHERE Dir=:dir " );
-    query.bindValue(":dir", dir);
+    query.bindValue(":dir", utils::base::hash(dir));
     if (! query.exec() ) {
         qWarning() << "Get Paths from ImageTable3 failed: " << query.lastError();
     }
