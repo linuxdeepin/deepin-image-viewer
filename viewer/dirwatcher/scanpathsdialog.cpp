@@ -150,6 +150,8 @@ void ScanPathsDialog::addPath(const QString &path, bool check)
 
 void ScanPathsDialog::removePath(const QString &path)
 {
+    qDebug() << "Import Thread has been stoped, removing data from DB...";
+
     // Remove data from DB
     dApp->dbM->removeDir(path);
 
@@ -158,6 +160,8 @@ void ScanPathsDialog::removePath(const QString &path)
     if (scanpaths().isEmpty()) {
         m_contentStack->setCurrentIndex(0);
     }
+
+    qDebug() << "Data has been removed from DB.";
 }
 
 void ScanPathsDialog::initAddButton()

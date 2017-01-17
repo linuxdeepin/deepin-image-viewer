@@ -311,6 +311,9 @@ void LoadThread::run()
     using namespace utils::base;
     using namespace utils::image;
     for (auto info : m_infos) {
+        if (! QFileInfo(info.filePath).exists()) {
+            continue;
+        }
         TimelineItem::ItemData data;
         data.isTitle = false;
         data.path = info.filePath;

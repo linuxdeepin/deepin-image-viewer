@@ -114,6 +114,22 @@ void Importer::stop()
     emit imported(true);
 }
 
+void Importer::stopDirCollect(const QString &dir)
+{
+    for (auto t : m_threads) {
+        DirCollectThread *dc = dynamic_cast<DirCollectThread*>(t);
+        if (dc && dc->dir() == dir) {
+            qDebug() << "Stoping dir collect thread..." << dir;
+            dc->setStop(true);
+            t->quit();
+            t->wait();
+            t->deleteLater();
+        }
+    }
+
+    emit imported(true);
+}
+
 void Importer::showImportDialog(const QString &album)
 {
     QString dir = QFileDialog::getExistingDirectory(
@@ -128,6 +144,7 @@ DirCollectThread::DirCollectThread(const QString &root, const QString &album)
     :QThread(NULL)
     , m_album(album)
     , m_root(root)
+    , m_stop(false)
 {
 
 }
@@ -149,6 +166,9 @@ void DirCollectThread::run()
     for (QString dir : subDirs) {
         auto fileInfos = utils::image::getImagesInfo(dir, false);
         for (auto fi : fileInfos) {
+            if (m_stop) {
+                return;
+            }
             const QString path = fi.absoluteFilePath();
             if (dbPaths.contains(path)) {
                 continue;
@@ -189,10 +209,21 @@ void DirCollectThread::run()
         emit insertAlbumRequest(m_album, paths);
 }
 
+void DirCollectThread::setStop(bool stop)
+{
+    m_stop = stop;
+}
+
+const QString DirCollectThread::dir() const
+{
+    return m_root;
+}
+
 FilesCollectThread::FilesCollectThread(const QStringList &paths, const QString &album)
     : QThread(NULL)
     , m_album(album)
     , m_paths(paths)
+    , m_stop(false)
 {
 
 }
@@ -206,6 +237,9 @@ void FilesCollectThread::run()
 
     qint64 bt = QDateTime::currentMSecsSinceEpoch();
     for (auto path : m_paths) {
+        if (m_stop) {
+            return;
+        }
         if (dbPaths.contains(path) || ! imageSupportRead(path)) {
             continue;
         }
@@ -243,4 +277,9 @@ void FilesCollectThread::run()
         emit resultReady(dbInfos);
     if (! m_album.isEmpty())
         emit insertAlbumRequest(m_album, supportPaths);
+}
+
+void FilesCollectThread::setStop(bool stop)
+{
+    m_stop = stop;
 }

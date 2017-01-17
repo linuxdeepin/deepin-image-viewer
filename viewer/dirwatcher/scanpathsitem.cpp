@@ -162,6 +162,8 @@ void ScanPathsItem::initRemoveIcon()
     button->setObjectName("PathItemRemoveButton");
     button->setToolTip(tr("Cancel sync"));
     connect(button, &ImageButton::clicked, this, [=] {
+        dApp->importer->stopDirCollect(m_path);
+
         emit remove(m_path);
     });
     connect(this, &ScanPathsItem::showRemoveIconChanged, this, [=] (bool show) {
@@ -189,6 +191,8 @@ void ScanPathsItem::updateCount()
             m_pathLabel->setText(tr("The device has been removed"));
         }
         else {
+            dApp->importer->stopDirCollect(m_path);
+
             // Remove images from DB
             dApp->dbM->removeDir(m_path);
             m_pathLabel->setText(tr("This folder has already not exist"));

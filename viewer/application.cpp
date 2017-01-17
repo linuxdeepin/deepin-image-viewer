@@ -37,11 +37,11 @@ void Application::initChildren()
     viewerTheme = ViewerThemeManager::instance();
     setter = ConfigSetter::instance();
     exporter = Exporter::instance();
+    signalM = SignalManager::instance();
+    dbM = new DBManager();
     importer = new Importer();
     scanDialog = ScanPathsDialog::instance();
-    signalM = SignalManager::instance();
     wpSetter = WallpaperSetter::instance();
-    dbM = new DBManager();
 }
 
 void Application::initI18n()
