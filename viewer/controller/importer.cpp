@@ -170,6 +170,8 @@ void DirCollectThread::run()
                 return;
             }
             const QString path = fi.absoluteFilePath();
+            paths << path;
+
             if (dbPaths.contains(path)) {
                 continue;
             }
@@ -182,7 +184,6 @@ void DirCollectThread::run()
                 }
             }
 
-            paths << path;
             DBImgInfo dbi;
             dbi.fileName = fi.fileName();
             dbi.filePath = path;
@@ -240,7 +241,12 @@ void FilesCollectThread::run()
         if (m_stop) {
             return;
         }
-        if (dbPaths.contains(path) || ! imageSupportRead(path)) {
+        if (! imageSupportRead(path)) {
+            continue;
+        }
+        supportPaths << path;
+
+        if (dbPaths.contains(path)) {
             continue;
         }
 
@@ -252,7 +258,6 @@ void FilesCollectThread::run()
             }
         }
 
-        supportPaths << path;
         QFileInfo fi(path);
         DBImgInfo dbi;
         dbi.fileName = fi.fileName();
