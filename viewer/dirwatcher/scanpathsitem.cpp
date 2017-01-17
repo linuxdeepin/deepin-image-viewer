@@ -63,9 +63,9 @@ ScanPathsItem::ScanPathsItem(const QString &path)
     wc->addPaths(subs);
 
     connect(wc, &QFileSystemWatcher::directoryChanged,
-            this, &ScanPathsItem::updateCount);
-    connect(wc, &QFileSystemWatcher::fileChanged,
-            this, &ScanPathsItem::updateCount);
+            this, [=] {
+        TIMER_SINGLESHOT(1000, {updateCount();}, this)
+    });
     connect(this, &ScanPathsItem::requestUpdateCount,
             this, &ScanPathsItem::updateCount);
     connect(VolumeMonitor::instance(), &VolumeMonitor::deviceAdded,
