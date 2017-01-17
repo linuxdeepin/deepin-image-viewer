@@ -209,12 +209,13 @@ void AlbumPanel::dropEvent(QDropEvent *event)
     for (QUrl url : urls) {
         const QString path = url.toLocalFile();
         if (QFileInfo(path).isDir()) {
-            if (!withAlbum) {
-                showImportDirDialog(path);
-            }
-            else {
-                dApp->importer->appendDir(path, m_currentAlbum);
-            }
+            showImportDirDialog(path);
+//            if (!withAlbum) {
+//                showImportDirDialog(path);
+//            }
+//            else {
+//                dApp->importer->appendDir(path, m_currentAlbum);
+//            }
         }
         else {
             files << path;
@@ -377,7 +378,10 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
         return;
     }
 
-    DirImportDialog *d = new DirImportDialog(dir);
+    bool insideAlbum = m_imagesView->isVisible()
+            && m_stackWidget->currentWidget() == m_imagesView;
+    const QString album = insideAlbum ? m_currentAlbum : QString();
+    DirImportDialog *d = new DirImportDialog(dir, album);
     connect(d, &DirImportDialog::albumCreated,
             m_albumsView, &AlbumsView::updateView);
     connect(d, &DirImportDialog::albumCreated,

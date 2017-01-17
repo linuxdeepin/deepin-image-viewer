@@ -12,12 +12,9 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-DirImportDialog::DirImportDialog(const QString &dir, QWidget* parent)
+DirImportDialog::DirImportDialog(const QString &dir, const QString &album, QWidget* parent)
     :DDialog(parent)
 {
-//    setMaximumWidth(380);
-//    setMinimumWidth(500);
-
     // It may appear several windows At the same
     // and Qt::WindowModal will cause stuck
     setWindowModality(Qt::ApplicationModal);
@@ -25,26 +22,36 @@ DirImportDialog::DirImportDialog(const QString &dir, QWidget* parent)
     setIconPixmap(QPixmap(":/dialogs/images/resources/images/album_bg_normal.png"));
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
-    addButton(tr("Add"), false, DDialog::ButtonNormal);
-    addButton(tr("Create and add"), true, DDialog::ButtonRecommend);
+    if (! album.isEmpty()) {
+        addButton(tr("Sync and Add"), false, DDialog::ButtonNormal);
+    }
+    else {
+        addButton(tr("Sync and Create"), false, DDialog::ButtonNormal);
+    }
+    addButton(tr("Sync"), true, DDialog::ButtonRecommend);
 
-    setTitle(tr("Are you sure to create album named by this "
-                  "folder and sync pictures to this album?"));
+    setTitle(tr("Are you sure to add this folder to sync list?"));
+    if (! album.isEmpty()) {
+        setMessage(tr("Add pictures in the folder to this album"));
+    }
+    else {
+        setMessage(tr("You can also create this album"));
+    }
 
     connect(this, &DirImportDialog::closed,
             this, &DirImportDialog::deleteLater);
     connect(this, &DirImportDialog::buttonClicked, this, [=] (int id) {
         if(id == 1){
-            dApp->importer->appendDir(dir);
-            dApp->scanDialog->addPath(dir);
-        }
-        else if (id == 2) {
-            const QString album = QFileInfo(dir).fileName();
-            dApp->importer->appendDir(dir, album);
+            const QString tmpAlbum = album.isEmpty() ? QFileInfo(dir).fileName() : album;
+            dApp->importer->appendDir(dir, tmpAlbum);
             dApp->scanDialog->addPath(dir);
             // For UI update
-            dApp->dbM->insertIntoAlbum(album, QStringList(" "));//FIXDB
+            dApp->dbM->insertIntoAlbum(tmpAlbum, QStringList(" "));//FIXDB
             emit albumCreated();
+        }
+        else if (id == 2) {
+            dApp->importer->appendDir(dir);
+            dApp->scanDialog->addPath(dir);
         }
     });
 }

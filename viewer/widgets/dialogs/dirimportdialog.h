@@ -9,7 +9,7 @@ class DirImportDialog : public DDialog
 {
     Q_OBJECT
 public:
-    explicit DirImportDialog(const QString &dir, QWidget *parent = 0);
+    explicit DirImportDialog(const QString &dir, const QString &album, QWidget *parent = 0);
 
 signals:
     void albumCreated();

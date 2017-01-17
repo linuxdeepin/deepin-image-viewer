@@ -186,15 +186,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add</source>
+        <source>Sync and Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Create and add</source>
+        <source>Sync and Create</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure to create album named by this folder and sync pictures to this album?</source>
+        <source>Sync</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to add this folder to sync list?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can also create this album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add pictures in the folder to this album</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

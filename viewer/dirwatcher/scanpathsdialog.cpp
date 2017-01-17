@@ -125,10 +125,10 @@ void ScanPathsDialog::addPath(const QString &path, bool check)
         // If path is already in scan paths list
 //        showMessage(tr("The path is already in scan paths list"));
     }
-//    else if (check && isSubPathOfScanPaths(path)) {
-//        // If path is contain by others
+    else if (check && isSubPathOfScanPaths(path)) {
+        // If path is contain by others
 //        showMessage(tr("The path is contain by scan paths list"));
-//    }
+    }
     else {
         if (check) {
             addToScanPaths(path);

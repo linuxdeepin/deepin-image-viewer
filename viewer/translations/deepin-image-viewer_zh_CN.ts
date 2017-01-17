@@ -335,15 +335,39 @@
     </message>
     <message>
         <source>Add</source>
-        <translation>仅添加</translation>
+        <translation type="vanished">仅添加</translation>
     </message>
     <message>
         <source>Create and add</source>
-        <translation>创建并添加</translation>
+        <translation type="vanished">创建并添加</translation>
     </message>
     <message>
         <source>Are you sure to create album named by this folder and sync pictures to this album?</source>
-        <translation>是否创建以该目录命名的相册，并同步图片到该相册下？</translation>
+        <translation type="vanished">是否创建以该目录命名的相册，并同步图片到该相册下？</translation>
+    </message>
+    <message>
+        <source>Sync and Add</source>
+        <translation>同步并添加</translation>
+    </message>
+    <message>
+        <source>Sync and Create</source>
+        <translation>同步并创建</translation>
+    </message>
+    <message>
+        <source>Sync</source>
+        <translation>同步</translation>
+    </message>
+    <message>
+        <source>Are you sure to add this folder to sync list?</source>
+        <translation>您确定要将文件夹添加到同步列表？</translation>
+    </message>
+    <message>
+        <source>You can also create this album</source>
+        <translation>您也可以创建该相册 </translation>
+    </message>
+    <message>
+        <source>Add pictures in the folder to this album</source>
+        <translation>将文件夹中的图片添加到此相册</translation>
     </message>
 </context>
 <context>
