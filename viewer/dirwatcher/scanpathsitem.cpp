@@ -160,6 +160,7 @@ void ScanPathsItem::initRemoveIcon()
     ImageButton *button = new ImageButton;
     button->setFixedSize(1, 1);
     button->setObjectName("PathItemRemoveButton");
+    button->setToolTip(tr("Cancel sync"));
     connect(button, &ImageButton::clicked, this, [=] {
         emit remove(m_path);
     });
@@ -185,8 +186,7 @@ void ScanPathsItem::updateCount()
         style()->polish(m_pathLabel);
         m_countLabel->setText(QString("0 ") + tr("Images"));
         if (onMountDevice() && ! mountDeviceExist()) {
-            m_pathLabel->setText(tr("The removable device has been plugged out, "
-                                    "please plug in again"));
+            m_pathLabel->setText(tr("The device has been removed"));
         }
         else {
             // Remove images from DB

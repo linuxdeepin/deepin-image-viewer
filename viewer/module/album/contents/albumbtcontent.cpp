@@ -5,6 +5,7 @@
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
+#include "dirwatcher/scanpathsdialog.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
 #include "widgets/loadingicon.h"
@@ -89,7 +90,7 @@ void AlbumBTContent::initSynchroBtn()
     synb->setToolTip(tr("Sync manage"));
 
     connect(synb, &ImageButton::clicked, this, [=] {
-        dApp->importer->showImportDialog();
+        dApp->scanDialog->show();
     });
 
     m_layout->addWidget(synb);
@@ -140,7 +141,7 @@ void AlbumBTContent::initMiddleContent()
     });
     connect(dApp->importer, &Importer::currentImport, this, [=] (const QString &path) {
         QFontMetrics fm(l->font());
-        const QString s = tr("Importing: ") + path;
+        const QString s = tr("Syncing: ") + path;
         l->setText(fm.elidedText(s, Qt::ElideMiddle, l->width()));
     });
 

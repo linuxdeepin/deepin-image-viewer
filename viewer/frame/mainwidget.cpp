@@ -41,8 +41,6 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initExtensionPanel();
     initTopToolbar();
     initBottomToolbar();
-    // image file's synchronization
-    initLocalImagesMonitor();
 
     initConnection();
 }
@@ -154,29 +152,6 @@ void MainWidget::initPanelStack(bool manager)
     m_panelStack->addWidget(m_viewPanel);
 }
 
-void MainWidget::initLocalImagesMonitor() {
-//    QFileSystemWatcher *fileWatcher = new QFileSystemWatcher(this);
-//    QStringList filepaths = dApp->dbM->getAllPaths();
-//    foreach(QString filepath, filepaths) {
-//        if (!(filepath.startsWith("/media")||filepath.startsWith("/run/media")))
-//            fileWatcher->addPath(QFileInfo(filepath).absoluteFilePath());
-//    }
-
-//    connect(dApp->signalM, &SignalManager::imagesInserted, this, [=]{
-//        QStringList fpaths = dApp->dbM->getAllPaths();
-//        foreach(QString fpath, fpaths) {
-//            if (!(fpath.startsWith("/media")||fpath.startsWith("/run/media")))
-//                fileWatcher->addPath(QFileInfo(fpath).absoluteFilePath());
-//        }
-//    });
-
-//    connect(fileWatcher, &QFileSystemWatcher::fileChanged, this, [=](const
-//            QString &path) {
-//        if (!QFileInfo(path).exists())
-//            dApp->dbM->removeImgInfos(QStringList(path));
-//    });
-}
-
 void MainWidget::initTopToolbar()
 {
     m_topToolbar = new TopToolbar(this);
@@ -252,9 +227,9 @@ void MainWidget::initConnection()
     });
     connect(dApp->signalM, &SignalManager::showImageInfo,
             this, &MainWidget::onShowImageInfo);
-    connect(dApp->importer, &Importer::imported, this, [=] (bool v) {
-        onImported(tr("Imported successfully"), v);
-    });
+//    connect(dApp->importer, &Importer::imported, this, [=] (bool v) {
+//        onImported(tr("Imported successfully"), v);
+//    });
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &MainWidget::initStyleSheet);
 }

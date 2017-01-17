@@ -43,11 +43,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
+        <source>Sync manage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Importing: </source>
+        <source>Syncing: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -99,10 +99,6 @@
 <context>
     <name>AlbumPanel</name>
     <message>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
@@ -111,11 +107,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import or drag image to timeline</source>
+        <source>My favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My favorite</source>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag images and drop them at timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -186,15 +186,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import only</source>
+        <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>OK</source>
+        <source>Create and add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Create an album named after the imported folder?</source>
+        <source>Are you sure to create album named by this folder and sync pictures to this album?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -330,25 +330,6 @@
     </message>
 </context>
 <context>
-    <name>MainWidget</name>
-    <message>
-        <source>Imported successfully</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The removable device has been unplugged, would you like to delete the thumbnails on this device?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -432,13 +413,6 @@
     </message>
 </context>
 <context>
-    <name>PathItem</name>
-    <message>
-        <source>Calculating...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
@@ -464,18 +438,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This Directory can not be select</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The path is already in scan paths list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The path is contain by scan paths list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -485,6 +447,33 @@
     </message>
     <message>
         <source>The folder list is empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sync of this directory is not allowed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ScanPathsItem</name>
+    <message>
+        <source>Cancel sync</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The device has been removed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This folder has already not exist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Calculating...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -759,26 +748,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
+        <source>Sync manage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Importing: </source>
+        <source>Syncing: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import or drag image to timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -843,6 +824,14 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag images and drop them at timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

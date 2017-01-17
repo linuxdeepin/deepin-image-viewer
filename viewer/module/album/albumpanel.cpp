@@ -239,8 +239,8 @@ void AlbumPanel::initMainStackWidget()
 
     m_importFrame = new ImportFrame(this);
 
-    m_importFrame->setButtonText(tr("Import"));
-    m_importFrame->setTitle(tr("Import or drag image to timeline"));
+    m_importFrame->setButtonText(tr("Add"));
+    m_importFrame->setTitle(tr("You can add sync directory or drag images and drop them at timeline"));
     connect(m_importFrame, &ImportFrame::clicked, this, [=] {
         dApp->importer->showImportDialog();
     });

@@ -119,16 +119,16 @@ void ScanPathsDialog::addPath(const QString &path, bool check)
 {
     if (check && (path.isEmpty() || ! isLegalPath(path))) {
         // If path can't be select
-        showMessage(tr("This Directory can not be select"));
+        showMessage(tr("Sync of this directory is not allowed"));
     }
     else if (check && isContainByScanPaths(path)) {
         // If path is already in scan paths list
-        showMessage(tr("The path is already in scan paths list"));
+//        showMessage(tr("The path is already in scan paths list"));
     }
-    else if (check && isSubPathOfScanPaths(path)) {
-        // If path is contain by others
-        showMessage(tr("The path is contain by scan paths list"));
-    }
+//    else if (check && isSubPathOfScanPaths(path)) {
+//        // If path is contain by others
+//        showMessage(tr("The path is contain by scan paths list"));
+//    }
     else {
         if (check) {
             addToScanPaths(path);

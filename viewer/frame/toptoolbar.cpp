@@ -242,13 +242,14 @@ void TopToolbar::initRightContent()
     });
     DWindowCloseButton *closeBtn = new DWindowCloseButton;
     connect(closeBtn, &DWindowCloseButton::clicked, this, [=] {
-        if (dApp->importer->isRunning()) {
-            CancelImportDialog *cd = new CancelImportDialog;
-            cd->show();
-        }
-        else {
-            dApp->quit();
-        }
+//        if (dApp->importer->isRunning()) {
+//            CancelImportDialog *cd = new CancelImportDialog;
+//            cd->show();
+//        }
+//        else {
+//            dApp->quit();
+//        }
+        dApp->quit();
     });
 
     m_rLayout->addWidget(optionBtn);

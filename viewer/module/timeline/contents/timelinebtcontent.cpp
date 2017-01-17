@@ -91,8 +91,7 @@ void TimelineBTContent::initSynchroBtn()
     synb->setToolTip(tr("Sync manage"));
 
     connect(synb, &ImageButton::clicked, this, [=] {
-//        dApp->importer->showImportDialog();
-        ScanPathsDialog::instance()->show();
+        dApp->scanDialog->show();
     });
 
     m_layout->addWidget(synb);
@@ -143,7 +142,7 @@ void TimelineBTContent::initMiddleContent()
     });
     connect(dApp->importer, &Importer::currentImport, this, [=] (const QString &path) {
         QFontMetrics fm(l->font());
-        const QString s = tr("Importing: ") + path;
+        const QString s = tr("Syncing: ") + path;
         l->setText(fm.elidedText(s, Qt::ElideMiddle, l->width()));
     });
 

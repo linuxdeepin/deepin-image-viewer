@@ -71,11 +71,19 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="vanished">导入</translation>
     </message>
     <message>
         <source>Importing: </source>
-        <translation>正在导入：</translation>
+        <translation type="vanished">正在导入：</translation>
+    </message>
+    <message>
+        <source>Sync manage</source>
+        <translation>同步管理</translation>
+    </message>
+    <message>
+        <source>Syncing: </source>
+        <translation>正在同步：</translation>
     </message>
 </context>
 <context>
@@ -135,11 +143,11 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="vanished">导入</translation>
     </message>
     <message>
         <source>Import or drag image to timeline</source>
-        <translation>您可以导入或拖拽图片到时间线</translation>
+        <translation type="vanished">您可以导入或拖拽图片到时间线</translation>
     </message>
     <message>
         <source>image</source>
@@ -164,6 +172,14 @@
     <message>
         <source>My favorite</source>
         <translation>我的收藏</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>添加同步目录</translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag images and drop them at timeline</source>
+        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
     </message>
 </context>
 <context>
@@ -307,15 +323,27 @@
     </message>
     <message>
         <source>Import only</source>
-        <translation>仅导入</translation>
+        <translation type="vanished">仅导入</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>创建并导入</translation>
+        <translation type="vanished">创建并导入</translation>
     </message>
     <message>
         <source>Create an album named after the imported folder?</source>
-        <translation>是否创建以导入文件夹命名的相册？</translation>
+        <translation type="vanished">是否创建以导入文件夹命名的相册？</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>仅添加</translation>
+    </message>
+    <message>
+        <source>Create and add</source>
+        <translation>创建并添加</translation>
+    </message>
+    <message>
+        <source>Are you sure to create album named by this folder and sync pictures to this album?</source>
+        <translation>是否创建以该目录命名的相册，并同步图片到该相册下？</translation>
     </message>
 </context>
 <context>
@@ -609,19 +637,19 @@
     <name>MainWidget</name>
     <message>
         <source>Imported successfully</source>
-        <translation>导入成功</translation>
+        <translation type="vanished">导入成功</translation>
     </message>
     <message>
         <source>The removable device has been unplugged, would you like to delete the thumbnails on this device?</source>
-        <translation>移动设备已拔出，是否要删除该移动设备上的缩略图？</translation>
+        <translation type="vanished">移动设备已拔出，是否要删除该移动设备上的缩略图？</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation>删除</translation>
+        <translation type="vanished">删除</translation>
     </message>
 </context>
 <context>
@@ -711,7 +739,7 @@
     <name>PathItem</name>
     <message>
         <source>Calculating...</source>
-        <translation>正在计算...</translation>
+        <translation type="vanished">正在计算...</translation>
     </message>
 </context>
 <context>
@@ -820,18 +848,6 @@
         <translation>选择文件夹</translation>
     </message>
     <message>
-        <source>This Directory can not be select</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The path is already in scan paths list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The path is contain by scan paths list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add folder</source>
         <translation>添加文件夹</translation>
     </message>
@@ -842,6 +858,33 @@
     <message>
         <source>The folder list is empty</source>
         <translation>目录列表为空</translation>
+    </message>
+    <message>
+        <source>Sync of this directory is not allowed</source>
+        <translation>该目录不支持同步</translation>
+    </message>
+</context>
+<context>
+    <name>ScanPathsItem</name>
+    <message>
+        <source>Cancel sync</source>
+        <translation>取消同步</translation>
+    </message>
+    <message>
+        <source>Images</source>
+        <translation>张图片</translation>
+    </message>
+    <message>
+        <source>The device has been removed</source>
+        <translation>移动设备已被移除</translation>
+    </message>
+    <message>
+        <source>This folder has already not exist</source>
+        <translation>该目录已不存在</translation>
+    </message>
+    <message>
+        <source>Calculating...</source>
+        <translation>正在计算...</translation>
     </message>
 </context>
 <context>
@@ -1219,11 +1262,19 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="vanished">导入</translation>
     </message>
     <message>
         <source>Importing: </source>
-        <translation>正在导入：</translation>
+        <translation type="vanished">正在导入：</translation>
+    </message>
+    <message>
+        <source>Sync manage</source>
+        <translation>同步管理</translation>
+    </message>
+    <message>
+        <source>Syncing: </source>
+        <translation>正在同步：</translation>
     </message>
 </context>
 <context>
@@ -1241,11 +1292,11 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="vanished">导入</translation>
     </message>
     <message>
         <source>Import or drag image to timeline</source>
-        <translation>您可以导入或拖拽图片到时间线</translation>
+        <translation type="vanished">您可以导入或拖拽图片到时间线</translation>
     </message>
     <message>
         <source>%1 image</source>
@@ -1338,6 +1389,14 @@
     <message>
         <source>Remove from my favorite</source>
         <translation>取消收藏</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>添加同步目录</translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag images and drop them at timeline</source>
+        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
     </message>
 </context>
 <context>

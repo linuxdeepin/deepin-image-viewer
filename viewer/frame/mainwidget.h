@@ -35,8 +35,6 @@ private:
     void initPanelStack(bool manager);
     void initStyleSheet();
 
-    void initLocalImagesMonitor();
-
 private:
     QStringList m_infoShowingList;
 
