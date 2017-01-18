@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QMutex>
 
 class ConfigSetter : public QObject
 {
@@ -25,6 +26,7 @@ private:
 private:
     static ConfigSetter *m_setter;
     QSettings *m_settings;
+    QMutex m_mutex;
 };
 
 #endif // CONFIGSETTER_H

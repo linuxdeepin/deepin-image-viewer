@@ -1,5 +1,6 @@
 #include "timelineframe.h"
 #include "application.h"
+#include "controller/configsetter.h"
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
 #include "mvc/timelinemodel.h"
@@ -18,6 +19,8 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 39;
 const int BOTTOM_TOOLBAR_HEIGHT = 22;
+const QString SCANPATHS_GROUP = "SCANPATHSGROUP";
+const QString SCANPATHS_KEY = "SCANPATHSKEY";
 
 class LoadThread : public QThread
 {
@@ -30,6 +33,9 @@ protected:
 
 signals:
     void ready(TimelineItem::ItemData data);
+
+private:
+    const QStringList scanpathsHash();
 
 private:
     DBImgInfoList m_infos;
@@ -310,8 +316,11 @@ void LoadThread::run()
 {
     using namespace utils::base;
     using namespace utils::image;
+
+
     for (auto info : m_infos) {
-        if (! QFileInfo(info.filePath).exists()) {
+        const QStringList hashs = scanpathsHash();
+        if (! QFileInfo(info.filePath).exists() || ! hashs.contains(info.dirHash)) {
             continue;
         }
         TimelineItem::ItemData data;
@@ -328,4 +337,17 @@ void LoadThread::run()
 
         emit ready(data);
     }
+}
+
+const QStringList LoadThread::scanpathsHash()
+{
+    QStringList paths = dApp->setter->value(SCANPATHS_GROUP, SCANPATHS_KEY)
+            .toString().split(",");
+    paths.removeAll("");
+    QStringList hashs;
+    for (auto path : paths) {
+        hashs << utils::base::hash(path);
+    }
+    hashs << utils::base::hash(QString());
+    return hashs;
 }

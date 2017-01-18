@@ -160,11 +160,11 @@ void ScanPathsDialog::removePath(const QString &path)
 {
     qDebug() << "Import Thread has been stoped, removing data from DB...";
 
-    // Remove data from DB
-    dApp->dbM->removeDir(path);
-
     // Remove from config-file
     removeFromScanPaths(path);
+
+    // Remove data from DB
+    dApp->dbM->removeDir(path);
     if (scanpaths().isEmpty()) {
         m_contentStack->setCurrentIndex(0);
     }
