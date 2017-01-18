@@ -113,6 +113,10 @@
     </message>
     <message>
         <source>My favorites</source>
+        <translation type="vanished">我的收藏</translation>
+    </message>
+    <message>
+        <source>My favorite</source>
         <translation>我的收藏</translation>
     </message>
 </context>
