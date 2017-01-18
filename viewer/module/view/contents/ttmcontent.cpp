@@ -131,8 +131,10 @@ void TTMContent::updateCollectButton()
     if (! m_clBT)
         return;
 
-    if (m_imagePath.isEmpty())
+    if (m_imagePath.isEmpty()) {
         m_clBT->setDisabled(true);
+        m_clBT->setChecked(false);
+    }
     else
         m_clBT->setDisabled(false);
 
