@@ -600,11 +600,11 @@
     </message>
     <message>
         <source>Import</source>
-        <translation>导入</translation>
+        <translation type="vanished">导入</translation>
     </message>
     <message>
         <source>Import or drag image to timeline</source>
-        <translation>您可以导入或拖拽图片到时间线</translation>
+        <translation type="vanished">您可以导入或拖拽图片到时间线</translation>
     </message>
     <message>
         <source>Print</source>
@@ -633,6 +633,14 @@
     <message>
         <source>Remove from my favorite</source>
         <translation>取消收藏</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>添加同步目录</translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag images and drop them at timeline</source>
+        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
     </message>
 </context>
 <context>

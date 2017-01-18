@@ -13,6 +13,7 @@ namespace {
 
 const QString DATABASE_PATH = QDir::homePath() + "/.local/share/deepin/deepin-image-viewer/";
 const QString DATABASE_NAME = "deepinimageviewer.db";
+const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
 
 }  // namespace
 
@@ -367,8 +368,9 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
     QStringList pathHashs;
 
     QSqlQuery query( db );
-    query.prepare( "SELECT DISTINCT PathHash FROM AlbumTable3 "
-                   "WHERE AlbumName =:name AND PathHash != \" \" ");
+    QString ps = "SELECT DISTINCT PathHash FROM AlbumTable3 "
+                 "WHERE AlbumName =:name AND PathHash != \"%1\" ";
+    query.prepare( ps.arg(EMPTY_HASH_STR) );
     query.bindValue(":name", album);
     if ( ! query.exec() ) {
         qWarning() << "Get data from AlbumTable3 failed: "
@@ -477,8 +479,9 @@ int DBManager::getImgsCountByAlbum(const QString &album) const
         return 0;
     }
     QSqlQuery query( db );
-    query.prepare("SELECT COUNT(*) FROM AlbumTable3 "
-                          "WHERE AlbumName =:album AND PathHash !=\" \"");
+    QString ps = "SELECT COUNT(*) FROM AlbumTable3 "
+                 "WHERE AlbumName =:album AND PathHash != \"%1\" ";
+    query.prepare( ps.arg(EMPTY_HASH_STR) );
     query.bindValue(":album", album);
     if (query.exec()) {
         query.first();
@@ -547,7 +550,6 @@ bool DBManager::isAlbumExistInDB(const QString &album) const
 
 void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
 {
-
     const QSqlDatabase db = getDatabase();
     if (! db.isValid() || album.isEmpty()) {
         return;
@@ -572,9 +574,10 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
 
     //FIXME: Don't insert the repeated filepath into the same album
     //Delete the same data
-    query.prepare("DELETE FROM AlbumTable3 where AlbumId NOT IN"
-                  "(SELECT min(AlbumId) FROM AlbumTable3 GROUP BY"
-                  " AlbumName, PathHash) AND PathHash != \" \"");
+    QString ps = "DELETE FROM AlbumTable3 where AlbumId NOT IN"
+                 "(SELECT min(AlbumId) FROM AlbumTable3 GROUP BY"
+                 " AlbumName, PathHash) AND PathHash != \"%1\" ";
+    query.prepare(ps.arg(EMPTY_HASH_STR));
     if (!query.exec()) {
         qDebug() << "delete same date failed!";
     }

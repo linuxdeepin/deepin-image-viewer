@@ -298,14 +298,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Import or drag image to timeline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
@@ -331,6 +323,14 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag images and drop them at timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

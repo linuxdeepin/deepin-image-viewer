@@ -27,12 +27,17 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
 void TopAlbumTips::setAlbum(const QString &album)
 {
     auto info = dApp->dbM->getAlbumInfo(album);
-    const QString beginTime = info.beginTime.toString(tr("dd MMMM yyyy"));
-    const QString endTime = info.endTime.toString(tr("dd MMMM yyyy"));
-    const QString l = (beginTime.isEmpty() || endTime.isEmpty())
-            ? "" : beginTime + "-" + endTime;
+    if (info.count == 0) {
+        m_infoLabel->setText("");
+    }
+    else {
+        const QString beginTime = info.beginTime.toString(tr("dd MMMM yyyy"));
+        const QString endTime = info.endTime.toString(tr("dd MMMM yyyy"));
+        const QString l = (beginTime.isEmpty() || endTime.isEmpty())
+                ? "" : beginTime + "-" + endTime;
 
-    m_infoLabel->setText(QString("%1").arg(trName(album)) + "  " + l);
+        m_infoLabel->setText(QString("%1").arg(trName(album)) + "  " + l);
+    }
 }
 
 void TopAlbumTips::setLeftMargin(int v)

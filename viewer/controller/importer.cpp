@@ -1,5 +1,6 @@
 #include "importer.h"
 #include "application.h"
+#include "dirwatcher/scanpathsdialog.h"
 #include "utils/imageutils.h"
 #include <QDirIterator>
 #include <QFileDialog>
@@ -137,7 +138,9 @@ void Importer::showImportDialog(const QString &album)
                 QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (dir.isEmpty()) return;
-    appendDir(dir, album);
+    if (ScanPathsDialog::instance()->addPath(dir)) {
+        appendDir(dir, album);
+    }
 }
 
 DirCollectThread::DirCollectThread(const QString &root, const QString &album)

@@ -14,7 +14,7 @@ class ScanPathsDialog : public DMainWindow
     Q_OBJECT
 public:
     static ScanPathsDialog *instance();
-    void addPath(const QString &path, bool check=true);
+    bool addPath(const QString &path, bool check=true);
     void show();
 
 signals:

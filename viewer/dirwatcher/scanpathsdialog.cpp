@@ -118,19 +118,22 @@ void ScanPathsDialog::showSelectDialog()
     }
 }
 
-void ScanPathsDialog::addPath(const QString &path, bool check)
+bool ScanPathsDialog::addPath(const QString &path, bool check)
 {
     if (check && (path.isEmpty() || ! isLegalPath(path))) {
         // If path can't be select
         showMessage(tr("Sync of this directory is not allowed"));
+        return false;
     }
     else if (check && isContainByScanPaths(path)) {
         // If path is already in scan paths list
 //        showMessage(tr("The path is already in scan paths list"));
+        return false;
     }
     else if (check && isSubPathOfScanPaths(path)) {
         // If path is contain by others
 //        showMessage(tr("The path is contain by scan paths list"));
+        return false;
     }
     else {
         if (check) {
@@ -148,6 +151,8 @@ void ScanPathsDialog::addPath(const QString &path, bool check)
             item->deleteLater();
         });
         m_pathsLayout->addWidget(item);
+
+        return true;
     }
 }
 
