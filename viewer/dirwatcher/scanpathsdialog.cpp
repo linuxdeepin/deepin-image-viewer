@@ -5,9 +5,11 @@
 #include <dtitlebar.h>
 #include "controller/configsetter.h"
 #include "controller/dbmanager.h"
+#include "controller/signalmanager.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
 #include <QFileDialog>
+#include <QFileSystemWatcher>
 #include <QPushButton>
 #include <QScreen>
 #include <QScrollArea>
@@ -50,6 +52,7 @@ ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     initPathsArea();
     initMessageLabel();
     initAddButton();
+    initSinglaFileWatcher();
 }
 
 ScanPathsDialog *ScanPathsDialog::m_dialog = NULL;
@@ -174,6 +177,56 @@ void ScanPathsDialog::initAddButton()
     m_mainLayout->addSpacing(27);
 
     connect(button, SIGNAL(clicked(bool)), this, SLOT(showSelectDialog()));
+}
+
+void ScanPathsDialog::initSinglaFileWatcher()
+{
+    QFileSystemWatcher *wc = new QFileSystemWatcher();
+
+    QStringList rmPaths;
+    QStringList dirs;
+    QStringList dbPaths = dApp->dbM->getPathsByDir(QString());
+    for (auto dbp : dbPaths) {
+        QFileInfo info(dbp);
+        if (! info.exists()) {
+            rmPaths << dbp;
+        }
+        else {
+            QString dir = info.path();
+            if (dirs.indexOf(dir) == -1) {
+                dirs << dir;
+            }
+        }
+    }
+
+    // Remove the images which is not exist
+    dApp->dbM->removeImgInfos(rmPaths);
+
+    wc->addPaths(dirs);
+
+    connect(wc, &QFileSystemWatcher::directoryChanged,
+            this, [=] (const QString dir){
+        QStringList rmPaths;
+        QStringList dbPaths = dApp->dbM->getPathsByDir(QString());
+        for (auto dbp : dbPaths) {
+            QFileInfo info(dbp);
+            if (info.path() == dir && ! info.exists()) {
+                rmPaths << dbp;
+            }
+        }
+        // Remove the images which is not exist
+        dApp->dbM->removeImgInfos(rmPaths);
+    });
+    connect(dApp->signalM, &SignalManager::imagesInserted,
+            this, [=] (const DBImgInfoList &infos) {
+        for (auto info : infos) {
+            const QString emptyHash = utils::base::hash(QString());
+            if (info.dirHash == emptyHash) {
+                QFileInfo fi(info.filePath);
+                wc->addPath(fi.path());
+            }
+        }
+    });
 }
 
 void ScanPathsDialog::initTitle()

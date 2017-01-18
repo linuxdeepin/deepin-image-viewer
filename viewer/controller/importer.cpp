@@ -262,7 +262,7 @@ void FilesCollectThread::run()
         DBImgInfo dbi;
         dbi.fileName = fi.fileName();
         dbi.filePath = path;
-        dbi.dirHash = QString();
+        dbi.dirHash = utils::base::hash(QString());
         dbi.time = utils::image::getCreateDateTime(path);
 
         dbInfos << dbi;

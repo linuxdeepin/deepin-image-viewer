@@ -33,6 +33,7 @@ private:
     void initPathsArea();
     void initMessageLabel();
     void initAddButton();
+    void initSinglaFileWatcher();
 
     void showMessage(const QString &message);
 
