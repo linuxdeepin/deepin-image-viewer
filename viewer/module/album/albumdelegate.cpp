@@ -287,8 +287,8 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         if (albumName == "Recent imported") {
             albumName = tr("Recent imported");
         }
-        else if (albumName == "My favorites") {
-            albumName = tr("My favorites");
+        else if (albumName == "My favorite") {
+            albumName = tr("My favorite");
         }
         painter->setPen(titlePen);
         painter->setRenderHint(QPainter::Antialiasing);
@@ -377,7 +377,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
                            tRect.y() + (tRect.height() - markSize) / 2,
                            markSize, markSize, p);
     }
-    else if (albumName == "My favorites") {
+    else if (albumName == "My favorite") {
         QPixmap p = QPixmap(":/resources/dark/images/album_favorites.png")
                 .scaled(markSize, markSize,
                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
