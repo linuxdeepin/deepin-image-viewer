@@ -15,27 +15,23 @@
 DirImportDialog::DirImportDialog(const QString &dir, const QString &album, QWidget* parent)
     :DDialog(parent)
 {
+    setMaximumWidth(380);
+
     // It may appear several windows At the same
     // and Qt::WindowModal will cause stuck
     setWindowModality(Qt::ApplicationModal);
 
-    setIconPixmap(QPixmap(":/dialogs/images/resources/images/album_bg_normal.png"));
+    setIconPixmap(QPixmap(":/dialogs/images/resources/images/directory.png"));
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     if (! album.isEmpty()) {
-        addButton(tr("Sync and Add"), false, DDialog::ButtonNormal);
+        addButton(tr("OK"), false, DDialog::ButtonRecommend);
+        setTitle(tr("Are you sure to add the pictures to the album?"));
     }
     else {
         addButton(tr("Sync and Create"), false, DDialog::ButtonNormal);
-    }
-    addButton(tr("Sync"), true, DDialog::ButtonRecommend);
-
-    setTitle(tr("Are you sure to add this folder to sync list?"));
-    if (! album.isEmpty()) {
-        setMessage(tr("Add pictures in the folder to this album"));
-    }
-    else {
-        setMessage(tr("You can also create this album"));
+        addButton(tr("Sync"), true, DDialog::ButtonRecommend);
+        setTitle(tr("Are you sure to add to the sync list and create the album named by this folder?"));
     }
 
     connect(this, &DirImportDialog::closed,

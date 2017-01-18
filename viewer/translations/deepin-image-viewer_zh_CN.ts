@@ -331,7 +331,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="vanished">创建并导入</translation>
+        <translation>确认</translation>
     </message>
     <message>
         <source>Create an album named after the imported folder?</source>
@@ -351,7 +351,7 @@
     </message>
     <message>
         <source>Sync and Add</source>
-        <translation>同步并添加</translation>
+        <translation type="vanished">同步并添加</translation>
     </message>
     <message>
         <source>Sync and Create</source>
@@ -363,15 +363,23 @@
     </message>
     <message>
         <source>Are you sure to add this folder to sync list?</source>
-        <translation>您确定要将文件夹添加到同步列表？</translation>
+        <translation type="vanished">您确定要将文件夹添加到同步列表？</translation>
     </message>
     <message>
         <source>You can also create this album</source>
-        <translation>您也可以创建该相册 </translation>
+        <translation type="vanished">您也可以创建该相册 </translation>
     </message>
     <message>
         <source>Add pictures in the folder to this album</source>
-        <translation>将文件夹中的图片添加到此相册</translation>
+        <translation type="vanished">将文件夹中的图片添加到此相册</translation>
+    </message>
+    <message>
+        <source>Are you sure to add the pictures to the album?</source>
+        <translation>是否将图片添加到该相册？</translation>
+    </message>
+    <message>
+        <source>Are you sure to add to the sync list and create the album named by this folder?</source>
+        <translation>是否添加到同步列表并创建以该文件夹命名的相册？</translation>
     </message>
 </context>
 <context>

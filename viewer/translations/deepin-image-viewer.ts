@@ -186,10 +186,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sync and Add</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sync and Create</source>
         <translation type="unfinished"></translation>
     </message>
@@ -198,15 +194,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure to add this folder to sync list?</source>
+        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You can also create this album</source>
+        <source>Are you sure to add the pictures to the album?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add pictures in the folder to this album</source>
+        <source>Are you sure to add to the sync list and create the album named by this folder?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
