@@ -154,6 +154,7 @@ void ImagesView::initListView()
 void ImagesView::initTopTips()
 {
     m_topTips = new TopAlbumTips(this);
+    m_topTips->raise();
 }
 
 void ImagesView::appendAction(int id, const QString &text, const QString &shortcut)

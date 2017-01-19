@@ -3,12 +3,6 @@ QListView {
     border:none;
 }
 
-QListView::item:selected {border: 2px solid #01bdff;
-    selection-background-color: red;outline: none;
-}
-
 ThumbnailListView {
     background: transparent;
-    margin-left: 14px;
-    margin-right: 14px;
 }
