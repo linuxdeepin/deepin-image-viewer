@@ -309,6 +309,29 @@ QString hash(const QString &str)
                                             QCryptographicHash::Md5).toHex());
 }
 
+bool onMountDevice(const QString &path)
+{
+    return (path.startsWith("/media/") || path.startsWith("/run/media/"));
+}
+
+bool mountDeviceExist(const QString &path)
+{
+    QString mountPoint;
+    if (path.startsWith("/media/")) {
+        const int sp = path.indexOf("/", 7) + 1;
+        const int ep = path.indexOf("/", sp) + 1;
+        mountPoint = path.mid(0, ep);
+
+    }
+    else if (path.startsWith("/run/media/")) {
+        const int sp = path.indexOf("/", 11) + 1;
+        const int ep = path.indexOf("/", sp) + 1;
+        mountPoint = path.mid(0, ep);
+    }
+
+    return QFileInfo(mountPoint).exists();
+}
+
 }  // namespace base
 
 }  // namespace utils

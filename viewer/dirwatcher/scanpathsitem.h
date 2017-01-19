@@ -55,8 +55,6 @@ private:
     void updateCount();
 
     bool dirExist() const;
-    bool mountDeviceExist() const;
-    bool onMountDevice() const;
 
 private:
     int m_countTID;

@@ -155,7 +155,14 @@ const QString TDThumbnailThread::path() const
 
 void TDThumbnailThread::run()
 {
+    using namespace utils::base;
     using namespace utils::image;
+
+    // Do not check the thumbnail for unplug devices' image
+    if (onMountDevice(m_data.path) && ! mountDeviceExist(m_data.path)) {
+        return;
+    }
+
     QString thumbMTime = getThumbnail(m_data.path, true).toImage().text("Thumb::MTime");
     QString sourceMTime = QString::number(QFileInfo(m_data.path).lastModified().toTime_t());
     // If the file has been changed and thumbnail didn't

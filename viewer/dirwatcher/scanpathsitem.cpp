@@ -187,7 +187,8 @@ void ScanPathsItem::updateCount()
         m_pathLabel->setProperty("warning", true);
         style()->polish(m_pathLabel);
         m_countLabel->setText(QString("0 ") + tr("Images"));
-        if (onMountDevice() && ! mountDeviceExist()) {
+        using namespace utils::base;
+        if (onMountDevice(m_path) && ! mountDeviceExist(m_path)) {
             m_pathLabel->setText(tr("The device has been removed"));
         }
         else {
@@ -210,29 +211,6 @@ void ScanPathsItem::updateCount()
 bool ScanPathsItem::dirExist() const
 {
     return QFileInfo(m_path).exists();
-}
-
-bool ScanPathsItem::mountDeviceExist() const
-{
-    QString mountPoint;
-    if (m_path.startsWith("/media/")) {
-        const int sp = m_path.indexOf("/", 7) + 1;
-        const int ep = m_path.indexOf("/", sp) + 1;
-        mountPoint = m_path.mid(0, ep);
-
-    }
-    else if (m_path.startsWith("/run/media/")) {
-        const int sp = m_path.indexOf("/", 11) + 1;
-        const int ep = m_path.indexOf("/", sp) + 1;
-        mountPoint = m_path.mid(0, ep);
-    }
-
-    return QFileInfo(mountPoint).exists();
-}
-
-bool ScanPathsItem::onMountDevice() const
-{
-    return (m_path.startsWith("/media/") || m_path.startsWith("/run/media/"));
 }
 
 CountingThread::CountingThread(const QString &path)

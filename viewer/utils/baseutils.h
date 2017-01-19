@@ -41,6 +41,10 @@ bool        writeTextFile(QString filePath, QString content);
 
 bool        trashFile(const QString &file);
 bool        trashFiles(const QStringList &files);
+
+bool        onMountDevice(const QString &path);
+bool        mountDeviceExist(const QString &path);
+
 }  // namespace base
 
 }  // namespace utils

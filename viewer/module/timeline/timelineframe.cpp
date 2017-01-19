@@ -320,7 +320,13 @@ void LoadThread::run()
 
     for (auto info : m_infos) {
         const QStringList hashs = scanpathsHash();
-        if (! QFileInfo(info.filePath).exists() || ! hashs.contains(info.dirHash)) {
+        // Do not check the thumbnail for unplug devices' image
+        if (onMountDevice(info.filePath) && ! mountDeviceExist(info.filePath)) {
+            if (! hashs.contains(info.dirHash)) {
+                continue;
+            }
+        }
+        else if (! QFileInfo(info.filePath).exists() || ! hashs.contains(info.dirHash)) {
             continue;
         }
         TimelineItem::ItemData data;
