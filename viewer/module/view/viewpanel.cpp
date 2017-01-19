@@ -123,6 +123,8 @@ void ViewPanel::initConnect() {
             removeCurrentImage();
        }
     });
+    connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
+    connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
 }
 
 void ViewPanel::initFileSystemWatcher()
@@ -172,6 +174,8 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
             backToLastPanel();
         }
     }
+
+    ModulePanel::mousePressEvent(e);
 }
 
 void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
@@ -557,18 +561,11 @@ void ViewPanel::initStack()
     vl->addWidget(m_stack);
 
     // Empty frame
-    m_emptyFrame = new QFrame;
-    m_emptyFrame->setMouseTracking(true);
-    m_emptyFrame->setAttribute(Qt::WA_TranslucentBackground);
-    QLabel *icon = new QLabel;
-    icon->setObjectName("EmptyFrame");
-    icon->setFixedSize(164, 104);
-    QHBoxLayout *il = new QHBoxLayout(m_emptyFrame);
-    il->setContentsMargins(0, 0, 0, 0);
-    il->addWidget(icon, 0, Qt::AlignCenter);
+    m_emptyWidget = new ThumbnailWidget(":/resources/dark/qss/thumbnailwidget.qss",
+                                        ":/resources/light/qss/thumbnailwidget.qss");
 
     m_stack->addWidget(m_viewB);
-    m_stack->addWidget(m_emptyFrame);
+    m_stack->addWidget(m_emptyWidget);
 }
 
 void ViewPanel::backToLastPanel()
@@ -623,13 +620,13 @@ void ViewPanel::initViewContent()
 
 void ViewPanel::openImage(const QString &path, bool inDB)
 {
-    if (! QFileInfo(path).exists()) {
+//    if (! QFileInfo(path).exists()) {
         // removeCurrentImage() will cause timerEvent be trigered again by
         // showNext() or showPrevious(), so delay to remove current image
         // to break the loop
-        TIMER_SINGLESHOT(100, {removeCurrentImage();}, this);
-        return;
-    }
+//        TIMER_SINGLESHOT(100, {removeCurrentImage();}, this);
+//        return;
+//    }
 
     if (inDB) {
         // TODO
@@ -646,8 +643,12 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         m_info->setImagePath(path);
     }
 
-    m_stack->setCurrentIndex(0);
-
+    if (!QFileInfo(path).exists()) {
+        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+        m_stack->setCurrentIndex(1);
+    } else {
+        m_stack->setCurrentIndex(0);
+    }
     if (inDB) {
         emit updateCollectButton();
     }

@@ -39,7 +39,8 @@ void ViewPanel::initSwitchButtons()
     nextButton->hide();
     connect(nextButton, &ImageButton::clicked, this, &ViewPanel::showNext);
 
-    connect(m_viewB, &ImageView::mouseHoverMoved, this, [=] {
+    connect(this, &ViewPanel::mouseMoved, this, [=] {
+
         const int EXTEND_SPACING = 15;
 
         Anchors<ImageButton> pb = preButton;

@@ -1,5 +1,4 @@
 #include "globaleventfilter.h"
-#include "controller/signalmanager.h"
 #include "utils/baseutils.h"
 #include <QDebug>
 #include <QEvent>
@@ -20,6 +19,7 @@ bool GlobalEventFilter::eventFilter(QObject *obj, QEvent *e)
             return true;
         }
     }
+
 //    if (e->type() != QEvent::Paint &&
 //            e->type() != QEvent::MetaCall &&
 //            e->type() != QEvent::UpdateRequest &&

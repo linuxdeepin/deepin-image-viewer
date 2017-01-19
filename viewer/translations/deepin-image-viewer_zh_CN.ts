@@ -1295,6 +1295,13 @@
     </message>
 </context>
 <context>
+    <name>ThumbnailWidget</name>
+    <message>
+        <source>No image files found</source>
+        <translation>没有发现图片文件</translation>
+    </message>
+</context>
+<context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>

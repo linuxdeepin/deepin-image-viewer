@@ -5,7 +5,8 @@ HEADERS += \
     $$PWD/contents/ttmcontent.h \
     $$PWD/contents/imageinfowidget.h \
     $$PWD/scen/imageview.h \
-    $$PWD/scen/graphicsitem.h
+    $$PWD/scen/graphicsitem.h \
+    $$PWD/thumbnailwidget.h
 
 SOURCES += \
     $$PWD/navigationwidget.cpp \
@@ -16,7 +17,8 @@ SOURCES += \
     $$PWD/viewpanel_menu.cpp \
     $$PWD/viewpanel_floating.cpp \
     $$PWD/scen/imageview.cpp \
-    $$PWD/scen/graphicsitem.cpp
+    $$PWD/scen/graphicsitem.cpp \
+    $$PWD/thumbnailwidget.cpp
 
 RESOURCES += \
     $$PWD/viewtheme.qrc

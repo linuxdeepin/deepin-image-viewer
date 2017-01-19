@@ -102,7 +102,7 @@ void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
 void TTMContent::setImage(const QString &path)
 {
     m_imagePath = path;
-    if (path.isEmpty()) {
+    if (path.isEmpty() || !QFileInfo(path).exists()) {
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
@@ -131,7 +131,7 @@ void TTMContent::updateCollectButton()
     if (! m_clBT)
         return;
 
-    if (m_imagePath.isEmpty()) {
+    if (m_imagePath.isEmpty() || !QFileInfo(m_imagePath).exists()) {
         m_clBT->setDisabled(true);
         m_clBT->setChecked(false);
     }

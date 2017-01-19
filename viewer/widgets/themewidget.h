@@ -16,10 +16,11 @@ public:
 
 public slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
+    bool isDeepMode();
 private:
     QString m_darkStyle;
     QString m_lightStyle;
+    bool m_deepMode = false;
 };
 
 //TODO: if a widget Multiple Inheritance from ThemeWidget and
@@ -33,9 +34,10 @@ public:
 
 public slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
+    bool isDeepMode();
 private:
     QString m_darkStyle;
     QString m_lightStyle;
+    bool m_deepMode = false;
 };
 #endif // THEMEWIDGET_H

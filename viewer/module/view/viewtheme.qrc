@@ -112,5 +112,11 @@
         <file>resources/common/close_hover.png</file>
         <file>resources/common/close_normal.png</file>
         <file>resources/common/close_press.png</file>
+        <file>resources/dark/images/default_thumbnail.png</file>
+        <file>resources/light/images/default_thumbnail.png</file>
+        <file>resources/dark/qss/thumbnailwidget.qss</file>
+        <file>resources/light/qss/thumbnailwidget.qss</file>
+        <file>resources/dark/images/empty_defaultThumbnail.png</file>
+        <file>resources/light/images/empty_defaultThumbnail.png</file>
     </qresource>
 </RCC>

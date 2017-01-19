@@ -5,7 +5,7 @@
 #include "controller/dbmanager.h"
 #include "controller/viewerthememanager.h"
 #include "anchors.h"
-
+#include "thumbnailwidget.h"
 #include <QFileInfo>
 #include <QJsonObject>
 
@@ -39,6 +39,7 @@ signals:
     void updateCollectButton();
     void imageChanged(const QString &path);
     void viewImageFrom(QString dir);
+    void mouseMoved();
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -102,7 +103,7 @@ private:
     bool m_printDialogVisible = false;
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
-    QFrame *m_emptyFrame=nullptr;
+    ThumbnailWidget* m_emptyWidget=nullptr;
     QMenu *m_menu;
     QStackedWidget *m_stack;
 
