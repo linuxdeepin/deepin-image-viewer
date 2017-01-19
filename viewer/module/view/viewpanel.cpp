@@ -265,6 +265,9 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
     if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
         ttmc->setImage(m_current->filePath);
     }
+    else {
+        ttmc->setImage("");
+    }
 
     connect(this, &ViewPanel::updateCollectButton,
             ttmc, &TTMContent::updateCollectButton);
@@ -501,32 +504,15 @@ void ViewPanel::removeCurrentImage()
     if (m_infos.isEmpty())
          return;
 
-     bool lastOnly = false;
-     //FIXME: if m_infos.length == 1, m_infos.removeAt() will be crash
-     if (m_infos.length()==1) {
-         lastOnly = true;
-         if (lastOnly) {
-              m_stack->setCurrentWidget(m_emptyFrame);
-              emit imageChanged("");
-         } else {
-             if (!showNext()) {
-                 if (!showPrevious()) {
-                     qDebug() << "No images to show!";
-                     emit imageChanged("");
-                     m_stack->setCurrentIndex(1);
-                 }
-             }
-         }
-     } else {
-         m_infos.removeAt(imageIndex(m_current->filePath));
-         if (! showNext()) {
-             if (! showPrevious()) {
-                 qDebug() << "No images to show!";
-                 emit imageChanged("");
-                 m_stack->setCurrentIndex(1);
-             }
-         }
-     }
+    m_infos.removeAt(imageIndex(m_current->filePath));
+    if (! showNext()) {
+        if (! showPrevious()) {
+            qDebug() << "No images to show!";
+            m_current = m_infos.cend();
+            emit imageChanged("");
+            m_stack->setCurrentIndex(1);
+        }
+    }
 }
 
 void ViewPanel::resetImageGeometry()

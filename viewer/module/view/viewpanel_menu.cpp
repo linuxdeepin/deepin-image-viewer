@@ -86,7 +86,7 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
 
 QMenu *ViewPanel::createAlbumMenu()
 {
-    if (m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
+    if (m_infos.isEmpty() || m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
         return nullptr;
     }
 
@@ -212,6 +212,10 @@ void ViewPanel::updateMenuContent()
 {
     m_menu->clear();
     qDeleteAll(this->actions());
+
+    if (m_infos.isEmpty()) {
+        return;
+    }
 
     if (window()->isFullScreen()) {
         appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen"));
