@@ -329,6 +329,15 @@ void AlbumPanel::initImagesView()
             m_imagesView->removeItems(paths);
         updateMContentCount();
     });
+    connect(dApp->signalM, &SignalManager::imagesRemoved,
+            this, [=] (const DBImgInfoList &infos) {
+        QStringList list;
+        for (auto info : infos) {
+            list << info.filePath;
+        }
+        m_imagesView->removeItems(list);
+        updateMContentCount();
+    });
     connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
         if (! success) {
             return;
