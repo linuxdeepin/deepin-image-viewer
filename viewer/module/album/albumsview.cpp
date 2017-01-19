@@ -9,13 +9,14 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/dialogs/albumdeletedialog.h"
-#include  "widgets/scrollbar.h"
+#include "widgets/scrollbar.h"
 #include "denhancedwidget.h"
 
 #include <QBuffer>
 #include <QDebug>
 #include <QMenu>
 #include <QMouseEvent>
+#include <QShortcut>
 #include <QStyleFactory>
 #include <QJsonDocument>
 
@@ -33,7 +34,9 @@ const int BOTTOM_TOOLBAR_HEIGHT = 22;
 
 QString ss(const QString &text, const QString &group)
 {
-    return dApp->setter->value(group, text).toString();
+    QString str = dApp->setter->value(group, text).toString();
+    str.replace(" ", "");
+    return str;
 }
 
 }  // namespace
@@ -71,12 +74,14 @@ AlbumsView::AlbumsView(QWidget *parent)
                      - TOP_TOOLBAR_THEIGHT - BOTTOM_TOOLBAR_HEIGHT);
     });
     setVerticalScrollBar(sb);
-    sb->setContextMenuPolicy(Qt::PreventContextMenu);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, [=]{
         QTimer::singleShot(500, [=]{
             emit enhanced_scrollbar->heightChanged(0);
         });
     });
+
+    initShortcut();
+    sb->setContextMenuPolicy(Qt::PreventContextMenu);
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(m_menu, &QMenu::triggered, this, &AlbumsView::onMenuItemClicked);
@@ -214,6 +219,19 @@ void AlbumsView::wheelEvent(QWheelEvent *e)
     }
 }
 
+void AlbumsView::initShortcut()
+{
+    QShortcut *sc = new QShortcut(QKeySequence(ss("New album", ALBUM_GROUP)), this);
+    connect(sc, &QShortcut::activated, this, &AlbumsView::createAlbum);
+
+    connect(dApp->setter, &ConfigSetter::valueChanged,
+            this, [=] (const QString &group) {
+        if (group == ALBUM_GROUP) {
+            sc->setKey(QKeySequence(ss("New album", ALBUM_GROUP)));
+        }
+    });
+}
+
 int AlbumsView::horizontalOffset() const
 {
     double spacing = 1.0 * (width() % (m_itemSize.width() + ITEM_SPACING) - ITEM_SPACING) / 2;
@@ -322,10 +340,6 @@ void AlbumsView::updateMenuContent(const QModelIndex &index)
     appendAction(IdCopy, tr("Copy"), ss("Copy", VIEW_GROUP), ! isEmpty);
     if (! isSpecial)
         appendAction(IdDelete, tr("Delete"), ss("Delete", ALBUM_GROUP));
-
-//    else {
-//        appendAction(IdCreate, tr("New album"), ss("New album", ALBUM_GROUP));
-//    }
 }
 
 void AlbumsView::onClicked(const QModelIndex &index)

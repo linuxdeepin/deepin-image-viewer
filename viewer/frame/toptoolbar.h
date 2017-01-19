@@ -45,7 +45,6 @@ private:
     void initMiddleContent();
     void initRightContent();
     void initMenu();
-    void initShortcut();
     void initWidgets();
 
 private slots:

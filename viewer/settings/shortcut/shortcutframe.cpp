@@ -19,16 +19,16 @@ struct ShortcutKey {
 };
 
 static ShortcutKey ShortcutViewKeys[] = {
-//    {"View",                        QT_TRANSLATE_NOOP("ShortcutKey", "View")},
-//    {"Fullscreen",                  QT_TRANSLATE_NOOP("ShortcutKey", "Fullscreen")},
+    {"View",                        QT_TRANSLATE_NOOP("ShortcutKey", "View")},
+    {"Fullscreen",                  QT_TRANSLATE_NOOP("ShortcutKey", "Fullscreen")},
     {"Start slideshow",             QT_TRANSLATE_NOOP("ShortcutKey", "Start slideshow")},
-//    {"Quit slideshow",              QT_TRANSLATE_NOOP("ShortcutKey", "Quit slideshow")},
+    {"Quit slideshow",              QT_TRANSLATE_NOOP("ShortcutKey", "Quit slideshow")},
     {"Print",                       QT_TRANSLATE_NOOP("ShortcutKey", "Print")},
-//    {"Copy",                        QT_TRANSLATE_NOOP("ShortcutKey", "Copy")},
-//    {"Throw to Trash",              QT_TRANSLATE_NOOP("ShortcutKey", "Throw to Trash")},
+    {"Copy",                        QT_TRANSLATE_NOOP("ShortcutKey", "Copy")},
+    {"Throw to Trash",              QT_TRANSLATE_NOOP("ShortcutKey", "Throw to Trash")},
     {"Remove from album",           QT_TRANSLATE_NOOP("ShortcutKey", "Remove from album")},
     {"Add to my favorite",          QT_TRANSLATE_NOOP("ShortcutKey", "Add to my favorite")},
-    {"Remove from my favorite",                  QT_TRANSLATE_NOOP("ShortcutKey", "Remove from my favorite")},
+    {"Remove from my favorite",     QT_TRANSLATE_NOOP("ShortcutKey", "Remove from my favorite")},
     {"Rotate clockwise",            QT_TRANSLATE_NOOP("ShortcutKey", "Rotate clockwise")},
     {"Rotate counterclockwise",     QT_TRANSLATE_NOOP("ShortcutKey", "Rotate counterclockwise")},
     {"Set as wallpaper",            QT_TRANSLATE_NOOP("ShortcutKey", "Set as wallpaper")},
@@ -40,11 +40,20 @@ static ShortcutKey ShortcutViewKeys[] = {
 static ShortcutKey ShortcutAlbumKeys[] = {
     {"New album",                   QT_TRANSLATE_NOOP("ShortcutKey", "New album")},
     {"Rename",                      QT_TRANSLATE_NOOP("ShortcutKey", "Rename")},
-//    {"Delete",                      QT_TRANSLATE_NOOP("ShortcutKey", "Delete")},
+    {"Delete",                      QT_TRANSLATE_NOOP("ShortcutKey", "Delete")},
     {"", ""}
 };
 
-}
+const QStringList InvisibleKeys =
+        QStringList()
+        << "View"
+        << "Fullscreen"
+        << "Quit slideshow"
+        << "Copy"
+        << "Throw to Trash"
+        << "Delete";
+
+}  // namespace
 
 ShortcutFrame::ShortcutFrame(QWidget *parent)
     :QFrame(parent)
@@ -81,6 +90,9 @@ void ShortcutFrame::initViewShortcut()
     layout->addLayout(fl);
 
     for (ShortcutKey *i = ShortcutViewKeys; ! i->key.isEmpty(); i ++) {
+        if (InvisibleKeys.contains(i->key)) {
+            continue;
+        }
         ShortcutEditor * se = new ShortcutEditor(SHORTCUTVIEW, i->key);
         connect(this, &ShortcutFrame::resetAll,
                 se, &ShortcutEditor::forceUpdate);
@@ -109,6 +121,9 @@ void ShortcutFrame::initAlbumShortcut()
     layout->addLayout(fl);
 
     for (ShortcutKey *i = ShortcutAlbumKeys; ! i->key.isEmpty(); i ++) {
+        if (InvisibleKeys.contains(i->key)) {
+            continue;
+        }
         ShortcutEditor * se = new ShortcutEditor(SHORTCUTALBUM, i->key);
         connect(this, &ShortcutFrame::resetAll,
                 se, &ShortcutEditor::forceUpdate);
@@ -138,13 +153,13 @@ void ShortcutFrame::initResetButton()
 QMap<QString, QString> ShortcutFrame::viewValues()
 {
     QMap<QString, QString> vs;
-//    vs.insert("View", "Return");
-//    vs.insert("Fullscreen", "F11");
+    vs.insert("View", "Return");
+    vs.insert("Fullscreen", "F11");
     vs.insert("Start slideshow", "F5");
-//    vs.insert("Quit slideshow", "ESC");
+    vs.insert("Quit slideshow", "ESC");
     vs.insert("Print", "Ctrl + P");
-//    vs.insert("Copy", "Ctrl + C");
-//    vs.insert("Throw to Trash", "Delete");
+    vs.insert("Copy", "Ctrl + C");
+    vs.insert("Throw to Trash", "Delete");
     vs.insert("Remove from album", "Shift + Delete");
     vs.insert("Add to my favorite", "Ctrl + K");
     vs.insert("Remove from my favorite", "Ctrl + Shift + K");
@@ -162,7 +177,7 @@ QMap<QString, QString> ShortcutFrame::albumValues()
     QMap<QString, QString> vs;
     vs.insert("New album", "Ctrl + Shift + N");
     vs.insert("Rename", "F2");
-//    vs.insert("Delete", "Delete");
+    vs.insert("Delete", "Delete");
 
     return vs;
 }

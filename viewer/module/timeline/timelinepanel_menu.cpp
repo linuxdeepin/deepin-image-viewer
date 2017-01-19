@@ -28,7 +28,9 @@ const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
 
 QString ss(const QString &text)
 {
-    return dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+    str.replace(" ", "");
+    return str;
 }
 
 enum MenuItemId {
@@ -65,8 +67,7 @@ void TimelinePanel::appendAction(int id, const QString &text, const QString &sho
     addAction(ac);
     ac->setText(text);
     ac->setProperty("MenuID", id);
-    const QString ss = dApp->setter->value(SHORTCUTVIEW_GROUP, text, shortcut).toString();
-    ac->setShortcut(QKeySequence(ss));
+    ac->setShortcut(QKeySequence(shortcut));
     m_menu->addAction(ac);
 }
 

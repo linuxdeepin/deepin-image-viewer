@@ -49,6 +49,8 @@ private:
         IdSeparator
     };
 
+    void initShortcut();
+
     void appendAction(int id, const QString &text, const QString &shortcut, bool enable = true);
     void appendCreateIcon();
     void destroyEditor(const QModelIndex &index);

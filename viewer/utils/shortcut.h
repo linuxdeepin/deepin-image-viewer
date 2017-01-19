@@ -23,9 +23,6 @@ public:
     explicit Shortcut(QObject *parent = 0);
     QString toStr();
 
-signals:
-
-public slots:
 private:
     QJsonObject m_shortcutObj;
     QList<ShortcutGroup> m_shortcutGroups;

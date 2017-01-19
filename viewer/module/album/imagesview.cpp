@@ -35,7 +35,9 @@ const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
 QString ss(const QString &text)
 {
-    return dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+    str.replace(" ", "");
+    return str;
 }
 
 }  // namespace
@@ -160,8 +162,7 @@ void ImagesView::appendAction(int id, const QString &text, const QString &shortc
     addAction(ac);
     ac->setText(text);
     ac->setProperty("MenuID", id);
-    const QString ss = dApp->setter->value(SHORTCUTVIEW_GROUP, text, shortcut).toString();
-    ac->setShortcut(QKeySequence(ss));
+    ac->setShortcut(QKeySequence(shortcut));
     m_menu->addAction(ac);
 }
 

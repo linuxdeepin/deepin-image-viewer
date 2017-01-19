@@ -3,6 +3,18 @@
 
 #include "controller/configsetter.h"
 
+namespace {
+
+const QString VIEW_GROUP = "SHORTCUTVIEW";
+const QString ALBUM_GROUP = "SHORTCUTALBUM";
+
+QString ss(const QString &group, const QString &text)
+{
+    return dApp->setter->value(group, text).toString();
+}
+
+}  //namespace
+
 Shortcut::Shortcut(QObject *parent) : QObject(parent)
 {
     ShortcutGroup group1;
@@ -14,25 +26,25 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     group3.groupName = tr("Settings");
     group1.groupItems<<
     ShortcutItem(tr("View"), "Enter")<<
-    ShortcutItem(tr("Fullscreen"), "F11")<<
-    ShortcutItem(tr("Start slideshow"), dApp->setter->value("SHORTCUTVIEW", "Start slideshow").toString())<<
-    ShortcutItem(tr("Stop slide show"),  "F5")<<
-    ShortcutItem(tr("Copy"), "Ctrl + C")<<
+    ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen"))<<
+    ShortcutItem(tr("Start slideshow"), ss(VIEW_GROUP, "Start slideshow"))<<
+    ShortcutItem(tr("Stop slide show"),  ss(VIEW_GROUP, "Start slideshow"))<<
+    ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy"))<<
     ShortcutItem(tr("Throw to Trash"),  "Delete")<<
-    ShortcutItem(tr("Remove from album"), dApp->setter->value("SHORTCUTVIEW", "Remove from album").toString())<<
-    ShortcutItem(tr("Add to my favorite"), dApp->setter->value("SHORTCUTVIEW", "Add to my favorite").toString())<<
-    ShortcutItem(tr("Remove from my favorite"), dApp->setter->value("SHORTCUTVIEW", "Remove from my favorite").toString())<<
-    ShortcutItem(tr("Rotate clockwise"), dApp->setter->value("SHORTCUTVIEW", "Rotate clockwise").toString())<<
-    ShortcutItem(tr("Rotate counterclockwise"), dApp->setter->value("SHORTCUTVIEW", "Rotate counterclockwise").toString())<<
-    ShortcutItem(tr("Set as wallpaper"), dApp->setter->value("SHORTCUTVIEW", "Set as wallpaper").toString())<<
-    ShortcutItem(tr("Display in file manager"), dApp->setter->value("SHORTCUTVIEW", "Display in file manager").toString())<<
-    ShortcutItem(tr("Image info"), dApp->setter->value("SHORTCUTVIEW", "Image info").toString())<<
+    ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))<<
+    ShortcutItem(tr("Add to my favorite"), ss(VIEW_GROUP, "Add to my favorite"))<<
+    ShortcutItem(tr("Remove from my favorite"), ss(VIEW_GROUP, "Remove from my favorite"))<<
+    ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise"))<<
+    ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise"))<<
+    ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper"))<<
+    ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager"))<<
+    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info"))<<
     ShortcutItem(tr("Previous"), "Left")<<
     ShortcutItem(tr("Next"), "Right")<<
     ShortcutItem(tr("Previous screen"), "PageUp")<<
     ShortcutItem(tr("Next screen"), "PageDown");
-    group2.groupItems<<ShortcutItem(tr("New album"), dApp->setter->value("SHORTCUTALBUM", "New album").toString())<<
-                       ShortcutItem(tr("Rename"), dApp->setter->value("SHORTCUTALBUM", "Rename").toString());
+    group2.groupItems<<ShortcutItem(tr("New album"), ss(ALBUM_GROUP, "New album"))<<
+                       ShortcutItem(tr("Rename"), ss(ALBUM_GROUP, "Rename"));
 
     group3.groupItems<<ShortcutItem(tr("Help"),  "F1")<<
                        ShortcutItem(tr("Exit"),  "Ctrl + Q")<<
