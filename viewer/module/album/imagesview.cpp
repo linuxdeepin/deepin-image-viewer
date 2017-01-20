@@ -366,6 +366,7 @@ void ImagesView::onMenuItemClicked(QAction *action)
 void ImagesView::rotateImage(const QString &path, int degree)
 {
     utils::image::rotate(path, degree);
+    utils::image::generateThumbnail(path);
     m_rotateList.removeAll(path);
     m_view->updateThumbnail(path);
     if (m_rotateList.isEmpty()) {
