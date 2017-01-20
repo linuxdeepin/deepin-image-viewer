@@ -19,13 +19,14 @@ signals:
 
 public slots:
     void setThumbnailImage(const QPixmap thumbnail);
-
+    bool isDefaultThumbnail();
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
+    bool m_isDefaultThumbnail = false;
     QLabel* m_thumbnailLabel;
     QLabel* m_tips;
     QPixmap m_defaultImage;

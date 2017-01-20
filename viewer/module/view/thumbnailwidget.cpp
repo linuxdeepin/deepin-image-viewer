@@ -22,7 +22,6 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     m_thumbnailLabel->setFixedSize(THUMBNAIL_BORDERSIZE);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
-
     m_tips = new QLabel(this);
     m_tips->setObjectName("ThumbnailTips");
     m_tips->setText(tr("No image files found"));
@@ -41,10 +40,12 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
 void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
         m_inBorderColor = QColor(255, 255, 255, 13);
-         m_defaultImage = QPixmap(DARK_DEFAULT_THUMBNAIL);
+        if(m_isDefaultThumbnail)
+            m_defaultImage = QPixmap(DARK_DEFAULT_THUMBNAIL);
     } else {
         m_inBorderColor = QColor(0, 0, 0, 13);
-        m_defaultImage = QPixmap(LIGHT_DEFAULT_THUMBNAIL);
+        if(m_isDefaultThumbnail)
+            m_defaultImage = QPixmap(LIGHT_DEFAULT_THUMBNAIL);
     }
 
     ThemeWidget::onThemeChanged(theme);
@@ -58,10 +59,17 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail) {
         } else {
             m_defaultImage = QPixmap(LIGHT_DEFAULT_THUMBNAIL);
         }
+
+        m_isDefaultThumbnail = true;
     } else {
         m_defaultImage = thumbnail;
+        m_isDefaultThumbnail =  false;
     }
     update();
+}
+
+bool ThumbnailWidget::isDefaultThumbnail() {
+    return m_isDefaultThumbnail;
 }
 
 void ThumbnailWidget::paintEvent(QPaintEvent *event) {
