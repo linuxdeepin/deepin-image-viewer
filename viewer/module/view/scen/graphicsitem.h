@@ -5,7 +5,7 @@
 #include <QPointer>
 
 class QMovie;
-class GraphicsMovieItem : public QGraphicsPixmapItem
+class GraphicsMovieItem : public QGraphicsPixmapItem, QObject
 {
 public:
     explicit GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent = 0);

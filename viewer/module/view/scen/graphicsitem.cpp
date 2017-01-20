@@ -5,7 +5,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *par
     : QGraphicsPixmapItem(fileName, parent)
 {
     m_movie = new QMovie(fileName);
-    QObject::connect(m_movie, &QMovie::frameChanged, [this] {
+    QObject::connect(m_movie, &QMovie::frameChanged, this, [=] {
         if (m_movie.isNull()) return;
         setPixmap(m_movie->currentPixmap());
     });
@@ -19,6 +19,7 @@ GraphicsMovieItem::~GraphicsMovieItem()
     // If not doing this, it may crash
     prepareGeometryChange();
 
+    m_movie->stop();
     m_movie->deleteLater();
     m_movie = nullptr;
 }
