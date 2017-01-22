@@ -228,19 +228,15 @@
 <context>
     <name>FileDeleteDialog</name>
     <message>
-        <source>Are you sure to delete %1 images from Timeline?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure to delete this image from Timeline?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to throw pictures to TRASH?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -500,10 +496,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation type="unfinished"></translation>
     </message>
@@ -591,6 +583,10 @@
         <source>Display shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Throw to trash</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -666,6 +662,30 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fullscreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Throw to trash</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

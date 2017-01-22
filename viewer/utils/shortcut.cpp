@@ -30,7 +30,7 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutItem(tr("Start slideshow"), ss(VIEW_GROUP, "Start slideshow"))<<
     ShortcutItem(tr("Stop slide show"),  ss(VIEW_GROUP, "Start slideshow"))<<
     ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy"))<<
-    ShortcutItem(tr("Throw to Trash"),  "Delete")<<
+    ShortcutItem(tr("Throw to trash"),  "Delete")<<
     ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))<<
     ShortcutItem(tr("Add to my favorite"), ss(VIEW_GROUP, "Add to my favorite"))<<
     ShortcutItem(tr("Remove from my favorite"), ss(VIEW_GROUP, "Remove from my favorite"))<<

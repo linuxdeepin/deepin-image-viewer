@@ -511,11 +511,11 @@
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to delete %1 images from Timeline?</source>
-        <translation>您确定要从时间线删除%1张图片吗？</translation>
+        <translation type="vanished">您确定要从时间线删除%1张图片吗？</translation>
     </message>
     <message>
         <source>Are you sure to delete this image from Timeline?</source>
-        <translation>您确定要从时间线删除此图片吗？</translation>
+        <translation type="vanished">您确定要从时间线删除此图片吗？</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -524,6 +524,10 @@
     <message>
         <source>Delete</source>
         <translation>删除</translation>
+    </message>
+    <message>
+        <source>Are you sure to throw pictures to TRASH?</source>
+        <translation>您确定将图片丢到回收站吗？</translation>
     </message>
 </context>
 <context>
@@ -959,7 +963,7 @@
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>丢到回收站</translation>
+        <translation type="vanished">丢到回收站</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -1053,6 +1057,10 @@
         <source>Display shortcuts</source>
         <translation>显示快捷键</translation>
     </message>
+    <message>
+        <source>Throw to trash</source>
+        <translation>丢到回收站</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -1100,11 +1108,11 @@
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">查看</translation>
+        <translation>查看</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">全屏</translation>
+        <translation>全屏</translation>
     </message>
     <message>
         <source>Slideshow play</source>
@@ -1112,15 +1120,15 @@
     </message>
     <message>
         <source>Quit slideshow</source>
-        <translation type="vanished">退出幻灯片</translation>
+        <translation>退出幻灯片</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">复制</translation>
+        <translation>复制</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation type="vanished">丢到回收站</translation>
+        <translation>丢到回收站</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -1188,7 +1196,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">删除</translation>
+        <translation>删除</translation>
     </message>
     <message>
         <source>Throw to Trash</source>

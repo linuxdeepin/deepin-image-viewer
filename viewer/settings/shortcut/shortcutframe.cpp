@@ -25,7 +25,7 @@ static ShortcutKey ShortcutViewKeys[] = {
     {"Quit slideshow",              QT_TRANSLATE_NOOP("ShortcutKey", "Quit slideshow")},
     {"Print",                       QT_TRANSLATE_NOOP("ShortcutKey", "Print")},
     {"Copy",                        QT_TRANSLATE_NOOP("ShortcutKey", "Copy")},
-    {"Throw to Trash",              QT_TRANSLATE_NOOP("ShortcutKey", "Throw to Trash")},
+    {"Throw to trash",              QT_TRANSLATE_NOOP("ShortcutKey", "Throw to trash")},
     {"Remove from album",           QT_TRANSLATE_NOOP("ShortcutKey", "Remove from album")},
     {"Add to my favorite",          QT_TRANSLATE_NOOP("ShortcutKey", "Add to my favorite")},
     {"Remove from my favorite",     QT_TRANSLATE_NOOP("ShortcutKey", "Remove from my favorite")},
@@ -50,7 +50,7 @@ const QStringList InvisibleKeys =
         << "Fullscreen"
         << "Quit slideshow"
         << "Copy"
-        << "Throw to Trash"
+        << "Throw to trash"
         << "Delete";
 
 }  // namespace
@@ -159,7 +159,7 @@ QMap<QString, QString> ShortcutFrame::viewValues()
     vs.insert("Quit slideshow", "ESC");
     vs.insert("Print", "Ctrl + P");
     vs.insert("Copy", "Ctrl + C");
-    vs.insert("Throw to Trash", "Delete");
+    vs.insert("Throw to trash", "Delete");
     vs.insert("Remove from album", "Shift + Delete");
     vs.insert("Add to my favorite", "Ctrl + K");
     vs.insert("Remove from my favorite", "Ctrl + Shift + K");

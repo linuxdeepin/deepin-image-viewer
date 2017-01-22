@@ -12,14 +12,7 @@ FileDeleteDialog::FileDeleteDialog(const QStringList &paths, QWidget *parent)
     setModal(true);
 
     setIconPixmap(generateThumbnail(paths));
-
-    if (paths.length() > 1) {
-        setTitle(tr("Are you sure to delete %1 images from Timeline?")
-                 .arg(paths.length()));
-    }
-    else {
-        setTitle(tr("Are you sure to delete this image from Timeline?"));
-    }
+    setTitle(tr("Are you sure to throw pictures to TRASH?"));
 
     addButton(tr("Cancel"), false, DDialog::ButtonNormal);
     addButton(tr("Delete"), true, DDialog::ButtonWarning);
