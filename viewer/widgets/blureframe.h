@@ -25,12 +25,17 @@ public:
     void setCoverBrush(const QBrush &brush);
     void setPos(const QPoint &pos);
     void setMoveEnable(bool move);
+
+signals:
+    void requestStopAnimation();
+
 protected:
     void keyPressEvent(QKeyEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+
 private:
     QColor  m_borderColor;
     int     m_borderRadius;
