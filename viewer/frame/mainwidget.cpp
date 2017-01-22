@@ -311,6 +311,7 @@ void MainWidget::initExtensionPanel()
     connect(dApp->signalM, &SignalManager::hideExtensionPanel,
             this, [=] (bool immediately) {
         if (immediately) {
+            m_extensionPanel->requestStopAnimation();
             if (this->window()->isFullScreen()) {
                 m_extensionPanel->move(- qMax(m_extensionPanel->width(),
                                               EXTENSION_PANEL_WIDTH), 0);

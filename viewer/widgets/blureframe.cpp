@@ -70,7 +70,12 @@ void BlurFrame::moveWithAnimation(int x, int y)
     animation->setStartValue(pos());
     animation->setEndValue(QPoint(x, y));
     animation->start();
-    connect(animation, &QPropertyAnimation::finished, animation, &QPropertyAnimation::deleteLater);
+    connect(this, &BlurFrame::requestStopAnimation,
+            animation, &QPropertyAnimation::stop);
+    connect(this, &BlurFrame::requestStopAnimation,
+            animation, &QPropertyAnimation::deleteLater);
+    connect(animation, &QPropertyAnimation::finished,
+            animation, &QPropertyAnimation::deleteLater);
 }
 
 QColor BlurFrame::getBorderColor() const
