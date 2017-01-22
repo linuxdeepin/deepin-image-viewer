@@ -13,6 +13,8 @@
 #include <QScrollBar>
 #include <QtDebug>
 
+namespace {
+
 const int TITLE_MAXWIDTH = 100;
 
 struct MetaData {
@@ -62,6 +64,8 @@ static int maxTitleWidth()
 
     return maxWidth;
 }
+
+}  // namespace
 
 class ViewSeparator : public QLabel {
     Q_OBJECT
@@ -139,7 +143,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     contentLayout->addSpacing(3);
     contentLayout->addLayout(m_exifLayout_details);
 
-    contentLayout->addSpacing(15);
+    contentLayout->addSpacing(35);
     contentLayout->addStretch();
 
     setWidget(content);
