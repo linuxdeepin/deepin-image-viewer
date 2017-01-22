@@ -122,6 +122,8 @@ void ViewPanel::initConnect() {
                infos.length() == 1 && infos.first().filePath == m_current->filePath) {
             removeCurrentImage();
        }
+
+       updateMenuContent();
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
