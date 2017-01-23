@@ -91,7 +91,7 @@ QMenu *TimelinePanel::createAlbumMenu()
             if (! paths.contains(sp)) {
                 QAction *ac = new QAction(am);
                 ac->setProperty("MenuID", IdAddToAlbum);
-                ac->setText(fontMetrics().elidedText(album, Qt::ElideMiddle, 200));
+                ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
                 ac->setData(album);
                 am->addAction(ac);
                 break;

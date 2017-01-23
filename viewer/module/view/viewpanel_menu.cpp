@@ -106,7 +106,7 @@ QMenu *ViewPanel::createAlbumMenu()
         if (! paths.contains(m_current->filePath)) {
             QAction *ac = new QAction(am);
             ac->setProperty("MenuID", IdAddToAlbum);
-            ac->setText(fontMetrics().elidedText(album, Qt::ElideMiddle, 200));
+            ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
             ac->setData(album);
             am->addAction(ac);
         }
