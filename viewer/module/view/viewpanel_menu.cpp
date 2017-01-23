@@ -63,8 +63,12 @@ void ViewPanel::initPopupMenu()
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         if (! m_infos.isEmpty()) {
             updateMenuContent();
+            dApp->setOverrideCursor(Qt::ArrowCursor);
             m_menu->popup(QCursor::pos());
         }
+    });
+    connect(m_menu, &QMenu::aboutToHide, this, [=] {
+        dApp->restoreOverrideCursor();
     });
     connect(m_menu, &QMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] {
