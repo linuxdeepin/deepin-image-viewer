@@ -131,10 +131,24 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     else {
         // ReFormat the date-time
         using namespace utils::base;
+        // Exif version 0231
         QDateTime ot = stringToDateTime(admMap.value("DateTimeOriginal"));
         QDateTime dt = stringToDateTime(admMap.value("DateTimeDigitized"));
-        admMap.insert("DateTimeOriginal", ot.toString("yyyy.MM.dd HH:mm:ss"));
-        admMap.insert("DateTimeDigitized", dt.toString("yyyy.MM.dd HH:mm:ss"));
+        if (! ot.isValid()) {
+            // Exif version 0221
+            ot = stringToDateTime(admMap.value("DateTime"));
+            dt = ot;
+
+            // NO valid date infomation
+            if (! ot.isValid()) {
+                admMap.insert("DateTimeOriginal", info.created().toString("yyyy.MM.dd HH:mm:ss"));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy.MM.dd HH:mm:ss"));
+            }
+            else {
+                admMap.insert("DateTimeOriginal", ot.toString("yyyy.MM.dd HH:mm:ss"));
+                admMap.insert("DateTimeDigitized", dt.toString("yyyy.MM.dd HH:mm:ss"));
+            }
+        }
     }
     // The value of width and height might incorrect
     int w = reader.size().width();

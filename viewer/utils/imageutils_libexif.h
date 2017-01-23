@@ -43,8 +43,8 @@ QDateTime getCreateDateTime(const QString &path)
         if (dt.isValid())
             return dt;
     }
-    QFileInfo info(path);
-    return info.created();
+
+    return QDateTime();
 }
 
 QSize size(const QString &path) {

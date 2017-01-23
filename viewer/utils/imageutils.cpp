@@ -66,7 +66,14 @@ const QImage scaleImage(const QString &path, const QSize &size)
 
 const QDateTime getCreateDateTime(const QString &path)
 {
-    return libexif::getCreateDateTime(path);
+    QDateTime dt = libexif::getCreateDateTime(path);
+    if (dt.isValid()) {
+        return dt;
+    }
+    else {
+        const QString s = freeimage::getAllMetaData(path).value("DateTimeOriginal");
+        return QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
+    }
 }
 
 bool imageSupportRead(const QString &path)
