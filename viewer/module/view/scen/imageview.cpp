@@ -321,6 +321,10 @@ void ImageView::mousePressEvent(QMouseEvent *e)
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
     if (! (e->buttons() | Qt::NoButton)) {
+        if (! items().isEmpty()) {
+            items().first()->setCursor(Qt::ArrowCursor);
+        }
+
         emit mouseHoverMoved();
     }
     else {
