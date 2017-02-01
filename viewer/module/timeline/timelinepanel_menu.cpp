@@ -224,7 +224,7 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash: {
         FileDeleteDialog *fdd = new FileDeleteDialog(paths);
-        fdd->show();
+        fdd->showInCenter(window());
         break;
     }
     case IdAddToFavorites:

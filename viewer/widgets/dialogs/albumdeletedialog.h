@@ -1,11 +1,9 @@
 #ifndef ALBUMDELETEDIALOG_H
 #define ALBUMDELETEDIALOG_H
 
-#include "ddialog.h"
+#include "dialog.h"
 
-DWIDGET_USE_NAMESPACE
-
-class AlbumDeleteDialog : public DDialog
+class AlbumDeleteDialog : public Dialog
 {
     Q_OBJECT
 public:

@@ -1,11 +1,9 @@
 #ifndef DIRIMPORTDIALOG_H
 #define DIRIMPORTDIALOG_H
 
-#include <ddialog.h>
+#include "dialog.h"
 
-DWIDGET_USE_NAMESPACE
-
-class DirImportDialog : public DDialog
+class DirImportDialog : public Dialog
 {
     Q_OBJECT
 public:

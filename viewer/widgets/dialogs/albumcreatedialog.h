@@ -1,11 +1,9 @@
 #ifndef ALBUMCREATEDIALOG_H
 #define ALBUMCREATEDIALOG_H
 
-#include <ddialog.h>
+#include "dialog.h"
 
-DWIDGET_USE_NAMESPACE
-
-class AlbumCreateDialog : public DDialog
+class AlbumCreateDialog : public Dialog
 {
     Q_OBJECT
 public:

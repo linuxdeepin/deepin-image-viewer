@@ -6,7 +6,6 @@
 #include "controller/viewerthememanager.h"
 #include "settings/settingswindow.h"
 #include "widgets/dialogs/aboutdialog.h"
-#include "widgets/dialogs/cancelimportdialog.h"
 #include "utils/baseutils.h"
 #include "utils/shortcut.h"
 #include <darrowrectangle.h>
@@ -242,13 +241,6 @@ void TopToolbar::initRightContent()
     });
     DWindowCloseButton *closeBtn = new DWindowCloseButton;
     connect(closeBtn, &DWindowCloseButton::clicked, this, [=] {
-//        if (dApp->importer->isRunning()) {
-//            CancelImportDialog *cd = new CancelImportDialog;
-//            cd->show();
-//        }
-//        else {
-//            dApp->quit();
-//        }
         dApp->quit();
     });
 
@@ -338,6 +330,10 @@ void TopToolbar::onAbout()
 {
     AboutDialog *ad = new AboutDialog;
     ad->show();
+    QWidget *w = window();
+    QPoint gp = w->mapToGlobal(QPoint(0, 0));
+    ad->move((w->width() - ad->width()) / 2 + gp.x(),
+               (w->height() - ad->sizeHint().height()) / 2 + gp.y());
 }
 
 void TopToolbar::onHelp()

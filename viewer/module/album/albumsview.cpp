@@ -478,7 +478,7 @@ int AlbumsView::indexOf(const QString &name) const
 void AlbumsView::popupDelDialog(const QString &albumName) {
     QStringList paths = dApp->dbM->getPathsByAlbum(albumName);
     AlbumDeleteDialog *add = new AlbumDeleteDialog(paths);
-    add->show();
+    add->showInCenter(window());
     connect(add, &AlbumDeleteDialog::buttonClicked, this, [=] (int index) {
         if (index == 1) {
             if (albumName != MY_FAVORITES_ALBUM

@@ -7,7 +7,7 @@
 #include <QDebug>
 
 FileDeleteDialog::FileDeleteDialog(const QStringList &paths, QWidget *parent)
-    : DDialog(parent)
+    : Dialog(parent)
 {
     setModal(true);
 

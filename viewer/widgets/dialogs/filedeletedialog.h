@@ -1,11 +1,9 @@
 #ifndef FILEDELETEDIALOG_H
 #define FILEDELETEDIALOG_H
 
-#include <ddialog.h>
+#include "dialog.h"
 
-DWIDGET_USE_NAMESPACE
-
-class FileDeleteDialog : public DDialog
+class FileDeleteDialog : public Dialog
 {
     Q_OBJECT
 public:

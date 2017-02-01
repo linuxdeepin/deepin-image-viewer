@@ -365,7 +365,7 @@ void AlbumPanel::showCreateDialog(QStringList imgpaths)
     }
 
     AlbumCreateDialog *d = new AlbumCreateDialog;
-    d->show();
+    d->showInCenter(window());
 //    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
 //    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
 //            (parentWidget()->height() - d->height()) / 2 + p.y());
@@ -395,7 +395,7 @@ void AlbumPanel::showImportDirDialog(const QString &dir)
             m_albumsView, &AlbumsView::updateView);
     connect(d, &DirImportDialog::albumCreated,
             this, &AlbumPanel::updateMContentCount);
-    d->show();
+    d->showInCenter(window());
 //    const QPoint p = parentWidget()->mapToGlobal(QPoint(0, 0));
 //    d->move((parentWidget()->width() - d->width()) / 2 + p.x(),
 //            (parentWidget()->height() - d->height()) / 2 + p.y());

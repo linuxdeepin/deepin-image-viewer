@@ -9,7 +9,7 @@
 #include <QDebug>
 
 AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
-    :DDialog(parent)
+    :Dialog(parent)
 {
     setModal(true);
 

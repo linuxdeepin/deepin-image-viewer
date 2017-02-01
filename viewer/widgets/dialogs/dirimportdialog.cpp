@@ -13,7 +13,7 @@
 #include <QDebug>
 
 DirImportDialog::DirImportDialog(const QString &dir, const QString &album, QWidget* parent)
-    :DDialog(parent)
+    :Dialog(parent)
 {
     setMaximumWidth(380);
 

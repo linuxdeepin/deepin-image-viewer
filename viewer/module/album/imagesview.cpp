@@ -523,7 +523,7 @@ QMenu *ImagesView::createAlbumMenu()
 void ImagesView::popupDelDialog(const QStringList &paths)
 {
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);
-    fdd->show();
+    fdd->showInCenter(window());
 }
 
 void  ImagesView::showPrintDialog(const QStringList &paths) {

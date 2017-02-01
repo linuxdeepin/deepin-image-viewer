@@ -7,7 +7,7 @@
 #include <QDebug>
 
 AlbumDeleteDialog::AlbumDeleteDialog(const QStringList &paths, QWidget *parent)
-    : DDialog(parent)
+    : Dialog(parent)
 {
     setModal(true);
 

@@ -357,5 +357,5 @@ void ViewPanel::initShortcut()
 void ViewPanel::popupDelDialog(const QString path) {
     const QStringList paths(path);
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);
-    fdd->show();
+    fdd->showInCenter(window());
 }
