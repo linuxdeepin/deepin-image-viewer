@@ -41,8 +41,8 @@ const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
-    , m_isInfoShowed(false)
     , m_hideCursorTid(0)
+    , m_isInfoShowed(false)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
@@ -516,6 +516,7 @@ void ViewPanel::removeCurrentImage()
             qDebug() << "No images to show!";
             m_current = m_infos.cend();
             emit imageChanged("");
+            m_emptyWidget->setThumbnailImage(QPixmap());
             m_stack->setCurrentIndex(1);
         }
     }
