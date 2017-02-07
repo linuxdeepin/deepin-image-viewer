@@ -3,8 +3,8 @@
 #include "controller/configsetter.h"
 #include <QDebug>
 #include <QFileInfo>
-#include <QTimerEvent>
 #include <QPainter>
+#include <QTimerEvent>
 
 namespace {
 
@@ -72,6 +72,8 @@ void SlideEffectPlayer::start()
 {
     if (m_paths.isEmpty())
         return;
+
+    cacheNext();
     m_running = true;
     m_tid = startTimer(duration());
 }
@@ -89,7 +91,6 @@ bool SlideEffectPlayer::startNext()
     const QString oldPath = currentImagePath();
 
     if (m_paths.length() > 1) {
-
         m_current ++;
         if (m_current == m_paths.constEnd()) {
             m_current = m_paths.constBegin();
@@ -97,6 +98,9 @@ bool SlideEffectPlayer::startNext()
                 m_current = m_paths.constBegin() + 1;
             }
         }
+
+        // Cache next
+        cacheNext();
     }
 
     QString newPath = currentImagePath();
@@ -104,7 +108,13 @@ bool SlideEffectPlayer::startNext()
     m_effect->setDuration(ANIMATION_DURATION);
     m_effect->setSize(fSize);
 
-    m_effect->setImages(oldPath, newPath);
+    using namespace utils::image;
+    QImage oldImg = m_cacheImages.value(oldPath);
+    QImage newImg = m_cacheImages.value(newPath);
+    // The "newPath" would be the next "oldPath", so there is no need to remove it now
+    m_cacheImages.remove(oldPath);
+
+    m_effect->setImages(oldImg, newImg);
     if (!m_thread.isRunning())
         m_thread.start();
 
@@ -118,12 +128,39 @@ bool SlideEffectPlayer::startNext()
     return true;
 }
 
+void SlideEffectPlayer::cacheNext()
+{
+    QStringList::ConstIterator current = m_current;
+    current ++;
+    if (current == m_paths.constEnd()) {
+        current = m_paths.constBegin();
+        if (!QFileInfo(*current).exists()) {
+            current = m_paths.constBegin() + 1;
+        }
+    }
+    QString path;
+    if (current == m_paths.constEnd())
+        path = *m_paths.constBegin();
+    else
+        path = *current;
+
+    CacheThread *t = new CacheThread(path);
+    connect(t, &CacheThread::cached,
+            this, [=] (const QString path, const QImage img) {
+        m_cacheImages.insert(path, img);
+    });
+    connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
+    t->start();
+}
+
 void SlideEffectPlayer::stop()
 {
     if (!isRunning())
         return;
+
     killTimer(m_tid);
     m_tid = 0;
     m_running = false;
+    m_cacheImages.clear();
     Q_EMIT finished();
 }

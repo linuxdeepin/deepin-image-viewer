@@ -1,6 +1,30 @@
 #pragma once
+#include "utils/imageutils.h"
 #include "slideeffect.h"
-#include <QtCore/QThread>
+#include <QThread>
+#include <QMap>
+
+class CacheThread : public QThread
+{
+    Q_OBJECT
+public:
+    CacheThread(const QString &path)
+        : QThread(NULL)
+        , m_path(path) {}
+
+signals:
+    void cached(QString, QImage);
+
+protected:
+    void run() Q_DECL_OVERRIDE
+    {
+        QImage img = utils::image::getRotatedImage(m_path);
+        emit cached(m_path, img);
+    }
+
+private:
+    QString m_path;
+};
 
 class SlideEffectPlayer : public QObject
 {
@@ -32,13 +56,16 @@ protected:
 private:
     int duration() const;
     bool startNext();
+    void cacheNext();
 
+private:
     bool m_running = false;
     bool m_random = true;
-    SlideEffect *m_effect = NULL;
     int m_tid;
     int m_w, m_h;
-    QThread m_thread;
-    QStringList::ConstIterator m_current;
+    QMap<QString, QImage> m_cacheImages;
     QStringList m_paths;
+    QStringList::ConstIterator m_current;
+    QThread m_thread;
+    SlideEffect *m_effect = NULL;
 };
