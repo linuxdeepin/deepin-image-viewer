@@ -214,8 +214,11 @@ void TimelineFrame::initView()
         emit selectIndexChanged(m_view->selectionModel()->currentIndex());
     });
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
-            this, [=] {
-        t->start(200);
+            this, [=] (const QModelIndex &current, const QModelIndex &previous){
+        // 无效的current会造成panel的菜单在弹出时重新计算action列表，导致菜单闪烁
+        Q_UNUSED(previous)
+        if (current.isValid())
+            t->start(200);
     });
 }
 

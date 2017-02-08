@@ -126,8 +126,8 @@ void ImagesView::initListView()
 
     connect(m_view, &ThumbnailListView::changeItemSize,
             this, &ImagesView::changeItemSize);
-    connect(m_view, &ThumbnailListView::clicked,
-            this, &ImagesView::updateMenuContents);
+//    connect(m_view, &ThumbnailListView::clicked,
+//            this, &ImagesView::updateMenuContents);
     // When user use cursor to drag to select area
     // The signal will be triggered frequently
     // Use timer to reset it
@@ -135,8 +135,10 @@ void ImagesView::initListView()
     t->setSingleShot(true);
     connect(t, &QTimer::timeout, this, &ImagesView::updateMenuContents);
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
-            this, [=] {
-        t->start(200);
+            this, [=] (const QModelIndex &current, const QModelIndex &previous){
+        Q_UNUSED(previous)
+        if (current.isValid())
+            t->start(200);
     });
     connect(m_view, &ThumbnailListView::doubleClicked,
             this, [=] (const QModelIndex & index) {
@@ -146,7 +148,6 @@ void ImagesView::initListView()
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
         if (m_view->indexAt(pos).isValid()) {
-            updateMenuContents();
             m_menu->popup(QCursor::pos());
         }
     });
@@ -452,6 +453,7 @@ void ImagesView::initItems()
     // Update tip's info
     m_topTips->setAlbum(m_album);
     updateContent();
+    updateMenuContents();
 }
 
 void ImagesView::initPopupMenu()

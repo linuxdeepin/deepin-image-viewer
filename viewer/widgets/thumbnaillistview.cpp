@@ -343,9 +343,22 @@ void ThumbnailListView::mouseReleaseEvent(QMouseEvent *e)
 
 void ThumbnailListView::mousePressEvent(QMouseEvent *e)
 {
-    QListView::mousePressEvent(e);
     m_scrollbar->stopScroll();
-    emit mousePressed(e);
+
+    QModelIndex index = indexAt(e->pos());
+    if (index.isValid() && e->button() == Qt::RightButton) {
+        bool needCallParent = selectedIndexes().length() != 1;
+
+        if (selectedIndexes().length() <= 1) {
+            selectionModel()->clear();
+            selectionModel()->select(index, QItemSelectionModel::Select);
+        }
+
+        if (! needCallParent)
+            return;
+    }
+
+    QAbstractItemView::mousePressEvent(e);
 }
 
 int ThumbnailListView::maxColumn() const

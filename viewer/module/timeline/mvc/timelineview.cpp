@@ -391,6 +391,8 @@ void TimelineView::mousePressEvent(QMouseEvent *e)
 
     QModelIndex index = indexAt(e->pos());
     if (index.isValid() && e->button() == Qt::RightButton) {
+        bool needCallParent = selectedIndexes().length() != 1;
+
         if (selectedIndexes().length() <= 1) {
             selectionModel()->clear();
             selectionModel()->select(index, QItemSelectionModel::Select);
@@ -401,7 +403,9 @@ void TimelineView::mousePressEvent(QMouseEvent *e)
         //the selected index isn't title
         if (!datas[0].toBool() || selectedIndexes().length() >= 2)
             emit showMenu();
-        return;
+
+        if (! needCallParent)
+            return;
     }
 
     QAbstractItemView::mousePressEvent(e);
