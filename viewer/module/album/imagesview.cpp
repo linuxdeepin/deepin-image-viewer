@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QMenu>
+#include <QShortcut>
 #include <QStandardItem>
 #include <QStackedWidget>
 #include <QStyleFactory>
@@ -463,6 +464,32 @@ void ImagesView::initPopupMenu()
     connect(m_menu, &QMenu::triggered, this, &ImagesView::onMenuItemClicked);
     connect(this, &ImagesView::rotateFinished,
             this, &ImagesView::updateMenuContents);
+    QShortcut* sc = new QShortcut(QKeySequence("Alt+Return"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        QStringList paths = selectedPaths();
+        paths.removeAll(QString(""));
+        if (paths.isEmpty()) {
+            return;
+        }
+
+        const QString path = paths.first();
+        dApp->signalM->showImageInfo(path);
+     });
+    //Process num-keyboard's enter;
+    sc = new QShortcut(QKeySequence("Enter"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        QStringList paths = selectedPaths();
+        paths.removeAll(QString(""));
+        if (paths.isEmpty()) {
+            return;
+        }
+
+        const QStringList viewPaths = (paths.length() == 1) ? albumPaths() : paths;
+        const QString path = paths.first();
+        emit viewImage(path, viewPaths);
+    });
 }
 
 void ImagesView::initContent()

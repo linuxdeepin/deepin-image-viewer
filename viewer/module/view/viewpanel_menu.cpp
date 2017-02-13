@@ -320,7 +320,11 @@ void ViewPanel::initShortcut()
         qDebug() << "Qt::Key_Up:";
         m_viewB->setScaleValue(1.1);
     });
-
+    sc = new QShortcut(QKeySequence("Ctrl+="), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        m_viewB->setScaleValue(1.1);
+    });
     // Zoom in
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
@@ -328,7 +332,11 @@ void ViewPanel::initShortcut()
         qDebug() << "Qt::Key_Down:";
         m_viewB->setScaleValue(0.9);
     });
-
+    sc = new QShortcut(QKeySequence("Ctrl+-"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        m_viewB->setScaleValue(0.9);
+    });
     // Esc
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);

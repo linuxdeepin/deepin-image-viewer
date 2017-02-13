@@ -59,6 +59,39 @@ void TimelinePanel::initPopupMenu()
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(m_menu, &QMenu::triggered, this, &TimelinePanel::onMenuItemClicked);
+    //Process num-keyboard's enter;
+    QShortcut* sc = new QShortcut(QKeySequence("Enter"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        QStringList paths = m_frame->selectedPaths();
+        paths.removeAll(QString(""));
+        if (paths.isEmpty()) {
+            return;
+        }
+
+        const QStringList viewPaths = (paths.length() == 1) ?
+                    dApp->dbM->getAllPaths() : paths;
+        const QString dpath = paths.first();
+
+        SignalManager::ViewInfo vinfo;
+        vinfo.inDatabase = true;
+        vinfo.lastPanel = this;
+        vinfo.path = dpath;
+        vinfo.paths = viewPaths;
+        dApp->signalM->viewImage(vinfo);
+    });
+    sc = new QShortcut(QKeySequence("Alt+Return"), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        QStringList paths = m_frame->selectedPaths();
+        paths.removeAll(QString(""));
+        if (paths.isEmpty()) {
+            return;
+        }
+
+        const QString dpath = paths.first();
+        dApp->signalM->showImageInfo(dpath);
+    });
 }
 
 void TimelinePanel::appendAction(int id, const QString &text, const QString &shortcut)
