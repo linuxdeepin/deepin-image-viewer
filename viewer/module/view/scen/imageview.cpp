@@ -312,14 +312,27 @@ void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
     QGraphicsView::mouseDoubleClickEvent(e);
 }
 
+void ImageView::mouseReleaseEvent(QMouseEvent *e)
+{
+    QGraphicsView::mouseReleaseEvent(e);
+    if (! items().isEmpty()) {
+        items().first()->setCursor(Qt::ArrowCursor);
+        QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+    }
+}
+
 void ImageView::mousePressEvent(QMouseEvent *e)
 {
     emit clicked();
     QGraphicsView::mousePressEvent(e);
+    if (! items().isEmpty()) {
+        items().first()->setCursor(Qt::ArrowCursor);
+    }
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
+
     if (! (e->buttons() | Qt::NoButton)) {
         if (! items().isEmpty()) {
             items().first()->setCursor(Qt::ArrowCursor);
@@ -328,10 +341,13 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
         emit mouseHoverMoved();
     }
     else {
-        emit transformChanged();
-    }
+        if (! items().isEmpty()) {
+            items().first()->setCursor(Qt::ClosedHandCursor);
+        }
 
-    QGraphicsView::mouseMoveEvent(e);
+        emit transformChanged();
+        QGraphicsView::mouseMoveEvent(e);
+    }
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
