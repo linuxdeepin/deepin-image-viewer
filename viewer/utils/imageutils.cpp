@@ -71,7 +71,14 @@ const QDateTime getCreateDateTime(const QString &path)
         return dt;
     }
     else {
-        const QString s = freeimage::getAllMetaData(path).value("DateTimeOriginal");
+        QString s;
+        s = freeimage::getAllMetaData(path).value("DateTimeOriginal");
+        if (s.isEmpty()) {
+            s = freeimage::getAllMetaData(path).value("DateTimeDigitized");
+        }
+        if (s.isEmpty()) {
+            s = QDateTime::currentDateTime().toString();
+        }
         return QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
     }
 }

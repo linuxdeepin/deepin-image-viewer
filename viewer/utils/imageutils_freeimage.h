@@ -125,7 +125,8 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     QFileInfo info(path);
     QImageReader reader(path);
     if (admMap.isEmpty()) {
-        admMap.insert("DateTimeOriginal", info.created().toString("yyyy.MM.dd HH:mm:ss"));
+        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy.MM.dd HH:mm:ss"));
         admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy.MM.dd HH:mm:ss"));
     }
     else {
