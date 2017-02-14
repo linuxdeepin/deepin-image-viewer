@@ -2,9 +2,9 @@
 
 ## Overview|../common/icon_overview.svg|
 
-Deepin Image Viewer is an image viewer integrated in deepin. It is fashion and elegant in interface, fast and efficient for your daily management of images.
+Deepin Image Viewer is an image viewer and management application elaborately designed by Deepin Technology, Inc. It is fashion and elegant in interface, fast and efficient for your daily management of images. The management functions of Deepin Image Viewer can let you sort the images by timeline and categorized the images by different albums to keep them in good order.
 
-![1|maininterface](png/main-interface.png)
+![1|maininterface](png/main.png)
 
 ## Guide|../common/icon_guide.svg|
 
@@ -31,7 +31,7 @@ User can run, close and create shortcut for Deepin Image Viewer by the following
 
 Deepin Image Viewer is featured with image information viewing, image rotation, slide show, image viewing in timeline and album, and so on. Right click on an image, select ** Open with** > ** Deepin Image Viewer**. If Deepin Image Viewer has been set as the default application for image viewing, user can double-click to open an image with it.
 
-![1|maininterface](png/main-interface.png)
+![1|maininterface](png/main.png)
 
 ### Image Viewing Interface
 
@@ -92,18 +92,40 @@ User can start a slide show of all the images in the folder.
 1. Open an image in a folder with Deepin Image Viewer.
 2. Right click on the image in Deepin Image Viewer interface and select ** Start slide show**.
 3. Deepin Image Viewer will enter fullscreen mode and start slide show.
-4. To exit slide show, right click on the slide show and select ** Stop slide show**.
+4. To exit slide show, right click on the slide show and select ** Stop slide show**, or press ![Esc](icon/Esc.svg) key.
 
-![0|slide](png/start-slide-show.png)
+![0|slide](png/slideshow.png)
+
+### Copy Image
+
+User can copy images in Deepin Image Viewer.
+
+1. Right click on the image in Deepin Image Viewer interface and select ** Copy **.
+2. On the target place, right click on the blank area and select ** Paste ** to copy image to the place.
+
+> ![tips](icon/tips.svg)：**Copy to Clipboard** is an enhancement of the copy function, whereas this option can be used to copy the image as the content of the document, or the image should be send to friends.
+
+### Print Image
+
+User can print image in Deepin Image Viewer.
+
+1. Right click on the image in Deepin Image Viewer interface and select ** Print **.
+2. Choose a printer and set the print options.
+3. Click on ** Print ** to send the picture to the printer.
+
+> ![notess](icon/notes.svg)：If you selected a PDF printer, you'll need to choose where to place the printed pdf file.
+
+![0|print](png/print.png)
 
 ### Delete Image
 
-User can delete images from Deepin Image Viewer.
+User can delete images from Deepin Image Viewer by the following ways.
 
-1. Right click on the image to delete.
-2. Select ** Throw to Trash** to delete the image.
+- Click on the ![delete_press](icon/delete.svg) icon on the Deepin Image Viewer interface. 
+- Right click on the image to delete and select ** Throw to Trash**.
+- Click on the image to delete and press ![Delete](icon/Delete.svg) key.
 
-![0|trash](png/throw-to-trash.png)
+![0|trash](png/delete.png)
 
 >![notes](icon/notes.svg): The deleted image will also be deleted from disk.
 
@@ -113,13 +135,13 @@ User can rotate the image in image viewing interface.
 1. Right click on the image in Deepin Image Viewer interface and select ** Rotate clockwise** or ** Rotate counterclockwise**.
 2. The image will rotate clockwise or counterclockwise for 90 degrees.
 
-![0|rotate clockwise](png/rotate-clockwise.png)
+![0|rotate clockwise](png/rotate.png)
 
 ### Set Image as Wallpaper
 
 User can set an image as the desktop wallpaper. Right click on the image in Deepin Image Viewer interface and select **Set as wallpaper**.
 
-![0|set as wallpaper](png/set-as-wallpaper.png)
+![0|set as wallpaper](png/wallpaper.png)
 
 ### View Image Information
 
@@ -127,7 +149,7 @@ User can view the detailed information of the image.
 1. Right click on the image in Deepin Image Viewer interface and select ** Image info**
 2. An information window will pop up at the left side of Deepin Image Viewer interface.
 
-![1|view info](png/view-info.png)
+![1|view info](png/info.png)
 
 ## Image Management|../common/icon_picturemanagement.svg|
 
@@ -146,24 +168,17 @@ The thumbnails of images in Timeline can be zoomed.
 1. At the lower-right corner of Deepin Image Viewer interface, click on the slider in the sliding bar.
 2. Drag the slider left/right to zoom out/zoom in.
 
-#### Import Image
+#### Sync Image
 
-User can import images to Deepin Image Viewer to better manage images.
-1. In Deepin Image Viewer interface, Click on ![Menu](icon/icon_menu.svg) and select ** Import**, or click on the ** + ** at the lower left corner.
-2. Select the folder storing the images.
-3. Click on ** Open** to import.
+Deepin Image Viewer will sync the managed folder when it startup.
 
-![0|import](png/import.png)
+1. In the timeline of the Deepin Image Viewer interface, Click on ![Synchronize](icon/Synchronize.svg) icon at the lower left corner.
+2. Click on ** Add folder ** and select the folder storing the image.
+3. Click on ** Open** to sync the image to the timeline.
 
-> ![tips](icon/tips.svg): User can drag and drop images from file manager to Timeline to import.
+![1|timeline](png/timeline.png)
 
-### Display in File Manager
-
-User can locate the directory where the image is stored.
-1. Right click on the image in Deepin Image Viewer interface and select ** Display in file manager**.
-2. The folder where the image is stored will pop up.
-
-![0|display in file manager](png/display-file.png)
+> ![tips](icon/tips.svg)：User can click on the × at the sync folder line to cancel sync on the auto scan directory manage interface.
 
 #### Add Image to My Favorites
 
@@ -172,7 +187,24 @@ User can add favorite images to My favorites.
 2. Right click on the image and select ** Add to My favorites**, or click on ![favorite](icon/collect.svg) to add the image to My favorites.
 3. Right click on the image and select ** Remove from album**, or click on ![favorite](icon/collect-active.svg) to remove the image from My favorites.
 
-![0|favorites](png/favorites.png)
+![1|favorites](png/favorites.png)
+
+#### Add Image to an Album
+
+User can add images to an album.
+1. In Timeline of Deepin Image Viewer interface, open an image.
+2. Right click on the image and select ** Add to Album**.
+3. Choose an album to add the image to the album.
+
+![0|add-to-album](png/add-to-album.png)
+
+### Display in File Manager
+
+User can locate the directory where the image is stored.
+1. Right click on the image in Deepin Image Viewer interface and select ** Display in file manager**.
+2. The folder where the image is stored will pop up.
+
+![0|display in file manager](png/display.png)
 
 ### Album
 
@@ -181,7 +213,7 @@ User can view all the albums in Album interface. It will display album thumbnail
 
 ![1|album](png/album.png)
 
-> ![note](icon/notes.svg): There are two default albums in Deepin Image Viewer, respectively ** My favorites** and ** Recent imported**, where user's favorite images and recent imported images can be found. These two albums can not be deleted or renamed.
+> ![note](icon/notes.svg): There is a default album in Deepin Image Viewer, called ** My favorites** where user's favorite images can be found. This album can not be deleted or renamed.
 
 #### Album Zooming
 
@@ -195,20 +227,14 @@ User can create new albums to categorize images.
 1. In Album interface, click on ![menu](icon/icon_menu.svg) and select **New album **.
 2. Input a name for the new album, then press ![Enter](icon/Enter.svg) or click on blank area.
 
-![0|newalbum](png/create-album.png)
-
-> ![tips](icon/tips.svg): User can click on **+ ** to create a new album.
+> ![tips](icon/tips.svg): User can also click on **+ ** to create a new album.
 
 #### Add Image to Album
 
-1. In Album interface, click the icon of an album to enter it.
-2. Click on ** Image** in the middle, or **+ ** at the lower left corner.
-3. Select the directory storing the images to import.
-4. Click on ** Open** to import the image to album.
-
-![1|add image](png/add-to-album1.png)
-
->![tips](icon/tips.svg): Open an image in timeline, and right click on the image, select ** Add to album** then select an album to add the image to the album.
+User can add image to album by the following ways:
+- By ** Sync Folder ** to add image to the album and the folder will also add to the timeline.
+- By ** Add to Album ** at the timeline interface.
+- Directly drag images from file manager and drop them on the album.
 
 #### Remove Image from Album
 
@@ -231,22 +257,37 @@ In Album interface, right click on the album icon and select ** Copy** to copy a
 
 ![0|rename-album](png/album-rename.png)
 
-## Settings|../common/icon_optionsetting.svg|
+## Main Menu|../common/icon_optionsetting.svg|
 
-In Deepin Image Viewer interface, click on ![menu](icon/icon_menu.svg) to enter ** Settings**.
+In ** Main Menu **, user can create a new album, set the options, view information on Deepin Image Viewer and Exit the application.
+In Deepin Image Viewer interface, click on ![menu](icon/icon_menu.svg) to enter ** Main Menu **.
+
+### Switch Theme
+
+In ** Main Menu **, select/unselect **Deep color mode** to switch theme.
+
+### Settings
+
+1. In ** Main Menu **, click on ** Settings **  to enter ** Settings **.
+2. User can adjust the following settings by their need:
+   - Set the effect and duration of the slideshow.
+   - View the default shortcuts and custom them.
+   - Restore to the default settings.
+
+![1|setting](png/setting.png)
 
 ### Help
 
-In ** Settings**, select ** Help** to view the manual for Deepin Image Viewer.
+In ** Main Menu **, select ** Help ** to view the manual for Deepin Image Viewer.
 
-![1|manual](png/manual.png)
+![1|manual](png/help.png)
 
 ### About
 
-In ** Settings**, select ** About** to check the version and introduction of Deepin Image Viewer.
+In ** Main Menu **, select ** About** to check the version and introduction of Deepin Image Viewer.
 
 ![0|about](png/about.png)
 
 ### Exit
 
-In ** Settings**, select ** Exit** to exit Deepin Image Viewer.
+In ** Main Menu **, select ** Exit** to exit Deepin Image Viewer.
