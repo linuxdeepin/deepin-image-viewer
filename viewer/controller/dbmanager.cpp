@@ -388,8 +388,18 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
         info.beginTime = info.endTime;
     }
     else if (pathHashs.length() > 1) {
-        info.endTime = getInfoByPathHash(pathHashs.first()).time;
-        info.beginTime = getInfoByPathHash(pathHashs.last()).time;
+        //TODO: The images' info in AlbumTable need dateTime
+        //If: without those, need to loop access dateTime
+        foreach (QString pHash,  pathHashs) {
+            QDateTime tmpTime = getInfoByPathHash(pHash).time;
+            if (tmpTime < info.beginTime || info.beginTime.isNull()) {
+                info.beginTime = tmpTime;
+            }
+
+            if (tmpTime > info.endTime || info.endTime.isNull()) {
+                info.endTime = tmpTime;
+            }
+        }
     }
 
     return info;
