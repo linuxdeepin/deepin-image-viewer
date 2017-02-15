@@ -402,6 +402,7 @@ void ImagesView::updateTopTipsRect()
     const int lm = - m_view->hOffset();
     m_topTips->setLeftMargin(lm);
     m_topTips->setVisible(true);
+    m_topTips->raise();
 }
 
 QString ImagesView::getCurrentAlbum() const
