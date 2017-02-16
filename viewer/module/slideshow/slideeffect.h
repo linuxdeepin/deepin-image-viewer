@@ -87,7 +87,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void start();
     void stop();
-
+    void pause();
 protected:
     virtual void timerEvent(QTimerEvent *e);
     virtual bool prepare(); //after all parameter setted and before effect start
@@ -103,6 +103,7 @@ protected:
 
 protected:
     bool finished;
+    bool paused;
     int tid;
     int duration_ms;
     Qt::AspectRatioMode mode;

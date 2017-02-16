@@ -21,7 +21,7 @@ const int DELAY_START_INTERVAL = 500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 const QColor DARK_BG_COLOR = QColor(27, 27, 27);
 const QColor LIGHT_BG_COLOR = QColor(255, 255, 255);
-const QString SHORTCUT_GROUP = "SHORTCUTVIEW";
+const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 
 }  // namespace
 
@@ -139,30 +139,47 @@ void SlideShowPanel::initeffectPlay()
             this, &SlideShowPanel::setImage);
 }
 
+void SlideShowPanel::appendAction(int id, const QString &text, const QString &shortcut)
+{
+    QAction *ac = new QAction(m_menu);
+    addAction(ac);
+    ac->setText(text);
+    ac->setProperty("MenuID", id);
+    ac->setShortcut(QKeySequence(shortcut));
+    m_menu->addAction(ac);
+}
+
 void SlideShowPanel::initMenu()
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
 
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
-    QAction *ac = new QAction(m_menu);
-    ac->setText(tr("Stop slideshow"));
-    ac->setShortcut(QKeySequence(dApp->setter->value(SHORTCUT_GROUP,
-        "Start slideshow").toString()));
-    m_menu->addAction(ac);
-    this->addAction(ac);
 
-    connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::backToLastPanel);
+    QString stopSc = dApp->setter->value(SHORTCUTVIEW_GROUP,
+                                         "Start slideshow").toString();
+    stopSc.replace(" ", "");
+    appendAction(IdStopslideshow, tr("Stop slideshow"),
+                  stopSc);
+    appendAction(IdPlayOrPause, tr("Pause/Play"),
+                 QKeySequence(Qt::Key_Space).toString());
+    connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::onMenuItemClicked);
     connect(this, &SlideShowPanel::customContextMenuRequested, this, [=] {
         m_menu->popup(QCursor::pos());
     });
-    connect(dApp->setter, &ConfigSetter::valueChanged,
-            this, [=] (const QString &group) {
-        if (group == SHORTCUT_GROUP) {
-            ac->setShortcut(QKeySequence(dApp->setter->value(SHORTCUT_GROUP,
-                "Start slideshow").toString()));
-        }
-    });
+}
+
+void SlideShowPanel::onMenuItemClicked(QAction *action) {
+    const int id = action->property("MenuID").toInt();
+    switch (id) {
+    case IdStopslideshow:
+        backToLastPanel();
+        break;
+    case IdPlayOrPause:
+        m_player->pause();
+        break;
+    default:break;
+    }
 }
 
 void SlideShowPanel::initShortcut()

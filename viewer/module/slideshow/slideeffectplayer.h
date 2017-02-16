@@ -49,6 +49,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void start();
     void stop();
+    void pause();
 
 protected:
     void timerEvent(QTimerEvent *e);
@@ -60,6 +61,7 @@ private:
 
 private:
     bool m_running = false;
+    bool m_pausing = false;
     bool m_random = true;
     int m_tid;
     int m_w, m_h;

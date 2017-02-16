@@ -255,19 +255,19 @@
     <name>CancelImportDialog</name>
     <message>
         <source>Are you sure to close?</source>
-        <translation>确定关闭吗？</translation>
+        <translation type="vanished">确定关闭吗？</translation>
     </message>
     <message>
         <source>The close operation will terminate current import task</source>
-        <translation>关闭将会终止当前的导入任务</translation>
+        <translation type="vanished">关闭将会终止当前的导入任务</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation>关闭</translation>
+        <translation type="vanished">关闭</translation>
     </message>
 </context>
 <context>
@@ -1212,6 +1212,10 @@
     <message>
         <source>Stop slideshow</source>
         <translation>退出幻灯片</translation>
+    </message>
+    <message>
+        <source>Pause/Play</source>
+        <translation>暂停/播放</translation>
     </message>
 </context>
 <context>
