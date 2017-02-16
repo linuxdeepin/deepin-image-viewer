@@ -118,9 +118,13 @@ void SlideEffect::stop()
     Q_EMIT stopped();
 }
 
+void SlideEffect::pause() {
+    paused = !paused;
+}
+
 void SlideEffect::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() != tid)
+    if (e->timerId() != tid || paused)
         return;
     if (!prepareNextFrame()) {
         stop();
@@ -138,6 +142,7 @@ bool SlideEffect::prepare()
     resizeImages();
     tid = 0;
     finished = false;
+    paused = false;
     progress_ = 0.0;
     current_frame = 0;
     next_rect = QRect(0, 0, width, height);

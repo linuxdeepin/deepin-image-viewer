@@ -22,7 +22,7 @@ SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
 
 void SlideEffectPlayer::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() != m_tid)
+    if (e->timerId() != m_tid || m_pausing)
         return;
     if (m_effect)
         m_effect->deleteLater();
@@ -76,6 +76,11 @@ void SlideEffectPlayer::start()
     cacheNext();
     m_running = true;
     m_tid = startTimer(duration());
+}
+
+void SlideEffectPlayer::pause() {
+    m_pausing = !m_pausing;
+    m_effect->pause();
 }
 
 bool SlideEffectPlayer::startNext()

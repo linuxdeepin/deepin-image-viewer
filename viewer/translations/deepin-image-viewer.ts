@@ -154,25 +154,6 @@
     </message>
 </context>
 <context>
-    <name>CancelImportDialog</name>
-    <message>
-        <source>Are you sure to close?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The close operation will terminate current import task</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
@@ -693,6 +674,10 @@
     <name>SlideShowPanel</name>
     <message>
         <source>Stop slideshow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause/Play</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
