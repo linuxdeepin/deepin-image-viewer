@@ -240,7 +240,7 @@ QModelIndex TimelineView::moveCursor(QAbstractItemView::CursorAction cursorActio
         ccp.setY(ccp.y() - m_itemSize - m_vItemSpacing);
         break;
     case MoveDown:
-        ccp.setY(ccp.y() + m_itemSize + m_vItemSpacing);
+        ccp.setY(ccp.y() + m_itemSize + m_vItemSpacing + m_titleHeight);
         break;
     case MovePageUp:
         return movePageUp();

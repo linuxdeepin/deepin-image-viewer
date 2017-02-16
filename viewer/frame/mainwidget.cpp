@@ -158,10 +158,10 @@ void MainWidget::initTopToolbar()
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
+
     m_topSeparatorLine = new QLabel(this);
     m_topSeparatorLine->setObjectName("TopSeperatorLine");
     m_topSeparatorLine->resize(window()->width(), 1);
-    qDebug() << window()->width() << this->width() << m_topSeparatorLine->width();
     m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
 
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent,
