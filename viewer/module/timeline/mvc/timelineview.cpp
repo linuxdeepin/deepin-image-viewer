@@ -111,18 +111,37 @@ void TimelineView::updateView()
     this->update();
 }
 
+void TimelineView::selectAll()
+{
+    int titleRowCount = model()->rowCount();
+
+    QItemSelection selection;
+
+    for (int trc = 0; trc < titleRowCount; trc ++) {
+        // Title row
+        QModelIndex titleIndex = model()->index(trc, 0);
+
+        // Data row
+        const int columnCount = model()->columnCount(titleIndex);
+        if (columnCount > 0) {
+            QModelIndex topLeft = titleIndex.child(0, 0);
+            QModelIndex bottomRight = titleIndex.child(0, columnCount - 1);
+
+            QItemSelection s;
+            s.select(topLeft, bottomRight);
+            selection.merge(s, QItemSelectionModel::Select);
+        }
+    }
+
+    selectionModel()->select(selection, QItemSelectionModel::Select);
+}
+
 void TimelineView::keyPressEvent(QKeyEvent *e)
 {
     QAbstractItemView::keyPressEvent(e);
 
     if (e->modifiers() == Qt::ControlModifier && e->key() == Qt::Key_A) {
-        QItemSelection selection;
-        for (auto i : m_irList) {
-            QItemSelection s;
-            s.select(i.index, i.index);
-            selection.merge(s, QItemSelectionModel::Select);
-        }
-        selectionModel()->select(selection, QItemSelectionModel::Select);
+        selectAll();
     }
     this->update();
 }

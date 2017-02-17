@@ -57,6 +57,9 @@ public:
     void updateScrollbarRange(bool keepAnchor = false);
     void updateView();
 
+public slots:
+    void selectAll() Q_DECL_OVERRIDE;
+
 signals:
     void changeItemSize(bool increase);
     void paintingIndexsChanged();
