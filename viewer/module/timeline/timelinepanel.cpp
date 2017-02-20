@@ -205,6 +205,7 @@ void TimelinePanel::initImagesFrame()
     connect(m_frame, &TimelineFrame::selectIndexChanged,
             this, &TimelinePanel::updateMenuContents, Qt::QueuedConnection);
     connect(m_frame, &TimelineFrame::showMenu, this, [=] {
+        updateMenuContents();
         m_menu->popup(QCursor::pos());
     });
 }

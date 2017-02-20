@@ -39,6 +39,7 @@ private:
     QMutex *m_mutex;
     QList<TimelineItem*> m_childItems;
     QMap<QString, ItemData> m_datas;
+    QStringList m_paths;
     TimelineItem *m_parentItem;
 };
 
