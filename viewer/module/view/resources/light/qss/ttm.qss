@@ -1,7 +1,7 @@
 PushButton#AdaptBtn {
     qproperty-normalPic: url(:/resources/light/images/adapt_image_normal.png);
     qproperty-hoverPic: url(:/resources/light/images/adapt_image_hover.png);
-    qproperty-pressPic: url(::/resources/light/images/adapt_image_press.png);
+    qproperty-pressPic: url(:/resources/light/images/adapt_image_press.png);
     qproperty-disablePic: url(:/resources/light/images/adapt_image_disable.png);
     qproperty-checkedPic: url(:/resources/light/images/adapt_image_press.png);
 }
