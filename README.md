@@ -55,4 +55,4 @@ We encourage you to report issues and contribute changes
 
 ## License
 
-DDE Dock is licensed under [GPLv3](https://github.com/linuxdeepin/developer-center/wiki/LICENSE).
+DDE Dock is licensed under [GPLv3](LICENSE).
