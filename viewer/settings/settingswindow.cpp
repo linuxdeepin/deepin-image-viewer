@@ -14,6 +14,8 @@ SettingsWindow::SettingsWindow(QWidget *parent)
     :DMainWindow(parent)
 {
     setWindowModality(Qt::ApplicationModal);
+    setWindowFlags(Qt::WindowStaysOnTopHint|
+                   Qt::FramelessWindowHint);
     setStyleSheet(utils::base::getFileContent(
                       ":/settings/qss/resources/qss/settings.qss"));
 
