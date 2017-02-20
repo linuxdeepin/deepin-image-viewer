@@ -16,10 +16,13 @@ namespace {
 const int BORDER_RADIUS = 0;
 const int BORDER_WIDTH = 1;
 const int BORDER_WIDTH_SELECTED = 2;
-const QColor BORDER_COLOR = QColor(255, 255, 255, 35);
+const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 26);
+const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 26);
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
-const QString DEFAULT_THUMB = ":/images/resources/images/default_thumbnail.png";
-
+const QString DARK_DEFAULT_THUMB = ":/resources/dark/images/"
+                                   "default_thumbnail.png";
+const QString LIGHT_DEFAULT_THUMB = ":/resources/light/images/"
+                                   "default_thumbnail.png";
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }  // namespace
@@ -44,6 +47,9 @@ private:
 ThumbnailDelegate::ThumbnailDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+            &ThumbnailDelegate::onThemeChanged);
     // Avoid thumbnail-thread being called too ofen
     QTimer *t = new QTimer(this);
     connect(t, &QTimer::timeout, this, [=] {
@@ -75,7 +81,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
     painter->drawPixmap(rect, thumbnail(data));
 
     // Draw inside border
-    QPen p(selected ? BORDER_COLOR_SELECTED : BORDER_COLOR,
+    QPen p(selected ? BORDER_COLOR_SELECTED : m_borderColor,
            selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
     painter->setPen(p);
     QPainterPathStroker stroker;
@@ -115,7 +121,7 @@ QPixmap ThumbnailDelegate::thumbnail(const ThumbnailDelegate::ItemData &data) co
     if (thumb.isNull()) {
         if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
             const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
-            thumb = utils::image::cutSquareImage(QPixmap(DEFAULT_THUMB), ms);
+            thumb = utils::image::cutSquareImage(QPixmap(m_defaultThumbnail), ms);
             QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
         }
     }
@@ -138,6 +144,16 @@ void ThumbnailDelegate::startThumbnailThread(const ItemData &data) const
             this, &ThumbnailDelegate::thumbnailGenerated);
     m_threads.insert(data.path, t);
     t->start();
+}
+
+void ThumbnailDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+    if (theme == ViewerThemeManager::Dark) {
+        m_borderColor = DARK_BORDER_COLOR;
+        m_defaultThumbnail = DARK_DEFAULT_THUMB;
+    } else {
+        m_borderColor = LIGHT_BORDER_COLOR;
+        m_defaultThumbnail = LIGHT_DEFAULT_THUMB;
+    }
 }
 
 #include "thumbnaildelegate.moc"
