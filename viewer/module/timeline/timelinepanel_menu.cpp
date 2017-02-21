@@ -110,7 +110,6 @@ QMenu *TimelinePanel::createAlbumMenu()
     am->setStyle(QStyleFactory::create("dlight"));
     QStringList albums = dApp->dbM->getAllAlbumNames();
     albums.removeAll(FAVORITES_ALBUM_NAME);
-    const QStringList sps = m_frame->selectedPaths();
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
@@ -119,17 +118,11 @@ QMenu *TimelinePanel::createAlbumMenu()
     am->addAction(ac);
     am->addSeparator();
     for (QString album : albums) {
-        const QStringList paths = dApp->dbM->getPathsByAlbum(album);
-        for (QString sp : sps) {
-            if (! paths.contains(sp)) {
-                QAction *ac = new QAction(am);
-                ac->setProperty("MenuID", IdAddToAlbum);
-                ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
-                ac->setData(album);
-                am->addAction(ac);
-                break;
-            }
-        }
+        QAction *ac = new QAction(am);
+        ac->setProperty("MenuID", IdAddToAlbum);
+        ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
+        ac->setData(album);
+        am->addAction(ac);
     }
 
     return am;
@@ -144,13 +137,14 @@ void TimelinePanel::updateMenuContents()
     m_menu->clear();
     qDeleteAll(this->actions());
 
-    auto supportPath = std::find_if_not(paths.cbegin(), paths.cend(),
-                                        utils::image::imageSupportSave);
-    bool canSave = supportPath == paths.cend();
-
+    bool canSave = false;
     if (paths.length() == 1) {
         appendAction(IdView, tr("View"), ss("View"));
         appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+
+        auto supportPath = std::find_if_not(paths.cbegin(), paths.cend(),
+                                            utils::image::imageSupportSave);
+        canSave = supportPath == paths.cend();
     }
     appendAction(IdStartSlideShow, tr("Start slideshow"), ss("Start slideshow"));
     appendAction(IdPrint, tr("Print"), ss("Print"));
@@ -166,25 +160,10 @@ void TimelinePanel::updateMenuContents()
     appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
     m_menu->addSeparator();
     /**************************************************************************/
-    bool isCollected = false, unFavor = false;
-    for (QString img : paths) {
-        if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME, img)) {
-            isCollected = true;
-            continue;
-        } else {
-            unFavor = true;
-        }
-    }
-
-    //Multi-select don't support Unfavorites
-    if (!unFavor && paths.length() == 1) {
-        appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
-                     ss("Remove from my favorite"));
-    } else if (!isCollected || unFavor) {
-        appendAction(IdAddToFavorites,
-                     tr("Add to my favorite"), ss("Add to my favorite"));
-    }
-
+    appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
+                 ss("Remove from my favorite"));
+    appendAction(IdAddToFavorites,
+                 tr("Add to my favorite"), ss("Add to my favorite"));
     m_menu->addSeparator();
     /**************************************************************************/
     if (canSave) {

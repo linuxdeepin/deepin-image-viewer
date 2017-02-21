@@ -26,6 +26,7 @@ void TimelineItem::appendData(const ItemData &data)
     QMutexLocker locker(m_mutex);
 
     m_datas.insert(data.path, data);
+    m_paths = m_datas.keys();
 }
 
 void TimelineItem::updateData(const TimelineItem::ItemData &data)
@@ -37,6 +38,7 @@ void TimelineItem::updateData(const TimelineItem::ItemData &data)
 void TimelineItem::removeData(const QString &path)
 {
     m_datas.remove(path);
+    m_paths = m_datas.keys();
 }
 
 void TimelineItem::insertChild(int index, TimelineItem *child)
@@ -77,7 +79,7 @@ TimelineItem::ItemData TimelineItem::data(int column) const
         return TimelineItem::ItemData();
     }
     else {
-        return m_datas[m_datas.keys().at(column)];
+        return m_datas[m_paths.at(column)];
     }
 }
 

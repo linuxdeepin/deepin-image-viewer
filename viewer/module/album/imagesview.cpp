@@ -149,6 +149,7 @@ void ImagesView::initListView()
     connect(m_view, &ThumbnailListView::customContextMenuRequested,
             this, [=] (const QPoint &pos) {
         if (m_view->indexAt(pos).isValid()) {
+            updateMenuContents();
             m_menu->popup(QCursor::pos());
         }
     });
@@ -222,13 +223,15 @@ void ImagesView::updateMenuContents()
     qDeleteAll(this->actions());
 
     const int selectedCount = paths.length();
-    auto supportPath = std::find_if_not(paths.cbegin(), paths.cend(),
-                                        utils::image::imageSupportSave);
-    bool canSave = supportPath == paths.cend();
+    bool canSave = false;
 
     if (selectedCount == 1) {
         appendAction(IdView, tr("View"), ss("View"));
         appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+
+        auto supportPath = std::find_if_not(paths.cbegin(), paths.cend(),
+                                            utils::image::imageSupportSave);
+        canSave = supportPath == paths.cend();
     }
     appendAction(IdStartSlideShow, tr("Start slideshow"), ss("Start slideshow"));
     appendAction(IdPrint, tr("Print"), ss("Print"));
@@ -245,23 +248,10 @@ void ImagesView::updateMenuContents()
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
     m_menu->addSeparator();
     /**************************************************************************/
-    bool isCollected = false, unFavor = false;
-    for (QString img : paths) {
-        if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME, img)) {
-            isCollected = true;
-            continue;
-        } else {
-            unFavor = true;
-        }
-    }
-    if (!unFavor && paths.length() == 1) {
-        appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
-                     ss("Remove from my favorite"));
-    }
-    else if (!isCollected || unFavor ) {
-        appendAction(IdAddToFavorites,
-                     tr("Add to my favorite"), ss("Add to my favorite"));
-    }
+    appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
+                 ss("Remove from my favorite"));
+    appendAction(IdAddToFavorites,
+                 tr("Add to my favorite"), ss("Add to my favorite"));
     m_menu->addSeparator();
     /**************************************************************************/
     if (canSave) {
@@ -423,13 +413,7 @@ void ImagesView::setIconSize(const QSize &iconSize)
 
 QStringList ImagesView::selectedPaths() const
 {
-    QStringList paths;
-    auto infos = m_view->selectedItemInfos();
-    for (ThumbnailListView::ItemInfo info : infos) {
-        paths << info.path;
-    }
-
-    return paths;
+    return m_view->selectedPaths();
 }
 
 void ImagesView::resizeEvent(QResizeEvent *e)
@@ -525,7 +509,6 @@ QMenu *ImagesView::createAlbumMenu()
     am->setStyle(QStyleFactory::create("dlight"));
     QStringList albums = dApp->dbM->getAllAlbumNames();
     albums.removeAll(FAVORITES_ALBUM_NAME);
-    const QStringList sps = selectedPaths();
 
     QAction *ac = new QAction(am);
     ac->setProperty("MenuID", IdAddToAlbum);
@@ -534,17 +517,11 @@ QMenu *ImagesView::createAlbumMenu()
     am->addAction(ac);
     am->addSeparator();
     for (QString album : albums) {
-        const QStringList paths = dApp->dbM->getPathsByAlbum(album);
-        for (QString sp : sps) {
-            if (! paths.contains(sp)) {
-                QAction *ac = new QAction(am);
-                ac->setProperty("MenuID", IdAddToAlbum);
-                ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
-                ac->setData(album);
-                am->addAction(ac);
-                break;
-            }
-        }
+        QAction *ac = new QAction(am);
+        ac->setProperty("MenuID", IdAddToAlbum);
+        ac->setText(fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
+        ac->setData(album);
+        am->addAction(ac);
     }
 
     return am;

@@ -31,7 +31,7 @@ public:
     int hOffset() const;
     const ItemInfo itemInfo(const QModelIndex &index);
     const QList<ItemInfo> ItemInfos();
-    const QList<ItemInfo> selectedItemInfos();
+    const QStringList selectedPaths() const;
 
 signals:
     void mousePressed(QMouseEvent *e);

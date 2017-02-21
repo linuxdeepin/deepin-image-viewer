@@ -208,25 +208,18 @@ const QList<ThumbnailListView::ItemInfo> ThumbnailListView::ItemInfos()
     return infos;
 }
 
-const QList<ThumbnailListView::ItemInfo> ThumbnailListView::selectedItemInfos()
+const QStringList ThumbnailListView::selectedPaths() const
 {
-    QList<ItemInfo> infos;
+    QStringList paths;
     for (QModelIndex index : selectionModel()->selectedIndexes()) {
         const QVariantList datas =
                 index.model()->data(index, Qt::DisplayRole).toList();
-        ItemInfo info;
-        info.name = datas[0].toString();
-        info.path = datas[1].toString();
-        if (datas[2].isValid()) {
-            QPixmap thumb;
-            if (thumb.loadFromData(datas[2].toByteArray())) {
-                info.thumb = thumb;
-            }
+        if (datas.length() == 3) {
+            paths << datas[1].toString();
         }
-        infos << info;
     }
 
-    return infos;
+    return paths;
 }
 
 void ThumbnailListView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags)
