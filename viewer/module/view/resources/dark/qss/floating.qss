@@ -1,0 +1,20 @@
+PushButton#PreviousButton {
+qproperty-normalPic: url(:/resources/dark/images/previous_normal.png);
+qproperty-hoverPic: url(:/resources/dark/images/previous_hover.png);
+qproperty-pressPic: url(:/resources/dark/images/previous_press.png);
+qproperty-checkedPic: url(:/resources/dark/images/previous_press.png);
+}
+
+PushButton#NextButton {
+qproperty-normalPic: url(:/resources/dark/images/next_normal.png);
+qproperty-hoverPic: url(:/resources/dark/images/next_hover.png);
+qproperty-pressPic: url(:/resources/dark/images/next_press.png);
+qproperty-checkedPic: url(:/resources/dark/images/next_press.png);
+}
+
+QLabel#ScaleLabel {
+    border-image: url(:/resources/dark/images/scale_background.png);
+    color: white;
+    padding: 0px 0px 10px 0px;
+    font-size: 14px;
+}
