@@ -6,6 +6,8 @@
 #include "controller/viewerthememanager.h"
 #include "anchors.h"
 #include "thumbnailwidget.h"
+#include "lockwidget.h"
+
 #include <QFileInfo>
 #include <QJsonObject>
 
@@ -107,6 +109,7 @@ private:
     ThumbnailWidget* m_emptyWidget=nullptr;
     QMenu *m_menu;
     QStackedWidget *m_stack;
+    LockWidget* m_lockWidget;
 
     // Floating component
     Anchors<NavigationWidget> m_nav;

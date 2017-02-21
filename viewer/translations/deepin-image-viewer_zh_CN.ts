@@ -682,6 +682,13 @@
     </message>
 </context>
 <context>
+    <name>LockWidget</name>
+    <message>
+        <source>You have no permission to view the image</source>
+        <translation>没有权限查看图片</translation>
+    </message>
+</context>
+<context>
     <name>MainWidget</name>
     <message>
         <source>Imported successfully</source>

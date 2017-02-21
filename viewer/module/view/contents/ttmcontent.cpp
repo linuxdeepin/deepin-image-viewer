@@ -102,25 +102,31 @@ void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
 void TTMContent::setImage(const QString &path)
 {
     m_imagePath = path;
-    if (path.isEmpty() || !QFileInfo(path).exists()) {
+    if (path.isEmpty() || !QFileInfo(path).exists()
+            || !QFileInfo(path).isReadable()) {
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
         m_rotateRBtn->setDisabled(true);
         m_trashBtn->setDisabled(true);
-    }
-    else {
+    } else {
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
-        m_trashBtn->setDisabled(false);
-        if (utils::image::imageSupportSave(path)) {
-            m_rotateLBtn->setDisabled(false);
-            m_rotateRBtn->setDisabled(false);
-        }
-        else {
+        if (QFileInfo(path).isReadable() &&
+                !QFileInfo(path).isWritable()) {
+            m_trashBtn->setDisabled(true);
             m_rotateLBtn->setDisabled(true);
             m_rotateRBtn->setDisabled(true);
-        }
+        } else {
+            m_trashBtn->setDisabled(false);
+            if (utils::image::imageSupportSave(path)) {
+                m_rotateLBtn->setDisabled(false);
+                m_rotateRBtn->setDisabled(false);
+            } else {
+                m_rotateLBtn->setDisabled(true);
+                m_rotateRBtn->setDisabled(true);
+            }
+        } 
     }
 
     updateCollectButton();

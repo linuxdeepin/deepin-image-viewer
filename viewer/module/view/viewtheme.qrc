@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
+        <file>resources/common/close_hover.png</file>
+        <file>resources/common/close_normal.png</file>
+        <file>resources/common/close_press.png</file>
         <file>resources/dark/images/adapt_image_disable.png</file>
         <file>resources/dark/images/adapt_image_hover.png</file>
         <file>resources/dark/images/adapt_image_normal.png</file>
@@ -7,8 +10,8 @@
         <file>resources/dark/images/adapt_screen_disable.png</file>
         <file>resources/dark/images/adapt_screen_hover.png</file>
         <file>resources/dark/images/adapt_screen_normal.png</file>
-        <file>resources/dark/images/add.png</file>
         <file>resources/dark/images/adapt_screen_press.png</file>
+        <file>resources/dark/images/add.png</file>
         <file>resources/dark/images/album_active.png</file>
         <file>resources/dark/images/album_hover.png</file>
         <file>resources/dark/images/album_normal.png</file>
@@ -24,27 +27,37 @@
         <file>resources/dark/images/contrarotate_hover.png</file>
         <file>resources/dark/images/contrarotate_normal.png</file>
         <file>resources/dark/images/contrarotate_press.png</file>
+        <file>resources/dark/images/default_thumbnail.png</file>
         <file>resources/dark/images/delete_disable.png</file>
         <file>resources/dark/images/delete_hover.png</file>
         <file>resources/dark/images/delete_normal.png</file>
         <file>resources/dark/images/delete_press.png</file>
         <file>resources/dark/images/edit_hover.png</file>
         <file>resources/dark/images/edit_normal.png</file>
-        <file>resources/dark/images/folder_hover.png</file>
         <file>resources/dark/images/edit_press.png</file>
+        <file>resources/dark/images/empty_defaultThumbnail.png</file>
+        <file>resources/dark/images/folder_hover.png</file>
         <file>resources/dark/images/folder_normal.png</file>
         <file>resources/dark/images/folder_press.png</file>
-        <file>resources/dark/images/info_hover.png</file>
         <file>resources/dark/images/info_active.png</file>
+        <file>resources/dark/images/info_hover.png</file>
         <file>resources/dark/images/info_normal.png</file>
         <file>resources/dark/images/lefttooltip.png</file>
+        <file>resources/dark/images/lock_bg.png</file>
         <file>resources/dark/images/minus.png</file>
         <file>resources/dark/images/naviwindow_bg.png</file>
+        <file>resources/dark/images/next_hover.png</file>
+        <file>resources/dark/images/next_normal.png</file>
+        <file>resources/dark/images/next_press.png</file>
         <file>resources/dark/images/no_picture.png</file>
+        <file>resources/dark/images/previous_hover.png</file>
+        <file>resources/dark/images/previous_normal.png</file>
+        <file>resources/dark/images/previous_press.png</file>
         <file>resources/dark/images/rectangle.png</file>
         <file>resources/dark/images/return_hover.png</file>
         <file>resources/dark/images/return_normal.png</file>
         <file>resources/dark/images/return_press.png</file>
+        <file>resources/dark/images/scale_background.png</file>
         <file>resources/dark/images/scrollbar_handle_h_hover.png</file>
         <file>resources/dark/images/scrollbar_handle_h_normal.png</file>
         <file>resources/dark/images/scrollbar_handle_v_hover.png</file>
@@ -53,68 +66,59 @@
         <file>resources/dark/images/slideshow_hover.png</file>
         <file>resources/dark/images/slideshow_normal.png</file>
         <file>resources/dark/images/slideshow_press.png</file>
+        <file>resources/dark/qss/floating.qss</file>
         <file>resources/dark/qss/imageslider.qss</file>
+        <file>resources/dark/qss/lockwidget.qss</file>
+        <file>resources/dark/qss/thumbnailwidget.qss</file>
+        <file>resources/dark/qss/ttm.qss</file>
         <file>resources/dark/qss/view.qss</file>
-        <file>resources/light/images/clockwise_rotation_hover.png</file>
         <file>resources/light/images/adapt_image_disable.png</file>
         <file>resources/light/images/adapt_image_hover.png</file>
+        <file>resources/light/images/adapt_image_normal.png</file>
         <file>resources/light/images/adapt_image_press.png</file>
         <file>resources/light/images/adapt_screen_disable.png</file>
         <file>resources/light/images/adapt_screen_hover.png</file>
+        <file>resources/light/images/adapt_screen_normal.png</file>
         <file>resources/light/images/adapt_screen_press.png</file>
         <file>resources/light/images/clockwise_rotation_disable.png</file>
+        <file>resources/light/images/clockwise_rotation_hover.png</file>
+        <file>resources/light/images/clockwise_rotation_normal.png</file>
         <file>resources/light/images/clockwise_rotation_press.png</file>
         <file>resources/light/images/collect_disable.png</file>
         <file>resources/light/images/collect_hover.png</file>
+        <file>resources/light/images/collect_normal.png</file>
         <file>resources/light/images/collect_press.png</file>
         <file>resources/light/images/contrarotate_disable.png</file>
         <file>resources/light/images/contrarotate_hover.png</file>
+        <file>resources/light/images/contrarotate_normal.png</file>
         <file>resources/light/images/contrarotate_press.png</file>
+        <file>resources/light/images/default_thumbnail.png</file>
         <file>resources/light/images/delete_disable.png</file>
         <file>resources/light/images/delete_hover.png</file>
-        <file>resources/light/images/delete_press.png</file>
-        <file>resources/light/qss/imageslider.qss</file>
-        <file>resources/light/qss/view.qss</file>
-        <file>resources/light/images/adapt_image_normal.png</file>
-        <file>resources/light/images/return_hover.png</file>
-        <file>resources/light/images/return_normal.png</file>
-        <file>resources/light/images/return_press.png</file>
-        <file>resources/dark/qss/ttm.qss</file>
-        <file>resources/light/qss/ttm.qss</file>
-        <file>resources/light/images/contrarotate_normal.png</file>
         <file>resources/light/images/delete_normal.png</file>
-        <file>resources/light/images/clockwise_rotation_normal.png</file>
-        <file>resources/light/images/adapt_screen_normal.png</file>
-        <file>resources/light/images/collect_normal.png</file>
-        <file>resources/light/images/folder_normal.png</file>
-        <file>resources/light/images/folder_hover.png</file>
-        <file>resources/light/images/folder_press.png</file>
-        <file>resources/light/images/naviwindow_bg.png</file>
-        <file>resources/light/images/no_picture.png</file>
-        <file>resources/common/close_hover.png</file>
-        <file>resources/common/close_normal.png</file>
-        <file>resources/common/close_press.png</file>
-        <file>resources/dark/images/default_thumbnail.png</file>
-        <file>resources/light/images/default_thumbnail.png</file>
-        <file>resources/dark/qss/thumbnailwidget.qss</file>
-        <file>resources/light/qss/thumbnailwidget.qss</file>
-        <file>resources/dark/images/empty_defaultThumbnail.png</file>
+        <file>resources/light/images/delete_press.png</file>
         <file>resources/light/images/empty_defaultThumbnail.png</file>
-        <file>resources/dark/qss/floating.qss</file>
-        <file>resources/dark/images/previous_hover.png</file>
-        <file>resources/dark/images/previous_normal.png</file>
-        <file>resources/dark/images/previous_press.png</file>
-        <file>resources/dark/images/next_press.png</file>
-        <file>resources/dark/images/next_normal.png</file>
-        <file>resources/dark/images/next_hover.png</file>
-        <file>resources/dark/images/scale_background.png</file>
-        <file>resources/light/qss/floating.qss</file>
+        <file>resources/light/images/folder_hover.png</file>
+        <file>resources/light/images/folder_normal.png</file>
+        <file>resources/light/images/folder_press.png</file>
+        <file>resources/light/images/lock_bg.png</file>
+        <file>resources/light/images/naviwindow_bg.png</file>
         <file>resources/light/images/next_hover.png</file>
         <file>resources/light/images/next_normal.png</file>
         <file>resources/light/images/next_press.png</file>
+        <file>resources/light/images/no_picture.png</file>
         <file>resources/light/images/previous_hover.png</file>
         <file>resources/light/images/previous_normal.png</file>
         <file>resources/light/images/previous_press.png</file>
+        <file>resources/light/images/return_hover.png</file>
+        <file>resources/light/images/return_normal.png</file>
+        <file>resources/light/images/return_press.png</file>
         <file>resources/light/images/scale_background.png</file>
+        <file>resources/light/qss/floating.qss</file>
+        <file>resources/light/qss/imageslider.qss</file>
+        <file>resources/light/qss/lockwidget.qss</file>
+        <file>resources/light/qss/thumbnailwidget.qss</file>
+        <file>resources/light/qss/ttm.qss</file>
+        <file>resources/light/qss/view.qss</file>
     </qresource>
 </RCC>

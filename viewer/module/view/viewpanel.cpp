@@ -569,6 +569,11 @@ void ViewPanel::initStack()
 
     m_stack->addWidget(m_viewB);
     m_stack->addWidget(m_emptyWidget);
+    //Lock frame: if the deepin-image-viewer
+    //can't access to read the image
+    m_lockWidget = new LockWidget(":/resources/dark/qss/lockwidget.qss",
+                                  ":/resources/light/qss/lockwidget.qss");
+    m_stack->addWidget(m_lockWidget);
 }
 
 void ViewPanel::backToLastPanel()
@@ -649,7 +654,13 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     if (!QFileInfo(path).exists()) {
         m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
         m_stack->setCurrentIndex(1);
-    } else {
+    } else if (!QFileInfo(path).isReadable()) {
+        m_stack->setCurrentIndex(2);
+    } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
+        m_stack->setCurrentIndex(0);
+
+    }
+    else {
         m_stack->setCurrentIndex(0);
     }
     if (inDB) {

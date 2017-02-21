@@ -315,6 +315,13 @@
     </message>
 </context>
 <context>
+    <name>LockWidget</name>
+    <message>
+        <source>You have no permission to view the image</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>

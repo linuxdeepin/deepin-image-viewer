@@ -1,0 +1,8 @@
+QLabel#BgLabel {
+    border-image: url(:/resources/dark/images/lock_bg.png);
+}
+
+QLabel#LockTips {
+    color: #FFFFFF;
+    font-size: 12px;
+}
