@@ -28,7 +28,7 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addStretch();
     layout->addWidget(m_thumbnailLabel,  0, Qt::AlignCenter);
-    layout->addSpacing(15);
+    layout->addSpacing(9);
     layout->addWidget(m_tips,  0, Qt::AlignCenter);
     layout->addStretch();
     setLayout(layout);
@@ -65,6 +65,7 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail) {
         m_defaultImage = thumbnail;
         m_isDefaultThumbnail =  false;
     }
+
     update();
 }
 
@@ -74,6 +75,15 @@ bool ThumbnailWidget::isDefaultThumbnail() {
 
 void ThumbnailWidget::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
+    if (m_defaultImage.isNull()) {
+        if (isDeepMode()) {
+            m_defaultImage = QPixmap(DARK_DEFAULT_THUMBNAIL);
+        } else {
+            m_defaultImage = QPixmap(LIGHT_DEFAULT_THUMBNAIL);
+        }
+        m_isDefaultThumbnail = true;
+    }
+
     if (m_defaultImage.size() != THUMBNAIL_SIZE) {
         m_defaultImage = m_defaultImage.scaled(THUMBNAIL_SIZE,
                          Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -91,11 +101,6 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event) {
     painter.setRenderHints(QPainter::HighQualityAntialiasing |
                            QPainter::SmoothPixmapTransform);
     painter.drawPixmap(imgRect, m_defaultImage);
-    QPen pen;
-    pen.setColor(m_inBorderColor);
-    pen.setWidth(1);
-    painter.setPen(pen);
-    painter.drawRect(imgRect);
 }
 
 void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event) {
