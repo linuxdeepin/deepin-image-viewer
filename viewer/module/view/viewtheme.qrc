@@ -49,7 +49,6 @@
         <file>resources/dark/images/next_hover.png</file>
         <file>resources/dark/images/next_normal.png</file>
         <file>resources/dark/images/next_press.png</file>
-        <file>resources/dark/images/no_picture.png</file>
         <file>resources/dark/images/previous_hover.png</file>
         <file>resources/dark/images/previous_normal.png</file>
         <file>resources/dark/images/previous_press.png</file>
@@ -106,7 +105,6 @@
         <file>resources/light/images/next_hover.png</file>
         <file>resources/light/images/next_normal.png</file>
         <file>resources/light/images/next_press.png</file>
-        <file>resources/light/images/no_picture.png</file>
         <file>resources/light/images/previous_hover.png</file>
         <file>resources/light/images/previous_normal.png</file>
         <file>resources/light/images/previous_press.png</file>

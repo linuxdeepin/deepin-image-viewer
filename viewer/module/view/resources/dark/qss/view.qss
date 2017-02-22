@@ -82,10 +82,6 @@ QScrollBar::sub-line {
     background: none;
 }
 
-QLabel#EmptyFrame {
-    border-image: url(:/resources/dark/images/no_picture.png);
-}
-
 PushButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/dark/images/return_normal.png);
     qproperty-hoverPic: url(:/resources/dark/images/return_hover.png);
