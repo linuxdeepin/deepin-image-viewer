@@ -86,29 +86,6 @@ QLabel#EmptyFrame {
     border-image: url(:/resources/dark/images/no_picture.png);
 }
 
-ImageButton#PreviousButton {
-    border-image: url(:/resources/dark/images/previous_next.png);
-    qproperty-normalPic: url(:/resources/dark/images/previous_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/previous_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/previous_press.png);
-    padding: 6px 20px 14px 13px;
-}
-
-ImageButton#NextButton {
-    border-image: url(:/resources/dark/images/previous_next.png);
-    qproperty-normalPic: url(:/resources/dark/images/next_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/next_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/next_press.png);
-    padding: 4px 21px 12px  15px;
-}
-
-QLabel#ScaleLabel {
-    border-image: url(:/resources/dark/images/scale_background.png);
-    color: white;
-    padding: 0px 0px 10px 0px;
-    font-size: 14px;
-}
-
 PushButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/dark/images/return_normal.png);
     qproperty-hoverPic: url(:/resources/dark/images/return_hover.png);

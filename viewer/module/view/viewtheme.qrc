@@ -40,21 +40,11 @@
         <file>resources/dark/images/lefttooltip.png</file>
         <file>resources/dark/images/minus.png</file>
         <file>resources/dark/images/naviwindow_bg.png</file>
-        <file>resources/dark/images/next_disable.png</file>
-        <file>resources/dark/images/next_hover.png</file>
-        <file>resources/dark/images/next_normal.png</file>
-        <file>resources/dark/images/next_press.png</file>
         <file>resources/dark/images/no_picture.png</file>
-        <file>resources/dark/images/previous_disable.png</file>
-        <file>resources/dark/images/previous_hover.png</file>
-        <file>resources/dark/images/previous_next.png</file>
-        <file>resources/dark/images/previous_normal.png</file>
-        <file>resources/dark/images/previous_press.png</file>
         <file>resources/dark/images/rectangle.png</file>
         <file>resources/dark/images/return_hover.png</file>
         <file>resources/dark/images/return_normal.png</file>
         <file>resources/dark/images/return_press.png</file>
-        <file>resources/dark/images/scale_background.png</file>
         <file>resources/dark/images/scrollbar_handle_h_hover.png</file>
         <file>resources/dark/images/scrollbar_handle_h_normal.png</file>
         <file>resources/dark/images/scrollbar_handle_v_hover.png</file>
@@ -96,14 +86,6 @@
         <file>resources/light/images/clockwise_rotation_normal.png</file>
         <file>resources/light/images/adapt_screen_normal.png</file>
         <file>resources/light/images/collect_normal.png</file>
-        <file>resources/light/images/previous_hover.png</file>
-        <file>resources/light/images/previous_next.png</file>
-        <file>resources/light/images/previous_normal.png</file>
-        <file>resources/light/images/previous_press.png</file>
-        <file>resources/light/images/next_press.png</file>
-        <file>resources/light/images/next_normal.png</file>
-        <file>resources/light/images/next_hover.png</file>
-        <file>resources/light/images/scale_background.png</file>
         <file>resources/light/images/folder_normal.png</file>
         <file>resources/light/images/folder_hover.png</file>
         <file>resources/light/images/folder_press.png</file>
@@ -118,5 +100,21 @@
         <file>resources/light/qss/thumbnailwidget.qss</file>
         <file>resources/dark/images/empty_defaultThumbnail.png</file>
         <file>resources/light/images/empty_defaultThumbnail.png</file>
+        <file>resources/dark/qss/floating.qss</file>
+        <file>resources/dark/images/previous_hover.png</file>
+        <file>resources/dark/images/previous_normal.png</file>
+        <file>resources/dark/images/previous_press.png</file>
+        <file>resources/dark/images/next_press.png</file>
+        <file>resources/dark/images/next_normal.png</file>
+        <file>resources/dark/images/next_hover.png</file>
+        <file>resources/dark/images/scale_background.png</file>
+        <file>resources/light/qss/floating.qss</file>
+        <file>resources/light/images/next_hover.png</file>
+        <file>resources/light/images/next_normal.png</file>
+        <file>resources/light/images/next_press.png</file>
+        <file>resources/light/images/previous_hover.png</file>
+        <file>resources/light/images/previous_normal.png</file>
+        <file>resources/light/images/previous_press.png</file>
+        <file>resources/light/images/scale_background.png</file>
     </qresource>
 </RCC>

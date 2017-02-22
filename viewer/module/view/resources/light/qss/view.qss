@@ -96,25 +96,6 @@ ImageButton#NextButton {
     padding: 4px 21px 12px  15px;
 }
 
-QLabel#ScaleLabel {
-    border-image: url(:/resources/light/images/scale_background.png);
-    color: rgba(0, 0, 0, .9);
-    padding: 0px 0px 10px 0px;
-    font-size: 14px;
-}
-
-ImageButton#PreviousButton {
-    qproperty-normalPic: url(:/resources/light/images/previous_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/previous_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/previous_press.png);
-}
-
-ImageButton#NextButton {
-    qproperty-normalPic: url(:/resources/light/images/next_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/next_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/next_press.png);
-}
-
 PushButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/light/images/return_normal.png);
     qproperty-hoverPic: url(:/resources/light/images/return_hover.png);
