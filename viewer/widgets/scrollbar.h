@@ -21,6 +21,7 @@ private:
     QPropertyAnimation *m_animation;
     double m_speedTime;
     int m_directionFlag;
+    int m_oldScrollStep;
 };
 
 #endif // SCROLLBAR_H

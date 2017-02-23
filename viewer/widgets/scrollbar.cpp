@@ -58,7 +58,10 @@ bool ScrollBar::isScrolling() const
 void ScrollBar::wheelEvent(QWheelEvent *e)
 {
     // Active by touchpad
-    if (e->pixelDelta().y() != 0) {
+    //TODO: how to judge the wheelEvent is from touchpad?
+    //this judge(e->pixelDelta.y() == m_oldScrollStep)
+    //isn't precise!
+    if (e->pixelDelta().y() == m_oldScrollStep) {
         QWheelEvent ve(e->pos(), e->globalPos(), e->pixelDelta()
                        , e->angleDelta(), e->delta() * 16/*speed up*/
                        , Qt::Vertical, e->buttons(), e->modifiers());
@@ -86,4 +89,6 @@ void ScrollBar::wheelEvent(QWheelEvent *e)
 
         m_animation->start();
     }
+    m_oldScrollStep = e->pixelDelta().y();
+
 }
