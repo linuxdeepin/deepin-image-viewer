@@ -1,5 +1,5 @@
 ImgInfoDialog {
-    background: white;
+    background: rgba(255, 255, 255, .12);
 }
 
 QLabel#DataLabel {
