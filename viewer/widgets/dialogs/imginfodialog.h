@@ -3,7 +3,7 @@
 
 #include <ddialog.h>
 #include <DMainWindow>
-
+#include <DBlurEffectWidget>
 DWIDGET_USE_NAMESPACE
 
 class QVBoxLayout;
