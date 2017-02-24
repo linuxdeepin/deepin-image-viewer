@@ -24,6 +24,7 @@ const int LEFT_RIGHT_MARGIN = 24;
 const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
 const QColor LIGHT_BACKGROUND_COLOR = QColor("#FFFFFF");
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
+const QColor SELECTED_RECT_COLOR = QColor(44, 167, 248, 26);
 const int TOP_TOOLBAR_THEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 22;
 }  // namespace
@@ -362,6 +363,7 @@ void TimelineView::paintEvent(QPaintEvent *event)
     QPainterPath bp;
     bp.addRect(m_selectionRect);
     QPen sp(BORDER_COLOR_SELECTED, 1);
+    painter.fillRect(m_selectionRect, QBrush(SELECTED_RECT_COLOR));
     painter.setPen(sp);
     painter.drawPath(bp);
 }
