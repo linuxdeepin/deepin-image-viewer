@@ -39,14 +39,12 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
     : DMainWindow(parent)
 {
     setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
-    setEnableBlurWindow(true);
-
     if (titleBar()) titleBar()->setFixedHeight(0);
     setFixedWidth(MAX_WIDTH);
     setStyleSheet(utils::base::getFileContent(
                       ":/dialogs/qss/resources/qss/imginfodialog.qss"));
 
-    DBlurEffectWidget *w = new DBlurEffectWidget;
+    QWidget *w = new QWidget;
     m_layout = new QVBoxLayout(w);
     m_layout->setContentsMargins(5, 5, 5, 0);
     m_layout->setSpacing(0);
