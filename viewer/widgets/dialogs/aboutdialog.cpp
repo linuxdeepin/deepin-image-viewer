@@ -12,9 +12,12 @@ AboutDialog::AboutDialog()
     : DAboutDialog()
 {
     setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
+    setModal(true);
     setProductIcon(QIcon(PRODUCT_ICON));
     setProductName(tr("Deepin Image Viewer"));
     setVersion(tr("Version:") + VERSION);
+    //FIXME: acknowledgementLink is empty!
+    setAcknowledgementLink("https://www.deepin.org/acknowledgments/deepin-image-viewer/");
     setDescription(tr("Deepin Image Viewer is a fashion & smooth image manager.") +
                    "\n" +
                    tr("It is featured with image management, image viewing and basic image editing."));
