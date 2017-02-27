@@ -248,10 +248,10 @@ void ImagesView::updateMenuContents()
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
-                 ss("Remove from my favorite"));
     appendAction(IdAddToFavorites,
                  tr("Add to my favorite"), ss("Add to my favorite"));
+    appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
+                 ss("Remove from my favorite"));
     m_menu->addSeparator();
     /**************************************************************************/
     if (canSave) {

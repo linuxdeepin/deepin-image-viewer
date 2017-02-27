@@ -160,10 +160,10 @@ void TimelinePanel::updateMenuContents()
     appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
-                 ss("Remove from my favorite"));
     appendAction(IdAddToFavorites,
                  tr("Add to my favorite"), ss("Add to my favorite"));
+    appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
+                 ss("Remove from my favorite"));
     m_menu->addSeparator();
     /**************************************************************************/
     if (canSave) {
