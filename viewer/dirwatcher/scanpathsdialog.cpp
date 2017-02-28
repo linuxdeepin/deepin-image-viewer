@@ -325,7 +325,7 @@ bool ScanPathsDialog::isLegalPath(const QString &path) const
         }
     }
     return false;
-#elif
+#else
     return true;
 #endif
 }
