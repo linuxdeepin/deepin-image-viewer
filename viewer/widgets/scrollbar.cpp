@@ -59,9 +59,9 @@ void ScrollBar::wheelEvent(QWheelEvent *e)
 {
     // Active by touchpad
     //TODO: how to judge the wheelEvent is from touchpad?
-    //this judge(e->pixelDelta.y() == m_oldScrollStep)
+    //this judge(e->pixelDelta.y() != m_oldScrollStep)
     //isn't precise!
-    if (e->pixelDelta().y() == m_oldScrollStep) {
+    if (e->pixelDelta().y() != m_oldScrollStep) {
         QWheelEvent ve(e->pos(), e->globalPos(), e->pixelDelta()
                        , e->angleDelta(), e->delta() * 16/*speed up*/
                        , Qt::Vertical, e->buttons(), e->modifiers());
