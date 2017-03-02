@@ -10,6 +10,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QStyleFactory>
+#include <QComboBox>
 
 namespace {
 
@@ -88,7 +89,7 @@ void SlideshowFrame::initInterval()
     timeLayout->addSpacing(37);
     timeLayout->addWidget(new Title3(tr("Switch duration")));
 
-    DSimpleComboBox *dcb = new DSimpleComboBox(this);
+    QComboBox  *dcb = new QComboBox(this);
     dcb->setStyle(QStyleFactory::create("dlight"));
     dcb->setFixedSize(238, 26);
     QStringList intervalList;
@@ -98,7 +99,7 @@ void SlideshowFrame::initInterval()
     dcb->addItems(intervalList);
     dcb->setEditable(false);
     dcb->setCurrentIndex(defaultDuration() - 2);
-    connect(dcb, &DSimpleComboBox::currentTextChanged,
+    connect(dcb, &QComboBox::currentTextChanged,
             this, [=] (const QString &text) {
         int i = QString(text.split(" ").first()).toInt();
         if (i != 0) {
