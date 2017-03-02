@@ -2,7 +2,7 @@ ImageView {
     background-color: #202020;
 }
 ViewSeparator {
-    background: rgba(255, 255, 255, .2);
+    background: rgba(255, 255, 255, .1);
 }
 
 SimpleFormField {
@@ -21,7 +21,7 @@ QScrollArea#ImageInfoScrollArea {
     background: transparent;
     border-left: none;
     border-top : none;
-    border-right : 1px solid rgba(0, 0, 0, .08);
+    border-right : 1px solid rgba(0, 0, 0, .1);
     border-bottom: none;
 }
 
