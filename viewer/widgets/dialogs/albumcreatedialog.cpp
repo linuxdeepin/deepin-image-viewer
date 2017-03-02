@@ -82,35 +82,13 @@ void AlbumCreateDialog::keyPressEvent(QKeyEvent *e)
 const QString AlbumCreateDialog::getNewAlbumName() const
 {
     const QString nan = tr("Unnamed");
-    const QStringList albums = dApp->dbM->getAllAlbumNames();
-    QList<int> countList;
-    for (QString album : albums) {
-        if (album.startsWith(nan)) {
-            countList << QString(album.split(nan).last()).toInt();
-        }
-    }
-
-    if (countList.isEmpty()) {
-        return nan;
-    }
-    else if (countList.length() == 1) {
-        return nan + QString::number(2);
-    }
-    else {
-        qSort(countList.begin(), countList.end());
-        if (countList.first() != 0)
-            return nan;
-        for (int c : countList) {
-            if (c == 0) {
-                // Index star from 2.
-                c = 1;
-            }
-            if (countList.indexOf(c + 1) == -1) {
-                return nan + QString::number(c + 1);
-            }
-        }
-        return nan;
-    }
+       int num = 1;
+       QString albumName = nan;
+       while(dApp->dbM->isAlbumExistInDB(albumName)) {
+           num++;
+           albumName = nan + QString::number(num);
+       }
+       return (const QString)(albumName);
 }
 
 const QString AlbumCreateDialog::getCreateAlbumName() const

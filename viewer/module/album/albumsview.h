@@ -58,8 +58,8 @@ private:
     void onClicked(const QModelIndex &index);
     void onDoubleClicked(const QModelIndex &index);
     void onMenuItemClicked(QAction *action);
-    const QString getAlbumName(const QModelIndex &index) const;
-    const QString getNewAlbumName() const;
+    QString getAlbumName(const QModelIndex &index);
+    const QString getNewAlbumName();
     const QStringList paths(const QString &album) const;
     void removeCreateIcon();
     void updateMenuContent(const QModelIndex &index);
