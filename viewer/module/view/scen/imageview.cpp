@@ -57,6 +57,7 @@ ImageView::ImageView(QWidget *parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setScene(new QGraphicsScene(this));
+    setMouseTracking(true);
     setTransformationAnchor(AnchorUnderMouse);
     setDragMode(ScrollHandDrag);
     setViewportUpdateMode(FullViewportUpdate);
@@ -313,21 +314,24 @@ void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 }
 
 void ImageView::mouseReleaseEvent(QMouseEvent *e)
-{
-    QGraphicsView::mouseReleaseEvent(e);
+{    
     if (! items().isEmpty()) {
         items().first()->setCursor(Qt::ArrowCursor);
-        QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+        dApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
     }
+
+    dApp->setOverrideCursor(QCursor(Qt::OpenHandCursor));
+    QGraphicsView::mouseReleaseEvent(e);
 }
 
 void ImageView::mousePressEvent(QMouseEvent *e)
 {
     emit clicked();
-    QGraphicsView::mousePressEvent(e);
+
     if (! items().isEmpty()) {
         items().first()->setCursor(Qt::ArrowCursor);
     }
+    QGraphicsView::mousePressEvent(e);
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
