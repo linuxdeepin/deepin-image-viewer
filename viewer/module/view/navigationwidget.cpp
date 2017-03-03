@@ -29,6 +29,8 @@ const QColor LIGHT_BG_COLOR = QColor(255, 255, 255, 104);
 const QColor LIGHT_MR_BG_COLOR = QColor(0, 0, 0, 101);
 const QColor LIGHT_MR_BORDER_Color = QColor(255, 255, 255, 80);
 const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
+const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
+const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 }  // namespace
 
@@ -156,6 +158,18 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     QRect imageDrawRect =  QRect((m_mainRect.width() - m_img.width())/2 + IMAGE_MARGIN,
                                  (m_mainRect.height() - m_img.height())/2 + BORDER_WIDTH,
                                  m_img.width(), m_img.height());
+    //**draw transparent background
+    QPixmap pm(12, 12);
+    QPainter pmp(&pm);
+    //TODO: the transparent box
+    //should not be scaled with the image
+    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+    pmp.end();
+
+    p.fillRect(imageDrawRect, QBrush(pm));
     p.drawImage(imageDrawRect, img);
     QRect borderRect = QRect(imageDrawRect.x(), imageDrawRect.y(), imageDrawRect.width()
                              - BORDER_WIDTH, imageDrawRect.height() - BORDER_WIDTH);
