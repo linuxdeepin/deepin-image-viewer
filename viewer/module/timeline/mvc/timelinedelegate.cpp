@@ -17,6 +17,9 @@ const int BORDER_RADIUS = 0;
 const int BORDER_WIDTH = 1;
 const int BORDER_WIDTH_SELECTED = 2;
 
+const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
+const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
+
 const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 35);
 const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 35);
 
@@ -125,6 +128,17 @@ void TimelineDelegate::paint(QPainter *painter,
         QPainterPath bp;
         bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
         painter->setClipPath(bp);
+        //**draw transparent background
+        QPixmap pm(12, 12);
+        QPainter pmp(&pm);
+        //TODO: the transparent box
+        //should not be scaled with the image
+        pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+        pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+        pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+        pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+        pmp.end();
+        painter->fillRect(rect, QBrush(pm));
         painter->drawPixmap(rect, thumbnail(data));
 
         // Draw inside border

@@ -22,8 +22,8 @@
 
 namespace {
 
-const QColor LIGHT_CHECKER_COLOR = QColor("#353535");
-const QColor DARK_CHECKER_COLOR = QColor("#050505");
+const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
+const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
 const QColor LIGHT_BACKGROUND_COLOR = QColor(255, 255, 255);
@@ -362,8 +362,19 @@ void ImageView::dragEnterEvent(QDragEnterEvent *e)
 
 void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    QPixmap pm(12, 12);
+    QPainter pmp(&pm);
+    //TODO: the transparent box
+    //should not be scaled with the image
+    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+    pmp.end();
+
     painter->save();
     painter->fillRect(rect, m_backgroundColor);
+    painter->fillRect(image().rect(), QBrush(pm));
     painter->restore();
 }
 
