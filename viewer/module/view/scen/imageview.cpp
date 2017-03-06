@@ -182,6 +182,7 @@ const QImage ImageView::image()
         return m_movieItem->pixmap().toImage();
     }
     else if (m_pixmapItem) {
+        //FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
     }
     else if (m_svgItem) {      // svg
@@ -378,7 +379,7 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 
     painter->save();
     painter->fillRect(rect, m_backgroundColor);
-    painter->fillRect(image().rect(), QBrush(pm));
+    painter->fillRect(imageRect(), QBrush(pm));
     painter->restore();
 }
 
