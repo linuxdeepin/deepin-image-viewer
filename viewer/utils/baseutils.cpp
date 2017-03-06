@@ -294,6 +294,7 @@ QString wrapStr(const QString &str, const QFont &font, int maxWidth)
     }
     return ns;
 }
+
 QString symFilePath(const QString &path) {
     QFileInfo fileInfo(path);
     if (fileInfo.isSymLink()) {

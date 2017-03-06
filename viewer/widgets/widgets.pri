@@ -16,7 +16,8 @@ HEADERS += \
     $$PWD/thumbnaildelegate.h \
     $$PWD/loadingicon.h \
     $$PWD/pushbutton.h \
-    $$PWD/themewidget.h
+    $$PWD/themewidget.h \
+    $$PWD/formlabel.h
 
 SOURCES += \
     $$PWD/importframe.cpp \
@@ -34,7 +35,8 @@ SOURCES += \
     $$PWD/thumbnaildelegate.cpp \
     $$PWD/loadingicon.cpp \
     $$PWD/pushbutton.cpp \
-    $$PWD/themewidget.cpp
+    $$PWD/themewidget.cpp \
+    $$PWD/formlabel.cpp
 
 RESOURCES += \
     $$PWD/widgetstheme.qrc

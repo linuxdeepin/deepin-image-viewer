@@ -3,6 +3,8 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "../imagebutton.h"
+#include "widgets/formlabel.h"
+
 #include <dtitlebar.h>
 #include <QFormLayout>
 #include <QKeyEvent>
@@ -15,6 +17,7 @@ namespace {
 const int MAX_WIDTH = 250;
 const int THUMBNAIL_WIDTH = 240;
 const int THUMBNAIL_HEIGHT = 160;
+const int TITLE_MAXWIDTH = 100;
 
 struct MetaData {
     QString key;
@@ -33,6 +36,16 @@ static MetaData MetaDatas[] = {
     {"", ""}
 };
 
+static int maxTitleWidth()
+{
+    int maxWidth = 0;
+    QFont tf;
+    tf.setPixelSize(11);
+    for (const MetaData* i = MetaDatas; ! i->key.isEmpty(); ++i) {
+        maxWidth = qMax(maxWidth + 1, utils::base::stringWidth(tf, i->name));
+    }
+    return maxWidth;
+}
 }  // namespace
 
 ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
@@ -105,6 +118,7 @@ void ImgInfoDialog::initSeparator()
 void ImgInfoDialog::initInfos(const QString &path)
 {
     using namespace utils::image;
+    using namespace utils::base;
     QWidget *w = new QWidget;
     QFormLayout *infoLayout = new QFormLayout(w);
     infoLayout->setSpacing(8);
@@ -115,15 +129,20 @@ void ImgInfoDialog::initInfos(const QString &path)
     for (const MetaData* i = MetaDatas; ! i->key.isEmpty(); i ++) {
         QString v = mds.value(i->key);
         if (v.isEmpty()) continue;
-        QLabel * ll = new QLabel(dApp->translate("MetadataName", i->name) + ":");
-        ll->setObjectName("DataLabel");
-        ll->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
 
-        QFontMetrics fm(this->font());
-        v = fm.elidedText(v, Qt::ElideMiddle, 250);
-        QLabel * rl = new QLabel(v);
-        rl->setObjectName("DataField");
-        infoLayout->addRow(ll, rl);
+        SimpleFormField *field = new SimpleFormField;
+        field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        field->setText(wrapStr(v, field->font(), TITLE_MAXWIDTH + 30));
+        if (QString(i->name) == "Name")
+            field->setMinimumHeight(stringHeight(field->font(),
+                   field->text()) * field->text().split(" ").length());
+
+        SimpleFormLabel *title = new SimpleFormLabel(dApp->translate("MetadataName", i->name) + ":");
+        title->setFixedHeight(field->maximumHeight());
+        title->setFixedWidth(qMin(maxTitleWidth(), TITLE_MAXWIDTH));
+        title->setAlignment(Qt::AlignRight | Qt::AlignTop);
+
+        infoLayout->addRow(title, field);
     }
 
     m_layout->addWidget(w, 0, Qt::AlignHCenter);
