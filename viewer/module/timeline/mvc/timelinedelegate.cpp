@@ -139,7 +139,8 @@ void TimelineDelegate::paint(QPainter *painter,
         pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
         pmp.end();
         painter->fillRect(rect, QBrush(pm));
-        painter->drawPixmap(rect, thumbnail(data));
+        using namespace utils::image;
+        painter->drawPixmap(rect, getThumbnail(data.path));
 
         // Draw inside border
         QPen p(selected ? BORDER_COLOR_SELECTED : m_borderColor,

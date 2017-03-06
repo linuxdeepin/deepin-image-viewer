@@ -19,6 +19,10 @@ const int BORDER_WIDTH_SELECTED = 2;
 const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 26);
 const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 26);
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
+
+const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
+const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
+
 const QString DARK_DEFAULT_THUMB = ":/resources/dark/images/"
                                    "default_thumbnail.png";
 const QString LIGHT_DEFAULT_THUMB = ":/resources/light/images/"
@@ -78,7 +82,20 @@ void ThumbnailDelegate::paint(QPainter *painter,
     QPainterPath bp;
     bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
     painter->setClipPath(bp);
-    painter->drawPixmap(rect, thumbnail(data));
+
+    //**draw transparent background
+    QPixmap pm(12, 12);
+    QPainter pmp(&pm);
+    //TODO: the transparent box
+    //should not be scaled with the image
+    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+    pmp.end();
+    painter->fillRect(rect, QBrush(pm));
+    using namespace utils::image;
+    painter->drawPixmap(rect, getThumbnail(data.path));
 
     // Draw inside border
     QPen p(selected ? BORDER_COLOR_SELECTED : m_borderColor,
