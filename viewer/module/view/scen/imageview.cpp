@@ -379,7 +379,10 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 
     painter->save();
     painter->fillRect(rect, m_backgroundColor);
-    painter->fillRect(imageRect(), QBrush(pm));
+
+    QPixmap currentImage(m_path);
+    if (!currentImage.isNull())
+        painter->fillRect(currentImage.rect(), QBrush(pm));
     painter->restore();
 }
 

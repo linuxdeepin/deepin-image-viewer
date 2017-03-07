@@ -129,16 +129,16 @@ void TimelineDelegate::paint(QPainter *painter,
         bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
         painter->setClipPath(bp);
         //**draw transparent background
-        QPixmap pm(12, 12);
-        QPainter pmp(&pm);
-        //TODO: the transparent box
-        //should not be scaled with the image
-        pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
-        pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
-        pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
-        pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
-        pmp.end();
-        painter->fillRect(rect, QBrush(pm));
+//        QPixmap pm(12, 12);
+//        QPainter pmp(&pm);
+//        //TODO: the transparent box
+//        //should not be scaled with the image
+//        pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+//        pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+//        pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+//        pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+//        pmp.end();
+        painter->fillRect(rect, QBrush(LIGHT_CHECKER_COLOR));
         using namespace utils::image;
         painter->drawPixmap(rect, getThumbnail(data.path));
 
