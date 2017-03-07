@@ -2,6 +2,8 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "utils/imageutils.h"
+#include "widgets/formlabel.h"
+
 #include <QApplication>
 #include <QBoxLayout>
 #include <QDateTime>
@@ -72,33 +74,6 @@ class ViewSeparator : public QLabel {
 public:
     explicit ViewSeparator(QWidget *parent = 0) : QLabel(parent) {
         setFixedHeight(1);
-    }
-};
-class SimpleFormLabel : public QLabel {
-    Q_OBJECT
-public:
-    explicit SimpleFormLabel(const QString &t, QWidget *parent = 0)
-        : QLabel(t, parent) {}
-};
-
-class SimpleFormField : public QLabel {
-    Q_OBJECT
-public:
-    explicit SimpleFormField(QWidget *parent = 0)
-        : QLabel(parent)
-    {
-        setWordWrap(true);
-    }
-protected:
-    void resizeEvent(QResizeEvent* event) {
-
-        if ( wordWrap() && sizePolicy().verticalPolicy() == QSizePolicy::Minimum ) {
-        // heightForWidth rely on minimumSize to evaulate, so reset it before
-        setMinimumHeight(0);
-        // define minimum height
-        setMinimumHeight(heightForWidth(width()));
-        }
-        QLabel::resizeEvent(event);
     }
 };
 
@@ -222,11 +197,13 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
+
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
 
         SimpleFormField *field = new SimpleFormField;
+
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
