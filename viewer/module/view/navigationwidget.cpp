@@ -159,17 +159,17 @@ void NavigationWidget::paintEvent(QPaintEvent *)
                                  (m_mainRect.height() - m_img.height())/2 + BORDER_WIDTH,
                                  m_img.width(), m_img.height());
     //**draw transparent background
-    QPixmap pm(12, 12);
-    QPainter pmp(&pm);
-    //TODO: the transparent box
-    //should not be scaled with the image
-    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
-    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
-    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
-    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
-    pmp.end();
+//    QPixmap pm(12, 12);
+//    QPainter pmp(&pm);
+//    //TODO: the transparent box
+//    //should not be scaled with the image
+//    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+//    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+//    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+//    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+//    pmp.end();
 
-    p.fillRect(imageDrawRect, QBrush(pm));
+//    p.fillRect(imageDrawRect, QBrush(pm));
     p.drawImage(imageDrawRect, img);
     QRect borderRect = QRect(imageDrawRect.x(), imageDrawRect.y(), imageDrawRect.width()
                              - BORDER_WIDTH, imageDrawRect.height() - BORDER_WIDTH);

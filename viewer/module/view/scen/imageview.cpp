@@ -367,22 +367,22 @@ void ImageView::dragEnterEvent(QDragEnterEvent *e)
 
 void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 {
-    QPixmap pm(12, 12);
-    QPainter pmp(&pm);
-    //TODO: the transparent box
-    //should not be scaled with the image
-    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
-    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
-    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
-    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
-    pmp.end();
+//    QPixmap pm(12, 12);
+//    QPainter pmp(&pm);
+//    //TODO: the transparent box
+//    //should not be scaled with the image
+//    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+//    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+//    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+//    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+//    pmp.end();
 
     painter->save();
     painter->fillRect(rect, m_backgroundColor);
 
-    QPixmap currentImage(m_path);
-    if (!currentImage.isNull())
-        painter->fillRect(currentImage.rect(), QBrush(pm));
+//    QPixmap currentImage(m_path);
+//    if (!currentImage.isNull())
+//        painter->fillRect(currentImage.rect(), QBrush(pm));
     painter->restore();
 }
 
