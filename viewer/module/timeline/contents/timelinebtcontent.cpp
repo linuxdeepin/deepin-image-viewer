@@ -9,6 +9,8 @@
 #include "widgets/imagebutton.h"
 #include "widgets/loadingicon.h"
 #include "widgets/slider.h"
+#include "utils/baseutils.h"
+
 #include <QHBoxLayout>
 #include <QStackedLayout>
 
@@ -19,10 +21,6 @@ const int SLIDER_WIDTH = 120;
 const int SLIDER_HEIGHT = 22;
 const QString SETTINGS_GROUP = "TIMEPANEL";
 const QString SETTINGS_ICON_SCALE_KEY = "IconScale";
-
-const QColor TOP_LINE2_COLOR_DARK = QColor(255, 255, 255, 13);
-const QColor TOP_LINE2_COLOR_LIGHT = QColor(255, 255, 255, 153);
-
 }  // namespace
 
 TimelineBTContent::TimelineBTContent(const QString &darkStyle, const QString &lightStyle,
@@ -177,9 +175,9 @@ void TimelineBTContent::initSlider()
 void TimelineBTContent::updateColor()
 {
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        m_tl2Color = TOP_LINE2_COLOR_DARK;
+        m_tl2Color = utils::common::TOP_LINE2_COLOR_DARK;
     }
     else {
-        m_tl2Color = TOP_LINE2_COLOR_LIGHT;
+        m_tl2Color = utils::common::TOP_LINE2_COLOR_LIGHT;
     }
 }

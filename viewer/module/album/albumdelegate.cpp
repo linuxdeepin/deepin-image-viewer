@@ -11,23 +11,10 @@
 #include <QHBoxLayout>
 
 namespace {
-
-//const QColor BG_COLOR_NORMAL = QColor(255, 255, 255, 0);
-//const QColor BG_COLOR_HOVER = QColor(255, 255, 255, 26);
-//const QColor BG_COLOR_SELECTED = QColor(255, 255, 255, 0);//QColor(0, 188, 255, 128);
-
-//const QColor BORDER_COLOR_NORMAL = QColor(255, 255, 255, 0);
-//const QColor BORDER_COLOR_HOVER = QColor(255, 255, 255, 26);
-//const QColor BORDER_COLOR_SELECTED = QColor(255, 255, 255, 0);//QColor("#01bdff");
-
 const int BORDER_WIDTH = 1;
 const int BORDER_RADIUS = 5;
 
 const int TITLE_FONT_SIZE = 12;
-const QColor DARK_TITLE_COLOR = QColor(255, 255, 255);
-const QColor LIGHT_TITLE_COLOR = QColor(48, 48, 48);
-
-const QColor TITLE_SELECTED_COLOR = QColor("#2ca7f8");
 const int TITLE_EDIT_MARGIN = 20;
 
 const int THUMBNAIL_BG_MARGIN = 8;
@@ -35,37 +22,6 @@ const int BG_TEXT_SPACING = 5;
 const int TEXTRECT_MARGIN = 20;
 const int ALBUMNAME_FONTSIZE = 12;
 const int FONT_WEIGHT = 25;
-//const int DATELABEL_FONT_SIZE = 9;
-const QColor DARK_DATELABEL_COLOR = QColor(255, 255, 255, 153);
-const QColor LIGHT_DATELABEL_COLOR = QColor(48, 48, 48, 255);
-
-const QString DARK_CREATEALBUM_NORMALPIC = ":/resources/dark/images/"
-                                           "create_album_normal.png";
-const QString DARK_CREATEALBUM_HOVERPIC = ":/resources/dark/images/"
-                                          "create_album_hover.png";
-const QString DARK_CREATEALBUM_PRESSPIC = ":/resources/dark/images/"
-                                          "create_album_press.png";
-const QString LIGHT_CREATEALBUM_NORMALPIC = ":/resources/light/images/"
-                                           "create_album_normal.png";
-const QString LIGHT_CREATEALBUM_HOVERPIC = ":/resources/light/images/"
-                                          "create_album_hover.png";
-const QString LIGHT_CREATEALBUM_PRESSPIC = ":/resources/light/images/"
-                                          "create_album_press.png";
-
-const QString DARK_ADDPIC = ":/resources/dark/images/album_add.png";
-const QString LIGHT_ADDPIC = ":/resources/light/images/album_add.png";
-
-const QString DARK_ALBUM_BG_NORMALPIC = ":/resources/dark/images/"
-                                        "album_bg_normal.png";
-const QString DARK_ALBUM_BG_PRESSPIC = ":/resources/dark/images/"
-                                       "album_bg_press.png";
-
-const QString LIGHT_ALBUM_BG_NORMALPIC = ":/resources/light/images/"
-                                        "album_bg_normal.png";
-const QString LIGHT_ALBUM_BG_HOVERPIC = ":/resources/light/images/"
-                                       "album_bg_hover.png";
-const QString LIGHT_ALBUM_BG_PRESSPIC = ":/resources/light/images/"
-                                       "album_bg_press.png";
 }
 
 AlbumDelegate::AlbumDelegate(QObject *parent)
@@ -79,25 +35,25 @@ AlbumDelegate::AlbumDelegate(QObject *parent)
 
 void AlbumDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_titleColor = DARK_TITLE_COLOR;
-        m_dateColor = DARK_DATELABEL_COLOR;
-        m_createAlbumNormalPic = DARK_CREATEALBUM_NORMALPIC;
-        m_createAlbumHoverPic = DARK_CREATEALBUM_HOVERPIC;
-        m_createAlbumPressPic = DARK_CREATEALBUM_PRESSPIC;
+        m_titleColor = utils::album::DARK_TITLE_COLOR;
+        m_dateColor = utils::album::DARK_DATELABEL_COLOR;
+        m_createAlbumNormalPic = utils::album::DARK_CREATEALBUM_NORMALPIC;
+        m_createAlbumHoverPic = utils::album::DARK_CREATEALBUM_HOVERPIC;
+        m_createAlbumPressPic = utils::album::DARK_CREATEALBUM_PRESSPIC;
 
-        m_addPic = DARK_ADDPIC;
-        m_albumBgNormalPic = DARK_ALBUM_BG_NORMALPIC;
-        m_albumBgPressPic = DARK_ALBUM_BG_PRESSPIC;
+        m_addPic = utils::album::DARK_ADDPIC;
+        m_albumBgNormalPic = utils::album::DARK_ALBUM_BG_NORMALPIC;
+        m_albumBgPressPic = utils::album::DARK_ALBUM_BG_PRESSPIC;
     } else {
-        m_titleColor = LIGHT_TITLE_COLOR;
-        m_dateColor = LIGHT_DATELABEL_COLOR;
-        m_createAlbumNormalPic = LIGHT_CREATEALBUM_NORMALPIC;
-        m_createAlbumHoverPic = LIGHT_CREATEALBUM_HOVERPIC;
-        m_createAlbumPressPic = LIGHT_CREATEALBUM_PRESSPIC;
+        m_titleColor = utils::album::LIGHT_TITLE_COLOR;
+        m_dateColor = utils::album::LIGHT_DATELABEL_COLOR;
+        m_createAlbumNormalPic = utils::album::LIGHT_CREATEALBUM_NORMALPIC;
+        m_createAlbumHoverPic = utils::album::LIGHT_CREATEALBUM_HOVERPIC;
+        m_createAlbumPressPic = utils::album::LIGHT_CREATEALBUM_PRESSPIC;
 
-        m_addPic = LIGHT_ADDPIC;
-        m_albumBgNormalPic = LIGHT_ALBUM_BG_NORMALPIC;
-        m_albumBgPressPic = LIGHT_ALBUM_BG_PRESSPIC;
+        m_addPic = utils::album::LIGHT_ADDPIC;
+        m_albumBgNormalPic =utils::album::LIGHT_ALBUM_BG_NORMALPIC;
+        m_albumBgPressPic = utils::album::LIGHT_ALBUM_BG_PRESSPIC;
     }
 }
 
@@ -314,7 +270,7 @@ void AlbumDelegate::drawTitle(const QStyleOptionViewItem &option,
         if (option.state & QStyle::State_Selected && m_editingIndex != index) {
             QPainterPath pp;
             pp.addRoundedRect(titleRect, 4, 4);
-            painter->fillPath(pp, QBrush(TITLE_SELECTED_COLOR));
+            painter->fillPath(pp, QBrush(utils::common::TITLE_SELECTED_COLOR));
         }
 
 

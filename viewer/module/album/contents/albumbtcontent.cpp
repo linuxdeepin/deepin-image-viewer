@@ -22,9 +22,6 @@ const QString SETTINGS_GROUP = "ALBUMPANEL";
 const QString SETTINGS_ALBUM_ICON_SCALE_KEY = "AlbumIconScale";
 const QString SETTINGS_IMAGE_ICON_SCALE_KEY = "ImageIconScale";
 
-const QColor TOP_LINE2_COLOR_DARK = QColor(255, 255, 255, 13);
-const QColor TOP_LINE2_COLOR_LIGHT = QColor(255, 255, 255, 153);
-
 }  // namespace
 
 AlbumBTContent::AlbumBTContent(const QString &darkStyle, const QString &lightStyle,
@@ -177,10 +174,10 @@ void AlbumBTContent::initSlider()
 void AlbumBTContent::updateColor()
 {
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        m_tl2Color = TOP_LINE2_COLOR_DARK;
+        m_tl2Color = utils::common::TOP_LINE2_COLOR_DARK;
     }
     else {
-        m_tl2Color = TOP_LINE2_COLOR_LIGHT;
+        m_tl2Color = utils::common::TOP_LINE2_COLOR_LIGHT;
     }
 }
 
