@@ -2,6 +2,7 @@
 #include "controller/configsetter.h"
 #include "navigationwidget.h"
 #include "widgets/imagebutton.h"
+#include "utils/baseutils.h"
 
 #include <QPainter>
 #include <dwindowclosebutton.h>
@@ -17,20 +18,6 @@ const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
 const int IMAGE_MARGIN = 5;
 const int IMAGE_MARGIN_BOTTOM = 5;
 const int BORDER_WIDTH = 1;
-
-const QString DARK_BG_IMG = ":/resources/dark/images/naviwindow_bg.png";
-const QColor DARK_BG_COLOR = QColor(0, 0, 0, 100);
-const QColor DARK_MR_BG_COLOR = QColor(0, 0, 0, 150);
-const QColor DARK_MR_BORDER_Color = QColor(255, 255, 255, 80);
-const QColor DARK_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
-
-const QString LIGHT_BG_IMG = ":/resources/light/images/naviwindow_bg.png";
-const QColor LIGHT_BG_COLOR = QColor(255, 255, 255, 104);
-const QColor LIGHT_MR_BG_COLOR = QColor(0, 0, 0, 101);
-const QColor LIGHT_MR_BORDER_Color = QColor(255, 255, 255, 80);
-const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
-const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
-const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 }  // namespace
 
@@ -180,18 +167,18 @@ void NavigationWidget::paintEvent(QPaintEvent *)
 
 void NavigationWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_bgImgUrl = DARK_BG_IMG ;
-        m_BgColor = DARK_BG_COLOR;
-        m_mrBgColor = DARK_MR_BG_COLOR;
-        m_mrBorderColor = DARK_MR_BORDER_Color;
-        m_imgRBorderColor = DARK_IMG_R_BORDER_COLOR;
+        m_bgImgUrl = utils::view::naviwindow::DARK_BG_IMG ;
+        m_BgColor = utils::view::naviwindow::DARK_BG_COLOR;
+        m_mrBgColor = utils::view::naviwindow::DARK_MR_BG_COLOR;
+        m_mrBorderColor = utils::view::naviwindow::DARK_MR_BORDER_Color;
+        m_imgRBorderColor =utils::view::naviwindow:: DARK_IMG_R_BORDER_COLOR;
         Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     } else {
-        m_bgImgUrl = LIGHT_BG_IMG ;
-        m_BgColor = LIGHT_BG_COLOR;
-        m_mrBgColor = LIGHT_MR_BG_COLOR;
-        m_mrBorderColor = LIGHT_MR_BORDER_Color;
-        m_imgRBorderColor = LIGHT_IMG_R_BORDER_COLOR;
+        m_bgImgUrl = utils::view::naviwindow::LIGHT_BG_IMG ;
+        m_BgColor = utils::view::naviwindow::LIGHT_BG_COLOR;
+        m_mrBgColor = utils::view::naviwindow::LIGHT_MR_BG_COLOR;
+        m_mrBorderColor = utils::view::naviwindow::LIGHT_MR_BORDER_Color;
+        m_imgRBorderColor = utils::view::naviwindow::LIGHT_IMG_R_BORDER_COLOR;
         Dtk::Widget::DThemeManager::instance()->setTheme("light");
     }
     update();

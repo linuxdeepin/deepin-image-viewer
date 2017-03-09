@@ -4,13 +4,11 @@
 
 #include "thumbnailwidget.h"
 #include "application.h"
+#include "utils/baseutils.h"
+
 namespace  {
 const QSize THUMBNAIL_BORDERSIZE = QSize(168, 168);
 const QSize THUMBNAIL_SIZE = QSize(166, 166);
-const QString DARK_DEFAULT_THUMBNAIL =
-        ":/resources/dark/images/empty_defaultThumbnail.png";
-const QString LIGHT_DEFAULT_THUMBNAIL =
-        ":/resources/light/images/empty_defaultThumbnail.png";
 }
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
@@ -41,11 +39,11 @@ void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
         m_inBorderColor = QColor(255, 255, 255, 13);
         if(m_isDefaultThumbnail)
-            m_defaultImage = QPixmap(DARK_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(utils::view::DARK_DEFAULT_THUMBNAIL);
     } else {
         m_inBorderColor = QColor(0, 0, 0, 13);
         if(m_isDefaultThumbnail)
-            m_defaultImage = QPixmap(LIGHT_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(utils::view::LIGHT_DEFAULT_THUMBNAIL);
     }
 
     ThemeWidget::onThemeChanged(theme);
@@ -55,9 +53,9 @@ void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
 void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail) {
     if (thumbnail.isNull()) {
         if (isDeepMode()) {
-            m_defaultImage = QPixmap(DARK_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(utils::view::DARK_DEFAULT_THUMBNAIL);
         } else {
-            m_defaultImage = QPixmap(LIGHT_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(utils::view::LIGHT_DEFAULT_THUMBNAIL);
         }
 
         m_isDefaultThumbnail = true;
@@ -77,9 +75,9 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
     if (m_defaultImage.isNull()) {
         if (isDeepMode()) {
-            m_defaultImage = QPixmap(DARK_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(utils::view::DARK_DEFAULT_THUMBNAIL);
         } else {
-            m_defaultImage = QPixmap(LIGHT_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(utils::view::LIGHT_DEFAULT_THUMBNAIL);
         }
         m_isDefaultThumbnail = true;
     }

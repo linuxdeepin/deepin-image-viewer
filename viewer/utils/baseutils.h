@@ -80,6 +80,27 @@ const QString LIGHT_ALBUM_BG_HOVERPIC = ":/resources/light/images/"
 const QString LIGHT_ALBUM_BG_PRESSPIC = ":/resources/light/images/"
                                        "album_bg_press.png";
 }
+namespace view {
+const QString DARK_DEFAULT_THUMBNAIL =
+        ":/resources/dark/images/empty_defaultThumbnail.png";
+const QString LIGHT_DEFAULT_THUMBNAIL =
+        ":/resources/light/images/empty_defaultThumbnail.png";
+    namespace naviwindow {
+        const QString DARK_BG_IMG = ":/resources/dark/images/naviwindow_bg.png";
+        const QColor DARK_BG_COLOR = QColor(0, 0, 0, 100);
+        const QColor DARK_MR_BG_COLOR = QColor(0, 0, 0, 150);
+        const QColor DARK_MR_BORDER_Color = QColor(255, 255, 255, 80);
+        const QColor DARK_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
+
+        const QString LIGHT_BG_IMG = ":/resources/light/images/naviwindow_bg.png";
+        const QColor LIGHT_BG_COLOR = QColor(255, 255, 255, 104);
+        const QColor LIGHT_MR_BG_COLOR = QColor(0, 0, 0, 101);
+        const QColor LIGHT_MR_BORDER_Color = QColor(255, 255, 255, 80);
+        const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
+        const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
+        const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
+    }
+}
 namespace base {
 void        copyOneImageToClipboard(const QString& path);
 void        copyImageToClipboard(const QStringList &paths);
