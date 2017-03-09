@@ -1,5 +1,6 @@
 #include "timelinedelegate.h"
 #include "utils/imageutils.h"
+#include "utils/baseutils.h"
 #include "application.h"
 
 #include <QDateTime>
@@ -16,24 +17,6 @@ namespace {
 const int BORDER_RADIUS = 0;
 const int BORDER_WIDTH = 1;
 const int BORDER_WIDTH_SELECTED = 2;
-
-const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
-const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
-
-const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 35);
-const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 35);
-
-const QColor DARK_DATECOLOR = QColor("#FFFFFF");
-const QColor LIGHT_DATECOLOR = QColor(48, 48, 48);
-
-const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);
-const QColor LIGHT_SEPERATOR_COLOR = QColor(0, 0, 0, 20);
-
-const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
-
-const QString DARK_DEFAULT_THUMBNAIL = ":/resources/dark/images/default_thumbnail.png";
-const QString LIGHT_DEFAULT_THUMBNAIL = ":/resources/light/images/default_thumbnail.png";
-
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
 }  // namespace
@@ -75,15 +58,15 @@ TimelineDelegate::TimelineDelegate(QObject *parent)
 
 void TimelineDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_borderColor = DARK_BORDER_COLOR;
-        m_dateColor = DARK_DATECOLOR;
-        m_seperatorColor = DARK_SEPERATOR_COLOR;
-        m_defaultThumbnail = DARK_DEFAULT_THUMBNAIL;
+        m_borderColor = utils::timeline::DARK_BORDER_COLOR;
+        m_dateColor = utils::timeline::DARK_DATECOLOR;
+        m_seperatorColor = utils::timeline::DARK_SEPERATOR_COLOR;
+        m_defaultThumbnail = utils::timeline::DARK_DEFAULT_THUMBNAIL;
     } else {
-        m_borderColor = LIGHT_BORDER_COLOR;
-        m_dateColor = LIGHT_DATECOLOR;
-        m_seperatorColor = LIGHT_SEPERATOR_COLOR;
-        m_defaultThumbnail = LIGHT_DEFAULT_THUMBNAIL;
+        m_borderColor = utils::timeline::LIGHT_BORDER_COLOR;
+        m_dateColor = utils::timeline::LIGHT_DATECOLOR;
+        m_seperatorColor = utils::timeline::LIGHT_SEPERATOR_COLOR;
+        m_defaultThumbnail = utils::timeline::LIGHT_DEFAULT_THUMBNAIL;
     }
 }
 
@@ -138,13 +121,13 @@ void TimelineDelegate::paint(QPainter *painter,
 //        pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
 //        pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
 //        pmp.end();
-        painter->fillRect(rect, QBrush(LIGHT_CHECKER_COLOR));
+        painter->fillRect(rect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
         using namespace utils::image;
 
         painter->drawPixmap(rect, cutSquareImage(getThumbnail(data.path), rect.size()));
 
         // Draw inside border
-        QPen p(selected ? BORDER_COLOR_SELECTED : m_borderColor,
+        QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
                selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
         painter->setPen(p);
         painter->drawPath(bp);

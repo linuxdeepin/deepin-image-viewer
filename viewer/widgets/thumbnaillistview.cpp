@@ -31,8 +31,7 @@ const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
 const int TOP_TOOLBAR_THEIGHT = 40;
 const int BOTTOM_TOOLBAR_HEIGHT = 22;
-const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
-const QColor SELECTED_RECT_COLOR = QColor(44, 167, 248, 26);
+
 }  //namespace
 
 ThumbnailListView::ThumbnailListView(QWidget *parent)
@@ -286,8 +285,8 @@ void ThumbnailListView::paintEvent(QPaintEvent *e)
     QPainter painter(viewport());
     QPainterPath bp;
     bp.addRect(m_selectionRect);
-    QPen sp(BORDER_COLOR_SELECTED, 1);
-    painter.fillRect(m_selectionRect, QBrush(SELECTED_RECT_COLOR));
+    QPen sp(utils::common::BORDER_COLOR_SELECTED, 1);
+    painter.fillRect(m_selectionRect, QBrush(utils::common::SELECTED_RECT_COLOR));
     painter.setPen(sp);
     painter.drawPath(bp);
 }
