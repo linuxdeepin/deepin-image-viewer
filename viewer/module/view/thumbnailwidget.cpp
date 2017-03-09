@@ -37,11 +37,11 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
 
 void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_inBorderColor = QColor(255, 255, 255, 13);
+        m_inBorderColor = utils::common::DARK_BORDER_COLOR;
         if(m_isDefaultThumbnail)
             m_defaultImage = QPixmap(utils::view::DARK_DEFAULT_THUMBNAIL);
     } else {
-        m_inBorderColor = QColor(0, 0, 0, 13);
+        m_inBorderColor = utils::common::LIGHT_BORDER_COLOR;
         if(m_isDefaultThumbnail)
             m_defaultImage = QPixmap(utils::view::LIGHT_DEFAULT_THUMBNAIL);
     }

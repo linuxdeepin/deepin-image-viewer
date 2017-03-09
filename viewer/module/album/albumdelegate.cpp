@@ -11,9 +11,6 @@
 #include <QHBoxLayout>
 
 namespace {
-const int BORDER_WIDTH = 1;
-const int BORDER_RADIUS = 5;
-
 const int TITLE_FONT_SIZE = 12;
 const int TITLE_EDIT_MARGIN = 20;
 
@@ -35,7 +32,7 @@ AlbumDelegate::AlbumDelegate(QObject *parent)
 
 void AlbumDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_titleColor = utils::album::DARK_TITLE_COLOR;
+        m_titleColor = utils::common::DARK_TITLE_COLOR;
         m_dateColor = utils::album::DARK_DATELABEL_COLOR;
         m_createAlbumNormalPic = utils::album::DARK_CREATEALBUM_NORMALPIC;
         m_createAlbumHoverPic = utils::album::DARK_CREATEALBUM_HOVERPIC;
@@ -45,7 +42,7 @@ void AlbumDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
         m_albumBgNormalPic = utils::album::DARK_ALBUM_BG_NORMALPIC;
         m_albumBgPressPic = utils::album::DARK_ALBUM_BG_PRESSPIC;
     } else {
-        m_titleColor = utils::album::LIGHT_TITLE_COLOR;
+        m_titleColor = utils::common::LIGHT_TITLE_COLOR;
         m_dateColor = utils::album::LIGHT_DATELABEL_COLOR;
         m_createAlbumNormalPic = utils::album::LIGHT_CREATEALBUM_NORMALPIC;
         m_createAlbumHoverPic = utils::album::LIGHT_CREATEALBUM_HOVERPIC;

@@ -12,16 +12,6 @@
 #include <QStandardItemModel>
 #include <QThread>
 
-namespace {
-
-const int BORDER_RADIUS = 0;
-const int BORDER_WIDTH = 1;
-const int BORDER_WIDTH_SELECTED = 2;
-const int THUMBNAIL_MAX_SCALE_SIZE = 192;
-
-}  // namespace
-
-
 class TLThumbnailThread : public QThread {
     Q_OBJECT
 public:
@@ -58,15 +48,15 @@ TimelineDelegate::TimelineDelegate(QObject *parent)
 
 void TimelineDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_borderColor = utils::timeline::DARK_BORDER_COLOR;
-        m_dateColor = utils::timeline::DARK_DATECOLOR;
+        m_borderColor = utils::common::DARK_BORDER_COLOR;
+        m_dateColor = utils::common::DARK_TITLE_COLOR;
         m_seperatorColor = utils::timeline::DARK_SEPERATOR_COLOR;
-        m_defaultThumbnail = utils::timeline::DARK_DEFAULT_THUMBNAIL;
+        m_defaultThumbnail = utils::common::DARK_DEFAULT_THUMBNAIL;
     } else {
-        m_borderColor = utils::timeline::LIGHT_BORDER_COLOR;
-        m_dateColor = utils::timeline::LIGHT_DATECOLOR;
+        m_borderColor = utils::common::LIGHT_BORDER_COLOR;
+        m_dateColor = utils::common::LIGHT_TITLE_COLOR;
         m_seperatorColor = utils::timeline::LIGHT_SEPERATOR_COLOR;
-        m_defaultThumbnail = utils::timeline::LIGHT_DEFAULT_THUMBNAIL;
+        m_defaultThumbnail = utils::common::LIGHT_DEFAULT_THUMBNAIL;
     }
 }
 
@@ -109,7 +99,7 @@ void TimelineDelegate::paint(QPainter *painter,
 
         QRect rect = option.rect;
         QPainterPath bp;
-        bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
+        bp.addRoundedRect(rect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
         painter->setClipPath(bp);
         //**draw transparent background
 //        QPixmap pm(12, 12);
@@ -128,12 +118,12 @@ void TimelineDelegate::paint(QPainter *painter,
 
         // Draw inside border
         QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
-               selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
+               selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
         painter->setPen(p);
         painter->drawPath(bp);
 
         QPainterPathStroker stroker;
-        stroker.setWidth(selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
+        stroker.setWidth(selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
         stroker.setJoinStyle(Qt::RoundJoin);
         QPainterPath borderPath = stroker.createStroke(bp);
         painter->drawPath(borderPath);
@@ -171,7 +161,8 @@ QPixmap TimelineDelegate::thumbnail(const TimelineItem::ItemData &data) const
     thumb.loadFromData(data.thumbArray);
     if (thumb.isNull()) {
         if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
-            const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+            const QSize ms(utils::common::THUMBNAIL_MAX_SCALE_SIZE,
+                           utils::common::THUMBNAIL_MAX_SCALE_SIZE);
             thumb = utils::image::cutSquareImage(QPixmap(m_defaultThumbnail), ms);
             QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
         }

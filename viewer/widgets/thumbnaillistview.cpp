@@ -29,8 +29,6 @@ const int LEFT_MARGIN = 16;
 const int RIGHT_MARGIN = 16;
 const int ITEM_SPACING = 4;
 const int THUMBNAIL_MIN_SIZE = 96;
-const int TOP_TOOLBAR_THEIGHT = 40;
-const int BOTTOM_TOOLBAR_HEIGHT = 22;
 
 }  //namespace
 
@@ -51,9 +49,10 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
     DEnhancedWidget *enhanced_scrollbar = new DEnhancedWidget(m_scrollbar, m_scrollbar);
     connect(enhanced_scrollbar, &DEnhancedWidget::heightChanged, m_scrollbar,
             [this] {
-        m_scrollbar->move(m_scrollbar->x(), TOP_TOOLBAR_THEIGHT);
+        m_scrollbar->move(m_scrollbar->x(), utils::common::TOP_TOOLBAR_THEIGHT);
         m_scrollbar->resize(m_scrollbar->width(), m_scrollbar->parentWidget()->height()
-                     - TOP_TOOLBAR_THEIGHT - BOTTOM_TOOLBAR_HEIGHT);
+                     - utils::common::TOP_TOOLBAR_THEIGHT
+                     - utils::common::BOTTOM_TOOLBAR_HEIGHT);
     });
     setVerticalScrollBar(m_scrollbar);
     m_scrollbar->setContextMenuPolicy(Qt::PreventContextMenu);

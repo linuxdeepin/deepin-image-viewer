@@ -1,6 +1,7 @@
 #include "thumbnaildelegate.h"
 #include "application.h"
 #include "utils/imageutils.h"
+#include "utils/baseutils.h"
 #include <QDateTime>
 #include <QDebug>
 #include <QHBoxLayout>
@@ -10,26 +11,6 @@
 #include <QStandardItemModel>
 #include <QThread>
 #include <QTimer>
-
-namespace {
-
-const int BORDER_RADIUS = 0;
-const int BORDER_WIDTH = 1;
-const int BORDER_WIDTH_SELECTED = 2;
-const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 26);
-const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 26);
-const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
-
-const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
-const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
-
-const QString DARK_DEFAULT_THUMB = ":/resources/dark/images/"
-                                   "default_thumbnail.png";
-const QString LIGHT_DEFAULT_THUMB = ":/resources/light/images/"
-                                   "default_thumbnail.png";
-const int THUMBNAIL_MAX_SCALE_SIZE = 192;
-
-}  // namespace
 
 class TDThumbnailThread : public QThread {
     Q_OBJECT
@@ -80,7 +61,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
                             QPainter::Antialiasing);
     QRect rect = option.rect;
     QPainterPath bp;
-    bp.addRoundedRect(rect, BORDER_RADIUS, BORDER_RADIUS);
+    bp.addRoundedRect(rect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp);
 
     //**draw transparent background
@@ -93,16 +74,16 @@ void ThumbnailDelegate::paint(QPainter *painter,
 //    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
 //    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
 //    pmp.end();
-    painter->fillRect(rect, QBrush(LIGHT_CHECKER_COLOR));
+    painter->fillRect(rect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
     using namespace utils::image;
     painter->drawPixmap(rect, cutSquareImage(getThumbnail(data.path), rect.size()));
 
     // Draw inside border
-    QPen p(selected ? BORDER_COLOR_SELECTED : m_borderColor,
-           selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
+    QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
+           selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
     painter->setPen(p);
     QPainterPathStroker stroker;
-    stroker.setWidth(selected ? BORDER_WIDTH_SELECTED : BORDER_WIDTH);
+    stroker.setWidth(selected ? utils::common::BORDER_WIDTH_SELECTED : utils::common::BORDER_WIDTH);
     stroker.setJoinStyle(Qt::RoundJoin);
     QPainterPath borderPath = stroker.createStroke(bp);
     painter->drawPath(borderPath);
@@ -137,7 +118,8 @@ QPixmap ThumbnailDelegate::thumbnail(const ThumbnailDelegate::ItemData &data) co
     QPixmap thumb = data.thumbnail;
     if (thumb.isNull()) {
         if (! QPixmapCache::find("NO_IMAGE_TMP_KEY", &thumb)) {
-            const QSize ms(THUMBNAIL_MAX_SCALE_SIZE, THUMBNAIL_MAX_SCALE_SIZE);
+            const QSize ms(utils::common::THUMBNAIL_MAX_SCALE_SIZE,
+                           utils::common::THUMBNAIL_MAX_SCALE_SIZE);
             thumb = utils::image::cutSquareImage(QPixmap(m_defaultThumbnail), ms);
             QPixmapCache::insert("NO_IMAGE_TMP_KEY", thumb);
         }
@@ -165,11 +147,11 @@ void ThumbnailDelegate::startThumbnailThread(const ItemData &data) const
 
 void ThumbnailDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_borderColor = DARK_BORDER_COLOR;
-        m_defaultThumbnail = DARK_DEFAULT_THUMB;
+        m_borderColor = utils::common::DARK_BORDER_COLOR;
+        m_defaultThumbnail = utils::common::DARK_DEFAULT_THUMBNAIL;
     } else {
-        m_borderColor = LIGHT_BORDER_COLOR;
-        m_defaultThumbnail = LIGHT_DEFAULT_THUMB;
+        m_borderColor = utils::common::LIGHT_BORDER_COLOR;
+        m_defaultThumbnail = utils::common::DARK_DEFAULT_THUMBNAIL;
     }
 }
 

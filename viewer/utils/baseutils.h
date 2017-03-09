@@ -24,10 +24,29 @@
 
 namespace utils {
 namespace common {
+const int TOP_TOOLBAR_THEIGHT = 40;
+const int BOTTOM_TOOLBAR_HEIGHT = 22;
+
+const int BORDER_RADIUS = 0;
+const int BORDER_WIDTH = 1;
+const int BORDER_WIDTH_SELECTED = 2;
+const int THUMBNAIL_MAX_SCALE_SIZE = 192;
+
 const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
 const QColor LIGHT_BACKGROUND_COLOR = QColor("#FFFFFF");
+
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
+
+const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 26);
+const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 15);
+
+const QColor DARK_TITLE_COLOR = QColor("#FFFFFF");
+const QColor LIGHT_TITLE_COLOR = QColor(48, 48, 48);
+
+const QString DARK_DEFAULT_THUMBNAIL = ":/resources/dark/images/default_thumbnail.png";
+const QString LIGHT_DEFAULT_THUMBNAIL = ":/resources/light/images/default_thumbnail.png";
+
 const QColor BORDER_COLOR_SELECTED = QColor("#01bdff");
 const QColor SELECTED_RECT_COLOR = QColor(44, 167, 248, 26);
 const QColor TOP_LINE2_COLOR_DARK = QColor(255, 255, 255, 13);
@@ -35,20 +54,10 @@ const QColor TOP_LINE2_COLOR_LIGHT = QColor(255, 255, 255, 153);
 const QColor TITLE_SELECTED_COLOR = QColor("#2ca7f8");
 }
 namespace timeline {
-const QString DARK_DEFAULT_THUMBNAIL = ":/resources/dark/images/default_thumbnail.png";
-const QString LIGHT_DEFAULT_THUMBNAIL = ":/resources/light/images/default_thumbnail.png";
-const QColor DARK_BORDER_COLOR = QColor(255, 255, 255, 35);
-const QColor LIGHT_BORDER_COLOR = QColor(0, 0, 0, 35);
-
-const QColor DARK_DATECOLOR = QColor("#FFFFFF");
-const QColor LIGHT_DATECOLOR = QColor(48, 48, 48);
-
 const QColor DARK_SEPERATOR_COLOR = QColor(255, 255, 255, 20);
 const QColor LIGHT_SEPERATOR_COLOR = QColor(0, 0, 0, 20);
 }
 namespace album {
-const QColor DARK_TITLE_COLOR = QColor(255, 255, 255);
-const QColor LIGHT_TITLE_COLOR = QColor(48, 48, 48);
 const QColor DARK_DATELABEL_COLOR = QColor(255, 255, 255, 153);
 const QColor LIGHT_DATELABEL_COLOR = QColor(48, 48, 48, 255);
 
@@ -97,9 +106,10 @@ const QString LIGHT_DEFAULT_THUMBNAIL =
         const QColor LIGHT_MR_BG_COLOR = QColor(0, 0, 0, 101);
         const QColor LIGHT_MR_BORDER_Color = QColor(255, 255, 255, 80);
         const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
-        const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
-        const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
     }
+}
+namespace widgets {
+
 }
 namespace base {
 void        copyOneImageToClipboard(const QString& path);

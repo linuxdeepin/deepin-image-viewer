@@ -17,7 +17,6 @@ const QString SETTINGS_GROUP = "VIEWPANEL";
 const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
 const int IMAGE_MARGIN = 5;
 const int IMAGE_MARGIN_BOTTOM = 5;
-const int BORDER_WIDTH = 1;
 
 }  // namespace
 
@@ -143,7 +142,7 @@ void NavigationWidget::paintEvent(QPaintEvent *)
 
     p.drawImage(this->rect(), background);
     QRect imageDrawRect =  QRect((m_mainRect.width() - m_img.width())/2 + IMAGE_MARGIN,
-                                 (m_mainRect.height() - m_img.height())/2 + BORDER_WIDTH,
+                (m_mainRect.height() - m_img.height())/2 + utils::common::BORDER_WIDTH,
                                  m_img.width(), m_img.height());
     //**draw transparent background
 //    QPixmap pm(12, 12);
@@ -159,7 +158,7 @@ void NavigationWidget::paintEvent(QPaintEvent *)
 //    p.fillRect(imageDrawRect, QBrush(pm));
     p.drawImage(imageDrawRect, img);
     QRect borderRect = QRect(imageDrawRect.x(), imageDrawRect.y(), imageDrawRect.width()
-                             - BORDER_WIDTH, imageDrawRect.height() - BORDER_WIDTH);
+          - utils::common::BORDER_WIDTH, imageDrawRect.height() - utils::common::BORDER_WIDTH);
     p.setPen(m_imgRBorderColor);
     p.drawRect(borderRect);
     p.end();

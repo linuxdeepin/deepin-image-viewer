@@ -29,9 +29,6 @@ const QString RECENT_IMPORTED_ALBUM = "Recent imported";
 const int ITEM_SPACING = 61;
 const QSize ITEM_DEFAULT_SIZE = QSize(152, 168);
 
-const int TOP_TOOLBAR_THEIGHT = 40;
-const int BOTTOM_TOOLBAR_HEIGHT = 22;
-
 QString ss(const QString &text, const QString &group)
 {
     QString str = dApp->setter->value(group, text).toString();
@@ -69,9 +66,10 @@ AlbumsView::AlbumsView(QWidget *parent)
     QScrollBar* sb = new QScrollBar(this);
     DEnhancedWidget *enhanced_scrollbar = new DEnhancedWidget(sb, sb);
     connect(enhanced_scrollbar, &DEnhancedWidget::heightChanged, this, [sb] {
-        sb->move(sb->x(), TOP_TOOLBAR_THEIGHT);
+        sb->move(sb->x(), utils::common::TOP_TOOLBAR_THEIGHT);
         sb->resize(sb->width(), sb->parentWidget()->height()
-                     - TOP_TOOLBAR_THEIGHT - BOTTOM_TOOLBAR_HEIGHT);
+                     - utils::common::TOP_TOOLBAR_THEIGHT
+                     - utils::common::BOTTOM_TOOLBAR_HEIGHT);
     });
     setVerticalScrollBar(sb);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this, [=]{
