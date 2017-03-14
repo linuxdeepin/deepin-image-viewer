@@ -118,5 +118,7 @@
         <file>resources/light/qss/thumbnailwidget.qss</file>
         <file>resources/light/qss/ttm.qss</file>
         <file>resources/light/qss/view.qss</file>
+        <file>resources/dark/images/dark_loading.gif</file>
+        <file>resources/light/images/light_loading.gif</file>
     </qresource>
 </RCC>

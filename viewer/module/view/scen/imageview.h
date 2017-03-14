@@ -56,6 +56,7 @@ signals:
     void scaled(qreal perc);
     void transformChanged();
     void showScaleLabel();
+    void hideNavigation();
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 
@@ -79,6 +80,7 @@ private:
     RendererType m_renderer;
     QFutureWatcher<QVariantList> m_watcher;
     QString m_path;
+    QString m_loadingIconPath;
     QThreadPool *m_pool;
 
     QGraphicsSvgItem *m_svgItem;

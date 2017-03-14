@@ -624,6 +624,7 @@ void ViewPanel::initViewContent()
         // cache is finish
         resetImageGeometry();
     });
+
 }
 
 void ViewPanel::openImage(const QString &path, bool inDB)

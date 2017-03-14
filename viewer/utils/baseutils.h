@@ -94,6 +94,10 @@ const QString DARK_DEFAULT_THUMBNAIL =
         ":/resources/dark/images/empty_defaultThumbnail.png";
 const QString LIGHT_DEFAULT_THUMBNAIL =
         ":/resources/light/images/empty_defaultThumbnail.png";
+const QString DARK_LOADINGICON =
+        ":/resources/dark/images/dark_loading.gif";
+const QString LIGHT_LOADINGICON =
+        ":/resources/light/images/light_loading.gif";
     namespace naviwindow {
         const QString DARK_BG_IMG = ":/resources/dark/images/naviwindow_bg.png";
         const QColor DARK_BG_COLOR = QColor(0, 0, 0, 100);

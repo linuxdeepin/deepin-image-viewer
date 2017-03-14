@@ -1,5 +1,6 @@
 #include "imageview.h"
 #include "graphicsitem.h"
+#include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "application.h"
 #include <QDebug>
@@ -24,9 +25,6 @@ namespace {
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
-
-const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
-const QColor LIGHT_BACKGROUND_COLOR = QColor(255, 255, 255);
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
@@ -135,6 +133,17 @@ void ImageView::setImage(const QString &path)
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (! m_watcher.isRunning()) {
                 m_watcher.setFuture(f);
+
+                //show loading gif.
+                m_pixmapItem = nullptr;
+                s->clear();
+                resetTransform();
+                GraphicsMovieItem* loadingItem = new GraphicsMovieItem(m_loadingIconPath);
+                loadingItem->start();
+                // Make sure item show in center of view after reload
+                setSceneRect(loadingItem->boundingRect());
+                s->addItem(loadingItem);
+                emit hideNavigation();
             }
         }
     }
@@ -408,9 +417,11 @@ void ImageView::onCacheFinish()
 
 void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_backgroundColor = DARK_BACKGROUND_COLOR;
+        m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
+        m_loadingIconPath = utils::view::DARK_LOADINGICON;
     } else {
-        m_backgroundColor = LIGHT_BACKGROUND_COLOR;
+        m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
+        m_loadingIconPath = utils::view::LIGHT_LOADINGICON;
     }
     update();
 }
