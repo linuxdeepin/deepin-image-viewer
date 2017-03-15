@@ -152,9 +152,9 @@ void ImgInfoDialog::initCloseButton()
 {
     ImageButton* cb = new ImageButton(this);
     cb->setTooltipVisible(true);
-    cb->setNormalPic(":/dialogs/images/resources/images/close_normal.png");
-    cb->setHoverPic(":/dialogs/images/resources/images/close_hover.png");
-    cb->setPressPic(":/dialogs/images/resources/images/close_press.png");
+    cb->setNormalPic(":/images/light/images/window_close_normal.png");
+    cb->setHoverPic(":/images/light/images/window_close_hover.png");
+    cb->setPressPic(":/images/light/images/window_close_press.png");
     cb->setFixedSize(27, 23);
     cb->move(this->x() + this->width() - cb->width() + 1, 4);
     connect(cb, &ImageButton::clicked, this, &ImgInfoDialog::close);

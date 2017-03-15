@@ -27,10 +27,10 @@ NavigationWidget::NavigationWidget(QWidget *parent)
 {
     resize(150, 112);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    ImageButton *closeBtn = new ImageButton(":/resources/common/close_normal.png",
-                ":/resources/common/close_hover.png",
-                ":/resources/common/close_press.png",
-                ":/resources/common/close_normal.png", this);
+    ImageButton *closeBtn = new ImageButton(":/images/light/images/window_close_normal.png",
+                ":/images/light/images/window_close_hover.png",
+                ":/images/light/images/window_close_press.png",
+                ":/images/light/images/window_close_normal.png", this);
     closeBtn->setTooltipVisible(true);
     closeBtn->setFixedSize(27, 23);
     closeBtn->move(QPoint(this->x() + this->width() - 27 - 6,
