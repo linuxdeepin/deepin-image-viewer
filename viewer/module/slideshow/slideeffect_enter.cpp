@@ -72,12 +72,14 @@ bool SlideEffect_Enter::prepare()
 
 bool SlideEffect_Enter::prepareFrameAt(int frame)
 {
-    if (isEndFrame(frame))
+    if (isEndFrame(frame)) {
         return false;
-	qreal k = easing_.valueForProgress(progress_);
-    (this->*calculateRegion_ptr)(k);
-    current_clip_region = QRegion(0, 0, width, height) - next_clip_region;
-	return true;
+    } else {
+        qreal k = easing_.valueForProgress(progress_);
+        (this->*calculateRegion_ptr)(k);
+        current_clip_region = QRegion(0, 0, width, height) - next_clip_region;
+    }
+    return true;
 }
 
 void SlideEffect_Enter::calculateRegion_FromBottom(qreal k)
