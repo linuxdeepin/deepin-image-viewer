@@ -50,15 +50,15 @@ snippets(
     // GETTING VALUES
 
     // get the value of a key
-    const char * pszValue = ini.GetValue("section-name",
-        "key-name", NULL /*default*/);
+//    const char * pszValue = ini.GetValue("section-name",
+//        "key-name", NULL /*default*/);
 
     // get the value of a key which may have multiple
     // values. If bHasMultipleValues is true, then just
     // one value has been returned
-    bool bHasMultipleValues;
-    pszValue = ini.GetValue("section-name", "key-name",
-        NULL /*default*/, &bHasMultipleValues);
+//    bool bHasMultipleValues;
+//    pszValue = ini.GetValue("section-name", "key-name",
+//        NULL /*default*/, &bHasMultipleValues);
 
     // get all values of a key with multiple values
     CSimpleIniA::TNamesDepend values;
