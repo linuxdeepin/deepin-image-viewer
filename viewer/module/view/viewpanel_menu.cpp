@@ -237,7 +237,7 @@ void ViewPanel::updateMenuContent()
     else {
         appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
     }
-    appendAction(IdStartSlideShow, tr("Start slideshow"), ss("Start slideshow"));
+    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
     appendAction(IdPrint, tr("Print"), ss("Print"));
     if (m_vinfo.inDatabase) {
         QMenu *am = createAlbumMenu();
@@ -261,11 +261,11 @@ void ViewPanel::updateMenuContent()
                 ! dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME,
                                                m_current->filePath)) {
             appendAction(IdAddToFavorites,
-                         tr("Add to my favorite"), ss("Add to my favorite"));
+                         tr("Favorite"), ss("Favorite"));
         } else {
             appendAction(IdRemoveFromFavorites,
-                         tr("Remove from my favorite"),
-                         ss("Remove from my favorite"));
+                         tr("Unfavorite"),
+                         ss("Unfavorite"));
         }
     }
     m_menu->addSeparator();

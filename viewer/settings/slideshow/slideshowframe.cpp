@@ -25,10 +25,10 @@ SlideshowFrame::SlideshowFrame(QWidget *parent)
     :QFrame(parent)
 {
     m_layout = new QVBoxLayout(this);
-    m_layout->setContentsMargins(0, 20, 0, 0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
 
-    Title1 *tl1 = new Title1(tr("Slideshow"));
+    Title1 *tl1 = new Title1(tr("Slide Settings"));
     m_layout->addWidget(tl1);
 
     initPreview();

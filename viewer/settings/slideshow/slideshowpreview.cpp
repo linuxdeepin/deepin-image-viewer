@@ -24,7 +24,7 @@ QMap<int, QString> nameMap()
     QMap<int, QString> nm;
     nm.insert(SlideshowPreview::Blinds, QObject::tr("Blinds"));
     nm.insert(SlideshowPreview::Switcher, QObject::tr("Switcher"));
-    nm.insert(SlideshowPreview::Slide, QObject::tr("Slide"));
+    nm.insert(SlideshowPreview::Slide, QObject::tr("Sliding"));
     nm.insert(SlideshowPreview::Circle, QObject::tr("Ring"));
 
     return nm;

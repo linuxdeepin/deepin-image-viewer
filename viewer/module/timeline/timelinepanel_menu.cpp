@@ -146,7 +146,7 @@ void TimelinePanel::updateMenuContents()
                                             utils::image::imageSupportSave);
         canSave = supportPath == paths.cend();
     }
-    appendAction(IdStartSlideShow, tr("Start slideshow"), ss("Start slideshow"));
+    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
     appendAction(IdPrint, tr("Print"), ss("Print"));
     QMenu *am = createAlbumMenu();
     if (am) {
@@ -161,9 +161,9 @@ void TimelinePanel::updateMenuContents()
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdAddToFavorites,
-                 tr("Add to my favorite"), ss("Add to my favorite"));
-    appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
-                 ss("Remove from my favorite"));
+                 tr("Favorite"), ss("Favorite"));
+    appendAction(IdRemoveFromFavorites, tr("Unfavorite"),
+                 ss("Unfavorite"));
     m_menu->addSeparator();
     /**************************************************************************/
     if (canSave) {

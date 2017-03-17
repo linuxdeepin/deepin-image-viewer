@@ -43,11 +43,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sync manage</source>
+        <source>Syncing: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Syncing: </source>
+        <source>Manage sync</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -115,7 +115,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You can add sync directory or drag images and drop them at timeline</source>
+        <source>You can add sync directory or drag and drop  images to timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -142,7 +142,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slideshow</source>
+        <source>Slide show</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -183,7 +183,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure to add to the sync list and create the album named by this folder?</source>
+        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -279,15 +279,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slideshow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to my favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -295,15 +287,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove from my favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You can add sync directory or drag images and drop them at timeline</source>
+        <source>Slide show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag and drop  images to timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -415,11 +415,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Slide</source>
+        <source>Ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ring</source>
+        <source>Sliding</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -434,15 +434,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Auto scan directory manage</source>
+        <source>This directory is disabled to sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The folder list is empty</source>
+        <source>Sync Directory Management</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sync of this directory is not allowed</source>
+        <source>The directory list is empty</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -461,11 +461,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This folder has already not exist</source>
+        <source>Calculating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Calculating...</source>
+        <source>This directory no longer exists</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -532,23 +532,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slideshow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to my favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove from my favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stop slide show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -575,6 +559,22 @@
         <source>Throw to trash</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>End show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -594,11 +594,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Restore to default</source>
+        <source>Shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shortcuts</source>
+        <source>Restore Defaults</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -606,10 +606,6 @@
     <name>ShortcutKey</name>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to my favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -629,10 +625,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slideshow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rotate clockwise</source>
         <translation type="unfinished"></translation>
     </message>
@@ -649,19 +641,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove from my favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quit slideshow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -676,15 +660,31 @@
         <source>Throw to trash</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>End show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
-        <source>Stop slideshow</source>
+        <source>Pause/Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Pause/Play</source>
+        <source>End show</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -692,10 +692,6 @@
     <name>SlideshowFrame</name>
     <message>
         <source>second</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slideshow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -708,6 +704,10 @@
     </message>
     <message>
         <source>Switch duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -749,11 +749,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove from my favorite</source>
+        <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add to my favorite</source>
+        <source>Favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -775,11 +775,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sync manage</source>
+        <source>Syncing: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Syncing: </source>
+        <source>Manage sync</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -834,15 +834,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slideshow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to my favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -850,24 +842,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove from my favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You can add sync directory or drag images and drop them at timeline</source>
+        <source>You can add sync directory or drag and drop  images to timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
-    <message>
-        <source>Slideshow</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Effect</source>
         <translation type="unfinished"></translation>
@@ -886,6 +882,10 @@
     </message>
     <message>
         <source>Album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -954,10 +954,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start slideshow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
@@ -971,10 +967,6 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add to my favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1010,7 +1002,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove from my favorite</source>
+        <source>Slide show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -123,7 +123,7 @@ bool ScanPathsDialog::addPath(const QString &path, bool check)
 {
     if (check && (path.isEmpty() || ! isLegalPath(path))) {
         // If path can't be select
-        showMessage(tr("Sync of this directory is not allowed"));
+        showMessage(tr("This directory is disabled to sync"));
         return false;
     }
     else if (check && isContainByScanPaths(path)) {
@@ -237,7 +237,7 @@ void ScanPathsDialog::initSinglaFileWatcher()
 
 void ScanPathsDialog::initTitle()
 {
-    QLabel *title = new QLabel(tr("Auto scan directory manage"));
+    QLabel *title = new QLabel(tr("Sync Directory Management"));
     title->setAlignment(Qt::AlignCenter);
     title->setObjectName("TitleLabel");
 
@@ -262,7 +262,7 @@ void ScanPathsDialog::initTitle()
 void ScanPathsDialog::initPathsArea()
 {
     // Empty frame
-    QLabel *el = new QLabel(tr("The folder list is empty"));
+    QLabel *el = new QLabel(tr("The directory list is empty"));
     el->setAlignment(Qt::AlignCenter);
     el->setObjectName("EmptyFrame");
 

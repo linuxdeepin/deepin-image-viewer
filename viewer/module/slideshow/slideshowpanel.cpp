@@ -157,9 +157,9 @@ void SlideShowPanel::initMenu()
     m_menu->setStyle(QStyleFactory::create("dlight"));
 
     QString stopSc = dApp->setter->value(SHORTCUTVIEW_GROUP,
-                                         "Start slideshow").toString();
+                                         "Slide show").toString();
     stopSc.replace(" ", "");
-    appendAction(IdStopslideshow, tr("Stop slideshow"),
+    appendAction(IdStopslideshow, tr("End show"),
                   stopSc);
     appendAction(IdPlayOrPause, tr("Pause/Play"),
                  QKeySequence(Qt::Key_Space).toString());

@@ -196,7 +196,7 @@ void ScanPathsItem::updateCount()
 
             // Remove images from DB
             dApp->dbM->removeDir(m_path);
-            m_pathLabel->setText(tr("This folder has already not exist"));
+            m_pathLabel->setText(tr("This directory no longer exists"));
         }
         return;
     }

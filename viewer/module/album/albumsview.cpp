@@ -311,7 +311,7 @@ void AlbumsView::updateMenuContent(const QModelIndex &index)
     }
     appendAction(IdView, tr("View"), ss("View", VIEW_GROUP));
     appendAction(IdStartSlideShow,
-                 tr("Start slideshow"), ss("Start slideshow", VIEW_GROUP), ! isEmpty);
+                 tr("Slide show"), ss("Slide show", VIEW_GROUP), ! isEmpty);
     m_menu->addSeparator();
     if (! isSpecial)
         appendAction(IdRename, tr("Rename"), ss("Rename", ALBUM_GROUP));

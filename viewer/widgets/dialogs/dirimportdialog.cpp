@@ -31,7 +31,7 @@ DirImportDialog::DirImportDialog(const QString &dir, const QString &album, QWidg
     else {
         addButton(tr("Sync and Create"), false, DDialog::ButtonNormal);
         addButton(tr("Sync"), true, DDialog::ButtonRecommend);
-        setTitle(tr("Are you sure to add to the sync list and create the album named by this folder?"));
+        setTitle(tr("Are you sure to add to the sync list and create the album named after this folder?"));
     }
 
     connect(this, &DirImportDialog::closed,

@@ -233,7 +233,7 @@ void ImagesView::updateMenuContents()
                                             utils::image::imageSupportSave);
         canSave = supportPath == paths.cend();
     }
-    appendAction(IdStartSlideShow, tr("Start slideshow"), ss("Start slideshow"));
+    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
     appendAction(IdPrint, tr("Print"), ss("Print"));
     QMenu *am = createAlbumMenu();
     if (am) {
@@ -249,9 +249,9 @@ void ImagesView::updateMenuContents()
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdAddToFavorites,
-                 tr("Add to my favorite"), ss("Add to my favorite"));
-    appendAction(IdRemoveFromFavorites, tr("Remove from my favorite"),
-                 ss("Remove from my favorite"));
+                 tr("Favorite"), ss("Favorite"));
+    appendAction(IdRemoveFromFavorites, tr("Unfavorite"),
+                 ss("Unfavorite"));
     m_menu->addSeparator();
     /**************************************************************************/
     if (canSave) {
@@ -482,7 +482,7 @@ void ImagesView::initContent()
     m_importFrame = new ImportFrame(this);
 
     m_importFrame->setButtonText(tr("Add"));
-    m_importFrame->setTitle(tr("You can add sync directory or drag images and drop them at timeline"));
+    m_importFrame->setTitle(tr("You can add sync directory or drag and drop  images to timeline"));
     connect(m_importFrame, &ImportFrame::clicked, this, [=] {
         dApp->importer->showImportDialog(m_album);
     });

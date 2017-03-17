@@ -84,7 +84,7 @@ void AlbumBTContent::initSynchroBtn()
 {
     ImageButton *synb = new ImageButton;
     synb->setObjectName("SynchroBtn");
-    synb->setToolTip(tr("Sync manage"));
+    synb->setToolTip(tr("Manage sync"));
 
     connect(synb, &ImageButton::clicked, this, [=] {
         dApp->scanDialog->show();

@@ -79,11 +79,15 @@
     </message>
     <message>
         <source>Sync manage</source>
-        <translation>同步管理</translation>
+        <translation type="vanished">同步管理</translation>
     </message>
     <message>
         <source>Syncing: </source>
         <translation>正在同步：</translation>
+    </message>
+    <message>
+        <source>Manage sync</source>
+        <translation>同步管理</translation>
     </message>
 </context>
 <context>
@@ -183,6 +187,10 @@
     </message>
     <message>
         <source>You can add sync directory or drag images and drop them at timeline</source>
+        <translation type="vanished">您可以添加同步目录或拖拽图片到时间线</translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag and drop  images to timeline</source>
         <translation>您可以添加同步目录或拖拽图片到时间线</translation>
     </message>
 </context>
@@ -222,6 +230,10 @@
     </message>
     <message>
         <source>Start slideshow</source>
+        <translation type="vanished">幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
         <translation>幻灯片放映</translation>
     </message>
 </context>
@@ -379,7 +391,12 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named by this folder?</source>
-        <translation>是否添加到同步列表并创建以该文件夹命名的相册？</translation>
+        <translation type="vanished">是否添加到同步列表并创建以该文件夹命名的相册？</translation>
+    </message>
+    <message>
+        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
+        <translatorcomment>是否添加到同步列表并创建以该文件夹命名的相册？</translatorcomment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -588,7 +605,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">取消收藏</translation>
+        <translation>取消收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -628,7 +645,7 @@
     </message>
     <message>
         <source>Start slideshow</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Throw to trash</source>
@@ -636,7 +653,7 @@
     </message>
     <message>
         <source>Add to my favorite</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
@@ -644,7 +661,7 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Add</source>
@@ -652,6 +669,18 @@
     </message>
     <message>
         <source>You can add sync directory or drag images and drop them at timeline</source>
+        <translation type="vanished">您可以添加同步目录或拖拽图片到时间线</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>收藏</translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag and drop  images to timeline</source>
         <translation>您可以添加同步目录或拖拽图片到时间线</translation>
     </message>
 </context>
@@ -889,11 +918,16 @@
     </message>
     <message>
         <source>Slide</source>
-        <translation>滑移</translation>
+        <translation type="vanished">滑移</translation>
     </message>
     <message>
         <source>Ring</source>
         <translation>圆环</translation>
+    </message>
+    <message>
+        <source>Sliding</source>
+        <translatorcomment>滑移</translatorcomment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -908,15 +942,30 @@
     </message>
     <message>
         <source>Auto scan directory manage</source>
-        <translation>自动扫描目录管理</translation>
+        <translation type="vanished">自动扫描目录管理</translation>
     </message>
     <message>
         <source>The folder list is empty</source>
-        <translation>目录列表为空</translation>
+        <translation type="vanished">目录列表为空</translation>
     </message>
     <message>
         <source>Sync of this directory is not allowed</source>
-        <translation>该目录不支持同步</translation>
+        <translation type="vanished">该目录不支持同步</translation>
+    </message>
+    <message>
+        <source>This directory is disabled to sync</source>
+        <translatorcomment>该目录不支持同步</translatorcomment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Sync Directory Management</source>
+        <translatorcomment>同步目录管理</translatorcomment>
+        <translation></translation>
+    </message>
+    <message>
+        <source>The directory list is empty</source>
+        <translatorcomment>The directory list is empty</translatorcomment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -935,11 +984,16 @@
     </message>
     <message>
         <source>This folder has already not exist</source>
-        <translation>该目录已不存在</translation>
+        <translation type="vanished">该目录已不存在</translation>
     </message>
     <message>
         <source>Calculating...</source>
         <translation>正在计算...</translation>
+    </message>
+    <message>
+        <source>This directory no longer exists</source>
+        <translatorcomment>该目录已不存在</translatorcomment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -958,7 +1012,7 @@
     </message>
     <message>
         <source>Stop slide show</source>
-        <translation>退出幻灯片</translation>
+        <translation type="vanished">退出幻灯片</translation>
     </message>
     <message>
         <source>Import</source>
@@ -1030,15 +1084,15 @@
     </message>
     <message>
         <source>Start slideshow</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Add to my favorite</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Remove from my favorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>View</source>
@@ -1068,6 +1122,22 @@
         <source>Throw to trash</source>
         <translation>丢到回收站</translation>
     </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>End show</source>
+        <translation>退出幻灯片</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>收藏</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation>取消收藏</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -1088,7 +1158,7 @@
     </message>
     <message>
         <source>Restore to default</source>
-        <translation>恢复默认</translation>
+        <translation type="vanished">恢复默认</translation>
     </message>
     <message>
         <source>New album</source>
@@ -1110,6 +1180,10 @@
         <source>Delete</source>
         <translation type="vanished">删除</translation>
     </message>
+    <message>
+        <source>Restore Defaults</source>
+        <translation>恢复默认</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutKey</name>
@@ -1127,7 +1201,7 @@
     </message>
     <message>
         <source>Quit slideshow</source>
-        <translation>退出幻灯片</translation>
+        <translation type="vanished">退出幻灯片</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -1143,11 +1217,11 @@
     </message>
     <message>
         <source>Add to my favorite</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Remove from my favorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Clockwise rotation</source>
@@ -1179,7 +1253,7 @@
     </message>
     <message>
         <source>Start slideshow</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -1199,7 +1273,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">取消收藏</translation>
+        <translation>取消收藏</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -1208,6 +1282,18 @@
     <message>
         <source>Throw to Trash</source>
         <translation type="vanished">丢到回收站</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>End show</source>
+        <translation>退出幻灯片</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>收藏</translation>
     </message>
 </context>
 <context>
@@ -1218,11 +1304,15 @@
     </message>
     <message>
         <source>Stop slideshow</source>
-        <translation>退出幻灯片</translation>
+        <translation type="vanished">退出幻灯片</translation>
     </message>
     <message>
         <source>Pause/Play</source>
         <translation>暂停/播放</translation>
+    </message>
+    <message>
+        <source>End show</source>
+        <translation>退出幻灯片</translation>
     </message>
 </context>
 <context>
@@ -1240,7 +1330,7 @@
     </message>
     <message>
         <source>Slideshow</source>
-        <translation>幻灯片</translation>
+        <translation type="vanished">幻灯片</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -1253,6 +1343,10 @@
     <message>
         <source>Switch duration</source>
         <translation>切换时间</translation>
+    </message>
+    <message>
+        <source>Slide Settings</source>
+        <translation>幻灯片设置</translation>
     </message>
 </context>
 <context>
@@ -1298,7 +1392,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">取消收藏</translation>
+        <translation>取消收藏</translation>
     </message>
     <message>
         <source>Add to My favorites</source>
@@ -1306,10 +1400,14 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Add to my favorite</source>
+        <translation type="vanished">收藏</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
         <translation>收藏</translation>
     </message>
 </context>
@@ -1340,11 +1438,15 @@
     </message>
     <message>
         <source>Sync manage</source>
-        <translation>同步管理</translation>
+        <translation type="vanished">同步管理</translation>
     </message>
     <message>
         <source>Syncing: </source>
         <translation>正在同步：</translation>
+    </message>
+    <message>
+        <source>Manage sync</source>
+        <translation>同步管理</translation>
     </message>
 </context>
 <context>
@@ -1410,7 +1512,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">取消收藏</translation>
+        <translation>取消收藏</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -1442,7 +1544,7 @@
     </message>
     <message>
         <source>Start slideshow</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Throw to trash</source>
@@ -1450,7 +1552,7 @@
     </message>
     <message>
         <source>Add to my favorite</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
@@ -1458,7 +1560,7 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
     </message>
     <message>
         <source>Add</source>
@@ -1466,7 +1568,19 @@
     </message>
     <message>
         <source>You can add sync directory or drag images and drop them at timeline</source>
+        <translation type="vanished">您可以添加同步目录或拖拽图片到时间线</translation>
+    </message>
+    <message>
+        <source>You can add sync directory or drag and drop  images to timeline</source>
         <translation>您可以添加同步目录或拖拽图片到时间线</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>收藏</translation>
     </message>
 </context>
 <context>
@@ -1480,7 +1594,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slideshow</source>
-        <translation>幻灯片</translation>
+        <translation type="vanished">幻灯片</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -1501,6 +1615,10 @@
     <message>
         <source>Album</source>
         <translation>相册</translation>
+    </message>
+    <message>
+        <source>Slide Settings</source>
+        <translation>幻灯片设置</translation>
     </message>
 </context>
 <context>
@@ -1619,7 +1737,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">取消收藏</translation>
+        <translation>取消收藏</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -1667,7 +1785,7 @@
     </message>
     <message>
         <source>Start slideshow</source>
-        <translation>幻灯片放映</translation>
+        <translation type="vanished">幻灯片放映</translation>
     </message>
     <message>
         <source>Throw to trash</source>
@@ -1675,7 +1793,7 @@
     </message>
     <message>
         <source>Add to my favorite</source>
-        <translation>收藏</translation>
+        <translation type="vanished">收藏</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
@@ -1687,7 +1805,15 @@
     </message>
     <message>
         <source>Remove from my favorite</source>
-        <translation>取消收藏</translation>
+        <translation type="vanished">取消收藏</translation>
+    </message>
+    <message>
+        <source>Slide show</source>
+        <translation>幻灯片放映</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation>收藏</translation>
     </message>
 </context>
 <context>

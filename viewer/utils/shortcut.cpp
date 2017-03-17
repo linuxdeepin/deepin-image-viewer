@@ -27,13 +27,13 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     group1.groupItems<<
     ShortcutItem(tr("View"), "Enter")<<
     ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen"))<<
-    ShortcutItem(tr("Start slideshow"), ss(VIEW_GROUP, "Start slideshow"))<<
-    ShortcutItem(tr("Stop slide show"),  ss(VIEW_GROUP, "Start slideshow"))<<
+    ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))<<
+    ShortcutItem(tr("End show"),  ss(VIEW_GROUP, "End show"))<<
     ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy"))<<
     ShortcutItem(tr("Throw to trash"),  "Delete")<<
     ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))<<
-    ShortcutItem(tr("Add to my favorite"), ss(VIEW_GROUP, "Add to my favorite"))<<
-    ShortcutItem(tr("Remove from my favorite"), ss(VIEW_GROUP, "Remove from my favorite"))<<
+    ShortcutItem(tr("Favorite"), ss(VIEW_GROUP, "Favorite"))<<
+    ShortcutItem(tr("Unfavorite"), ss(VIEW_GROUP, "Unfavorite"))<<
     ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise"))<<
     ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise"))<<
     ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper"))<<

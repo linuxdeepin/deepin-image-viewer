@@ -148,11 +148,11 @@ void TTMContent::updateCollectButton()
         m_clBT->setDisabled(true);
     }
     else if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
-        m_clBT->setToolTip(tr("Remove from my favorite"));
+        m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setChecked(true);
     }
     else {
-        m_clBT->setToolTip(tr("Add to my favorite"));
+        m_clBT->setToolTip(tr("Favorite"));
         m_clBT->setChecked(false);
         m_clBT->setDisabled(false);
     }

@@ -19,7 +19,7 @@ TitleFrame::TitleFrame(QWidget *parent)
     layout->setSpacing(0);
 
     // Slidershow
-    TitleButton *btn = new TitleButton(TitleButton::SlideshowSetting, true, tr("Slideshow"));
+    TitleButton *btn = new TitleButton(TitleButton::SlideshowSetting, true, tr("Slide Settings"));
     btn->setIsActived(true);
     connect(btn, &TitleButton::clicked, this, &TitleFrame::onButtonClicked);
     layout->addWidget(btn);
