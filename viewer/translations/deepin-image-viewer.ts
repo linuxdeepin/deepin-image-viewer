@@ -1250,12 +1250,4 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
-<context>
-    <name>main</name>
-    <message>
-        <location filename="../controller/commandline.cpp" line="60"/>
-        <source>Value that use for options.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
 </TS>

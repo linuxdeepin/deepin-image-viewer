@@ -57,8 +57,8 @@ CommandLine::CommandLine()
 {
     m_cmdParser.addHelpOption();
 //    m_cmdParser.addVersionOption();
-    m_cmdParser.addPositionalArgument("value", QCoreApplication::translate(
-        "main", "Value that use for options."), "[value]");
+//    m_cmdParser.addPositionalArgument("value", QCoreApplication::translate(
+//        "main", "Value that use for options."), "[value]");
 
     for (const CMOption* i = options; ! i->shortOption.isEmpty(); ++i) {
         addOption(i);
