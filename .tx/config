@@ -11,7 +11,6 @@ source_lang = en
 type = QT
 
 [deepin-image-viewer.desktop]
-file_filter = viewer/translations/desktop/desktop_<lang>.ts
-source_file = viewer/translations/desktop/desktop.ts
+source_file = viewer/deepin-image-viewer.desktop
 source_lang = en
 type = DESKTOP
