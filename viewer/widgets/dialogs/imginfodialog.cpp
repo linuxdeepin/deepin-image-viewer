@@ -131,6 +131,7 @@ void ImgInfoDialog::initInfos(const QString &path)
         if (v.isEmpty()) continue;
 
         SimpleFormField *field = new SimpleFormField;
+        field->setObjectName("Field");
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         field->setText(wrapStr(v, field->font(), TITLE_MAXWIDTH + 30));
         if (QString(i->name) == "Name")
@@ -138,6 +139,7 @@ void ImgInfoDialog::initInfos(const QString &path)
                    field->text()) * field->text().split(" ").length());
 
         SimpleFormLabel *title = new SimpleFormLabel(dApp->translate("MetadataName", i->name) + ":");
+        title->setObjectName("Title");
         title->setFixedHeight(field->maximumHeight());
         title->setFixedWidth(qMin(maxTitleWidth(), TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignRight | Qt::AlignTop);
