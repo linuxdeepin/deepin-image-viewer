@@ -73,7 +73,8 @@ CONFIG(release, debug|release) {
 }
 
 TRANSLATIONS += \
-    translations/deepin-image-viewer.ts
+    translations/deepin-image-viewer.ts\
+    translations/deepin-image-viewer_zh_CN.ts
 
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
