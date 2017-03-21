@@ -10,7 +10,7 @@ qtHaveModule(opengl): QT += opengl
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += x11 xext libexif dtkwidget-0-2 dtkutil-0-2 dtkbase-0-2
+PKGCONFIG += x11 xext libexif dtkwidget dtkutil dtkbase
 LIBS += -lfreeimage
 #gtk+-2.0
 TARGET = deepin-image-viewer
