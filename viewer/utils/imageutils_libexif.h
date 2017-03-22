@@ -2,7 +2,7 @@
 #define IMAGEUTILS_LIBEXIF_H
 
 #include "baseutils.h"
-#include <exif-data.h>
+#include <libexif/exif-data.h>
 #include <QDateTime>
 #include <QFileInfo>
 #include <QString>
