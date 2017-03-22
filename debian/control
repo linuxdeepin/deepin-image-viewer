@@ -12,6 +12,7 @@ Homepage: http://www.deepin.org
 
 Package: deepin-image-viewer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5sql5-sqlite, libqt5libqgtk2, libraw15, libfreeimage3
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5sql5-sqlite
+Recommends: libqt5libqgtk2
 Description: Deepin Image Viewer is the Image Viewer for Deepin Desktop Environment(DDE)
  Deepin Image Viewer is Deepin Desktop Environment Image Viewer.
