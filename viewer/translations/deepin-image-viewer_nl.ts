@@ -1,188 +1,188 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>深度看图</translation>
+        <translation>Deepin Image Viewer</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>版本：</translation>
+        <translation>Versie:</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
+        <translation>Deepin Image Viewer is een moderne en gepolijste afbeeldingenbeheerder</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+        <translation>U kan afbeeldingen bewerken, bekijken en beheren.</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>深度看图遵循GPL v3协议发布。</translation>
+        <translation>Deepin Image Viewer is uitgegeven onder GPL v3.</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>张图片</translation>
+        <translation>afbeelding</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>张图片</translation>
+        <translation>afbeeldingen</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>个相册</translation>
+        <translation>album</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>个相册</translation>
+        <translation>albums</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>同步管理</translation>
+        <translation>sync beheren</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>正在同步：</translation>
+        <translation>Synchroniseren:</translation>
     </message>
 </context>
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>新建</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nieuw album</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Naamloos</translation>
     </message>
 </context>
 <context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>最近导入</translation>
+        <translation>Recentelijk geïmporteerd</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation>Mijn favoriet</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>您确定要删除此相册吗？</translation>
+        <translation>Bent u zeker dat u dit album wil verwijderen?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation>Mijn favoriet</translation>
     </message>
     <message>
         <source>Timeline</source>
-        <translation>时间线</translation>
+        <translation>Tijdlijn</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加同步目录</translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
+        <translation>U kan een te synchroniseren map toevoegen of afbeeldingen aan de tijdlijn toevoegen via drag &amp; drop</translation>
     </message>
 </context>
 <context>
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Naamloos</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation>Hernoemen</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>深度看图</translation>
+        <translation>Deepin Image Viewer</translation>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>张图片</translation>
+        <translation>Afbeeldingen</translation>
     </message>
 </context>
 <context>
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确认</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>是否将图片添加到该相册？</translation>
+        <translation>Bent u zeker dat u deze afbeeldingen aan het album wil toevoegen?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>同步并创建</translation>
+        <translation>Sync en Maak aan</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>同步</translation>
+        <translation>Sync</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>是否添加到同步列表并创建以该文件夹命名的相册？</translation>
+        <translation>U gaat een map toevoegen aan de lijst met te synchroniseren mappen en een album aanmaken met de mapnaam. Bent u zeker?</translation>
     </message>
 </context>
 <context>
@@ -193,823 +193,823 @@
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation>导出成功</translation>
+        <translation>Exporteren geslaagd</translation>
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>导出失败</translation>
+        <translation>Exporteren mislukt</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation>Opslaan</translation>
     </message>
 </context>
 <context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>您确定将图片丢到回收站吗？</translation>
+        <translation>Bent u zeker dat u deze afbeeldingen naar de prullenbak wil verplaatsen?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Afbeeldingsinformatie</translation>
     </message>
 </context>
 <context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>Afdrukken</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
+        <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>In prullenbak gooien</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Favoriet</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Geen favoriet</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>In wijzerzin roteren</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Tegen wijzerzin roteren</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Als achtergrondafbeelding instellen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Weergeven in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Afbeeldingsinformatie</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加同步目录</translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
+        <translation>U kan een te synchroniseren map toevoegen of afbeeldingen aan de tijdlijn toevoegen via drag &amp; drop</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Toevoegen aan album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>添加到新相册</translation>
+        <translation>Toevoegen aan nieuw album</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>打开图片目录</translation>
+        <translation>Map openen</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>没有权限查看图片</translation>
+        <translation>U heeft geen toestemming om deze afbeelding te bekijken</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>名称</translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>图片类型</translation>
+        <translation>Type</translation>
     </message>
     <message>
         <source>Date photoed</source>
-        <translation>拍摄时间</translation>
+        <translation>Datum opname</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改时间</translation>
+        <translation>Datum aanpassing</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation>分辨率</translation>
+        <translation>Resolutie</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>文件大小</translation>
+        <translation>Bestandsgrootte</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>颜色空间</translation>
+        <translation>Kleurruimte</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>曝光模式</translation>
+        <translation>Belichting modus</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>曝光程序</translation>
+        <translation>Belichting programma</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>曝光时间</translation>
+        <translation>Belichting tijd</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>闪光灯</translation>
+        <translation>Flash</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>光圈大小</translation>
+        <translation>Diafragmaopening</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>焦距</translation>
+        <translation>Brandpuntsafstand</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>IOS感光度</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>最大光圈值</translation>
+        <translation>Max diafragmaopening</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>测光模式</translation>
+        <translation>Meetmethode</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>白平衡</translation>
+        <translation>Witbalans</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>闪光灯补偿</translation>
+        <translation>Flashcompensatie</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>相机型号</translation>
+        <translation>Cameramodel</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>镜头型号</translation>
+        <translation>Lensmodel</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>百叶窗</translation>
+        <translation>Blinden</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>开关</translation>
+        <translation>Wisselaar</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>滑移</translation>
+        <translation>Schuivend</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>圆环</translation>
+        <translation>Ring</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>选择目录</translation>
+        <translation>Selecteer map</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>该目录不支持同步</translation>
+        <translation>Deze map is uitgeschakeld bij het synchroniseren</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>添加文件夹</translation>
+        <translation>Map toevoegen</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>同步目录管理</translation>
+        <translation>Beheer mapsynchronisatie</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>目录列表为空</translation>
+        <translation>De mappenlijst is leeg</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>取消同步</translation>
+        <translation>Sync annuleren</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>张图片</translation>
+        <translation>Afbeeldingen</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>移动设备已被移除</translation>
+        <translation>Het apparaat werd losgekoppeld</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>该目录已不存在</translation>
+        <translation>Deze map bestaat niet meer</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>正在计算...</translation>
+        <translation>Berekenen...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>查看图片</translation>
+        <translation>Afbeelding bekijken</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>设置</translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>退出幻灯片</translation>
+        <translation>Voorstelling beëindigen</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Favoriet</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Geen favoriet meer</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>In wijzerzin roteren</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Tegen wijzerzin roteren</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Als achtergrondafbeelding instellen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Weergeven in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Afbeeldingsinformatie</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation>Vorige</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation>Volgende</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>上一屏</translation>
+        <translation>Vorig scherm</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>下一屏</translation>
+        <translation>Volgend scherm</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nieuw album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation>Hernoemen</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>帮助</translation>
+        <translation>Help</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>退出</translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>显示快捷键</translation>
+        <translation>Sneltoetsen tonen</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>请输入新的快捷键</translation>
+        <translation>Voer een nieuwe sneltoets in a.u.b.</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>快捷键</translation>
+        <translation>Sneltoetsen</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>查看图片</translation>
+        <translation>Afbeelding bekijken</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>恢复默认</translation>
+        <translation>Standaardinstellingen herstellen</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>退出幻灯片</translation>
+        <translation>Voorstelling beëindigen</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>Afdrukken</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Favoriet</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Geen favoriet meer</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>In wijzerzin roteren</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Tegen wijzerzin roteren</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Als achtergrondafbeelding instellen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Weergeven in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Afbeeldingsinformatie</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nieuw album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation>Hernoemen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>退出幻灯片</translation>
+        <translation>Voorstelling verwijderen</translation>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>暂停/播放</translation>
+        <translation>Pauze/Play</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>幻灯片设置</translation>
+        <translation>Diavoorstelling instellingen</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>切换效果</translation>
+        <translation>Overgangseffect</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>时间</translation>
+        <translation>Duur</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>切换时间</translation>
+        <translation>Duur overgang</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>秒</translation>
+        <translation>seconde</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation>Terug</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>图片管理</translation>
+        <translation>Afbeeldingsbeheer</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation>Mijn favoriet</translation>
     </message>
 </context>
 <context>
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 视图</translation>
+        <translation>1:1 Grootte</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>适应窗口</translation>
+        <translation>In venster passen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Tegen wijzerzin roteren</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>In wijzerzin roteren</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Geen favoriet meer</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Favoriet</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>没有发现图片文件</translation>
+        <translation>Geen afbeeldingsbestanden gevonden</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 张图片</translation>
+        <translation>%1 afbeelding</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 张图片</translation>
+        <translation>%1 afbeeldingen</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>同步管理</translation>
+        <translation>Sync beheren</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>正在同步：</translation>
+        <translation>Synchroniseren:</translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加同步目录</translation>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
+        <translation>U kan een map toevoegen aan de synchronisatielijst of afbeeldingen toevoegen aan de tijdlijn via drag &amp; drop</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Toevoegen aan album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>添加到新相册</translation>
+        <translation>Toevoegen aan nieuw album</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>Afdrukken</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
+        <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Verplaatsen naar de prullenbak</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Favoriet</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Geen favoriet meer</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>In wijzerzin roteren</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Tegen wijzerzin roteren</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Als achtergrondafbeelding instellen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Weergeven in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Afbeeldingsinformatie</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>幻灯片设置</translation>
+        <translation>Diavoorstelling instellingen</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>效果</translation>
+        <translation>Effect</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>时间</translation>
+        <translation>Duur</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>快捷键</translation>
+        <translation>Sneltoetsen</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>yyyy年MM月dd日</translation>
+        <translation>dd MMMM yyyy</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation>Mijn favoriet</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>最近导入</translation>
+        <translation>Recentelijk geïmporteerd</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nieuw album</translation>
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>深色主题</translation>
+        <translation>Diepe kleurmodus</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>设置</translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>帮助</translation>
+        <translation>Help</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>关于</translation>
+        <translation>Over</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>退出</translation>
+        <translation>Sluiten</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>时间线</translation>
+        <translation>Tijdlijn</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Toevoegen aan album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>添加到新相册</translation>
+        <translation>Toevoegen aan nieuw album</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>退出全屏</translation>
+        <translation>Volledig scherm sluiten</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>Afdrukken</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
+        <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Favoriet</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Geen favoriet meer</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>显示导航窗口</translation>
+        <translation>Toon navigatievenster</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>隐藏导航窗口</translation>
+        <translation>Verberg navigatievenster</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>In wijzerzin roteren</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Tegen wijzerzin roteren</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Als achtergrondafbeelding instellen</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Weergeven in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Afbeeldingsinformatie</translation>
     </message>
 </context>
 </TS>
