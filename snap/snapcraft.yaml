@@ -1,0 +1,45 @@
+name: deepin-image-viewer
+version: '0.1' 
+summary: deepin-image-viewer
+description: |
+  This is deepin-image-viewer snap application
+
+grade: stable 
+confinement: strict
+
+apps:
+  deepin-image-viewer:
+    command: desktop-launch $SNAP/usr/bin/deepin-image-viewer
+    plugs:
+      - network
+      - unity7
+      - x11
+      - home
+      - opengl
+      - pulseaudio    
+
+slots:
+  dbus-DeepinImageViewer:
+    interface: dbus
+    bus: session
+    name: com.deepin.DeepinImageViewer
+
+parts:
+  app:
+    source: ./src
+    plugin: qmake
+    qt-version: qt5
+    options:
+      - DEFINES+= SNAP_APP
+    build-packages:
+      - libfreeimage-dev 
+    stage-packages:
+      - overlay-scrollbar-gtk2
+      - libgail-3-0
+      - libatk-bridge2.0-0
+      - libatk-adaptor
+      - unity-gtk2-module:amd64
+      - libcanberra-gtk-module:amd64
+      - fonts-wqy-zenhei
+      - libqt5sql5-sqlite:amd64    
+    after: [desktop-qt5]

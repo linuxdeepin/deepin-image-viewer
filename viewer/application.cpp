@@ -12,6 +12,7 @@
 
 #include <QDebug>
 #include <QTranslator>
+#include <QProcessEnvironment>
 
 namespace {
 
@@ -51,6 +52,21 @@ void Application::initI18n()
 //    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
 //                     + QLocale::system().name() + ".qm");
 //    installTranslator(translator);
-    loadTranslator(QList<QLocale>() << QLocale::system());
 
+#ifdef SNAP_APP
+    // Load the qml files
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QString SNAP = env.value("SNAP");
+
+    QTranslator* translator = new QTranslator();
+    if (translator->load("deepin-image-viewer_zh_CN.qm", SNAP + "/usr/share/deepin-image-viewer/translations")) {
+        installTranslator(translator);
+    }
+
+    if (translator->load("deepin-image-viewer.qm", SNAP + "/usr/share/deepin-image-viewer/translations")) {
+        installTranslator(translator);
+    }
+#else
+    loadTranslator(QList<QLocale>() << QLocale::system());
+#endif
 }

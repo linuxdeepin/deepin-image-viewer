@@ -17,6 +17,7 @@
 #include <QStandardPaths>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QProcessEnvironment>
 
 DWIDGET_USE_NAMESPACE
 
@@ -318,7 +319,16 @@ bool ScanPathsDialog::isLegalPath(const QString &path) const
 {
 #ifdef Q_OS_LINUX
     QStringList legalPrefixs;
-    legalPrefixs << QDir::homePath() + "/" << "/media/" << "/run/media/";
+    
+    #ifdef SNAP_APP
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        QString USER = env.value("USER");
+        QString pic_path = "/home/" + USER + "/Pictures";
+        legalPrefixs << QDir::homePath() + "/" << "/media/" << "/run/media/" << pic_path;
+    #else
+        legalPrefixs << QDir::homePath() + "/" << "/media/" << "/run/media/";
+    #endif
+    
     for (QString prefix : legalPrefixs) {
         if (path.startsWith(prefix)) {
             return true;

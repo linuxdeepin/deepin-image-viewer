@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Exec=deepin-image-viewer
+Name=Deepin image viewer
+Icon=${SNAP}/meta/gui/viewer.svg
