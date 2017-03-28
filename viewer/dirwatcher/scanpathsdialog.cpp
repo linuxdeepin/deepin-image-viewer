@@ -159,7 +159,7 @@ bool ScanPathsDialog::addPath(const QString &path, bool check)
 
 void ScanPathsDialog::removePath(const QString &path)
 {
-    qDebug() << "Import Thread has been stoped, removing data from DB...";
+    qDebug() << "Import Thread has been stopped, removing data from DB...";
 
     // Remove from config-file
     removeFromScanPaths(path);
