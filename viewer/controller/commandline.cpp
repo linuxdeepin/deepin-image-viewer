@@ -170,6 +170,10 @@ bool CommandLine::processOption()
         else if (! pas.isEmpty()){
             name = "o"; // Default operation is open image file
             value = pas.first();
+
+            if (QUrl(value).isLocalFile()) {
+                value =  QUrl(value).toLocalFile();
+            }
             values = pas;
         }
 
@@ -179,6 +183,8 @@ bool CommandLine::processOption()
             if (values.length() > 1) {
                 QStringList aps;
                 for (QString path : values) {
+                    if (QUrl(value).isLocalFile())
+                        path =  QUrl(value).toLocalFile();
                     const QString ap = QFileInfo(path).absoluteFilePath();
                     if (QFileInfo(path).exists() && imageSupportRead(ap)) {
                         aps << ap;
