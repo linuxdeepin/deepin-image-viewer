@@ -140,7 +140,7 @@ QMap<QString, QString> getAllMetaData(const QString &path)
             ot = stringToDateTime(admMap.value("DateTime"));
             dt = ot;
 
-            // NO valid date infomation
+            // NO valid date information
             if (! ot.isValid()) {
                 admMap.insert("DateTimeOriginal", info.created().toString("yyyy.MM.dd HH:mm:ss"));
                 admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy.MM.dd HH:mm:ss"));

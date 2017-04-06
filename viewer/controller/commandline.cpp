@@ -82,7 +82,7 @@ void CommandLine::addOption(const CMOption *option)
 /*!
  * \brief CommandLine::showHelp
  * QCommandLineParser::showHelp(int exitCode = 0) Will displays the help
- * infomation, and exits application automatically. However,
+ * information, and exits application automatically. However,
  * DApplication::loadDXcbPlugin() need exit by calling quick_exit(a.exec()).
  * So we should show the help message only by calling this function.
  */
