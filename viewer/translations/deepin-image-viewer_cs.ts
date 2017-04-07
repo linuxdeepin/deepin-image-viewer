@@ -1,1015 +1,1015 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>深度看图</translation>
+        <translation>Prohlížeč obrázků</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>版本：</translation>
+        <translation>Verze:</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
+        <translation>Prohlížeč obrázků je příjemný a snadno ovladatelný správce obrázků</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>深度看图遵循GPL v3协议发布。</translation>
+        <translation>Prohlížeč obrázků je vydán pod GPL v3.</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>张图片</translation>
+        <translation>obrázek</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>张图片</translation>
+        <translation>obrázků</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>个相册</translation>
+        <translation>album</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>个相册</translation>
+        <translation>alb</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>同步管理</translation>
+        <translation>Spravovat seřízení</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>正在同步：</translation>
+        <translation>Seřízení:</translation>
     </message>
 </context>
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>新建</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nové album</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Nepojmenovaný</translation>
     </message>
 </context>
 <context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>最近导入</translation>
+        <translation>Nedávno zavedené</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation>Moje oblíbené</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>您确定要删除此相册吗？</translation>
+        <translation>Jste si jistý, že chcete smazat toto album?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation>Zpět</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation>Moje oblíbené</translation>
     </message>
     <message>
         <source>Timeline</source>
-        <translation>时间线</translation>
+        <translation>Časová osa</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加同步目录</translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
+        <translation>Můžete přidat seřizovací adresář nebo obrázky táhnout a upustit na časovou osu</translation>
     </message>
 </context>
 <context>
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation>未命名相册</translation>
+        <translation>Nepojmenovaný</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation>Přejmenovat</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>深度看图</translation>
+        <translation>Prohlížeč obrázků</translation>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>张图片</translation>
+        <translation>Obrázky</translation>
     </message>
 </context>
 <context>
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>确认</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>是否将图片添加到该相册？</translation>
+        <translation>Jste si jistý, že chcete přidat obrázky do alba?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>同步并创建</translation>
+        <translation>Seřídit a smazat</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>同步</translation>
+        <translation>Seřídit</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>是否添加到同步列表并创建以该文件夹命名的相册？</translation>
+        <translation>Jste si jistý, že chcete přidat seřizovací seznam a vytvořit album pojmenované podle této složky?</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
+        <translation>JPEG (*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation>导出成功</translation>
+        <translation>Úspěšně vyvedeno</translation>
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>导出失败</translation>
+        <translation>Nepodařilo se vyvést</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>保存</translation>
+        <translation>Uložit</translation>
     </message>
 </context>
 <context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>您确定将图片丢到回收站吗？</translation>
+        <translation>Jste si jistý, že chcete obrázky hodit do koše?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Informace o obrázku</translation>
     </message>
 </context>
 <context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>Tisk</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
+        <translation>Kopírovat do schránky</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Hodit do koše</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Odstranit z alba</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Oblíbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Neoblíbené</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Otočit po směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Otočit proti směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Informace o obrázku</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加同步目录</translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
+        <translation>Můžete přidat seřizovací adresář nebo obrázky táhnout a upustit na časovou osu</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Přidat do alba</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>添加到新相册</translation>
+        <translation>Přidat do nového alba</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>打开图片目录</translation>
+        <translation>Otevřít adresář</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>没有权限查看图片</translation>
+        <translation>Nemáte oprávnění k zobrazení obrázku</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>名称</translation>
+        <translation>Název</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>图片类型</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Date photoed</source>
-        <translation>拍摄时间</translation>
+        <translation>Pořízeno</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改时间</translation>
+        <translation>Změněno</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation>分辨率</translation>
+        <translation>Rozlišení</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>文件大小</translation>
+        <translation>Velikost souboru</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>颜色空间</translation>
+        <translation>Barevný prostor</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>曝光模式</translation>
+        <translation>Režim osvitu</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>曝光程序</translation>
+        <translation>Program osvitu</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>曝光时间</translation>
+        <translation>Doba osvitu</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>闪光灯</translation>
+        <translation>Blesk</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>光圈大小</translation>
+        <translation>Clona</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>焦距</translation>
+        <translation>Ohnisková vzdálenost</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>IOS感光度</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>最大光圈值</translation>
+        <translation>Největší clona</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>测光模式</translation>
+        <translation>Měřicí režim</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>白平衡</translation>
+        <translation>Vyvážení bílé</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>闪光灯补偿</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>相机型号</translation>
+        <translation>Model fotoaparátu</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>镜头型号</translation>
+        <translation>Model čočky</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>百叶窗</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>开关</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>滑移</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Ring</source>
-        <translation>圆环</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>选择目录</translation>
+        <translation>Vybrat adresář</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>该目录不支持同步</translation>
+        <translation>Tento adresář je pro seřízení zakázán</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>添加文件夹</translation>
+        <translation>Přidat složku</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>同步目录管理</translation>
+        <translation>Správa seřízení adresáře</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>目录列表为空</translation>
+        <translation>Seznam adresářů je prázdný</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>取消同步</translation>
+        <translation>Zrušit seřízení</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>张图片</translation>
+        <translation>Obrázky</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>移动设备已被移除</translation>
+        <translation>Zařízení bylo odstraněno</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>该目录已不存在</translation>
+        <translation>Tento adresář už neexistuje</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>正在计算...</translation>
+        <translation>Počítá se...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>查看图片</translation>
+        <translation>Zobrazení obrázku</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>设置</translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>退出幻灯片</translation>
+        <translation>Ukončit promítání</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Hodit do koše</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Odstranit z alba</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Oblíbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Neoblíbené</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Otočit po směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Otočit proti směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Informace o obrázku</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation>Předchozí</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation>Další</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>上一屏</translation>
+        <translation>Předchozí obrazovka</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>下一屏</translation>
+        <translation>Další obrazovka</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nové album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation>Přejmenovat</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>帮助</translation>
+        <translation>Nápověda</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>退出</translation>
+        <translation>Ukončit</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>显示快捷键</translation>
+        <translation>Zobrazit zkratky</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>请输入新的快捷键</translation>
+        <translation>Zadejte, prosím, novou zkratku</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>快捷键</translation>
+        <translation>Zkratky</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>查看图片</translation>
+        <translation>Zobrazit obrázek</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>恢复默认</translation>
+        <translation>Obnovit výchozí</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>退出幻灯片</translation>
+        <translation>Ukončit promítání</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>Tisk</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Hodit do koše</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Odstranit z alba</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Oblíbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Neoblíbené</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Otočit po směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Otočit proti směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Informace o obrázku</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nové album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>重命名</translation>
+        <translation>Přejmenovat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>退出幻灯片</translation>
+        <translation>Ukončit promítání</translation>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>暂停/播放</translation>
+        <translation>Pozastavit/Přehrát</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>幻灯片设置</translation>
+        <translation>Nastavení promítání</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>切换效果</translation>
+        <translation>Přepnout efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>时间</translation>
+        <translation>Doba trvání</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>切换时间</translation>
+        <translation>Přepnout dobu trvání</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>秒</translation>
+        <translation>sekunda</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>返回</translation>
+        <translation>Zpět</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>图片管理</translation>
+        <translation>Správa obrázků</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation>Moje oblíbené</translation>
     </message>
 </context>
 <context>
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 视图</translation>
+        <translation>Velikost 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>适应窗口</translation>
+        <translation>Přizpůsobit oknu</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Otočit proti směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Otočit po směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Hodit do koše</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Neoblíbené</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Oblíbené</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>没有发现图片文件</translation>
+        <translation>Nenalezeny žádné obrázkové soubory</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 张图片</translation>
+        <translation>%1 obrázek</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 张图片</translation>
+        <translation>%1 obrázků</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>同步管理</translation>
+        <translation>Spravovat seřízení</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>正在同步：</translation>
+        <translation>Seřízení:</translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>添加同步目录</translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
+        <translation>Můžete přidat seřizovací adresář nebo obrázky táhnout a upustit na časovou osu</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Přidat do alba</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>添加到新相册</translation>
+        <translation>Přidat do nového alba</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>Tisk</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
+        <translation>Kopírovat do schránky</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Hodit do koše</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Oblíbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Neoblíbené</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Otočit po směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Otočit proti směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Informace o obrázku</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>幻灯片设置</translation>
+        <translation>Nastavení promítání</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>效果</translation>
+        <translation>Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>时间</translation>
+        <translation>Doba trvání</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>快捷键</translation>
+        <translation>Zkratky</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>查看</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>相册</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>yyyy年MM月dd日</translation>
+        <translation>dd MMMM rrrr</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation>Moje oblíbené</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>最近导入</translation>
+        <translation>Nedávno zavedené</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>新建相册</translation>
+        <translation>Nové album</translation>
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>深色主题</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Settings</source>
-        <translation>设置</translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>帮助</translation>
+        <translation>Nápověda</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>关于</translation>
+        <translation>O programu</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>退出</translation>
+        <translation>Ukončit</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>时间线</translation>
+        <translation>Časová osa</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>添加到相册</translation>
+        <translation>Přidat do alba</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>添加到新相册</translation>
+        <translation>Přidat do nového alba</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>退出全屏</translation>
+        <translation>Opustit celou obrazovku</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>全屏</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>幻灯片放映</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>打印</translation>
+        <translation>Tisk</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
+        <translation>Kopírovat do schránky</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
+        <translation>Hodit do koše</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>从相册中移除</translation>
+        <translation>Odstranit z alba</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>收藏</translation>
+        <translation>Oblíbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>取消收藏</translation>
+        <translation>Neoblíbené</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>显示导航窗口</translation>
+        <translation>Ukázat pohybové okno</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>隐藏导航窗口</translation>
+        <translation>Skrýt pohybové okno</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation>Otočit po směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation>Otočit proti směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
+        <translation>Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
+        <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation>Informace o obrázku</translation>
     </message>
 </context>
 </TS>
