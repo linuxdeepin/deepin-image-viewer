@@ -1,6 +1,7 @@
 #include "wallpapersetter.h"
 #include <QTimer>
 #include <QFile>
+#include <QFileInfo>
 #include <QProcess>
 #include <QDebug>
 
@@ -24,7 +25,7 @@ void WallpaperSetter::setWallpaper(const QString &path)
     DE de = getDE();
     // gsettings unsupported unicode character
     qDebug() << "SettingWallpaper: " << de << path;
-    const QString tmpImg = "/tmp/DIVTMP.jpg";
+    const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
     QFile(path).copy(tmpImg);
     switch (de) {
     case Deepin:
