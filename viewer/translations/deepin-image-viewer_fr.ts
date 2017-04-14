@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visualiseur d&apos;Image Deepin</translation>
+        <translation>Deepin Image</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -11,15 +11,15 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Image est un pratique gestionnaire d&apos;images.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished"/>
+        <translation>C&apos;est un gestionnaire, visualiseur et éditeur d&apos;images.</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>Visualiseur d&apos;Image Deepin est sous licence publique GPL v3.</translation>
+        <translation>Deepin Image est sous licence publique GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -46,7 +46,7 @@
     </message>
     <message>
         <source>Syncing: </source>
-        <translation type="unfinished"/>
+        <translation>Synchronisation:</translation>
     </message>
 </context>
 <context>
@@ -65,7 +65,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation type="unfinished"/>
+        <translation>Sans nom</translation>
     </message>
 </context>
 <context>
@@ -114,14 +114,14 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"/>
+        <translation>Vous pouvez ajouter le dossier à synchroniser ou glisser/déposer les images</translation>
     </message>
 </context>
 <context>
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation type="unfinished"/>
+        <translation>Sans nom</translation>
     </message>
     <message>
         <source>View</source>
@@ -148,7 +148,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visualiseur d&apos;Image Deepin</translation>
+        <translation>Deepin Image</translation>
     </message>
 </context>
 <context>
@@ -174,11 +174,11 @@
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation type="unfinished"/>
+        <translation>Créer et synchroniser </translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation type="unfinished"/>
+        <translation>Synchronisation</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
@@ -294,7 +294,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"/>
+        <translation>Vous pouvez ajouter le dossier à synchroniser ou glisser/déposer les images</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -309,7 +309,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="unfinished"/>
+        <translation>Ouvrir le dossier</translation>
     </message>
 </context>
 <context>
@@ -331,7 +331,7 @@
     </message>
     <message>
         <source>Date photoed</source>
-        <translation type="unfinished"/>
+        <translation>Date</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -406,19 +406,19 @@
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"/>
+        <translation>Stores</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="unfinished"/>
+        <translation>Switcher </translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="unfinished"/>
+        <translation>Glisser</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="unfinished"/>
+        <translation>Cercle</translation>
     </message>
 </context>
 <context>
@@ -437,18 +437,18 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation type="unfinished"/>
+        <translation>Dossier à synchroniser </translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation type="unfinished"/>
+        <translation>La liste de dossier est vide</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation type="unfinished"/>
+        <translation>Annuler la synchronisation </translation>
     </message>
     <message>
         <source>Images</source>
@@ -571,7 +571,7 @@
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>Afficher les raccourcis</translation>
     </message>
 </context>
 <context>
@@ -585,7 +585,7 @@
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>Raccourcis</translation>
     </message>
     <message>
         <source>View Picture</source>
@@ -597,7 +597,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="unfinished"/>
+        <translation>Paramètres par défaut</translation>
     </message>
 </context>
 <context>
@@ -616,7 +616,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation type="unfinished"/>
+        <translation>Fin du diaporama</translation>
     </message>
     <message>
         <source>Print</source>
@@ -778,7 +778,7 @@
     </message>
     <message>
         <source>Syncing: </source>
-        <translation type="unfinished"/>
+        <translation>Synchronisation:</translation>
     </message>
 </context>
 <context>
@@ -793,15 +793,15 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"/>
+        <translation>Vous pouvez ajouter le dossier à synchroniser ou glisser/déposer les images</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished"/>
+        <translation>Ajouter à l&apos;album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished"/>
+        <translation>Ajouter à un nouvel album</translation>
     </message>
     <message>
         <source>View</source>
@@ -910,7 +910,7 @@
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation type="unfinished"/>
+        <translation>Mode sombre</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -941,7 +941,7 @@
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished"/>
+        <translation>Ajouter à un nouvel album</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>

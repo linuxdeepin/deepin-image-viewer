@@ -891,7 +891,7 @@
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation type="unfinished"/>
+        <translation>dd MMMM yyyy</translation>
     </message>
     <message>
         <source>My favorite</source>

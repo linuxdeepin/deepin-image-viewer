@@ -1,59 +1,59 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="gl_ES" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visualizador de imaxes</translation>
+        <translation>Pelihat Imej Deepin</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Versión:</translation>
+        <translation>Versi:</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>O visualizador de imaxes é un xestor de imaxes moderno e fluído.</translation>
+        <translation>Pelihat Imej Deepin merupakan pengurus imej yang berfesyen &amp; lancar.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Ten como características a xestión, visualización e a edición básica de imaxes.</translation>
+        <translation>Ia difiturkan dengan pengurusan imej, pemaparan imej dan penyuntingan imej asas.</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>O visualizador de imaxes foi liberado baixo GPL v3</translation>
+        <translation>Pelihat Imej Deepin dikeluarkan bawah GPL v3.</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>Imaxe</translation>
+        <translation>imej</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>Imaxes</translation>
+        <translation>imej</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>álbum</translation>
+        <translation>album</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>álbums</translation>
+        <translation>album</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Xestionar sincronización</translation>
+        <translation>Urus segerak</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Sincronizando:</translation>
+        <translation>Menyegerak:</translation>
     </message>
 </context>
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>OK</source>
@@ -61,108 +61,108 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>Album baharu</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sen nome</translation>
+        <translation>Tanpa nama</translation>
     </message>
 </context>
 <context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Importadas recentemente</translation>
+        <translation>Diimport baru-baru ini</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favoritas</translation>
+        <translation>Kegemaran saya</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Tes a certeza de querer eliminar este álbum?</translation>
+        <translation>Anda pasti mahu padam album ini?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>Atrás</translation>
+        <translation>Undur</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favoritas</translation>
+        <translation>Kegemaran saya</translation>
     </message>
     <message>
         <source>Timeline</source>
-        <translation>Liña temporal</translation>
+        <translation>Garis Masa</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Engadir</translation>
+        <translation>Tambah</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Podes engadir un cartafol de sincronización ou arrastrar e soltar imaxes na liña temporal</translation>
+        <translation>Anda boleh menambah direktori segerak atau seret dan lepaskan imej ke dalam garis masa</translation>
     </message>
 </context>
 <context>
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation>Sen nome</translation>
+        <translation>Tanpa nama</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vista</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentación</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renomear</translation>
+        <translation>Nama semula</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visualizador de imaxes</translation>
+        <translation>Pelihat Imej Deepin</translation>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Imaxes</translation>
+        <translation>Imej</translation>
     </message>
 </context>
 <context>
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>OK</source>
@@ -170,19 +170,19 @@
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Tes a certeza de querer engadir as imaxes a este álbum?</translation>
+        <translation>Anda pasti mahu tambah gambar ke dalam album?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Sincronizar e crear</translation>
+        <translation>Segerak dan Cipta</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Sincronizar</translation>
+        <translation>Segerak</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation type="unfinished"/>
+        <translation>Anda pasti mahu tambah ke dalam senarai segerak dan cipta album bernama selepas folder ini?</translation>
     </message>
 </context>
 <context>
@@ -193,185 +193,185 @@
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation>Exportada correctamente</translation>
+        <translation>Berjaya dieksport</translation>
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>Fallou a exportación</translation>
+        <translation>Gagal dieksport</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Gardar</translation>
+        <translation>Simpan</translation>
     </message>
 </context>
 <context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Tes a certeza de querer enviar as imaxes ao lixo?</translation>
+        <translation>Anda pasti mahu campak gambar ke dalam TONG SAMPAH?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>Información da imaxe</translation>
+        <translation>Maklumat imej</translation>
     </message>
 </context>
 <context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation>Vista</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Skrin Penuh</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentación</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Cetak</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar no portarretallos</translation>
+        <translation>Salin ke papan keratan</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar ao lixo</translation>
+        <translation>Campak ke dalam tong sampah</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar do álbum</translation>
+        <translation>Buang dari album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar á dereita</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar á esquerda</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visualizar no xestor de ficheiros</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información da imaxe</translation>
+        <translation>Maklumat imej</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Engadir</translation>
+        <translation>Tambah</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Podes engadir un cartafol de sincronización ou arrastrar e soltar imaxes na liña temporal</translation>
+        <translation>Anda boleh tambah direktori segerak atau seret dan lepas imej ke dalam garis masa</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Engadir ao álbum</translation>
+        <translation>Tambah ke album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Engadir a un novo álbum</translation>
+        <translation>Tambah ke album baharu</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir cartafol</translation>
+        <translation>Buka Direktori</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Non tes permiso para ver a imaxe</translation>
+        <translation>Anda tiada keizinan untuk melihat imej</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>Nome</translation>
+        <translation>Nama </translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>Jenis</translation>
     </message>
     <message>
         <source>Date photoed</source>
-        <translation>Data da foto</translation>
+        <translation>Tarikh ditangkap</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Data da modificación</translation>
+        <translation>Tarikh diubahsuai</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation>Resolución</translation>
+        <translation>Resolusi</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Tamaño do ficheiro</translation>
+        <translation>Saiz fail</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Espazo de cor</translation>
+        <translation>Ruangwarna</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Modo de exposición</translation>
+        <translation>Mod dedahan</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Programa de exposición</translation>
+        <translation>Program dedahan</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Tempo de exposición</translation>
+        <translation>Masa dedahan</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Denyar</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Apertura</translation>
+        <translation>Bukaan</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Distancia focal</translation>
+        <translation>Panjang fokus</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -379,637 +379,637 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Máxima apertura</translation>
+        <translation>Bukaan maks</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation>Mod pemeteran</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Balance de brancos</translation>
+        <translation>Imbangan putih</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Compensación de flash</translation>
+        <translation>Pemampasan denyar</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Modelo de cámara</translation>
+        <translation>Model kamera</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Modelo de lente</translation>
+        <translation>Model kanta</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"/>
+        <translation>Bidaian</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="unfinished"/>
+        <translation>Penukar</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="unfinished"/>
+        <translation>Pelungsur</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="unfinished"/>
+        <translation>Gelang</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Seleccionar cartafol</translation>
+        <translation>Pilih Direktori</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Este directorio non está dispoñible para sincronizar</translation>
+        <translation>Direktori ini dilumpuhkan untuk penyegerakan</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Engadir cartafol</translation>
+        <translation>Tambah folder</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Xestor de sincronización</translation>
+        <translation>Pengurusan Direktori Segerak</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>A lista de directorio está baleira</translation>
+        <translation>Senarai direktori kosong</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Cancelar sincronización</translation>
+        <translation>Batal segerak</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Imaxes</translation>
+        <translation>Imej</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>O dispositivo foi removido</translation>
+        <translation>Peranti telah ditanggalkan</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>O directorio xa non existe</translation>
+        <translation>Direktori ini tiada lagi wujud</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Calculando...</translation>
+        <translation>Mengira...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Vendo imaxe</translation>
+        <translation>Pelihatan Imej</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Axustes</translation>
+        <translation>Tetapan</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vista</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentación</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Rematar a presentación</translation>
+        <translation>Tamat paparan</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar ao lixo</translation>
+        <translation>Campak ke dalam tong sampah</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar do álbum</translation>
+        <translation>Buang dari album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar á dereita</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar á esquerda</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visualizar no xestor de ficheiros</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información da imaxe</translation>
+        <translation>Maklumat imej</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>Terdahulu</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Seguinte</translation>
+        <translation>Berikutnya</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Pantalla anterior</translation>
+        <translation>Skrin terdahulu</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Pantalla seguinte</translation>
+        <translation>Skrin berikutnya</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>Album baharu</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renomear</translation>
+        <translation>Nama semula</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Axuda</translation>
+        <translation>Bantuan</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Saír</translation>
+        <translation>Keluar</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Amosar atallos</translation>
+        <translation>Papar pintasan</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Sila masukkan pintasan baharu</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Atallos</translation>
+        <translation>Pintasan</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Ver imaxe</translation>
+        <translation>Lihat Gambar</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Reestablecer por defecto</translation>
+        <translation>Pulih Lalai</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Vista</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentación</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Rematar a presentación</translation>
+        <translation>Tamat paparan</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Cetak</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar ao lixo</translation>
+        <translation>Campak ke dalam tong sampah</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar do álbum</translation>
+        <translation>Buang dari album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar á dereita</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar á esquerda</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visualizar no xestor de ficheiros</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información da imaxe</translation>
+        <translation>Maklumat imej</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>Album baharu</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renomear</translation>
+        <translation>Nama semula</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>Rematar a presentación</translation>
+        <translation>Tamat paparan</translation>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>Por en pausa/Reproducir</translation>
+        <translation>Jeda/Main</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración da diapositiva</translation>
+        <translation>Tetapan Slaid</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="unfinished"/>
+        <translation>Tukar kesan</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation>Jangkamasa</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="unfinished"/>
+        <translation>Tukar jangkamasa</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>segundo</translation>
+        <translation>saat</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Atrás</translation>
+        <translation>Undur</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Xestión da imaxe</translation>
+        <translation>Pengurusan imej</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favoritas</translation>
+        <translation>Kegemaran saya</translation>
     </message>
 </context>
 <context>
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>Tamaño 1:1</translation>
+        <translation>Saiz 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Encaixar á xanela</translation>
+        <translation>Muat dengan tetingkap</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar á esquerda</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar á dereita</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>Enviar ao lixo</translation>
+        <translation>Campak ke dalam tong sampah</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Kegemaran</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Non se atoparon ficheiros de imaxe</translation>
+        <translation>Tiada fail imej ditemui</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 imaxe</translation>
+        <translation>%1 imej</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 imaxes</translation>
+        <translation>%1 imej</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Xestionar sincronización</translation>
+        <translation>Urus segerak</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Sincronizando:</translation>
+        <translation>Menyegerak:</translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Engadir</translation>
+        <translation>Tambah</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Podes engadir un cartafol de sincronización ou arrastrar e soltar imaxes na liña temporal</translation>
+        <translation>Anda boleh tambah direktori segerak atau seret dan lepas imej ke dalam garis masa</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Engadir ao álbum</translation>
+        <translation>Tambah ke album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Engadir a un novo álbum</translation>
+        <translation>Tambah ke album baharu</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vista</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentación</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Cetak</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar no portarretallos</translation>
+        <translation>Salin ke papan keratan</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar ao lixo</translation>
+        <translation>Campak ke dalam tong sampah</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar á dereita</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar á esquerda</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visualizar no xestor de ficheiros</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información da imaxe</translation>
+        <translation>Maklumat imej</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración da diapositiva</translation>
+        <translation>Tetapan Slaid</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Efecto</translation>
+        <translation>Kesan</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation>Jangkamasa</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Atallos</translation>
+        <translation>Pintasan</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vista</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>dd MMMM aaaa</translation>
+        <translation>hh BBBB tttt</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favoritas</translation>
+        <translation>Kegemaran saya</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Importadas recentemente</translation>
+        <translation>Diimport baru-baru ini</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation>Album baharu</translation>
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>Modo de cores profundas</translation>
+        <translation>Mod warna deep</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Configuracións</translation>
+        <translation>Tetapan</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Axuda</translation>
+        <translation>Bantuan</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation>Perihal</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Saír</translation>
+        <translation>Keluar</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Liña temporal</translation>
+        <translation>Garis Masa</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Engadir ao álbum</translation>
+        <translation>Tambah ke album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Engadir a un novo álbum</translation>
+        <translation>Tambah ke album baharu</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Saír de pantalla completa</translation>
+        <translation>Keluar dari skrin penuh</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentación</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Cetak</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar no portarretallos</translation>
+        <translation>Salin ke papan keratan</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar ao lixo</translation>
+        <translation>Campak ke dalam tong sampah</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar do álbum</translation>
+        <translation>Buang dari album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Amosar xanela de navegación</translation>
+        <translation>Tunjuk tetingkap navigasi</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ocultar xanela de navegación</translation>
+        <translation>Sembunyi tetingkap navigasi</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar á dereita</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar á esquerda</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visualizar no xestor de ficheiros</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información da imaxe</translation>
+        <translation>Maklumat imej</translation>
     </message>
 </context>
 </TS>
