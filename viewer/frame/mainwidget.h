@@ -19,7 +19,7 @@ public:
     ~MainWidget();
 
 protected:
-    void resizeEvent(QResizeEvent *) override;
+    void resizeEvent(QResizeEvent *e) override;
 
 private slots:
     void onGotoPanel(ModulePanel *panel);

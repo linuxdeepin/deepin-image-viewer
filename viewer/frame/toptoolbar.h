@@ -28,6 +28,7 @@ protected:
 
 signals:
     void updateImportTipsGeo();
+    void updateMaxBtn();
 
 private:
     enum MenuItemId {

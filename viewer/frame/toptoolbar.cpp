@@ -239,6 +239,13 @@ void TopToolbar::initRightContent()
             maxBtn->setMaximized(true);
         }
     });
+    connect(this, &TopToolbar::updateMaxBtn, this, [=]{
+        if (window()->isMaximized()) {
+            maxBtn->setMaximized(true);
+        } else {
+            maxBtn->setMaximized(false);
+        }
+    });
     DWindowCloseButton *closeBtn = new DWindowCloseButton;
     connect(closeBtn, &DWindowCloseButton::clicked, this, [=] {
         dApp->quit();

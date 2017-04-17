@@ -50,12 +50,15 @@ MainWidget::~MainWidget()
 
 }
 
-void MainWidget::resizeEvent(QResizeEvent *)
+void MainWidget::resizeEvent(QResizeEvent *e)
 {
     if (m_topToolbar) {
         m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
         m_topSeparatorLine->setVisible(true);
-//        m_topToolbar->move(0, 0);
+//        emit m_topToolbar->move(0, 0);
+        if (e->oldSize()  != e->size()) {
+            emit m_topToolbar->updateMaxBtn();
+        }
     }
     if (m_bottomToolbar) {
         m_bottomToolbar->resize(width(), m_bottomToolbar->height());
