@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished"/>
+        <translation>Toto je spojeno se správou obrázků, zobrazení obrázků a základní úpravy obrázků.</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
@@ -391,7 +391,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation>Náhrada za blesk</translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -410,15 +410,15 @@
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="unfinished"/>
+        <translation>Přepínač</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="unfinished"/>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="unfinished"/>
+        <translation>Prstenec</translation>
     </message>
 </context>
 <context>
@@ -910,7 +910,7 @@
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation type="unfinished"/>
+        <translation>Režim tmavých barev</translation>
     </message>
     <message>
         <source>Settings</source>
