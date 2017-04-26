@@ -42,7 +42,7 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation type="unfinished"/>
+        <translation>Gérer la synchronisation</translation>
     </message>
     <message>
         <source>Syncing: </source>
@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>Timeline</source>
-        <translation type="unfinished"/>
+        <translation>Chronologie </translation>
     </message>
     <message>
         <source>Add</source>
@@ -182,7 +182,7 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation type="unfinished"/>
+        <translation>Êtes-vous sûr d&apos;ajouter à la synchronisation et de créer l&apos;album lié à ce dossier ?</translation>
     </message>
 </context>
 <context>
@@ -266,7 +266,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -347,7 +347,7 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"/>
+        <translation>Espace chromatique</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -395,7 +395,7 @@
     </message>
     <message>
         <source>Camera model</source>
-        <translation type="unfinished"/>
+        <translation>Modèle d&apos;appareil photo</translation>
     </message>
     <message>
         <source>Lens model</source>
@@ -429,7 +429,7 @@
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation type="unfinished"/>
+        <translation>Ce répertoire est désactivé pour la synchronisation</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -515,7 +515,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -578,7 +578,7 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Créez un nouveau raccourci</translation>
     </message>
 </context>
 <context>
@@ -640,7 +640,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -748,7 +748,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -774,7 +774,7 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation type="unfinished"/>
+        <translation>Gérer la synchronisation</translation>
     </message>
     <message>
         <source>Syncing: </source>
@@ -837,7 +837,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -933,7 +933,7 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation type="unfinished"/>
+        <translation>Chronologie</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -981,7 +981,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Show navigation window</source>

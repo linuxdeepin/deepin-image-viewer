@@ -1,188 +1,188 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es_419" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Deepin Resim Görüntüleyici</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Versión:</translation>
+        <translation>Sürüm:</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer es un bonito y suave administrador de imagén.</translation>
+        <translation>Deepin Image Viewer, moda ve pürüzsüz görüntü yöneticisi.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Se ofrece con la gestión de imágenes, visualización de imágenes y edición de imágenes básicas.</translation>
+        <translation>Görüntü yönetimi, resim görüntüleme ve basit resim düzenleme özellikli.</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>Deepin Image Viewer es liberado bajo licencia GPL v3.</translation>
+        <translation>Deepin Image Viewer, GPL v3 altında yayınlandı.</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>Imagen</translation>
+        <translation>resim</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>Imágenes</translation>
+        <translation>resimler</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>Álbum</translation>
+        <translation>albüm</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>Álbumes</translation>
+        <translation>albümler</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Gestión de sincronización</translation>
+        <translation>Senkronizasyonu yönet</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Sincronizando:</translation>
+        <translation>Eşitleniyor:</translation>
     </message>
 </context>
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>TAMAM</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Álbum nuevo</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sin nombre</translation>
+        <translation>İsimsiz</translation>
     </message>
 </context>
 <context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Importados recientemente</translation>
+        <translation>Son eklenen</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Favorim</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>¿Esta seguro de borrar este álbum?</translation>
+        <translation>Bu albümü silmek istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>Atrás</translation>
+        <translation>Geri</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Favorim</translation>
     </message>
     <message>
         <source>Timeline</source>
-        <translation>Línea de tiempo</translation>
+        <translation>Zaman çizelgesi</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Añadir</translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
+        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
     </message>
 </context>
 <context>
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation>Sin nombre</translation>
+        <translation>İsimsiz</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Göster</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositivas</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renombrar</translation>
+        <translation>Yeniden Adlandır</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Deepin Resim Görüntüleyici</translation>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Imágenes</translation>
+        <translation>Resimler</translation>
     </message>
 </context>
 <context>
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>TAMAM</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>¿Esta seguro de añadir las fotos al álbum?</translation>
+        <translation>Resimleri albüme yüklemek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Sincronizar y crear</translation>
+        <translation>Eşitle ve Oluştur</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Sincronizar</translation>
+        <translation>Eşitle</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>¿Está seguro de agregar a la lista de sincronización y crear el álbum con el nombre de esta carpeta?</translation>
+        <translation>Senkronizasyon listesine eklediğinizden ve bu klasörün adını taşıyan bir albüm oluşturduğunuzdan emin misiniz?</translation>
     </message>
 </context>
 <context>
@@ -193,185 +193,185 @@
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation>Exportado con éxito</translation>
+        <translation>Başarıyla dışa aktarıldı</translation>
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>Fallo al exportar</translation>
+        <translation>Dışa aktarılamadı</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Guardar</translation>
+        <translation>Kaydet</translation>
     </message>
 </context>
 <context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>¿Esta seguro de tirar las fotos a la papelera?</translation>
+        <translation>Çöp Kutusuna resim atacağından emin misin?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>Información de imagen</translation>
+        <translation>Resim bilgisi</translation>
     </message>
 </context>
 <context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Göster</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Tam Ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositivas</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Yazdır</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar al portapapeles</translation>
+        <translation>Panoya kopyala</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Mandar a la papelera</translation>
+        <translation>Çöp kutusuna at</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar del álbum</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Favori</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Favori değil</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en administrador de archivos</translation>
+        <translation>Dosya yöneticisinde göster</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información de imagen</translation>
+        <translation>Resim bilgisi</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Añadir</translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
+        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Añadir al álbum</translation>
+        <translation>Albüme ekle</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Añadir a nuevo álbum</translation>
+        <translation>Yeni albüme ekle</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir directorio</translation>
+        <translation>Dizini Aç</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>No tiene permisos para ver esta imagen</translation>
+        <translation>Resmi görüntülemek için izniniz yok</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>Nombre</translation>
+        <translation>İsim</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>Tür</translation>
     </message>
     <message>
         <source>Date photoed</source>
-        <translation>Fecha de la foto</translation>
+        <translation>Fotoğraf tarihi</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Fecha modificada</translation>
+        <translation>Düzenleme tarihi</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation>Resolución</translation>
+        <translation>Çözünürlük</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Tamaño de archivo</translation>
+        <translation>Dosya boyutu</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Espacio de color</translation>
+        <translation>Renk aralığı</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Modo de exposición</translation>
+        <translation>Pozlama modu</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Programa de exposición</translation>
+        <translation>Pozlama programı</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Tiempo de exposición</translation>
+        <translation>Pozlama zamanı</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>Destello</translation>
+        <translation>Flaş</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Apertura</translation>
+        <translation>Diyafram</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Longitud focal</translation>
+        <translation>Odak uzaklığı</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -379,637 +379,637 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Máxima apertura</translation>
+        <translation>En yüksek diyafram</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Modo de medición</translation>
+        <translation>Ölçme modu</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Balance de blancos</translation>
+        <translation>Beyaz dengesi</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Compensación de destello</translation>
+        <translation>Flaş telafisi</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Modelo de cámara</translation>
+        <translation>Kamera modeli</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Modelo de lente</translation>
+        <translation>Lens modeli</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Persianas</translation>
+        <translation>Jaluziler</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Conmutador</translation>
+        <translation>Değiştirici</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Corredizo</translation>
+        <translation>Kayar</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Anillo</translation>
+        <translation>Halka</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Seleccionar directorio</translation>
+        <translation>Dizin Seç</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Este directorio esta desactivado para sincronización</translation>
+        <translation>Bu dizin eşitlenmesi için devre dışı bırakıldı</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Añadir carpeta</translation>
+        <translation>Klasör ekle</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Administración de directorios de sincronización</translation>
+        <translation>Eşitleme Dizin Yönetimi</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>La lista de directorios esta vacía</translation>
+        <translation>Dizin listesi boş</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Cancelar sincronización</translation>
+        <translation>Eşitleme iptal</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Imágenes</translation>
+        <translation>Resimler</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>El dispositivo se ha eliminado</translation>
+        <translation>Aygıt kaldırıldı</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Este directorio ya no existe</translation>
+        <translation>Bu dizin artık mevcut değil</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Calculando...</translation>
+        <translation>Hesaplanıyor...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Visualización de imágenes</translation>
+        <translation>Resim Görüntüleniyor</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Albüm</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ajustes</translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Göster</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Tam Ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositivas</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Finalizar Presentación</translation>
+        <translation>Gösteri sonu</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Mandar a la papelera</translation>
+        <translation>Çöp kutusuna at</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar del álbum</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Favori</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Favori değil</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en el administrador de archivos</translation>
+        <translation>Dosya yöneticisinde göster</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información sobre la imagen</translation>
+        <translation>Resim bilgisi</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>Önceki</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Siguiente</translation>
+        <translation>Sonraki</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Pantalla anterior</translation>
+        <translation>Önceki ekran</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Pantalla siguiente</translation>
+        <translation>Sonraki ekran</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nuevo album</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renombrar</translation>
+        <translation>Yeniden Adlandır</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ayuda</translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Salir</translation>
+        <translation>Çıkış</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Mostrar atajos</translation>
+        <translation>Kısayolları göster</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Por favor ingrese un nuevo atajo</translation>
+        <translation>Lütfen yeni bir kısayol giriniz</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Atajos</translation>
+        <translation>Kısayollar</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Ver Imágen</translation>
+        <translation>Resmi Görüntüle</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Albüm</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Restauración de Fábrica</translation>
+        <translation>Varsayılanları Geri Yükle</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Göster</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla Completa</translation>
+        <translation>Tam Ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar Presentación</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Finalizar Presentación</translation>
+        <translation>Gösteri sonu</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Yazdır </translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Tirar a la basura</translation>
+        <translation>Çöp kutusuna at</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover del álbum</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Favori</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Favori değil</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Configurar como Fondo de Pantalla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en Explorador de Archivos</translation>
+        <translation>Dosya yöneticisinde göster</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info de Imágen</translation>
+        <translation>Resim bilgisi</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nuevo Álbum</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renombrar</translation>
+        <translation>Yeniden Adlandır</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>Finalizar Presentación</translation>
+        <translation>Gösteri sonu</translation>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>Pausar/Reproducir</translation>
+        <translation>Duraklat/Oynat</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración de la presentación</translation>
+        <translation>Slayt Ayarları</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Cambiar Efecto</translation>
+        <translation>Animasyon değiştir</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation>Süre</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Cambiar Duración</translation>
+        <translation>Süreyi değiştir</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>segundo</translation>
+        <translation>ikinci</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Atrás</translation>
+        <translation>Geri</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Administrar imágen</translation>
+        <translation>Resim yönetimi</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Favorim</translation>
     </message>
 </context>
 <context>
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Tamaño</translation>
+        <translation>1:1 Boyut</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Ajustar a Ventana</translation>
+        <translation>Pencereye sığdır</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>Tirar a la basura</translation>
+        <translation>Çöp kutusuna at</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Favori değil</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Favori</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>No se econtraron archivos de imágen</translation>
+        <translation>Resim dosyası bulunamadı</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 imágen</translation>
+        <translation>%1 Resim </translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 imágenes</translation>
+        <translation>%1 Resimler</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Manager de Sincronización</translation>
+        <translation>Eşitlemeyi yönet</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Sincronizando:</translation>
+        <translation>Eşitleniyor:</translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Albüm</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Agregar</translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Puede agregar directorio de sincronización o arrastrar y soltar imágenes a la línea de tiempo</translation>
+        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Agregar a Álbum</translation>
+        <translation>Albüme ekle</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Agregar a nuevo álbum</translation>
+        <translation>Yeni albüme ekle</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Göster</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla Completa</translation>
+        <translation>Tam Ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar Presentación</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Yazdır</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar a Portapapeles</translation>
+        <translation>Panoya kopyala</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar a la papelera</translation>
+        <translation>Çöp kutusuna at</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Favori</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Favori değil</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en Explorador de archivos</translation>
+        <translation>Dosya yöneticisinde göster</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info de Imágen</translation>
+        <translation>Resim bilgisi</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración de la presentación</translation>
+        <translation>Slayt Ayarları</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Efecto</translation>
+        <translation>Animasyon</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation>Süre</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Marcadores</translation>
+        <translation>Kısayollar</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Göster</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Albüm</translation>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>dd MMMM aaaa</translation>
+        <translation>gg AAAA yyyy</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi Favorito</translation>
+        <translation>Favorim</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Importados recientemente</translation>
+        <translation>Son eklenen</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nuevo álbum</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>Modo Oscuro</translation>
+        <translation>Derin renk modu</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Configuraciones</translation>
+        <translation>Ayarlar</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ayuda</translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Acerca de</translation>
+        <translation>Hakkında</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Salir</translation>
+        <translation>Çıkış</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Línea de tiempo</translation>
+        <translation>Zaman çizelgesi</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Agregar a álbum</translation>
+        <translation>Albüme ekle</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Agregar a nuevo álbum</translation>
+        <translation>Yeni albüme ekle</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Salir de Pantalla Completa</translation>
+        <translation>Tam ekrandan çıkış</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla Completa</translation>
+        <translation>Tam Ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar Presentación</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Yazdır</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar a Portapapeles</translation>
+        <translation>Panoya kopyala</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar a la papelera</translation>
+        <translation>Çöp kutusuna at</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover del álbum</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Favori</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Favori değil</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Mostrar navegación de ventana</translation>
+        <translation>Gezinme penceresini göster</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ocultar navegación de ventana</translation>
+        <translation>Gezinme penceresini gizle</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Configurar como Fondo de pantalla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en explorador de archivos</translation>
+        <translation>Dosya yöneticisinde göster</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info de imágen</translation>
+        <translation>Resim bilgisi</translation>
     </message>
 </context>
 </TS>

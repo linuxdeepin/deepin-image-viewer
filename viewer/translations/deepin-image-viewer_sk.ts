@@ -1,59 +1,59 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es_419" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sk" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Deepin Prehliadač obrázkov</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Versión:</translation>
+        <translation>Verzia:</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer es un bonito y suave administrador de imagén.</translation>
+        <translation>Deepin Prehliadač obrázkov je módny a plynulý manažér obrázkov.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Se ofrece con la gestión de imágenes, visualización de imágenes y edición de imágenes básicas.</translation>
+        <translation>Obsahuje správu obrázkov, prezeranie obrázkov a základnú úpravu obrázkov.</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>Deepin Image Viewer es liberado bajo licencia GPL v3.</translation>
+        <translation>Deepin Prehliadač obrázkov je vydaný pod GPL v3.</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>Imagen</translation>
+        <translation>obrázok</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>Imágenes</translation>
+        <translation>obrázky</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>Álbum</translation>
+        <translation>album</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>Álbumes</translation>
+        <translation>albumy</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Gestión de sincronización</translation>
+        <translation>Správa synchronizácie</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Sincronizando:</translation>
+        <translation>Synchronizácia:</translation>
     </message>
 </context>
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <source>OK</source>
@@ -61,108 +61,108 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Álbum nuevo</translation>
+        <translation>Nový album</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Sin nombre</translation>
+        <translation>Nepomenované</translation>
     </message>
 </context>
 <context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Importados recientemente</translation>
+        <translation>Posledné importované</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Moje obľúbené</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>¿Esta seguro de borrar este álbum?</translation>
+        <translation>Naozaj chcete vymazať tento album?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>Atrás</translation>
+        <translation>Späť</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Moje obľúbené</translation>
     </message>
     <message>
         <source>Timeline</source>
-        <translation>Línea de tiempo</translation>
+        <translation>Časová os</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Añadir</translation>
+        <translation>Pridať</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
+        <translation>Môžete pridať synchronizáciu priečinka alebo pretiahnuť a pustiť obrázky do časovej osi</translation>
     </message>
 </context>
 <context>
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation>Sin nombre</translation>
+        <translation>Nepomenované</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Náhľad</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositivas</translation>
+        <translation>Sled snímkov</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renombrar</translation>
+        <translation>Premenovať</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopírovať</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Deepin Prehliadač obrázkov</translation>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Imágenes</translation>
+        <translation>Obrázky</translation>
     </message>
 </context>
 <context>
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <source>OK</source>
@@ -170,19 +170,19 @@
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>¿Esta seguro de añadir las fotos al álbum?</translation>
+        <translation>Naozaj chcete pridať obrázky do albumu?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Sincronizar y crear</translation>
+        <translation>Synchronizovať a vytvoriť</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Sincronizar</translation>
+        <translation>Synchronizovať</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>¿Está seguro de agregar a la lista de sincronización y crear el álbum con el nombre de esta carpeta?</translation>
+        <translation>Naozaj chcete pridať do zoznamu synchronizácie a vytvoriť album pomenovaný po tejto zložke?</translation>
     </message>
 </context>
 <context>
@@ -193,185 +193,185 @@
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation>Exportado con éxito</translation>
+        <translation>Exportovanie úspešné</translation>
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>Fallo al exportar</translation>
+        <translation>Exportovanie zlyhalo</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Guardar</translation>
+        <translation>Uložiť</translation>
     </message>
 </context>
 <context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>¿Esta seguro de tirar las fotos a la papelera?</translation>
+        <translation>Naozaj chcete hodiť fotografie do KOŠA?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>Información de imagen</translation>
+        <translation>Informácie o obrázku</translation>
     </message>
 </context>
 <context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Náhľad</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositivas</translation>
+        <translation>Sled snímkov</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Tlač</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopírovanie</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar al portapapeles</translation>
+        <translation>Skopírovať do schránky</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Mandar a la papelera</translation>
+        <translation>Hodiť do koša</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar del álbum</translation>
+        <translation>Odstrániť z albumu</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Obľúbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Neobľúbené</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Otočiť v smere hodinových ručičiek</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Otočiť proti smeru hodinových ručičiek</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Nastaviť ako pozadie</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en administrador de archivos</translation>
+        <translation>Zobraziť v správcovi súborov</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información de imagen</translation>
+        <translation>Informácie o obrázku</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Añadir</translation>
+        <translation>Pridať</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
+        <translation>Môžete pridať synchronizáciu priečinka alebo pretiahnuť a pustiť obrázky do časovej osi</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Añadir al álbum</translation>
+        <translation>Pridať do albumu</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Añadir a nuevo álbum</translation>
+        <translation>Pridať do nového albumu</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir directorio</translation>
+        <translation>Otvoriť adresár</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>No tiene permisos para ver esta imagen</translation>
+        <translation>Nemáte povolenie na zobrazenie tohto obrázka</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>Nombre</translation>
+        <translation>Názov</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>Date photoed</source>
-        <translation>Fecha de la foto</translation>
+        <translation>Dátum fotografovania</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Fecha modificada</translation>
+        <translation>Dátum úpravy</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation>Resolución</translation>
+        <translation>Rozlíšenie</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Tamaño de archivo</translation>
+        <translation>Veľkosť súboru</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Espacio de color</translation>
+        <translation>Farebný priestor</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Modo de exposición</translation>
+        <translation>Režim expozície</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Programa de exposición</translation>
+        <translation>Program expozície</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Tiempo de exposición</translation>
+        <translation>Čas expozície</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>Destello</translation>
+        <translation>Blesk</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Apertura</translation>
+        <translation>Clona</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Longitud focal</translation>
+        <translation>Ohnisková vzdialenosť</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -379,637 +379,637 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Máxima apertura</translation>
+        <translation>Maximálna clona</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Modo de medición</translation>
+        <translation>Režim merania</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Balance de blancos</translation>
+        <translation>Vyváženie bielej</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Compensación de destello</translation>
+        <translation>Korekcia zábleskovej expozície</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Modelo de cámara</translation>
+        <translation>Model fotoaparátu</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Modelo de lente</translation>
+        <translation>Model objektívu</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Persianas</translation>
+        <translation>Uzávierka</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Conmutador</translation>
+        <translation>Spínač</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Corredizo</translation>
+        <translation>Sled snímkov</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Anillo</translation>
+        <translation>Prsteň</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Seleccionar directorio</translation>
+        <translation>Výber adresára</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Este directorio esta desactivado para sincronización</translation>
+        <translation>Tento priečinok je zakázany pre synchronizáciu</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Añadir carpeta</translation>
+        <translation>Pridať priečinok</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Administración de directorios de sincronización</translation>
+        <translation>Správa synchronizácie priečinka</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>La lista de directorios esta vacía</translation>
+        <translation>Zoznam adresára je prázdny</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Cancelar sincronización</translation>
+        <translation>Zrušiť synchronizáciu</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Imágenes</translation>
+        <translation>Obrázky</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>El dispositivo se ha eliminado</translation>
+        <translation>Zariadenie bolo odstránené</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Este directorio ya no existe</translation>
+        <translation>Tento priečinok už neexistuje</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Calculando...</translation>
+        <translation>Prepočítavam...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Visualización de imágenes</translation>
+        <translation>Zobrazenie obrázkov</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ajustes</translation>
+        <translation>Nastavenia</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Náhľad</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositivas</translation>
+        <translation>Sled snímkov</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Finalizar Presentación</translation>
+        <translation>Ukončiť sled obrázkov</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopírovať</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Mandar a la papelera</translation>
+        <translation>Hodiť do koša</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar del álbum</translation>
+        <translation>Odstrániť z albumu</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Obľúbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Neobľúbené</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Otočiť v smere hodinových ručičiek</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Otočiť proti smeru hodinových ručičiek</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Nastaviť ako pozadie</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en el administrador de archivos</translation>
+        <translation>Zobraziť v správcovi súborov</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información sobre la imagen</translation>
+        <translation>Informácie o obrázku</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Anterior</translation>
+        <translation>Predchádzajúca</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Siguiente</translation>
+        <translation>Ďalej</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Pantalla anterior</translation>
+        <translation>Predchádzajúca obrazovka</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Pantalla siguiente</translation>
+        <translation>Ďalšia obrazovka</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nuevo album</translation>
+        <translation>Nový album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renombrar</translation>
+        <translation>Premenovať</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ayuda</translation>
+        <translation>Pomoc</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Salir</translation>
+        <translation>Ukončiť</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Mostrar atajos</translation>
+        <translation>Zobrazenie skratiek</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Por favor ingrese un nuevo atajo</translation>
+        <translation>Prosím zadajte novú skratku</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Atajos</translation>
+        <translation>Skratky</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Ver Imágen</translation>
+        <translation>Náhľad obrázka</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Restauración de Fábrica</translation>
+        <translation>Obnoviť predvolené</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Náhľad</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla Completa</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar Presentación</translation>
+        <translation>Sled snímkov</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Finalizar Presentación</translation>
+        <translation>Ukončiť sled obrázkov</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Tlač</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopírovať</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Tirar a la basura</translation>
+        <translation>Hodiť do koša</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover del álbum</translation>
+        <translation>Odstrániť z albumu</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Obľúbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Neobľúbené</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Otočiť v smere hodinových ručičiek</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Otočiť proti smeru hodinových ručičiek</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Configurar como Fondo de Pantalla</translation>
+        <translation>Nastaviť ako pozadie</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en Explorador de Archivos</translation>
+        <translation>Zobraziť v správcovi súborov</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info de Imágen</translation>
+        <translation>Informácie o obrázku</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nuevo Álbum</translation>
+        <translation>Nový album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renombrar</translation>
+        <translation>Premenovať</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>Finalizar Presentación</translation>
+        <translation>Ukončiť sled obrázkov</translation>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>Pausar/Reproducir</translation>
+        <translation>Pauza/Prehrať</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración de la presentación</translation>
+        <translation>Nastavenia sledu snímkov</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Cambiar Efecto</translation>
+        <translation>Zmeniť efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation>Trvanie</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Cambiar Duración</translation>
+        <translation>Zmeniť rozsah</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>segundo</translation>
+        <translation>sekunda</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Atrás</translation>
+        <translation>Späť</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Administrar imágen</translation>
+        <translation>Správa obrázkov</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Moje obľúbené</translation>
     </message>
 </context>
 <context>
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Tamaño</translation>
+        <translation>Veľkosť 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Ajustar a Ventana</translation>
+        <translation>Prispôsobiť oknu</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Otočiť proti smeru hodinových ručičiek</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Otočiť v smere hodinových ručičiek</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>Tirar a la basura</translation>
+        <translation>Hodiť do koša</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Neobľúbené</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Obľúbené</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>No se econtraron archivos de imágen</translation>
+        <translation>Neboli nájdené žiadne súbory obrázkov</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 imágen</translation>
+        <translation>%1 obrázok</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 imágenes</translation>
+        <translation>%1 obrázky</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Manager de Sincronización</translation>
+        <translation>Správa synchronizácie</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Sincronizando:</translation>
+        <translation>Synchronizácia:</translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Agregar</translation>
+        <translation>Pridať</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Puede agregar directorio de sincronización o arrastrar y soltar imágenes a la línea de tiempo</translation>
+        <translation>Môžete pridať synchronizáciu priečinka alebo pretiahnuť a pustiť obrázky do časovej osi</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Agregar a Álbum</translation>
+        <translation>Pridať do albumu</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Agregar a nuevo álbum</translation>
+        <translation>Pridať do nového albumu</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Náhľad</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla Completa</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar Presentación</translation>
+        <translation>Sled snímkov</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Tlač</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopírovať</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar a Portapapeles</translation>
+        <translation>Skopírovať do schránky</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar a la papelera</translation>
+        <translation>Hodiť do koša</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Obľúbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Neobľúbené</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Otočiť v smere hodinových ručičiek</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Otočiť proti smeru hodinových ručičiek</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation>Nastaviť ako pozadie</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en Explorador de archivos</translation>
+        <translation>Zobraziť v správcovi súborov</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info de Imágen</translation>
+        <translation>Informácie o obrázku</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración de la presentación</translation>
+        <translation>Nastavenia sledu snímkov</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Efecto</translation>
+        <translation>Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation>Trvanie</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Marcadores</translation>
+        <translation>Skratky</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation>Náhľad</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>dd MMMM aaaa</translation>
+        <translation>dd MMMM rrrr</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi Favorito</translation>
+        <translation>Moje obľúbené</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Importados recientemente</translation>
+        <translation>Posledné importované</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nuevo álbum</translation>
+        <translation>Nový album</translation>
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>Modo Oscuro</translation>
+        <translation>Režim farebnej hĺbky</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Configuraciones</translation>
+        <translation>Nastavenia</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Ayuda</translation>
+        <translation>Pomoc</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Acerca de</translation>
+        <translation>O</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Salir</translation>
+        <translation>Ukončiť</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Línea de tiempo</translation>
+        <translation>Časová os</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Agregar a álbum</translation>
+        <translation>Pridať do albumu</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Agregar a nuevo álbum</translation>
+        <translation>Pridať do nového albumu</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Salir de Pantalla Completa</translation>
+        <translation>Ukončiť celú obrazovku</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla Completa</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar Presentación</translation>
+        <translation>Sled snímkov</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation>Tlač</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation>Kopírovať</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Copiar a Portapapeles</translation>
+        <translation>Skopírovať do schránky</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Enviar a la papelera</translation>
+        <translation>Hodiť do koša</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover del álbum</translation>
+        <translation>Odstrániť z albumu</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Obľúbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>Neobľúbené</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Mostrar navegación de ventana</translation>
+        <translation>Zobraziť okno navigácie</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ocultar navegación de ventana</translation>
+        <translation>Skryť okno navigácie</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
+        <translation>Otočiť v smere hodinových ručičiek</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
+        <translation>Otočiť proti smeru hodinových ručičiek</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Configurar como Fondo de pantalla</translation>
+        <translation>Nastaviť ako pozadie</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en explorador de archivos</translation>
+        <translation>Zobraziť v správcovi súborov</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info de imágen</translation>
+        <translation>Informácie o obrázku</translation>
     </message>
 </context>
 </TS>
