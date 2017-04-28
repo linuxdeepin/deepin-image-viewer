@@ -332,7 +332,19 @@ bool mountDeviceExist(const QString &path)
 
     return QFileInfo(mountPoint).exists();
 }
+bool        isCommandExist(const QString &command) {
+    QProcess* proc = new QProcess;
+    QString cm = QString("which %1\n").arg(command);
+    proc->start(cm);
+    proc->waitForFinished(1000);
 
+    if (proc->exitCode() == 0) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
 }  // namespace base
 
 }  // namespace utils

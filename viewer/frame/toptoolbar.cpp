@@ -280,22 +280,26 @@ void TopToolbar::initMenu()
     acDT->setChecked(checkSelected);
     QAction *acS = m_menu->addAction(tr("Settings"));
     m_menu->addSeparator();
-    QAction *acH = m_menu->addAction(tr("Help"));
+    if (utils::base::isCommandExist("dman")) {
+        QAction *acH = m_menu->addAction(tr("Help"));
+        connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
+        QShortcut *scH = new QShortcut(QKeySequence("F1"), this);
+        connect(scH, SIGNAL(activated()), this, SLOT(onHelp()));
+    }
     QAction *acA = m_menu->addAction(tr("About"));
     QAction *acE = m_menu->addAction(tr("Exit"));
     connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
     connect(acDT, &QAction::triggered, this, &TopToolbar::onDeepColorMode);
     connect(acS, &QAction::triggered, this, &TopToolbar::onSetting);
-    connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
+
     connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
     connect(acE, &QAction::triggered, dApp, &Application::quit);
 
     QShortcut *scNA = new QShortcut(QKeySequence(newAlbumShortcut()), this);
-    QShortcut *scH = new QShortcut(QKeySequence("F1"), this);
+
     QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
     connect(scNA, SIGNAL(activated()), this, SLOT(onNewAlbum()));
-    connect(scH, SIGNAL(activated()), this, SLOT(onHelp()));
     connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 

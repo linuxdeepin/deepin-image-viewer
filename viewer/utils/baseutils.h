@@ -136,7 +136,7 @@ bool        trashFiles(const QStringList &files);
 
 bool        onMountDevice(const QString &path);
 bool        mountDeviceExist(const QString &path);
-
+bool        isCommandExist(const QString &command);
 }  // namespace base
 
 }  // namespace utils
