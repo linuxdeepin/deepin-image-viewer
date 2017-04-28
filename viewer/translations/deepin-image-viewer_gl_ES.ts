@@ -182,7 +182,7 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation type="unfinished"/>
+        <translation>Está seguro de engadir á lista de sincronización e crear o album co nome deste cartafol?</translation>
     </message>
 </context>
 <context>
@@ -383,7 +383,7 @@
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation>Modo de medición</translation>
     </message>
     <message>
         <source>White balance</source>
@@ -406,19 +406,19 @@
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"/>
+        <translation>Persiás</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="unfinished"/>
+        <translation>Conmutador</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="unfinished"/>
+        <translation>Escorregadizo</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="unfinished"/>
+        <translation>Anel</translation>
     </message>
 </context>
 <context>
@@ -578,7 +578,7 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Por favor insire un novo atallo</translation>
     </message>
 </context>
 <context>
@@ -694,7 +694,7 @@
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="unfinished"/>
+        <translation>Cambiar efecto</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -702,7 +702,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="unfinished"/>
+        <translation>Cambiar duración</translation>
     </message>
     <message>
         <source>second</source>
