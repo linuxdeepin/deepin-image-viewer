@@ -566,7 +566,7 @@ void TimelineView::updateVisualRects()
 
     int titleRowCount = model()->rowCount();
 
-    int viewportHeight = /*-verticalOffset() + */m_topMargin;
+    int viewportHeight = /*-verticalOffset() + */ m_topMargin;
     for (int trc = 0; trc < titleRowCount; trc ++) {
         // Title row
         QModelIndex titleIndex = model()->index(trc, 0);
