@@ -35,11 +35,23 @@ void insertIntoAlbum(QMap<QString, QFileInfoList> vs)
         for (auto info : infos) {
             paths << info.absoluteFilePath();
         }
-        dApp->dbM->insertIntoAlbum(album, paths);
+       DBManager::instance()->insertIntoAlbum(album, paths);
     }
 }
 
 }  // namespace
+
+Importer *Importer::m_importer = NULL;
+
+Importer *Importer::instance()
+{
+    if (!m_importer) {
+        m_importer = new Importer();
+    }
+
+    return m_importer;
+}
+
 
 Importer::Importer(QObject *parent)
     : QObject(parent)
@@ -64,9 +76,9 @@ void Importer::appendDir(const QString &path, const QString &album)
 
     DirCollectThread *dt = new DirCollectThread(path, album);
     connect(dt, &DirCollectThread::resultReady,
-            dApp->dbM, &DBManager::insertImgInfos);
+            DBManager::instance(), &DBManager::insertImgInfos);
     connect(dt, &DirCollectThread::insertAlbumRequest,
-            dApp->dbM, &DBManager::insertIntoAlbum);
+            DBManager::instance(), &DBManager::insertIntoAlbum);
     connect(dt, &DirCollectThread::currentImport,
             this, &Importer::currentImport);
     connect(dt, &DirCollectThread::finished, this, [=] {
@@ -88,9 +100,9 @@ void Importer::appendFiles(const QStringList &paths, const QString &album)
 
     FilesCollectThread *ft = new FilesCollectThread(paths, album);
     connect(ft, &FilesCollectThread::resultReady,
-            dApp->dbM, &DBManager::insertImgInfos);
+            DBManager::instance(), &DBManager::insertImgInfos);
     connect(ft, &FilesCollectThread::insertAlbumRequest,
-            dApp->dbM, &DBManager::insertIntoAlbum);
+            DBManager::instance(), &DBManager::insertIntoAlbum);
     connect(ft, &FilesCollectThread::currentImport,
             this, &Importer::currentImport);
     connect(ft, &FilesCollectThread::finished, this, [=] {
@@ -161,11 +173,11 @@ void DirCollectThread::run()
     qint64 bt = QDateTime::currentMSecsSinceEpoch();
     for (QString dir : subDirs) {
         // Remove the subdir's images to avoid repeat insert
-        dApp->dbM->removeDir(dir);
+        DBManager::instance()->removeDir(dir);
     }
 
     subDirs << m_root;
-    QStringList dbPaths = dApp->dbM->getAllPaths();
+    QStringList dbPaths = DBManager::instance()->getAllPaths();
     for (QString dir : subDirs) {
         auto fileInfos = utils::image::getImagesInfo(dir, false);
         for (auto fi : fileInfos) {
@@ -236,7 +248,7 @@ void FilesCollectThread::run()
 {
     DBImgInfoList dbInfos;
     QStringList supportPaths;
-    QStringList dbPaths = dApp->dbM->getAllPaths();
+    QStringList dbPaths = DBManager::instance()->getAllPaths();
     using namespace utils::image;
 
     qint64 bt = QDateTime::currentMSecsSinceEpoch();

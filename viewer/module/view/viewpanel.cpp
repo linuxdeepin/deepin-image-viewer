@@ -434,10 +434,10 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     else {
         if (vinfo.inDatabase) {
             if (vinfo.album.isEmpty()) {
-                m_infos = dApp->dbM->getAllInfos();
+                m_infos = DBManager::instance()->getAllInfos();
             }
             else {
-                m_infos = dApp->dbM->getInfosByAlbum(vinfo.album);
+                m_infos = DBManager::instance()->getInfosByAlbum(vinfo.album);
             }
         }
         else {

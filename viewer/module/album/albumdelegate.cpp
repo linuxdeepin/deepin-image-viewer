@@ -110,7 +110,7 @@ void AlbumDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     if (lineEdit) {
         QList<QVariant> olds = model->data(index, Qt::DisplayRole).toList();
         QList<QVariant> datas;
-        const QStringList albums = dApp->dbM->getAllAlbumNames();
+        const QStringList albums =  DBManager::instance()->getAllAlbumNames();
         QString nName = lineEdit->text().trimmed();
         if (albums.indexOf(nName) != -1 || nName.isEmpty()) {
             // Name is already exit in DB, do not rename by LineEdit's text
@@ -123,7 +123,7 @@ void AlbumDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
         }
 
         // Update database
-        dApp->dbM->renameAlbum(olds.first().toString(), nName);
+        DBManager::instance()->renameAlbum(olds.first().toString(), nName);
 
         model->setData(index, QVariant(datas), Qt::DisplayRole);
     }

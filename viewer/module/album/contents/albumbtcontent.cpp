@@ -46,14 +46,14 @@ AlbumBTContent::AlbumBTContent(const QString &darkStyle, const QString &lightSty
 void AlbumBTContent::updateCount()
 {
     if (! inAlbumView()) {
-        int count = dApp->dbM->getImgsCountByAlbum(m_album);
+        int count =  DBManager::instance()->getImgsCountByAlbum(m_album);
         QString text = QString::number(count) + " " +
                 (count <= 1 ? tr("image") : tr("images"));
         m_label->setText(text);
         m_slider->setFixedHeight(count > 0 ? SLIDER_HEIGHT : 0);
     }
     else {
-        const int count = dApp->dbM->getAlbumsCount();
+        const int count = DBManager::instance()->getAlbumsCount();
         QString text = QString::number(count) + " " +
                 (count <= 1 ? tr("album") : tr("albums"));
         m_label->setText(text);
@@ -87,7 +87,7 @@ void AlbumBTContent::initSynchroBtn()
     synb->setToolTip(tr("Manage sync"));
 
     connect(synb, &ImageButton::clicked, this, [=] {
-        dApp->scanDialog->show();
+        ScanPathsDialog::instance()->show();
     });
 
     m_layout->addWidget(synb);
@@ -118,7 +118,7 @@ void AlbumBTContent::initMiddleContent()
     layout->setSpacing(0);
     layout->addWidget(m_label);
     layout->addWidget(w);
-    if (dApp->importer->isRunning()) {
+    if (Importer::instance()->isRunning()) {
         lIcon->play();
         layout->setCurrentIndex(1);
     }
@@ -127,16 +127,16 @@ void AlbumBTContent::initMiddleContent()
             this, &AlbumBTContent::updateCount);
     connect(dApp->signalM, &SignalManager::imagesRemoved,
             this, &AlbumBTContent::updateCount);
-    connect(dApp->importer, &Importer::progressChanged, this, [=] {
+    connect(Importer::instance(), &Importer::progressChanged, this, [=] {
         layout->setCurrentIndex(1);
         lIcon->play();
     });
-    connect(dApp->importer, &Importer::imported, this, [=] {
+    connect(Importer::instance(), &Importer::imported, this, [=] {
         layout->setCurrentIndex(0);
         lIcon->stop();
         updateCount();
     });
-    connect(dApp->importer, &Importer::currentImport, this, [=] (const QString &path) {
+    connect(Importer::instance(), &Importer::currentImport, this, [=] (const QString &path) {
         QFontMetrics fm(l->font());
         const QString s = tr("Syncing: ") + path;
         l->setText(fm.elidedText(s, Qt::ElideMiddle, l->width()));

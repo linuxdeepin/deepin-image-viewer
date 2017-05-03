@@ -20,7 +20,7 @@ FileDeleteDialog::FileDeleteDialog(const QStringList &paths, QWidget *parent)
     connect(this, &FileDeleteDialog::buttonClicked, this, [=] (int index) {
         if (index == 1) {
             qDebug() << "Delete files: " << paths.length();
-            dApp->dbM->removeImgInfos(paths);
+            DBManager::instance()->removeImgInfos(paths);
             utils::base::trashFiles(paths);
         }
     });

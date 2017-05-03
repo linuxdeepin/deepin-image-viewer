@@ -126,7 +126,7 @@ void TimelinePanel::dropEvent(QDropEvent *event)
             }
         }
         if (! files.isEmpty()) {
-            dApp->importer->appendFiles(files);
+           Importer::instance()->appendFiles(files);
         }
     }
 }
@@ -146,7 +146,7 @@ void TimelinePanel::showEvent(QShowEvent *e)
 
 void TimelinePanel::initConnection()
 {
-    connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
+    connect(Importer::instance(), &Importer::imported, this, [=] (bool success) {
         if (! success) {
             return;
         }
@@ -173,7 +173,7 @@ void TimelinePanel::initMainStackWidget()
     m_importFrame->setButtonText(tr("Add"));
     m_importFrame->setTitle(tr("You can add sync directory or drag and drop  images to timeline"));
     connect(m_importFrame, &ImportFrame::clicked, this, [=] {
-        dApp->importer->showImportDialog();
+        Importer::instance()->showImportDialog();
     });
 
     m_mainStack = new QStackedWidget;
@@ -182,7 +182,7 @@ void TimelinePanel::initMainStackWidget()
 //    m_mainStack->addWidget(m_view);
     m_mainStack->addWidget(m_frame);
     //show import frame if no images in database
-    m_mainStack->setCurrentIndex(dApp->dbM->getImgsCount() > 0 ? 1 : 0);
+    m_mainStack->setCurrentIndex(DBManager::instance()->getImgsCount() > 0 ? 1 : 0);
 
     QLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -231,6 +231,6 @@ void TimelinePanel::initStyleSheet()
 
 void TimelinePanel::onImageCountChanged()
 {
-    int count = dApp->dbM->getImgsCount();
+    int count =  DBManager::instance()->getImgsCount();
     m_mainStack->setCurrentIndex(count > 0 ? 1 : 0);
 }

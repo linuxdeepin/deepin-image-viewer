@@ -70,7 +70,7 @@ void TimelinePanel::initPopupMenu()
         }
 
         const QStringList viewPaths = (paths.length() == 1) ?
-                    dApp->dbM->getAllPaths() : paths;
+                    DBManager::instance()->getAllPaths() : paths;
         const QString dpath = paths.first();
 
         SignalManager::ViewInfo vinfo;
@@ -108,7 +108,7 @@ QMenu *TimelinePanel::createAlbumMenu()
 {
     QMenu *am = new QMenu(tr("Add to album"));
     am->setStyle(QStyleFactory::create("dlight"));
-    QStringList albums = dApp->dbM->getAllAlbumNames();
+    QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(FAVORITES_ALBUM_NAME);
 
     QAction *ac = new QAction(am);
@@ -194,7 +194,7 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
     }
 
     const QStringList viewPaths = (paths.length() == 1) ?
-                dApp->dbM->getAllPaths() : paths;
+                DBManager::instance()->getAllPaths() : paths;
     const QString dpath = paths.first();
 
     SignalManager::ViewInfo vinfo;
@@ -222,7 +222,7 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
     case IdAddToAlbum: {
         const QString album = action->data().toString();
         if (album != "Add to new album") {
-            dApp->dbM->insertIntoAlbum(album, paths);
+            DBManager::instance()->insertIntoAlbum(album, paths);
         }else {
             dApp->signalM->createAlbum(paths);
         }
@@ -240,10 +240,10 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdAddToFavorites:
-        dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM_NAME, paths);
+        DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM_NAME, paths);
         break;
     case IdRemoveFromFavorites:
-        dApp->dbM->removeFromAlbum(FAVORITES_ALBUM_NAME, paths);
+        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, paths);
         break;
     case IdRotateClockwise:
         if (m_rotateList.isEmpty()) {

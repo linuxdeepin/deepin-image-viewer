@@ -51,11 +51,11 @@ TTMContent::TTMContent(bool fromFileManager, QWidget *parent)
 
         m_layout->addWidget(m_clBT);
         connect(m_clBT, &PushButton::clicked, this, [=] {
-            if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
-                dApp->dbM->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
+            if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
+                DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
             }
             else {
-                dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
+                DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
             }
             updateCollectButton();
         });
@@ -147,7 +147,7 @@ void TTMContent::updateCollectButton()
     if (! m_clBT->isEnabled()) {
         m_clBT->setDisabled(true);
     }
-    else if (dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
+    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setChecked(true);
     }

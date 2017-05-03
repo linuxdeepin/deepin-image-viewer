@@ -222,7 +222,7 @@ void AlbumPanel::dropEvent(QDropEvent *event)
         }
     }
     if (! files.isEmpty()) {
-        dApp->importer->appendFiles(files, withAlbum ? m_currentAlbum : "");
+         Importer::instance()->appendFiles(files, withAlbum ? m_currentAlbum : "");
     }
     event->accept();
 }
@@ -243,7 +243,7 @@ void AlbumPanel::initMainStackWidget()
     m_importFrame->setButtonText(tr("Add"));
     m_importFrame->setTitle(tr("You can add sync directory or drag and drop  images to timeline"));
     connect(m_importFrame, &ImportFrame::clicked, this, [=] {
-        dApp->importer->showImportDialog();
+         Importer::instance()->showImportDialog();
     });
 
     m_stackWidget = new QStackedWidget;
@@ -252,8 +252,8 @@ void AlbumPanel::initMainStackWidget()
     m_stackWidget->addWidget(m_albumsView);
     m_stackWidget->addWidget(m_imagesView);
     //show import frame if no images in database
-    m_stackWidget->setCurrentIndex((dApp->dbM->getImgsCount() > 0 ||
-                                    dApp->dbM->getAlbumsCount() > 1) ? 1 : 0);
+    m_stackWidget->setCurrentIndex((DBManager::instance()->getImgsCount() > 0 ||
+                                     DBManager::instance()->getAlbumsCount() > 1) ? 1 : 0);
     connect(m_stackWidget, &QStackedWidget::currentChanged, this, [=] (int i) {
         if (! m_mContent.isNull()) {
             m_mContent->setInAlbumView(i == 1);
@@ -338,11 +338,11 @@ void AlbumPanel::initImagesView()
         m_imagesView->removeItems(list);
         updateMContentCount();
     });
-    connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
+    connect(Importer::instance(), &Importer::imported, this, [=] (bool success) {
         if (! success) {
             return;
         }
-        auto infos = dApp->dbM->getInfosByAlbum(m_currentAlbum);
+        auto infos =  DBManager::instance()->getInfosByAlbum(m_currentAlbum);
         for (auto info : infos) {
             onInsertIntoAlbum(info);
         }
@@ -376,7 +376,7 @@ void AlbumPanel::showCreateDialog(QStringList imgpaths)
             m_stackWidget->setCurrentWidget(m_albumsView);
         }
 
-        dApp->dbM->insertIntoAlbum(d->getCreateAlbumName(),  imgpaths.isEmpty()
+         DBManager::instance()->insertIntoAlbum(d->getCreateAlbumName(),  imgpaths.isEmpty()
                                    ? QStringList(" ") : imgpaths);
     });
 }
@@ -420,8 +420,8 @@ void AlbumPanel::onImageCountChanged()
 {
     if (! isVisible())
         return;
-    const int count = dApp->dbM->getImgsCount();
-    const int albumCounts = dApp->dbM->getAlbumsCount();
+    const int count =  DBManager::instance()->getImgsCount();
+    const int albumCounts = DBManager::instance()->getAlbumsCount();
     if (count > 0 && m_stackWidget->currentIndex() == 0) {
         m_stackWidget->setCurrentIndex(1);
     }

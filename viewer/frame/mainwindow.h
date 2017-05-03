@@ -3,11 +3,31 @@
 
 #include "frame/mainwidget.h"
 #include "controller/viewerthememanager.h"
+#include "controller/dbmanager.h"
+#include "controller/exporter.h"
+#include "controller/importer.h"
+
 #include <DMainWindow>
 #include <QWidget>
+#include <QDebug>
 
 DWIDGET_USE_NAMESPACE
 
+class Worker : public QObject {
+    Q_OBJECT
+public:
+    Worker() {}
+    ~Worker(){}
+public slots:
+    void initRec() {
+        DBManager::instance();
+        Exporter::instance();
+        Importer::instance();
+        qDebug() << "DBManager time";
+    }
+
+
+};
 class MainWindow : public  DMainWindow
 {
 public:
@@ -18,6 +38,7 @@ public:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 protected:
     void resizeEvent(QResizeEvent *e) override;
+//    void showEvent(QShowEvent *event);
 
 private:
     void moveFirstWindow();

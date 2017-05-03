@@ -6,9 +6,10 @@
 #include <QDesktopWidget>
 #include <QFile>
 #include <QStandardPaths>
-#include <QDebug>
+//#include <QDebug>
 #include <QDir>
 #include <QScreen>
+#include <QTimer>
 
 namespace {
 
@@ -37,9 +38,21 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
 
     m_mainWidget = new MainWidget(manager, this);
-    setCentralWidget(m_mainWidget);
+    QTimer::singleShot(200, [=]{
+         setCentralWidget(m_mainWidget);
+    });
+
     if (titleBar()) titleBar()->setFixedHeight(0);
     moveFirstWindow();
+
+    QThread* workerThread = new QThread;
+    Worker* worker = new Worker();
+    worker->moveToThread(workerThread);
+    connect(workerThread, &QThread::finished, worker, &Worker::deleteLater);
+
+    QTimer::singleShot(300, [=]{
+        workerThread->start();
+    });
 
 //    QHBoxLayout *l = new QHBoxLayout(this);
 //    l->setContentsMargins(0, 0, 0, 0);
@@ -122,6 +135,11 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 
     DMainWindow::resizeEvent(e);
 }
+
+//void MainWindow::showEvent(QShowEvent *event) {
+//    Q_UNUSED(event);
+//    qDebug() << "showEvent time";
+//}
 
 bool MainWindow::windowAtEdge() {
     //TODO: process the multi-screen

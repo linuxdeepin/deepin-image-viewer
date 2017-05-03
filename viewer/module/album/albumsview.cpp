@@ -105,7 +105,7 @@ AlbumsView::AlbumsView(QWidget *parent)
             updateMenuContent(currentIndex());
         }
     });
-    connect(dApp->importer, &Importer::imported, this, [=] (bool success) {
+    connect(Importer::instance(), &Importer::imported, this, [=] (bool success) {
         if (success) {
             updateView();
         }
@@ -117,7 +117,7 @@ AlbumsView::AlbumsView(QWidget *parent)
 QModelIndex AlbumsView::addAlbum(const DBAlbumInfo &info)
 {
     // AlbumName ImageCount BeginTime EndTime
-    QStringList paths = dApp->dbM->getPathsByAlbum(info.name);
+    QStringList paths = DBManager::instance()->getPathsByAlbum(info.name);
 
     QByteArray thumbnailByteArray;
     QBuffer inBuffer( &thumbnailByteArray );
@@ -201,8 +201,8 @@ void AlbumsView::showEvent(QShowEvent *e)
 {
     QListView::showEvent(e);
     // Aways has Favorites album
-    if (!dApp->dbM->isAlbumExistInDB(MY_FAVORITES_ALBUM))
-        dApp->dbM->insertIntoAlbum(MY_FAVORITES_ALBUM, QStringList(" "));
+    if (!DBManager::instance()->isAlbumExistInDB(MY_FAVORITES_ALBUM))
+        DBManager::instance()->insertIntoAlbum(MY_FAVORITES_ALBUM, QStringList(" "));
     updateView();
 }
 
@@ -260,7 +260,7 @@ void AlbumsView::appendAction(int id, const QString &text, const QString &shortc
 
 const QStringList AlbumsView::paths(const QString &album) const
 {
-    return dApp->dbM->getPathsByAlbum(album);
+    return DBManager::instance()->getPathsByAlbum(album);
 }
 
 QString AlbumsView::getAlbumName(const QModelIndex &index)
@@ -285,7 +285,7 @@ const QString AlbumsView::getNewAlbumName()
     const QString nan = tr("Unnamed");
        int num = 1;
        QString albumName = nan;
-       while(dApp->dbM->isAlbumExistInDB(albumName)) {
+       while(DBManager::instance()->isAlbumExistInDB(albumName)) {
            num++;
            albumName = nan + QString::number(num);
        }
@@ -307,7 +307,7 @@ void AlbumsView::updateMenuContent(const QModelIndex &index)
     if (! datas.isEmpty()) {
         const QString album = datas[0].toString();
         isSpecial = album == MY_FAVORITES_ALBUM;
-        isEmpty = dApp->dbM->getImgsCountByAlbum(album) < 1;
+        isEmpty = DBManager::instance()->getImgsCountByAlbum(album) < 1;
     }
     appendAction(IdView, tr("View"), ss("View", VIEW_GROUP));
     appendAction(IdStartSlideShow,
@@ -356,10 +356,10 @@ void AlbumsView::onMenuItemClicked(QAction *action)
         }
         break;
     case IdExport:
-        dApp->exporter->exportAlbum(albumName);
+         Exporter::instance()->exportAlbum(albumName);
         break;
     case IdCopy: {
-        QStringList paths = dApp->dbM->getPathsByAlbum(albumName);
+        QStringList paths = DBManager::instance()->getPathsByAlbum(albumName);
         paths.removeAll(" ");
         utils::base::copyImageToClipboard(paths);
         break;
@@ -418,8 +418,8 @@ void AlbumsView::createAlbum()
 {
     destroyEditor(currentIndex());
     const QString name = getNewAlbumName();
-    dApp->dbM->insertIntoAlbum(name, QStringList(" "));
-    QModelIndex index = addAlbum(dApp->dbM->getAlbumInfo(name));
+     DBManager::instance()->insertIntoAlbum(name, QStringList(" "));
+    QModelIndex index = addAlbum(DBManager::instance()->getAlbumInfo(name));
     setCurrentIndex(index);
     // Make sure the create icon is visable
     scrollTo(m_model->index(index.row() + 1, 0, index.parent()));
@@ -433,11 +433,11 @@ void AlbumsView::updateView()
         return;
 
     // Make those special album always show at front
-    addAlbum(dApp->dbM->getAlbumInfo(MY_FAVORITES_ALBUM));
-    QStringList albums = dApp->dbM->getAllAlbumNames();
+    addAlbum(DBManager::instance()->getAlbumInfo(MY_FAVORITES_ALBUM));
+    QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(MY_FAVORITES_ALBUM);
     for (const QString album : albums) {
-        addAlbum(dApp->dbM->getAlbumInfo(album));
+        addAlbum(DBManager::instance()->getAlbumInfo(album));
     }
 }
 
@@ -454,7 +454,7 @@ int AlbumsView::indexOf(const QString &name) const
 }
 
 void AlbumsView::popupDelDialog(const QString &albumName) {
-    QStringList paths = dApp->dbM->getPathsByAlbum(albumName);
+    QStringList paths = DBManager::instance()->getPathsByAlbum(albumName);
     AlbumDeleteDialog *add = new AlbumDeleteDialog(paths);
     add->showInCenter(window());
     connect(add, &AlbumDeleteDialog::buttonClicked, this, [=] (int index) {
@@ -462,7 +462,7 @@ void AlbumsView::popupDelDialog(const QString &albumName) {
             if (albumName != MY_FAVORITES_ALBUM
                     && albumName != RECENT_IMPORTED_ALBUM
                     && ! isCreateIcon(currentIndex())) {
-                dApp->dbM->removeAlbum(albumName);
+                DBManager::instance()->removeAlbum(albumName);
                 m_model->removeRow(currentIndex().row());
                 emit albumRemoved();
             }

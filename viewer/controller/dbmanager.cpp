@@ -17,6 +17,17 @@ const QString EMPTY_HASH_STR = utils::base::hash(QString(" "));
 
 }  // namespace
 
+DBManager *DBManager::m_dbManager = NULL;
+
+DBManager *DBManager::instance()
+{
+    if (!m_dbManager) {
+        m_dbManager = new DBManager();
+    }
+
+    return m_dbManager;
+}
+
 DBManager::DBManager(QObject *parent)
     : QObject(parent)
     , m_connectionName("default_connection")

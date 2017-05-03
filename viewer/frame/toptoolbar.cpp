@@ -8,8 +8,7 @@
 #include "widgets/dialogs/aboutdialog.h"
 #include "utils/baseutils.h"
 #include "utils/shortcut.h"
-#include <darrowrectangle.h>
-#include <dcircleprogress.h>
+#include <dthememanager.h>
 #include <dwindowminbutton.h>
 #include <dwindowmaxbutton.h>
 #include <dwindowclosebutton.h>
@@ -39,28 +38,6 @@ const QColor LIGHT_TOP_BORDERCOLOR = QColor(255, 255, 255, 153);
 const QColor DARK_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 51);
 const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
 }  // namespace
-
-class ImportTip : public DArrowRectangle
-{
-    Q_OBJECT
-public:
-    explicit ImportTip(QWidget * parent = 0);
-    void setValue(int value);
-    void setTitle(QString title);
-    void setMessage(QString message);
-
-signals:
-    void stopProgress();
-
-private:
-    void initWidgets();
-
-private:
-    DCircleProgress *m_cp;
-    QLabel *m_title;
-    QLabel *m_message;
-    QWidget *m_content;
-};
 
 TopToolbar::TopToolbar(QWidget *parent)
     :BlurFrame(parent)
@@ -382,77 +359,3 @@ void TopToolbar::onSetting()
                            mapToGlobal(QPoint(0, 0)).y());
     m_settingsWindow->show();
 }
-
-ImportTip::ImportTip(QWidget *parent)
-    :DArrowRectangle(DArrowRectangle::ArrowTop, parent)
-{
-    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::WindowStaysOnTopHint);
-    setShadowBlurRadius(0);
-    setShadowDistance(0);
-    setShadowYOffset(0);
-    setShadowXOffset(0);
-    setMargin(0);
-
-    initWidgets();
-}
-
-void ImportTip::setValue(int value)
-{
-    m_cp->setValue(value);
-}
-
-void ImportTip::setTitle(QString title)
-{
-    m_title->setText(title);
-}
-
-void ImportTip::setMessage(QString message)
-{
-    m_message->setText(message);
-    int width = utils::base::stringWidth(m_message->font(), m_message->text());
-    m_message->setMinimumWidth(width);
-
-    // set content to force recalculate the size of content
-    setContent(m_content);
-}
-
-void ImportTip::initWidgets()
-{
-    const QString ss = utils::base::getFileContent(":/resources/dark/qss/importtip.qss");
-    m_cp = new DCircleProgress(this);
-    m_cp->setFixedSize(32, 32);
-    m_cp->setValue(0);
-
-    m_title = new QLabel(this);
-    m_title->setObjectName("ProgressDialogTitle");
-    m_title->setStyleSheet(ss);
-    m_message = new QLabel(this);
-    m_message->setObjectName("ProgressDialogMessage");
-    m_message->setStyleSheet(ss);
-
-    QVBoxLayout* contentLayout = new QVBoxLayout;
-    contentLayout->setContentsMargins(0, 0, 0 ,0);
-    contentLayout->setSpacing(0);
-    contentLayout->addStretch(1);
-    contentLayout->addWidget(m_title);
-//    contentLayout->addSpacing(5);
-    contentLayout->addWidget(m_message);
-    contentLayout->addStretch(1);
-
-    DImageButton *cb = new DImageButton(this);
-    cb->setNormalPic(":/resources/dark/images/importtip/close_normal.png");
-    cb->setHoverPic(":/resources/dark/images/importtip/close_hover.png");
-    cb->setPressPic(":/resources/dark/images/importtip/close_press.png");
-    connect(cb, &DImageButton::clicked, this, &ImportTip::stopProgress);
-
-    m_content = new QWidget;
-    QHBoxLayout* layout = new QHBoxLayout(m_content);
-    layout->setContentsMargins(15, 13, 11, 12);
-    layout->addWidget(m_cp);
-    layout->addSpacing(10);
-    layout->addLayout(contentLayout);
-    layout->addSpacing(80);
-    layout->addWidget(cb);
-}
-
-#include "toptoolbar.moc"

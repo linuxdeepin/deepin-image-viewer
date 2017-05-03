@@ -43,7 +43,7 @@ TimelineBTContent::TimelineBTContent(const QString &darkStyle, const QString &li
 
 void TimelineBTContent::updateImageCount()
 {
-    int count = dApp->dbM->getImgsCount();
+    int count = DBManager::instance()->getImgsCount();
     if (count <= 1) {
         m_label->setText(tr("%1 image").arg(count));
     }
@@ -89,7 +89,7 @@ void TimelineBTContent::initSynchroBtn()
     synb->setToolTip(tr("Manage sync"));
 
     connect(synb, &ImageButton::clicked, this, [=] {
-        dApp->scanDialog->show();
+        ScanPathsDialog::instance()->show();
     });
 
     m_layout->addWidget(synb);
@@ -120,7 +120,7 @@ void TimelineBTContent::initMiddleContent()
     layout->setSpacing(0);
     layout->addWidget(m_label);
     layout->addWidget(w);
-    if (dApp->importer->isRunning()) {
+    if (Importer::instance()->isRunning()) {
         lIcon->play();
         layout->setCurrentIndex(1);
     }
@@ -129,16 +129,16 @@ void TimelineBTContent::initMiddleContent()
             this, &TimelineBTContent::updateImageCount);
     connect(dApp->signalM, &SignalManager::imagesRemoved,
             this, &TimelineBTContent::updateImageCount);
-    connect(dApp->importer, &Importer::progressChanged, this, [=] {
+    connect(Importer::instance(), &Importer::progressChanged, this, [=] {
         layout->setCurrentIndex(1);
         lIcon->play();
     });
-    connect(dApp->importer, &Importer::imported, this, [=] {
+    connect(Importer::instance(), &Importer::imported, this, [=] {
         layout->setCurrentIndex(0);
         lIcon->stop();
         updateImageCount();
     });
-    connect(dApp->importer, &Importer::currentImport, this, [=] (const QString &path) {
+    connect(Importer::instance(), &Importer::currentImport, this, [=] (const QString &path) {
         QFontMetrics fm(l->font());
         const QString s = tr("Syncing: ") + path;
         l->setText(fm.elidedText(s, Qt::ElideMiddle, l->width()));

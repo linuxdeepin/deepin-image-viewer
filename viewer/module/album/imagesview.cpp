@@ -173,7 +173,7 @@ void ImagesView::appendAction(int id, const QString &text, const QString &shortc
 
 const QStringList ImagesView::albumPaths()
 {
-    return dApp->dbM->getPathsByAlbum(m_album);
+    return  DBManager::instance()->getPathsByAlbum(m_album);
 }
 
 void ImagesView::insertItem(const DBImgInfo &info, bool update)
@@ -302,7 +302,7 @@ void ImagesView::onMenuItemClicked(QAction *action)
     case IdAddToAlbum: {
         const QString album = action->data().toString();
         if (album != "Add to new album") {
-            dApp->dbM->insertIntoAlbum(album, paths);
+           DBManager::instance()->insertIntoAlbum(album, paths);
         }
         else {
             emit dApp->signalM->createAlbum(paths);
@@ -320,14 +320,14 @@ void ImagesView::onMenuItemClicked(QAction *action)
         break;
     }
     case IdAddToFavorites:
-        dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM_NAME, paths);
+        DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM_NAME, paths);
         break;
     case IdRemoveFromFavorites:
-        dApp->dbM->removeFromAlbum(FAVORITES_ALBUM_NAME, paths);
+        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, paths);
         break;
     case IdRemoveFromAlbum:
         m_view->removeItems(paths);
-        dApp->dbM->removeFromAlbum(m_album, paths);
+        DBManager::instance()->removeFromAlbum(m_album, paths);
         break;
     case IdRotateClockwise:
         if (m_rotateList.isEmpty()) {
@@ -375,7 +375,7 @@ void ImagesView::rotateImage(const QString &path, int degree)
 
 bool ImagesView::allInAlbum(const QStringList &paths, const QString &album)
 {
-    const QStringList pl = dApp->dbM->getPathsByAlbum(album);
+    const QStringList pl = DBManager::instance()->getPathsByAlbum(album);
     for (QString path : paths) {
         // One of path is not in album
         if (! pl.contains(path)) {
@@ -484,7 +484,7 @@ void ImagesView::initContent()
     m_importFrame->setButtonText(tr("Add"));
     m_importFrame->setTitle(tr("You can add sync directory or drag and drop  images to timeline"));
     connect(m_importFrame, &ImportFrame::clicked, this, [=] {
-        dApp->importer->showImportDialog(m_album);
+         Importer::instance()->showImportDialog(m_album);
     });
 
     initListView();
@@ -495,7 +495,7 @@ void ImagesView::initContent()
 
 void ImagesView::updateContent()
 {
-    if (dApp->dbM->getImgsCountByAlbum(m_album) < 1) {
+    if (DBManager::instance()->getImgsCountByAlbum(m_album) < 1) {
         setCurrentWidget(m_importFrame);
     }
     else {
@@ -507,7 +507,7 @@ QMenu *ImagesView::createAlbumMenu()
 {
     QMenu *am = new QMenu(tr("Add to album"));
     am->setStyle(QStyleFactory::create("dlight"));
-    QStringList albums = dApp->dbM->getAllAlbumNames();
+    QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(FAVORITES_ALBUM_NAME);
 
     QAction *ac = new QAction(am);
@@ -583,7 +583,7 @@ LoadThread::LoadThread(const QString &album)
 
 void LoadThread::run()
 {
-    auto infos = dApp->dbM->getInfosByAlbum(m_album);
+    auto infos = DBManager::instance()->getInfosByAlbum(m_album);
 
     using namespace utils::image;
     for (auto info : infos) {

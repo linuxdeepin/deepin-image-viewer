@@ -26,7 +26,7 @@ TopAlbumTips::TopAlbumTips(QWidget *parent) : QFrame(parent)
 
 void TopAlbumTips::setAlbum(const QString &album)
 {
-    auto info = dApp->dbM->getAlbumInfo(album);
+    auto info = DBManager::instance()->getAlbumInfo(album);
     if (info.count == 0) {
         m_infoLabel->setText("");
     }

@@ -165,7 +165,7 @@ void ScanPathsDialog::removePath(const QString &path)
     removeFromScanPaths(path);
 
     // Remove data from DB
-    dApp->dbM->removeDir(path);
+    DBManager::instance()->removeDir(path);
     if (scanpaths().isEmpty()) {
         m_contentStack->setCurrentIndex(0);
     }
@@ -191,7 +191,7 @@ void ScanPathsDialog::initSinglaFileWatcher()
 
     QStringList rmPaths;
     QStringList dirs;
-    QStringList dbPaths = dApp->dbM->getPathsByDir(QString());
+    QStringList dbPaths = DBManager::instance()->getPathsByDir(QString());
     for (auto dbp : dbPaths) {
         QFileInfo info(dbp);
         if (! info.exists()) {
@@ -206,14 +206,14 @@ void ScanPathsDialog::initSinglaFileWatcher()
     }
 
     // Remove the images which is not exist
-    dApp->dbM->removeImgInfos(rmPaths);
+    DBManager::instance()->removeImgInfos(rmPaths);
 
     wc->addPaths(dirs);
 
     connect(wc, &QFileSystemWatcher::directoryChanged,
             this, [=] (const QString dir){
         QStringList rmPaths;
-        QStringList dbPaths = dApp->dbM->getPathsByDir(QString());
+        QStringList dbPaths = DBManager::instance()->getPathsByDir(QString());
         for (auto dbp : dbPaths) {
             QFileInfo info(dbp);
             if (info.path() == dir && ! info.exists()) {
@@ -221,7 +221,7 @@ void ScanPathsDialog::initSinglaFileWatcher()
             }
         }
         // Remove the images which is not exist
-        dApp->dbM->removeImgInfos(rmPaths);
+        DBManager::instance()->removeImgInfos(rmPaths);
     });
     connect(dApp->signalM, &SignalManager::imagesInserted,
             this, [=] (const DBImgInfoList &infos) {

@@ -27,7 +27,6 @@ protected:
     void paintEvent(QPaintEvent *e) override;
 
 signals:
-    void updateImportTipsGeo();
     void updateMaxBtn();
 
 private:

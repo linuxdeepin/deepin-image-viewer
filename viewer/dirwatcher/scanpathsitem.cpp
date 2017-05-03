@@ -162,7 +162,7 @@ void ScanPathsItem::initRemoveIcon()
     button->setObjectName("PathItemRemoveButton");
     button->setToolTip(tr("Cancel sync"));
     connect(button, &ImageButton::clicked, this, [=] {
-        dApp->importer->stopDirCollect(m_path);
+        Importer::instance()->stopDirCollect(m_path);
 
         emit remove(m_path);
     });
@@ -192,10 +192,10 @@ void ScanPathsItem::updateCount()
             m_pathLabel->setText(tr("The device has been removed"));
         }
         else {
-            dApp->importer->stopDirCollect(m_path);
+            Importer::instance()->stopDirCollect(m_path);
 
             // Remove images from DB
-            dApp->dbM->removeDir(m_path);
+            DBManager::instance()->removeDir(m_path);
             m_pathLabel->setText(tr("This directory no longer exists"));
         }
         return;
@@ -237,7 +237,7 @@ void CountingThread::run()
     }
 
     // Remove images which is not exist
-    QStringList dbPaths = dApp->dbM->getPathsByDir(m_path);
+    QStringList dbPaths = DBManager::instance()->getPathsByDir(m_path);
     QStringList rmPaths;
     for (QString path : dbPaths) {
         if (! dirPaths.contains(path)) {
@@ -245,8 +245,8 @@ void CountingThread::run()
         }
     }
     if (! rmPaths.isEmpty()) {
-        dApp->dbM->removeImgInfos(rmPaths);
-        dbPaths = dApp->dbM->getPathsByDir(m_path);
+        DBManager::instance()->removeImgInfos(rmPaths);
+        dbPaths = DBManager::instance()->getPathsByDir(m_path);
     }
 
     // Append the new images
@@ -254,7 +254,7 @@ void CountingThread::run()
         // Reimport
         qDebug() << "New images added, reimport...###" << m_path
                  << dbPaths.length() << infos.length();
-        dApp->importer->appendDir(m_path);
+        Importer::instance()->appendDir(m_path);
     }
     else {
         dirPaths.sort();
@@ -262,7 +262,7 @@ void CountingThread::run()
         if (dirPaths != dbPaths) {
             // Reimport
             qDebug() << "New images added, reimport..." << m_path;
-            dApp->importer->appendDir(m_path);
+            Importer::instance()->appendDir(m_path);
         }
     }
 

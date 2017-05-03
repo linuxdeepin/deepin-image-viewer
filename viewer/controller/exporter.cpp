@@ -66,7 +66,7 @@ void Exporter::exportImage(const QStringList imagePaths) {
 }
 
 void Exporter::exportAlbum(const QString &albumname) {
-    popupDialogSaveImage(dApp->dbM->getPathsByAlbum(albumname));
+    popupDialogSaveImage(DBManager::instance()->getPathsByAlbum(albumname));
 }
 
 void Exporter::popupDialogSaveImage(const QStringList imagePaths) {

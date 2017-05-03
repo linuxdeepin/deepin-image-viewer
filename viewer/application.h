@@ -27,10 +27,9 @@ public:
     Application(int& argc, char** argv);
 
     ConfigSetter *setter = nullptr;
-    DBManager *dbM = nullptr;
-    Exporter *exporter = nullptr;
-    Importer *importer = nullptr;
-    ScanPathsDialog *scanDialog = nullptr;
+//    DBManager *dbM = nullptr;
+//    Exporter *exporter = nullptr;
+//    Importer *importer = nullptr;
     SignalManager *signalM = nullptr;
     WallpaperSetter *wpSetter = nullptr;
     ViewerThemeManager *viewerTheme = nullptr;

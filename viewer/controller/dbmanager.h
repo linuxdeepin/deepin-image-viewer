@@ -55,6 +55,7 @@ class DBManager : public QObject
 {
     Q_OBJECT
 public:
+    static DBManager* instance();
     explicit DBManager(QObject *parent = 0);
 
     // TableImage
@@ -94,6 +95,7 @@ private:
     void importVersion1Data();
     void importVersion2Data();
 
+    static DBManager* m_dbManager;
 private:
     QString m_connectionName;
     QMutex m_mutex;

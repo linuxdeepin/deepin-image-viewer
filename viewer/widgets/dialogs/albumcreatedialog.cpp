@@ -84,7 +84,7 @@ const QString AlbumCreateDialog::getNewAlbumName() const
     const QString nan = tr("Unnamed");
        int num = 1;
        QString albumName = nan;
-       while(dApp->dbM->isAlbumExistInDB(albumName)) {
+       while(DBManager::instance()->isAlbumExistInDB(albumName)) {
            num++;
            albumName = nan + QString::number(num);
        }
@@ -98,13 +98,13 @@ const QString AlbumCreateDialog::getCreateAlbumName() const
 
 void AlbumCreateDialog::createAlbum(const QString &newName)
 {
-    if (! dApp->dbM->getAllAlbumNames().contains(newName)) {
+    if (! DBManager::instance()->getAllAlbumNames().contains(newName)) {
         m_createAlbumName = newName;
-        dApp->dbM->insertIntoAlbum(newName, QStringList(" "));
+        DBManager::instance()->insertIntoAlbum(newName, QStringList(" "));
     }
     else {
         m_createAlbumName = getNewAlbumName();
-        dApp->dbM->insertIntoAlbum(getNewAlbumName(), QStringList(" "));
+        DBManager::instance()->insertIntoAlbum(getNewAlbumName(), QStringList(" "));
     }
 
     emit albumAdded();

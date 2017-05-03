@@ -128,16 +128,12 @@ bool CommandLine::processOption()
         Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     }
 
-    DeepinImageViewerDBus *dd = new DeepinImageViewerDBus(dApp->signalM);
-    Q_UNUSED(dd);
-
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
     if (names.isEmpty() && pas.isEmpty()) {
         if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
                 QDBusConnection::sessionBus().registerObject(DBUS_PATH, dApp->signalM)) {
             MainWindow *w = new MainWindow(true);
-
             w->show();
             emit dApp->signalM->backToMainPanel();
 

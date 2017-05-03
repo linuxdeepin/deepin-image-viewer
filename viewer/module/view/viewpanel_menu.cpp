@@ -106,7 +106,7 @@ QMenu *ViewPanel::createAlbumMenu()
 
     QMenu *am = new QMenu(tr("Add to album"));
     am->setStyle(QStyleFactory::create("dlight"));
-    QStringList albums = dApp->dbM->getAllAlbumNames();
+    QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(FAVORITES_ALBUM_NAME);
 
     QAction *ac = new QAction(am);
@@ -116,7 +116,7 @@ QMenu *ViewPanel::createAlbumMenu()
     am->addAction(ac);
     am->addSeparator();
     for (QString album : albums) {
-        const QStringList paths = dApp->dbM->getPathsByAlbum(album);
+        const QStringList paths = DBManager::instance()->getPathsByAlbum(album);
         if (! paths.contains(m_current->filePath)) {
             QAction *ac = new QAction(am);
             ac->setProperty("MenuID", IdAddToAlbum);
@@ -158,7 +158,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdAddToAlbum: {
         const QString album = action->data().toString();
         if (album != "Add to new album") {
-            dApp->dbM->insertIntoAlbum(album, QStringList(path));
+            DBManager::instance()->insertIntoAlbum(album, QStringList(path));
         } else {
             dApp->signalM->createAlbum(QStringList(path));
         }
@@ -179,14 +179,14 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         }
         break;
     case IdRemoveFromAlbum:
-        dApp->dbM->removeFromAlbum(m_vinfo.album, QStringList(path));
+        DBManager::instance()->removeFromAlbum(m_vinfo.album, QStringList(path));
         break;
     case IdAddToFavorites:
-        dApp->dbM->insertIntoAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
+        DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
         emit updateCollectButton();
         break;
     case IdRemoveFromFavorites:
-        dApp->dbM->removeFromAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
+        DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
         emit updateCollectButton();
         break;
     case IdShowNavigationWindow:
@@ -258,7 +258,7 @@ void ViewPanel::updateMenuContent()
     /**************************************************************************/
     if (m_vinfo.inDatabase) {
         if (m_current != m_infos.constEnd() &&
-                ! dApp->dbM->isImgExistInAlbum(FAVORITES_ALBUM_NAME,
+                ! DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM_NAME,
                                                m_current->filePath)) {
             appendAction(IdAddToFavorites,
                          tr("Favorite"), ss("Favorite"));

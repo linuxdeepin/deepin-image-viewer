@@ -28,13 +28,13 @@ int main(int argc, char *argv[])
     //        qDebug() << qgetenv(kPlatformThemeName);
     //      qputenv(kPlatformThemeName, "gtk2");
     //    }
-
+   //    qDebug() << "application started" << QDateTime::currentDateTime();
     Application::loadDXcbPlugin();
     Application a(argc, argv);
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
-    dInfo()<< "LogFile:" << DLogManager::getlogFilePath();
+    qDebug() << "LogFile:" << DLogManager::getlogFilePath();
 
     if (!service::isDefaultImageViewer()) {
         service::setDefaultImageViewer(true);

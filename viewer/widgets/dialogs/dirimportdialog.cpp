@@ -39,15 +39,15 @@ DirImportDialog::DirImportDialog(const QString &dir, const QString &album, QWidg
     connect(this, &DirImportDialog::buttonClicked, this, [=] (int id) {
         if(id == 1){
             const QString tmpAlbum = album.isEmpty() ? QFileInfo(dir).fileName() : album;
-            dApp->importer->appendDir(dir, tmpAlbum);
-            dApp->scanDialog->addPath(dir);
+            Importer::instance()->appendDir(dir, tmpAlbum);
+            ScanPathsDialog::instance()->addPath(dir);
             // For UI update
-            dApp->dbM->insertIntoAlbum(tmpAlbum, QStringList(" "));//FIXDB
+            DBManager::instance()->insertIntoAlbum(tmpAlbum, QStringList(" "));//FIXDB
             emit albumCreated();
         }
         else if (id == 2) {
-            dApp->importer->appendDir(dir);
-            dApp->scanDialog->addPath(dir);
+            Importer::instance()->appendDir(dir);
+            ScanPathsDialog::instance()->addPath(dir);
         }
     });
 }

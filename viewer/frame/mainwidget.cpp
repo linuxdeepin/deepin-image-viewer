@@ -141,18 +141,18 @@ void MainWidget::initPanelStack(bool manager)
     mainLayout->addWidget(m_panelStack);
 
     // Init panel
-    if (manager) {
-        TimelinePanel *m_timelinePanel = new TimelinePanel;
-        m_panelStack->addWidget(m_timelinePanel);
-        AlbumPanel *m_albumPanel = new AlbumPanel;
-        m_panelStack->addWidget(m_albumPanel);
-//        EditPanel *m_editPanel = new EditPanel();
-//        m_panelStack->addWidget(m_editPanel);
-    }
-    SlideShowPanel *m_slideShowPanel = new SlideShowPanel();
-    m_panelStack->addWidget(m_slideShowPanel);
-    ViewPanel *m_viewPanel = new ViewPanel();
-    m_panelStack->addWidget(m_viewPanel);
+        if (manager) {
+            TimelinePanel *m_timelinePanel = new TimelinePanel;
+            m_panelStack->addWidget(m_timelinePanel);
+            AlbumPanel *m_albumPanel = new AlbumPanel;
+            m_panelStack->addWidget(m_albumPanel);
+    //        EditPanel *m_editPanel = new EditPanel();
+    //        m_panelStack->addWidget(m_editPanel);
+        }
+        SlideShowPanel *m_slideShowPanel = new SlideShowPanel();
+        m_panelStack->addWidget(m_slideShowPanel);
+        ViewPanel *m_viewPanel = new ViewPanel();
+        m_panelStack->addWidget(m_viewPanel);
 }
 
 void MainWidget::initTopToolbar()

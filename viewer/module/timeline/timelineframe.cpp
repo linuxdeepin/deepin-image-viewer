@@ -88,7 +88,7 @@ void TimelineFrame::updateThumbnail(const QString &path)
 {
     using namespace utils::image;
     using namespace utils::base;
-    auto info = dApp->dbM->getInfoByPath(path);
+    auto info = DBManager::instance()->getInfoByPath(path);
     TimelineItem::ItemData data;
     data.isTitle = false;
     data.path = path;
@@ -164,7 +164,7 @@ void TimelineFrame::resizeEvent(QResizeEvent *e)
 void TimelineFrame::initConnection()
 {
     // Item append and remove
-    connect(dApp->importer, &Importer::imported, this, [=] {
+    connect(Importer::instance(), &Importer::imported, this, [=] {
         updateScrollRange();
         // Call initItems to reinsert those datas which miss by user scroll view
         initItems();
@@ -198,7 +198,7 @@ void TimelineFrame::initView()
         if (datas.count() == 4) { // There is 4 field data inside TimelineData
             const QString path = datas[1].toString();
             if (!path.isEmpty())
-                emit viewImage(path, dApp->dbM->getAllPaths());
+                emit viewImage(path, DBManager::instance()->getAllPaths());
         }
     });
     connect(m_view, &TimelineView::showMenu, this, &TimelineFrame::showMenu);
@@ -244,7 +244,7 @@ void TimelineFrame::initTopTip()
 
 void TimelineFrame::initItems()
 {
-    auto infos = dApp->dbM->getAllInfos();
+    auto infos = DBManager::instance()->getAllInfos();
 
     LoadThread *t = new LoadThread(infos);
     connect(t, &LoadThread::ready,
@@ -261,7 +261,7 @@ void TimelineFrame::insertItems(const TimelineItem::ItemData &data)
 {
     // Do not update model if user is scroll and importing, the missing datas
     // will be insert again after import thread finished by call initItems
-    if (dApp->importer->isRunning() && m_view->isScrolling()) {
+    if (Importer::instance()->isRunning() && m_view->isScrolling()) {
         return;
     }
     m_model.appendData(data);
