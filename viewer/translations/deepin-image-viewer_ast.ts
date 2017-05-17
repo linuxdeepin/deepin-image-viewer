@@ -1,1015 +1,1015 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ast" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Resim Görüntüleyici</translation>
+        <translation>Visor d&apos;imáxenes Deepin</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Sürüm:</translation>
+        <translation>Versión:</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Resim Görüntüleyici, moda ve pürüzsüz görüntü yöneticisi.</translation>
+        <translation>El visor d&apos;imáxenes Deepin ye un xestor d&apos;imáxenes modernu y estable.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Görüntü yönetimi, resim görüntüleme ve basit resim düzenleme özellikli.</translation>
+        <translation>Vien con xestión, visión y edición básica de semeyes.</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>Deepin Resim Görüntüleyici, GPL v3 altında yayınlandı.</translation>
+        <translation>El visor d&apos;imáxenes Deepin llánzase so la GPL v3.</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>resim</translation>
+        <translation>imáxe</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>resimler</translation>
+        <translation>imáxenes</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>albüm</translation>
+        <translation>álbum</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>albümler</translation>
+        <translation>álbumes</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Senkronizasyonu yönet</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Eşitleniyor:</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>OK</source>
-        <translation>TAMAM</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>Yeni albüm</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>İsimsiz</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Son eklenen</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favorim</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Bu albümü silmek istediğinize emin misiniz?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Sil</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>Geri</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favorim</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Timeline</source>
-        <translation>Zaman çizelgesi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add</source>
-        <translation>Ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation>İsimsiz</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation>Göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Sil</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Resim Görüntüleyici</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Resimler</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>OK</source>
-        <translation>TAMAM</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Resimleri albüme yüklemek istediğinizden emin misiniz?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Eşitle ve Oluştur</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Eşitle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Senkronizasyon listesine eklediğinizden ve bu klasörün adını taşıyan bir albüm oluşturduğunuzdan emin misiniz?</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation>Başarıyla dışa aktarıldı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>Dışa aktarılamadı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Save</source>
-        <translation>Kaydet</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Çöp Kutusuna resim atacağından emin misin?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Sil</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>Resim bilgisi</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation>Göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation>Yazdır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Panoya kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Çöp kutusuna at</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Albümden kaldır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar kağıdı olarak ayarla</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Resim bilgisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add</source>
-        <translation>Ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Albüme ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Yeni albüme ekle</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Dizini Aç</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Resmi görüntülemek için izniniz yok</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>İsim</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date photoed</source>
-        <translation>Fotoğraf tarihi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Düzenleme tarihi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Resolution</source>
-        <translation>Çözünürlük</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
-        <translation>Dosya boyutu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Renk aralığı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Pozlama modu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Pozlama programı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Pozlama zamanı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Flash</source>
-        <translation>Flaş</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Diyafram</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Odak uzaklığı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>En yüksek diyafram</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Ölçme modu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Beyaz dengesi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Flaş telafisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Kamera modeli</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Lens modeli</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Jaluziler</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Değiştirici</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Kayar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Halka</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Dizin Seç</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Bu dizin eşitlenmesi için devre dışı bırakıldı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Klasör ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Eşitleme Dizin Yönetimi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Dizin listesi boş</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Eşitleme iptal</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Images</source>
-        <translation>Resimler</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Aygıt kaldırıldı</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Bu dizin artık mevcut değil</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Hesaplanıyor...</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Resim Görüntüleniyor</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Album</source>
-        <translation>Albüm</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ayarlar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation>Göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>End show</source>
-        <translation>Gösteri sonu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Çöp kutusuna at</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Albümden kaldır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar kağıdı olarak ayarla</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Resim bilgisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Önceki</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Next</source>
-        <translation>Sonraki</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Önceki ekran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Sonraki ekran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>Yeni albüm</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Help</source>
-        <translation>Yardım</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Çıkış</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Kısayolları göster</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Lütfen yeni bir kısayol giriniz</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Kısayollar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Resmi Görüntüle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Album</source>
-        <translation>Albüm</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Varsayılanları Geri Yükle</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>End show</source>
-        <translation>Gösteri sonu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation>Yazdır </translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Çöp kutusuna at</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Albümden kaldır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar kağıdı olarak ayarla</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Resim bilgisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>New album</source>
-        <translation>Yeni albüm</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Sil</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>Gösteri sonu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>Duraklat/Oynat</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slayt Ayarları</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Animasyon değiştir</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Süre</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Süreyi değiştir</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>second</source>
-        <translation>ikinci</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Geri</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Resim yönetimi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favorim</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Boyut</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Pencereye sığdır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>Çöp kutusuna at</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Resim dosyası bulunamadı</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 Resim </translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 Resimler</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Eşitlemeyi yönet</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Eşitleniyor:</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>Albüm</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add</source>
-        <translation>Ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Albüme ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Yeni albüme ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation>Göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation>Yazdır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Panoya kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Çöp kutusuna at</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar kağıdı olarak ayarla</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Resim bilgisi</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slayt Ayarları</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Animasyon</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Süre</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Kısayollar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>View</source>
-        <translation>Göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Album</source>
-        <translation>Albüm</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>gg AAAA yyyy</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favorim</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Son eklenen</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Yeni albüm</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>Derin renk modu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ayarlar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Help</source>
-        <translation>Yardım</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>About</source>
-        <translation>Hakkında</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Çıkış</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Zaman çizelgesi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Albüme ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Yeni albüme ekle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Tam ekrandan çıkış</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation>Yazdır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Panoya kopyala</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Çöp kutusuna at</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Albümden kaldır</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Gezinme penceresini göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Gezinme penceresini gizle</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar kağıdı olarak ayarla</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Resim bilgisi</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

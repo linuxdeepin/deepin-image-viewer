@@ -347,23 +347,23 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="unfinished"/>
+        <translation>Područje boja</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation>Način ekspozicije</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"/>
+        <translation>Program ekspozicije</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation>Vrijeme ekspozicije</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation>Bljeskalica</translation>
     </message>
     <message>
         <source>Aperture</source>
@@ -387,7 +387,7 @@
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"/>
+        <translation>Balans bijele boje</translation>
     </message>
     <message>
         <source>Flash compensation</source>
@@ -683,7 +683,7 @@
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation type="unfinished"/>
+        <translation>Zaustavi / pusti</translation>
     </message>
 </context>
 <context>
@@ -891,7 +891,7 @@
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation type="unfinished"/>
+        <translation>dd MMMM yyyy</translation>
     </message>
     <message>
         <source>My favorite</source>
