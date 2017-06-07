@@ -69,7 +69,7 @@ dbus_service.path = /usr/share/dbus-1/services
 
 # Automating generation .qm files from .ts files
 CONFIG(release, debug|release) {
-    system($$PWD/generate_translations.sh)
+    !system($$PWD/generate_translations.sh): error("Failed to generate translation")
 }
 
 TRANSLATIONS += \
