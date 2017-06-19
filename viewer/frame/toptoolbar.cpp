@@ -8,11 +8,14 @@
 #include "widgets/dialogs/aboutdialog.h"
 #include "utils/baseutils.h"
 #include "utils/shortcut.h"
+
 #include <dthememanager.h>
 #include <dwindowminbutton.h>
 #include <dwindowmaxbutton.h>
 #include <dwindowclosebutton.h>
 #include <dwindowoptionbutton.h>
+#include <dtitlebar.h>
+
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QPainter>
@@ -46,8 +49,9 @@ TopToolbar::TopToolbar(QWidget *parent)
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
 
-    initWidgets();
     initMenu();
+    initWidgets();
+
 }
 
 void TopToolbar::setLeftContent(QWidget *content)
@@ -179,59 +183,18 @@ void TopToolbar::initRightContent()
 {
     QWidget *w = new QWidget;
     m_rLayout = new QHBoxLayout(w);
-    m_rLayout->setContentsMargins(0, 0, 6, 0);
+    m_rLayout->setContentsMargins(0, 0, 0, 0);
     m_rLayout->setSpacing(0);
 
     m_layout->addWidget(w, 1, Qt::AlignRight);
-
-    // Windows button
-    DWindowOptionButton *optionBtn = new DWindowOptionButton;
-    connect(optionBtn, &DWindowOptionButton::clicked, this, [=] {
-        if (parentWidget()) {
-            const QPoint gp = this->mapToGlobal(QPoint(0, 0));
-            const QSize ms = m_menu->sizeHint();
-            const QPoint p(gp.x() + width() - ms.width() - 30,
-                           gp.y() + TOP_TOOLBAR_HEIGHT - 10);
-            m_menu->popup(p);
-        }
-    });
-    connect(dApp->signalM, &SignalManager::enableMainMenu, this, [=] (bool v) {
-        optionBtn->setVisible(v);
-        optionBtn->setEnabled(v);
-    });
-    DWindowMinButton *minBtn = new DWindowMinButton;
-    connect(minBtn, &DWindowMinButton::clicked, this, [=] {
-        if (parentWidget() && parentWidget()->parentWidget()) {
-            parentWidget()->parentWidget()->showMinimized();
-        }
-    });
-    DWindowMaxButton *maxBtn = new DWindowMaxButton;
-    connect(maxBtn, &DWindowMaxButton::clicked, this, [=] {
-        if (maxBtn->isMaximized()) {
-            window()->showNormal();
-            maxBtn->setMaximized(false);
-        }
-        else {
-            window()->showMaximized();
-            maxBtn->setMaximized(true);
-        }
-    });
-    connect(this, &TopToolbar::updateMaxBtn, this, [=]{
-        if (window()->isMaximized()) {
-            maxBtn->setMaximized(true);
-        } else {
-            maxBtn->setMaximized(false);
-        }
-    });
-    DWindowCloseButton *closeBtn = new DWindowCloseButton;
-    connect(closeBtn, &DWindowCloseButton::clicked, this, [=] {
-        dApp->quit();
-    });
-
-    m_rLayout->addWidget(optionBtn);
-    m_rLayout->addWidget(minBtn);
-    m_rLayout->addWidget(maxBtn);
-    m_rLayout->addWidget(closeBtn);
+    DTitlebar* m_titlebar = new DTitlebar(this);
+    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |
+                               Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    m_titlebar->setMenu(m_menu);
+    QWidget *customWidget = new QWidget();
+    customWidget->setFixedWidth(0);
+    m_titlebar->setCustomWidget(customWidget, false);
+    m_rLayout->addWidget(m_titlebar);
 }
 
 void TopToolbar::initWidgets()
