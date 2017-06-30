@@ -33,7 +33,7 @@ SeekProc(fi_handle handle, long offset, int origin)
 {
     QIODevice *quid = static_cast<QIODevice*>(handle);
 
-    if (quid->isOpen()) {
+    if (quid->isOpen() && quid->bytesAvailable() > 0) {
         switch (origin)
         {
         default:
@@ -42,7 +42,7 @@ SeekProc(fi_handle handle, long offset, int origin)
         case SEEK_CUR:
             return int(!quid->seek(quid->pos()+offset));
         case SEEK_END:
-            if (!quid->isSequential())
+            if (!quid->isSequential()  )
             {
                 quint64 len = quid->bytesAvailable();
                 return int(!quid->seek(len+offset));
