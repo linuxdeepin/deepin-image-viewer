@@ -2,7 +2,9 @@
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "utils/snifferimageformat.h"
 #include "application.h"
+
 #include <QDebug>
 #include <QFile>
 #include <QOpenGLWidget>
@@ -32,11 +34,22 @@ const qreal MIN_SCALE_FACTOR = 0.02;
 QVariantList cachePixmap(const QString &path)
 {
     QImage tImg;
-    QImageReader reader(path);
-    reader.setAutoTransform(true);
-    if (reader.canRead()) {
-        tImg = reader.read();
+
+    QString format = DetectImageFormat(path);
+    if (format.isEmpty()) {
+        QImageReader reader(path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        }
+    } else {
+        QImageReader readerF(path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        }
     }
+
     QPixmap p = QPixmap::fromImage(tImg);
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
