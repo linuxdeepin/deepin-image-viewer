@@ -3,7 +3,7 @@
 
 ConfigSetter::ConfigSetter(QObject *parent) : QObject(parent)
 {
-    m_settings = new  QSettings("Deepin","DeepinImageViewer", this);
+    m_settings = new  QSettings("deepin","/deepin-image-viewer/config", this);
     qDebug() << "Setting file:" << m_settings->fileName();
 }
 
