@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="da">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -918,15 +920,27 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Hjælp</translation>
+        <translation type="vanished">Hjælp</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Om</translation>
+        <translation type="vanished">Om</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Afslut</translation>
+        <translation type="vanished">Afslut</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <translation type="unfinished">Deepin billedfremviser er en moderigtig og glat billedhåndtering.</translation>
+    </message>
+    <message>
+        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <translation type="unfinished">Dens faciliteter er billedhåndtering, billedvisning og grundlæggende billedredigering.</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is released under GPL v3.</source>
+        <translation type="unfinished">Deepin billedfremviser er udgivet under GPL v3.</translation>
     </message>
 </context>
 <context>

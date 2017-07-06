@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pl">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -918,15 +920,27 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Pomoc</translation>
+        <translation type="vanished">Pomoc</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>O programie</translation>
+        <translation type="vanished">O programie</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Wyjdź</translation>
+        <translation type="vanished">Wyjdź</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <translation type="unfinished">Przeglądarka zdjęć Deepin jest modnym i płynnie działającym menedżerem obrazów.</translation>
+    </message>
+    <message>
+        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <translation type="unfinished">Wyposażony jest w funkcje zarządzania obrazami, podglądu obrazów i podstawowej ich modyfikacji.</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is released under GPL v3.</source>
+        <translation type="unfinished">Przeglądarka obrazów Deepin tworzona jest według 3 wersji licencji GPL.</translation>
     </message>
 </context>
 <context>

@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ms">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -918,15 +920,27 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Bantuan</translation>
+        <translation type="vanished">Bantuan</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Perihal</translation>
+        <translation type="vanished">Perihal</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Keluar</translation>
+        <translation type="vanished">Keluar</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <translation type="unfinished">Pelihat Imej Deepin merupakan pengurus imej yang berfesyen &amp; lancar.</translation>
+    </message>
+    <message>
+        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <translation type="unfinished">Ia difiturkan dengan pengurusan imej, pemaparan imej dan penyuntingan imej asas.</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is released under GPL v3.</source>
+        <translation type="unfinished">Pelihat Imej Deepin dikeluarkan bawah GPL v3.</translation>
     </message>
 </context>
 <context>
