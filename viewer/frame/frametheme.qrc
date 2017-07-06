@@ -13,5 +13,6 @@
         <file>resources/dark/images/importtip/close_normal.png</file>
         <file>resources/dark/images/importtip/close_press.png</file>
         <file>resources/dark/images/item_selected.png</file>
+        <file>resources/common/about_logo.png</file>
     </qresource>
 </RCC>

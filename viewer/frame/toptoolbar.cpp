@@ -220,20 +220,24 @@ void TopToolbar::initMenu()
     acDT->setChecked(checkSelected);
     QAction *acS = m_menu->addAction(tr("Settings"));
     m_menu->addSeparator();
-    if (utils::base::isCommandExist("dman")) {
-        QAction *acH = m_menu->addAction(tr("Help"));
-        connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
-        QShortcut *scH = new QShortcut(QKeySequence("F1"), this);
-        connect(scH, SIGNAL(activated()), this, SLOT(onHelp()));
-    }
-    QAction *acA = m_menu->addAction(tr("About"));
-    QAction *acE = m_menu->addAction(tr("Exit"));
+    qApp->setProductIcon(QPixmap(":/resources/common/about_logo.png"));
+    qApp->setApplicationDescription(QString("%1\n%2\n\n%3").arg(tr("Deepin Image Viewer is a fashion "
+              "& smooth image manager.")).arg(tr("It is featured with image management, image viewing "
+              "and basic image editing.")).arg(tr("Deepin Image Viewer is released under GPL v3.")));
+//    if (utils::base::isCommandExist("dman")) {
+//        QAction *acH = m_menu->addAction(tr("Help"));
+//        connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
+//        QShortcut *scH = new QShortcut(QKeySequence("F1"), this);
+//        connect(scH, SIGNAL(activated()), this, SLOT(onHelp()));
+//    }
+//    QAction *acA = m_menu->addAction(tr("About"));
+//    QAction *acE = m_menu->addAction(tr("Exit"));
     connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
     connect(acDT, &QAction::triggered, this, &TopToolbar::onDeepColorMode);
     connect(acS, &QAction::triggered, this, &TopToolbar::onSetting);
 
-    connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
-    connect(acE, &QAction::triggered, dApp, &Application::quit);
+//    connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
+//    connect(acE, &QAction::triggered, dApp, &Application::quit);
 
     QShortcut *scNA = new QShortcut(QKeySequence(newAlbumShortcut()), this);
 

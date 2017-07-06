@@ -919,15 +919,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Help</source>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>About</source>
+        <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Exit</source>
+        <source>Deepin Image Viewer is released under GPL v3.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
