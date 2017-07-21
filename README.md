@@ -7,11 +7,16 @@ Deepin Image Viewer is Deepin Desktop Environment Image Viewer.
 ### Build dependencies
 
 * qmake (>= 5.3)
-* [libdui](https://github.com/linuxdeepin/libdui) (developer package)
+* [deepin-tool-kit](https://github.com/linuxdeepin/deepin-tool-kit) (developer package)
 
 ### Runtime dependencies
 
-* [libdui](https://github.com/linuxdeepin/libdui)
+* [deepin-tool-kit](https://github.com/linuxdeepin/deepin-tool-kit)
+* [deepin-shortcut-viewer](https://github.com/linuxdeepin/deepin-shortcut-viewer)
+* [deepin-manual](https://github.com/linuxdeepin/deepin-manual)
+* libexif
+* freeimage
+* libraw
 * Qt5 (>= 5.3)
   * Qt5-DBus
   * Qt5-Svg
