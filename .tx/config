@@ -10,7 +10,8 @@ source_file = viewer/translations/deepin-image-viewer.ts
 source_lang = en
 type = QT
 
-[deepin-image-viewer.desktop]
-source_file = viewer/deepin-image-viewer.desktop
+[deepin-image-viewer.deepin-image-viewer-desktop-ts]
+file_filter = viewer/translation/desktop/desktop_<lang>.ts
+source_file = viewer/translation/desktop/desktop.ts
 source_lang = en
-type = DESKTOP
+type = QT
