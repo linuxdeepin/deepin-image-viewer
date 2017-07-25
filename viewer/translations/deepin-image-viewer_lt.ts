@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="lt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -920,27 +918,15 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Žinynas</translation>
+        <translation>Žinynas</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="vanished">Apie</translation>
+        <translation>Apie</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="vanished">Išeiti</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin paveikslų žiūryklė yra šiuolaikinė ir glotni paveikslų tvarkytuvė.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Jos pagrindinės ypatybės yra paveikslų tvarkymas, paveikslų rodymas bei pagrindinės paveikslų redagavimo funkcijos.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin paveikslų žiūryklė yra išleista pagal GPL v3.</translation>
+        <translation>Išeiti</translation>
     </message>
 </context>
 <context>

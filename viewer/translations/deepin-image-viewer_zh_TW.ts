@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_TW">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_TW" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -920,27 +918,15 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">說明</translation>
+        <translation>說明</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="vanished">關於</translation>
+        <translation>關於</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="vanished">離開</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin 看圖是一款時尚且流暢的圖片管理器。</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">包含了圖片管理、圖片瀏覽和基本編輯功能。</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin 看圖遵循 GNU 通用公共授權條款第三版發布。</translation>
+        <translation>離開</translation>
     </message>
 </context>
 <context>

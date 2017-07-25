@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -13,38 +11,38 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Visor de imágenes Deepin es un moderno y suave administrador de imágenes.</translation>
+        <translation>Deepin Image Viewer es un bonito y suave organizador de imágenes.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Se ofrece con la gestión de imágenes, visualización de imágenes y edición de imágenes básicas.</translation>
+        <translation>Destaca con la organización, visualización y edición básica de imágenes.</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>Visor de imágenes Deepin es liberado bajo licencia GPL v3.</translation>
+        <translation>Deepin Image Viewer es liberado bajo licencia GPL v3.</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>Imagen</translation>
+        <translation>imagen</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>Imágenes</translation>
+        <translation>imágenes</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>Álbum</translation>
+        <translation>álbum</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>Álbumes</translation>
+        <translation>álbumes</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Gestión de sincronización</translation>
+        <translation>Administrar sincronización</translation>
     </message>
     <message>
         <source>Syncing: </source>
@@ -59,11 +57,11 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Álbum nuevo</translation>
+        <translation>Nuevo álbum</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -108,7 +106,7 @@
     </message>
     <message>
         <source>Timeline</source>
-        <translation>Línea de tiempo</translation>
+        <translation>Cronología</translation>
     </message>
     <message>
         <source>Add</source>
@@ -116,7 +114,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
+        <translation>Puedes añadir un directorio para sincronización o arrastre y suelte imágenes a la cronología</translation>
     </message>
 </context>
 <context>
@@ -131,7 +129,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositivas</translation>
+        <translation>Mostrar presentación</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -150,7 +148,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visor de imágenes Deepin</translation>
+        <translation>Deepin Image Viewer</translation>
     </message>
 </context>
 <context>
@@ -168,11 +166,11 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>¿Esta seguro de añadir las fotos al álbum?</translation>
+        <translation>¿Estás seguro de añadir las fotos al álbum?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
@@ -184,7 +182,7 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>¿Está seguro de agregar a la lista de sincronización y crear el álbum con el nombre de esta carpeta?</translation>
+        <translation>¿Estás seguro de añadir a la lista de sincronización y crear el álbum con el nombre de esta carpeta?</translation>
     </message>
 </context>
 <context>
@@ -199,7 +197,7 @@
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>Fallo al exportar</translation>
+        <translation>Error al exportar</translation>
     </message>
     <message>
         <source>Save</source>
@@ -210,7 +208,7 @@
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>¿Esta seguro de tirar las fotos a la papelera?</translation>
+        <translation>¿Estás seguro de mover las fotos a la Papelera?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -240,11 +238,11 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositivas</translation>
+        <translation>Mostrar presentación</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -256,7 +254,7 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Mandar a la papelera</translation>
+        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -264,23 +262,23 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Destacar</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Desfavorable</translation>
+        <translation>No destacar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar las agujas del reloj</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar en sentido antihorario</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como fondo de pantalla</translation>
+        <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -296,7 +294,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
+        <translation>Puedes añadir un directorio para sincronización o arrastre y suelte imágenes a la cronología</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -365,7 +363,7 @@
     </message>
     <message>
         <source>Flash</source>
-        <translation>Destello</translation>
+        <translation>Flash</translation>
     </message>
     <message>
         <source>Aperture</source>
@@ -381,7 +379,7 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Máxima apertura</translation>
+        <translation>Apertura máxima</translation>
     </message>
     <message>
         <source>Metering mode</source>
@@ -393,7 +391,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Compensación de destello</translation>
+        <translation>Compensación de flash</translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -431,7 +429,7 @@
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Este directorio esta desactivado para sincronización</translation>
+        <translation>Este directorio está desactivado para sincronización</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -458,7 +456,7 @@
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>El dispositivo se ha eliminado</translation>
+        <translation>El dispositivo fue quitado</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
@@ -493,11 +491,11 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Dispositivas</translation>
+        <translation>Mostrar presentación</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Fin dispositivas</translation>
+        <translation>Finalizar presentación</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -505,7 +503,7 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Mandar a la papelera</translation>
+        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -513,505 +511,505 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Destacar</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Desfavorable</translation>
+        <translation>No destacar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotar las agujas del reloj</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotar en sentido antihorario</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Definir como fondo de pantalla</translation>
+        <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Mostrar en administrador de archivos</translation>
+        <translation>Mostrar en el administrador de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Información de imagen</translation>
+        <translation>Información sobre la imagen</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Pantalla anterior</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Pantalla siguiente</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Álbum nuevo</translation>
+        <translation>Nuevo álbum</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Renombrar</translation>
+        <translation>Renombrar</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Ayuda</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Salir</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar atajos</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor ingrese un nuevo atajo</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Atajos</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver Imágen</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Álbum</translation>
+        <translation>Álbum</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation>Restaurar a los valores predeterminados</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar presentación</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="unfinished">Fin dispositivas</translation>
+        <translation>Finalizar presentación</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copiar</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation type="unfinished">Mandar a la papelera</translation>
+        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Eliminar del álbum</translation>
+        <translation>Remover del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favorito</translation>
+        <translation>Destacar</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Desfavorable</translation>
+        <translation>No destacar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotar las agujas del reloj</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotar en sentido antihorario</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Definir como fondo de pantalla</translation>
+        <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Mostrar en administrador de archivos</translation>
+        <translation>Mostrar en administrador de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Información de imagen</translation>
+        <translation>Info de Imágen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Álbum nuevo</translation>
+        <translation>Nuevo álbum</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Renombrar</translation>
+        <translation>Renombrar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Borrar</translation>
+        <translation>Eliminar</translation>
     </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation type="unfinished">Fin dispositivas</translation>
+        <translation>Finalizar presentación</translation>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Pausar/Reproducir</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de la presentación</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar efecto</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Duración</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar Duración</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="unfinished"></translation>
+        <translation>segundo</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Atrás</translation>
+        <translation>Atrás</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrar imágen</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Mi favorito</translation>
+        <translation>Mi favorito</translation>
     </message>
 </context>
 <context>
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Proporción 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar a ventana</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotar en sentido antihorario</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotar las agujas del reloj</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Desfavorable</translation>
+        <translation>No destacar</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favorito</translation>
+        <translation>Favorito</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation type="unfinished"></translation>
+        <translation>No se econtraron archivos de imágen</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 imágen</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 imágenes</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation type="unfinished">Gestión de sincronización</translation>
+        <translation>Administrar sincronización</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation type="unfinished">Sincronizando:</translation>
+        <translation>Sincronizando:</translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Álbum</translation>
+        <translation>Álbum</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Añadir</translation>
+        <translation>Agregar</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished">Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
+        <translation>Puedes añadir un directorio para sincronización o arrastre y suelte imágenes a la cronología</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Añadir al álbum</translation>
+        <translation>Añadir al album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished">Añadir a nuevo álbum</translation>
+        <translation>Agregar a nuevo álbum</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
+        <translation>Pantalla Completa</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar presentación</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copiar</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">Copiar al portapapeles</translation>
+        <translation>Copiar al portapapeles</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation type="unfinished">Mandar a la papelera</translation>
+        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favorito</translation>
+        <translation>Favorito</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Desfavorable</translation>
+        <translation>No destacar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotar las agujas del reloj</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotar en sentido antihorario</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Definir como fondo de pantalla</translation>
+        <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Mostrar en administrador de archivos</translation>
+        <translation>Mostrar en  administrador de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Información de imagen</translation>
+        <translation>Información de imagen</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de la presentación</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Efecto</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Duración</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Atajos</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Álbum</translation>
+        <translation>Álbum</translation>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation type="unfinished"></translation>
+        <translation>dd MMMM yyyy</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Mi favorito</translation>
+        <translation>Mi favorito</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation type="unfinished">Importados recientemente</translation>
+        <translation>Importados recientemente</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Álbum nuevo</translation>
+        <translation>Nuevo álbum</translation>
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo color profundo</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Ajustes</translation>
+        <translation>Ajustes</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Visor de imágenes Deepin es un moderno y suave administrador de imágenes.</translation>
+        <source>Help</source>
+        <translation>Ayuda</translation>
     </message>
     <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Se ofrece con la gestión de imágenes, visualización de imágenes y edición de imágenes básicas.</translation>
+        <source>About</source>
+        <translation>Acerca de</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Visor de imágenes Deepin es liberado bajo licencia GPL v3.</translation>
+        <source>Exit</source>
+        <translation>Salir</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation type="unfinished">Línea de tiempo</translation>
+        <translation>Cronología</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Añadir al álbum</translation>
+        <translation>Agregar a álbum</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished">Añadir a nuevo álbum</translation>
+        <translation>Agregar a nuevo álbum</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Salir de pantalla completa</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Pantalla completa</translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar presentación</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Copiar</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">Copiar al portapapeles</translation>
+        <translation>Copiar al portapapeles</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation type="unfinished">Mandar a la papelera</translation>
+        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Eliminar del álbum</translation>
+        <translation>Remover del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Favorito</translation>
+        <translation>Destacar</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Desfavorable</translation>
+        <translation>No destacar</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar ventana de navegación</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar ventana de navegación</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Rotar las agujas del reloj</translation>
+        <translation>Girar hacia la derecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Rotar en sentido antihorario</translation>
+        <translation>Girar hacia la izquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Definir como fondo de pantalla</translation>
+        <translation> Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Mostrar en administrador de archivos</translation>
+        <translation>Mostrar en explorador de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Información de imagen</translation>
+        <translation>Información de imagen</translation>
     </message>
 </context>
 </TS>

@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es_419">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es_419" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Visor de imágenes Deepin</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -13,7 +11,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer es un bonito y suave administrador de imagén.</translation>
+        <translation>Visor de imágenes Deepin es un bonito y suave administrador de imagén.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -21,7 +19,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>Deepin Image Viewer es liberado bajo licencia GPL v3.</translation>
+        <translation>Visor de imágenes Deepin es liberado bajo licencia GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -116,7 +114,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
+        <translation>Puedes agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
     </message>
 </context>
 <context>
@@ -168,7 +166,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Bien</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
@@ -268,7 +266,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No Favorito</translation>
+        <translation>No favorito</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -920,27 +918,15 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Ayuda</translation>
+        <translation>Ayuda</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="vanished">Acerca de</translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="vanished">Salir</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Image Viewer es un bonito y suave administrador de imagén.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Se ofrece con la gestión de imágenes, visualización de imágenes y edición de imágenes básicas.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin Image Viewer es liberado bajo licencia GPL v3.</translation>
+        <translation>Salir</translation>
     </message>
 </context>
 <context>
@@ -1015,7 +1001,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Configurar como Fondo de pantalla</translation>
+        <translation>Configurar como fondo de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -1023,7 +1009,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info de imágen</translation>
+        <translation>Infor. de imágen</translation>
     </message>
 </context>
 </TS>

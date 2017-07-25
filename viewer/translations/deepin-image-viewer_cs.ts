@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -408,7 +406,7 @@
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Switcher</source>
@@ -920,27 +918,15 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Nápověda</translation>
+        <translation>Nápověda</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="vanished">O programu</translation>
+        <translation>O programu</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="vanished">Ukončit</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Prohlížeč obrázků je příjemný a snadno ovladatelný správce obrázků</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Toto je spojeno se správou obrázků, zobrazení obrázků a základní úpravy obrázků.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Prohlížeč obrázků je vydán pod GPL v3.</translation>
+        <translation>Ukončit</translation>
     </message>
 </context>
 <context>

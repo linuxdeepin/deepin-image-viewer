@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bg">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bg" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -692,326 +690,326 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки за плъзгане</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Ефект за смяна</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Времетраене</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Промяна на времетраенето</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="unfinished"></translation>
+        <translation>секунда</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Върни</translation>
+        <translation>Върни</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление на картина</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Моите любими</translation>
+        <translation>Моите любими</translation>
     </message>
 </context>
 <context>
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"></translation>
+        <translation>1:1 размер</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>размер според прозореца</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Завъртане обратно на часовниковата стрелка</translation>
+        <translation>Завъртане обратно на часовниковата стрелка</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Завъртане по часовниковата стрелка</translation>
+        <translation>Завъртане по часовниковата стрелка</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Изпращане в кошчето</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Премахване от Любими</translation>
+        <translation>Премахване от Любими</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Любими</translation>
+        <translation>Любими</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation type="unfinished"></translation>
+        <translation>Няма намерени картини</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 картина</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 картини</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation type="unfinished">Управление на синхронизацията</translation>
+        <translation>Управление на синхронизацията</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation type="unfinished">Синхронизиране:</translation>
+        <translation>Синхронизиране:</translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Албум</translation>
+        <translation>Албум</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Добави</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"></translation>
+        <translation>Може да добавите папка за синхронизиране или да влачите картинки към времевата линия</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Добавяне а албума</translation>
+        <translation>Добавяне на албум</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished">Добави към нов албум</translation>
+        <translation>Добави към нов албум</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Изглед</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Цял екран</translation>
+        <translation>Цял екран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Прожекция</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Печат</translation>
+        <translation>Печат</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Копиране</translation>
+        <translation>Копиране</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">Копиране в системния буфер</translation>
+        <translation>Копиране в системния буфер</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation type="unfinished">Изпращане в кошчето</translation>
+        <translation>Изпращане в кошчето</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Любими</translation>
+        <translation>Любими</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Премахване от Любими</translation>
+        <translation>Премахване от Любими</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Завъртане по часовниковата стрелка</translation>
+        <translation>Завъртане по часовниковата стрелка</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Завъртане обратно на часовниковата стрелка</translation>
+        <translation>Завъртане обратно на часовниковата стрелка</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>Задаване като тапет</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Показване във файлов мениджър</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Информация за изображението</translation>
+        <translation>Информация за изображението</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки за плъзгане</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Ефект</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Времетраене</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="unfinished">Клавишни комбинации</translation>
+        <translation>Клавишни комбинации</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished"></translation>
+        <translation>Изглед</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Албум</translation>
+        <translation>Албум</translation>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation type="unfinished"></translation>
+        <translation>dd MMMM yyyy</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Моите любими</translation>
+        <translation>Моите любими</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation type="unfinished">Наскоро внесени</translation>
+        <translation>Наскоро внесени</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Нов албум</translation>
+        <translation>Нов албум</translation>
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим на дълбоко оцветяване</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Настройки</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Преглед на изображения е модерен и лесен за работа мениджър на изображения</translation>
+        <source>Help</source>
+        <translation>Помощ</translation>
     </message>
     <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Предназначен е за управление на изображения, преглед на изображения и основни възможности за редактиране на изображение.</translation>
+        <source>About</source>
+        <translation>Относно</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin Преглед на изображение е реализиран под GPL v3 лиценз.</translation>
+        <source>Exit</source>
+        <translation>Изход</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation type="unfinished">Времева линя</translation>
+        <translation>Времева линя</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Добавяне а албума</translation>
+        <translation>Добавяне на албум</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished">Добави към нов албум</translation>
+        <translation>Добави към нов албум</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Изход от цял екран</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Цял екран</translation>
+        <translation>Цял екран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Прожекция</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Печат</translation>
+        <translation>Печат</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Копиране</translation>
+        <translation>Копиране</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">Копиране в системния буфер</translation>
+        <translation>Копиране в системния буфер</translation>
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation type="unfinished">Изпращане в кошчето</translation>
+        <translation>Изпращане в кошчето</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Премахване от албума</translation>
+        <translation>Премахване от албума</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Любими</translation>
+        <translation>Любими</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Премахване от Любими</translation>
+        <translation>Премахване от Любими</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Покажи управляващия прозорец</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрий управляващия прозорец</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Завъртане по часовниковата стрелка</translation>
+        <translation>Завъртане по часовниковата стрелка</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Завъртане обратно на часовниковата стрелка</translation>
+        <translation>Завъртане обратно на часовниковата стрелка</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>Задаване като тапет</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Показване във файлов мениджър</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Информация за изображението</translation>
+        <translation>Информация за изображението</translation>
     </message>
 </context>
 </TS>

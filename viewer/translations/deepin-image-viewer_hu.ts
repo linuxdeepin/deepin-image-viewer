@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -920,27 +918,15 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Súgó</translation>
+        <translation>Súgó</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="vanished">Névjegy</translation>
+        <translation>Névjegy</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="vanished">Kilépés</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Képnézegető egy stílusos és sima képkezelő.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Egy alkalmazás képek kezeléséhez, képek megtekintéséhez és alapvető képszerkesztéshez.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin Képnézegető GPL v3 licenc alatt kiadott alkalmazás</translation>
+        <translation>Kilépés</translation>
     </message>
 </context>
 <context>

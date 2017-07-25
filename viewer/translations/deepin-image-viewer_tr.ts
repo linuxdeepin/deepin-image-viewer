@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -920,27 +918,15 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Yardım</translation>
+        <translation>Yardım</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="vanished">Hakkında</translation>
+        <translation>Hakkında</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="vanished">Çıkış</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Resim Görüntüleyici, moda ve pürüzsüz görüntü yöneticisi.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Görüntü yönetimi, resim görüntüleme ve basit resim düzenleme özellikli.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin Resim Görüntüleyici, GPL v3 altında yayınlandı.</translation>
+        <translation>Çıkış</translation>
     </message>
 </context>
 <context>

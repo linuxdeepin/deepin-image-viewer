@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sk" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -920,27 +918,15 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Pomoc</translation>
+        <translation>Pomoc</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="vanished">O</translation>
+        <translation>O</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="vanished">Ukončiť</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Prehliadač obrázkov je módny a plynulý manažér obrázkov.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Obsahuje správu obrázkov, prezeranie obrázkov a základnú úpravu obrázkov.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin Prehliadač obrázkov je vydaný pod GPL v3.</translation>
+        <translation>Ukončiť</translation>
     </message>
 </context>
 <context>
