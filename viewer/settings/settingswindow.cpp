@@ -19,7 +19,7 @@ SettingsWindow::SettingsWindow(QWidget *parent)
     setStyleSheet(utils::base::getFileContent(
                       ":/settings/qss/resources/qss/settings.qss"));
 
-    if (titleBar()) titleBar()->setFixedHeight(0);
+    if (titlebar()) titlebar()->setFixedHeight(0);
     setFixedSize(680, 560);
 
     // Main

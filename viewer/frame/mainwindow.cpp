@@ -42,7 +42,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
          setCentralWidget(m_mainWidget);
     });
 
-    if (titleBar()) titleBar()->setFixedHeight(0);
+    if (titlebar()) titlebar()->setFixedHeight(0);
     moveFirstWindow();
 
     QThread* workerThread = new QThread;

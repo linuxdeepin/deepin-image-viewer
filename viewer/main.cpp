@@ -6,7 +6,7 @@
 #include <DLog>
 #include <QTranslator>
 
-using namespace Dtk::Util;
+using namespace Dtk::Core;
 
 namespace {
 

@@ -52,7 +52,7 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
     : DMainWindow(parent)
 {
     setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
-    if (titleBar()) titleBar()->setFixedHeight(0);
+    if (titlebar()) titlebar()->setFixedHeight(0);
     setFixedWidth(MAX_WIDTH);
     setStyleSheet(utils::base::getFileContent(
                       ":/dialogs/qss/resources/qss/imginfodialog.qss"));
