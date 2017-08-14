@@ -421,7 +421,7 @@ void AlbumsView::createAlbum()
      DBManager::instance()->insertIntoAlbum(name, QStringList(" "));
     QModelIndex index = addAlbum(DBManager::instance()->getAlbumInfo(name));
     setCurrentIndex(index);
-    // Make sure the create icon is visable
+    // Make sure the created icon is visible
     scrollTo(m_model->index(index.row() + 1, 0, index.parent()));
     openPersistentEditor(index);
     emit albumCreated();

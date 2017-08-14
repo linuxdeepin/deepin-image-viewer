@@ -90,7 +90,7 @@ public Q_SLOTS:
     void pause();
 protected:
     virtual void timerEvent(QTimerEvent *e);
-    virtual bool prepare(); //after all parameter setted and before effect start
+    virtual bool prepare(); //after all parameters set and before effect start
     virtual bool prepareFrameAt(int frame) = 0;
     /*!
         false: no more frames

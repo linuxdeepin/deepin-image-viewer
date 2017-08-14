@@ -246,7 +246,7 @@ void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
 
 void SlideEffect::setImages(const QImage &currentImage, const QImage &nextImage)
 {
-//QImage is refrence counted, so copy directly is ok
+//QImage is reference counted, so copy directly is ok
     if (!current_image)
         current_image = new QImage(currentImage);
     else
@@ -288,7 +288,7 @@ static void addBackground(QImage* image, int width, int height, const QColor& co
 
     p.setCompositionMode(QPainter::CompositionMode_SourceOver); //image part is the same as image
     p.setClipRect(bg.rect());
-    //draw at center. If image size is larger than given size, draw the center part. Clip region is usefull
+    //draw at center. If image size is larger than given size, draw the center part. Clip region is useful
     int x = (width - image->width())/2;
     int y = (height - image->height())/2;
 

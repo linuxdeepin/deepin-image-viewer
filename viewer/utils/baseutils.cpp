@@ -212,7 +212,7 @@ bool trashFile(const QString &file)
 
     QFileInfo originalInfo(file);
     if(! originalInfo.exists()) {
-        qWarning() << "File doesnt exists, cant move to trash";
+        qWarning() << "File doesn't exists, can't move to trash";
         return false;
     }
     // Info for restore

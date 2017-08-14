@@ -26,7 +26,7 @@ private:
     qreal m_imageScale = 1.0;
     QImage m_img;
     QPixmap m_pix;
-    QRect m_r;          // Image visable rect
+    QRect m_r;          // Image visible rect
     QRect m_mainRect;
     QRect m_originRect;
 
