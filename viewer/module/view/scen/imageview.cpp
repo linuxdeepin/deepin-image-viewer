@@ -47,6 +47,11 @@ QVariantList cachePixmap(const QString &path)
         readerF.setAutoTransform(true);
         if (readerF.canRead()) {
             tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+                                  << format;
+
+            tImg = QImage(path);
         }
     }
 
