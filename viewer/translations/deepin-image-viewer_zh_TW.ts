@@ -944,7 +944,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin 看圖遵循 GNU 通用公共授權條款第三版發布。</translation>
+        <translation type="obsolete">Deepin 看圖遵循 GNU 通用公共授權條款第三版發布。</translation>
     </message>
 </context>
 <context>

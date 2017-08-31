@@ -221,9 +221,9 @@ void TopToolbar::initMenu()
     QAction *acS = m_menu->addAction(tr("Settings"));
     m_menu->addSeparator();
     qApp->setProductIcon(QPixmap(":/resources/common/about_logo.png"));
-    qApp->setApplicationDescription(QString("%1\n%2\n\n%3").arg(tr("Deepin Image Viewer is a fashion "
+    qApp->setApplicationDescription(QString("%1\n%2\n").arg(tr("Deepin Image Viewer is a fashion "
               "& smooth image manager.")).arg(tr("It is featured with image management, image viewing "
-              "and basic image editing.")).arg(tr("Deepin Image Viewer is released under GPL v3.")));
+              "and basic image editing.")));
 //    if (utils::base::isCommandExist("dman")) {
 //        QAction *acH = m_menu->addAction(tr("Help"));
 //        connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);

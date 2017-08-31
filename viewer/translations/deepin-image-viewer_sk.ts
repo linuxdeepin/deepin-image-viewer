@@ -944,7 +944,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin Prehliadač obrázkov je vydaný pod GPL v3.</translation>
+        <translation type="obsolete">Deepin Prehliadač obrázkov je vydaný pod GPL v3.</translation>
     </message>
 </context>
 <context>

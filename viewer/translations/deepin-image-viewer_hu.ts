@@ -944,7 +944,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">Deepin Képnézegető GPL v3 licenc alatt kiadott alkalmazás</translation>
+        <translation type="obsolete">Deepin Képnézegető GPL v3 licenc alatt kiadott alkalmazás</translation>
     </message>
 </context>
 <context>

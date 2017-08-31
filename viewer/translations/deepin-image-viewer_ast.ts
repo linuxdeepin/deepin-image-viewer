@@ -940,7 +940,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished">El visor d&apos;imáxenes Deepin llánzase so la GPL v3.</translation>
+        <translation type="obsolete">El visor d&apos;imáxenes Deepin llánzase so la GPL v3.</translation>
     </message>
 </context>
 <context>
