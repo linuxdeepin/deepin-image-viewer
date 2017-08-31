@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pt_BR">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -910,7 +912,7 @@
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>Modo Escuro</translation>
+        <translation type="vanished">Modo Escuro</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -918,15 +920,31 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Ajuda</translation>
+        <translation type="vanished">Ajuda</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation type="vanished">Sobre</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Sair</translation>
+        <translation type="vanished">Sair</translation>
+    </message>
+    <message>
+        <source>Dark theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <translation type="unfinished">Deepin Visualizador de Imagens é um gerenciador de imagens moderno e sutil.</translation>
+    </message>
+    <message>
+        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <translation type="unfinished">Seus recursos incluem gerenciamento, visualização e edição básica de imagens.</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is released under GPL v3.</source>
+        <translation type="unfinished">Visualizador de Imagens é liberado sob GPL v3.</translation>
     </message>
 </context>
 <context>

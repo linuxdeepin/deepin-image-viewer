@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_TW" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_TW">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -910,7 +912,7 @@
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>深色模式</translation>
+        <translation type="vanished">深色模式</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -918,15 +920,31 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>說明</translation>
+        <translation type="vanished">說明</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>關於</translation>
+        <translation type="vanished">關於</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>離開</translation>
+        <translation type="vanished">離開</translation>
+    </message>
+    <message>
+        <source>Dark theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <translation type="unfinished">Deepin 看圖是一款時尚且流暢的圖片管理器。</translation>
+    </message>
+    <message>
+        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <translation type="unfinished">包含了圖片管理、圖片瀏覽和基本編輯功能。</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is released under GPL v3.</source>
+        <translation type="unfinished">Deepin 看圖遵循 GNU 通用公共授權條款第三版發布。</translation>
     </message>
 </context>
 <context>

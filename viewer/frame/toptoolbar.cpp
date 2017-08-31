@@ -213,7 +213,7 @@ void TopToolbar::initMenu()
     m_menu = new QMenu(this);
     m_menu->setStyle(QStyleFactory::create("dlight"));
     QAction *acNA = m_menu->addAction(tr("New album"));
-    QAction *acDT = m_menu->addAction(tr("Deep color mode"));
+    QAction *acDT = m_menu->addAction(tr("Dark theme"));
     bool checkSelected =
             dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark;
     acDT->setCheckable(checkSelected);

@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="bg" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="bg">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -910,7 +912,7 @@
     </message>
     <message>
         <source>Deep color mode</source>
-        <translation>Режим на дълбоко оцветяване</translation>
+        <translation type="vanished">Режим на дълбоко оцветяване</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -918,15 +920,31 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Помощ</translation>
+        <translation type="vanished">Помощ</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Относно</translation>
+        <translation type="vanished">Относно</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Изход</translation>
+        <translation type="vanished">Изход</translation>
+    </message>
+    <message>
+        <source>Dark theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <translation type="unfinished">Deepin Преглед на изображения е модерен и лесен за работа мениджър на изображения</translation>
+    </message>
+    <message>
+        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <translation type="unfinished">Предназначен е за управление на изображения, преглед на изображения и основни възможности за редактиране на изображение.</translation>
+    </message>
+    <message>
+        <source>Deepin Image Viewer is released under GPL v3.</source>
+        <translation type="unfinished">Deepin Преглед на изображение е реализиран под GPL v3 лиценз.</translation>
     </message>
 </context>
 <context>

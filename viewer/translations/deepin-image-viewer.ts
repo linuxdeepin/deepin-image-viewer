@@ -911,10 +911,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -928,6 +924,10 @@
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dark theme</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
