@@ -19,10 +19,6 @@
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>

@@ -21,7 +21,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>Pregledovalnik fotografij Deepin je izdan pod licenco GPL v3.</translation>
+        <translation type="vanished">Pregledovalnik fotografij Deepin je izdan pod licenco GPL v3.</translation>
     </message>
 </context>
 <context>

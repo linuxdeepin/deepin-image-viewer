@@ -19,10 +19,6 @@
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>深度看图遵循GPL v3协议发布。</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>

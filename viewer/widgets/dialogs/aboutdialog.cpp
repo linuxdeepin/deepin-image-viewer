@@ -21,7 +21,6 @@ AboutDialog::AboutDialog()
     setDescription(tr("Deepin Image Viewer is a fashion & smooth image manager.") +
                    "\n" +
                    tr("It is featured with image management, image viewing and basic image editing."));
-    setLicense(tr("Deepin Image Viewer is released under GPL v3."));
 
     connect(this, SIGNAL(closed()), this, SLOT(deleteLater()));
 }

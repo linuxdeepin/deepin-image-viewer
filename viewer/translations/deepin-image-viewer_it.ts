@@ -21,7 +21,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation>Deepin Image Viewer è rilasciato secondo licenza GPL v3.</translation>
+        <translation type="vanished">Deepin Image Viewer è rilasciato secondo licenza GPL v3.</translation>
     </message>
 </context>
 <context>
