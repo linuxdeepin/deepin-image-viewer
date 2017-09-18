@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 ~ 2017 Deepin Technology Co., Ltd.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #ifndef TIMELINEVIEW_H
 #define TIMELINEVIEW_H
 
@@ -98,8 +114,8 @@ private:
     ScrollBar *m_sb = nullptr;
     QMutex m_mutex;
     QRect m_selectionRect;  // 为了绘制划定选中的方框
-    QMap<QModelIndex, QRect> m_irMap;  // 为了知道index的情况下加快查找速度
-    QList<IndexRect> m_irList;  // 为了二分法加快查找速度
+    QMap<QModelIndex, QRect> m_irMap;  // 为了知道index的情况下� 快查找速度
+    QList<IndexRect> m_irList;  // 为了二分法� 快查找速度
     QModelIndexList m_paintingIndexs;  // 通常，可视区域都不会改变，在点击等操作需要重绘时也没必要重新计算可视区域的indexs
 };
 

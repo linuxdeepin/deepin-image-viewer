@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 ~ 2017 Deepin Technology Co., Ltd.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "baseutils.h"
 #include <FreeImage.h>
 #include <QDateTime>
@@ -194,8 +210,8 @@ FIBITMAP * makeThumbnail(const QString &path, int size) {
             if(!dib) return NULL;
         }
         else {
-            // 某些损坏的图片格式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
-            // 除了上面几种可能加速缩略图读取的方式，都返回空
+            // 某些损坏的图片� �式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
+            // 除了上面� 种可能� 速缩略图读取的方式，都返回空
             return NULL;
         }
     }
