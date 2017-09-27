@@ -40,6 +40,11 @@
 #include <QTextStream>
 #include <QtMath>
 
+#include <DApplication>
+#include <DDesktopServices>
+
+DWIDGET_USE_NAMESPACE
+
 namespace utils {
 
 namespace base {
@@ -111,37 +116,39 @@ void showInFileManager(const QString &path)
         return;
     }
 
-    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
-    QUrlQuery query;
-    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
-    url.setQuery(query);
-    qDebug() << "showInFileManager:" << url.toString();
-    // Try dde-file-manager
-    QProcess *fp = new QProcess();
-    QObject::connect(fp, SIGNAL(finished(int)), fp, SLOT(deleteLater()));
-    fp->start("dde-file-manager", QStringList(url.toString()));
-    fp->waitForStarted(3000);
-    if (fp->error() == QProcess::FailedToStart) {
-        // Start dde-file-manager failed, try nautilus
-        QDBusInterface iface("org.freedesktop.FileManager1",
-                             "/org/freedesktop/FileManager1",
-                             "org.freedesktop.FileManager1",
-                             QDBusConnection::sessionBus());
-        if (iface.isValid()) {
-            // Convert filepath to URI first.
-            const QStringList uris = { QUrl::fromLocalFile(path).toString() };
-            qDebug() << "freedesktop.FileManager";
-            // StartupId is empty here.
-            QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
-            Q_UNUSED(call);
-        }
-        // Try to launch other file manager if nautilus is invalid
-        else {
-            qDebug() << "desktopService::openUrl";
-            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath()));
-        }
-        fp->deleteLater();
-    }
+    QUrl url = QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath());
+    Dtk::Widget::DDesktopServices::showFileItem(url);
+//    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
+//    QUrlQuery query;
+//    query.addQueryItem("selectUrl", QUrl::fromLocalFile(path).toString());
+//    url.setQuery(query);
+//    qDebug() << "showInFileManager:" << url.toString();
+//    // Try dde-file-manager
+//    QProcess *fp = new QProcess();
+//    QObject::connect(fp, SIGNAL(finished(int)), fp, SLOT(deleteLater()));
+//    fp->start("dde-file-manager", QStringList(url.toString()));
+//    fp->waitForStarted(3000);
+//    if (fp->error() == QProcess::FailedToStart) {
+//        // Start dde-file-manager failed, try nautilus
+//        QDBusInterface iface("org.freedesktop.FileManager1",
+//                             "/org/freedesktop/FileManager1",
+//                             "org.freedesktop.FileManager1",
+//                             QDBusConnection::sessionBus());
+//        if (iface.isValid()) {
+//            // Convert filepath to URI first.
+//            const QStringList uris = { QUrl::fromLocalFile(path).toString() };
+//            qDebug() << "freedesktop.FileManager";
+//            // StartupId is empty here.
+//            QDBusPendingCall call = iface.asyncCall("ShowItems", uris, "");
+//            Q_UNUSED(call);
+//        }
+//        // Try to launch other file manager if nautilus is invalid
+//        else {
+//            qDebug() << "desktopService::openUrl";
+//            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath()));
+//        }
+//        fp->deleteLater();
+//    }
 }
 void copyOneImageToClipboard(const QString &path) {
     QImage img(path);

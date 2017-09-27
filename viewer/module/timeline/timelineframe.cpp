@@ -231,7 +231,6 @@ void TimelineFrame::initView()
     });
     connect(m_view->selectionModel(), &QItemSelectionModel::currentChanged,
             this, [=] (const QModelIndex &current, const QModelIndex &previous){
-        // � 效的current会� 成panel的菜单在弹出时重新计算action列表，导致菜单闪烁
         Q_UNUSED(previous)
         if (current.isValid())
             t->start(200);
