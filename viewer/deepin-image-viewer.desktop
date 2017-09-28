@@ -2,7 +2,7 @@
 Categories=Graphics;GTK;
 Comment=Deepin Image Viewer
 Encoding=UTF-8
-Exec=/usr/bin/deepin-image-viewer %U
+Exec=deepin-image-viewer %U
 Icon=deepin-image-viewer
 MimeType=image/bmp;image/bmp24;image/ico;image/jpg;image/jpe;image/jpeg;image/jpeg24;image/jng;image/pcd;image/pcx;image/png;image/tga;image/tif;image/tiff;image/tiff24;image/psd;image/xpm;image/dds;image/gif;image/sgi;image/j2k;image/jp2;image/pct;image/webp;image/wdp;image/cr2;image/pef;image/arw;image/nef;image/icb;image/dng;image/vda;image/vst;image/raf;image/orf;image/svg;image/ptif;image/mef;image/mrw;image/xbm;
 Name=Deepin Image Viewer
