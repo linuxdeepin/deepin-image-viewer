@@ -42,7 +42,7 @@ void Title1::paintEvent(QPaintEvent *e)
     Q_UNUSED(e)
 
     QFont f;
-    f.setWeight(700);
+    f.setWeight(QFont::DemiBold);
     f.setPixelSize(FONT_SIZE);
     const int tw = QFontMetrics(f).width(m_title);
     const int th = QFontMetrics(f).height();

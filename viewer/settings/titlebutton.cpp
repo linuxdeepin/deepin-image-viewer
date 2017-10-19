@@ -83,7 +83,7 @@ void TitleButton::paintEvent(QPaintEvent *e)
     // Title
     QFont f;
     if (m_bigFont)
-        f.setWeight(700);
+        f.setWeight(QFont::Medium);
     f.setPixelSize(m_bigFont ? FONT_SIZE_BIG : FONT_SIZE_NORMAL);
     QPen p(isActived() ? FONT_COLOR_ACTIVED : FONT_COLOR_NORMAL);
     painter.setFont(f);

@@ -6,7 +6,7 @@ QScrollArea,SlideshowFrame,ShortcutFrame, TitleFrame, QFrame#CloseButtonFrame {
 Title2 {
     margin-left:26;
     font-size: 12px;
-    font-weight:510;
+    font-weight: 510;
     color: #303030;
 }
 
