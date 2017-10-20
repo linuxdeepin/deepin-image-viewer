@@ -38,11 +38,20 @@ WallpaperSetter::WallpaperSetter(QObject *parent) : QObject(parent)
 
 void WallpaperSetter::setWallpaper(const QString &path)
 {
-    DE de = getDE();
     // gsettings unsupported unicode character
-    qDebug() << "SettingWallpaper: " << de << path;
     const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
     QFile(path).copy(tmpImg);
+
+#ifdef FLATPAK_SUPPORT
+    qDebug() << "SettingWallpaper: " << "flatpak" << path;
+    QString comm = QString("dbus-send --session "
+        "--dest=com.deepin.wm --type=method_call "
+        "/com/deepin/wm com.deepin.wm.ChangeCurrentWorkspaceBackground "
+        "string:%1").arg(path);
+    QProcess::execute(comm);
+#else
+    DE de = getDE();
+    qDebug() << "SettingWallpaper: " << de << path;
     switch (de) {
     case Deepin:
         setDeepinWallpaper(tmpImg);
@@ -62,6 +71,8 @@ void WallpaperSetter::setWallpaper(const QString &path)
     default:
         setGNOMEShellWallpaper(tmpImg);
     }
+#endif
+
 
     // Remove the tmp file
     QTimer *t = new QTimer(this);
@@ -75,17 +86,9 @@ void WallpaperSetter::setWallpaper(const QString &path)
 
 void WallpaperSetter::setDeepinWallpaper(const QString &path)
 {
-    QString comm;
-#ifdef FLATPAK_SUPPORT
-    comm = QString("dbus-send --session "
-        "--dest=com.deepin.wm --type=method_call "
-        "/com/deepin/wm com.deepin.wm.ChangeCurrentWorkspaceBackground "
-        "string:%1").arg(path);
-#else
-    comm = QString("gsettings set "
+    QString comm= QString("gsettings set "
         "com.deepin.wrap.gnome.desktop.background picture-uri %1").arg(path);
-#endif
-        QProcess::execute(comm);
+    QProcess::execute(comm);
 }
 
 void WallpaperSetter::setGNOMEWallpaper(const QString &path)
