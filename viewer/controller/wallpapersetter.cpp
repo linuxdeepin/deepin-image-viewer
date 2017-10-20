@@ -75,9 +75,17 @@ void WallpaperSetter::setWallpaper(const QString &path)
 
 void WallpaperSetter::setDeepinWallpaper(const QString &path)
 {
-    QString comm = QString("gsettings set "
+    QString comm;
+#ifdef FLATPAK_SUPPORT
+    comm = QString("dbus-send --session "
+        "--dest=com.deepin.wm --type=method_call "
+        "/com/deepin/wm com.deepin.wm.ChangeCurrentWorkspaceBackground "
+        "string:%1").arg(path);
+#else
+    comm = QString("gsettings set "
         "com.deepin.wrap.gnome.desktop.background picture-uri %1").arg(path);
-    QProcess::execute(comm);
+#endif
+        QProcess::execute(comm);
 }
 
 void WallpaperSetter::setGNOMEWallpaper(const QString &path)
