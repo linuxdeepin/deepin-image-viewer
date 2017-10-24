@@ -33,6 +33,7 @@
 #include <QReadWriteLock>
 #include <QSvgRenderer>
 #include <QUrl>
+#include <QApplication>
 
 namespace utils {
 
@@ -210,12 +211,7 @@ bool rotate(const QString &path, int degree)
  */
 const QPixmap cutSquareImage(const QPixmap &pixmap)
 {
-    const int minL = qMin(pixmap.width(), pixmap.height());
-    QImage img = pixmap.toImage();
-    img = img.copy((img.width() - minL) / 2,
-                   (img.height() - minL) / 2,
-                   minL, minL);
-    return QPixmap::fromImage(img);
+    return utils::image::cutSquareImage(pixmap, pixmap.size());
 }
 
 /*!
@@ -227,13 +223,16 @@ const QPixmap cutSquareImage(const QPixmap &pixmap)
  */
 const QPixmap cutSquareImage(const QPixmap &pixmap, const QSize &size)
 {
-    QImage img = pixmap.toImage().scaled(size,
+    const qreal ratio = qApp->devicePixelRatio();
+    QImage img = pixmap.toImage().scaled(size * ratio,
                                          Qt::KeepAspectRatioByExpanding,
                                          Qt::SmoothTransformation);
+    const QSize s(size * ratio);
+    const QRect r(0, 0, s.width(), s.height());
 
-    img = img.copy((img.width() - size.width()) / 2,
-                   (img.height() - size.height()) / 2,
-                   size.width(), size.height());
+    img = img.copy(QRect(img.rect().center() - r.center(), s));
+    img.setDevicePixelRatio(ratio);
+
     return QPixmap::fromImage(img);
 }
 
