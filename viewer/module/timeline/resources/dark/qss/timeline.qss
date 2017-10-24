@@ -1,5 +1,5 @@
 QLabel#TopleftLogo {
-    border-image: url(:/resources/dark/images/deepin_image_viewer_24.png);
+    border-image: url(:/resources/dark/images/deepin_image_viewer_24.svg);
 }
 QLabel#TimelineFrameTitle {
     background: transparent;
@@ -48,15 +48,15 @@ QPushButton#AddToAlbumAdd:pressed {
     color: rgba(255, 255, 255, 178.5);
 }
 ImageButton#TimelineBtn {
-    qproperty-normalPic: url(:/resources/dark/images/timeline_press.png);
-    qproperty-hoverPic: url(:/resources/dark/images/timeline_press.png);
-    qproperty-pressPic: url(:/resources/dark/images/timeline_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/timeline_press.svg);
+    qproperty-hoverPic: url(:/resources/dark/images/timeline_press.svg);
+    qproperty-pressPic: url(:/resources/dark/images/timeline_press.svg);
 }
 
 ImageButton#AlbumBtn {
-    qproperty-normalPic: url(:/resources/dark/images/album_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/album_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/album_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/album_normal.svg);
+    qproperty-hoverPic: url(:/resources/dark/images/album_hover.svg);
+    qproperty-pressPic: url(:/resources/dark/images/album_press.svg);
 }
 
 QLabel#ImportFrameTooltip {
@@ -103,9 +103,9 @@ ScaleSlider {
 }
 
 ImageButton#SynchroBtn {
-    qproperty-normalPic: url(:/resources/dark/images/synchro_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/synchro_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/synchro_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/synchro_normal.svg);
+    qproperty-hoverPic: url(:/resources/dark/images/synchro_hover.svg);
+    qproperty-pressPic: url(:/resources/dark/images/synchro_press.svg);
 }
 
 QSlider::handle:vertical  {

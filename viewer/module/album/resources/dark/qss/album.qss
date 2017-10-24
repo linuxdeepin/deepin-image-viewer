@@ -1,5 +1,5 @@
 QLabel#TopleftLogo {
-    border-image: url(:/resources/dark/images/deepin_image_viewer_24.png);
+    border-image: url(:/resources/dark/images/deepin_image_viewer_24.svg);
 }
 
 QWidget#ImagesViewContent {
@@ -32,9 +32,9 @@ QLabel#ImportFrameTooltip {
 }
 
 PushButton#ReturnBtn {
-    qproperty-normalPic: url(:/resources/dark/images/return_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/return_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/return_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/return_normal.svg);
+    qproperty-hoverPic: url(:/resources/dark/images/return_hover.svg);
+    qproperty-pressPic: url(:/resources/dark/images/return_press.svg);
     qproperty-normalColor: rgba(255, 255, 255, .6);
     qproperty-hoverColor: rgba(255, 255, 255, 1);
     qproperty-pressColor: rgba(1, 188, 255, 1);
@@ -42,21 +42,21 @@ PushButton#ReturnBtn {
 }
 
 ImageButton#TimelineBtn {
-    qproperty-normalPic: url(:/resources/dark/images/timeline_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/timeline_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/timeline_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/timeline_normal.svg);
+    qproperty-hoverPic: url(:/resources/dark/images/timeline_hover.svg);
+    qproperty-pressPic: url(:/resources/dark/images/timeline_press.svg);
 }
 
 ImageButton#AlbumBtn {
-    qproperty-normalPic: url(:/resources/dark/images/album_press.png);
-    qproperty-hoverPic: url(:/resources/dark/images/album_press.png);
-    qproperty-pressPic: url(:/resources/dark/images/album_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/album_press.svg);
+    qproperty-hoverPic: url(:/resources/dark/images/album_press.svg);
+    qproperty-pressPic: url(:/resources/dark/images/album_press.svg);
 }
 
 ImageButton#SynchroBtn {
-    qproperty-normalPic: url(:/resources/dark/images/synchro_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/synchro_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/synchro_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/synchro_normal.svg);
+    qproperty-hoverPic: url(:/resources/dark/images/synchro_hover.svg);
+    qproperty-pressPic: url(:/resources/dark/images/synchro_press.svg);
 }
 
 QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {

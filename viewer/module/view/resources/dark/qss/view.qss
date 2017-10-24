@@ -83,9 +83,9 @@ QScrollBar::sub-line {
 }
 
 PushButton#ReturnBtn {
-    qproperty-normalPic: url(:/resources/dark/images/return_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/return_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/return_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/return_normal.svg);
+    qproperty-hoverPic: url(:/resources/dark/images/return_hover.svg);
+    qproperty-pressPic: url(:/resources/dark/images/return_press.svg);
     qproperty-normalColor: rgba(255, 255, 255, .6);
     qproperty-hoverColor: rgba(255, 255, 255, 1);
     qproperty-pressColor: rgba(1, 188, 255, 1);

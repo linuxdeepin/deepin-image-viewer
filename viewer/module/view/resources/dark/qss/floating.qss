@@ -1,19 +1,19 @@
 PushButton#PreviousButton {
-qproperty-normalPic: url(:/resources/dark/images/previous_normal.png);
-qproperty-hoverPic: url(:/resources/dark/images/previous_hover.png);
-qproperty-pressPic: url(:/resources/dark/images/previous_press.png);
-qproperty-checkedPic: url(:/resources/dark/images/previous_press.png);
+qproperty-normalPic: url(:/resources/dark/images/previous_normal.svg);
+qproperty-hoverPic: url(:/resources/dark/images/previous_hover.svg);
+qproperty-pressPic: url(:/resources/dark/images/previous_press.svg);
+qproperty-checkedPic: url(:/resources/dark/images/previous_press.svg);
 }
 
 PushButton#NextButton {
-qproperty-normalPic: url(:/resources/dark/images/next_normal.png);
-qproperty-hoverPic: url(:/resources/dark/images/next_hover.png);
-qproperty-pressPic: url(:/resources/dark/images/next_press.png);
-qproperty-checkedPic: url(:/resources/dark/images/next_press.png);
+qproperty-normalPic: url(:/resources/dark/images/next_normal.svg);
+qproperty-hoverPic: url(:/resources/dark/images/next_hover.svg);
+qproperty-pressPic: url(:/resources/dark/images/next_press.svg);
+qproperty-checkedPic: url(:/resources/dark/images/next_press.svg);
 }
 
 QLabel#ScaleLabel {
-    border-image: url(:/resources/dark/images/scale_background.png);
+    border-image: url(:/resources/dark/images/scale_background.svg);
     color: white;
     padding: 0px 0px 10px 0px;
     font-size: 14px;

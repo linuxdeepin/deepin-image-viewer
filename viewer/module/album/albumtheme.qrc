@@ -4,9 +4,6 @@
         <file>resources/dark/images/album_bg_hover.png</file>
         <file>resources/dark/images/album_bg_normal.png</file>
         <file>resources/dark/images/album_favorites.png</file>
-        <file>resources/dark/images/album_hover.png</file>
-        <file>resources/dark/images/album_normal.png</file>
-        <file>resources/dark/images/album_press.png</file>
         <file>resources/dark/images/album_recent_imported.png</file>
         <file>resources/dark/images/create_album_hover.png</file>
         <file>resources/dark/images/create_album_normal.png</file>
@@ -20,9 +17,6 @@
         <file>resources/dark/images/search_hover_24px.png</file>
         <file>resources/dark/images/search_normal_24px.png</file>
         <file>resources/dark/images/search_press_24px.png</file>
-        <file>resources/dark/images/timeline_hover.png</file>
-        <file>resources/dark/images/timeline_normal.png</file>
-        <file>resources/dark/images/timeline_press.png</file>
         <file>resources/dark/qss/album.qss</file>
         <file>resources/light/images/light_slider_handle.png</file>
         <file>resources/light/images/lineargradient.png</file>
@@ -33,11 +27,7 @@
         <file>resources/light/images/create_album_hover.png</file>
         <file>resources/light/images/create_album_normal.png</file>
         <file>resources/light/images/create_album_press.png</file>
-        <file>resources/dark/images/deepin_image_viewer_24.png</file>
         <file>resources/light/images/deepin_image_viewer_24.png</file>
-        <file>resources/dark/images/synchro_normal.png</file>
-        <file>resources/dark/images/synchro_press.png</file>
-        <file>resources/dark/images/synchro_hover.png</file>
         <file>resources/light/images/album_hover.svg</file>
         <file>resources/light/images/album_normal.svg</file>
         <file>resources/light/images/album_press.svg</file>
@@ -54,5 +44,15 @@
         <file>resources/light/images/album_bg_normal.svg</file>
         <file>resources/light/images/album_bg_press.svg</file>
         <file>resources/light/images/album_add.svg</file>
+        <file>resources/dark/images/album_hover.svg</file>
+        <file>resources/dark/images/album_normal.svg</file>
+        <file>resources/dark/images/album_press.svg</file>
+        <file>resources/dark/images/synchro_hover.svg</file>
+        <file>resources/dark/images/synchro_normal.svg</file>
+        <file>resources/dark/images/synchro_press.svg</file>
+        <file>resources/dark/images/timeline_hover.svg</file>
+        <file>resources/dark/images/timeline_normal.svg</file>
+        <file>resources/dark/images/timeline_press.svg</file>
+        <file>resources/dark/images/deepin_image_viewer_24.svg</file>
     </qresource>
 </RCC>
