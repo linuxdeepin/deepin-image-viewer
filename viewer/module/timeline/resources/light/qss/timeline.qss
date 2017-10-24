@@ -50,15 +50,15 @@ QPushButton#AddToAlbumAdd:pressed {
 }
 
 ImageButton#TimelineBtn {
-    qproperty-normalPic: url(:/resources/light/images/timeline_press.png);
-    qproperty-hoverPic: url(:/resources/light/images/timeline_press.png);
-    qproperty-pressPic: url(:/resources/light/images/timeline_press.png);
+    qproperty-normalPic: url(:/resources/light/images/timeline_press.svg);
+    qproperty-hoverPic: url(:/resources/light/images/timeline_press.svg);
+    qproperty-pressPic: url(:/resources/light/images/timeline_press.svg);
 }
 
 ImageButton#AlbumBtn {
-    qproperty-normalPic: url(:/resources/light/images/album_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/album_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/album_press.png);
+    qproperty-normalPic: url(:/resources/light/images/album_normal.svg);
+    qproperty-hoverPic: url(:/resources/light/images/album_hover.svg);
+    qproperty-pressPic: url(:/resources/light/images/album_press.svg);
 }
 
 QLabel#ImportFrameTooltip {
@@ -105,9 +105,9 @@ ScaleSlider {
 }
 
 ImageButton#SynchroBtn {
-    qproperty-normalPic: url(:/resources/light/images/synchro_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/synchro_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/synchro_press.png);
+    qproperty-normalPic: url(:/resources/light/images/synchro_normal.svg);
+    qproperty-hoverPic: url(:/resources/light/images/synchro_hover.svg);
+    qproperty-pressPic: url(:/resources/light/images/synchro_press.svg);
 }
 
 QSlider::handle:vertical  {

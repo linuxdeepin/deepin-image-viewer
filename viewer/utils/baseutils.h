@@ -90,8 +90,8 @@ const QString LIGHT_CREATEALBUM_HOVERPIC = ":/resources/light/images/"
 const QString LIGHT_CREATEALBUM_PRESSPIC = ":/resources/light/images/"
                                           "create_album_press.png";
 
-const QString DARK_ADDPIC = ":/resources/dark/images/album_add.png";
-const QString LIGHT_ADDPIC = ":/resources/light/images/album_add.png";
+const QString DARK_ADDPIC = ":/resources/dark/images/album_add.svg";
+const QString LIGHT_ADDPIC = ":/resources/light/images/album_add.svg";
 
 const QString DARK_ALBUM_BG_NORMALPIC = ":/resources/dark/images/"
                                         "album_bg_normal.png";
@@ -99,11 +99,11 @@ const QString DARK_ALBUM_BG_PRESSPIC = ":/resources/dark/images/"
                                        "album_bg_press.png";
 
 const QString LIGHT_ALBUM_BG_NORMALPIC = ":/resources/light/images/"
-                                        "album_bg_normal.png";
+                                        "album_bg_normal.svg";
 const QString LIGHT_ALBUM_BG_HOVERPIC = ":/resources/light/images/"
-                                       "album_bg_hover.png";
+                                       "album_bg_hover.svg";
 const QString LIGHT_ALBUM_BG_PRESSPIC = ":/resources/light/images/"
-                                       "album_bg_press.png";
+                                       "album_bg_press.svg";
 }
 namespace view {
 const QString DARK_DEFAULT_THUMBNAIL =

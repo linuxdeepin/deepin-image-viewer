@@ -93,9 +93,9 @@ ImageButton#NextButton {
 }
 
 PushButton#ReturnBtn {
-    qproperty-normalPic: url(:/resources/light/images/return_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/return_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/return_press.png);
+    qproperty-normalPic: url(:/resources/light/images/return_normal.svg);
+    qproperty-hoverPic: url(:/resources/light/images/return_hover.svg);
+    qproperty-pressPic: url(:/resources/light/images/return_press.svg);
     qproperty-normalColor: #303030;
     qproperty-hoverColor: #000000;
     qproperty-pressColor: #01BCFF;

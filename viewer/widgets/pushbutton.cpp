@@ -16,6 +16,7 @@
  */
 #include "pushbutton.h"
 #include "application.h"
+
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QFrame>
@@ -24,6 +25,8 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QTimer>
+#include <QIcon>
+#include <QApplication>
 
 PushButton::PushButton(QWidget *parent)
     : QWidget(parent)
@@ -195,17 +198,24 @@ void PushButton::paintEvent(QPaintEvent *e)
     QMargins m = contentsMargins();
     int ph = 0;
     int spacing = 0;
-    QPixmap pixmap(getPixmap());
+
+    qreal ration = this->devicePixelRatioF();
+    QIcon icon(getPixmap());
+
+    QPixmap pixmap = icon.pixmap(QPixmap(getPixmap()).size());
+    pixmap.setDevicePixelRatio(ration);
+
     if (! pixmap.isNull()) {
         if (pixmap.width() > width() || pixmap.height() > height()) {
             ph = height() - m.top() - m.bottom();
             const QRect pr(m.left(), (height() - ph) / 2, ph, ph);
-            painter.drawPixmap(pr, pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding));
+            painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap
+                               /*pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding)*/);
         }
         else {
             ph = pixmap.height();
             const QRect pr(m.left(), (height() - ph) / 2, pixmap.width(), ph);
-            painter.drawPixmap(pr, pixmap);
+            painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap);
         }
         spacing = m_spacing;
     }

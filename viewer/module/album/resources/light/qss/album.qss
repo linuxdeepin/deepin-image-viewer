@@ -40,9 +40,9 @@ QLineEdit#AlbumNameLineEdit {
 }
 
 PushButton#ReturnBtn {
-    qproperty-normalPic: url(:/resources/light/images/return_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/return_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/return_press.png);
+    qproperty-normalPic: url(:/resources/light/images/return_normal.svg);
+    qproperty-hoverPic: url(:/resources/light/images/return_hover.svg);
+    qproperty-pressPic: url(:/resources/light/images/return_press.svg);
     qproperty-normalColor: #303030;
     qproperty-hoverColor: #000000;
     qproperty-pressColor: #01BCFF;
@@ -50,21 +50,21 @@ PushButton#ReturnBtn {
 }
 
 ImageButton#SynchroBtn {
-    qproperty-normalPic: url(:/resources/light/images/synchro_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/synchro_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/synchro_press.png);
+    qproperty-normalPic: url(:/resources/light/images/synchro_normal.svg);
+    qproperty-hoverPic: url(:/resources/light/images/synchro_hover.svg);
+    qproperty-pressPic: url(:/resources/light/images/synchro_press.svg);
 }
 
 ImageButton#TimelineBtn {
-    qproperty-normalPic: url(:/resources/light/images/timeline_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/timeline_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/timeline_press.png);
+    qproperty-normalPic: url(:/resources/light/images/timeline_normal.svg);
+    qproperty-hoverPic: url(:/resources/light/images/timeline_hover.svg);
+    qproperty-pressPic: url(:/resources/light/images/timeline_press.svg);
 }
 
 ImageButton#AlbumBtn {
-    qproperty-normalPic: url(:/resources/light/images/album_press.png);
-    qproperty-hoverPic: url(:/resources/light/images/album_press.png);
-    qproperty-pressPic: url(:/resources/light/images/album_press.png);
+    qproperty-normalPic: url(:/resources/light/images/album_press.svg);
+    qproperty-hoverPic: url(:/resources/light/images/album_press.svg);
+    qproperty-pressPic: url(:/resources/light/images/album_press.svg);
 }
 
 QLabel#ReturnLabel, QLabel#TooltipTimelineLabel {

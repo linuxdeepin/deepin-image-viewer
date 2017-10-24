@@ -47,6 +47,8 @@ int main(int argc, char *argv[])
    //    qDebug() << "application started" << QDateTime::currentDateTime();
     Application::loadDXcbPlugin();
     Application a(argc, argv);
+    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
+    a.setAttribute(Qt::AA_EnableHighDpiScaling);
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
