@@ -20,6 +20,7 @@
 #include <QFileInfo>
 #include <QProcess>
 #include <QDebug>
+#include <QDBusInterface>
 
 WallpaperSetter *WallpaperSetter::m_setter = nullptr;
 WallpaperSetter *WallpaperSetter::instance()
@@ -43,12 +44,10 @@ void WallpaperSetter::setWallpaper(const QString &path)
     QFile(path).copy(tmpImg);
 
 #ifdef FLATPAK_SUPPORT
+    QDBusInterface wm("com.deepin.wm", "/com/deepin/wm", "com.deepin.wm");
+    QDBusMessage reply = wm.call("ChangeCurrentWorkspaceBackground", path);
     qDebug() << "SettingWallpaper: " << "flatpak" << path;
-    QString comm = QString("dbus-send --session "
-        "--dest=com.deepin.wm --type=method_call "
-        "/com/deepin/wm com.deepin.wm.ChangeCurrentWorkspaceBackground "
-        "string:%1").arg(path);
-    QProcess::execute(comm);
+    qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
 #else
     DE de = getDE();
     qDebug() << "SettingWallpaper: " << de << path;
@@ -86,31 +85,31 @@ void WallpaperSetter::setWallpaper(const QString &path)
 
 void WallpaperSetter::setDeepinWallpaper(const QString &path)
 {
-    QString comm= QString("gsettings set "
-        "com.deepin.wrap.gnome.desktop.background picture-uri %1").arg(path);
+    QString comm = QString("gsettings set "
+                           "com.deepin.wrap.gnome.desktop.background picture-uri %1").arg(path);
     QProcess::execute(comm);
 }
 
 void WallpaperSetter::setGNOMEWallpaper(const QString &path)
 {
     QString comm = QString("gconftool-2 --type=string --set "
-        "/desktop/gnome/background/picture_filename %1").arg(path);
+                           "/desktop/gnome/background/picture_filename %1").arg(path);
     QProcess::execute(comm);
 }
 
 void WallpaperSetter::setGNOMEShellWallpaper(const QString &path)
 {
     QString comm = QString("gsettings set "
-        "org.gnome.desktop.background picture-uri %1").arg(path);
+                           "org.gnome.desktop.background picture-uri %1").arg(path);
     QProcess::execute(comm);
 }
 
 void WallpaperSetter::setKDEWallpaper(const QString &path)
 {
     QString comm = QString("dbus-send --session "
-        "--dest=org.new_wallpaper.Plasmoid --type=method_call "
-        "/org/new_wallpaper/Plasmoid/0 org.new_wallpaper.Plasmoid.SetWallpaper "
-        "string:%1").arg(path);
+                           "--dest=org.new_wallpaper.Plasmoid --type=method_call "
+                           "/org/new_wallpaper/Plasmoid/0 org.new_wallpaper.Plasmoid.SetWallpaper "
+                           "string:%1").arg(path);
     QProcess::execute(comm);
 }
 
@@ -123,26 +122,27 @@ void WallpaperSetter::setLXDEWallpaper(const QString &path)
 void WallpaperSetter::setXfaceWallpaper(const QString &path)
 {
     QString comm = QString("xfconf-query -c xfce4-desktop -p "
-        "/backdrop/screen0/monitor0/image-path -s %1").arg(path);
+                           "/backdrop/screen0/monitor0/image-path -s %1").arg(path);
     QProcess::execute(comm);
 }
 
 WallpaperSetter::DE WallpaperSetter::getDE()
 {
-    if (testDE("startdde"))
+    if (testDE("startdde")) {
         return Deepin;
-    else if (testDE("plasma-desktop"))
+    } else if (testDE("plasma-desktop")) {
         return KDE;
-    else if (testDE("gnome-panel") && qgetenv("DESKTOP_SESSION") == "gnome")
+    } else if (testDE("gnome-panel") && qgetenv("DESKTOP_SESSION") == "gnome") {
         return GNOME;
-    else if (testDE("xfce4-panel"))
+    } else if (testDE("xfce4-panel")) {
         return Xfce;
-    else if (testDE("mate-panel"))
+    } else if (testDE("mate-panel")) {
         return MATE;
-    else if (testDE("lxpanel"))
+    } else if (testDE("lxpanel")) {
         return LXDE;
-    else
+    } else {
         return OthersDE;
+    }
 }
 
 bool WallpaperSetter::testDE(const QString &app)
