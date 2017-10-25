@@ -109,7 +109,8 @@ void ImgInfoDialog::initThumbnail(const QString &path)
     QLabel *iconLabel = new QLabel;
     iconLabel->setObjectName("IconLabel");
     QPixmap pixmap = cutSquareImage(getThumbnail(path),
-                                    QSize(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT));
+                                    QSize(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT) * devicePixelRatioF());
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
     // Draw inside-border
     QPainter p(&pixmap);
     QRect br(0, 0, pixmap.width() - 1, pixmap.height() - 1);
@@ -170,9 +171,9 @@ void ImgInfoDialog::initCloseButton()
 {
     ImageButton* cb = new ImageButton(this);
     cb->setTooltipVisible(true);
-    cb->setNormalPic(":/images/light/images/window_close_normal.png");
-    cb->setHoverPic(":/images/light/images/window_close_hover.png");
-    cb->setPressPic(":/images/light/images/window_close_press.png");
+    cb->setNormalPic(":/resources/common/images/window_close_normal.svg");
+    cb->setHoverPic(":/resources/common/images/window_close_hover.svg");
+    cb->setPressPic("::/resources/common/images/window_close_press.svg");
     cb->setFixedSize(27, 23);
     cb->move(this->x() + this->width() - cb->width() + 1, 4);
     connect(cb, &ImageButton::clicked, this, &ImgInfoDialog::close);

@@ -220,10 +220,10 @@ void AlbumDelegate::paint(QPainter *painter,
                             rect.y() + THUMBNAIL_BG_MARGIN,
                             pixmapSize, pixmapSize, cip);
         QPixmap plus = DHiDPIHelper::loadNxPixmap(m_addPic);
-        int plusX =  (cip.width() / cip.devicePixelRatio() -plus.width()) / 2;
-        int plusY = (cip.height() / cip.devicePixelRatio() -plus.height()) / 2;
+        int plusX =  (cip.width() / cip.devicePixelRatio() - plus.width() / plus.devicePixelRatioF()) / 2;
+        int plusY = (cip.height() / cip.devicePixelRatio() - plus.height() / plus.devicePixelRatioF()) / 2;
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN + plusX,rect.y() +
-            THUMBNAIL_BG_MARGIN + plusY, plus.width(), plus.height(), plus);
+            THUMBNAIL_BG_MARGIN + plusY, plus.width() / plus.devicePixelRatioF(), plus.height() / plus.devicePixelRatioF(), plus);
     }
 }
 
