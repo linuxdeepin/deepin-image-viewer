@@ -80,6 +80,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
     bp.addRoundedRect(rect, utils::common::BORDER_RADIUS, utils::common::BORDER_RADIUS);
     painter->setClipPath(bp);
 
+    const auto ratio = qApp->devicePixelRatio();
     //**draw transparent background
 //    QPixmap pm(12, 12);
 //    QPainter pmp(&pm);
@@ -92,7 +93,7 @@ void ThumbnailDelegate::paint(QPainter *painter,
 //    pmp.end();
     painter->fillRect(rect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
     using namespace utils::image;
-    painter->drawPixmap(rect, cutSquareImage(getThumbnail(data.path), rect.size()));
+    painter->drawPixmap(rect, cutSquareImage(getThumbnail(data.path), rect.size() * ratio));
 
     // Draw inside border
     QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,

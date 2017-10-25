@@ -202,7 +202,7 @@ void AlbumDelegate::paint(QPainter *painter,
         scalePixmap.setDevicePixelRatio(ratio);
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN,
                             rect.y() + THUMBNAIL_BG_MARGIN,
-                            pixmapSize, pixmapSize, scalePixmap);
+                            scalePixmap);
 
         // Draw title
         drawTitle(option, index, painter);
@@ -333,7 +333,6 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     QPixmap thumbnail;
     thumbnail.loadFromData(datas[4].toByteArray());
 
-
     // Render background
     QSize bgSize;
     bgSize.setWidth(option.rect.width() - THUMBNAIL_BG_MARGIN * 2);
@@ -353,7 +352,8 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     // Draw thumbnail in bg
     const QRect tRect = thumbnailRect(bgSize);
     if (!thumbnail.isNull()) {
-        QPixmap scalePixmp = utils::image::cutSquareImage(thumbnail, tRect.size());
+        const auto ratio = qApp->devicePixelRatio();
+        QPixmap scalePixmp = utils::image::cutSquareImage(thumbnail, tRect.size() * ratio);
         painter.drawPixmap(tRect, scalePixmp);
 
         // Draw album cover's out shadow

@@ -130,7 +130,10 @@ void TimelineDelegate::paint(QPainter *painter,
         painter->fillRect(rect, QBrush(utils::common::LIGHT_CHECKER_COLOR));
         using namespace utils::image;
 
-        painter->drawPixmap(rect, cutSquareImage(getThumbnail(data.path), rect.size()));
+        const auto ratio = qApp->devicePixelRatio();
+        QPixmap pix = cutSquareImage(getThumbnail(data.path), rect.size() * ratio);
+        pix.setDevicePixelRatio(ratio);
+        painter->drawPixmap(rect, pix);
 
         // Draw inside border
         QPen p(selected ? utils::common::BORDER_COLOR_SELECTED : m_borderColor,
