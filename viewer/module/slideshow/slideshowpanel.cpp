@@ -109,7 +109,8 @@ void SlideShowPanel::paintEvent(QPaintEvent *e)
 
 void SlideShowPanel::resizeEvent(QResizeEvent *e)
 {
-    m_player->setFrameSize(e->size().width(), e->size().height());
+    m_player->setFrameSize(e->size().width() * devicePixelRatioF(),
+                           e->size().height() * devicePixelRatioF());
     ModulePanel::resizeEvent(e);
 }
 
@@ -249,6 +250,8 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 void SlideShowPanel::setImage(const QImage &img)
 {
     m_img = img;
+    m_img.setDevicePixelRatio(devicePixelRatioF());
+
     update();
 }
 

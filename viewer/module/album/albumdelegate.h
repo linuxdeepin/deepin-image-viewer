@@ -63,6 +63,8 @@ private:
     void onEditFinished();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
+    QPixmap loadScaledPixmap(const QString &source, const int scaledSize) const;
+
 
 private:
     mutable QModelIndex m_editingIndex;

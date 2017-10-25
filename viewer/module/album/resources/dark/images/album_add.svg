@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47 (45396) - http://www.bohemiancoding.com/sketch -->
+    <title>album_add</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.100000001">
+        <g id="图标按钮" transform="translate(-384.000000, -835.000000)" stroke="#FFFFFF">
+            <g id="Group-4" transform="translate(384.000000, 835.000000)">
+                <path d="M0,20.5 L40,20.5" id="Line"></path>
+                <path d="M20.5,40 L20.5,0" id="Line"></path>
+            </g>
+        </g>
+    </g>
+</svg>

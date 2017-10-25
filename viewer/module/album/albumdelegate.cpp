@@ -25,6 +25,11 @@
 #include <QDebug>
 #include <QSvgRenderer>
 #include <QHBoxLayout>
+#include <QImageReader>
+
+#include <DHiDPIHelper>
+
+DWIDGET_USE_NAMESPACE
 
 namespace {
 const int TITLE_FONT_SIZE = 12;
@@ -68,6 +73,23 @@ void AlbumDelegate::onThemeChanged(ViewerThemeManager::AppTheme theme) {
         m_albumBgNormalPic =utils::album::LIGHT_ALBUM_BG_NORMALPIC;
         m_albumBgPressPic = utils::album::LIGHT_ALBUM_BG_PRESSPIC;
     }
+}
+
+QPixmap AlbumDelegate::loadScaledPixmap(const QString &source, const int scaledSize) const
+{
+    const qreal ratio = qApp->devicePixelRatio();
+
+    QImageReader reader;
+    reader.setFileName(source);
+
+    if (reader.canRead()) {
+        reader.setScaledSize(QSize(scaledSize, scaledSize) * ratio);
+        QPixmap pixmap = QPixmap::fromImage(reader.read());
+        pixmap.setDevicePixelRatio(ratio);
+        return pixmap;
+    }
+
+    return QPixmap(source).scaled(scaledSize, scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
 QWidget *AlbumDelegate::createEditor(QWidget *parent,
@@ -169,13 +191,15 @@ void AlbumDelegate::paint(QPainter *painter,
 
     QRect rect = option.rect;
     const int pixmapSize = rect.width() - THUMBNAIL_BG_MARGIN * 2;
+    const qreal ratio = qApp->devicePixelRatio();
 
     if (! datas.isEmpty()) {
         // Draw compound thumbnail
         QPixmap pixmap = getCompoundPixmap(option, index);
-        QPixmap scalePixmap = pixmap.scaled(pixmapSize, pixmapSize,
+        QPixmap scalePixmap = pixmap.scaled(pixmapSize * ratio, pixmapSize * ratio,
                                             Qt::KeepAspectRatio,
                                             Qt::SmoothTransformation);
+        scalePixmap.setDevicePixelRatio(ratio);
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN,
                             rect.y() + THUMBNAIL_BG_MARGIN,
                             pixmapSize, pixmapSize, scalePixmap);
@@ -191,13 +215,13 @@ void AlbumDelegate::paint(QPainter *painter,
             createIcon = m_createAlbumHoverPic;
         }
 
-        QPixmap cip = QPixmap(createIcon).scaled(pixmapSize, pixmapSize);
+        QPixmap cip = loadScaledPixmap(createIcon, pixmapSize);
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN,
                             rect.y() + THUMBNAIL_BG_MARGIN,
                             pixmapSize, pixmapSize, cip);
-        QPixmap plus = QPixmap(m_addPic);
-        int plusX =  (cip.width() -plus.width()) / 2;
-        int plusY = (cip.height() -plus.height()) / 2;
+        QPixmap plus = DHiDPIHelper::loadNxPixmap(m_addPic);
+        int plusX =  (cip.width() / cip.devicePixelRatio() -plus.width()) / 2;
+        int plusY = (cip.height() / cip.devicePixelRatio() -plus.height()) / 2;
         painter->drawPixmap(rect.x() + THUMBNAIL_BG_MARGIN + plusX,rect.y() +
             THUMBNAIL_BG_MARGIN + plusY, plus.width(), plus.height(), plus);
     }
@@ -305,6 +329,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     const QString albumName = datas[0].toString();
     const QDateTime beginTime = datas[2].toDateTime();
     const QDateTime endTime = datas[3].toDateTime();
+
     QPixmap thumbnail;
     thumbnail.loadFromData(datas[4].toByteArray());
 
@@ -321,9 +346,7 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     else if (option.state & QStyle::State_Selected && m_editingIndex != index) {
         bgFilePath = m_albumBgPressPic;
     }
-    QPixmap bgPixmap = QPixmap(bgFilePath).scaled(bgSize,
-                                                  Qt::KeepAspectRatio,
-                                                  Qt::SmoothTransformation);
+    QPixmap bgPixmap = loadScaledPixmap(bgFilePath, bgSize.width());
     QPainter painter(&bgPixmap);
     painter.setRenderHint(QPainter::Antialiasing);
 
@@ -343,17 +366,13 @@ QPixmap AlbumDelegate::getCompoundPixmap(const QStyleOptionViewItem &option,
     // Draw special mark
     int markSize = tRect.width() * 0.5;
     if (albumName == "Recent imported") {
-        QPixmap p = QPixmap(":/resources/dark/images/"
-                    "album_recent_imported.png").scaled(markSize, markSize,
-            Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmap p = loadScaledPixmap(":/resources/dark/images/album_recent_imported.svg", markSize);
         painter.drawPixmap(tRect.x() + (tRect.width() - markSize) / 2,
                            tRect.y() + (tRect.height() - markSize) / 2,
                            markSize, markSize, p);
     }
     else if (albumName == "My favorite") {
-        QPixmap p = QPixmap(":/resources/dark/images/album_favorites.png")
-                .scaled(markSize, markSize,
-                        Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmap p = loadScaledPixmap(":/resources/dark/images/album_favorites.svg", markSize);
         painter.drawPixmap(tRect.x() + (tRect.width() - markSize) / 2,
                            tRect.y() + (tRect.height() - markSize) / 2,
                            markSize, markSize, p);

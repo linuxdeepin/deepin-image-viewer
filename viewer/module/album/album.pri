@@ -19,6 +19,7 @@ RESOURCES += \
 
 DISTFILES += \
     $$PWD/resources/light/images/album_add.png \
+    $$PWD/resources/light/images/album_add.svg \
     $$PWD/resources/light/images/album_bg_normal.png \
     $$PWD/resources/light/images/album_bg_press.png \
     $$PWD/resources/light/images/create_album_hover.png \

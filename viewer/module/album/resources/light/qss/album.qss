@@ -1,5 +1,5 @@
 QLabel#TopleftLogo {
-    border-image: url(:/resources/light/images/deepin_image_viewer_24.png);
+    border-image: url(:/resources/light/images/deepin_image_viewer_24.svg);
 }
 
 QWidget#ImagesViewContent {

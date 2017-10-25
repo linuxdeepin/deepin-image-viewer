@@ -54,5 +54,8 @@
         <file>resources/dark/images/timeline_normal.svg</file>
         <file>resources/dark/images/timeline_press.svg</file>
         <file>resources/dark/images/deepin_image_viewer_24.svg</file>
+        <file>resources/dark/images/album_add.svg</file>
+        <file>resources/light/images/deepin_image_viewer_24.svg</file>
+        <file>resources/dark/images/album_favorites.svg</file>
     </qresource>
 </RCC>

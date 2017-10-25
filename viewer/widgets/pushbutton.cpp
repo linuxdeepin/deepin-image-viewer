@@ -205,16 +205,19 @@ void PushButton::paintEvent(QPaintEvent *e)
     QPixmap pixmap = icon.pixmap(QPixmap(getPixmap()).size());
     pixmap.setDevicePixelRatio(ration);
 
+    const qreal pixWidth = pixmap.width() / ration;
+    const qreal pixHeight = pixmap.height() / ration;
+
     if (! pixmap.isNull()) {
-        if (pixmap.width() > width() || pixmap.height() > height()) {
+        if (pixWidth > width() || pixHeight > height()) {
             ph = height() - m.top() - m.bottom();
             const QRect pr(m.left(), (height() - ph) / 2, ph, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap
                                /*pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding)*/);
         }
         else {
-            ph = pixmap.height();
-            const QRect pr(m.left(), (height() - ph) / 2, pixmap.width(), ph);
+            ph = pixHeight;
+            const QRect pr(m.left(), (height() - ph) / 2, pixWidth, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap);
         }
         spacing = m_spacing;

@@ -82,21 +82,25 @@ bool NavigationWidget::isAlwaysHidden() const
 
 void NavigationWidget::setImage(const QImage &img)
 {
+    const qreal ratio = devicePixelRatioF();
+
     QRect tmpImageRect = QRect(m_mainRect.x(), m_mainRect.y(),
                                m_mainRect.width(), m_mainRect.height());
 
 
     m_originRect = img.rect();
-    m_img = img.scaled(tmpImageRect.size(), Qt::KeepAspectRatio);
+    m_img = img.scaled(tmpImageRect.size() * ratio, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    m_img.setDevicePixelRatio(ratio);
     m_pix = QPixmap::fromImage(m_img);
+    m_pix.setDevicePixelRatio(ratio);
 
     if (img.width() > img.height()) {
-        m_imageScale = qreal(m_img.width())/qreal(img.width());
+        m_imageScale = qreal(m_img.width() / ratio)/qreal(img.width());
     } else {
-        m_imageScale = qreal(m_img.height())/qreal(img.height());
+        m_imageScale = qreal(m_img.height() / ratio)/qreal(img.height());
     }
 
-    m_r = QRect(0, 0, m_img.width(), m_img.height());
+    m_r = QRect(0, 0, m_img.width() / ratio, m_img.height() / ratio);
     update();
 }
 
@@ -144,11 +148,13 @@ void NavigationWidget::paintEvent(QPaintEvent *)
         return;
     }
 
+    const qreal ratio = devicePixelRatioF();
+
     QPainter p(&img);
     p.setRenderHints(QPainter::Antialiasing|QPainter::HighQualityAntialiasing);
     p.setRenderHint(QPainter::SmoothPixmapTransform);
-    p.setClipRegion(QRegion(0, 0, img.width(), img.height()) - m_r);
-    p.fillRect(QRect(0, 0, m_img.width(), m_img.height()), m_mrBgColor);
+    p.setClipRegion(QRegion(0, 0, img.width() / ratio, img.height() / ratio) - m_r);
+    p.fillRect(QRect(0, 0, m_img.width() / ratio, m_img.height() / ratio), m_mrBgColor);
     p.setPen(m_mrBorderColor);
     p.drawRect(m_r);
     p.end();
@@ -157,9 +163,9 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     QImage background(m_bgImgUrl);
 
     p.drawImage(this->rect(), background);
-    QRect imageDrawRect =  QRect((m_mainRect.width() - m_img.width())/2 + IMAGE_MARGIN,
-                (m_mainRect.height() - m_img.height())/2 + utils::common::BORDER_WIDTH,
-                                 m_img.width(), m_img.height());
+    QRect imageDrawRect =  QRect((m_mainRect.width() - m_img.width() / ratio)/2 + IMAGE_MARGIN,
+                (m_mainRect.height() - m_img.height() / ratio)/2 + utils::common::BORDER_WIDTH,
+                                 m_img.width() / ratio, m_img.height() / ratio);
     //**draw transparent background
 //    QPixmap pm(12, 12);
 //    QPainter pmp(&pm);
