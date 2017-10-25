@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -18,10 +16,6 @@
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Wyposażony jest w funkcje zarządzania obrazami, podglądu obrazów i podstawowej ich modyfikacji.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">Przeglądarka obrazów Deepin tworzona jest według 3 wersji licencji GPL.</translation>
     </message>
 </context>
 <context>
@@ -911,40 +905,20 @@
         <translation>Nowy album</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Tryb głębokiego koloru</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Pomoc</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">O programie</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Wyjdź</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Przeglądarka zdjęć Deepin jest modnym i płynnie działającym menedżerem obrazów.</translation>
+        <translation>Przeglądarka zdjęć Deepin jest modnym i płynnie działającym menedżerem obrazów.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Wyposażony jest w funkcje zarządzania obrazami, podglądu obrazów i podstawowej ich modyfikacji.</translation>
+        <translation>Wyposażony jest w funkcje zarządzania obrazami, podglądu obrazów i podstawowej ich modyfikacji.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">Przeglądarka obrazów Deepin tworzona jest według 3 wersji licencji GPL.</translation>
+        <source>Dark theme</source>
+        <translation>Ciemny motyw</translation>
     </message>
 </context>
 <context>

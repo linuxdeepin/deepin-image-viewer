@@ -1,46 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ar">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>عارض الصور دييبن</translation>
+        <translation>عارض صور ديبين</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>النسخة:</translation>
+        <translation>اﻹصدار:</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>ديبين عارض الصور هو مدير للصور٫ عصري و سلس.</translation>
+        <translation> عارض الصور من ديبين : مدير للصور٫ عصري و سلس.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>يتميز بادارة الصور٫ عرض الصور و التعديل البسيط عليها.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">عارض الصور دييبن  مصدر تحت GPL v3.</translation>
+        <translation>يتميز بإدارة الصور٫ عرض الصور و التعديل البسيط عليها.</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>الصورة</translation>
+        <translation>صورة</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>الصور</translation>
+        <translation>صور</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>البوم</translation>
+        <translation>ألبوم</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>البومات</translation>
+        <translation>ألبومات</translation>
     </message>
     <message>
         <source>Manage sync</source>
@@ -55,15 +49,15 @@
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>حسنا</translation>
+        <translation>موافق</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>البوم جديد</translation>
+        <translation>ألبوم جديد</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -74,7 +68,7 @@
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>تم استيرادها مؤخرا</translation>
+        <translation>تم استيرادها مؤخراً</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -85,11 +79,11 @@
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>هل انت متاكد من حذف هذا الالبوم؟</translation>
+        <translation>هل أنت متأكد من حذف هذا اﻷلبوم؟</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -100,7 +94,7 @@
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>العودة</translation>
+        <translation>رجوع</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -108,11 +102,11 @@
     </message>
     <message>
         <source>Timeline</source>
-        <translation>الاطار الزمني</translation>
+        <translation>الخط الزمني</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>اضافة</translation>
+        <translation>إضافة</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
@@ -135,7 +129,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>اعادة التسمية</translation>
+        <translation>إعادة التسمية</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -150,7 +144,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>عارض الصور دييبن</translation>
+        <translation>عارض صور ديبين</translation>
     </message>
 </context>
 <context>
@@ -164,19 +158,19 @@
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>حسنا</translation>
+        <translation>موافق</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>هل انت متاكد من اضافة الصور للالبوم؟</translation>
+        <translation>هل أنت متأكد من إضافة الصور إلى اﻷلبوم؟</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>المزامنة و الانشاء</translation>
+        <translation>مزامنة وإنشاء</translation>
     </message>
     <message>
         <source>Sync</source>
@@ -191,7 +185,7 @@
     <name>Exporter</name>
     <message>
         <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;) </translation>
+        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
     </message>
     <message>
         <source>Exported successfully</source>
@@ -210,11 +204,11 @@
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>هل انت متاكد من رمي الصور في سلة المهملات؟</translation>
+        <translation>هل أنت متأكد من نقل الصور إلى سلة المحذوفات؟</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>الغاء</translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -256,11 +250,11 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>الرمي في سلة المهملات</translation>
+        <translation>نقل إلى سلة المحذوفات</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف من الالبوم</translation>
+        <translation>حذف من اﻷلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -268,23 +262,23 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>الغاء التفضيل</translation>
+        <translation>إزالة من المفضلة</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>التدوير مع عقارب الساعة</translation>
+        <translation>تدوير باتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>التدوير عكس عقارب الساعة</translation>
+        <translation>تدوير عكس اتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اختيار كصورة سطح المكتب</translation>
+        <translation>تعيين كخلفية</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>العرض في مدير الملفات</translation>
+        <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -292,7 +286,7 @@
     </message>
     <message>
         <source>Add</source>
-        <translation>اضافة</translation>
+        <translation>إضافة</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
@@ -300,18 +294,18 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>إضافة  للالبوم</translation>
+        <translation>إضافة  إلى الألبوم</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>إضافة لالبوم جديد</translation>
+        <translation>إضافة إلى ألبوم جديد</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>فتح الرابط</translation>
+        <translation>فتح الدليل</translation>
     </message>
 </context>
 <context>
@@ -349,7 +343,7 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>مساحة الالوان</translation>
+        <translation>مساحة اﻷلوان</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -369,7 +363,7 @@
     </message>
     <message>
         <source>Aperture</source>
-        <translation>فتحة</translation>
+        <translation>فتحة العدسة</translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -397,22 +391,22 @@
     </message>
     <message>
         <source>Camera model</source>
-        <translation>موديل الكاميرا</translation>
+        <translation>طراز الكاميرا</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>موديل العدسة</translation>
+        <translation>طراز العدسة</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>الاعماءات</translation>
+        <translation>إسدال</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>المحول</translation>
+        <translation>تبديل</translation>
     </message>
     <message>
         <source>Sliding</source>
@@ -427,11 +421,11 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>اختر الرابط</translation>
+        <translation>تحديد دليل</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>تم تعطيل هذا الرابط عن المزامنة</translation>
+        <translation>تم تعطيل هذا الدليل عن المزامنة</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -439,18 +433,18 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>إدارة مزامنة الرابط</translation>
+        <translation>إدارة مزامنة الدليل</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>قائمة الرابط فارغة</translation>
+        <translation>قائمة الدليل فارغة</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>الغاء المزامنة</translation>
+        <translation>إلغاء المزامنة</translation>
     </message>
     <message>
         <source>Images</source>
@@ -462,7 +456,7 @@
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>الرابط  غير موجود</translation>
+        <translation>الدليل  غير موجود</translation>
     </message>
     <message>
         <source>Calculating...</source>
@@ -477,11 +471,11 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>البوم</translation>
+        <translation>ألبوم</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>الاعدادات</translation>
+        <translation>الإعدادات</translation>
     </message>
     <message>
         <source>View</source>
@@ -497,7 +491,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>انهاء العرض</translation>
+        <translation>إنهاء العرض</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -505,11 +499,11 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>الرمي في سلة المهملات</translation>
+        <translation>نقل إلى سلة المحذوفات</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف من الالبوم</translation>
+        <translation>حذف من اﻷلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -517,23 +511,23 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>الغاء التفضيل</translation>
+        <translation>إزالة من المفضلة</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>التدوير مع عقارب الساعة</translation>
+        <translation>تدوير باتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>التدوير عكس عقارب الساعة</translation>
+        <translation>تدوير عكس اتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اختيار كصورة سطح المكتب</translation>
+        <translation>تعيين كخلفية</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>العرض في مدير الملفات</translation>
+        <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -557,11 +551,11 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>البوم جديد</translation>
+        <translation>ألبوم جديد</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>اعادة التسمية</translation>
+        <translation>إعادة التسمية</translation>
     </message>
     <message>
         <source>Help</source>
@@ -569,18 +563,18 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation>الخروج</translation>
+        <translation>خروج</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>عرض الاختصارات</translation>
+        <translation>اختصارات العرض</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>الرجاء اضافة اختصار جديد</translation>
+        <translation>يرجى إضافة اختصار جديد</translation>
     </message>
 </context>
 <context>
@@ -591,15 +585,15 @@
     </message>
     <message>
         <source>View Picture</source>
-        <translation>عرص الصورة</translation>
+        <translation>عرض الصورة</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>البوم</translation>
+        <translation>ألبوم</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>العودة للوضع الافتراضي</translation>
+        <translation>استعادة الافتراضيات</translation>
     </message>
 </context>
 <context>
@@ -618,7 +612,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>انهاء العرض</translation>
+        <translation>إنهاء العرض</translation>
     </message>
     <message>
         <source>Print</source>
@@ -630,11 +624,11 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>الرمي في سلة المهملات</translation>
+        <translation>نقل إلى سلة المحذوفات</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف من الالبوم</translation>
+        <translation>حذف من اﻷلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -642,23 +636,23 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>الغاء التفضيل</translation>
+        <translation>إزالة من المفضلة</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>التدوير مع عقارب الساعة</translation>
+        <translation>تدوير باتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>التدوير عكس عقارب الساعة</translation>
+        <translation>تدوير عكس اتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اختيار كصورة سطح المكتب</translation>
+        <translation>تعيين كخلفية</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>العرض في مدير الملفات</translation>
+        <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -666,11 +660,11 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>البوم جديد</translation>
+        <translation>ألبوم جديد</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>اعادة التسمية</translation>
+        <translation>إعادة التسمية</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -681,7 +675,7 @@
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>انهاء العرض</translation>
+        <translation>إنهاء العرض</translation>
     </message>
     <message>
         <source>Pause/Play</source>
@@ -692,7 +686,7 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>اعدادات الشريحة</translation>
+        <translation>إعدادات الشريحة</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -704,7 +698,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>مدة الانتقال</translation>
+        <translation>مدة التبديل</translation>
     </message>
     <message>
         <source>second</source>
@@ -715,11 +709,11 @@
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>العودة</translation>
+        <translation>رجوع</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>ادارة الصورة</translation>
+        <translation>إدارة الصورة</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -730,27 +724,27 @@
     <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>حجم 1:1</translation>
+        <translation>الحجم 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>التناسب مع النافذة</translation>
+        <translation>مناسب مع حجم النافذة</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>التدوير عكس عقارب الساعة</translation>
+        <translation>تدوير عكس اتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>التدوير مع عقارب الساعة</translation>
+        <translation>تدوير باتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>الرمي في سلة المهملات</translation>
+        <translation>نقل إلى سلة المحذوفات</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>الغاء التفضيل</translation>
+        <translation>إزالة من المفضلة</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -761,18 +755,18 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>لم يتم إيجاد صورة</translation>
+        <translation>لم يتم العثور على صورة</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>الصورة %1</translation>
+        <translation> %1 صورة</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>الصور %1</translation>
+        <translation> %1 صور</translation>
     </message>
     <message>
         <source>Manage sync</source>
@@ -787,11 +781,11 @@
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>البوم</translation>
+        <translation>ألبوم</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>اضافة</translation>
+        <translation>إضافة</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
@@ -799,11 +793,11 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>إضافة  للالبوم</translation>
+        <translation>إضافة  إلى الألبوم</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>إضافة لالبوم جديد</translation>
+        <translation>إضافة إلى ألبوم جديد</translation>
     </message>
     <message>
         <source>View</source>
@@ -811,7 +805,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>شاشة كاملة</translation>
+        <translation>ملء الشاشة</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -831,7 +825,7 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>الرمي في سلة المهملات</translation>
+        <translation>نقل إلى سلة المحذوفات</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -839,23 +833,23 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>الغاء التفضيل</translation>
+        <translation>إزالة من المفضلة</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>التدوير مع عقارب الساعة</translation>
+        <translation>تدوير باتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>التدوير عكس عقارب الساعة</translation>
+        <translation>تدوير عكس اتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اختيار كصورة سطح المكتب</translation>
+        <translation>تعيين كخلفية</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>العرض في مدير الملفات</translation>
+        <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -866,11 +860,11 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>اعدادات الشريحة</translation>
+        <translation>إعدادات الشريحة</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>التاثير</translation>
+        <translation>التأثير</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -886,14 +880,14 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>البوم</translation>
+        <translation>ألبوم</translation>
     </message>
 </context>
 <context>
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>يوم شهر سنة</translation>
+        <translation>dd MMMM yyyy</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -901,50 +895,30 @@
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>تم استيرادها مؤخرا</translation>
+        <translation>تم استيرادها مؤخراً</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>البوم جديد</translation>
-    </message>
-    <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">وضع الألوان العميقة</translation>
+        <translation>ألبوم جديد</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>الاعدادات</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="vanished">مساعدة</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">حول</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">الخروج</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
+        <translation>الإعدادات</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">ديبين عارض الصور هو مدير للصور٫ عصري و سلس.</translation>
+        <translation> عارض الصور من ديبين : مدير للصور٫ عصري و سلس.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">يتميز بادارة الصور٫ عرض الصور و التعديل البسيط عليها.</translation>
+        <translation>يتميز بادارة الصور٫ عرض الصور و التعديل البسيط عليها.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">عارض الصور دييبن  مصدر تحت GPL v3.</translation>
+        <source>Dark theme</source>
+        <translation>سمة داكنة</translation>
     </message>
 </context>
 <context>
@@ -955,11 +929,11 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>إضافة  للالبوم</translation>
+        <translation>إضافة  إلى الألبوم</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>إضافة لالبوم جديد</translation>
+        <translation>إضافة إلى ألبوم جديد</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -967,7 +941,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>شاشة كاملة</translation>
+        <translation>ملء الشاشة</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -987,11 +961,11 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>الرمي في سلة المهملات</translation>
+        <translation>نقل إلى سلة المحذوفات</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف من الالبوم</translation>
+        <translation>حذف من اﻷلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -999,7 +973,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>الغاء التفضيل</translation>
+        <translation>إزالة من المفضلة</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -1011,19 +985,19 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>التدوير مع عقارب الساعة</translation>
+        <translation>تدوير باتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>التدوير عكس عقارب الساعة</translation>
+        <translation>تدوير عكس اتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>اختيار كصورة سطح المكتب</translation>
+        <translation>تعيين كخلفية</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>العرض في مدير الملفات</translation>
+        <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
         <source>Image info</source>

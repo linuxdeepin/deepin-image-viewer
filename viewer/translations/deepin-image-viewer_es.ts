@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -18,10 +16,6 @@
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Destaca con la organización, visualización y edición básica de imágenes.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">Deepin Image Viewer es liberado bajo licencia GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -911,40 +905,20 @@
         <translation>Nuevo álbum</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Modo color profundo</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Ayuda</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">Acerca de</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Salir</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Image Viewer es un bonito y suave organizador de imágenes.</translation>
+        <translation> Deepin Image Viewer es un bonito y suave organizador de imágenes. </translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Destaca con la organización, visualización y edición básica de imágenes.</translation>
+        <translation>Se ofrece con la gestión de la imagen, visualización de imágenes y edición de imágenes básica.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">Deepin Image Viewer es liberado bajo licencia GPL v3.</translation>
+        <source>Dark theme</source>
+        <translation>Tema oscuro</translation>
     </message>
 </context>
 <context>

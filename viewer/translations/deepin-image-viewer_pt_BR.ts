@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visualizador de Imagens</translation>
+        <translation>Deepin Image Viewer</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -13,15 +11,11 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Visualizador de Imagens é um gerenciador de imagens moderno e sutil.</translation>
+        <translation>Deepin Image Viewer é um gerenciador de imagens moderno e sutil.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Seus recursos incluem gerenciamento, visualização e edição básica de imagens.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">Visualizador de Imagens é liberado sob GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -74,7 +68,7 @@
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Importadas Recentemente </translation>
+        <translation>Importadas recentemente </translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -85,7 +79,7 @@
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Tem certeza que deseja excluir este álbum? </translation>
+        <translation>Deseja excluir este álbum? </translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -184,7 +178,7 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Você está certo de adicionar essa pasta à lista de sincronização e criar um álbum com este nome?</translation>
+        <translation>Deseja adicionar essa pasta à lista de sincronização e criar um álbum com este nome?</translation>
     </message>
 </context>
 <context>
@@ -210,7 +204,7 @@
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Tem certeza que deseja enviar as imagens para a lixeira?</translation>
+        <translation>Deseja enviar as imagens para a lixeira?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -280,7 +274,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como Papel de Parede</translation>
+        <translation>Definir como papel de parede</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -311,7 +305,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir Diretório</translation>
+        <translation>Abrir diretório</translation>
     </message>
 </context>
 <context>
@@ -397,11 +391,11 @@
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Modelo da Câmera</translation>
+        <translation>Modelo da câmera</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Modelo da Lente</translation>
+        <translation>Modelo da lente</translation>
     </message>
 </context>
 <context>
@@ -427,7 +421,7 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Selecionar Diretório</translation>
+        <translation>Selecionar diretório</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
@@ -529,7 +523,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como Papel de Parede</translation>
+        <translation>Definir como papel de parede</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -580,7 +574,7 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Por favor, indique um novo atalho</translation>
+        <translation>Por favor, insira um novo atalho</translation>
     </message>
 </context>
 <context>
@@ -591,7 +585,7 @@
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Visualizar Imagem</translation>
+        <translation>Visualizar imagem</translation>
     </message>
     <message>
         <source>Album</source>
@@ -599,7 +593,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Restaurar Padrões</translation>
+        <translation>Restaurar padrões</translation>
     </message>
 </context>
 <context>
@@ -654,7 +648,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como Papel de Parede</translation>
+        <translation>Definir como papel de parede</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -685,7 +679,7 @@
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>Pausar/Play</translation>
+        <translation>Reproduzir/Pausar</translation>
     </message>
 </context>
 <context>
@@ -901,7 +895,7 @@
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Importadas Recentemente </translation>
+        <translation>Importadas recentemente </translation>
     </message>
 </context>
 <context>
@@ -911,40 +905,20 @@
         <translation>Novo álbum</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Modo Escuro</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Configurações</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Ajuda</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">Sobre</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Sair</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Visualizador de Imagens é um gerenciador de imagens moderno e sutil.</translation>
+        <translation>Deepin Image Viewer é um gerenciador de imagens moderno e sutil.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Seus recursos incluem gerenciamento, visualização e edição básica de imagens.</translation>
+        <translation>Seus recursos incluem gerenciamento, visualização e edição básica de imagens.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">Visualizador de Imagens é liberado sob GPL v3.</translation>
+        <source>Dark theme</source>
+        <translation>Tema dark</translation>
     </message>
 </context>
 <context>
@@ -1019,7 +993,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como Papel de Parede</translation>
+        <translation>Definir como papel de parede</translation>
     </message>
     <message>
         <source>Display in file manager</source>

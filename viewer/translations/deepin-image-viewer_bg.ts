@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="bg">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="bg" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -19,20 +17,16 @@
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Предназначен е за управление на изображения, преглед на изображения и основни възможности за редактиране на изображение.</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">Deepin Преглед на изображение е реализиран под GPL v3 лиценз.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>картина</translation>
+        <translation>изображение</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>картини</translation>
+        <translation>изображения</translation>
     </message>
     <message>
         <source>album</source>
@@ -85,7 +79,7 @@
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Изтривате ли този албум?</translation>
+        <translation>Сигурен ли сте, че искате да изтриете този албум?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -100,7 +94,7 @@
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>Върни</translation>
+        <translation>Назад</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -108,15 +102,15 @@
     </message>
     <message>
         <source>Timeline</source>
-        <translation>Времева линя</translation>
+        <translation>Хронология</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Добави</translation>
+        <translation>Добавяне</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Може да добавите папка за синхронизиране или да влачите картинки към времевата линия</translation>
+        <translation>Може да добавите папка за синхронизиране или да изтеглите изображения към хронологията</translation>
     </message>
 </context>
 <context>
@@ -157,7 +151,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>картини</translation>
+        <translation>изображения</translation>
     </message>
 </context>
 <context>
@@ -203,7 +197,7 @@
     </message>
     <message>
         <source>Save</source>
-        <translation>Запази</translation>
+        <translation>Запазване</translation>
     </message>
 </context>
 <context>
@@ -304,7 +298,7 @@
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Добави към нов албум</translation>
+        <translation>Добави в нов албум</translation>
     </message>
 </context>
 <context>
@@ -318,7 +312,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Нямате рпаво да видите тази картина</translation>
+        <translation>Нямате права за преглед на това изображение</translation>
     </message>
 </context>
 <context>
@@ -454,7 +448,7 @@
     </message>
     <message>
         <source>Images</source>
-        <translation>Картинки</translation>
+        <translation>Изображения</translation>
     </message>
     <message>
         <source>The device has been removed</source>
@@ -545,7 +539,7 @@
     </message>
     <message>
         <source>Next</source>
-        <translation>Следващо </translation>
+        <translation>Следващ</translation>
     </message>
     <message>
         <source>Previous screen</source>
@@ -685,14 +679,14 @@
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>Пауза/старт</translation>
+        <translation>Пауза/Изпълнение</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Настройки за плъзгане</translation>
+        <translation>Настройки на прожекцията</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -715,7 +709,7 @@
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Върни</translation>
+        <translation>Обратно</translation>
     </message>
     <message>
         <source>Image management</source>
@@ -734,7 +728,7 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>размер според прозореца</translation>
+        <translation>Оразмеряване според прозореца</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
@@ -761,18 +755,18 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Няма намерени картини</translation>
+        <translation>Няма намерени изображения</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 картина</translation>
+        <translation>%1 изображение</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 картини</translation>
+        <translation>%1 изображения</translation>
     </message>
     <message>
         <source>Manage sync</source>
@@ -791,11 +785,11 @@
     </message>
     <message>
         <source>Add</source>
-        <translation>Добави</translation>
+        <translation>Добавяне</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Може да добавите папка за синхронизиране или да влачите картинки към времевата линия</translation>
+        <translation>Може да добавите папка за синхронизиране или да влачите картинки към хронологията</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -893,7 +887,7 @@
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
+        <translation>дд ММММ гггг</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -911,51 +905,31 @@
         <translation>Нов албум</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Режим на дълбоко оцветяване</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Помощ</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">Относно</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Изход</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Преглед на изображения е модерен и лесен за работа мениджър на изображения</translation>
+        <translation>Deepin Преглед на изображения е модерен и приятен мениджър на изображения.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Предназначен е за управление на изображения, преглед на изображения и основни възможности за редактиране на изображение.</translation>
+        <translation>Той е с възможности за управление, преглед и основни функции за редактиране на изображения.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">Deepin Преглед на изображение е реализиран под GPL v3 лиценз.</translation>
+        <source>Dark theme</source>
+        <translation>Тъмна тема</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Времева линя</translation>
+        <translation>Хронология</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Добавяне на албум</translation>
+        <translation>Добавяне към албум</translation>
     </message>
     <message>
         <source>Add to new album</source>
@@ -1003,11 +977,11 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Покажи управляващия прозорец</translation>
+        <translation>Покажи прозореца за управление</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Скрий управляващия прозорец</translation>
+        <translation>Скрий прозореца за управление</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>

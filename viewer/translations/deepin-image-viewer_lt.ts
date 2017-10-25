@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="lt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -18,10 +16,6 @@
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Jos pagrindinės ypatybės yra paveikslų tvarkymas, paveikslų rodymas bei pagrindinės paveikslų redagavimo funkcijos.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">Deepin paveikslų žiūryklė yra išleista pagal GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -911,40 +905,20 @@
         <translation>Naujas albumas</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Tamsių spalvų veiksena</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Nustatymai</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Žinynas</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">Apie</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Išeiti</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin paveikslų žiūryklė yra šiuolaikinė ir glotni paveikslų tvarkytuvė.</translation>
+        <translation>Deepin paveikslų žiūryklė yra šiuolaikinė ir glotni paveikslų tvarkytuvė.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Jos pagrindinės ypatybės yra paveikslų tvarkymas, paveikslų rodymas bei pagrindinės paveikslų redagavimo funkcijos.</translation>
+        <translation>Jos pagrindinės ypatybės yra paveikslų tvarkymas, paveikslų rodymas bei pagrindinės paveikslų redagavimo funkcijos.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">Deepin paveikslų žiūryklė yra išleista pagal GPL v3.</translation>
+        <source>Dark theme</source>
+        <translation>Tamsi tema</translation>
     </message>
 </context>
 <context>

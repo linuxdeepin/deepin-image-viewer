@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -18,10 +16,6 @@
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Isto tem a função de gerir, visualizar e editar rudimentarmente imagens.   </translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">O Visualizador de Imagens Deepin é lançado sobre GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -911,40 +905,20 @@
         <translation>Novo album</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Modo de cor profunda</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Definições</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Ajuda</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">Sobre</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Sair</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">O Visualizador de Imagens Deepin é um bonito e fluído gestor de imagens.</translation>
+        <translation>O Visualizador de Imagens Deepin é um bonito e fluído gestor de imagens.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Isto tem a função de gerir, visualizar e editar rudimentarmente imagens.   </translation>
+        <translation>Tem a função de gerir, visualizar e edição básica de imagens.   </translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">O Visualizador de Imagens Deepin é lançado sobre GPL v3.</translation>
+        <source>Dark theme</source>
+        <translation>Tema Escuro</translation>
     </message>
 </context>
 <context>

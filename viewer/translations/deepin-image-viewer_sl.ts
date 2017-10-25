@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -18,10 +16,6 @@
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Z njim je možno upravljati, pregledovati in osnovno urejati fotografije.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">Pregledovalnik fotografij Deepin je izdan pod licenco GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -911,40 +905,20 @@
         <translation>Nov album</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Način globokih barv</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Nastavitve</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Pomoč</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">O programu</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Izhod</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Pregledovalnik fotografij Deepin je gladek in moden upravitelj fotografij.</translation>
+        <translation>Pregledovalnik fotografij Deepin je gladek in moden upravitelj fotografij.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Z njim je možno upravljati, pregledovati in osnovno urejati fotografije.</translation>
+        <translation>Z njim je možno upravljati, pregledovati in osnovno urejati fotografije.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">Pregledovalnik fotografij Deepin je izdan pod licenco GPL v3.</translation>
+        <source>Dark theme</source>
+        <translation>Temna tema</translation>
     </message>
 </context>
 <context>

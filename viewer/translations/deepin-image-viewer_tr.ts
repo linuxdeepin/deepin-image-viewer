@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -13,15 +11,11 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Resim Görüntüleyici, moda ve pürüzsüz görüntü yöneticisi.</translation>
+        <translation>Deepin Resim Görüntüleyici, moda &amp; pürüzsüz görüntü yöneticisi.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Görüntü yönetimi, resim görüntüleme ve basit resim düzenleme özellikli.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">Deepin Resim Görüntüleyici, GPL v3 altında yayınlandı.</translation>
     </message>
 </context>
 <context>
@@ -48,7 +42,7 @@
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Eşitleniyor:</translation>
+        <translation>Senkronizasyon:</translation>
     </message>
 </context>
 <context>
@@ -172,15 +166,15 @@
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Resimleri albüme yüklemek istediğinizden emin misiniz?</translation>
+        <translation>Resimleri albüme eklemek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Eşitle ve Oluştur</translation>
+        <translation>Senkronize Et ve Oluştur</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Eşitle</translation>
+        <translation>Senkronize Et</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
@@ -210,7 +204,7 @@
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Çöp Kutusuna resim atacağından emin misin?</translation>
+        <translation>Çöp Kutusuna resim atacağından emin misiniz?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -268,7 +262,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation>Favorilerden Çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -337,7 +331,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Düzenleme tarihi</translation>
+        <translation>Değiştirilme tarihi</translation>
     </message>
     <message>
         <source>Resolution</source>
@@ -408,7 +402,7 @@
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Jaluziler</translation>
+        <translation>Panjur</translation>
     </message>
     <message>
         <source>Switcher</source>
@@ -427,7 +421,7 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Dizin Seç</translation>
+        <translation>Dizini Seç</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
@@ -439,7 +433,7 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Eşitleme Dizin Yönetimi</translation>
+        <translation>Dizin Eşitleme Yönetimi</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
@@ -517,7 +511,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation>Favorilerden Çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -569,7 +563,7 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation>Çıkış</translation>
+        <translation>Çık</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
@@ -642,7 +636,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation>Favorilerden Çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -696,7 +690,7 @@
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Animasyon değiştir</translation>
+        <translation>Geçiş efekti</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -750,7 +744,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation>Favorilerden Çıkar</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -768,19 +762,19 @@
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 Resim </translation>
+        <translation>%1 resim</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 Resimler</translation>
+        <translation>%1 resim</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Eşitlemeyi yönet</translation>
+        <translation>Senkronizasyonu yönet</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Eşitleniyor:</translation>
+        <translation>Senkronizasyon:</translation>
     </message>
 </context>
 <context>
@@ -839,7 +833,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation>Favorilerden çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -870,7 +864,7 @@
     </message>
     <message>
         <source>Effect</source>
-        <translation>Animasyon</translation>
+        <translation>Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -911,40 +905,20 @@
         <translation>Yeni albüm</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Derin renk modu</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Yardım</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">Hakkında</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Çıkış</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Deepin Resim Görüntüleyici, moda ve pürüzsüz görüntü yöneticisi.</translation>
+        <translation>Deepin Resim Görüntüleyici, moda ve pürüzsüz görüntü yöneticisi.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Görüntü yönetimi, resim görüntüleme ve basit resim düzenleme özellikli.</translation>
+        <translation>Görüntü yönetimi, resim görüntüleme ve basit resim düzenleme özellikli.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">Deepin Resim Görüntüleyici, GPL v3 altında yayınlandı.</translation>
+        <source>Dark theme</source>
+        <translation>Koyu tema</translation>
     </message>
 </context>
 <context>
@@ -963,7 +937,7 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Tam ekrandan çıkış</translation>
+        <translation>Tam ekrandan çık</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -999,7 +973,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favori değil</translation>
+        <translation>Favorilerden Çıkar</translation>
     </message>
     <message>
         <source>Show navigation window</source>

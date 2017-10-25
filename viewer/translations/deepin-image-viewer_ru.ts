@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -18,10 +16,6 @@
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Он имеет функции управления просмотра и редактирования основных изображений.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">Просмотр изображений Deepin выпущен под GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -911,40 +905,20 @@
         <translation>Новый альбом</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Режим глубокого цвета</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Помощь</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">О программе</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Выход</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">Просмотр изображений Deepin является современным и гладким менеджером изображений.</translation>
+        <translation>Deepin Image Viewer - это современный и изящный менеджер изображений.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Он имеет функции управления просмотра и редактирования основных изображений.</translation>
+        <translation>Он предназначен для управления, просмотра и редактирования изображениями начального уровня.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">Просмотр изображений Deepin выпущен под GPL v3.</translation>
+        <source>Dark theme</source>
+        <translation>Темная тема</translation>
     </message>
 </context>
 <context>

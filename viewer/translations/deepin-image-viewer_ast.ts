@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ast">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ast" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visor d&apos;imáxenes Deepin</translation>
+        <translation>Visor Deepin d&apos;imáxenes</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -13,15 +11,11 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>El visor d&apos;imáxenes Deepin ye un xestor d&apos;imáxenes modernu y estable.</translation>
+        <translation>El visor Deepin d&apos;imáxenes ye un xestor d&apos;imáxenes modernu y estable.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Vien con xestión, visión y edición básica de semeyes.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">El visor d&apos;imáxenes Deepin llánzase so la GPL v3.</translation>
     </message>
 </context>
 <context>
@@ -44,11 +38,11 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Xestionar sincronización</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizando:</translation>
     </message>
 </context>
 <context>
@@ -78,7 +72,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mios favorites</translation>
     </message>
 </context>
 <context>
@@ -104,7 +98,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Lo favorito de mio</translation>
     </message>
     <message>
         <source>Timeline</source>
@@ -116,7 +110,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"></translation>
+        <translation>Pues amestar un direutoriu de sincronización o arrastrar y soltar les imáxenes na llinia temporal</translation>
     </message>
 </context>
 <context>
@@ -131,7 +125,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -184,7 +178,7 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿De xuru que quies amestar al llistáu de sincronización y crear l&apos;álbum col nome d&apos;esta carpeta?</translation>
     </message>
 </context>
 <context>
@@ -195,7 +189,7 @@
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation type="unfinished"></translation>
+        <translation>Esportóse con esitu</translation>
     </message>
     <message>
         <source>Failed to export</source>
@@ -232,7 +226,7 @@
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -240,7 +234,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva</translation>
     </message>
     <message>
         <source>Print</source>
@@ -264,19 +258,19 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Non favorita</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a drecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a esquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -296,7 +290,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"></translation>
+        <translation>Pues amestar un direutoriu de sincronización o arrastrar y soltar les imáxenes na llinia temporal</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -333,7 +327,7 @@
     </message>
     <message>
         <source>Date photoed</source>
-        <translation type="unfinished"></translation>
+        <translation>Data de fechura</translation>
     </message>
     <message>
         <source>Date modified</source>
@@ -373,7 +367,7 @@
     </message>
     <message>
         <source>Focal length</source>
-        <translation type="unfinished"></translation>
+        <translation>Llonxitú focal</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -385,15 +379,15 @@
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mou de midición</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"></translation>
+        <translation>Balance de blancos</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"></translation>
+        <translation>Compensación de flax</translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -401,45 +395,45 @@
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelu de lente</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="unfinished"></translation>
+        <translation>Conmutador</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="unfinished"></translation>
+        <translation>Eslizante</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="unfinished"></translation>
+        <translation>Aniellu</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Esbillar direutoriu</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Esti direutoriu tien desactivao&apos;l sincronizar</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Amestar carpeta</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation type="unfinished"></translation>
+        <translation>Xestión de direutorios de sincronización</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
@@ -450,7 +444,7 @@
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Encaboxar sincronización</translation>
     </message>
     <message>
         <source>Images</source>
@@ -473,7 +467,7 @@
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation type="unfinished"></translation>
+        <translation>Visión d&apos;imáxenes</translation>
     </message>
     <message>
         <source>Album</source>
@@ -485,7 +479,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -493,11 +487,11 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="unfinished"></translation>
+        <translation>Finar presentación</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -513,19 +507,19 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Non favorita</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a drecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a esquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -541,7 +535,7 @@
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <source>Next</source>
@@ -614,11 +608,11 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
@@ -638,19 +632,19 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Non favorita</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a drecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a esquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -681,7 +675,7 @@
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Pause/Play</source>
@@ -692,11 +686,11 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Camudar efeutu</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -704,7 +698,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Camudar duración</translation>
     </message>
     <message>
         <source>second</source>
@@ -723,7 +717,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Lo favorito de mio</translation>
     </message>
 </context>
 <context>
@@ -734,15 +728,15 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"></translation>
+        <translation>Axustar a ventana</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a esquierda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a drecha</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
@@ -750,11 +744,11 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Non favorita</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorita</translation>
     </message>
 </context>
 <context>
@@ -776,11 +770,11 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Xestionar sincronización</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizando:</translation>
     </message>
 </context>
 <context>
@@ -791,11 +785,11 @@
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Amestar</translation>
+        <translation>Amestar</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"></translation>
+        <translation>Pues amestar un direutoriu de sincronización o arrastrar y soltar les imáxenes na llinia temporal</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -807,7 +801,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">Ver</translation>
+        <translation>Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -815,7 +809,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
@@ -835,19 +829,19 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Non favorita</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a drecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a esquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -866,7 +860,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Effect</source>
@@ -897,7 +891,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Lo favorito de mio</translation>
     </message>
     <message>
         <source>Recent imported</source>
@@ -915,32 +909,16 @@
         <translation>Axustes</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Ayuda</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">Tocante a</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Colar</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">El visor d&apos;imáxenes Deepin ye un xestor d&apos;imáxenes modernu y estable.</translation>
+        <translation>El visor Deepin d&apos;imáxenes ye un visor d&apos;imáxenes modernu y suave.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Vien con xestión, visión y edición básica de semeyes.</translation>
+        <translation>Tien como carauterístiques la xestión, visión y edición básica d&apos;imáxenes.</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">El visor d&apos;imáxenes Deepin llánzase so la GPL v3.</translation>
+        <source>Dark theme</source>
+        <translation>Tema prietu</translation>
     </message>
 </context>
 <context>
@@ -967,7 +945,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
@@ -991,27 +969,27 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Favorita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Non favorita</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Amosar ventana de navegación</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"></translation>
+        <translation>Anubrir ventana de navegación</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a drecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltiar a esquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>

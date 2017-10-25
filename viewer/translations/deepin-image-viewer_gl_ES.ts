@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="gl_ES">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="gl_ES" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -18,10 +16,6 @@
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
         <translation>Ten como características a xestión, visualización e a edición básica de imaxes.</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="vanished">O visualizador de imaxes foi liberado baixo GPL v3</translation>
     </message>
 </context>
 <context>
@@ -911,40 +905,20 @@
         <translation>Novo álbum</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">Modo de cores profundas</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Configuracións</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Axuda</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">Sobre</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">Saír</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">O visualizador de imaxes é un xestor de imaxes moderno e fluído.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">Ten como características a xestión, visualización e a edición básica de imaxes.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">O visualizador de imaxes foi liberado baixo GPL v3</translation>
+        <source>Dark theme</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

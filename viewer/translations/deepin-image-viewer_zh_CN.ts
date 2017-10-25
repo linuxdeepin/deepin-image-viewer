@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -907,40 +905,20 @@
         <translation>新建相册</translation>
     </message>
     <message>
-        <source>Deep color mode</source>
-        <translation type="vanished">深色主题</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="vanished">帮助</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">关于</translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="vanished">退出</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished">深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
+        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished">兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+        <translation>兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is released under GPL v3.</source>
-        <translation type="obsolete">深度看图遵循GPL v3协议发布。</translation>
+        <source>Dark theme</source>
+        <translation>深色主题</translation>
     </message>
 </context>
 <context>
