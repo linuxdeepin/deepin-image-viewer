@@ -103,8 +103,8 @@ PushButton#ReturnBtn {
 }
 
 PushButton#FolderBtn {
-    qproperty-normalPic: url(:/resources/light/images/folder_normal.png);
-    qproperty-hoverPic: url(:/resources/light/images/folder_hover.png);
-    qproperty-pressPic: url(:/resources/light/images/folder_press.png);
+    qproperty-normalPic: url(:/resources/light/images/mainwindow_light_normal.svg);
+    qproperty-hoverPic: url(:/resources/light/images/mainwindow_light_hover.svg);
+    qproperty-pressPic: url(:/resources/light/images/mainwindow_light_press.svg);
 }
 

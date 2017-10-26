@@ -14,9 +14,6 @@
         <file>resources/dark/images/edit_normal.png</file>
         <file>resources/dark/images/edit_press.png</file>
         <file>resources/dark/images/empty_defaultThumbnail.png</file>
-        <file>resources/dark/images/folder_hover.png</file>
-        <file>resources/dark/images/folder_normal.png</file>
-        <file>resources/dark/images/folder_press.png</file>
         <file>resources/dark/images/info_active.png</file>
         <file>resources/dark/images/info_hover.png</file>
         <file>resources/dark/images/info_normal.png</file>
@@ -41,9 +38,6 @@
         <file>resources/dark/qss/view.qss</file>
         <file>resources/light/images/default_thumbnail.png</file>
         <file>resources/light/images/empty_defaultThumbnail.png</file>
-        <file>resources/light/images/folder_hover.png</file>
-        <file>resources/light/images/folder_normal.png</file>
-        <file>resources/light/images/folder_press.png</file>
         <file>resources/light/images/lock_bg.png</file>
         <file>resources/light/images/naviwindow_bg.png</file>
         <file>resources/light/qss/floating.qss</file>
@@ -120,5 +114,11 @@
         <file>resources/dark/images/return_normal.svg</file>
         <file>resources/dark/images/return_press.svg</file>
         <file>resources/dark/images/scale_background.svg</file>
+        <file>resources/dark/images/mainwindow_dark_hover.svg</file>
+        <file>resources/dark/images/mainwindow_dark_normal.svg</file>
+        <file>resources/dark/images/mainwindow_dark_press.svg</file>
+        <file>resources/light/images/mainwindow_light_hover.svg</file>
+        <file>resources/light/images/mainwindow_light_normal.svg</file>
+        <file>resources/light/images/mainwindow_light_press.svg</file>
     </qresource>
 </RCC>

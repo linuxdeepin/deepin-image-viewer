@@ -93,9 +93,9 @@ PushButton#ReturnBtn {
 }
 
 PushButton#FolderBtn {
-    qproperty-normalPic: url(:/resources/dark/images/folder_normal.png);
-    qproperty-hoverPic: url(:/resources/dark/images/folder_hover.png);
-    qproperty-pressPic: url(:/resources/dark/images/folder_press.png);
+    qproperty-normalPic: url(:/resources/dark/images/mainwindow_dark_normal.png);
+    qproperty-hoverPic: url(:/resources/dark/images/mainwindow_dark_hover.svg);
+    qproperty-pressPic: url(:/resources/dark/images/mainwindow_dark_press.svg);
 }
 
 
