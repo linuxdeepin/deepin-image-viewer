@@ -65,7 +65,7 @@ private:
     void initWidgets();
 
 private slots:
-    void onAbout();
+//    void onAbout();
     void onHelp();
     void onNewAlbum();
     void onSetting();

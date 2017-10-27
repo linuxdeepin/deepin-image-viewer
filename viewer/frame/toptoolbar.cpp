@@ -240,6 +240,9 @@ void TopToolbar::initMenu()
     qApp->setApplicationDescription(QString("%1\n%2\n").arg(tr("Deepin Image Viewer is a fashion "
               "& smooth image manager.")).arg(tr("It is featured with image management, image viewing "
               "and basic image editing.")));
+    qApp->setApplicationAcknowledgementPage("https://www.deepin.org/"
+                                            "acknowledgments/deepin-image-viewer/");
+
 //    if (utils::base::isCommandExist("dman")) {
 //        QAction *acH = m_menu->addAction(tr("Help"));
 //        connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
@@ -297,15 +300,15 @@ void TopToolbar::onViewShortcut() {
             shortcutViewProcess, SLOT(deleteLater()));
 }
 
-void TopToolbar::onAbout()
-{
-    AboutDialog *ad = new AboutDialog;
-    ad->show();
-    QWidget *w = window();
-    QPoint gp = w->mapToGlobal(QPoint(0, 0));
-    ad->move((w->width() - ad->width()) / 2 + gp.x(),
-               (w->height() - ad->sizeHint().height()) / 2 + gp.y());
-}
+//void TopToolbar::onAbout()
+//{
+//    AboutDialog *ad = new AboutDialog;
+//    ad->show();
+//    QWidget *w = window();
+//    QPoint gp = w->mapToGlobal(QPoint(0, 0));
+//    ad->move((w->width() - ad->width()) / 2 + gp.x(),
+//               (w->height() - ad->sizeHint().height()) / 2 + gp.y());
+//}
 
 void TopToolbar::onHelp()
 {
