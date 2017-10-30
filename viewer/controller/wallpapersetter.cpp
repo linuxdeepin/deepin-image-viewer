@@ -22,6 +22,8 @@
 #include <QDebug>
 #include <QDBusInterface>
 
+#include <unistd.h>
+
 WallpaperSetter *WallpaperSetter::m_setter = nullptr;
 WallpaperSetter *WallpaperSetter::instance()
 {
@@ -44,10 +46,17 @@ void WallpaperSetter::setWallpaper(const QString &path)
     QFile(path).copy(tmpImg);
 
 #ifdef FLATPAK_SUPPORT
-    QDBusInterface wm("com.deepin.wm", "/com/deepin/wm", "com.deepin.wm");
-    QDBusMessage reply = wm.call("ChangeCurrentWorkspaceBackground", path);
+    // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
     qDebug() << "SettingWallpaper: " << "flatpak" << path;
-    qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+    QDBusInterface interface("com.deepin.daemon.Appearance",
+                                 "/com/deepin/daemon/Appearance",
+                                 "com.deepin.daemon.Appearance");
+    if (interface.isValid()) {
+        QDBusMessage reply = interface.call("Set", "background", path);
+        qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+    } else {
+        qWarning() << "SettingWallpaper failed" << interface.lastError();
+    }
 #else
     DE de = getDE();
     qDebug() << "SettingWallpaper: " << de << path;
