@@ -358,7 +358,7 @@ void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 }
 
 void ImageView::mouseReleaseEvent(QMouseEvent *e)
-{    
+{
     if (! items().isEmpty()) {
         items().first()->setCursor(Qt::ArrowCursor);
         dApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
