@@ -22,7 +22,7 @@ LoadingIcon::LoadingIcon(QWidget *parent)
     : DPictureSequenceView(parent)
 {
     updateIconPath();
-    setPictureSequence(m_iconPaths);
+    setPictureSequence(m_iconPaths, true);
     setFixedSize(14, 14);
     setSpeed(40);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
