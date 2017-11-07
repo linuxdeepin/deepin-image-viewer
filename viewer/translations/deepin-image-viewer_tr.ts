@@ -11,7 +11,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Resim Görüntüleyici, moda &amp; pürüzsüz görüntü yöneticisi.</translation>
+        <translation>Deepin Resim Görüntüleyici, moda &amp; pürüzsüz görüntü yönetici.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -278,7 +278,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation>Dosya yöneticide göster</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -444,7 +444,7 @@
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Eşitleme iptal</translation>
+        <translation>Eşitlemeyi iptal et</translation>
     </message>
     <message>
         <source>Images</source>
@@ -527,7 +527,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation>Dosya yöneticide göster</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -652,7 +652,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation>Dosya yöneticide göster</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -849,7 +849,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation>Dosya yöneticide göster</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -910,7 +910,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Resim Görüntüleyici, moda ve pürüzsüz görüntü yöneticisi.</translation>
+        <translation>Deepin Resim Görüntüleyici, moda ve pürüzsüz görüntü yönetici.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -997,7 +997,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde göster</translation>
+        <translation>Dosya yöneticide göster</translation>
     </message>
     <message>
         <source>Image info</source>

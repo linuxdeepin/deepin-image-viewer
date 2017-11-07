@@ -910,15 +910,15 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished"/>
+        <translation>A Deepin Image Viewer egy egyszerű, de korszerű képkezelő.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished"/>
+        <translation>Képnézegető alkalmazás pár alap képszerkesztési funkcióval.</translation>
     </message>
     <message>
         <source>Dark theme</source>
-        <translation type="unfinished"/>
+        <translation>Sötét téma</translation>
     </message>
 </context>
 <context>

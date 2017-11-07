@@ -11,7 +11,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer es un bonito y suave organizador de imágenes.</translation>
+        <translation>Visor de imágenes Deepin es un bonito y suave organizador de imágenes.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -144,7 +144,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Visor de imágenes Deepin</translation>
     </message>
 </context>
 <context>
