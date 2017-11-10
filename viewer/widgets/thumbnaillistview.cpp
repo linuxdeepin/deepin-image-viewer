@@ -122,11 +122,11 @@ QMutex mutex;
 void ThumbnailListView::insertItem(const ItemInfo &info)
 {
     QMutexLocker locker(&mutex);
-    // Diffrent thread connection cause duplicate insert
+    // Different thread connection cause duplicate insert
     if (indexOf(info.path) != -1)
         return;
 
-    // Lock for model's data reading and setting in diffrent thread
+    // Lock for model's data reading and setting in different thread
     // Can not use QMutex because the data-operation not in the same class
 //    m_delegate->setIsDataLocked(true);
     QStandardItem *item = new QStandardItem;
