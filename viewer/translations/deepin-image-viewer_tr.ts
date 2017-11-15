@@ -129,7 +129,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation>Yeniden adlandır</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -262,7 +262,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden Çıkar</translation>
+        <translation>Favorilerden çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -347,7 +347,7 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Pozlama modu</translation>
+        <translation>Pozlama kipi</translation>
     </message>
     <message>
         <source>Exposure program</source>
@@ -511,7 +511,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden Çıkar</translation>
+        <translation>Favorilerden çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -555,7 +555,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation>Yeniden adlandır</translation>
     </message>
     <message>
         <source>Help</source>
@@ -636,7 +636,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden Çıkar</translation>
+        <translation>Favorilerden çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -664,7 +664,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation>Yeniden adlandır</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -702,7 +702,7 @@
     </message>
     <message>
         <source>second</source>
-        <translation>ikinci</translation>
+        <translation>saniye</translation>
     </message>
 </context>
 <context>
@@ -744,7 +744,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden Çıkar</translation>
+        <translation>Favorilerden çıkar</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -973,7 +973,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden Çıkar</translation>
+        <translation>Favorilerden çıkar</translation>
     </message>
     <message>
         <source>Show navigation window</source>

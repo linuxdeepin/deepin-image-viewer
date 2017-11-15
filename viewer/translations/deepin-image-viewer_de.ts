@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Deepin Bildbetrachter</translation>
     </message>
     <message>
         <source>Version:</source>
