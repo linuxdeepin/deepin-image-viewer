@@ -61,4 +61,4 @@ We encourage you to report issues and contribute changes
 
 ## License
 
-DDE Dock is licensed under [GPLv3](LICENSE).
+Deepin Image Viewer is licensed under [GPLv3](LICENSE).
