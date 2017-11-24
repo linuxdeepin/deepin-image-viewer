@@ -58,9 +58,10 @@ const QColor DARK_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 51);
 const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
 }  // namespace
 
-TopToolbar::TopToolbar(QWidget *parent)
+TopToolbar::TopToolbar(bool manager, QWidget *parent)
     :BlurFrame(parent)
 {
+    m_manager = manager;
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
@@ -228,13 +229,22 @@ void TopToolbar::initMenu()
 {
     m_menu = new QMenu(this);
     m_menu->setStyle(QStyleFactory::create("dlight"));
-    QAction *acNA = m_menu->addAction(tr("New album"));
+    if (m_manager)
+    {
+        QAction *acNA = m_menu->addAction(tr("New album"));
+        connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
+    }
     QAction *acDT = m_menu->addAction(tr("Dark theme"));
+
     bool checkSelected =
             dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark;
     acDT->setCheckable(checkSelected);
     acDT->setChecked(checkSelected);
-    QAction *acS = m_menu->addAction(tr("Settings"));
+    if (m_manager)
+    {
+        QAction *acS = m_menu->addAction(tr("Settings"));
+        connect(acS, &QAction::triggered, this, &TopToolbar::onSetting);
+    }
     m_menu->addSeparator();
     qApp->setProductIcon(QPixmap(":/resources/common/about_logo.png"));
     qApp->setApplicationDescription(QString("%1\n%2\n").arg(tr("Deepin Image Viewer is a fashion "
@@ -251,9 +261,8 @@ void TopToolbar::initMenu()
 //    }
 //    QAction *acA = m_menu->addAction(tr("About"));
 //    QAction *acE = m_menu->addAction(tr("Exit"));
-    connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
+
     connect(acDT, &QAction::triggered, this, &TopToolbar::onDeepColorMode);
-    connect(acS, &QAction::triggered, this, &TopToolbar::onSetting);
 
 //    connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
 //    connect(acE, &QAction::triggered, dApp, &Application::quit);

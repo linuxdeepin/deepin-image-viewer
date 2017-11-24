@@ -149,6 +149,7 @@ void MainWidget::onShowImageInfo(const QString &path)
 
 void MainWidget::initPanelStack(bool manager)
 {
+    m_manager = manager;
     m_panelStack = new QStackedWidget(this);
     m_panelStack->setObjectName("PanelStack");
 
@@ -157,7 +158,7 @@ void MainWidget::initPanelStack(bool manager)
     mainLayout->addWidget(m_panelStack);
 
     // Init panel
-        if (manager) {
+        if (m_manager) {
             TimelinePanel *m_timelinePanel = new TimelinePanel;
             m_panelStack->addWidget(m_timelinePanel);
             AlbumPanel *m_albumPanel = new AlbumPanel;
@@ -173,7 +174,7 @@ void MainWidget::initPanelStack(bool manager)
 
 void MainWidget::initTopToolbar()
 {
-    m_topToolbar = new TopToolbar(this);
+    m_topToolbar = new TopToolbar(m_manager, this);
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);

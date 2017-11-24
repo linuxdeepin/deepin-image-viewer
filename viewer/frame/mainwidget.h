@@ -57,6 +57,7 @@ private:
 
     QStackedWidget  *m_panelStack;
 
+    bool m_manager;
     BottomToolbar   *m_bottomToolbar;
     ExtensionPanel  *m_extensionPanel;
     TopToolbar      *m_topToolbar;

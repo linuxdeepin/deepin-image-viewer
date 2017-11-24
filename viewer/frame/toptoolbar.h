@@ -35,7 +35,7 @@ class TopToolbar : public BlurFrame
 {
     Q_OBJECT
 public:
-    TopToolbar(QWidget *parent);
+    TopToolbar(bool manager, QWidget *parent);
     void setLeftContent(QWidget *content);
     void setMiddleContent(QWidget *content);
 
@@ -90,6 +90,7 @@ private:
 
     SettingsWindow *m_settingsWindow;
     QMenu *m_menu;
+    bool m_manager;
 };
 
 #endif // TOPTOOLBAR_H
