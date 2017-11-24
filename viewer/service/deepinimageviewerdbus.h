@@ -45,10 +45,11 @@ public:
     inline SignalManager *parent() const
     { return static_cast<SignalManager *>(QObject::parent()); }
 
-    Q_SLOT void backToMainWindow() const;
-    Q_SLOT void activeWindow();
-    Q_SLOT void enterAlbum(const QString &album);
-    Q_SLOT void searchImage(const QString &keyWord);
-    Q_SLOT void editImage(const QString &path);
+public Q_SLOTS:
+     Q_SCRIPTABLE void backToMainWindow() const;
+     Q_SCRIPTABLE void activeWindow();
+     Q_SCRIPTABLE void enterAlbum(const QString &album);
+     Q_SCRIPTABLE void searchImage(const QString &keyWord);
+     Q_SCRIPTABLE void editImage(const QString &path);
 };
 #endif // DEEPINIMAGEVIEWERDBUS_H

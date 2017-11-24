@@ -146,9 +146,11 @@ bool CommandLine::processOption()
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
+      DeepinImageViewerDBus *dvd = new DeepinImageViewerDBus(dApp->signalM);
     if (names.isEmpty() && pas.isEmpty()) {
         if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
-                QDBusConnection::sessionBus().registerObject(DBUS_PATH, dApp->signalM)) {
+                QDBusConnection::sessionBus().registerObject(DBUS_PATH,
+                dvd, QDBusConnection::ExportScriptableSlots)) {
             MainWindow *w = new MainWindow(true);
             w->show();
             emit dApp->signalM->backToMainPanel();
