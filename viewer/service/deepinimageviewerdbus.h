@@ -23,9 +23,9 @@
 
 class DeepinImageViewerDBus: public QDBusAbstractAdaptor {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "com.deepin.DeepinImageViewer")
+    Q_CLASSINFO("D-Bus Interface", "com.deepin.ImageViewer")
     Q_CLASSINFO("D-Bus Introspection", ""
-"<interface name=\"com.deepin.DeepinImageViewer\">\n"
+"<interface name=\"com.deepin.ImageViewer\">\n"
     "<method name=\"backToMainWindow\"/>\n"
     "<method name=\"activeWindow\"/>\n"
     "<method name=\"enterAlbum\">\n"

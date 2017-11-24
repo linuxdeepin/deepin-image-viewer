@@ -37,18 +37,18 @@
 #include <QtDBus/QtDBus>
 
 /*
- * Proxy class for interface com.deepin.DeepinImageViewer
+ * Proxy class for interface com.deepin.ImageViewer
  */
 class DIVDBusController: public QDBusAbstractInterface
 {
     Q_OBJECT
 public:
     static inline const char *staticInterfaceService()
-    { return "com.deepin.DeepinImageViewer"; }
+    { return "com.deepin.ImageViewer"; }
     static inline const char *staticInterfacePath()
-    { return "/com/deepin/DeepinImageViewer"; }
+    { return "/com/deepin/ImageViewer"; }
     static inline const char *staticInterfaceName()
-    { return "com.deepin.DeepinImageViewer"; }
+    { return "com.deepin.ImageViewer"; }
 public:
     DIVDBusController(QObject *parent = 0);
 

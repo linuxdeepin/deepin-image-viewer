@@ -37,8 +37,8 @@ using namespace Dtk::Widget;
 
 namespace {
 
-const QString DBUS_PATH = "/com/deepin/DeepinImageViewer";
-const QString DBUS_NAME = "com.deepin.DeepinImageViewer";
+const QString DBUS_PATH = "/com/deepin/ImageViewer";
+const QString DBUS_NAME = "com.deepin.ImageViewer";
 const QString THEME_GROUP = "APP";
 const QString THEME_TEXT = "AppTheme";
 }
