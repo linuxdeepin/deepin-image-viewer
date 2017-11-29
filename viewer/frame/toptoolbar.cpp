@@ -193,7 +193,7 @@ void TopToolbar::initMiddleContent()
     m_mLayout->setContentsMargins(0, 0, 0, 0);
     m_mLayout->setSpacing(0);
 
-    m_layout->addWidget(w);
+    m_layout->addWidget(w, 0, Qt::AlignCenter);
 }
 
 void TopToolbar::initRightContent()
@@ -208,6 +208,7 @@ void TopToolbar::initRightContent()
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |
                                Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
+
     QWidget *customWidget = new QWidget();
     customWidget->setFixedWidth(0);
     m_titlebar->setCustomWidget(customWidget, false);

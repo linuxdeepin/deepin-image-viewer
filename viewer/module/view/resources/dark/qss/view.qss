@@ -82,22 +82,6 @@ QScrollBar::sub-line {
     background: none;
 }
 
-PushButton#ReturnBtn {
-    qproperty-normalPic: url(:/resources/dark/images/return_normal.svg);
-    qproperty-hoverPic: url(:/resources/dark/images/return_hover.svg);
-    qproperty-pressPic: url(:/resources/dark/images/return_press.svg);
-    qproperty-normalColor: rgba(255, 255, 255, .6);
-    qproperty-hoverColor: rgba(255, 255, 255, 1);
-    qproperty-pressColor: rgba(1, 188, 255, 1);
-    font-size: 12px;
-}
-
-PushButton#FolderBtn {
-    qproperty-normalPic: url(:/resources/dark/images/mainwindow_dark_normal.svg);
-    qproperty-hoverPic: url(:/resources/dark/images/mainwindow_dark_hover.svg);
-    qproperty-pressPic: url(:/resources/dark/images/mainwindow_dark_press.svg);
-}
-
 
 
 

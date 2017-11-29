@@ -260,6 +260,7 @@ const QStringList ViewPanel::paths() const
     for (DBImgInfo info : m_infos) {
         list << info.filePath;
     }
+
     return list;
 }
 
@@ -276,34 +277,25 @@ QWidget *ViewPanel::toolbarBottomContent()
 QWidget *ViewPanel::toolbarTopLeftContent()
 {
     TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
-
-    ttlc->setFixedWidth((window()->width() - 48 * 6) / 2);
-
     ttlc->setCurrentDir(m_currentImageLastDir);
-    connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
-    connect(this, &ViewPanel::viewImageFrom, ttlc, &TTLContent::setCurrentDir);
-    return ttlc;
-}
-
-QWidget *ViewPanel::toolbarTopMiddleContent()
-{
-    TTMContent *ttmc = new TTMContent(! m_vinfo.inDatabase);
     if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-        ttmc->setImage(m_current->filePath);
+        ttlc->setImage(m_current->filePath);
     } else {
-        ttmc->setImage("");
+        ttlc->setImage("");
     }
 
+    connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
+    connect(this, &ViewPanel::viewImageFrom, ttlc, &TTLContent::setCurrentDir);
     connect(this, &ViewPanel::updateCollectButton,
-            ttmc, &TTMContent::updateCollectButton);
-    connect(this, &ViewPanel::imageChanged, ttmc, &TTMContent::setImage);
-    connect(ttmc, &TTMContent::rotateClockwise, this, [ = ] {
+            ttlc, &TTLContent::updateCollectButton);
+    connect(this, &ViewPanel::imageChanged, ttlc, &TTLContent::setImage);
+    connect(ttlc, &TTLContent::rotateClockwise, this, [ = ] {
         rotateImage(true);
     });
-    connect(ttmc, &TTMContent::rotateCounterClockwise, this, [ = ] {
+    connect(ttlc, &TTLContent::rotateCounterClockwise, this, [ = ] {
         rotateImage(false);
     });
-    connect(ttmc, &TTMContent::removed, this, [ = ] {
+    connect(ttlc, &TTLContent::removed, this, [ = ] {
         if (m_vinfo.inDatabase)
         {
             popupDelDialog(m_current->filePath);
@@ -314,13 +306,26 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
             utils::base::trashFile(path);
         }
     });
-    connect(ttmc, &TTMContent::resetTransform, this, [ = ](bool fitWindow) {
+    connect(ttlc, &TTLContent::resetTransform, this, [ = ](bool fitWindow) {
         if (fitWindow) {
             m_viewB->fitWindow();
         } else {
             m_viewB->fitImage();
         }
     });
+
+    return ttlc;
+}
+
+QWidget *ViewPanel::toolbarTopMiddleContent()
+{
+    TTMContent *ttmc = new TTMContent();
+    if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
+        ttmc->setPath(m_current->filePath);
+    } else {
+        ttmc->setPath("");
+    }
+    connect(this, &ViewPanel::updateTopLeftContentImage, ttmc, &TTMContent::setPath);
 
     return ttmc;
 }
@@ -689,6 +694,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         m_stack->setCurrentIndex(0);
     }
     if (inDB) {
+        emit updateTopLeftContentImage(path);
         emit updateCollectButton();
     }
 }
@@ -729,7 +735,6 @@ void  ViewPanel::showPrintDialog(const QStringList &paths)
         qDebug() << "print succeed!";
         return;
     }
-
 
     QObject::connect(printDialog, &QPrintDialog::finished,  this, [ = ] {
         printDialog->deleteLater();

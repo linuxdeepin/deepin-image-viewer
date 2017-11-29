@@ -58,6 +58,8 @@ signals:
     void imageChanged(const QString &path);
     void viewImageFrom(QString dir);
     void mouseMoved();
+    void updateTopLeftContentImage(const QString &path);
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -108,12 +110,14 @@ private:
     QFileInfoList getFileInfos(const QString &path);
     DBImgInfoList getImageInfos(const QFileInfoList &infos);
     const QStringList paths() const;
+
 private slots:
     void resetImageGeometry();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     void updateLocalImages();
     void showPrintDialog(const QStringList &paths);
+
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;

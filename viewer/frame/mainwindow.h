@@ -42,9 +42,8 @@ public slots:
         Importer::instance();
         qDebug() << "DBManager time";
     }
-
-
 };
+
 class MainWindow : public  DMainWindow
 {
 public:

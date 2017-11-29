@@ -92,19 +92,3 @@ ImageButton#NextButton {
     padding: 4px 21px 12px  15px;
 }
 
-PushButton#ReturnBtn {
-    qproperty-normalPic: url(:/resources/light/images/return_normal.svg);
-    qproperty-hoverPic: url(:/resources/light/images/return_hover.svg);
-    qproperty-pressPic: url(:/resources/light/images/return_press.svg);
-    qproperty-normalColor: #303030;
-    qproperty-hoverColor: #000000;
-    qproperty-pressColor: #01BCFF;
-    font-size: 12px;
-}
-
-PushButton#FolderBtn {
-    qproperty-normalPic: url(:/resources/light/images/mainwindow_light_normal.svg);
-    qproperty-hoverPic: url(:/resources/light/images/mainwindow_light_hover.svg);
-    qproperty-pressPic: url(:/resources/light/images/mainwindow_light_press.svg);
-}
-

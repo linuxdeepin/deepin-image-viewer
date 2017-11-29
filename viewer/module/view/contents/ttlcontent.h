@@ -30,12 +30,31 @@ public:
 
 signals:
     void clicked();
+    void resetTransform(bool fitWindow);
+    void rotateClockwise();
+    void rotateCounterClockwise();
+
+    void removed();
+    void imageEmpty(bool v);
+
 public slots:
     void setCurrentDir(QString text);
+    void setImage(const QString &path);
+    void updateCollectButton();
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     PushButton *m_returnBtn;
+
+    PushButton* m_adaptImageBtn;
+    PushButton* m_adaptScreenBtn;
+    PushButton* m_clBT;
+    PushButton* m_rotateLBtn;
+    PushButton* m_rotateRBtn;
+    PushButton* m_trashBtn;
+
+    QString m_imagePath;
 };
 
 #endif // TTLCONTENT_H

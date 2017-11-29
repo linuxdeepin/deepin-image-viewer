@@ -34,7 +34,6 @@
         <file>resources/dark/qss/imageslider.qss</file>
         <file>resources/dark/qss/lockwidget.qss</file>
         <file>resources/dark/qss/thumbnailwidget.qss</file>
-        <file>resources/dark/qss/ttm.qss</file>
         <file>resources/dark/qss/view.qss</file>
         <file>resources/light/images/default_thumbnail.png</file>
         <file>resources/light/images/empty_defaultThumbnail.png</file>
@@ -44,7 +43,6 @@
         <file>resources/light/qss/imageslider.qss</file>
         <file>resources/light/qss/lockwidget.qss</file>
         <file>resources/light/qss/thumbnailwidget.qss</file>
-        <file>resources/light/qss/ttm.qss</file>
         <file>resources/light/qss/view.qss</file>
         <file>resources/dark/images/dark_loading.gif</file>
         <file>resources/light/images/light_loading.gif</file>
@@ -120,5 +118,7 @@
         <file>resources/light/images/mainwindow_light_hover.svg</file>
         <file>resources/light/images/mainwindow_light_normal.svg</file>
         <file>resources/light/images/mainwindow_light_press.svg</file>
+        <file>resources/dark/qss/ttl.qss</file>
+        <file>resources/light/qss/ttl.qss</file>
     </qresource>
 </RCC>
