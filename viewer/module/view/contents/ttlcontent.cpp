@@ -27,19 +27,19 @@
 #include <QDebug>
 
 namespace {
-
 const int LEFT_MARGIN = 13;
 const int MAX_BUTTON_WIDTH = 200;
 const QSize ICON_SIZE = QSize(48, 39);
-const QString FAVORITES_ALBUM_NAME = "My favorite";
 const QString FAVORITES_ALBUM = "My favorite";
+const int ICON_SPACING = 3;
 }  // namespace
 
 TTLContent::TTLContent(bool inDB,
                        QWidget *parent) : QWidget(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    setFixedWidth(120 + 48*6);
+    setFixedWidth(95 + ICON_SIZE.width()*6);
+
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
@@ -72,6 +72,7 @@ TTLContent::TTLContent(bool inDB,
 
     m_adaptImageBtn->setToolTip(tr("1:1 Size"));
     hb->addWidget(m_adaptImageBtn);
+    hb->addSpacing(ICON_SPACING);
     connect(m_adaptImageBtn, &PushButton::clicked, this, [=] {
         emit resetTransform(false);
     });
@@ -81,6 +82,7 @@ TTLContent::TTLContent(bool inDB,
     m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
     m_adaptScreenBtn->setToolTip(tr("Fit to window"));
     hb->addWidget(m_adaptScreenBtn);
+    hb->addSpacing(ICON_SPACING);
     connect(m_adaptScreenBtn, &PushButton::clicked, this, [=] {
         emit resetTransform(true);
     });
@@ -107,6 +109,7 @@ TTLContent::TTLContent(bool inDB,
     m_rotateLBtn->setObjectName("RotateBtn");
     m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
     hb->addWidget(m_rotateLBtn);
+    hb->addSpacing(ICON_SPACING);
     connect(m_rotateLBtn, &PushButton::clicked,
             this, &TTLContent::rotateCounterClockwise);
 
@@ -115,6 +118,7 @@ TTLContent::TTLContent(bool inDB,
     m_rotateRBtn->setObjectName("RotateCounterBtn");
     m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
     hb->addWidget(m_rotateRBtn);
+    hb->addSpacing(ICON_SPACING);
     connect(m_rotateRBtn, &PushButton::clicked,
             this, &TTLContent::rotateClockwise);
 
@@ -123,7 +127,6 @@ TTLContent::TTLContent(bool inDB,
     m_trashBtn->setObjectName("TrashBtn");
     m_trashBtn->setToolTip(tr("Throw to Trash"));
     hb->addWidget(m_trashBtn);
-    hb->addStretch();
 
     connect(m_trashBtn, &PushButton::clicked, this, &TTLContent::removed);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,

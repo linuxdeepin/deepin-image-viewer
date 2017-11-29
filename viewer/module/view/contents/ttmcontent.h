@@ -40,9 +40,12 @@ private slots:
 
 private:
     QHBoxLayout* m_layout;
+    QLabel* m_emptyLabel;
     QLabel* m_fileNameLabel;
 
     int m_contentWidth;
+    int m_windowWidth;
+    int m_leftSpacing;
 };
 
 #endif // TTMCONTENT_H

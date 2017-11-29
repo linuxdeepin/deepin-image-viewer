@@ -26,20 +26,24 @@
 
 TTMContent::TTMContent(QWidget *parent)
     : QFrame(parent)
+    , m_leftSpacing(0)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    m_contentWidth = ConfigSetter::instance()->value("MAINWINDOW",
+    m_windowWidth = ConfigSetter::instance()->value("MAINWINDOW",
                                                      "WindowWidth").toInt();
-    m_contentWidth = m_contentWidth - 121 - 441;
+    m_contentWidth = m_windowWidth - 121 - 441;
     setFixedWidth(m_contentWidth);
+
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
-    m_layout->addStretch(1);
+    m_layout->addSpacing(m_leftSpacing);
 
+    m_emptyLabel = new QLabel(this);
     m_fileNameLabel = new QLabel(this);
+    m_fileNameLabel->setMargin(0);
     m_fileNameLabel->setObjectName("ImagenameLabel");
-
+    m_layout->addWidget(m_emptyLabel);
     m_layout->addWidget(m_fileNameLabel);
     m_layout->addStretch(1);
     setLayout(m_layout);
@@ -51,11 +55,21 @@ TTMContent::TTMContent(QWidget *parent)
 void TTMContent::setPath(const QString &path)
 {
     QString filename = QFileInfo(path).fileName();
+    QString name;
     using namespace utils::base;
     QFontMetrics fm(m_fileNameLabel->font());
-    QString name = fm.elidedText(filename, Qt::ElideMiddle, m_contentWidth);
+    int strWidth = fm.boundingRect(filename).width();
+    if (strWidth > m_contentWidth)
+    {
+        m_leftSpacing = 0;
+    } else {
+        m_leftSpacing = std::max(0, (m_windowWidth - strWidth)/2 - 406);
+    }
+    name = fm.elidedText(filename, Qt::ElideMiddle, m_contentWidth - 10);
     m_fileNameLabel->setText(name);
-
+    m_emptyLabel->setMinimumWidth(m_leftSpacing);
+    m_fileNameLabel->setFixedWidth(strWidth);
+    m_layout->update();
     updateGeometry();
 
     qDebug() << "setPath:" << path;
