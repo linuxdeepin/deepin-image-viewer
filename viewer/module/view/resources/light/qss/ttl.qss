@@ -64,5 +64,15 @@ PushButton#TrashBtn {
 }
 
 QLabel#ImagenameLabel {
+/*    border: 1px solid red;*/
     color: black;
+}
+
+QFrame#TTM {
+    /*border: 1px solid blue;*/
+}
+
+QLabel#EmptyLabel
+{
+    /*border: 1px solid yellow;*/
 }

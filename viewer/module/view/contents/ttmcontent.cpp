@@ -24,55 +24,73 @@
 #include <QDebug>
 #include <QFileInfo>
 
+const int MAX_LENGTH = 600;
+const int LEFT_WIDGET_WIDTH = 383;
+
 TTMContent::TTMContent(QWidget *parent)
     : QFrame(parent)
     , m_leftSpacing(0)
 {
+    setObjectName("TTM");
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = ConfigSetter::instance()->value("MAINWINDOW",
                                                      "WindowWidth").toInt();
-    m_contentWidth = m_windowWidth - 121 - 441;
+    m_contentWidth = std::max(m_windowWidth - 120 - LEFT_WIDGET_WIDTH, 1);
     setFixedWidth(m_contentWidth);
 
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
-    m_layout->addSpacing(m_leftSpacing);
-
-    m_emptyLabel = new QLabel(this);
-    m_fileNameLabel = new QLabel(this);
+    m_fileNameLabel = new ElidedLabel(this);
     m_fileNameLabel->setMargin(0);
     m_fileNameLabel->setObjectName("ImagenameLabel");
-    m_layout->addWidget(m_emptyLabel);
     m_layout->addWidget(m_fileNameLabel);
-    m_layout->addStretch(1);
     setLayout(m_layout);
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &TTMContent::onThemeChanged);
+    connect(ConfigSetter::instance(), &ConfigSetter::valueChanged, this, [=](
+            const QString &group, const QString &key, const QVariant &value){
+            Q_UNUSED(key);
+            Q_UNUSED(value);
+            if (group == "MAINWINDOW")
+            {
+                m_contentWidth = std::max(m_windowWidth - 120 - LEFT_WIDGET_WIDTH, 1);
+                setFixedWidth(m_contentWidth);
+                setPath(m_path);
+            }
+    });
 }
 
 void TTMContent::setPath(const QString &path)
 {
+    m_path = path;
     QString filename = QFileInfo(path).fileName();
     QString name;
     using namespace utils::base;
-    QFontMetrics fm(m_fileNameLabel->font());
+    QFont font;
+    font.setPixelSize(12);
+    m_fileNameLabel->setFont(font);
+    QFontMetrics fm(font);
     int strWidth = fm.boundingRect(filename).width();
-    if (strWidth > m_contentWidth)
+    int leftMargin = 0;
+    if (strWidth > m_contentWidth || strWidth > MAX_LENGTH)
     {
-        m_leftSpacing = 0;
+        name = fm.elidedText(filename, Qt::ElideMiddle, std::min(m_contentWidth, MAX_LENGTH));
+        if (m_contentWidth > MAX_LENGTH)
+        {
+            strWidth = fm.boundingRect(name).width();
+            leftMargin = std::max(0, (m_windowWidth - strWidth)/2 - LEFT_WIDGET_WIDTH) - 6;
+        } else
+            leftMargin = 0;
     } else {
-        m_leftSpacing = std::max(0, (m_windowWidth - strWidth)/2 - 406);
+        leftMargin = std::max(0, (m_windowWidth - strWidth)/2 - LEFT_WIDGET_WIDTH);
+        name = filename;
     }
-    name = fm.elidedText(filename, Qt::ElideMiddle, m_contentWidth - 10);
-    m_fileNameLabel->setText(name);
-    m_emptyLabel->setMinimumWidth(m_leftSpacing);
-    m_fileNameLabel->setFixedWidth(strWidth);
+
+    m_fileNameLabel->setText(name, leftMargin);
     m_layout->update();
     updateGeometry();
-
-    qDebug() << "setPath:" << path;
 }
 
 void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {

@@ -18,6 +18,7 @@
 #define TTMCONTENT_H
 
 #include "controller/viewerthememanager.h"
+#include "widgets/elidedlabel.h"
 
 #include <QFrame>
 #include <QWidget>
@@ -41,11 +42,13 @@ private slots:
 private:
     QHBoxLayout* m_layout;
     QLabel* m_emptyLabel;
-    QLabel* m_fileNameLabel;
+    ElidedLabel* m_fileNameLabel;
 
+    QString m_path;
     int m_contentWidth;
     int m_windowWidth;
     int m_leftSpacing;
+
 };
 
 #endif // TTMCONTENT_H
