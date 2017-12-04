@@ -202,7 +202,8 @@ void TTLContent::updateCollectButton()
     if (! m_clBT->isEnabled()) {
         m_clBT->setDisabled(true);
     }
-    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
+    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
+                                                      m_imagePath)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setChecked(true);
     }

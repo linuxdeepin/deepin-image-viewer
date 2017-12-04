@@ -120,5 +120,7 @@
         <file>resources/light/images/mainwindow_light_press.svg</file>
         <file>resources/dark/qss/ttl.qss</file>
         <file>resources/light/qss/ttl.qss</file>
+        <file>resources/light/images/clockwise_rotation_disable.svg</file>
+        <file>resources/light/images/clockwise_rotation_press.svg</file>
     </qresource>
 </RCC>

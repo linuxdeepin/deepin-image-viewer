@@ -42,17 +42,17 @@ PushButton#CollectBtn {
 PushButton#RotateBtn {
     qproperty-normalPic: url(:/resources/light/images/clockwise_rotation_normal.svg);
     qproperty-hoverPic: url(:/resources/light/images/clockwise_rotation_hover.svg);
-    qproperty-pressPic: url(:/resources/light/images/clockwise_rotation_active.svg);
+    qproperty-pressPic: url(:/resources/light/images/clockwise_rotation_press.svg);
     qproperty-disablePic: url(:/resources/light/images/clockwise_rotation_disable.svg);
-    qproperty-checkedPic: url(:/resources/light/images/clockwise_rotation_active.svg);
+    qproperty-checkedPic: url(:/resources/light/images/clockwise_rotation_press.svg);
 }
 
 PushButton#RotateCounterBtn {
     qproperty-normalPic: url(:/resources/light/images/contrarotate_normal.svg);
     qproperty-hoverPic: url(:/resources/light/images/contrarotate_hover.svg);
-    qproperty-pressPic: url(:/resources/light/images/contrarotate_active.svg);
+    qproperty-pressPic: url(:/resources/light/images/contrarotate_press.svg);
     qproperty-disablePic: url(:/resources/light/images/contrarotate_disable.svg);
-    qproperty-checkedPic: url(:/resources/light/images/contrarotate_active.svg);
+    qproperty-checkedPic: url(:/resources/light/images/contrarotate_press.svg);
 }
 
 PushButton#TrashBtn {
