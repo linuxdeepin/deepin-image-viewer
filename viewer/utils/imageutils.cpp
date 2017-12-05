@@ -31,7 +31,6 @@
 #include <QPixmapCache>
 #include <QProcess>
 #include <QReadWriteLock>
-#include <QSvgRenderer>
 #include <QUrl>
 #include <QApplication>
 

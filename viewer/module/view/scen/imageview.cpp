@@ -31,13 +31,16 @@
 #include <QGraphicsSvgItem>
 #include <QGraphicsPixmapItem>
 #include <QPaintEvent>
-#include <QSvgRenderer>
 #include <QtConcurrent>
 #include <qmath.h>
+
+#include <DSvgRenderer>
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
 #endif
+
+DWIDGET_USE_NAMESPACE
 
 namespace {
 
@@ -134,7 +137,7 @@ void ImageView::setImage(const QString &path)
     QGraphicsScene *s = scene();
 
     // The suffix of svf file should be svg
-    if (QFileInfo(path).suffix() == "svg" && QSvgRenderer().load(path)) {
+    if (QFileInfo(path).suffix() == "svg" && DSvgRenderer().load(path)) {
         m_movieItem = nullptr;
         m_pixmapItem = nullptr;
         s->clear();

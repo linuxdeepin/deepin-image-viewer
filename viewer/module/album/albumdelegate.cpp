@@ -23,7 +23,6 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QDebug>
-#include <QSvgRenderer>
 #include <QHBoxLayout>
 #include <QImageReader>
 
