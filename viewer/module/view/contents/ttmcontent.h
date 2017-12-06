@@ -33,8 +33,11 @@ class TTMContent : public QFrame
 public:
     explicit TTMContent(QWidget *parent = 0);
 
+    const QString getCurrentPath();
+
 public slots:
     void setPath(const QString &path);
+    void updateLayout(int ttlWidth, const QString &path);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
@@ -47,7 +50,7 @@ private:
     QString m_path;
     int m_contentWidth;
     int m_windowWidth;
-    int m_leftSpacing;
+    int m_leftContentWidth;
 
 };
 

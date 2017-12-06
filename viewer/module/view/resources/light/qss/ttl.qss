@@ -1,5 +1,5 @@
 
-PushButton#ReturnBtn {
+ReturnButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/light/images/return_normal.svg);
     qproperty-hoverPic: url(:/resources/light/images/return_hover.svg);
     qproperty-pressPic: url(:/resources/light/images/return_press.svg);
@@ -64,15 +64,15 @@ PushButton#TrashBtn {
 }
 
 QLabel#ImagenameLabel {
-/*    border: 1px solid red;*/
+    /*border: 1px solid red;*/
     color: black;
 }
 
 QFrame#TTM {
-    /*border: 1px solid blue;*/
+   /*border: 1px solid blue;*/
 }
 
 QLabel#EmptyLabel
 {
-    /*border: 1px solid yellow;*/
+   /*border: 1px solid yellow;*/
 }

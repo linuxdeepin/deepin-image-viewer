@@ -58,6 +58,7 @@ signals:
     void imageChanged(const QString &path);
     void viewImageFrom(QString dir);
     void mouseMoved();
+    void updateTopLeftWidthChanged(int width);
     void updateTopLeftContentImage(const QString &path);
 
 protected:
@@ -124,6 +125,7 @@ private:
     bool m_isMaximized;
 
     bool m_printDialogVisible = false;
+    int m_topLeftContentWidth = 0;
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
     ThumbnailWidget* m_emptyWidget=nullptr;

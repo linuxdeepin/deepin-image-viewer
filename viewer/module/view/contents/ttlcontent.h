@@ -22,6 +22,7 @@
 #include "controller/viewerthememanager.h"
 
 class PushButton;
+class ReturnButton;
 class TTLContent : public QWidget
 {
     Q_OBJECT
@@ -36,6 +37,7 @@ signals:
 
     void removed();
     void imageEmpty(bool v);
+    void contentWidthChanged(int width);
 
 public slots:
     void setCurrentDir(QString text);
@@ -44,8 +46,11 @@ public slots:
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+    void updateReturnButton();
+
 private:
-    PushButton *m_returnBtn;
+    ReturnButton *m_returnBtn;
+    bool m_inDB;
 
     PushButton* m_adaptImageBtn;
     PushButton* m_adaptScreenBtn;

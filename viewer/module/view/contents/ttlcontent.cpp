@@ -20,45 +20,48 @@
 #include "utils/imageutils.h"
 
 #include "widgets/pushbutton.h"
+#include "widgets/returnbutton.h"
 #include "controller/dbmanager.h"
 
+#include <QTimer>
 #include <QFileInfo>
 #include <QHBoxLayout>
 #include <QDebug>
 
 namespace {
 const int LEFT_MARGIN = 13;
-const int MAX_BUTTON_WIDTH = 200;
 const QSize ICON_SIZE = QSize(48, 39);
 const QString FAVORITES_ALBUM = "My favorite";
 const int ICON_SPACING = 3;
+const int RETURN_BTN_MAX = 200;
 }  // namespace
 
 TTLContent::TTLContent(bool inDB,
                        QWidget *parent) : QWidget(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    setFixedWidth(95 + ICON_SIZE.width()*6);
-
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
-    m_returnBtn = new PushButton();
-    m_returnBtn->setMaximumWidth(MAX_BUTTON_WIDTH);
+    m_inDB = inDB;
+    m_returnBtn = new ReturnButton();
+    m_returnBtn->setMaxWidth(RETURN_BTN_MAX);
+    m_returnBtn->setMaximumWidth(RETURN_BTN_MAX);
     m_returnBtn->setObjectName("ReturnBtn");
     m_returnBtn->setToolTip(tr("Back"));
+
 
     PushButton *folderBtn = new PushButton();
     folderBtn->setObjectName("FolderBtn");
     folderBtn->setToolTip(tr("Image management"));
-    if(inDB) {
+    if(m_inDB) {
         hb->addWidget(m_returnBtn);
     } else {
        hb->addWidget(folderBtn);
     }
     hb->addSpacing(5);
 
-    connect(m_returnBtn, &PushButton::clicked, this, [=] {
+    connect(m_returnBtn, &ReturnButton::clicked, this, [=] {
         emit clicked();
     });
     connect(folderBtn, &PushButton::clicked, this, [=] {
@@ -89,8 +92,9 @@ TTLContent::TTLContent(bool inDB,
 
     // Collection button////////////////////////////////////////////////////////
     m_clBT = new PushButton();
+    m_clBT->setFixedSize(ICON_SIZE);
     m_clBT->setObjectName("CollectBtn");
-    if (inDB) {
+    if (m_inDB) {
         hb->addWidget(m_clBT);
         connect(m_clBT, &PushButton::clicked, this, [=] {
             if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
@@ -149,9 +153,38 @@ void TTLContent::setCurrentDir(QString text) {
     if (text == FAVORITES_ALBUM) {
         text = tr("My favorite");
     }
+
     m_returnBtn->setText(text);
-    m_returnBtn->setMaximumWidth(this->width()/2);
-    update();
+    qDebug() << "setCurrentDir" << m_returnBtn->buttonWidth();
+
+    QTimer* timer = new QTimer(this);
+    timer->setSingleShot(true);
+    timer->start(1000);
+    connect(timer, &QTimer::timeout, this, &TTLContent::updateReturnButton);
+}
+
+void TTLContent::updateReturnButton()
+{
+    int width = this->width();
+    int contentWidth = 0;
+    if (m_inDB)
+    {
+        contentWidth = m_returnBtn->buttonWidth() + ICON_SIZE.width()*6;
+        if (width != contentWidth)
+        {
+            setFixedWidth(std::max(contentWidth, width));
+        }
+    } else
+    {
+        contentWidth = m_returnBtn->buttonWidth() + ICON_SIZE.width()*5;
+        if (width != contentWidth)
+        {
+            setFixedWidth(std::max(contentWidth, width));
+        }
+    }
+
+    emit contentWidthChanged(this->width());
+    qDebug() << "DFFF" << contentWidth;
 }
 
 void TTLContent::setImage(const QString &path)

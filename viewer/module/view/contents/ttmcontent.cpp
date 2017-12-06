@@ -29,14 +29,10 @@ const int LEFT_WIDGET_WIDTH = 383;
 
 TTMContent::TTMContent(QWidget *parent)
     : QFrame(parent)
-    , m_leftSpacing(0)
+    , m_leftContentWidth(0)
 {
     setObjectName("TTM");
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    m_windowWidth = ConfigSetter::instance()->value("MAINWINDOW",
-                                                     "WindowWidth").toInt();
-    m_contentWidth = std::max(m_windowWidth - 120 - LEFT_WIDGET_WIDTH, 1);
-    setFixedWidth(m_contentWidth);
 
     m_layout = new QHBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -62,6 +58,11 @@ TTMContent::TTMContent(QWidget *parent)
     });
 }
 
+const QString TTMContent::getCurrentPath()
+{
+    return m_path;
+}
+
 void TTMContent::setPath(const QString &path)
 {
     m_path = path;
@@ -80,11 +81,11 @@ void TTMContent::setPath(const QString &path)
         if (m_contentWidth > MAX_LENGTH)
         {
             strWidth = fm.boundingRect(name).width();
-            leftMargin = std::max(0, (m_windowWidth - strWidth)/2 - LEFT_WIDGET_WIDTH) - 6;
+            leftMargin = std::max(0, (m_windowWidth - strWidth)/2 - m_leftContentWidth) - 6;
         } else
             leftMargin = 0;
     } else {
-        leftMargin = std::max(0, (m_windowWidth - strWidth)/2 - LEFT_WIDGET_WIDTH);
+        leftMargin = std::max(0, (m_windowWidth - strWidth)/2 - m_leftContentWidth);
         name = filename;
     }
 
@@ -103,4 +104,14 @@ void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     }
 }
 
+void TTMContent::updateLayout(int ttlWidth, const QString &path)
+{
+    m_leftContentWidth = ttlWidth;
+    m_windowWidth = ConfigSetter::instance()->value("MAINWINDOW",
+                                                     "WindowWidth").toInt();
+    m_contentWidth = std::max(m_windowWidth - 140 - m_leftContentWidth, 1);
+    qDebug() << "TTMContent:" << ttlWidth << m_contentWidth << m_windowWidth;
+    setFixedWidth(m_contentWidth);
+    setPath(path);
+}
 

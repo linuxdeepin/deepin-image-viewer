@@ -285,7 +285,11 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     }
 
     connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
-    connect(this, &ViewPanel::viewImageFrom, ttlc, &TTLContent::setCurrentDir);
+    connect(this, &ViewPanel::viewImageFrom, ttlc, [=](const QString &dir){
+        ttlc->setCurrentDir(dir);
+    });
+    connect(ttlc, &TTLContent::contentWidthChanged,
+            this, &ViewPanel::updateTopLeftWidthChanged);
     connect(this, &ViewPanel::updateCollectButton,
             ttlc, &TTLContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttlc, &TTLContent::setImage);
@@ -326,7 +330,16 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
         ttmc->setPath("");
     }
     connect(this, &ViewPanel::updateTopLeftContentImage, ttmc, &TTMContent::setPath);
-
+    connect(this, &ViewPanel::updateTopLeftWidthChanged, ttmc, [=](int width){
+        qDebug() << "YYYYYYY" << width;
+        QString path;
+        if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
+             path = m_current->filePath;
+        } else {
+            path = "";
+        }
+        ttmc->updateLayout(width, path);
+    });
     return ttmc;
 }
 

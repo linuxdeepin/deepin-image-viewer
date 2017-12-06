@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "pushbutton.h"
+#include "returnbutton.h"
 #include "application.h"
 
 #include <QDebug>
@@ -28,63 +28,65 @@
 #include <QIcon>
 #include <QApplication>
 
-PushButton::PushButton(QWidget *parent)
+ReturnButton::ReturnButton(QWidget *parent)
     : QWidget(parent)
     , m_checked(false)
     , m_isPressed(false)
     , m_spacing(2)
+    , m_maxWidth(24)
+    , m_buttonWidth(24)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
-            this, &PushButton::onThemeChanged);
+            this, &ReturnButton::onThemeChanged);
 }
 
-QString PushButton::normalPic() const
+QString ReturnButton::normalPic() const
 {
     return m_normalPic;
 }
 
-QString PushButton::hoverPic() const
+QString ReturnButton::hoverPic() const
 {
     return m_hoverPic;
 }
 
-QString PushButton::pressPic() const
+QString ReturnButton::pressPic() const
 {
     return m_pressPic;
 }
 
-QString PushButton::disablePic() const
+QString ReturnButton::disablePic() const
 {
     return m_disablePic;
 }
 
-QString PushButton::text() const
+QString ReturnButton::text() const
 {
     return m_text;
 }
 
-QColor PushButton::normalColor() const
+QColor ReturnButton::normalColor() const
 {
     return m_normalColor;
 }
 
-QColor PushButton::hoverColor() const
+QColor ReturnButton::hoverColor() const
 {
     return m_hoverColor;
 }
 
-QColor PushButton::pressColor() const
+QColor ReturnButton::pressColor() const
 {
     return m_pressColor;
 }
 
-QColor PushButton::disableColor() const
+QColor ReturnButton::disableColor() const
 {
     return m_disableColor;
 }
 
-void PushButton::setNormalPic(QString normalPic)
+void ReturnButton::setNormalPic(QString normalPic)
 {
     if (m_normalPic == normalPic)
         return;
@@ -94,7 +96,7 @@ void PushButton::setNormalPic(QString normalPic)
     emit normalPicChanged(normalPic);
 }
 
-void PushButton::setHoverPic(QString hoverPic)
+void ReturnButton::setHoverPic(QString hoverPic)
 {
     if (m_hoverPic == hoverPic)
         return;
@@ -103,7 +105,7 @@ void PushButton::setHoverPic(QString hoverPic)
     emit hoverPicChanged(hoverPic);
 }
 
-void PushButton::setPressPic(QString pressPic)
+void ReturnButton::setPressPic(QString pressPic)
 {
     if (m_pressPic == pressPic)
         return;
@@ -112,7 +114,7 @@ void PushButton::setPressPic(QString pressPic)
     emit pressPicChanged(pressPic);
 }
 
-void PushButton::setDisablePic(QString disablePic)
+void ReturnButton::setDisablePic(QString disablePic)
 {
     if (m_disablePic == disablePic)
         return;
@@ -121,16 +123,14 @@ void PushButton::setDisablePic(QString disablePic)
     emit disablePicChanged(disablePic);
 }
 
-void PushButton::setText(QString text)
+void ReturnButton::setText(QString text)
 {
-    if (m_text == text)
-        return;
-
     m_text = text;
     emit textChanged(text);
+    update();
 }
 
-void PushButton::setNormalColor(QColor normalColor)
+void ReturnButton::setNormalColor(QColor normalColor)
 {
     if (m_normalColor == normalColor)
         return;
@@ -140,7 +140,7 @@ void PushButton::setNormalColor(QColor normalColor)
     emit normalColorChanged(normalColor);
 }
 
-void PushButton::setHoverColor(QColor hoverColor)
+void ReturnButton::setHoverColor(QColor hoverColor)
 {
     if (m_hoverColor == hoverColor)
         return;
@@ -149,7 +149,7 @@ void PushButton::setHoverColor(QColor hoverColor)
     emit hoverColorChanged(hoverColor);
 }
 
-void PushButton::setPressColor(QColor pressColor)
+void ReturnButton::setPressColor(QColor pressColor)
 {
     if (m_pressColor == pressColor)
         return;
@@ -158,7 +158,7 @@ void PushButton::setPressColor(QColor pressColor)
     emit pressColorChanged(pressColor);
 }
 
-void PushButton::setDisableColor(QColor disableColor)
+void ReturnButton::setDisableColor(QColor disableColor)
 {
     if (m_disableColor == disableColor)
         return;
@@ -167,7 +167,12 @@ void PushButton::setDisableColor(QColor disableColor)
     emit disableColorChanged(disableColor);
 }
 
-void PushButton::setCheckedPic(QString checkedPic)
+void ReturnButton::setMaxWidth(int maxWidth)
+{
+    m_maxWidth = maxWidth;
+}
+
+void ReturnButton::setCheckedPic(QString checkedPic)
 {
     if (m_checkedPic == checkedPic)
         return;
@@ -176,7 +181,7 @@ void PushButton::setCheckedPic(QString checkedPic)
     emit checkedPicChanged(checkedPic);
 }
 
-bool PushButton::event(QEvent *e)
+bool ReturnButton::event(QEvent *e)
 {
     if (e->type() == QEvent::ToolTip) {
         if (QHelpEvent *he = static_cast<QHelpEvent *>(e)) {
@@ -189,7 +194,7 @@ bool PushButton::event(QEvent *e)
     return QWidget::event(e);
 }
 
-void PushButton::paintEvent(QPaintEvent *e)
+void ReturnButton::paintEvent(QPaintEvent *e)
 {
     QWidget::paintEvent(e);
 
@@ -224,18 +229,53 @@ void PushButton::paintEvent(QPaintEvent *e)
     }
 
     QFontMetrics fm(font());
-    const int tw = width() - m.left() - spacing - ph - m.right();
+    int maxWidth = m_maxWidth - pixWidth - 6;
+    int textWidth = fm.boundingRect(m_text).width();
+    QString mt;
+    if (textWidth > maxWidth)
+    {
+        mt = fm.elidedText(m_text, Qt::ElideMiddle, maxWidth - 6);
+
+    } else {
+        mt = m_text;
+    }
+    textWidth = fm.boundingRect(mt).width();
+    setFixedWidth(textWidth + pixWidth + 6);
+
+    int oldWidth = m_buttonWidth;
+    m_buttonWidth = std::max(24, int(textWidth + pixWidth + 6));
+    if (oldWidth != m_buttonWidth)
+    {
+        emit returnBtnWidthChanged(m_buttonWidth);
+    }
     const int th = fm.height();
-    const QRect textRect(m.left() + ph + spacing, (height() - th) / 2,
-                   tw, th);
-    const QString mt = fm.elidedText(m_text, Qt::ElideMiddle, tw);
+    QRect textRect = QRect(pixWidth, (height() - th)/2 - 1, textWidth, pixHeight);
     painter.setPen(QPen(getTextColor()));
     painter.drawText(textRect, Qt::AlignCenter, mt);
-//    painter.setPen(Qt::red);
-//    painter.drawRect(this->rect());
 }
 
-void PushButton::enterEvent(QEvent *e)
+int ReturnButton::buttonWidth()
+{
+    update();
+    QFontMetrics fm(font());
+    int pixWidth = QPixmap(getPixmap()).width();
+    int maxWidth = m_maxWidth - pixWidth;
+    int textWidth = fm.boundingRect(m_text).width();
+    QString mt;
+    if (textWidth > maxWidth)
+    {
+        mt = fm.elidedText(m_text, Qt::ElideMiddle, maxWidth - 10);
+
+    } else {
+        mt = m_text;
+    }
+    textWidth = fm.boundingRect(mt).width();
+    setFixedWidth(textWidth + pixWidth);
+    m_buttonWidth = std::max(24, int(textWidth + pixWidth));
+    return m_buttonWidth;
+}
+
+void ReturnButton::enterEvent(QEvent *e)
 {
     Q_UNUSED(e)
     m_currentPic = hoverPic();
@@ -244,7 +284,7 @@ void PushButton::enterEvent(QEvent *e)
     this->update();
 }
 
-void PushButton::leaveEvent(QEvent *e)
+void ReturnButton::leaveEvent(QEvent *e)
 {
     Q_UNUSED(e)
     m_currentColor = normalColor();
@@ -255,7 +295,7 @@ void PushButton::leaveEvent(QEvent *e)
     emit mouseLeave();
 }
 
-void PushButton::mousePressEvent(QMouseEvent *e)
+void ReturnButton::mousePressEvent(QMouseEvent *e)
 {
     Q_UNUSED(e)
     m_isPressed = true;
@@ -264,7 +304,7 @@ void PushButton::mousePressEvent(QMouseEvent *e)
     this->update();
 }
 
-void PushButton::mouseReleaseEvent(QMouseEvent *e)
+void ReturnButton::mouseReleaseEvent(QMouseEvent *e)
 {
     Q_UNUSED(e)
     m_currentColor = normalColor();
@@ -276,7 +316,7 @@ void PushButton::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
-QSize PushButton::sizeHint() const
+QSize ReturnButton::sizeHint() const
 {
     QPixmap p(getPixmap());
     QMargins m = contentsMargins();
@@ -288,7 +328,7 @@ QSize PushButton::sizeHint() const
     return QSize(w, qMax(h, fm.height()));
 }
 
-QString PushButton::getPixmap() const
+QString ReturnButton::getPixmap() const
 {
     if (m_checked) {
         return checkedPic();
@@ -301,7 +341,7 @@ QString PushButton::getPixmap() const
     }
 }
 
-QColor PushButton::getTextColor() const
+QColor ReturnButton::getTextColor() const
 {
     if (isEnabled()) {
         return m_currentColor;
@@ -311,7 +351,7 @@ QColor PushButton::getTextColor() const
     }
 }
 
-void PushButton::showTooltip(const QPoint &pos)
+void ReturnButton::showTooltip(const QPoint &pos)
 {
     QFrame *tf = new QFrame();
     tf->setStyleSheet(this->styleSheet());
@@ -334,11 +374,11 @@ void PushButton::showTooltip(const QPoint &pos)
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 
-    connect(this, &PushButton::mouseLeave, tf, &QFrame::deleteLater);
-    connect(this, &PushButton::clicked, tf, &QFrame::deleteLater);
+    connect(this, &ReturnButton::mouseLeave, tf, &QFrame::deleteLater);
+    connect(this, &ReturnButton::clicked, tf, &QFrame::deleteLater);
 }
 
-void PushButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
+void ReturnButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
     QFile darkF(":/resources/dark/qss/PushButton.qss"),
           lightF(":/resources/light/qss/PushButton.qss");
@@ -347,40 +387,40 @@ void PushButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
             setStyleSheet(darkF.readAll());
             darkF.close();
         } else {
-            qDebug() << "Set dark style sheet for PushButton failed";
+            qDebug() << "Set dark style sheet for ReturnButton failed";
         }
     } else {
         if (lightF.open(QIODevice::ReadOnly)) {
             setStyleSheet(lightF.readAll());
             lightF.close();
         } else {
-            qDebug() << "Set light style sheet for PushButton failed";
+            qDebug() << "Set light style sheet for ReturnButton failed";
         }
     }
 }
 
-bool PushButton::getChecked() const
+bool ReturnButton::getChecked() const
 {
     return m_checked;
 }
 
-void PushButton::setChecked(bool checked)
+void ReturnButton::setChecked(bool checked)
 {
     m_checked = checked;
     this->update();
 }
 
-QString PushButton::checkedPic() const
+QString ReturnButton::checkedPic() const
 {
     return m_checkedPic;
 }
 
-int PushButton::getSpacing() const
+int ReturnButton::getSpacing() const
 {
     return m_spacing;
 }
 
-void PushButton::setSpacing(int spacing)
+void ReturnButton::setSpacing(int spacing)
 {
     m_spacing = spacing;
 }
