@@ -14,6 +14,7 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);
+    void resizeEvent(QResizeEvent *event);
 
 private:
     QString m_text;

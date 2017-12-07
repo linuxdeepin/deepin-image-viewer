@@ -23,7 +23,8 @@
 
 class PushButton;
 class ReturnButton;
-class TTLContent : public QWidget
+class ElidedLabel;
+class TTLContent : public QLabel
 {
     Q_OBJECT
 public:
@@ -46,7 +47,7 @@ public slots:
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    void updateReturnButton();
+    void updateFilenameLayout();
 
 private:
     ReturnButton *m_returnBtn;
@@ -58,8 +59,11 @@ private:
     PushButton* m_rotateLBtn;
     PushButton* m_rotateRBtn;
     PushButton* m_trashBtn;
+    ElidedLabel* m_fileNameLabel;
 
     QString m_imagePath;
+    int m_windowWidth;
+    int m_contentWidth;
 };
 
 #endif // TTLCONTENT_H

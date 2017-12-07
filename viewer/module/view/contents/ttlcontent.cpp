@@ -22,6 +22,8 @@
 #include "widgets/pushbutton.h"
 #include "widgets/returnbutton.h"
 #include "controller/dbmanager.h"
+#include "controller/configsetter.h"
+#include "widgets/elidedlabel.h"
 
 #include <QTimer>
 #include <QFileInfo>
@@ -34,12 +36,17 @@ const QSize ICON_SIZE = QSize(48, 39);
 const QString FAVORITES_ALBUM = "My favorite";
 const int ICON_SPACING = 3;
 const int RETURN_BTN_MAX = 200;
+const int FILENAME_MAX_LENGTH = 600;
 }  // namespace
 
 TTLContent::TTLContent(bool inDB,
-                       QWidget *parent) : QWidget(parent)
-{
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+                       QWidget *parent) : QLabel(parent)
+{    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    m_windowWidth = ConfigSetter::instance()->value("MAINWINDOW",
+                                                    "WindowWidth").toInt();
+    m_contentWidth = std::max(m_windowWidth - 100, 1);
+    setFixedWidth(m_contentWidth);
+
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
@@ -50,8 +57,8 @@ TTLContent::TTLContent(bool inDB,
     m_returnBtn->setObjectName("ReturnBtn");
     m_returnBtn->setToolTip(tr("Back"));
 
-
     PushButton *folderBtn = new PushButton();
+     folderBtn->setFixedSize(QSize(24, 24));
     folderBtn->setObjectName("FolderBtn");
     folderBtn->setToolTip(tr("Image management"));
     if(m_inDB) {
@@ -67,7 +74,9 @@ TTLContent::TTLContent(bool inDB,
     connect(folderBtn, &PushButton::clicked, this, [=] {
         emit clicked();
     });
-
+    connect(m_returnBtn, &ReturnButton::returnBtnWidthChanged, this, [=]{
+        updateFilenameLayout();
+    });
     // Adapt buttons////////////////////////////////////////////////////////////
     m_adaptImageBtn = new PushButton();
     m_adaptImageBtn->setObjectName("AdaptBtn");
@@ -132,11 +141,50 @@ TTLContent::TTLContent(bool inDB,
     m_trashBtn->setToolTip(tr("Throw to Trash"));
     hb->addWidget(m_trashBtn);
 
+    m_fileNameLabel = new ElidedLabel();
+    hb->addWidget(m_fileNameLabel);
     connect(m_trashBtn, &PushButton::clicked, this, &TTLContent::removed);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &TTLContent::onThemeChanged);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &TTLContent::onThemeChanged);
+}
+
+void TTLContent::updateFilenameLayout()
+{
+    using namespace utils::base;
+    QFont font;
+    font.setPixelSize(12);
+    m_fileNameLabel->setFont(font);
+    QFontMetrics fm(font);
+    QString filename = QFileInfo(m_imagePath).fileName();
+    QString name;
+
+    int strWidth = fm.boundingRect(filename).width();
+    int leftMargin = 0;
+    int m_leftContentWidth;
+    if (m_inDB)
+        m_leftContentWidth = m_returnBtn->buttonWidth() + 6
+                + (ICON_SIZE.width()+2)*6 + 5;
+    else
+        m_leftContentWidth = m_returnBtn->buttonWidth() + 6
+                + (ICON_SIZE.width()+2)*5 + 5;
+    m_contentWidth = this->width() - m_leftContentWidth;
+
+    if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH)
+    {
+        name = fm.elidedText(filename, Qt::ElideMiddle, std::min(m_contentWidth,
+                                                                 FILENAME_MAX_LENGTH));
+        strWidth = fm.boundingRect(name).width();
+        leftMargin = std::max(0, (this->window()->width() - strWidth)/2
+                              - m_leftContentWidth - LEFT_MARGIN);
+    } else {
+        leftMargin = std::max(0, (this->window()->width() - strWidth)/2
+                              - m_leftContentWidth - LEFT_MARGIN/2);
+        name = filename;
+    }
+
+    m_fileNameLabel->setText(name, leftMargin);
 }
 
 void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
@@ -155,36 +203,6 @@ void TTLContent::setCurrentDir(QString text) {
     }
 
     m_returnBtn->setText(text);
-    qDebug() << "setCurrentDir" << m_returnBtn->buttonWidth();
-
-    QTimer* timer = new QTimer(this);
-    timer->setSingleShot(true);
-    timer->start(1000);
-    connect(timer, &QTimer::timeout, this, &TTLContent::updateReturnButton);
-}
-
-void TTLContent::updateReturnButton()
-{
-    int width = this->width();
-    int contentWidth = 0;
-    if (m_inDB)
-    {
-        contentWidth = m_returnBtn->buttonWidth() + ICON_SIZE.width()*6;
-        if (width != contentWidth)
-        {
-            setFixedWidth(std::max(contentWidth, width));
-        }
-    } else
-    {
-        contentWidth = m_returnBtn->buttonWidth() + ICON_SIZE.width()*5;
-        if (width != contentWidth)
-        {
-            setFixedWidth(std::max(contentWidth, width));
-        }
-    }
-
-    emit contentWidthChanged(this->width());
-    qDebug() << "DFFF" << contentWidth;
 }
 
 void TTLContent::setImage(const QString &path)
@@ -217,6 +235,7 @@ void TTLContent::setImage(const QString &path)
         }
     }
 
+    updateFilenameLayout();
     updateCollectButton();
 }
 

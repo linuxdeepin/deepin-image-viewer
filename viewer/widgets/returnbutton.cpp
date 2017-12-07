@@ -37,6 +37,8 @@ ReturnButton::ReturnButton(QWidget *parent)
     , m_buttonWidth(24)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    connect(this, &ReturnButton::returnBtnWidthChanged, this,
+            &ReturnButton::setButtonWidth);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &ReturnButton::onThemeChanged);
 }
@@ -203,7 +205,7 @@ void ReturnButton::paintEvent(QPaintEvent *e)
     QMargins m = contentsMargins();
     int ph = 0;
     int spacing = 0;
-
+    Q_UNUSED(spacing);
     qreal ration = this->devicePixelRatioF();
     QIcon icon(getPixmap());
 
@@ -235,7 +237,6 @@ void ReturnButton::paintEvent(QPaintEvent *e)
     if (textWidth > maxWidth)
     {
         mt = fm.elidedText(m_text, Qt::ElideMiddle, maxWidth - 6);
-
     } else {
         mt = m_text;
     }
@@ -248,6 +249,10 @@ void ReturnButton::paintEvent(QPaintEvent *e)
     {
         emit returnBtnWidthChanged(m_buttonWidth);
     }
+
+//    painter.setPen(Qt::green);
+//    painter.drawRect(this->rect());
+
     const int th = fm.height();
     QRect textRect = QRect(pixWidth, (height() - th)/2 - 1, textWidth, pixHeight);
     painter.setPen(QPen(getTextColor()));
@@ -272,7 +277,13 @@ int ReturnButton::buttonWidth()
     textWidth = fm.boundingRect(mt).width();
     setFixedWidth(textWidth + pixWidth);
     m_buttonWidth = std::max(24, int(textWidth + pixWidth));
+
     return m_buttonWidth;
+}
+
+void ReturnButton::setButtonWidth(int width)
+{
+    m_buttonWidth = width;
 }
 
 void ReturnButton::enterEvent(QEvent *e)

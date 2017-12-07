@@ -323,24 +323,27 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
-    TTMContent *ttmc = new TTMContent();
-    if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-        ttmc->setPath(m_current->filePath);
-    } else {
-        ttmc->setPath("");
-    }
-    connect(this, &ViewPanel::updateTopLeftContentImage, ttmc, &TTMContent::setPath);
-    connect(this, &ViewPanel::updateTopLeftWidthChanged, ttmc, [=](int width){
-        qDebug() << "YYYYYYY" << width;
-        QString path;
-        if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-             path = m_current->filePath;
-        } else {
-            path = "";
-        }
-        ttmc->updateLayout(width, path);
-    });
-    return ttmc;
+    QWidget* w = new QWidget();
+    w->setStyleSheet("background:red");
+    return w;
+//    TTMContent *ttmc = new TTMContent();
+//    if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
+//        ttmc->setPath(m_current->filePath);
+//    } else {
+//        ttmc->setPath("");
+//    }
+//    connect(this, &ViewPanel::updateTopLeftContentImage, ttmc, &TTMContent::setPath);
+//    connect(this, &ViewPanel::updateTopLeftWidthChanged, ttmc, [=](int width){
+//        qDebug() << "YYYYYYY" << width;
+//        QString path;
+//        if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
+//             path = m_current->filePath;
+//        } else {
+//            path = "";
+//        }
+//        ttmc->updateLayout(width, path);
+//    });
+//    return ttmc;
 }
 
 QWidget *ViewPanel::extensionPanelContent()

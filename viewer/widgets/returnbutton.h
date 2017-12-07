@@ -55,6 +55,7 @@ public:
     bool getChecked() const;
     void setChecked(bool checked);
     int buttonWidth();
+    void setButtonWidth(int width);
 
 public slots:
     void setNormalPic(QString normalPic);
