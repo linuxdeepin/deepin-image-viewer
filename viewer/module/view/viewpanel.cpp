@@ -396,6 +396,11 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
 
+    if (window()->isMaximized()) {
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+    }
+
     if (m_viewB->isFitWindow()) {
         m_viewB->fitWindow();
     } else {

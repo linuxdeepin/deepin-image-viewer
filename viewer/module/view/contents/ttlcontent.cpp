@@ -66,7 +66,7 @@ TTLContent::TTLContent(bool inDB,
     } else {
        hb->addWidget(folderBtn);
     }
-    hb->addSpacing(5);
+    hb->addSpacing(20);
 
     connect(m_returnBtn, &ReturnButton::clicked, this, [=] {
         emit clicked();
@@ -165,10 +165,10 @@ void TTLContent::updateFilenameLayout()
     int m_leftContentWidth;
     if (m_inDB)
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
-                + (ICON_SIZE.width()+2)*6 + 5;
+                + (ICON_SIZE.width()+2)*6 + 20;
     else
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
-                + (ICON_SIZE.width()+2)*5 + 5;
+                + (ICON_SIZE.width()+2)*5 + 20;
     m_contentWidth = this->width() - m_leftContentWidth;
 
     if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH)

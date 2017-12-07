@@ -198,8 +198,6 @@ bool ReturnButton::event(QEvent *e)
 
 void ReturnButton::paintEvent(QPaintEvent *e)
 {
-    QWidget::paintEvent(e);
-
     QPainter painter(this);
 
     QMargins m = contentsMargins();
@@ -249,14 +247,11 @@ void ReturnButton::paintEvent(QPaintEvent *e)
     {
         emit returnBtnWidthChanged(m_buttonWidth);
     }
-
-//    painter.setPen(Qt::green);
-//    painter.drawRect(this->rect());
-
     const int th = fm.height();
     QRect textRect = QRect(pixWidth, (height() - th)/2 - 1, textWidth, pixHeight);
     painter.setPen(QPen(getTextColor()));
     painter.drawText(textRect, Qt::AlignCenter, mt);
+    QWidget::paintEvent(e);
 }
 
 int ReturnButton::buttonWidth()

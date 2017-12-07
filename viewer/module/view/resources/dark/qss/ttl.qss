@@ -1,4 +1,4 @@
-PushButton#ReturnBtn {
+ReturnButton#ReturnBtn {
     qproperty-normalPic: url(:/resources/dark/images/return_normal.svg);
     qproperty-hoverPic: url(:/resources/dark/images/return_hover.svg);
     qproperty-pressPic: url(:/resources/dark/images/return_press.svg);
