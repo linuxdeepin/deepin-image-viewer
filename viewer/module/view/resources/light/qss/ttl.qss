@@ -74,5 +74,5 @@ QFrame#TTM {
 
 TTLContent
 {
-    /*border: 1px solid yellow;*/
+     /*border: 1px solid yellow;*/
 }

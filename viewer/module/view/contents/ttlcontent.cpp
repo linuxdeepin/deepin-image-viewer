@@ -38,6 +38,8 @@ const QString FAVORITES_ALBUM = "My favorite";
 const int ICON_SPACING = 3;
 const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
+const int RIGHT_TITLEBAR_WIDTH = 100;
+const int LEFT_SPACE = 20;
 }  // namespace
 
 TTLContent::TTLContent(bool inDB,
@@ -46,7 +48,7 @@ TTLContent::TTLContent(bool inDB,
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = std::max(this->window()->width(),
         ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
-    m_contentWidth = std::max(m_windowWidth - 100, 1);
+    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     setFixedWidth(m_contentWidth);
 
     QHBoxLayout *hb = new QHBoxLayout(this);
@@ -170,20 +172,18 @@ void TTLContent::updateFilenameLayout()
     int m_leftContentWidth;
     if (m_inDB)
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
-                + (ICON_SIZE.width()+2)*6 + 20;
+                + (ICON_SIZE.width()+2)*6 + LEFT_SPACE;
     else
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
-                + (ICON_SIZE.width()+2)*5 + 20;
+                + (ICON_SIZE.width()+2)*5 + LEFT_SPACE;
 
     m_windowWidth =  std::max(this->window()->geometry().width(), this->width());
-    m_contentWidth = std::max(m_windowWidth - 100, 1);
+    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     setFixedWidth(m_contentWidth);
-
     m_contentWidth = this->width() - m_leftContentWidth;
-
     if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH)
     {
-        name = fm.elidedText(filename, Qt::ElideMiddle, std::min(m_contentWidth,
+        name = fm.elidedText(filename, Qt::ElideMiddle, std::min(m_contentWidth - 32,
                                                                  FILENAME_MAX_LENGTH));
         strWidth = fm.boundingRect(name).width();
         leftMargin = std::max(0, (this->window()->width() - strWidth)/2
@@ -217,6 +217,7 @@ void TTLContent::setCurrentDir(QString text) {
 
 void TTLContent::resizeEvent(QResizeEvent *event)
 {
+    Q_UNUSED(event);
     m_windowWidth =  this->window()->geometry().width();
     m_contentWidth = std::max(m_windowWidth - 100, 1);
 }
