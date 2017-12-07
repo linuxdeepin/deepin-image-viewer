@@ -53,6 +53,7 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
+    PushButton *m_folderBtn;
     ReturnButton *m_returnBtn;
     bool m_inDB;
 

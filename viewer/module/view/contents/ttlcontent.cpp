@@ -61,21 +61,21 @@ TTLContent::TTLContent(bool inDB,
     m_returnBtn->setObjectName("ReturnBtn");
     m_returnBtn->setToolTip(tr("Back"));
 
-    PushButton *folderBtn = new PushButton();
-     folderBtn->setFixedSize(QSize(24, 24));
-    folderBtn->setObjectName("FolderBtn");
-    folderBtn->setToolTip(tr("Image management"));
+    m_folderBtn = new PushButton();
+     m_folderBtn->setFixedSize(QSize(24, 24));
+    m_folderBtn->setObjectName("FolderBtn");
+    m_folderBtn->setToolTip(tr("Image management"));
     if(m_inDB) {
         hb->addWidget(m_returnBtn);
     } else {
-       hb->addWidget(folderBtn);
+       hb->addWidget(m_folderBtn);
     }
     hb->addSpacing(20);
 
     connect(m_returnBtn, &ReturnButton::clicked, this, [=] {
         emit clicked();
     });
-    connect(folderBtn, &PushButton::clicked, this, [=] {
+    connect(m_folderBtn, &PushButton::clicked, this, [=] {
         emit clicked();
     });
     connect(m_returnBtn, &ReturnButton::returnBtnWidthChanged, this, [=]{
@@ -174,22 +174,26 @@ void TTLContent::updateFilenameLayout()
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
                 + (ICON_SIZE.width()+2)*6 + LEFT_SPACE;
     else
-        m_leftContentWidth = m_returnBtn->buttonWidth() + 6
+    {
+        m_leftContentWidth = m_folderBtn->width()  + 14
                 + (ICON_SIZE.width()+2)*5 + LEFT_SPACE;
+    }
 
-    m_windowWidth =  std::max(this->window()->geometry().width(), this->width());
-    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
+    int ww = dApp->setter->value("MAINWINDOW",  "WindowWidth").toInt();
+    m_windowWidth =  std::max(std::max(this->window()->geometry().width(), this->width()), ww);
+    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH + 2, 1);
     setFixedWidth(m_contentWidth);
     m_contentWidth = this->width() - m_leftContentWidth;
+
     if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH)
     {
         name = fm.elidedText(filename, Qt::ElideMiddle, std::min(m_contentWidth - 32,
                                                                  FILENAME_MAX_LENGTH));
         strWidth = fm.boundingRect(name).width();
-        leftMargin = std::max(0, (this->window()->width() - strWidth)/2
+        leftMargin = std::max(0, (m_windowWidth - strWidth)/2
                               - m_leftContentWidth - LEFT_MARGIN);
     } else {
-        leftMargin = std::max(0, (this->window()->width() - strWidth)/2
+        leftMargin = std::max(0, (m_windowWidth - strWidth)/2
                               - m_leftContentWidth - LEFT_MARGIN/2);
         name = filename;
     }
