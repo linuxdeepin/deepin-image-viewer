@@ -62,7 +62,7 @@ TTLContent::TTLContent(bool inDB,
     m_returnBtn->setToolTip(tr("Back"));
 
     m_folderBtn = new PushButton();
-     m_folderBtn->setFixedSize(QSize(24, 24));
+    m_folderBtn->setFixedSize(QSize(24, 24));
     m_folderBtn->setObjectName("FolderBtn");
     m_folderBtn->setToolTip(tr("Image management"));
     if(m_inDB) {
@@ -191,10 +191,10 @@ void TTLContent::updateFilenameLayout()
                                                                  FILENAME_MAX_LENGTH));
         strWidth = fm.boundingRect(name).width();
         leftMargin = std::max(0, (m_windowWidth - strWidth)/2
-                              - m_leftContentWidth - LEFT_MARGIN);
+                              - m_leftContentWidth - LEFT_MARGIN - 2);
     } else {
         leftMargin = std::max(0, (m_windowWidth - strWidth)/2
-                              - m_leftContentWidth - LEFT_MARGIN/2);
+                              - m_leftContentWidth - 6);
         name = filename;
     }
 
