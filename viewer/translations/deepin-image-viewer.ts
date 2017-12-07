@@ -12,11 +12,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <source>Deepin Image Viewer is a fashionable and smooth image manager.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <source>It features image management, image viewing and basic image editing.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -54,7 +54,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>OK</source>
+        <source>Okay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -69,18 +69,18 @@
 <context>
     <name>AlbumDelegate</name>
     <message>
-        <source>Recent imported</source>
+        <source>Recently imported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My favorite</source>
+        <source>My favorites</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
-        <source>Are your sure to delete this album?</source>
+        <source>Are your sure you want to delete this album?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -99,7 +99,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My favorite</source>
+        <source>My favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -111,7 +111,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
+        <source>You can add from a sync directory or drag and drop images to timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -163,11 +163,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>OK</source>
+        <source>Okay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure to add the pictures to the album?</source>
+        <source>Are you sure you want to add pictures to the album?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -179,7 +179,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
+        <source>Are you sure you want to add this to the sync list and create an album named after this folder?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -205,7 +205,7 @@
 <context>
     <name>FileDeleteDialog</name>
     <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
+        <source>Are you sure you want to delete this?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -291,7 +291,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
+        <source>You can add a sync directory or drag and drop images to timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -313,7 +313,7 @@
 <context>
     <name>LockWidget</name>
     <message>
-        <source>You have no permission to view the image</source>
+        <source>You do not have permission to view this file.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -328,7 +328,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Date photoed</source>
+        <source>Date captured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -426,7 +426,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This directory is disabled to sync</source>
+        <source>This directory is unaccessable while it syncs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -653,7 +653,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Display in file manager</source>
+        <source>Open in file manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -718,7 +718,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My favorite</source>
+        <source>My favorites</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -790,7 +790,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
+        <source>You can add a sync directory or drag and drop images to timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -850,7 +850,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Display in file manager</source>
+        <source>Open in file manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -892,11 +892,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>My favorite</source>
+        <source>My favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Recent imported</source>
+        <source>Recently imported</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -911,11 +911,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
+        <source>Deepin Image Viewer is a fashionable and smooth image manager.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
+        <source>It features image management, image viewing and basic image editing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -998,7 +998,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Display in file manager</source>
+        <source>Open in file manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
