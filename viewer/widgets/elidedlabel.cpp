@@ -39,7 +39,8 @@ void ElidedLabel::paintEvent(QPaintEvent *)
     QPainter painter(this);
     QRect textR = QRect(m_leftMargin, 0, this->width() - m_leftMargin, this->height());
     Q_UNUSED(textR);
-    painter.setPen(QPen(m_textColor));
+//    painter.fillRect(textR, QBrush(Qt::green));
+//    painter.setPen(QPen(m_textColor));
     painter.drawText(m_leftMargin, (this->height() - fm.height())/2,
                      this->width() - m_leftMargin, this->height(), Qt::AlignLeft, m_text);
 }

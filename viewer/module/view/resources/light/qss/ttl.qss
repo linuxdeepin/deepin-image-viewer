@@ -72,7 +72,7 @@ QFrame#TTM {
    /*border: 1px solid blue;*/
 }
 
-QLabel#EmptyLabel
+TTLContent
 {
-   /*border: 1px solid yellow;*/
+    /*border: 1px solid yellow;*/
 }

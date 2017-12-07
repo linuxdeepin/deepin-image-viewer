@@ -50,9 +50,12 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
                                        QVariant(defaultW)).toInt();
     const int wh = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
                                        QVariant(defaultH)).toInt();
-    resize(ww, wh);
-    setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
 
+    setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
+    resize(ww, wh);
+
+    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
+    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
     m_mainWidget = new MainWidget(manager, this);
     QTimer::singleShot(200, [=]{
          setCentralWidget(m_mainWidget);
@@ -149,6 +152,7 @@ void MainWindow::resizeEvent(QResizeEvent *e)
                                QVariant(m_mainWidget->height()));
     }
 
+    emit dApp->signalM->updateTopToolbar();
     DMainWindow::resizeEvent(e);
 }
 

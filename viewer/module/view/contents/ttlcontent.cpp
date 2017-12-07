@@ -24,6 +24,7 @@
 #include "controller/dbmanager.h"
 #include "controller/configsetter.h"
 #include "widgets/elidedlabel.h"
+#include "controller/signalmanager.h"
 
 #include <QTimer>
 #include <QFileInfo>
@@ -41,9 +42,10 @@ const int FILENAME_MAX_LENGTH = 600;
 
 TTLContent::TTLContent(bool inDB,
                        QWidget *parent) : QLabel(parent)
-{    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    m_windowWidth = ConfigSetter::instance()->value("MAINWINDOW",
-                                                    "WindowWidth").toInt();
+{
+    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    m_windowWidth = std::max(this->window()->width(),
+        ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
     m_contentWidth = std::max(m_windowWidth - 100, 1);
     setFixedWidth(m_contentWidth);
 
@@ -148,6 +150,9 @@ TTLContent::TTLContent(bool inDB,
             &TTLContent::onThemeChanged);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
             this, &TTLContent::onThemeChanged);
+     connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
+         updateFilenameLayout();
+     });
 }
 
 void TTLContent::updateFilenameLayout()
@@ -169,6 +174,11 @@ void TTLContent::updateFilenameLayout()
     else
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
                 + (ICON_SIZE.width()+2)*5 + 20;
+
+    m_windowWidth =  std::max(this->window()->geometry().width(), this->width());
+    m_contentWidth = std::max(m_windowWidth - 100, 1);
+    setFixedWidth(m_contentWidth);
+
     m_contentWidth = this->width() - m_leftContentWidth;
 
     if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH)
@@ -203,6 +213,12 @@ void TTLContent::setCurrentDir(QString text) {
     }
 
     m_returnBtn->setText(text);
+}
+
+void TTLContent::resizeEvent(QResizeEvent *event)
+{
+    m_windowWidth =  this->window()->geometry().width();
+    m_contentWidth = std::max(m_windowWidth - 100, 1);
 }
 
 void TTLContent::setImage(const QString &path)

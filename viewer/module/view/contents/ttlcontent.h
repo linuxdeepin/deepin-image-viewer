@@ -49,6 +49,9 @@ private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();
 
+protected:
+    void resizeEvent(QResizeEvent *event);
+
 private:
     ReturnButton *m_returnBtn;
     bool m_inDB;
