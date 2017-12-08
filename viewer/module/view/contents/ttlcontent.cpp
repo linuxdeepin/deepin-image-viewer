@@ -175,7 +175,7 @@ void TTLContent::updateFilenameLayout()
                 + (ICON_SIZE.width()+2)*6 + LEFT_SPACE;
     else
     {
-        m_leftContentWidth = m_folderBtn->width()  + 14
+        m_leftContentWidth = m_folderBtn->width()  + 8
                 + (ICON_SIZE.width()+2)*5 + LEFT_SPACE;
     }
 
