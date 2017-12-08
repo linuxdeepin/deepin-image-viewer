@@ -40,14 +40,14 @@ void ElidedLabel::paintEvent(QPaintEvent *)
     QRect textR = QRect(m_leftMargin, 0, this->width() - m_leftMargin, this->height());
     Q_UNUSED(textR);
 //    painter.fillRect(textR, QBrush(Qt::green));
-//    painter.setPen(QPen(m_textColor));
+    painter.setPen(QPen(m_textColor));
     painter.drawText(m_leftMargin, (this->height() - fm.height())/2,
                      this->width() - m_leftMargin, this->height(), Qt::AlignLeft, m_text);
 }
 
 void ElidedLabel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        m_textColor = QColor(Qt::white);
+        m_textColor = QColor(255, 255, 255, 204);
     } else {
         m_textColor = QColor("#656565");
     }
