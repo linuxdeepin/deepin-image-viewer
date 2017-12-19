@@ -55,7 +55,9 @@ int main(int argc, char *argv[])
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
 
     if (!service::isDefaultImageViewer()) {
-        service::setDefaultImageViewer(true);
+        qDebug() << "Set defaultImage viewer succeed:" << service::setDefaultImageViewer(true);
+    } else {
+        qDebug() << "Deepin Image Viewer is defaultImage!";
     }
 
     CommandLine *cl = CommandLine::instance();

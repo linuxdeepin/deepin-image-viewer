@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "defaultimageviewer.h"
-#include "third-party/simpleini/SimpleIni.h"
 #include "utils/baseutils.h"
 #include <QStandardPaths>
 #include <QFile>
@@ -47,6 +46,7 @@ namespace service {
         if (!QFile::exists(mimeAppFilePath)) {
             return false;
         }
+
         bool state = true;
         QSettings settings(mimeAppFilePath, QSettings::IniFormat);
 
@@ -68,34 +68,36 @@ namespace service {
             return false;
         }
 
-        CSimpleIniA settings;
-        settings.SetUnicode(true);
-        QString content(utils::base::getFileContent(mimeAppFilePath));
-        settings.LoadData(content.toStdString().c_str(), content.length());
+        QSettings settings(mimeAppFilePath, QSettings::IniFormat);
 
         foreach (const QString& mime, supportImageFormat) {
-            const char* mime_cstr = mime.toStdString().c_str();
-
             if (isDefault) {
-                settings.SetValue(defaultApplicationsSection, mime_cstr,
-                                  appDesktopFile.toStdString().c_str());
-                settings.SetValue(addedAssociationsSection, mime_cstr,
-                                  appDesktopFile.toStdString().c_str());
+                settings.beginGroup(defaultApplicationsSection);
+                settings.setValue(mime, appDesktopFile);
+                settings.endGroup();
+                settings.sync();
+                settings.beginGroup(addedAssociationsSection);
+                settings.setValue(mime, appDesktopFile);
+                settings.endGroup();
+                settings.sync();
             } else {
-                const QString appName(settings.GetValue(defaultApplicationsSection,
-                                                         mime_cstr));
+                settings.beginGroup(defaultApplicationsSection);
+                const QString appName = settings.value(mime).toString();
+
                 if (appName == QString(appDesktopFile)) {
-                    settings.Delete(defaultApplicationsSection, mime_cstr);
+                    settings.beginGroup(defaultApplicationsSection);
+                    settings.remove(mime);
+                    settings.endGroup();
                 }
 
-                const QString appName2(settings.GetValue(addedAssociationsSection, mime_cstr));
+                settings.beginGroup(addedAssociationsSection);
+                const QString appName2 = settings.value(mime).toString();
                 if (appName2 == QString(appDesktopFile)) {
-                    settings.Delete(addedAssociationsSection, mime_cstr);
+                    settings.remove(mime);
                 }
             }
         }
-        std::string strData;
-        settings.Save(strData);
-        return utils::base::writeTextFile(mimeAppFilePath, QString::fromStdString(strData));
+
+        return true;
     }
 }
