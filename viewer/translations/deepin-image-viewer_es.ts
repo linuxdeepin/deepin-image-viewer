@@ -72,7 +72,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Mis favoritos</translation>
     </message>
 </context>
 <context>
@@ -98,7 +98,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Mis favoritos</translation>
     </message>
     <message>
         <source>Timeline</source>
@@ -278,7 +278,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en administrador de archivos</translation>
+        <translation>Mostrar en el gestor de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -527,7 +527,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en el administrador de archivos</translation>
+        <translation>Mostrar en el gestor de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -652,7 +652,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en administrador de archivos</translation>
+        <translation>Mostrar en el gestor de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -702,7 +702,7 @@
     </message>
     <message>
         <source>second</source>
-        <translation>segundo</translation>
+        <translation>segundos</translation>
     </message>
 </context>
 <context>
@@ -717,7 +717,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Mis favoritos</translation>
     </message>
 </context>
 <context>
@@ -748,7 +748,7 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Destacar</translation>
     </message>
 </context>
 <context>
@@ -829,7 +829,7 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Destacar</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -849,7 +849,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en  administrador de archivos</translation>
+        <translation>Mostrar en el gestor de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -891,7 +891,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mi favorito</translation>
+        <translation>Mis favoritos</translation>
     </message>
     <message>
         <source>Recent imported</source>

@@ -690,7 +690,7 @@
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Skift effekt</translation>
+        <translation>Skifteffekt</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -698,7 +698,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Skift varighed</translation>
+        <translation>Skiftvarighed</translation>
     </message>
     <message>
         <source>second</source>
