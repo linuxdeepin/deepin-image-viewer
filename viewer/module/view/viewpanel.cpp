@@ -288,10 +288,10 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     connect(this, &ViewPanel::viewImageFrom, ttlc, [=](const QString &dir){
         ttlc->setCurrentDir(dir);
     });
-    connect(ttlc, &TTLContent::contentWidthChanged,
-            this, &ViewPanel::updateTopLeftWidthChanged);
-    connect(this, &ViewPanel::updateCollectButton,
-            ttlc, &TTLContent::updateCollectButton);
+//    connect(ttlc, &TTLContent::contentWidthChanged,
+//            this, &ViewPanel::updateTopLeftWidthChanged);
+//    connect(this, &ViewPanel::updateCollectButton,
+//            ttlc, &TTLContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttlc, &TTLContent::setImage);
     connect(ttlc, &TTLContent::rotateClockwise, this, [ = ] {
         rotateImage(true);
@@ -324,26 +324,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
     QWidget* w = new QWidget();
-    w->setStyleSheet("background:red");
     return w;
-//    TTMContent *ttmc = new TTMContent();
-//    if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-//        ttmc->setPath(m_current->filePath);
-//    } else {
-//        ttmc->setPath("");
-//    }
-//    connect(this, &ViewPanel::updateTopLeftContentImage, ttmc, &TTMContent::setPath);
-//    connect(this, &ViewPanel::updateTopLeftWidthChanged, ttmc, [=](int width){
-//        qDebug() << "YYYYYYY" << width;
-//        QString path;
-//        if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-//             path = m_current->filePath;
-//        } else {
-//            path = "";
-//        }
-//        ttmc->updateLayout(width, path);
-//    });
-//    return ttmc;
 }
 
 QWidget *ViewPanel::extensionPanelContent()
@@ -716,7 +697,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
     if (inDB) {
         emit updateTopLeftContentImage(path);
-        emit updateCollectButton();
+//        emit updateCollectButton();
     }
 }
 

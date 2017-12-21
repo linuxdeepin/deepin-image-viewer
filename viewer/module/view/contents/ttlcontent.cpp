@@ -169,7 +169,7 @@ void TTLContent::updateFilenameLayout()
 
     int strWidth = fm.boundingRect(filename).width();
     int leftMargin = 0;
-    int m_leftContentWidth;
+    int m_leftContentWidth = 0;
     if (m_inDB)
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
                 + (ICON_SIZE.width()+2)*6 + LEFT_SPACE;

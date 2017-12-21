@@ -256,22 +256,22 @@ void ReturnButton::paintEvent(QPaintEvent *e)
 
 int ReturnButton::buttonWidth()
 {
-    update();
-    QFontMetrics fm(font());
-    int pixWidth = QPixmap(getPixmap()).width();
-    int maxWidth = m_maxWidth - pixWidth;
-    int textWidth = fm.boundingRect(m_text).width();
-    QString mt;
-    if (textWidth > maxWidth)
-    {
-        mt = fm.elidedText(m_text, Qt::ElideMiddle, maxWidth - 10);
+//    update();
+//    QFontMetrics fm(font());
+//    int pixWidth = QPixmap(getPixmap()).width();
+//    int maxWidth = m_maxWidth - pixWidth;
+//    int textWidth = fm.boundingRect(m_text).width();
+//    QString mt;
+//    if (textWidth > maxWidth)
+//    {
+//        mt = fm.elidedText(m_text, Qt::ElideMiddle, maxWidth - 10);
 
-    } else {
-        mt = m_text;
-    }
-    textWidth = fm.boundingRect(mt).width();
-    setFixedWidth(textWidth + pixWidth);
-    m_buttonWidth = std::max(24, int(textWidth + pixWidth));
+//    } else {
+//        mt = m_text;
+//    }
+//    textWidth = fm.boundingRect(mt).width();
+//    setFixedWidth(textWidth + pixWidth);
+//    m_buttonWidth = std::max(24, int(textWidth + pixWidth));
 
     return m_buttonWidth;
 }
