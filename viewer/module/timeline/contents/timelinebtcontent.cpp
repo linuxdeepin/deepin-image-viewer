@@ -30,6 +30,10 @@
 #include <QHBoxLayout>
 #include <QStackedLayout>
 
+#include <DSpinner>
+
+DWIDGET_USE_NAMESPACE
+
 namespace {
 
 const int MIN_ICON_SIZE = 96;
@@ -124,12 +128,14 @@ void TimelineBTContent::initMiddleContent()
     hl->setContentsMargins(SLIDER_WIDTH, 0, 0, 0);
     hl->setSpacing(5);
 
-    LoadingIcon *lIcon = new LoadingIcon(this);
-    hl->addWidget(lIcon);
+    auto spinner = new DSpinner;
+    spinner->setFixedSize(14, 14);
+    spinner->setBackgroundColor(Qt::transparent);
+
     QLabel *l = new QLabel;
     l->setFixedWidth(350);
     l->setObjectName("ImportLabel");
-    hl->addWidget(l);
+    hl->addWidget(spinner);
     hl->addStretch();
 
     QStackedLayout *layout = new QStackedLayout;
@@ -137,7 +143,7 @@ void TimelineBTContent::initMiddleContent()
     layout->addWidget(m_label);
     layout->addWidget(w);
     if (Importer::instance()->isRunning()) {
-        lIcon->play();
+        spinner->start();
         layout->setCurrentIndex(1);
     }
 
@@ -147,11 +153,11 @@ void TimelineBTContent::initMiddleContent()
             this, &TimelineBTContent::updateImageCount);
     connect(Importer::instance(), &Importer::progressChanged, this, [=] {
         layout->setCurrentIndex(1);
-        lIcon->play();
+        spinner->start();
     });
     connect(Importer::instance(), &Importer::imported, this, [=] {
         layout->setCurrentIndex(0);
-        lIcon->stop();
+        spinner->stop();
         updateImageCount();
     });
     connect(Importer::instance(), &Importer::currentImport, this, [=] (const QString &path) {

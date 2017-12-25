@@ -32,9 +32,11 @@
 #include <QGraphicsPixmapItem>
 #include <QPaintEvent>
 #include <QtConcurrent>
+#include <QHBoxLayout>
 #include <qmath.h>
 
 #include <DSvgRenderer>
+#include <DSpinner>
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -178,8 +180,21 @@ void ImageView::setImage(const QString &path)
                 GraphicsMovieItem* loadingItem = new GraphicsMovieItem(m_loadingIconPath);
                 loadingItem->start();
                 // Make sure item show in center of view after reload
-                setSceneRect(loadingItem->boundingRect());
-                s->addItem(loadingItem);
+
+                auto spinner = new DSpinner;
+                spinner->setFixedSize(32, 32);
+                spinner->setBackgroundColor(Qt::transparent);
+                spinner->start();
+                QWidget* w = new QWidget();
+                w->setFixedSize(QSize(32, 32));
+                QHBoxLayout* hLayout = new QHBoxLayout;
+                hLayout->setMargin(0);
+                hLayout->setSpacing(0);
+                hLayout->addWidget(spinner, 0, Qt::AlignCenter);
+                w->setLayout(hLayout);
+                setSceneRect(w->rect());
+                s->addWidget(w);
+
                 emit hideNavigation();
             }
         }
