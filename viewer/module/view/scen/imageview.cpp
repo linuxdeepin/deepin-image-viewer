@@ -15,11 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "imageview.h"
-#include "graphicsitem.h"
-#include "utils/baseutils.h"
-#include "utils/imageutils.h"
-#include "utils/snifferimageformat.h"
-#include "application.h"
 
 #include <QDebug>
 #include <QFile>
@@ -35,8 +30,13 @@
 #include <QHBoxLayout>
 #include <qmath.h>
 
+#include "graphicsitem.h"
+#include "utils/baseutils.h"
+#include "utils/imageutils.h"
+#include "utils/snifferimageformat.h"
+#include "application.h"
+#include "widgets/dspinner.h"
 #include <DSvgRenderer>
-#include <DSpinner>
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>

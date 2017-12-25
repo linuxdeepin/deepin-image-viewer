@@ -25,14 +25,11 @@
 #include "widgets/imagebutton.h"
 #include "widgets/loadingicon.h"
 #include "widgets/slider.h"
+#include "widgets/dspinner.h"
 #include "utils/baseutils.h"
 
 #include <QHBoxLayout>
 #include <QStackedLayout>
-
-#include <DSpinner>
-
-DWIDGET_USE_NAMESPACE
 
 namespace {
 

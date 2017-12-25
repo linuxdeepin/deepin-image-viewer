@@ -19,7 +19,8 @@ HEADERS += \
     $$PWD/themewidget.h \
     $$PWD/formlabel.h \
     $$PWD/elidedlabel.h \
-    $$PWD/returnbutton.h
+    $$PWD/returnbutton.h \
+    $$PWD/dspinner.h
 
 SOURCES += \
     $$PWD/importframe.cpp \
@@ -40,7 +41,8 @@ SOURCES += \
     $$PWD/themewidget.cpp \
     $$PWD/formlabel.cpp \
     $$PWD/elidedlabel.cpp \
-    $$PWD/returnbutton.cpp
+    $$PWD/returnbutton.cpp \
+    $$PWD/dspinner.cpp
 
 RESOURCES += \
     $$PWD/widgetstheme.qrc
