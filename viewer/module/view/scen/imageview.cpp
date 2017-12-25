@@ -51,6 +51,7 @@ const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
+const QSize SPINNER_SIZE = QSize(32, 32);
 
 QVariantList cachePixmap(const QString &path)
 {
@@ -182,11 +183,11 @@ void ImageView::setImage(const QString &path)
                 // Make sure item show in center of view after reload
 
                 auto spinner = new DSpinner;
-                spinner->setFixedSize(32, 32);
+                spinner->setFixedSize(SPINNER_SIZE);
                 spinner->setBackgroundColor(Qt::transparent);
                 spinner->start();
                 QWidget* w = new QWidget();
-                w->setFixedSize(QSize(32, 32));
+                w->setFixedSize(SPINNER_SIZE);
                 QHBoxLayout* hLayout = new QHBoxLayout;
                 hLayout->setMargin(0);
                 hLayout->setSpacing(0);
