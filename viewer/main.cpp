@@ -45,6 +45,10 @@ int main(int argc, char *argv[])
     //      qputenv(kPlatformThemeName, "gtk2");
     //    }
    //    qDebug() << "application started" << QDateTime::currentDateTime();
+    if (QFile("/usr/lib/dde-desktop/plugins/platform/libdxcb.so").exists()) {
+        qDebug() << "load dxcb from local path: /usr/lib/dde-desktop/plugins/platform/libdxcb.so";
+        qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", "/usr/lib/dde-desktop/plugins/platform");
+    }
     Application::loadDXcbPlugin();
     Application a(argc, argv);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
