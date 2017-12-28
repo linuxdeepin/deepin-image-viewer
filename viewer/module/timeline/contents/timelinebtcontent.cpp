@@ -28,6 +28,7 @@
 #include "widgets/dspinner.h"
 #include "utils/baseutils.h"
 
+#include <QPainter>
 #include <QHBoxLayout>
 #include <QStackedLayout>
 

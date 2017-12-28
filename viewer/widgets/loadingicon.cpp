@@ -14,32 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "loadingicon.h"
-#include "application.h"
-#include "controller/viewerthememanager.h"
+//#include "loadingicon.h"
+//#include "application.h"
+//#include "controller/viewerthememanager.h"
 
-LoadingIcon::LoadingIcon(QWidget *parent)
-    : DPictureSequenceView(parent)
-{
-    updateIconPath();
-    setPictureSequence(m_iconPaths, true);
-    setFixedSize(14, 14);
-    setSpeed(40);
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
-            this, &LoadingIcon::updateIconPath);
-}
+//LoadingIcon::LoadingIcon(QWidget *parent)
+//    : DPictureSequenceView(parent)
+//{
+//    updateIconPath();
+//    setPictureSequence(m_iconPaths, true);
+//    setFixedSize(14, 14);
+//    setSpeed(40);
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
+//            this, &LoadingIcon::updateIconPath);
+//}
 
-void LoadingIcon::updateIconPath()
-{
-    QString iconPath;
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        iconPath = ":/images/loadings/resources/dark/images/dark_loading/loading_%1.png";
-    }
-    else {
-        iconPath = ":/images/loadings/resources/light/images/white_loading/loading_%1.png";
-    }
-    m_iconPaths.clear();
+//void LoadingIcon::updateIconPath()
+//{
+//    QString iconPath;
+//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+//        iconPath = ":/images/loadings/resources/dark/images/dark_loading/loading_%1.png";
+//    }
+//    else {
+//        iconPath = ":/images/loadings/resources/light/images/white_loading/loading_%1.png";
+//    }
+//    m_iconPaths.clear();
 
-    for (int i = 1; i < 45; ++i)
-        m_iconPaths.append(iconPath.arg(i));
-}
+//    for (int i = 1; i < 45; ++i)
+//        m_iconPaths.append(iconPath.arg(i));
+//}

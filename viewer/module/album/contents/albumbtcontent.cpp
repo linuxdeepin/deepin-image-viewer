@@ -24,8 +24,10 @@
 #include "dirwatcher/scanpathsdialog.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
-#include "widgets/loadingicon.h"
+#include "widgets/dspinner.h"
 #include "widgets/slider.h"
+
+#include <QPainter>
 #include <QHBoxLayout>
 #include <QStackedLayout>
 
@@ -122,8 +124,11 @@ void AlbumBTContent::initMiddleContent()
     hl->setContentsMargins(SLIDER_WIDTH, 0, 0, 0);
     hl->setSpacing(5);
 
-    LoadingIcon *lIcon = new LoadingIcon(this);
-    hl->addWidget(lIcon);
+    auto spinner = new DSpinner;
+    spinner->setFixedSize(14, 14);
+    spinner->setBackgroundColor(Qt::transparent);
+    hl->addWidget(spinner);
+
     QLabel *l = new QLabel;
     l->setFixedWidth(350);
     l->setObjectName("ImportLabel");
@@ -135,7 +140,7 @@ void AlbumBTContent::initMiddleContent()
     layout->addWidget(m_label);
     layout->addWidget(w);
     if (Importer::instance()->isRunning()) {
-        lIcon->play();
+        spinner->start();
         layout->setCurrentIndex(1);
     }
 
@@ -145,11 +150,11 @@ void AlbumBTContent::initMiddleContent()
             this, &AlbumBTContent::updateCount);
     connect(Importer::instance(), &Importer::progressChanged, this, [=] {
         layout->setCurrentIndex(1);
-        lIcon->play();
+        spinner->start();
     });
     connect(Importer::instance(), &Importer::imported, this, [=] {
         layout->setCurrentIndex(0);
-        lIcon->stop();
+        spinner->stop();
         updateCount();
     });
     connect(Importer::instance(), &Importer::currentImport, this, [=] (const QString &path) {

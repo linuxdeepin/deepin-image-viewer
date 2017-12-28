@@ -14,24 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LOADINGICON_H
-#define LOADINGICON_H
+//#ifndef LOADINGICON_H
+//#define LOADINGICON_H
 
-#include <dpicturesequenceview.h>
-#include <QWidget>
+//#include <dpicturesequenceview.h>
+//#include <QWidget>
 
-DWIDGET_USE_NAMESPACE
+//DWIDGET_USE_NAMESPACE
 
-class LoadingIcon : public DPictureSequenceView
-{
-    Q_OBJECT
-public:
-    explicit LoadingIcon(QWidget *parent = 0);
+//class LoadingIcon : public DPictureSequenceView
+//{
+//    Q_OBJECT
+//public:
+//    explicit LoadingIcon(QWidget *parent = 0);
 
-private:
-    void updateIconPath();
+//private:
+//    void updateIconPath();
 
-    QStringList m_iconPaths;
-};
+//    QStringList m_iconPaths;
+//};
 
-#endif // LOADINGICON_H
+//#endif // LOADINGICON_H
