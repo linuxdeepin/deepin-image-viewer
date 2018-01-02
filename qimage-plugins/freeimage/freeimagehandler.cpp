@@ -212,7 +212,6 @@ FreeImageHandler::GetFIF(QIODevice *device, const QByteArray &fmt)
 {
     FREE_IMAGE_FORMAT fif =
             FreeImage_GetFileTypeFromHandle(&fiio(), (fi_handle)device);
-    device->seek(0);
 
     if (fif == FIF_UNKNOWN) {
         fif = FreeImage_GetFIFFromFilename(fmt);
