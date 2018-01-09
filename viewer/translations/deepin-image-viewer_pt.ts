@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visualizador de Imagens Deepin</translation>
+        <translation>Deepin Image Viewer</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -11,7 +11,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>O Visualizador de Imagens Deepin é um bonito e fluído gestor de imagens.</translation>
+        <translation>O Deepin Image Viewer é um bonito e fluído gestor de imagens.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -144,7 +144,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visualizador de Imagens Deepin</translation>
+        <translation>Deepin Image Viewer</translation>
     </message>
 </context>
 <context>
@@ -910,7 +910,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>O Visualizador de Imagens Deepin é um bonito e fluído gestor de imagens.</translation>
+        <translation>O Deepin Image Viewer é um bonito e fluído gestor de imagens.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>

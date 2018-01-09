@@ -11,11 +11,11 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer ist ein eleganter &amp; schneller  Bildverwalter.</translation>
+        <translation>Der Deepin Bildbetrachter ist eine elegante &amp; schnelle Bildverwaltung.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Er ist mit Bildverwaltung, Bildbetrachtung und einfacher Bildbearbeitung ausgestattet.</translation>
+        <translation>Er bietet Bildverwaltung, Bildbetrachtung und einfache Bildbearbeitung.</translation>
     </message>
 </context>
 <context>
@@ -110,7 +110,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Sie können Ordner der Timeline zum synchronisieren hinzufügen oder auch einzelne Bilder per Drag &amp; Drop</translation>
+        <translation>Sie können Ordner der Timeline zum Synchronisieren hinzufügen oder auch einzelne Bilder per Drag &amp; Drop</translation>
     </message>
 </context>
 <context>
@@ -144,7 +144,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Deepin Bildbetrachter</translation>
     </message>
 </context>
 <context>
@@ -174,11 +174,11 @@
     </message>
     <message>
         <source>Sync</source>
-        <translation>Synchronisierung abbrechen</translation>
+        <translation>Synchronisierung</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Sind Sie sicher, die Synchronisierungsliste hinzuzufügen und das Album zu erstellen, das nach diesem Ordner benannt wurde?</translation>
+        <translation>Sind Sie sicher, dass Sie die Auswahl zur Synchronisierungsliste hinzufügen möchten und ein Album mit dem Namen des Ordners erstellt werden soll?</translation>
     </message>
 </context>
 <context>

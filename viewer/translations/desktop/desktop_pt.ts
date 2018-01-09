@@ -5,7 +5,7 @@
             <location filename="Desktop Entry]Comment" line="0"/>
             <location filename="Desktop Entry]Name" line="0"/>
             <source>Deepin Image Viewer</source>
-            <translation>Visualizador de Imagens Deepin</translation>
+            <translation>Deepin Image Viewer</translation>
         </message>
     </context>
 </TS>
