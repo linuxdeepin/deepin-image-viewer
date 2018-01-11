@@ -2,8 +2,7 @@ Source: deepin-image-viewer
 Section: utils
 Priority: optional
 Maintainer: Deepin Packages Builder <packages@deepin.com>
-Build-Depends: debhelper (>=9), qt5-qmake, qtbase5-dev, pkg-config,
- libexif-dev, libqt5svg5-dev, libqt5x11extras5-dev, libsqlite3-dev,
+Build-Depends: debhelper (>=9), qt5-qmake, qtbase5-dev, pkg-config,libexif-dev, libqt5svg5-dev, libqt5x11extras5-dev, libsqlite3-dev,
  qttools5-dev-tools, libxcb-util0-dev, libstartup-notification0-dev,
  libraw-dev,libfreeimage-dev, libqt5opengl5-dev, qtbase5-private-dev,
  qtmultimedia5-dev, x11proto-xext-dev, libmtdev-dev, libegl1-mesa-dev,
@@ -14,7 +13,7 @@ Homepage: http://www.deepin.org
 
 Package: deepin-image-viewer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5sql5-sqlite
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5sql5-sqlite, qt5-image-formats-plugins
 Recommends: libqt5libqgtk2
 Description: Image Viewer for Deepin Desktop Environment
  Deepin Image Viewer is Deepin Desktop Environment Image Viewer.
