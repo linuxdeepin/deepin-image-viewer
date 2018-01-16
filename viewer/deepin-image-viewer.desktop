@@ -8,6 +8,7 @@ MimeType=image/bmp;image/bmp24;image/ico;image/jpg;image/jpe;image/jpeg;image/jp
 Name=Deepin Image Viewer
 StartupNotify=false
 Type=Application
+X-Deepin-ManualID=deepin-image-viewer
 
 # Translations:
 # Do not manually modify!
