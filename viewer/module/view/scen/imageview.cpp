@@ -454,6 +454,7 @@ void ImageView::onCacheFinish()
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
         if (path == m_path) {
             scene()->clear();
             resetTransform();
