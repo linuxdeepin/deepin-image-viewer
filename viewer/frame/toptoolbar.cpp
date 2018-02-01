@@ -208,6 +208,7 @@ void TopToolbar::initRightContent()
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |
                                Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
+    m_titlebar->setBackgroundTransparent(true);
 
     QWidget *customWidget = new QWidget();
     customWidget->setFixedWidth(0);
