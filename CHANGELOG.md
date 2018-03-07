@@ -1,3 +1,5 @@
+deepin-image-viewer(1.2.16.9) 2018-3-7
+    *Release 1.2.16.9
 deepin-image-viewer(1.2.16.8) 2018-1-2
     *Release 1.2.16.8
 deepin-image-viewer(1.2.16.7) 2017-12-25
