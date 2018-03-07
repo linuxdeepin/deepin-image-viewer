@@ -18,7 +18,7 @@ TARGET = deepin-image-viewer
 TEMPLATE = app
 INCLUDEPATH += utils
 
-DEFINES += STATIC_LIB
+DEFINES += DTK_STATIC_LIB
 
 isEmpty(PREFIX){
     PREFIX = /usr
