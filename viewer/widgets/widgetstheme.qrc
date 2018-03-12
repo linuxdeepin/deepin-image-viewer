@@ -34,6 +34,12 @@
         <file>resources/common/images/window_close_hover.svg</file>
         <file>resources/common/images/window_close_normal.svg</file>
         <file>resources/common/images/window_close_press.svg</file>
+        <file alias="dark/Dtk--Widget--Toast.theme">resources/dark/qss/Toast.theme</file>
+        <file alias="light/Dtk--Widget--Toast.theme">resources/light/qss/Toast.theme</file>
+        <file>resources/common/images/dialog_warning.svg</file>
+        <file>resources/common/images/input_clear_press.svg</file>
+        <file>resources/common/images/input_clear_normal.svg</file>
+        <file>resources/common/images/input_clear_hover.svg</file>
     </qresource>
     <qresource prefix="/images/loadings">
         <file>resources/dark/images/dark_loading/loading_1.png</file>

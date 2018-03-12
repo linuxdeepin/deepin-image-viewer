@@ -20,7 +20,8 @@ HEADERS += \
     $$PWD/formlabel.h \
     $$PWD/elidedlabel.h \
     $$PWD/returnbutton.h \
-    $$PWD/dspinner.h
+    $$PWD/dspinner.h \
+    $$PWD/toast.h
 
 SOURCES += \
     $$PWD/importframe.cpp \
@@ -42,7 +43,8 @@ SOURCES += \
     $$PWD/formlabel.cpp \
     $$PWD/elidedlabel.cpp \
     $$PWD/returnbutton.cpp \
-    $$PWD/dspinner.cpp
+    $$PWD/dspinner.cpp \
+    $$PWD/toast.cpp
 
 RESOURCES += \
     $$PWD/widgetstheme.qrc

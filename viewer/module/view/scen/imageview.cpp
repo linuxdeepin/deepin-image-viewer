@@ -35,6 +35,7 @@
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "application.h"
+#include "widgets/toast.h"
 #include "widgets/dspinner.h"
 #include <DSvgRenderer>
 
@@ -44,7 +45,8 @@
 
 DWIDGET_USE_NAMESPACE
 
-namespace {
+namespace
+{
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
@@ -71,7 +73,7 @@ QVariantList cachePixmap(const QString &path)
             tImg = readerF.read();
         } else {
             qWarning() << "can't read image:" << readerF.errorString()
-                                  << format;
+                       << format;
 
             tImg = QImage(path);
         }
@@ -108,6 +110,11 @@ ImageView::ImageView(QWidget *parent)
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
+
+    m_toast = new Toast(this);
+    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
+    m_toast->setText(tr("This file contains multiple pages, do you want to view all pages with Evince?"));
+    m_toast->hide();
     // TODO
     //    QPixmap pm(12, 12);
     //    QPainter pmp(&pm);
@@ -134,10 +141,19 @@ void ImageView::clear()
 void ImageView::setImage(const QString &path)
 {
     // Empty path will cause crash in release-build mode
-    if (path.isEmpty())
+    if (path.isEmpty()) {
         return;
+    }
     m_path = path;
     QGraphicsScene *s = scene();
+    if (QFileInfo(path).suffix() == "tif") {
+        m_toast->show();
+        m_toast->move(width() / 2 - m_toast->width() / 2,
+                      height() - 80 - m_toast->height() / 2);
+    } else {
+        m_toast->hide();
+    }
+    qDebug() << size() << rect();
 
     // The suffix of svf file should be svg
     if (QFileInfo(path).suffix() == "svg" && DSvgRenderer().load(path)) {
@@ -153,8 +169,7 @@ void ImageView::setImage(const QString &path)
         setSceneRect(m_svgItem->boundingRect());
         s->addItem(m_svgItem);
         emit imageChanged(path);
-    }
-    else {
+    } else {
         m_svgItem = nullptr;
         // Support gif and mng
         if (QMovie(path).frameCount() > 1) {
@@ -167,8 +182,7 @@ void ImageView::setImage(const QString &path)
             setSceneRect(m_movieItem->boundingRect());
             s->addItem(m_movieItem);
             emit imageChanged(path);
-        }
-        else {
+        } else {
             m_movieItem = nullptr;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (! m_watcher.isRunning()) {
@@ -178,7 +192,7 @@ void ImageView::setImage(const QString &path)
                 m_pixmapItem = nullptr;
                 s->clear();
                 resetTransform();
-                GraphicsMovieItem* loadingItem = new GraphicsMovieItem(m_loadingIconPath);
+                GraphicsMovieItem *loadingItem = new GraphicsMovieItem(m_loadingIconPath);
                 loadingItem->start();
                 // Make sure item show in center of view after reload
 
@@ -186,9 +200,9 @@ void ImageView::setImage(const QString &path)
                 spinner->setFixedSize(SPINNER_SIZE);
                 spinner->setBackgroundColor(Qt::transparent);
                 spinner->start();
-                QWidget* w = new QWidget();
+                QWidget *w = new QWidget();
                 w->setFixedSize(SPINNER_SIZE);
-                QHBoxLayout* hLayout = new QHBoxLayout;
+                QHBoxLayout *hLayout = new QHBoxLayout;
                 hLayout->setMargin(0);
                 hLayout->setSpacing(0);
                 hLayout->addWidget(spinner, 0, Qt::AlignCenter);
@@ -223,12 +237,10 @@ void ImageView::setScaleValue(qreal v)
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / irs;
         scale(minv, minv);
-    }
-    else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
+    } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
         const qreal maxv = MAX_SCALE_FACTOR / irs;
         scale(maxv, maxv);
-    }
-    else {
+    } else {
         m_isFitImage = false;
         m_isFitWindow = false;
     }
@@ -242,19 +254,16 @@ const QImage ImageView::image()
 {
     if (m_movieItem) {           // bit-map
         return m_movieItem->pixmap().toImage();
-    }
-    else if (m_pixmapItem) {
+    } else if (m_pixmapItem) {
         //FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
-    }
-    else if (m_svgItem) {      // svg
+    } else if (m_svgItem) {    // svg
         QImage image(viewport()->size(), QImage::Format_ARGB32_Premultiplied);
         QPainter imagePainter(&image);
         QGraphicsView::render(&imagePainter);
         imagePainter.end();
         return image;
-    }
-    else {
+    } else {
         return QImage();
     }
 }
@@ -309,8 +318,7 @@ qreal ImageView::windowRelativeScale() const
     QRectF bf = sceneRect();
     if (1.0 * width() / height() > 1.0 * bf.width() / bf.height()) {
         return 1.0 * height() / bf.height();
-    }
-    else {
+    } else {
         return 1.0 * width() / bf.width();
     }
 }
@@ -336,7 +344,7 @@ QPoint ImageView::mapToImage(const QPoint &p) const
     return viewportTransform().inverted().map(p);
 }
 
-QRect ImageView::mapToImage(const QRect& r) const
+QRect ImageView::mapToImage(const QRect &r) const
 {
     return viewportTransform().inverted().mapRect(r);
 }
@@ -400,14 +408,13 @@ void ImageView::mousePressEvent(QMouseEvent *e)
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
 
-    if (! (e->buttons() | Qt::NoButton)) {
+    if (!(e->buttons() | Qt::NoButton)) {
         if (! items().isEmpty()) {
             items().first()->setCursor(Qt::ArrowCursor);
         }
 
         emit mouseHoverMoved();
-    }
-    else {
+    } else {
         if (! items().isEmpty()) {
             items().first()->setCursor(Qt::ClosedHandCursor);
         }
@@ -415,6 +422,13 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
         emit transformChanged();
         QGraphicsView::mouseMoveEvent(e);
     }
+}
+
+void ImageView::resizeEvent(QResizeEvent *event)
+{
+    QGraphicsView::resizeEvent(event);
+    m_toast->move(width() / 2 - m_toast->width() / 2,
+                  height() - 80 - m_toast->height() / 2);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
@@ -469,7 +483,8 @@ void ImageView::onCacheFinish()
     }
 }
 
-void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
         m_loadingIconPath = utils::view::DARK_LOADINGICON;

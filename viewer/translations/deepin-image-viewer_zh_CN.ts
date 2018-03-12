@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -220,6 +222,13 @@
     <message>
         <source>Image info</source>
         <translation>图片信息</translation>
+    </message>
+</context>
+<context>
+    <name>ImageView</name>
+    <message>
+        <source>This file contains multiple pages, do you want to view all pages with Evince?</source>
+        <translation>此文件包含多个页面，推荐使用文档查看器查看所有页面。</translation>
     </message>
 </context>
 <context>
@@ -719,9 +728,6 @@
         <source>My favorite</source>
         <translation>我的收藏</translation>
     </message>
-</context>
-<context>
-    <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
         <translation>1:1 视图</translation>
@@ -749,6 +755,37 @@
     <message>
         <source>Favorite</source>
         <translation>收藏</translation>
+    </message>
+</context>
+<context>
+    <name>TTMContent</name>
+    <message>
+        <source>1:1 Size</source>
+        <translation type="vanished">1:1 视图</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation type="vanished">适应窗口</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="vanished">逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="vanished">顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Throw to Trash</source>
+        <translation type="vanished">丢到回收站</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation type="vanished">取消收藏</translation>
+    </message>
+    <message>
+        <source>Favorite</source>
+        <translation type="vanished">收藏</translation>
     </message>
 </context>
 <context>

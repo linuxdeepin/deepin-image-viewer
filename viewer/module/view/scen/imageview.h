@@ -31,6 +31,11 @@ class QGraphicsSvgItem;
 class QThreadPool;
 QT_END_NAMESPACE
 
+#include "dtkwidget_global.h"
+DWIDGET_BEGIN_NAMESPACE
+class Toast;
+DWIDGET_END_NAMESPACE
+
 class ImageView : public QGraphicsView
 {
     Q_OBJECT
@@ -57,7 +62,7 @@ public:
     const QString path() const;
 
     QPoint mapToImage(const QPoint &p) const;
-    QRect mapToImage(const QRect& r) const;
+    QRect mapToImage(const QRect &r) const;
     QRect visibleImageRect() const;
     bool isWholeImageVisible() const;
 
@@ -81,6 +86,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *e) Q_DECL_OVERRIDE;
@@ -98,6 +104,7 @@ private:
     QString m_path;
     QString m_loadingIconPath;
     QThreadPool *m_pool;
+    DTK_WIDGET_NAMESPACE::Toast *m_toast;
 
     QGraphicsSvgItem *m_svgItem;
     GraphicsMovieItem *m_movieItem;

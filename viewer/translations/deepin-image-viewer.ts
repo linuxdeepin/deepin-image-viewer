@@ -225,6 +225,13 @@
     </message>
 </context>
 <context>
+    <name>ImageView</name>
+    <message>
+        <source>This file contains multiple pages, do you want to view all pages with Evince?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
@@ -721,9 +728,6 @@
         <source>My favorite</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
         <translation type="unfinished"></translation>
