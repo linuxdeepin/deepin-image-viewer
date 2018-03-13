@@ -388,8 +388,8 @@ void DBManager::removeDir(const QString &dir)
         query.exec("COMMIT");
     }
     else {
-        emit dApp->signalM->imagesRemoved(infos);
         query.exec("COMMIT");
+        emit dApp->signalM->imagesRemoved(infos);
     }
 }
 
