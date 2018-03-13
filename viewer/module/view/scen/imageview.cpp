@@ -113,7 +113,7 @@ ImageView::ImageView(QWidget *parent)
 
     m_toast = new Toast(this);
     m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
-    m_toast->setText(tr("This file contains multiple pages, do you want to view all pages with Evince?"));
+    m_toast->setText(tr("This file contains multiple pages, please use Evince to view all pages."));
     m_toast->hide();
     // TODO
     //    QPixmap pm(12, 12);
