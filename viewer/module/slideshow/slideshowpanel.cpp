@@ -239,9 +239,9 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
         emit dApp->signalM->gotoPanel(this);
         showFullScreen();
     }
-    else if (event->timerId() == m_hideCursorTid &&
-             !m_menu->isVisible()) {
-        dApp->setOverrideCursor(Qt::BlankCursor);
+    else if (event->timerId() == m_hideCursorTid) {
+        dApp->setOverrideCursor(m_menu->isVisible() ? Qt::ArrowCursor
+                                                    : Qt::BlankCursor);
     }
 
     ModulePanel::timerEvent(event);
