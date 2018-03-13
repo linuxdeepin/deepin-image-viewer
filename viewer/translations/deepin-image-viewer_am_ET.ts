@@ -223,6 +223,13 @@
     </message>
 </context>
 <context>
+    <name>ImageView</name>
+    <message>
+        <source>This file contains multiple pages, please use Evince to view all pages.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
@@ -719,36 +726,33 @@
         <source>My favorite</source>
         <translation>እኔ የምወዳቸው</translation>
     </message>
-</context>
-<context>
-    <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 መጠን</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>በ መስኮቱ ልክ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>ወደ ቆሻሻ መጣያ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>የማልወዳቸው</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>የምወዳቸው</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

@@ -223,6 +223,13 @@
     </message>
 </context>
 <context>
+    <name>ImageView</name>
+    <message>
+        <source>This file contains multiple pages, please use Evince to view all pages.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
@@ -719,36 +726,33 @@
         <source>My favorite</source>
         <translation>Min favorit</translation>
     </message>
-</context>
-<context>
-    <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 størrelse</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Tilpas til vindue</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotér mod uret</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotér med uret</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>Smid i papirkurv</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Fjern fra favorit</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sæt som favorit</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

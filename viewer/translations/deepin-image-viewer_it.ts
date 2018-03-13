@@ -223,6 +223,13 @@
     </message>
 </context>
 <context>
+    <name>ImageView</name>
+    <message>
+        <source>This file contains multiple pages, please use Evince to view all pages.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
@@ -719,16 +726,13 @@
         <source>My favorite</source>
         <translation>Le mie preferite</translation>
     </message>
-</context>
-<context>
-    <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>Dimensione 1:1</translation>
+        <translation>Scala 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Adegua alla finestra</translation>
+        <translation>Adatta alla finestra</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
@@ -740,15 +744,15 @@
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>Elimina</translation>
+        <translation>Sposta nel cestino</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Elimina dai preferiti</translation>
+        <translation>Rimuovi dai preferiti</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Preferita</translation>
+        <translation>Aggiungi ai preferiti</translation>
     </message>
 </context>
 <context>

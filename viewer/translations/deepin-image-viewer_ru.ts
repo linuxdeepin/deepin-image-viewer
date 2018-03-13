@@ -223,6 +223,13 @@
     </message>
 </context>
 <context>
+    <name>ImageView</name>
+    <message>
+        <source>This file contains multiple pages, please use Evince to view all pages.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
@@ -719,12 +726,9 @@
         <source>My favorite</source>
         <translation>Избранное</translation>
     </message>
-</context>
-<context>
-    <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 Размер</translation>
+        <translation>Размер 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -732,11 +736,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Повернуть против часовой стрелки</translation>
+        <translation>Вращать против часовой стрелки</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Повернуть по часовой стрелке</translation>
+        <translation>Вращать по часовой стрелке</translation>
     </message>
     <message>
         <source>Throw to Trash</source>

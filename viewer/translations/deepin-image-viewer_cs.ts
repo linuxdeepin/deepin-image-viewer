@@ -223,6 +223,13 @@
     </message>
 </context>
 <context>
+    <name>ImageView</name>
+    <message>
+        <source>This file contains multiple pages, please use Evince to view all pages.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
@@ -402,7 +409,7 @@
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"/>
+        <translation>Rolování</translation>
     </message>
     <message>
         <source>Switcher</source>
@@ -719,36 +726,33 @@
         <source>My favorite</source>
         <translation>Moje oblíbené</translation>
     </message>
-</context>
-<context>
-    <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
-        <translation>Velikost 1:1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Přizpůsobit oknu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Otočit proti směru hodinových ručiček</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Otočit po směru hodinových ručiček</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>Hodit do koše</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Neoblíbené</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Oblíbené</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

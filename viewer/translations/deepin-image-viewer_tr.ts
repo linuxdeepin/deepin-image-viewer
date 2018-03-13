@@ -11,7 +11,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Resim Görüntüleyici, moda &amp; pürüzsüz görüntü yönetici.</translation>
+        <translation>Deepin Resim Görüntüleyici, modern &amp; pürüzsüz görüntü yönetici.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -38,11 +38,11 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Senkronizasyonu yönet</translation>
+        <translation>Eşitlemeyi yönet</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Senkronizasyon:</translation>
+        <translation>Eşitleme:</translation>
     </message>
 </context>
 <context>
@@ -72,7 +72,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favorim</translation>
+        <translation>Sık kullandığım</translation>
     </message>
 </context>
 <context>
@@ -98,7 +98,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favorim</translation>
+        <translation>Sık kullandığım</translation>
     </message>
     <message>
         <source>Timeline</source>
@@ -110,7 +110,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
+        <translation>Eşitleme dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
     </message>
 </context>
 <context>
@@ -125,7 +125,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation>Geçişli gösteri</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -170,11 +170,11 @@
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Senkronize Et ve Oluştur</translation>
+        <translation>Eşitle ve Oluştur</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Senkronize Et</translation>
+        <translation>Eşitle</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
@@ -223,6 +223,13 @@
     </message>
 </context>
 <context>
+    <name>ImageView</name>
+    <message>
+        <source>This file contains multiple pages, please use Evince to view all pages.</source>
+        <translation>Bu dosya birden fazla sayfa içeriyor, lütfen tüm sayfaları görüntülemek için Evince&apos;yi kullanınız.</translation>
+    </message>
+</context>
+<context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
@@ -234,7 +241,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation>Geçişli gösteri</translation>
     </message>
     <message>
         <source>Print</source>
@@ -258,11 +265,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation>Sık kullanılan</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden çıkar</translation>
+        <translation>Sık kullanılandan çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -290,7 +297,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
+        <translation>Eşitleme dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -379,7 +386,7 @@
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Ölçme modu</translation>
+        <translation>Ölçüm kipi</translation>
     </message>
     <message>
         <source>White balance</source>
@@ -487,7 +494,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation>Geçişli gösteri</translation>
     </message>
     <message>
         <source>End show</source>
@@ -507,11 +514,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation>Sık kullanılan</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden çıkar</translation>
+        <translation>Sık kullanılandan çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -608,7 +615,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation>Geçişli gösteri</translation>
     </message>
     <message>
         <source>End show</source>
@@ -632,11 +639,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation>Sık kullanılan</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden çıkar</translation>
+        <translation>Sık kullanılandan çıkar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -686,7 +693,7 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slayt Ayarları</translation>
+        <translation>Geçiş Ayarları</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -717,11 +724,8 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Favorim</translation>
+        <translation>Sık kullandığım</translation>
     </message>
-</context>
-<context>
-    <name>TTMContent</name>
     <message>
         <source>1:1 Size</source>
         <translation>1:1 Boyut</translation>
@@ -744,11 +748,11 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Favorilerden çıkar</translation>
+        <translation>Sık kullanılandan çıkar</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation>Sık kullanılan</translation>
     </message>
 </context>
 <context>
@@ -770,11 +774,11 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Senkronizasyonu yönet</translation>
+        <translation>Eşitlemeyi yönet</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Senkronizasyon:</translation>
+        <translation>Eşitleme:</translation>
     </message>
 </context>
 <context>
@@ -789,7 +793,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Senkronizasyon dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
+        <translation>Eşitleme dizini ekleyebilir veya resimleri zaman çizelgesine sürükleyip bırakabilirsiniz</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -809,7 +813,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation>Geçişli gösteri</translation>
     </message>
     <message>
         <source>Print</source>
@@ -829,7 +833,7 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favori</translation>
+        <translation>Sık kullanılan</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -860,7 +864,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slayt Ayarları</translation>
+        <translation>Geçiş Ayarları</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -910,7 +914,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Resim Görüntüleyici, moda ve pürüzsüz görüntü yönetici.</translation>
+        <translation>Deepin Resim Görüntüleyici, modern &amp; pürüzsüz görüntü yönetici.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -945,7 +949,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
+        <translation>Geçişli gösteri</translation>
     </message>
     <message>
         <source>Print</source>
