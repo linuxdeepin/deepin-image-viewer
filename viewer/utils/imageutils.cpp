@@ -83,10 +83,9 @@ const QImage scaleImage(const QString &path, const QSize &size)
 const QDateTime getCreateDateTime(const QString &path)
 {
     QDateTime dt = libexif::getCreateDateTime(path);
-    if (dt.isValid()) {
-        return dt;
-    }
-    else {
+
+    // fallback to metadata.
+    if (!dt.isValid()) {
         QString s;
         s = freeimage::getAllMetaData(path).value("DateTimeOriginal");
         if (s.isEmpty()) {
@@ -95,15 +94,29 @@ const QDateTime getCreateDateTime(const QString &path)
         if (s.isEmpty()) {
             s = QDateTime::currentDateTime().toString();
         }
-        return QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
+        dt = QDateTime::fromString(s, "yyyy.MM.dd HH:mm:ss");
     }
+
+    // fallback to file create time.
+    if (!dt.isValid()) {
+        QFileInfo finfo(path);
+        dt = finfo.created();
+    }
+
+    // fallback to today.
+    if (!dt.isValid()) {
+        dt = QDateTime::currentDateTime();
+    }
+
+    return dt;
 }
 
 bool imageSupportRead(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
 
-    //FIXME: 以下列表的图片� �式会� 成freeimage在load的时候崩溃，特别过滤
+    //FIXME: bellow file types will casue freeimages to crash on loading, 
+    // take them here for good.
     QStringList errorList;
     errorList << "X3F";
 
