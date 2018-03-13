@@ -51,9 +51,8 @@ ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     : DMainWindow(parent)
     ,m_messageTID(0)
 {
+    setWindowFlags(Qt::FramelessWindowHint);
     setWindowModality(Qt::ApplicationModal);
-    setWindowFlags(Qt::WindowStaysOnTopHint|
-                   Qt::FramelessWindowHint);
     if (titlebar()) titlebar()->setFixedHeight(0);
     setFixedSize(DIALOG_WIDTH, DIALOG_HEIGHT);
     setStyleSheet(utils::base::getFileContent(
