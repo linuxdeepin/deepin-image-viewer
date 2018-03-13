@@ -146,9 +146,13 @@ QMenu *TimelinePanel::createAlbumMenu()
 
 void TimelinePanel::updateMenuContents()
 {
-    auto paths = m_frame->selectedPaths();
-    if (paths.isEmpty())
+    static QStringList paths;
+
+    auto newPaths = m_frame->selectedPaths();
+    if (newPaths.isEmpty() || paths == newPaths)
         return;
+
+    paths = newPaths;
 
     m_menu->clear();
     qDeleteAll(this->actions());
