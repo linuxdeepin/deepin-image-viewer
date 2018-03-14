@@ -177,7 +177,8 @@ void ToastPrivate::initUI()
                                ":/resources/common/images/input_clear_normal.svg");
 
     q->connect(closeBt, &DImageButton::clicked, q, [ = ]() {
-        q->close();
+        q->hide();
+        q->setProperty("hide_by_user", true);
     });
 
     layout->addWidget(iconLabel);

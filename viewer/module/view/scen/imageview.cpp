@@ -146,14 +146,22 @@ void ImageView::setImage(const QString &path)
     }
     m_path = path;
     QGraphicsScene *s = scene();
-    if (QFileInfo(path).suffix() == "tif") {
+
+    QFileInfo fi(path);
+
+    QString oldHintPath = m_toast->property("hint_path").toString();
+    if (oldHintPath != fi.canonicalFilePath()) {
+        m_toast->setProperty("hide_by_user", false);
+    }
+    m_toast->setProperty("hint_path", fi.canonicalFilePath());
+
+    if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
         m_toast->show();
         m_toast->move(width() / 2 - m_toast->width() / 2,
                       height() - 80 - m_toast->height() / 2);
     } else {
         m_toast->hide();
     }
-    qDebug() << size() << rect();
 
     // The suffix of svf file should be svg
     if (QFileInfo(path).suffix() == "svg" && DSvgRenderer().load(path)) {
