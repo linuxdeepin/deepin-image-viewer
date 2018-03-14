@@ -49,7 +49,7 @@
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation>İptal et</translation>
     </message>
     <message>
         <source>OK</source>
@@ -83,7 +83,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation>İptal et</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -158,7 +158,7 @@
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation>İptal et</translation>
     </message>
     <message>
         <source>OK</source>
@@ -208,7 +208,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation>İptal et</translation>
     </message>
     <message>
         <source>Delete</source>

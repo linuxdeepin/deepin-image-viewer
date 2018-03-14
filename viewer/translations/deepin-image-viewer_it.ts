@@ -226,7 +226,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Questo file contiene più pagine, utilizza Evince per visualizzarle tutte.</translation>
     </message>
 </context>
 <context>
