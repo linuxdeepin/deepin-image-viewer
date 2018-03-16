@@ -317,6 +317,10 @@ QWidget *ViewPanel::toolbarTopLeftContent()
             m_viewB->fitImage();
         }
     });
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
+            ttlc, &TTLContent::updateCollectButton);
+    connect(dApp->signalM, &SignalManager::removedFromAlbum,
+            ttlc, &TTLContent::updateCollectButton);
 
     return ttlc;
 }
