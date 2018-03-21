@@ -58,6 +58,7 @@ const QStringList DBManager::getAllPaths() const
     if (! db.isValid())
         return paths;
 
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT "
@@ -65,6 +66,7 @@ const QStringList DBManager::getAllPaths() const
                    "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
         qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
+        mutex.unlock();
         return paths;
     }
     else {
@@ -72,6 +74,7 @@ const QStringList DBManager::getAllPaths() const
             paths << query.value(0).toString();
         }
     }
+    mutex.unlock();
 
     return paths;
 }
@@ -83,12 +86,14 @@ const DBImgInfoList DBManager::getAllInfos() const
     if (! db.isValid()) {
         return infos;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT FilePath, FileName, Dir, Time "
                    "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
         qWarning() << "Get data from ImageTable3 failed: " << query.lastError();
+        mutex.unlock();
         return infos;
     }
     else {
@@ -103,6 +108,7 @@ const DBImgInfoList DBManager::getAllInfos() const
             infos << info;
         }
     }
+    mutex.unlock();
 
     return infos;
 }
@@ -114,12 +120,14 @@ const QStringList DBManager::getAllTimelines() const
     if (! db.isValid())
         return times;
 
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT DISTINCT Time "
                    "FROM ImageTable3 ORDER BY Time DESC");
     if (! query.exec()) {
         qWarning() << "Get Data from ImageTable3 failed: " << query.lastError();
+        mutex.unlock();
         return times;
     }
     else {
@@ -127,6 +135,7 @@ const QStringList DBManager::getAllTimelines() const
             times << query.value(0).toString();
         }
     }
+    mutex.unlock();
 
     return times;
 }
@@ -181,6 +190,7 @@ int DBManager::getImgsCount() const
     if (! db.isValid()) {
         return 0;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
@@ -189,9 +199,10 @@ int DBManager::getImgsCount() const
         query.first();
         int count = query.value(0).toInt();
         query.exec("COMMIT");
+        mutex.unlock();
         return count;
     }
-
+    mutex.unlock();
     return 0;
 }
 
@@ -202,6 +213,7 @@ int DBManager::getImgsCountByDir(const QString &dir) const
         return 0;
     }
 
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare("SELECT COUNT(*) FROM ImageTable3 "
@@ -209,10 +221,12 @@ int DBManager::getImgsCountByDir(const QString &dir) const
     query.bindValue(":Dir", utils::base::hash(dir));
     if (query.exec()) {
         query.first();
+        mutex.unlock();
         return query.value(0).toInt();
     }
     else {
         qDebug() << "Get images count by Dir failed :" << query.lastError();
+        mutex.unlock();
         return 0;
     }
 }
@@ -224,6 +238,7 @@ const QStringList DBManager::getPathsByDir(const QString &dir) const
     if (! db.isValid()) {
         return list;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT DISTINCT FilePath FROM ImageTable3 "
@@ -231,12 +246,14 @@ const QStringList DBManager::getPathsByDir(const QString &dir) const
     query.bindValue(":dir", utils::base::hash(dir));
     if (! query.exec() ) {
         qWarning() << "Get Paths from ImageTable3 failed: " << query.lastError();
+        mutex.unlock();
     }
     else {
         while (query.next()) {
             list << query.value(0).toString();
         }
     }
+    mutex.unlock();
 
     return list;
 }
@@ -247,6 +264,7 @@ bool DBManager::isImgExist(const QString &path) const
     if (db.isValid()) {
         return false;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
@@ -256,9 +274,11 @@ bool DBManager::isImgExist(const QString &path) const
         query.first();
         if (query.value(0).toInt() > 0) {
             query.exec("COMMIT");
+            mutex.unlock();
             return true;
         }
     }
+    mutex.unlock();
 
     return false;
 }
@@ -280,6 +300,7 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         times << utils::base::timeToString(info.time, true);
     }
 
+    QMutexLocker mutex(&m_mutex);
     // Insert into ImageTable3
     QSqlQuery query( db );
     query.setForwardOnly(true);
@@ -295,9 +316,11 @@ void DBManager::insertImgInfos(const DBImgInfoList &infos)
         qWarning() << "Insert data into ImageTable3 failed: "
                    << query.lastError();
         query.exec("COMMIT");
+        mutex.unlock();
     }
     else {
         query.exec("COMMIT");
+        mutex.unlock();
         emit dApp->signalM->imagesInserted(infos);
     }
 }
@@ -317,6 +340,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
         infos << getInfoByPath(path);
     }
 
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query(db);
     // Remove from albums table
     query.setForwardOnly(true);
@@ -347,6 +371,7 @@ void DBManager::removeImgInfos(const QStringList &paths)
         emit dApp->signalM->imagesRemoved(infos);
         query.exec("COMMIT");
     }
+    mutex.unlock();
 }
 
 void DBManager::removeDir(const QString &dir)
@@ -364,6 +389,7 @@ void DBManager::removeDir(const QString &dir)
         pathHashs << utils::base::hash(info.filePath);
     }
 
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query(db);
     // Remove from albums table
     query.setForwardOnly(true);
@@ -391,6 +417,7 @@ void DBManager::removeDir(const QString &dir)
         query.exec("COMMIT");
         emit dApp->signalM->imagesRemoved(infos);
     }
+    mutex.unlock();
 }
 
 const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
@@ -404,6 +431,7 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
     info.name = album;
     QStringList pathHashs;
 
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     QString ps = "SELECT DISTINCT PathHash FROM AlbumTable3 "
@@ -419,7 +447,7 @@ const DBAlbumInfo DBManager::getAlbumInfo(const QString &album) const
             pathHashs << query.value(0).toString();
         }
     }
-
+    mutex.unlock();
     info.count = pathHashs.length();
     if (pathHashs.length() == 1) {
         info.endTime = getInfoByPathHash(pathHashs.first()).time;
@@ -450,6 +478,7 @@ const QStringList DBManager::getAllAlbumNames() const
     if (! db.isValid()) {
         return list;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT DISTINCT AlbumName FROM AlbumTable3" );
@@ -461,6 +490,7 @@ const QStringList DBManager::getAllAlbumNames() const
             list << query.value(0).toString();
         }
     }
+    mutex.unlock();
 
     return list;
 }
@@ -472,6 +502,7 @@ const QStringList DBManager::getPathsByAlbum(const QString &album) const
     if (! db.isValid()) {
         return list;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare("SELECT DISTINCT i.FilePath "
@@ -488,6 +519,7 @@ const QStringList DBManager::getPathsByAlbum(const QString &album) const
             list << query.value(0).toString();
         }
     }
+    mutex.unlock();
 
     return list;
 }
@@ -499,6 +531,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
     if (! db.isValid()) {
         return infos;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare("SELECT DISTINCT i.FilePath, i.FileName, i.Dir, i.Time "
@@ -507,6 +540,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
     query.bindValue(":album", album);
     if (! query.exec()) {
         qWarning() << "Get ImgInfo by album failed: " << query.lastError();
+        mutex.unlock();
     }
     else {
         using namespace utils::base;
@@ -520,6 +554,7 @@ const DBImgInfoList DBManager::getInfosByAlbum(const QString &album) const
             infos << info;
         }
     }
+    mutex.unlock();
     return infos;
 }
 
@@ -529,6 +564,7 @@ int DBManager::getImgsCountByAlbum(const QString &album) const
     if (! db.isValid()) {
         return 0;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     QString ps = "SELECT COUNT(*) FROM AlbumTable3 "
@@ -537,10 +573,12 @@ int DBManager::getImgsCountByAlbum(const QString &album) const
     query.bindValue(":album", album);
     if (query.exec()) {
         query.first();
+        mutex.unlock();
         return query.value(0).toInt();
     }
     else {
         qDebug() << "Get images count error :" << query.lastError();
+        mutex.unlock();
         return 0;
     }
 }
@@ -551,14 +589,17 @@ int DBManager::getAlbumsCount() const
     if (! db.isValid()) {
         return 0;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare("SELECT COUNT(DISTINCT AlbumName) FROM AlbumTable3");
     if (query.exec()) {
         query.first();
+        mutex.unlock();
         return query.value(0).toInt();
     }
     else {
+        mutex.unlock();
         return 0;
     }
 }
@@ -569,6 +610,7 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path) con
     if (! db.isValid()) {
         return false;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT COUNT(*) FROM AlbumTable3 WHERE PathHash = :hash "
@@ -577,9 +619,11 @@ bool DBManager::isImgExistInAlbum(const QString &album, const QString &path) con
     query.bindValue( ":album", album );
     if (query.exec()) {
         query.first();
+        mutex.unlock();
         return (query.value(0).toInt() == 1);
     }
     else {
+        mutex.unlock();
         return false;
     }
 }
@@ -590,15 +634,18 @@ bool DBManager::isAlbumExistInDB(const QString &album) const
     if (! db.isValid()) {
         return false;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT COUNT(*) FROM AlbumTable3 WHERE AlbumName = :album");
     query.bindValue( ":album", album );
     if (query.exec()) {
         query.first();
+        mutex.unlock();
         return (query.value(0).toInt() >= 1);
     }
     else {
+        mutex.unlock();
         return false;
     }
 }
@@ -615,6 +662,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
         pathHashRows << utils::base::hash(path);
     }
 
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
@@ -638,6 +686,7 @@ void DBManager::insertIntoAlbum(const QString &album, const QStringList &paths)
         qDebug() << "delete same date failed!";
     }
     query.exec("COMMIT");
+    mutex.unlock();
 
     emit dApp->signalM->insertedIntoAlbum(album, paths);
 }
@@ -648,6 +697,7 @@ void DBManager::removeAlbum(const QString &album)
     if (! db.isValid()) {
         return;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare("DELETE FROM AlbumTable3 WHERE AlbumName=:album");
@@ -655,6 +705,7 @@ void DBManager::removeAlbum(const QString &album)
     if (!query.exec()) {
         qWarning() << "Remove album from database failed: " << query.lastError();
     }
+    mutex.unlock();
 }
 
 void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
@@ -668,6 +719,7 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
     for (QString path : paths) {
         pathHashs << utils::base::hash(path);
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query(db);
     query.setForwardOnly(true);
     query.exec("BEGIN IMMEDIATE TRANSACTION");
@@ -682,6 +734,7 @@ void DBManager::removeFromAlbum(const QString &album, const QStringList &paths)
         emit dApp->signalM->removedFromAlbum(album, paths);
     }
     query.exec("COMMIT");
+    mutex.unlock();
 }
 
 void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
@@ -690,6 +743,7 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
     if (! db.isValid()) {
         return;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare("UPDATE AlbumTable3 SET "
@@ -700,6 +754,7 @@ void DBManager::renameAlbum(const QString &oldAlbum, const QString &newAlbum)
     if (! query.exec()) {
         qWarning() << "Update album name failed: " << query.lastError();
     }
+    mutex.unlock();
 }
 
 const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &value) const
@@ -709,6 +764,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     if (! db.isValid()) {
         return infos;
     }
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare(QString("SELECT FilePath, FileName, Dir, Time FROM ImageTable3 "
@@ -716,6 +772,7 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
     query.bindValue(":value", value);
     if (!query.exec()) {
         qWarning() << "Get Image from database failed: " << query.lastError();
+        mutex.unlock();
     }
     else {
         using namespace utils::base;
@@ -729,14 +786,16 @@ const DBImgInfoList DBManager::getImgInfos(const QString &key, const QString &va
             infos << info;
         }
     }
-
+    mutex.unlock();
     return infos;
 }
 
 const QSqlDatabase DBManager::getDatabase() const
 {
+    QMutexLocker mutex(&m_mutex);
     if( QSqlDatabase::contains(m_connectionName) ) {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        mutex.unlock();
         return db;
     }
     else {
@@ -745,9 +804,11 @@ const QSqlDatabase DBManager::getDatabase() const
         db.setDatabaseName(DATABASE_PATH + DATABASE_NAME);
         if (! db.open()) {
             qWarning()<< "Open database error:" << db.lastError();
+            mutex.unlock();
             return QSqlDatabase();
         }
         else {
+            mutex.unlock();
             return db;
         }
     }
@@ -771,6 +832,7 @@ void DBManager::checkDatabase()
         return;
     }
     bool tableExist = false;
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT name FROM sqlite_master "
@@ -809,6 +871,7 @@ void DBManager::checkDatabase()
 //        importVersion1Data();
 //        importVersion2Data();
     }
+    mutex.unlock();
 
 }
 
@@ -819,6 +882,7 @@ void DBManager::importVersion1Data()
         return;
     }
     bool tableExist = false;
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT name FROM sqlite_master "
@@ -826,16 +890,18 @@ void DBManager::importVersion1Data()
     if (query.exec() && query.first()) {
         tableExist = ! query.value(0).toString().isEmpty();
     }
-
+    mutex.unlock();
     if (tableExist) {
         // Import ImageTable into ImageTable3
         query.clear();
         query.setForwardOnly(true);
+        QMutexLocker mutex(&m_mutex);
         query.prepare( "SELECT filename, filepath, time "
                        "FROM ImageTable ORDER BY time DESC");
         if (! query.exec()) {
             qWarning() << "Import ImageTable into ImageTable3 failed: "
                        << query.lastError();
+            mutex.unlock();
         }
         else {
             DBImgInfoList infos;
@@ -848,9 +914,11 @@ void DBManager::importVersion1Data()
 
                 infos << info;
             }
+            mutex.unlock();
             insertImgInfos(infos);
         }
 
+        mutex.relock();
         // Import AlbumTable into AlbumTable3
         query.clear();
         query.prepare("SELECT DISTINCT a.albumname, i.filepath "
@@ -859,6 +927,7 @@ void DBManager::importVersion1Data()
         if (! query.exec()) {
             qWarning() << "Import AlbumTable into AlbumTable3 failed: "
                        << query.lastError();
+            mutex.unlock();
         }
         else {
             // <Album-Paths>
@@ -874,11 +943,13 @@ void DBManager::importVersion1Data()
                     aps.insert(album, QStringList(path));
                 }
             }
+            mutex.unlock();
             for (QString album : aps.keys()) {
                 insertIntoAlbum(album, aps[album]);
             }
         }
 
+        mutex.relock();
         // Drop old table
         query.clear();
         query.prepare("DROP TABLE AlbumTable");
@@ -889,6 +960,7 @@ void DBManager::importVersion1Data()
         if (! query.exec()) {
             qWarning() << "Drop old tables failed: " << query.lastError();
         }
+        mutex.unlock();
     }
 }
 
@@ -899,6 +971,7 @@ void DBManager::importVersion2Data()
         return;
     }
     bool tableExist = false;
+    QMutexLocker mutex(&m_mutex);
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT name FROM sqlite_master "
@@ -915,6 +988,7 @@ void DBManager::importVersion2Data()
         if (! query.exec()) {
             qWarning() << "Import ImageTable2 into ImageTable3 failed: "
                        << query.lastError();
+            mutex.unlock();
         }
         else {
             DBImgInfoList infos;
@@ -927,15 +1001,18 @@ void DBManager::importVersion2Data()
 
                 infos << info;
             }
+            mutex.unlock();
             insertImgInfos(infos);
         }
 
         // Import AlbumTable2 into AlbumTable3
         query.clear();
+        QMutexLocker mutex(&m_mutex);
         query.prepare(" SELECT AlbumName, FilePath FROM AlbumTable2 ");
         if (! query.exec()) {
             qWarning() << "Import AlbumTable2 into AlbumTable3 failed: "
                        << query.lastError();
+            mutex.unlock();
         }
         else {
             // <Album-Paths>
@@ -951,11 +1028,13 @@ void DBManager::importVersion2Data()
                     aps.insert(album, QStringList(path));
                 }
             }
+            mutex.unlock();
             for (QString album : aps.keys()) {
                 insertIntoAlbum(album, aps[album]);
             }
         }
 
+        mutex.relock();
         // Drop old table
         query.clear();
         query.prepare("DROP TABLE AlbumTable2");
@@ -966,5 +1045,6 @@ void DBManager::importVersion2Data()
         if (! query.exec()) {
             qWarning() << "Drop old tables failed: " << query.lastError();
         }
+        mutex.unlock();
     }
 }
