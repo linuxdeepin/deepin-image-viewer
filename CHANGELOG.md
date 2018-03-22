@@ -1,3 +1,15 @@
+<a name="1.2.18"></a>
+### 1.2.18 (2018-03-22)
+
+
+#### Features
+
+*   set wallpaper with dbus in flatpak ([30b00248](30b00248))
+
+#### Bug Fixes
+
+*   favorite menu and title states not synced ([2b16ceaa](2b16ceaa))
+
 <a name="1.2.17"></a>
 ## 1.2.17 (2018-03-15)
 
