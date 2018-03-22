@@ -26,6 +26,7 @@
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
+#include "snifferimageformat.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -719,7 +720,8 @@ void  ViewPanel::showPrintDialog(const QStringList &paths)
         QRectF drawRectF; QRect wRect;
         QList<QString>::const_iterator i;
         for (i = paths.begin(); i != paths.end(); ++i) {
-            if (!img.load(*i)) {
+            const QString format = DetectImageFormat(*i);
+            if (!img.load(*i, format.toLatin1())) {
                 qDebug() << "img load failed" << *i;
                 continue;
             }

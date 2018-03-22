@@ -26,6 +26,7 @@
 #include "utils/imageutils.h"
 #include "widgets/importframe.h"
 #include "widgets/dialogs/filedeletedialog.h"
+#include "snifferimageformat.h"
 
 #include <QDebug>
 #include <QFileInfo>
@@ -561,7 +562,8 @@ void  ImagesView::showPrintDialog(const QStringList &paths) {
         QList<QString>::const_iterator i;
         QRectF drawRectF; QRect wRect;
         for(i = paths.begin(); i!= paths.end(); ++i){
-            if (!img.load(*i)) {
+            const QString format = DetectImageFormat(*i);
+            if (!img.load(*i, format.toLatin1())) {
                 qDebug() << "img load failed" << *i;
                 continue;
             }
