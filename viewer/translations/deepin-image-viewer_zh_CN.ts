@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -403,6 +405,49 @@
     <message>
         <source>Lens model</source>
         <translation>镜头型号</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>无缩放</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>页面适应图像</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>图像适应页面</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>缩放至：</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>毫米</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>分米</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>英尺</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>图像位置</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>缩放</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>图像设置</translation>
     </message>
 </context>
 <context>
