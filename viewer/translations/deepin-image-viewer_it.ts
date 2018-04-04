@@ -406,6 +406,49 @@
     </message>
 </context>
 <context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Nessuna scala</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Riempi la pagina</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Riempi la pagina</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Scala: </translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Millimetri</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centimetri</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Pollici</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Posizione immagine</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Scala</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Impostazioni immagine</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>

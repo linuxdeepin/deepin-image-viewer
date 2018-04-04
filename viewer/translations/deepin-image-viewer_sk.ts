@@ -226,7 +226,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Tento súbor obsahuje viac stránok, použite prosím Evince na zobrazenie všetkých stránok.</translation>
     </message>
 </context>
 <context>
@@ -403,6 +403,49 @@
     <message>
         <source>Lens model</source>
         <translation>Model objektívu</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Žiadne škálovanie</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Prispôsobiť stránku obrázku</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Prispôsobiť obrázok na stránku</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Škálovať na:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Milimetre</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centimetre</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Palce</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Pozícia obrázku</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Škálovanie</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Nastavenia obrázku</translation>
     </message>
 </context>
 <context>
@@ -728,31 +771,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Veľkosť 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Prispôsobiť oknu</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Otočiť proti smeru hodinových ručičiek</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>Otočiť v smere hodinových ručičiek</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Hodiť do koša</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Neobľúbené</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Obľúbené</translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -431,11 +429,11 @@
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>分米</translation>
+        <translation>厘米</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>英尺</translation>
+        <translation>英寸</translation>
     </message>
     <message>
         <source>Image Position</source>

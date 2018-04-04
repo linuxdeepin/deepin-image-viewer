@@ -226,7 +226,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Filen indeholder flere sider, brug venligst Evince til at vise alle sider.</translation>
     </message>
 </context>
 <context>
@@ -403,6 +403,49 @@
     <message>
         <source>Lens model</source>
         <translation>Linsemodel</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Ingen skalering</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Tilpas side til billede</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Tilpas billede til side</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Skaler til:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Millimeter</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centimeter</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Tommer</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Placering af billede</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Skalering</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Indstillinger for billede</translation>
     </message>
 </context>
 <context>
@@ -728,31 +771,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>1:1 størrelse</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Tilpas til vindue</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Rotér mod uret</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>Rotér med uret</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Smid i papirkurv</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Fjern fra favorit</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Sæt som favorit</translation>
     </message>
 </context>
 <context>

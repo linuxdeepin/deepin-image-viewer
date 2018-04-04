@@ -226,7 +226,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Fail ini mengandungi halaman berbilang, sila guna Evince untuk melihat semua halaman.</translation>
     </message>
 </context>
 <context>
@@ -403,6 +403,49 @@
     <message>
         <source>Lens model</source>
         <translation>Model kanta</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Tiada penskalaan</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Suai muat halaman dengan imej</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Suai muat imej dengan halaman</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Skala ke:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Millimeter</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Sentimeter</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Inci</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Kedudukan Imej</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Penskalaan</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Tetapan Imej</translation>
     </message>
 </context>
 <context>
@@ -728,31 +771,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Saiz 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Suai muat dengan tetingkap</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Campak ke dalam Tong Sampah</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Kegemaran</translation>
     </message>
 </context>
 <context>

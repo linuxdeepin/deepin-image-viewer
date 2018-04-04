@@ -406,6 +406,49 @@
     </message>
 </context>
 <context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Без масштабирования</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Подгонка страницы к изображению</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Подгонка изображения к странице</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Масштабировать до:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Миллиметры</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Сантиметры</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Дюймы</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Позиция Изображения</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Масштабирование</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Настройки Изображения</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>

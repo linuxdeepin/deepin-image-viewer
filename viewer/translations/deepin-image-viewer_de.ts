@@ -226,7 +226,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Die Datei enthält mehrere Seiten. Verwenden Sie den Dokumentbetrachter Evince, um alle Seiten einzusehen.</translation>
     </message>
 </context>
 <context>
@@ -403,6 +403,49 @@
     <message>
         <source>Lens model</source>
         <translation>Linsenmodell</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Keine Skalierung</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Seite an Bild anpassen</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Bild an Seite anpassen</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Skalieren auf:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Millimeter</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Zentimeter</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Zoll</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Bildposition</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Skalierung</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Bildeigenschaften</translation>
     </message>
 </context>
 <context>
@@ -728,31 +771,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Originalgröße</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Auf Fenstergröße anpassen</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Gegen den Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>In den Papierkorb ablegen</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Favorit entfernen</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Favorit hinzufügen</translation>
     </message>
 </context>
 <context>

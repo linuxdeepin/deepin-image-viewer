@@ -406,6 +406,49 @@
     </message>
 </context>
 <context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Paveikslo nustatymai</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
