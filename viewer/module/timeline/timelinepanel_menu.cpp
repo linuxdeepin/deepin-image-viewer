@@ -239,7 +239,7 @@ void TimelinePanel::onMenuItemClicked(QAction *action)
         dApp->signalM->startSlideShow(vinfo);
         break;
     case IdPrint: {
-        showPrintDialog(paths);
+        PrintHelper::showPrintDialog(paths);
         break;
     }
     case IdAddToAlbum: {
@@ -310,49 +310,4 @@ void TimelinePanel::rotateImage(const QString &path, int degree)
         qDebug() << "Rotate finish!";
         m_frame->updateScrollRange();
     }
-}
-
-void  TimelinePanel::showPrintDialog(const QStringList &paths)
-{
-    QPrinter printer;
-    QImage img;
-    printer.setOutputFormat(QPrinter::PdfFormat);
-
-    QPrintDialog* printDialog = new QPrintDialog(&printer, this);
-    PrintOptionsPage *optionsPage = new PrintOptionsPage;
-    printDialog->setOptionTabs(QList<QWidget *>() << optionsPage);
-    printDialog->resize(400, 300);
-
-    if (printDialog->exec() == QDialog::Accepted) {
-        QPainter painter(&printer);
-
-        for (const QString &path : paths) {
-            if (!img.load(path)) {
-                qDebug() << "img load failed" << path;
-                continue;
-            }
-
-            QRect rect = painter.viewport();
-            QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
-            QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
-
-            painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
-            painter.setWindow(img.rect());
-            painter.drawImage(0, 0, img);
-
-            if (path != paths.last()) {
-                printer.newPage();
-            }
-        }
-
-        painter.end();
-        qDebug() << "print succeed!";
-
-        return;
-    }
-
-    QObject::connect(printDialog, &QPrintDialog::finished, printDialog,
-            &QPrintDialog::deleteLater);
-
-    qDebug() << "print failed!";
 }

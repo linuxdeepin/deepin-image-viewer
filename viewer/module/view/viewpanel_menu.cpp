@@ -24,6 +24,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/dialogs/filedeletedialog.h"
+#include "widgets/printhelper.h"
 #include <QMenu>
 #include <QKeySequence>
 #include <QJsonArray>
@@ -168,7 +169,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        showPrintDialog(QStringList(path));
+        PrintHelper::showPrintDialog(QStringList(path));
         break;
     }
     case IdAddToAlbum: {

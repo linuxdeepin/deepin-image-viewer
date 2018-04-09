@@ -1,10 +1,58 @@
 #include "printhelper.h"
+#include "printoptionspage.h"
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QPainter>
 #include <QDebug>
 
 PrintHelper::PrintHelper(QObject *parent)
     : QObject(parent)
 {
 
+}
+
+void PrintHelper::showPrintDialog(const QStringList &paths)
+{
+    QPrinter printer;
+    QImage img;
+
+    QPrintDialog* printDialog = new QPrintDialog(&printer);
+    PrintOptionsPage *optionsPage = new PrintOptionsPage;
+    printDialog->setOptionTabs(QList<QWidget *>() << optionsPage);
+    printDialog->resize(400, 300);
+
+    if (printDialog->exec() == QDialog::Accepted) {
+        QPainter painter(&printer);
+
+        for (const QString &path : paths) {
+            if (!img.load(path)) {
+                qDebug() << "img load failed" << path;
+                continue;
+            }
+
+            QRect rect = painter.viewport();
+            QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
+            QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
+
+            painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
+            painter.setWindow(img.rect());
+            painter.drawImage(0, 0, img);
+
+            if (path != paths.last()) {
+                printer.newPage();
+            }
+        }
+
+        painter.end();
+        qDebug() << "print succeed!";
+
+        return;
+    }
+
+    QObject::connect(printDialog, &QPrintDialog::finished, printDialog,
+                     &QPrintDialog::deleteLater);
+
+    qDebug() << "print failed!";
 }
 
 QSize PrintHelper::adjustSize(PrintOptionsPage* optionsPage, QImage img, int resolution, const QSize & viewportSize)
