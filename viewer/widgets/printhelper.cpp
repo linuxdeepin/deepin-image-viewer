@@ -21,15 +21,38 @@ void PrintHelper::showPrintDialog(const QStringList &paths)
     printDialog->setOptionTabs(QList<QWidget *>() << optionsPage);
     printDialog->resize(400, 300);
 
+    // HACK: Qt的打印设置有点bug，属性对话框中手动设置了纸张方向为横向（默认纵向）其实并不生效，
+    //（猜测是透过cups协商出了问题，跟踪src/printsupport里面的代码没有问题，
+    // 应该在src/plugins/printsupport中出的问题），
+    // 如果在构造QPainter对象之前给QPrinter设置为横向，则实际可以横向打印，
+    // 但是这时候手动选择纵向又不会生效。
+    // 所以这里的hack是事先判断图像是“横向”还是“纵向”的，给QPrinter设置默认的纸张方向，
+    // 以满足大部分图片打印的需求。
+    QList<QImage> imgs;
+
+    for (const QString &path : paths) {
+        if (!img.load(path)) {
+            qDebug() << "img load failed" << path;
+            continue;
+        }
+
+        imgs << img;
+    }
+
+    if (!imgs.isEmpty())
+    {
+        QImage img1 = imgs.first();
+        qDebug() << img1.width() << img1.height();
+        if (!img1.isNull() && img1.width() > img1.height()) {
+            printer.setPageOrientation(QPageLayout::Landscape);
+        }
+    }
+    // HACK - end
+
     if (printDialog->exec() == QDialog::Accepted) {
         QPainter painter(&printer);
 
-        for (const QString &path : paths) {
-            if (!img.load(path)) {
-                qDebug() << "img load failed" << path;
-                continue;
-            }
-
+        for (const QImage img : imgs) {
             QRect rect = painter.viewport();
             QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
             QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
@@ -38,7 +61,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths)
             painter.setWindow(img.rect());
             painter.drawImage(0, 0, img);
 
-            if (path != paths.last()) {
+            if (img != imgs.last()) {
                 printer.newPage();
             }
         }
