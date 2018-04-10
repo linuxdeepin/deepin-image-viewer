@@ -715,14 +715,30 @@ void  ViewPanel::showPrintDialog(const QStringList &paths)
     printDialog->setOptionTabs(QList<QWidget *>() << optionsPage);
     printDialog->resize(400, 300);
 
+    QList<QImage> imgs;
+
+    for (const QString &path : paths)
+    {
+        if (!img.load(path))
+        {
+            qDebug() << "load img failed" << path;
+            continue;
+        }
+
+        imgs << img;
+    }
+
+    if (!imgs.isEmpty())
+    {
+        QImage img1 = imgs.first();
+        if (!img1.isNull() && img1.width() > img1.height())
+            printer.setPageOrientation(QPageLayout::Landscape);
+    }
+
     if (printDialog->exec() == QDialog::Accepted) {
         QPainter painter(&printer);
 
-        for (const QString &path : paths) {
-            if (!img.load(path)) {
-                qDebug() << "img load failed" << path;
-                continue;
-            }
+        for (const QImage img : imgs) {
 
             QRect rect = painter.viewport();
             QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
@@ -732,7 +748,7 @@ void  ViewPanel::showPrintDialog(const QStringList &paths)
             painter.setWindow(img.rect());
             painter.drawImage(0, 0, img);
 
-            if (path != paths.last()) {
+            if (img != imgs.last()) {
                 printer.newPage();
             }
         }
