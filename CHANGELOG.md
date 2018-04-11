@@ -1,3 +1,13 @@
+<a name="1.2.19"></a>
+### 1.2.19 (2018-04-11)
+
+
+#### Features
+
+* **print_dialog:**  add image settings option. ([53a8c772](53a8c772))
+
+
+
 <a name="1.2.18"></a>
 ### 1.2.18 (2018-03-22)
 
