@@ -26,6 +26,9 @@
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
+#include "widgets/printoptionspage.h"
+#include "widgets/printhelper.h"
+#include "snifferimageformat.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -703,49 +706,4 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         emit updateTopLeftContentImage(path);
 //        emit updateCollectButton();
     }
-}
-
-void  ViewPanel::showPrintDialog(const QStringList &paths)
-{
-    QPrinter printer;
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    QPixmap img;
-
-    QPrintDialog *printDialog = new QPrintDialog(&printer, this);
-    printDialog->resize(400, 300);
-    m_printDialogVisible = true;
-    if (printDialog->exec() == QDialog::Accepted) {
-        QPainter painter(&printer);
-        QRectF drawRectF; QRect wRect;
-        QList<QString>::const_iterator i;
-        for (i = paths.begin(); i != paths.end(); ++i) {
-            if (!img.load(*i)) {
-                qDebug() << "img load failed" << *i;
-                continue;
-            }
-            wRect = printer.pageRect();
-            if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                img = img.scaled(wRect.size(), Qt::KeepAspectRatio,
-                                 Qt::SmoothTransformation);
-            }
-            drawRectF = QRectF(qreal(wRect.width() - img.width()) / 2,
-                               qreal(wRect.height() - img.height()) / 2,
-                               img.width(), img.height());
-            painter.drawPixmap(drawRectF.x(), drawRectF.y(), img.width(),
-                               img.height(), img);
-            if (i != paths.end() - 1) {
-                printer.newPage();
-            }
-        }
-        painter.end();
-        qDebug() << "print succeed!";
-        return;
-    }
-
-    QObject::connect(printDialog, &QPrintDialog::finished,  this, [ = ] {
-        printDialog->deleteLater();
-        m_printDialogVisible =  false;
-    });
-
-    qDebug() << "print failed!";
 }

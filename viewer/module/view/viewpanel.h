@@ -117,7 +117,6 @@ private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     void updateLocalImages();
-    void showPrintDialog(const QStringList &paths);
 
 private:
     int m_hideCursorTid;

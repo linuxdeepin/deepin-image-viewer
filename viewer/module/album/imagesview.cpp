@@ -26,6 +26,9 @@
 #include "utils/imageutils.h"
 #include "widgets/importframe.h"
 #include "widgets/dialogs/filedeletedialog.h"
+#include "widgets/printhelper.h"
+#include "widgets/printoptionspage.h"
+#include "snifferimageformat.h"
 
 #include <QDebug>
 #include <QFileInfo>
@@ -549,37 +552,42 @@ void ImagesView::popupDelDialog(const QStringList &paths)
     fdd->showInCenter(window());
 }
 
-void  ImagesView::showPrintDialog(const QStringList &paths) {
+void  ImagesView::showPrintDialog(const QStringList &paths)
+{
     QPrinter printer;
+    QImage img;
     printer.setOutputFormat(QPrinter::PdfFormat);
-    QPixmap img;
 
     QPrintDialog* printDialog = new QPrintDialog(&printer, this);
+    PrintOptionsPage *optionsPage = new PrintOptionsPage;
+    printDialog->setOptionTabs(QList<QWidget *>() << optionsPage);
     printDialog->resize(400, 300);
+
     if (printDialog->exec() == QDialog::Accepted) {
         QPainter painter(&printer);
-        QList<QString>::const_iterator i;
-        QRectF drawRectF; QRect wRect;
-        for(i = paths.begin(); i!= paths.end(); ++i){
-            if (!img.load(*i)) {
-                qDebug() << "img load failed" << *i;
+
+        for (const QString &path : paths) {
+            if (!img.load(path)) {
+                qDebug() << "img load failed" << path;
                 continue;
             }
-            wRect = printer.pageRect();
-            if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                img = img.scaled(wRect.size(), Qt::KeepAspectRatio,
-                                 Qt::SmoothTransformation);
-            }
-            drawRectF = QRectF(qreal(wRect.width() - img.width())/2,
-                               qreal(wRect.height() - img.height())/2,
-                              img.width(), img.height());
-            painter.drawPixmap(drawRectF.x(), drawRectF.y(), img.width(),
-                               img.height(), img);
-            if (i != paths.end() - 1)
+
+            QRect rect = painter.viewport();
+            QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
+            QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
+
+            painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
+            painter.setWindow(img.rect());
+            painter.drawImage(0, 0, img);
+
+            if (path != paths.last()) {
                 printer.newPage();
+            }
         }
+
         painter.end();
         qDebug() << "print succeed!";
+
         return;
     }
 

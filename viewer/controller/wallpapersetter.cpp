@@ -45,41 +45,42 @@ void WallpaperSetter::setWallpaper(const QString &path)
     const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
     QFile(path).copy(tmpImg);
 
-#ifdef FLATPAK_SUPPORT
-    // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
-    qDebug() << "SettingWallpaper: " << "flatpak" << path;
-    QDBusInterface interface("com.deepin.daemon.Appearance",
-                                 "/com/deepin/daemon/Appearance",
-                                 "com.deepin.daemon.Appearance");
-    if (interface.isValid()) {
-        QDBusMessage reply = interface.call("Set", "background", path);
-        qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+
+    if (!qEnvironmentVariableIsEmpty("FLATPAK_APPID")) {
+        // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
+        qDebug() << "SettingWallpaper: " << "flatpak" << path;
+        QDBusInterface interface("com.deepin.daemon.Appearance",
+                                     "/com/deepin/daemon/Appearance",
+                                     "com.deepin.daemon.Appearance");
+        if (interface.isValid()) {
+            QDBusMessage reply = interface.call("Set", "background", path);
+            qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+        } else {
+            qWarning() << "SettingWallpaper failed" << interface.lastError();
+        }
     } else {
-        qWarning() << "SettingWallpaper failed" << interface.lastError();
+        DE de = getDE();
+        qDebug() << "SettingWallpaper: " << de << path;
+        switch (de) {
+        case Deepin:
+            setDeepinWallpaper(tmpImg);
+            break;
+        case KDE:
+            setKDEWallpaper(tmpImg);
+            break;
+        case GNOME:
+            setGNOMEWallpaper(tmpImg);
+            break;
+        case LXDE:
+            setLXDEWallpaper(tmpImg);
+            break;
+        case Xfce:
+            setXfaceWallpaper(tmpImg);
+            break;
+        default:
+            setGNOMEShellWallpaper(tmpImg);
+        }
     }
-#else
-    DE de = getDE();
-    qDebug() << "SettingWallpaper: " << de << path;
-    switch (de) {
-    case Deepin:
-        setDeepinWallpaper(tmpImg);
-        break;
-    case KDE:
-        setKDEWallpaper(tmpImg);
-        break;
-    case GNOME:
-        setGNOMEWallpaper(tmpImg);
-        break;
-    case LXDE:
-        setLXDEWallpaper(tmpImg);
-        break;
-    case Xfce:
-        setXfaceWallpaper(tmpImg);
-        break;
-    default:
-        setGNOMEShellWallpaper(tmpImg);
-    }
-#endif
 
 
     // Remove the tmp file
