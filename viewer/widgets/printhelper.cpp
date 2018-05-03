@@ -1,5 +1,6 @@
 #include "printhelper.h"
 #include "printoptionspage.h"
+#include "snifferimageformat.h"
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QPainter>
@@ -31,7 +32,10 @@ void PrintHelper::showPrintDialog(const QStringList &paths)
     QList<QImage> imgs;
 
     for (const QString &path : paths) {
-        if (!img.load(path)) {
+        // There're cases that people somehow changed the image file suffixes, like jpg -> png,
+        // we'd better detect that before printing, otherwise we get an empty print.
+        const QString format = DetectImageFormat(path);
+        if (!img.load(path, format.toLatin1())) {
             qDebug() << "img load failed" << path;
             continue;
         }
