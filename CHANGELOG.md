@@ -1,3 +1,13 @@
+<a name="1.2.20"></a>
+## 1.2.20 (2018-05-14)
+
+
+#### Bug Fixes
+
+*   can't print image in landscape mode ([a63841a3](a63841a3))
+
+
+
 <a name="1.2.19"></a>
 ### 1.2.19 (2018-04-11)
 
