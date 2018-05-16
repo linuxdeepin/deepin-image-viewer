@@ -86,6 +86,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

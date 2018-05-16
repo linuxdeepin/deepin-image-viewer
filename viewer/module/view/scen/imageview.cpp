@@ -394,7 +394,7 @@ void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 
 void ImageView::mouseReleaseEvent(QMouseEvent *e)
 {
-    if (! items().isEmpty()) {
+    if (!items().isEmpty()) {
         items().first()->setCursor(Qt::ArrowCursor);
         dApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
     }
@@ -407,17 +407,17 @@ void ImageView::mousePressEvent(QMouseEvent *e)
 {
     emit clicked();
 
-    if (! items().isEmpty()) {
+    if (!items().isEmpty()) {
         items().first()->setCursor(Qt::ArrowCursor);
     }
+
     QGraphicsView::mousePressEvent(e);
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
-
-    if (!(e->buttons() | Qt::NoButton)) {
-        if (! items().isEmpty()) {
+    if (! (e->buttons() | Qt::NoButton)) {
+        if (!items().isEmpty()) {
             items().first()->setCursor(Qt::ArrowCursor);
         }
 
@@ -430,6 +430,13 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
         emit transformChanged();
         QGraphicsView::mouseMoveEvent(e);
     }
+}
+
+void ImageView::leaveEvent(QEvent *e)
+{
+    dApp->restoreOverrideCursor();
+
+    QGraphicsView::leaveEvent(e);
 }
 
 void ImageView::resizeEvent(QResizeEvent *event)
@@ -512,4 +519,3 @@ void ImageView::wheelEvent(QWheelEvent *event)
     emit scaled(imageRelativeScale() * 100);
     emit showScaleLabel();
 }
-
