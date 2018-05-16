@@ -115,7 +115,7 @@ bool imageSupportRead(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
 
-    //FIXME: bellow file types will casue freeimages to crash on loading, 
+    //FIXME: file types below will cause freeimages to crash on loading,
     // take them here for good.
     QStringList errorList;
     errorList << "X3F";

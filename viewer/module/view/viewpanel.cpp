@@ -456,7 +456,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     }
     emit dApp->signalM->gotoPanel(this);
 
-    // The control buttons is diffrence
+    // The control buttons is difference
     if (! vinfo.inDatabase) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());

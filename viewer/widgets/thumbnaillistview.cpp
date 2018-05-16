@@ -242,7 +242,7 @@ void ThumbnailListView::setSelection(const QRect &rect, QItemSelectionModel::Sel
 //        selectionModel()->clear();
 //    }
 
-    // For mouse draging border
+    // For mouse dragging border
     QRect vr;
     if (flags & QItemSelectionModel::Current) {
         int x = rect.width() < 0 ? rect.x() + rect.width() : rect.x();

@@ -30,7 +30,7 @@ static const EffectId kRandom = "random";
   How to use:
   1) Display on your widget
   call SlideEffectFactory::instance().createEffect() or SlideEffectFactory::instance().getRandomEffect() to get
-  an effect, then set pixmaps using setImages() and other optinal parameter. After the foreplay,
+  an effect, then set pixmaps using setImages() and other optional parameter. After the foreplay,
   call prepare();
 
   start widget's effect timer. In it's timerEvent, add
