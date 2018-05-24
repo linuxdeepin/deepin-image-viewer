@@ -1,3 +1,14 @@
+<a name="1.2.22"></a>
+## 1.2.22 (2018-05-24)
+
+
+#### Bug Fixes
+
+*   don't restore cursor. ([6f81631e](6f81631e))
+* **flatpak:**  default save path error in flatpak environment ([699b4ae6](699b4ae6))
+
+
+
 <a name="1.2.21"></a>
 ## 1.2.21 (2018-05-15)
 
