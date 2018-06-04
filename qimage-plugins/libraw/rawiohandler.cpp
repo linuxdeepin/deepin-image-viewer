@@ -187,7 +187,7 @@ bool RawIOHandler::read(QImage *image)
         }
     }
     d->raw->dcraw_clear_mem(output);
-    delete pixels;
+    delete[] pixels;
 
     return true;
 }
