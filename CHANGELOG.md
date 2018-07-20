@@ -1,3 +1,13 @@
+<a name="1.2.23"></a>
+### 1.2.23 (2018-07-20)
+
+
+#### Bug Fixes
+
+*   memory leak ([d680e97c](https://github.com/linuxdeepin/deepin-image-viewer/commit/d680e97c63df617b34bdda0dd3aaa3d2bb347caa))
+
+
+
 <a name="1.2.22"></a>
 ## 1.2.22 (2018-05-24)
 
