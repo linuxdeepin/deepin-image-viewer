@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Visualizador de Imagens</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -11,7 +11,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer é um gerenciador de imagens moderno e sutil.</translation>
+        <translation>Visualizador de Imagens é um gerenciador de imagens moderno e sutil.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -409,7 +409,7 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation>Sem escala</translation>
     </message>
     <message>
         <source>Fit page to image</source>
@@ -421,7 +421,7 @@
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation>Escalar para:</translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -441,7 +441,7 @@
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation>Escala</translation>
     </message>
     <message>
         <source>Image Settings</source>
@@ -957,7 +957,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer é um gerenciador de imagens moderno e sutil.</translation>
+        <translation>Visualizador de Imagens é um gerenciador de imagens moderno e sutil.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -965,7 +965,7 @@
     </message>
     <message>
         <source>Dark theme</source>
-        <translation>Tema dark</translation>
+        <translation>Tema Escuro</translation>
     </message>
 </context>
 <context>

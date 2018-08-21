@@ -226,7 +226,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Este ficheiro contén varias páxinas, por favor emprega o Evince para velas todas.</translation>
     </message>
 </context>
 <context>
@@ -265,11 +265,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Poñer nas favoritas</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Quitar das favoritas</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -409,43 +409,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation>Non escalar</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation>Axustar páxina á imaxe</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation>Axustar imaxe á páxina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation>Escalar a:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="unfinished"/>
+        <translation>Milímetros</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="unfinished"/>
+        <translation>Centímetros</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation>Polgadas</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation>Posición da imaxe</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation>Escalando</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Axustes da imaxe</translation>
     </message>
 </context>
 <context>
@@ -557,11 +557,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Poñer nas favoritas</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Quitar das favoritas</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -682,11 +682,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Poñer nas favoritas</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Quitar das favoritas</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -771,31 +771,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Tamaño 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Encaixar á xanela</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Rotar á esquerda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>Rotar á dereita</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Enviar ao lixo</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Quitar das favoritas</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Poñer nas favoritas</translation>
     </message>
 </context>
 <context>
@@ -876,11 +876,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Poñer nas favoritas</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Quitar das favoritas</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -957,15 +957,15 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished"/>
+        <translation>O visualizador de imaxes é un xestor de imaxes moderno e fluído.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished"/>
+        <translation>Ten como características a xestión, visualización e a edición básica de imaxes.</translation>
     </message>
     <message>
         <source>Dark theme</source>
-        <translation type="unfinished"/>
+        <translation>Tema escuro</translation>
     </message>
 </context>
 <context>
@@ -1016,11 +1016,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer en favoritas</translation>
+        <translation>Poñer nas favoritas</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar de favoritas</translation>
+        <translation>Quitar das favoritas</translation>
     </message>
     <message>
         <source>Show navigation window</source>

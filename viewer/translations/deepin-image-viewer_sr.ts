@@ -15,7 +15,7 @@
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Својства су му управљање, прегледање и основно уређивање слика.</translation>
+        <translation>Омогућава управљање, прегледање и основно уређивање слика.</translation>
     </message>
 </context>
 <context>
@@ -26,7 +26,7 @@
     </message>
     <message>
         <source>images</source>
-        <translation>слике</translation>
+        <translation>слика</translation>
     </message>
     <message>
         <source>album</source>
@@ -34,7 +34,7 @@
     </message>
     <message>
         <source>albums</source>
-        <translation>албуми</translation>
+        <translation>албума</translation>
     </message>
     <message>
         <source>Manage sync</source>
@@ -79,7 +79,7 @@
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Сигурно желите да избришете албум?</translation>
+        <translation>Заиста желите да обришете албум?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -87,7 +87,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Избриши</translation>
+        <translation>Обриши</translation>
     </message>
 </context>
 <context>
@@ -110,7 +110,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Можете додати директоријум за синхронизациу или превући слике на временску линију</translation>
+        <translation>Можете додати директоријум за синхронизацију или превући слике на временску линију</translation>
     </message>
 </context>
 <context>
@@ -137,7 +137,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Избриши</translation>
+        <translation>Обриши</translation>
     </message>
 </context>
 <context>
@@ -151,7 +151,7 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>слике</translation>
+        <translation>Слика</translation>
     </message>
 </context>
 <context>
@@ -166,19 +166,19 @@
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Сигурно желите да додате слике у албум?</translation>
+        <translation>Заиста желите да додате слике у албум?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Синхро и Направи</translation>
+        <translation>Синхро. и направи</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Синхро</translation>
+        <translation>Синхро.</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Желите ли да додате на листу синхронизације и направите албум именован по датотеци?</translation>
+        <translation>Желите ли да додате на листу синхронизације и направите албум именован по овој фасцикли?</translation>
     </message>
 </context>
 <context>
@@ -212,7 +212,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Избриши</translation>
+        <translation>Обриши</translation>
     </message>
 </context>
 <context>
@@ -297,7 +297,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Можете додати директоријум за синхронизациу или превући слике на временску линију</translation>
+        <translation>Можете додати директоријум за синхронизацију или превући слике на временску линију</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -312,7 +312,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Отвори Директоријум</translation>
+        <translation>Отвори директоријум</translation>
     </message>
 </context>
 <context>
@@ -437,7 +437,7 @@
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Позиција Слике</translation>
+        <translation>Позиција слике</translation>
     </message>
     <message>
         <source>Scaling</source>
@@ -445,7 +445,7 @@
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Поставке Слике</translation>
+        <translation>Поставке слике</translation>
     </message>
 </context>
 <context>
@@ -471,7 +471,7 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Одабери Директоријум</translation>
+        <translation>Одабери директоријум</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
@@ -479,22 +479,22 @@
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Додај датотеку</translation>
+        <translation>Додај фасциклу</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Управљање Синхронизацијом Директоријума</translation>
+        <translation>Управљање синхронизацијом директоријума</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Лста диркторијума је празна</translation>
+        <translation>Листа диркторијума је празна</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Откажи синхро</translation>
+        <translation>Откажи синхро.</translation>
     </message>
     <message>
         <source>Images</source>
@@ -517,7 +517,7 @@
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Преглед Слика</translation>
+        <translation>Преглед слика</translation>
     </message>
     <message>
         <source>Album</source>
@@ -635,7 +635,7 @@
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Преглед Слике</translation>
+        <translation>Преглед слике</translation>
     </message>
     <message>
         <source>Album</source>
@@ -643,7 +643,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Врати Подрзумевано</translation>
+        <translation>Врати подразумевано</translation>
     </message>
 </context>
 <context>
@@ -718,7 +718,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Избриши</translation>
+        <translation>Обриши</translation>
     </message>
 </context>
 <context>
@@ -736,7 +736,7 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Поставке Покретног Приказа</translation>
+        <translation>Поставке покретног приказа</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -787,7 +787,7 @@
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation>Баци у Смеће</translation>
+        <translation>Баци у смеће</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -813,7 +813,7 @@
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 слике</translation>
+        <translation>%1 слика/е</translation>
     </message>
     <message>
         <source>Manage sync</source>
@@ -836,7 +836,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Можете додати директоријум за синхронизациу или превући слике на временску линију</translation>
+        <translation>Можете додати директоријум за синхронизацију или превући слике на временску линију</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -907,7 +907,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Покретни Приказ</translation>
+        <translation>Покретни приказ</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -961,7 +961,7 @@
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Својства су му управљање, прегледање и основно уређивање слика.</translation>
+        <translation>Омогућава управљање, прегледање и основно уређивање слика.</translation>
     </message>
     <message>
         <source>Dark theme</source>

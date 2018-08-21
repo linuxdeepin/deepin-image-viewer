@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Deepin Afbeeldingen</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -11,11 +11,11 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer is een moderne en gepolijste afbeeldingenbeheerder</translation>
+        <translation>Deepin Afbeeldingen is een moderne en gepolijste afbeeldingenbeheerder.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>U kan afbeeldingen bewerken, bekijken en beheren.</translation>
+        <translation>Je kunt afbeeldingen bekijken en beheren en simpele bewerkingen toepassen.</translation>
     </message>
 </context>
 <context>
@@ -38,7 +38,7 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>sync beheren</translation>
+        <translation>Synchronisatie beheren</translation>
     </message>
     <message>
         <source>Syncing: </source>
@@ -53,7 +53,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Oké</translation>
     </message>
     <message>
         <source>New album</source>
@@ -68,18 +68,18 @@
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Recentelijk geïmporteerd</translation>
+        <translation>Recent geïmporteerd</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mijn favoriet</translation>
+        <translation>Mijn favorieten</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Bent u zeker dat u dit album wil verwijderen?</translation>
+        <translation>Weet je zeker dat je dit album wilt verwijderen?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -98,7 +98,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mijn favoriet</translation>
+        <translation>Mijn favorieten</translation>
     </message>
     <message>
         <source>Timeline</source>
@@ -110,7 +110,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>U kan een te synchroniseren map toevoegen of afbeeldingen aan de tijdlijn toevoegen via drag &amp; drop</translation>
+        <translation>Je kunt een te synchroniseren map toevoegen of afbeeldingen naar de tijdlijn verslepen</translation>
     </message>
 </context>
 <context>
@@ -129,7 +129,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Hernoemen</translation>
+        <translation>Naam wijzigen</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -144,7 +144,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Deepin Afbeeldingen</translation>
     </message>
 </context>
 <context>
@@ -162,23 +162,23 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Oké</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Bent u zeker dat u deze afbeeldingen aan het album wil toevoegen?</translation>
+        <translation>Weet je zeker dat je de afbeeldingen wilt toevoegen aan het album?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Sync en Maak aan</translation>
+        <translation>Synchroniseren en creëren</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Sync</translation>
+        <translation>Synchroniseren</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>U gaat een map toevoegen aan de lijst met te synchroniseren mappen en een album aanmaken met de mapnaam. Bent u zeker?</translation>
+        <translation>Weet je zeker dat je een map wilt toevoegen aan de synchronisatielijst en een gelijknamig album wilt creëren?</translation>
     </message>
 </context>
 <context>
@@ -189,7 +189,7 @@
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation>Exporteren geslaagd</translation>
+        <translation>Geëxporteerd</translation>
     </message>
     <message>
         <source>Failed to export</source>
@@ -204,7 +204,7 @@
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Bent u zeker dat u deze afbeeldingen naar de prullenbak wil verplaatsen?</translation>
+        <translation>Weet je zeker dat je de afbeeldingen wilt verplaatsen naar de prullenbak?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -226,7 +226,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Dit bestand bevat meerdere pagina&apos;s. Gebruik Evince om alle pagina&apos;s te bekijken.</translation>
     </message>
 </context>
 <context>
@@ -257,7 +257,7 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>In prullenbak gooien</translation>
+        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -273,19 +273,19 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>In wijzerzin roteren</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Tegen wijzerzin roteren</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als achtergrondafbeelding instellen</translation>
+        <translation>Instellen als bureaubladachtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Weergeven in bestandsbeheerder</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -297,7 +297,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>U kan een te synchroniseren map toevoegen of afbeeldingen aan de tijdlijn toevoegen via drag &amp; drop</translation>
+        <translation>Je kunt een te synchroniseren map toevoegen of afbeeldingen naar de tijdlijn verslepen</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -319,7 +319,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>U heeft geen toestemming om deze afbeelding te bekijken</translation>
+        <translation>Je bent niet gemachtigd om deze afbeeldingen te bekijken</translation>
     </message>
 </context>
 <context>
@@ -334,11 +334,11 @@
     </message>
     <message>
         <source>Date photoed</source>
-        <translation>Datum opname</translation>
+        <translation>Gefotografeerd op</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Datum aanpassing</translation>
+        <translation>Bewerkt op</translation>
     </message>
     <message>
         <source>Resolution</source>
@@ -354,23 +354,23 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Belichting modus</translation>
+        <translation>Belichtingsmodus</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Belichting programma</translation>
+        <translation>Belichtingsprogramma</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Belichting tijd</translation>
+        <translation>Belichtingstijd</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Flits</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Diafragmaopening</translation>
+        <translation>Diafragma-opening</translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -382,7 +382,7 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Max diafragmaopening</translation>
+        <translation>Max. diafragma-opening</translation>
     </message>
     <message>
         <source>Metering mode</source>
@@ -394,7 +394,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Flashcompensatie</translation>
+        <translation>Flitscompensatie</translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -409,50 +409,50 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation>Niet aanpassen</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation>Pagina aanpassen aan afbeelding</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation>Afbeelding aanpassen aan pagina</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation>Aanpassen aan:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="unfinished"/>
+        <translation>Millimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="unfinished"/>
+        <translation>Centimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation>Inches</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation>Afbeeldingspositie</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation>Aanpassing</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Afbeeldingsinstellingen</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Blinden</translation>
+        <translation>Luxaflex</translation>
     </message>
     <message>
         <source>Switcher</source>
@@ -483,7 +483,7 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Beheer mapsynchronisatie</translation>
+        <translation>Mapsynchronisatie beheren</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
@@ -494,7 +494,7 @@
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Sync annuleren</translation>
+        <translation>Synchronisatie annuleren</translation>
     </message>
     <message>
         <source>Images</source>
@@ -502,7 +502,7 @@
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Het apparaat werd losgekoppeld</translation>
+        <translation>Het apparaat is losgekoppeld</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
@@ -510,7 +510,7 @@
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Berekenen...</translation>
+        <translation>Bezig met berekenen...</translation>
     </message>
 </context>
 <context>
@@ -541,7 +541,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Voorstelling beëindigen</translation>
+        <translation>Diavoorstelling beëindigen</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -561,23 +561,23 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet meer</translation>
+        <translation>Geen favoriet</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>In wijzerzin roteren</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Tegen wijzerzin roteren</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als achtergrondafbeelding instellen</translation>
+        <translation>Instellen als bureaubladachtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Weergeven in bestandsbeheerder</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -605,11 +605,11 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Hernoemen</translation>
+        <translation>Naam wijzigen</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Help</translation>
+        <translation>Hulp</translation>
     </message>
     <message>
         <source>Exit</source>
@@ -624,7 +624,7 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Voer een nieuwe sneltoets in a.u.b.</translation>
+        <translation>Voer een nieuwe sneltoets in</translation>
     </message>
 </context>
 <context>
@@ -643,7 +643,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Standaardinstellingen herstellen</translation>
+        <translation>Standaardwaarden herstellen</translation>
     </message>
 </context>
 <context>
@@ -662,7 +662,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Voorstelling beëindigen</translation>
+        <translation>Diavoorstelling beëindigen</translation>
     </message>
     <message>
         <source>Print</source>
@@ -686,23 +686,23 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet meer</translation>
+        <translation>Geen favoriet</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>In wijzerzin roteren</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Tegen wijzerzin roteren</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als achtergrondafbeelding instellen</translation>
+        <translation>Instellen als bureaubladachtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Weergeven in bestandsbeheerder</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -714,7 +714,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Hernoemen</translation>
+        <translation>Naam wijzigen</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -725,18 +725,18 @@
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>Voorstelling verwijderen</translation>
+        <translation>Diavoorstelling beëindigen</translation>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>Pauze/Play</translation>
+        <translation>Pauzeren/Afspelen</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavoorstelling instellingen</translation>
+        <translation>Diavoorstelling-instellingen</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -748,7 +748,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Duur overgang</translation>
+        <translation>Overgangsduur</translation>
     </message>
     <message>
         <source>second</source>
@@ -767,35 +767,35 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mijn favoriet</translation>
+        <translation>Mijn favorieten</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Grootte 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Aanpassen aan venster</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Geen favoriet</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Favoriet</translation>
     </message>
 </context>
 <context>
@@ -817,7 +817,7 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Sync beheren</translation>
+        <translation>Synchronisatie beheren</translation>
     </message>
     <message>
         <source>Syncing: </source>
@@ -836,7 +836,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>U kan een map toevoegen aan de synchronisatielijst of afbeeldingen toevoegen aan de tijdlijn via drag &amp; drop</translation>
+        <translation>Je kunt een te synchroniseren map toevoegen of afbeeldingen naar de tijdlijn verslepen</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -872,7 +872,7 @@
     </message>
     <message>
         <source>Throw to trash</source>
-        <translation>Verplaatsen naar de prullenbak</translation>
+        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -880,23 +880,23 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet meer</translation>
+        <translation>Geen favoriet</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>In wijzerzin roteren</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Tegen wijzerzin roteren</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als achtergrondafbeelding instellen</translation>
+        <translation>Instellen als bureaubladachtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Weergeven in bestandsbeheerder</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -907,7 +907,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavoorstelling instellingen</translation>
+        <translation>Diavoorstelling-instellingen</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -938,11 +938,11 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mijn favoriet</translation>
+        <translation>Mijn favorieten</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Recentelijk geïmporteerd</translation>
+        <translation>Recent geïmporteerd</translation>
     </message>
 </context>
 <context>
@@ -957,11 +957,11 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer is een moderne en gepolijste afbeeldingenbeheerder</translation>
+        <translation>Deepin Afbeeldingen is een moderne en gepolijste afbeeldingenbeheerder.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>U kan afbeeldingen bewerken, bekijken en beheren.</translation>
+        <translation>Je kunt afbeeldingen bekijken en beheren en simpele bewerkingen toepassen.</translation>
     </message>
     <message>
         <source>Dark theme</source>
@@ -1020,31 +1020,31 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet meer</translation>
+        <translation>Geen favoriet</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Toon navigatievenster</translation>
+        <translation>Navigatievenster tonen</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Verberg navigatievenster</translation>
+        <translation>Navigatievenster verbergen</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>In wijzerzin roteren</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Tegen wijzerzin roteren</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Als achtergrondafbeelding instellen</translation>
+        <translation>Instellen als bureaubladachtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Weergeven in bestandsbeheerder</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>

@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Penampil Gambar Deepin</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -11,7 +11,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished"/>
+        <translation>Penampil Gambar Deepin adalah manajer gambar dengan gaya &amp; kelembutan</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
