@@ -36,7 +36,7 @@ void ViewPanel::initFloatingComponent()
 void ViewPanel::initSwitchButtons()
 {
     using namespace utils::base;
-    Anchors<PushButton> preButton = new PushButton(this);
+    DAnchors<PushButton> preButton = new PushButton(this);
     preButton->setObjectName("PreviousButton");
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
         preButton->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
@@ -52,7 +52,7 @@ void ViewPanel::initSwitchButtons()
     preButton->hide();
     connect(preButton, &PushButton::clicked, this, &ViewPanel::showPrevious);
 
-    Anchors<PushButton> nextButton = new PushButton(this);
+    DAnchors<PushButton> nextButton = new PushButton(this);
     nextButton->setObjectName("NextButton");
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
         nextButton->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
@@ -83,7 +83,7 @@ void ViewPanel::initSwitchButtons()
 
         const int EXTEND_SPACING = 15;
 
-        Anchors<PushButton> pb = preButton;
+        DAnchors<PushButton> pb = preButton;
         if (m_info->visibleRegion().isNull()) {
             pb.setLeftMargin(20);
         }
@@ -115,7 +115,7 @@ void ViewPanel::initSwitchButtons()
 void ViewPanel::initScaleLabel()
 {
     using namespace utils::base;
-    Anchors<QLabel> scalePerc = new QLabel(this);
+    DAnchors<QLabel> scalePerc = new QLabel(this);
     scalePerc->setObjectName("ScaleLabel");
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
         scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));

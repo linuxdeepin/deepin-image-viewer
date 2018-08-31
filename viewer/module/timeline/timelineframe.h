@@ -19,7 +19,7 @@
 
 #include "controller/dbmanager.h"
 #include "mvc/timelinemodel.h"
-#include "anchors.h"
+#include "danchors.h"
 #include <QFrame>
 
 DWIDGET_USE_NAMESPACE
@@ -61,7 +61,7 @@ private:
     void removeItems(const DBImgInfoList &infos);
 
 private:
-    Anchors<TopTimelineTip> m_tip;
+    DAnchors<TopTimelineTip> m_tip;
     DBImgInfoList           m_infos;
     QMutex                  m_mutex;
     TimelineModel           m_model;

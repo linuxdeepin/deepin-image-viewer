@@ -20,7 +20,7 @@
 #include "module/modulepanel.h"
 #include "controller/dbmanager.h"
 #include "controller/viewerthememanager.h"
-#include "anchors.h"
+#include "danchors.h"
 #include "thumbnailwidget.h"
 #include "lockwidget.h"
 
@@ -133,7 +133,7 @@ private:
     LockWidget* m_lockWidget;
 
     // Floating component
-    Anchors<NavigationWidget> m_nav;
+    DAnchors<NavigationWidget> m_nav;
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
