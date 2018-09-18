@@ -24,53 +24,32 @@
 
 using namespace Dtk::Core;
 
-namespace {
-
-const char kPlatformThemeName[] = "QT_QPA_PLATFORMTHEME";
-
-}  // namespace
-
 int main(int argc, char *argv[])
 {
-    // If platform theme name is empty, fallback to gtk2.
-    // gtk2 theme is included in libqt5libqgtk2 package.
-
-    //TODO: the Qt default theme's name is empty.
-    //so i comment out the code.
-    // if (qgetenv(kPlatformThemeName).length() == 0) {
-    //        qDebug() << qgetenv(kPlatformThemeName);
-    //      qputenv(kPlatformThemeName, "gtk2");
-    //    }
-   //    qDebug() << "application started" << QDateTime::currentDateTime();
-    if (QFile("/usr/lib/dde-desktop/plugins/platform/libdxcb.so").exists()) {
-        qDebug() << "load dxcb from local path: /usr/lib/dde-desktop/plugins/platform/libdxcb.so";
-        qputenv("QT_QPA_PLATFORM_PLUGIN_PATH", "/usr/lib/dde-desktop/plugins/platform");
-    }
     Application::loadDXcbPlugin();
     Application a(argc, argv);
+
     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
     a.setAttribute(Qt::AA_EnableHighDpiScaling);
+    a.setAttribute(Qt::AA_ForceRasterWidgets);
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
 
+#ifndef LITE_DIV
     if (!service::isDefaultImageViewer()) {
         qDebug() << "Set defaultImage viewer succeed:" << service::setDefaultImageViewer(true);
     } else {
         qDebug() << "Deepin Image Viewer is defaultImage!";
     }
+#endif
 
     CommandLine *cl = CommandLine::instance();
 
     if (cl->processOption()) {
-        if (Application::isDXcbPlatform()) {
-            quick_exit(a.exec());
-        } else {
-            return a.exec();
-        }
-    }
-    else {
+        return a.exec();
+    } else {
         return 0;
     }
 }

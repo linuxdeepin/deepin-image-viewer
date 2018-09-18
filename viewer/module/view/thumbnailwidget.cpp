@@ -18,6 +18,8 @@
 #include <QDebug>
 #include <QPainter>
 
+#include <DSuggestButton>
+
 #include "thumbnailwidget.h"
 #include "application.h"
 #include "utils/baseutils.h"
@@ -36,14 +38,23 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     m_thumbnailLabel->setFixedSize(THUMBNAIL_BORDERSIZE);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
+#ifndef LITE_DIV
     m_tips = new QLabel(this);
     m_tips->setObjectName("ThumbnailTips");
     m_tips->setText(tr("No image files found"));
+#else
+    DSuggestButton *button = new DSuggestButton(tr("Open Image File"), this);
+    connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
+#endif
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addStretch();
     layout->addWidget(m_thumbnailLabel,  0, Qt::AlignCenter);
     layout->addSpacing(9);
+#ifndef LITE_DIV
     layout->addWidget(m_tips,  0, Qt::AlignCenter);
+#else
+    layout->addWidget(button,  0, Qt::AlignCenter);
+#endif
     layout->addStretch();
     setLayout(layout);
 

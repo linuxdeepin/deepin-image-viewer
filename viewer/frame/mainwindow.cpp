@@ -64,6 +64,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     if (titlebar()) titlebar()->setFixedHeight(0);
     moveFirstWindow();
 
+#ifndef LITE_DIV
     QThread* workerThread = new QThread;
     Worker* worker = new Worker();
     worker->moveToThread(workerThread);
@@ -72,6 +73,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     QTimer::singleShot(300, [=]{
         workerThread->start();
     });
+#endif
 
 //    QHBoxLayout *l = new QHBoxLayout(this);
 //    l->setContentsMargins(0, 0, 0, 0);

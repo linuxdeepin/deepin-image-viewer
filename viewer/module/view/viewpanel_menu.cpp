@@ -78,7 +78,11 @@ void ViewPanel::initPopupMenu()
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
-        if (! m_infos.isEmpty()) {
+        if (! m_infos.isEmpty()
+        #ifdef LITE_DIV
+                && !m_current->filePath.isEmpty()
+        #endif
+                ) {
             updateMenuContent();
             dApp->setOverrideCursor(Qt::ArrowCursor);
             m_menu->popup(QCursor::pos());
@@ -115,6 +119,7 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
     m_menu->addAction(ac);
 }
 
+#ifndef LITE_DIV
 QMenu *ViewPanel::createAlbumMenu()
 {
     if (m_infos.isEmpty() || m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
@@ -145,6 +150,7 @@ QMenu *ViewPanel::createAlbumMenu()
 
     return am;
 }
+#endif
 
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
@@ -172,6 +178,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         PrintHelper::showPrintDialog(QStringList(path));
         break;
     }
+#ifndef LITE_DIV
     case IdAddToAlbum: {
         const QString album = action->data().toString();
         if (album != "Add to new album") {
@@ -181,6 +188,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         }
         break;
     }
+#endif
     case IdCopy:
         copyImageToClipboard(QStringList(path));
         break;
@@ -195,6 +203,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             utils::base::trashFile(path);
         }
         break;
+#ifndef LITE_DIV
     case IdRemoveFromAlbum:
         DBManager::instance()->removeFromAlbum(m_vinfo.album, QStringList(path));
         break;
@@ -206,6 +215,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
         emit updateCollectButton();
         break;
+#endif
     case IdShowNavigationWindow:
         m_nav->setAlwaysHidden(false);
         break;
@@ -256,17 +266,21 @@ void ViewPanel::updateMenuContent()
     }
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
     appendAction(IdPrint, tr("Print"), ss("Print"));
+#ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
         QMenu *am = createAlbumMenu();
         if (am) {
             m_menu->addMenu(am);
         }
     }
+#endif
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdCopy, tr("Copy"), ss("Copy"));
     appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
     appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
+
+#ifndef LITE_DIV
     if (! m_vinfo.album.isEmpty()) {
         appendAction(IdRemoveFromAlbum,
                      tr("Remove from album"), ss("Remove from album"));
@@ -285,6 +299,7 @@ void ViewPanel::updateMenuContent()
                          ss("Unfavorite"));
         }
     }
+#endif
     m_menu->addSeparator();
     /**************************************************************************/
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
@@ -321,8 +336,10 @@ void ViewPanel::initShortcut()
     QTimer *dt = new QTimer(this);
     dt->setSingleShot(true);
     dt->setInterval(SWITCH_IMAGE_DELAY);
+    QShortcut *sc = nullptr;
+#ifndef LITE_DIV
     // Previous
-    QShortcut *sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
+    sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         if (! dt->isActive()) {
@@ -339,6 +356,7 @@ void ViewPanel::initShortcut()
             showNext();
         }
     });
+#endif
 
     // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
@@ -390,7 +408,11 @@ void ViewPanel::initShortcut()
 }
 
 void ViewPanel::popupDelDialog(const QString path) {
+#ifndef LITE_DIV
     const QStringList paths(path);
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);
     fdd->showInCenter(window());
+#else
+    Q_UNUSED(path)
+#endif
 }

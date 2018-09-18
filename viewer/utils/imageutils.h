@@ -60,6 +60,7 @@ const QString                       thumbnailCachePath();
 const QString                       thumbnailPath(const QString &path, ThumbnailType type = ThumbLarge);
 bool                                thumbnailExist(const QString &path, ThumbnailType type = ThumbLarge);
 
+QStringList                         supportedImageFormats();
 }  // namespace image
 
 }  // namespace utils

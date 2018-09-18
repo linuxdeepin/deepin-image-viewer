@@ -63,8 +63,11 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
 {
     m_manager = manager;
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+
+#ifndef LITE_DIV
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
+#endif
 
     initMenu();
     initWidgets();
@@ -231,27 +234,38 @@ void TopToolbar::initMenu()
 {
     m_menu = new QMenu(this);
     m_menu->setStyle(QStyleFactory::create("dlight"));
+
+#ifndef LITE_DIV
     if (m_manager)
     {
         QAction *acNA = m_menu->addAction(tr("New album"));
         connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
     }
+#endif
     QAction *acDT = m_menu->addAction(tr("Dark theme"));
 
     bool checkSelected =
             dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark;
     acDT->setCheckable(checkSelected);
     acDT->setChecked(checkSelected);
+
+#ifndef LITE_DIV
     if (m_manager)
     {
         QAction *acS = m_menu->addAction(tr("Settings"));
         connect(acS, &QAction::triggered, this, &TopToolbar::onSetting);
     }
+#endif
+
     m_menu->addSeparator();
     qApp->setProductIcon(QPixmap(":/resources/common/about_logo.png"));
+#ifdef LITE_DIV
+    qApp->setApplicationDescription(tr("Deepin Image Viewer is a image viewing tool."));
+#else
     qApp->setApplicationDescription(QString("%1\n%2\n").arg(tr("Deepin Image Viewer is a fashion "
               "& smooth image manager.")).arg(tr("It is featured with image management, image viewing "
               "and basic image editing.")));
+#endif
     qApp->setApplicationAcknowledgementPage("https://www.deepin.org/"
                                             "acknowledgments/deepin-image-viewer/");
 
@@ -273,7 +287,9 @@ void TopToolbar::initMenu()
 
     QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+#ifndef LITE_DIV
     connect(scNA, SIGNAL(activated()), this, SLOT(onNewAlbum()));
+#endif
     connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
@@ -329,19 +345,10 @@ void TopToolbar::onHelp()
     }
 }
 
+#ifndef LITE_DIV
 void TopToolbar::onNewAlbum()
 {
     emit dApp->signalM->createAlbum();
-}
-
-void TopToolbar::onDeepColorMode() {
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        dApp->viewerTheme->setCurrentTheme(
-                    ViewerThemeManager::Light);
-    } else {
-        dApp->viewerTheme->setCurrentTheme(
-                    ViewerThemeManager::Dark);
-    }
 }
 
 void TopToolbar::onSetting()
@@ -351,4 +358,15 @@ void TopToolbar::onSetting()
                            (window()->height() - m_settingsWindow->height()) / 2 +
                            mapToGlobal(QPoint(0, 0)).y());
     m_settingsWindow->show();
+}
+#endif
+
+void TopToolbar::onDeepColorMode() {
+    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+        dApp->viewerTheme->setCurrentTheme(
+                    ViewerThemeManager::Light);
+    } else {
+        dApp->viewerTheme->setCurrentTheme(
+                    ViewerThemeManager::Dark);
+    }
 }

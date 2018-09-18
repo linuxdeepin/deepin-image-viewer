@@ -30,6 +30,7 @@
 
 DWIDGET_USE_NAMESPACE
 
+#ifndef LITE_DIV
 class Worker : public QObject {
     Q_OBJECT
 public:
@@ -43,6 +44,7 @@ public slots:
         qDebug() << "DBManager time";
     }
 };
+#endif
 
 class MainWindow : public  DMainWindow
 {

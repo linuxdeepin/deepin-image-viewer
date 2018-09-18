@@ -107,6 +107,7 @@ TTLContent::TTLContent(bool inDB,
     m_clBT = new PushButton();
     m_clBT->setFixedSize(ICON_SIZE);
     m_clBT->setObjectName("CollectBtn");
+#ifndef LITE_DIV
     if (m_inDB) {
         hb->addWidget(m_clBT);
         connect(m_clBT, &PushButton::clicked, this, [=] {
@@ -120,6 +121,7 @@ TTLContent::TTLContent(bool inDB,
         });
         updateCollectButton();
     }
+#endif
 
     m_rotateLBtn = new PushButton();
     m_rotateLBtn->setFixedSize(ICON_SIZE);
@@ -275,11 +277,13 @@ void TTLContent::updateCollectButton()
     if (! m_clBT->isEnabled()) {
         m_clBT->setDisabled(true);
     }
+#ifndef LITE_DIV
     else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
                                                       m_imagePath)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setChecked(true);
     }
+#endif
     else {
         m_clBT->setToolTip(tr("Favorite"));
         m_clBT->setChecked(false);

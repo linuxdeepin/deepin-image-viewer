@@ -32,6 +32,9 @@ public:
     ~ThumbnailWidget();
 signals:
     void mouseHoverMoved();
+#ifdef LITE_DIV
+    void openImageInDialog();
+#endif
 
 public slots:
     void setThumbnailImage(const QPixmap thumbnail);
@@ -44,7 +47,9 @@ private:
 
     bool m_isDefaultThumbnail = false;
     QLabel* m_thumbnailLabel;
+#ifndef LITE_DIV
     QLabel* m_tips;
+#endif
     QPixmap m_defaultImage;
     QColor m_inBorderColor;
 };

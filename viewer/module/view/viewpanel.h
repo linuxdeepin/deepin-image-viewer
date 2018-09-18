@@ -26,6 +26,7 @@
 
 #include <QFileInfo>
 #include <QJsonObject>
+#include <QDirIterator>
 
 DWIDGET_USE_NAMESPACE
 
@@ -87,7 +88,9 @@ private:
 
     // Menu control
     void appendAction(int id, const QString &text, const QString &shortcut="");
+#ifndef LITE_DIV
     QMenu* createAlbumMenu();
+#endif
     void onMenuItemClicked(QAction *action);
     void updateMenuContent();
 
@@ -138,6 +141,11 @@ private:
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
     DBImgInfoList::ConstIterator m_current;
+#ifdef LITE_DIV
+    QScopedPointer<QDirIterator> m_imageDirIterator;
+
+    void eatImageDirIterator();
+#endif
     QString m_currentImageLastDir = "";
 };
 #endif // VIEWPANEL_H

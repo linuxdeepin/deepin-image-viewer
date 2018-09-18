@@ -521,6 +521,23 @@ bool thumbnailExist(const QString &path, ThumbnailType type)
     }
 }
 
+static QStringList fromByteArrayList(const QByteArrayList &list)
+{
+    QStringList sList;
+
+    for (const QByteArray &i : list)
+        sList << "*." + QString::fromLatin1(i);
+
+    return sList;
+}
+
+QStringList supportedImageFormats()
+{
+    static QStringList list = fromByteArrayList(QImageReader::supportedImageFormats());
+
+    return list;
+}
+
 }  // namespace image
 
 }  //namespace utils

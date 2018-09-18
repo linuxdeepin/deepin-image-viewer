@@ -53,7 +53,12 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     : QFrame(parent)
 {
     initStyleSheet();
+#ifndef LITE_DIV
     initPanelStack(manager);
+#else
+    Q_UNUSED(manager)
+    initPanelStack(false);
+#endif
     initExtensionPanel();
     initTopToolbar();
     initBottomToolbar();
@@ -81,9 +86,11 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         if (m_bottomToolbar->isVisible())
             m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
     }
+#ifndef LITE_DIV
     if (m_extensionPanel) {
         m_extensionPanel->setFixedHeight(height());
     }
+#endif
     if (m_topSeparatorLine) {
         m_topSeparatorLine->resize(window()->width(), 1);
         m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
@@ -132,6 +139,7 @@ void MainWidget::onShowImageInfo(const QString &path)
     else
         m_infoShowingList << path;
 
+#ifndef LITE_DIV
     ImgInfoDialog *info = new ImgInfoDialog(path);
     info->move((width() - info->width()) / 2 +
                mapToGlobal(QPoint(0, 0)).x(),
@@ -143,13 +151,18 @@ void MainWidget::onShowImageInfo(const QString &path)
         info->deleteLater();
         m_infoShowingList.removeAll(path);
     });
+#endif
 //    connect(dApp->signalM, &SignalManager::gotoPanel,
 //            info, &ImgInfoDialog::close);
 }
 
 void MainWidget::initPanelStack(bool manager)
 {
+#ifndef LITE_DIV
     m_manager = manager;
+#else
+    Q_UNUSED(manager)
+#endif
     m_panelStack = new QStackedWidget(this);
     m_panelStack->setObjectName("PanelStack");
 
@@ -158,6 +171,7 @@ void MainWidget::initPanelStack(bool manager)
     mainLayout->addWidget(m_panelStack);
 
     // Init panel
+#ifndef LITE_DIV
         if (m_manager) {
             TimelinePanel *m_timelinePanel = new TimelinePanel;
             m_panelStack->addWidget(m_timelinePanel);
@@ -166,15 +180,21 @@ void MainWidget::initPanelStack(bool manager)
     //        EditPanel *m_editPanel = new EditPanel();
     //        m_panelStack->addWidget(m_editPanel);
         }
+
         SlideShowPanel *m_slideShowPanel = new SlideShowPanel();
         m_panelStack->addWidget(m_slideShowPanel);
+#endif
         ViewPanel *m_viewPanel = new ViewPanel();
         m_panelStack->addWidget(m_viewPanel);
 }
 
 void MainWidget::initTopToolbar()
 {
+#ifndef LITE_DIV
     m_topToolbar = new TopToolbar(m_manager, this);
+#else
+    m_topToolbar = new TopToolbar(false, this);
+#endif
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
@@ -317,6 +337,9 @@ void MainWidget::initExtensionPanel()
         if (m_extensionPanel->x() == 0) {
             return;
         }
+#ifdef LITE_DIV
+        m_extensionPanel->resize(m_extensionPanel->width(), height());
+#endif
         //m_extensionPanel's height is dependent on the visible of topToolbar
         if (this->window()->isFullScreen()) {
             m_extensionPanel->move(- qMax(m_extensionPanel->width(),

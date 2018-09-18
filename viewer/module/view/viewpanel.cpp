@@ -43,6 +43,7 @@
 #include <QResizeEvent>
 #include <QStackedWidget>
 #include <QtConcurrent>
+#include <QFileDialog>
 
 #include <QPrinter>
 #include <QPainter>
@@ -67,14 +68,18 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_info(nullptr)
     , m_stack(nullptr)
 {
+#ifndef LITE_DIV
     m_vinfo.inDatabase = false;
+#endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();
     initFloatingComponent();
 
     initConnect();
     initShortcut();
+#ifndef LITE_DIV
     initFileSystemWatcher();
+#endif
 
     initPopupMenu();
 
@@ -127,6 +132,7 @@ void ViewPanel::initConnect()
         //TODO: there will be some others panel
     });
 
+#ifndef LITE_DIV
     connect(dApp->signalM, &SignalManager::removedFromAlbum,
     this, [ = ](const QString & album, const QStringList & paths) {
         if (! isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty()) {
@@ -138,6 +144,7 @@ void ViewPanel::initConnect()
             }
         }
     });
+#endif
     connect(dApp->signalM, &SignalManager::imagesRemoved,
     this, [ = ](const DBImgInfoList & infos) {
         if (m_infos.length() > 0 && m_infos.cend() != m_current &&
@@ -149,8 +156,32 @@ void ViewPanel::initConnect()
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
+
+#ifdef LITE_DIV
+    connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
+        QString filter = tr("Images");
+
+        filter.append('(');
+        filter.append(utils::image::supportedImageFormats().join(" "));
+        filter.append(')');
+
+        const QStringList &image_list = QFileDialog::getOpenFileNames(this, tr("Select one or more image files to open"),
+                                                                      QDir::currentPath(), filter, nullptr, QFileDialog::HideNameFilterDetails);
+
+        if (image_list.isEmpty())
+            return;
+
+        SignalManager::ViewInfo vinfo;
+
+        vinfo.path = image_list.first();
+        vinfo.paths = image_list;
+
+        onViewImage(vinfo);
+    });
+#endif
 }
 
+#ifndef LITE_DIV
 void ViewPanel::initFileSystemWatcher()
 {
     // Watch the local file changed if it open from file manager
@@ -177,6 +208,7 @@ void ViewPanel::initFileSystemWatcher()
         updateLocalImages();
     });
 }
+#endif
 
 void ViewPanel::updateLocalImages()
 {
@@ -189,6 +221,42 @@ void ViewPanel::updateLocalImages()
         }
     }
 }
+
+#ifdef LITE_DIV
+// 将迭代器中的数据初始化给m_infos
+void ViewPanel::eatImageDirIterator()
+{
+    if (!m_imageDirIterator)
+        return;
+
+    const QString currentImageFile = m_current->filePath;
+    m_infos.clear();
+
+    while (m_imageDirIterator->hasNext()) {
+        DBImgInfo info;
+
+        info.filePath = m_imageDirIterator->next();
+        info.fileName = m_imageDirIterator->fileInfo().fileName();
+
+        m_infos.append(info);
+    }
+
+    m_imageDirIterator.reset(nullptr);
+
+    auto cbegin = m_infos.cbegin();
+    m_current = cbegin;
+
+    while (cbegin != m_infos.cend()) {
+        if (cbegin->filePath == currentImageFile) {
+            m_current = cbegin;
+            break;
+        }
+
+        ++cbegin;
+    }
+}
+#endif
+
 void ViewPanel::mousePressEvent(QMouseEvent *e)
 {
     emit dApp->signalM->hideExtensionPanel();
@@ -469,7 +537,9 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             list << QFileInfo(path);
         }
         m_infos = getImageInfos(list);
-    } else {
+    } else
+#ifndef LITE_DIV
+    {
         if (vinfo.inDatabase) {
             if (vinfo.album.isEmpty()) {
                 m_infos = DBManager::instance()->getAllInfos();
@@ -480,7 +550,17 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             m_infos = getImageInfos(getFileInfos(vinfo.path));
         }
     }
+#else
+    {
+        QFileInfo info(vinfo.path);
 
+        m_infos = getImageInfos({info});
+    }
+
+    if (m_infos.size() == 1)
+        m_imageDirIterator.reset(new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
+                                                  utils::image::supportedImageFormats(), QDir::Files | QDir::Readable));
+#endif
     // Get the image which need to open currently
     m_current = m_infos.cbegin();
     if (! vinfo.path.isEmpty()) {
@@ -496,6 +576,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                    << vinfo.path << vinfo.paths;
         return;
     }
+
     openImage(m_current->filePath);
 }
 
@@ -517,9 +598,14 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
+#ifdef LITE_DIV
+    eatImageDirIterator();
+#endif
+
     if (m_infos.isEmpty()) {
         return false;
     }
+
     if (m_current == m_infos.cbegin()) {
         m_current = m_infos.cend();
     }
@@ -531,9 +617,14 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
+#ifdef LITE_DIV
+    eatImageDirIterator();
+#endif
+
     if (m_infos.isEmpty()) {
         return false;
     }
+
     if (m_current == m_infos.cend()) {
         m_current = m_infos.cbegin();
     }
@@ -627,9 +718,11 @@ void ViewPanel::backToLastPanel()
         emit dApp->signalM->hideExtensionPanel(true);
         emit dApp->signalM->showBottomToolbar();
     } else {
+#ifndef LITE_DIV
         // Use dbus interface to make sure it will always back to the
         // main process
         DIVDBusController().backToMainWindow();
+#endif
     }
 }
 
@@ -687,9 +780,11 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     updateMenuContent();
     resetImageGeometry();
 
+#ifndef LITE_DIV
     if (m_info) {
         m_info->setImagePath(path);
     }
+#endif
 
     if (!QFileInfo(path).exists()) {
         m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
