@@ -457,10 +457,10 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
-    if (m_viewB->isFitWindow()) {
-        m_viewB->fitWindow();
-    } else {
+    if (m_viewB->isFitImage()) {
         m_viewB->fitImage();
+    } else if (m_viewB->isFitWindow()) {
+        m_viewB->fitWindow();
     }
 
 }
@@ -557,9 +557,12 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         m_infos = getImageInfos({info});
     }
 
-    if (m_infos.size() == 1)
+    if (m_infos.size() == 1) {
         m_imageDirIterator.reset(new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
                                                   utils::image::supportedImageFormats(), QDir::Files | QDir::Readable));
+    } else {
+        m_imageDirIterator.reset();
+    }
 #endif
     // Get the image which need to open currently
     m_current = m_infos.cbegin();
@@ -643,6 +646,11 @@ void ViewPanel::removeCurrentImage()
         return;
     }
 
+#ifdef LITE_DIV
+    // 在删除当前图片之前将图片列表初始化完成
+    eatImageDirIterator();
+#endif
+
     m_infos.removeAt(imageIndex(m_current->filePath));
     if (! showNext()) {
         if (! showPrevious()) {
@@ -657,12 +665,14 @@ void ViewPanel::removeCurrentImage()
 
 void ViewPanel::resetImageGeometry()
 {
+#ifndef LITE_DIV
     // If image's size is smaller than window's size, set to 1:1 size
     if (m_viewB->windowRelativeScale() > 1) {
         m_viewB->fitImage();
     } else {
         m_viewB->fitWindow();
     }
+#endif
 }
 
 void ViewPanel::viewOnNewProcess(const QStringList &paths)
@@ -780,11 +790,9 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     updateMenuContent();
     resetImageGeometry();
 
-#ifndef LITE_DIV
     if (m_info) {
         m_info->setImagePath(path);
     }
-#endif
 
     if (!QFileInfo(path).exists()) {
         m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));

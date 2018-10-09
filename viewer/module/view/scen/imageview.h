@@ -107,8 +107,8 @@ private:
     QThreadPool *m_pool;
     DTK_WIDGET_NAMESPACE::Toast *m_toast;
 
-    QGraphicsSvgItem *m_svgItem;
-    GraphicsMovieItem *m_movieItem;
-    GraphicsPixmapItem *m_pixmapItem;
+    QGraphicsSvgItem *m_svgItem = nullptr;
+    GraphicsMovieItem *m_movieItem = nullptr;
+    GraphicsPixmapItem *m_pixmapItem = nullptr;
 };
 #endif // SVGVIEW_H

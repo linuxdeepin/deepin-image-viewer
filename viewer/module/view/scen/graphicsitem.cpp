@@ -16,6 +16,8 @@
  */
 #include "graphicsitem.h"
 #include <QMovie>
+#include <QDebug>
+#include <QPainter>
 
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
@@ -71,4 +73,33 @@ GraphicsPixmapItem::GraphicsPixmapItem(const QPixmap &pixmap)
 GraphicsPixmapItem::~GraphicsPixmapItem()
 {
     prepareGeometryChange();
+}
+
+void GraphicsPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    const QTransform ts = painter->transform();
+
+    if (ts.type() == QTransform::TxScale && ts.m11() < 1) {
+        painter->setRenderHint(QPainter::SmoothPixmapTransform,
+                               (transformationMode() == Qt::SmoothTransformation));
+
+        QPixmap pixmap;
+
+        if (qIsNull(cachePixmap.first - ts.m11())) {
+            pixmap = cachePixmap.second;
+        } else {
+            pixmap = this->pixmap().transformed(painter->transform(), transformationMode());
+            cachePixmap = qMakePair(ts.m11(), pixmap);
+        }
+
+        pixmap.setDevicePixelRatio(painter->device()->devicePixelRatioF());
+        painter->resetTransform();
+        painter->drawPixmap(offset() + QPointF(ts.dx(), ts.dy()), pixmap);
+        painter->setTransform(ts);
+    } else {
+        QGraphicsPixmapItem::paint(painter, option, widget);
+    }
 }

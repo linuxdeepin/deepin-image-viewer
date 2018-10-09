@@ -29,6 +29,7 @@
 #include <QtConcurrent>
 #include <QHBoxLayout>
 #include <qmath.h>
+#include <QScrollBar>
 
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
@@ -492,7 +493,14 @@ void ImageView::onCacheFinish()
             // Make sure item show in center of view after reload
             setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
-            fitWindow();
+
+            if ((width() < pixmap.width() || height() < pixmap.height())
+                    && width() > 0 && height() > 0) {
+                fitWindow();
+            } else {
+                fitImage();
+            }
+
             emit imageChanged(path);
         }
     }

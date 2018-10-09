@@ -55,6 +55,7 @@ TTLContent::TTLContent(bool inDB,
     hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
     m_inDB = inDB;
+#ifndef LITE_DIV
     m_returnBtn = new ReturnButton();
     m_returnBtn->setMaxWidth(RETURN_BTN_MAX);
     m_returnBtn->setMaximumWidth(RETURN_BTN_MAX);
@@ -81,6 +82,7 @@ TTLContent::TTLContent(bool inDB,
     connect(m_returnBtn, &ReturnButton::returnBtnWidthChanged, this, [=]{
         updateFilenameLayout();
     });
+#endif
     // Adapt buttons////////////////////////////////////////////////////////////
     m_adaptImageBtn = new PushButton();
     m_adaptImageBtn->setObjectName("AdaptBtn");
@@ -172,6 +174,7 @@ void TTLContent::updateFilenameLayout()
     int strWidth = fm.boundingRect(filename).width();
     int leftMargin = 0;
     int m_leftContentWidth = 0;
+#ifndef LITE_DIV
     if (m_inDB)
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
                 + (ICON_SIZE.width()+2)*6 + LEFT_SPACE;
@@ -180,6 +183,9 @@ void TTLContent::updateFilenameLayout()
         m_leftContentWidth = m_folderBtn->width()  + 8
                 + (ICON_SIZE.width()+2)*5 + LEFT_SPACE;
     }
+#else
+    m_leftContentWidth = 5 + (ICON_SIZE.width() + 2) * 5;
+#endif
 
     int ww = dApp->setter->value("MAINWINDOW",  "WindowWidth").toInt();
     m_windowWidth =  std::max(std::max(this->window()->geometry().width(), this->width()), ww);
@@ -218,7 +224,9 @@ void TTLContent::setCurrentDir(QString text) {
         text = tr("My favorite");
     }
 
+#ifndef LITE_DIV
     m_returnBtn->setText(text);
+#endif
 }
 
 void TTLContent::resizeEvent(QResizeEvent *event)

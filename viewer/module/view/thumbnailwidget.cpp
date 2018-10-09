@@ -44,6 +44,7 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     m_tips->setText(tr("No image files found"));
 #else
     DSuggestButton *button = new DSuggestButton(tr("Open Image File"), this);
+    button->setShortcut(QKeySequence("Ctrl+O"));
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 #endif
     QVBoxLayout* layout = new QVBoxLayout(this);

@@ -283,7 +283,9 @@ void TopToolbar::initMenu()
 //    connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
 //    connect(acE, &QAction::triggered, dApp, &Application::quit);
 
+#ifndef LITE_DIV
     QShortcut *scNA = new QShortcut(QKeySequence(newAlbumShortcut()), this);
+#endif
 
     QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
@@ -304,11 +306,13 @@ void TopToolbar::initMenu()
         }
     });
 
+#ifndef LITE_DIV
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] (const QString &group) {
         if (group == "SHORTCUTALBUM") {
             scNA->setKey(QKeySequence(newAlbumShortcut()));
         }
     });
+#endif
 }
 
 void TopToolbar::onViewShortcut() {

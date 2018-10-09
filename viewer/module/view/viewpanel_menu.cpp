@@ -264,7 +264,9 @@ void ViewPanel::updateMenuContent()
     else {
         appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
     }
+#ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
+#endif
     appendAction(IdPrint, tr("Print"), ss("Print"));
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
@@ -323,7 +325,10 @@ void ViewPanel::updateMenuContent()
         appendAction(IdSetAsWallpaper,
                      tr("Set as wallpaper"), ss("Set as wallpaper"));
     }
-    if (m_vinfo.inDatabase) {
+#ifndef LITE_DIV
+    if (m_vinfo.inDatabase)
+#endif
+    {
         appendAction(IdDisplayInFileManager,
                      tr("Display in file manager"), ss("Display in file manager"));
     }
@@ -337,7 +342,6 @@ void ViewPanel::initShortcut()
     dt->setSingleShot(true);
     dt->setInterval(SWITCH_IMAGE_DELAY);
     QShortcut *sc = nullptr;
-#ifndef LITE_DIV
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
@@ -356,7 +360,6 @@ void ViewPanel::initShortcut()
             showNext();
         }
     });
-#endif
 
     // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
