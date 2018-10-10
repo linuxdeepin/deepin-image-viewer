@@ -184,7 +184,8 @@ void TTLContent::updateFilenameLayout()
                 + (ICON_SIZE.width()+2)*5 + LEFT_SPACE;
     }
 #else
-    m_leftContentWidth = 5 + (ICON_SIZE.width() + 2) * 5;
+    // 39 为logo以及它的左右margin
+    m_leftContentWidth = 5 + (ICON_SIZE.width() + 2) * 5 + 39;
 #endif
 
     int ww = dApp->setter->value("MAINWINDOW",  "WindowWidth").toInt();

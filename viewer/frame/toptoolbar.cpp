@@ -40,6 +40,7 @@
 #include <QShortcut>
 #include <QMenu>
 #include <QStyleFactory>
+#include <QImageReader>
 
 DWIDGET_USE_NAMESPACE
 
@@ -184,7 +185,16 @@ void TopToolbar::initLeftContent()
     m_lLayout = new QHBoxLayout(w);
     m_lLayout->setContentsMargins(0, 0, 0, 0);
     m_lLayout->setSpacing(0);
+#ifdef LITE_DIV
+    QLabel *logo = new QLabel(this);
+    QImageReader ir(":/images/logo/resources/images/logo/deepin-image-viewer.svg");
 
+    ir.setScaledSize(QSize(22, 22));
+    logo->setPixmap(QPixmap::fromImage(ir.read()));
+    logo->setAlignment(Qt::AlignCenter);
+    m_layout->addSpacing(12);
+    m_layout->addWidget(logo, 1, Qt::AlignLeft);
+#endif
     m_layout->addWidget(w, 1, Qt::AlignLeft);
 }
 
