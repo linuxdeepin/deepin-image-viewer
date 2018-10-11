@@ -189,8 +189,12 @@ void TopToolbar::initLeftContent()
     QLabel *logo = new QLabel(this);
     QImageReader ir(":/images/logo/resources/images/logo/deepin-image-viewer.svg");
 
-    ir.setScaledSize(QSize(22, 22));
-    logo->setPixmap(QPixmap::fromImage(ir.read()));
+    ir.setScaledSize(QSize(22, 22) * devicePixelRatioF());
+
+    QPixmap logo_pix = QPixmap::fromImage(ir.read());
+
+    logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
+    logo->setPixmap(logo_pix);
     logo->setAlignment(Qt::AlignCenter);
     m_layout->addSpacing(12);
     m_layout->addWidget(logo, 1, Qt::AlignLeft);

@@ -500,7 +500,16 @@ void ViewPanel::dropEvent(QDropEvent *event)
     }
 
     if (! paths.isEmpty()) {
+#ifdef LITE_DIV
+        SignalManager::ViewInfo vinfo;
+
+        vinfo.path = paths.first();
+        vinfo.paths = paths;
+
+        onViewImage(vinfo);
+#else
         viewOnNewProcess(paths);
+#endif
     }
 
     event->accept();
