@@ -54,7 +54,7 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutItem(tr("End show"),  ss(VIEW_GROUP, "End show"))<<
 #endif
     ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy"))<<
-    ShortcutItem(tr("Throw to trash"),  "Delete")<<
+    ShortcutItem(tr("Delete"),  "Delete")<<
 #ifndef LITE_DIV
     ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))<<
     ShortcutItem(tr("Favorite"), ss(VIEW_GROUP, "Favorite"))<<

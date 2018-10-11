@@ -41,7 +41,7 @@ static ShortcutKey ShortcutViewKeys[] = {
     {"End show",                    QT_TRANSLATE_NOOP("ShortcutKey", "End show")},
     {"Print",                       QT_TRANSLATE_NOOP("ShortcutKey", "Print")},
     {"Copy",                        QT_TRANSLATE_NOOP("ShortcutKey", "Copy")},
-    {"Throw to trash",              QT_TRANSLATE_NOOP("ShortcutKey", "Throw to trash")},
+    {"Throw to trash",              QT_TRANSLATE_NOOP("ShortcutKey", "Delete")},
     {"Remove from album",           QT_TRANSLATE_NOOP("ShortcutKey", "Remove from album")},
     {"Favorite",                    QT_TRANSLATE_NOOP("ShortcutKey", "Favorite")},
     {"Unfavorite",                  QT_TRANSLATE_NOOP("ShortcutKey", "Unfavorite")},

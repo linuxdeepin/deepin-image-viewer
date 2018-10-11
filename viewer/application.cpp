@@ -37,7 +37,7 @@ Application::Application(int& argc, char** argv)
     setApplicationName("deepin-image-viewer");
     setApplicationDisplayName(tr("Deepin Image Viewer"));
 
-    setApplicationVersion("1.2");
+    setApplicationVersion("1.3");
 
     installEventFilter(new GlobalEventFilter());
 

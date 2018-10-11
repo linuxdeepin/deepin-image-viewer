@@ -146,7 +146,7 @@ TTLContent::TTLContent(bool inDB,
     m_trashBtn = new PushButton();
     m_trashBtn->setFixedSize(ICON_SIZE);
     m_trashBtn->setObjectName("TrashBtn");
-    m_trashBtn->setToolTip(tr("Throw to Trash"));
+    m_trashBtn->setToolTip(tr("Delete"));
     hb->addWidget(m_trashBtn);
 
     m_fileNameLabel = new ElidedLabel();

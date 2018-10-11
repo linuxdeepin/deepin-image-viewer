@@ -263,7 +263,7 @@ void ImagesView::updateMenuContents()
     appendAction(IdCopy, tr("Copy"), ss("Copy"));
     if (selectedCount == 1)
         appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
-    appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
+    appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash"));
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
     m_menu->addSeparator();
     /**************************************************************************/
