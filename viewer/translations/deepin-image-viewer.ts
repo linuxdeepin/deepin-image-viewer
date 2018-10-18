@@ -11,14 +11,6 @@
         <source>Version:</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -258,10 +250,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation type="unfinished"></translation>
     </message>
@@ -307,6 +295,10 @@
     </message>
     <message>
         <source>Add to new album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -550,10 +542,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation type="unfinished"></translation>
     </message>
@@ -621,6 +609,10 @@
         <source>Display shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -672,10 +664,6 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -788,10 +776,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation type="unfinished"></translation>
     </message>
@@ -799,11 +783,19 @@
         <source>Favorite</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Image File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -873,10 +865,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation type="unfinished"></translation>
     </message>
@@ -902,6 +890,10 @@
     </message>
     <message>
         <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -969,6 +961,10 @@
         <source>Dark theme</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tools with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1009,10 +1005,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1050,6 +1042,18 @@
     </message>
     <message>
         <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select one or more image files to open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
