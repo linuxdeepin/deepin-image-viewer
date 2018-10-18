@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Version:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin billedfremviser er en moderigtig og glat billedhåndtering.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Dens faciliteter er billedhåndtering, billedvisning og grundlæggende billedredigering.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Kopiér til udklipsholder</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Fjern fra album</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Tilføj til nyt album</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Kopiér</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Fjern fra album</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Vis genveje</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiér</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Rotér med uret</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Smid i papirkurv</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Fjern fra favorit</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Sæt som favorit</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Ingen billedfiler fundet</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Åbn billede</translation>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Kopiér til udklipsholder</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Sæt som favorit</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Billedinfo</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Mørkt tema</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin billedfremviser er et billedfremviserværktøj med moderigtig brugerflade og glat ydelse.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Kopiér til udklipsholder</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Fjern fra album</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Billedinfo</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Åbn billede</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Alle billeder</translation>
     </message>
 </context>
 </TS>

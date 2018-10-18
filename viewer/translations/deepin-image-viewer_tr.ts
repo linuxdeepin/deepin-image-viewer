@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Sürüm:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Görsel Görüntüleyici, modern ve sade görsel yöneticisi.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Görsel yönetimi, görsel görüntüleme ve basit görsel düzenleme özelliklerini sunar.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Panoya kopyala</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Çöpe At</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Albümden Kaldır</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Yeni Albüme Ekle</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Kopyala</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Çöpe At</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Albümden Kaldırma</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Kısayolları Görüntüle</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopyala</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Çöpe At</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Saat Yönünde Döndür</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Çöpe At</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Sık Kullanılandan Çıkar</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Sık Kullanılanlara Ekle</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Herhangi bir görsel dosyası bulunamadı</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Görsel Aç</translation>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Panoya Kopyala</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Çöpe At</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Sık Kullanılanlara Ekle</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Görsel Bilgileri</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Koyu Tema</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin Görsel Görüntüleyici, modern bir arayüz ve akıcı bir başarım sunan bir görüntü izleme aracıdır.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Panoya Kopyala</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Çöpe At</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Albümden Kaldır</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Görsel Bilgileri</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Görsel Aç</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Tüm Görseller</translation>
     </message>
 </context>
 </TS>

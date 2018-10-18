@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin 看圖是一款時尚且流暢的圖片管理器，</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>包含圖片管理、圖片檢視和基本編輯功能。</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>複製到剪貼簿</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>從相簿移除</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>加到新相簿</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>複製</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>從相簿移除</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>顯示快速鍵</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>複製</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,15 +774,15 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -803,6 +791,10 @@
     <message>
         <source>No image files found</source>
         <translation>找不到圖片檔案</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>複製到剪貼簿</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>加到我的最愛</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>圖片資訊</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>深色模式</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>複製到剪貼簿</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>從相簿移除</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>圖片資訊</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versión:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Visor de imágenes Deepin es un bonito y suave organizador de imágenes.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Destaca con la organización, visualización y edición básica de imágenes.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -125,7 +117,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar presentación</translation>
+        <translation>Presentar en diapositivas</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -241,7 +233,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar presentación</translation>
+        <translation>Presentar en diapositivas</translation>
     </message>
     <message>
         <source>Print</source>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Copiar al portapapeles</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Añadir a nuevo álbum</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
     </message>
 </context>
 <context>
@@ -537,7 +529,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar presentación</translation>
+        <translation>Presentar en diapositivas</translation>
     </message>
     <message>
         <source>End show</source>
@@ -546,10 +538,6 @@
     <message>
         <source>Copy</source>
         <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Mostrar atajos</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -658,7 +650,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar presentación</translation>
+        <translation>Presentar en diapositivas</translation>
     </message>
     <message>
         <source>End show</source>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -736,7 +724,7 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración de la presentación</translation>
+        <translation>Presentar en diapositivas</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -786,10 +774,6 @@
         <translation>Girar hacia la derecha</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Mover a la papelera</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>No destacar</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Favorito</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>No se econtraron archivos de imágen</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Abrir imagen</translation>
     </message>
 </context>
 <context>
@@ -856,7 +848,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar presentación</translation>
+        <translation>Presentar en diapositivas</translation>
     </message>
     <message>
         <source>Print</source>
@@ -869,10 +861,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Copiar al portapapeles</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Información de imagen</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Tema oscuro</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>El visor de imágenes deepin es una herramienta de visualización de imágenes con una interfaz moderna y rápida.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -992,7 +988,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Mostrar presentación</translation>
+        <translation>Presentar en diapositivas</translation>
     </message>
     <message>
         <source>Print</source>
@@ -1005,10 +1001,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Copiar al portapapeles</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Información de imagen</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Abrir imagen</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Todas las imágenes</translation>
     </message>
 </context>
 </TS>

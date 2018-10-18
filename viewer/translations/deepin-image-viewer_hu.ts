@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Verzió:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Képnézegető egy stílusos és sima képkezelő.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Egy alkalmazás képek kezeléséhez, képek megtekintéséhez és alapvető képszerkesztéshez.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Ez a fájl több oldalt tartalmaz, kérem használja az Evince-t az össze oldal megtekintéséhez.</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Másolás vágólapra</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Áthelyezés a kukába</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Hozzáadás új albumhoz</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -409,43 +401,43 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation>Nincs igazítás</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation>Oldal igazítása képhez</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation>Kép igazítása oldalhoz</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation>Méretezés:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="unfinished"/>
+        <translation>Milliméter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="unfinished"/>
+        <translation>Centiméter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation>Inch</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation>Kép pozíció</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation>Igazítás</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Kép beállításai</translation>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Másolás</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Áthelyezés a kukába</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Törlés az albumból</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Gyorsbillentyűk megtekintése</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Másolás</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Áthelyezés a kukába</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -771,30 +759,30 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Eredeti méret</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Ablakhoz igazítás</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Balra forgatás</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Jobbra forgatás</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Nem kedvenc</translation>
     </message>
     <message>
         <source>Favorite</source>
+        <translation>Kedvenc</translation>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -803,6 +791,10 @@
     <message>
         <source>No image files found</source>
         <translation>Nem találhatók képek</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Másolás vágólapra</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Áthelyezés a kukába</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Kedvenc</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Kép információ</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Sötét téma</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Másolás vágólapra</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Áthelyezés a kukába</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Törlés az albumból</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Képinformáció</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versão:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Visualizador de Imagens é um gerenciador de imagens moderno e sutil.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Seus recursos incluem gerenciamento, visualização e edição básica de imagens.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Copiar para área de transferência</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Enviar para a lixeira</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Remover do álbum</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Adicionar ao novo álbum</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Copiar</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Enviar para a lixeira</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Remover do álbum</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Exibir atalhos</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Enviar para a lixeira</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Girar no sentido horário</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Jogar na Lixeira</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Desfavoritar</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Favoritar</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Nenhum arquivo de imagem encontrado</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Abrir Imagem</translation>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Copiar para área de transferência</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Enviar para a lixeira</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Favorito</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Informações</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Tema Escuro</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>O Deepin Image Viewer é uma ferramenta de visualização de imagens com interface fashion e ótimo desempenho.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Copiar para área de transferência</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Enviar para a lixeira</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Remover do álbum</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Informações</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Abrir Imagem</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Todas as imagens</translation>
     </message>
 </context>
 </TS>

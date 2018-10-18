@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Version:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Der Deepin Bildbetrachter ist eine elegante &amp; schnelle Bildverwaltung.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Er bietet Bildverwaltung, Bildbetrachtung und einfache Bildbearbeitung.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>In Zwischenablage kopieren</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>In Papierkorb werfen</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Aus Album entfernen</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Zu neuem Album hinzufügen</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Kopieren</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>In Papierkorb werfen</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Aus Album entfernen</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Tastenkürzel anzeigen</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopieren</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>In Papierkorb werfen</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Im Uhrzeigersinn drehen</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>In den Papierkorb ablegen</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Favorit entfernen</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Favorit hinzufügen</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Keine Bilddateien gefunden</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>In Zwischenablage kopieren</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>In Papierkorb werfen</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Favorit</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Bildinformation</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Dunkles Design</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>In Zwischenablage kopieren</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>In Papierkorb werfen</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Aus Album entfernen</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Bildinformation</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

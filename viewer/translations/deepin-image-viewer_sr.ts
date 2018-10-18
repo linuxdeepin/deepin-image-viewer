@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Верзија:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Дипин Прегледач Слика је модеран &amp; префињен управник слика.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Омогућава управљање, прегледање и основно уређивање слика.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Копирај у бележницу</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Баци у смеће</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Уклони из албума</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Додај у нови албум</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Копирај</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Баци у смеће</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Уклони из албума</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Прикажи пречице</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Копирај</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Баци у смеће</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Ротирај удесно</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Баци у смеће</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Из омиљеног</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>У омиљено</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Нису пронађене датотеке са сликама</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Отвори слику</translation>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Копирај у бележницу</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Баци у смеће</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>У омиљено</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Својства слике</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Тамна тема</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Дипин Прегледач Слика је алат за приказ слика са модерним сучељем и добрим перформансама.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Копирај у бележницу</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Баци у смеће</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Уклони из албума</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Својства слике</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Отвори слику</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Све слике</translation>
     </message>
 </context>
 </TS>

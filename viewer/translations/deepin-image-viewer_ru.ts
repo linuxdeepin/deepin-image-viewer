@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Версия:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Просмотр изображений Deepin является современным и гладким менеджером изображений.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Он имеет функции управления просмотра и редактирования основных изображений.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Копировать в буфер обмена</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Удалить из альбома</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Добавить новый альбом</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Копировать</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Удалить из альбома</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Показать сочетания</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Копировать</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Вращать по часовой стрелке</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Выбросить в Корзину</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Удалить из избранного</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Избранное</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Изображение не найдено</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Копировать в буфер обмена</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Избранное</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Информация о изображении</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Темная тема</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Копировать в буфер обмена</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Удалить из альбома</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Информация о изображении</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

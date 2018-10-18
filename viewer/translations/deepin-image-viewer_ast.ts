@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versión:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>El visor Deepin d&apos;imáxenes ye un xestor d&apos;imáxenes modernu y estable.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Vien con xestión, visión y edición básica de semeyes.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Copiar al cartafueyu</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Desaniciar del álbum</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Amestar al álbum nuevu</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Copiar</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Desaniciar del álbum</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Amosar atayos</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,15 +774,15 @@
         <translation>Voltiar a drecha</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Tirar a la papelera</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -803,6 +791,10 @@
     <message>
         <source>No image files found</source>
         <translation>Nun s&apos;alcontraron imáxenes</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Copiar al cartafueyu</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Favorita</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Información d&apos;imaxe</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Tema prietu</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Copiar al cartafueyu</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Desaniciar del álbum</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>información d&apos;imaxe</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

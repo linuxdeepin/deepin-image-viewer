@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versie:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Afbeeldingen is een moderne en gepolijste afbeeldingenbeheerder.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Je kunt afbeeldingen bekijken en beheren en simpele bewerkingen toepassen.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Verplaatsen naar prullenbak</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Verwijderen uit album</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Toevoegen aan nieuw album</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Kopiëren</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Verplaatsen naar prullenbak</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Verwijderen uit album</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Sneltoetsen tonen</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiëren</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Naar rechts draaien</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Verplaatsen naar prullenbak</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Geen favoriet</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Favoriet</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Geen afbeeldingsbestanden gevonden</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Afbeelding openen</translation>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Verplaatsen naar prullenbak</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Favoriet</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Afbeeldingsinformatie</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Donker thema</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin Afbeeldingen is een moderne en gepolijste afbeeldingenbeheerder, met vloeiende prestaties.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Verplaatsen naar prullenbak</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Verwijderen uit album</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Afbeeldingsinformatie</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Afbeelding openen</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Alle afbeeldingen</translation>
     </message>
 </context>
 </TS>

@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Različica:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Pregledovalnik fotografij Deepin je gladek in moden upravitelj fotografij.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Z njim je možno upravljati, pregledovati in osnovno urejati fotografije.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Kopiraj v odložišče</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Vrzi v smeti</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Odstrani iz albuma</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Dodaj v nov album</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Kopiraj</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Vrzi v smeti</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Odstrani iz albuma</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Prikaži bližnjice</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiraj</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Vrzi v smeti</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Zasukaj v desno</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Vrzi v smeti</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Odstrani iz priljubljenih</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Dodaj med priljubljene</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Ne najdem fotografij</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Kopiraj v odložišče</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Vrzi v smeti</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Dodaj med priljubljene</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Informacije o sliki</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Temna tema</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Kopiraj v odložišče</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Vrzi v smeti</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Odstrani iz albuma</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Informacije o sliki</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

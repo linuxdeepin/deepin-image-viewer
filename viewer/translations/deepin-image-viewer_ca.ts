@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versió:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>El Visualitzador d&apos;imatges del Deepin és un gestor d&apos;imatges modern i fàcil d&apos;usar.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Té les funcions de gestió, visualització i edició bàsica d&apos;imatges.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Copia al porta-retalls</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Elimina de l&apos;àlbum</translation>
     </message>
@@ -306,6 +294,10 @@
     <message>
         <source>Add to new album</source>
         <translation>Afegeix a un àlbum nou</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -548,10 +540,6 @@
         <translation>Copia</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Elimina de l&apos;àlbum</translation>
     </message>
@@ -619,6 +607,10 @@
         <source>Display shortcuts</source>
         <translation>Mostra les dreceres</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -671,10 +663,6 @@
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -786,10 +774,6 @@
         <translation>Gira a la dreta</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>No favorit</translation>
     </message>
@@ -797,12 +781,20 @@
         <source>Favorite</source>
         <translation>Favorit</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -871,10 +863,6 @@
         <translation>Copia al porta-retalls</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Favorit</translation>
     </message>
@@ -901,6 +889,10 @@
     <message>
         <source>Image info</source>
         <translation>Informació de la imatge</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -967,6 +959,10 @@
         <source>Dark theme</source>
         <translation>Tema fosc</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1007,10 +1003,6 @@
         <translation>Copia al porta-retalls</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Elimina de l&apos;àlbum</translation>
     </message>
@@ -1049,6 +1041,18 @@
     <message>
         <source>Image info</source>
         <translation>Informació de la imatge</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
