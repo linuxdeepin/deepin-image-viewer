@@ -159,13 +159,13 @@ void ViewPanel::initConnect()
 
 #ifdef LITE_DIV
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
-        QString filter = tr("Images");
+        QString filter = tr("All images");
 
         filter.append('(');
         filter.append(utils::image::supportedImageFormats().join(" "));
         filter.append(')');
 
-        const QStringList &image_list = QFileDialog::getOpenFileNames(this, tr("Select one or more image files to open"),
+        const QStringList &image_list = QFileDialog::getOpenFileNames(this, tr("Open Image"),
                                                                       QDir::currentPath(), filter, nullptr, QFileDialog::HideNameFilterDetails);
 
         if (image_list.isEmpty())

@@ -795,7 +795,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Open Image File</source>
+        <source>Open Image</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -962,7 +962,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Deepin Image Viewer is an image viewing tools with fashion interface and smooth performance.</source>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1045,15 +1045,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select one or more image files to open</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All images</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

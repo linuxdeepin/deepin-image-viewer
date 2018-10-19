@@ -274,7 +274,7 @@ void TopToolbar::initMenu()
     m_menu->addSeparator();
     qApp->setProductIcon(QIcon(":/images/logo/resources/images/logo/deepin-image-viewer.svg"));
 #ifdef LITE_DIV
-    qApp->setApplicationDescription(tr("Deepin Image Viewer is an image viewing tools with fashion interface and smooth performance."));
+    qApp->setApplicationDescription(tr("Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance."));
 #else
     qApp->setApplicationDescription(QString("%1\n%2\n").arg(tr("Deepin Image Viewer is a fashion "
               "& smooth image manager.")).arg(tr("It is featured with image management, image viewing "

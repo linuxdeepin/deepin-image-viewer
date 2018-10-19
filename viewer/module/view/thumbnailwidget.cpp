@@ -43,7 +43,7 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     m_tips->setObjectName("ThumbnailTips");
     m_tips->setText(tr("No image files found"));
 #else
-    DSuggestButton *button = new DSuggestButton(tr("Open Image File"), this);
+    DSuggestButton *button = new DSuggestButton(tr("Open Image"), this);
     button->setShortcut(QKeySequence("Ctrl+O"));
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 #endif
