@@ -1,3 +1,18 @@
+<a name="1.3.0"></a>
+## 1.3.0 (2018-10-24)
+
+
+#### Features
+
+*   add logo on topbar ([f2f70f5f](https://github.com/linuxdeepin/deepin-image-viewer/commit/f2f70f5f7c4ee4cf966bd3c21edeccbf0e41b716))
+
+#### Bug Fixes
+
+*   crash when press "Delete" ([8c67acc9](https://github.com/linuxdeepin/deepin-image-viewer/commit/8c67acc99a5d55fe39a0523aae71216475678c68))
+*   remove dtk old interface. ([59ec8eb6](https://github.com/linuxdeepin/deepin-image-viewer/commit/59ec8eb67982b0862071639042fd15d32e60aaac))
+
+
+
 <a name="1.2.23"></a>
 ### 1.2.23 (2018-07-20)
 
