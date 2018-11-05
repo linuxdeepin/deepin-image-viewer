@@ -41,9 +41,9 @@ const int SWITCH_IMAGE_DELAY = 300;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const QString FAVORITES_ALBUM_NAME = "My favorite";
 
-QString ss(const QString &text)
+QString ss(const QString &text, const QString &defaultValue)
 {
-    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
     str.replace(" ", "");
     return str;
 }
@@ -259,15 +259,15 @@ void ViewPanel::updateMenuContent()
     }
 
     if (window()->isFullScreen()) {
-        appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen"));
+        appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
     }
     else {
-        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
     }
 #ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
-    appendAction(IdPrint, tr("Print"), ss("Print"));
+    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
         QMenu *am = createAlbumMenu();
@@ -278,9 +278,9 @@ void ViewPanel::updateMenuContent()
 #endif
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdCopy, tr("Copy"), ss("Copy"));
-    appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
-    appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash"));
+    appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
+    appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard", "Ctrl+C"));
+    appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
 
 #ifndef LITE_DIV
     if (! m_vinfo.album.isEmpty()) {
@@ -306,33 +306,33 @@ void ViewPanel::updateMenuContent()
     /**************************************************************************/
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         appendAction(IdShowNavigationWindow,
-                     tr("Show navigation window"), ss("Show navigation window"));
+                     tr("Show navigation window"), ss("Show navigation window", ""));
     }
     else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         appendAction(IdHideNavigationWindow,
-                     tr("Hide navigation window"), ss("Hide navigation window"));
+                     tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_current->filePath)) {
         m_menu->addSeparator();
         appendAction(IdRotateClockwise,
-                     tr("Rotate clockwise"), ss("Rotate clockwise"));
+                     tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
         appendAction(IdRotateCounterclockwise,
-                     tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+                     tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_current->filePath))  {
         appendAction(IdSetAsWallpaper,
-                     tr("Set as wallpaper"), ss("Set as wallpaper"));
+                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
     }
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase)
 #endif
     {
         appendAction(IdDisplayInFileManager,
-                     tr("Display in file manager"), ss("Display in file manager"));
+                     tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
     }
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info"));
+    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Enter"));
 }
 
 void ViewPanel::initShortcut()
