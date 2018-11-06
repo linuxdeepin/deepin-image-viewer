@@ -240,7 +240,7 @@ bool CommandLine::processOption()
             qDebug() << "Set " << value << " as wallpaper.";
             dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
         }
-        else if (name == "new-window") {
+        else if (name.isEmpty() || name == "new-window") {
             viewImage("", {});
             return true;
         } else {
