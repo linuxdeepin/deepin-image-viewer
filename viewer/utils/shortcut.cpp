@@ -24,9 +24,9 @@ namespace {
 const QString VIEW_GROUP = "SHORTCUTVIEW";
 const QString ALBUM_GROUP = "SHORTCUTALBUM";
 
-QString ss(const QString &group, const QString &text)
+QString ss(const QString &group, const QString &text, const QString &defaultValue)
 {
-    return dApp->setter->value(group, text).toString();
+    return dApp->setter->value(group, text, defaultValue).toString();
 }
 
 }  //namespace
@@ -48,23 +48,23 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
 #ifndef LITE_DIV
     ShortcutItem(tr("View"), "Enter")<<
 #endif
-    ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen"))<<
+    ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen", "F11"))<<
 #ifndef LITE_DIV
     ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))<<
     ShortcutItem(tr("End show"),  ss(VIEW_GROUP, "End show"))<<
 #endif
-    ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy"))<<
+    ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy", "Ctrl + C"))<<
     ShortcutItem(tr("Delete"),  "Delete")<<
 #ifndef LITE_DIV
     ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))<<
     ShortcutItem(tr("Favorite"), ss(VIEW_GROUP, "Favorite"))<<
     ShortcutItem(tr("Unfavorite"), ss(VIEW_GROUP, "Unfavorite"))<<
 #endif
-    ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise"))<<
-    ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise"))<<
-    ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper"))<<
-    ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager"))<<
-    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info"))<<
+    ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise", "Ctrl + R"))<<
+    ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise", "Ctrl + Shift + R"))<<
+    ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F8"))<<
+    ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))<<
+    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
     ShortcutItem(tr("Previous"), "Left")<<
     ShortcutItem(tr("Next"), "Right")
                     #ifndef LITE_DIV
