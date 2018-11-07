@@ -794,7 +794,7 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Открыть Файл Изображения</translation>
     </message>
 </context>
 <context>
@@ -961,7 +961,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Image Viewer - это современный плавно работающий и изящный менеджер изображений</translation>
     </message>
 </context>
 <context>
@@ -1048,11 +1048,11 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Открыть Файл Изображения</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation>Все изображения</translation>
     </message>
 </context>
 </TS>
