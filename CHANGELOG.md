@@ -1,3 +1,15 @@
+<a name="1.3.1"></a>
+## 1.3.1 (2018-11-08)
+
+
+#### Bug Fixes
+
+*   empty command can start a new window ([577ec38b](https://github.com/linuxdeepin/deepin-image-viewer/commit/577ec38b2b4378113c44e2286b2ca668dc57c11e))
+*   shortcut preview info is empty ([239c9c9a](https://github.com/linuxdeepin/deepin-image-viewer/commit/239c9c9a8de61f5d0f3cbf5a05d7b009a4c68f38))
+*   shortcut is invalid ([74e17db2](https://github.com/linuxdeepin/deepin-image-viewer/commit/74e17db2fe4d869bb7d78697ad9666b58553a2ef))
+
+
+
 <a name="1.3.0"></a>
 ## 1.3.0 (2018-10-24)
 
