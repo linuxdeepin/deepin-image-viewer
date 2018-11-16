@@ -49,6 +49,9 @@
 #include <QPainter>
 #include <QPrintDialog>
 
+#include <DRecentManager>
+
+using namespace Dtk::Core;
 using namespace Dtk::Widget;
 
 namespace
@@ -810,9 +813,14 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
-
     } else {
         m_stack->setCurrentIndex(0);
+
+        // open success.
+        DRecentData data;
+        data.appName = "Deepin Image Viewer";
+        data.appExec = "deepin-image-viewer";
+        DRecentManager::addItem(path, data);
     }
     if (inDB) {
         emit updateTopLeftContentImage(path);
