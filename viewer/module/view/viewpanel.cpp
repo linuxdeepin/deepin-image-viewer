@@ -226,6 +226,15 @@ void ViewPanel::updateLocalImages()
 }
 
 #ifdef LITE_DIV
+bool compareByString(const DBImgInfo &str1, const DBImgInfo &str2)
+{
+    static QCollator sortCollator;
+
+    sortCollator.setNumericMode(true);
+
+    return sortCollator.compare(str1.fileName, str2.fileName) < 0;
+}
+
 // 将迭代器中的数据初始化给m_infos
 void ViewPanel::eatImageDirIterator()
 {
@@ -245,6 +254,7 @@ void ViewPanel::eatImageDirIterator()
     }
 
     m_imageDirIterator.reset(nullptr);
+    std::sort(m_infos.begin(), m_infos.end(), compareByString);
 
     auto cbegin = m_infos.cbegin();
     m_current = cbegin;
