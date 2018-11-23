@@ -1,3 +1,18 @@
+<a name="1.3.2"></a>
+## 1.3.2 (2018-11-23)
+
+
+#### Bug Fixes
+
+*   Update ts file and deepin vendor support ([230551db](https://github.com/linuxdeepin/deepin-image-viewer/commit/230551dbe2be6a6747cf8814eb39a383fa07850c))
+
+#### Features
+
+*   use the file name sort the image list ([55f7a87c](https://github.com/linuxdeepin/deepin-image-viewer/commit/55f7a87cba23f789afefd8684064cb3601cbe6c2))
+*   support the recent file spec. ([9e164ebb](https://github.com/linuxdeepin/deepin-image-viewer/commit/9e164ebb99c17860fe21b93b143c425bdb1dc962))
+
+
+
 <a name="1.3.1"></a>
 ## 1.3.1 (2018-11-08)
 
