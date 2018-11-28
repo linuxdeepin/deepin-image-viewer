@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -438,6 +440,13 @@
     <message>
         <source>Image Settings</source>
         <translation>图像设置</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished">图像设置</translation>
     </message>
 </context>
 <context>

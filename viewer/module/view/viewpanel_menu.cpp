@@ -175,7 +175,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        PrintHelper::showPrintDialog(QStringList(path));
+        PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     }
 #ifndef LITE_DIV

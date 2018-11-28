@@ -6,4 +6,22 @@
         <file>resources/images/logo/deepin_image_viewer_24.svg</file>
     </qresource>
     <qresource prefix="/"/>
+    <qresource prefix="/qt-project.org/dialogs">
+        <file>resources/images/qprintpreviewdialog/images/go-first-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/zoom-out-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/layout-landscape-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/view-page-one-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/go-last-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/go-next-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/view-page-sided-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/fit-page-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/zoom-in-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/fit-width-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/page-setup-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/layout-portrait-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/view-page-multi-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/go-previous-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/preview-24.svg</file>
+        <file>resources/images/qprintpreviewdialog/images/print-24.svg</file>
+    </qresource>
 </RCC>

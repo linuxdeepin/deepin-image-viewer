@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g fill="none" fill-rule="evenodd">
+    <path fill="#303030" fill-rule="nonzero" d="M5,5 L5,19 L19,19 L19,5 L5,5 Z M4,4 L20,4 L20,20 L4,20 L4,4 Z"/>
+    <path fill="#303030" d="M10,7 L7,7 L7,10 L6,10 L6,6 L10,6 L10,7 Z"/>
+    <path fill="#303030" d="M18,7 L15,7 L15,10 L14,10 L14,6 L18,6 L18,7 Z" transform="matrix(-1 0 0 1 32 0)"/>
+    <path fill="#303030" d="M10,15 L7,15 L7,18 L6,18 L6,14 L10,14 L10,15 Z" transform="matrix(1 0 0 -1 0 32)"/>
+    <path fill="#303030" d="M18,15 L15,15 L15,18 L14,18 L14,14 L18,14 L18,15 Z" transform="rotate(180 16 16)"/>
+  </g>
+</svg>

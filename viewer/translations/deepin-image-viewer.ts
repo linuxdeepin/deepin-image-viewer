@@ -443,6 +443,13 @@
     </message>
 </context>
 <context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
