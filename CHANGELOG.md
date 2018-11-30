@@ -1,3 +1,13 @@
+<a name="1.3.3"></a>
+## 1.3.3 (2018-11-30)
+
+
+#### Features
+
+*   support print preview ([c5c1cfef](https://github.com/linuxdeepin/deepin-image-viewer/commit/c5c1cfefada0fcd67d697620a6be51fae8e6f37c))
+
+
+
 <a name="1.3.2"></a>
 ## 1.3.2 (2018-11-23)
 
