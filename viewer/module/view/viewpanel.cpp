@@ -329,8 +329,12 @@ DBImgInfoList ViewPanel::getImageInfos(const QFileInfoList &infos)
     DBImgInfoList imageInfos;
     for (QFileInfo info : infos) {
         DBImgInfo imgInfo;
-        imgInfo.fileName = info.fileName();
-        imgInfo.filePath = info.absoluteFilePath();
+
+        // 在 Qt 5.6 上的一个Bug，QFileInfo("").absoluteFilePath()会返回当前目录的绝对路径
+        if (info.isFile()) {
+            imgInfo.fileName = info.fileName();
+            imgInfo.filePath = info.absoluteFilePath();
+        }
 
         imageInfos << imgInfo;
     }
