@@ -1,3 +1,13 @@
+<a name="1.3.5"></a>
+## 1.3.5 (2018-12-06)
+
+
+#### Bug Fixes
+
+*   the "Ctrl+C" shortcut is invalid ([e64adeca](https://github.com/linuxdeepin/deepin-image-viewer/commit/e64adeca7bd39f8dcbd3f49131a838528d489f64))
+
+
+
 <a name="1.3.4"></a>
 ## 1.3.4 (2018-12-06)
 
