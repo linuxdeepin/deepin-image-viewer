@@ -279,7 +279,7 @@ void ViewPanel::updateMenuContent()
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-    appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard", "Ctrl+C"));
+    appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard", QString()));
     appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
 
 #ifndef LITE_DIV
