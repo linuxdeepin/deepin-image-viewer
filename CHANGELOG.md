@@ -1,3 +1,14 @@
+<a name="1.3.4"></a>
+## 1.3.4 (2018-12-06)
+
+
+#### Bug Fixes
+
+*   decide image format form the image file content ([b2aa1c25](https://github.com/linuxdeepin/deepin-image-viewer/commit/b2aa1c25663283a4d1807982dcf5f7a4d75a758f))
+*   open the current path when the command lines is empty ([40c2618d](https://github.com/linuxdeepin/deepin-image-viewer/commit/40c2618d4a4f1bd1dae1fca7713b923bcf63d63f))
+
+
+
 <a name="1.3.3"></a>
 ## 1.3.3 (2018-11-30)
 
