@@ -19,10 +19,10 @@
 #include <QDebug>
 #include <QPainter>
 
-GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QByteArray &format, QGraphicsItem *parent)
+GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
 {
-    m_movie = new QMovie(fileName, format);
+    m_movie = new QMovie(fileName);
     QObject::connect(m_movie, &QMovie::frameChanged, this, [=] {
         if (m_movie.isNull()) return;
         setPixmap(m_movie->currentPixmap());

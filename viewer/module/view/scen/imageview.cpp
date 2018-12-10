@@ -181,15 +181,11 @@ void ImageView::setImage(const QString &path)
     } else {
         m_svgItem = nullptr;
         // Support gif and mng
-        QImageReader reader(path);
-
-        reader.setDecideFormatFromContent(true);
-
-        if (reader.imageCount() > 1) {
+        if (QMovie(path).frameCount() > 1) {
             m_pixmapItem = nullptr;
             s->clear();
             resetTransform();
-            m_movieItem = new GraphicsMovieItem(path, reader.format());
+            m_movieItem = new GraphicsMovieItem(path);
             m_movieItem->start();
             // Make sure item show in center of view after reload
             setSceneRect(m_movieItem->boundingRect());
@@ -205,7 +201,7 @@ void ImageView::setImage(const QString &path)
                 m_pixmapItem = nullptr;
                 s->clear();
                 resetTransform();
-                GraphicsMovieItem *loadingItem = new GraphicsMovieItem(m_loadingIconPath, "gif");
+                GraphicsMovieItem *loadingItem = new GraphicsMovieItem(m_loadingIconPath);
                 loadingItem->start();
                 // Make sure item show in center of view after reload
 

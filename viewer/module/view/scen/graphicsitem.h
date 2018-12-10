@@ -24,7 +24,7 @@ class QMovie;
 class GraphicsMovieItem : public QGraphicsPixmapItem, QObject
 {
 public:
-    explicit GraphicsMovieItem(const QString &fileName, const QByteArray &format, QGraphicsItem *parent = 0);
+    explicit GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent = 0);
     ~GraphicsMovieItem();
     bool isValid() const;
     void start();
