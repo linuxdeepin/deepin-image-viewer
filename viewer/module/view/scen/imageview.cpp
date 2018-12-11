@@ -520,9 +520,24 @@ void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme)
 
 void ImageView::wheelEvent(QWheelEvent *event)
 {
+    // Remember zoom anchor point.
+    const QPointF targetPos = event->pos();
+    const QPointF targetScenePos = mapToScene(targetPos.toPoint());
+
+    // Do the scaling.
     qreal factor = qPow(1.2, event->delta() / 240.0);
     setScaleValue(factor);
     event->accept();
+
+    // Restore the zoom anchor point.
+    //
+    // The Basic idea here is we don't care how the scene is scaled or transformed,
+    // we just want to restore the anchor point to the target position we've
+    // remembered, in the coordinate of the view/viewport.
+    const QPointF curPos = mapFromScene(targetScenePos);
+    const QPointF centerPos = QPointF(width() / 2.0, height() / 2.0) + (curPos - targetPos);
+    const QPointF centerScenePos = mapToScene(centerPos.toPoint());
+    centerOn(centerScenePos.x(), centerScenePos.y());
 
     emit scaled(imageRelativeScale() * 100);
     emit showScaleLabel();
