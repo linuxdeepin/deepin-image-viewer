@@ -29,6 +29,8 @@ class GraphicsMovieItem;
 class GraphicsPixmapItem;
 class QGraphicsSvgItem;
 class QThreadPool;
+class QGestureEvent;
+class QPinchGesture;
 QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
@@ -92,10 +94,17 @@ protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void dragEnterEvent(QDragEnterEvent *e) Q_DECL_OVERRIDE;
     void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+    bool event(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void onCacheFinish();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+
+    void scaleAtPoint(QPoint pos, qreal factor);
+
+    void handleGestureEvent(QGestureEvent *gesture);
+    void pinchTriggered(QPinchGesture *gesture);
+
 private:
     bool m_isFitImage;
     bool m_isFitWindow;

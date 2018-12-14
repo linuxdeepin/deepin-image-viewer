@@ -30,6 +30,7 @@
 #include <QHBoxLayout>
 #include <qmath.h>
 #include <QScrollBar>
+#include <QGestureEvent>
 
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
@@ -106,6 +107,8 @@ ImageView::ImageView(QWidget *parent)
     setResizeAnchor(QGraphicsView::AnchorViewCenter);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    grabGesture(Qt::PinchGesture);
 
     connect(&m_watcher, SIGNAL(finished()), this, SLOT(onCacheFinish()));
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
@@ -478,6 +481,14 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
     painter->restore();
 }
 
+bool ImageView::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture)
+        handleGestureEvent(static_cast<QGestureEvent*>(event));
+
+    QGraphicsView::event(event);
+}
+
 void ImageView::onCacheFinish()
 {
     QVariantList vl = m_watcher.result();
@@ -518,16 +529,14 @@ void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme)
     update();
 }
 
-void ImageView::wheelEvent(QWheelEvent *event)
+void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 {
     // Remember zoom anchor point.
-    const QPointF targetPos = event->pos();
+    const QPointF targetPos = pos;
     const QPointF targetScenePos = mapToScene(targetPos.toPoint());
 
     // Do the scaling.
-    qreal factor = qPow(1.2, event->delta() / 240.0);
     setScaleValue(factor);
-    event->accept();
 
     // Restore the zoom anchor point.
     //
@@ -538,7 +547,22 @@ void ImageView::wheelEvent(QWheelEvent *event)
     const QPointF centerPos = QPointF(width() / 2.0, height() / 2.0) + (curPos - targetPos);
     const QPointF centerScenePos = mapToScene(centerPos.toPoint());
     centerOn(centerScenePos.x(), centerScenePos.y());
+}
 
-    emit scaled(imageRelativeScale() * 100);
-    emit showScaleLabel();
+void ImageView::handleGestureEvent(QGestureEvent *gesture)
+{
+    if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+}
+
+void ImageView::pinchTriggered(QPinchGesture *gesture)
+{
+    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+    scaleAtPoint(pos, gesture->scaleFactor());
+}
+
+void ImageView::wheelEvent(QWheelEvent *event)
+{
+    qreal factor = qPow(1.2, event->delta() / 240.0);
+    scaleAtPoint(event->pos(), factor);
 }
