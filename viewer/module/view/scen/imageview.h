@@ -31,6 +31,7 @@ class QGraphicsSvgItem;
 class QThreadPool;
 class QGestureEvent;
 class QPinchGesture;
+class QSwipeGesture;
 QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
@@ -80,6 +81,9 @@ signals:
     void transformChanged();
     void showScaleLabel();
     void hideNavigation();
+    void nextRequested();
+    void previousRequested();
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 
@@ -104,6 +108,7 @@ private slots:
 
     void handleGestureEvent(QGestureEvent *gesture);
     void pinchTriggered(QPinchGesture *gesture);
+    void swipeTriggered(QSwipeGesture *gesture);
 
 private:
     bool m_isFitImage;

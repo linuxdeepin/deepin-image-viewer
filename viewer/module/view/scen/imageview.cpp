@@ -109,6 +109,7 @@ ImageView::ImageView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     grabGesture(Qt::PinchGesture);
+    grabGesture(Qt::SwipeGesture);
 
     connect(&m_watcher, SIGNAL(finished()), this, SLOT(onCacheFinish()));
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
@@ -551,14 +552,32 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
-    if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
-        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
+        swipeTriggered(static_cast<QSwipeGesture*>(swipe));
+    else if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture*>(pinch));
 }
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
 {
     QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
     scaleAtPoint(pos, gesture->scaleFactor());
+}
+
+void ImageView::swipeTriggered(QSwipeGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureFinished) {
+        if (gesture->horizontalDirection() == QSwipeGesture::Left
+                || gesture->verticalDirection() == QSwipeGesture::Up)
+        {
+            emit nextRequested();
+        }
+        else
+        {
+            emit previousRequested();
+        }
+    }
+
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)
