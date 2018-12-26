@@ -49,7 +49,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
 
     QSize tSize = reader.size();
     if (! tSize.isValid()) {
-        QStringList rl = getAllMetaData(path).value("Resolution").split("x");
+        QStringList rl = getAllMetaData(path).value("Dimension").split("x");
         if (rl.length() == 2) {
             tSize = QSize(QString(rl.first()).toInt(),
                            QString(rl.last()).toInt());

@@ -170,7 +170,7 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     w = w > 0 ? w : FreeImage_GetWidth(dib);
     int h = reader.size().height();
     h = h > 0 ? h : FreeImage_GetHeight(dib);
-    admMap.insert("Resolution", QString::number(w) + "x" + QString::number(h));
+    admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
     admMap.insert("FileName", info.fileName());
     admMap.insert("FileFormat", getFileFormat(path));
     admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));
