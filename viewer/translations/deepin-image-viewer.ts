@@ -335,7 +335,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Resolution</source>
+        <source>Dimension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
