@@ -112,22 +112,25 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
     MainWindow *w = new MainWindow(false);
     w->show();
+
     // Load image after all UI elements has been init
     // BottomToolbar pos not correct on init
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
 
-    TIMER_SINGLESHOT(50, {
-    SignalManager::ViewInfo vinfo;
-    vinfo.album = "";
+    QTimer::singleShot(300, this, [=] {
+
+        SignalManager::ViewInfo info;
+        info.album = "";
 #ifndef LITE_DIV
-    vinfo.inDatabase = false;
+        info.inDatabase = false;
 #endif
-    vinfo.lastPanel = nullptr;
-    vinfo.path = path;
-    vinfo.paths = paths;
-    emit dApp->signalM->viewImage(vinfo);
-                     }, path, paths)
+        info.lastPanel = nullptr;
+        info.path = path;
+        info.paths = paths;
+
+        emit dApp->signalM->viewImage(info);
+    });
 }
 
 bool CommandLine::processOption()

@@ -84,7 +84,7 @@ void ViewPanel::initSwitchButtons()
         const int EXTEND_SPACING = 15;
 
         DAnchors<PushButton> pb = preButton;
-        if (m_info->visibleRegion().isNull()) {
+        if (m_info && m_info->visibleRegion().isNull()) {
             pb.setLeftMargin(20);
         }
         else {

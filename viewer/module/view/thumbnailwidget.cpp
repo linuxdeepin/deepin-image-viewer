@@ -63,7 +63,8 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
             &ThumbnailWidget::onThemeChanged);
 }
 
-void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         m_inBorderColor = utils::common::DARK_BORDER_COLOR;
         if(m_isDefaultThumbnail)
@@ -78,7 +79,8 @@ void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     update();
 }
 
-void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail) {
+void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
+{
     if (thumbnail.isNull()) {
         if (isDeepMode()) {
             m_defaultImage = QPixmap(utils::view::DARK_DEFAULT_THUMBNAIL);
@@ -95,11 +97,13 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail) {
     update();
 }
 
-bool ThumbnailWidget::isDefaultThumbnail() {
+bool ThumbnailWidget::isDefaultThumbnail()
+{
     return m_isDefaultThumbnail;
 }
 
-void ThumbnailWidget::paintEvent(QPaintEvent *event) {
+void ThumbnailWidget::paintEvent(QPaintEvent *event)
+{
     Q_UNUSED(event);
     if (m_defaultImage.isNull()) {
         if (isDeepMode()) {
@@ -129,9 +133,13 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event) {
     painter.drawPixmap(imgRect, m_defaultImage);
 }
 
-void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event) {
-    Q_UNUSED(event);
+void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    QWidget::mouseMoveEvent(event);
+
     emit mouseHoverMoved();
 }
-ThumbnailWidget::~ThumbnailWidget(){
+
+ThumbnailWidget::~ThumbnailWidget()
+{
 }

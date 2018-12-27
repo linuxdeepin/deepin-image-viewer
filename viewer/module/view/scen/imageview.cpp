@@ -263,6 +263,22 @@ void ImageView::setScaleValue(qreal v)
     emit transformChanged();
 }
 
+void ImageView::autoFit()
+{
+    if (image().isNull())
+        return;
+
+    QSize image_size = image().size();
+
+    if ((image_size.width() >= width() ||
+         image_size.height() >= height()) &&
+            width() > 0 && height() > 0) {
+        fitWindow();
+    } else {
+        fitImage();
+    }
+}
+
 const QImage ImageView::image()
 {
     if (m_movieItem) {           // bit-map
@@ -505,13 +521,7 @@ void ImageView::onCacheFinish()
             // Make sure item show in center of view after reload
             setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
-
-            if ((width() < pixmap.width() || height() < pixmap.height())
-                    && width() > 0 && height() > 0) {
-                fitWindow();
-            } else {
-                fitImage();
-            }
+            autoFit();
 
             emit imageChanged(path);
         }

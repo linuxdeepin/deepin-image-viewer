@@ -116,7 +116,6 @@ private:
     const QStringList paths() const;
 
 private slots:
-    void resetImageGeometry();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     void updateLocalImages();

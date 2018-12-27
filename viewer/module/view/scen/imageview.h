@@ -58,6 +58,8 @@ public:
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
+    void autoFit();
+
     const QImage image();
     qreal imageRelativeScale() const;
     qreal windowRelativeScale() const;

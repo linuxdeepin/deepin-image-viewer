@@ -479,7 +479,6 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     } else if (m_viewB->isFitWindow()) {
         m_viewB->fitWindow();
     }
-
 }
 
 void ViewPanel::timerEvent(QTimerEvent *e)
@@ -689,18 +688,6 @@ void ViewPanel::removeCurrentImage()
     }
 }
 
-void ViewPanel::resetImageGeometry()
-{
-#ifndef LITE_DIV
-    // If image's size is smaller than window's size, set to 1:1 size
-    if (m_viewB->windowRelativeScale() > 1) {
-        m_viewB->fitImage();
-    } else {
-        m_viewB->fitWindow();
-    }
-#endif
-}
-
 void ViewPanel::viewOnNewProcess(const QStringList &paths)
 {
     const QString pro = "deepin-image-viewer";
@@ -770,7 +757,7 @@ void ViewPanel::rotateImage(bool clockWise)
         m_viewB->rotateCounterclockwise();
     }
 
-    resetImageGeometry();
+    m_viewB->autoFit();
     m_info->updateInfo();
 
     emit imageChanged(m_current->filePath);
@@ -790,7 +777,7 @@ void ViewPanel::initViewContent()
         emit imageChanged(path);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
-        resetImageGeometry();
+        m_viewB->autoFit();
     });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
@@ -813,9 +800,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
 
     m_viewB->setImage(path);
-
     updateMenuContent();
-    resetImageGeometry();
 
     if (m_info) {
         m_info->setImagePath(path);
@@ -841,4 +826,6 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         emit updateTopLeftContentImage(path);
 //        emit updateCollectButton();
     }
+
+    QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
 }
