@@ -90,17 +90,17 @@ public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 
 protected:
-    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void dragEnterEvent(QDragEnterEvent *e) Q_DECL_OVERRIDE;
-    void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
-    bool event(QEvent *event) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void leaveEvent(QEvent *e) override;
+    void resizeEvent(QResizeEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *e) override;
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
+    bool event(QEvent *event) override;
 
 private slots:
     void onCacheFinish();

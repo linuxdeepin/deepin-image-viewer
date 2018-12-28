@@ -108,6 +108,8 @@ ImageView::ImageView(QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    viewport()->setCursor(Qt::ArrowCursor);
+
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
 
@@ -415,41 +417,34 @@ void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 
 void ImageView::mouseReleaseEvent(QMouseEvent *e)
 {
-    if (!items().isEmpty()) {
-        items().first()->setCursor(Qt::ArrowCursor);
-        dApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
-    }
-
-    dApp->setOverrideCursor(QCursor(Qt::OpenHandCursor));
     QGraphicsView::mouseReleaseEvent(e);
+
+    viewport()->setCursor(Qt::ArrowCursor);
 }
 
 void ImageView::mousePressEvent(QMouseEvent *e)
 {
-    emit clicked();
-
-    if (!items().isEmpty()) {
-        items().first()->setCursor(Qt::ArrowCursor);
-    }
-
     QGraphicsView::mousePressEvent(e);
+
+    viewport()->unsetCursor();
+    viewport()->setCursor(Qt::ArrowCursor);
+
+    emit clicked();
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
-    if (! (e->buttons() | Qt::NoButton)) {
-        if (!items().isEmpty()) {
-            items().first()->setCursor(Qt::ArrowCursor);
-        }
+    dApp->restoreOverrideCursor();
+
+    if (!(e->buttons() | Qt::NoButton)) {
+        viewport()->setCursor(Qt::ArrowCursor);
 
         emit mouseHoverMoved();
     } else {
-        if (! items().isEmpty()) {
-            items().first()->setCursor(Qt::ClosedHandCursor);
-        }
+        QGraphicsView::mouseMoveEvent(e);
+        viewport()->setCursor(Qt::ClosedHandCursor);
 
         emit transformChanged();
-        QGraphicsView::mouseMoveEvent(e);
     }
 }
 
