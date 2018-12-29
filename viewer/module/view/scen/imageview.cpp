@@ -434,8 +434,6 @@ void ImageView::mousePressEvent(QMouseEvent *e)
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
-    dApp->restoreOverrideCursor();
-
     if (!(e->buttons() | Qt::NoButton)) {
         viewport()->setCursor(Qt::ArrowCursor);
 

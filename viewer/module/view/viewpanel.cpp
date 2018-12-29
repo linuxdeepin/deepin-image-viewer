@@ -485,7 +485,7 @@ void ViewPanel::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() == m_hideCursorTid &&
             !m_menu->isVisible() && !m_printDialogVisible) {
-        dApp->setOverrideCursor(Qt::BlankCursor);
+        m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
 
     ModulePanel::timerEvent(e);
@@ -609,16 +609,15 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
 void ViewPanel::toggleFullScreen()
 {
-    dApp->restoreOverrideCursor();
-
     if (window()->isFullScreen()) {
         showNormal();
         killTimer(m_hideCursorTid);
         m_hideCursorTid = 0;
+        m_viewB->viewport()->setCursor(Qt::ArrowCursor);
     } else {
         showFullScreen();
         if (!m_menu->isVisible()) {
-            dApp->setOverrideCursor(Qt::BlankCursor);
+            m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     }
