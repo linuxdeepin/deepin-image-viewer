@@ -297,7 +297,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -333,8 +333,8 @@
         <translation>Tarikh diubahsuai</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolusi</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -438,6 +438,13 @@
     <message>
         <source>Image Settings</source>
         <translation>Tetapan Imej</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -609,7 +616,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -783,7 +790,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -794,7 +801,7 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Buka Imej</translation>
     </message>
 </context>
 <context>
@@ -892,7 +899,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -961,7 +968,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Pelihat Imej Deepin merupakan pengurus imej dengan antaramuka berfesyen dan prestasi yang lancar.</translation>
     </message>
 </context>
 <context>
@@ -1044,15 +1051,15 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Buka Imej</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation>Semua imej</translation>
     </message>
 </context>
 </TS>

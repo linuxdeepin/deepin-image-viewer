@@ -333,8 +333,8 @@
         <translation>Tanggal dimodifikasi</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolusi</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation type="unfinished"/>

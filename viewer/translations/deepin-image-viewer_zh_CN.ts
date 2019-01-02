@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -335,8 +333,8 @@
         <translation>修改时间</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>分辨率</translation>
+        <source>Dimension</source>
+        <translation>尺寸</translation>
     </message>
     <message>
         <source>File size</source>
@@ -372,7 +370,7 @@
     </message>
     <message>
         <source>ISO</source>
-        <translation>IOS感光度</translation>
+        <translation>ISO感光度</translation>
     </message>
     <message>
         <source>Max aperture</source>
@@ -446,7 +444,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished">图像设置</translation>
+        <translation>图像设置</translation>
     </message>
 </context>
 <context>

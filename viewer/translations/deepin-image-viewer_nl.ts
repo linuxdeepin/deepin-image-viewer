@@ -333,8 +333,8 @@
         <translation>Bewerkt op</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolutie</translation>
+        <source>Dimension</source>
+        <translation>Afmetingen</translation>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation>Aanpassing</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Afbeeldingsinstellingen</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation>Afbeeldingsinstellingen</translation>

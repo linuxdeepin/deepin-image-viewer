@@ -333,8 +333,8 @@
         <translation>Data de modificació</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolució</translation>
+        <source>Dimension</source>
+        <translation>Dimensió</translation>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation>Escala</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Configuració de la imatge</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation>Configuració de la imatge</translation>

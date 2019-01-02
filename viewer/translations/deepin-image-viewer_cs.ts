@@ -333,8 +333,8 @@
         <translation>Změněno</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Rozlišení</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -438,6 +438,13 @@
     <message>
         <source>Image Settings</source>
         <translation>Nastavení obrázku</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

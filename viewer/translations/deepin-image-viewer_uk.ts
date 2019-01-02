@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Переглядач зображень Deepin</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Гаразд</translation>
     </message>
     <message>
         <source>New album</source>
@@ -79,7 +79,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Видалити</translation>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -117,7 +117,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Слайд шоу</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -129,14 +129,14 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Видалити</translation>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Переглядач зображень Deepin</translation>
     </message>
 </context>
 <context>
@@ -154,7 +154,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Гаразд</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
@@ -204,7 +204,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Видалити</translation>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -297,7 +297,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -333,8 +333,8 @@
         <translation>Дата зміни</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Роздільна здатність</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -438,6 +438,13 @@
     <message>
         <source>Image Settings</source>
         <translation>Налаштування зображення</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -609,7 +616,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -706,7 +713,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Видалити</translation>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -783,7 +790,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -794,7 +801,7 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Відкрити зображення</translation>
     </message>
 </context>
 <context>
@@ -892,7 +899,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -961,7 +968,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Переглядач зображень Deepin — програма для перегляду зображень із сучасним інтерфейсом та зручностями у користуванні.</translation>
     </message>
 </context>
 <context>
@@ -1044,15 +1051,15 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Вилучити</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Відкрити зображення</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation>усі зображення</translation>
     </message>
 </context>
 </TS>

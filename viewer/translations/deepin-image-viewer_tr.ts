@@ -333,8 +333,8 @@
         <translation>Değiştirilme Tarihi</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Çözünürlük</translation>
+        <source>Dimension</source>
+        <translation>Boyut</translation>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation>Ölçeklendirme</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Görsel Ayarları</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation>Görsel Ayarları</translation>

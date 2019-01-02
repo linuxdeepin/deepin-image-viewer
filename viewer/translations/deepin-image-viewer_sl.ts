@@ -333,8 +333,8 @@
         <translation>Datum spremembe</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Ločljivost</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -438,6 +438,13 @@
     <message>
         <source>Image Settings</source>
         <translation>Nastavitve slike</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

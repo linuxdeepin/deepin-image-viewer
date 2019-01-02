@@ -333,8 +333,8 @@
         <translation>Keitimo data</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Raiška</translation>
+        <source>Dimension</source>
+        <translation>Matmenys</translation>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation>Mastelio keitimas</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Paveikslo nustatymai</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation>Paveikslo nustatymai</translation>

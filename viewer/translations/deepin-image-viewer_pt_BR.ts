@@ -333,8 +333,8 @@
         <translation>Data modificada</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolução</translation>
+        <source>Dimension</source>
+        <translation>Dimensão</translation>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation>Escala</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Configurações da Imagem</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation>Configurações da Imagem</translation>

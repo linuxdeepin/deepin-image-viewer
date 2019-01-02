@@ -333,8 +333,8 @@
         <translation>Измењено</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Резолуција</translation>
+        <source>Dimension</source>
+        <translation>Димензије</translation>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation>Скалирање</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Поставке слике</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation>Поставке слике</translation>

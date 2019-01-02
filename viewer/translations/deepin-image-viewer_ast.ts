@@ -333,8 +333,8 @@
         <translation>Data de modificación</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolución</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation>Escaláu</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation type="unfinished"/>
@@ -1052,7 +1059,7 @@
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation>Toles imáxenes</translation>
     </message>
 </context>
 </TS>

@@ -22,11 +22,11 @@
     </message>
     <message>
         <source>album</source>
-        <translation>album</translation>
+        <translation>álbum</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>albuns</translation>
+        <translation>álbuns</translation>
     </message>
     <message>
         <source>Manage sync</source>
@@ -49,7 +49,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo album</translation>
+        <translation>Novo álbum</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -64,14 +64,14 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Meus favoritos</translation>
+        <translation>Os meus favoritos</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Tem a certeza que deseja eliminar este album?</translation>
+        <translation>Tem a certeza que deseja eliminar este álbum?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -86,11 +86,11 @@
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>Voltar</translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Meus favoritos</translation>
+        <translation>Os meus favoritos</translation>
     </message>
     <message>
         <source>Timeline</source>
@@ -117,7 +117,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de Slides</translation>
+        <translation>Diaporama</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -158,7 +158,7 @@
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Tem a certeza que deseja adicionar estas imagens para o album?</translation>
+        <translation>Tem a certeza que deseja adicionar estas imagens ao álbum?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
@@ -333,8 +333,8 @@
         <translation>Data de modificação</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolução</translation>
+        <source>Dimension</source>
+        <translation>Dimensão</translation>
     </message>
     <message>
         <source>File size</source>
@@ -438,6 +438,13 @@
     <message>
         <source>Image Settings</source>
         <translation>Definições da Imagem</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Definições de imagem</translation>
     </message>
 </context>
 <context>

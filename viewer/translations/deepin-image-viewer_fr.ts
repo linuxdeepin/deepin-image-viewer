@@ -333,8 +333,8 @@
         <translation>Date de modification</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Résolution </translation>
+        <source>Dimension</source>
+        <translation>Dimension</translation>
     </message>
     <message>
         <source>File size</source>
@@ -438,6 +438,13 @@
     <message>
         <source>Image Settings</source>
         <translation>Paramètres de l&apos;image</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Paramètres d&apos;image</translation>
     </message>
 </context>
 <context>
@@ -961,7 +968,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin Image Viewer est un outil de visionnage d&apos;image avec une interface simple et des performances accrue.</translation>
+        <translation>Visionneur d&apos;images Deepin est un outil de visionnage d&apos;image avec une interface simple et des performances accrue.</translation>
     </message>
 </context>
 <context>

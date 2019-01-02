@@ -297,7 +297,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Премахване</translation>
     </message>
 </context>
 <context>
@@ -333,8 +333,8 @@
         <translation>Дата на промяна</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Резолюция</translation>
+        <source>Dimension</source>
+        <translation>Размери</translation>
     </message>
     <message>
         <source>File size</source>
@@ -435,6 +435,13 @@
         <source>Scaling</source>
         <translation>Мащабиране</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Настройки на картината</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation>Настройки на картината</translation>
@@ -609,7 +616,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Премахване</translation>
     </message>
 </context>
 <context>
@@ -783,7 +790,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Премахване</translation>
     </message>
 </context>
 <context>
@@ -794,7 +801,7 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Отваряне на изображение</translation>
     </message>
 </context>
 <context>
@@ -892,7 +899,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Премахване</translation>
     </message>
 </context>
 <context>
@@ -961,7 +968,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin преглед на изображения е инструмент за преглед на изображения с моден интерфейс и гладко изпълнение.</translation>
     </message>
 </context>
 <context>
@@ -1044,15 +1051,15 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Премахване</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Отваряне на изображение</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation>Всички изображения</translation>
     </message>
 </context>
 </TS>
