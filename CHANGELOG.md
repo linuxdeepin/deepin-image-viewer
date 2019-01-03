@@ -1,3 +1,24 @@
+<a name="1.3.7"></a>
+##  1.3.7 (2019-01-03)
+
+
+#### Features
+
+*   support open svg ([86527b70](https://github.com/linuxdeepin/deepin-image-viewer/commit/86527b70dace2c644fe70c8c7bab19fa373dbd8b))
+*   add swipe to go preview/next support ([14fb8336](https://github.com/linuxdeepin/deepin-image-viewer/commit/14fb8336f3dcbf1c62857e9528e85918c89db106))
+*   add pinch to zoom gesture ([ab865ddc](https://github.com/linuxdeepin/deepin-image-viewer/commit/ab865ddcc517eaf0f9fedc19485c13dced492d00))
+*   zoom under the cursor ([5869b709](https://github.com/linuxdeepin/deepin-image-viewer/commit/5869b709006756cc909b2b264e749ec1dc97ce48))
+
+#### Bug Fixes
+
+*   use build version. ([b8c63818](https://github.com/linuxdeepin/deepin-image-viewer/commit/b8c63818b93454f324c3d9519ace2a281d0d995b))
+*   navigation bar close button. ([8a401acd](https://github.com/linuxdeepin/deepin-image-viewer/commit/8a401acdce9e442ed0c009fe09bafe02bc1f0af9))
+*   fullscreen right menu cursor. ([14b1811d](https://github.com/linuxdeepin/deepin-image-viewer/commit/14b1811d8866a1d7fed68d4524507f88b7aac666))
+*   image view cursor. ([6bbaa98f](https://github.com/linuxdeepin/deepin-image-viewer/commit/6bbaa98f64bd120c375e948f64d4e592d4881206))
+*   fit the image to window. ([7b87149a](https://github.com/linuxdeepin/deepin-image-viewer/commit/7b87149a1f2b661f8013319c1b38db771f8ef885))
+
+
+
 <a name="1.3.6"></a>
 ## 1.3.6 (2018-12-11)
 
