@@ -334,7 +334,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation>Dimension</translation>
     </message>
     <message>
         <source>File size</source>
@@ -444,7 +444,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Billedindstillinger</translation>
     </message>
 </context>
 <context>
