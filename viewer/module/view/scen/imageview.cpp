@@ -496,7 +496,7 @@ bool ImageView::event(QEvent *event)
     if (event->type() == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent*>(event));
 
-    QGraphicsView::event(event);
+    return QGraphicsView::event(event);
 }
 
 void ImageView::onCacheFinish()
