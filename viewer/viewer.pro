@@ -89,3 +89,8 @@ INSTALLS = target desktop dbus_service icons manual manual_icon app_icon transla
 
 DISTFILES += \
     com.deepin.ImageViewer.service
+
+load(deepin_qt)
+host_sw_64: {
+    QMAKE_CXXFLAGS += -mieee
+}
