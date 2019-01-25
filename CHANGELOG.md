@@ -1,3 +1,13 @@
+<a name="1.3.8"></a>
+## 1.3.8 (2019-01-25)
+
+
+#### Bug Fixes
+
+*   a crash in ImageWidget::event ([90dc30b0](https://github.com/linuxdeepin/deepin-image-viewer/commit/90dc30b08a06a4ce06b53d1fd0dd096a8f19cd2f))
+
+
+
 <a name="1.3.7"></a>
 ##  1.3.7 (2019-01-03)
 
