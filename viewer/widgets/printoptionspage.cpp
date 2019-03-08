@@ -134,7 +134,7 @@ void PrintOptionsPage::init()
     defaultAlignment = Qt::AlignVCenter | Qt::AlignHCenter;
     m_posBtnGroup->button(defaultAlignment)->setChecked(true);
 
-    switch (m_settings.value("button_index", 1).toInt()) {
+    switch (m_settings.value("button_index", 2).toInt()) {
     case 0:
         m_noScaleBtn->click();
         break;
