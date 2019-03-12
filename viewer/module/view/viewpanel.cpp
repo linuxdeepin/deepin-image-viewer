@@ -45,9 +45,7 @@
 #include <QtConcurrent>
 #include <QFileDialog>
 
-#include <QPrinter>
 #include <QPainter>
-#include <QPrintDialog>
 
 #include <DRecentManager>
 

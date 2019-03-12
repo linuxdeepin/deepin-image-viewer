@@ -67,6 +67,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     QPrinter printer;
     QImage img;
 
+    printer.setColorMode(QPrinter::Color);
+
     QPrintPreviewDialog* printDialog = new QPrintPreviewDialog(&printer, parent);
     PrintOptionsPage *optionsPage = new PrintOptionsPage(printDialog);
     printDialog->resize(800, 800);

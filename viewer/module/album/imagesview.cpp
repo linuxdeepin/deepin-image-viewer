@@ -552,6 +552,7 @@ void  ImagesView::showPrintDialog(const QStringList &paths)
     QPrinter printer;
     QImage img;
     printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setColorMode(QPrinter::Color);
 
     QPrintDialog* printDialog = new QPrintDialog(&printer, this);
     PrintOptionsPage *optionsPage = new PrintOptionsPage;
