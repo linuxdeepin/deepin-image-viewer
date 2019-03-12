@@ -32,9 +32,6 @@
 #include <QShortcut>
 #include <QStyleFactory>
 
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
-
 namespace {
 
 const int SWITCH_IMAGE_DELAY = 300;

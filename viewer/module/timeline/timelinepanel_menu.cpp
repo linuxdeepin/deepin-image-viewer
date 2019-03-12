@@ -33,8 +33,6 @@
 #include <QtConcurrent>
 
 #include <QPainter>
-#include <QtPrintSupport/QPrinter>
-#include <QtPrintSupport/QPrintDialog>
 #include <iterator>
 
 namespace {
