@@ -491,6 +491,12 @@ void ViewPanel::timerEvent(QTimerEvent *e)
     ModulePanel::timerEvent(e);
 }
 
+void ViewPanel::wheelEvent(QWheelEvent *e)
+{
+    if (m_viewB && !m_viewB->path().isEmpty())
+        qApp->sendEvent(m_viewB->viewport(), e);
+}
+
 void ViewPanel::dropEvent(QDropEvent *event)
 {
     QList<QUrl> urls = event->mimeData()->urls();

@@ -587,4 +587,6 @@ void ImageView::wheelEvent(QWheelEvent *event)
 {
     qreal factor = qPow(1.2, event->delta() / 240.0);
     scaleAtPoint(event->pos(), factor);
+
+    event->accept();
 }

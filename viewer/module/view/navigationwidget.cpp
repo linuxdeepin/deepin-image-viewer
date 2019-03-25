@@ -42,6 +42,7 @@ using namespace Dtk::Widget;
 NavigationWidget::NavigationWidget(QWidget *parent)
     : QWidget(parent)
 {
+    hide();
     resize(150, 112);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     ImageButton *closeBtn = new ImageButton(":/resources/common/close_normal.png",
@@ -115,6 +116,10 @@ void NavigationWidget::setRectInImage(const QRect &r)
     m_r.setWidth((qreal)r.width() * m_imageScale);
     m_r.setHeight((qreal)r.height() * m_imageScale);
     update();
+
+    // x == 0并且y == 0时表示图片未超出窗口区域
+    if (!isAlwaysHidden())
+        setVisible(r.x() !=0 || r.y() != 0);
 }
 
 void NavigationWidget::mousePressEvent(QMouseEvent *e)
