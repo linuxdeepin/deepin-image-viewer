@@ -57,9 +57,11 @@ private:
 
     QStackedWidget  *m_panelStack;
 
+#ifndef LITE_DIV
     bool m_manager;
-    BottomToolbar   *m_bottomToolbar;
+#endif
     ExtensionPanel  *m_extensionPanel;
+    BottomToolbar   *m_bottomToolbar;
     TopToolbar      *m_topToolbar;
     QLabel          *m_topSeparatorLine;
     QLabel          *m_btmSeparatorLine;

@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versione:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer è un gestore immagini bello e veloce.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Fornisce una gestione delle immagini, la loro visualizzazione ed un editing base.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Copia negli appunti</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Elimina</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Rimuovi dall&apos;album</translation>
     </message>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Aggiungi in un nuovo album</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Data modifica</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Risoluzione</translation>
+        <source>Dimension</source>
+        <translation>Dimensione</translation>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Modello lente</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Nessuna scala</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Riempi la pagina</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Riempi la pagina</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Scala: </translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Millimetri</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centimetri</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Pollici</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Posizione immagine</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Scala</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Impostazioni immagine</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Impostazioni immagine</translation>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Copia</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Elimina</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Rimuovi dall&apos;album</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Visualizza scorciatoie</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Elimina</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -743,10 +781,6 @@
         <translation>Ruota in senso orario</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Sposta nel cestino</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Rimuovi dai preferiti</translation>
     </message>
@@ -754,12 +788,20 @@
         <source>Favorite</source>
         <translation>Aggiungi ai preferiti</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>File immagine non trovato</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Apri immagine</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Copia negli appunti</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Elimina</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Preferita</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Info immagine</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,11 @@
         <source>Dark theme</source>
         <translation>Tema scuro</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin Image Viewer è un gestore di immagini elegante e veloce.
+Localizzazione italiana a cura di Massimo A. Carofano.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1011,6 @@
         <translation>Copia negli appunti</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Elimina</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Rimuovi dall&apos;album</translation>
     </message>
@@ -1006,6 +1049,18 @@
     <message>
         <source>Image info</source>
         <translation>Info immagine</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Apri immagine</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Tutte le immagini</translation>
     </message>
 </context>
 </TS>

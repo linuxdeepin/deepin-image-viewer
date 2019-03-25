@@ -24,9 +24,9 @@ namespace {
 const QString VIEW_GROUP = "SHORTCUTVIEW";
 const QString ALBUM_GROUP = "SHORTCUTALBUM";
 
-QString ss(const QString &group, const QString &text)
+QString ss(const QString &group, const QString &text, const QString &defaultValue)
 {
-    return dApp->setter->value(group, text).toString();
+    return dApp->setter->value(group, text, defaultValue).toString();
 }
 
 }  //namespace
@@ -34,39 +34,58 @@ QString ss(const QString &group, const QString &text)
 Shortcut::Shortcut(QObject *parent) : QObject(parent)
 {
     ShortcutGroup group1;
+#ifndef LITE_DIV
     ShortcutGroup group2;
+#endif
     ShortcutGroup group3;
 
     group1.groupName = tr("Image Viewing");
+#ifndef LITE_DIV
     group2.groupName = tr("Album");
+#endif
     group3.groupName = tr("Settings");
     group1.groupItems<<
+#ifndef LITE_DIV
     ShortcutItem(tr("View"), "Enter")<<
-    ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen"))<<
+#endif
+    ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen", "F11"))<<
+#ifndef LITE_DIV
     ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))<<
     ShortcutItem(tr("End show"),  ss(VIEW_GROUP, "End show"))<<
-    ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy"))<<
-    ShortcutItem(tr("Throw to trash"),  "Delete")<<
+#endif
+    ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy", "Ctrl + C"))<<
+    ShortcutItem(tr("Delete"),  "Delete")<<
+#ifndef LITE_DIV
     ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))<<
     ShortcutItem(tr("Favorite"), ss(VIEW_GROUP, "Favorite"))<<
     ShortcutItem(tr("Unfavorite"), ss(VIEW_GROUP, "Unfavorite"))<<
-    ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise"))<<
-    ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise"))<<
-    ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper"))<<
-    ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager"))<<
-    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info"))<<
+#endif
+    ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise", "Ctrl + R"))<<
+    ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise", "Ctrl + Shift + R"))<<
+    ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F8"))<<
+    ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))<<
+    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
     ShortcutItem(tr("Previous"), "Left")<<
-    ShortcutItem(tr("Next"), "Right")<<
+    ShortcutItem(tr("Next"), "Right")
+                    #ifndef LITE_DIV
+                     <<
     ShortcutItem(tr("Previous screen"), "PageUp")<<
     ShortcutItem(tr("Next screen"), "PageDown");
     group2.groupItems<<ShortcutItem(tr("New album"), ss(ALBUM_GROUP, "New album"))<<
                        ShortcutItem(tr("Rename"), ss(ALBUM_GROUP, "Rename"));
+#else
+                        ;
+#endif
 
     group3.groupItems<<ShortcutItem(tr("Help"),  "F1")<<
                        ShortcutItem(tr("Exit"),  "Ctrl + Q")<<
                        ShortcutItem(tr("Display shortcuts"), "Ctrl + Shift + ?");
 
+#ifndef LITE_DIV
     m_shortcutGroups << group1 << group2 << group3;
+#else
+    m_shortcutGroups << group1 << group3;
+#endif
 
     //convert to json object
     QJsonArray jsonGroups;

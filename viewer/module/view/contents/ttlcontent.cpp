@@ -55,6 +55,7 @@ TTLContent::TTLContent(bool inDB,
     hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
     m_inDB = inDB;
+#ifndef LITE_DIV
     m_returnBtn = new ReturnButton();
     m_returnBtn->setMaxWidth(RETURN_BTN_MAX);
     m_returnBtn->setMaximumWidth(RETURN_BTN_MAX);
@@ -81,6 +82,7 @@ TTLContent::TTLContent(bool inDB,
     connect(m_returnBtn, &ReturnButton::returnBtnWidthChanged, this, [=]{
         updateFilenameLayout();
     });
+#endif
     // Adapt buttons////////////////////////////////////////////////////////////
     m_adaptImageBtn = new PushButton();
     m_adaptImageBtn->setObjectName("AdaptBtn");
@@ -107,6 +109,7 @@ TTLContent::TTLContent(bool inDB,
     m_clBT = new PushButton();
     m_clBT->setFixedSize(ICON_SIZE);
     m_clBT->setObjectName("CollectBtn");
+#ifndef LITE_DIV
     if (m_inDB) {
         hb->addWidget(m_clBT);
         connect(m_clBT, &PushButton::clicked, this, [=] {
@@ -120,6 +123,7 @@ TTLContent::TTLContent(bool inDB,
         });
         updateCollectButton();
     }
+#endif
 
     m_rotateLBtn = new PushButton();
     m_rotateLBtn->setFixedSize(ICON_SIZE);
@@ -142,7 +146,7 @@ TTLContent::TTLContent(bool inDB,
     m_trashBtn = new PushButton();
     m_trashBtn->setFixedSize(ICON_SIZE);
     m_trashBtn->setObjectName("TrashBtn");
-    m_trashBtn->setToolTip(tr("Throw to Trash"));
+    m_trashBtn->setToolTip(tr("Delete"));
     hb->addWidget(m_trashBtn);
 
     m_fileNameLabel = new ElidedLabel();
@@ -170,6 +174,7 @@ void TTLContent::updateFilenameLayout()
     int strWidth = fm.boundingRect(filename).width();
     int leftMargin = 0;
     int m_leftContentWidth = 0;
+#ifndef LITE_DIV
     if (m_inDB)
         m_leftContentWidth = m_returnBtn->buttonWidth() + 6
                 + (ICON_SIZE.width()+2)*6 + LEFT_SPACE;
@@ -178,6 +183,10 @@ void TTLContent::updateFilenameLayout()
         m_leftContentWidth = m_folderBtn->width()  + 8
                 + (ICON_SIZE.width()+2)*5 + LEFT_SPACE;
     }
+#else
+    // 39 为logo以及它的左右margin
+    m_leftContentWidth = 5 + (ICON_SIZE.width() + 2) * 5 + 39;
+#endif
 
     int ww = dApp->setter->value("MAINWINDOW",  "WindowWidth").toInt();
     m_windowWidth =  std::max(std::max(this->window()->geometry().width(), this->width()), ww);
@@ -216,7 +225,9 @@ void TTLContent::setCurrentDir(QString text) {
         text = tr("My favorite");
     }
 
+#ifndef LITE_DIV
     m_returnBtn->setText(text);
+#endif
 }
 
 void TTLContent::resizeEvent(QResizeEvent *event)
@@ -275,11 +286,13 @@ void TTLContent::updateCollectButton()
     if (! m_clBT->isEnabled()) {
         m_clBT->setDisabled(true);
     }
+#ifndef LITE_DIV
     else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
                                                       m_imagePath)) {
         m_clBT->setToolTip(tr("Unfavorite"));
         m_clBT->setChecked(true);
     }
+#endif
     else {
         m_clBT->setToolTip(tr("Favorite"));
         m_clBT->setChecked(false);

@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versi:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Pelihat Imej Deepin merupakan pengurus imej yang berfesyen &amp; lancar.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Ia difiturkan dengan pengurusan imej, pemaparan imej dan penyuntingan imej asas.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Fail ini mengandungi halaman berbilang, sila guna Evince untuk melihat semua halaman.</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Salin ke papan keratan</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Campak ke dalam tong sampah</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Tambah ke album baharu</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Padam</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Tarikh diubahsuai</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolusi</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Model kanta</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Tiada penskalaan</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Suai muat halaman dengan imej</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Suai muat imej dengan halaman</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Skala ke:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Millimeter</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Sentimeter</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Inci</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Kedudukan Imej</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Penskalaan</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Tetapan Imej</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Salin</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Campak ke dalam tong sampah</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Buang dari album</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Papar pintasan</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Padam</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Salin</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Campak ke dalam tong sampah</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -728,31 +766,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Saiz 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Suai muat dengan tetingkap</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Kegemaran</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>Tiada fail imej ditemui</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Buka Imej</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Salin ke papan keratan</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Campak ke dalam tong sampah</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Kegemaran</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Maklumat imej</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Tema gelap</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Pelihat Imej Deepin merupakan pengurus imej dengan antaramuka berfesyen dan prestasi yang lancar.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Salin ke papan keratan</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Campak ke dalam tong sampah</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Buang dari album</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Maklumat imej</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Padam</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Buka Imej</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Semua imej</translation>
     </message>
 </context>
 </TS>

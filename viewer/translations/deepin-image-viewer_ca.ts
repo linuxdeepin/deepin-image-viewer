@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versió:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>El Visualitzador d&apos;imatges del Deepin és un gestor d&apos;imatges modern i fàcil d&apos;usar.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Té les funcions de gestió, visualització i edició bàsica d&apos;imatges.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Copia al porta-retalls</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Elimina de l&apos;àlbum</translation>
     </message>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Afegeix a un àlbum nou</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Data de modificació</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolució</translation>
+        <source>Dimension</source>
+        <translation>Dimensió</translation>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Model de la lent</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Sense escalar</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Ajusta la pàgina a la imatge</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Ajusta la imatge a la pàgina</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Escala a:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Milímetres</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centímetres</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Polzades</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Posició de la imatge</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Escala</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Configuració de la imatge</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Configuració de la imatge</translation>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Copia</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Elimina de l&apos;àlbum</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Mostra les dreceres</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -743,10 +781,6 @@
         <translation>Gira a la dreta</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>No favorit</translation>
     </message>
@@ -754,12 +788,20 @@
         <source>Favorite</source>
         <translation>Favorit</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Obre la imatge</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Copia al porta-retalls</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Favorit</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Informació de la imatge</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Tema fosc</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>El Visualitzador d&apos;imatges del Deepin és una eina de visualitzador d&apos;imatges amb una interfície moderna i un rendiment eficient.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Copia al porta-retalls</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Llença a la paperera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Elimina de l&apos;àlbum</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Informació de la imatge</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Obre la imatge</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Totes les imatges</translation>
     </message>
 </context>
 </TS>

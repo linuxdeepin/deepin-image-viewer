@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>اﻹصدار:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation> عارض الصور من ديبين : مدير للصور٫ عصري و سلس.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>يتميز بإدارة الصور٫ عرض الصور و التعديل البسيط عليها.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>نسخ إلى الحافظة </translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>نقل إلى سلة المحذوفات</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>حذف من اﻷلبوم</translation>
     </message>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>إضافة إلى ألبوم جديد</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>تاريخ التعديل</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>الدقة</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>طراز العدسة</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>نسخ</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>نقل إلى سلة المحذوفات</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>حذف من اﻷلبوم</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>اختصارات العرض</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>نسخ</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>نقل إلى سلة المحذوفات</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -743,15 +781,15 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>لم يتم العثور على صورة</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>نسخ إلى الحافظة </translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>نقل إلى سلة المحذوفات</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>المفضلة</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>معلومات الصورة</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>سمة داكنة</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>نسخ إلى الحافظة </translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>نقل إلى سلة المحذوفات</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>حذف من اﻷلبوم</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>معلومات الصورة</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

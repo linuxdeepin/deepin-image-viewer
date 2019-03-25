@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Версия:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Просмотр изображений Deepin является современным и гладким менеджером изображений.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Он имеет функции управления просмотра и редактирования основных изображений.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Копировать в буфер обмена</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Удалить из альбома</translation>
     </message>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Добавить новый альбом</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Дата изменения</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Разрешение</translation>
+        <source>Dimension</source>
+        <translation>Измерение</translation>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Модель линзы</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Без масштабирования</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Подгонка страницы к изображению</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Подгонка изображения к странице</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Масштабировать до:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Миллиметры</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Сантиметры</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Дюймы</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Позиция Изображения</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Масштабирование</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Настройки Изображения</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Настройки Изображения</translation>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Копировать</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Удалить из альбома</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Показать сочетания</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Копировать</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -743,10 +781,6 @@
         <translation>Вращать по часовой стрелке</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Выбросить в Корзину</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Удалить из избранного</translation>
     </message>
@@ -754,12 +788,20 @@
         <source>Favorite</source>
         <translation>Избранное</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Изображение не найдено</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Открыть Файл Изображения</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Копировать в буфер обмена</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Избранное</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Информация о изображении</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Темная тема</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin Image Viewer - это современный плавно работающий и изящный менеджер изображений</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Копировать в буфер обмена</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Выбросить в корзину</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Удалить из альбома</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Информация о изображении</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Открыть Файл Изображения</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Все изображения</translation>
     </message>
 </context>
 </TS>

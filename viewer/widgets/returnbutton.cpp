@@ -202,8 +202,6 @@ void ReturnButton::paintEvent(QPaintEvent *e)
 
     QMargins m = contentsMargins();
     int ph = 0;
-    int spacing = 0;
-    Q_UNUSED(spacing);
     qreal ration = this->devicePixelRatioF();
     QIcon icon(getPixmap());
 
@@ -225,7 +223,6 @@ void ReturnButton::paintEvent(QPaintEvent *e)
             const QRect pr(m.left(), (height() - ph) / 2, pixWidth, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap);
         }
-        spacing = m_spacing;
     }
 
     QFontMetrics fm(font());

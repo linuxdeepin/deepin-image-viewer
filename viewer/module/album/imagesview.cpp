@@ -261,9 +261,7 @@ void ImagesView::updateMenuContents()
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdCopy, tr("Copy"), ss("Copy"));
-    if (selectedCount == 1)
-        appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
-    appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
+    appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash"));
     appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
     m_menu->addSeparator();
     /**************************************************************************/
@@ -330,9 +328,6 @@ void ImagesView::onMenuItemClicked(QAction *action)
     }
     case IdCopy:
         utils::base::copyImageToClipboard(paths);
-        break;
-    case IdCopyToClipboard:
-        utils::base::copyOneImageToClipboard(path);
         break;
     case IdMoveToTrash: {
         popupDelDialog(paths);

@@ -170,7 +170,7 @@ bool RawIOHandler::read(QImage *image)
         unscaled = QImage(pixels,
                           output->width, output->height,
                           QImage::Format_RGB32)
-                // QImage::Format_RGB32 will cause window transparent, DONT know why
+                // QImage::Format_RGB32 will cause window transparent, DON'T know why
                 .convertToFormat(QImage::Format_ARGB32);
     }
 
@@ -187,7 +187,7 @@ bool RawIOHandler::read(QImage *image)
         }
     }
     d->raw->dcraw_clear_mem(output);
-    delete pixels;
+    delete[] pixels;
 
     return true;
 }

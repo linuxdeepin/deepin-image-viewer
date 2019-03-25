@@ -49,7 +49,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
 
     QSize tSize = reader.size();
     if (! tSize.isValid()) {
-        QStringList rl = getAllMetaData(path).value("Resolution").split("x");
+        QStringList rl = getAllMetaData(path).value("Dimension").split("x");
         if (rl.length() == 2) {
             tSize = QSize(QString(rl.first()).toInt(),
                            QString(rl.last()).toInt());
@@ -115,7 +115,7 @@ bool imageSupportRead(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
 
-    //FIXME: bellow file types will casue freeimages to crash on loading, 
+    //FIXME: file types below will cause freeimages to crash on loading,
     // take them here for good.
     QStringList errorList;
     errorList << "X3F";
@@ -519,6 +519,23 @@ bool thumbnailExist(const QString &path, ThumbnailType type)
     else {
         return false;
     }
+}
+
+static QStringList fromByteArrayList(const QByteArrayList &list)
+{
+    QStringList sList;
+
+    for (const QByteArray &i : list)
+        sList << "*." + QString::fromLatin1(i);
+
+    return sList;
+}
+
+QStringList supportedImageFormats()
+{
+    static QStringList list = fromByteArrayList(QImageReader::supportedImageFormats());
+
+    return list;
 }
 
 }  // namespace image

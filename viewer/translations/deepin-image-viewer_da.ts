@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Version:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin billedfremviser er en moderigtig og glat billedhåndtering.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Dens faciliteter er billedhåndtering, billedvisning og grundlæggende billedredigering.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Filen indeholder flere sider, brug venligst Evince til at vise alle sider.</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Kopiér til udklipsholder</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Tilføj til nyt album</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Ændringsdato</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Opløsning</translation>
+        <source>Dimension</source>
+        <translation>Dimension</translation>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Linsemodel</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Ingen skalering</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Tilpas side til billede</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Tilpas billede til side</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Skaler til:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Millimeter</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centimeter</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Tommer</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Placering af billede</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Skalering</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Indstillinger for billede</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Billedindstillinger</translation>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Kopiér</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Fjern fra album</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Vis genveje</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiér</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -728,31 +766,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>1:1 størrelse</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Tilpas til vindue</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Rotér mod uret</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Rotér med uret</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Fjern fra favorit</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Sæt som favorit</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
     </message>
 </context>
 <context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>Ingen billedfiler fundet</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Åbn billede</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Kopiér til udklipsholder</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Sæt som favorit</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Billedinfo</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Mørkt tema</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin billedfremviser er et billedfremviserværktøj med moderigtig brugerflade og glat ydelse.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Kopiér til udklipsholder</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Smid i papirkurv</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Fjern fra album</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Billedinfo</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Åbn billede</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Alle billeder</translation>
     </message>
 </context>
 </TS>

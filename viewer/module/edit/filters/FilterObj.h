@@ -7,7 +7,7 @@
 
 namespace filter2d {
 
-class FilterObj : public QObject, public virtual Filter2DBase // virtual: use implemention in XXXFilter
+class FilterObj : public QObject, public virtual Filter2DBase // virtual: use implementation in XXXFilter
 {
     Q_OBJECT
     Q_PROPERTY(qreal intensity READ intensity WRITE setIntensity NOTIFY intensityChanged)

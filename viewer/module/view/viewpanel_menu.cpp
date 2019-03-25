@@ -41,9 +41,9 @@ const int SWITCH_IMAGE_DELAY = 300;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const QString FAVORITES_ALBUM_NAME = "My favorite";
 
-QString ss(const QString &text)
+QString ss(const QString &text, const QString &defaultValue)
 {
-    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text).toString();
+    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
     str.replace(" ", "");
     return str;
 }
@@ -55,7 +55,6 @@ enum MenuItemId {
     IdPrint,
     IdAddToAlbum,
     IdCopy,
-    IdCopyToClipboard,
     IdMoveToTrash,
     IdRemoveFromTimeline,
     IdRemoveFromAlbum,
@@ -78,7 +77,11 @@ void ViewPanel::initPopupMenu()
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
-        if (! m_infos.isEmpty()) {
+        if (! m_infos.isEmpty()
+        #ifdef LITE_DIV
+                && !m_current->filePath.isEmpty()
+        #endif
+                ) {
             updateMenuContent();
             dApp->setOverrideCursor(Qt::ArrowCursor);
             m_menu->popup(QCursor::pos());
@@ -115,6 +118,7 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
     m_menu->addAction(ac);
 }
 
+#ifndef LITE_DIV
 QMenu *ViewPanel::createAlbumMenu()
 {
     if (m_infos.isEmpty() || m_current == m_infos.constEnd() || ! m_vinfo.inDatabase) {
@@ -145,6 +149,7 @@ QMenu *ViewPanel::createAlbumMenu()
 
     return am;
 }
+#endif
 
 void ViewPanel::onMenuItemClicked(QAction *action)
 {
@@ -169,9 +174,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        PrintHelper::showPrintDialog(QStringList(path));
+        PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     }
+#ifndef LITE_DIV
     case IdAddToAlbum: {
         const QString album = action->data().toString();
         if (album != "Add to new album") {
@@ -181,11 +187,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         }
         break;
     }
+#endif
     case IdCopy:
         copyImageToClipboard(QStringList(path));
-        break;
-    case IdCopyToClipboard:
-        copyOneImageToClipboard(path);
         break;
     case IdMoveToTrash:
         if (m_vinfo.inDatabase) {
@@ -195,6 +199,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             utils::base::trashFile(path);
         }
         break;
+#ifndef LITE_DIV
     case IdRemoveFromAlbum:
         DBManager::instance()->removeFromAlbum(m_vinfo.album, QStringList(path));
         break;
@@ -206,6 +211,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM_NAME, QStringList(path));
         emit updateCollectButton();
         break;
+#endif
     case IdShowNavigationWindow:
         m_nav->setAlwaysHidden(false);
         break;
@@ -249,24 +255,29 @@ void ViewPanel::updateMenuContent()
     }
 
     if (window()->isFullScreen()) {
-        appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen"));
+        appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
     }
     else {
-        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen"));
+        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
     }
+#ifndef LITE_DIV
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
-    appendAction(IdPrint, tr("Print"), ss("Print"));
+#endif
+    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+#ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
         QMenu *am = createAlbumMenu();
         if (am) {
             m_menu->addMenu(am);
         }
     }
+#endif
     m_menu->addSeparator();
     /**************************************************************************/
-    appendAction(IdCopy, tr("Copy"), ss("Copy"));
-    appendAction(IdCopyToClipboard, tr("Copy to clipboard"), ss("Copy to clipboard"));
-    appendAction(IdMoveToTrash, tr("Throw to trash"), ss("Throw to trash"));
+    appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
+    appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+
+#ifndef LITE_DIV
     if (! m_vinfo.album.isEmpty()) {
         appendAction(IdRemoveFromAlbum,
                      tr("Remove from album"), ss("Remove from album"));
@@ -285,34 +296,38 @@ void ViewPanel::updateMenuContent()
                          ss("Unfavorite"));
         }
     }
+#endif
     m_menu->addSeparator();
     /**************************************************************************/
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         appendAction(IdShowNavigationWindow,
-                     tr("Show navigation window"), ss("Show navigation window"));
+                     tr("Show navigation window"), ss("Show navigation window", ""));
     }
     else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         appendAction(IdHideNavigationWindow,
-                     tr("Hide navigation window"), ss("Hide navigation window"));
+                     tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_current->filePath)) {
         m_menu->addSeparator();
         appendAction(IdRotateClockwise,
-                     tr("Rotate clockwise"), ss("Rotate clockwise"));
+                     tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
         appendAction(IdRotateCounterclockwise,
-                     tr("Rotate counterclockwise"), ss("Rotate counterclockwise"));
+                     tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
     }
     /**************************************************************************/
     if (utils::image::imageSupportSave(m_current->filePath))  {
         appendAction(IdSetAsWallpaper,
-                     tr("Set as wallpaper"), ss("Set as wallpaper"));
+                     tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
     }
-    if (m_vinfo.inDatabase) {
+#ifndef LITE_DIV
+    if (m_vinfo.inDatabase)
+#endif
+    {
         appendAction(IdDisplayInFileManager,
-                     tr("Display in file manager"), ss("Display in file manager"));
+                     tr("Display in file manager"), ss("Display in file manager", "Ctrl+D"));
     }
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info"));
+    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Enter"));
 }
 
 void ViewPanel::initShortcut()
@@ -321,8 +336,9 @@ void ViewPanel::initShortcut()
     QTimer *dt = new QTimer(this);
     dt->setSingleShot(true);
     dt->setInterval(SWITCH_IMAGE_DELAY);
+    QShortcut *sc = nullptr;
     // Previous
-    QShortcut *sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
+    sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         if (! dt->isActive()) {
@@ -390,7 +406,11 @@ void ViewPanel::initShortcut()
 }
 
 void ViewPanel::popupDelDialog(const QString path) {
+#ifndef LITE_DIV
     const QStringList paths(path);
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);
     fdd->showInCenter(window());
+#else
+    Q_UNUSED(path)
+#endif
 }

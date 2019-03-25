@@ -20,12 +20,13 @@
 #include "module/modulepanel.h"
 #include "controller/dbmanager.h"
 #include "controller/viewerthememanager.h"
-#include "anchors.h"
+#include "danchors.h"
 #include "thumbnailwidget.h"
 #include "lockwidget.h"
 
 #include <QFileInfo>
 #include <QJsonObject>
+#include <QDirIterator>
 
 DWIDGET_USE_NAMESPACE
 
@@ -87,7 +88,9 @@ private:
 
     // Menu control
     void appendAction(int id, const QString &text, const QString &shortcut="");
+#ifndef LITE_DIV
     QMenu* createAlbumMenu();
+#endif
     void onMenuItemClicked(QAction *action);
     void updateMenuContent();
 
@@ -113,7 +116,6 @@ private:
     const QStringList paths() const;
 
 private slots:
-    void resetImageGeometry();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     void updateLocalImages();
@@ -133,11 +135,16 @@ private:
     LockWidget* m_lockWidget;
 
     // Floating component
-    Anchors<NavigationWidget> m_nav;
+    DAnchors<NavigationWidget> m_nav;
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
     DBImgInfoList::ConstIterator m_current;
+#ifdef LITE_DIV
+    QScopedPointer<QDirIterator> m_imageDirIterator;
+
+    void eatImageDirIterator();
+#endif
     QString m_currentImageLastDir = "";
 };
 #endif // VIEWPANEL_H

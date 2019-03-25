@@ -3,21 +3,25 @@ HEADERS += \
     $$PWD/wallpapersetter.h \
     $$PWD/commandline.h \
     $$PWD/configsetter.h \
-    $$PWD/divdbuscontroller.h \
-    $$PWD/exporter.h \
     $$PWD/globaleventfilter.h \
-    $$PWD/dbmanager.h \
-    $$PWD/viewerthememanager.h \
-    $$PWD/importer.h
+    $$PWD/viewerthememanager.h
 
 SOURCES += \
     $$PWD/signalmanager.cpp \
     $$PWD/wallpapersetter.cpp \
     $$PWD/commandline.cpp \
     $$PWD/configsetter.cpp \
-    $$PWD/divdbuscontroller.cpp \
-    $$PWD/exporter.cpp \
     $$PWD/globaleventfilter.cpp \
-    $$PWD/dbmanager.cpp \
-    $$PWD/viewerthememanager.cpp \
-    $$PWD/importer.cpp
+    $$PWD/viewerthememanager.cpp
+
+!isEmpty(FULL_FUNCTIONALITY) {
+    HEADERS += $$PWD/importer.h \
+               $$PWD/divdbuscontroller.h \
+               $$PWD/dbmanager.h \
+               $$PWD/exporter.h
+
+    SOURCES += $$PWD/importer.cpp \
+               $$PWD/divdbuscontroller.cpp \
+               $$PWD/dbmanager.cpp \
+               $$PWD/exporter.cpp
+}

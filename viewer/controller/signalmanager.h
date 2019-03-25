@@ -30,7 +30,11 @@ public:
     // For view images
     struct ViewInfo {
         ModulePanel *lastPanel;                 // For back to the last panel
+#ifndef LITE_DIV
         bool inDatabase = true;
+#else
+        static constexpr bool inDatabase = false;
+#endif
         bool fullScreen = false;
         QString album = QString();
         QString path;                           // Specific current open one

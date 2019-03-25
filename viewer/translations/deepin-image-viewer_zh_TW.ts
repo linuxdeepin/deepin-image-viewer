@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin 看圖是一款時尚且流暢的圖片管理器，</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>包含圖片管理、圖片檢視和基本編輯功能。</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>此檔案包含數頁，請使用 Evince 檢視全部頁面。</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>複製到剪貼簿</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>加到新相簿</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>刪除</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>修改時間</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>解析度</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>鏡頭型號</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>未縮放</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>將頁面縮放到圖片大小</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>將圖片縮放到頁面大小</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>縮放到：</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>毫米</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>公分</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>英寸</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>圖片位置</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>縮放</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>圖片設定</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>複製</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>從相簿移除</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>顯示快速鍵</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>刪除</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>複製</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -732,27 +770,27 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>縮放到視窗大小</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>逆時針旋轉</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>順時針旋轉</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>從我的最愛中移除</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>加到我的最愛</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>刪除</translation>
     </message>
 </context>
 <context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>找不到圖片檔案</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>開啟圖片</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>複製到剪貼簿</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>加到我的最愛</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>圖片資訊</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>刪除</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>深色模式</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin 看圖是款有著流行介面和順滑效能的圖片檢視工具。</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>複製到剪貼簿</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丟到回收桶</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>從相簿移除</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>圖片資訊</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>刪除</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>開啟圖片</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>所有圖片</translation>
     </message>
 </context>
 </TS>

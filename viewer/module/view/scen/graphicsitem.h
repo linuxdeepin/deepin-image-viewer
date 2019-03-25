@@ -39,6 +39,12 @@ class GraphicsPixmapItem : public QGraphicsPixmapItem
 public:
     explicit GraphicsPixmapItem(const QPixmap &pixmap);
     ~GraphicsPixmapItem();
+
+protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+private:
+    QPair<qreal, QPixmap> cachePixmap;
 };
 
 #endif // GRAPHICSMOVIEITEM_H

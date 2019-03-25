@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Версия:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Преглед на изображения е модерен и лесен за работа мениджър на изображения</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Предназначен е за управление на изображения, преглед на изображения и основни възможности за редактиране на изображение.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Копиране в системния буфер</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Изпращане в кошчето</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Премахване от албума</translation>
     </message>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Добави в нов албум</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Премахване</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Дата на промяна</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Резолюция</translation>
+        <source>Dimension</source>
+        <translation>Размери</translation>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Модел на обектива</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Без мащабиране</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Оразмери страницата по картината</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Оразмери картината по страницата</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Мащабирай по:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Милиметри</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Сантиметри</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Инчове</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Позиция на картината</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Мащабиране</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Настройки на картината</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Настройки на картината</translation>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Копиране</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Изпращане в кошчето</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Премахване от албума</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Покажи клавишните комбинации</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Премахване</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Копиране</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Изпращане в кошчето</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -743,10 +781,6 @@
         <translation>Завъртане по часовниковата стрелка</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Изпращане в кошчето</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Премахване от Любими</translation>
     </message>
@@ -754,12 +788,20 @@
         <source>Favorite</source>
         <translation>Любими</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Премахване</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Няма намерени изображения</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Отваряне на изображение</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Копиране в системния буфер</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Изпращане в кошчето</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Любими</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Информация за изображението</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Премахване</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Тъмна тема</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin преглед на изображения е инструмент за преглед на изображения с моден интерфейс и гладко изпълнение.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Копиране в системния буфер</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Изпращане в кошчето</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Премахване от албума</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Информация за изображението</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Премахване</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Отваряне на изображение</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Всички изображения</translation>
     </message>
 </context>
 </TS>

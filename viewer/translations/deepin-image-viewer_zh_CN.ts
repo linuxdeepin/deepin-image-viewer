@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -10,14 +8,6 @@
     <message>
         <source>Version:</source>
         <translation>版本：</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
     </message>
 </context>
 <context>
@@ -258,10 +248,6 @@
         <translation>复制到剪贴板</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>从相册中移除</translation>
     </message>
@@ -309,6 +295,10 @@
         <source>Add to new album</source>
         <translation>添加到新相册</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -343,8 +333,8 @@
         <translation>修改时间</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>分辨率</translation>
+        <source>Dimension</source>
+        <translation>尺寸</translation>
     </message>
     <message>
         <source>File size</source>
@@ -380,7 +370,7 @@
     </message>
     <message>
         <source>ISO</source>
-        <translation>IOS感光度</translation>
+        <translation>ISO感光度</translation>
     </message>
     <message>
         <source>Max aperture</source>
@@ -431,11 +421,11 @@
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>分米</translation>
+        <translation>厘米</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>英尺</translation>
+        <translation>英寸</translation>
     </message>
     <message>
         <source>Image Position</source>
@@ -445,6 +435,13 @@
         <source>Scaling</source>
         <translation>缩放</translation>
     </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>图像设置</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
         <translation>图像设置</translation>
@@ -550,10 +547,6 @@
         <translation>复制</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>从相册中移除</translation>
     </message>
@@ -621,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>显示快捷键</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -673,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>复制</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -788,10 +781,6 @@
         <translation>顺时针旋转</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>丢到回收站</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>取消收藏</translation>
     </message>
@@ -799,12 +788,20 @@
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>没有发现图片文件</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>打开图片</translation>
     </message>
 </context>
 <context>
@@ -873,10 +870,6 @@
         <translation>复制到剪贴板</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>收藏</translation>
     </message>
@@ -903,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>图片信息</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
     </message>
 </context>
 <context>
@@ -969,6 +966,10 @@
         <source>Dark theme</source>
         <translation>深色主题</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>深度看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1009,10 +1010,6 @@
         <translation>复制到剪贴板</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>丢到回收站</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>从相册中移除</translation>
     </message>
@@ -1051,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>图片信息</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>打开图片</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>所有图片</translation>
     </message>
 </context>
 </TS>

@@ -29,6 +29,9 @@ class GraphicsMovieItem;
 class GraphicsPixmapItem;
 class QGraphicsSvgItem;
 class QThreadPool;
+class QGestureEvent;
+class QPinchGesture;
+class QSwipeGesture;
 QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
@@ -55,6 +58,8 @@ public:
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
+    void autoFit();
+
     const QImage image();
     qreal imageRelativeScale() const;
     qreal windowRelativeScale() const;
@@ -78,23 +83,35 @@ signals:
     void transformChanged();
     void showScaleLabel();
     void hideNavigation();
+    void nextRequested();
+    void previousRequested();
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 
 protected:
-    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void dragEnterEvent(QDragEnterEvent *e) Q_DECL_OVERRIDE;
-    void drawBackground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void leaveEvent(QEvent *e) override;
+    void resizeEvent(QResizeEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *e) override;
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
+    bool event(QEvent *event) override;
 
 private slots:
     void onCacheFinish();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+
+    void scaleAtPoint(QPoint pos, qreal factor);
+
+    void handleGestureEvent(QGestureEvent *gesture);
+    void pinchTriggered(QPinchGesture *gesture);
+    void swipeTriggered(QSwipeGesture *gesture);
+
 private:
     bool m_isFitImage;
     bool m_isFitWindow;
@@ -106,8 +123,8 @@ private:
     QThreadPool *m_pool;
     DTK_WIDGET_NAMESPACE::Toast *m_toast;
 
-    QGraphicsSvgItem *m_svgItem;
-    GraphicsMovieItem *m_movieItem;
-    GraphicsPixmapItem *m_pixmapItem;
+    QGraphicsSvgItem *m_svgItem = nullptr;
+    GraphicsMovieItem *m_movieItem = nullptr;
+    GraphicsPixmapItem *m_pixmapItem = nullptr;
 };
 #endif // SVGVIEW_H

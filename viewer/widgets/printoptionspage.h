@@ -1,7 +1,7 @@
 #ifndef PRINTOPTIONSPAGE_H
 #define PRINTOPTIONSPAGE_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QRadioButton>
 #include <QDoubleSpinBox>
 #include <QButtonGroup>
@@ -9,7 +9,7 @@
 #include <QCheckBox>
 #include <QSettings>
 
-class PrintOptionsPage : public QWidget
+class PrintOptionsPage : public QDialog
 {
     Q_OBJECT
 
@@ -35,6 +35,9 @@ public:
     double scaleWidth();
     double scaleHeight();
     Qt::Alignment alignment();
+
+signals:
+    void valueChanged();
 
 private:
     void init();

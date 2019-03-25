@@ -1,6 +1,8 @@
+!isEmpty(FULL_FUNCTIONALITY) {
+    include (timeline/timeline.pri)
+    include (album/album.pri)
+}
 
-include (album/album.pri)
-include (timeline/timeline.pri)
 include (view/view.pri)
 #include (edit/edit.pri)
 include (slideshow/slideshow.pri)

@@ -43,11 +43,15 @@
 #include <QResizeEvent>
 #include <QStackedWidget>
 #include <QtConcurrent>
+#include <QFileDialog>
 
 #include <QPrinter>
 #include <QPainter>
 #include <QPrintDialog>
 
+#include <DRecentManager>
+
+using namespace Dtk::Core;
 using namespace Dtk::Widget;
 
 namespace
@@ -67,14 +71,18 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_info(nullptr)
     , m_stack(nullptr)
 {
+#ifndef LITE_DIV
     m_vinfo.inDatabase = false;
+#endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();
     initFloatingComponent();
 
     initConnect();
     initShortcut();
+#ifndef LITE_DIV
     initFileSystemWatcher();
+#endif
 
     initPopupMenu();
 
@@ -127,6 +135,7 @@ void ViewPanel::initConnect()
         //TODO: there will be some others panel
     });
 
+#ifndef LITE_DIV
     connect(dApp->signalM, &SignalManager::removedFromAlbum,
     this, [ = ](const QString & album, const QStringList & paths) {
         if (! isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty()) {
@@ -138,6 +147,7 @@ void ViewPanel::initConnect()
             }
         }
     });
+#endif
     connect(dApp->signalM, &SignalManager::imagesRemoved,
     this, [ = ](const DBImgInfoList & infos) {
         if (m_infos.length() > 0 && m_infos.cend() != m_current &&
@@ -149,8 +159,32 @@ void ViewPanel::initConnect()
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
+
+#ifdef LITE_DIV
+    connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
+        QString filter = tr("All images");
+
+        filter.append('(');
+        filter.append(utils::image::supportedImageFormats().join(" "));
+        filter.append(')');
+
+        const QStringList &image_list = QFileDialog::getOpenFileNames(this, tr("Open Image"),
+                                                                      QDir::currentPath(), filter, nullptr, QFileDialog::HideNameFilterDetails);
+
+        if (image_list.isEmpty())
+            return;
+
+        SignalManager::ViewInfo vinfo;
+
+        vinfo.path = image_list.first();
+        vinfo.paths = image_list;
+
+        onViewImage(vinfo);
+    });
+#endif
 }
 
+#ifndef LITE_DIV
 void ViewPanel::initFileSystemWatcher()
 {
     // Watch the local file changed if it open from file manager
@@ -177,6 +211,7 @@ void ViewPanel::initFileSystemWatcher()
         updateLocalImages();
     });
 }
+#endif
 
 void ViewPanel::updateLocalImages()
 {
@@ -189,6 +224,52 @@ void ViewPanel::updateLocalImages()
         }
     }
 }
+
+#ifdef LITE_DIV
+bool compareByString(const DBImgInfo &str1, const DBImgInfo &str2)
+{
+    static QCollator sortCollator;
+
+    sortCollator.setNumericMode(true);
+
+    return sortCollator.compare(str1.fileName, str2.fileName) < 0;
+}
+
+// 将迭代器中的数据初始化给m_infos
+void ViewPanel::eatImageDirIterator()
+{
+    if (!m_imageDirIterator)
+        return;
+
+    const QString currentImageFile = m_current->filePath;
+    m_infos.clear();
+
+    while (m_imageDirIterator->hasNext()) {
+        DBImgInfo info;
+
+        info.filePath = m_imageDirIterator->next();
+        info.fileName = m_imageDirIterator->fileInfo().fileName();
+
+        m_infos.append(info);
+    }
+
+    m_imageDirIterator.reset(nullptr);
+    std::sort(m_infos.begin(), m_infos.end(), compareByString);
+
+    auto cbegin = m_infos.cbegin();
+    m_current = cbegin;
+
+    while (cbegin != m_infos.cend()) {
+        if (cbegin->filePath == currentImageFile) {
+            m_current = cbegin;
+            break;
+        }
+
+        ++cbegin;
+    }
+}
+#endif
+
 void ViewPanel::mousePressEvent(QMouseEvent *e)
 {
     emit dApp->signalM->hideExtensionPanel();
@@ -248,8 +329,12 @@ DBImgInfoList ViewPanel::getImageInfos(const QFileInfoList &infos)
     DBImgInfoList imageInfos;
     for (QFileInfo info : infos) {
         DBImgInfo imgInfo;
-        imgInfo.fileName = info.fileName();
-        imgInfo.filePath = info.absoluteFilePath();
+
+        // 在 Qt 5.6 上的一个Bug，QFileInfo("").absoluteFilePath()会返回当前目录的绝对路径
+        if (info.isFile()) {
+            imgInfo.fileName = info.fileName();
+            imgInfo.filePath = info.absoluteFilePath();
+        }
 
         imageInfos << imgInfo;
     }
@@ -389,20 +474,18 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
-    if (m_viewB->isFitWindow()) {
-        m_viewB->fitWindow();
-    } else {
+    if (m_viewB->isFitImage()) {
         m_viewB->fitImage();
+    } else if (m_viewB->isFitWindow()) {
+        m_viewB->fitWindow();
     }
-
 }
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
-
     if (e->timerId() == m_hideCursorTid &&
             !m_menu->isVisible() && !m_printDialogVisible) {
-        dApp->setOverrideCursor(Qt::BlankCursor);
+        m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
 
     ModulePanel::timerEvent(e);
@@ -432,7 +515,16 @@ void ViewPanel::dropEvent(QDropEvent *event)
     }
 
     if (! paths.isEmpty()) {
+#ifdef LITE_DIV
+        SignalManager::ViewInfo vinfo;
+
+        vinfo.path = paths.first();
+        vinfo.paths = paths;
+
+        onViewImage(vinfo);
+#else
         viewOnNewProcess(paths);
+#endif
     }
 
     event->accept();
@@ -456,7 +548,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     }
     emit dApp->signalM->gotoPanel(this);
 
-    // The control buttons is diffrence
+    // The control buttons is difference
     if (! vinfo.inDatabase) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
@@ -469,7 +561,9 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             list << QFileInfo(path);
         }
         m_infos = getImageInfos(list);
-    } else {
+    } else
+#ifndef LITE_DIV
+    {
         if (vinfo.inDatabase) {
             if (vinfo.album.isEmpty()) {
                 m_infos = DBManager::instance()->getAllInfos();
@@ -480,7 +574,20 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             m_infos = getImageInfos(getFileInfos(vinfo.path));
         }
     }
+#else
+    {
+        QFileInfo info(vinfo.path);
 
+        m_infos = getImageInfos({info});
+    }
+
+    if (m_infos.size() == 1) {
+        m_imageDirIterator.reset(new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
+                                                  utils::image::supportedImageFormats(), QDir::Files | QDir::Readable));
+    } else {
+        m_imageDirIterator.reset();
+    }
+#endif
     // Get the image which need to open currently
     m_current = m_infos.cbegin();
     if (! vinfo.path.isEmpty()) {
@@ -496,6 +603,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                    << vinfo.path << vinfo.paths;
         return;
     }
+
     openImage(m_current->filePath);
 }
 
@@ -505,11 +613,11 @@ void ViewPanel::toggleFullScreen()
         showNormal();
         killTimer(m_hideCursorTid);
         m_hideCursorTid = 0;
-        dApp->setOverrideCursor(Qt::OpenHandCursor);
+        m_viewB->viewport()->setCursor(Qt::ArrowCursor);
     } else {
         showFullScreen();
         if (!m_menu->isVisible()) {
-            dApp->setOverrideCursor(Qt::BlankCursor);
+            m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     }
@@ -517,9 +625,14 @@ void ViewPanel::toggleFullScreen()
 
 bool ViewPanel::showPrevious()
 {
+#ifdef LITE_DIV
+    eatImageDirIterator();
+#endif
+
     if (m_infos.isEmpty()) {
         return false;
     }
+
     if (m_current == m_infos.cbegin()) {
         m_current = m_infos.cend();
     }
@@ -531,9 +644,14 @@ bool ViewPanel::showPrevious()
 
 bool ViewPanel::showNext()
 {
+#ifdef LITE_DIV
+    eatImageDirIterator();
+#endif
+
     if (m_infos.isEmpty()) {
         return false;
     }
+
     if (m_current == m_infos.cend()) {
         m_current = m_infos.cbegin();
     }
@@ -552,6 +670,11 @@ void ViewPanel::removeCurrentImage()
         return;
     }
 
+#ifdef LITE_DIV
+    // 在删除当前图片之前将图片列表初始化完成
+    eatImageDirIterator();
+#endif
+
     m_infos.removeAt(imageIndex(m_current->filePath));
     if (! showNext()) {
         if (! showPrevious()) {
@@ -561,16 +684,6 @@ void ViewPanel::removeCurrentImage()
             m_emptyWidget->setThumbnailImage(QPixmap());
             m_stack->setCurrentIndex(1);
         }
-    }
-}
-
-void ViewPanel::resetImageGeometry()
-{
-    // If image's size is smaller than window's size, set to 1:1 size
-    if (m_viewB->windowRelativeScale() > 1) {
-        m_viewB->fitImage();
-    } else {
-        m_viewB->fitWindow();
     }
 }
 
@@ -627,9 +740,11 @@ void ViewPanel::backToLastPanel()
         emit dApp->signalM->hideExtensionPanel(true);
         emit dApp->signalM->showBottomToolbar();
     } else {
+#ifndef LITE_DIV
         // Use dbus interface to make sure it will always back to the
         // main process
         DIVDBusController().backToMainWindow();
+#endif
     }
 }
 
@@ -641,7 +756,7 @@ void ViewPanel::rotateImage(bool clockWise)
         m_viewB->rotateCounterclockwise();
     }
 
-    resetImageGeometry();
+    m_viewB->autoFit();
     m_info->updateInfo();
 
     emit imageChanged(m_current->filePath);
@@ -661,9 +776,10 @@ void ViewPanel::initViewContent()
         emit imageChanged(path);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
-        resetImageGeometry();
+        m_viewB->autoFit();
     });
-
+    connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
+    connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
 }
 
 void ViewPanel::openImage(const QString &path, bool inDB)
@@ -683,9 +799,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
 
     m_viewB->setImage(path);
-
     updateMenuContent();
-    resetImageGeometry();
 
     if (m_info) {
         m_info->setImagePath(path);
@@ -698,12 +812,19 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
-
     } else {
         m_stack->setCurrentIndex(0);
+
+        // open success.
+        DRecentData data;
+        data.appName = "Deepin Image Viewer";
+        data.appExec = "deepin-image-viewer";
+        DRecentManager::addItem(path, data);
     }
     if (inDB) {
         emit updateTopLeftContentImage(path);
 //        emit updateCollectButton();
     }
+
+    QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
 }

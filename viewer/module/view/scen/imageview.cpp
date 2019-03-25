@@ -29,6 +29,8 @@
 #include <QtConcurrent>
 #include <QHBoxLayout>
 #include <qmath.h>
+#include <QScrollBar>
+#include <QGestureEvent>
 
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
@@ -105,6 +107,11 @@ ImageView::ImageView(QWidget *parent)
     setResizeAnchor(QGraphicsView::AnchorViewCenter);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    viewport()->setCursor(Qt::ArrowCursor);
+
+    grabGesture(Qt::PinchGesture);
+    grabGesture(Qt::SwipeGesture);
 
     connect(&m_watcher, SIGNAL(finished()), this, SLOT(onCacheFinish()));
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
@@ -258,6 +265,22 @@ void ImageView::setScaleValue(qreal v)
     emit transformChanged();
 }
 
+void ImageView::autoFit()
+{
+    if (image().isNull())
+        return;
+
+    QSize image_size = image().size();
+
+    if ((image_size.width() >= width() ||
+         image_size.height() >= height()) &&
+            width() > 0 && height() > 0) {
+        fitWindow();
+    } else {
+        fitImage();
+    }
+}
+
 const QImage ImageView::image()
 {
     if (m_movieItem) {           // bit-map
@@ -394,42 +417,40 @@ void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 
 void ImageView::mouseReleaseEvent(QMouseEvent *e)
 {
-    if (! items().isEmpty()) {
-        items().first()->setCursor(Qt::ArrowCursor);
-        dApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
-    }
-
-    dApp->setOverrideCursor(QCursor(Qt::OpenHandCursor));
     QGraphicsView::mouseReleaseEvent(e);
+
+    viewport()->setCursor(Qt::ArrowCursor);
 }
 
 void ImageView::mousePressEvent(QMouseEvent *e)
 {
-    emit clicked();
-
-    if (! items().isEmpty()) {
-        items().first()->setCursor(Qt::ArrowCursor);
-    }
     QGraphicsView::mousePressEvent(e);
+
+    viewport()->unsetCursor();
+    viewport()->setCursor(Qt::ArrowCursor);
+
+    emit clicked();
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
-
     if (!(e->buttons() | Qt::NoButton)) {
-        if (! items().isEmpty()) {
-            items().first()->setCursor(Qt::ArrowCursor);
-        }
+        viewport()->setCursor(Qt::ArrowCursor);
 
         emit mouseHoverMoved();
     } else {
-        if (! items().isEmpty()) {
-            items().first()->setCursor(Qt::ClosedHandCursor);
-        }
+        QGraphicsView::mouseMoveEvent(e);
+        viewport()->setCursor(Qt::ClosedHandCursor);
 
         emit transformChanged();
-        QGraphicsView::mouseMoveEvent(e);
     }
+}
+
+void ImageView::leaveEvent(QEvent *e)
+{
+    dApp->restoreOverrideCursor();
+
+    QGraphicsView::leaveEvent(e);
 }
 
 void ImageView::resizeEvent(QResizeEvent *event)
@@ -470,6 +491,14 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
     painter->restore();
 }
 
+bool ImageView::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture)
+        handleGestureEvent(static_cast<QGestureEvent*>(event));
+
+    return QGraphicsView::event(event);
+}
+
 void ImageView::onCacheFinish()
 {
     QVariantList vl = m_watcher.result();
@@ -485,7 +514,8 @@ void ImageView::onCacheFinish()
             // Make sure item show in center of view after reload
             setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
-            fitWindow();
+            autoFit();
+
             emit imageChanged(path);
         }
     }
@@ -503,13 +533,58 @@ void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme)
     update();
 }
 
+void ImageView::scaleAtPoint(QPoint pos, qreal factor)
+{
+    // Remember zoom anchor point.
+    const QPointF targetPos = pos;
+    const QPointF targetScenePos = mapToScene(targetPos.toPoint());
+
+    // Do the scaling.
+    setScaleValue(factor);
+
+    // Restore the zoom anchor point.
+    //
+    // The Basic idea here is we don't care how the scene is scaled or transformed,
+    // we just want to restore the anchor point to the target position we've
+    // remembered, in the coordinate of the view/viewport.
+    const QPointF curPos = mapFromScene(targetScenePos);
+    const QPointF centerPos = QPointF(width() / 2.0, height() / 2.0) + (curPos - targetPos);
+    const QPointF centerScenePos = mapToScene(centerPos.toPoint());
+    centerOn(centerScenePos.x(), centerScenePos.y());
+}
+
+void ImageView::handleGestureEvent(QGestureEvent *gesture)
+{
+    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
+        swipeTriggered(static_cast<QSwipeGesture*>(swipe));
+    else if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture*>(pinch));
+}
+
+void ImageView::pinchTriggered(QPinchGesture *gesture)
+{
+    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+    scaleAtPoint(pos, gesture->scaleFactor());
+}
+
+void ImageView::swipeTriggered(QSwipeGesture *gesture)
+{
+    if (gesture->state() == Qt::GestureFinished) {
+        if (gesture->horizontalDirection() == QSwipeGesture::Left
+                || gesture->verticalDirection() == QSwipeGesture::Up)
+        {
+            emit nextRequested();
+        }
+        else
+        {
+            emit previousRequested();
+        }
+    }
+
+}
+
 void ImageView::wheelEvent(QWheelEvent *event)
 {
     qreal factor = qPow(1.2, event->delta() / 240.0);
-    setScaleValue(factor);
-    event->accept();
-
-    emit scaled(imageRelativeScale() * 100);
-    emit showScaleLabel();
+    scaleAtPoint(event->pos(), factor);
 }
-

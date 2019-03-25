@@ -28,15 +28,10 @@ const QString DB_PATH = QDir::homePath() +
 
 ConfigSetter::ConfigSetter(QObject *parent) : QObject(parent)
 {
-    if (!QFileInfo(CONFIG_PATH).exists()) {
-        QProcess* updateConfigProc = new QProcess(this);
-        updateConfigProc->startDetached(QString("rm %1").arg(DB_PATH));
+    if (!QFileInfo(CONFIG_PATH).exists())
+        QProcess::startDetached(QString("rm %1").arg(DB_PATH));
 
-        connect(updateConfigProc, SIGNAL(finished(int)),
-                        updateConfigProc, SLOT(deleteLater()));
-    }
-
-    m_settings = new  QSettings("deepin","/deepin-image-viewer/config", this);
+    m_settings = new QSettings(CONFIG_PATH, QSettings::IniFormat, this);
     qDebug() << "Setting file:" << m_settings->fileName();
 }
 

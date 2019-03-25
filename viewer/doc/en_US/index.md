@@ -264,7 +264,7 @@ In Deepin Image Viewer interface, click on ![menu](icon/icon_menu.svg) to enter 
 
 ### Switch Theme
 
-In ** Main Menu **, select/unselect **Deep color mode** to switch theme.
+In ** Main Menu **, select/deselect **Deep color mode** to switch theme.
 
 ### Settings
 

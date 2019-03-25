@@ -18,6 +18,7 @@
 #include "navigationwidget.h"
 #include "contents/imageinfowidget.h"
 #include "scen/imageview.h"
+#include "dimagebutton.h"
 #include "widgets/pushbutton.h"
 
 #include "utils/baseutils.h"
@@ -36,78 +37,72 @@ void ViewPanel::initFloatingComponent()
 void ViewPanel::initSwitchButtons()
 {
     using namespace utils::base;
-    Anchors<PushButton> preButton = new PushButton(this);
-    preButton->setObjectName("PreviousButton");
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        preButton->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-    } else {
-        preButton->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-    }
-    preButton.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
-    // The preButton is anchored to the left of this
-    preButton.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
-    // NOTE: this is a bug of Anchors,the button should be resize after set anchor
-    preButton->resize(53, 53);
-    preButton.setLeftMargin(20);
-    preButton->hide();
-    connect(preButton, &PushButton::clicked, this, &ViewPanel::showPrevious);
 
-    Anchors<PushButton> nextButton = new PushButton(this);
-    nextButton->setObjectName("NextButton");
+    DAnchors<DImageButton> pre_button = new DImageButton(this);
+    DAnchors<DImageButton> next_button = new DImageButton(this);
+
+    pre_button->setObjectName("PreviousButton");
+    next_button->setObjectName("NextButton");
+
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        nextButton->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
+        pre_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
+        next_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
     } else {
-        nextButton->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
+        pre_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
+        next_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
     }
-    nextButton.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
-    nextButton.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
-    nextButton->setFixedSize(53, 53);
-    nextButton.setRightMargin(20);
-    nextButton->hide();
-    connect(nextButton, &PushButton::clicked, this, &ViewPanel::showNext);
+
+    pre_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
+    pre_button.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
+
+    next_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
+    next_button.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
+
+    pre_button->setFixedSize(100, 200);
+    next_button->setFixedSize(100, 200);
+
+    pre_button->hide();
+    next_button->hide();
+
+    // pre_button.setLeftMargin(20);
+    // next_button.setRightMargin(20);
+
+    connect(pre_button, &DImageButton::clicked, this, &ViewPanel::showPrevious);
+    connect(next_button, &DImageButton::clicked, this, &ViewPanel::showNext);
+
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             [=](ViewerThemeManager::AppTheme theme) {
         if (theme == ViewerThemeManager::Dark) {
-            preButton->setStyleSheet(getFileContent(
+            pre_button->setStyleSheet(getFileContent(
                                          ":/resources/dark/qss/floating.qss"));
-            nextButton->setStyleSheet(getFileContent(
+            next_button->setStyleSheet(getFileContent(
                                           ":/resources/dark/qss/floating.qss"));
         } else {
-            preButton->setStyleSheet(getFileContent(
+            pre_button->setStyleSheet(getFileContent(
                                          ":/resources/light/qss/floating.qss"));
-            nextButton->setStyleSheet(getFileContent(
+            next_button->setStyleSheet(getFileContent(
                                           ":/resources/light/qss/floating.qss"));
         }
     });
+
     connect(this, &ViewPanel::mouseMoved, this, [=] {
-
-        const int EXTEND_SPACING = 15;
-
-        Anchors<PushButton> pb = preButton;
-        if (m_info->visibleRegion().isNull()) {
-            pb.setLeftMargin(20);
-        }
-        else {
-            pb.setLeftMargin(260);
+        DAnchors<DImageButton> pb = pre_button;
+        if (m_info && m_info->visibleRegion().isNull()) {
+            pb.setLeftMargin(0);
+        } else {
+            pb.setLeftMargin(240);
         }
 
-        const QPoint pp = preButton->mapToGlobal(QPoint(0, 0))
-                - QPoint(EXTEND_SPACING, EXTEND_SPACING);
-        QRect pr(pp, QSize(preButton->width() + EXTEND_SPACING * 2,
-                           preButton->height() + EXTEND_SPACING * 2));
+        QPoint pos = mapFromGlobal(QCursor::pos());
+        QRect left_rect = pre_button->geometry();
+        QRect right_rect = next_button->geometry();
 
-        const QPoint np = nextButton->mapToGlobal(QPoint(0, 0))
-                - QPoint(EXTEND_SPACING, EXTEND_SPACING);
-        QRect nr(np, QSize(nextButton->width() + EXTEND_SPACING * 2,
-                           nextButton->height() + EXTEND_SPACING * 2));
-
-        if (pr.contains(QCursor::pos()) || nr.contains(QCursor::pos())) {
-            preButton->show();
-            nextButton->show();
-        }
-        else {
-            preButton->hide();
-            nextButton->hide();
+        if (left_rect.contains(pos, true) || right_rect.contains(pos)) {
+            pre_button->show();
+            next_button->show();
+        } else {
+            pre_button->hide();
+            next_button->hide();
         }
     });
 }
@@ -115,7 +110,7 @@ void ViewPanel::initSwitchButtons()
 void ViewPanel::initScaleLabel()
 {
     using namespace utils::base;
-    Anchors<QLabel> scalePerc = new QLabel(this);
+    DAnchors<QLabel> scalePerc = new QLabel(this);
     scalePerc->setObjectName("ScaleLabel");
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
         scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));

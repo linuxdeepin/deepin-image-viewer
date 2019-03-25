@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Verze:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Prohlížeč obrázků je příjemný a snadno ovladatelný správce obrázků</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Toto je spojeno se správou obrázků, zobrazení obrázků a základní úpravy obrázků.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Tento soubor obsahuje více stránek, pro zobrazení všech stránek použijte službu Evince.</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Kopírovat do schránky</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Hodit do koše</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Přidat do nového alba</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Změněno</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Rozlišení</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Model čočky</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Žádná změna velikosti</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Přizpůsobit stranu obrázku</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Přizpůsobit obrázek straně</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Změnit velikost na:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Milimetry</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centimetry</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Palce</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Poloha obrázku</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Změna velikosti</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Nastavení obrázku</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Hodit do koše</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Odstranit z alba</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Zobrazit zkratky</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopírovat</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Hodit do koše</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -728,31 +766,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Velikost 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Přizpůsobit oknu</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Otočit proti směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Otočit po směru hodinových ručiček</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Neoblíbené</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Oblíbené</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>Nenalezeny žádné obrázkové soubory</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Otevřít obrázek</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Kopírovat do schránky</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Hodit do koše</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Oblíbené</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Informace o obrázku</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Tmavý vzhled</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Prohlížeč obrázků je příjemný a snadno ovladatelný správce obrázků.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Kopírovat do schránky</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Hodit do koše</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Odstranit z alba</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Informace o obrázku</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Smazat</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Otevřít obrázek</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Všechny obrázky</translation>
     </message>
 </context>
 </TS>

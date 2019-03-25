@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versión:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>El visor Deepin d&apos;imáxenes ye un xestor d&apos;imáxenes modernu y estable.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Vien con xestión, visión y edición básica de semeyes.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Esti ficheru contién munches páxines, usa Evince pa veles toes.</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Copiar al cartafueyu</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Amestar al álbum nuevu</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Data de modificación</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Resolución</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Modelu de lente</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Axustar páxina a la imaxe</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Axustar imaxe a la páxina</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Escalar a:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Milímetros</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centímetros</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Pulgaes</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Escaláu</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Copiar</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Desaniciar del álbum</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Amosar atayos</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -728,23 +766,19 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Tamañu 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Axustar a la ventana</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Voltiar a esquierda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Voltiar a drecha</translation>
     </message>
     <message>
         <source>Unfavorite</source>
@@ -754,12 +788,20 @@
         <source>Favorite</source>
         <translation type="unfinished"/>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Nun s&apos;alcontraron imáxenes</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Copiar al cartafueyu</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Favorita</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Información d&apos;imaxe</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Tema prietu</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Copiar al cartafueyu</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Tirar a la papelera</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Desaniciar del álbum</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>información d&apos;imaxe</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Toles imáxenes</translation>
     </message>
 </context>
 </TS>

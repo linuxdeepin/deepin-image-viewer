@@ -294,7 +294,7 @@ void TimelineView::setSelection(const QRect &rect, QItemSelectionModel::Selectio
         selectionModel()->clear();
     }
 
-    // For mouse draging border
+    // For mouse dragging border
     QRect vr;
     if (flags & QItemSelectionModel::Current) {
         int x = rect.width() < 0 ? rect.x() + rect.width() : rect.x();

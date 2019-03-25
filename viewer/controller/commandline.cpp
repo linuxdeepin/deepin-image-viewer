@@ -56,6 +56,7 @@ static CMOption options[] = {
 //    {"s", "search", "Go to search view and search image by <word>.", "word"},
 //    {"e", "edit", "Go to edit view and begin editing <image-file>.", "image-file"},
     {"w", "wallpaper", "Set <image-file> as wallpaper.", "image-file"},
+    {"new-window", "new-window", "Display a window.", ""},
     {"", "", "", ""}
 };
 
@@ -111,20 +112,25 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
     MainWindow *w = new MainWindow(false);
     w->show();
+
     // Load image after all UI elements has been init
     // BottomToolbar pos not correct on init
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
 
-    TIMER_SINGLESHOT(50, {
-    SignalManager::ViewInfo vinfo;
-    vinfo.album = "";
-    vinfo.inDatabase = false;
-    vinfo.lastPanel = nullptr;
-    vinfo.path = path;
-    vinfo.paths = paths;
-    emit dApp->signalM->viewImage(vinfo);
-                     }, path, paths)
+    QTimer::singleShot(300, this, [=] {
+
+        SignalManager::ViewInfo info;
+        info.album = "";
+#ifndef LITE_DIV
+        info.inDatabase = false;
+#endif
+        info.lastPanel = nullptr;
+        info.path = path;
+        info.paths = paths;
+
+        emit dApp->signalM->viewImage(info);
+    });
 }
 
 bool CommandLine::processOption()
@@ -146,6 +152,7 @@ bool CommandLine::processOption()
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
+#ifndef LITE_DIV
       DeepinImageViewerDBus *dvd = new DeepinImageViewerDBus(dApp->signalM);
     if (names.isEmpty() && pas.isEmpty()) {
         if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&
@@ -169,10 +176,10 @@ bool CommandLine::processOption()
         }
     }
     else {
-        using namespace utils::image;
         DIVDBusController *dc = new DIVDBusController(dApp->signalM);
         Q_UNUSED(dc)
-
+#endif
+        using namespace utils::image;
         QString name;
         QString value;
         QStringList values;
@@ -181,7 +188,8 @@ bool CommandLine::processOption()
             value = m_cmdParser.value(name);
             values = m_cmdParser.values(name);
         }
-        else if (! pas.isEmpty()){
+
+        if (values.isEmpty() && ! pas.isEmpty()){
             name = "o"; // Default operation is open image file
             value = pas.first();
 
@@ -212,8 +220,7 @@ bool CommandLine::processOption()
                     return false;
                 }
             }
-            else if (QFileInfo(value).exists() &&
-                     imageSupportRead(QFileInfo(value).absoluteFilePath())) {
+            else if (support) {
                 viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
                 return true;
             }
@@ -221,6 +228,7 @@ bool CommandLine::processOption()
                 return false;
             }
         }
+#ifndef LITE_DIV
         else if (name == "a" || name == "album") {
             dc->enterAlbum(value);
         }
@@ -230,14 +238,20 @@ bool CommandLine::processOption()
         else if ((name == "e" || name == "edit") && support) {
             dc->editImage(QFileInfo(value).absoluteFilePath());
         }
+#endif
         else if ((name == "w" || name == "wallpaper") && support) {
             qDebug() << "Set " << value << " as wallpaper.";
             dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
         }
-        else {
+        else if (name.isEmpty() || name == "new-window") {
+            viewImage("", {});
+            return true;
+        } else {
             showHelp();
         }
 
         return false;
+#ifndef LITE_DIV
     }
+#endif
 }

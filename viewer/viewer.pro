@@ -18,7 +18,9 @@ TARGET = deepin-image-viewer
 TEMPLATE = app
 INCLUDEPATH += utils
 
-DEFINES += DTK_STATIC_LIB
+isEmpty(FULL_FUNCTIONALITY) {
+    DEFINES += LITE_DIV
+}
 
 isEmpty(PREFIX){
     PREFIX = /usr
@@ -29,9 +31,12 @@ include (module/modules.pri)
 include (widgets/widgets.pri)
 include (utils/utils.pri)
 include (controller/controller.pri)
-include (service/service.pri)
-include (settings/settings.pri)
-include (dirwatcher/dirwatcher.pri)
+
+!isEmpty(FULL_FUNCTIONALITY) {
+    include (service/service.pri)
+    include (settings/settings.pri)
+    include (dirwatcher/dirwatcher.pri)
+}
 
 HEADERS += \
     application.h
@@ -84,3 +89,8 @@ INSTALLS = target desktop dbus_service icons manual manual_icon app_icon transla
 
 DISTFILES += \
     com.deepin.ImageViewer.service
+
+load(deepin_qt)
+host_sw_64: {
+    QMAKE_CXXFLAGS += -mieee
+}

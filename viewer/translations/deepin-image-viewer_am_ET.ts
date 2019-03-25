@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>እትም:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>ዲፕኢን የ ምስል መመልከቻ ዘመናዊ &amp; ቀላል የ ምስል አስተዳዳሪ ነው</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>የ ምስል አስተዳዳሪ: ምስል መመልከቻ: እና መሰረታዊ የ ምስል ማረሚያ</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>ወደ ቁራጭ ሰሌዳ ኮፒ ማድረጊያ</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>ወደ ቆሻሻ መጣያ</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>ከ አልበም ውስጥ ማስወገጃ</translation>
     </message>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>ወደ አዲስ አልበም መጨመሪያ</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>የ ተሻሻለበት ቀን</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>ሪዞሊሽን</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>የ ሌንስ አይነት</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>ኮፒ</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>ወደ ቆሻሻ መጣያ</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>ከ አልበም ውስጥ ማስወገጃ</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>አቋራጭ ማሳያ</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>ኮፒ</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>ወደ ቆሻሻ መጣያ</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -743,15 +781,15 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Favorite</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>ምንም የ ምስል ፋይል አልተገኘም</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>ወደ ቁራጭ ሰሌዳ ኮፒ ማድረጊያ</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>ወደ ቆሻሻ መጣያ</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>የምወዳቸው</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>የ ምስል መረጃ</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>ጥቁር ገጽታ</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>ወደ ቁራጭ ሰሌዳ ኮፒ ማድረጊያ</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>ወደ ቆሻሻ መጣያ</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>ከ አልበም ውስጥ ማስወገጃ</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>የ ምስል መረጃ</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

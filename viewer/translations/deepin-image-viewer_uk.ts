@@ -3,19 +3,11 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Переглядач зображень Deepin</translation>
     </message>
     <message>
         <source>Version:</source>
         <translation>Версія:</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer - це модний та плавний менеджер зображень.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Він призначений для керування зображеннями, перегляду зображень і основного редагування зображень.</translation>
     </message>
 </context>
 <context>
@@ -53,7 +45,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Гаразд</translation>
     </message>
     <message>
         <source>New album</source>
@@ -87,7 +79,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Видалити</translation>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -125,7 +117,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Слайд шоу</translation>
+        <translation>Показ слайдів</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -137,14 +129,14 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Видалити</translation>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Переглядач зображень Deepin</translation>
     </message>
 </context>
 <context>
@@ -162,7 +154,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Гаразд</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
@@ -212,7 +204,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Видалити</translation>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Цей файл містить декілька сторінок, будь ласка, запустіть Evince для перегляду усіх сторінок.</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Копіювати в буфер обміну</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Перемістити до смітнику</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Додати до нового альбому</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Дата зміни</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Роздільна здатність</translation>
+        <source>Dimension</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Модель об&apos;єктиву</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Не масштабувати</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Вписати сторінку у зображення</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Вписати зображення у сторінку</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Масштабувати:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Міліметри</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Сантиметри</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Дюйми</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Позиція зображення</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Масштаб</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Налаштування зображення</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Скопіювати</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Перемістити до смітнику</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Видалити з альбому</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Показати ярлики</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -630,10 +672,6 @@
         <translation>Скопіювати</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Перемістити до смітнику</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Видалити з альбому</translation>
     </message>
@@ -675,7 +713,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Видалити</translation>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -728,31 +766,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Розмір 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Підібрати розмір за вікном</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Повернути проти годинникової стрілки</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Повернути за годинниковою стрілкою</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Вилучити з улубленого</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Улюблене</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>Не знайдено файлів зображень</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Відкрити зображення</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Копіювати в буфер обміну</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Перемістити до смітнику</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Обране</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Інформація про зображення</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Темна тема</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Переглядач зображень Deepin — програма для перегляду зображень із сучасним інтерфейсом та зручностями у користуванні.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Копіювати в буфер обміну</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Кинути в сміття</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Видалити з альбому</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Інформація про зображення</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Вилучити</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Відкрити зображення</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>усі зображення</translation>
     </message>
 </context>
 </TS>

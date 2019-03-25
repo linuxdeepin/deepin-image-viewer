@@ -1,3 +1,150 @@
+<a name="1.3.8"></a>
+## 1.3.8 (2019-01-25)
+
+
+#### Bug Fixes
+
+*   a crash in ImageWidget::event ([90dc30b0](https://github.com/linuxdeepin/deepin-image-viewer/commit/90dc30b08a06a4ce06b53d1fd0dd096a8f19cd2f))
+
+
+
+<a name="1.3.7"></a>
+##  1.3.7 (2019-01-03)
+
+
+#### Features
+
+*   support open svg ([86527b70](https://github.com/linuxdeepin/deepin-image-viewer/commit/86527b70dace2c644fe70c8c7bab19fa373dbd8b))
+*   add swipe to go preview/next support ([14fb8336](https://github.com/linuxdeepin/deepin-image-viewer/commit/14fb8336f3dcbf1c62857e9528e85918c89db106))
+*   add pinch to zoom gesture ([ab865ddc](https://github.com/linuxdeepin/deepin-image-viewer/commit/ab865ddcc517eaf0f9fedc19485c13dced492d00))
+*   zoom under the cursor ([5869b709](https://github.com/linuxdeepin/deepin-image-viewer/commit/5869b709006756cc909b2b264e749ec1dc97ce48))
+
+#### Bug Fixes
+
+*   use build version. ([b8c63818](https://github.com/linuxdeepin/deepin-image-viewer/commit/b8c63818b93454f324c3d9519ace2a281d0d995b))
+*   navigation bar close button. ([8a401acd](https://github.com/linuxdeepin/deepin-image-viewer/commit/8a401acdce9e442ed0c009fe09bafe02bc1f0af9))
+*   fullscreen right menu cursor. ([14b1811d](https://github.com/linuxdeepin/deepin-image-viewer/commit/14b1811d8866a1d7fed68d4524507f88b7aac666))
+*   image view cursor. ([6bbaa98f](https://github.com/linuxdeepin/deepin-image-viewer/commit/6bbaa98f64bd120c375e948f64d4e592d4881206))
+*   fit the image to window. ([7b87149a](https://github.com/linuxdeepin/deepin-image-viewer/commit/7b87149a1f2b661f8013319c1b38db771f8ef885))
+
+
+
+<a name="1.3.6"></a>
+## 1.3.6 (2018-12-11)
+
+
+
+
+<a name="1.3.5"></a>
+## 1.3.5 (2018-12-06)
+
+
+#### Bug Fixes
+
+*   the "Ctrl+C" shortcut is invalid ([e64adeca](https://github.com/linuxdeepin/deepin-image-viewer/commit/e64adeca7bd39f8dcbd3f49131a838528d489f64))
+
+
+
+<a name="1.3.4"></a>
+## 1.3.4 (2018-12-06)
+
+
+#### Bug Fixes
+
+*   decide image format form the image file content ([b2aa1c25](https://github.com/linuxdeepin/deepin-image-viewer/commit/b2aa1c25663283a4d1807982dcf5f7a4d75a758f))
+*   open the current path when the command lines is empty ([40c2618d](https://github.com/linuxdeepin/deepin-image-viewer/commit/40c2618d4a4f1bd1dae1fca7713b923bcf63d63f))
+
+
+
+<a name="1.3.3"></a>
+## 1.3.3 (2018-11-30)
+
+
+#### Features
+
+*   support print preview ([c5c1cfef](https://github.com/linuxdeepin/deepin-image-viewer/commit/c5c1cfefada0fcd67d697620a6be51fae8e6f37c))
+
+
+
+<a name="1.3.2"></a>
+## 1.3.2 (2018-11-23)
+
+
+#### Bug Fixes
+
+*   Update ts file and deepin vendor support ([230551db](https://github.com/linuxdeepin/deepin-image-viewer/commit/230551dbe2be6a6747cf8814eb39a383fa07850c))
+
+#### Features
+
+*   use the file name sort the image list ([55f7a87c](https://github.com/linuxdeepin/deepin-image-viewer/commit/55f7a87cba23f789afefd8684064cb3601cbe6c2))
+*   support the recent file spec. ([9e164ebb](https://github.com/linuxdeepin/deepin-image-viewer/commit/9e164ebb99c17860fe21b93b143c425bdb1dc962))
+
+
+
+<a name="1.3.1"></a>
+## 1.3.1 (2018-11-08)
+
+
+#### Bug Fixes
+
+*   empty command can start a new window ([577ec38b](https://github.com/linuxdeepin/deepin-image-viewer/commit/577ec38b2b4378113c44e2286b2ca668dc57c11e))
+*   shortcut preview info is empty ([239c9c9a](https://github.com/linuxdeepin/deepin-image-viewer/commit/239c9c9a8de61f5d0f3cbf5a05d7b009a4c68f38))
+*   shortcut is invalid ([74e17db2](https://github.com/linuxdeepin/deepin-image-viewer/commit/74e17db2fe4d869bb7d78697ad9666b58553a2ef))
+
+
+
+<a name="1.3.0"></a>
+## 1.3.0 (2018-10-24)
+
+
+#### Features
+
+*   add logo on topbar ([f2f70f5f](https://github.com/linuxdeepin/deepin-image-viewer/commit/f2f70f5f7c4ee4cf966bd3c21edeccbf0e41b716))
+
+#### Bug Fixes
+
+*   crash when press "Delete" ([8c67acc9](https://github.com/linuxdeepin/deepin-image-viewer/commit/8c67acc99a5d55fe39a0523aae71216475678c68))
+*   remove dtk old interface. ([59ec8eb6](https://github.com/linuxdeepin/deepin-image-viewer/commit/59ec8eb67982b0862071639042fd15d32e60aaac))
+
+
+
+<a name="1.2.23"></a>
+### 1.2.23 (2018-07-20)
+
+
+#### Bug Fixes
+
+*   memory leak ([d680e97c](https://github.com/linuxdeepin/deepin-image-viewer/commit/d680e97c63df617b34bdda0dd3aaa3d2bb347caa))
+
+
+
+<a name="1.2.22"></a>
+## 1.2.22 (2018-05-24)
+
+
+#### Bug Fixes
+
+*   don't restore cursor. ([6f81631e](6f81631e))
+* **flatpak:**  default save path error in flatpak environment ([699b4ae6](699b4ae6))
+
+
+
+<a name="1.2.21"></a>
+## 1.2.21 (2018-05-15)
+
+*   Fix image is empty
+
+
+<a name="1.2.20"></a>
+## 1.2.20 (2018-05-14)
+
+
+#### Bug Fixes
+
+*   can't print image in landscape mode ([a63841a3](a63841a3))
+
+
+
 <a name="1.2.19"></a>
 ### 1.2.19 (2018-04-11)
 

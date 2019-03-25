@@ -1,8 +1,14 @@
 #include "printhelper.h"
 #include "printoptionspage.h"
+#include "snifferimageformat.h"
 #include <QPrintDialog>
+#include <QPrintPreviewDialog>
+#include <QPrintPreviewWidget>
 #include <QPrinter>
 #include <QPainter>
+#include <QToolBar>
+#include <QCoreApplication>
+#include <QImageReader>
 #include <QDebug>
 
 PrintHelper::PrintHelper(QObject *parent)
@@ -11,15 +17,71 @@ PrintHelper::PrintHelper(QObject *parent)
 
 }
 
-void PrintHelper::showPrintDialog(const QStringList &paths)
+static QAction *hookToolBarActionIcons(QToolBar *bar)
+{
+    QAction *last_action = nullptr;
+
+    for (QAction *action : bar->actions()) {
+        const QString &text = action->text();
+
+        if (text.isEmpty())
+            continue;
+
+        // 防止被lupdate扫描出来
+        const char *context = "QPrintPreviewDialog";
+        const char *print = "Print";
+
+        const QMap<QString, QString> map {
+            {QCoreApplication::translate(context, "Next page"), QStringLiteral("go-next")},
+            {QCoreApplication::translate(context, "Previous page"), QStringLiteral("go-previous")},
+            {QCoreApplication::translate(context, "First page"), QStringLiteral("go-first")},
+            {QCoreApplication::translate(context, "Last page"), QStringLiteral("go-last")},
+            {QCoreApplication::translate(context, "Fit width"), QStringLiteral("fit-width")},
+            {QCoreApplication::translate(context, "Fit page"), QStringLiteral("fit-page")},
+            {QCoreApplication::translate(context, "Zoom in"), QStringLiteral("zoom-in")},
+            {QCoreApplication::translate(context, "Zoom out"), QStringLiteral("zoom-out")},
+            {QCoreApplication::translate(context, "Portrait"), QStringLiteral("layout-portrait")},
+            {QCoreApplication::translate(context, "Landscape"), QStringLiteral("layout-landscape")},
+            {QCoreApplication::translate(context, "Show single page"), QStringLiteral("view-page-one")},
+            {QCoreApplication::translate(context, "Show facing pages"), QStringLiteral("view-page-sided")},
+            {QCoreApplication::translate(context, "Show overview of all pages"), QStringLiteral("view-page-multi")},
+            {QCoreApplication::translate(context, print), QStringLiteral("print")},
+            {QCoreApplication::translate(context, "Page setup"), QStringLiteral("page-setup")}
+        };
+
+        const QString &icon_name = map.value(action->text());
+
+        if (icon_name.isEmpty())
+            continue;
+
+        QIcon icon(QStringLiteral(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
+        action->setIcon(icon);
+        last_action = action;
+    }
+
+    return last_action;
+}
+
+void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     QPrinter printer;
     QImage img;
 
-    QPrintDialog* printDialog = new QPrintDialog(&printer);
-    PrintOptionsPage *optionsPage = new PrintOptionsPage;
-    printDialog->setOptionTabs(QList<QWidget *>() << optionsPage);
-    printDialog->resize(400, 300);
+    QPrintPreviewDialog* printDialog = new QPrintPreviewDialog(&printer, parent);
+    PrintOptionsPage *optionsPage = new PrintOptionsPage(printDialog);
+    printDialog->resize(800, 800);
+
+    QToolBar *toolBar = printDialog->findChild<QToolBar*>();
+
+    if (toolBar) {
+        QAction *last_action = hookToolBarActionIcons(toolBar);
+        QAction *action = new QAction(QIcon(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/preview-24.svg"),
+                                      QCoreApplication::translate("PrintPreviewDialog", "Image Settings"), toolBar);
+        connect(action, &QAction::triggered, optionsPage, &PrintOptionsPage::show);
+        toolBar->insertAction(last_action, action);
+    } else {
+        optionsPage->hide();
+    }
 
     // HACK: Qt的打印设置有点bug，属性对话框中手动设置了纸张方向为横向（默认纵向）其实并不生效，
     //（猜测是透过cups协商出了问题，跟踪src/printsupport里面的代码没有问题，
@@ -31,7 +93,10 @@ void PrintHelper::showPrintDialog(const QStringList &paths)
     QList<QImage> imgs;
 
     for (const QString &path : paths) {
-        if (!img.load(path)) {
+        // There're cases that people somehow changed the image file suffixes, like jpg -> png,
+        // we'd better detect that before printing, otherwise we get an empty print.
+        const QString format = DetectImageFormat(path);
+        if (!img.load(path, format.toLatin1())) {
             qDebug() << "img load failed" << path;
             continue;
         }
@@ -49,7 +114,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths)
     }
     // HACK - end
 
-    if (printDialog->exec() == QDialog::Accepted) {
+    auto repaint = [&imgs, &optionsPage, &printer] {
         QPainter painter(&printer);
 
         for (const QImage img : imgs) {
@@ -57,9 +122,14 @@ void PrintHelper::showPrintDialog(const QStringList &paths)
             QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
             QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
 
-            painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
-            painter.setWindow(img.rect());
-            painter.drawImage(0, 0, img);
+            if (size.width() < img.width() || size.height() < img.height()) {
+                painter.drawImage(pos.x(), pos.y(), img.scaledToWidth(size.width(), Qt::SmoothTransformation));
+            } else {
+                painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
+                painter.setWindow(img.rect());
+                painter.drawImage(0, 0, img);
+            }
 
             if (img != imgs.last()) {
                 printer.newPage();
@@ -67,13 +137,23 @@ void PrintHelper::showPrintDialog(const QStringList &paths)
         }
 
         painter.end();
+    };
+
+    QObject::connect(printDialog, &QPrintPreviewDialog::paintRequested, printDialog, repaint);
+    QObject::connect(optionsPage, &PrintOptionsPage::valueChanged, optionsPage, [printDialog] {
+        if (QPrintPreviewWidget *pw = printDialog->findChild<QPrintPreviewWidget*>())
+            pw->updatePreview();
+    });
+
+    if (printDialog->exec() == QDialog::Accepted) {
+
         qDebug() << "print succeed!";
 
         return;
     }
 
-    QObject::connect(printDialog, &QPrintDialog::finished, printDialog,
-                     &QPrintDialog::deleteLater);
+    QObject::connect(printDialog, &QPrintPreviewDialog::done, printDialog,
+                     &QPrintPreviewDialog::deleteLater);
 
     qDebug() << "print failed!";
 }

@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Version: </translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image est un pratique gestionnaire d&apos;images.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>C&apos;est un gestionnaire, visualiseur et éditeur d&apos;images.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Ce fichier contient plusieurs pages, merci d&apos;utiliser Evince pour visualiser toutes les pages.</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Copier dans le presse-papier</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Envoyer dans la corbeille</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Ajouter au nouvel album</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Date de modification</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Résolution </translation>
+        <source>Dimension</source>
+        <translation>Dimension</translation>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>modèle de lentille</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Pas de mise à l&apos;échelle</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Adapter la page à l&apos;image</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Ajuster l&apos;image à la page</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Échelle jusqu&apos;à:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Millimètres</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centimètres</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Pouces</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Position de l&apos;image</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Mise à l&apos;échelle</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Paramètres de l&apos;image</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Paramètres d&apos;image</translation>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Copier</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Envoyer dans la corbeille</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Enlever de l&apos;album</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Afficher les raccourcis</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Copier</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Envoyer dans la corbeille</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -728,31 +766,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Taille 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Ajuster à la fenêtre</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Tourner dans le sens inverse des aiguilles d&apos;une montre</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Tourner dans le sens des aiguilles d&apos;une montre</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Retirer des favoris</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Favoris </translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
     </message>
 </context>
 <context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>Pas d&apos;images trouvées</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Ouvrir une image</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Copier dans le presse-papier</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Envoyer dans la corbeille</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Favoris </translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Image infos</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Thème sombre</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Visionneur d&apos;images Deepin est un outil de visionnage d&apos;image avec une interface simple et des performances accrue.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Copier dans le presse-papier</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Envoyer dans la corbeille</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Enlever de l&apos;album</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Image infos</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Ouvrir une image</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Toutes les images </translation>
     </message>
 </context>
 </TS>

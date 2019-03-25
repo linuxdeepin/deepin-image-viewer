@@ -67,8 +67,10 @@ private:
 private slots:
 //    void onAbout();
     void onHelp();
+#ifndef LITE_DIV
     void onNewAlbum();
     void onSetting();
+#endif
     void onViewShortcut();
     void onDeepColorMode();
 
@@ -88,7 +90,9 @@ private:
     QHBoxLayout *m_mLayout;
     QHBoxLayout *m_rLayout;
 
+#ifndef LITE_DIV
     SettingsWindow *m_settingsWindow;
+#endif
     QMenu *m_menu;
     bool m_manager;
 };

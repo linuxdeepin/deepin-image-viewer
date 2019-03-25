@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Versija:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin paveikslų žiūryklė yra šiuolaikinė ir glotni paveikslų tvarkytuvė.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Jos pagrindinės ypatybės yra paveikslų tvarkymas, paveikslų rodymas bei pagrindinės paveikslų redagavimo funkcijos.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -256,10 +248,6 @@
         <translation>Kopijuoti į iškarpinę</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Perkelti į šiukšlinę</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Šalinti iš albumo</translation>
     </message>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Pridėti į naują albumą</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Ištrinti</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Keitimo data</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Raiška</translation>
+        <source>Dimension</source>
+        <translation>Matmenys</translation>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Objektyvo modelis</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Nekeisti mastelio</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Talpinti puslapį į paveikslą</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Talpinti paveikslą į puslapį</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Keisti mastelį į:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Milimetrų</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centimetrų</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Colių</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Paveikslo pozicija</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Mastelio keitimas</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Paveikslo nustatymai</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Paveikslo nustatymai</translation>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Kopijuoti</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Perkelti į šiukšlinę</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Šalinti iš albumo</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Rodyti trumpinius</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Ištrinti</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopijuoti</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Perkelti į šiukšlinę</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -743,10 +781,6 @@
         <translation>Pasukti pagal laikrodžio rodyklę</translation>
     </message>
     <message>
-        <source>Throw to Trash</source>
-        <translation>Perkelti į šiukšlinę</translation>
-    </message>
-    <message>
         <source>Unfavorite</source>
         <translation>Nebemėgstamas</translation>
     </message>
@@ -754,12 +788,20 @@
         <source>Favorite</source>
         <translation>Mėgstamas</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Ištrinti</translation>
+    </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
         <translation>Nerasta jokių paveikslo failų</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Atverti paveikslą</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Kopijuoti į iškarpinę</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Perkelti į šiukšlinę</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Mėgstamas</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Paveikslo informacija</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Ištrinti</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Tamsi tema</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Deepin paveikslų žiūryklė yra paveikslų peržiūros įrankis su šiuolaikine sąsaja ir glotniu našumu.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Kopijuoti į iškarpinę</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Perkelti į šiukšlinę</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Šalinti iš albumo</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Paveikslo informacija</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Ištrinti</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Atverti paveikslą</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Visi paveikslai</translation>
     </message>
 </context>
 </TS>

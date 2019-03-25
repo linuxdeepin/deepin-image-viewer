@@ -9,14 +9,6 @@
         <source>Version:</source>
         <translation>Wersja:</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Przeglądarka zdjęć Deepin jest modnym i płynnie działającym menedżerem obrazów.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Wyposażony jest w funkcje zarządzania obrazami, podglądu obrazów i podstawowej ich modyfikacji.</translation>
-    </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
@@ -226,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>Ten plik zawiera wiele stron, których przejrzenie możliwe jest w programie Evince.</translation>
     </message>
 </context>
 <context>
@@ -254,10 +246,6 @@
     <message>
         <source>Copy to clipboard</source>
         <translation>Kopiuj do schowka</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Wyrzuć do kosza</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -307,6 +295,10 @@
         <source>Add to new album</source>
         <translation>Dodaj do nowego albumu</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Usuń</translation>
+    </message>
 </context>
 <context>
     <name>Importer</name>
@@ -341,8 +333,8 @@
         <translation>Data modyfikacji</translation>
     </message>
     <message>
-        <source>Resolution</source>
-        <translation>Rozdzielczość</translation>
+        <source>Dimension</source>
+        <translation>Wymiar</translation>
     </message>
     <message>
         <source>File size</source>
@@ -403,6 +395,56 @@
     <message>
         <source>Lens model</source>
         <translation>Model obiektywu</translation>
+    </message>
+</context>
+<context>
+    <name>PrintOptionsPage</name>
+    <message>
+        <source>No scaling</source>
+        <translation>Brak skalowania</translation>
+    </message>
+    <message>
+        <source>Fit page to image</source>
+        <translation>Dopasuj stronę do obrazu</translation>
+    </message>
+    <message>
+        <source>Fit image to page</source>
+        <translation>Dopasuj obraz do strony</translation>
+    </message>
+    <message>
+        <source>Scale to:</source>
+        <translation>Zeskaluj do:</translation>
+    </message>
+    <message>
+        <source>Millimeters</source>
+        <translation>Milimetry</translation>
+    </message>
+    <message>
+        <source>Centimeters</source>
+        <translation>Centymetry</translation>
+    </message>
+    <message>
+        <source>Inches</source>
+        <translation>Cale</translation>
+    </message>
+    <message>
+        <source>Image Position</source>
+        <translation>Położenie obrazu</translation>
+    </message>
+    <message>
+        <source>Scaling</source>
+        <translation>Skalowanie</translation>
+    </message>
+    <message>
+        <source>Image Settings</source>
+        <translation>Ustawienia obrazu</translation>
+    </message>
+</context>
+<context>
+    <name>PrintPreviewDialog</name>
+    <message>
+        <source>Image Settings</source>
+        <translation>Ustawienia obrazu</translation>
     </message>
 </context>
 <context>
@@ -505,10 +547,6 @@
         <translation>Kopiuj</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Wyrzuć do kosza</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Usuń z albumu</translation>
     </message>
@@ -576,6 +614,10 @@
         <source>Display shortcuts</source>
         <translation>Wyświetl skróty</translation>
     </message>
+    <message>
+        <source>Delete</source>
+        <translation>Usuń</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
@@ -628,10 +670,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiuj</translation>
-    </message>
-    <message>
-        <source>Throw to trash</source>
-        <translation>Wyrzuć do kosza</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -728,31 +766,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Rozmiar 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Dopasuj do okna</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Obróć odwrotnie do kierunku wskazówek zegara</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Throw to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Obróć zgodnie z kierunkiem wskazówek zegara</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation>Usuń z ulubionych</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>Ulubione</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Usuń</translation>
     </message>
 </context>
 <context>
@@ -760,6 +798,10 @@
     <message>
         <source>No image files found</source>
         <translation>Nie odnaleziono plików z obrazami</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Otwórz obraz</translation>
     </message>
 </context>
 <context>
@@ -828,10 +870,6 @@
         <translation>Kopiuj do schowka</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Wyrzuć do kosza</translation>
-    </message>
-    <message>
         <source>Favorite</source>
         <translation>Ulubione</translation>
     </message>
@@ -858,6 +896,10 @@
     <message>
         <source>Image info</source>
         <translation>Informacje o obrazie</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Usuń</translation>
     </message>
 </context>
 <context>
@@ -924,6 +966,10 @@
         <source>Dark theme</source>
         <translation>Ciemny motyw</translation>
     </message>
+    <message>
+        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Przeglądarka zdjęć Deepin to narzędzie przeglądania obrazów z modnym interfejsem i płynnym działaniem.</translation>
+    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -964,10 +1010,6 @@
         <translation>Kopiuj do schowka</translation>
     </message>
     <message>
-        <source>Throw to trash</source>
-        <translation>Wyrzuć do kosza</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Usuń z albumu</translation>
     </message>
@@ -1006,6 +1048,18 @@
     <message>
         <source>Image info</source>
         <translation>Informacje o obrazie</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
+        <source>Open Image</source>
+        <translation>Otwórz obraz</translation>
+    </message>
+    <message>
+        <source>All images</source>
+        <translation>Wszystkie obrazy</translation>
     </message>
 </context>
 </TS>

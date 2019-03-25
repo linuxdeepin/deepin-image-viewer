@@ -3,10 +3,11 @@
 #include <QToolButton>
 #include <QGroupBox>
 #include <QRadioButton>
+#include <QPushButton>
 #include <QDebug>
 
 PrintOptionsPage::PrintOptionsPage(QWidget *parent)
-    : QWidget(parent),
+    : QDialog(parent),
       m_settings("deepin", "print-image-option")
 {
     m_noScaleBtn = new QRadioButton(tr("No scaling"));
@@ -110,14 +111,19 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
             });
 
     connect(m_scaleBtn, &QRadioButton::toggled, this,
-            [=] (bool checked) {
+            [=] (bool) {
                 updateStatus();
                 m_settings.setValue("button_index", 3);
             });
 
-//    connect(m_posBtnGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), this, [=] (QAbstractButton *btn) {
+    connect(m_posBtnGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), this, [=] (QAbstractButton *) {
 //        m_settings.setValue("pos", m_posBtnGroup->checkedId());
-//    });
+        emit valueChanged();
+    });
+
+    connect(m_printWidth, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
+    connect(m_printHeight, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
+    connect(m_printUnit, &QComboBox::currentTextChanged, this, &PrintOptionsPage::valueChanged);
 
     init();
 }
@@ -128,7 +134,7 @@ void PrintOptionsPage::init()
     defaultAlignment = Qt::AlignVCenter | Qt::AlignHCenter;
     m_posBtnGroup->button(defaultAlignment)->setChecked(true);
 
-    switch (m_settings.value("button_index", 1).toInt()) {
+    switch (m_settings.value("button_index", 2).toInt()) {
     case 0:
         m_noScaleBtn->click();
         break;
@@ -163,6 +169,8 @@ void PrintOptionsPage::updateStatus()
     m_printWidth->setEnabled(enabled);
     m_printHeight->setEnabled(enabled);
     m_printUnit->setEnabled(enabled);
+
+    emit valueChanged();
 }
 
 PrintOptionsPage::ScaleMode PrintOptionsPage::scaleMode()
