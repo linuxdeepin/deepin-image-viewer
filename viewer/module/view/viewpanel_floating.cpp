@@ -154,7 +154,6 @@ void ViewPanel::initNavigation()
     m_nav.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
-    m_nav->setVisible(! m_nav->isAlwaysHidden());
     connect(this, &ViewPanel::imageChanged, this, [=] (const QString &path) {
         if (path.isEmpty()) m_nav->setVisible(false);
         m_nav->setImage(m_viewB->image());
