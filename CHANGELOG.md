@@ -1,3 +1,13 @@
+<a name="1.3.10"></a>
+## 1.3.10 (2019-03-27)
+
+
+#### Bug Fixes
+
+*   forward the navigation wheel event of the NavigationWidget to the ImageView ([6832fb9c](https://github.com/linuxdeepin/deepin-image-viewer/commit/6832fb9c05c9dd6cdf755c0e98831a6f698b61f2))
+
+
+
 <a name="1.3.9"></a>
 ## 1.3.9 (2019-03-27)
 
