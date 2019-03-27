@@ -69,6 +69,7 @@ protected:
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *e) override;
 
 private:
     void initConnect();

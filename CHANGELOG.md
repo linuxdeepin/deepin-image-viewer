@@ -1,3 +1,27 @@
+<a name="1.3.10"></a>
+## 1.3.10 (2019-03-27)
+
+
+#### Bug Fixes
+
+*   forward the navigation wheel event of the NavigationWidget to the ImageView ([6832fb9c](https://github.com/linuxdeepin/deepin-image-viewer/commit/6832fb9c05c9dd6cdf755c0e98831a6f698b61f2))
+
+
+
+<a name="1.3.9"></a>
+## 1.3.9 (2019-03-27)
+
+
+#### Others
+
+*   save dpkg-parsechangelog calls in debian/rules ([478e87c3](https://github.com/linuxdeepin/deepin-image-viewer/commit/478e87c3cebaa11da7cd41a972be37335b5c3133))
+
+#### Bug Fixes
+
+*   freeimage plugin caused crash ([9b8df754](https://github.com/linuxdeepin/deepin-image-viewer/commit/9b8df754f2664a5087a96550400ef3acb49a800d))
+
+
+
 <a name="1.3.8"></a>
 ## 1.3.8 (2019-01-25)
 
