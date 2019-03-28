@@ -114,7 +114,7 @@ private:
     static DBManager* m_dbManager;
 private:
     QString m_connectionName;
-    QMutex m_mutex;
+    mutable QMutex m_mutex;
 };
 
 #endif // DBMANAGER_H
