@@ -58,13 +58,13 @@ const QImage scaleImage(const QString &path, const QSize &size)
     tSize.scale(size, Qt::KeepAspectRatio);
     reader.setScaledSize(tSize);
     QImage tImg = reader.read();
-    // Some format unsupport scaling
+    // Some format does not support scaling
     if (tImg.width() > size.width() || tImg.height() > size.height()) {
         if (tImg.isNull()) {
             return QImage();
         }
         else {
-            // Save as support format and scale it again
+            // Save as supported format and scale it again
             const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
             QFile::remove(tmp);
             if (tImg.save(tmp, "png", 50)) {
@@ -115,7 +115,7 @@ bool imageSupportRead(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
 
-    //FIXME: file types below will cause freeimages to crash on loading,
+    //FIXME: file types below will cause freeimage to crash on loading,
     // take them here for good.
     QStringList errorList;
     errorList << "X3F";
@@ -135,8 +135,8 @@ bool imageSupportSave(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
 
-    // RAW image decode is tool slow, and mose of these was not support save
-    // RAW formats render incorrect by freeimage
+    // RAW image decode is too slow, and most of these does not support saving
+    // RAW formats render incorrectly by freeimage
     const QStringList raws = QStringList()
             << "CR2" << "CRW"   // Canon cameras
             << "DCR" << "KDC"   // Kodak cameras
@@ -177,7 +177,7 @@ bool rotate(const QString &path, int degree)
         saveFlags = JPEG_QUALITYSUPERB;     // Saves with superb quality (100:1)
         break;
     case FIF_JP2:
-        // Freeimage3.17 not support set special load flags for JP2
+        // Freeimage3.17 does not support special load flags for JP2
         saveFlags = JP2_DEFAULT;            // Save with a 16:1 rate
         break;
     case FIF_BMP:
