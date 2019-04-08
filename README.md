@@ -1,6 +1,6 @@
 # Deepin Image Viewer
 
-Deepin Image Viewer is Deepin Desktop Environment Image Viewer.
+Image viewer for Deepin Desktop Environment.
 
 ## Dependencies
 
