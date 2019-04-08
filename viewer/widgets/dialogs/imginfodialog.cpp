@@ -43,7 +43,7 @@ struct MetaData {
 static MetaData MetaDatas[] = {
     {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
     {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date photoed")},
+    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
     {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimension")},
     {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},

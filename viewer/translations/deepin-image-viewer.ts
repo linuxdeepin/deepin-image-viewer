@@ -246,10 +246,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation type="unfinished"></translation>
     </message>
@@ -327,10 +323,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation type="unfinished"></translation>
     </message>
@@ -396,6 +388,10 @@
     </message>
     <message>
         <source>Lens model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date captured</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1005,10 +1001,6 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
