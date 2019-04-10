@@ -244,10 +244,6 @@
         <translation>Αντιγραφή</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Αντιγραφή στο πρόχειρο</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>αφαίρεση από το άλμπουμ</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Τύπος</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Ημερομηνία φωτογράφησης</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Ημερομηνία επεξεργασίας</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Μοντέλο φακού</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1003,10 +999,6 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
         <translation type="unfinished"/>
     </message>
     <message>

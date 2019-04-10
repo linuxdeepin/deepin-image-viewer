@@ -244,10 +244,6 @@
         <translation>Скопіювати</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Копіювати в буфер обміну</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Видалити з альбому</translation>
     </message>
@@ -325,16 +321,12 @@
         <translation>Тип</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Дата фотографування</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Дата зміни</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation>Розмірність</translation>
     </message>
     <message>
         <source>File size</source>
@@ -396,6 +388,10 @@
         <source>Lens model</source>
         <translation>Модель об&apos;єктиву</translation>
     </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Дата захоплення</translation>
+    </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
@@ -444,7 +440,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Параметри зображення</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Скопіювати</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Копіювати в буфер обміну</translation>
     </message>
     <message>
         <source>Remove from album</source>

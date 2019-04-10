@@ -244,10 +244,6 @@
         <translation>Copia</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Copia al porta-retalls</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Elimina de l&apos;àlbum</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Tipus</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Data de fotografia</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Data de modificació</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Model de la lent</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Data de captura</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Copia al porta-retalls</translation>
     </message>
     <message>
         <source>Remove from album</source>

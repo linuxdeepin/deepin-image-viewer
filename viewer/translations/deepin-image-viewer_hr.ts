@@ -244,10 +244,6 @@
         <translation>Kopiraj</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiraj u međuspremnik</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Ukloni iz albuma</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Vrsta</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Nadnevak slikanja</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Nadnevak izmjene</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Model leća</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiraj</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiraj u međuspremnik</translation>
     </message>
     <message>
         <source>Remove from album</source>

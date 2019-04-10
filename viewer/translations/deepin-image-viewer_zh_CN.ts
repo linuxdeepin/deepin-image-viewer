@@ -244,10 +244,6 @@
         <translation>复制</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>从相册中移除</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>图片类型</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>拍摄时间</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>修改时间</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>镜头型号</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>拍摄时间</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>复制</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
     </message>
     <message>
         <source>Remove from album</source>

@@ -244,10 +244,6 @@
         <translation>Salin</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Salin ke papan keratan</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Buang dari album</translation>
     </message>
@@ -325,16 +321,12 @@
         <translation>Jenis</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Tarikh ditangkap</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Tarikh diubahsuai</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation>Dimensi</translation>
     </message>
     <message>
         <source>File size</source>
@@ -396,6 +388,10 @@
         <source>Lens model</source>
         <translation>Model kanta</translation>
     </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
@@ -444,7 +440,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Tetapan Imej</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Salin</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Salin ke papan keratan</translation>
     </message>
     <message>
         <source>Remove from album</source>

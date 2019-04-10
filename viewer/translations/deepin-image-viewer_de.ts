@@ -244,10 +244,6 @@
         <translation>Kopieren</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>In Zwischenablage kopieren</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Aus Album entfernen</translation>
     </message>
@@ -325,16 +321,12 @@
         <translation>Typ</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Aufnahmedatum</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Änderungsdatum</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation>Maße</translation>
     </message>
     <message>
         <source>File size</source>
@@ -396,6 +388,10 @@
         <source>Lens model</source>
         <translation>Linsenmodell</translation>
     </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Aufnahmedatum</translation>
+    </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
@@ -444,7 +440,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Bildeigenschaften</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopieren</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>In Zwischenablage kopieren</translation>
     </message>
     <message>
         <source>Remove from album</source>

@@ -244,10 +244,6 @@
         <translation>ኮፒ</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>ወደ ቁራጭ ሰሌዳ ኮፒ ማድረጊያ</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>ከ አልበም ውስጥ ማስወገጃ</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>አይነት</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>ፎቶ የ ተነሳበት ቀን</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>የ ተሻሻለበት ቀን</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>የ ሌንስ አይነት</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>ኮፒ</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>ወደ ቁራጭ ሰሌዳ ኮፒ ማድረጊያ</translation>
     </message>
     <message>
         <source>Remove from album</source>

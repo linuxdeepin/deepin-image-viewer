@@ -244,10 +244,6 @@
         <translation>Kopiera</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiera till urklipp</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Radera från album</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Typ</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Fotodatum</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Ändringsdatum</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Linsmodell</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1003,10 +999,6 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
         <translation type="unfinished"/>
     </message>
     <message>

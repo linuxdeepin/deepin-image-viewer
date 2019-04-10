@@ -244,10 +244,6 @@
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopírovat do schránky</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Odstranit z alba</translation>
     </message>
@@ -325,16 +321,12 @@
         <translation>Typ</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Pořízeno</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Změněno</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation>Rozměr</translation>
     </message>
     <message>
         <source>File size</source>
@@ -396,6 +388,10 @@
         <source>Lens model</source>
         <translation>Model čočky</translation>
     </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
@@ -444,7 +440,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Nastavení obrázku</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopírovat</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopírovat do schránky</translation>
     </message>
     <message>
         <source>Remove from album</source>

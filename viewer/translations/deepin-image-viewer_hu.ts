@@ -218,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>Ez a fájl több oldalt tartalmaz, kérem használja az Evince-t az össze oldal megtekintéséhez.</translation>
+        <translation>Ez a fájl több oldalt tartalmaz, kérlek használd az Evince-t az összes oldal megtekintéséhez.</translation>
     </message>
 </context>
 <context>
@@ -242,10 +242,6 @@
     <message>
         <source>Copy</source>
         <translation>Másolás</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Másolás vágólapra</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -325,10 +321,6 @@
         <translation>Típus</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Fotózás dátuma</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Módosítás dátuma</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Lencse minta</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Másolás</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Másolás vágólapra</translation>
     </message>
     <message>
         <source>Remove from album</source>
