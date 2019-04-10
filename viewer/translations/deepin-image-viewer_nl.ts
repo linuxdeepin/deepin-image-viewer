@@ -244,10 +244,6 @@
         <translation>Kopiëren</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiëren naar klembord</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Verwijderen uit album</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Type</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Gefotografeerd op</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Bewerkt op</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Lensmodel</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Gefotografeerd op</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiëren</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiëren naar klembord</translation>
     </message>
     <message>
         <source>Remove from album</source>

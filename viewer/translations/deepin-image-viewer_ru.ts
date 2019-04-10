@@ -244,10 +244,6 @@
         <translation>Копировать</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Копировать в буфер обмена</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Удалить из альбома</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Тип</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Дата снимка</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Дата изменения</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Модель линзы</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Дата захвата</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Копировать</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Копировать в буфер обмена</translation>
     </message>
     <message>
         <source>Remove from album</source>

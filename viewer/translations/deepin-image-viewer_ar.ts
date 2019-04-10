@@ -244,10 +244,6 @@
         <translation>نسخ</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>نسخ إلى الحافظة </translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>حذف من اﻷلبوم</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>النوع</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>تاريخ التصوير</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>تاريخ التعديل</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>طراز العدسة</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>نسخ</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>نسخ إلى الحافظة </translation>
     </message>
     <message>
         <source>Remove from album</source>

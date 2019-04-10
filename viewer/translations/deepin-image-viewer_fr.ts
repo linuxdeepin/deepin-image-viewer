@@ -244,10 +244,6 @@
         <translation>Copier</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Copier dans le presse-papier</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Enlever de l&apos;album</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Genre</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Date</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Date de modification</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>modèle de lentille</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Date de captation</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Copier</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Copier dans le presse-papier</translation>
     </message>
     <message>
         <source>Remove from album</source>

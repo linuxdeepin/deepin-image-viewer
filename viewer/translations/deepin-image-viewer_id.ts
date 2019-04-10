@@ -117,7 +117,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"/>
+        <translation>Pertunjukan slide</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -136,7 +136,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Penampil Gambar Deepin</translation>
     </message>
 </context>
 <context>
@@ -218,7 +218,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>File ini berisi beberapa halaman, silakan gunakan Evince untuk melihat semua halaman.</translation>
     </message>
 </context>
 <context>
@@ -233,7 +233,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished"/>
+        <translation>Pertunjukan slide</translation>
     </message>
     <message>
         <source>Print</source>
@@ -242,10 +242,6 @@
     <message>
         <source>Copy</source>
         <translation>Salin</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Salin ke papan klip</translation>
     </message>
     <message>
         <source>Remove from album</source>
@@ -297,7 +293,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Hapus</translation>
     </message>
 </context>
 <context>
@@ -325,16 +321,12 @@
         <translation>Tipe</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Tanggal difoto</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Tanggal dimodifikasi</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation>Dimensi</translation>
     </message>
     <message>
         <source>File size</source>
@@ -358,7 +350,7 @@
     </message>
     <message>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation>Flash</translation>
     </message>
     <message>
         <source>Aperture</source>
@@ -378,7 +370,7 @@
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation>Mode pengukuran</translation>
     </message>
     <message>
         <source>White balance</source>
@@ -386,7 +378,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation>Flash compensation</translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -396,66 +388,70 @@
         <source>Lens model</source>
         <translation>Model lensa</translation>
     </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation>Tidak ada penskalaan</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation>Sesuaikan halaman dengan gambar</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation>Sesuaikan gambar dengan halaman</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation>Skala untuk:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="unfinished"/>
+        <translation>Milimeter</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="unfinished"/>
+        <translation>Sentimeter</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation>Inci</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation>Posisi Gambar</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation>Penskalaan</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Pengaturan Gambar</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Pengaturan Gambar</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"/>
+        <translation>Tirai</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="unfinished"/>
+        <translation>Switcher</translation>
     </message>
     <message>
         <source>Sliding</source>
@@ -616,7 +612,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Hapus</translation>
     </message>
 </context>
 <context>
@@ -790,7 +786,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Hapus</translation>
     </message>
 </context>
 <context>
@@ -801,7 +797,7 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>Buka Gambar</translation>
     </message>
 </context>
 <context>
@@ -899,7 +895,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Hapus</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Salin</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Salin ke papan klip</translation>
     </message>
     <message>
         <source>Remove from album</source>

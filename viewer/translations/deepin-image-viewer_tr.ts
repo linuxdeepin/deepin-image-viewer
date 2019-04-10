@@ -244,10 +244,6 @@
         <translation>Kopyala</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Panoya kopyala</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Albümden Kaldır</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Tür</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Oluşturulma Tarihi</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Değiştirilme Tarihi</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Lens Modeli</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Çekilme tarihi</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopyala</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Panoya Kopyala</translation>
     </message>
     <message>
         <source>Remove from album</source>

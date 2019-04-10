@@ -244,10 +244,6 @@
         <translation>Kopiuj</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiuj do schowka</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Usuń z albumu</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Rodzaj</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Data fotografowania</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Data modyfikacji</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Model obiektywu</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiuj</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiuj do schowka</translation>
     </message>
     <message>
         <source>Remove from album</source>

@@ -244,10 +244,6 @@
         <translation>複製</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>複製到剪貼簿</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>從相簿移除</translation>
     </message>
@@ -325,16 +321,12 @@
         <translation>類型</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>拍攝時間</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>修改時間</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation>尺寸</translation>
     </message>
     <message>
         <source>File size</source>
@@ -396,6 +388,10 @@
         <source>Lens model</source>
         <translation>鏡頭型號</translation>
     </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
+    </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
@@ -444,7 +440,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>圖片設定</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>複製</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>複製到剪貼簿</translation>
     </message>
     <message>
         <source>Remove from album</source>

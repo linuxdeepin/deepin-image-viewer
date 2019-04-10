@@ -1,176 +1,176 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin paveikslų žiūryklė</translation>
+        <translation>Deepin kuvien katseluohjelma</translation>
     </message>
     <message>
         <source>Version:</source>
-        <translation>Versija:</translation>
+        <translation>Versio:</translation>
     </message>
 </context>
 <context>
     <name>AlbumBTContent</name>
     <message>
         <source>image</source>
-        <translation>paveikslas</translation>
+        <translation>kuva</translation>
     </message>
     <message>
         <source>images</source>
-        <translation>paveikslai(-ų)</translation>
+        <translation>kuvat</translation>
     </message>
     <message>
         <source>album</source>
-        <translation>albumas</translation>
+        <translation>albumi</translation>
     </message>
     <message>
         <source>albums</source>
-        <translation>albumai(-ų)</translation>
+        <translation>albumit</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Tvarkyti sinchronizavimą</translation>
+        <translation>Hallitse synkronointia</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Sinchronizuojama: </translation>
+        <translation>Synkronointi:</translation>
     </message>
 </context>
 <context>
     <name>AlbumCreateDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Atsisakyti</translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Gerai</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Naujas albumas</translation>
+        <translation>Uusi albumi</translation>
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Be pavadinimo</translation>
+        <translation>Nimeämätön</translation>
     </message>
 </context>
 <context>
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Paskiausiai importuoti</translation>
+        <translation>Viimeaikaiset tuodut</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mano mėgstami</translation>
+        <translation>Suosikkini</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Ar tikrai norite ištrinti šį albumą?</translation>
+        <translation>Haluatko varmasti poistaa tämän albumin?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Atsisakyti</translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
     <name>AlbumPanel</name>
     <message>
         <source>Back</source>
-        <translation>Atgal</translation>
+        <translation>Takaisin</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mano mėgstami</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Timeline</source>
-        <translation>Laiko juosta</translation>
+        <translation>Aikajana</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Pridėti</translation>
+        <translation>Lisää</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Jūs galite pridėti sinchronizavimo katalogą arba vilkti paveikslus į laiko juostą</translation>
+        <translation>Voit lisätä synkronointikansion ja vetää tai pudottaa kuvia aikajanalle</translation>
     </message>
 </context>
 <context>
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation>Be pavadinimo</translation>
+        <translation>Nimeämätön</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Žiūrėti</translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Skaidrių rodymas</translation>
+        <translation>Diaesitys</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Pervadinti</translation>
+        <translation>Nimeä</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopijuoti</translation>
+        <translation>Kopioi</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin paveikslų žiūryklė</translation>
+        <translation>Deepin kuvien katseluohjelma</translation>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Paveikslai</translation>
+        <translation>Kuvat</translation>
     </message>
 </context>
 <context>
     <name>DirImportDialog</name>
     <message>
         <source>Cancel</source>
-        <translation>Atsisakyti</translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Gerai</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Ar tikrai norite pridėti paveikslus į albumą?</translation>
+        <translation>Lisääkö kuvat varmasti albumiin?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Sinchronizuoti ir sukurti</translation>
+        <translation>Synkronoi ja luo</translation>
     </message>
     <message>
         <source>Sync</source>
-        <translation>Sinchronizuoti</translation>
+        <translation>Synkronoi</translation>
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Ar tikrai norite pridėti į sinchronizavimo sąrašą ir sukurti albumą tokiu pačiu pavadinimu kaip ir šis aplankas?</translation>
+        <translation>Lisäätkö varmasti synkronointiluetteloon ja luoda tämä kansion nimi?</translation>
     </message>
 </context>
 <context>
@@ -181,184 +181,184 @@
     </message>
     <message>
         <source>Exported successfully</source>
-        <translation>Eksportuota sėkmingai</translation>
+        <translation>Vienti onnistui</translation>
     </message>
     <message>
         <source>Failed to export</source>
-        <translation>Nepavyko eksportuoti</translation>
+        <translation>Vienti epäonnistui</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Įrašyti</translation>
+        <translation>Tallenna</translation>
     </message>
 </context>
 <context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Ar tikrai norite perkelti paveikslus į ŠIUŠKLINĘ?</translation>
+        <translation>Haluatko varmasti heittää kuvia ROSKAKORIIN?</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Atsisakyti</translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>Paveikslo informacija</translation>
+        <translation>Kuvan tiedot</translation>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>Šiame faile yra keli puslapiai, norėdami peržiūrėti visus puslapius, naudokite programą Evince.</translation>
+        <translation>Tämä tiedosto sisältää useita sivuja, käytä Evince-ohjelmaa nähdäksesi kaikki sivut.</translation>
     </message>
 </context>
 <context>
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation>Žiūrėti</translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Visas ekranas</translation>
+        <translation>Kokoruutu</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Skaidrių rodymas</translation>
+        <translation>Diaesitys</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Spausdinti</translation>
+        <translation>Tulosta</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopijuoti</translation>
+        <translation>Kopioi</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Šalinti iš albumo</translation>
+        <translation>Poista albumista</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Mėgstamas</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nebemėgstamas</translation>
+        <translation>Poista-suosikki</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Pasukti pagal laikrodžio rodyklę</translation>
+        <translation>Kierrä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Pasukti prieš laikrodžio rodyklę</translation>
+        <translation>Kierrä vastapäivään</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Nustatyti kaip darbalaukio foną</translation>
+        <translation>Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Rodyti failų tvarkytuvėje</translation>
+        <translation>Näytä tiedostonhallinnassa</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Paveikslo informacija</translation>
+        <translation>Kuvan tiedot</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Pridėti</translation>
+        <translation>Lisää</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Jūs galite pridėti sinchronizavimo katalogą arba vilkti paveikslus į laiko juostą</translation>
+        <translation>Voit lisätä synkronointikansion ja vetää tai pudottaa kuvia aikajanalle</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Pridėti į albumą</translation>
+        <translation>Lisää albumiin</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Pridėti į naują albumą</translation>
+        <translation>Lisää uuteen albumiin</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Atverti katalogą</translation>
+        <translation>Avaa hakemisto</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Jūs neturite leidimų peržiūrėti paveikslą</translation>
+        <translation>Sinulla ei ole oikeutta tarkastella kuvaa</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>Pavadinimas</translation>
+        <translation>Nimi</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Tipas</translation>
+        <translation>Tyyppi</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Keitimo data</translation>
+        <translation>Muokkauspäivä</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Matmenys</translation>
+        <translation>Mitat</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Failo dydis</translation>
+        <translation>Tiedoston koko</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Spalvų erdvė</translation>
+        <translation>Värikartta</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Išlaikymo veiksena</translation>
+        <translation>Valotustila</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Išlaikymo programa</translation>
+        <translation>Valotusohjelma</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Išlaikymas</translation>
+        <translation>Valotusaika</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>Blykstė</translation>
+        <translation>Salama</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Diafragma</translation>
+        <translation>Aukko</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Židinio nuotolis</translation>
+        <translation>Polttoväli</translation>
     </message>
     <message>
         <source>ISO</source>
@@ -366,563 +366,563 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Didžiausia diafragma</translation>
+        <translation>Maksimi aukko</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Matavimo veiksena</translation>
+        <translation>Mittaustila</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Baltos spalvos balansas</translation>
+        <translation>Valkotasapaino</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Blykstės kompensavimas</translation>
+        <translation>Salamakompensointi</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Fotoaparato modelis</translation>
+        <translation>Kameramalli</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Objektyvo modelis</translation>
+        <translation>Linssin malli</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Fotografavimo data</translation>
+        <translation>Kuvauspäivä</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Nekeisti mastelio</translation>
+        <translation>Ei skaalausta</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Talpinti puslapį į paveikslą</translation>
+        <translation>Sovita sivu kuvaan</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Talpinti paveikslą į puslapį</translation>
+        <translation>Sovita kuva sivulle</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Keisti mastelį į:</translation>
+        <translation>Skaalaa..:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milimetrų</translation>
+        <translation>Millimetriä</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centimetrų</translation>
+        <translation>Senttimetriä</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Colių</translation>
+        <translation>Tuumaa:</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Paveikslo pozicija</translation>
+        <translation>Kuvan sijainti</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Mastelio keitimas</translation>
+        <translation>Skaalaus</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Paveikslo nustatymai</translation>
+        <translation>Kuvan asetukset</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Paveikslo nustatymai</translation>
+        <translation>Kuvan asetukset</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Langinės</translation>
+        <translation>Kaihtimet</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Perjungiklis</translation>
+        <translation>Vaihtaja</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Slinkimas</translation>
+        <translation>Liukuva</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Žiedas</translation>
+        <translation>Ympyrä</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Pasirinkti katalogą</translation>
+        <translation>Valitse hakemisto</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Šis katalogas yra išjungtas sinchronizavimui</translation>
+        <translation>Tämä hakemisto on poistettu synkronoinista</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Pridėti aplanką</translation>
+        <translation>Lisää kansio</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Sinchronizuojamų katalogų tvarkymas</translation>
+        <translation>Synkronointihakemiston hallinta</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Katalogų sąrašas yra tuščias</translation>
+        <translation>Hakemistoluettelo on tyhjä</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Atsisakyti sinchronizavimo</translation>
+        <translation>Peru synkronointi</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Paveikslai</translation>
+        <translation>Kuvat</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Įrenginys buvo pašalintas</translation>
+        <translation>Laite on poistettu</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Šio katalogo daugiau nebėra</translation>
+        <translation>Tätä hakemistoa ei enää ole</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Apskaičiuojama...</translation>
+        <translation>Lasketaan...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Paveikslo žiūrėjimas</translation>
+        <translation>Kuvan katselu</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Albumas</translation>
+        <translation>Albumi</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Nustatymai</translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Žiūrėti</translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Visas ekranas</translation>
+        <translation>Kokoruutu</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Skaidrių rodymas</translation>
+        <translation>Diaesitys</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Užbaigti rodymą</translation>
+        <translation>Lopeta diaesitys</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopijuoti</translation>
+        <translation>Kopioi</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Šalinti iš albumo</translation>
+        <translation>Poista albumista</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Mėgstamas</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nebemėgstamas</translation>
+        <translation>Poista-suosikki</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Pasukti pagal laikrodžio rodyklę</translation>
+        <translation>Kierrä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Pasukti prieš laikrodžio rodyklę</translation>
+        <translation>Kierrä vastapäivään</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Nustatyti kaip darbalaukio foną</translation>
+        <translation>Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Rodyti failų tvarkytuvėje</translation>
+        <translation>Näytä tiedostonhallinnassa</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Paveikslo informacija</translation>
+        <translation>Kuvan tiedot</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Ankstesnis</translation>
+        <translation>Edellinen</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Kitas</translation>
+        <translation>Seuraava</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Ankstesnis ekranas</translation>
+        <translation>Edellinen ruutu</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Kitas ekranas</translation>
+        <translation>Seuraava ruutu</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Naujas albumas</translation>
+        <translation>Uusi albumi</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Pervadinti</translation>
+        <translation>Nimeä</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Žinynas</translation>
+        <translation>Apua</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>Išeiti</translation>
+        <translation>Poistu</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Rodyti trumpinius</translation>
+        <translation>Näytä pikavalinnat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Prašome įvesti naują trumpinį</translation>
+        <translation>Anna uusi pikakuvake</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Trumpiniai</translation>
+        <translation>Pikakuvakkeet</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Paveikslo rodymas</translation>
+        <translation>Näytä kuva</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Albumas</translation>
+        <translation>Albumi</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Atkurti numatytuosius</translation>
+        <translation>Palauttaa oletukset</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Žiūrėti</translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Visas ekranas</translation>
+        <translation>Kokoruutu</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Skaidrių rodymas</translation>
+        <translation>Diaesitys</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Užbaigti rodymą</translation>
+        <translation>Lopeta diaesitys</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Spausdinti</translation>
+        <translation>Tulosta</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopijuoti</translation>
+        <translation>Kopioi</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Šalinti iš albumo</translation>
+        <translation>Poista albumista</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Mėgstamas</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nebemėgstamas</translation>
+        <translation>Poista-suosikki</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Pasukti pagal laikrodžio rodyklę</translation>
+        <translation>Kierrä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Pasukti prieš laikrodžio rodyklę</translation>
+        <translation>Kierrä vastapäivään</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Nustatyti kaip darbalaukio foną</translation>
+        <translation>Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Rodyti failų tvarkytuvėje</translation>
+        <translation>Näytä tiedostonhallinnassa</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Paveikslo informacija</translation>
+        <translation>Kuvan tiedot</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Naujas albumas</translation>
+        <translation>Uusi albumi</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Pervadinti</translation>
+        <translation>Nimeä</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>Užbaigti rodymą</translation>
+        <translation>Lopeta diaesitys</translation>
     </message>
     <message>
         <source>Pause/Play</source>
-        <translation>Pristabdyti/Tęsti</translation>
+        <translation>Tauko/Toisto</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slinkimo nustatymai</translation>
+        <translation>Dian asetukset</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Perjungimo efektas</translation>
+        <translation>Vaihda efekti</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Trukmė</translation>
+        <translation>Kesto</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Perjungimo trukmė</translation>
+        <translation>Säädä kesto</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>sekundės</translation>
+        <translation>seuraava</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Atgal</translation>
+        <translation>Takaisin</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Paveikslų tvarkymas</translation>
+        <translation>Kuvanhallinta</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mano mėgstami</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Dydis 1:1</translation>
+        <translation>Koko 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Talpinti į langą</translation>
+        <translation>Sovita ikkunaan</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Pasukti prieš laikrodžio rodyklę</translation>
+        <translation>Kierrä vastapäivään</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Pasukti pagal laikrodžio rodyklę</translation>
+        <translation>Kierrä myötäpäivään</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nebemėgstamas</translation>
+        <translation>Poista-suosikki</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Mėgstamas</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nerasta jokių paveikslo failų</translation>
+        <translation>Kuvia ei löytynyt</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Atverti paveikslą</translation>
+        <translation>Avaa kuva</translation>
     </message>
 </context>
 <context>
     <name>TimelineBTContent</name>
     <message>
         <source>%1 image</source>
-        <translation>%1 paveikslas</translation>
+        <translation>%1 kuva</translation>
     </message>
     <message>
         <source>%1 images</source>
-        <translation>%1 paveikslai(-ų)</translation>
+        <translation>%1 kuvat</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Tvarkyti sinchronizavimą</translation>
+        <translation>Hallitse synkronointia</translation>
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Sinchronizuojama: </translation>
+        <translation>Synkronointi:</translation>
     </message>
 </context>
 <context>
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>Albumas</translation>
+        <translation>Albumi</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Pridėti</translation>
+        <translation>Lisää</translation>
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Jūs galite pridėti sinchronizavimo katalogą arba vilkti paveikslus į laiko juostą</translation>
+        <translation>Voit lisätä synkronointikansion ja vetää tai pudottaa kuvia aikajanalle</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Pridėti į albumą</translation>
+        <translation>Lisää albumiin</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Pridėti į naują albumą</translation>
+        <translation>Lisää uuteen albumiin</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Žiūrėti</translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Visas ekranas</translation>
+        <translation>Kokoruutu</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Skaidrių rodymas</translation>
+        <translation>Diaesitys</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Spausdinti</translation>
+        <translation>Tulosta</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopijuoti</translation>
+        <translation>Kopioi</translation>
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Kopijuoti į iškarpinę</translation>
+        <translation>Kopioi leikepöydälle</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Mėgstamas</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nebemėgstamas</translation>
+        <translation>Poista-suosikki</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Pasukti pagal laikrodžio rodyklę</translation>
+        <translation>Kierrä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Pasukti prieš laikrodžio rodyklę</translation>
+        <translation>Kierrä vastapäivään</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Nustatyti kaip darbalaukio foną</translation>
+        <translation>Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Rodyti failų tvarkytuvėje</translation>
+        <translation>Näytä tiedostonhallinnassa</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Paveikslo informacija</translation>
+        <translation>Kuvan tiedot</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slinkimo nustatymai</translation>
+        <translation>Dian asetukset</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Efektai</translation>
+        <translation>Efekti</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Trukmė</translation>
+        <translation>Kesto</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Trumpiniai</translation>
+        <translation>Pikakuvakkeet</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Rodymas</translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Albumas</translation>
+        <translation>Albumi</translation>
     </message>
 </context>
 <context>
@@ -933,125 +933,125 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Mano mėgstami</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Paskiausiai importuoti</translation>
+        <translation>Viimeaikaiset tuodut</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Naujas albumas</translation>
+        <translation>Uusi albumi</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Nustatymai</translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin paveikslų žiūryklė yra šiuolaikinė ir glotni paveikslų tvarkytuvė.</translation>
+        <translation>Deepin kuvien katseluohjelma on muodikas sekä sulava liikkeissään.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Jos pagrindinės ypatybės yra paveikslų tvarkymas, paveikslų rodymas bei pagrindinės paveikslų redagavimo funkcijos.</translation>
+        <translation>Se on varustettu kuvankäsittelyllä ja kuvien katselulla.</translation>
     </message>
     <message>
         <source>Dark theme</source>
-        <translation>Tamsi tema</translation>
+        <translation>Tumma teema</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin paveikslų žiūryklė yra paveikslų peržiūros įrankis su šiuolaikine sąsaja ir glotniu našumu.</translation>
+        <translation>Deepin kuvankatseluohjelma on kuvien käsittelytyökalu, jossa on muodikas käyttöliittymä ja sujuva suorituskyky.</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Laiko juosta</translation>
+        <translation>Aikajana</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Pridėti į albumą</translation>
+        <translation>Lisää albumiin</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Pridėti į naują albumą</translation>
+        <translation>Lisää uuteen albumiin</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Išeiti iš viso ekrano</translation>
+        <translation>Poistu kokoruudusta</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Visas ekranas</translation>
+        <translation>Kokoruutu</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Skaidrių rodymas</translation>
+        <translation>Diaesitys</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Spausdinti</translation>
+        <translation>Tulosta</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopijuoti</translation>
+        <translation>Kopioi</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Šalinti iš albumo</translation>
+        <translation>Poista albumista</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Mėgstamas</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nebemėgstamas</translation>
+        <translation>Poista-suosikki</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Rodyti naršymo langą</translation>
+        <translation>Näytä navigointiikkuna</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Slėpti naršymo langą</translation>
+        <translation>Piilota navigointiikkuna</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Pasukti pagal laikrodžio rodyklę</translation>
+        <translation>Kierrä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Pasukti prieš laikrodžio rodyklę</translation>
+        <translation>Kierrä vastapäivään</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Nustatyti kaip darbalaukio foną</translation>
+        <translation>Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Rodyti failų tvarkytuvėje</translation>
+        <translation>Näytä tiedostonhallinnassa</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Paveikslo informacija</translation>
+        <translation>Kuvan tiedot</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Ištrinti</translation>
+        <translation>Poista</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Atverti paveikslą</translation>
+        <translation>Avaa kuva</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation>Visi paveikslai</translation>
+        <translation>Kaikki kuvat</translation>
     </message>
 </context>
 </TS>

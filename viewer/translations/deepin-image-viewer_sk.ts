@@ -244,10 +244,6 @@
         <translation>Kopírovanie</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Skopírovať do schránky</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Odstrániť z albumu</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Typ</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Dátum fotografovania</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Dátum úpravy</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Model objektívu</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopírovať</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Skopírovať do schránky</translation>
     </message>
     <message>
         <source>Remove from album</source>

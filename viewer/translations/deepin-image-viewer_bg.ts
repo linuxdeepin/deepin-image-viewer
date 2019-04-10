@@ -244,10 +244,6 @@
         <translation>Копиране</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Копиране в системния буфер</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Премахване от албума</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Тип</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Дата за заснемане</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Дата на промяна</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Модел на обектива</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Копиране</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Копиране в системния буфер</translation>
     </message>
     <message>
         <source>Remove from album</source>

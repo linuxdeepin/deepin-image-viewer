@@ -244,10 +244,6 @@
         <translation>Copia</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Copia negli appunti</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Rimuovi dall&apos;album</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Tipo</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Data scatto</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Data modifica</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Modello lente</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Data individuata</translation>
     </message>
 </context>
 <context>
@@ -1005,10 +1001,6 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Copia negli appunti</translation>
     </message>
     <message>
         <source>Remove from album</source>

@@ -244,10 +244,6 @@
         <translation>העתקה</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>העתקה ללוח הגזירים</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>הסרה מהאלבום</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>סוג</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>מועד הצילום</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>מועד השינוי</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>דגם העדשה</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1003,10 +999,6 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
         <translation type="unfinished"/>
     </message>
     <message>

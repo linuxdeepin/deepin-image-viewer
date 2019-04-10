@@ -244,10 +244,6 @@
         <translation>Kopiér</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiér til udklipsholder</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Fjern fra album</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Type</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Fotograferingsdato</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Ændringsdato</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Linsemodel</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopiér</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiér til udklipsholder</translation>
     </message>
     <message>
         <source>Remove from album</source>

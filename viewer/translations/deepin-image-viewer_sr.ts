@@ -244,10 +244,6 @@
         <translation>Копирај</translation>
     </message>
     <message>
-        <source>Copy to clipboard</source>
-        <translation>Копирај у бележницу</translation>
-    </message>
-    <message>
         <source>Remove from album</source>
         <translation>Уклони из албума</translation>
     </message>
@@ -325,10 +321,6 @@
         <translation>Тип</translation>
     </message>
     <message>
-        <source>Date photoed</source>
-        <translation>Датум сликања</translation>
-    </message>
-    <message>
         <source>Date modified</source>
         <translation>Измењено</translation>
     </message>
@@ -395,6 +387,10 @@
     <message>
         <source>Lens model</source>
         <translation>Модел сочива</translation>
+    </message>
+    <message>
+        <source>Date captured</source>
+        <translation>Датум снимања</translation>
     </message>
 </context>
 <context>
@@ -470,7 +466,7 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Одабери директоријум</translation>
+        <translation>Изабери директоријум</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
@@ -642,7 +638,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Врати подразумевано</translation>
+        <translation>Врати Подразумевано</translation>
     </message>
 </context>
 <context>
@@ -1004,10 +1000,6 @@
     <message>
         <source>Copy</source>
         <translation>Копирај</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Копирај у бележницу</translation>
     </message>
     <message>
         <source>Remove from album</source>
