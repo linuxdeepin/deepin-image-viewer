@@ -1,3 +1,13 @@
+<a name="1.3.12"></a>
+### 1.3.12 (2019-04-16)
+
+
+#### Bug Fixes
+
+*   not using color printing even if printers supports it ([560e3350](https://github.com/linuxdeepin/deepin-image-viewer/commit/560e3350e4419a0891290251c8304ba5ec393fd4))
+
+
+
 <a name="1.3.11"></a>
 ## 1.3.11 (2019-04-10)
 
