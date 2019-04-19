@@ -1,3 +1,13 @@
+<a name="1.3.13"></a>
+## 1.3.13 (2019-04-19)
+
+
+#### Bug Fixes
+
+*   can not copy images to windows applications ([539b68d6](https://github.com/linuxdeepin/deepin-image-viewer/commit/539b68d6017d6c3de5f7bc26465057065777377a))
+
+
+
 <a name="1.3.12"></a>
 ### 1.3.12 (2019-04-16)
 
