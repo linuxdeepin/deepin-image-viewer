@@ -171,7 +171,7 @@ void copyImageToClipboard(const QStringList &paths)
     for (QString path : paths) {
         if (!path.isEmpty())
             text += path + '\n';
-        dataUrls << QUrl(QFileInfo(path).absoluteFilePath());
+        dataUrls << QUrl::fromLocalFile(path);
         gnomeFormat.append(QUrl::fromLocalFile(path).toEncoded()).append("\n");
     }
 
