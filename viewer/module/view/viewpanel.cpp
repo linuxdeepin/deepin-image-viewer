@@ -19,6 +19,7 @@
 #include "navigationwidget.h"
 #include "controller/divdbuscontroller.h"
 #include "controller/signalmanager.h"
+#include "controller/configsetter.h"
 #include "contents/imageinfowidget.h"
 #include "contents/ttmcontent.h"
 #include "contents/ttlcontent.h"
@@ -166,8 +167,16 @@ void ViewPanel::initConnect()
         filter.append(utils::image::supportedImageFormats().join(" "));
         filter.append(')');
 
+        static QString cfgGroupName = QStringLiteral("General"), cfgLastOpenPath = QStringLiteral("LastOpenPath");
+        QString pictureFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        QDir existChecker(pictureFolder);
+        if (!existChecker.exists()) {
+            pictureFolder = QDir::currentPath();
+        }
+        pictureFolder = dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
+
         const QStringList &image_list = QFileDialog::getOpenFileNames(this, tr("Open Image"),
-                                                                      QDir::currentPath(), filter, nullptr, QFileDialog::HideNameFilterDetails);
+                                                                      pictureFolder, filter, nullptr, QFileDialog::HideNameFilterDetails);
 
         if (image_list.isEmpty())
             return;
@@ -176,6 +185,9 @@ void ViewPanel::initConnect()
 
         vinfo.path = image_list.first();
         vinfo.paths = image_list;
+
+        QFileInfo firstFileInfo(vinfo.path);
+        dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
         onViewImage(vinfo);
     });
