@@ -22,3 +22,5 @@ include*/
 
 vendor/include/*
 vendor/lib/*
+
+.vscode/*

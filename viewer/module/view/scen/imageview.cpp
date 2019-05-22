@@ -207,9 +207,6 @@ void ImageView::setImage(const QString &path)
                 m_pixmapItem = nullptr;
                 s->clear();
                 resetTransform();
-                GraphicsMovieItem *loadingItem = new GraphicsMovieItem(m_loadingIconPath);
-                loadingItem->start();
-                // Make sure item show in center of view after reload
 
                 auto spinner = new DSpinner;
                 spinner->setFixedSize(SPINNER_SIZE);
@@ -222,6 +219,7 @@ void ImageView::setImage(const QString &path)
                 hLayout->setSpacing(0);
                 hLayout->addWidget(spinner, 0, Qt::AlignCenter);
                 w->setLayout(hLayout);
+                // Make sure item show in center of view after reload
                 setSceneRect(w->rect());
                 s->addWidget(w);
 
