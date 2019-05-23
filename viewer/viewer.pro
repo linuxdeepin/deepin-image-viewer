@@ -90,7 +90,9 @@ INSTALLS = target desktop dbus_service icons manual manual_icon app_icon transla
 DISTFILES += \
     com.deepin.ImageViewer.service
 
-load(deepin_qt)
+load(dtk_qmake)
 host_sw_64: {
+# 在 sw_64 平台上添加此参数，否则会在旋转图片时崩溃
+    QMAKE_CFLAGS += -mieee
     QMAKE_CXXFLAGS += -mieee
 }
