@@ -1,3 +1,17 @@
+<a name="1.3.14"></a>
+## 1.3.14 (2019-05-23)
+
+
+#### Features
+
+*   remember last choosed path ([5c78c745](https://github.com/linuxdeepin/deepin-image-viewer/commit/5c78c74523f09623248e8c398402815cc2582d9f))
+
+#### Others
+
+*   remove unused code ([d0ecd9f3](https://github.com/linuxdeepin/deepin-image-viewer/commit/d0ecd9f31acd42cb977cf39a912e64fe78257c54))
+
+
+
 <a name="1.3.13"></a>
 ## 1.3.13 (2019-04-19)
 
