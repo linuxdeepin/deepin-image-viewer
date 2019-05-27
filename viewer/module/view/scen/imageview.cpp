@@ -31,6 +31,7 @@
 #include <qmath.h>
 #include <QScrollBar>
 #include <QGestureEvent>
+#include <QSvgRenderer>
 
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
@@ -287,9 +288,9 @@ const QImage ImageView::image()
         //FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
     } else if (m_svgItem) {    // svg
-        QImage image(viewport()->size(), QImage::Format_ARGB32_Premultiplied);
+        QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
         QPainter imagePainter(&image);
-        QGraphicsView::render(&imagePainter);
+        m_svgItem->renderer()->render(&imagePainter);
         imagePainter.end();
         return image;
     } else {
@@ -385,7 +386,10 @@ QRect ImageView::visibleImageRect() const
 
 bool ImageView::isWholeImageVisible() const
 {
-    return visibleImageRect().size() == sceneRect().size();
+    const QRect &r = visibleImageRect();
+    const QRectF &sr = sceneRect();
+
+    return r.width() >= sr.width() && r.height() >= sr.height();
 }
 
 bool ImageView::isFitImage() const
