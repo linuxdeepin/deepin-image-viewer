@@ -88,22 +88,23 @@ void NavigationWidget::setImage(const QImage &img)
     const qreal ratio = devicePixelRatioF();
 
     QRect tmpImageRect = QRect(m_mainRect.x(), m_mainRect.y(),
-                               m_mainRect.width(), m_mainRect.height());
-
+                               qRound(m_mainRect.width() * ratio),
+                               qRound(m_mainRect.height() * ratio));
 
     m_originRect = img.rect();
-    m_img = img.scaled(tmpImageRect.size() * ratio, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    m_img.setDevicePixelRatio(ratio);
-    m_pix = QPixmap::fromImage(m_img);
-    m_pix.setDevicePixelRatio(ratio);
 
-    if (img.width() > img.height()) {
-        m_imageScale = qreal(m_img.width() / ratio)/qreal(img.width());
+    // 只在图片比可显示区域大时才缩放
+    if (tmpImageRect.width() < m_originRect.width() || tmpImageRect.height() < m_originRect.height()) {
+        m_img = img.scaled(tmpImageRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     } else {
-        m_imageScale = qreal(m_img.height() / ratio)/qreal(img.height());
+        m_img = img;
     }
 
-    m_r = QRect(0, 0, m_img.width() / ratio, m_img.height() / ratio);
+    m_pix = QPixmap::fromImage(m_img);
+    m_pix.setDevicePixelRatio(ratio);
+    m_imageScale = qMax(1.0, qMax(qreal(img.width()) / qreal(m_img.width()), qreal(img.height()) / qreal(m_img.height())));
+    m_r = QRectF(0, 0, m_img.width() / ratio, m_img.height() / ratio);
+
     update();
 }
 
@@ -111,15 +112,12 @@ void NavigationWidget::setRectInImage(const QRect &r)
 {
     if (m_img.isNull())
         return;
-    m_r.setX((qreal)r.x() * m_imageScale);
-    m_r.setY((qreal)r.y() * m_imageScale);
-    m_r.setWidth((qreal)r.width() * m_imageScale);
-    m_r.setHeight((qreal)r.height() * m_imageScale);
-    update();
+    m_r.setX((qreal)r.x() / m_imageScale);
+    m_r.setY((qreal)r.y() / m_imageScale);
+    m_r.setWidth((qreal)r.width() / m_imageScale);
+    m_r.setHeight((qreal)r.height() / m_imageScale);
 
-    // x == 0并且y == 0时表示图片未超出窗口区域
-    if (!isAlwaysHidden())
-        setVisible(r.x() !=0 || r.y() != 0);
+    update();
 }
 
 void NavigationWidget::mousePressEvent(QMouseEvent *e)
@@ -158,10 +156,7 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     const qreal ratio = devicePixelRatioF();
 
     QPainter p(&img);
-    p.setRenderHints(QPainter::Antialiasing|QPainter::HighQualityAntialiasing);
-    p.setRenderHint(QPainter::SmoothPixmapTransform);
-    p.setClipRegion(QRegion(0, 0, img.width() / ratio, img.height() / ratio) - m_r);
-    p.fillRect(QRect(0, 0, m_img.width() / ratio, m_img.height() / ratio), m_mrBgColor);
+    p.fillRect(m_r, m_mrBgColor);
     p.setPen(m_mrBorderColor);
     p.drawRect(m_r);
     p.end();
