@@ -17,7 +17,7 @@ PrintHelper::PrintHelper(QObject *parent)
 
 }
 
-static QAction *hookToolBarActionIcons(QToolBar *bar)
+static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)
 {
     QAction *last_action = nullptr;
 
@@ -49,10 +49,15 @@ static QAction *hookToolBarActionIcons(QToolBar *bar)
             {QCoreApplication::translate(context, "Page setup"), QStringLiteral("page-setup")}
         };
 
+
         const QString &icon_name = map.value(action->text());
 
         if (icon_name.isEmpty())
             continue;
+
+        if (pageSetupAction && icon_name == "page-setup") {
+            *pageSetupAction = action;
+        }
 
         QIcon icon(QStringLiteral(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
         action->setIcon(icon);
@@ -76,11 +81,40 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     QToolBar *toolBar = printDialog->findChild<QToolBar*>();
 
     if (toolBar) {
-        QAction *last_action = hookToolBarActionIcons(toolBar);
+        QAction *page_setup_action = nullptr;
+        QAction *last_action = hookToolBarActionIcons(toolBar, &page_setup_action);
         QAction *action = new QAction(QIcon(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/preview-24.svg"),
                                       QCoreApplication::translate("PrintPreviewDialog", "Image Settings"), toolBar);
         connect(action, &QAction::triggered, optionsPage, &PrintOptionsPage::show);
         toolBar->insertAction(last_action, action);
+
+        // 使用QPrintPropertiesDialog代替QPageSetupDialog, 用于解决使用QPageSetupDialog进行打印设置无效的问题
+        if (page_setup_action) {
+            // 先和原有的槽断开连接
+            disconnect(page_setup_action, &QAction::triggered, nullptr, nullptr);
+            // 触发创建QPrintDialog对象
+            connect(page_setup_action, SIGNAL(triggered(bool)), printDialog, SLOT(_q_print()), Qt::QueuedConnection);
+            // 在QPrintDialog对象被创建后调用，用于触发显示 QPrintPropertiesDialog
+            connect(page_setup_action, &QAction::triggered, printDialog, [printDialog] {
+                auto find_child_by_name = [] (const QObject *obj, const QByteArray &class_name) {
+                    for (QObject *child : obj->children()) {
+                        if (child->metaObject()->className() == class_name) {
+                            return child;
+                        }
+                    }
+
+                    return (QObject*)(nullptr);
+                };
+
+                if (QPrintDialog *print_dialog = printDialog->findChild<QPrintDialog*>()) {
+                    print_dialog->reject();
+
+                    // 显示打印设置对话框
+                    if (QObject *print_properties_dialog = find_child_by_name(print_dialog, "QUnixPrintWidget"))
+                        QMetaObject::invokeMethod(print_properties_dialog, "_q_btnPropertiesClicked");
+                }
+            }, Qt::QueuedConnection);
+        }
     } else {
         optionsPage->hide();
     }
