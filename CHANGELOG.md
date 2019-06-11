@@ -1,3 +1,13 @@
+<a name="1.3.17"></a>
+## 1.3.17 (2019-06-11)
+
+
+#### Bug Fixes
+
+*   use QPrintPropertiesDialog replace QPageSetupDialog ([0c7fe450](https://github.com/linuxdeepin/deepin-image-viewer/commit/0c7fe450f7dc7048bb7334620eadf26cb2064bfe))
+
+
+
 <a name="1.3.14"></a>
 ## 1.3.14 (2019-05-23)
 
