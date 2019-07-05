@@ -390,7 +390,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>Data rejestracji</translation>
     </message>
 </context>
 <context>

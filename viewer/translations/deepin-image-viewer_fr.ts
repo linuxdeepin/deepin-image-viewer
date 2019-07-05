@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image</translation>
+        <translation>Visionneuse d&apos;images Deepin</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -34,7 +34,7 @@
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Synchronisation:</translation>
+        <translation>Synchronisation :</translation>
     </message>
 </context>
 <context>
@@ -136,7 +136,7 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image</translation>
+        <translation>Visionneuse d&apos;images Deepin</translation>
     </message>
 </context>
 <context>
@@ -386,11 +386,11 @@
     </message>
     <message>
         <source>Lens model</source>
-        <translation>modèle de lentille</translation>
+        <translation>Modèle de lentille</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Date de captation</translation>
+        <translation>Date de capture</translation>
     </message>
 </context>
 <context>
@@ -409,7 +409,7 @@
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Échelle jusqu&apos;à:</translation>
+        <translation>Échelle jusqu&apos;à :</translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -451,7 +451,7 @@
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Switcher </translation>
+        <translation>Basculer</translation>
     </message>
     <message>
         <source>Sliding</source>
@@ -493,7 +493,7 @@
     </message>
     <message>
         <source>Images</source>
-        <translation>images </translation>
+        <translation>Images </translation>
     </message>
     <message>
         <source>The device has been removed</source>
@@ -512,7 +512,7 @@
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Visualiseur d&apos;Image</translation>
+        <translation>Visionneuse d&apos;image</translation>
     </message>
     <message>
         <source>Album</source>
@@ -816,7 +816,7 @@
     </message>
     <message>
         <source>Syncing: </source>
-        <translation>Synchronisation:</translation>
+        <translation>Synchronisation :</translation>
     </message>
 </context>
 <context>
@@ -891,7 +891,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Image infos</translation>
+        <translation>Informations sur l&apos;image</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -952,7 +952,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Visionneur d&apos;images Deepin est un gestionnaire d&apos;images souple et moderne.</translation>
+        <translation>Deepin Image Viewer est un gestionnaire d&apos;images souple et moderne.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
@@ -964,7 +964,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Visionneur d&apos;images Deepin est un outil de visionnage d&apos;image avec une interface simple et des performances accrue.</translation>
+        <translation>Deepin Image Viewer est un outil de visionnage d&apos;images avec une interface simple et des performances accrue.</translation>
     </message>
 </context>
 <context>
@@ -1039,7 +1039,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Image infos</translation>
+        <translation>Informations sur l&apos;image</translation>
     </message>
     <message>
         <source>Delete</source>

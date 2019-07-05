@@ -390,7 +390,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>已擷取日期</translation>
     </message>
 </context>
 <context>

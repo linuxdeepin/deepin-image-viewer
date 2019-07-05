@@ -390,7 +390,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>Zachyceno</translation>
     </message>
 </context>
 <context>
