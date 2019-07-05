@@ -293,7 +293,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
@@ -390,7 +390,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation>Dátum fotografovania</translation>
     </message>
 </context>
 <context>
@@ -440,7 +440,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>Nastavenia obrázku</translation>
     </message>
 </context>
 <context>
@@ -612,7 +612,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
@@ -786,7 +786,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
@@ -895,7 +895,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Odstrániť</translation>
     </message>
 </context>
 <context>
@@ -964,7 +964,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Prehliadač obrázkov je módny a plynulý manažér obrázkov.</translation>
     </message>
 </context>
 <context>
@@ -1043,7 +1043,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Odstrániť</translation>
     </message>
     <message>
         <source>Open Image</source>

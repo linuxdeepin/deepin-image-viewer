@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <translation>Visualizador de Imagens Deepin</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -170,7 +170,7 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Tem a certeza que deseja adicionar à lista de sincronização e criar o album com mesmo nome?</translation>
+        <translation>Tem a certeza que deseja adicionar à lista de sincronização e criar o álbum com mesmo nome?</translation>
     </message>
 </context>
 <context>
@@ -245,7 +245,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover do album</translation>
+        <translation>Remover do álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -285,11 +285,11 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao album</translation>
+        <translation>Adicionar ao álbum</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Adicionar a um novo album</translation>
+        <translation>Adicionar a um novo álbum</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -300,7 +300,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir Diretório</translation>
+        <translation>Abrir Diretoria</translation>
     </message>
 </context>
 <context>
@@ -401,7 +401,7 @@
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Ajuastar página à imagem</translation>
+        <translation>Ajustar página à imagem</translation>
     </message>
     <message>
         <source>Fit image to page</source>
@@ -409,7 +409,7 @@
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Escalar por:</translation>
+        <translation>Escalar para:</translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -466,11 +466,11 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Selecionar diretório</translation>
+        <translation>Selecionar Diretoria</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Este diretório esta desativado para sincronização</translation>
+        <translation>Esta diretoria está desativada para sincronização</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -478,11 +478,11 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Gestor de Sincronização de Diretórios</translation>
+        <translation>Gestor de Sincronização de Diretorias</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>A lista de diretórios está vazia</translation>
+        <translation>A lista de diretorias está vazia</translation>
     </message>
 </context>
 <context>
@@ -501,7 +501,7 @@
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Este diretório já não existe</translation>
+        <translation>Esta diretoria já não existe</translation>
     </message>
     <message>
         <source>Calculating...</source>
@@ -516,7 +516,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>Álbum</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -544,7 +544,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover do album</translation>
+        <translation>Remover do álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -560,11 +560,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar no sentido contrário dos ponteiros do relógio</translation>
+        <translation>Rodar no sentido contrário ao dos ponteiros do relógio</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como fundo</translation>
+        <translation>Definir como fundo de ecrã</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -592,7 +592,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo album</translation>
+        <translation>Novo álbum</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -634,7 +634,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>Álbum</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
@@ -669,7 +669,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover do album</translation>
+        <translation>Remover do álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -685,11 +685,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar no sentido contrário dos ponteiros do relógio</translation>
+        <translation>Rodar contra o sentido dos ponteiros do relógio</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como fundo</translation>
+        <translation>Definir como papel de parede</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -701,7 +701,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo album</translation>
+        <translation>Novo álbum</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -823,7 +823,7 @@
     <name>TimelinePanel</name>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>Álbum</translation>
     </message>
     <message>
         <source>Add</source>
@@ -835,11 +835,11 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao album</translation>
+        <translation>Adicionar ao álbum</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Adicionar a um novo album</translation>
+        <translation>Adicionar a um novo álbum</translation>
     </message>
     <message>
         <source>View</source>
@@ -871,7 +871,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Não Favorito</translation>
+        <translation>Remover favorito</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -879,7 +879,7 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar no sentido contrário dos ponteiros do relógio</translation>
+        <translation>Rodar contra o sentido dos ponteiros do relógio</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -922,7 +922,7 @@
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>Álbum</translation>
     </message>
 </context>
 <context>
@@ -944,7 +944,7 @@
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Novo album</translation>
+        <translation>Novo álbum</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -964,22 +964,22 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>O Deepin Image Viewer é uma ferramenta com um bonito aspeto e um desempenho fluído para visualizar imagens.</translation>
+        <translation>O Deepin Image Viewer é uma ferramenta com um aspecto elegante e um desempenho fluído para visualizar imagens.</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Linha do tempo</translation>
+        <translation>Linha de tempo</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Adicionar ao album</translation>
+        <translation>Adicionar ao álbum</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Adicionar a um novo album</translation>
+        <translation>Adicionar a um novo álbum</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -1003,7 +1003,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover do album</translation>
+        <translation>Remover do álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -1019,7 +1019,7 @@
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Esconder janela de navegação</translation>
+        <translation>Ocultar janela de navegação</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -1027,11 +1027,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar no sentido contrário dos ponteiros do relógio</translation>
+        <translation>Rodar contra o sentido dos ponteiros do relógio</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como fundo</translation>
+        <translation>Definir como fundo de ecrã</translation>
     </message>
     <message>
         <source>Display in file manager</source>

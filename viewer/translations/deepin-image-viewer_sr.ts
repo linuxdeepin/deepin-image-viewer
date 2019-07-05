@@ -338,15 +338,15 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Режим експозиције</translation>
+        <translation>Режим експоз...</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Програм експозиције</translation>
+        <translation>Програм експоз...</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Трајање експозиције</translation>
+        <translation>Трајање експоз...</translation>
     </message>
     <message>
         <source>Flash</source>

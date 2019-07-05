@@ -18,7 +18,7 @@
     </message>
     <message>
         <source>images</source>
-        <translation>görsel</translation>
+        <translation>görseller</translation>
     </message>
     <message>
         <source>album</source>
@@ -26,11 +26,11 @@
     </message>
     <message>
         <source>albums</source>
-        <translation>albüm</translation>
+        <translation>albümler</translation>
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Eşitleme Yönetimi</translation>
+        <translation>Eşitleme yönetimi</translation>
     </message>
     <message>
         <source>Syncing: </source>
@@ -49,7 +49,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation>Yeni Albüm</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Unnamed</source>
@@ -90,11 +90,11 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Sık Kullandıklarım</translation>
+        <translation>Sık kullandıklarım</translation>
     </message>
     <message>
         <source>Timeline</source>
-        <translation>Zaman Tüneli</translation>
+        <translation>Zaman tüneli</translation>
     </message>
     <message>
         <source>Add</source>
@@ -113,15 +113,15 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Görüntüle</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Saydam Sunumu</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation>Yeniden adlandır</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -211,7 +211,7 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>Görsel Bilgileri</translation>
+        <translation>Görsel bilgisi</translation>
     </message>
 </context>
 <context>
@@ -225,7 +225,7 @@
     <name>ImagesView</name>
     <message>
         <source>View</source>
-        <translation>Görüntüle</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -233,7 +233,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Saydam Sunumu</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Print</source>
@@ -245,35 +245,35 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Albümden Kaldır</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sık Kullanılanlara Ekle</translation>
+        <translation>Sık kullanılanlara ekle</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Sık Kullanılanlardan Çıkar</translation>
+        <translation>Sık kullanılanlardan kaldır</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat Yönünde Döndür</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat Yönünün Tersine Döndür</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar Kağıdı Olarak Ayarla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya Yöneticisinde Görüntüle</translation>
+        <translation>Dosya yöneticisinde görüntüle</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Görsel Bilgileri</translation>
+        <translation>Görsel bilgisi</translation>
     </message>
     <message>
         <source>Add</source>
@@ -285,11 +285,11 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Albüme Ekle</translation>
+        <translation>Albüme ekle</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Yeni Albüme Ekle</translation>
+        <translation>Yeni albüme ekle</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -300,7 +300,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Klasörü Aç</translation>
+        <translation>Dizin Aç</translation>
     </message>
 </context>
 <context>
@@ -322,7 +322,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Değiştirilme Tarihi</translation>
+        <translation>Düzenlenme tarihi</translation>
     </message>
     <message>
         <source>Dimension</source>
@@ -330,23 +330,23 @@
     </message>
     <message>
         <source>File size</source>
-        <translation>Dosya Boyutu</translation>
+        <translation>Dosya boyutu</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Renk Aralığı</translation>
+        <translation>Renk aralığı</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Pozlama Kipi</translation>
+        <translation>Pozlama kipi</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Pozlama Programı</translation>
+        <translation>Pozlama programı</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Pozlama Süresi</translation>
+        <translation>Pozlama süresi</translation>
     </message>
     <message>
         <source>Flash</source>
@@ -366,27 +366,27 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>En Yüksek Diyafram</translation>
+        <translation>En yüksek diyafram</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Ölçüm Kipi</translation>
+        <translation>Ölçüm kipi</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Beyaz Dengesi</translation>
+        <translation>Beyaz dengesi</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Flaş Dengeleme</translation>
+        <translation>Flaş dengelemesi</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Kamera Modeli</translation>
+        <translation>Kamera modeli</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Lens Modeli</translation>
+        <translation>Lens modeli</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -397,19 +397,19 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Ölçeklendirme Yok</translation>
+        <translation>Ölçeklendirme yok</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Sayfayı Görsele Göre Ayarla</translation>
+        <translation>Sayfayı görsele göre ayarla</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Görseli Sayfaya Göre Ayarla</translation>
+        <translation>Görseli sayfaya göre ayarla</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Şuna Ölçeklendir:</translation>
+        <translation>Şuna ölçeklendir:</translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -466,19 +466,19 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Klasör Seçin</translation>
+        <translation>Dizin Seç</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Bu klasörün eşitlenmesi devre dışı bırakılmış</translation>
+        <translation>Bu dizinin eşitlenmesi devre dışı bırakılmış</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Klasör Ekle</translation>
+        <translation>Klasör ekle</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Klasör Eşitleme Yönetimi</translation>
+        <translation>Dizin Eşitleme Yönetimi</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
@@ -489,7 +489,7 @@
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Eşitlemeyi İptal Et</translation>
+        <translation>Eşitlemeyi iptal et</translation>
     </message>
     <message>
         <source>Images</source>
@@ -501,7 +501,7 @@
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Bu klasör artık yok</translation>
+        <translation>Bu dizin artık yok</translation>
     </message>
     <message>
         <source>Calculating...</source>
@@ -524,19 +524,19 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Görüntüle</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Saydam Sunumu</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Sunumu Bitirme</translation>
+        <translation>Sunumu bitir</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -544,35 +544,35 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Albümden Kaldırma</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sık Kullanılanlara Ekleme</translation>
+        <translation>Sık kullanılanlara ekle</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Sık Kullanılanlardan Çıkarma</translation>
+        <translation>Sık kullanılanlardan kaldır</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat Yönünde Döndürme</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat Yönünün Tersine Döndürme</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar Kağıdı Olarak Ayarlama</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya Yöneticisinde Görüntüleme</translation>
+        <translation>Dosya yöneticisinde görüntüle</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Görsel Bilgilerini Görüntüleme</translation>
+        <translation>Görsel bilgisi</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -584,19 +584,19 @@
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Önceki Ekran</translation>
+        <translation>Önceki ekran</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Sonraki Ekran</translation>
+        <translation>Sonraki ekran</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Yeni Albüm Ekleme</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandırma</translation>
+        <translation>Yeniden adlandır</translation>
     </message>
     <message>
         <source>Help</source>
@@ -604,11 +604,11 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation>Çık</translation>
+        <translation>Çıkış</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Kısayolları Görüntüle</translation>
+        <translation>Kısayolları görüntüle</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -619,7 +619,7 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Lütfen yeni bir kısayol yazın</translation>
+        <translation>Lütfen yeni bir kısayol gir</translation>
     </message>
 </context>
 <context>
@@ -645,19 +645,19 @@
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Görüntüle</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Saydam Sunumu</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Sunumu Bitir</translation>
+        <translation>Sunumu bitir</translation>
     </message>
     <message>
         <source>Print</source>
@@ -669,43 +669,43 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Albümden Kaldır</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sık Kullanılanlara Ekle</translation>
+        <translation>Sık kullanılanlara ekle</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Sık Kullanılandan Çıkar</translation>
+        <translation>Sık kullanılanlardan kaldır</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat Yönünde Döndür</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat Yönünün Tersine Döndür</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar Kağıdı Olarak Ayarla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya Yöneticisinde Görüntüle</translation>
+        <translation>Dosya yöneticisinde görüntüle</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Görsel Bilgileri</translation>
+        <translation>Görsel bilgisi</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Yeni Albüm</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation>Yeniden adlandır</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -716,7 +716,7 @@
     <name>SlideShowPanel</name>
     <message>
         <source>End show</source>
-        <translation>Sunumu Bitir</translation>
+        <translation>Sunumu bitir</translation>
     </message>
     <message>
         <source>Pause/Play</source>
@@ -727,11 +727,11 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Saydam Ayarları</translation>
+        <translation>Slayt Ayarları</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Geçiş Etkisi</translation>
+        <translation>Geçiş etkisi</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -739,7 +739,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Geçiş Süresi</translation>
+        <translation>Geçiş süresi</translation>
     </message>
     <message>
         <source>second</source>
@@ -754,11 +754,11 @@
     </message>
     <message>
         <source>Image management</source>
-        <translation>Görsel Yönetimi</translation>
+        <translation>Görüntü yönetimi</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Sık Kullandıklarım</translation>
+        <translation>Sık kullandıklarım</translation>
     </message>
     <message>
         <source>1:1 Size</source>
@@ -766,23 +766,23 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Pencereye Sığdır</translation>
+        <translation>Pencereye sığdır</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat Yönünün Tersine Döndür</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat Yönünde Döndür</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Sık Kullanılandan Çıkar</translation>
+        <translation>Sık kullanılanlardan kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sık Kullanılanlara Ekle</translation>
+        <translation>Sık kullanılanlara ekle</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -797,7 +797,7 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Görsel Aç</translation>
+        <translation>Görüntü Aç</translation>
     </message>
 </context>
 <context>
@@ -812,7 +812,7 @@
     </message>
     <message>
         <source>Manage sync</source>
-        <translation>Eşitleme Yönetimi</translation>
+        <translation>Eşitleme yönetimi</translation>
     </message>
     <message>
         <source>Syncing: </source>
@@ -835,23 +835,23 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Albüme Ekle</translation>
+        <translation>Albüme ekle</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Yeni Albüme Ekle</translation>
+        <translation>Yeni albüme ekle</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Görüntüle</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Saydam Sunumu</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Print</source>
@@ -863,35 +863,35 @@
     </message>
     <message>
         <source>Copy to clipboard</source>
-        <translation>Panoya Kopyala</translation>
+        <translation>Panoya kopyala</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sık Kullanılanlara Ekle</translation>
+        <translation>Sık kullanılanlara ekle</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Sık Kullanılanlardan Çıkar</translation>
+        <translation>Sık kullanılanlardan kaldır</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat Yönünde Döndür</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat Yönünün Tersine Döndür</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar Kağıdı Olarak Ayarla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya Yöneticisinde Görüntüle</translation>
+        <translation>Dosya yöneticisinde görüntüle</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Görsel Bilgileri</translation>
+        <translation>Görsel bilgisi</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -902,7 +902,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Saydam Ayarları</translation>
+        <translation>Slayt Ayarları</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -918,7 +918,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation>Görüntüle</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Album</source>
@@ -933,18 +933,18 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Sık Kullandıklarım</translation>
+        <translation>Sık kullandıklarım</translation>
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Son İçe Aktarılan</translation>
+        <translation>Son içe aktarılan</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Yeni Albüm</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -960,7 +960,7 @@
     </message>
     <message>
         <source>Dark theme</source>
-        <translation>Koyu Tema</translation>
+        <translation>Koyu tema</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
@@ -971,27 +971,27 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Zaman Tüneli</translation>
+        <translation>Zaman tüneli</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Albüme Ekle</translation>
+        <translation>Albüme ekle</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Yeni Albüme Ekle</translation>
+        <translation>Yeni albüme ekle</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Tam Ekrandan Çık</translation>
+        <translation>Tam ekrandan çık</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Saydam Sunumu</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>Print</source>
@@ -1003,43 +1003,43 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Albümden Kaldır</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sık Kullanılanlara Ekle</translation>
+        <translation>Sık kullanılanlara ekle</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Sık Kullanılanlardan Çıkar</translation>
+        <translation>Sık kullanılanlardan kaldır</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Gezinme Penceresini Görüntüle</translation>
+        <translation>Gezinme penceresini göster</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Gezinme Penceresini Gizle</translation>
+        <translation>Gezinme penceresini gizle</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Saat Yönünde Döndür</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Saat Yönünün Tersine Döndür</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Duvar Kağıdı Olarak Ayarla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Dosya Yöneticisinde Görüntüle</translation>
+        <translation>Dosya yöneticisinde görüntüle</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Görsel Bilgileri</translation>
+        <translation>Görsel bilgisi</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -1047,11 +1047,11 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Görsel Aç</translation>
+        <translation>Görüntü Aç</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation>Tüm Görseller</translation>
+        <translation>Tüm görüntüler</translation>
     </message>
 </context>
 </TS>

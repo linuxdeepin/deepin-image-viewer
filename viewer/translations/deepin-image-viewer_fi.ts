@@ -102,7 +102,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Voit lisätä synkronointikansion ja vetää tai pudottaa kuvia aikajanalle</translation>
+        <translation>Voit lisätä synkronointihakemiston tai vetää tai pudottaa kuvia aikajanalle</translation>
     </message>
 </context>
 <context>
@@ -158,7 +158,7 @@
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Lisääkö kuvat varmasti albumiin?</translation>
+        <translation>Lisätäänkö kuvat varmasti albumiin?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
@@ -170,7 +170,7 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Lisäätkö varmasti synkronointiluetteloon ja luoda tämä kansion nimi?</translation>
+        <translation>Lisätäänkö varmasti synkronointiluetteloon ja luodaan albumi tämän kansion nimellä?</translation>
     </message>
 </context>
 <context>
@@ -281,7 +281,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Voit lisätä synkronointikansion ja vetää tai pudottaa kuvia aikajanalle</translation>
+        <translation>Voit lisätä synkronointihakemiston tai vetää tai pudottaa kuvia aikajanalle</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -409,7 +409,7 @@
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Skaalaa..:</translation>
+        <translation>Skaalaa:</translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -470,7 +470,7 @@
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Tämä hakemisto on poistettu synkronoinista</translation>
+        <translation>Tämän hakemiston synkronointi on poistettu käytöstä</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -596,7 +596,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Nimeä</translation>
+        <translation>Nimeä uudelleen</translation>
     </message>
     <message>
         <source>Help</source>
@@ -638,7 +638,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Palauttaa oletukset</translation>
+        <translation>Palauta oletukset</translation>
     </message>
 </context>
 <context>
@@ -705,7 +705,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation>Nimeä</translation>
+        <translation>Nimeä uudelleen</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -831,7 +831,7 @@
     </message>
     <message>
         <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Voit lisätä synkronointikansion ja vetää tai pudottaa kuvia aikajanalle</translation>
+        <translation>Voit lisätä synkronointihakemiston tai vetää tai pudottaa kuvia aikajanalle</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -929,7 +929,7 @@
     <name>TopAlbumTips</name>
     <message>
         <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
+        <translation>pp KKKK vvvv</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -952,11 +952,11 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin kuvien katseluohjelma on muodikas sekä sulava liikkeissään.</translation>
+        <translation>Deepin kuvien katseluohjelma on moderni kuvankäsittelyohjelma.</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Se on varustettu kuvankäsittelyllä ja kuvien katselulla.</translation>
+        <translation>Se on varustettu kuvien järjestelyllä, kuvien katselulla sekä kuvien perusmuotoisella käsittelyllä.</translation>
     </message>
     <message>
         <source>Dark theme</source>
@@ -964,7 +964,7 @@
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin kuvankatseluohjelma on kuvien käsittelytyökalu, jossa on muodikas käyttöliittymä ja sujuva suorituskyky.</translation>
+        <translation>Deepin kuvien katseluohjelma on kuvien käsittelytyökalu, jossa on moderni käyttöliittymä ja sujuva suorituskyky.</translation>
     </message>
 </context>
 <context>
