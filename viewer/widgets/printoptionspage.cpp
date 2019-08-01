@@ -208,4 +208,5 @@ double PrintOptionsPage::unitToInches(PrintOptionsPage::Unit unit)
     case PrintOptionsPage::Millimeters:
         return 1 / 25.4;
     }
+    return 0;
 }
