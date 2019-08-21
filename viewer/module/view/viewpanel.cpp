@@ -23,6 +23,7 @@
 #include "contents/imageinfowidget.h"
 #include "contents/ttmcontent.h"
 #include "contents/ttlcontent.h"
+#include "contents/ttbcontent.h"
 #include "scen/imageview.h"
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
@@ -103,7 +104,8 @@ void ViewPanel::initConnect()
             emit dApp->signalM->showTopToolbar();
         } else {
             emit dApp->signalM->showTopToolbar();
-            emit dApp->signalM->hideBottomToolbar(true);
+//            emit dApp->signalM->hideBottomToolbar(true);
+            emit dApp->signalM->showBottomToolbar();
         }
     });
     connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [ = ] {
@@ -118,6 +120,7 @@ void ViewPanel::initConnect()
     this, [ = ](const SignalManager::ViewInfo & vinfo) {
 
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
 
         onViewImage(vinfo);
@@ -422,7 +425,56 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
     return ttlc;
 }
+QWidget *ViewPanel::bottomTopLeftContent()
+{
+    TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase,m_infos);
+//    ttlc->setCurrentDir(m_currentImageLastDir);
+    if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
+        ttbc->setImage(m_current->filePath);
+    } else {
+        ttbc->setImage("");
+    }
 
+    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel);
+    connect(this, &ViewPanel::viewImageFrom, ttbc, [=](const QString &dir){
+        ttbc->setCurrentDir(dir);
+    });
+//    connect(ttlc, &TTLContent::contentWidthChanged,
+//            this, &ViewPanel::updateTopLeftWidthChanged);
+//    connect(this, &ViewPanel::updateCollectButton,
+//            ttlc, &TTLContent::updateCollectButton);
+    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage);
+    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] {
+        rotateImage(true);
+    });
+    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] {
+        rotateImage(false);
+    });
+    connect(ttbc, &TTBContent::removed, this, [ = ] {
+        if (m_vinfo.inDatabase)
+        {
+            popupDelDialog(m_current->filePath);
+        } else
+        {
+            const QString path = m_current->filePath;
+            removeCurrentImage();
+            utils::base::trashFile(path);
+        }
+    });
+    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
+        if (fitWindow) {
+            m_viewB->fitWindow();
+        } else {
+            m_viewB->fitImage();
+        }
+    });
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
+            ttbc, &TTBContent::updateCollectButton);
+    connect(dApp->signalM, &SignalManager::removedFromAlbum,
+            ttbc, &TTBContent::updateCollectButton);
+
+    return ttbc;
+}
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
     QWidget* w = new QWidget();
@@ -462,6 +514,7 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 
     if (e->type() == QEvent::Resize && this->isVisible()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
@@ -481,6 +534,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
     if (window()->isMaximized()) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
@@ -567,6 +621,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     // The control buttons is difference
     if (! vinfo.inDatabase) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
@@ -621,6 +676,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     }
 
     openImage(m_current->filePath);
+    eatImageDirIterator();
+    emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
 }
 
 void ViewPanel::toggleFullScreen()
@@ -726,7 +783,7 @@ void ViewPanel::initStack()
     initViewContent();
     QVBoxLayout *vl = new QVBoxLayout(this);
     connect(dApp->signalM, &SignalManager::showTopToolbar, this, [ = ] {
-        vl->setContentsMargins(0, TOP_TOOLBAR_HEIGHT, 0, 0);
+        vl->setContentsMargins(0, 0, 0, 0);
     });
     connect(dApp->signalM, &SignalManager::hideTopToolbar, this, [ = ] {
         vl->setContentsMargins(0, 0, 0, 0);

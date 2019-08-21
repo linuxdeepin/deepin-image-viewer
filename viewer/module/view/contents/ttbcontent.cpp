@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "ttlcontent.h"
+#include "ttbcontent.h"
 #include "application.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
@@ -30,10 +30,15 @@
 #include <QFileInfo>
 #include <QHBoxLayout>
 #include <QDebug>
+#include <dlabel.h>
+#include <QAbstractItemModel>
+#include <dimagebutton.h>
+#include <DThumbnailProvider>
 
+DWIDGET_USE_NAMESPACE
 namespace {
-const int LEFT_MARGIN = 13;
-const QSize ICON_SIZE = QSize(48, 39);
+const int LEFT_MARGIN = 10;
+const QSize ICON_SIZE = QSize(50, 50);
 const QString FAVORITES_ALBUM = "My favorite";
 const int ICON_SPACING = 3;
 const int RETURN_BTN_MAX = 200;
@@ -42,15 +47,22 @@ const int RIGHT_TITLEBAR_WIDTH = 100;
 const int LEFT_SPACE = 20;
 }  // namespace
 
-TTLContent::TTLContent(bool inDB,
+TTBContent::TTBContent(bool inDB,
+                       DBImgInfoList m_infos ,
                        QWidget *parent) : QLabel(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = std::max(this->window()->width(),
         ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
-    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
-    setFixedWidth(m_contentWidth);
+//    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
+    m_imgInfos = m_infos;
+    if ( m_imgInfos.size() <= 1 ) {
+        m_contentWidth = 310;
+    } else {
+        m_contentWidth = 1280;
+    }
 
+    setFixedWidth(m_contentWidth);
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
@@ -84,13 +96,30 @@ TTLContent::TTLContent(bool inDB,
     });
 #endif
     // Adapt buttons////////////////////////////////////////////////////////////
+
+     m_preButton = new DImageButton();
+     m_nextButton = new DImageButton();
+//    DAnchors<DImageButton> next_button = new DImageButton(this);
+
+//    pre_button->setObjectName("PreviousButton");
+//    next_button->setObjectName("NextButton");
+
+//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+//        pre_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
+//        next_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
+//    } else {
+//        pre_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
+//        next_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
+//    }
+
+
     m_adaptImageBtn = new PushButton();
     m_adaptImageBtn->setObjectName("AdaptBtn");
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
 
     m_adaptImageBtn->setToolTip(tr("1:1 Size"));
-//    hb->addWidget(m_adaptImageBtn);
-//    hb->addSpacing(ICON_SPACING);
+    hb->addWidget(m_adaptImageBtn);
+    hb->addSpacing(ICON_SPACING);
     connect(m_adaptImageBtn, &PushButton::clicked, this, [=] {
         emit resetTransform(false);
     });
@@ -99,8 +128,8 @@ TTLContent::TTLContent(bool inDB,
     m_adaptScreenBtn->setFixedSize(ICON_SIZE);
     m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
     m_adaptScreenBtn->setToolTip(tr("Fit to window"));
-//    hb->addWidget(m_adaptScreenBtn);
-//    hb->addSpacing(ICON_SPACING);
+    hb->addWidget(m_adaptScreenBtn);
+    hb->addSpacing(ICON_SPACING);
     connect(m_adaptScreenBtn, &PushButton::clicked, this, [=] {
         emit resetTransform(true);
     });
@@ -129,39 +158,71 @@ TTLContent::TTLContent(bool inDB,
     m_rotateLBtn->setFixedSize(ICON_SIZE);
     m_rotateLBtn->setObjectName("RotateBtn");
     m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
-//    hb->addWidget(m_rotateLBtn);
-//    hb->addSpacing(ICON_SPACING);
+    hb->addWidget(m_rotateLBtn);
+    hb->addSpacing(ICON_SPACING);
     connect(m_rotateLBtn, &PushButton::clicked,
-            this, &TTLContent::rotateCounterClockwise);
+            this, &TTBContent::rotateCounterClockwise);
 
     m_rotateRBtn = new PushButton();
     m_rotateRBtn->setFixedSize(ICON_SIZE);
     m_rotateRBtn->setObjectName("RotateCounterBtn");
     m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
-//    hb->addWidget(m_rotateRBtn);
-//    hb->addSpacing(ICON_SPACING);
+    hb->addWidget(m_rotateRBtn);
+    hb->addSpacing(ICON_SPACING);
     connect(m_rotateRBtn, &PushButton::clicked,
-            this, &TTLContent::rotateClockwise);
+            this, &TTBContent::rotateClockwise);
+
+
+//    m_imgList = new DListView();
+    m_imgList = new QListWidget;
+    //显示图标
+    m_imgList->setViewMode(QListView::IconMode);
+    //设置图标可不可以移动
+    m_imgList->setMovement(QListView::Static);
+    //设置图标的大小
+    m_imgList->setIconSize(QSize(30,40));
+    //设置网格的大小
+    m_imgList->setGridSize(QSize(30,40));
+//    m_imgList->setGeometry(0,0,480,272);
+    m_imgList->setResizeMode(QListView::Adjust);
+    //定义QListWidget对象
+//    m_imgList->resize(786,40);
+    //设置QListWidget的显示模式
+//    m_imgList->setViewMode(QListView::IconMode);
+    //设置QListWidget中单元项的图片大小
+//    m_imgList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+//    m_imgList->setSpacing(10);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+//    m_imgList->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+//    imageList->setMovement(QListWidget::Static);
+
+    //显示QListWidget
+//    m_imgList->show();
+    m_imgList->setDisabled(false);
+    m_imgList->setHidden(true);
+    hb->addWidget(m_imgList);
 
     m_trashBtn = new PushButton();
     m_trashBtn->setFixedSize(ICON_SIZE);
     m_trashBtn->setObjectName("TrashBtn");
     m_trashBtn->setToolTip(tr("Delete"));
-//    hb->addWidget(m_trashBtn);
+    hb->addWidget(m_trashBtn);
 
     m_fileNameLabel = new ElidedLabel();
-    hb->addWidget(m_fileNameLabel);
-    connect(m_trashBtn, &PushButton::clicked, this, &TTLContent::removed);
+//    hb->addWidget(m_fileNameLabel);
+    connect(m_trashBtn, &PushButton::clicked, this, &TTBContent::removed);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &TTLContent::onThemeChanged);
+            &TTBContent::onThemeChanged);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
-            this, &TTLContent::onThemeChanged);
-     connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
-         updateFilenameLayout();
-     });
+            this, &TTBContent::onThemeChanged);
+//     connect(dApp->signalM, &SignalManager::updateTopToolbar, this, [=]{
+//         updateFilenameLayout();
+//     });
 }
 
-void TTLContent::updateFilenameLayout()
+void TTBContent::updateFilenameLayout()
 {
     using namespace utils::base;
     QFont font;
@@ -210,7 +271,7 @@ void TTLContent::updateFilenameLayout()
     m_fileNameLabel->setText(name, leftMargin);
 }
 
-void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
         this->setStyleSheet(utils::base::getFileContent(
                                 ":/resources/dark/qss/ttl.qss"));
@@ -220,7 +281,7 @@ void TTLContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     }
 }
 
-void TTLContent::setCurrentDir(QString text) {
+void TTBContent::setCurrentDir(QString text) {
     if (text == FAVORITES_ALBUM) {
         text = tr("My favorite");
     }
@@ -230,14 +291,15 @@ void TTLContent::setCurrentDir(QString text) {
 #endif
 }
 
-void TTLContent::resizeEvent(QResizeEvent *event)
+void TTBContent::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     m_windowWidth =  this->window()->geometry().width();
-    m_contentWidth = std::max(m_windowWidth - 100, 1);
+//    m_contentWidth = std::max(m_windowWidth - 100, 1);
+//    m_contentWidth = 310;
 }
 
-void TTLContent::setImage(const QString &path)
+void TTBContent::setImage(const QString &path)
 {
     m_imagePath = path;
     if (path.isEmpty() || !QFileInfo(path).exists()
@@ -247,9 +309,46 @@ void TTLContent::setImage(const QString &path)
         m_rotateLBtn->setDisabled(true);
         m_rotateRBtn->setDisabled(true);
         m_trashBtn->setDisabled(true);
+        m_imgList->setDisabled(false);
     } else {
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
+
+//        QAbstractItemModel *slm = new QAbstractItemModel();
+//        QStandardItem *s1=new QStandardItem(QIcon(path),"普通员工");
+        if ( m_imgInfos.size() > 0 ) {
+//            QStandardItemModel *slm=new QStandardItemModel(this);
+            for (DBImgInfo info : m_imgInfos) {
+//                QStandardItem *s1=new QStandardItem(QIcon(info.filePath),info.fileName);
+//                slm->appendRow(s1);
+                //定义QListWidgetItem对象
+//                QFileInfo aaa(info.fileName) ;
+//                bool ret = DThumbnailProvider::instance()->hasThumbnail(aaa);
+//                if(!ret)  {
+//                    DThumbnailProvider::instance()->appendToProduceQueue(aaa,DThumbnailProvider::Size::Large,[this](const QString &path){
+//                        QListWidgetItem *imageItem = new QListWidgetItem;
+//                        imageItem->setBackground(QBrush(QPixmap(path).scaled(30,40)));
+//                        imageItem->setSizeHint(QSize(30,40));
+//                        m_imgList->setIconSize(QSize(30,40));
+//                        m_imgList->addItem(imageItem);
+//                                                                         } );
+//                }
+//                QString imgpath= DThumbnailProvider::instance()->thumbnailFilePath(aaa,DThumbnailProvider::Size::Large);
+//                imgpath = DThumbnailProvider::instance()->createThumbnail(aaa,DThumbnailProvider::Size::Large);
+                QListWidgetItem *imageItem = new QListWidgetItem;
+                imageItem->setBackground(QBrush(QPixmap(info.filePath).scaled(30,40)));
+                imageItem->setSizeHint(QSize(30,40));
+
+                //将单元项添加到QListWidget中
+                m_imgList->addItem(imageItem);
+            }
+
+//            m_imgList->setModel(slm);
+//            m_imgList->setDisabled(true);
+            m_imgList->show();
+        }
+
+
         if (QFileInfo(path).isReadable() &&
                 !QFileInfo(path).isWritable()) {
             m_trashBtn->setDisabled(true);
@@ -267,11 +366,11 @@ void TTLContent::setImage(const QString &path)
         }
     }
 
-    updateFilenameLayout();
+//    updateFilenameLayout();
     updateCollectButton();
 }
 
-void TTLContent::updateCollectButton()
+void TTBContent::updateCollectButton()
 {
     if (! m_clBT)
         return;

@@ -30,6 +30,7 @@ BottomToolbar::BottomToolbar(QWidget *parent)
     m_mainLayout = new QHBoxLayout(this);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setSpacing(0);
+    setRadius(18);
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &BottomToolbar::onThemeChanged);

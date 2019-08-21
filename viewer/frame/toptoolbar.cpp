@@ -52,8 +52,8 @@ const int ICON_MARGIN = 6;
 //const QColor DARK_COVERCOLOR = QColor(0, 0, 0, 217);
 //const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
 
-const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 13);
-const QColor LIGHT_TOP_BORDERCOLOR = QColor(255, 255, 255, 153);
+const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 0);
+const QColor LIGHT_TOP_BORDERCOLOR = QColor(255, 255, 255, 0);
 
 const QColor DARK_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 51);
 const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
@@ -112,14 +112,14 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
 }
 void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
     QLinearGradient lightLinearGrad;
-    lightLinearGrad.setColorAt(0, QColor(255, 255, 255, 230));
-    lightLinearGrad.setColorAt(1, QColor(248, 248, 248, 230));
+    lightLinearGrad.setColorAt(0, QColor(0, 0, 0, 0));
+    lightLinearGrad.setColorAt(1, QColor(0, 0, 0, 0));
     lightLinearGrad.setStart(x(), y());
     lightLinearGrad.setFinalStop(x(), y() + height());
 
 
     if (curTheme == ViewerThemeManager::Dark) {
-        setCoverBrush(QBrush(QColor(0, 0, 0, 217)));
+        setCoverBrush(QBrush(QColor(0, 0, 0, 0)));
         m_topBorderColor = DARK_TOP_BORDERCOLOR;
         m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
 
@@ -144,19 +144,19 @@ const QString TopToolbar::newAlbumShortcut() const
 
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
-    BlurFrame::paintEvent(e);
+//    BlurFrame::paintEvent(e);
 
     QPainter p(this);
     p.setRenderHint(QPainter::Antialiasing);
 
     // Draw inside top border
-    const QColor tc(m_topBorderColor);
-    int borderHeight = 1;
-    QPainterPath tPath;
-    tPath.moveTo(QPointF(x(), y() + borderHeight - 0.5));
-    tPath.lineTo(QPointF(x() + width(), y() + borderHeight - 0.5));
-    p.setPen(QPen(tc));
-    p.drawPath(tPath);
+//    const QColor tc(m_topBorderColor);
+//    int borderHeight = 1;
+//    QPainterPath tPath;
+//    tPath.moveTo(QPointF(x(), y() + borderHeight - 0.5));
+//    tPath.lineTo(QPointF(x() + width(), y() + borderHeight - 0.5));
+//    p.setPen(QPen(tc));
+//    p.drawPath(tPath);
 //    QPen tPen(tc);
 //    QLinearGradient linearGrad;
 //    linearGrad.setStart(x(), y());

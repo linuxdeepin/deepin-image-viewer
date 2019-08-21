@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/scen/imageview.h \
     $$PWD/scen/graphicsitem.h \
     $$PWD/thumbnailwidget.h \
-    $$PWD/lockwidget.h
+    $$PWD/lockwidget.h \
+    $$PWD/contents/ttbcontent.h
 
 SOURCES += \
     $$PWD/navigationwidget.cpp \
@@ -20,7 +21,8 @@ SOURCES += \
     $$PWD/scen/imageview.cpp \
     $$PWD/scen/graphicsitem.cpp \
     $$PWD/thumbnailwidget.cpp \
-    $$PWD/lockwidget.cpp
+    $$PWD/lockwidget.cpp \
+    $$PWD/contents/ttbcontent.cpp
 
 RESOURCES += \
     $$PWD/viewtheme.qrc

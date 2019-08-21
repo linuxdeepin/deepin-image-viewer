@@ -111,6 +111,8 @@ void CommandLine::showHelp()
 void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
     MainWindow *w = new MainWindow(false);
+    w->setWindowRadius(18);
+    w->setBorderWidth(0);
     w->show();
 
     // Load image after all UI elements has been init

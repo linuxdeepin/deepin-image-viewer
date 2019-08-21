@@ -41,7 +41,7 @@ using namespace Dtk::Widget;
 namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 39;
-const int BOTTOM_TOOLBAR_HEIGHT = 22;
+const int BOTTOM_TOOLBAR_HEIGHT = 70;
 const int EXTENSION_PANEL_WIDTH = 240;
 
 const QString SETTINGS_GROUP = "MAINWIDGET";
@@ -82,9 +82,10 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         }
     }
     if (m_bottomToolbar) {
-        m_bottomToolbar->resize(width(), m_bottomToolbar->height());
+//        m_bottomToolbar->resize(310, m_bottomToolbar->height());
         if (m_bottomToolbar->isVisible())
-            m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
+            m_bottomToolbar->setRadius(18);
+            m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     }
 #ifndef LITE_DIV
     if (m_extensionPanel) {
@@ -200,9 +201,9 @@ void MainWidget::initTopToolbar()
     m_topToolbar->move(0, 0);
 
     m_topSeparatorLine = new QLabel(this);
-    m_topSeparatorLine->setObjectName("TopSeperatorLine");
-    m_topSeparatorLine->resize(window()->width(), 1);
-    m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
+//    m_topSeparatorLine->setObjectName("TopSeperatorLine");
+//    m_topSeparatorLine->resize(window()->width(), 1);
+//    m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
 
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent,
             this, [=](QWidget *c) {
@@ -277,14 +278,15 @@ void MainWidget::initConnection()
 void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this);
-    m_bottomToolbar->resize(width(), BOTTOM_TOOLBAR_HEIGHT);
-    m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
+    m_bottomToolbar->setRadius(18);
+    m_bottomToolbar->resize(310, BOTTOM_TOOLBAR_HEIGHT);
+    m_bottomToolbar->move(0, height() - m_bottomToolbar->height()-10);
 
     m_btmSeparatorLine = new QLabel(this);
-    m_btmSeparatorLine->setObjectName("BtmSeperatorLine");
-    m_btmSeparatorLine->resize(window()->width(), 1);
-    m_btmSeparatorLine->move(0, window()->height() -
-                           m_bottomToolbar->height() - 1);
+//    m_btmSeparatorLine->setObjectName("BtmSeperatorLine");
+//    m_btmSeparatorLine->resize(window()->width(), 1);
+//    m_btmSeparatorLine->move(0, window()->height() -
+//                           m_bottomToolbar->height() - 1);
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
             this, [=](QWidget *c, bool wideMode) {
@@ -293,11 +295,14 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->setContent(c);
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(38);
+            m_bottomToolbar->setFixedWidth(1280);
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+            m_bottomToolbar->setFixedWidth(310);
         }
-        m_bottomToolbar->move(0, height() - m_bottomToolbar->height());
+        m_bottomToolbar->setRadius(18);
+        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
         m_bottomToolbar->setVisible(true);
