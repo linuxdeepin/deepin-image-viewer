@@ -41,7 +41,7 @@
 #include <QMenu>
 #include <QStyleFactory>
 #include <QImageReader>
-
+#include <QLabel>
 DWIDGET_USE_NAMESPACE
 
 namespace {

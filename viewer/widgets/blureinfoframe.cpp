@@ -114,8 +114,8 @@ void BlureInfoFrame::setTopContent(QWidget *w)
     cb->move(this->sizeHint().width() - cb->width() - 5, 0);
     connect(cb, &ImageButton::clicked, this, &BlureInfoFrame::close);
 
-    connect(cb, &Dtk::Widget::DWindowCloseButton::clicked,
-            this, &BlureInfoFrame::close);
+//    connect(cb, &Dtk::Widget::DWindowCloseButton::clicked,
+//            this, &BlureInfoFrame::close);
     this->setFixedWidth(w->width() + 6*2);
 }
 
