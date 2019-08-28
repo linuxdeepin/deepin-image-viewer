@@ -38,7 +38,7 @@ Application::Application(int& argc, char** argv)
     setApplicationDisplayName(tr("Deepin Image Viewer"));
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
-    setApplicationVersion(DApplication::buildVersion("20190821"));
+    setApplicationVersion(DApplication::buildVersion("20190828"));
     installEventFilter(new GlobalEventFilter());
 
 
