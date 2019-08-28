@@ -42,7 +42,7 @@ namespace {
 
 const int TOP_TOOLBAR_HEIGHT = 39;
 const int BOTTOM_TOOLBAR_HEIGHT = 70;
-const int EXTENSION_PANEL_WIDTH = 240;
+const int EXTENSION_PANEL_WIDTH = 300;
 
 const QString SETTINGS_GROUP = "MAINWIDGET";
 const QString SETTINGS_MAINPANEL_KEY = "MainPanel";
@@ -294,7 +294,7 @@ void MainWidget::initBottomToolbar()
             return;
         m_bottomToolbar->setContent(c);
         if (wideMode) {
-            m_bottomToolbar->setFixedHeight(38);
+            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(1280);
         }
         else {
@@ -331,7 +331,8 @@ void MainWidget::initBottomToolbar()
 void MainWidget::initExtensionPanel()
 {
     m_extensionPanel = new ExtensionPanel(this);
-    m_extensionPanel->move(- EXTENSION_PANEL_WIDTH, 0);
+    m_extensionPanel->move(width(), 0);
+    m_extensionPanel->hide();
     connect(dApp->signalM, &SignalManager::updateExtensionPanelContent,
             this, [=](QWidget *c) {
         if (c != nullptr)
@@ -339,21 +340,26 @@ void MainWidget::initExtensionPanel()
     });
     connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [=] {
         // Is visible
-        if (m_extensionPanel->x() == 0) {
+        if (m_extensionPanel->x() == (width()-EXTENSION_PANEL_WIDTH-24)) {
             return;
         }
 #ifdef LITE_DIV
         m_extensionPanel->resize(m_extensionPanel->width(), height());
 #endif
+        m_extensionPanel->show();
         //m_extensionPanel's height is dependent on the visible of topToolbar
         if (this->window()->isFullScreen()) {
-            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-                                          EXTENSION_PANEL_WIDTH), 0);
-            m_extensionPanel->moveWithAnimation(0, 0);
+//            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+//                                          EXTENSION_PANEL_WIDTH), 0);
+//            m_extensionPanel->moveWithAnimation(0, 0);
+            m_extensionPanel->move(width(), 0);
+            m_extensionPanel->moveWithAnimation((width()-EXTENSION_PANEL_WIDTH-24), 0);
         } else {
-            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-                                   EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
-            m_extensionPanel->moveWithAnimation(0, TOP_TOOLBAR_HEIGHT);
+//            m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+//                                   EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+//            m_extensionPanel->moveWithAnimation(0, TOP_TOOLBAR_HEIGHT);
+            m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
+            m_extensionPanel->moveWithAnimation((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
         }
     });
     connect(dApp->signalM, &SignalManager::hideExtensionPanel,
@@ -361,20 +367,24 @@ void MainWidget::initExtensionPanel()
         if (immediately) {
             m_extensionPanel->requestStopAnimation();
             if (this->window()->isFullScreen()) {
-                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-                                              EXTENSION_PANEL_WIDTH), 0);
+//                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+//                                              EXTENSION_PANEL_WIDTH), 0);
+                m_extensionPanel->move(width(), 0);
             } else {
-                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-                                    EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+//                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
+//                                    EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
             }
         }
         else {
             if (this->window()->isFullScreen()) {
-                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-                                                      EXTENSION_PANEL_WIDTH), 0);
+//                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+//                                                      EXTENSION_PANEL_WIDTH), 0);
+                m_extensionPanel->moveWithAnimation(width(),  0);
             } else {
-                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-                                          EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+//                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
+//                                          EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
+                m_extensionPanel->moveWithAnimation(width(), TOP_TOOLBAR_HEIGHT);
             }
         }
     });

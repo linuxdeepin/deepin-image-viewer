@@ -112,6 +112,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 
     // Title field
     SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
+    title->setAlignment(Qt::AlignCenter);
     contentLayout->addWidget(title);
     ViewSeparator *separator = new ViewSeparator();
     contentLayout->addWidget(separator);
@@ -213,7 +214,9 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
-
+    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("基本信息"));
+    infoTitle->setAlignment(Qt::AlignLeft);
+    m_exifLayout_base->addRow(infoTitle);
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
@@ -238,6 +241,9 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_details);
 
+    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("详细信息"));
+    infoTitle->setAlignment(Qt::AlignLeft);
+    m_exifLayout_base->addRow(infoTitle);
     for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
@@ -254,5 +260,5 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         m_exifLayout_details->addRow(title, field);
     }
 
-    m_separator->setVisible(m_exifLayout_details->count() > 0);
+//    m_separator->setVisible(m_exifLayout_details->count() > 10);
 }

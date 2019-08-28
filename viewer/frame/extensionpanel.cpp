@@ -27,7 +27,7 @@ namespace {
 //const int CONTROL_BUTTON_WIDTH = 20;
 //const int CONTROL_BUTTON_HEIGHT = 60;
 //const int CONTROL_BUTTON_CUBIC_LENGTH = 30;
-const int EXTENSION_PANEL_WIDTH = 240;
+const int EXTENSION_PANEL_WIDTH = 300;
 const int EXTENSION_PANEL_MAX_WIDTH = 340;
 
 const QColor DARK_COVERBRUSH = QColor(0, 0, 0, 100);
@@ -41,6 +41,8 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     setBorderColor(QColor(255, 255, 255, 51));
 //    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
     setFixedWidth(EXTENSION_PANEL_WIDTH);
+    setFixedHeight(580);
+    setBorderRadius(18);
     m_contentLayout = new QHBoxLayout(this);
     m_contentLayout->setContentsMargins(0, 0, 0, 0);
     m_contentLayout->setSpacing(0);
