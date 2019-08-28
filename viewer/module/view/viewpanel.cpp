@@ -472,6 +472,12 @@ QWidget *ViewPanel::bottomTopLeftContent()
             ttbc, &TTBContent::updateCollectButton);
     connect(dApp->signalM, &SignalManager::removedFromAlbum,
             ttbc, &TTBContent::updateCollectButton);
+    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
+        this->showPrevious();
+    });
+    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
+        this->showNext();
+    });
 
     return ttbc;
 }

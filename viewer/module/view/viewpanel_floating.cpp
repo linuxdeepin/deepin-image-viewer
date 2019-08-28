@@ -29,7 +29,7 @@ DWIDGET_USE_NAMESPACE
 
 void ViewPanel::initFloatingComponent()
 {
-    initSwitchButtons();
+//    initSwitchButtons();
     initScaleLabel();
     initNavigation();
 }

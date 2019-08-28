@@ -99,19 +99,46 @@ TTBContent::TTBContent(bool inDB,
 
      m_preButton = new DImageButton();
      m_nextButton = new DImageButton();
-//    DAnchors<DImageButton> next_button = new DImageButton(this);
+     m_preButton->setObjectName("PreviousButton");
+     m_nextButton->setObjectName("NextButton");
+     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+         m_preButton->setNormalPic(":/resources/dark/images/previous_normal.svg");
+         m_preButton->setHoverPic(":/resources/dark/images/previous_hover.svg");
+         m_preButton->setPressPic(":/resources/dark/images/previous_press.svg");
+         m_preButton->setCheckedPic(":/resources/dark/images/previous_press.svg");
 
-//    pre_button->setObjectName("PreviousButton");
-//    next_button->setObjectName("NextButton");
+         m_nextButton->setNormalPic(":/resources/dark/images/next_normal.svg");
+         m_nextButton->setHoverPic(":/resources/dark/images/next_hover.svg");
+         m_nextButton->setPressPic(":/resources/dark/images/next_press.svg");
+         m_nextButton->setCheckedPic(":/resources/dark/images/next_press.svg");
 
-//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-//        pre_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-//        next_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-//    } else {
-//        pre_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-//        next_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-//    }
+     } else {
+         m_preButton->setNormalPic(":/resources/light/images/previous_normal.svg");
+         m_preButton->setHoverPic(":/resources/light/images/previous_hover.svg");
+         m_preButton->setPressPic(":/resources/light/images/previous_press.svg");
+         m_preButton->setCheckedPic(":/resources/light/images/previous_press.svg");
 
+         m_nextButton->setNormalPic(":/resources/light/images/next_normal.svg");
+         m_nextButton->setHoverPic(":/resources/light/images/next_hover.svg");
+         m_nextButton->setPressPic(":/resources/light/images/next_press.svg");
+         m_nextButton->setCheckedPic(":/resources/light/images/next_press.svg");
+     }
+     m_preButton->setFixedSize(ICON_SIZE);
+     m_nextButton->setFixedSize(ICON_SIZE);
+     m_preButton->setToolTip(tr("Previous"));
+     m_nextButton->setToolTip(tr("Next"));
+     m_preButton->hide();
+     m_nextButton->hide();
+     hb->addWidget(m_preButton);
+     hb->addSpacing(ICON_SPACING);
+     hb->addWidget(m_nextButton);
+     hb->addSpacing(ICON_SPACING);
+     connect(m_preButton, &DImageButton::clicked, this, [=] {
+         emit showPrevious();
+     });
+     connect(m_nextButton, &DImageButton::clicked, this, [=] {
+         emit showNext();
+     });
 
     m_adaptImageBtn = new PushButton();
     m_adaptImageBtn->setObjectName("AdaptBtn");
@@ -174,7 +201,7 @@ TTBContent::TTBContent(bool inDB,
 
 
 //    m_imgList = new DListView();
-    m_imgList = new QListWidget;
+    m_imgList = new DListWidget;
     //显示图标
     m_imgList->setViewMode(QListView::IconMode);
     //设置图标可不可以移动
@@ -346,6 +373,8 @@ void TTBContent::setImage(const QString &path)
 //            m_imgList->setModel(slm);
 //            m_imgList->setDisabled(true);
             m_imgList->show();
+            m_preButton->show();
+            m_nextButton->show();
         }
 
 

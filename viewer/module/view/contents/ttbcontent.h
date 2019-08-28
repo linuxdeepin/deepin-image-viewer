@@ -22,7 +22,7 @@
 #include "controller/viewerthememanager.h"
 //#include <dlistwidget.h>
 //#include <DListWidget>
-//#include <DListWidget>
+#include <DListWidget>
 //#include <DtkWidgets>
 //#include "dlistwidget.h"
 #include <QListWidget>
@@ -57,6 +57,8 @@ signals:
     void removed();
     void imageEmpty(bool v);
     void contentWidthChanged(int width);
+    void showPrevious();
+    void showNext();
 
 public slots:
     void setCurrentDir(QString text);
@@ -87,7 +89,7 @@ private:
     DImageButton *m_nextButton;
     ElidedLabel* m_fileNameLabel;
 //    DListView   *m_imgList;
-    QListWidget *m_imgList;
+    DListWidget *m_imgList;
     DBImgInfoList m_imgInfos ;
     QString m_imagePath;
     int m_windowWidth;
