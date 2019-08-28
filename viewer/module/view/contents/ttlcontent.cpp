@@ -150,6 +150,7 @@ TTLContent::TTLContent(bool inDB,
 //    hb->addWidget(m_trashBtn);
 
     m_fileNameLabel = new ElidedLabel();
+    m_fileNameLabel->setAlignment(Qt::Alignment::enum_type::AlignCenter);
     hb->addWidget(m_fileNameLabel);
     connect(m_trashBtn, &PushButton::clicked, this, &TTLContent::removed);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
@@ -203,7 +204,7 @@ void TTLContent::updateFilenameLayout()
                               - m_leftContentWidth - LEFT_MARGIN - 2);
     } else {
         leftMargin = std::max(0, (m_windowWidth - strWidth)/2
-                              - m_leftContentWidth - 6);
+                              );
         name = filename;
     }
 
