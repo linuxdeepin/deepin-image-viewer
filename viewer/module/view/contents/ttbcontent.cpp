@@ -63,6 +63,7 @@ TTBContent::TTBContent(bool inDB,
     }
 
     setFixedWidth(m_contentWidth);
+    setFixedHeight(70);
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
@@ -207,11 +208,11 @@ TTBContent::TTBContent(bool inDB,
     //设置图标可不可以移动
     m_imgList->setMovement(QListView::Static);
     //设置图标的大小
-    m_imgList->setIconSize(QSize(30,40));
+//    m_imgList->setIconSize(QSize(30,40));
     //设置网格的大小
-    m_imgList->setGridSize(QSize(30,40));
+//    m_imgList->setGridSize(QSize(30,40));
 //    m_imgList->setGeometry(0,0,480,272);
-    m_imgList->setResizeMode(QListView::Adjust);
+    m_imgList->setResizeMode(QListView::Fixed);
     //定义QListWidget对象
 //    m_imgList->resize(786,40);
     //设置QListWidget的显示模式
@@ -227,6 +228,7 @@ TTBContent::TTBContent(bool inDB,
 
     //显示QListWidget
 //    m_imgList->show();
+    m_imgList->setFixedSize(QSize(786,50));
     m_imgList->setDisabled(false);
     m_imgList->setHidden(true);
     hb->addWidget(m_imgList);
@@ -328,7 +330,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 
 void TTBContent::setImage(const QString &path)
 {
-    m_imagePath = path;
+//    m_imagePath = path;
     if (path.isEmpty() || !QFileInfo(path).exists()
             || !QFileInfo(path).isReadable()) {
         m_adaptImageBtn->setDisabled(true);
@@ -345,33 +347,44 @@ void TTBContent::setImage(const QString &path)
 //        QStandardItem *s1=new QStandardItem(QIcon(path),"普通员工");
         if ( m_imgInfos.size() > 0 ) {
 //            QStandardItemModel *slm=new QStandardItemModel(this);
-            for (DBImgInfo info : m_imgInfos) {
-//                QStandardItem *s1=new QStandardItem(QIcon(info.filePath),info.fileName);
-//                slm->appendRow(s1);
-                //定义QListWidgetItem对象
-//                QFileInfo aaa(info.fileName) ;
-//                bool ret = DThumbnailProvider::instance()->hasThumbnail(aaa);
-//                if(!ret)  {
-//                    DThumbnailProvider::instance()->appendToProduceQueue(aaa,DThumbnailProvider::Size::Large,[this](const QString &path){
-//                        QListWidgetItem *imageItem = new QListWidgetItem;
-//                        imageItem->setBackground(QBrush(QPixmap(path).scaled(30,40)));
-//                        imageItem->setSizeHint(QSize(30,40));
-//                        m_imgList->setIconSize(QSize(30,40));
-//                        m_imgList->addItem(imageItem);
-//                                                                         } );
-//                }
-//                QString imgpath= DThumbnailProvider::instance()->thumbnailFilePath(aaa,DThumbnailProvider::Size::Large);
-//                imgpath = DThumbnailProvider::instance()->createThumbnail(aaa,DThumbnailProvider::Size::Large);
-                QListWidgetItem *imageItem = new QListWidgetItem;
-                imageItem->setBackground(QBrush(QPixmap(info.filePath).scaled(30,40)));
-                imageItem->setSizeHint(QSize(30,40));
+            auto num=30;
+            if(m_imgInfos.size()>20){
+                num=(m_imgList->rect().width()-60)/(m_imgInfos.size()-1);
+            }
+            if (m_imagePath != path){
+                m_imgList->clear();
 
-                //将单元项添加到QListWidget中
-                m_imgList->addItem(imageItem);
+                for (DBImgInfo info : m_imgInfos) {
+                    QListWidgetItem *imageItem = new QListWidgetItem;
+
+                    imageItem->setBackground(QBrush(QPixmap(info.filePath).scaled(num,40)));
+                    imageItem->setTextAlignment(Qt::AlignHCenter);
+                    imageItem->setSizeHint(QSize(num,40));
+                    if ( path == info.filePath ) {
+                        imageItem->setBackground(QBrush(QPixmap(info.filePath).scaled(60,50)));
+
+                        imageItem->setSizeHint(QSize(60,50));
+                        imageItem->setSelected(true);
+
+    //                    imageItem->setCheckState(Qt::CheckState::Checked);
+                    }
+
+
+                    //将单元项添加到QListWidget中
+                    m_imgList->addItem(imageItem);
+
+                    if ( path == info.filePath ) {
+                        m_imgList->setCurrentItem(imageItem);
+                        m_imgList->setItemSelected(imageItem,true);
+
+                    }
+                }
             }
 
 //            m_imgList->setModel(slm);
 //            m_imgList->setDisabled(true);
+//            m_imgList->setStyleSheet("QListView::item:selected{ !important border: 4px solid #2CA7F8;}");
+            m_imgList->setSpacing(3);
             m_imgList->show();
             m_preButton->show();
             m_nextButton->show();
@@ -394,7 +407,7 @@ void TTBContent::setImage(const QString &path)
             }
         }
     }
-
+    m_imagePath = path;
 //    updateFilenameLayout();
     updateCollectButton();
 }
