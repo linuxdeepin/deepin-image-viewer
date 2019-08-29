@@ -345,7 +345,7 @@ void TTBContent::setImage(const QString &path)
 
 //        QAbstractItemModel *slm = new QAbstractItemModel();
 //        QStandardItem *s1=new QStandardItem(QIcon(path),"普通员工");
-        if ( m_imgInfos.size() > 0 ) {
+        if ( m_imgInfos.size() > 1 ) {
 //            QStandardItemModel *slm=new QStandardItemModel(this);
             auto num=30;
             if(m_imgInfos.size()>20){
