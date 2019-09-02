@@ -33,6 +33,7 @@
 #include <DAnchors>
 #include <dimagebutton.h>
 #include <DThumbnailProvider>
+#include <QPropertyAnimation>
 DWIDGET_USE_NAMESPACE
 
 
@@ -42,6 +43,25 @@ class ElidedLabel;
 class QAbstractItemModel;
 //class DImageButton;
 class ImageButton;
+class ImageItem : public QLabel{
+    Q_OBJECT
+public:
+    ImageItem(int index= 0,QWidget *parent = 0){
+        _index = index;
+    };
+    void setIndexNow(int i){
+        _indexNow = i;
+    };
+signals:
+    void imageItemclicked(int index,int indexNow);
+protected:
+    void mousePressEvent(QMouseEvent *ev){
+        emit imageItemclicked(_index,_indexNow);
+    }
+private:
+    int _index;
+    int _indexNow;
+};
 class TTBContent : public QLabel
 {
     Q_OBJECT
@@ -50,6 +70,7 @@ public:
 
 signals:
     void clicked();
+    void imageClicked(int index,int addIndex);
     void resetTransform(bool fitWindow);
     void rotateClockwise();
     void rotateCounterClockwise();
@@ -88,12 +109,14 @@ private:
     DImageButton *m_preButton;
     DImageButton *m_nextButton;
     ElidedLabel* m_fileNameLabel;
-//    DListView   *m_imgList;
-    DListWidget *m_imgList;
+    DWidget *m_imgList;
+    DWidget *m_imgListView;
     DBImgInfoList m_imgInfos ;
     QString m_imagePath;
     int m_windowWidth;
     int m_contentWidth;
+    int m_lastIndex = 0;
+    int m_nowIndex = 0;
 };
 
 #endif // TTLCONTENT_H

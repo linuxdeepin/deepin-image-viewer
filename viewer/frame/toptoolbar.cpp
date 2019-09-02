@@ -123,13 +123,13 @@ void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
         m_topBorderColor = DARK_TOP_BORDERCOLOR;
         m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
 
-        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
+//        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     } else {
         setCoverBrush(QBrush(lightLinearGrad));
         m_topBorderColor = LIGHT_TOP_BORDERCOLOR;
         m_bottomBorderColor = LIGHT_BOTTOM_BORDERCOLOR;
 
-        Dtk::Widget::DThemeManager::instance()->setTheme("light");
+//        Dtk::Widget::DThemeManager::instance()->setTheme("light");
     }
 
 

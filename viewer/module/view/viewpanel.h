@@ -103,6 +103,7 @@ private:
     void rotateImage(bool clockWise);
     bool showNext();
     bool showPrevious();
+    bool showImage(int index,int addIndex);
 
     // Geometry
     void toggleFullScreen();

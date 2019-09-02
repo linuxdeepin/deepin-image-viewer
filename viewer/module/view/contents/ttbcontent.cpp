@@ -201,37 +201,17 @@ TTBContent::TTBContent(bool inDB,
             this, &TTBContent::rotateClockwise);
 
 
-//    m_imgList = new DListView();
-    m_imgList = new DListWidget;
-    //显示图标
-    m_imgList->setViewMode(QListView::IconMode);
-    //设置图标可不可以移动
-    m_imgList->setMovement(QListView::Static);
-    //设置图标的大小
-//    m_imgList->setIconSize(QSize(30,40));
-    //设置网格的大小
-//    m_imgList->setGridSize(QSize(30,40));
-//    m_imgList->setGeometry(0,0,480,272);
-    m_imgList->setResizeMode(QListView::Fixed);
-    //定义QListWidget对象
-//    m_imgList->resize(786,40);
-    //设置QListWidget的显示模式
-//    m_imgList->setViewMode(QListView::IconMode);
-    //设置QListWidget中单元项的图片大小
-//    m_imgList->setIconSize(QSize(100,100));
-    //设置QListWidget中单元项的间距
-//    m_imgList->setSpacing(10);
-    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
-//    m_imgList->setResizeMode(QListWidget::Adjust);
-    //设置不能移动
-//    imageList->setMovement(QListWidget::Static);
 
-    //显示QListWidget
-//    m_imgList->show();
-    m_imgList->setFixedSize(QSize(786,50));
+    m_imgListView = new DWidget();
+    m_imgListView->setObjectName("ImgListView");
+    m_imgList = new DWidget(m_imgListView);
+    m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
+    m_imgList->setObjectName("ImgList");
+
     m_imgList->setDisabled(false);
     m_imgList->setHidden(true);
-    hb->addWidget(m_imgList);
+    m_imgListView->setFixedSize(QSize(786,60));
+    hb->addWidget(m_imgListView);
 
     m_trashBtn = new PushButton();
     m_trashBtn->setFixedSize(ICON_SIZE);
@@ -330,7 +310,6 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 
 void TTBContent::setImage(const QString &path)
 {
-//    m_imagePath = path;
     if (path.isEmpty() || !QFileInfo(path).exists()
             || !QFileInfo(path).isReadable()) {
         m_adaptImageBtn->setDisabled(true);
@@ -343,49 +322,76 @@ void TTBContent::setImage(const QString &path)
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
 
-//        QAbstractItemModel *slm = new QAbstractItemModel();
-//        QStandardItem *s1=new QStandardItem(QIcon(path),"普通员工");
+
+        int t=0;
         if ( m_imgInfos.size() > 1 ) {
-//            QStandardItemModel *slm=new QStandardItemModel(this);
+            m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
+            m_imgList->resize((m_imgInfos.size()+1)*32,60);
+
+            m_imgList->setContentsMargins(0,0,0,0);
+
             auto num=30;
-            if(m_imgInfos.size()>20){
-                num=(m_imgList->rect().width()-60)/(m_imgInfos.size()-1);
-            }
-            if (m_imagePath != path){
-                m_imgList->clear();
+            QHBoxLayout *layout= new QHBoxLayout();
+            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+            layout->setMargin(0);
+            layout->setSpacing(0);
 
-                for (DBImgInfo info : m_imgInfos) {
-                    QListWidgetItem *imageItem = new QListWidgetItem;
+            int i=0;
+            QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
 
-                    imageItem->setBackground(QBrush(QPixmap(info.filePath).scaled(num,40)));
-                    imageItem->setTextAlignment(Qt::AlignHCenter);
-                    imageItem->setSizeHint(QSize(num,40));
-                    if ( path == info.filePath ) {
-                        imageItem->setBackground(QBrush(QPixmap(info.filePath).scaled(60,50)));
-
-                        imageItem->setSizeHint(QSize(60,50));
-                        imageItem->setSelected(true);
-
-    //                    imageItem->setCheckState(Qt::CheckState::Checked);
-                    }
-
-
-                    //将单元项添加到QListWidget中
-                    m_imgList->addItem(imageItem);
-
-                    if ( path == info.filePath ) {
-                        m_imgList->setCurrentItem(imageItem);
-                        m_imgList->setItemSelected(imageItem,true);
-
-                    }
+            for (DBImgInfo info : m_imgInfos) {
+                if(labelList.size()!=m_imgInfos.size()){
+                    ImageItem *imageItem = new ImageItem(i);
+                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
+                    imageItem->setContentsMargins(1,5,1,5);
+                    imageItem->setFixedSize(QSize(num,40));
+                    imageItem->resize(QSize(num,40));
+                    
+                    m_imgList->setLayout(layout);
+                    m_imgList->layout()->addWidget(imageItem);
+                    connect(imageItem,&ImageItem::imageItemclicked,this,[=](int index,int indexNow){
+                        emit imageClicked(index,(index-indexNow));
+                    });
                 }
+                if ( path == info.filePath ) {
+                    t=i;
+                }
+                i++;
+            }
+            m_nowIndex = t;
+            for(int j = 0; j < labelList.size(); j++){
+                labelList.at(j)->setFixedSize (QSize(30,40));
+                labelList.at(j)->resize (QSize(30,40));
+                labelList.at(j)->setContentsMargins(1,5,1,5);
+                labelList.at(j)->setFrameShape (QFrame::NoFrame);
+                labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
+                labelList.at(j)->setIndexNow(t);
+            }
+            if(labelList.size()>0){
+                labelList.at(t)->setFixedSize (QSize(60,58));
+                labelList.at(t)->resize (QSize(60,58));
+                labelList.at(t)->setFrameShape (QFrame::Box);
+                labelList.at(t)->setContentsMargins(0,0,0,0);
+                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
             }
 
-//            m_imgList->setModel(slm);
-//            m_imgList->setDisabled(true);
-//            m_imgList->setStyleSheet("QListView::item:selected{ !important border: 4px solid #2CA7F8;}");
-            m_imgList->setSpacing(3);
+
             m_imgList->show();
+            m_imgListView->show();
+
+            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
+            animation->setDuration(500);
+            animation->setEasingCurve(QEasingCurve::NCurveTypes);
+            animation->setStartValue(m_imgList->pos());
+            animation->setKeyValueAt(1,  QPoint(320-(32*t),0));
+            animation->setEndValue(QPoint(320-(32*t),0));
+            animation->start(QAbstractAnimation::DeleteWhenStopped);
+            connect(animation, &QPropertyAnimation::finished,
+                    animation, &QPropertyAnimation::deleteLater);
+
+
+            m_imgListView->update();
+            m_imgList->update();
             m_preButton->show();
             m_nextButton->show();
         }

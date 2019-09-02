@@ -478,6 +478,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(ttbc, &TTBContent::showNext, this, [ = ]() {
         this->showNext();
     });
+    connect(ttbc,&TTBContent::imageClicked,this,[ = ](int index,int addIndex){
+        this->showImage(index,addIndex);
+    });
 
     return ttbc;
 }
@@ -741,6 +744,28 @@ bool ViewPanel::showNext()
 
     openImage(m_current->filePath, m_vinfo.inDatabase);
     return true;
+}
+bool ViewPanel::showImage(int index,int addindex)
+{
+#ifdef LITE_DIV
+        eatImageDirIterator();
+#endif
+
+        if (m_infos.isEmpty()) {
+            return false;
+        }
+
+        if(addindex>0){
+            for (int i=0;i<addindex;i++) {
+                ++m_current;
+            }
+        }else{
+            for (int i=addindex;i<0;i++) {
+                --m_current;
+            }
+        }
+        openImage(m_current->filePath, m_vinfo.inDatabase);
+        return true;
 }
 
 void ViewPanel::removeCurrentImage()
