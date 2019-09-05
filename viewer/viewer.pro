@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
 PKGCONFIG += x11 xext libexif dtkwidget gio-unix-2.0
+#PKGCONFIG += dtkwidget
+ QT += dtkwidget
 LIBS += -lfreeimage
 
 #gtk+-2.0

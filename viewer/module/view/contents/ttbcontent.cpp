@@ -30,9 +30,9 @@
 #include <QFileInfo>
 #include <QHBoxLayout>
 #include <QDebug>
-#include <dlabel.h>
+#include <DLabel>
 #include <QAbstractItemModel>
-#include <dimagebutton.h>
+#include <DImageButton>
 #include <DThumbnailProvider>
 
 DWIDGET_USE_NAMESPACE
