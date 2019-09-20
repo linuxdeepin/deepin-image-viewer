@@ -24,6 +24,7 @@
 
 #include <QDebug>
 #include <QTranslator>
+#include <DApplicationSettings>
 
 namespace {
 
@@ -36,6 +37,9 @@ Application::Application(int& argc, char** argv)
     setOrganizationName("deepin");
     setApplicationName("deepin-image-viewer");
     setApplicationDisplayName(tr("Deepin Image Viewer"));
+
+    //save theme
+    DApplicationSettings saveTheme;
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
     setApplicationVersion(DApplication::buildVersion("20190828"));
