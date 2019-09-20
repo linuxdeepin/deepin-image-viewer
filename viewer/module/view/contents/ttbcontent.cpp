@@ -45,8 +45,56 @@ const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
 const int LEFT_SPACE = 20;
+
+const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
+const unsigned int IMAGE_TYPE_JPG1 = 0xFFD8FFE0;
+const unsigned int IMAGE_TYPE_JPG2 = 0xFFD8FFE1;
+const unsigned int IMAGE_TYPE_JPG3 = 0xFFD8FFE8;
+const unsigned int IMAGE_TYPE_PNG = 0x89504e47;
+const unsigned int IMAGE_TYPE_GIF = 0x47494638;
+const unsigned int IMAGE_TYPE_TIFF = 0x49492a00;
+const unsigned int IMAGE_TYPE_BMP = 0x424d;
 }  // namespace
 
+char* getImageType(QString filepath){
+    char *ret=nullptr;
+    QFile file(filepath);
+     file.open(QIODevice::ReadOnly);
+     QDataStream in(&file);
+
+     // Read and check the header
+     quint32 magic;
+     in >> magic;
+     switch (magic) {
+     case IMAGE_TYPE_JEPG:
+     case IMAGE_TYPE_JPG1:
+     case IMAGE_TYPE_JPG2:
+     case IMAGE_TYPE_JPG3:
+         //文件类型为 JEPG
+         ret ="JEPG";
+         break;
+     case IMAGE_TYPE_PNG:
+         //文件类型为 png
+         ret ="PNG";
+         break;
+     case IMAGE_TYPE_GIF:
+         //文件类型为 GIF
+         ret ="GIF";
+         break;
+     case IMAGE_TYPE_TIFF:
+         //文件类型为 TIFF
+         ret ="TIFF";
+         break;
+     case IMAGE_TYPE_BMP:
+         //文件类型为 BMP
+         ret ="BMP";
+         break;
+     default:
+         ret =nullptr;
+         break;
+     }
+     return ret;
+};
 TTBContent::TTBContent(bool inDB,
                        DBImgInfoList m_infos ,
                        QWidget *parent) : QLabel(parent)
@@ -304,6 +352,22 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     m_windowWidth =  this->window()->geometry().width();
+    QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
+    for(int j = 0; j < labelList.size(); j++){
+        labelList.at(j)->setFixedSize (QSize(30,40));
+        labelList.at(j)->resize (QSize(30,40));
+        labelList.at(j)->setContentsMargins(1,5,1,5);
+        labelList.at(j)->setFrameShape (QFrame::NoFrame);
+        labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
+        labelList.at(j)->setIndexNow(m_nowIndex);
+    }
+    if(labelList.size()>0){
+        labelList.at(m_nowIndex)->setFixedSize (QSize(60,58));
+        labelList.at(m_nowIndex)->resize (QSize(60,58));
+        labelList.at(m_nowIndex)->setFrameShape (QFrame::Box);
+        labelList.at(m_nowIndex)->setContentsMargins(0,0,0,0);
+        labelList.at(m_nowIndex)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
+    }
 //    m_contentWidth = std::max(m_windowWidth - 100, 1);
 //    m_contentWidth = 310;
 }
@@ -342,7 +406,10 @@ void TTBContent::setImage(const QString &path)
             for (DBImgInfo info : m_imgInfos) {
                 if(labelList.size()!=m_imgInfos.size()){
                     ImageItem *imageItem = new ImageItem(i);
-                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
+                    char *imageType=getImageType(info.filePath);
+                    QImage image(info.filePath,imageType);
+//                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
+                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
                     imageItem->setContentsMargins(1,5,1,5);
                     imageItem->setFixedSize(QSize(num,40));
                     imageItem->resize(QSize(num,40));
