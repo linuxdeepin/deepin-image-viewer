@@ -238,7 +238,7 @@ void TTLContent::resizeEvent(QResizeEvent *event)
     m_contentWidth = std::max(m_windowWidth - 100, 1);
 }
 
-void TTLContent::setImage(const QString &path)
+void TTLContent::setImage(const QString &path,DBImgInfoList infos)
 {
     m_imagePath = path;
     if (path.isEmpty() || !QFileInfo(path).exists()

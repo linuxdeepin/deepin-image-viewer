@@ -380,9 +380,9 @@ QWidget *ViewPanel::toolbarTopLeftContent()
     TTLContent *ttlc = new TTLContent(m_vinfo.inDatabase);
     ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-        ttlc->setImage(m_current->filePath);
+        ttlc->setImage(m_current->filePath,m_infos);
     } else {
-        ttlc->setImage("");
+        ttlc->setImage("",m_infos);
     }
 
     connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
@@ -430,9 +430,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
     TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase,m_infos);
 //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current != m_infos.constEnd()) {
-        ttbc->setImage(m_current->filePath);
+        ttbc->setImage(m_current->filePath,m_infos);
     } else {
-        ttbc->setImage("");
+        ttbc->setImage("",m_infos);
     }
 
     connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel);
@@ -778,15 +778,30 @@ void ViewPanel::removeCurrentImage()
     // 在删除当前图片之前将图片列表初始化完成
     eatImageDirIterator();
 #endif
-
-    m_infos.removeAt(imageIndex(m_current->filePath));
-    if (! showNext()) {
-        if (! showPrevious()) {
+    if (m_current == m_infos.cbegin()) {
+        m_infos.removeAt(imageIndex(m_current->filePath));
+        if (! showNext()) {
+            if (! showPrevious()) {
+                qDebug() << "No images to show!";
+                m_current = m_infos.cend();
+                emit imageChanged("",m_infos);
+                m_emptyWidget->setThumbnailImage(QPixmap());
+                m_stack->setCurrentIndex(1);
+            }
+        }
+    }else {
+        m_infos.removeAt(imageIndex(m_current->filePath));
+        if (m_infos.isEmpty()) {
             qDebug() << "No images to show!";
             m_current = m_infos.cend();
-            emit imageChanged("");
+            emit imageChanged("",m_infos);
             m_emptyWidget->setThumbnailImage(QPixmap());
             m_stack->setCurrentIndex(1);
+        }else {
+            if (m_current == m_infos.cend()) {
+                m_current = m_infos.cbegin();
+            }
+            openImage(m_current->filePath, m_vinfo.inDatabase);
         }
     }
 }
@@ -863,7 +878,7 @@ void ViewPanel::rotateImage(bool clockWise)
     m_viewB->autoFit();
     m_info->updateInfo();
 
-    emit imageChanged(m_current->filePath);
+    emit imageChanged(m_current->filePath,m_infos);
 }
 
 void ViewPanel::initViewContent()
@@ -877,7 +892,7 @@ void ViewPanel::initViewContent()
         dApp->signalM->hideExtensionPanel();
     });
     connect(m_viewB, &ImageView::imageChanged, this, [ = ](QString path) {
-        emit imageChanged(path);
+        emit imageChanged(path,m_infos);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
         m_viewB->autoFit();

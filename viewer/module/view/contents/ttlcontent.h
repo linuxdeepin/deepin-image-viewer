@@ -20,7 +20,7 @@
 #include <QWidget>
 #include <QLabel>
 #include "controller/viewerthememanager.h"
-
+#include "controller/dbmanager.h"
 class PushButton;
 class ReturnButton;
 class ElidedLabel;
@@ -42,7 +42,7 @@ signals:
 
 public slots:
     void setCurrentDir(QString text);
-    void setImage(const QString &path);
+    void setImage(const QString &path,DBImgInfoList infos);
     void updateCollectButton();
 
 private slots:

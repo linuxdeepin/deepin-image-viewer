@@ -57,7 +57,7 @@ public:
 
 signals:
     void updateCollectButton();
-    void imageChanged(const QString &path);
+    void imageChanged(const QString &path,DBImgInfoList infos);
     void viewImageFrom(QString dir);
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);

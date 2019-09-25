@@ -258,6 +258,11 @@ TTBContent::TTBContent(bool inDB,
 
     m_imgList->setDisabled(false);
     m_imgList->setHidden(true);
+    m_imglayout= new QHBoxLayout();
+    m_imglayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    m_imglayout->setMargin(0);
+    m_imglayout->setSpacing(0);
+    m_imgList->setLayout(m_imglayout);
     m_imgListView->setFixedSize(QSize(786,60));
     hb->addWidget(m_imgListView);
 
@@ -372,8 +377,21 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 //    m_contentWidth = 310;
 }
 
-void TTBContent::setImage(const QString &path)
+void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 {
+    if (infos.size()!=m_imgInfos.size()){
+        m_imgInfos.clear();
+        m_imgInfos = infos;
+
+        QLayoutItem *child;
+         while ((child = m_imglayout->takeAt(0)) != 0)
+         {
+             m_imglayout->removeWidget(child->widget());
+             child->widget()->setParent(0);
+             delete child;
+
+         }
+    }
     if (path.isEmpty() || !QFileInfo(path).exists()
             || !QFileInfo(path).isReadable()) {
         m_adaptImageBtn->setDisabled(true);
@@ -395,10 +413,10 @@ void TTBContent::setImage(const QString &path)
             m_imgList->setContentsMargins(0,0,0,0);
 
             auto num=30;
-            QHBoxLayout *layout= new QHBoxLayout();
-            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            layout->setMargin(0);
-            layout->setSpacing(0);
+//            QHBoxLayout *layout= new QHBoxLayout();
+//            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+//            layout->setMargin(0);
+//            layout->setSpacing(0);
 
             int i=0;
             QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
@@ -414,8 +432,8 @@ void TTBContent::setImage(const QString &path)
                     imageItem->setFixedSize(QSize(num,40));
                     imageItem->resize(QSize(num,40));
                     
-                    m_imgList->setLayout(layout);
-                    m_imgList->layout()->addWidget(imageItem);
+//                    m_imgList->setLayout(layout);
+                    m_imglayout->addWidget(imageItem);
                     connect(imageItem,&ImageItem::imageItemclicked,this,[=](int index,int indexNow){
                         emit imageClicked(index,(index-indexNow));
                     });
@@ -425,6 +443,7 @@ void TTBContent::setImage(const QString &path)
                 }
                 i++;
             }
+            labelList = m_imgList->findChildren<ImageItem*>();
             m_nowIndex = t;
             for(int j = 0; j < labelList.size(); j++){
                 labelList.at(j)->setFixedSize (QSize(30,40));
@@ -461,6 +480,12 @@ void TTBContent::setImage(const QString &path)
             m_imgList->update();
             m_preButton->show();
             m_nextButton->show();
+        }else {
+            m_imgList->hide();
+            m_preButton->hide();
+            m_nextButton->hide();
+            m_contentWidth = 310;
+            setFixedWidth(m_contentWidth);
         }
 
 
