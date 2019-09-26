@@ -154,7 +154,7 @@ void ViewPanel::initNavigation()
     m_nav.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
-    connect(this, &ViewPanel::imageChanged, this, [=] (const QString &path) {
+    connect(this, &ViewPanel::imageChanged, this, [=] (const QString &path,DBImgInfoList infos) {
         if (path.isEmpty()) m_nav->setVisible(false);
         m_nav->setImage(m_viewB->image());
     });

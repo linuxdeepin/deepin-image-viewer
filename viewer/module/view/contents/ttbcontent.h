@@ -34,6 +34,7 @@
 #include <dimagebutton.h>
 #include <DThumbnailProvider>
 #include <QPropertyAnimation>
+#include <QHBoxLayout>
 DWIDGET_USE_NAMESPACE
 
 
@@ -83,7 +84,7 @@ signals:
 
 public slots:
     void setCurrentDir(QString text);
-    void setImage(const QString &path);
+    void setImage(const QString &path,DBImgInfoList infos);
     void updateCollectButton();
 
 private slots:
@@ -110,6 +111,7 @@ private:
     DImageButton *m_nextButton;
     ElidedLabel* m_fileNameLabel;
     DWidget *m_imgList;
+    QHBoxLayout *m_imglayout;
     DWidget *m_imgListView;
     DBImgInfoList m_imgInfos ;
     QString m_imagePath;
