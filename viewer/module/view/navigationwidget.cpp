@@ -195,14 +195,14 @@ void NavigationWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
         m_mrBgColor = utils::view::naviwindow::DARK_MR_BG_COLOR;
         m_mrBorderColor = utils::view::naviwindow::DARK_MR_BORDER_Color;
         m_imgRBorderColor =utils::view::naviwindow:: DARK_IMG_R_BORDER_COLOR;
-        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
+//        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     } else {
         m_bgImgUrl = utils::view::naviwindow::LIGHT_BG_IMG ;
         m_BgColor = utils::view::naviwindow::LIGHT_BG_COLOR;
         m_mrBgColor = utils::view::naviwindow::LIGHT_MR_BG_COLOR;
         m_mrBorderColor = utils::view::naviwindow::LIGHT_MR_BORDER_Color;
         m_imgRBorderColor = utils::view::naviwindow::LIGHT_IMG_R_BORDER_COLOR;
-        Dtk::Widget::DThemeManager::instance()->setTheme("light");
+//        Dtk::Widget::DThemeManager::instance()->setTheme("light");
     }
     update();
 }

@@ -70,6 +70,7 @@ signals:
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
 
     void viewImage(const ViewInfo &vinfo);
+    void updateFileName(const QString &fileName);
 
     // Handle by album
     void gotoAlbumPanel(const QString &album = "");

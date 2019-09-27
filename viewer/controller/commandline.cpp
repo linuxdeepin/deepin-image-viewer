@@ -146,10 +146,10 @@ bool CommandLine::processOption()
                                                    THEME_TEXT).toString();
     if (defaulttheme.isEmpty()||defaulttheme == "Light") {
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-        Dtk::Widget::DThemeManager::instance()->setTheme("light");
+//        Dtk::Widget::DThemeManager::instance()->setTheme("light");
     } else {
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
+//        Dtk::Widget::DThemeManager::instance()->setTheme("dark");
     }
 
     QStringList names = m_cmdParser.optionNames();

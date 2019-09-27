@@ -23,17 +23,19 @@ const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
 }
 
 BottomToolbar::BottomToolbar(QWidget *parent)
-    : BlurFrame(parent)
+    : DBlurEffectWidget(parent)
 {
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
     m_mainLayout = new QHBoxLayout(this);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setSpacing(0);
-    setRadius(18);
+//    setRadius(18);
+    setBlurRectYRadius(18);
+    setBlurRectXRadius(18);
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &BottomToolbar::onThemeChanged);
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            &BottomToolbar::onThemeChanged);
 }
 
 void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme) {
@@ -42,7 +44,7 @@ void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     } else {
         m_coverBrush = LIGHT_COVERCOLOR;
     }
-    setCoverBrush(m_coverBrush);
+//    setCoverBrush(m_coverBrush);
 }
 void BottomToolbar::setContent(QWidget *content)
 {

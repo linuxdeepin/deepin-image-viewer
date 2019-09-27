@@ -22,9 +22,10 @@
 #include "controller/viewerthememanager.h"
 
 #include <QHBoxLayout>
+#include <DWidget>
 
 
-class BottomToolbar : public BlurFrame
+class BottomToolbar : public DBlurEffectWidget
 {
     Q_OBJECT
 public:

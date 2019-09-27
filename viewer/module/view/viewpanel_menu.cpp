@@ -76,7 +76,7 @@ void ViewPanel::initPopupMenu()
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         if (! m_infos.isEmpty()
         #ifdef LITE_DIV
-                && !m_current->filePath.isEmpty()
+                && !m_infos.at(m_current).filePath.isEmpty()
         #endif
                 ) {
             updateMenuContent();
@@ -101,7 +101,7 @@ void ViewPanel::initPopupMenu()
         else
             emit dApp->signalM->showExtensionPanel();
         // Update panel info
-        m_info->setImagePath(m_current->filePath);
+        m_info->setImagePath(m_infos.at(m_current).filePath);
     });
 }
 
@@ -153,7 +153,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     using namespace utils::base;
     using namespace utils::image;
 
-    const QString path = m_current->filePath;
+    const QString path = m_infos.at(m_current).filePath;
     const int id = action->property("MenuID").toInt();
 
     switch (MenuItemId(id)) {
@@ -305,7 +305,7 @@ void ViewPanel::updateMenuContent()
                      tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_current->filePath)) {
+    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
         m_menu->addSeparator();
         appendAction(IdRotateClockwise,
                      tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
@@ -313,7 +313,7 @@ void ViewPanel::updateMenuContent()
                      tr("Rotate counterclockwise"), ss("Rotate counterclockwise", "Ctrl+Shift+R"));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_current->filePath))  {
+    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath))  {
         appendAction(IdSetAsWallpaper,
                      tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F8"));
     }

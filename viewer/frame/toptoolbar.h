@@ -23,6 +23,7 @@
 
 #include <QJsonObject>
 #include <QPointer>
+#include <DTitlebar>
 
 DWIDGET_USE_NAMESPACE
 
@@ -37,7 +38,7 @@ class TopToolbar : public BlurFrame
 public:
     TopToolbar(bool manager, QWidget *parent);
     void setLeftContent(QWidget *content);
-    void setMiddleContent(QWidget *content);
+    void setMiddleContent(QString path);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -85,10 +86,11 @@ private:
     QColor m_bottomBorderColor;
 
     QPointer<QProcess> m_manualPro;
-    QHBoxLayout *m_layout;
-    QHBoxLayout *m_lLayout;
-    QHBoxLayout *m_mLayout;
-    QHBoxLayout *m_rLayout;
+    QHBoxLayout *m_layout = nullptr;
+    QHBoxLayout *m_lLayout = nullptr;
+    QHBoxLayout *m_mLayout = nullptr;
+    QHBoxLayout *m_rLayout = nullptr;
+    DTitlebar *m_titlebar = nullptr;
 
 #ifndef LITE_DIV
     SettingsWindow *m_settingsWindow;

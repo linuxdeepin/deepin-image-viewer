@@ -506,6 +506,11 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
         }
     }
     m_imagePath = path;
+    QString fileName = "";
+    if(m_imagePath != ""){
+        fileName = QFileInfo(m_imagePath).fileName();
+    }
+    emit dApp->signalM->updateFileName(fileName);
 //    updateFilenameLayout();
     updateCollectButton();
 }

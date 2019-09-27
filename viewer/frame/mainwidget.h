@@ -50,7 +50,7 @@ private:
 
     void initConnection();
     void initPanelStack(bool manager);
-    void initStyleSheet();
+//    void initStyleSheet();
 
 private:
     QStringList m_infoShowingList;

@@ -63,12 +63,15 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
     :BlurFrame(parent)
 {
     m_manager = manager;
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
 #ifndef LITE_DIV
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
 #endif
+    QPalette palette;
+    palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
+    setPalette(palette);
 
     initMenu();
     initWidgets();
@@ -87,16 +90,21 @@ void TopToolbar::setLeftContent(QWidget *content)
     m_lLayout->addWidget(content);
 }
 
-void TopToolbar::setMiddleContent(QWidget *content)
+void TopToolbar::setMiddleContent(QString path)
 {
-    QLayoutItem *child;
-    while ((child = m_mLayout->takeAt(0)) != 0) {
-        if (child->widget())
-            child->widget()->deleteLater();
-        delete child;
-    }
+//    QLayoutItem *child;
+//    while ((child = m_mLayout->takeAt(0)) != 0) {
+//        if (child->widget())
+//            child->widget()->deleteLater();
+//        delete child;
+//    }
 
-    m_mLayout->addWidget(content);
+//    m_mLayout->addWidget(content);
+//    QString filename="";
+//    if(!path.isNull() && !path.isNull()){
+//        filename = QFileInfo(path).fileName();
+//    }
+    m_titlebar->setTitle(path);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -133,8 +141,8 @@ void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
     }
 
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &TopToolbar::onThemeChanged);
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            &TopToolbar::onThemeChanged);
 }
 
 const QString TopToolbar::newAlbumShortcut() const
@@ -239,15 +247,39 @@ void TopToolbar::initWidgets()
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
 
-    initLeftContent();
-    initMiddleContent();
-    initRightContent();
+//    initLeftContent();
+//    initMiddleContent();
+//    initRightContent();
+    m_titlebar = new DTitlebar(this);
+    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |
+                               Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    m_titlebar->setMenu(m_menu);
+    m_titlebar->setBackgroundTransparent(true);
+    m_titlebar->setIcon(QIcon(":/images/logo/resources/images/logo/deepin-image-viewer.svg"));
+    QPalette pa;
+    pa.setColor(QPalette::WindowText,QColor(255,255,255,255));
+//    pa.setColor(QPalette::WindowText,Qt::red);
+    m_titlebar->setPalette(pa);
+    m_titlebar->setTitle("");
+
+//    QWidget *customWidget = new QWidget();
+//    customWidget->setFixedWidth(0);
+//    m_titlebar->setCustomWidget(customWidget, false);
+    m_layout->addWidget(m_titlebar);
+    connect(dApp->signalM, &SignalManager::updateFileName,
+            this, [ = ](const QString & filename){
+//        QString filename="";
+//        if(!vinfo.path.isNull() && !vinfo.path.isNull()){
+//            filename = QFileInfo(vinfo.path).fileName();
+//        }
+        m_titlebar->setTitle(filename);
+    });
 }
 
 void TopToolbar::initMenu()
 {
     m_menu = new QMenu(this);
-    m_menu->setStyle(QStyleFactory::create("dlight"));
+//    m_menu->setStyle(QStyleFactory::create("dlight"));
 
 #ifndef LITE_DIV
     if (m_manager)
@@ -256,12 +288,12 @@ void TopToolbar::initMenu()
         connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
     }
 #endif
-    QAction *acDT = m_menu->addAction(tr("Dark theme"));
+//    QAction *acDT = m_menu->addAction(tr("Dark theme"));
 
-    bool checkSelected =
-            dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark;
-    acDT->setCheckable(checkSelected);
-    acDT->setChecked(checkSelected);
+//    bool checkSelected =
+//            dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark;
+//    acDT->setCheckable(checkSelected);
+//    acDT->setChecked(checkSelected);
 
 #ifndef LITE_DIV
     if (m_manager)
@@ -292,7 +324,7 @@ void TopToolbar::initMenu()
 //    QAction *acA = m_menu->addAction(tr("About"));
 //    QAction *acE = m_menu->addAction(tr("Exit"));
 
-    connect(acDT, &QAction::triggered, this, &TopToolbar::onDeepColorMode);
+//    connect(acDT, &QAction::triggered, this, &TopToolbar::onDeepColorMode);
 
 //    connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
 //    connect(acE, &QAction::triggered, dApp, &Application::quit);
@@ -309,16 +341,16 @@ void TopToolbar::initMenu()
     connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            [=](ViewerThemeManager::AppTheme dark){
-        if (dark == ViewerThemeManager::Dark) {
-            acDT->setCheckable(true);
-            acDT->setChecked(true);
-        } else {
-            acDT->setCheckable(false);
-            acDT->setChecked(false);
-        }
-    });
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            [=](ViewerThemeManager::AppTheme dark){
+//        if (dark == ViewerThemeManager::Dark) {
+//            acDT->setCheckable(true);
+//            acDT->setChecked(true);
+//        } else {
+//            acDT->setCheckable(false);
+//            acDT->setChecked(false);
+//        }
+//    });
 
 #ifndef LITE_DIV
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] (const QString &group) {

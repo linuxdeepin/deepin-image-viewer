@@ -21,6 +21,7 @@
 #include <QApplication>
 #include <DLog>
 #include <QTranslator>
+#include <DApplicationSettings>
 
 using namespace Dtk::Core;
 
@@ -44,7 +45,8 @@ int main(int argc, char *argv[])
         qDebug() << "Deepin Image Viewer is defaultImage!";
     }
 #endif
-
+    //save theme
+    DApplicationSettings saveTheme;
     CommandLine *cl = CommandLine::instance();
 
     if (cl->processOption()) {

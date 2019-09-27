@@ -52,7 +52,7 @@ const QString SETTINGS_MAINPANEL_KEY = "MainPanel";
 MainWidget::MainWidget(bool manager, QWidget *parent)
     : QFrame(parent)
 {
-    initStyleSheet();
+//    initStyleSheet();
 #ifndef LITE_DIV
     initPanelStack(manager);
 #else
@@ -84,7 +84,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     if (m_bottomToolbar) {
 //        m_bottomToolbar->resize(310, m_bottomToolbar->height());
         if (m_bottomToolbar->isVisible())
-            m_bottomToolbar->setRadius(18);
+//            m_bottomToolbar->setRadius(18);
             m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     }
 #ifndef LITE_DIV
@@ -222,13 +222,13 @@ void MainWidget::initTopToolbar()
 
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent,
             this, [=](QWidget *c) {
-        if (c != nullptr)
-            m_topToolbar->setLeftContent(c);
+//        if (c != nullptr)
+//            m_topToolbar->setLeftContent(c);
     });
     connect(dApp->signalM, &SignalManager::updateTopToolbarMiddleContent,
             this, [=](QWidget *c) {
-        if (c != nullptr)
-            m_topToolbar->setMiddleContent(c);
+//        if (c != nullptr)
+//            m_topToolbar->setMiddleContent();
     });
     connect(dApp->signalM, &SignalManager::showTopToolbar, this, [=] {
 //        m_topToolbar->moveWithAnimation(0, 0);
@@ -286,14 +286,14 @@ void MainWidget::initConnection()
 //    connect(dApp->importer, &Importer::imported, this, [=] (bool v) {
 //        onImported(tr("Imported successfully"), v);
 //    });
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &MainWidget::initStyleSheet);
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            &MainWidget::initStyleSheet);
 }
 
 void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this);
-    m_bottomToolbar->setRadius(18);
+
     m_bottomToolbar->resize(310, BOTTOM_TOOLBAR_HEIGHT);
     m_bottomToolbar->move(0, height() - m_bottomToolbar->height()-10);
 
@@ -316,7 +316,7 @@ void MainWidget::initBottomToolbar()
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(310);
         }
-        m_bottomToolbar->setRadius(18);
+//        m_bottomToolbar->setRadius(18);
         m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
@@ -405,11 +405,11 @@ void MainWidget::initExtensionPanel()
     });
 }
 
-void MainWidget::initStyleSheet()
-{
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        this->setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/frame.qss"));
-    } else {
-        this->setStyleSheet(utils::base::getFileContent(":/resources/light/qss/frame.qss"));
-    }
-}
+//void MainWidget::initStyleSheet()
+//{
+//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
+//        this->setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/frame.qss"));
+//    } else {
+//        this->setStyleSheet(utils::base::getFileContent(":/resources/light/qss/frame.qss"));
+//    }
+//}
