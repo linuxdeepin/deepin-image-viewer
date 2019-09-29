@@ -33,6 +33,7 @@ BottomToolbar::BottomToolbar(QWidget *parent)
 //    setRadius(18);
     setBlurRectYRadius(18);
     setBlurRectXRadius(18);
+    setMaskAlpha(102);
 
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
 //            &BottomToolbar::onThemeChanged);

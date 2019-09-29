@@ -93,31 +93,69 @@ public:
     }
 };
 
+class DFMDArrowLineExpand : public DArrowLineExpand{
+public:
+    DFMDArrowLineExpand(){
+        if (headerLine()) {
+            QFont f = headerLine()->font();
+            f.setBold(true);
+            f.setPixelSize(17);
+            headerLine()->setFont(f);
+        }
+    }
+protected:
+    void paintEvent(QPaintEvent *event) override
+    {
+        Q_UNUSED(event);
+        QPainter painter(this);
+        QRectF bgRect;
+        bgRect.setSize(size());
+        const QPalette pal = QGuiApplication::palette();//this->palette();
+        QColor bgColor = pal.color(QPalette::Background);
+
+        QPainterPath path;
+        path.addRoundedRect(bgRect, 8, 8);
+        // drawbackground color
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        painter.fillPath(path, bgColor);
+        painter.setRenderHint(QPainter::Antialiasing, false);
+    }
+};
+
 #include "imageinfowidget.moc"
 
 ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightStyle, QWidget *parent)
-    : ThemeScrollArea(darkStyle, lightStyle, parent),
+    : QFrame( parent),
       m_maxTitleWidth(maxTitleWidth())
 {
-    setObjectName("ImageInfoScrollArea");
+//    setObjectName("ImageInfoScrollArea");
+    setFixedWidth(300);
     setFrameStyle(QFrame::NoFrame);
-    setWidgetResizable(true);
+//    setWidgetResizable(true);
 //    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
+//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
+//    QPalette palette;
+//    palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
+//    setPalette(palette);
 
-    QFrame *content = new QFrame();
-    QVBoxLayout *contentLayout = new QVBoxLayout(content);
-    contentLayout->setContentsMargins(10, 10, 10, 10);
+//    QFrame *content = new QFrame();
+//    QVBoxLayout *contentLayout = new QVBoxLayout(content);
+//    contentLayout->setContentsMargins(10, 10, 10, 10);
 
     // Title field
     SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
-    title->setAlignment(Qt::AlignCenter);
-    contentLayout->addWidget(title);
-    ViewSeparator *separator = new ViewSeparator();
-    contentLayout->addWidget(separator);
-    contentLayout->addSpacing(3);
+    title->setFixedHeight(50);
+//    title->setAlignment(Qt::AlignCenter);
+//    contentLayout->addWidget(title);
+//    ViewSeparator *separator = new ViewSeparator();
+//    contentLayout->addWidget(separator);
+//    contentLayout->addSpacing(3);
     // Info field
+    m_exif_base = new QFrame(this);
+    m_exif_base->setFixedWidth(280);
+    m_exif_details = new QFrame(this);
+    m_exif_details->setFixedWidth(280);
     m_exifLayout_base = new QFormLayout();
     m_exifLayout_base->setSpacing(3);
     m_exifLayout_base->setContentsMargins(8, 0, 8, 0);
@@ -129,16 +167,63 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_exifLayout_details->setContentsMargins(8, 0, 8, 0);
     m_exifLayout_details->setLabelAlignment(Qt::AlignRight);
 
-    contentLayout->addLayout(m_exifLayout_base);
-    contentLayout->addSpacing(3);
-    contentLayout->addWidget(m_separator);
-    contentLayout->addSpacing(3);
-    contentLayout->addLayout(m_exifLayout_details);
+    m_exif_base->setLayout(m_exifLayout_base);
+    m_exif_details->setLayout(m_exifLayout_details);
 
-    contentLayout->addSpacing(35);
-    contentLayout->addStretch();
+//    contentLayout->addLayout(m_exifLayout_base);
+//    contentLayout->addSpacing(3);
+//    contentLayout->addWidget(m_separator);
+//    contentLayout->addSpacing(3);
+//    contentLayout->addLayout(m_exifLayout_details);
 
-    setWidget(content);
+//    contentLayout->addSpacing(35);
+//    contentLayout->addStretch();
+
+//    setWidget(content);
+
+
+    m_mainLayout = new QVBoxLayout;
+
+    m_mainLayout->setContentsMargins(0, 0, 0, 0);
+    m_mainLayout->setMargin(0);
+    m_mainLayout->setSpacing(0);
+    m_mainLayout->addWidget(title, 0, Qt::AlignHCenter | Qt::AlignTop);
+//    m_mainLayout->addWidget(m_editStackWidget, 0, Qt::AlignHCenter | Qt::AlignTop);
+
+
+    setLayout(m_mainLayout);
+
+    m_scrollArea = new QScrollArea();
+    QPalette palette = m_scrollArea->viewport()->palette();
+    palette.setBrush(QPalette::Background, Qt::NoBrush);
+    m_scrollArea->viewport()->setPalette(palette);
+    m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
+    QFrame *infoframe= new QFrame;
+    QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
+    scrollWidgetLayout->setContentsMargins(15, 0, 15, 0);
+    scrollWidgetLayout->setSpacing(10);
+    infoframe->setLayout(scrollWidgetLayout);
+    m_scrollArea->setWidget(infoframe);
+    m_scrollArea->setWidgetResizable(true);
+    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
+
+    QVBoxLayout *scrolllayout = new QVBoxLayout;
+    scrolllayout->addWidget(m_scrollArea);
+    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(this->layout());
+    m_mainLayout->insertLayout(1, scrolllayout, 1);
+
+//    m_basicInfoFrame = createBasicInfoWidget(fileInfo);
+
+    QStringList titleList;
+    titleList << tr("基本信息");
+    titleList << tr("详细信息");
+
+
+    m_expandGroup = addExpandWidget(titleList);
+    m_expandGroup.at(0)->setContent(m_exif_base);
+    m_expandGroup.at(0)->setExpand(true);
+    m_expandGroup.at(1)->setContent(m_exif_details);
+    m_expandGroup.at(1)->setExpand(true);
 }
 
 
@@ -148,11 +233,13 @@ void ImageInfoWidget::setImagePath(const QString &path)
     updateInfo();
 //    if (! visibleRegion().isNull()) {
 //    }
+//    m_expandGroup.at(0)->setContent(m_exif_base);
+//    m_expandGroup.at(1)->setContent(m_exif_details);
 }
 
 void ImageInfoWidget::resizeEvent(QResizeEvent *e)
 {
-    QScrollArea::resizeEvent(e);
+//    QScrollArea::resizeEvent(e);
     killTimer(m_updateTid);
     m_updateTid = startTimer(500);
 }
@@ -166,7 +253,7 @@ void ImageInfoWidget::timerEvent(QTimerEvent *e)
     killTimer(m_updateTid);
     m_updateTid = 0;
 
-    QScrollArea::timerEvent(e);
+//    QScrollArea::timerEvent(e);
 }
 
 void ImageInfoWidget::clearLayout(QLayout *layout) {
@@ -214,9 +301,9 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
-    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("基本信息"));
-    infoTitle->setAlignment(Qt::AlignLeft);
-    m_exifLayout_base->addRow(infoTitle);
+//    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("基本信息"));
+//    infoTitle->setAlignment(Qt::AlignLeft);
+//    m_exifLayout_base->addRow(infoTitle);
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
@@ -241,9 +328,9 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_details);
 
-    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("详细信息"));
-    infoTitle->setAlignment(Qt::AlignLeft);
-    m_exifLayout_base->addRow(infoTitle);
+//    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("详细信息"));
+//    infoTitle->setAlignment(Qt::AlignLeft);
+//    m_exifLayout_base->addRow(infoTitle);
     for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
@@ -261,4 +348,70 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
     }
 
 //    m_separator->setVisible(m_exifLayout_details->count() > 10);
+}
+
+QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
+{
+    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
+    QList<DBaseExpand *> group;
+
+    for (const QString &title : titleList) {
+        DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;//DArrowLineExpand;
+        expand->setTitle(title);
+        initExpand(layout, expand);
+        group.push_back(expand);
+    }
+
+    return group;
+}
+void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
+{
+    expand->setFixedHeight(30);
+    QMargins cm = layout->contentsMargins();
+    QRect rc = contentsRect();
+    expand->setFixedWidth(rc.width()-cm.left()-cm.right());
+    layout->addWidget(expand, 0, Qt::AlignTop);
+
+    connect(expand, &DBaseExpand::expandChange, this, &ImageInfoWidget::onExpandChanged);
+    DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);
+    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=](){
+        QRect rc = geometry();
+        rc.setHeight(contentHeight()+10*2);
+        setGeometry(rc);
+    });
+}
+
+void ImageInfoWidget::onExpandChanged(const bool &e)
+{
+    DArrowLineExpand *expand = qobject_cast<DArrowLineExpand *>(sender());
+    if (expand) {
+        if (e) {
+            expand->setSeparatorVisible(false);
+        } else {
+            QTimer::singleShot(200, expand, [ = ] {
+                expand->setSeparatorVisible(true);
+            });
+        }
+    }
+}
+
+int ImageInfoWidget::contentHeight() const
+{
+    int expandsHeight = 0;
+    int firstExpandHeight = m_expandGroup.size()>0 ? m_expandGroup.first()->getContent()->height() : -1;
+    bool atleastOneExpand = false;
+    for (const DBaseExpand* expand : m_expandGroup) {
+        expandsHeight += 30 + 10;
+        if (expand->expand()) {
+            expandsHeight += expand->getContent()->height();
+            atleastOneExpand = true;
+        }
+    }
+
+    if (!atleastOneExpand && firstExpandHeight > 0)
+        expandsHeight += firstExpandHeight;
+
+//    return (
+//            expandsHeight );
+    return ( expandsHeight + 40 );
 }

@@ -35,6 +35,8 @@
 #include <DThumbnailProvider>
 #include <QPropertyAnimation>
 #include <QHBoxLayout>
+#include <DIconButton>
+#include <DBlurEffectWidget>
 DWIDGET_USE_NAMESPACE
 
 
@@ -44,14 +46,21 @@ class ElidedLabel;
 class QAbstractItemModel;
 //class DImageButton;
 class ImageButton;
-class ImageItem : public QLabel{
+class ImageItem : public DLabel{
     Q_OBJECT
 public:
-    ImageItem(int index= 0,QWidget *parent = 0){
+    ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0){
         _index = index;
+        _path = path;
+        QImage image(path,imageType);
+        _pixmap=QPixmap::fromImage(image.scaled(60,50));
+        _image = new DLabel(this);
     };
     void setIndexNow(int i){
         _indexNow = i;
+    };
+    void setPic(QImage image){
+      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
     };
 signals:
     void imageItemclicked(int index,int indexNow);
@@ -59,9 +68,58 @@ protected:
     void mousePressEvent(QMouseEvent *ev){
         emit imageItemclicked(_index,_indexNow);
     }
+    void paintEvent(QPaintEvent *event){
+        QPainter painter(this);
+//        painter.drawPixmap(rect(),QPixmap(_path).scaled(60,50));
+
+        painter.setRenderHints(QPainter::HighQualityAntialiasing |
+                                QPainter::SmoothPixmapTransform |
+                                QPainter::Antialiasing);
+
+        QRect backgroundRect = rect();
+        QRect pixmapRect;
+        if (_index == _indexNow)
+        {
+            QPainterPath backgroundBp;
+            backgroundBp.addRoundedRect(backgroundRect, 4, 4);
+            painter.setClipPath(backgroundBp);
+
+            painter.fillRect(backgroundRect, QBrush(QColor("#0081FF")));
+
+//            QPixmap selectedPixmap;
+//            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
+
+//            painter->drawPixmap(backgroundRect, selectedPixmap);
+            pixmapRect.setX(backgroundRect.x()+4);
+            pixmapRect.setY(backgroundRect.y()+4);
+            pixmapRect.setWidth(backgroundRect.width()-8);
+            pixmapRect.setHeight(backgroundRect.height()-8);
+        }else {
+            pixmapRect.setX(backgroundRect.x()+1);
+            pixmapRect.setY(backgroundRect.y()+0);
+            pixmapRect.setWidth(backgroundRect.width()-2);
+            pixmapRect.setHeight(backgroundRect.height()-0);
+        }
+
+
+
+
+        QPainterPath bp1;
+        bp1.addRoundedRect(pixmapRect, 4, 4);
+        painter.setClipPath(bp1);
+
+//        QPixmap pixmapItem;
+//        pixmapItem.load(_path);
+
+        painter.drawPixmap(pixmapRect, _pixmap);
+
+    };
 private:
     int _index;
     int _indexNow;
+    DLabel *_image=nullptr;
+    QString _path = NULL;
+    QPixmap _pixmap;
 };
 class TTBContent : public QLabel
 {
@@ -101,18 +159,20 @@ private:
 #endif
     bool m_inDB;
 
-    PushButton* m_adaptImageBtn;
-    PushButton* m_adaptScreenBtn;
-    PushButton* m_clBT;
-    PushButton* m_rotateLBtn;
-    PushButton* m_rotateRBtn;
-    PushButton* m_trashBtn;
-    DImageButton *m_preButton;
-    DImageButton *m_nextButton;
+    DIconButton* m_adaptImageBtn;
+    DIconButton* m_adaptScreenBtn;
+//    DIconButton* m_clBT;
+    DIconButton* m_rotateLBtn;
+    DIconButton* m_rotateRBtn;
+    DIconButton* m_trashBtn;
+    DIconButton *m_preButton;
+    DIconButton *m_nextButton;
     ElidedLabel* m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
     DWidget *m_imgListView;
+    DWidget *m_preButton_spc;
+    DWidget *m_nextButton_spc;
     DBImgInfoList m_imgInfos ;
     QString m_imagePath;
     int m_windowWidth;

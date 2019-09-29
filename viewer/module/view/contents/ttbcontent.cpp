@@ -40,7 +40,7 @@ namespace {
 const int LEFT_MARGIN = 10;
 const QSize ICON_SIZE = QSize(50, 50);
 const QString FAVORITES_ALBUM = "My favorite";
-const int ICON_SPACING = 3;
+const int ICON_SPACING = 10;
 const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
@@ -113,139 +113,93 @@ TTBContent::TTBContent(bool inDB,
     setFixedWidth(m_contentWidth);
     setFixedHeight(70);
     QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
+    hb->setContentsMargins(0, 0, 0, 0);
     hb->setSpacing(0);
     m_inDB = inDB;
-#ifndef LITE_DIV
-    m_returnBtn = new ReturnButton();
-    m_returnBtn->setMaxWidth(RETURN_BTN_MAX);
-    m_returnBtn->setMaximumWidth(RETURN_BTN_MAX);
-    m_returnBtn->setObjectName("ReturnBtn");
-    m_returnBtn->setToolTip(tr("Back"));
-
-    m_folderBtn = new PushButton();
-    m_folderBtn->setFixedSize(QSize(24, 24));
-    m_folderBtn->setObjectName("FolderBtn");
-    m_folderBtn->setToolTip(tr("Image management"));
-    if(m_inDB) {
-        hb->addWidget(m_returnBtn);
-    } else {
-       hb->addWidget(m_folderBtn);
-    }
-    hb->addSpacing(20);
-
-    connect(m_returnBtn, &ReturnButton::clicked, this, [=] {
-        emit clicked();
-    });
-    connect(m_folderBtn, &PushButton::clicked, this, [=] {
-        emit clicked();
-    });
-    connect(m_returnBtn, &ReturnButton::returnBtnWidthChanged, this, [=]{
-        updateFilenameLayout();
-    });
-#endif
     // Adapt buttons////////////////////////////////////////////////////////////
 
-     m_preButton = new DImageButton();
-     m_nextButton = new DImageButton();
-     m_preButton->setObjectName("PreviousButton");
-     m_nextButton->setObjectName("NextButton");
-     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-         m_preButton->setNormalPic(":/resources/dark/images/previous_normal.svg");
-         m_preButton->setHoverPic(":/resources/dark/images/previous_hover.svg");
-         m_preButton->setPressPic(":/resources/dark/images/previous_press.svg");
-         m_preButton->setCheckedPic(":/resources/dark/images/previous_press.svg");
+     m_preButton = new DIconButton(this);
+     m_nextButton = new DIconButton(this);
 
-         m_nextButton->setNormalPic(":/resources/dark/images/next_normal.svg");
-         m_nextButton->setHoverPic(":/resources/dark/images/next_hover.svg");
-         m_nextButton->setPressPic(":/resources/dark/images/next_press.svg");
-         m_nextButton->setCheckedPic(":/resources/dark/images/next_press.svg");
 
-     } else {
-         m_preButton->setNormalPic(":/resources/light/images/previous_normal.svg");
-         m_preButton->setHoverPic(":/resources/light/images/previous_hover.svg");
-         m_preButton->setPressPic(":/resources/light/images/previous_press.svg");
-         m_preButton->setCheckedPic(":/resources/light/images/previous_press.svg");
-
-         m_nextButton->setNormalPic(":/resources/light/images/next_normal.svg");
-         m_nextButton->setHoverPic(":/resources/light/images/next_hover.svg");
-         m_nextButton->setPressPic(":/resources/light/images/next_press.svg");
-         m_nextButton->setCheckedPic(":/resources/light/images/next_press.svg");
-     }
      m_preButton->setFixedSize(ICON_SIZE);
      m_nextButton->setFixedSize(ICON_SIZE);
-     m_preButton->setToolTip(tr("Previous"));
-     m_nextButton->setToolTip(tr("Next"));
+
+     m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
+     m_preButton->setIconSize(QSize(36,36));
+
+     m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
+     m_nextButton->setIconSize(QSize(36,36));
+
      m_preButton->hide();
      m_nextButton->hide();
+     m_preButton_spc = new DWidget;
+     m_nextButton_spc = new DWidget;
+     m_preButton_spc->hide();
+     m_nextButton_spc->hide();
+     m_preButton_spc->setFixedSize(QSize(10,50));
+     m_nextButton_spc->setFixedSize(QSize(40,50));
+//     m_nextButton->setContentsMargins(0,0,30,0);
+     hb->addSpacing(ICON_SPACING);
      hb->addWidget(m_preButton);
-     hb->addSpacing(ICON_SPACING);
+     hb->addWidget(m_preButton_spc);
+//     hb->addSpacing(ICON_SPACING);
      hb->addWidget(m_nextButton);
-     hb->addSpacing(ICON_SPACING);
-     connect(m_preButton, &DImageButton::clicked, this, [=] {
+     hb->addWidget(m_nextButton_spc);
+//     hb->addSpacing(ICON_SPACING*4);
+     connect(m_preButton, &DIconButton::clicked, this, [=] {
          emit showPrevious();
      });
-     connect(m_nextButton, &DImageButton::clicked, this, [=] {
+     connect(m_nextButton, &DIconButton::clicked, this, [=] {
          emit showNext();
      });
 
-    m_adaptImageBtn = new PushButton();
-    m_adaptImageBtn->setObjectName("AdaptBtn");
+    m_adaptImageBtn = new DIconButton(this);
+//    m_adaptImageBtn->setObjectName("AdaptBtn");
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
-
+    m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
+    m_adaptImageBtn->setIconSize(QSize(36,36));
     m_adaptImageBtn->setToolTip(tr("1:1 Size"));
     hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_adaptImageBtn, &PushButton::clicked, this, [=] {
+    connect(m_adaptImageBtn, &DIconButton::clicked, this, [=] {
         emit resetTransform(false);
     });
 
-    m_adaptScreenBtn = new PushButton();
+    m_adaptScreenBtn = new DIconButton(this);
     m_adaptScreenBtn->setFixedSize(ICON_SIZE);
-    m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
-    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+    m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
+    m_adaptScreenBtn->setIconSize(QSize(36,36));
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_adaptScreenBtn, &PushButton::clicked, this, [=] {
+    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [=] {
         emit resetTransform(true);
     });
 
     // Collection button////////////////////////////////////////////////////////
-    m_clBT = new PushButton();
-    m_clBT->setFixedSize(ICON_SIZE);
-    m_clBT->setObjectName("CollectBtn");
-#ifndef LITE_DIV
-    if (m_inDB) {
-        hb->addWidget(m_clBT);
-        connect(m_clBT, &PushButton::clicked, this, [=] {
-            if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath)) {
-                DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
-            }
-            else {
-                DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
-            }
-            updateCollectButton();
-        });
-        updateCollectButton();
-    }
-#endif
+//    m_clBT = new DIconButton(this);
+//    m_clBT->setFixedSize(ICON_SIZE);
 
-    m_rotateLBtn = new PushButton();
+//    m_clBT->setIcon(QIcon::fromTheme("dcc_left"));
+//    m_clBT->setIconSize(QSize(36,36));
+
+
+    m_rotateLBtn = new DIconButton(this);
     m_rotateLBtn->setFixedSize(ICON_SIZE);
-    m_rotateLBtn->setObjectName("RotateBtn");
-    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+    m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
+    m_rotateLBtn->setIconSize(QSize(36,36));
     hb->addWidget(m_rotateLBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_rotateLBtn, &PushButton::clicked,
+    connect(m_rotateLBtn, &DIconButton::clicked,
             this, &TTBContent::rotateCounterClockwise);
 
-    m_rotateRBtn = new PushButton();
+    m_rotateRBtn = new DIconButton(this);
     m_rotateRBtn->setFixedSize(ICON_SIZE);
-    m_rotateRBtn->setObjectName("RotateCounterBtn");
-    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
+    m_rotateRBtn->setIconSize(QSize(36,36));
     hb->addWidget(m_rotateRBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_rotateRBtn, &PushButton::clicked,
+    connect(m_rotateRBtn, &DIconButton::clicked,
             this, &TTBContent::rotateClockwise);
 
 
@@ -264,17 +218,23 @@ TTBContent::TTBContent(bool inDB,
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
     m_imgListView->setFixedSize(QSize(786,60));
+    m_imgListView->hide();
+    QPalette palette ;
+    palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
+    m_imgList->setPalette(palette);
+    m_imgListView->setPalette(palette);
     hb->addWidget(m_imgListView);
 
-    m_trashBtn = new PushButton();
+    m_trashBtn = new DIconButton(this);
     m_trashBtn->setFixedSize(ICON_SIZE);
-    m_trashBtn->setObjectName("TrashBtn");
-    m_trashBtn->setToolTip(tr("Delete"));
+    m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
+    m_trashBtn->setIconSize(QSize(36,36));
     hb->addWidget(m_trashBtn);
+    hb->addSpacing(ICON_SPACING);
 
     m_fileNameLabel = new ElidedLabel();
 //    hb->addWidget(m_fileNameLabel);
-    connect(m_trashBtn, &PushButton::clicked, this, &TTBContent::removed);
+    connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &TTBContent::onThemeChanged);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
@@ -334,13 +294,13 @@ void TTBContent::updateFilenameLayout()
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    if (theme == ViewerThemeManager::Dark) {
-        this->setStyleSheet(utils::base::getFileContent(
-                                ":/resources/dark/qss/ttl.qss"));
-    } else {
-        this->setStyleSheet(utils::base::getFileContent(
-                                ":/resources/light/qss/ttl.qss"));
-    }
+//    if (theme == ViewerThemeManager::Dark) {
+//        this->setStyleSheet(utils::base::getFileContent(
+//                                ":/resources/dark/qss/ttl.qss"));
+//    } else {
+//        this->setStyleSheet(utils::base::getFileContent(
+//                                ":/resources/light/qss/ttl.qss"));
+//    }
 }
 
 void TTBContent::setCurrentDir(QString text) {
@@ -362,16 +322,16 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(j)->setFixedSize (QSize(30,40));
         labelList.at(j)->resize (QSize(30,40));
         labelList.at(j)->setContentsMargins(1,5,1,5);
-        labelList.at(j)->setFrameShape (QFrame::NoFrame);
-        labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
+//        labelList.at(j)->setFrameShape (QFrame::NoFrame);
+//        labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
         labelList.at(j)->setIndexNow(m_nowIndex);
     }
     if(labelList.size()>0){
         labelList.at(m_nowIndex)->setFixedSize (QSize(60,58));
         labelList.at(m_nowIndex)->resize (QSize(60,58));
-        labelList.at(m_nowIndex)->setFrameShape (QFrame::Box);
+//        labelList.at(m_nowIndex)->setFrameShape (QFrame::Box);
         labelList.at(m_nowIndex)->setContentsMargins(0,0,0,0);
-        labelList.at(m_nowIndex)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
+//        labelList.at(m_nowIndex)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
     }
 //    m_contentWidth = std::max(m_windowWidth - 100, 1);
 //    m_contentWidth = 310;
@@ -423,12 +383,18 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
             for (DBImgInfo info : m_imgInfos) {
                 if(labelList.size()!=m_imgInfos.size()){
-                    ImageItem *imageItem = new ImageItem(i);
                     char *imageType=getImageType(info.filePath);
-                    QImage image(info.filePath,imageType);
+                    ImageItem *imageItem = new ImageItem(i,info.filePath,imageType);
+//                    QImage image(info.filePath,imageType);
 //                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
-                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
-                    imageItem->setContentsMargins(1,5,1,5);
+//                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
+//                    QPalette palette = imageItem->palette();
+//                    palette.setColor(QPalette::Background, QColor(0,0,0,100)); // 最后一项为透明度
+//                    palette.setBrush(QPalette::Background, QBrush(QPixmap(info.filePath).scaled(60,50)));
+//                    imageItem->setPalette(palette);
+//                    imageItem->setPic(image);
+
+//                    imageItem->setContentsMargins(1,5,1,5);
                     imageItem->setFixedSize(QSize(num,40));
                     imageItem->resize(QSize(num,40));
                     
@@ -448,17 +414,17 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             for(int j = 0; j < labelList.size(); j++){
                 labelList.at(j)->setFixedSize (QSize(30,40));
                 labelList.at(j)->resize (QSize(30,40));
-                labelList.at(j)->setContentsMargins(1,5,1,5);
-                labelList.at(j)->setFrameShape (QFrame::NoFrame);
-                labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
+//                labelList.at(j)->setContentsMargins(1,5,1,5);
+//                labelList.at(j)->setFrameShape (QFrame::NoFrame);
+//                labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
                 labelList.at(j)->setIndexNow(t);
             }
             if(labelList.size()>0){
                 labelList.at(t)->setFixedSize (QSize(60,58));
                 labelList.at(t)->resize (QSize(60,58));
-                labelList.at(t)->setFrameShape (QFrame::Box);
-                labelList.at(t)->setContentsMargins(0,0,0,0);
-                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
+//                labelList.at(t)->setFrameShape (QFrame::Box);
+//                labelList.at(t)->setContentsMargins(0,0,0,0);
+//                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
             }
 
 
@@ -479,11 +445,15 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_imgListView->update();
             m_imgList->update();
             m_preButton->show();
+            m_preButton_spc->show();
             m_nextButton->show();
+            m_nextButton_spc->show();
         }else {
             m_imgList->hide();
             m_preButton->hide();
+            m_preButton_spc->hide();
             m_nextButton->hide();
+            m_nextButton_spc->hide();
             m_contentWidth = 310;
             setFixedWidth(m_contentWidth);
         }
@@ -517,29 +487,29 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
 void TTBContent::updateCollectButton()
 {
-    if (! m_clBT)
-        return;
+//    if (! m_clBT)
+//        return;
 
-    if (m_imagePath.isEmpty() || !QFileInfo(m_imagePath).exists()) {
-        m_clBT->setDisabled(true);
-        m_clBT->setChecked(false);
-    }
-    else
-        m_clBT->setDisabled(false);
+//    if (m_imagePath.isEmpty() || !QFileInfo(m_imagePath).exists()) {
+//        m_clBT->setDisabled(true);
+//        m_clBT->setChecked(false);
+//    }
+//    else
+//        m_clBT->setDisabled(false);
 
-    if (! m_clBT->isEnabled()) {
-        m_clBT->setDisabled(true);
-    }
-#ifndef LITE_DIV
-    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
-                                                      m_imagePath)) {
-        m_clBT->setToolTip(tr("Unfavorite"));
-        m_clBT->setChecked(true);
-    }
-#endif
-    else {
-        m_clBT->setToolTip(tr("Favorite"));
-        m_clBT->setChecked(false);
-        m_clBT->setDisabled(false);
-    }
+//    if (! m_clBT->isEnabled()) {
+//        m_clBT->setDisabled(true);
+//    }
+//#ifndef LITE_DIV
+//    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
+//                                                      m_imagePath)) {
+//        m_clBT->setToolTip(tr("Unfavorite"));
+//        m_clBT->setChecked(true);
+//    }
+//#endif
+//    else {
+//        m_clBT->setToolTip(tr("Favorite"));
+//        m_clBT->setChecked(false);
+//        m_clBT->setDisabled(false);
+//    }
 }

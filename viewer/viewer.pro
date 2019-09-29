@@ -47,7 +47,8 @@ SOURCES += main.cpp \
     application.cpp
 
 RESOURCES += \
-    resources.qrc
+    resources.qrc \
+    icons/theme-icons.qrc
 
 # Automating generation .qm files from .ts files
 !system($$PWD/generate_translations.sh): error("Failed to generate translation")

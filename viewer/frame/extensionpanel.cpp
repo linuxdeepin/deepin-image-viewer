@@ -32,23 +32,29 @@ const int EXTENSION_PANEL_MAX_WIDTH = 340;
 
 const QColor DARK_COVERBRUSH = QColor(0, 0, 0, 100);
 const QColor LIGHT_COVERBRUSH = QColor(255, 255, 255, 179);
+const int ANIMATION_DURATION = 500;
+const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 }  // namespace
 
 ExtensionPanel::ExtensionPanel(QWidget *parent)
-    : BlurFrame(parent)
+    : DBlurEffectWidget(parent)
 {
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    setBorderColor(QColor(255, 255, 255, 51));
+//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+//    setBorderColor(QColor(255, 255, 255, 51));
 //    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
     setFixedWidth(EXTENSION_PANEL_WIDTH);
     setFixedHeight(580);
-    setBorderRadius(18);
+    setBlurRectYRadius(18);
+    setBlurRectXRadius(18);
+    setMaskAlpha(204);
+
+//    setBorderRadius(18);
     m_contentLayout = new QHBoxLayout(this);
     m_contentLayout->setContentsMargins(0, 0, 0, 0);
     m_contentLayout->setSpacing(0);
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &ExtensionPanel::onThemeChanged);
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            &ExtensionPanel::onThemeChanged);
 //    DArrowButton *hideButton = new DArrowButton();
 //    hideButton->setFixedSize(CONTROL_BUTTON_WIDTH, CONTROL_BUTTON_WIDTH);
 //    hideButton->setArrowDirection(DArrowButton::ArrowLeft);
@@ -66,12 +72,12 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
 }
 
 void ExtensionPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    if (theme == ViewerThemeManager::Dark) {
-        m_coverBrush = DARK_COVERBRUSH;
-    } else {
-        m_coverBrush = LIGHT_COVERBRUSH;
-    }
-    setCoverBrush(m_coverBrush);
+//    if (theme == ViewerThemeManager::Dark) {
+//        m_coverBrush = DARK_COVERBRUSH;
+//    } else {
+//        m_coverBrush = LIGHT_COVERBRUSH;
+//    }
+//    setCoverBrush(m_coverBrush);
 }
 
 void ExtensionPanel::setContent(QWidget *content)
@@ -145,3 +151,18 @@ void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
 //    painter.drawPath(path);
 //    painter.end();
 //}
+void ExtensionPanel::moveWithAnimation(int x, int y)
+{
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+    animation->setDuration(ANIMATION_DURATION);
+    animation->setEasingCurve(ANIMATION_EASING_CURVE);
+    animation->setStartValue(pos());
+    animation->setEndValue(QPoint(x, y));
+    animation->start();
+    connect(this, &ExtensionPanel::requestStopAnimation,
+            animation, &QPropertyAnimation::stop);
+    connect(this, &ExtensionPanel::requestStopAnimation,
+            animation, &QPropertyAnimation::deleteLater);
+    connect(animation, &QPropertyAnimation::finished,
+            animation, &QPropertyAnimation::deleteLater);
+}
