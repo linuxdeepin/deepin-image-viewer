@@ -64,7 +64,7 @@ class TopTimelineTip : public QLabel
 public:
     explicit TopTimelineTip(QWidget *parent) : QLabel(parent) {
         setObjectName("TopTimelineTip");
-        setStyleSheet(parent->styleSheet());
+//        setStyleSheet(parent->styleSheet());
         setFixedHeight(24);
         setAttribute(Qt::WA_TransparentForMouseEvents);
     }

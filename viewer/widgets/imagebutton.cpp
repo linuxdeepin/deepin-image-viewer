@@ -83,23 +83,23 @@ bool ImageButton::event(QEvent *e)
 }
 
 void ImageButton::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    QFile darkF(":/resources/dark/qss/ImageButton.qss"),
-          lightF(":/resources/light/qss/ImageButton.qss");
-    if (theme == ViewerThemeManager::Dark) {
-        if (darkF.open(QIODevice::ReadOnly)) {
-            setStyleSheet(darkF.readAll());
-            darkF.close();
-        } else {
-            qDebug() << "Set dark style sheet for ImageButton failed";
-        }
-    } else {
-        if (lightF.open(QIODevice::ReadOnly)) {
-            setStyleSheet(lightF.readAll());
-            lightF.close();
-        } else {
-            qDebug() << "Set light style sheet for ImageButton failed";
-        }
-    }
+//    QFile darkF(":/resources/dark/qss/ImageButton.qss"),
+//          lightF(":/resources/light/qss/ImageButton.qss");
+//    if (theme == ViewerThemeManager::Dark) {
+//        if (darkF.open(QIODevice::ReadOnly)) {
+//            setStyleSheet(darkF.readAll());
+//            darkF.close();
+//        } else {
+//            qDebug() << "Set dark style sheet for ImageButton failed";
+//        }
+//    } else {
+//        if (lightF.open(QIODevice::ReadOnly)) {
+//            setStyleSheet(lightF.readAll());
+//            lightF.close();
+//        } else {
+//            qDebug() << "Set light style sheet for ImageButton failed";
+//        }
+//    }
 }
 
 void ImageButton::setTooltipVisible(bool visible){
@@ -127,7 +127,7 @@ void ImageButton::showTooltip(const QPoint &gPos)
     }
 
     QFrame *tf = new QFrame();
-    tf->setStyleSheet(this->styleSheet());
+//    tf->setStyleSheet(this->styleSheet());
     tf->setWindowFlags(Qt::ToolTip);
     tf->setAttribute(Qt::WA_TranslucentBackground);
     QLabel *tl = new QLabel(tf);

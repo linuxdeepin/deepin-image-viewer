@@ -32,8 +32,8 @@ SettingsWindow::SettingsWindow(QWidget *parent)
     setWindowModality(Qt::ApplicationModal);
     setWindowFlags(Qt::WindowStaysOnTopHint|
                    Qt::FramelessWindowHint);
-    setStyleSheet(utils::base::getFileContent(
-                      ":/settings/qss/resources/qss/settings.qss"));
+//    setStyleSheet(utils::base::getFileContent(
+//                      ":/settings/qss/resources/qss/settings.qss"));
 
     if (titlebar()) titlebar()->setFixedHeight(0);
     setFixedSize(680, 560);

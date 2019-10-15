@@ -299,11 +299,11 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
 void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
     if (theme == ViewerThemeManager::Dark) {
-        setStyleSheet(utils::base::getFileContent(
-                          ":/resources/dark/qss/view.qss"));
+//        setStyleSheet(utils::base::getFileContent(
+//                          ":/resources/dark/qss/view.qss"));
     } else {
-        setStyleSheet(utils::base::getFileContent(
-                          ":/resources/light/qss/view.qss"));
+//        setStyleSheet(utils::base::getFileContent(
+//                          ":/resources/light/qss/view.qss"));
     }
 }
 

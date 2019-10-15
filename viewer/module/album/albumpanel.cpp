@@ -368,9 +368,9 @@ void AlbumPanel::initImagesView()
 
 void AlbumPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-        setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/album.qss"));
+//        setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/album.qss"));
     } else {
-        setStyleSheet(utils::base::getFileContent(":/resources/light/qss/album.qss"));
+//        setStyleSheet(utils::base::getFileContent(":/resources/light/qss/album.qss"));
     }
 }
 

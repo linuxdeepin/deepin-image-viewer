@@ -70,8 +70,8 @@ ImgInfoDialog::ImgInfoDialog(const QString &path, QWidget *parent)
     setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);
     if (titlebar()) titlebar()->setFixedHeight(0);
     setFixedWidth(MAX_WIDTH);
-    setStyleSheet(utils::base::getFileContent(
-                      ":/dialogs/qss/resources/qss/imginfodialog.qss"));
+//    setStyleSheet(utils::base::getFileContent(
+//                      ":/dialogs/qss/resources/qss/imginfodialog.qss"));
 
     QWidget *w = new QWidget;
     m_layout = new QVBoxLayout(w);

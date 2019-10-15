@@ -79,11 +79,11 @@ const QString ImportFrame::buttonText() const
 }
 
 void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    if (theme == ViewerThemeManager::Dark) {
-        this->setStyleSheet(utils::base::getFileContent(
-                          ":/resources/dark/qss/ImportFrame.qss"));
-    } else {
-        this->setStyleSheet(utils::base::getFileContent(
-                          ":/resources/light/qss/ImportFrame.qss"));
-    }
+//    if (theme == ViewerThemeManager::Dark) {
+//        this->setStyleSheet(utils::base::getFileContent(
+//                          ":/resources/dark/qss/ImportFrame.qss"));
+//    } else {
+//        this->setStyleSheet(utils::base::getFileContent(
+//                          ":/resources/light/qss/ImportFrame.qss"));
+//    }
 }

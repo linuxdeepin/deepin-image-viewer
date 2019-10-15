@@ -32,8 +32,8 @@ namespace {
 
 const QString SETTINGS_GROUP = "VIEWPANEL";
 const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
-const int IMAGE_MARGIN = 0;
-const int IMAGE_MARGIN_BOTTOM = 0;
+const int IMAGE_MARGIN = 5;
+const int IMAGE_MARGIN_BOTTOM = 5;
 
 }  // namespace
 

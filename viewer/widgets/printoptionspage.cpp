@@ -149,17 +149,17 @@ void PrintOptionsPage::init()
         break;
     }
 
-    setStyleSheet("QToolButton {"
-                  "border: 1px solid #A0A0A4;"
-                  "background: #FBFBFB;"
-                  "}"
-                  "QToolButton:hover {"
-                  "border: 1px solid #2CA7F8;"
-                  "}"
-                  "QToolButton:checked {"
-                  "border: none;"
-                  "background: #2CA7F8;"
-                  "}");
+//    setStyleSheet("QToolButton {"
+//                  "border: 1px solid #A0A0A4;"
+//                  "background: #FBFBFB;"
+//                  "}"
+//                  "QToolButton:hover {"
+//                  "border: 1px solid #2CA7F8;"
+//                  "}"
+//                  "QToolButton:checked {"
+//                  "border: none;"
+//                  "background: #2CA7F8;"
+//                  "}");
 }
 
 void PrintOptionsPage::updateStatus()

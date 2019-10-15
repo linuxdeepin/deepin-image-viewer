@@ -77,8 +77,8 @@ ThumbnailListView::ThumbnailListView(QWidget *parent)
             emit enhanced_scrollbar->heightChanged(0);
         });
     });
-    setStyleSheet(utils::base::getFileContent(
-                      ":/resources/common/qss/ThumbnailListView.qss"));
+//    setStyleSheet(utils::base::getFileContent(
+//                      ":/resources/common/qss/ThumbnailListView.qss"));
 
     setResizeMode(QListView::Adjust);
     setViewMode(QListView::IconMode);

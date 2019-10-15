@@ -122,5 +122,8 @@
         <file>resources/light/qss/ttl.qss</file>
         <file>resources/light/images/clockwise_rotation_disable.svg</file>
         <file>resources/light/images/clockwise_rotation_press.svg</file>
+        <file>resources/light/images/close_press.svg</file>
+        <file>resources/light/images/close_normal .svg</file>
+        <file>resources/light/images/close_hover.svg</file>
     </qresource>
 </RCC>

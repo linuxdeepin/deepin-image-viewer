@@ -70,7 +70,7 @@ QWidget *TimelinePanel::toolbarBottomContent()
 {
     TimelineBTContent *c = new TimelineBTContent(":/resources/dark/qss/timeline.qss",
                                                  ":/resources/light/qss/timeline.qss");
-    c->setStyleSheet(this->styleSheet());
+//    c->setStyleSheet(this->styleSheet());
     connect(m_frame, &TimelineFrame::changeItemSize,
             c, &TimelineBTContent::changeItemSize);
     connect(c, &TimelineBTContent::itemSizeChanged,
@@ -238,10 +238,10 @@ void TimelinePanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {
 void TimelinePanel::initStyleSheet()
 {
     if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-        setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/timeline.qss"));
+//        setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/timeline.qss"));
     }
     else {
-        setStyleSheet(utils::base::getFileContent(":/resources/light/qss/timeline.qss"));
+//        setStyleSheet(utils::base::getFileContent(":/resources/light/qss/timeline.qss"));
     }
 }
 

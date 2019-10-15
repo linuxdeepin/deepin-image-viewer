@@ -33,7 +33,7 @@
 
 namespace {
 
-const int TITLE_MAXWIDTH = 100;
+const int TITLE_MAXWIDTH = 79;
 
 struct MetaData {
     QString key;
@@ -98,9 +98,10 @@ public:
     DFMDArrowLineExpand(){
         if (headerLine()) {
             QFont f = headerLine()->font();
-            f.setBold(true);
-            f.setPixelSize(17);
+//            f.setBold(true);
+            f.setPixelSize(14);
             headerLine()->setFont(f);
+            headerLine()->setLeftMargin(10);
         }
     }
 protected:
@@ -146,6 +147,25 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     // Title field
     SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
     title->setFixedHeight(50);
+
+    QFont font;
+    font.setPixelSize(14);
+    title->setFont(font);
+
+    DIconButton *m_close = new DIconButton(this);
+    m_close->setIcon(QIcon(":/resources/light/images/close_normal .svg"));
+    m_close->setIconSize(QSize(36,36));
+    m_close->setFlat(true);
+    m_close->move(257,7);
+    DPalette palette1 ;
+    palette1.setColor(DPalette::Background, QColor(0,0,0,0));
+    m_close->setPalette(palette1);
+
+    connect(m_close, &DIconButton::clicked, this, [ = ] {
+        emit dApp->signalM->hideExtensionPanel();
+    });
+
+
 //    title->setAlignment(Qt::AlignCenter);
 //    contentLayout->addWidget(title);
 //    ViewSeparator *separator = new ViewSeparator();
@@ -158,13 +178,13 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_exif_details->setFixedWidth(280);
     m_exifLayout_base = new QFormLayout();
     m_exifLayout_base->setSpacing(3);
-    m_exifLayout_base->setContentsMargins(8, 0, 8, 0);
+    m_exifLayout_base->setContentsMargins(10, 0, 7, 0);
     m_exifLayout_base->setLabelAlignment(Qt::AlignRight);
     m_separator = new ViewSeparator();
     m_separator->setVisible(false);
     m_exifLayout_details = new QFormLayout();
     m_exifLayout_details->setSpacing(3);
-    m_exifLayout_details->setContentsMargins(8, 0, 8, 0);
+    m_exifLayout_details->setContentsMargins(10, 0, 7, 0);
     m_exifLayout_details->setLabelAlignment(Qt::AlignRight);
 
     m_exif_base->setLayout(m_exifLayout_base);
@@ -316,7 +336,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
-        title->setAlignment(Qt::AlignRight | Qt::AlignTop);
+        title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
         m_exifLayout_base->addRow(title, field);
     }
@@ -342,7 +362,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
-        title->setAlignment(Qt::AlignRight | Qt::AlignTop);
+        title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
         m_exifLayout_details->addRow(title, field);
     }

@@ -47,7 +47,7 @@ ProcessTooltip::ProcessTooltip(QWidget *parent)
 
     m_message = new QLabel;
     m_message->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    m_message->setStyleSheet(QString("font-size: 12px;color: %1;").arg(m_textColor));
+//    m_message->setStyleSheet(QString("font-size: 12px;color: %1;").arg(m_textColor));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(10, 0, 20, 0);

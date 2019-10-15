@@ -91,8 +91,8 @@ BlureInfoFrame::BlureInfoFrame(QWidget *parent)
     layout->addSpacing(8);
     layout->addStretch(1);
 
-    setStyleSheet(utils::base::getFileContent(
-                      ":/resources/common/qss/BlureInfoFrame.qss"));
+//    setStyleSheet(utils::base::getFileContent(
+//                      ":/resources/common/qss/BlureInfoFrame.qss"));
 }
 
 void BlureInfoFrame::setTopContent(QWidget *w)
