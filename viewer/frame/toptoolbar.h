@@ -24,6 +24,8 @@
 #include <QJsonObject>
 #include <QPointer>
 #include <DTitlebar>
+#include <DLabel>
+#include <QGraphicsDropShadowEffect>
 
 DWIDGET_USE_NAMESPACE
 
@@ -91,6 +93,7 @@ private:
     QHBoxLayout *m_mLayout = nullptr;
     QHBoxLayout *m_rLayout = nullptr;
     DTitlebar *m_titlebar = nullptr;
+    DLabel *m_titletxt = nullptr;
 
 #ifndef LITE_DIV
     SettingsWindow *m_settingsWindow;

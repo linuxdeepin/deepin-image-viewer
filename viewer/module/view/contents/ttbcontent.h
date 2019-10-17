@@ -171,6 +171,8 @@ private:
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
     DWidget *m_imgListView;
+    DWidget *m_imgListView_prespc;
+    DWidget *m_imgListView_spc;
     DWidget *m_preButton_spc;
     DWidget *m_nextButton_spc;
     DBImgInfoList m_imgInfos ;

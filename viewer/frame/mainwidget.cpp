@@ -85,6 +85,10 @@ void MainWidget::resizeEvent(QResizeEvent *e)
 //        m_bottomToolbar->resize(310, m_bottomToolbar->height());
         if (m_bottomToolbar->isVisible())
 //            m_bottomToolbar->setRadius(18);
+            if(window()->isFullScreen() || window()->isMaximized()){
+//                m_bottomToolbar->resize(window()->width()-20,m_bottomToolbar->height());
+                m_bottomToolbar->setFixedWidth(width()-20);
+            }
             m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     }
 #ifndef LITE_DIV
@@ -303,6 +307,20 @@ void MainWidget::initBottomToolbar()
 //    m_btmSeparatorLine->resize(window()->width(), 1);
 //    m_btmSeparatorLine->move(0, window()->height() -
 //                           m_bottomToolbar->height() - 1);
+    connect(dApp->signalM,&SignalManager::updateBottomToolbar,this,[=](bool wideMode){
+        if (wideMode) {
+            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+            m_bottomToolbar->setFixedWidth(1280);
+        }
+        else {
+            m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
+            m_bottomToolbar->setFixedWidth(310);
+        }
+        if(window()->isFullScreen() || window()->isMaximized()){
+            m_bottomToolbar->setFixedWidth(window()->width()-20);
+        }
+        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
+    });
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
             this, [=](QWidget *c, bool wideMode) {
@@ -316,6 +334,10 @@ void MainWidget::initBottomToolbar()
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(310);
+        }
+
+        if(window()->isFullScreen() || window()->isMaximized()){
+            m_bottomToolbar->setFixedWidth(window()->width()-20);
         }
 //        m_bottomToolbar->setRadius(18);
         m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);

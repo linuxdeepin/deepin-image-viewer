@@ -89,7 +89,7 @@ static int maxTitleWidth()
 {
     int maxWidth = 0;
     QFont tf;
-    tf.setPixelSize(11);
+    tf.setPixelSize(12);
     for (const MetaData* i = MetaDataBasics; ! i->key.isEmpty(); ++i) {
         maxWidth = qMax(maxWidth + 1, utils::base::stringWidth(tf, i->name));
     }
@@ -194,15 +194,17 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_exif_details = new QFrame(this);
     m_exif_details->setFixedWidth(280);
     m_exifLayout_base = new QFormLayout();
-    m_exifLayout_base->setSpacing(3);
-    m_exifLayout_base->setContentsMargins(10, 0, 7, 0);
-    m_exifLayout_base->setLabelAlignment(Qt::AlignRight);
+//    m_exifLayout_base->setSpacing(3);
+    m_exifLayout_base->setHorizontalSpacing(16);
+    m_exifLayout_base->setContentsMargins(10, 0, 7, 11);
+    m_exifLayout_base->setLabelAlignment(Qt::AlignLeft);
     m_separator = new ViewSeparator();
     m_separator->setVisible(false);
     m_exifLayout_details = new QFormLayout();
-    m_exifLayout_details->setSpacing(3);
-    m_exifLayout_details->setContentsMargins(10, 0, 7, 0);
-    m_exifLayout_details->setLabelAlignment(Qt::AlignRight);
+//    m_exifLayout_details->setSpacing(3);
+    m_exifLayout_details->setHorizontalSpacing(16);
+    m_exifLayout_details->setContentsMargins(10, 0, 7, 11);
+    m_exifLayout_details->setLabelAlignment(Qt::AlignLeft);
 
     m_exif_base->setLayout(m_exifLayout_base);
     m_exif_details->setLayout(m_exifLayout_details);
@@ -374,18 +376,23 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 //    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("详细信息"));
 //    infoTitle->setAlignment(Qt::AlignLeft);
 //    m_exifLayout_base->addRow(infoTitle);
+    QFont font;
+    font.setPixelSize(12);
+
     for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
 
         SimpleFormField *field = new SimpleFormField;
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        field->setFont(font);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        title->setFont(font);
 
         m_exifLayout_details->addRow(title, field);
     }

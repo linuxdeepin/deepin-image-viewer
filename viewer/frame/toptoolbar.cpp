@@ -69,9 +69,14 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
 #endif
+    setAutoFillBackground(true);
     QPalette palette;
-    palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
-    setPalette(palette);
+//    palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
+//    setPalette(palette);
+    QPixmap pixmap(":/resources/common/titlebar.png");
+    palette.setBrush(QPalette::Background,QBrush(pixmap.scaled(window()->width(),50)));
+    this->setPalette(palette);
+
 
     initMenu();
     initWidgets();
@@ -104,7 +109,8 @@ void TopToolbar::setMiddleContent(QString path)
 //    if(!path.isNull() && !path.isNull()){
 //        filename = QFileInfo(path).fileName();
 //    }
-    m_titlebar->setTitle(path);
+//    m_titlebar->setTitle(path);
+    m_titletxt->setText(path);
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -155,7 +161,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 //    BlurFrame::paintEvent(e);
 
     QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);
+//    p.setRenderHint(QPainter::Antialiasing);
 
     // Draw inside top border
 //    const QColor tc(m_topBorderColor);
@@ -262,6 +268,14 @@ void TopToolbar::initWidgets()
 //    pa.setColor(QPalette::WindowText,Qt::red);
     m_titlebar->setPalette(pa);
     m_titlebar->setTitle("");
+    m_titletxt=new DLabel;
+    m_titletxt->setText("");
+    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
+    shadowEffect->setOffset(0, 1);
+    shadowEffect->setColor(QColor(255,255,255,127));
+    shadowEffect->setBlurRadius(1);
+    m_titletxt->setGraphicsEffect(shadowEffect);
+    m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
 
 //    QWidget *customWidget = new QWidget();
 //    customWidget->setFixedWidth(0);
@@ -273,7 +287,8 @@ void TopToolbar::initWidgets()
 //        if(!vinfo.path.isNull() && !vinfo.path.isNull()){
 //            filename = QFileInfo(vinfo.path).fileName();
 //        }
-        m_titlebar->setTitle(filename);
+//        m_titlebar->setTitle(filename);
+        m_titletxt->setText(filename);
     });
 }
 

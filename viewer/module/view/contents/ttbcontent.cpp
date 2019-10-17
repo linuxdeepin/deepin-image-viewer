@@ -113,7 +113,7 @@ TTBContent::TTBContent(bool inDB,
     setFixedWidth(m_contentWidth);
     setFixedHeight(70);
     QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
+    hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 0);
     hb->setSpacing(0);
     m_inDB = inDB;
     // Adapt buttons////////////////////////////////////////////////////////////
@@ -144,7 +144,7 @@ TTBContent::TTBContent(bool inDB,
      m_preButton_spc->setFixedSize(QSize(10,50));
      m_nextButton_spc->setFixedSize(QSize(40,50));
 //     m_nextButton->setContentsMargins(0,0,30,0);
-     hb->addSpacing(ICON_SPACING);
+//     hb->addSpacing(ICON_SPACING);
      hb->addWidget(m_preButton);
      hb->addWidget(m_preButton_spc);
 //     hb->addSpacing(ICON_SPACING);
@@ -213,7 +213,10 @@ TTBContent::TTBContent(bool inDB,
     connect(m_rotateRBtn, &DIconButton::clicked,
             this, &TTBContent::rotateClockwise);
 
-
+    m_imgListView_prespc = new DWidget;
+    m_imgListView_prespc->setFixedSize(QSize(10,50));
+    hb->addWidget(m_imgListView_prespc);
+    m_imgListView_prespc->hide();
 
     m_imgListView = new DWidget();
     m_imgListView->setObjectName("ImgListView");
@@ -236,6 +239,10 @@ TTBContent::TTBContent(bool inDB,
     m_imgListView->setPalette(palette);
     hb->addWidget(m_imgListView);
 
+    m_imgListView_spc = new DWidget;
+    m_imgListView_spc->setFixedSize(QSize(24,50));
+    hb->addWidget(m_imgListView_spc);
+    m_imgListView_spc->hide();
     m_trashBtn = new DIconButton(this);
     m_trashBtn->setFixedSize(ICON_SIZE);
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
@@ -243,7 +250,7 @@ TTBContent::TTBContent(bool inDB,
 //    m_trashBtn->setToolTip(tr("Delete"));
     m_trashBtn->setToolTip(tr("删除"));
     hb->addWidget(m_trashBtn);
-    hb->addSpacing(ICON_SPACING);
+//    hb->addSpacing(ICON_SPACING);
 
     m_fileNameLabel = new ElidedLabel();
 //    hb->addWidget(m_fileNameLabel);
@@ -461,8 +468,13 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_preButton_spc->show();
             m_nextButton->show();
             m_nextButton_spc->show();
+            m_imgListView_prespc->show();
+            m_imgListView_spc->show();
         }else {
             m_imgList->hide();
+            m_imgListView->hide();
+            m_imgListView_prespc->hide();
+            m_imgListView_spc->hide();
             m_preButton->hide();
             m_preButton_spc->hide();
             m_nextButton->hide();
