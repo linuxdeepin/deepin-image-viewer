@@ -239,7 +239,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
     QFrame *infoframe= new QFrame;
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
-    scrollWidgetLayout->setContentsMargins(15, 0, 15, 0);
+    scrollWidgetLayout->setContentsMargins(10, 0, 10, 0);
     scrollWidgetLayout->setSpacing(10);
     infoframe->setLayout(scrollWidgetLayout);
     m_scrollArea->setWidget(infoframe);
@@ -328,7 +328,7 @@ void ImageInfoWidget::updateInfo()
     using namespace utils::base;
     auto mds = getAllMetaData(m_path);
     // Minus layout margins
-    m_maxFieldWidth = width() - m_maxTitleWidth - (10 + 8) * 2;
+    m_maxFieldWidth = width() - m_maxTitleWidth - (10 + 7) * 2;
 
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
@@ -459,7 +459,9 @@ int ImageInfoWidget::contentHeight() const
     }
 
     if (!atleastOneExpand && firstExpandHeight > 0)
-        expandsHeight += firstExpandHeight;
+    {
+//        expandsHeight += firstExpandHeight;
+    }
 
 //    return (
 //            expandsHeight );
