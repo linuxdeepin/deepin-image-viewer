@@ -84,7 +84,7 @@ protected:
             backgroundBp.addRoundedRect(backgroundRect, 4, 4);
             painter.setClipPath(backgroundBp);
 
-            painter.fillRect(backgroundRect, QBrush(QColor("#0081FF")));
+            painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
 
 //            QPixmap selectedPixmap;
 //            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));

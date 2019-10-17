@@ -41,30 +41,47 @@ struct MetaData {
 };
 
 static MetaData MetaDataBasics[] = {
-    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
-    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
-    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimension")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "图片名称")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "图片类型")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "图片大小")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "图片尺寸")},
+    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改日期")},
+//    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
+//    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+//    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
+//    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
+//    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimension")},
+//    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
     {"", ""}
 };
 
 static MetaData MetaDataDetails[] = {
-    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
-    {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "Exposure mode")},
-    {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "Exposure program")},
-    {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "Exposure time")},
-    {"Flash",               QT_TRANSLATE_NOOP("MetadataName", "Flash")},
-    {"ApertureValue",       QT_TRANSLATE_NOOP("MetadataName", "Aperture")},
-    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
-    {"ISOSpeedRatings",     QT_TRANSLATE_NOOP("MetadataName", "ISO")},
-    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
-    {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "Metering mode")},
-    {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "White balance")},
-    {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
-    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
-    {"LensType",            QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
+    {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "曝光模式")},
+    {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "曝光程序")},
+    {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "曝光时间")},
+    {"Flash",               QT_TRANSLATE_NOOP("MetadataName", "闪光灯")},
+    {"ApertureValue",       QT_TRANSLATE_NOOP("MetadataName", "光圈大小")},
+    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "焦距")},
+    {"ISOSpeedRatings",     QT_TRANSLATE_NOOP("MetadataName", "IOS光感度")},
+    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "最大光圈值")},
+    {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "测光模式")},
+    {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "白平衡")},
+    {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "闪光灯补偿")},
+    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "镜头型号")},
+//    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
+//    {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "Exposure mode")},
+//    {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "Exposure program")},
+//    {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "Exposure time")},
+//    {"Flash",               QT_TRANSLATE_NOOP("MetadataName", "Flash")},
+//    {"ApertureValue",       QT_TRANSLATE_NOOP("MetadataName", "Aperture")},
+//    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
+//    {"ISOSpeedRatings",     QT_TRANSLATE_NOOP("MetadataName", "ISO")},
+//    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
+//    {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "Metering mode")},
+//    {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "White balance")},
+//    {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
+//    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
+//    {"LensType",            QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
     {"", ""}
 };
 
@@ -324,6 +341,10 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
 //    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("基本信息"));
 //    infoTitle->setAlignment(Qt::AlignLeft);
 //    m_exifLayout_base->addRow(infoTitle);
+
+    QFont font;
+    font.setPixelSize(12);
+
     for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
         QString value = infos.value(i->key);
         if (value.isEmpty()) continue;
@@ -331,12 +352,14 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         SimpleFormField *field = new SimpleFormField;
 
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        field->setFont(font);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        title->setFont(font);
 
         m_exifLayout_base->addRow(title, field);
     }

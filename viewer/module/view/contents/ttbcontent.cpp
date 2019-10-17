@@ -127,11 +127,13 @@ TTBContent::TTBContent(bool inDB,
 
      m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
      m_preButton->setIconSize(QSize(36,36));
-     m_preButton->setToolTip(tr("Previous"));
+//     m_preButton->setToolTip(tr("Previous"));
+     m_preButton->setToolTip(tr("上一个"));
 
      m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
      m_nextButton->setIconSize(QSize(36,36));
-     m_nextButton->setToolTip(tr("Next"));
+//     m_nextButton->setToolTip(tr("Next"));
+     m_nextButton->setToolTip(tr("下一个"));
 
      m_preButton->hide();
      m_nextButton->hide();
@@ -161,7 +163,8 @@ TTBContent::TTBContent(bool inDB,
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
     m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
     m_adaptImageBtn->setIconSize(QSize(36,36));
-    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+//    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+    m_adaptImageBtn->setToolTip(tr("1:1 比例"));
     hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
     connect(m_adaptImageBtn, &DIconButton::clicked, this, [=] {
@@ -172,7 +175,8 @@ TTBContent::TTBContent(bool inDB,
     m_adaptScreenBtn->setFixedSize(ICON_SIZE);
     m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
     m_adaptScreenBtn->setIconSize(QSize(36,36));
-    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+//    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+    m_adaptScreenBtn->setToolTip(tr("适应窗口"));
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
     connect(m_adaptScreenBtn, &DIconButton::clicked, this, [=] {
@@ -191,7 +195,8 @@ TTBContent::TTBContent(bool inDB,
     m_rotateLBtn->setFixedSize(ICON_SIZE);
     m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
     m_rotateLBtn->setIconSize(QSize(36,36));
-    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+//    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+    m_rotateLBtn->setToolTip(tr("逆时针旋转"));
     hb->addWidget(m_rotateLBtn);
     hb->addSpacing(ICON_SPACING);
     connect(m_rotateLBtn, &DIconButton::clicked,
@@ -201,7 +206,8 @@ TTBContent::TTBContent(bool inDB,
     m_rotateRBtn->setFixedSize(ICON_SIZE);
     m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
     m_rotateRBtn->setIconSize(QSize(36,36));
-    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+//    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    m_rotateRBtn->setToolTip(tr("顺时针旋转"));
     hb->addWidget(m_rotateRBtn);
     hb->addSpacing(ICON_SPACING);
     connect(m_rotateRBtn, &DIconButton::clicked,
@@ -234,7 +240,8 @@ TTBContent::TTBContent(bool inDB,
     m_trashBtn->setFixedSize(ICON_SIZE);
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
     m_trashBtn->setIconSize(QSize(36,36));
-    m_trashBtn->setToolTip(tr("Delete"));
+//    m_trashBtn->setToolTip(tr("Delete"));
+    m_trashBtn->setToolTip(tr("删除"));
     hb->addWidget(m_trashBtn);
     hb->addSpacing(ICON_SPACING);
 
