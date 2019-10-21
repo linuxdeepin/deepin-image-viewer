@@ -364,6 +364,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         title->setFont(font);
 
         m_exifLayout_base->addRow(title, field);
+        m_exifLayout_base->setSpacing(7);
     }
 }
 
@@ -395,6 +396,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         title->setFont(font);
 
         m_exifLayout_details->addRow(title, field);
+        m_exifLayout_details->setSpacing(7);
     }
 
 //    m_separator->setVisible(m_exifLayout_details->count() > 10);

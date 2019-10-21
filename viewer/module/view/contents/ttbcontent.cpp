@@ -392,7 +392,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
             m_imgList->setContentsMargins(0,0,0,0);
 
-            auto num=30;
+            auto num=32;
 //            QHBoxLayout *layout= new QHBoxLayout();
 //            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 //            layout->setMargin(0);
@@ -432,16 +432,16 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             labelList = m_imgList->findChildren<ImageItem*>();
             m_nowIndex = t;
             for(int j = 0; j < labelList.size(); j++){
-                labelList.at(j)->setFixedSize (QSize(30,40));
-                labelList.at(j)->resize (QSize(30,40));
+                labelList.at(j)->setFixedSize (QSize(num,40));
+                labelList.at(j)->resize (QSize(num,40));
 //                labelList.at(j)->setContentsMargins(1,5,1,5);
 //                labelList.at(j)->setFrameShape (QFrame::NoFrame);
 //                labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
                 labelList.at(j)->setIndexNow(t);
             }
             if(labelList.size()>0){
-                labelList.at(t)->setFixedSize (QSize(60,58));
-                labelList.at(t)->resize (QSize(60,58));
+                labelList.at(t)->setFixedSize (QSize(num*2,58));
+                labelList.at(t)->resize (QSize(num*2,58));
 //                labelList.at(t)->setFrameShape (QFrame::Box);
 //                labelList.at(t)->setContentsMargins(0,0,0,0);
 //                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
@@ -455,8 +455,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setDuration(500);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
-            animation->setKeyValueAt(1,  QPoint(320-(32*t),0));
-            animation->setEndValue(QPoint(320-(32*t),0));
+            animation->setKeyValueAt(1,  QPoint(320-((num+2)*t),0));
+            animation->setEndValue(QPoint(320-((num+2)*t),0));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
