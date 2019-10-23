@@ -43,7 +43,7 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
 //    setBorderColor(QColor(255, 255, 255, 51));
 //    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
     setFixedWidth(EXTENSION_PANEL_WIDTH);
-    setFixedHeight(580);
+    setFixedHeight(540);
     setBlurRectYRadius(18);
     setBlurRectXRadius(18);
     setMaskAlpha(204);
