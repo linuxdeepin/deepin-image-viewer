@@ -459,7 +459,7 @@ void ImageView::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
     m_toast->move(width() / 2 - m_toast->width() / 2,
-                  height() - 80 - m_toast->height() / 2);
+                  height() - 80 - m_toast->height() / 2 - 11);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
