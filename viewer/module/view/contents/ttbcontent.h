@@ -81,7 +81,7 @@ protected:
         if (_index == _indexNow)
         {
             QPainterPath backgroundBp;
-            backgroundBp.addRoundedRect(backgroundRect, 4, 4);
+            backgroundBp.addRoundedRect(backgroundRect, 8, 8);
             painter.setClipPath(backgroundBp);
 
             painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
@@ -101,8 +101,10 @@ protected:
             pixmapRect.setHeight(backgroundRect.height()-0);
         }
 
-
-
+        QPainterPath bg_white;
+        bg_white.addRoundedRect(pixmapRect, 4, 4);
+        painter.setClipPath(bg_white);
+        painter.fillRect(pixmapRect, QBrush(QColor("#FFFFFF")));
 
         QPainterPath bp1;
         bp1.addRoundedRect(pixmapRect, 4, 4);
