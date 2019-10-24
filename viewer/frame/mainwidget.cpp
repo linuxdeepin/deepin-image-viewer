@@ -423,6 +423,7 @@ void MainWidget::initExtensionPanel()
 //                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
 //                                          EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
                 m_extensionPanel->moveWithAnimation(width(), TOP_TOOLBAR_HEIGHT);
+                m_extensionPanel->hide();
             }
         }
     });
