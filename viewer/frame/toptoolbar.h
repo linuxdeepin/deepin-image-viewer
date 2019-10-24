@@ -34,7 +34,7 @@ class QHBoxLayout;
 class QProcess;
 class QMenu;
 
-class TopToolbar : public BlurFrame
+class TopToolbar : public DBlurEffectWidget
 {
     Q_OBJECT
 public:

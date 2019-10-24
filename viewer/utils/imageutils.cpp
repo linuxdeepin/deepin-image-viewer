@@ -146,6 +146,14 @@ bool imageSupportSave(const QString &path)
             << "PEF"            // Pentax cameras
             << "RAF"            // Fuji cameras
             << "SRF"            // Sony cameras
+            << "PSD"
+            << "ICO"
+            << "TGA"
+            << "WEBP"
+            << "PBM"
+            << "XPM"
+            << "PPM"
+            << "PGM"
             << "X3F";           // Sigma cameras
 
 
