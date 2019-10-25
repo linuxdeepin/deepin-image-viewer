@@ -34,7 +34,7 @@ public:
 signals:
     void requestStopAnimation();
 protected:
-//    void paintEvent(QPaintEvent *) override;
+    void paintEvent(QPaintEvent *) override;
     void mouseMoveEvent(QMouseEvent *e) override;
 public slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);

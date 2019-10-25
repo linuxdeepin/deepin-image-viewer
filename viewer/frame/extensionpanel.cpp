@@ -109,7 +109,27 @@ void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
     Q_UNUSED(e);
 }
 
-//void ExtensionPanel::paintEvent(QPaintEvent *)
+void ExtensionPanel::paintEvent(QPaintEvent *pe)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    QRectF bgRect;
+    bgRect.setSize(size());
+    const QPalette pal = QGuiApplication::palette();//this->palette();
+    QColor bgColor = pal.color(QPalette::ToolTipBase);
+
+    QPainterPath pp;
+    pp.addRoundedRect(bgRect, 18, 18);
+    painter.fillPath(pp, QColor(0,0,0,22));
+
+    {
+        auto view_rect = bgRect.marginsRemoved(QMargins(1, 1, 1, 1));
+        QPainterPath pp;
+        pp.addRoundedRect(view_rect, 18, 18);
+        painter.fillPath(pp, bgColor);
+    }
+    QWidget::paintEvent(pe);
+}
 //{
 //    QPainter painter(this);
 //    QPainterPath path;
