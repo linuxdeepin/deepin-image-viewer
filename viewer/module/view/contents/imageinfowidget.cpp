@@ -42,10 +42,11 @@ struct MetaData {
 
 static MetaData MetaDataBasics[] = {
     {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "图片名称")},
+    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "拍摄时间")},
+    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改时间")},
     {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "图片类型")},
     {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "图片大小")},
     {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "图片尺寸")},
-    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改日期")},
 //    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
 //    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
 //    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},

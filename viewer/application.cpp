@@ -25,6 +25,7 @@
 #include <QDebug>
 #include <QTranslator>
 #include <DApplicationSettings>
+#include <QIcon>
 
 namespace {
 
@@ -37,6 +38,8 @@ Application::Application(int& argc, char** argv)
     setOrganizationName("deepin");
     setApplicationName("deepin-image-viewer");
     setApplicationDisplayName(tr("Deepin Image Viewer"));
+    setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
+    setApplicationDescription(QString("%1\n%2\n").arg(tr("深度看图是一款外观时尚,性能流畅的图片查看工具。")).arg(tr("深度看图是一款外观时尚,性能流畅的图片查看工具。")));
 
 //    //save theme
 //    DApplicationSettings saveTheme;

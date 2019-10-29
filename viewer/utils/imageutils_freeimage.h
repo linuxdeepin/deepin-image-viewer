@@ -142,8 +142,8 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     QImageReader reader(path);
     if (admMap.isEmpty()) {
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy.MM.dd HH:mm:ss"));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy.MM.dd HH:mm:ss"));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy年MM月dd日 HH:mm:ss"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy年MM月dd日 HH:mm:ss"));
     }
     else {
         // ReFormat the date-time
@@ -158,12 +158,12 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
             // NO valid date information
             if (! ot.isValid()) {
-                admMap.insert("DateTimeOriginal", info.created().toString("yyyy.MM.dd HH:mm:ss"));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy.MM.dd HH:mm:ss"));
+                admMap.insert("DateTimeOriginal", info.created().toString("yyyy年MM月dd日 HH:mm:ss"));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy年MM月dd日 HH:mm:ss"));
             }
         }
-        admMap.insert("DateTimeOriginal", ot.toString("yyyy.MM.dd HH:mm:ss"));
-        admMap.insert("DateTimeDigitized", dt.toString("yyyy.MM.dd HH:mm:ss"));
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy年MM月dd日 HH:mm:ss"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy年MM月dd日 HH:mm:ss"));
     }
     // The value of width and height might incorrect
     int w = reader.size().width();
@@ -210,8 +210,8 @@ FIBITMAP * makeThumbnail(const QString &path, int size) {
             if(!dib) return NULL;
         }
         else {
-            // 某些损坏的图片� �式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
-            // 除了上面� 种可能� 速缩略图读取的方式，都返回空
+            // 某些损坏的图片� �式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
+            // 除了上面�� 种可能�� 速缩略图读取的方式，都返回空
             return NULL;
         }
     }

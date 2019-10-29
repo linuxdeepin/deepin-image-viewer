@@ -263,7 +263,7 @@ void TopToolbar::initWidgets()
 
 //    initLeftContent();
 //    initMiddleContent();
-//    initRightContent()WindowMinMaxButtonsHint;
+//    initRightContent();
     m_titlebar = new DTitlebar(this);
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |
                                Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);

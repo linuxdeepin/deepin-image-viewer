@@ -121,7 +121,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
             }
         } else {
             if(m_extensionPanel->x()<width()){
-                  m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
+                m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
 //                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
             }else {
                 m_extensionPanel->move((width()-EXTENSION_PANEL_WIDTH-24), TOP_TOOLBAR_HEIGHT);
