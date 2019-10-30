@@ -49,13 +49,7 @@ class ImageButton;
 class ImageItem : public DLabel{
     Q_OBJECT
 public:
-    ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0){
-        _index = index;
-        _path = path;
-        QImage image(path,imageType);
-        _pixmap=QPixmap::fromImage(image.scaled(60,50));
-        _image = new DLabel(this);
-    };
+    ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0);
     void setIndexNow(int i){
         _indexNow = i;
     };

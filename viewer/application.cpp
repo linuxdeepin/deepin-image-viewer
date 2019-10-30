@@ -21,15 +21,120 @@
 #include "controller/signalmanager.h"
 #include "controller/wallpapersetter.h"
 #include "controller/viewerthememanager.h"
+#include "utils/snifferimageformat.h"
 
 #include <QDebug>
 #include <QTranslator>
 #include <DApplicationSettings>
 #include <QIcon>
+#include <QImageReader>
+#include <sys/time.h>
+#include <QFile>
 
 namespace {
 
 }  // namespace
+
+#define IMAGE_HEIGHT_DEFAULT    100
+
+ImageLoader::ImageLoader(Application* parent, QStringList pathlist)
+{
+    m_parent = parent;
+    m_pathlist = pathlist;
+}
+
+void ImageLoader::startLoading()
+{
+    struct timeval tv;
+    long long ms;
+    gettimeofday(&tv,NULL);
+    ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
+    qDebug()<<"startLoading start time: "<<ms;
+
+
+    for(QString path : m_pathlist)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(path);
+            }
+        }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+
+        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    }
+
+
+    emit sigFinishiLoad();
+
+    gettimeofday(&tv,NULL);
+    ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
+    qDebug()<<"startLoading end time: "<<ms;
+}
+
+void ImageLoader::addImageLoader(QStringList pathlist)
+{
+    for(QString path : pathlist)
+    {
+        QImage tImg;
+
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
+            }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
+
+                tImg = QImage(path);
+            }
+        }
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+
+        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    }
+}
+
+void ImageLoader::updateImageLoader(QStringList pathlist)
+{
+    for(QString path : pathlist)
+    {
+        QPixmap pixmap(path);
+
+        m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+    }
+}
+
+void Application::finishLoadSlot()
+{
+    qDebug()<<"finishLoadSlot";
+    emit sigFinishLoad();
+}
 
 Application::Application(int& argc, char** argv)
     : DApplication(argc, argv)
@@ -50,6 +155,27 @@ Application::Application(int& argc, char** argv)
 
 
     initChildren();
+
+
+    connect(dApp->signalM, &SignalManager::Sendpathlist, this, [=](QStringList list){
+        m_imageloader= new ImageLoader(this, list);
+        m_LoadThread = new QThread();
+
+        m_imageloader->moveToThread(m_LoadThread);
+        m_LoadThread->start();
+
+        connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
+        connect(m_imageloader, SIGNAL(sigFinishiLoad()), this, SLOT(finishLoadSlot()));
+        emit sigstartLoad();
+    });
+
+//    QStringList pathlist;
+//    m_imageloader= new ImageLoader(this, pathlist);
+//    m_LoadThread = new QThread();
+
+//    m_imageloader->moveToThread(m_LoadThread);
+//    m_LoadThread->start();
+
 }
 
 void Application::initChildren()

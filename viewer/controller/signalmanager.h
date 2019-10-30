@@ -55,6 +55,8 @@ signals:
     void hideBottomToolbar(bool immediately = false);
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);
+    void ExtensionPanelHeight(int height);
+    void Sendpathlist(QStringList pathlist);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");

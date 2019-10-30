@@ -62,6 +62,8 @@ private:
     int m_updateTid = 0;
     int m_maxTitleWidth;  //For align colon
     int m_maxFieldWidth;
+    bool m_isBaseInfo = false;
+    bool m_isDetailsInfo = false;
     QString m_path;
     QFrame* m_exif_base = nullptr;
     QFrame* m_exif_details = nullptr;

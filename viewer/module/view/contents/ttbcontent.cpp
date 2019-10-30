@@ -95,6 +95,14 @@ char* getImageType(QString filepath){
      }
      return ret;
 };
+ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
+        _index = index;
+        _path = path;
+//        QImage image(path,imageType);
+//        _pixmap = QPixmap::fromImage(image.scaled(60,50));
+        _pixmap = dApp->m_imagemap.value(path).scaled(60, 50);
+        _image = new DLabel(this);
+    };
 TTBContent::TTBContent(bool inDB,
                        DBImgInfoList m_infos ,
                        QWidget *parent) : QLabel(parent)
@@ -128,12 +136,12 @@ TTBContent::TTBContent(bool inDB,
      m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
      m_preButton->setIconSize(QSize(36,36));
 //     m_preButton->setToolTip(tr("Previous"));
-     m_preButton->setToolTip(tr("上一个"));
+     m_preButton->setToolTip(tr("上一张"));
 
      m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
      m_nextButton->setIconSize(QSize(36,36));
 //     m_nextButton->setToolTip(tr("Next"));
-     m_nextButton->setToolTip(tr("下一个"));
+     m_nextButton->setToolTip(tr("下一张"));
 
      m_preButton->hide();
      m_nextButton->hide();

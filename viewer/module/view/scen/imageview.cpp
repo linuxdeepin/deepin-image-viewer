@@ -108,6 +108,7 @@ ImageView::ImageView(QWidget *parent)
     setResizeAnchor(QGraphicsView::AnchorViewCenter);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameShape(QFrame::Shape::NoFrame);
 
     viewport()->setCursor(Qt::ArrowCursor);
 

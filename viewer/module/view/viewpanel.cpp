@@ -161,6 +161,10 @@ void ViewPanel::initConnect()
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
 
+    connect(dApp, &Application::sigFinishLoad,this, [=]{
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+    });
+
 #ifdef LITE_DIV
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
@@ -685,6 +689,19 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
     openImage(m_infos.at(m_current).filePath);
     eatImageDirIterator();
+
+    QStringList pathlist;
+
+    for(int loop = 0; loop < m_infos.size(); loop++)
+    {
+        pathlist.append(m_infos.at(loop).filePath);
+    }
+
+    if(pathlist.count()>0)
+    {
+        emit dApp->signalM->Sendpathlist(pathlist);
+    }
+
     emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
 }
 

@@ -18,7 +18,7 @@
 #define APPLICATION_H_
 
 #include <DApplication>
-
+#include <QThread>
 class Application;
 class ConfigSetter;
 class DatabaseManager;
@@ -36,6 +36,28 @@ class ViewerThemeManager;
 
 DWIDGET_USE_NAMESPACE
 
+class ImageLoader : public QObject
+{
+    Q_OBJECT
+public:
+    explicit ImageLoader(Application* parent, QStringList pathlist);
+
+    void addImageLoader(QStringList pathlist);
+    void updateImageLoader(QStringList pathlist);
+
+public slots:
+    void startLoading();
+
+signals:
+    void sigFinishiLoad();
+
+private:
+    Application* m_parent;
+    QStringList m_pathlist;
+
+};
+
+
 class Application : public DApplication {
     Q_OBJECT
 
@@ -49,6 +71,18 @@ public:
     SignalManager *signalM = nullptr;
     WallpaperSetter *wpSetter = nullptr;
     ViewerThemeManager *viewerTheme = nullptr;
+
+    QMap<QString, QPixmap> m_imagemap;
+    ImageLoader* m_imageloader;
+
+    QThread * m_LoadThread;
+
+signals:
+    void sigstartLoad();
+    void sigFinishLoad();
+
+public slots:
+    void finishLoadSlot();
 private:
     void initChildren();
     void initI18n();
