@@ -477,8 +477,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
                 labelList.at(j)->setIndexNow(t);
             }
             if(labelList.size()>0){
-                labelList.at(t)->setFixedSize (QSize(num*2,58));
-                labelList.at(t)->resize (QSize(num*2,58));
+                labelList.at(t)->setFixedSize (QSize(58,58));
+                labelList.at(t)->resize (QSize(58,58));
 //                labelList.at(t)->setFrameShape (QFrame::Box);
 //                labelList.at(t)->setContentsMargins(0,0,0,0);
 //                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
@@ -491,8 +491,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setDuration(500);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
-            animation->setKeyValueAt(1,  QPoint(320-((num+2)*t),0));
-            animation->setEndValue(QPoint(320-((num+2)*t),0));
+            animation->setKeyValueAt(1,  QPoint(350-((num)*t),0));
+            animation->setEndValue(QPoint(350-((num)*t),0));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
@@ -512,6 +512,20 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_nextButton_spc->show();
             m_imgListView_prespc->show();
             m_imgListView_spc->show();
+
+            if(m_nowIndex == 0)
+            {
+                m_preButton->setDisabled(true);
+            }else {
+                m_preButton->setDisabled(false);
+            }
+            if(m_nowIndex == labelList.size()-1)
+            {
+                m_nextButton->setDisabled(true);
+            }else {
+                m_nextButton->setDisabled(false);
+            }
+
         }else {
             m_imgList->hide();
             m_imgListView->hide();

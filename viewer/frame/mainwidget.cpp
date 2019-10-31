@@ -343,7 +343,7 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
-        m_bottomToolbar->setVisible(true);
+        m_bottomToolbar->setVisible(true);//songsha
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
 //        // Make the bottom toolbar always stay at the bottom after windows resize
 //        m_bottomToolbar->move(0, height());

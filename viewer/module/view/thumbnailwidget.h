@@ -47,6 +47,7 @@ private:
 
     bool m_isDefaultThumbnail = false;
     QLabel* m_thumbnailLabel;
+    QPixmap m_logo;
 #ifndef LITE_DIV
     QLabel* m_tips;
 #endif

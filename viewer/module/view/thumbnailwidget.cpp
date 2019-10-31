@@ -23,18 +23,25 @@
 #include "thumbnailwidget.h"
 #include "application.h"
 #include "utils/baseutils.h"
+#include <QImageReader>
 
 namespace  {
-const QSize THUMBNAIL_BORDERSIZE = QSize(168, 168);
-const QSize THUMBNAIL_SIZE = QSize(166, 166);
+const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
+const QSize THUMBNAIL_SIZE = QSize(128, 128);
 }
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
 const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, parent)
 {
+    QImageReader ir(":/images/logo/resources/images/logo/icon_import_photo.svg");
+    ir.setScaledSize(QSize(128, 128) * devicePixelRatioF());
+    QPixmap logo_pix = QPixmap::fromImage(ir.read());
+    logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
+    m_logo = logo_pix;
+
     setMouseTracking(true);
     m_thumbnailLabel = new QLabel(this);
-    m_thumbnailLabel->setObjectName("ThumbnailLabel");
+//    m_thumbnailLabel->setObjectName("ThumbnailLabel");
     m_thumbnailLabel->setFixedSize(THUMBNAIL_BORDERSIZE);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
@@ -70,11 +77,11 @@ void ThumbnailWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
     if (theme == ViewerThemeManager::Dark) {
         m_inBorderColor = utils::common::DARK_BORDER_COLOR;
         if(m_isDefaultThumbnail)
-            m_defaultImage = QPixmap(utils::view::DARK_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(m_logo);
     } else {
         m_inBorderColor = utils::common::LIGHT_BORDER_COLOR;
         if(m_isDefaultThumbnail)
-            m_defaultImage = QPixmap(utils::view::LIGHT_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(m_logo);
     }
 
     ThemeWidget::onThemeChanged(theme);
@@ -85,9 +92,9 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
 {
     if (thumbnail.isNull()) {
         if (isDeepMode()) {
-            m_defaultImage = QPixmap(utils::view::DARK_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(m_logo);
         } else {
-            m_defaultImage = QPixmap(utils::view::LIGHT_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(m_logo);
         }
 
         m_isDefaultThumbnail = true;
@@ -109,9 +116,9 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
     if (m_defaultImage.isNull()) {
         if (isDeepMode()) {
-            m_defaultImage = QPixmap(utils::view::DARK_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(m_logo);
         } else {
-            m_defaultImage = QPixmap(utils::view::LIGHT_DEFAULT_THUMBNAIL);
+            m_defaultImage = QPixmap(m_logo);
         }
         m_isDefaultThumbnail = true;
     }

@@ -272,7 +272,10 @@ void ViewPanel::updateMenuContent()
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-    appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+    if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
+            QFileInfo(m_infos.at(m_current).filePath).isWritable()) {
+        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+    }
 
 #ifndef LITE_DIV
     if (! m_vinfo.album.isEmpty()) {
@@ -305,7 +308,8 @@ void ViewPanel::updateMenuContent()
                      tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
+    if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
+            QFileInfo(m_infos.at(m_current).filePath).isWritable()) {
         m_menu->addSeparator();
         appendAction(IdRotateClockwise,
                      tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));

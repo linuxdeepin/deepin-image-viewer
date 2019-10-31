@@ -138,6 +138,9 @@ void ViewPanel::initScaleLabel()
 //    scalePerc->setFixedSize(82, 48);
     scalePerc->setFixedSize(64, 30);
     label->setText("100%");
+    QFont font;
+    font.setPixelSize(14);
+    label->setFont(font);
     scalePerc->hide();
 
     QTimer *hideT = new QTimer(this);
