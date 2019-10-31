@@ -23,6 +23,7 @@
 //#include <dlistwidget.h>
 //#include <DListWidget>
 #include <DListWidget>
+#include <DSpinner>
 //#include <DtkWidgets>
 //#include "dlistwidget.h"
 #include <QListWidget>
@@ -52,6 +53,11 @@ public:
     ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0);
     void setIndexNow(int i){
         _indexNow = i;
+
+        if (_index == _indexNow)
+        {
+            m_spinner->move(21, 21);
+        }
     };
     void setPic(QImage image){
       _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
@@ -112,10 +118,12 @@ protected:
     };
 private:
     int _index;
-    int _indexNow;
+    int _indexNow = -1;
     DLabel *_image=nullptr;
     QString _path = NULL;
     QPixmap _pixmap;
+    DSpinner* m_spinner;
+
 };
 class TTBContent : public QLabel
 {

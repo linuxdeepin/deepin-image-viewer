@@ -34,6 +34,7 @@
 #include <QAbstractItemModel>
 #include <DImageButton>
 #include <DThumbnailProvider>
+#include <DSpinner>
 
 DWIDGET_USE_NAMESPACE
 namespace {
@@ -100,8 +101,36 @@ ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
         _path = path;
 //        QImage image(path,imageType);
 //        _pixmap = QPixmap::fromImage(image.scaled(60,50));
-        _pixmap = dApp->m_imagemap.value(path).scaled(60, 50);
+//        _pixmap = dApp->m_imagemap.value(path).scaled(60, 50);
+
+        m_spinner = new DSpinner(this);
+        m_spinner->setFixedSize(20, 20);
+        m_spinner->move(7, 12);
+        m_spinner->start();
+        m_spinner->show();
+
+        if(dApp->m_imagemap.contains(path))
+        {
+            _pixmap = dApp->m_imagemap.value(path).scaled(60, 50);
+            m_spinner->hide();
+            m_spinner->stop();
+        }
+//        QMap<QString, QPixmap>::iterator iter = dApp->m_imagemap.begin();
+//        while (iter != dApp->m_imagemap.end())
+//        {
+//            qDebug() << "Iterator " << iter.key() << ":" << iter.value();
+//            iter++;
+//        }
         _image = new DLabel(this);
+        connect(dApp, &Application::sigFinishLoad,this, [=]{
+            if(dApp->m_imagemap.contains(_path))
+            {
+                _pixmap = dApp->m_imagemap.value(_path).scaled(60, 50);
+                m_spinner->hide();
+                m_spinner->stop();
+                update();
+            }
+        });
     };
 TTBContent::TTBContent(bool inDB,
                        DBImgInfoList m_infos ,
@@ -456,7 +485,6 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             }
 
 
-            m_imgList->show();
             m_imgListView->show();
 
             QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
@@ -468,6 +496,12 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
+
+            connect(animation, &QPropertyAnimation::finished,
+                    this, [=]{
+                m_imgList->show();
+
+            });
 
 
             m_imgListView->update();

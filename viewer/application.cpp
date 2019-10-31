@@ -169,13 +169,6 @@ Application::Application(int& argc, char** argv)
         emit sigstartLoad();
     });
 
-//    QStringList pathlist;
-//    m_imageloader= new ImageLoader(this, pathlist);
-//    m_LoadThread = new QThread();
-
-//    m_imageloader->moveToThread(m_LoadThread);
-//    m_LoadThread->start();
-
 }
 
 void Application::initChildren()

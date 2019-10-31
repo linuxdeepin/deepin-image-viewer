@@ -487,7 +487,10 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
         rc.setHeight(contentHeight()+10);
         setGeometry(rc);
 
-        emit dApp->signalM->ExtensionPanelHeight(contentHeight()+20);
+        if(expand->expand())
+        {
+            emit dApp->signalM->ExtensionPanelHeight(contentHeight()+20);
+        }
     });
 }
 

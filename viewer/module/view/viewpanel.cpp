@@ -161,9 +161,9 @@ void ViewPanel::initConnect()
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
 
-    connect(dApp, &Application::sigFinishLoad,this, [=]{
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
-    });
+//    connect(dApp, &Application::sigFinishLoad,this, [=]{
+//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+//    });
 
 #ifdef LITE_DIV
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
