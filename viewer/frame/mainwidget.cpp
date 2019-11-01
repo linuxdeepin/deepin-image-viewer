@@ -311,10 +311,14 @@ void MainWidget::initBottomToolbar()
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(1280);
+            m_bottomToolbar->setVisible(true);//songsha
+            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(310);
+            m_bottomToolbar->setVisible(false);//songsha
+            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
         if(window()->isFullScreen() || window()->isMaximized()){
             m_bottomToolbar->setFixedWidth(window()->width()-20);
@@ -330,10 +334,14 @@ void MainWidget::initBottomToolbar()
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(1280);
+            m_bottomToolbar->setVisible(true);
+            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(310);
+            m_bottomToolbar->setVisible(false);
+            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
 
         if(window()->isFullScreen() || window()->isMaximized()){
