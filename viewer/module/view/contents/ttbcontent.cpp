@@ -143,8 +143,12 @@ TTBContent::TTBContent(bool inDB,
     m_imgInfos = m_infos;
     if ( m_imgInfos.size() <= 1 ) {
         m_contentWidth = 310;
-    } else {
-        m_contentWidth = qMin((610+31*m_imgInfos.count()),(qMax(width()-20,1280)));//songsha
+    }
+    else if (m_imgInfos.size() <= 3 ) {
+        m_contentWidth = 610;
+    }
+    else {
+        m_contentWidth = qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));//songsha
     }
 
     setFixedWidth(m_contentWidth);
@@ -269,8 +273,8 @@ TTBContent::TTBContent(bool inDB,
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
 //    m_imgListView->setFixedSize(QSize(786,60));
-//    m_imgListView->setFixedSize(QSize(128+31*m_imgInfos.count(),60));//songsha
-    m_imgListView->setFixedSize(QSize(qMin((610+31*m_imgInfos.count()),(qMax(width()-20,1280)))-504,60));//songsha
+    m_imgListView->setFixedSize(QSize(114+31*(m_imgInfos.size()-3),60));//songsha
+//    m_imgListView->setFixedSize(QSize(qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-504,60));//songsha
     m_imgListView->hide();
     QPalette palette ;
     palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
@@ -376,15 +380,16 @@ void TTBContent::resizeEvent(QResizeEvent *event)
     m_windowWidth =  this->window()->geometry().width();
     if ( m_imgInfos.size() <= 1 ) {
         m_contentWidth = 310;
-    } else {
-        m_contentWidth = qMin((610+31*m_imgInfos.count()),(qMax(m_windowWidth-20,1280)));//songsha
+    }
+    else if ( m_imgInfos.size() <= 3 ) {
+        m_contentWidth = 610;
+    }
+    else {
+        m_contentWidth = qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));//songsha
     }
 
     setFixedWidth(m_contentWidth);
-    int a = 610+31*m_imgInfos.count();
-    int b = qMax(this->window()->geometry().width()-20,1280);
-    int c = qMin((610+31*m_imgInfos.count()),qMax(m_windowWidth-20,1280));
-    m_imgListView->setFixedSize(QSize(c-504,60));
+    m_imgListView->setFixedSize(QSize(m_contentWidth-504,60));
     m_imgListView->update();
 
     QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
@@ -436,7 +441,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
 
         int t=0;
-        if ( m_imgInfos.size() > 1 ) {
+        if ( m_imgInfos.size() > 3 ) {
             m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
             m_imgList->resize((m_imgInfos.size()+1)*32,60);
 
@@ -505,11 +510,11 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
 //            animation->setKeyValueAt(1,  QPoint(350-((num)*t),0));
-//            animation->setKeyValueAt(1,  QPoint((128+31*m_imgInfos.count()-27)/2-((num)*t),0));//songsha
-            animation->setKeyValueAt(1,  QPoint((qMin((610+31*m_imgInfos.count()),(qMax(width()-20,1280)))-504-52)/2-((num)*t),0));//songsha
+//            animation->setKeyValueAt(1,  QPoint((114+31*m_imgInfos.size()-27)/2-((num)*t),0));//songsha
+            animation->setKeyValueAt(1,  QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));//songsha
 //            animation->setEndValue(QPoint(350-((num)*t),0));
-//            animation->setEndValue(QPoint((128+31*m_imgInfos.count()-27)/2-((num)*t),0));//songsha
-            animation->setEndValue(QPoint((qMin((610+31*m_imgInfos.count()),(qMax(width()-20,1280)))-504-52)/2-((num)*t),0));//songsha
+//            animation->setEndValue(QPoint((114+31*m_imgInfos.size()-27)/2-((num)*t),0));//songsha
+            animation->setEndValue(QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));//songsha
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
@@ -530,20 +535,98 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_imgListView_prespc->show();
             m_imgListView_spc->show();
 
-            if(m_nowIndex == 0)
-            {
+            if(m_nowIndex == 0){
                 m_preButton->setDisabled(true);
             }else {
                 m_preButton->setDisabled(false);
             }
-            if(m_nowIndex == labelList.size()-1)
-            {
+            if(m_nowIndex == labelList.size()-1){
                 m_nextButton->setDisabled(true);
             }else {
                 m_nextButton->setDisabled(false);
             }
 
-        }else {
+        }
+        else if (m_imgInfos.size() > 1) {
+            m_imgList->setFixedSize(114,60);
+            m_imgList->resize(114,60);
+
+            m_imgList->setContentsMargins(0,0,0,0);
+
+            auto num=32;
+
+            int i=0;
+            QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
+
+            for (DBImgInfo info : m_imgInfos) {
+                if(labelList.size()!=m_imgInfos.size()){
+                    char *imageType=getImageType(info.filePath);
+                    ImageItem *imageItem = new ImageItem(i,info.filePath,imageType);
+                    imageItem->setFixedSize(QSize(num,40));
+                    imageItem->resize(QSize(num,40));
+
+                    m_imglayout->addWidget(imageItem);
+                    connect(imageItem,&ImageItem::imageItemclicked,this,[=](int index,int indexNow){
+                        emit imageClicked(index,(index-indexNow));
+                    });
+                }
+                if ( path == info.filePath ) {
+                    t=i;
+                }
+                i++;
+            }
+            labelList = m_imgList->findChildren<ImageItem*>();
+            m_nowIndex = t;
+            for(int j = 0; j < labelList.size(); j++){
+                labelList.at(j)->setFixedSize (QSize(num,40));
+                labelList.at(j)->resize (QSize(num,40));
+                labelList.at(j)->setIndexNow(t);
+            }
+            if(labelList.size()>0){
+                labelList.at(t)->setFixedSize (QSize(58,58));
+                labelList.at(t)->resize (QSize(58,58));
+            }
+
+            m_imgListView->show();
+
+            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
+            animation->setDuration(500);
+            animation->setEasingCurve(QEasingCurve::NCurveTypes);
+            animation->setStartValue(m_imgList->pos());
+            animation->setKeyValueAt(1,  QPoint(31-((num)*t),0));
+            animation->setEndValue(QPoint(31-((num)*t),0));
+            animation->start(QAbstractAnimation::DeleteWhenStopped);
+            connect(animation, &QPropertyAnimation::finished,
+                    animation, &QPropertyAnimation::deleteLater);
+
+            connect(animation, &QPropertyAnimation::finished,
+                    this, [=]{
+                m_imgList->show();
+
+            });
+
+
+            m_imgListView->update();
+            m_imgList->update();
+            m_preButton->show();
+            m_preButton_spc->show();
+            m_nextButton->show();
+            m_nextButton_spc->show();
+            m_imgListView_prespc->show();
+            m_imgListView_spc->show();
+
+            if(m_nowIndex == 0){
+                m_preButton->setDisabled(true);
+            }else {
+                m_preButton->setDisabled(false);
+            }
+            if(m_nowIndex == labelList.size()-1){
+                m_nextButton->setDisabled(true);
+            }else {
+                m_nextButton->setDisabled(false);
+            }
+        }
+        else {
             m_imgList->hide();
             m_imgListView->hide();
             m_imgListView_prespc->hide();

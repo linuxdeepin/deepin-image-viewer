@@ -25,6 +25,7 @@
 
 #include <QTimer>
 #include <DBlurEffectWidget>
+#include <DFontSizeManager>
 
 DWIDGET_USE_NAMESPACE
 
@@ -137,10 +138,9 @@ void ViewPanel::initScaleLabel()
     label->setAlignment(Qt::AlignCenter);
 //    scalePerc->setFixedSize(82, 48);
     scalePerc->setFixedSize(64, 30);
+    scalePerc->adjustSize();
     label->setText("100%");
-    QFont font;
-    font.setPixelSize(14);
-    label->setFont(font);
+    label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
     scalePerc->hide();
 
     QTimer *hideT = new QTimer(this);

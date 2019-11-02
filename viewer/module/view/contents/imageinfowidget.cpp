@@ -32,6 +32,7 @@
 #include <QtDebug>
 #include <DFontSizeManager>
 #include <DApplicationHelper>
+#include <DDialogCloseButton>
 
 namespace {
 
@@ -172,7 +173,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
     title->setPalette(pa);
 
-    DIconButton *m_close = new DIconButton(this);
+    DDialogCloseButton *m_close = new DDialogCloseButton(this);
     m_close->setIcon(QIcon(":/resources/light/images/close_normal .svg"));
     m_close->setIconSize(QSize(36,36));
     m_close->setFlat(true);
