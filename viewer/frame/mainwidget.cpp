@@ -22,7 +22,7 @@
 //#include "module/edit/EditPanel.h"
 #include "module/timeline/timelinepanel.h"
 #include "module/slideshow/slideshowpanel.h"
-#include "module/view/viewpanel.h"
+//#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "widgets/separator.h"
 #include "widgets/processtooltip.h"
@@ -87,7 +87,13 @@ void MainWidget::resizeEvent(QResizeEvent *e)
 //            m_bottomToolbar->setRadius(18);
             if(window()->isFullScreen() || window()->isMaximized()){
 //                m_bottomToolbar->resize(window()->width()-20,m_bottomToolbar->height());
-                m_bottomToolbar->setFixedWidth(width()-20);
+//                m_bottomToolbar->setFixedWidth(width()-20);
+                if ( m_viewPanel->getPicCount() <= 1 ) {
+                    m_bottomToolbar->setFixedWidth(310);
+                } else {
+                    m_bottomToolbar->setFixedWidth(qMin((610+31*m_viewPanel->getPicCount()),qMax(width()-20,1280)));//songsha
+                }
+
             }
             m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     }
@@ -205,7 +211,7 @@ void MainWidget::initPanelStack(bool manager)
         SlideShowPanel *m_slideShowPanel = new SlideShowPanel();
         m_panelStack->addWidget(m_slideShowPanel);
 #endif
-        ViewPanel *m_viewPanel = new ViewPanel();
+        m_viewPanel = new ViewPanel();
         m_panelStack->addWidget(m_viewPanel);
 }
 
@@ -310,18 +316,24 @@ void MainWidget::initBottomToolbar()
     connect(dApp->signalM,&SignalManager::updateBottomToolbar,this,[=](bool wideMode){
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            m_bottomToolbar->setFixedWidth(1280);
-            m_bottomToolbar->setVisible(true);//songsha
+//            m_bottomToolbar->setFixedWidth(1280);
+            m_bottomToolbar->setFixedWidth(qMin(610+31*m_viewPanel->getPicCount(),width()-20));//songsha
+            m_bottomToolbar->setVisible(true);
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(310);
-            m_bottomToolbar->setVisible(false);//songsha
-            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            if(m_viewPanel->getPicCount() == 1){
+                m_bottomToolbar->setVisible(true);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }else {
+                m_bottomToolbar->setVisible(false);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }
         }
         if(window()->isFullScreen() || window()->isMaximized()){
-            m_bottomToolbar->setFixedWidth(window()->width()-20);
+//            m_bottomToolbar->setFixedWidth(window()->width()-20);
         }
         m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     });
@@ -333,25 +345,31 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->setContent(c);
         if (wideMode) {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
-            m_bottomToolbar->setFixedWidth(1280);
+//            m_bottomToolbar->setFixedWidth(1280);
+            m_bottomToolbar->setFixedWidth(qMin(610+31*m_viewPanel->getPicCount(),width()-20));//songsha
             m_bottomToolbar->setVisible(true);
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         }
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(310);
-            m_bottomToolbar->setVisible(false);
-            m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            if(m_viewPanel->getPicCount() == 1){
+                m_bottomToolbar->setVisible(true);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }else {
+                m_bottomToolbar->setVisible(false);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }
         }
 
         if(window()->isFullScreen() || window()->isMaximized()){
-            m_bottomToolbar->setFixedWidth(window()->width()-20);
+//            m_bottomToolbar->setFixedWidth(window()->width()-20);
         }
 //        m_bottomToolbar->setRadius(18);
         m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
-        m_bottomToolbar->setVisible(true);//songsha
+        m_bottomToolbar->setVisible(true);
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
 //        // Make the bottom toolbar always stay at the bottom after windows resize
 //        m_bottomToolbar->move(0, height());

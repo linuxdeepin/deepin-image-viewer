@@ -144,7 +144,7 @@ TTBContent::TTBContent(bool inDB,
     if ( m_imgInfos.size() <= 1 ) {
         m_contentWidth = 310;
     } else {
-        m_contentWidth = 1280;
+        m_contentWidth = qMin((610+31*m_imgInfos.count()),(qMax(width()-20,1280)));//songsha
     }
 
     setFixedWidth(m_contentWidth);
@@ -268,7 +268,9 @@ TTBContent::TTBContent(bool inDB,
     m_imglayout->setMargin(0);
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
-    m_imgListView->setFixedSize(QSize(786,60));
+//    m_imgListView->setFixedSize(QSize(786,60));
+//    m_imgListView->setFixedSize(QSize(128+31*m_imgInfos.count(),60));//songsha
+    m_imgListView->setFixedSize(QSize(qMin((610+31*m_imgInfos.count()),(qMax(width()-20,1280)))-504,60));//songsha
     m_imgListView->hide();
     QPalette palette ;
     palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
@@ -304,10 +306,8 @@ TTBContent::TTBContent(bool inDB,
 void TTBContent::updateFilenameLayout()
 {
     using namespace utils::base;
-    QFont font;
-    font.setPixelSize(12);
-    m_fileNameLabel->setFont(font);
-    QFontMetrics fm(font);
+    m_fileNameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+    QFontMetrics fm(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     QString filename = QFileInfo(m_imagePath).fileName();
     QString name;
 
@@ -374,6 +374,19 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     m_windowWidth =  this->window()->geometry().width();
+    if ( m_imgInfos.size() <= 1 ) {
+        m_contentWidth = 310;
+    } else {
+        m_contentWidth = qMin((610+31*m_imgInfos.count()),(qMax(m_windowWidth-20,1280)));//songsha
+    }
+
+    setFixedWidth(m_contentWidth);
+    int a = 610+31*m_imgInfos.count();
+    int b = qMax(this->window()->geometry().width()-20,1280);
+    int c = qMin((610+31*m_imgInfos.count()),qMax(m_windowWidth-20,1280));
+    m_imgListView->setFixedSize(QSize(c-504,60));
+    m_imgListView->update();
+
     QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
     for(int j = 0; j < labelList.size(); j++){
         labelList.at(j)->setFixedSize (QSize(30,40));
@@ -491,8 +504,12 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setDuration(500);
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
-            animation->setKeyValueAt(1,  QPoint(350-((num)*t),0));
-            animation->setEndValue(QPoint(350-((num)*t),0));
+//            animation->setKeyValueAt(1,  QPoint(350-((num)*t),0));
+//            animation->setKeyValueAt(1,  QPoint((128+31*m_imgInfos.count()-27)/2-((num)*t),0));//songsha
+            animation->setKeyValueAt(1,  QPoint((qMin((610+31*m_imgInfos.count()),(qMax(width()-20,1280)))-504-52)/2-((num)*t),0));//songsha
+//            animation->setEndValue(QPoint(350-((num)*t),0));
+//            animation->setEndValue(QPoint((128+31*m_imgInfos.count()-27)/2-((num)*t),0));//songsha
+            animation->setEndValue(QPoint((qMin((610+31*m_imgInfos.count()),(qMax(width()-20,1280)))-504-52)/2-((num)*t),0));//songsha
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);

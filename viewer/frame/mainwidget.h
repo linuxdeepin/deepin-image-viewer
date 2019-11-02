@@ -23,6 +23,7 @@
 #include "toptoolbar.h"
 #include "controller/signalmanager.h"
 #include "widgets/separator.h"
+#include "module/view/viewpanel.h"
 
 #include <QFrame>
 #include <QStackedWidget>
@@ -65,6 +66,7 @@ private:
     TopToolbar      *m_topToolbar;
     QLabel          *m_topSeparatorLine;
     QLabel          *m_btmSeparatorLine;
+    ViewPanel       *m_viewPanel;
 };
 
 #endif // MAINWIDGET_H
