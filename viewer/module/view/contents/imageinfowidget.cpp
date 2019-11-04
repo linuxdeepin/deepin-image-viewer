@@ -37,7 +37,6 @@
 namespace {
 
 const int TITLE_MAXWIDTH = 72;
-const int INFO_MAXHEITH = 540;
 
 struct MetaData {
     QString key;
