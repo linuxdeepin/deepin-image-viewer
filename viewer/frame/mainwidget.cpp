@@ -83,9 +83,9 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     }
     if (m_bottomToolbar) {
 //        m_bottomToolbar->resize(310, m_bottomToolbar->height());
-        if (m_bottomToolbar->isVisible())
+        if (m_bottomToolbar->isVisible()){
 //            m_bottomToolbar->setRadius(18);
-            if(window()->isFullScreen() || window()->isMaximized()){
+//            if(window()->isFullScreen() || window()->isMaximized()){
 //                m_bottomToolbar->resize(window()->width()-20,m_bottomToolbar->height());
 //                m_bottomToolbar->setFixedWidth(width()-20);
                 if ( m_viewPanel->getPicCount() <= 1 ) {
@@ -95,9 +95,8 @@ void MainWidget::resizeEvent(QResizeEvent *e)
                     m_bottomToolbar->setFixedWidth(610);
                 }
                 else {
-                    m_bottomToolbar->setFixedWidth(qMin((610+31*m_viewPanel->getPicCount()),qMax(width()-20,1280)));//songsha
+                    m_bottomToolbar->setFixedWidth(qMin((610+31*(m_viewPanel->getPicCount()-3)),qMax(width()-20,1280)));
                 }
-
             }
             m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
     }
@@ -324,7 +323,7 @@ void MainWidget::initBottomToolbar()
             if(m_viewPanel->getPicCount()<= 3){
                 m_bottomToolbar->setFixedWidth(610);
             }else {
-                m_bottomToolbar->setFixedWidth(qMin(610+31*m_viewPanel->getPicCount(),width()-20));//songsha
+                m_bottomToolbar->setFixedWidth(qMin(610+31*(m_viewPanel->getPicCount()-3),qMax(width()-20,1280)));
             }
             m_bottomToolbar->setVisible(true);
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
@@ -357,7 +356,7 @@ void MainWidget::initBottomToolbar()
             if(m_viewPanel->getPicCount()<= 3){
                 m_bottomToolbar->setFixedWidth(610);
             }else {
-                m_bottomToolbar->setFixedWidth(qMin(610+31*m_viewPanel->getPicCount(),width()-20));//songsha
+                m_bottomToolbar->setFixedWidth(qMin(610+31*(m_viewPanel->getPicCount()-3),qMax(width()-20,1280)));
             }
             m_bottomToolbar->setVisible(true);
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());

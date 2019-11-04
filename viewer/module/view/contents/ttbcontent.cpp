@@ -148,7 +148,7 @@ TTBContent::TTBContent(bool inDB,
         m_contentWidth = 610;
     }
     else {
-        m_contentWidth = qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));//songsha
+        m_contentWidth = qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));
     }
 
     setFixedWidth(m_contentWidth);
@@ -273,8 +273,14 @@ TTBContent::TTBContent(bool inDB,
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
 //    m_imgListView->setFixedSize(QSize(786,60));
-    m_imgListView->setFixedSize(QSize(114+31*(m_imgInfos.size()-3),60));//songsha
-//    m_imgListView->setFixedSize(QSize(qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-504,60));//songsha
+//    m_imgListView->setFixedSize(QSize(114+31*(m_imgInfos.size()-3),60));
+//    m_imgListView->setFixedSize(QSize(qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-504,60));
+    if (m_imgInfos.size() <= 3 ) {
+       m_imgListView->setFixedSize(QSize(114,60));
+    }
+    else{
+      m_imgListView->setFixedSize(QSize(qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280))-496,60));
+    }
     m_imgListView->hide();
     QPalette palette ;
     palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
@@ -383,14 +389,14 @@ void TTBContent::resizeEvent(QResizeEvent *event)
     }
     else if ( m_imgInfos.size() <= 3 ) {
         m_contentWidth = 610;
+        m_imgListView->setFixedSize(QSize(114,60));
     }
     else {
-        m_contentWidth = qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));//songsha
+        m_contentWidth = qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));
+        m_imgListView->setFixedSize(QSize(qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280))-496,60));
     }
 
     setFixedWidth(m_contentWidth);
-    m_imgListView->setFixedSize(QSize(m_contentWidth-504,60));
-    m_imgListView->update();
 
     QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
     for(int j = 0; j < labelList.size(); j++){
@@ -510,10 +516,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
 //            animation->setKeyValueAt(1,  QPoint(350-((num)*t),0));
-//            animation->setKeyValueAt(1,  QPoint((114+31*m_imgInfos.size()-27)/2-((num)*t),0));//songsha
             animation->setKeyValueAt(1,  QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));//songsha
 //            animation->setEndValue(QPoint(350-((num)*t),0));
-//            animation->setEndValue(QPoint((114+31*m_imgInfos.size()-27)/2-((num)*t),0));//songsha
             animation->setEndValue(QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));//songsha
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
@@ -548,8 +552,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
         }
         else if (m_imgInfos.size() > 1) {
-            m_imgList->setFixedSize(114,60);
-            m_imgList->resize(114,60);
+            m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
+            m_imgList->resize((m_imgInfos.size()+1)*32,60);
 
             m_imgList->setContentsMargins(0,0,0,0);
 
