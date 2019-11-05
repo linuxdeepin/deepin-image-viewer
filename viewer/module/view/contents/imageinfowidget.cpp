@@ -240,7 +240,6 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 
     QVBoxLayout *scrolllayout = new QVBoxLayout;
     scrolllayout->addWidget(m_scrollArea);
-    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(this->layout());
     m_mainLayout->insertLayout(1, scrolllayout, 1);
 
 //    m_basicInfoFrame = createBasicInfoWidget(fileInfo);
@@ -516,7 +515,7 @@ int ImageInfoWidget::contentHeight() const
     int firstExpandHeight = m_expandGroup.size()>0 ? m_expandGroup.first()->getContent()->height() : -1;
     bool atleastOneExpand = false;
     for (const DBaseExpand* expand : m_expandGroup) {
-        expandsHeight += 30 + 10;
+        expandsHeight += 30 + 5;
         if (expand->expand()) {
             expandsHeight += expand->getContent()->height();
             atleastOneExpand = true;
@@ -530,5 +529,5 @@ int ImageInfoWidget::contentHeight() const
 
 //    return (
 //            expandsHeight );
-    return ( expandsHeight + 40 );
+    return ( expandsHeight + 45 );
 }
