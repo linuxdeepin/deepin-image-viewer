@@ -516,9 +516,9 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
 //            animation->setKeyValueAt(1,  QPoint(350-((num)*t),0));
-            animation->setKeyValueAt(1,  QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));//songsha
+            animation->setKeyValueAt(1,  QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));
 //            animation->setEndValue(QPoint(350-((num)*t),0));
-            animation->setEndValue(QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));//songsha
+            animation->setEndValue(QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);

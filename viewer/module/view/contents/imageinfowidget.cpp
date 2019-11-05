@@ -48,8 +48,8 @@ static MetaData MetaDataBasics[] = {
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "拍摄时间")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改时间")},
     {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "图片类型")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "图片大小")},
     {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "图片尺寸")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "图片大小")},
 //    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
 //    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
 //    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
@@ -172,18 +172,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
     title->setPalette(pa);
 
-    DDialogCloseButton *m_close = new DDialogCloseButton(this);
-    m_close->setIcon(QIcon(":/resources/light/images/close_normal .svg"));
-    m_close->setIconSize(QSize(36,36));
-    m_close->setFlat(true);
-    m_close->move(257,7);
-    DPalette palette1 ;
-    palette1.setColor(DPalette::Background, QColor(0,0,0,0));
-    m_close->setPalette(palette1);
 
-    connect(m_close, &DIconButton::clicked, this, [ = ] {
-        emit dApp->signalM->hideExtensionPanel();
-    });
 
 
 //    title->setAlignment(Qt::AlignCenter);
@@ -266,6 +255,20 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 //    m_expandGroup.at(0)->setExpand(true);
 //    m_expandGroup.at(1)->setContent(m_exif_details);
 //    m_expandGroup.at(1)->setExpand(true);
+
+    DDialogCloseButton *m_close = new DDialogCloseButton(this);
+    m_close->setIcon(QIcon(":/resources/light/images/close_normal .svg"));
+    m_close->setIconSize(QSize(36,36));
+    m_close->setFlat(true);
+//    m_close->setAutoFillBackground(true);
+    m_close->move(257,7);
+    DPalette palette1 ;
+    palette1.setColor(DPalette::Background, QColor(0,0,0,1));
+    m_close->setPalette(palette1);
+
+    connect(m_close, &DDialogCloseButton::clicked, this, [ = ] {
+        emit dApp->signalM->hideExtensionPanel();
+    });
 
 }
 
@@ -487,8 +490,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
         rc.setHeight(contentHeight()+10);
         setGeometry(rc);
 
-        if(expand->expand())
-        {
+        if(expand->expand()){
             emit dApp->signalM->ExtensionPanelHeight(contentHeight()+20);
         }
     });
