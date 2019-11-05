@@ -186,15 +186,16 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_exif_details = new QFrame(this);
     m_exif_details->setFixedWidth(280);
     m_exifLayout_base = new QFormLayout();
-//    m_exifLayout_base->setSpacing(3);
-    m_exifLayout_base->setHorizontalSpacing(20);
+    m_exifLayout_base->setVerticalSpacing(7);
+    m_exifLayout_base->setHorizontalSpacing(16);
     m_exifLayout_base->setContentsMargins(10, 1, 7, 10);
     m_exifLayout_base->setLabelAlignment(Qt::AlignLeft);
 //    m_separator = new ViewSeparator();
 //    m_separator->setVisible(false);
     m_exifLayout_details = new QFormLayout();
 //    m_exifLayout_details->setSpacing(3);
-    m_exifLayout_details->setHorizontalSpacing(20);
+    m_exifLayout_details->setVerticalSpacing(7);
+    m_exifLayout_details->setHorizontalSpacing(16);
     m_exifLayout_details->setContentsMargins(10, 1, 7, 10);
     m_exifLayout_details->setLabelAlignment(Qt::AlignLeft);
 
