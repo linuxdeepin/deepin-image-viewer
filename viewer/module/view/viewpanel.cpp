@@ -579,7 +579,7 @@ void ViewPanel::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
-
+    emit dApp->signalM->enterView(true);
     using namespace utils::image;
     QStringList paths;
     for (QUrl url : urls) {
@@ -801,7 +801,7 @@ void ViewPanel::removeCurrentImage()
         m_current = 0;
         emit imageChanged("",m_infos);
         emit dApp->signalM->enterView(false);
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));//songsha
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
     }else {

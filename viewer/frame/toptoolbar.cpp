@@ -192,13 +192,13 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 //    QPen bPen(m_bottomBorderColor, borderHeight);
 //    p.setPen(bPen);
 //    p.drawPath(bPath);
-    QPixmap pixmap(":/resources/common/titlebar.png");
+    QPixmap pixmap(":/resources/common/ttb1.svg");
     const QPalette pal = QGuiApplication::palette();//this->palette();
-    QBrush bgColor = QBrush(pixmap.scaled(size().width(),50));
+    QBrush bgColor = QBrush(pixmap.scaled(size().width(),60));
     QRectF bgRect;
     bgRect.setSize(size());
     QPainterPath pp;
-    pp.addRoundedRect(QRectF(bgRect.x(),bgRect.y(),bgRect.width(),50), 0, 0);
+    pp.addRoundedRect(QRectF(bgRect.x(),bgRect.y(),bgRect.width(),60), 0, 0);
     p.fillPath(pp, bgColor);
 }
 
@@ -369,7 +369,6 @@ void TopToolbar::initMenu()
     m_menu = new DMenu(this);
 //    m_menu->setStyle(QStyleFactory::create("dlight"));
 
-
 #ifndef LITE_DIV
     if (m_manager)
     {
@@ -393,16 +392,6 @@ void TopToolbar::initMenu()
 #endif
 
     m_menu->addSeparator();
-//    qApp->setProductIcon(QIcon(":/images/logo/resources/images/logo/deepin-image-viewer.svg"));
-#ifdef LITE_DIV
-//    qApp->setApplicationDescription(tr("Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance."));
-#else
-//    qApp->setApplicationDescription(QString("%1\n%2\n").arg(tr("Deepin Image Viewer is a fashion "
-//              "& smooth image manager.")).arg(tr("It is featured with image management, image viewing "
-//              "and basic image editing.")));
-#endif
-//    qApp->setApplicationAcknowledgementPage("https://www.deepin.org/"
-//                                            "acknowledgments/deepin-image-viewer/");
 
 //    if (utils::base::isCommandExist("dman")) {
 //        QAction *acH = m_menu->addAction(tr("Help"));
