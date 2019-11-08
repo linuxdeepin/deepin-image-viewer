@@ -45,11 +45,11 @@ struct MetaData {
 
 static MetaData MetaDataBasics[] = {
     {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "图片名称")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "图片类型")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "图片大小")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "图片尺寸")},
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "拍摄时间")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "修改时间")},
-    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "图片类型")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "图片尺寸")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "图片大小")},
 //    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
 //    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
 //    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
@@ -378,7 +378,7 @@ void ImageInfoWidget::updateInfo()
     using namespace utils::base;
     auto mds = getAllMetaData(m_path);
     // Minus layout margins
-    m_maxFieldWidth = width() - m_maxTitleWidth - (10 + 7) * 2;
+    m_maxFieldWidth = width() - m_maxTitleWidth - 20*2 -27;
 
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
@@ -401,7 +401,6 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         m_isBaseInfo = true;
 
         SimpleFormField *field = new SimpleFormField;
-
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
@@ -491,7 +490,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
         setGeometry(rc);
 
         if(expand->expand()){
-            emit dApp->signalM->ExtensionPanelHeight(contentHeight()+20);
+            emit dApp->signalM->extensionPanelHeight(contentHeight()+20);
         }
     });
 }
@@ -528,7 +527,5 @@ int ImageInfoWidget::contentHeight() const
 //        expandsHeight += firstExpandHeight;
     }
 
-//    return (
-//            expandsHeight );
     return ( expandsHeight + 45 );
 }

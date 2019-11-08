@@ -111,7 +111,7 @@ ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
 
         if(dApp->m_imagemap.contains(path))
         {
-            _pixmap = dApp->m_imagemap.value(path).scaled(60, 50);
+            _pixmap = dApp->m_imagemap.value(path);
             m_spinner->hide();
             m_spinner->stop();
         }
@@ -125,7 +125,7 @@ ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
         connect(dApp, &Application::sigFinishLoad,this, [=]{
             if(dApp->m_imagemap.contains(_path))
             {
-                _pixmap = dApp->m_imagemap.value(_path).scaled(60, 50);
+                _pixmap = dApp->m_imagemap.value(_path);
                 m_spinner->hide();
                 m_spinner->stop();
                 update();
@@ -492,6 +492,9 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             }
             labelList = m_imgList->findChildren<ImageItem*>();
             m_nowIndex = t;
+
+            labelList.at(t)->updatePic(dApp->m_imagemap.value(path));
+
             for(int j = 0; j < labelList.size(); j++){
                 labelList.at(j)->setFixedSize (QSize(num,40));
                 labelList.at(j)->resize (QSize(num,40));
@@ -667,7 +670,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
     }
     emit dApp->signalM->updateFileName(fileName);
 //    updateFilenameLayout();
-    updateCollectButton();
+//    updateCollectButton();
 }
 
 void TTBContent::updateCollectButton()

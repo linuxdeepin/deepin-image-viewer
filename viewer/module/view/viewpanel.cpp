@@ -39,7 +39,6 @@
 #include <QFileSystemWatcher>
 #include <QHBoxLayout>
 #include <QKeySequence>
-#include <QMenu>
 #include <QPixmapCache>
 #include <QProcess>
 #include <QResizeEvent>
@@ -57,7 +56,6 @@ using namespace Dtk::Widget;
 namespace
 {
 
-const int TOP_TOOLBAR_HEIGHT = 39;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 //const QSize ICON_SIZE = QSize(48, 40);
 
@@ -194,6 +192,8 @@ void ViewPanel::initConnect()
 
         QFileInfo firstFileInfo(vinfo.path);
         dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
+
+        emit dApp->signalM->enterView(true);
 
         onViewImage(vinfo);
     });
@@ -699,7 +699,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
     if(pathlist.count()>0)
     {
-        emit dApp->signalM->Sendpathlist(pathlist);
+        emit dApp->signalM->sendPathlist(pathlist);
     }
 
     emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
@@ -732,8 +732,9 @@ bool ViewPanel::showPrevious()
     }
 
     if (m_current <= 0) {
-        m_current = m_infos.size()-1;
-    }else {
+//        m_current = m_infos.size()-1;
+    }
+    else {
         --m_current;
     }
 
@@ -751,8 +752,8 @@ bool ViewPanel::showNext()
         return false;
     }
 
-    if (m_current >= m_infos.size()-1) {
-        m_current = 0;
+    if (m_current == m_infos.size()-1) {
+//        m_current = 0;
     }else{
         ++m_current;
     }
@@ -799,6 +800,8 @@ void ViewPanel::removeCurrentImage()
         qDebug() << "No images to show!";
         m_current = 0;
         emit imageChanged("",m_infos);
+        emit dApp->signalM->enterView(false);
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));//songsha
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
     }else {
@@ -869,6 +872,7 @@ void ViewPanel::initStack()
     // Empty frame
     m_emptyWidget = new ThumbnailWidget(":/resources/dark/qss/thumbnailwidget.qss",
                                         ":/resources/light/qss/thumbnailwidget.qss");
+    emit dApp->signalM->enterView(false);
 
     m_stack->addWidget(m_viewB);
     m_stack->addWidget(m_emptyWidget);
@@ -907,6 +911,8 @@ void ViewPanel::rotateImage(bool clockWise)
 
     m_viewB->autoFit();
     m_info->updateInfo();
+
+    dApp->m_imageloader->updateImageLoader(QStringList(m_infos.at(m_current).filePath));
 
     emit imageChanged(m_infos.at(m_current).filePath,m_infos);
 }

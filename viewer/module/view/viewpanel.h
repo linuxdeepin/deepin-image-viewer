@@ -27,6 +27,7 @@
 #include <QFileInfo>
 #include <QJsonObject>
 #include <QDirIterator>
+#include <DMenu>
 
 DWIDGET_USE_NAMESPACE
 
@@ -37,7 +38,6 @@ class ImageWidget;
 class NavigationWidget;
 class QFileSystemWatcher;
 class QLabel;
-class QMenu;
 class QStackedWidget;
 class SlideEffectPlayer;
 
@@ -94,7 +94,7 @@ private:
     // Menu control
     void appendAction(int id, const QString &text, const QString &shortcut="");
 #ifndef LITE_DIV
-    QMenu* createAlbumMenu();
+    DMenu* createAlbumMenu();
 #endif
     void onMenuItemClicked(QAction *action);
     void updateMenuContent();
@@ -136,7 +136,7 @@ private:
     ImageView *m_viewB;
     ImageInfoWidget *m_info;
     ThumbnailWidget* m_emptyWidget=nullptr;
-    QMenu *m_menu;
+    DMenu *m_menu;
     QStackedWidget *m_stack;
     LockWidget* m_lockWidget;
 

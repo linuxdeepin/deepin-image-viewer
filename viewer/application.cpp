@@ -142,9 +142,11 @@ Application::Application(int& argc, char** argv)
     initI18n();
     setOrganizationName("deepin");
     setApplicationName("deepin-image-viewer");
-    setApplicationDisplayName(tr("Deepin Image Viewer"));
+    setApplicationDisplayName(tr("看图"));
     setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
-    setApplicationDescription(QString("%1\n%2\n").arg(tr("深度看图是一款外观时尚,性能流畅的图片查看工具。")).arg(tr("深度看图是一款外观时尚,性能流畅的图片查看工具。")));
+//    setApplicationDescription(QString("%1\n%2\n").arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")).arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")));
+//    setApplicationAcknowledgementPage("https://www.deepin.org/" "acknowledgments/deepin-image-viewer/");
+    setApplicationDescription(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。"));
 
 //    //save theme
 //    DApplicationSettings saveTheme;
@@ -157,7 +159,8 @@ Application::Application(int& argc, char** argv)
     initChildren();
 
 
-    connect(dApp->signalM, &SignalManager::Sendpathlist, this, [=](QStringList list){
+
+    connect(dApp->signalM, &SignalManager::sendPathlist, this, [=](QStringList list){
         m_imageloader= new ImageLoader(this, list);
         m_LoadThread = new QThread();
 

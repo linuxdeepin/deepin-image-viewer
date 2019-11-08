@@ -40,7 +40,7 @@ using namespace Dtk::Widget;
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 39;
+const int TOP_TOOLBAR_HEIGHT = 50;
 const int BOTTOM_TOOLBAR_HEIGHT = 70;
 const int EXTENSION_PANEL_WIDTH = 300;
 
@@ -77,6 +77,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
         m_topSeparatorLine->setVisible(true);
 //        emit m_topToolbar->move(0, 0);
+        emit dApp->signalM->resizeFileName();
         if (e->oldSize()  != e->size()) {
             emit m_topToolbar->updateMaxBtn();
         }
@@ -97,8 +98,9 @@ void MainWidget::resizeEvent(QResizeEvent *e)
                 else {
                     m_bottomToolbar->setFixedWidth(qMin((610+31*(m_viewPanel->getPicCount()-3)),qMax(width()-20,1280)));
                 }
+                m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
             }
-            m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10);
+
     }
 #ifndef LITE_DIV
     if (m_extensionPanel) {
@@ -228,6 +230,18 @@ void MainWidget::initTopToolbar()
     m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
 //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
+    m_topToolbar->hide();
+    connect(dApp->signalM, &SignalManager::enterView,
+            this, [=](bool a) {
+        if(a){
+            m_topToolbar->show();
+        }
+        else{
+            m_topToolbar->hide();
+        }
+    });
+
+
 
     m_topSeparatorLine = new QLabel(this);
 //    m_topSeparatorLine->setObjectName("TopSeperatorLine");

@@ -62,6 +62,10 @@ public:
     void setPic(QImage image){
       _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
     };
+    void updatePic(QPixmap pixmap){
+        _pixmap = pixmap;
+        update();
+    };
 signals:
     void imageItemclicked(int index,int indexNow);
 protected:
@@ -85,6 +89,15 @@ protected:
             painter.setClipPath(backgroundBp);
 
             painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
+
+            if(_pixmap.width() > _pixmap.height())
+            {
+                _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height())/2, 0, _pixmap.height(), _pixmap.height());
+            }
+            else if(_pixmap.width() < _pixmap.height())
+            {
+                _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width())/2, _pixmap.width(), _pixmap.width());
+            }
 
 //            QPixmap selectedPixmap;
 //            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));

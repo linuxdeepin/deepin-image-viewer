@@ -98,8 +98,9 @@ void ExtensionPanel::setContent(QWidget *content)
 
 void ExtensionPanel::updateRectWithContent()
 {
-    connect(dApp->signalM, &SignalManager::ExtensionPanelHeight, this, [=](int height){
-        setFixedHeight(qMin(height,540));
+    connect(dApp->signalM, &SignalManager::extensionPanelHeight, this, [=](int height,bool immediately){
+        if(!immediately)
+            setFixedHeight(qMin(height,540));
     });
 
     if (m_content) {

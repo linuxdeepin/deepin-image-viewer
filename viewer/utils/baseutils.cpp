@@ -308,9 +308,9 @@ QString wrapStr(const QString &str, const QFont &font, int maxWidth)
     QString ns;
     QString ss;
     for (int i = 0; i < str.length(); i ++) {
-        if (str.at(i).isSpace()|| fm.boundingRect(ss).width() > maxWidth) {
+        if (/*str.at(i).isSpace()||*/ fm.boundingRect(ss).width() > maxWidth) {
             ss = QString();
-            ns += " ";
+            ns += "\n";
         }
         ns += str.at(i);
         ss += str.at(i);

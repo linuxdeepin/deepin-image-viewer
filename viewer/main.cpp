@@ -34,6 +34,8 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_EnableHighDpiScaling);
     a.setAttribute(Qt::AA_ForceRasterWidgets);
 
+    DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();

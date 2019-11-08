@@ -38,7 +38,6 @@
 #include <QProcess>
 #include <QResizeEvent>
 #include <QShortcut>
-#include <QMenu>
 #include <QStyleFactory>
 #include <QImageReader>
 #include <QLabel>
@@ -48,7 +47,7 @@ DWIDGET_USE_NAMESPACE
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 39;
+const int TOP_TOOLBAR_HEIGHT = 50;
 const int ICON_MARGIN = 6;
 
 //const QColor DARK_COVERCOLOR = QColor(0, 0, 0, 217);
@@ -267,14 +266,56 @@ void TopToolbar::initWidgets()
 //    initMiddleContent();
 //    initRightContent();
     m_titlebar = new DTitlebar(this);
-    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |
-                               Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
-    m_titlebar->setBackgroundTransparent(true);
 //    m_titlebar->setIcon(QIcon(":/images/logo/resources/images/logo/deepin-image-viewer.svg"));
     m_titlebar->setIcon( QIcon::fromTheme("deepin-image-viewer"));
     QPalette pa;
     pa.setColor(QPalette::WindowText,QColor(255,255,255,255));
+//    pa.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                     this, [=](){
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if(!m_viewChange)
+        {
+          QPalette pa1;
+          if(themeType == DGuiApplicationHelper::LightType){
+              pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
+          }
+          else if (themeType == DGuiApplicationHelper::DarkType) {
+              pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+          }
+          else {
+              pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+          }
+          m_titlebar->setPalette(pa1);
+        }
+    });
+    connect(dApp->signalM, &SignalManager::enterView,
+            this, [=](bool a) {
+        m_viewChange = a;
+        if(a){
+            QPalette pa1;
+            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+            m_titlebar->setPalette(pa1);
+            m_titlebar->setBackgroundTransparent(true);
+        }
+        else {
+            m_titlebar->setBackgroundTransparent(false);
+            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+            QPalette pa1;
+            if(themeType == DGuiApplicationHelper::LightType){
+                pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
+            }
+            else if (themeType == DGuiApplicationHelper::DarkType) {
+                pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+            }
+            else {
+                pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+            }
+            m_titlebar->setPalette(pa1);
+        }
+    });
 //    pa.setColor(QPalette::WindowText,Qt::red);
     m_titlebar->setPalette(pa);
     m_titlebar->setTitle("");
@@ -303,14 +344,31 @@ void TopToolbar::initWidgets()
 //            filename = QFileInfo(vinfo.path).fileName();
 //        }
 //        m_titlebar->setTitle(filename);
-        m_titletxt->setText(filename);
+        QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
+        m_titletxt->setText(a);
+        connect(dApp->signalM, &SignalManager::resizeFileName,
+                this, [ = ](){
+            QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
+            m_titletxt->setText(b);
+        });
     });
+}
+
+QString TopToolbar::geteElidedText(QFont font, QString str, int MaxWidth)
+{
+    QFontMetrics fontWidth(font);
+    int width = fontWidth.width(str);
+    if(width>=MaxWidth){
+        str = fontWidth.elidedText(str,Qt::ElideRight,MaxWidth);
+    }
+    return str;
 }
 
 void TopToolbar::initMenu()
 {
-    m_menu = new QMenu(this);
+    m_menu = new DMenu(this);
 //    m_menu->setStyle(QStyleFactory::create("dlight"));
+
 
 #ifndef LITE_DIV
     if (m_manager)
@@ -335,16 +393,16 @@ void TopToolbar::initMenu()
 #endif
 
     m_menu->addSeparator();
-    qApp->setProductIcon(QIcon(":/images/logo/resources/images/logo/deepin-image-viewer.svg"));
+//    qApp->setProductIcon(QIcon(":/images/logo/resources/images/logo/deepin-image-viewer.svg"));
 #ifdef LITE_DIV
-    qApp->setApplicationDescription(tr("Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+//    qApp->setApplicationDescription(tr("Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance."));
 #else
-    qApp->setApplicationDescription(QString("%1\n%2\n").arg(tr("Deepin Image Viewer is a fashion "
-              "& smooth image manager.")).arg(tr("It is featured with image management, image viewing "
-              "and basic image editing.")));
+//    qApp->setApplicationDescription(QString("%1\n%2\n").arg(tr("Deepin Image Viewer is a fashion "
+//              "& smooth image manager.")).arg(tr("It is featured with image management, image viewing "
+//              "and basic image editing.")));
 #endif
-    qApp->setApplicationAcknowledgementPage("https://www.deepin.org/"
-                                            "acknowledgments/deepin-image-viewer/");
+//    qApp->setApplicationAcknowledgementPage("https://www.deepin.org/"
+//                                            "acknowledgments/deepin-image-viewer/");
 
 //    if (utils::base::isCommandExist("dman")) {
 //        QAction *acH = m_menu->addAction(tr("Help"));

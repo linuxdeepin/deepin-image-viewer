@@ -61,7 +61,28 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
          setCentralWidget(m_mainWidget);
     });
 
-    if (titlebar()) titlebar()->setFixedHeight(0);
+    if (titlebar()) {
+        titlebar()->setFixedHeight(50);
+        titlebar()->setTitle("");
+        titlebar()->setIcon( QIcon::fromTheme("deepin-image-viewer"));
+        setTitlebarShadowEnabled(true);
+        connect(dApp->signalM, &SignalManager::enterView,
+                this, [=](bool a) {
+            if(a){
+                titlebar()->setFixedHeight(0);
+                titlebar()->setTitle("");
+                QIcon empty;
+                titlebar()->setIcon(empty);
+                setTitlebarShadowEnabled(false);
+            }
+            else{
+                titlebar()->setFixedHeight(50);
+                titlebar()->setTitle("");
+                titlebar()->setIcon( QIcon::fromTheme("deepin-image-viewer"));
+                setTitlebarShadowEnabled(true);
+            }
+        });
+    }
     moveFirstWindow();
 
 #ifndef LITE_DIV
