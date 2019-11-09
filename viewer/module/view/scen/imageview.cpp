@@ -56,7 +56,7 @@ const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
-const QSize SPINNER_SIZE = QSize(32, 32);
+const QSize SPINNER_SIZE = QSize(40, 40);
 
 QVariantList cachePixmap(const QString &path)
 {
@@ -212,7 +212,7 @@ void ImageView::setImage(const QString &path)
 
                 auto spinner = new DSpinner;
                 spinner->setFixedSize(SPINNER_SIZE);
-                spinner->setBackgroundColor(Qt::transparent);
+//                spinner->setBackgroundColor(Qt::transparent);
                 spinner->start();
                 QWidget *w = new QWidget();
                 w->setFixedSize(SPINNER_SIZE);

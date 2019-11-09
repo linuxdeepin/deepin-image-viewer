@@ -113,7 +113,7 @@ void ViewPanel::initScaleLabel()
 {
     using namespace utils::base;
     DAnchors<DBlurEffectWidget> scalePerc = new DBlurEffectWidget(this);
-    scalePerc->setObjectName("ScaleLabel");
+//    scalePerc->setObjectName("ScaleLabel");
 //    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
 //        scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
 //    } else {
@@ -124,8 +124,8 @@ void ViewPanel::initScaleLabel()
 //    color: rgb(48, 48, 48);
 //    padding: 0px 0px 10px 0px;
 //    font-size: 14px;
-    scalePerc->setBlurRectYRadius(4);
-    scalePerc->setBlurRectXRadius(4);
+    scalePerc->setBlurRectYRadius(8);
+    scalePerc->setBlurRectXRadius(8);
     scalePerc->setMaskAlpha(102);
     QHBoxLayout *layout = new QHBoxLayout();
     scalePerc->setLayout(layout);
