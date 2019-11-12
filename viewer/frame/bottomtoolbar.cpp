@@ -20,10 +20,13 @@
 namespace {
 const QColor DARK_COVERCOLOR = QColor(26, 26, 26, 204);
 const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
+const int BOTTOM_TOOLBAR_HEIGHT = 70;
+const int BOTTOM_TOOLBAR_WIDTH_1 = 310;
+const int BOTTOM_TOOLBAR_WIDTH_2 = 610;
 }
 
 BottomToolbar::BottomToolbar(QWidget *parent)
-    : DBlurEffectWidget(parent)
+    : DFloatingWidget(parent)
 {
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
@@ -31,9 +34,12 @@ BottomToolbar::BottomToolbar(QWidget *parent)
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setSpacing(0);
 //    setRadius(18);
-    setBlurRectYRadius(18);
-    setBlurRectXRadius(18);
-    setMaskAlpha(102);
+//    setBlurRectYRadius(18);
+//    setBlurRectXRadius(18);
+//    setMaskAlpha(102);
+    setBlurBackgroundEnabled(true);
+    setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
+    setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
 
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
 //            &BottomToolbar::onThemeChanged);

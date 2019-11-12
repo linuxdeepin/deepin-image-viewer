@@ -160,11 +160,11 @@ bool CommandLine::processOption()
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
                      [] (DGuiApplicationHelper::ColorType type) {
-        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
-            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-        } else {
-            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-        }
+//        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
+//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+//        } else {
+//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+//        }
     });
 
     QStringList names = m_cmdParser.optionNames();

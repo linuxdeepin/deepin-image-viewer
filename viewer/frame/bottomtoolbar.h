@@ -23,9 +23,11 @@
 
 #include <QHBoxLayout>
 #include <DWidget>
+#include <DFloatingWidget>
+#include "controller/signalmanager.h"
 
 
-class BottomToolbar : public DBlurEffectWidget
+class BottomToolbar : public DFloatingWidget
 {
     Q_OBJECT
 public:
