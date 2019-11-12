@@ -414,7 +414,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa2= DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTips));
+        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
 
         m_exifLayout_base->addRow(title, field);
@@ -451,7 +451,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa2= DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTips));
+        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
 
         m_exifLayout_details->addRow(title, field);
