@@ -12,7 +12,6 @@
         <file>resources/dark/images/importtip/close_press.png</file>
         <file>resources/dark/images/item_selected.png</file>
         <file>resources/common/about_logo.png</file>
-        <file>resources/common/ttb1.svg</file>
         <file>resources/common/ttb60.svg</file>
     </qresource>
 </RCC>

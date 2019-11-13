@@ -46,6 +46,11 @@ const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
 const int LEFT_SPACE = 20;
+const QString LOCMAP_SELECTED_DARK = ":/resources/dark/images/58 drak.svg";
+const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-dark.svg";
+const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
+const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
+
 
 const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
 const unsigned int IMAGE_TYPE_JPG1 = 0xFFD8FFE0;
@@ -99,21 +104,18 @@ char* getImageType(QString filepath){
 ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
         _index = index;
         _path = path;
-//        QImage image(path,imageType);
-//        _pixmap = QPixmap::fromImage(image.scaled(60,50));
-//        _pixmap = dApp->m_imagemap.value(path).scaled(60, 50);
 
-        m_spinner = new DSpinner(this);
-        m_spinner->setFixedSize(20, 20);
-        m_spinner->move(7, 12);
-        m_spinner->start();
-        m_spinner->show();
+//        m_spinner = new DSpinner(this);
+//        m_spinner->setFixedSize(20, 20);
+//        m_spinner->move(7, 12);
+//        m_spinner->start();
+//        m_spinner->show();
 
         if(dApp->m_imagemap.contains(path))
         {
             _pixmap = dApp->m_imagemap.value(path);
-            m_spinner->hide();
-            m_spinner->stop();
+//            m_spinner->hide();
+//            m_spinner->stop();
         }
 //        QMap<QString, QPixmap>::iterator iter = dApp->m_imagemap.begin();
 //        while (iter != dApp->m_imagemap.end())
@@ -126,12 +128,105 @@ ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
             if(dApp->m_imagemap.contains(_path))
             {
                 _pixmap = dApp->m_imagemap.value(_path);
-                m_spinner->hide();
-                m_spinner->stop();
+//                m_spinner->hide();
+//                m_spinner->stop();
                 update();
             }
         });
     };
+
+void ImageItem::paintEvent(QPaintEvent *event){
+    QPainter painter(this);
+
+    painter.setRenderHints(QPainter::HighQualityAntialiasing |
+                            QPainter::SmoothPixmapTransform |
+                            QPainter::Antialiasing);
+
+    QRect backgroundRect = rect();
+    QRect pixmapRect;
+    if (_index == _indexNow)
+    {
+        QPainterPath backgroundBp;
+        backgroundBp.addRoundedRect(backgroundRect, 8, 8);
+        painter.setClipPath(backgroundBp);
+        painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
+
+        if(_pixmap.width() > _pixmap.height())
+        {
+            _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height())/2, 0, _pixmap.height(), _pixmap.height());
+        }
+        else if(_pixmap.width() < _pixmap.height())
+        {
+            _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width())/2, _pixmap.width(), _pixmap.width());
+        }
+
+        pixmapRect.setX(backgroundRect.x()+4);
+        pixmapRect.setY(backgroundRect.y()+4);
+        pixmapRect.setWidth(backgroundRect.width()-8);
+        pixmapRect.setHeight(backgroundRect.height()-8);
+
+        m_pixmapstring = "";
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+          m_pixmapstring = LOCMAP_SELECTED_DARK;
+        }
+        else {
+          m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+        }
+        QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                         this, [=](){
+            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+            if (themeType == DGuiApplicationHelper::DarkType) {
+              m_pixmapstring = LOCMAP_SELECTED_DARK;
+            }
+            else {
+              m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+            }
+        });
+        QPixmap pixmap(m_pixmapstring);
+        QBrush bgColor = QBrush(pixmap.scaled(backgroundRect.width(),backgroundRect.height()));
+        QPainterPath bg;
+        bg.addRoundedRect(pixmapRect, 4, 4);
+        painter.fillPath(bg, bgColor);
+    }
+    else {
+        pixmapRect.setX(backgroundRect.x()+1);
+        pixmapRect.setY(backgroundRect.y()+0);
+        pixmapRect.setWidth(backgroundRect.width()-2);
+        pixmapRect.setHeight(backgroundRect.height()-0);
+
+        m_pixmapstring = "";
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+          m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
+        }
+        else {
+          m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
+        }
+        QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                         this, [=](){
+            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+            if (themeType == DGuiApplicationHelper::DarkType) {
+              m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
+            }
+            else {
+              m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
+            }
+        });
+        QPixmap pixmap(m_pixmapstring);
+        QBrush bgColor = QBrush(pixmap.scaled(backgroundRect.width(),backgroundRect.height()));
+        QPainterPath bg;
+        bg.addRoundedRect(pixmapRect, 4, 4);
+        painter.fillPath(bg, bgColor);
+    }
+
+    QPainterPath bp1;
+    bp1.addRoundedRect(pixmapRect, 4, 4);
+    painter.setClipPath(bp1);
+
+    painter.drawPixmap(pixmapRect, _pixmap);
+
+};
 TTBContent::TTBContent(bool inDB,
                        DBImgInfoList m_infos ,
                        QWidget *parent) : QLabel(parent)

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="40px" viewBox="0 0 30 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>imagewithbg-dark</title>
+    <desc>Created with Sketch.</desc>
+    <g id="深" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="看图3-dark备份" transform="translate(-730.000000, -858.000000)">
+            <g id="编组-2" transform="translate(320.000000, 843.000000)">
+                <g transform="translate(411.000000, 16.000000)" id="imagewithbg-dark">
+                    <g>
+                        <rect id="Rectangle-90备份-2" stroke-opacity="0.4" stroke="#000000" fill-opacity="0.3" fill="#000000" x="-0.5" y="-0.5" width="29" height="39" rx="4"></rect>
+                        <path d="M7.5,13 C6.8055,13 6.21533333,13.1666667 5.72916667,13.6666667 C5.243,14.1666667 5,14.6666667 5,15.5 C5,16.1666667 5.243,16.6666667 5.72916667,17.1666667 C6.21533333,17.6666667 6.8055,18 7.5,18 C8.1945,18 8.78466667,17.6666667 9.27083333,17.1666667 C9.757,16.6666667 10,16.1666667 10,15.5 C10,14.6666667 9.757,14.1666667 9.27083333,13.6666667 C8.78466667,13.1666667 8.1945,13 7.5,13 Z M16.625,16 L10.625,21.8823529 L8.75,20.1176471 L5,23.7941176 L5,26 L23,26 L23,23.0588235 L16.625,16 Z" id="image-dark" fill-opacity="0.25" fill="#FFFFFF" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -38,6 +38,7 @@
 #include <QHBoxLayout>
 #include <DIconButton>
 #include <DBlurEffectWidget>
+#include <DGuiApplicationHelper>
 DWIDGET_USE_NAMESPACE
 
 
@@ -54,13 +55,12 @@ public:
     void setIndexNow(int i){
         _indexNow = i;
 
-        if (_index == _indexNow)
-        {
-            m_spinner->move(21, 21);
+        if (_index == _indexNow){
+//            m_spinner->move(21, 21);
         }
     };
     void setPic(QImage image){
-      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
+//      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
     };
     void updatePic(QPixmap pixmap){
         _pixmap = pixmap;
@@ -72,63 +72,7 @@ protected:
     void mousePressEvent(QMouseEvent *ev){
         emit imageItemclicked(_index,_indexNow);
     }
-    void paintEvent(QPaintEvent *event){
-        QPainter painter(this);
-//        painter.drawPixmap(rect(),QPixmap(_path).scaled(60,50));
-
-        painter.setRenderHints(QPainter::HighQualityAntialiasing |
-                                QPainter::SmoothPixmapTransform |
-                                QPainter::Antialiasing);
-
-        QRect backgroundRect = rect();
-        QRect pixmapRect;
-        if (_index == _indexNow)
-        {
-            QPainterPath backgroundBp;
-            backgroundBp.addRoundedRect(backgroundRect, 8, 8);
-            painter.setClipPath(backgroundBp);
-
-            painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
-
-            if(_pixmap.width() > _pixmap.height())
-            {
-                _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height())/2, 0, _pixmap.height(), _pixmap.height());
-            }
-            else if(_pixmap.width() < _pixmap.height())
-            {
-                _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width())/2, _pixmap.width(), _pixmap.width());
-            }
-
-//            QPixmap selectedPixmap;
-//            selectedPixmap = utils::base::renderSVG(":/resources/images/other/photo_checked.svg", QSize(data.width, data.height));
-
-//            painter->drawPixmap(backgroundRect, selectedPixmap);
-            pixmapRect.setX(backgroundRect.x()+4);
-            pixmapRect.setY(backgroundRect.y()+4);
-            pixmapRect.setWidth(backgroundRect.width()-8);
-            pixmapRect.setHeight(backgroundRect.height()-8);
-        }else {
-            pixmapRect.setX(backgroundRect.x()+1);
-            pixmapRect.setY(backgroundRect.y()+0);
-            pixmapRect.setWidth(backgroundRect.width()-2);
-            pixmapRect.setHeight(backgroundRect.height()-0);
-        }
-
-        QPainterPath bg_white;
-        bg_white.addRoundedRect(pixmapRect, 4, 4);
-        painter.setClipPath(bg_white);
-        painter.fillRect(pixmapRect, QBrush(QColor("#FFFFFF")));
-
-        QPainterPath bp1;
-        bp1.addRoundedRect(pixmapRect, 4, 4);
-        painter.setClipPath(bp1);
-
-//        QPixmap pixmapItem;
-//        pixmapItem.load(_path);
-
-        painter.drawPixmap(pixmapRect, _pixmap);
-
-    };
+    void paintEvent(QPaintEvent *event);
 private:
     int _index;
     int _indexNow = -1;
@@ -136,6 +80,7 @@ private:
     QString _path = NULL;
     QPixmap _pixmap;
     DSpinner* m_spinner;
+    QString m_pixmapstring;
 
 };
 class TTBContent : public QLabel
