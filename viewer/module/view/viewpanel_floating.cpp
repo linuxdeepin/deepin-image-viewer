@@ -26,6 +26,7 @@
 #include <QTimer>
 #include <DBlurEffectWidget>
 #include <DFontSizeManager>
+#include <DFloatingWidget>
 
 DWIDGET_USE_NAMESPACE
 
@@ -112,7 +113,8 @@ void ViewPanel::initSwitchButtons()
 void ViewPanel::initScaleLabel()
 {
     using namespace utils::base;
-    DAnchors<DBlurEffectWidget> scalePerc = new DBlurEffectWidget(this);
+    DAnchors<DFloatingWidget> scalePerc = new DFloatingWidget(this);
+    scalePerc->setBlurBackgroundEnabled(true);
 //    scalePerc->setObjectName("ScaleLabel");
 //    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
 //        scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
@@ -124,9 +126,9 @@ void ViewPanel::initScaleLabel()
 //    color: rgb(48, 48, 48);
 //    padding: 0px 0px 10px 0px;
 //    font-size: 14px;
-    scalePerc->setBlurRectYRadius(8);
-    scalePerc->setBlurRectXRadius(8);
-    scalePerc->setMaskAlpha(102);
+//    scalePerc->setBlurRectYRadius(18);
+//    scalePerc->setBlurRectXRadius(18);
+//    scalePerc->setMaskAlpha(102);
     QHBoxLayout *layout = new QHBoxLayout();
     scalePerc->setLayout(layout);
     QLabel *label = new QLabel();
@@ -137,7 +139,8 @@ void ViewPanel::initScaleLabel()
     scalePerc.setBottomMargin(75+14);
     label->setAlignment(Qt::AlignCenter);
 //    scalePerc->setFixedSize(82, 48);
-    scalePerc->setFixedSize(64, 30);
+    scalePerc->setFixedWidth(90+10);
+    scalePerc->setFixedHeight(40+10);
     scalePerc->adjustSize();
     label->setText("100%");
     label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));

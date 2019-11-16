@@ -369,6 +369,11 @@ void ViewPanel::initShortcut()
     connect(sc, &QShortcut::activated, this, [=] {
         m_viewB->setScaleValue(1.1);
     });
+    sc = new QShortcut(QKeySequence("Ctrl+="), this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc, &QShortcut::activated, this, [=] {
+        m_viewB->setScaleValue(1.1);
+    });
     // Zoom in
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
