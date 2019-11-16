@@ -95,13 +95,7 @@ void TTMContent::setPath(const QString &path)
 }
 
 void TTMContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    if (theme == ViewerThemeManager::Dark) {
-//        this->setStyleSheet(utils::base::getFileContent(
-//                                ":/resources/dark/qss/ttl.qss"));
-    } else {
-//        this->setStyleSheet(utils::base::getFileContent(
-//                                ":/resources/light/qss/ttl.qss"));
-    }
+
 }
 
 void TTMContent::updateLayout(int ttlWidth, const QString &path)

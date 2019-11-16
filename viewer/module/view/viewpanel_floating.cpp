@@ -47,14 +47,6 @@ void ViewPanel::initSwitchButtons()
     pre_button->setObjectName("PreviousButton");
     next_button->setObjectName("NextButton");
 
-    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-//        pre_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-//        next_button->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-    } else {
-//        pre_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-//        next_button->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-    }
-
     pre_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
     pre_button.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
 
@@ -67,26 +59,9 @@ void ViewPanel::initSwitchButtons()
     pre_button->hide();
     next_button->hide();
 
-    // pre_button.setLeftMargin(20);
-    // next_button.setRightMargin(20);
-
     connect(pre_button, &DImageButton::clicked, this, &ViewPanel::showPrevious);
     connect(next_button, &DImageButton::clicked, this, &ViewPanel::showNext);
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            [=](ViewerThemeManager::AppTheme theme) {
-//        if (theme == ViewerThemeManager::Dark) {
-//            pre_button->setStyleSheet(getFileContent(
-//                                         ":/resources/dark/qss/floating.qss"));
-//            next_button->setStyleSheet(getFileContent(
-//                                          ":/resources/dark/qss/floating.qss"));
-//        } else {
-//            pre_button->setStyleSheet(getFileContent(
-//                                         ":/resources/light/qss/floating.qss"));
-//            next_button->setStyleSheet(getFileContent(
-//                                          ":/resources/light/qss/floating.qss"));
-//        }
-    });
 
     connect(this, &ViewPanel::mouseMoved, this, [=] {
         DAnchors<DImageButton> pb = pre_button;
@@ -115,20 +90,7 @@ void ViewPanel::initScaleLabel()
     using namespace utils::base;
     DAnchors<DFloatingWidget> scalePerc = new DFloatingWidget(this);
     scalePerc->setBlurBackgroundEnabled(true);
-//    scalePerc->setObjectName("ScaleLabel");
-//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-//        scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-//    } else {
-//        scalePerc->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-//    }
 
-//    border-image: url(:/resources/light/images/scale_background.svg);
-//    color: rgb(48, 48, 48);
-//    padding: 0px 0px 10px 0px;
-//    font-size: 14px;
-//    scalePerc->setBlurRectYRadius(18);
-//    scalePerc->setBlurRectXRadius(18);
-//    scalePerc->setMaskAlpha(102);
     QHBoxLayout *layout = new QHBoxLayout();
     scalePerc->setLayout(layout);
     QLabel *label = new QLabel();
@@ -156,14 +118,6 @@ void ViewPanel::initScaleLabel()
     connect(m_viewB, &ImageView::showScaleLabel, this, [=](){
         scalePerc->show();
         hideT->start(1000);
-    });
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            [=](ViewerThemeManager::AppTheme theme) {
-//        if (theme == ViewerThemeManager::Dark) {
-//            scalePerc->setStyleSheet(getFileContent(":/resources/dark/qss/floating.qss"));
-//        } else {
-//            scalePerc->setStyleSheet(getFileContent(":/resources/light/qss/floating.qss"));
-//        }
     });
 }
 

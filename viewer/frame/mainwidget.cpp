@@ -465,12 +465,3 @@ void MainWidget::initExtensionPanel()
         }
     });
 }
-
-//void MainWidget::initStyleSheet()
-//{
-//    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-//        this->setStyleSheet(utils::base::getFileContent(":/resources/dark/qss/frame.qss"));
-//    } else {
-//        this->setStyleSheet(utils::base::getFileContent(":/resources/light/qss/frame.qss"));
-//    }
-//}

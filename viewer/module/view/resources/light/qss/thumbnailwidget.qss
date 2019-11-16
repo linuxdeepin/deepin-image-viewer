@@ -1,9 +1,0 @@
-QLabel#ThumbnailLabel {
-    border: 1px solid rgba(0, 0, 0, 13);
-}
-
-QLabel#ThumbnailTips {
-    color: rgba(48, 48, 48, 255);
-    font-size: 12px;
-    font-weight: 25;
-}

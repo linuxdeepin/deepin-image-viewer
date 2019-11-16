@@ -383,23 +383,6 @@ void ReturnButton::showTooltip(const QPoint &pos)
 
 void ReturnButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-//    QFile darkF(":/resources/dark/qss/PushButton.qss"),
-//          lightF(":/resources/light/qss/PushButton.qss");
-//    if (theme == ViewerThemeManager::Dark) {
-//        if (darkF.open(QIODevice::ReadOnly)) {
-//            setStyleSheet(darkF.readAll());
-//            darkF.close();
-//        } else {
-//            qDebug() << "Set dark style sheet for ReturnButton failed";
-//        }
-//    } else {
-//        if (lightF.open(QIODevice::ReadOnly)) {
-//            setStyleSheet(lightF.readAll());
-//            lightF.close();
-//        } else {
-//            qDebug() << "Set light style sheet for ReturnButton failed";
-//        }
-//    }
 }
 
 bool ReturnButton::getChecked() const

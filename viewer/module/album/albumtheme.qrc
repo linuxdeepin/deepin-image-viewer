@@ -17,10 +17,8 @@
         <file>resources/dark/images/search_hover_24px.png</file>
         <file>resources/dark/images/search_normal_24px.png</file>
         <file>resources/dark/images/search_press_24px.png</file>
-        <file>resources/dark/qss/album.qss</file>
         <file>resources/light/images/light_slider_handle.png</file>
         <file>resources/light/images/lineargradient.png</file>
-        <file>resources/light/qss/album.qss</file>
         <file>resources/dark/images/album_bg_press.png</file>
         <file>resources/light/images/album_bg_normal.png</file>
         <file>resources/light/images/album_bg_press.png</file>

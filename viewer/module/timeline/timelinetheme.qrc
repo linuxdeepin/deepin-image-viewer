@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/dark/qss/timeline.qss</file>
         <file>resources/dark/images/drag_handle.png</file>
         <file>resources/dark/images/item_selected.png</file>
         <file>resources/dark/images/lineargradient.png</file>
@@ -11,7 +10,6 @@
         <file>resources/dark/images/synimages.png</file>
         <file>resources/dark/images/timeline_import_backimg.png</file>
         <file>resources/dark/images/tooltip.svg</file>
-        <file>resources/light/qss/timeline.qss</file>
         <file>resources/light/images/light_slider_handle.png</file>
         <file>resources/light/images/lineargradient.png</file>
         <file>resources/dark/images/default_thumbnail.png</file>

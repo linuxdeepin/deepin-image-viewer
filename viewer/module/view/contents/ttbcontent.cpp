@@ -456,13 +456,7 @@ void TTBContent::updateFilenameLayout()
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-//    if (theme == ViewerThemeManager::Dark) {
-//        this->setStyleSheet(utils::base::getFileContent(
-//                                ":/resources/dark/qss/ttl.qss"));
-//    } else {
-//        this->setStyleSheet(utils::base::getFileContent(
-//                                ":/resources/light/qss/ttl.qss"));
-//    }
+
 }
 
 void TTBContent::setCurrentDir(QString text) {
@@ -498,19 +492,13 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(j)->setFixedSize (QSize(30,40));
         labelList.at(j)->resize (QSize(30,40));
         labelList.at(j)->setContentsMargins(1,5,1,5);
-//        labelList.at(j)->setFrameShape (QFrame::NoFrame);
-//        labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
         labelList.at(j)->setIndexNow(m_nowIndex);
     }
     if(labelList.size()>0){
         labelList.at(m_nowIndex)->setFixedSize (QSize(60,58));
         labelList.at(m_nowIndex)->resize (QSize(60,58));
-//        labelList.at(m_nowIndex)->setFrameShape (QFrame::Box);
         labelList.at(m_nowIndex)->setContentsMargins(0,0,0,0);
-//        labelList.at(m_nowIndex)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
     }
-//    m_contentWidth = std::max(m_windowWidth - 100, 1);
-//    m_contentWidth = 310;
 }
 
 void TTBContent::setImage(const QString &path,DBImgInfoList infos)
@@ -549,10 +537,6 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_imgList->setContentsMargins(0,0,0,0);
 
             auto num=32;
-//            QHBoxLayout *layout= new QHBoxLayout();
-//            layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-//            layout->setMargin(0);
-//            layout->setSpacing(0);
 
             int i=0;
             QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
@@ -561,20 +545,9 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
                 if(labelList.size()!=m_imgInfos.size()){
                     char *imageType=getImageType(info.filePath);
                     ImageItem *imageItem = new ImageItem(i,info.filePath,imageType);
-//                    QImage image(info.filePath,imageType);
-//                    imageItem->setPixmap(QPixmap(info.filePath).scaled(60,50));
-//                    imageItem->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
-//                    QPalette palette = imageItem->palette();
-//                    palette.setColor(QPalette::Background, QColor(0,0,0,100)); // 最后一项为透明度
-//                    palette.setBrush(QPalette::Background, QBrush(QPixmap(info.filePath).scaled(60,50)));
-//                    imageItem->setPalette(palette);
-//                    imageItem->setPic(image);
-
-//                    imageItem->setContentsMargins(1,5,1,5);
                     imageItem->setFixedSize(QSize(num,40));
                     imageItem->resize(QSize(num,40));
-                    
-//                    m_imgList->setLayout(layout);
+
                     m_imglayout->addWidget(imageItem);
                     connect(imageItem,&ImageItem::imageItemclicked,this,[=](int index,int indexNow){
                         emit imageClicked(index,(index-indexNow));
@@ -593,17 +566,11 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             for(int j = 0; j < labelList.size(); j++){
                 labelList.at(j)->setFixedSize (QSize(num,40));
                 labelList.at(j)->resize (QSize(num,40));
-//                labelList.at(j)->setContentsMargins(1,5,1,5);
-//                labelList.at(j)->setFrameShape (QFrame::NoFrame);
-//                labelList.at(j)->setStyleSheet("border-width: 0px;border-style: solid;border-color: #2ca7f8;");
                 labelList.at(j)->setIndexNow(t);
             }
             if(labelList.size()>0){
                 labelList.at(t)->setFixedSize (QSize(58,58));
                 labelList.at(t)->resize (QSize(58,58));
-//                labelList.at(t)->setFrameShape (QFrame::Box);
-//                labelList.at(t)->setContentsMargins(0,0,0,0);
-//                labelList.at(t)->setStyleSheet("border-width: 4px;border-style: solid;border-color: #2ca7f8;");
             }
 
 

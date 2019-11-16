@@ -1,8 +1,0 @@
-QLabel#ButtonTooltip {
-    background-color: rgba(255, 255, 255, .9);
-    border: 1px solid rgba(0, 0, 0, .1);
-    border-radius: 3px;
-    padding: 4px 7px 4px 7px;
-    color: #303030;
-    font-size: 12px;
-}

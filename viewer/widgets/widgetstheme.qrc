@@ -14,28 +14,13 @@
         <file>resources/common/images/window_close_hover.png</file>
         <file>resources/common/images/window_close_normal.png</file>
         <file>resources/common/images/window_close_press.png</file>
-        <file>resources/common/qss/BlureDialog.qss</file>
-        <file>resources/common/qss/BlureInfoFrame.qss</file>
-        <file>resources/common/qss/ScrollBar.qss</file>
-        <file>resources/common/qss/Separator.qss</file>
-        <file>resources/common/qss/Slider.qss</file>
-        <file>resources/common/qss/ThumbnailListView.qss</file>
-        <file>resources/common/qss/Tooltip.qss</file>
-        <file>resources/dark/qss/ImageButton.qss</file>
         <file>resources/dark/images/default_thumbnail.png</file>
         <file>resources/dark/images/no_picture.png</file>
         <file>resources/light/images/default_thumbnail.png</file>
         <file>resources/light/images/no_picture.png</file>
-        <file>resources/dark/qss/ImportFrame.qss</file>
-        <file>resources/light/qss/ImageButton.qss</file>
-        <file>resources/light/qss/ImportFrame.qss</file>
-        <file>resources/dark/qss/PushButton.qss</file>
-        <file>resources/light/qss/PushButton.qss</file>
         <file>resources/common/images/window_close_hover.svg</file>
         <file>resources/common/images/window_close_normal.svg</file>
         <file>resources/common/images/window_close_press.svg</file>
-        <file alias="dark/Dtk--Widget--Toast.theme">resources/dark/qss/Toast.theme</file>
-        <file alias="light/Dtk--Widget--Toast.theme">resources/light/qss/Toast.theme</file>
         <file>resources/common/images/dialog_warning.svg</file>
         <file>resources/common/images/input_clear_press.svg</file>
         <file>resources/common/images/input_clear_normal.svg</file>

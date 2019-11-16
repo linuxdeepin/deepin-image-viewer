@@ -39,10 +39,8 @@ ThemeWidget::~ThemeWidget() {}
 
 void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-//        this->setStyleSheet(m_darkStyle);
         m_deepMode = true;
     } else {
-//        this->setStyleSheet(m_lightStyle);
         m_deepMode = false;
     }
 }
@@ -63,10 +61,8 @@ ThemeScrollArea::~ThemeScrollArea() {}
 
 void ThemeScrollArea::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     if (theme == ViewerThemeManager::Dark) {
-//        this->setStyleSheet(m_darkStyle);
         m_deepMode = true;
     } else {
-//        this->setStyleSheet(m_lightStyle);
         m_deepMode = false;
     }
 }

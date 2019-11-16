@@ -6,9 +6,6 @@
         <file>resources/images/checkbox_checked.png</file>
         <file>resources/images/checkbox_unchecked.png</file>
     </qresource>
-    <qresource prefix="/settings/qss">
-        <file>resources/qss/settings.qss</file>
-    </qresource>
     <qresource prefix="/settings/images/slideshow">
         <file>resources/images/slideshow/Blinds/0.png</file>
         <file>resources/images/slideshow/Blinds/1.png</file>

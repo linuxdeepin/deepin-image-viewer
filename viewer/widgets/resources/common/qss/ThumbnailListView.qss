@@ -1,8 +1,0 @@
-QListView {
-    background: #202020;
-    border:none;
-}
-
-ThumbnailListView {
-    background: transparent;
-}

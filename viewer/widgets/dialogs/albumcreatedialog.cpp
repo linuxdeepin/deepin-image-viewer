@@ -35,15 +35,11 @@ AlbumCreateDialog::AlbumCreateDialog(QWidget* parent)
     addButton(tr("OK"), true, DDialog::ButtonRecommend);
 
     // Input content
-//    const QString subStyle =
-//    utils::base::getFileContent(":/dialogs/qss/resources/qss/inputdialog.qss");
     QLabel *title = new QLabel(tr("New album"));
-//    title->setStyleSheet(subStyle);
     title->setObjectName("DialogTitle");
     title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
     QLineEdit *edit = new QLineEdit;
-//    edit->setStyleSheset(subStyle);
     edit->setObjectName("DialogEdit");
     edit->setText(getNewAlbumName());
     edit->setContextMenuPolicy(Qt::PreventContextMenu);

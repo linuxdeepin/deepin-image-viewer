@@ -9,7 +9,6 @@
 #    $$PWD/resources/images/close_hover.svg \
 #    $$PWD/resources/images/close_normal.svg \
 #    $$PWD/resources/images/close_press.svg \
-#    $$PWD/resources/qss/scanpathsdialog.qss
 
 HEADERS += \
     $$PWD/scanpathsdialog.h \

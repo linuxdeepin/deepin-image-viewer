@@ -302,13 +302,7 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
 
 void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-    if (theme == ViewerThemeManager::Dark) {
-//        setStyleSheet(utils::base::getFileContent(
-//                          ":/resources/dark/qss/view.qss"));
-    } else {
-//        setStyleSheet(utils::base::getFileContent(
-//                          ":/resources/light/qss/view.qss"));
-    }
+
 }
 
 void ViewPanel::showNormal()
@@ -502,8 +496,7 @@ QWidget *ViewPanel::extensionPanelContent()
     l->setContentsMargins(0, 0, 0, 0);
 
     if (! m_info) {
-        m_info = new ImageInfoWidget(":/resources/dark/qss/view.qss",
-                                     ":/resources/light/qss/view.qss");
+        m_info = new ImageInfoWidget("","");
     }
 
     l->addSpacing(0);
@@ -870,16 +863,14 @@ void ViewPanel::initStack()
     vl->addWidget(m_stack);
 
     // Empty frame
-    m_emptyWidget = new ThumbnailWidget(":/resources/dark/qss/thumbnailwidget.qss",
-                                        ":/resources/light/qss/thumbnailwidget.qss");
+    m_emptyWidget = new ThumbnailWidget("","");
     emit dApp->signalM->enterView(false);
 
     m_stack->addWidget(m_viewB);
     m_stack->addWidget(m_emptyWidget);
     //Lock frame: if the deepin-image-viewer
     //can't access to read the image
-    m_lockWidget = new LockWidget(":/resources/dark/qss/lockwidget.qss",
-                                  ":/resources/light/qss/lockwidget.qss");
+    m_lockWidget = new LockWidget("","");
     m_stack->addWidget(m_lockWidget);
 }
 

@@ -19,7 +19,6 @@
 #include "slideshow/slideshowframe.h"
 #include <dimagebutton.h>
 #include <dscrollbar.h>
-#include <dthememanager.h>
 #include <QCursor>
 #include <QPropertyAnimation>
 #include <QVBoxLayout>

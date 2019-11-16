@@ -19,7 +19,6 @@
 #include "application.h"
 #include "controller/configsetter.h"
 #include "../title.h"
-#include <dthememanager.h>
 #include <QHBoxLayout>
 #include <QStyleFactory>
 #include <QPushButton>

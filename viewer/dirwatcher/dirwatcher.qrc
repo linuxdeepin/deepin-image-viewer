@@ -11,7 +11,4 @@
         <file>resources/images/tab-close-normal.png</file>
         <file>resources/images/tab-close-press.png</file>
     </qresource>
-    <qresource prefix="/dirwatcher/qss">
-        <file>resources/qss/scanpathsdialog.qss</file>
-    </qresource>
 </RCC>
