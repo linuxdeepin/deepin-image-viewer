@@ -214,7 +214,8 @@ void ImageItem::paintEvent(QPaintEvent *event){
             }
         });
         QPixmap pixmap(m_pixmapstring);
-        QBrush bgColor = QBrush(pixmap.scaled(backgroundRect.width(),backgroundRect.height()));
+//        QBrush bgColor = QBrush(pixmap.scaled(backgroundRect.width(),backgroundRect.height()));
+        QBrush bgColor = QBrush(pixmap.scaled(30,40));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
         painter.fillPath(bg, bgColor);
