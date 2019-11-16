@@ -358,7 +358,6 @@ QString TopToolbar::geteElidedText(QFont font, QString str, int MaxWidth)
 void TopToolbar::initMenu()
 {
     m_menu = new DMenu(this);
-//    m_menu->setStyle(QStyleFactory::create("dlight"));
 
 #ifndef LITE_DIV
     if (m_manager)

@@ -716,7 +716,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_rotateRBtn->setDisabled(true);
         } else {
             m_trashBtn->setDisabled(false);
-            if (utils::image::imageSupportSave(path)) {
+            if (utils::image::imageSupportSave(path)) {//songsha
                 m_rotateLBtn->setDisabled(false);
                 m_rotateRBtn->setDisabled(false);
             } else {

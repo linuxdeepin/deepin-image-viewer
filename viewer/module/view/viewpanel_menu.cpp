@@ -72,7 +72,6 @@ enum MenuItemId {
 void ViewPanel::initPopupMenu()
 {
     m_menu = new DMenu;
-//    m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
         if (! m_infos.isEmpty()
         #ifdef LITE_DIV
@@ -123,7 +122,6 @@ DMenu *ViewPanel::createAlbumMenu()
     }
 
     DMenu *am = new DMenu(tr("Add to album"));
-    am->setStyle(QStyleFactory::create("dlight"));
     QStringList albums = DBManager::instance()->getAllAlbumNames();
     albums.removeAll(FAVORITES_ALBUM_NAME);
 
@@ -309,7 +307,7 @@ void ViewPanel::updateMenuContent()
     }
     /**************************************************************************/
     if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
-            QFileInfo(m_infos.at(m_current).filePath).isWritable()) {
+            QFileInfo(m_infos.at(m_current).filePath).isWritable() && utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
         m_menu->addSeparator();
         appendAction(IdRotateClockwise,
                      tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
