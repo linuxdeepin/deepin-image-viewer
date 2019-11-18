@@ -53,6 +53,7 @@ private:
 #endif
     QPixmap m_defaultImage;
     QColor m_inBorderColor;
+    QString m_picString;
 };
 
 #endif // THUMBNAILWIDGET_H

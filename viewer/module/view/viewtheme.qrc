@@ -117,5 +117,7 @@
         <file>resources/light/images/58.svg</file>
         <file>resources/dark/images/58 drak.svg</file>
         <file>resources/dark/images/imagewithbg-dark.svg</file>
+        <file>resources/dark/images/icon_import_photo dark.svg</file>
+        <file>resources/light/images/icon_import_photo.svg</file>
     </qresource>
 </RCC>

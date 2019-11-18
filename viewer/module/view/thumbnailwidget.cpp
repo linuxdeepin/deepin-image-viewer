@@ -24,20 +24,60 @@
 #include "application.h"
 #include "utils/baseutils.h"
 #include <QImageReader>
+#include <DGuiApplicationHelper>
 
 namespace  {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
+const QString ICON_IMPORT_PHOTO_DARK = ":/resources/dark/images/icon_import_photo dark.svg";
+const QString ICON_IMPORT_PHOTO_LIGHT = ":/resources/light/images/58.svg";
 }
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
 const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, parent)
 {
-    QImageReader ir(":/images/logo/resources/images/logo/icon_import_photo.svg");
+
+    m_picString = "";
+
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if(themeType == DGuiApplicationHelper::LightType){
+      m_picString = ":/resources/light/images/icon_import_photo.svg";
+    }
+    else if (themeType == DGuiApplicationHelper::DarkType) {
+      m_picString = ":/resources/dark/images/icon_import_photo dark.svg";
+    }
+    else {
+      m_picString = ":/resources/light/images/icon_import_photo.svg";
+    }
+
+    QImageReader ir(m_picString);
     ir.setScaledSize(QSize(128, 128) * devicePixelRatioF());
     QPixmap logo_pix = QPixmap::fromImage(ir.read());
     logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
     m_logo = logo_pix;
+
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                     this, [=](){
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+
+        m_picString = "";
+        if(themeType == DGuiApplicationHelper::LightType){
+          m_picString = ":/resources/light/images/icon_import_photo.svg";
+        }
+        else if (themeType == DGuiApplicationHelper::DarkType) {
+          m_picString = ":/resources/dark/images/icon_import_photo dark.svg";
+        }
+        else {
+          m_picString = ":/resources/light/images/icon_import_photo.svg";
+        }
+
+        QImageReader ir(m_picString);
+        ir.setScaledSize(QSize(128, 128) * devicePixelRatioF());
+        QPixmap logo_pix = QPixmap::fromImage(ir.read());
+        logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
+        m_logo = logo_pix;
+        update();
+    });
 
     setMouseTracking(true);
     m_thumbnailLabel = new QLabel(this);
@@ -114,32 +154,31 @@ bool ThumbnailWidget::isDefaultThumbnail()
 void ThumbnailWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    if (m_defaultImage.isNull()) {
-        if (isDeepMode()) {
-            m_defaultImage = QPixmap(m_logo);
-        } else {
-            m_defaultImage = QPixmap(m_logo);
-        }
-        m_isDefaultThumbnail = true;
-    }
-
-    if (m_defaultImage.size() != THUMBNAIL_SIZE) {
-        m_defaultImage = m_defaultImage.scaled(THUMBNAIL_SIZE,
-                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-    }
+//    if (m_defaultImage.isNull()) {
+//        if (isDeepMode()) {
+//            m_defaultImage = QPixmap(m_logo);
+//        } else {
+//            m_defaultImage = QPixmap(m_logo);
+//        }
+//        m_isDefaultThumbnail = true;
+//    }
+//    if (m_defaultImage.size() != THUMBNAIL_SIZE) {
+//        m_defaultImage = m_defaultImage.scaled(THUMBNAIL_SIZE,
+//                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
+//    }
+	
     QPoint startPoint = mapToParent(QPoint(m_thumbnailLabel->x(),
                                            m_thumbnailLabel->y()));
     QPoint imgStartPoint = QPoint(startPoint.x() + (THUMBNAIL_SIZE.width() -
-           m_defaultImage.width())/2 + 1, startPoint.y() + (THUMBNAIL_SIZE.height()
-           - m_defaultImage.height())/2 + 1);
+           m_logo.width())/2 + 1, startPoint.y() + (THUMBNAIL_SIZE.height()
+           - m_logo.height())/2 + 1);
     QRect imgRect = QRect(imgStartPoint.x(), imgStartPoint.y(),
-                          m_defaultImage.width(), m_defaultImage.height());
+                          m_logo.width(), m_logo.height());
 
     QPainter painter(this);
     painter.setRenderHints(QPainter::HighQualityAntialiasing |
                            QPainter::SmoothPixmapTransform);
-    painter.drawPixmap(imgRect, m_defaultImage);
+    painter.drawPixmap(imgRect, m_logo);
 }
 
 void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)

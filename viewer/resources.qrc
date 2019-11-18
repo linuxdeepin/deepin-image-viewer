@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/images/logo">
         <file>resources/images/logo/deepin-image-viewer.svg</file>
-        <file>resources/images/logo/icon_import_photo.svg</file>
     </qresource>
     <qresource prefix="/"/>
     <qresource prefix="/qt-project.org/dialogs">
