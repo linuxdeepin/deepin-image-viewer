@@ -165,7 +165,7 @@ void ImageView::setImage(const QString &path)
     m_toast->setProperty("hint_path", fi.canonicalFilePath());
 
     if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
-        m_toast->show();
+//        m_toast->show();
         m_toast->move(width() / 2 - m_toast->width() / 2,
                       height() - 80 - m_toast->height() / 2 - 11);
     } else {

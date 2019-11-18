@@ -26,6 +26,7 @@
 #include <QDir>
 #include <QScreen>
 #include <QTimer>
+#include <QShortcut>
 
 namespace {
 
@@ -40,6 +41,17 @@ const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 MainWindow::MainWindow(bool manager, QWidget *parent):
     DMainWindow(parent)
 {
+    // Maxmizing
+    QShortcut *maxmizing = new QShortcut(QKeySequence("Ctrl+Alt+F"), this);
+    maxmizing->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(maxmizing, &QShortcut::activated, this, [=] {
+        if(isMaximized()){
+            showNormal();
+        }else {
+            showMaximized();
+        }
+    });
+
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.65 < MAINWIDGET_MINIMUN_WIDTH
