@@ -141,8 +141,7 @@ ImageView::ImageView(QWidget *parent)
 
     // Use openGL to render by default
     //    setRenderer(OpenGL);
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                     this, [=](){
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::DarkType) {
             m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;

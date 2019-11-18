@@ -37,6 +37,8 @@
 namespace {
 
 const int TITLE_MAXWIDTH = 72;
+const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
+const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
 
 struct MetaData {
     QString key;
@@ -118,8 +120,15 @@ public:
         if (headerLine()) {
             headerLine()->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
             DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-            pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
+            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
             headerLine()->setPalette(pa);
+
+            connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
+                DPalette pa = DApplicationHelper::instance()->palette(headerLine());
+                pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
+                headerLine()->setPalette(pa);
+            });
+
             headerLine()->setLeftMargin(10);
         }
     }
@@ -169,10 +178,14 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
 
     DPalette pa = DApplicationHelper::instance()->palette(title);
-    pa.setBrush(DPalette::WindowText, pa.color(DPalette::TextTitle));
+    pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
     title->setPalette(pa);
 
-
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
+        DPalette pa = DApplicationHelper::instance()->palette(title);
+        pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
+        title->setPalette(pa);
+    });
 
 
 //    title->setAlignment(Qt::AlignCenter);
@@ -256,15 +269,39 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 //    m_expandGroup.at(1)->setContent(m_exif_details);
 //    m_expandGroup.at(1)->setExpand(true);
 
+    m_closedString = "";
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::DarkType) {
+      m_closedString = ICON_CLOSE_DARK;
+    }
+    else {
+      m_closedString = ICON_CLOSE_LIGHT;
+    }
+
     DDialogCloseButton *m_close = new DDialogCloseButton(this);
-    m_close->setIcon(QIcon(":/resources/light/images/close_normal .svg"));
+    m_close->setIcon(QIcon(m_closedString));
+
     m_close->setIconSize(QSize(36,36));
     m_close->setFlat(true);
-//    m_close->setAutoFillBackground(true);
     m_close->move(257,7);
     DPalette palette1 ;
     palette1.setColor(DPalette::Background, QColor(0,0,0,1));
     m_close->setPalette(palette1);
+
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+          m_closedString = ICON_CLOSE_DARK;
+        }
+        else {
+          m_closedString = ICON_CLOSE_LIGHT;
+        }
+        m_close->setIcon(QIcon(m_closedString));
+
+        DPalette palette1 ;
+        palette1.setColor(DPalette::Background, QColor(0,0,0,1));
+        m_close->setPalette(palette1);
+    });
 
     connect(m_close, &DDialogCloseButton::clicked, this, [ = ] {
         emit dApp->signalM->hideExtensionPanel();
@@ -404,7 +441,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
-        pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextTitle));
+        pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
@@ -414,11 +451,36 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa2= DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
+        pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
 
         m_exifLayout_base->addRow(title, field);
     }
+    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
+        for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
+            QString value = infos.value(i->key);
+            if (value.isEmpty()) continue;
+
+            m_isBaseInfo = true;
+
+            SimpleFormField *field = new SimpleFormField;
+            field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+            field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+            DPalette pa1 = DApplicationHelper::instance()->palette(field);
+            pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
+            field->setPalette(pa1);
+            field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
+
+            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+            title->setMinimumHeight(field->minimumHeight());
+            title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+            title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+            title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+            DPalette pa2= DApplicationHelper::instance()->palette(title);
+            pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
+            title->setPalette(pa2);
+        }
+    });
 }
 
 void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
@@ -441,7 +503,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
-        pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextTitle));
+        pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
         field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
 
@@ -451,13 +513,37 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
         DPalette pa2= DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
+        pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
 
         m_exifLayout_details->addRow(title, field);
     }
 
-//    m_separator->setVisible(m_exifLayout_details->count() > 10);
+        connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
+            for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
+                QString value = infos.value(i->key);
+                if (value.isEmpty()) continue;
+
+                m_isDetailsInfo = true;
+
+                SimpleFormField *field = new SimpleFormField;
+                field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+                field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+                DPalette pa1 = DApplicationHelper::instance()->palette(field);
+                pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
+                field->setPalette(pa1);
+                field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
+
+                SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
+                title->setMinimumHeight(field->minimumHeight());
+                title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+                title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+                title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+                DPalette pa2= DApplicationHelper::instance()->palette(title);
+                pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
+                title->setPalette(pa2);
+            }
+        });
 }
 
 QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)

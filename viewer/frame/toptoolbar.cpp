@@ -270,14 +270,11 @@ void TopToolbar::initWidgets()
         if(!m_viewChange)
         {
           QPalette pa1;
-          if(themeType == DGuiApplicationHelper::LightType){
-              pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
-          }
-          else if (themeType == DGuiApplicationHelper::DarkType) {
+          if (themeType == DGuiApplicationHelper::DarkType) {
               pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
           }
           else {
-              pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+              pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
           }
           m_titlebar->setPalette(pa1);
         }
@@ -295,14 +292,11 @@ void TopToolbar::initWidgets()
             m_titlebar->setBackgroundTransparent(false);
             DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
             QPalette pa1;
-            if(themeType == DGuiApplicationHelper::LightType){
-                pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
-            }
-            else if (themeType == DGuiApplicationHelper::DarkType) {
+            if (themeType == DGuiApplicationHelper::DarkType) {
                 pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
             }
             else {
-                pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+                pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
             }
             m_titlebar->setPalette(pa1);
         }

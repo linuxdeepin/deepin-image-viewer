@@ -73,6 +73,7 @@ private:
     QList<DBaseExpand *> m_expandGroup;
     QVBoxLayout *m_mainLayout = nullptr;
     QScrollArea *m_scrollArea = nullptr;
+    QString m_closedString;
 };
 
 #endif // IMAGEINFOWIDGET_H

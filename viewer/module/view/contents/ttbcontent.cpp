@@ -173,8 +173,7 @@ void ImageItem::paintEvent(QPaintEvent *event){
         else {
           m_pixmapstring = LOCMAP_SELECTED_LIGHT;
         }
-        QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                         this, [=](){
+        QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
             DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
             if (themeType == DGuiApplicationHelper::DarkType) {
               m_pixmapstring = LOCMAP_SELECTED_DARK;

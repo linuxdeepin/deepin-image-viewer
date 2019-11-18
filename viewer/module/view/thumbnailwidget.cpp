@@ -40,10 +40,7 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     m_picString = "";
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if(themeType == DGuiApplicationHelper::LightType){
-      m_picString = ":/resources/light/images/icon_import_photo.svg";
-    }
-    else if (themeType == DGuiApplicationHelper::DarkType) {
+    if (themeType == DGuiApplicationHelper::DarkType) {
       m_picString = ":/resources/dark/images/icon_import_photo dark.svg";
     }
     else {
@@ -56,15 +53,11 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
     m_logo = logo_pix;
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                     this, [=](){
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
 
         m_picString = "";
-        if(themeType == DGuiApplicationHelper::LightType){
-          m_picString = ":/resources/light/images/icon_import_photo.svg";
-        }
-        else if (themeType == DGuiApplicationHelper::DarkType) {
+        if (themeType == DGuiApplicationHelper::DarkType) {
           m_picString = ":/resources/dark/images/icon_import_photo dark.svg";
         }
         else {
