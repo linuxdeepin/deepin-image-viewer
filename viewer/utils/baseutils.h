@@ -48,8 +48,10 @@ const int BORDER_WIDTH = 1;
 const int BORDER_WIDTH_SELECTED = 2;
 const int THUMBNAIL_MAX_SCALE_SIZE = 192;
 
-const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
-const QColor LIGHT_BACKGROUND_COLOR = QColor("#FFFFFF");
+//const QColor DARK_BACKGROUND_COLOR = QColor("#202020");
+//const QColor LIGHT_BACKGROUND_COLOR = QColor("#FFFFFF");
+const QColor DARK_BACKGROUND_COLOR = QColor("#252525");
+const QColor LIGHT_BACKGROUND_COLOR = QColor("#F8F8F8");
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");

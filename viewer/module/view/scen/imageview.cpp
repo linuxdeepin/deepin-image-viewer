@@ -41,6 +41,7 @@
 #include "widgets/toast.h"
 #include "widgets/dspinner.h"
 #include <DSvgRenderer>
+#include <DGuiApplicationHelper>
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -140,6 +141,17 @@ ImageView::ImageView(QWidget *parent)
 
     // Use openGL to render by default
     //    setRenderer(OpenGL);
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                     this, [=](){
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
+        } else {
+            m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
+        }
+        update();
+
+    });
 }
 
 void ImageView::clear()
