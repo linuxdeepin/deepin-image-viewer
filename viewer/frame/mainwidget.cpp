@@ -48,6 +48,7 @@ const int BOTTOM_TOOLBAR_WIDTH_2 = 610+10;
 const int THUMBNAIL_ADD_WIDTH = 31;
 const int BOTTOM_SPACING = 10;
 const int RT_SPACING = 10;
+const int BOTTOM_REPAIR_SPACING = 5;
 
 const QString SETTINGS_GROUP = "MAINWIDGET";
 const QString SETTINGS_MAINPANEL_KEY = "MainPanel";
@@ -98,7 +99,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
                 m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3)),qMax(this->width()-RT_SPACING,1280)));
             }
             qDebug()<<"resizeEvent============="<<m_bottomToolbar->width();
-            m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - m_bottomToolbar->height()-BOTTOM_SPACING);
+            m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - m_bottomToolbar->height()-BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
         }
     }
 #ifndef LITE_DIV
@@ -320,7 +321,7 @@ void MainWidget::initConnection()
 void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this);
-    m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT -BOTTOM_SPACING);
+    m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT -BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
     //qDebug()<<"11111111111============="<<m_bottomToolbar->width();
 
     m_btmSeparatorLine = new QLabel(this);
@@ -348,7 +349,7 @@ void MainWidget::initBottomToolbar()
             }
         }
         //qDebug()<<"updateBottomToolbar============="<<m_bottomToolbar->width();
-        m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - BOTTOM_TOOLBAR_HEIGHT -BOTTOM_SPACING);
+        m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - BOTTOM_TOOLBAR_HEIGHT -BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
     });
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbarContent,
@@ -378,7 +379,7 @@ void MainWidget::initBottomToolbar()
             }
         }
         //qDebug()<<"updateBottomToolbarContent============="<<m_bottomToolbar->width();
-        m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - BOTTOM_TOOLBAR_HEIGHT-BOTTOM_SPACING);
+        m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - BOTTOM_TOOLBAR_HEIGHT-BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
     });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [=] {
         m_bottomToolbar->setVisible(true);
