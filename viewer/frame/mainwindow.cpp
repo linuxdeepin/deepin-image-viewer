@@ -30,8 +30,8 @@
 
 namespace {
 
-const int MAINWIDGET_MINIMUN_HEIGHT = 660;
-const int MAINWIDGET_MINIMUN_WIDTH = 1300;
+const int MAINWIDGET_MINIMUN_HEIGHT = 335;
+const int MAINWIDGET_MINIMUN_WIDTH = 630;
 const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
@@ -54,10 +54,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
-    const int defaultW = dw.geometry().width() * 0.65 < MAINWIDGET_MINIMUN_WIDTH
-            ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.65;
-    const int defaultH = dw.geometry().height() * 0.7 < MAINWIDGET_MINIMUN_HEIGHT
-            ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.7;
+    const int defaultW = dw.geometry().width() * 0.80 < MAINWIDGET_MINIMUN_WIDTH
+            ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.80;
+    const int defaultH = dw.geometry().height() * 0.80 < MAINWIDGET_MINIMUN_HEIGHT
+            ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.80;
     const int ww = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                        QVariant(defaultW)).toInt();
     const int wh = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,

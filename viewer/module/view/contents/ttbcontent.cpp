@@ -51,6 +51,9 @@ const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-da
 const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
 const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
 
+const int TOOLBAR_MINIMUN_WIDTH = 610;
+const int TOOLBAR_JUSTONE_WIDTH = 310;
+const int RT_SPACING = 20;
 
 const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
 const unsigned int IMAGE_TYPE_JPG1 = 0xFFD8FFE0;
@@ -219,13 +222,13 @@ TTBContent::TTBContent(bool inDB,
 //    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     m_imgInfos = m_infos;
     if ( m_imgInfos.size() <= 1 ) {
-        m_contentWidth = 310;
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     }
     else if (m_imgInfos.size() <= 3 ) {
-        m_contentWidth = 610;
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
     }
     else {
-        m_contentWidth = qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH));
     }
 
     setFixedWidth(m_contentWidth);
@@ -349,14 +352,12 @@ TTBContent::TTBContent(bool inDB,
     m_imglayout->setMargin(0);
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
-//    m_imgListView->setFixedSize(QSize(786,60));
-//    m_imgListView->setFixedSize(QSize(114+31*(m_imgInfos.size()-3),60));
-//    m_imgListView->setFixedSize(QSize(qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-504,60));
+
     if (m_imgInfos.size() <= 3 ) {
        m_imgListView->setFixedSize(QSize(114,60));
     }
     else{
-      m_imgListView->setFixedSize(QSize(qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280))-496,60));
+      m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH))-496,60));
     }
     m_imgListView->hide();
     QPalette palette ;
@@ -456,15 +457,15 @@ void TTBContent::resizeEvent(QResizeEvent *event)
     Q_UNUSED(event);
     m_windowWidth =  this->window()->geometry().width();
     if ( m_imgInfos.size() <= 1 ) {
-        m_contentWidth = 310;
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     }
     else if ( m_imgInfos.size() <= 3 ) {
-        m_contentWidth = 610;
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
         m_imgListView->setFixedSize(QSize(114,60));
     }
     else {
-        m_contentWidth = qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280));
-        m_imgListView->setFixedSize(QSize(qMin((610+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-20,1280))-496,60));
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH));
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH))-496,60));
     }
 
     setFixedWidth(m_contentWidth);
@@ -563,9 +564,9 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
 //            animation->setKeyValueAt(1,  QPoint(350-((num)*t),0));
-            animation->setKeyValueAt(1,  QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));
+            animation->setKeyValueAt(1,  QPoint((qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),(qMax(width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)))-496-52)/2-((num)*t),0));
 //            animation->setEndValue(QPoint(350-((num)*t),0));
-            animation->setEndValue(QPoint((qMin((610+31*(m_imgInfos.size()-3)),(qMax(width()-20,1280)))-496-52)/2-((num)*t),0));
+            animation->setEndValue(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),(qMax(width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)))-496-52)/2-((num)*t),0));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
@@ -686,7 +687,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_preButton_spc->hide();
             m_nextButton->hide();
             m_nextButton_spc->hide();
-            m_contentWidth = 310;
+            m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
             setFixedWidth(m_contentWidth);
         }
 
