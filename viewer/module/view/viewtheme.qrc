@@ -126,5 +126,7 @@
         <file>resources/light/images/button_tab_close_hover 2.svg</file>
         <file>resources/light/images/button_tab_close_normal 2.svg</file>
         <file>resources/light/images/button_tab_close_press 2.svg</file>
+        <file>resources/light/images/naviwindow_bg.svg</file>
+        <file>resources/dark/images/naviwindow_bg.svg</file>
     </qresource>
 </RCC>
