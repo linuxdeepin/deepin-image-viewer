@@ -25,12 +25,13 @@
 #include "utils/baseutils.h"
 #include <QImageReader>
 #include <DGuiApplicationHelper>
+#include <DHiDPIHelper>
 
 namespace  {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
 const QString ICON_IMPORT_PHOTO_DARK = ":/resources/dark/images/icon_import_photo dark.svg";
-const QString ICON_IMPORT_PHOTO_LIGHT = ":/resources/light/images/58.svg";
+const QString ICON_IMPORT_PHOTO_LIGHT = ":/resources/light/images/icon_import_photo.svg";
 }
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile,
@@ -41,16 +42,14 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
-      m_picString = ":/resources/dark/images/icon_import_photo dark.svg";
+      m_picString = ICON_IMPORT_PHOTO_DARK;
     }
     else {
-      m_picString = ":/resources/light/images/icon_import_photo.svg";
+      m_picString = ICON_IMPORT_PHOTO_LIGHT;
     }
 
-    QImageReader ir(m_picString);
-    ir.setScaledSize(QSize(128, 128) * devicePixelRatioF());
-    QPixmap logo_pix = QPixmap::fromImage(ir.read());
-    logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
+    QPixmap logo_pix = DHiDPIHelper::loadNxPixmap(m_picString);
+    logo_pix.setDevicePixelRatio(devicePixelRatioF());
     m_logo = logo_pix;
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
@@ -58,16 +57,14 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
 
         m_picString = "";
         if (themeType == DGuiApplicationHelper::DarkType) {
-          m_picString = ":/resources/dark/images/icon_import_photo dark.svg";
+          m_picString = ICON_IMPORT_PHOTO_DARK;
         }
         else {
-          m_picString = ":/resources/light/images/icon_import_photo.svg";
+          m_picString = ICON_IMPORT_PHOTO_LIGHT;
         }
 
-        QImageReader ir(m_picString);
-        ir.setScaledSize(QSize(128, 128) * devicePixelRatioF());
-        QPixmap logo_pix = QPixmap::fromImage(ir.read());
-        logo_pix.setDevicePixelRatio(this->devicePixelRatioF());
+        QPixmap logo_pix = DHiDPIHelper::loadNxPixmap(m_picString);
+        logo_pix.setDevicePixelRatio(devicePixelRatioF());
         m_logo = logo_pix;
         update();
     });
@@ -159,15 +156,14 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
 //        m_defaultImage = m_defaultImage.scaled(THUMBNAIL_SIZE,
 //                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
 //    }
-    const qreal ratio = devicePixelRatioF();
 
     QPoint startPoint = mapToParent(QPoint(m_thumbnailLabel->x(),
                                            m_thumbnailLabel->y()));
     QPoint imgStartPoint = QPoint(startPoint.x() + (THUMBNAIL_SIZE.width() -
-           m_logo.width())/2 + 1, startPoint.y() + (THUMBNAIL_SIZE.height()
-           - m_logo.height())/2 + 1);
+           128)/2 + 1, startPoint.y() + (THUMBNAIL_SIZE.height()
+           - 128)/2 + 1);
     QRect imgRect = QRect(imgStartPoint.x(), imgStartPoint.y(),
-                          m_logo.width(), m_logo.height());
+                          128, 128);
 
     QPainter painter(this);
     painter.setRenderHints(QPainter::HighQualityAntialiasing |

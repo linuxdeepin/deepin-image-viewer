@@ -173,20 +173,12 @@ void ImageItem::paintEvent(QPaintEvent *event){
         else {
           m_pixmapstring = LOCMAP_SELECTED_LIGHT;
         }
-        QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
-            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-            if (themeType == DGuiApplicationHelper::DarkType) {
-              m_pixmapstring = LOCMAP_SELECTED_DARK;
-            }
-            else {
-              m_pixmapstring = LOCMAP_SELECTED_LIGHT;
-            }
-        });
-        QPixmap pixmap(m_pixmapstring);
-        QBrush bgColor = QBrush(pixmap.scaled(backgroundRect.width(),backgroundRect.height()));
+
+        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring,QSize(58,58));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
-        painter.fillPath(bg, bgColor);
+        painter.setClipPath(bg);
+        painter.drawPixmap(pixmapRect, m_pixmapstring);
     }
     else {
         pixmapRect.setX(backgroundRect.x()+1);
@@ -202,22 +194,12 @@ void ImageItem::paintEvent(QPaintEvent *event){
         else {
           m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
         }
-        QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                         this, [=](){
-            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-            if (themeType == DGuiApplicationHelper::DarkType) {
-              m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
-            }
-            else {
-              m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
-            }
-        });
-        QPixmap pixmap(m_pixmapstring);
-//        QBrush bgColor = QBrush(pixmap.scaled(backgroundRect.width(),backgroundRect.height()));
-        QBrush bgColor = QBrush(pixmap.scaled(30,40));
+
+        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring,QSize(30,40));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
-        painter.fillPath(bg, bgColor);
+        painter.setClipPath(bg);
+        painter.drawPixmap(pixmapRect, m_pixmapstring);
     }
 
     QPainterPath bp1;

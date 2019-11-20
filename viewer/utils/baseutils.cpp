@@ -42,6 +42,7 @@
 
 #include <DApplication>
 #include <DDesktopServices>
+#include <QImageReader>
 
 DWIDGET_USE_NAMESPACE
 
@@ -51,6 +52,25 @@ namespace base {
 
 const QString DATETIME_FORMAT_NORMAL = "yyyy.MM.dd";
 const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
+
+QPixmap renderSVG(const QString &filePath, const QSize &size)
+{
+    QImageReader reader;
+    QPixmap pixmap;
+
+    reader.setFileName(filePath);
+
+    if (reader.canRead()) {
+        const qreal ratio = qApp->devicePixelRatio();
+        reader.setScaledSize(size * ratio);
+        pixmap = QPixmap::fromImage(reader.read());
+        pixmap.setDevicePixelRatio(ratio);
+    } else {
+        pixmap.load(filePath);
+    }
+
+    return pixmap;
+}
 
 QString sizeToHuman(const qlonglong bytes)
 {
