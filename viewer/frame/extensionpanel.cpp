@@ -27,8 +27,8 @@ namespace {
 //const int CONTROL_BUTTON_WIDTH = 20;
 //const int CONTROL_BUTTON_HEIGHT = 60;
 //const int CONTROL_BUTTON_CUBIC_LENGTH = 30;
-const int EXTENSION_PANEL_WIDTH = 300;
-const int EXTENSION_PANEL_MAX_WIDTH = 340;
+const int EXTENSION_PANEL_WIDTH = 300+10;
+//const int EXTENSION_PANEL_MAX_WIDTH = 340;
 
 const QColor DARK_COVERBRUSH = QColor(0, 0, 0, 100);
 const QColor LIGHT_COVERBRUSH = QColor(255, 255, 255, 179);
@@ -37,21 +37,24 @@ const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 }  // namespace
 
 ExtensionPanel::ExtensionPanel(QWidget *parent)
-    : DBlurEffectWidget(parent)
+    : DFloatingWidget(parent)
 {
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-//    setBorderColor(QColor(255, 255, 255, 51));
-//    setMaximumWidth(EXTENSION_PANEL_MAX_WIDTH);
-    setFixedWidth(EXTENSION_PANEL_WIDTH);
-    setFixedHeight(540);
-    setBlurRectYRadius(18);
-    setBlurRectXRadius(18);
-    setMaskAlpha(204);
 
-//    setBorderRadius(18);
     m_contentLayout = new QHBoxLayout(this);
     m_contentLayout->setContentsMargins(0, 0, 0, 0);
     m_contentLayout->setSpacing(0);
+    //    setBlurRectYRadius(18);
+    //    setBlurRectXRadius(18);
+    //    setMaskAlpha(204);
+    //    setBorderRadius(18);
+    setBlurBackgroundEnabled(true);
+    setFixedWidth(EXTENSION_PANEL_WIDTH);
+    setFixedHeight(540);
+//    setFixedHeight(qMin(580,window()->height()-80));
+
+
+
 
 //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
 //            &ExtensionPanel::onThemeChanged);
@@ -116,24 +119,24 @@ void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
 
 void ExtensionPanel::paintEvent(QPaintEvent *pe)
 {
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    QRectF bgRect;
-    bgRect.setSize(size());
-    const QPalette pal = QGuiApplication::palette();//this->palette();
-    QColor bgColor = pal.color(QPalette::ToolTipBase);
+//    QPainter painter(this);
+//    painter.setRenderHint(QPainter::Antialiasing);
+//    QRectF bgRect;
+//    bgRect.setSize(size());
+//    const QPalette pal = QGuiApplication::palette();//this->palette();
+//    QColor bgColor = pal.color(QPalette::ToolTipBase);
 
-    QPainterPath pp;
-    pp.addRoundedRect(bgRect, 18, 18);
-    painter.fillPath(pp, QColor(0,0,0,22));
+//    QPainterPath pp;
+//    pp.addRoundedRect(bgRect, 18, 18);
+//    painter.fillPath(pp, QColor(0,0,0,22));
 
-    {
-        auto view_rect = bgRect.marginsRemoved(QMargins(1, 1, 1, 1));
-        QPainterPath pp;
-        pp.addRoundedRect(view_rect, 18, 18);
-        painter.fillPath(pp, bgColor);
-    }
-    QWidget::paintEvent(pe);
+//    {
+//        auto view_rect = bgRect.marginsRemoved(QMargins(1, 1, 1, 1));
+//        QPainterPath pp;
+//        pp.addRoundedRect(view_rect, 18, 18);
+//        painter.fillPath(pp, bgColor);
+//    }
+//    QWidget::paintEvent(pe);
 }
 //{
 //    QPainter painter(this);

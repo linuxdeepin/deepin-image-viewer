@@ -22,8 +22,9 @@
 #include <QPropertyAnimation>
 #include "widgets/blureframe.h"
 #include "controller/viewerthememanager.h"
+#include <DFloatingWidget>
 
-class ExtensionPanel : public DBlurEffectWidget
+class ExtensionPanel : public DFloatingWidget
 {
     Q_OBJECT
 public:
