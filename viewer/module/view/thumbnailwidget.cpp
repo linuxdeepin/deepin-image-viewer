@@ -159,7 +159,8 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
 //        m_defaultImage = m_defaultImage.scaled(THUMBNAIL_SIZE,
 //                         Qt::KeepAspectRatio, Qt::SmoothTransformation);
 //    }
-	
+    const qreal ratio = devicePixelRatioF();
+
     QPoint startPoint = mapToParent(QPoint(m_thumbnailLabel->x(),
                                            m_thumbnailLabel->y()));
     QPoint imgStartPoint = QPoint(startPoint.x() + (THUMBNAIL_SIZE.width() -

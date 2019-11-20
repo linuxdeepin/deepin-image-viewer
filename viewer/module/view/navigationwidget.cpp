@@ -25,6 +25,8 @@
 #include <QMouseEvent>
 #include <QGraphicsDropShadowEffect>
 #include <QtDebug>
+#include <DDialogCloseButton>
+#include <DGuiApplicationHelper>
 
 namespace {
 
@@ -32,6 +34,12 @@ const QString SETTINGS_GROUP = "VIEWPANEL";
 const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
 const int IMAGE_MARGIN = 5;
 const int IMAGE_MARGIN_BOTTOM = 5;
+const QString ICON_CLOSE_NORMAL_LIGHT = ":/resources/light/images/button_tab_close_normal 2.svg";
+const QString ICON_CLOSE_HOVER_LIGHT = ":/resources/light/images/button_tab_close_hover 2.svg";
+const QString ICON_CLOSE_PRESS_LIGHT = ":/resources/light/images/button_tab_close_press 2.svg";
+const QString ICON_CLOSE_NORMAL_DARK = ":/resources/dark/images/button_tab_close_normal 3.svg";
+const QString ICON_CLOSE_HOVER_DARK = ":/resources/dark/images/button_tab_close_hover 3.svg";
+const QString ICON_CLOSE_PRESS_DARK = ":/resources/dark/images/button_tab_close_press 3.svg";
 
 }  // namespace
 
@@ -43,18 +51,62 @@ NavigationWidget::NavigationWidget(QWidget *parent)
     hide();
     resize(150, 112);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-    ImageButton *closeBtn = new ImageButton(":/resources/common/close_normal.png",
-                                            ":/resources/common/close_hover.png",
-                                            ":/resources/common/close_press.png",
-                                            ":/resources/common/close_normal.png", this);
-//    DWindowCloseButton *closeBtn = new DWindowCloseButton();
-    closeBtn->setTooltipVisible(true);
-    closeBtn->setFixedSize(27, 23);
-    closeBtn->move(QPoint(this->x() + this->width() - 27 - 6,
-                   rect().topRight().y() + 4));
-    closeBtn->show();
-    connect(closeBtn, &ImageButton::clicked, [this](){
+
+    ImageButton *closeBtn_light = new ImageButton(ICON_CLOSE_NORMAL_LIGHT,ICON_CLOSE_HOVER_LIGHT,ICON_CLOSE_PRESS_LIGHT," ", this);
+    closeBtn_light->setTooltipVisible(true);
+    closeBtn_light->setFixedSize(32, 32);
+    closeBtn_light->move(QPoint(this->x() + this->width() - 27 - 6,
+                   rect().topRight().y() + 4 - 6));
+    DPalette palette1 ;
+    palette1.setColor(DPalette::Background, QColor(0,0,0,1));
+    closeBtn_light->setPalette(palette1);
+    closeBtn_light->hide();
+    connect(closeBtn_light, &ImageButton::clicked, [this](){
         setAlwaysHidden(true);
+    });
+
+    ImageButton *closeBtn_dark = new ImageButton(ICON_CLOSE_NORMAL_DARK,ICON_CLOSE_HOVER_DARK,ICON_CLOSE_PRESS_DARK," ", this);
+    closeBtn_dark->setTooltipVisible(true);
+    closeBtn_dark->setFixedSize(32, 32);
+    closeBtn_dark->move(QPoint(this->x() + this->width() - 27 - 6,
+                   rect().topRight().y() + 4 - 6));
+    DPalette palette2 ;
+    palette2.setColor(DPalette::Background, QColor(0,0,0,1));
+    closeBtn_dark->setPalette(palette2);
+    closeBtn_dark->hide();
+    connect(closeBtn_dark, &ImageButton::clicked, [this](){
+        setAlwaysHidden(true);
+    });
+
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        closeBtn_light->hide();
+        closeBtn_dark->show();
+    }else {
+        closeBtn_dark->hide();
+        closeBtn_light->show();
+    }
+
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            closeBtn_light->hide();
+            closeBtn_dark->show();
+            m_bgImgUrl = utils::view::naviwindow::DARK_BG_IMG ;
+            m_BgColor = utils::view::naviwindow::DARK_BG_COLOR;
+            m_mrBgColor = utils::view::naviwindow::DARK_MR_BG_COLOR;
+            m_mrBorderColor = utils::view::naviwindow::DARK_MR_BORDER_Color;
+            m_imgRBorderColor =utils::view::naviwindow:: DARK_IMG_R_BORDER_COLOR;
+        }
+        else {
+            closeBtn_dark->hide();
+            closeBtn_light->show();
+            m_bgImgUrl = utils::view::naviwindow::LIGHT_BG_IMG ;
+            m_BgColor = utils::view::naviwindow::LIGHT_BG_COLOR;
+            m_mrBgColor = utils::view::naviwindow::LIGHT_MR_BG_COLOR;
+            m_mrBorderColor = utils::view::naviwindow::LIGHT_MR_BORDER_Color;
+            m_imgRBorderColor = utils::view::naviwindow::LIGHT_IMG_R_BORDER_COLOR;
+        }
     });
 
     m_mainRect = QRect(rect().x() + IMAGE_MARGIN,
