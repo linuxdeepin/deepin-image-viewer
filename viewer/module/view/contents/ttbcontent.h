@@ -39,6 +39,7 @@
 #include <DIconButton>
 #include <DBlurEffectWidget>
 #include <DGuiApplicationHelper>
+#include <DLabel>
 DWIDGET_USE_NAMESPACE
 
 

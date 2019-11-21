@@ -27,14 +27,12 @@ using namespace Dtk::Core;
 
 int main(int argc, char *argv[])
 {
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
     Application::loadDXcbPlugin();
     Application a(argc, argv);
 
-    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
-    a.setAttribute(Qt::AA_EnableHighDpiScaling);
     a.setAttribute(Qt::AA_ForceRasterWidgets);
-
-    DApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();

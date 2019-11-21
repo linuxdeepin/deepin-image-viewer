@@ -30,7 +30,6 @@
 #include <QFileInfo>
 #include <QHBoxLayout>
 #include <QDebug>
-#include <DLabel>
 #include <QAbstractItemModel>
 #include <DImageButton>
 #include <DThumbnailProvider>
