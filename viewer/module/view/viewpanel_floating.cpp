@@ -105,7 +105,7 @@ void ViewPanel::initScaleLabel()
     scalePerc->setFixedHeight(40+10);
     scalePerc->adjustSize();
     label->setText("100%");
-    label->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DFontSizeManager::instance()->bind(label, DFontSizeManager::T6);
     scalePerc->hide();
 
     QTimer *hideT = new QTimer(this);

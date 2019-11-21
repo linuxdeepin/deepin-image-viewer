@@ -118,11 +118,11 @@ class DFMDArrowLineExpand : public DArrowLineExpand{
 public:
     DFMDArrowLineExpand(){
         if (headerLine()) {
-            headerLine()->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6);
+
             DPalette pa = DApplicationHelper::instance()->palette(headerLine());
             pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
             headerLine()->setPalette(pa);
-
             connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
                 DPalette pa = DApplicationHelper::instance()->palette(headerLine());
                 pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
@@ -175,12 +175,11 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     // Title field
     SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
     title->setFixedHeight(50);
-    title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T6));
+    DFontSizeManager::instance()->bind(title, DFontSizeManager::T6);
 
     DPalette pa = DApplicationHelper::instance()->palette(title);
     pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
     title->setPalette(pa);
-
     connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
         DPalette pa = DApplicationHelper::instance()->palette(title);
         pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
@@ -439,7 +438,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
 
         SimpleFormField *field = new SimpleFormField;
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
@@ -449,7 +448,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2= DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
@@ -465,7 +464,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
 
             SimpleFormField *field = new SimpleFormField;
             field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+            DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
             DPalette pa1 = DApplicationHelper::instance()->palette(field);
             pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
             field->setPalette(pa1);
@@ -475,7 +474,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
             title->setMinimumHeight(field->minimumHeight());
             title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
             title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+            DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
             DPalette pa2= DApplicationHelper::instance()->palette(title);
             pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
             title->setPalette(pa2);
@@ -501,7 +500,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 
         SimpleFormField *field = new SimpleFormField;
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
@@ -511,7 +510,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         title->setMinimumHeight(field->minimumHeight());
         title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+        DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2= DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
@@ -528,7 +527,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 
                 SimpleFormField *field = new SimpleFormField;
                 field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-                field->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+                DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
                 DPalette pa1 = DApplicationHelper::instance()->palette(field);
                 pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
                 field->setPalette(pa1);
@@ -538,7 +537,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
                 title->setMinimumHeight(field->minimumHeight());
                 title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
                 title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-                title->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+                DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
                 DPalette pa2= DApplicationHelper::instance()->palette(title);
                 pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
                 title->setPalette(pa2);

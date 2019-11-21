@@ -73,9 +73,6 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
     QPalette palette;
     palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
     setPalette(palette);
-//    QPixmap pixmap(":/resources/common/titlebar.png");
-//    palette.setBrush(QPalette::Background,QBrush(pixmap.scaled(99999,50)));
-//    this->setPalette(palette);
 
 
     initMenu();
@@ -203,8 +200,6 @@ void TopToolbar::initLeftContent()
     QLabel *logo = new QLabel(this);
 
     QPixmap logo_pix = utils::base::renderSVG(":/images/logo/resources/images/logo/deepin-image-viewer.svg",QSize(22, 22));
-    logo_pix.setDevicePixelRatio(devicePixelRatioF());
-
     logo->setPixmap(logo_pix);
     logo->setAlignment(Qt::AlignCenter);
     m_layout->addSpacing(12);
@@ -256,7 +251,6 @@ void TopToolbar::initWidgets()
     m_titlebar = new DTitlebar(this);
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
-//    m_titlebar->setIcon(QIcon(":/images/logo/resources/images/logo/deepin-image-viewer.svg"));
     m_titlebar->setIcon( QIcon::fromTheme("deepin-image-viewer"));
     QPalette pa;
     pa.setColor(QPalette::WindowText,QColor(255,255,255,255));
@@ -303,14 +297,10 @@ void TopToolbar::initWidgets()
     m_titlebar->setTitle("");
     m_titletxt=new DLabel;
     m_titletxt->setText("");
-    m_titletxt->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T7));
-    DPalette pa1 = DApplicationHelper::instance()->palette(m_titletxt);
-    pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextLively));
-    m_titletxt->setPalette(pa);
+    DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7/*,QFont::DemiBold*/);
+    m_titletxt->setForegroundRole(DPalette::NColorTypes);//songsha
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
     shadowEffect->setOffset(0, 1);
-//    shadowEffect->setColor(QColor(255,255,255,127));
-//    shadowEffect->setColor(QColor(0,0,0,0.5));
     shadowEffect->setBlurRadius(1);
     m_titletxt->setGraphicsEffect(shadowEffect);
     m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);

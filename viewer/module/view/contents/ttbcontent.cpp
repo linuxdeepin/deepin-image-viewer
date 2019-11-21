@@ -413,7 +413,7 @@ TTBContent::TTBContent(bool inDB,
 void TTBContent::updateFilenameLayout()
 {
     using namespace utils::base;
-    m_fileNameLabel->setFont(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+    DFontSizeManager::instance()->bind(m_fileNameLabel, DFontSizeManager::T8);
     QFontMetrics fm(DFontSizeManager::instance()->get(DFontSizeManager::T8));
     QString filename = QFileInfo(m_imagePath).fileName();
     QString name;
