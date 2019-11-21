@@ -451,12 +451,15 @@ QWidget *ViewPanel::bottomTopLeftContent()
         if (m_vinfo.inDatabase)
         {
             popupDelDialog(m_infos.at(m_current).filePath);
-        } else
+        }
+        else
         {
             const QString path = m_infos.at(m_current).filePath;
             removeCurrentImage();
             utils::base::trashFile(path);
         }
+//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));//songsha
+
     });
     connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
         if (fitWindow) {
@@ -797,7 +800,8 @@ void ViewPanel::removeCurrentImage()
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
-    }else {
+    }
+    else {
         if (m_current == m_infos.size()) {
             m_current = 0;
         }

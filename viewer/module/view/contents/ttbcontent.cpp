@@ -54,6 +54,9 @@ const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.
 const int TOOLBAR_MINIMUN_WIDTH = 610;
 const int TOOLBAR_JUSTONE_WIDTH = 310;
 const int RT_SPACING = 20;
+const int TOOLBAR_HEIGHT = 60;
+const int THUMBNAIL_WIDTH = 32;
+const int THUMBNAIL_ADD_WIDTH = 31;
 
 const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
 const unsigned int IMAGE_TYPE_JPG1 = 0xFFD8FFE0;
@@ -221,6 +224,7 @@ TTBContent::TTBContent(bool inDB,
         ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
 //    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH, 1);
     m_imgInfos = m_infos;
+    m_imgInfos_size = m_imgInfos.size();
     if ( m_imgInfos.size() <= 1 ) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     }
@@ -228,7 +232,7 @@ TTBContent::TTBContent(bool inDB,
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
     }
     else {
-        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH));
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH+THUMBNAIL_ADD_WIDTH*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH));
     }
 
     setFixedWidth(m_contentWidth);
@@ -342,7 +346,7 @@ TTBContent::TTBContent(bool inDB,
     m_imgListView = new DWidget();
     m_imgListView->setObjectName("ImgListView");
     m_imgList = new DWidget(m_imgListView);
-    m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
+    m_imgList->setFixedSize((m_imgInfos.size()+1)*THUMBNAIL_WIDTH,TOOLBAR_HEIGHT);
     m_imgList->setObjectName("ImgList");
 
     m_imgList->setDisabled(false);
@@ -354,10 +358,10 @@ TTBContent::TTBContent(bool inDB,
     m_imgList->setLayout(m_imglayout);
 
     if (m_imgInfos.size() <= 3 ) {
-       m_imgListView->setFixedSize(QSize(114,60));
+       m_imgListView->setFixedSize(QSize(114,TOOLBAR_HEIGHT));
     }
     else{
-      m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH))-496,60));
+      m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH+THUMBNAIL_ADD_WIDTH*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH))-496,TOOLBAR_HEIGHT));
     }
     m_imgListView->hide();
     QPalette palette ;
@@ -382,6 +386,22 @@ TTBContent::TTBContent(bool inDB,
     m_fileNameLabel = new ElidedLabel();
 //    hb->addWidget(m_fileNameLabel);
     connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed);
+    connect(m_trashBtn, &DIconButton::clicked, this,[=]{
+        m_imgInfos_size = m_imgInfos_size - 1;
+        int windowWidth =  this->window()->geometry().width();
+        if ( m_imgInfos_size <= 1 ) {
+            m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+        }
+        else if ( m_imgInfos_size <= 3 ) {
+            m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+            m_imgListView->setFixedSize(QSize(114,TOOLBAR_HEIGHT));
+        }
+        else {
+            m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH+THUMBNAIL_ADD_WIDTH*(m_imgInfos_size-3)),qMax(windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH));
+            m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH+THUMBNAIL_ADD_WIDTH*(m_imgInfos_size-3)),qMax(windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH))-496,TOOLBAR_HEIGHT));
+        }
+        setFixedWidth(m_contentWidth);
+    });
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &TTBContent::onThemeChanged);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged,
@@ -456,16 +476,16 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     m_windowWidth =  this->window()->geometry().width();
-    if ( m_imgInfos.size() <= 1 ) {
+    if ( m_imgInfos_size <= 1 ) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     }
-    else if ( m_imgInfos.size() <= 3 ) {
+    else if ( m_imgInfos_size <= 3 ) {
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-        m_imgListView->setFixedSize(QSize(114,60));
+        m_imgListView->setFixedSize(QSize(114,TOOLBAR_HEIGHT));
     }
     else {
-        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH));
-        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH))-496,60));
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH+THUMBNAIL_ADD_WIDTH*(m_imgInfos_size-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH));
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH+THUMBNAIL_ADD_WIDTH*(m_imgInfos_size-3)),qMax(m_windowWidth-RT_SPACING,TOOLBAR_MINIMUN_WIDTH))-496,TOOLBAR_HEIGHT));
     }
 
     setFixedWidth(m_contentWidth);
@@ -514,8 +534,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
         int t=0;
         if ( m_imgInfos.size() > 3 ) {
-            m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
-            m_imgList->resize((m_imgInfos.size()+1)*32,60);
+            m_imgList->setFixedSize((m_imgInfos.size()+1)*THUMBNAIL_WIDTH,TOOLBAR_HEIGHT);
+            m_imgList->resize((m_imgInfos.size()+1)*THUMBNAIL_WIDTH,TOOLBAR_HEIGHT);
 
             m_imgList->setContentsMargins(0,0,0,0);
 
@@ -564,9 +584,9 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             animation->setEasingCurve(QEasingCurve::NCurveTypes);
             animation->setStartValue(m_imgList->pos());
 //            animation->setKeyValueAt(1,  QPoint(350-((num)*t),0));
-            animation->setKeyValueAt(1,  QPoint((qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),(qMax(width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)))-496-52)/2-((num)*t),0));
+            animation->setKeyValueAt(1,  QPoint((qMin((TOOLBAR_MINIMUN_WIDTH+THUMBNAIL_ADD_WIDTH*(m_imgInfos.size()-3)),(qMax(width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)))-496-52)/2-((num)*t),0));
 //            animation->setEndValue(QPoint(350-((num)*t),0));
-            animation->setEndValue(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH+31*(m_imgInfos.size()-3)),(qMax(width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)))-496-52)/2-((num)*t),0));
+            animation->setEndValue(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH+THUMBNAIL_ADD_WIDTH*(m_imgInfos.size()-3)),(qMax(width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)))-496-52)/2-((num)*t),0));
             animation->start(QAbstractAnimation::DeleteWhenStopped);
             connect(animation, &QPropertyAnimation::finished,
                     animation, &QPropertyAnimation::deleteLater);
@@ -600,8 +620,8 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 
         }
         else if (m_imgInfos.size() > 1) {
-            m_imgList->setFixedSize((m_imgInfos.size()+1)*32,60);
-            m_imgList->resize((m_imgInfos.size()+1)*32,60);
+            m_imgList->setFixedSize((m_imgInfos.size()+1)*THUMBNAIL_WIDTH,TOOLBAR_HEIGHT);
+            m_imgList->resize((m_imgInfos.size()+1)*THUMBNAIL_WIDTH,TOOLBAR_HEIGHT);
 
             m_imgList->setContentsMargins(0,0,0,0);
 
@@ -699,7 +719,7 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
             m_rotateRBtn->setDisabled(true);
         } else {
             m_trashBtn->setDisabled(false);
-            if (utils::image::imageSupportSave(path)) {//songsha
+            if (utils::image::imageSupportSave(path)) {
                 m_rotateLBtn->setDisabled(false);
                 m_rotateRBtn->setDisabled(false);
             } else {
