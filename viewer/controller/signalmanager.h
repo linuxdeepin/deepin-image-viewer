@@ -58,6 +58,7 @@ signals:
     void extensionPanelHeight(int height, bool immediately = false);
     void sendPathlist(QStringList pathlist);
     void enterView(bool immediately = false);
+    void enterScaledMode(bool immediately = false);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
