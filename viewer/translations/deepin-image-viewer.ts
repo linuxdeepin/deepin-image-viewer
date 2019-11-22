@@ -137,7 +137,11 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
+        <source>看图</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>看图是⼀款外观时尚，性能流畅的图片查看工具。</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -213,6 +217,14 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Basic information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Detailed information</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -335,7 +347,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Colorspace</source>
+        <source>Date captured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -383,15 +395,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Lens model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Date captured</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -749,6 +753,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -950,22 +989,6 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

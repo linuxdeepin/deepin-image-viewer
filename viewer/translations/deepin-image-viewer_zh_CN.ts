@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -136,7 +138,15 @@
     <name>Application</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>深度看图</translation>
+        <translation type="vanished">深度看图</translation>
+    </message>
+    <message>
+        <source>看图</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>看图是⼀款外观时尚，性能流畅的图片查看工具。</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -212,6 +222,14 @@
     <message>
         <source>Image info</source>
         <translation>图片信息</translation>
+    </message>
+    <message>
+        <source>Basic information</source>
+        <translation>基本信息</translation>
+    </message>
+    <message>
+        <source>Detailed information</source>
+        <translation>详细信息</translation>
     </message>
 </context>
 <context>
@@ -314,7 +332,7 @@
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>名称</translation>
+        <translation>图片名称</translation>
     </message>
     <message>
         <source>Type</source>
@@ -326,15 +344,15 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>尺寸</translation>
+        <translation>图片尺寸</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>文件大小</translation>
+        <translation>图片大小</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>颜色空间</translation>
+        <translation type="vanished">颜色空间</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -382,7 +400,7 @@
     </message>
     <message>
         <source>Camera model</source>
-        <translation>相机型号</translation>
+        <translation type="vanished">相机型号</translation>
     </message>
     <message>
         <source>Lens model</source>
@@ -747,6 +765,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>我的收藏</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>上一张</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一张</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>1:1 比例</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>适应窗口</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>逆时针旋转</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>顺时针旋转</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -952,19 +1005,19 @@
     </message>
     <message>
         <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
+        <translation type="vanished">深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
     </message>
     <message>
         <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
+        <translation type="vanished">兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
     </message>
     <message>
         <source>Dark theme</source>
-        <translation>深色主题</translation>
+        <translation type="vanished">深色主题</translation>
     </message>
     <message>
         <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>深度看图是一款外观时尚，性能流畅的图片查看工具。</translation>
+        <translation type="vanished">深度看图是一款外观时尚，性能流畅的图片查看工具。</translation>
     </message>
 </context>
 <context>
