@@ -27,6 +27,7 @@
 #include <QScreen>
 #include <QTimer>
 #include <QShortcut>
+#include <dgiovolumemanager.h>
 
 namespace {
 
@@ -113,6 +114,19 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 //    l->addWidget(m_mainWidget);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &MainWindow::onThemeChanged);
+
+
+    m_vfsManager = new DGioVolumeManager;
+//    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
+//    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
+    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [=](){
+            int a = 0;
+            qDebug()<<"!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    });
+    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [=](){
+            int a = 0;
+            qDebug()<<"!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    });
 }
 
 void MainWindow::moveFirstWindow() {

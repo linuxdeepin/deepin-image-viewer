@@ -725,7 +725,7 @@ bool ViewPanel::showPrevious()
     eatImageDirIterator();
 #endif
 
-    if (m_infos.isEmpty()) {
+    if (m_infos.isEmpty()||m_current == 0) {
         return false;
     }
 
@@ -746,7 +746,7 @@ bool ViewPanel::showNext()
     eatImageDirIterator();
 #endif
 
-    if (m_infos.isEmpty()) {
+    if (m_infos.isEmpty()|| m_current == m_infos.size()-1) {
         return false;
     }
 

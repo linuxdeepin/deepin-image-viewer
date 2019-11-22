@@ -45,7 +45,7 @@ public slots:
     }
 };
 #endif
-
+class DGioVolumeManager;
 class MainWindow : public  DMainWindow
 {
 public:
@@ -64,6 +64,7 @@ private:
     bool windowAtEdge();
 
     MainWidget *m_mainWidget;
+    DGioVolumeManager *m_vfsManager;
 };
 
 #endif // MAINWINDOW_H
