@@ -194,6 +194,7 @@ void ViewPanel::initConnect()
         dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
         emit dApp->signalM->enterView(true);
+        qDebug()<<"emit dApp->signalM->enterView(true)..................m_emptyWidget";
 
         onViewImage(vinfo);
     });
@@ -576,6 +577,7 @@ void ViewPanel::dropEvent(QDropEvent *event)
         return;
     }
     emit dApp->signalM->enterView(true);
+    qDebug()<<"emit dApp->signalM->enterView(true)..................dropEvent";
     using namespace utils::image;
     QStringList paths;
     for (QUrl url : urls) {
@@ -797,6 +799,7 @@ void ViewPanel::removeCurrentImage()
         m_current = 0;
         emit imageChanged("",m_infos);
         emit dApp->signalM->enterView(false);
+        qDebug()<<"emit dApp->signalM->enterView(false)!!!!!!!!!!!!!!!!!!!!!!removeCurrentImage";
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
@@ -868,7 +871,8 @@ void ViewPanel::initStack()
 
     // Empty frame
     m_emptyWidget = new ThumbnailWidget("","");
-    emit dApp->signalM->enterView(false);
+//    emit dApp->signalM->enterView(false);
+//    qDebug()<<"emit dApp->signalM->enterView(false)!!!!!!!!!!!!!!!!!!!!!!!initStack";
 
     m_stack->addWidget(m_viewB);
     m_stack->addWidget(m_emptyWidget);

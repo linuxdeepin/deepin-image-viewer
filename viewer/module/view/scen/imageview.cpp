@@ -42,6 +42,7 @@
 #include "widgets/dspinner.h"
 #include <DSvgRenderer>
 #include <DGuiApplicationHelper>
+#include "controller/signalmanager.h"
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -164,6 +165,9 @@ void ImageView::setImage(const QString &path)
     if (path.isEmpty()) {
         return;
     }
+    emit dApp->signalM->enterView(true);
+    qDebug()<<"emit dApp->signalM->enterView(true)..................ImageView";
+
     m_path = path;
     QGraphicsScene *s = scene();
 
