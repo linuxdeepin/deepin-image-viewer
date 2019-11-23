@@ -459,8 +459,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
             removeCurrentImage();
             utils::base::trashFile(path);
         }
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));//songsha
-
     });
     connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
         if (fitWindow) {

@@ -62,13 +62,13 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     const int ww = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                        QVariant(defaultW)).toInt();
     const int wh = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
-                                       QVariant(defaultH)).toInt();
+                                       QVariant(defaultH)).toInt();//Size memory
 
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
-    resize(ww, wh);
+    resize(defaultW, defaultH);
 
-    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
-    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
+    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, defaultW);
+    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, defaultH);
     m_mainWidget = new MainWidget(manager, this);
     QTimer::singleShot(200, [=]{
          setCentralWidget(m_mainWidget);
@@ -120,12 +120,12 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 //    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
 //    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [=](){
-            int a = 0;
             qDebug()<<"!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            emit dApp->signalM->usbOutIn(true);
     });
     connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [=](){
-            int a = 0;
             qDebug()<<"!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            emit dApp->signalM->usbOutIn(false);
     });
 }
 

@@ -26,6 +26,9 @@
 #include <QImageReader>
 #include <DGuiApplicationHelper>
 #include <DHiDPIHelper>
+#include "controller/signalmanager.h"
+#include <DLabel>
+#include <DFontSizeManager>
 
 namespace  {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
@@ -80,11 +83,28 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     m_tips->setObjectName("ThumbnailTips");
     m_tips->setText(tr("No image files found"));
 #else
+
+    DLabel* tips = new DLabel(this);
+    tips->setText(tr("No image files found"));
+    DFontSizeManager::instance()->bind(tips, DFontSizeManager::T6);
+    tips->setForegroundRole(DPalette::TextWarning);
+    tips->hide();
+
     DSuggestButton *button = new DSuggestButton(tr("Open Image"), this);
     button->setFixedWidth(302);
     button->setFixedHeight(36);
     button->setShortcut(QKeySequence("Ctrl+O"));
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
+
+    connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
+        if(visible){
+            button ->show();
+            tips->hide();
+        }else {
+            button ->hide();
+            tips->show();
+        }
+    });
 #endif
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addStretch();
@@ -93,6 +113,7 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
 #ifndef LITE_DIV
     layout->addWidget(m_tips,  0, Qt::AlignCenter);
 #else
+    layout->addWidget(tips,  0, Qt::AlignCenter);
     layout->addWidget(button,  0, Qt::AlignCenter);
 #endif
     layout->addStretch();
