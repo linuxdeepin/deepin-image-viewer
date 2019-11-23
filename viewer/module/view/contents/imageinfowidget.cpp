@@ -594,5 +594,5 @@ int ImageInfoWidget::contentHeight() const
 //        expandsHeight += firstExpandHeight;
     }
 
-    return ( expandsHeight + 45 );
+    return ( expandsHeight + 45 +4);
 }

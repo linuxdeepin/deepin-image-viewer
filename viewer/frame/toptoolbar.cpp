@@ -298,7 +298,10 @@ void TopToolbar::initWidgets()
     m_titletxt=new DLabel;
     m_titletxt->setText("");
     DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7/*,QFont::DemiBold*/);
-    m_titletxt->setForegroundRole(DPalette::NColorTypes);//songsha
+//    m_titletxt->setForegroundRole(DPalette::TextTitle);//songsha
+    DPalette p = DApplicationHelper::instance()->palette(m_titletxt);
+    pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
+    m_titletxt->setPalette(pa);
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
     shadowEffect->setOffset(0, 1);
     shadowEffect->setBlurRadius(1);
