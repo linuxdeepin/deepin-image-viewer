@@ -768,15 +768,16 @@ bool ViewPanel::showImage(int index,int addindex)
             return false;
         }
 
-        if(addindex>0){
-            for (int i=0;i<addindex;i++) {
-                ++m_current;
-            }
-        }else{
-            for (int i=addindex;i<0;i++) {
-                --m_current;
-            }
-        }
+//        if(addindex>0){
+//            for (int i=0;i<addindex;i++) {
+//                ++m_current;
+//            }
+//        }else{
+//            for (int i=addindex;i<0;i++) {
+//                --m_current;
+//            }
+//        }
+        m_current = index;
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         return true;
 }
