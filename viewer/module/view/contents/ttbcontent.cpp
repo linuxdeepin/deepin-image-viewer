@@ -484,13 +484,13 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 
     QList<ImageItem*> labelList = m_imgList->findChildren<ImageItem*>();
     for(int j = 0; j < labelList.size(); j++){
-        labelList.at(j)->setFixedSize (QSize(30,40));
+        labelList.at(j)->setFixedSize(QSize(30,40));
         labelList.at(j)->resize (QSize(30,40));
         labelList.at(j)->setContentsMargins(1,5,1,5);
         labelList.at(j)->setIndexNow(m_nowIndex);
     }
     if(labelList.size()>0){
-        labelList.at(m_nowIndex)->setFixedSize (QSize(60,58));
+        labelList.at(m_nowIndex)->setFixedSize(QSize(60,58));
         labelList.at(m_nowIndex)->resize (QSize(60,58));
         labelList.at(m_nowIndex)->setContentsMargins(0,0,0,0);
     }
@@ -508,7 +508,6 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
              m_imglayout->removeWidget(child->widget());
              child->widget()->setParent(0);
              delete child;
-
          }
     }
     if (path.isEmpty() || !QFileInfo(path).exists()
@@ -614,7 +613,6 @@ void TTBContent::setImage(const QString &path,DBImgInfoList infos)
         else if (m_imgInfos.size() > 1) {
             m_imgList->setFixedSize((m_imgInfos.size()+1)*THUMBNAIL_WIDTH,TOOLBAR_HEIGHT);
             m_imgList->resize((m_imgInfos.size()+1)*THUMBNAIL_WIDTH,TOOLBAR_HEIGHT);
-
             m_imgList->setContentsMargins(0,0,0,0);
 
             auto num=32;
