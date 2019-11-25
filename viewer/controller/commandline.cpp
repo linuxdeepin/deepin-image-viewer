@@ -129,6 +129,8 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
         info.path = path;
         info.paths = paths;
 
+//        emit dApp->signalM->enterView(true);
+//        qDebug()<<"emit dApp->signalM->enterView(true)....................CommandLine";
         emit dApp->signalM->viewImage(info);
     });
 }

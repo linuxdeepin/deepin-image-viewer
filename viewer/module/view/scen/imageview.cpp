@@ -165,9 +165,8 @@ void ImageView::setImage(const QString &path)
     if (path.isEmpty()) {
         return;
     }
-
-    qDebug()<<"imageView::setImage::path===================="<<path;
-    if(path == m_path)return;
+    emit dApp->signalM->enterView(true);
+    qDebug()<<"emit dApp->signalM->enterView(true)..................ImageView";
 
     m_path = path;
     QGraphicsScene *s = scene();
@@ -241,7 +240,7 @@ void ImageView::setImage(const QString &path)
                 setSceneRect(w->rect());
                 s->addWidget(w);
 
-                emit dApp->signalM->hideNavigation();
+                emit hideNavigation();
             }
         }
     }
@@ -531,11 +530,6 @@ void ImageView::onCacheFinish()
             m_pixmapItem = new GraphicsPixmapItem(pixmap);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             connect(dApp->signalM, &SignalManager::enterScaledMode, this, [=](bool scaledmode) {
-                if(!m_pixmapItem){
-                        qDebug()<<"onCacheFinish.............m_pixmapItem="<<m_pixmapItem;
-                        update();
-                        return;
-                }
                 if(scaledmode){
                     m_pixmapItem->setTransformationMode(Qt::FastTransformation);
                 }else{

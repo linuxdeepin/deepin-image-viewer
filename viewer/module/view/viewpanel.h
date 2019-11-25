@@ -153,6 +153,5 @@ private:
     void eatImageDirIterator();
 #endif
     QString m_currentImageLastDir = "";
-    QString m_currentImagePath = "";
 };
 #endif // VIEWPANEL_H

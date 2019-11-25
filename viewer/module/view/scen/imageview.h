@@ -82,7 +82,7 @@ signals:
     void scaled(qreal perc);
     void transformChanged();
     void showScaleLabel();
-//    void hideNavigation();
+    void hideNavigation();
     void nextRequested();
     void previousRequested();
 

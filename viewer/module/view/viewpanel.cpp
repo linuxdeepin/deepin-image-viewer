@@ -193,6 +193,9 @@ void ViewPanel::initConnect()
         QFileInfo firstFileInfo(vinfo.path);
         dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
+        emit dApp->signalM->enterView(true);
+        qDebug()<<"emit dApp->signalM->enterView(true)..................m_emptyWidget";
+
         onViewImage(vinfo);
     });
 #endif
@@ -571,6 +574,8 @@ void ViewPanel::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
+    emit dApp->signalM->enterView(true);
+    qDebug()<<"emit dApp->signalM->enterView(true)..................dropEvent";
     using namespace utils::image;
     QStringList paths;
     for (QUrl url : urls) {
@@ -793,7 +798,7 @@ void ViewPanel::removeCurrentImage()
         m_current = 0;
         emit imageChanged("",m_infos);
         emit dApp->signalM->enterView(false);
-        qDebug()<<"removeCurrentImage!!!!!!!!!!!!!!!";
+        qDebug()<<"emit dApp->signalM->enterView(false)!!!!!!!!!!!!!!!!!!!!!!removeCurrentImage";
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
@@ -865,6 +870,8 @@ void ViewPanel::initStack()
 
     // Empty frame
     m_emptyWidget = new ThumbnailWidget("","");
+//    emit dApp->signalM->enterView(false);
+//    qDebug()<<"emit dApp->signalM->enterView(false)!!!!!!!!!!!!!!!!!!!!!!!initStack";
 
     m_stack->addWidget(m_viewB);
     m_stack->addWidget(m_emptyWidget);
@@ -950,33 +957,16 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     if (m_info) {
         m_info->setImagePath(path);
     }
-    m_currentImagePath = path;
 
-    connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
-        if(visible){
-            m_viewB->setImage(m_currentImagePath);
-            m_stack->setCurrentIndex(0);
-            QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
-        }else {
-            emit dApp->signalM->hideNavigation();
-            emit dApp->signalM->hideExtensionPanel();
-            m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
-            m_stack->setCurrentIndex(1);
-        }
-    });
     if (!QFileInfo(path).exists()) {
         m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
         m_stack->setCurrentIndex(1);
-        emit dApp->signalM->enterView(false);
     } else if (!QFileInfo(path).isReadable()) {
         m_stack->setCurrentIndex(2);
-        emit dApp->signalM->enterView(true);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
-        emit dApp->signalM->enterView(true);
     } else {
         m_stack->setCurrentIndex(0);
-        emit dApp->signalM->enterView(true);
 
         // open success.
         DRecentData data;
