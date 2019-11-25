@@ -61,6 +61,7 @@ signals:
     void enterScaledMode(bool immediately = false);
     void usbOutIn(bool immediately = false);
     void hideNavigation();
+    void picInUSB(bool immediately = false);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");

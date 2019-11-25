@@ -329,6 +329,33 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The mobile device is unplugged. Do you want to delete the thumbnail on the mobile device?</source>
+        <translation type="vanished">移动设备已拔出，是否要删除该移动设备上的缩略图缩略图？</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="vanished">否</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="vanished">是</translation>
+    </message>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>移动设备已拔出，是否要删除该移动设备上的缩略图缩略图？</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -478,6 +505,10 @@
     <message>
         <source>Ring</source>
         <translation>圆环</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm</source>
+        <translation>yyyy年MM月dd日 HH:mm</translation>
     </message>
 </context>
 <context>

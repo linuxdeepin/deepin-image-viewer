@@ -113,7 +113,6 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
                 tips->hide();
             }
         }else {
-            emit dApp->signalM->enterView(false);
             button ->hide();
             tips->show();
             m_usb = true;

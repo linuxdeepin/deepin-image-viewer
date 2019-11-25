@@ -28,8 +28,10 @@
 #include <QJsonObject>
 #include <QDirIterator>
 #include <DMenu>
+#include <DFileWatcher>
 
 DWIDGET_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 class ImageButton;
 class ImageInfoWidget;
@@ -154,5 +156,7 @@ private:
 #endif
     QString m_currentImageLastDir = "";
     QString m_currentImagePath = "";
+    DFileWatcher *m_fileManager;
+    QString m_currentFilePath = "";
 };
 #endif // VIEWPANEL_H

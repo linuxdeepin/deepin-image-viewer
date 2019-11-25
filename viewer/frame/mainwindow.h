@@ -54,6 +54,7 @@ public:
     MainWindow(bool manager, QWidget *parent=0);
 
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+    int showDialog();
 protected:
     void resizeEvent(QResizeEvent *e) override;
 //    void showEvent(QShowEvent *event);
@@ -65,6 +66,7 @@ private:
 
     MainWidget *m_mainWidget;
     DGioVolumeManager *m_vfsManager;
+    bool m_picInUSB = false;
 };
 
 #endif // MAINWINDOW_H
