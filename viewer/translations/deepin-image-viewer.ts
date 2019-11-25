@@ -325,21 +325,6 @@
     </message>
 </context>
 <context>
-    <name>MainWindow</name>
-    <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -480,10 +465,6 @@
     </message>
     <message>
         <source>Ring</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>yyyy/MM/dd HH:mm</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

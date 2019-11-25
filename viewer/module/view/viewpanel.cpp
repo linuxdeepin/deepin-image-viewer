@@ -190,21 +190,12 @@ void ViewPanel::initConnect()
         vinfo.path = image_list.first();
         vinfo.paths = image_list;
 
-        m_currentFilePath = pictureFolder;
         QFileInfo firstFileInfo(vinfo.path);
         dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
         onViewImage(vinfo);
     });
 #endif
-    m_fileManager = new DFileWatcher(m_currentFilePath,this);
-    m_fileManager->startWatcher();
-    connect(m_fileManager, &DFileWatcher::fileDeleted, this, [=](){
-        qDebug()<<"!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
-    });
-    connect(m_fileManager, &DFileWatcher::fileMoved, this, [=](){
-        qDebug()<<"!!!!!!!!!!!!!!!!!!FileMoved!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-    });
 }
 
 #ifndef LITE_DIV
@@ -967,14 +958,10 @@ void ViewPanel::openImage(const QString &path, bool inDB)
             m_stack->setCurrentIndex(0);
             QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
         }else {
-            if (!QFileInfo(m_currentImagePath).exists())
-            {
-                emit dApp->signalM->picInUSB(true);
-                emit dApp->signalM->hideNavigation();
-                emit dApp->signalM->hideExtensionPanel();
-                m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
-                m_stack->setCurrentIndex(1);
-            }
+            emit dApp->signalM->hideNavigation();
+            emit dApp->signalM->hideExtensionPanel();
+            m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+            m_stack->setCurrentIndex(1);
         }
     });
     if (!QFileInfo(path).exists()) {

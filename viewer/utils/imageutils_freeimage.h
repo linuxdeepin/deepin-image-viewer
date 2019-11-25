@@ -142,8 +142,8 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     QImageReader reader(path);
     if (admMap.isEmpty()) {
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString(QObject::tr("yyyy/MM/dd HH:mm")));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm")));
+        admMap.insert("DateTimeOriginal",  emptyTime.toString("yyyy年MM月dd日 HH:mm"));
+        admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy年MM月dd日 HH:mm"));
     }
     else {
         // ReFormat the date-time
@@ -158,12 +158,12 @@ QMap<QString, QString> getAllMetaData(const QString &path)
 
             // NO valid date information
             if (! ot.isValid()) {
-                admMap.insert("DateTimeOriginal", info.created().toString(QObject::tr("yyyy/MM/dd HH:mm")));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm")));
+                admMap.insert("DateTimeOriginal", info.created().toString("yyyy年MM月dd日 HH:mm"));
+                admMap.insert("DateTimeDigitized", info.lastModified().toString("yyyy年MM月dd日 HH:mm"));
             }
         }
-        admMap.insert("DateTimeOriginal", ot.toString(QObject::tr("yyyy/MM/dd HH:mm")));
-        admMap.insert("DateTimeDigitized", dt.toString(QObject::tr("yyyy/MM/dd HH:mm")));
+        admMap.insert("DateTimeOriginal", ot.toString("yyyy年MM月dd日 HH:mm"));
+        admMap.insert("DateTimeDigitized", dt.toString("yyyy年MM月dd日 HH:mm"));
     }
     // The value of width and height might incorrect
     int w = reader.size().width();
