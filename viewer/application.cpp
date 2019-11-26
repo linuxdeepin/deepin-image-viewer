@@ -142,11 +142,11 @@ Application::Application(int& argc, char** argv)
     initI18n();
     setOrganizationName("deepin");
     setApplicationName("deepin-image-viewer");
-    setApplicationDisplayName(tr("看图"));
+    setApplicationDisplayName(tr("Image Viewer"));
     setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
 //    setApplicationDescription(QString("%1\n%2\n").arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")).arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")));
 //    setApplicationAcknowledgementPage("https://www.deepin.org/" "acknowledgments/deepin-image-viewer/");
-    setApplicationDescription(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。"));
+    setApplicationDescription(tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
 
 //    //save theme
 //    DApplicationSettings saveTheme;

@@ -141,12 +141,12 @@
         <translation type="vanished">深度看图</translation>
     </message>
     <message>
-        <source>看图</source>
-        <translation type="unfinished"></translation>
+        <source>Image Viewer</source>
+        <translation>看图</translation>
     </message>
     <message>
-        <source>看图是⼀款外观时尚，性能流畅的图片查看工具。</source>
-        <translation type="unfinished"></translation>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>看图是⼀款外观时尚，性能流畅的图⽚查看⼯具。</translation>
     </message>
 </context>
 <context>
@@ -225,10 +225,18 @@
     </message>
     <message>
         <source>Basic information</source>
-        <translation>基本信息</translation>
+        <translation type="vanished">基本信息</translation>
     </message>
     <message>
         <source>Detailed information</source>
+        <translation type="vanished">详细信息</translation>
+    </message>
+    <message>
+        <source>Basic info</source>
+        <translation>基本信息</translation>
+    </message>
+    <message>
+        <source>Details</source>
         <translation>详细信息</translation>
     </message>
 </context>
@@ -352,7 +360,7 @@
     </message>
     <message>
         <source>Colorspace</source>
-        <translation type="vanished">颜色空间</translation>
+        <translation>颜色空间</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -400,7 +408,7 @@
     </message>
     <message>
         <source>Camera model</source>
-        <translation type="vanished">相机型号</translation>
+        <translation>相机型号</translation>
     </message>
     <message>
         <source>Lens model</source>
@@ -780,7 +788,7 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 比例</translation>
+        <translation>1:1 视图</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -851,6 +859,10 @@
     <message>
         <source>Open Image</source>
         <translation>打开图片</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>没有发现图⽚⽂件</translation>
     </message>
 </context>
 <context>

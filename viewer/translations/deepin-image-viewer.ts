@@ -137,11 +137,11 @@
 <context>
     <name>Application</name>
     <message>
-        <source>看图</source>
+        <source>Image Viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>看图是⼀款外观时尚，性能流畅的图片查看工具。</source>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -220,11 +220,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Basic information</source>
+        <source>Basic info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Detailed information</source>
+        <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -396,6 +396,14 @@
     </message>
     <message>
         <source>Lens model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Colorspace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Camera model</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -838,6 +846,10 @@
     </message>
     <message>
         <source>Open Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

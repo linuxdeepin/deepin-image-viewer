@@ -47,16 +47,16 @@ struct MetaData {
 
 static MetaData MetaDataBasics[] = {
     {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
-    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimension")},
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
+    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimension")},
+    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
     {"", ""}
 };
 
 static MetaData MetaDataDetails[] = {
-//    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
+    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
     {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "Exposure mode")},
     {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "Exposure program")},
     {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "Exposure time")},
@@ -68,7 +68,7 @@ static MetaData MetaDataDetails[] = {
     {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "Metering mode")},
     {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "White balance")},
     {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
-//    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
+    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
     {"LensType",            QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
     {"", ""}
 };
@@ -315,8 +315,8 @@ void ImageInfoWidget::setImagePath(const QString &path)
     m_expandGroup.clear();
 
     if(m_isBaseInfo == true && m_isDetailsInfo == true ){
-        titleList << tr("Basic information");
-        titleList << tr("Detailed information");
+        titleList << tr("Basic info");
+        titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
         m_expandGroup.at(0)->setExpand(true);
@@ -325,13 +325,13 @@ void ImageInfoWidget::setImagePath(const QString &path)
 
     }
     else if(m_isBaseInfo == false && m_isDetailsInfo == true ){
-        titleList << tr("Detailed information");
+        titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_details);
         m_expandGroup.at(0)->setExpand(true);
     }
     else if(m_isBaseInfo == true && m_isDetailsInfo == false ){
-        titleList << tr("Basic information");
+        titleList << tr("Basic info");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
         m_expandGroup.at(0)->setExpand(true);
