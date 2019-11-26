@@ -17,8 +17,8 @@
 #ifndef TTBCONTENT_H
 #define TTBCONTENT_H
 
-#include <QLabel>
 #include <QWidget>
+#include <QLabel>
 #include "controller/viewerthememanager.h"
 //#include <dlistwidget.h>
 //#include <DListWidget>
@@ -26,75 +26,73 @@
 #include <DSpinner>
 //#include <DtkWidgets>
 //#include "dlistwidget.h"
-#include <dimagebutton.h>
-#include <DAnchors>
-#include <DBlurEffectWidget>
-#include <DGuiApplicationHelper>
-#include <DIconButton>
-#include <DLabel>
-#include <DListView>
-#include <DThumbnailProvider>
-#include <QAbstractItemModel>
-#include <QHBoxLayout>
 #include <QListWidget>
-#include <QPropertyAnimation>
+#include <DListView>
+#include <QAbstractItemModel>
 #include <QStandardItem>
 #include "controller/dbmanager.h"
+#include <DAnchors>
+#include <dimagebutton.h>
+#include <DThumbnailProvider>
+#include <QPropertyAnimation>
+#include <QHBoxLayout>
+#include <DIconButton>
+#include <DBlurEffectWidget>
+#include <DGuiApplicationHelper>
+#include <DLabel>
 DWIDGET_USE_NAMESPACE
+
 
 class PushButton;
 class ReturnButton;
 class ElidedLabel;
 class QAbstractItemModel;
-// class DImageButton;
+//class DImageButton;
 class ImageButton;
-class ImageItem : public DLabel
-{
+class ImageItem : public DLabel{
     Q_OBJECT
 public:
-    ImageItem(int index = 0, QString path = NULL, char *imageType = NULL, QWidget *parent = 0);
-    void setIndexNow(int i)
-    {
+    ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0);
+    void setIndexNow(int i){
         _indexNow = i;
 
-        if (_index == _indexNow) {
-            //            m_spinner->move(21, 21);
+        if (_index == _indexNow){
+//            m_spinner->move(21, 21);
         }
-    }
-    void setPic(QImage image)
-    {
-        //      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
-    }
-    void updatePic(QPixmap pixmap)
-    {
+    };
+    void setPic(QImage image){
+//      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
+    };
+    void updatePic(QPixmap pixmap){
         _pixmap = pixmap;
         update();
-    }
+    };
 signals:
-    void imageItemclicked(int index, int indexNow);
-
+    void imageItemclicked(int index,int indexNow);
 protected:
-    void mousePressEvent(QMouseEvent *ev) { emit imageItemclicked(_index, _indexNow); }
+    void mousePressEvent(QMouseEvent *ev){
+        emit imageItemclicked(_index,_indexNow);
+    }
     void paintEvent(QPaintEvent *event);
-
 private:
     int _index;
     int _indexNow = -1;
-    DLabel *_image = nullptr;
+    DLabel *_image=nullptr;
     QString _path = NULL;
     QPixmap _pixmap;
-    DSpinner *m_spinner;
+    DSpinner* m_spinner;
     QString m_pixmapstring;
+
 };
 class TTBContent : public QLabel
 {
     Q_OBJECT
 public:
-    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
+    explicit TTBContent(bool inDB, DBImgInfoList m_infos , QWidget *parent = 0);
 
 signals:
     void clicked();
-    void imageClicked(int index, int addIndex);
+    void imageClicked(int index,int addIndex);
     void resetTransform(bool fitWindow);
     void rotateClockwise();
     void rotateCounterClockwise();
@@ -107,7 +105,7 @@ signals:
 
 public slots:
     void setCurrentDir(QString text);
-    void setImage(const QString &path, DBImgInfoList infos);
+    void setImage(const QString &path,DBImgInfoList infos);
     void updateCollectButton();
 
 private slots:
@@ -124,15 +122,15 @@ private:
 #endif
     bool m_inDB;
 
-    DIconButton *m_adaptImageBtn;
-    DIconButton *m_adaptScreenBtn;
-    //    DIconButton* m_clBT;
-    DIconButton *m_rotateLBtn;
-    DIconButton *m_rotateRBtn;
-    DIconButton *m_trashBtn;
+    DIconButton* m_adaptImageBtn;
+    DIconButton* m_adaptScreenBtn;
+//    DIconButton* m_clBT;
+    DIconButton* m_rotateLBtn;
+    DIconButton* m_rotateRBtn;
+    DIconButton* m_trashBtn;
     DIconButton *m_preButton;
     DIconButton *m_nextButton;
-    ElidedLabel *m_fileNameLabel;
+    ElidedLabel* m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
     DWidget *m_imgListView;
@@ -140,7 +138,7 @@ private:
     DWidget *m_imgListView_spc;
     DWidget *m_preButton_spc;
     DWidget *m_nextButton_spc;
-    DBImgInfoList m_imgInfos;
+    DBImgInfoList m_imgInfos ;
     QString m_imagePath;
     int m_windowWidth;
     int m_contentWidth;
@@ -149,4 +147,4 @@ private:
     int m_imgInfos_size = 0;
 };
 
-#endif  // TTLCONTENT_H
+#endif // TTLCONTENT_H
