@@ -142,18 +142,31 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
 
 void ImageItem::paintEvent(QPaintEvent *event)
 {
+    //    DLabel::paintEvent(event);
+
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        m_pixmapstring = LOCMAP_SELECTED_DARK;
+    } else {
+        m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+    }
+
     QPainter painter(this);
 
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform |
                            QPainter::Antialiasing);
 
     QRect backgroundRect = rect();
+
     QRect pixmapRect;
     if (_index == _indexNow) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, 8, 8);
         painter.setClipPath(backgroundBp);
         painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
+        //        QColor bs = QColor("#2CA7F8");
+        //        painter.setPen(QPen(bs, 8));
+        //        painter.drawRect(backgroundRect);
 
         if (_pixmap.width() > _pixmap.height()) {
             _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height()) / 2, 0, _pixmap.height(),
@@ -168,52 +181,30 @@ void ImageItem::paintEvent(QPaintEvent *event)
         pixmapRect.setWidth(backgroundRect.width() - 8);
         pixmapRect.setHeight(backgroundRect.height() - 8);
 
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            m_pixmapstring = LOCMAP_SELECTED_DARK;
-        } else {
-            m_pixmapstring = LOCMAP_SELECTED_LIGHT;
-        }
+        QPainterPath bg;
+        bg.addRoundedRect(pixmapRect, 4, 4);
+        painter.setClipPath(bg);
 
         if (_pixmap.isNull()) {
             QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(58, 58));
-            QPainterPath bg;
-            bg.addRoundedRect(pixmapRect, 4, 4);
-            painter.setClipPath(bg);
             painter.drawPixmap(pixmapRect, pixmap);
         }
     } else {
         pixmapRect.setX(backgroundRect.x() + 1);
-        pixmapRect.setY(backgroundRect.y() + 0);
+        pixmapRect.setY(backgroundRect.y());
         pixmapRect.setWidth(backgroundRect.width() - 2);
-        pixmapRect.setHeight(backgroundRect.height() - 0);
+        pixmapRect.setHeight(backgroundRect.height());
 
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
-        } else {
-            m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
-        }
+        QPainterPath bg;
+        bg.addRoundedRect(pixmapRect, 4, 4);
+        painter.setClipPath(bg);
 
         if (_pixmap.isNull()) {
             QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(30, 40));
-            QPainterPath bg;
-            bg.addRoundedRect(pixmapRect, 4, 4);
-            painter.setClipPath(bg);
             painter.drawPixmap(pixmapRect, pixmap);
         }
     }
 
-    // temp add function.
-    // first: draw white pixmap as background pixmap
-    // second: draw scaled pixmap.
-    // third: draw inside 1px 10% alpha color.
-    QPixmap blankPix = _pixmap;
-    blankPix.fill(Qt::white);
-    painter.drawPixmap(pixmapRect, blankPix);
-    painter.drawPixmap(pixmapRect, _pixmap);
-
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     QColor cl;
     if (themeType == DGuiApplicationHelper::DarkType) {
         cl = QColor(Qt::white);
@@ -221,8 +212,24 @@ void ImageItem::paintEvent(QPaintEvent *event)
         cl = QColor(Qt::black);
     }
     cl.setAlphaF(0.1);
-    painter.setPen(QPen(cl, 1));
-    painter.drawRect(pixmapRect);
+
+    painter.fillRect(pixmapRect, QBrush(cl));
+
+    QPixmap blankPix = _pixmap;
+    blankPix.fill(Qt::white);
+    QRect whiteRect;
+    whiteRect.setX(pixmapRect.x() + 1);
+    whiteRect.setY(pixmapRect.y() + 1);
+    whiteRect.setWidth(pixmapRect.width() - 2);
+    whiteRect.setHeight(pixmapRect.height() - 2);
+
+    QPainterPath bg1;
+    bg1.addRoundedRect(whiteRect, 4, 4);
+    painter.setClipPath(bg1);
+
+    painter.drawPixmap(whiteRect, blankPix);
+
+    painter.drawPixmap(whiteRect, _pixmap);
 }
 
 TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)

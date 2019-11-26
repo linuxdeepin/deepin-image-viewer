@@ -16,33 +16,33 @@
  */
 #include "imageview.h"
 
+#include <qmath.h>
 #include <QDebug>
 #include <QFile>
-#include <QOpenGLWidget>
-#include <QWheelEvent>
-#include <QMouseEvent>
-#include <QMovie>
+#include <QGestureEvent>
+#include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsSvgItem>
-#include <QGraphicsPixmapItem>
-#include <QPaintEvent>
-#include <QtConcurrent>
 #include <QHBoxLayout>
-#include <qmath.h>
+#include <QMouseEvent>
+#include <QMovie>
+#include <QOpenGLWidget>
+#include <QPaintEvent>
 #include <QScrollBar>
-#include <QGestureEvent>
 #include <QSvgRenderer>
+#include <QWheelEvent>
+#include <QtConcurrent>
 
+#include <DGuiApplicationHelper>
+#include <DSvgRenderer>
+#include "application.h"
+#include "controller/signalmanager.h"
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
-#include "application.h"
-#include "widgets/toast.h"
 #include "widgets/dspinner.h"
-#include <DSvgRenderer>
-#include <DGuiApplicationHelper>
-#include "controller/signalmanager.h"
+#include "widgets/toast.h"
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -50,8 +50,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-namespace
-{
+namespace {
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
@@ -77,8 +76,7 @@ QVariantList cachePixmap(const QString &path)
         if (readerF.canRead()) {
             tImg = readerF.read();
         } else {
-            qWarning() << "can't read image:" << readerF.errorString()
-                       << format;
+            qWarning() << "can't read image:" << readerF.errorString() << format;
 
             tImg = QImage(path);
         }
@@ -142,16 +140,17 @@ ImageView::ImageView(QWidget *parent)
 
     // Use openGL to render by default
     //    setRenderer(OpenGL);
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
-        } else {
-            m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
-        }
-        update();
-
-    });
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                     this, [=]() {
+                         DGuiApplicationHelper::ColorType themeType =
+                             DGuiApplicationHelper::instance()->themeType();
+                         if (themeType == DGuiApplicationHelper::DarkType) {
+                             m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
+                         } else {
+                             m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
+                         }
+                         update();
+                     });
 }
 
 void ImageView::clear()
@@ -166,7 +165,7 @@ void ImageView::setImage(const QString &path)
         return;
     }
     emit dApp->signalM->enterView(true);
-    qDebug()<<"emit dApp->signalM->enterView(true)..................ImageView";
+    qDebug() << "emit dApp->signalM->enterView(true)..................ImageView";
 
     m_path = path;
     QGraphicsScene *s = scene();
@@ -180,7 +179,7 @@ void ImageView::setImage(const QString &path)
     m_toast->setProperty("hint_path", fi.canonicalFilePath());
 
     if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
-//        m_toast->show();
+        //        m_toast->show();
         m_toast->move(width() / 2 - m_toast->width() / 2,
                       height() - 80 - m_toast->height() / 2 - 11);
     } else {
@@ -217,17 +216,17 @@ void ImageView::setImage(const QString &path)
         } else {
             m_movieItem = nullptr;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-            if (! m_watcher.isRunning()) {
+            if (!m_watcher.isRunning()) {
                 m_watcher.setFuture(f);
 
-                //show loading gif.
+                // show loading gif.
                 m_pixmapItem = nullptr;
                 s->clear();
                 resetTransform();
 
                 auto spinner = new DSpinner;
                 spinner->setFixedSize(SPINNER_SIZE);
-//                spinner->setBackgroundColor(Qt::transparent);
+                //                spinner->setBackgroundColor(Qt::transparent);
                 spinner->start();
                 QWidget *w = new QWidget();
                 w->setFixedSize(SPINNER_SIZE);
@@ -287,9 +286,8 @@ void ImageView::autoFit()
 
     QSize image_size = image().size();
 
-    if ((image_size.width() >= width() ||
-         image_size.height() >= height()) &&
-            width() > 0 && height() > 0) {
+    if ((image_size.width() >= width() || image_size.height() >= height()) && width() > 0 &&
+        height() > 0) {
         fitWindow();
     } else {
         fitImage();
@@ -298,12 +296,12 @@ void ImageView::autoFit()
 
 const QImage ImageView::image()
 {
-    if (m_movieItem) {           // bit-map
+    if (m_movieItem) {  // bit-map
         return m_movieItem->pixmap().toImage();
     } else if (m_pixmapItem) {
-        //FIXME: access to m_pixmapItem will crash
+        // FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
-    } else if (m_svgItem) {    // svg
+    } else if (m_svgItem) {  // svg
         QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
         QPainter imagePainter(&image);
         m_svgItem->renderer()->render(&imagePainter);
@@ -343,7 +341,7 @@ void ImageView::rotateClockWise()
 
 void ImageView::rotateCounterclockwise()
 {
-    utils::image::rotate(m_path, - 90);
+    utils::image::rotate(m_path, -90);
     setImage(m_path);
 }
 
@@ -474,8 +472,7 @@ void ImageView::leaveEvent(QEvent *e)
 void ImageView::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
-    m_toast->move(width() / 2 - m_toast->width() / 2,
-                  height() - 80 - m_toast->height() / 2 - 11);
+    m_toast->move(width() / 2 - m_toast->width() / 2, height() - 80 - m_toast->height() / 2 - 11);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
@@ -490,29 +487,29 @@ void ImageView::dragEnterEvent(QDragEnterEvent *e)
 
 void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 {
-//    QPixmap pm(12, 12);
-//    QPainter pmp(&pm);
-//    //TODO: the transparent box
-//    //should not be scaled with the image
-//    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
-//    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
-//    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
-//    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
-//    pmp.end();
+    //    QPixmap pm(12, 12);
+    //    QPainter pmp(&pm);
+    //    //TODO: the transparent box
+    //    //should not be scaled with the image
+    //    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+    //    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+    //    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+    //    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+    //    pmp.end();
 
     painter->save();
     painter->fillRect(rect, m_backgroundColor);
 
-//    QPixmap currentImage(m_path);
-//    if (!currentImage.isNull())
-//        painter->fillRect(currentImage.rect(), QBrush(pm));
+    //    QPixmap currentImage(m_path);
+    //    if (!currentImage.isNull())
+    //        painter->fillRect(currentImage.rect(), QBrush(pm));
     painter->restore();
 }
 
 bool ImageView::event(QEvent *event)
 {
     if (event->type() == QEvent::Gesture)
-        handleGestureEvent(static_cast<QGestureEvent*>(event));
+        handleGestureEvent(static_cast<QGestureEvent *>(event));
 
     return QGraphicsView::event(event);
 }
@@ -530,9 +527,11 @@ void ImageView::onCacheFinish()
             m_pixmapItem = new GraphicsPixmapItem(pixmap);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             connect(dApp->signalM, &SignalManager::enterScaledMode, this, [=](bool scaledmode) {
-                if(scaledmode){
+                if (m_pixmapItem == nullptr)
+                    return;
+                if (scaledmode) {
                     m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-                }else{
+                } else {
                     m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
                 }
             });
@@ -581,9 +580,9 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
     if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
-        swipeTriggered(static_cast<QSwipeGesture*>(swipe));
+        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
     else if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
-        pinchTriggered(static_cast<QPinchGesture*>(pinch));
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
@@ -595,17 +594,13 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
 void ImageView::swipeTriggered(QSwipeGesture *gesture)
 {
     if (gesture->state() == Qt::GestureFinished) {
-        if (gesture->horizontalDirection() == QSwipeGesture::Left
-                || gesture->verticalDirection() == QSwipeGesture::Up)
-        {
+        if (gesture->horizontalDirection() == QSwipeGesture::Left ||
+            gesture->verticalDirection() == QSwipeGesture::Up) {
             emit nextRequested();
-        }
-        else
-        {
+        } else {
             emit previousRequested();
         }
     }
-
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)
