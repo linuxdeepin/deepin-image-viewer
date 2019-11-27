@@ -151,6 +151,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     using namespace utils::base;
     using namespace utils::image;
 
+    if(m_infos.isEmpty())
+        return;
     const QString path = m_infos.at(m_current).filePath;
     const int id = action->property("MenuID").toInt();
 

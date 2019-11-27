@@ -423,7 +423,7 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     }
     else if (QFileInfo(failEncodePath).exists()) {
         qDebug() << "Fail-thumbnail exist, won't regenerate: " << path;
-        return QPixmap();
+        return QPixmap();//songsha
     }
     else {
         // Try to generate thumbnail and load it later

@@ -55,20 +55,20 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
-    const int defaultW = dw.geometry().width() * 0.80 < MAINWIDGET_MINIMUN_WIDTH
-            ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.80;
-    const int defaultH = dw.geometry().height() * 0.80 < MAINWIDGET_MINIMUN_HEIGHT
-            ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.80;
+    const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
+            ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.60;
+    const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
+            ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.60;
     const int ww = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                        QVariant(defaultW)).toInt();
     const int wh = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
-                                       QVariant(defaultH)).toInt();//Size memory
+                                       QVariant(defaultH)).toInt();
 
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
-    resize(defaultW, defaultH);
+    resize(ww, wh);
 
-    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, defaultW);
-    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, defaultH);
+    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
+    dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
     m_mainWidget = new MainWidget(manager, this);
     QTimer::singleShot(200, [=]{
          setCentralWidget(m_mainWidget);
