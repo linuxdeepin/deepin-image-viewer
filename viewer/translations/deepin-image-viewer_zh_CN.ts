@@ -363,7 +363,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改时间</translation>
+        <translation>修改日期</translation>
     </message>
     <message>
         <source>Dimension</source>
@@ -431,7 +431,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>拍摄时间</translation>
+        <translation>拍摄日期</translation>
     </message>
     <message>
         <source>Dimensions</source>
