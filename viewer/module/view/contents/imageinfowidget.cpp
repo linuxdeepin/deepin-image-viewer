@@ -36,7 +36,7 @@
 
 namespace {
 
-const int TITLE_MAXWIDTH = 72;
+const int TITLE_MAXWIDTH = 62;
 const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
 const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
 
@@ -397,7 +397,7 @@ void ImageInfoWidget::updateInfo()
     using namespace utils::base;
     auto mds = getAllMetaData(m_path);
     // Minus layout margins
-    m_maxFieldWidth = width() - m_maxTitleWidth - 20*2 -27;
+    m_maxFieldWidth = width() - m_maxTitleWidth - 20*2;
 
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
@@ -425,7 +425,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
-        field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
+        field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
@@ -435,6 +435,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         DPalette pa2= DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
+        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
 
         m_exifLayout_base->addRow(title, field);
     }
@@ -461,6 +462,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
             DPalette pa2= DApplicationHelper::instance()->palette(title);
             pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
             title->setPalette(pa2);
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
         }
     });
 }
@@ -487,7 +489,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
         pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
-        field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
+        field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
@@ -497,6 +499,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         DPalette pa2= DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
+        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
 
         m_exifLayout_details->addRow(title, field);
     }
@@ -524,6 +527,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
                 DPalette pa2= DApplicationHelper::instance()->palette(title);
                 pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
                 title->setPalette(pa2);
+                title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
             }
         });
 }

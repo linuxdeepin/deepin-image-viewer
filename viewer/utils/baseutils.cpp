@@ -338,6 +338,32 @@ QString wrapStr(const QString &str, const QFont &font, int maxWidth)
     return ns;
 }
 
+
+QString SpliteText(const QString& text,const QFont &font,int nLabelSize)
+{
+    QFontMetrics fm(font);
+    int nTextSize = fm.width(text);
+    if(nTextSize > nLabelSize){
+        int nPos = 0;
+        long nOffset = 0;
+        for (int i = 0; i < text.size(); i++){
+            nOffset += fm.width(text.at(i));
+            if(nOffset >= nLabelSize){
+                nPos = i;
+                break;
+            }
+        }
+
+        nPos = (nPos -1 < 0) ? 0 : nPos -1;
+
+        QString qstrLeftData = text.left(nPos);
+        QString qstrMidData = text.mid(nPos);
+        return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+    }
+    return text;
+}
+
+
 QString symFilePath(const QString &path) {
     QFileInfo fileInfo(path);
     if (fileInfo.isSymLink()) {
