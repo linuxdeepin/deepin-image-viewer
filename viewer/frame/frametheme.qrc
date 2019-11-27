@@ -13,5 +13,6 @@
         <file>resources/dark/images/item_selected.png</file>
         <file>resources/common/about_logo.png</file>
         <file>resources/common/ttb60.svg</file>
+        <file>resources/common/warning.svg</file>
     </qresource>
 </RCC>

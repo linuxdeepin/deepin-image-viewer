@@ -337,6 +337,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>移动设备已拔出，是否要删除该移动设备上的缩略图?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -356,7 +371,7 @@
     </message>
     <message>
         <source>File size</source>
-        <translation>图片大小</translation>
+        <translation>文件大小</translation>
     </message>
     <message>
         <source>Colorspace</source>
@@ -417,6 +432,14 @@
     <message>
         <source>Date captured</source>
         <translation>拍摄时间</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>图片尺寸</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>标记</translation>
     </message>
 </context>
 <context>
@@ -486,6 +509,10 @@
     <message>
         <source>Ring</source>
         <translation>圆环</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm</source>
+        <translation>yyyy年MM月dd日 HH:mm</translation>
     </message>
 </context>
 <context>

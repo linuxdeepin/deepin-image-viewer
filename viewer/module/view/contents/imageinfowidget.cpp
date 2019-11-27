@@ -50,8 +50,9 @@ static MetaData MetaDataBasics[] = {
     {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
     {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
     {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimension")},
+    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
     {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
+    {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
     {"", ""}
 };
 

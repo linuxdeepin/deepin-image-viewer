@@ -109,16 +109,12 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     });
 #endif
 
-//    QHBoxLayout *l = new QHBoxLayout(this);
-//    l->setContentsMargins(0, 0, 0, 0);
-//    l->addWidget(m_mainWidget);
+
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &MainWindow::onThemeChanged);
 
 
     m_vfsManager = new DGioVolumeManager;
-//    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, &AlbumView::onVfsMountChangedAdd);
-//    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, &AlbumView::onVfsMountChangedRemove);
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [=](){
             qDebug()<<"!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
             emit dApp->signalM->usbOutIn(true);
