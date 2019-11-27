@@ -43,13 +43,14 @@ namespace {
 const int TOP_TOOLBAR_HEIGHT = 50;
 const int BOTTOM_TOOLBAR_HEIGHT = 70+10;
 const int EXTENSION_PANEL_WIDTH = 300;
-const int BOTTOM_TOOLBAR_WIDTH_1 = 310+10;
-const int BOTTOM_TOOLBAR_WIDTH_2 = 610+10;
-const int THUMBNAIL_ADD_WIDTH = 31;
+const int BOTTOM_TOOLBAR_WIDTH_1 = 310+10+2;
+const int BOTTOM_TOOLBAR_WIDTH_2 = 610+10+2;
+const int THUMBNAIL_ADD_WIDTH = 32;
 const int BOTTOM_SPACING = 10;
 const int RT_SPACING = 10;
 const int BOTTOM_REPAIR_SPACING = 5;
-const int TOOLBAR_MINIMUN_WIDTH = 630-20;
+const int TOOLBAR_MINIMUN_WIDTH = 630-20+10+2;
+const int BOTTOM_ADJUST = 0;
 
 const QString SETTINGS_GROUP = "MAINWIDGET";
 const QString SETTINGS_MAINPANEL_KEY = "MainPanel";
@@ -97,7 +98,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
                 m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
             }
             else {
-                m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3)),qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
+                m_bottomToolbar->setFixedWidth(qMin((BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3))+BOTTOM_ADJUST,qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
             }
             qDebug()<<"resizeEvent============="<<m_bottomToolbar->width();
             m_bottomToolbar->move((this->width()-m_bottomToolbar->width())/2, this->height() - m_bottomToolbar->height()-BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
@@ -323,7 +324,6 @@ void MainWidget::initBottomToolbar()
 {
     m_bottomToolbar = new BottomToolbar(this);
     m_bottomToolbar->move(0, height() - BOTTOM_TOOLBAR_HEIGHT -BOTTOM_SPACING+BOTTOM_REPAIR_SPACING);
-    //qDebug()<<"11111111111============="<<m_bottomToolbar->width();
 
     m_btmSeparatorLine = new QLabel(this);
 
@@ -333,7 +333,7 @@ void MainWidget::initBottomToolbar()
             if(m_viewPanel->getPicCount()<= 3){
                 m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
             }else {
-                m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3),qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
+                m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3)+BOTTOM_ADJUST,qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
             }
             m_bottomToolbar->setVisible(true);
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
@@ -363,7 +363,7 @@ void MainWidget::initBottomToolbar()
             if(m_viewPanel->getPicCount()<= 3){
                 m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_2);
             }else {
-                m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3),qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
+                m_bottomToolbar->setFixedWidth(qMin(BOTTOM_TOOLBAR_WIDTH_2+THUMBNAIL_ADD_WIDTH*(m_viewPanel->getPicCount()-3)+BOTTOM_ADJUST,qMax(this->width()-RT_SPACING,TOOLBAR_MINIMUN_WIDTH)));
             }
             m_bottomToolbar->setVisible(true);
             m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
