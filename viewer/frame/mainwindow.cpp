@@ -72,6 +72,12 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
+    qDebug()<<"**********"<<"defaultwidth ="<<defaultW
+           <<";  defaultheight ="<<defaultH
+          <<";  now width ="<<ww
+         <<";  now height ="<<wh
+        <<";  screenwidth ="<<dw.geometry().width()
+      <<";  screenheight="<<dw.geometry().height();
     m_mainWidget = new MainWidget(manager, this);
     QTimer::singleShot(200, [=]{
          setCentralWidget(m_mainWidget);
@@ -132,7 +138,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     });
     connect(dApp->signalM, &SignalManager::picInUSB, this, [=](bool immediately) {
         if(immediately){
-            emit dApp->signalM->enterView(false);
+//            emit dApp->signalM->enterView(false);
             m_picInUSB =true;
         }
     });

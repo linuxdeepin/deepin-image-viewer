@@ -201,6 +201,7 @@ void ViewPanel::initConnect()
         onViewImage(vinfo);
 
         startFileWatcher();
+        qDebug()<<"!!!!!!!!!!!!!!!!!startFileWatcher!!!!!!!!!!!!!!!!!!!!!!!!!!";
     });
 #endif
 }
@@ -816,7 +817,7 @@ void ViewPanel::removeCurrentImage()
             showNormal();
         emit imageChanged("",m_infos);
         emit dApp->signalM->enterView(false);
-        qDebug()<<"removeCurrentImage!!!!!!!!!!!!!!!";
+        qDebug()<<"emit dApp->signalM->enterView(false)..................removeCurrentImage";
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         m_emptyWidget->setThumbnailImage(QPixmap());
         m_stack->setCurrentIndex(1);
@@ -1004,6 +1005,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
             emit dApp->signalM->picNotExists(false);
             emit dApp->signalM->hideBottomToolbar(true);
             emit dApp->signalM->enterView(false);
+            qDebug()<<"emit dApp->signalM->enterView(false)..................picClear";
             m_stack->setCurrentIndex(1);
         }
     });
