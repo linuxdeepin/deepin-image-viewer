@@ -145,7 +145,7 @@ void ViewPanel::initNavigation()
         m_nav->setVisible(! m_nav->isAlwaysHidden() && ! m_viewB->isWholeImageVisible());
         m_nav->setRectInImage(m_viewB->visibleImageRect());
     });
-    connect(m_viewB, &ImageView::hideNavigation, this, [=]() {
+    connect(dApp->signalM, &SignalManager::hideNavigation, this, [=]() {
         m_nav->setVisible(false);
     });
 }

@@ -512,6 +512,11 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 
 void TTBContent::setImage(const QString &path,DBImgInfoList infos)
 {
+    if(!infos.isEmpty()&&!QFileInfo(path).exists()){
+        emit dApp->signalM->picNotExists(true);
+        qDebug()<<"QFileInfo(path) is not exists.Path:"<<path;
+    }
+
     if (infos.size()!=m_imgInfos.size()){
         m_imgInfos.clear();
         m_imgInfos = infos;

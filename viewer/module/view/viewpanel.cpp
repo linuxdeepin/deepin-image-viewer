@@ -190,6 +190,8 @@ void ViewPanel::initConnect()
         vinfo.path = image_list.first();
         vinfo.paths = image_list;
 
+        m_currentFilePath = pictureFolder;
+
         QFileInfo firstFileInfo(vinfo.path);
         dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
@@ -197,6 +199,8 @@ void ViewPanel::initConnect()
         qDebug()<<"emit dApp->signalM->enterView(true)..................m_emptyWidget";
 
         onViewImage(vinfo);
+
+        startFileWatcher();
     });
 #endif
 }
@@ -229,6 +233,18 @@ void ViewPanel::initFileSystemWatcher()
     });
 }
 #endif
+void ViewPanel::startFileWatcher()
+{
+    m_fileManager = new DFileWatcher(m_currentFilePath,this);
+    m_fileManager->startWatcher();
+
+    connect(m_fileManager, &DFileWatcher::fileDeleted, this, [=](){
+        qDebug()<<"!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
+//        updateLocalImages();
+        emit dApp->signalM->picClear();
+
+    });
+}
 
 void ViewPanel::updateLocalImages()
 {
@@ -776,7 +792,7 @@ bool ViewPanel::showImage(int index,int addindex)
 //            for (int i=addindex;i<0;i++) {
 //                --m_current;
 //            }
-//        }
+//        }//songsha
         m_current = index;
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         return true;
@@ -957,6 +973,40 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     if (m_info) {
         m_info->setImagePath(path);
     }
+    m_currentImagePath = path;
+
+    connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
+        if(visible){
+            m_viewB->setImage(m_currentImagePath);
+            m_stack->setCurrentIndex(0);
+            QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
+        }else {
+            if (!QFileInfo(m_currentImagePath).exists())
+            {
+                if(m_infos.count() == 1){
+                    emit dApp->signalM->picClear();
+                }else {
+                    emit dApp->signalM->picInUSB(true);
+                    emit dApp->signalM->hideNavigation();
+                    emit dApp->signalM->hideExtensionPanel();
+                    m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+                    m_stack->setCurrentIndex(1);
+                }
+            }
+        }
+    });
+    connect(dApp->signalM, &SignalManager::picClear, this, [=]() {
+        if (!QFileInfo(m_currentImagePath).exists() && m_infos.count() == 1)
+        {
+            emit dApp->signalM->hideNavigation();
+            emit dApp->signalM->hideExtensionPanel();
+            emit dApp->signalM->hideExtensionPanel();
+            emit dApp->signalM->picNotExists(false);
+            emit dApp->signalM->hideBottomToolbar(true);
+            emit dApp->signalM->enterView(false);
+            m_stack->setCurrentIndex(1);
+        }
+    });
 
     if (!QFileInfo(path).exists()) {
         m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));

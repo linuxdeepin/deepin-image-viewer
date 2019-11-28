@@ -28,8 +28,10 @@
 #include <QJsonObject>
 #include <QDirIterator>
 #include <DMenu>
+#include <DFileWatcher>
 
 DWIDGET_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 class ImageButton;
 class ImageInfoWidget;
@@ -65,6 +67,7 @@ signals:
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
     void updateTopLeftContentImage(const QString &path);
+    void updatePath();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
@@ -125,6 +128,7 @@ private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     void updateLocalImages();
+    void startFileWatcher();
 
 private:
     int m_hideCursorTid;
@@ -153,5 +157,8 @@ private:
     void eatImageDirIterator();
 #endif
     QString m_currentImageLastDir = "";
+    QString m_currentImagePath = "";
+    DFileWatcher *m_fileManager;
+    QString m_currentFilePath = "";
 };
 #endif // VIEWPANEL_H

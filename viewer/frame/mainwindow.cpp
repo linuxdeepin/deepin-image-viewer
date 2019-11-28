@@ -28,6 +28,9 @@
 #include <QTimer>
 #include <QShortcut>
 #include <dgiovolumemanager.h>
+#include <DDialog>
+#include "utils/baseutils.h"
+#include <DFontSizeManager>
 
 namespace {
 
@@ -122,6 +125,16 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [=](){
             qDebug()<<"!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
             emit dApp->signalM->usbOutIn(false);
+            if(m_picInUSB){
+                m_picInUSB = false;
+//                if(1 == showDialog()){}
+            }
+    });
+    connect(dApp->signalM, &SignalManager::picInUSB, this, [=](bool immediately) {
+        if(immediately){
+            emit dApp->signalM->enterView(false);
+            m_picInUSB =true;
+        }
     });
 }
 
@@ -217,4 +230,27 @@ bool MainWindow::windowAtEdge() {
     }
 
     return atSeperScreenPos;
+}
+
+int MainWindow::showDialog()
+{
+    qDebug()<<"!!!!!!!!!!!!!!!!!!showDialog!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    DDialog *dialog = new DDialog;
+
+    QPixmap pixmap = utils::base::renderSVG(":/resources/common/warning.svg", QSize(32, 32));
+    dialog->setIconPixmap(pixmap);
+
+    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?"));
+
+    dialog->addButton(tr("Cancel"));
+    dialog->addButton(tr("Delete"), true, DDialog::ButtonRecommend);
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+    effect->setOffset(0, 4);
+    effect->setColor(QColor(0, 145, 255, 76));
+    effect->setBlurRadius(4);
+    dialog->getButton(1)->setGraphicsEffect(effect);
+
+    int mode = dialog->exec();
+
+    return mode;
 }

@@ -54,6 +54,8 @@ private:
     QPixmap m_defaultImage;
     QColor m_inBorderColor;
     QString m_picString;
+    bool m_theme;
+    bool m_usb = false;
 };
 
 #endif // THUMBNAILWIDGET_H
