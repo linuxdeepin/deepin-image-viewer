@@ -499,7 +499,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>yyyy/MM/dd HH:mm</source>
+        <source>yyyy/MM/dd HH:mm:dd</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

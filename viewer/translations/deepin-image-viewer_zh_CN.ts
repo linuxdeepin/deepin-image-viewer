@@ -512,7 +512,11 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm</source>
-        <translation>yyyy年MM月dd日 HH:mm</translation>
+        <translation type="vanished">yyyy年MM月dd日 HH:mm</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>yyyy年MM月dd日 HH:mm:dd</translation>
     </message>
 </context>
 <context>
