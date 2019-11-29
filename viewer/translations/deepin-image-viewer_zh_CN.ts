@@ -661,7 +661,7 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation>退出</translation>
+        <translation type="vanished">退出</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
@@ -670,6 +670,22 @@
     <message>
         <source>Delete</source>
         <translation>删除</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>退出全屏</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>放大图片</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>缩小图片</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>打开图片</translation>
     </message>
 </context>
 <context>

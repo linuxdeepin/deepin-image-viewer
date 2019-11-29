@@ -92,7 +92,7 @@ void ViewPanel::initPopupMenu()
             updateMenuContent();
         }
     });
-    QShortcut* sc = new QShortcut(QKeySequence("Alt+Return"), this);
+    QShortcut* sc = new QShortcut(QKeySequence("Alt+Enter"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         if (m_isInfoShowed)

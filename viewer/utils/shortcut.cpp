@@ -49,6 +49,7 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutItem(tr("View"), "Enter")<<
 #endif
     ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen", "F11"))<<
+    ShortcutItem(tr("Exit fullscreen"),  "Esc")<<
 #ifndef LITE_DIV
     ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))<<
     ShortcutItem(tr("End show"),  ss(VIEW_GROUP, "End show"))<<
@@ -64,10 +65,15 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise", "Ctrl + Shift + R"))<<
     ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F8"))<<
     ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))<<
-    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
+//    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
+    ShortcutItem(tr("Image info"), "Alt + Enter")<<
     ShortcutItem(tr("Previous"), "Left")<<
-    ShortcutItem(tr("Next"), "Right")
-                    #ifndef LITE_DIV
+    ShortcutItem(tr("Next"), "Right")<<
+    ShortcutItem(tr("Zoom in"), "Ctrl + '+'")<<
+    ShortcutItem(tr("Zoom out"), "Ctrl + '-'")<<
+    ShortcutItem(tr("Open"), "Ctrl + O")
+
+#ifndef LITE_DIV
                      <<
     ShortcutItem(tr("Previous screen"), "PageUp")<<
     ShortcutItem(tr("Next screen"), "PageDown");
@@ -78,7 +84,6 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
 #endif
 
     group3.groupItems<<ShortcutItem(tr("Help"),  "F1")<<
-                       ShortcutItem(tr("Exit"),  "Ctrl + Q")<<
                        ShortcutItem(tr("Display shortcuts"), "Ctrl + Shift + ?");
 
 #ifndef LITE_DIV

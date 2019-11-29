@@ -251,7 +251,7 @@ void TopToolbar::initWidgets()
     m_titlebar = new DTitlebar(this);
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
-    m_titlebar->setIcon( QIcon::fromTheme("deepin-image-viewer"));
+    m_titlebar->setIcon(QIcon::fromTheme("deepin-image-viewer"));
     QPalette pa;
     pa.setColor(QPalette::WindowText,QColor(255,255,255,255));
 //    pa.setColor(QPalette::ButtonText,QColor(255,255,255,204));
