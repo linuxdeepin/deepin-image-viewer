@@ -423,7 +423,7 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     }
     else if (QFileInfo(failEncodePath).exists()) {
         qDebug() << "Fail-thumbnail exist, won't regenerate: " << path;
-        return QPixmap();//songsha
+        return QPixmap();
     }
     else {
         // Try to generate thumbnail and load it later
@@ -536,7 +536,7 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
     for (const QByteArray &i : list)
         sList << "*." + QString::fromLatin1(i);
 
-    // extern image format//songsha
+    // extern image format//add by luzhou for Bug2672
     sList << "*.cr2"
           << "*.dng"
           << "*.nef"
