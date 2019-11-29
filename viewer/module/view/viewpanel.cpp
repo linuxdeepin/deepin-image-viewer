@@ -190,7 +190,7 @@ void ViewPanel::initConnect()
         vinfo.path = image_list.first();
         vinfo.paths = image_list;
 
-        m_currentFilePath = pictureFolder;
+        m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
 
         QFileInfo firstFileInfo(vinfo.path);
         dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
@@ -201,7 +201,6 @@ void ViewPanel::initConnect()
         onViewImage(vinfo);
 
         startFileWatcher();
-        qDebug()<<"!!!!!!!!!!!!!!!!!startFileWatcher!!!!!!!!!!!!!!!!!!!!!!!!!!";
     });
 #endif
 }
@@ -238,12 +237,12 @@ void ViewPanel::startFileWatcher()
 {
     m_fileManager = new DFileWatcher(m_currentFilePath,this);
     m_fileManager->startWatcher();
+    qDebug()<<"!!!!!!!!!!!!!!!!!startFileWatcher!!!!!!!!!!!!!!!!!!!!!!!!!!"<<m_fileManager->startWatcher()<<"="<<m_currentFilePath;
 
     connect(m_fileManager, &DFileWatcher::fileDeleted, this, [=](){
         qDebug()<<"!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
 //        updateLocalImages();
         emit dApp->signalM->picClear();
-
     });
 }
 
