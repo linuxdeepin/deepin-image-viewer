@@ -66,12 +66,12 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F8"))<<
     ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))<<
 //    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
-    ShortcutItem(tr("Image info"), "Alt + Enter")<<
+    ShortcutItem(tr("Image info"), "Alt+Enter")<<
     ShortcutItem(tr("Previous"), "Left")<<
     ShortcutItem(tr("Next"), "Right")<<
-    ShortcutItem(tr("Zoom in"), "Ctrl + '+'")<<
-    ShortcutItem(tr("Zoom out"), "Ctrl + '-'")<<
-    ShortcutItem(tr("Open"), "Ctrl + O")
+    ShortcutItem(tr("Zoom in"), "Ctrl+ '+'")<<
+    ShortcutItem(tr("Zoom out"), "Ctrl+ '-'")<<
+    ShortcutItem(tr("Open"), "Ctrl+O")
 
 #ifndef LITE_DIV
                      <<
