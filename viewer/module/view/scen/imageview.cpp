@@ -168,7 +168,7 @@ void ImageView::setImage(const QString &path)
     emit dApp->signalM->enterView(true);
     qDebug()<<"emit dApp->signalM->enterView(true)..................ImageView";
     qDebug()<<"imageView::setImage::path===================="<<path;
-    if(path == m_path)return;
+//    if(path == m_path)return;//Add for no repeat refresh, delete for rotation no refresh(bugID3926)
 
     m_path = path;
     QGraphicsScene *s = scene();
