@@ -541,6 +541,9 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
           << "*.dng"
           << "*.nef"
           << "*.mef"
+          << "*.raf"
+          << "*.raw"
+          << "*.orf"
           << "*.mrw";
 
     return sList;
