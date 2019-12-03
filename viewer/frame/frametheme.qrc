@@ -14,5 +14,6 @@
         <file>resources/common/about_logo.png</file>
         <file>resources/common/ttb60.svg</file>
         <file>resources/common/warning.svg</file>
+        <file>resources/common/titlebar.svg</file>
     </qresource>
 </RCC>

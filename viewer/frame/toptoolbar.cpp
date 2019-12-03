@@ -180,9 +180,9 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 //    QPen bPen(m_bottomBorderColor, borderHeight);
 //    p.setPen(bPen);
 //    p.drawPath(bPath);
-    QPixmap pixmap(":/resources/common/ttb60.svg");
+    QPixmap pixmap(":/resources/common/titlebar.svg");
     const QPalette pal = QGuiApplication::palette();//this->palette();
-    QBrush bgColor = QBrush(pixmap.scaled(size().width(),60));
+    QBrush bgColor = QBrush(pixmap.scaled(size().width(),74));
     QRectF bgRect;
     bgRect.setSize(size());
     QPainterPath pp;
