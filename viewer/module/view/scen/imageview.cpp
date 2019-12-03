@@ -39,10 +39,10 @@
 #include "utils/snifferimageformat.h"
 #include "application.h"
 #include "widgets/toast.h"
-#include "widgets/dspinner.h"
 #include <DSvgRenderer>
 #include <DGuiApplicationHelper>
 #include "controller/signalmanager.h"
+#include <DSpinner>
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -325,7 +325,6 @@ void ImageView::setImage(const QString &path)
 
                 auto spinner = new DSpinner;
                 spinner->setFixedSize(SPINNER_SIZE);
-//                spinner->setBackgroundColor(Qt::transparent);
                 spinner->start();
                 QWidget *w = new QWidget();
                 w->setFixedSize(SPINNER_SIZE);
