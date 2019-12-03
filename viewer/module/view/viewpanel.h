@@ -59,6 +59,9 @@ public:
     int getPicCount(){
         return m_infos.count();
     }
+    bool getPicExict(){
+        return !QFileInfo(m_infos.first().filePath).exists();
+    }
 
 signals:
     void updateCollectButton();
@@ -123,12 +126,12 @@ private:
     QFileInfoList getFileInfos(const QString &path);
     DBImgInfoList getImageInfos(const QFileInfoList &infos);
     const QStringList paths() const;
+    void startFileWatcher();
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     void updateLocalImages();
-    void startFileWatcher();
 
 private:
     int m_hideCursorTid;

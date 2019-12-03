@@ -371,10 +371,16 @@ void MainWidget::initBottomToolbar()
         else {
             m_bottomToolbar->setFixedHeight(BOTTOM_TOOLBAR_HEIGHT);
             m_bottomToolbar->setFixedWidth(BOTTOM_TOOLBAR_WIDTH_1);
-            if(m_viewPanel->getPicCount() == 1){
+            if(m_viewPanel->getPicCount() == 1 && m_viewPanel->getPicExict()){
+                m_bottomToolbar->setVisible(false);
+                m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
+            }
+            else if(m_viewPanel->getPicCount() == 1)
+            {
                 m_bottomToolbar->setVisible(true);
                 m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
-            }else {
+            }
+            else {
                 m_bottomToolbar->setVisible(false);
                 m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
             }

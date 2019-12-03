@@ -190,8 +190,6 @@ void ViewPanel::initConnect()
         vinfo.path = image_list.first();
         vinfo.paths = image_list;
 
-        m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
-
         QFileInfo firstFileInfo(vinfo.path);
         dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
 
@@ -199,8 +197,6 @@ void ViewPanel::initConnect()
         qDebug()<<"emit dApp->signalM->enterView(true)..................m_emptyWidget";
 
         onViewImage(vinfo);
-
-        startFileWatcher();
     });
 #endif
 }
@@ -235,6 +231,11 @@ void ViewPanel::initFileSystemWatcher()
 #endif
 void ViewPanel::startFileWatcher()
 {
+    if(m_currentFilePath == ""){
+        qDebug()<<"startFileWatcher return";
+        return;
+    }
+
     m_fileManager = new DFileWatcher(m_currentFilePath,this);
     m_fileManager->startWatcher();
     qDebug()<<"!!!!!!!!!!!!!!!!!startFileWatcher!!!!!!!!!!!!!!!!!!!!!!!!!!"<<m_fileManager->startWatcher()<<"="<<m_currentFilePath;
@@ -243,6 +244,21 @@ void ViewPanel::startFileWatcher()
         qDebug()<<"!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
 //        updateLocalImages();
         emit dApp->signalM->picClear();
+    });
+
+    connect(dApp->signalM, &SignalManager::picClear, this, [=]() {
+        qDebug()<<"dApp->signalM, &SignalManager::picClear";
+        if (!QFileInfo(m_currentImagePath).exists() && m_infos.count() == 1)
+        {
+            emit dApp->signalM->hideNavigation();
+            emit dApp->signalM->hideExtensionPanel();
+            emit dApp->signalM->picNotExists(false);
+            emit dApp->signalM->hideBottomToolbar(true);
+            emit dApp->signalM->enterView(false);
+            qDebug()<<"emit dApp->signalM->enterView(false)..................picClear";
+            emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+            m_stack->setCurrentIndex(1);
+        }
     });
 }
 
@@ -634,6 +650,8 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
+    m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
+    startFileWatcher();
     using namespace utils::base;
     m_vinfo = vinfo;
 
@@ -995,19 +1013,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
             }
         }
     });
-    connect(dApp->signalM, &SignalManager::picClear, this, [=]() {
-        if (!QFileInfo(m_currentImagePath).exists() && m_infos.count() == 1)
-        {
-            emit dApp->signalM->hideNavigation();
-            emit dApp->signalM->hideExtensionPanel();
-            emit dApp->signalM->hideExtensionPanel();
-            emit dApp->signalM->picNotExists(false);
-            emit dApp->signalM->hideBottomToolbar(true);
-            emit dApp->signalM->enterView(false);
-            qDebug()<<"emit dApp->signalM->enterView(false)..................picClear";
-            m_stack->setCurrentIndex(1);
-        }
-    });
+
 
     if (!QFileInfo(path).exists()) {
         m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
