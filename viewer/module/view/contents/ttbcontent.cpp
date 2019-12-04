@@ -116,31 +116,16 @@ ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
         _index = index;
         _path = path;
 
-//        m_spinner = new DSpinner(this);
-//        m_spinner->setFixedSize(20, 20);
-//        m_spinner->move(7, 12);
-//        m_spinner->start();
-//        m_spinner->show();
-
         if(dApp->m_imagemap.contains(path))
         {
             _pixmap = dApp->m_imagemap.value(path);
-//            m_spinner->hide();
-//            m_spinner->stop();
         }
-//        QMap<QString, QPixmap>::iterator iter = dApp->m_imagemap.begin();
-//        while (iter != dApp->m_imagemap.end())
-//        {
-//            qDebug() << "Iterator " << iter.key() << ":" << iter.value();
-//            iter++;
-//        }
         _image = new DLabel(this);
         connect(dApp, &Application::sigFinishLoad,this, [=]{
             if(dApp->m_imagemap.contains(_path))
             {
+                qDebug()<<"dApp->m_imagemap.contains(_path)"<<_path;
                 _pixmap = dApp->m_imagemap.value(_path);
-//                m_spinner->hide();
-//                m_spinner->stop();
                 update();
             }
         });
@@ -202,10 +187,11 @@ void ImageItem::paintEvent(QPaintEvent *event){
         QPixmap pixmap = utils::base::renderSVG(m_pixmapstring,QSize(60,60));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
-        painter.setClipPath(bg);
         if (_pixmap.isNull()) {
+              painter.setClipPath(bg);
               painter.drawPixmap(pixmapRect, m_pixmapstring);
         }
+
     }
     else {
         pixmapRect.setX(backgroundRect.x()+1);
@@ -235,8 +221,8 @@ void ImageItem::paintEvent(QPaintEvent *event){
         QPixmap pixmap = utils::base::renderSVG(m_pixmapstring,QSize(30,40));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
-        painter.setClipPath(bg);
         if (_pixmap.isNull()) {
+              painter.setClipPath(bg);
               painter.drawPixmap(pixmapRect, m_pixmapstring);
         }
     }
