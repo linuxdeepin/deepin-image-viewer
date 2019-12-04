@@ -25,7 +25,6 @@
 #include "utils/baseutils.h"
 #include <QImageReader>
 #include <DGuiApplicationHelper>
-#include <DHiDPIHelper>
 #include "controller/signalmanager.h"
 #include <DLabel>
 #include <DFontSizeManager>
@@ -52,8 +51,7 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
       m_theme = false;
     }
 
-    QPixmap logo_pix = DHiDPIHelper::loadNxPixmap(m_picString);
-    logo_pix.setDevicePixelRatio(devicePixelRatioF());
+    QPixmap logo_pix = utils::base::renderSVG(m_picString,THUMBNAIL_SIZE);
     m_logo = logo_pix;
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
@@ -68,9 +66,7 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
           m_theme = false;
         }
 
-//        QPixmap logo_pix = utils::base::renderSVG(m_picString,QSize(128, 128));
-        QPixmap logo_pix = DHiDPIHelper::loadNxPixmap(m_picString);
-        logo_pix.setDevicePixelRatio(devicePixelRatioF());
+        QPixmap logo_pix = utils::base::renderSVG(m_picString,THUMBNAIL_SIZE);
         m_logo = logo_pix;
         if(m_isDefaultThumbnail)
             m_defaultImage = logo_pix;
