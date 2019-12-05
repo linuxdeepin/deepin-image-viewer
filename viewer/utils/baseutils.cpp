@@ -174,15 +174,16 @@ void showInFileManager(const QString &path)
 void copyImageToClipboard(const QStringList &paths)
 {
     //  Get clipboard
-    QClipboard *cb = QApplication::clipboard();
+//    QClipboard *cb = QApplication::clipboard();
+    QClipboard *cb = qApp->clipboard();
 
     // Ownership of the new data is transferred to the clipboard.
     QMimeData* newMimeData = new QMimeData();
 
     // Copy old mimedata
-    const QMimeData* oldMimeData = cb->mimeData();
-    for ( const QString &f : oldMimeData->formats())
-        newMimeData->setData(f, oldMimeData->data(f));
+//    const QMimeData* oldMimeData = cb->mimeData();
+//    for ( const QString &f : oldMimeData->formats())
+//        newMimeData->setData(f, oldMimeData->data(f));
 
     // Copy file (gnome)
     QByteArray gnomeFormat = QByteArray("copy\n");
@@ -206,7 +207,8 @@ void copyImageToClipboard(const QStringList &paths)
     newMimeData->setImageData(img);
 
     // Set the mimedata
-    cb->setMimeData(newMimeData);
+//    cb->setMimeData(newMimeData);
+    cb->setMimeData(newMimeData, QClipboard::Clipboard);
 }
 
 QString getFileContent(const QString &file) {
