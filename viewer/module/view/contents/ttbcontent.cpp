@@ -124,7 +124,6 @@ ImageItem::ImageItem(int index,QString path,char *imageType, QWidget *parent){
         connect(dApp, &Application::sigFinishLoad,this, [=]{
             if(dApp->m_imagemap.contains(_path))
             {
-                qDebug()<<"dApp->m_imagemap.contains(_path)"<<_path;
                 _pixmap = dApp->m_imagemap.value(_path);
                 update();
             }

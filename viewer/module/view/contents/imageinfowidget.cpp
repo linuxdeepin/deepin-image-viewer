@@ -571,7 +571,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
         setGeometry(rc);
 
         if(expand->expand()){
-            emit dApp->signalM->extensionPanelHeight(contentHeight()+20);
+            emit dApp->signalM->extensionPanelHeight(contentHeight()+25);
         }
     });
 }
@@ -608,5 +608,5 @@ int ImageInfoWidget::contentHeight() const
 //        expandsHeight += firstExpandHeight;
     }
 
-    return ( expandsHeight + 45 +4);
+    return ( expandsHeight + 45);
 }
