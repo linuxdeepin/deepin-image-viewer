@@ -810,7 +810,7 @@ bool ViewPanel::showImage(int index,int addindex)
 //            for (int i=addindex;i<0;i++) {
 //                --m_current;
 //            }
-//        }//delete by luzhou for Bug3564
+//        }
         m_current = index;
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         return true;

@@ -536,7 +536,7 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
     for (const QByteArray &i : list)
         sList << "*." + QString::fromLatin1(i);
 
-    // extern image format//add by luzhou for Bug2672
+    // extern image format
     sList << "*.cr2"
           << "*.dng"
           << "*.nef"
