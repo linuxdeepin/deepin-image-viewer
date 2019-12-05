@@ -126,5 +126,6 @@ private:
     QGraphicsSvgItem *m_svgItem = nullptr;
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
+    bool m_loadingDisplay = false;
 };
 #endif // SVGVIEW_H

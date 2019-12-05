@@ -245,7 +245,10 @@ ImageView::ImageView(QWidget *parent)
             m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
         }
         update();
-
+    });
+    connect(dApp->signalM, &SignalManager::loadingDisplay, this, [=](bool immediately) {
+        if(immediately)
+            m_loadingDisplay = true;
     });
 }
 
@@ -317,24 +320,29 @@ void ImageView::setImage(const QString &path)
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (! m_watcher.isRunning()) {
 
-                //show loading gif.
-                m_pixmapItem = nullptr;
-                s->clear();
-                resetTransform();
+                if(m_loadingDisplay){
 
-                auto spinner = new DSpinner;
-                spinner->setFixedSize(SPINNER_SIZE);
-                spinner->start();
-                QWidget *w = new QWidget();
-                w->setFixedSize(SPINNER_SIZE);
-                QHBoxLayout *hLayout = new QHBoxLayout;
-                hLayout->setMargin(0);
-                hLayout->setSpacing(0);
-                hLayout->addWidget(spinner, 0, Qt::AlignCenter);
-                w->setLayout(hLayout);
-                // Make sure item show in center of view after reload
-                setSceneRect(w->rect());
-                s->addWidget(w);
+                    m_loadingDisplay = false;
+
+                    //show loading gif.
+                    m_pixmapItem = nullptr;
+                    s->clear();
+                    resetTransform();
+
+                    auto spinner = new DSpinner;
+                    spinner->setFixedSize(SPINNER_SIZE);
+                    spinner->start();
+                    QWidget *w = new QWidget();
+                    w->setFixedSize(SPINNER_SIZE);
+                    QHBoxLayout *hLayout = new QHBoxLayout;
+                    hLayout->setMargin(0);
+                    hLayout->setSpacing(0);
+                    hLayout->addWidget(spinner, 0, Qt::AlignCenter);
+                    w->setLayout(hLayout);
+                    // Make sure item show in center of view after reload
+                    setSceneRect(w->rect());
+                    s->addWidget(w);
+                }
 
                 f.waitForFinished();
                 m_watcher.setFuture(f);

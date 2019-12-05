@@ -985,6 +985,25 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 //        QtConcurrent::run(utils::image::removeThumbnail, path);
     }
 
+    using namespace utils::image;
+    using namespace utils::base;
+    auto ss = getAllMetaData(path);
+    QString value = ss.value("FileSize");
+    qDebug()<<"FileSize: "<<value<<value.size()<<value.at(0);
+    if (value.isEmpty()){
+          qDebug()<<"Warning: FileSize is empty";
+    }
+    else{
+        int a = value.indexOf(" ");
+        if (a > 0) {
+            double b = value.leftRef(a).toDouble();
+            QString c = value.split(" ").last();
+            qDebug()<<"a="<<a<<";b="<<b<<";c="<<c;
+            if (b > 10.0 && c == "MB"){
+                emit dApp->signalM->loadingDisplay(true);
+            }
+        }
+    }
     m_viewB->setImage(path);
     updateMenuContent();
 

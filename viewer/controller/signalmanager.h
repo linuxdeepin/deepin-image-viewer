@@ -64,6 +64,7 @@ signals:
     void picInUSB(bool immediately = false);
     void picNotExists(bool immediately = false);
     void picClear();
+    void loadingDisplay(bool immediately = false);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
