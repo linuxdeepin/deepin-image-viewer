@@ -96,14 +96,23 @@ QString ViewPanel::moduleName()
 
 void ViewPanel::initConnect()
 {
+    connect(dApp->signalM, &SignalManager::updateFileName,
+            this, [ = ](const QString & filename){
+        if(filename != ""){
+            m_finish = true;
+        }else {
+            m_finish = false;
+        }
+    });
+
     connect(dApp->signalM, &SignalManager::gotoPanel,
     this, [ = ](ModulePanel * p) {
         if (p != this) {
             emit dApp->signalM->showTopToolbar();
         } else {
             emit dApp->signalM->showTopToolbar();
-//            emit dApp->signalM->hideBottomToolbar(true);
-            emit dApp->signalM->showBottomToolbar();
+            emit dApp->signalM->hideBottomToolbar(true);
+//            emit dApp->signalM->showBottomToolbar();
         }
     });
     connect(dApp->signalM, &SignalManager::showExtensionPanel, this, [ = ] {
@@ -158,10 +167,6 @@ void ViewPanel::initConnect()
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
-
-//    connect(dApp, &Application::sigFinishLoad,this, [=]{
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
-//    });
 
 #ifdef LITE_DIV
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
@@ -457,6 +462,8 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 }
 QWidget *ViewPanel::bottomTopLeftContent()
 {
+    if(m_infos.size() < 1)
+        return nullptr;
     TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase,m_infos);
 //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (! m_infos.isEmpty() && m_current < m_infos.size()) {
@@ -551,7 +558,8 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
         m_viewB->clear();
     }
 
-    if (e->type() == QEvent::Resize && this->isVisible()) {
+
+    if (e->type() == QEvent::Resize && this->isVisible() && m_finish) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
@@ -989,7 +997,9 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     using namespace utils::base;
     auto ss = getAllMetaData(path);
     QString value = ss.value("FileSize");
-    qDebug()<<"FileSize: "<<value<<value.size()<<value.at(0);
+    qDebug()<<"FileSize: "<<value<<value.size();
+    QString Dimension = ss.value("Dimension");
+    qDebug()<<"Dimension: "<<Dimension;
     if (value.isEmpty()){
           qDebug()<<"Warning: FileSize is empty";
     }

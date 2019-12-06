@@ -102,6 +102,7 @@ private:
     DMenu *m_menu;
     bool m_manager;
     bool m_viewChange;
+    QString m_filename = "";
 };
 
 #endif // TOPTOOLBAR_H

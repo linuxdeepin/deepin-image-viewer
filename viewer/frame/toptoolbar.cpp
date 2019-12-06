@@ -320,12 +320,15 @@ void TopToolbar::initWidgets()
 //        }
 //        m_titlebar->setTitle(filename);
         QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
+        m_filename = filename;
         m_titletxt->setText(a);
-        connect(dApp->signalM, &SignalManager::resizeFileName,
-                this, [ = ](){
-            QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
+    });
+    connect(dApp->signalM, &SignalManager::resizeFileName,
+            this, [ = ](){
+        if(m_filename!=""){
+            QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),m_filename,width()-500);
             m_titletxt->setText(b);
-        });
+        }
     });
 }
 

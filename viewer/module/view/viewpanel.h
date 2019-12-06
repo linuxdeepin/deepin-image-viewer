@@ -163,5 +163,6 @@ private:
     QString m_currentImagePath = "";
     DFileWatcher *m_fileManager;
     QString m_currentFilePath = "";
+    bool m_finish =false;
 };
 #endif // VIEWPANEL_H

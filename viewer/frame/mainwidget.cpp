@@ -398,7 +398,7 @@ void MainWidget::initBottomToolbar()
 
     connect(dApp->signalM, &SignalManager::hideBottomToolbar,
             this, [=](bool immediately) {
-        m_bottomToolbar->move(0, height());
+//        m_bottomToolbar->move(0, height());
         m_bottomToolbar->setVisible(false);
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         Q_UNUSED(immediately)
