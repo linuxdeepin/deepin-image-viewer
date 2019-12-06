@@ -20,25 +20,29 @@
 #include "utils/imageutils.h"
 #include "widgets/formlabel.h"
 
+#include <DApplicationHelper>
+#include <DDialogCloseButton>
+#include <DFontSizeManager>
 #include <QApplication>
 #include <QBoxLayout>
 #include <QDateTime>
 #include <QFileInfo>
 #include <QFormLayout>
 #include <QLabel>
-#include <QString>
 #include <QPushButton>
 #include <QScrollBar>
+#include <QString>
 #include <QtDebug>
-#include <DFontSizeManager>
-#include <DApplicationHelper>
-#include <DDialogCloseButton>
 
 namespace {
 
-const int TITLE_MAXWIDTH = 72-10;
+const int TITLE_MAXWIDTH = 72 - 10;
 const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
 const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
+
+#define ArrowLineExpand_HIGHT 30
+#define ArrowLineExpand_SPACING 10
+#define DIALOG_TITLEBAR_HEIGHT 70
 
 struct MetaData {
     QString key;
@@ -46,42 +50,44 @@ struct MetaData {
 };
 
 static MetaData MetaDataBasics[] = {
-    {"FileName",            QT_TRANSLATE_NOOP("MetadataName", "Name")},
-    {"DateTimeOriginal",    QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
-    {"DateTimeDigitized",   QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
-    {"FileFormat",          QT_TRANSLATE_NOOP("MetadataName", "Type")},
-    {"Dimension",           QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
-    {"FileSize",            QT_TRANSLATE_NOOP("MetadataName", "File size")},
-    {"Tag",                 QT_TRANSLATE_NOOP("MetadataName", "Tag")},
-    {"", ""}
-};
+    {"FileName", QT_TRANSLATE_NOOP("MetadataName", "Name")},
+    {"DateTimeOriginal", QT_TRANSLATE_NOOP("MetadataName", "Date captured")},
+    {"DateTimeDigitized", QT_TRANSLATE_NOOP("MetadataName", "Date modified")},
+    {"FileFormat", QT_TRANSLATE_NOOP("MetadataName", "Type")},
+    {"Dimension", QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
+    {"FileSize", QT_TRANSLATE_NOOP("MetadataName", "File size")},
+    {"Tag", QT_TRANSLATE_NOOP("MetadataName", "Tag")},
+    {"", ""}};
 
 static MetaData MetaDataDetails[] = {
-    {"ColorSpace",          QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
-    {"ExposureMode",        QT_TRANSLATE_NOOP("MetadataName", "Exposure mode")},
-    {"ExposureProgram",     QT_TRANSLATE_NOOP("MetadataName", "Exposure program")},
-    {"ExposureTime",        QT_TRANSLATE_NOOP("MetadataName", "Exposure time")},
-    {"Flash",               QT_TRANSLATE_NOOP("MetadataName", "Flash")},
-    {"ApertureValue",       QT_TRANSLATE_NOOP("MetadataName", "Aperture")},
-    {"FocalLength",         QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
-    {"ISOSpeedRatings",     QT_TRANSLATE_NOOP("MetadataName", "ISO")},
-    {"MaxApertureValue",    QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
-    {"MeteringMode",        QT_TRANSLATE_NOOP("MetadataName", "Metering mode")},
-    {"WhiteBalance",        QT_TRANSLATE_NOOP("MetadataName", "White balance")},
-    {"FlashExposureComp",   QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
-    {"Model",               QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
-    {"LensType",            QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
-    {"", ""}
-};
+    {"ColorSpace", QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
+    {"ExposureMode", QT_TRANSLATE_NOOP("MetadataName", "Exposure mode")},
+    {"ExposureProgram", QT_TRANSLATE_NOOP("MetadataName", "Exposure program")},
+    {"ExposureTime", QT_TRANSLATE_NOOP("MetadataName", "Exposure time")},
+    {"Flash", QT_TRANSLATE_NOOP("MetadataName", "Flash")},
+    {"ApertureValue", QT_TRANSLATE_NOOP("MetadataName", "Aperture")},
+    {"FocalLength", QT_TRANSLATE_NOOP("MetadataName", "Focal length")},
+    {"ISOSpeedRatings", QT_TRANSLATE_NOOP("MetadataName", "ISO")},
+    {"MaxApertureValue", QT_TRANSLATE_NOOP("MetadataName", "Max aperture")},
+    {"MeteringMode", QT_TRANSLATE_NOOP("MetadataName", "Metering mode")},
+    {"WhiteBalance", QT_TRANSLATE_NOOP("MetadataName", "White balance")},
+    {"FlashExposureComp", QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
+    {"Model", QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
+    {"LensType", QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
+    {"", ""}};
 
 static int maxTitleWidth()
 {
     int maxWidth = 0;
-    for (const MetaData* i = MetaDataBasics; ! i->key.isEmpty(); ++i) {
-        maxWidth = qMax(maxWidth + 1, utils::base::stringWidth(DFontSizeManager::instance()->get(DFontSizeManager::T8), i->name));
+    for (const MetaData *i = MetaDataBasics; !i->key.isEmpty(); ++i) {
+        maxWidth = qMax(maxWidth + 1,
+                        utils::base::stringWidth(
+                            DFontSizeManager::instance()->get(DFontSizeManager::T8), i->name));
     }
-    for (const MetaData* i = MetaDataDetails; ! i->key.isEmpty(); ++i) {
-        maxWidth = qMax(maxWidth + 1, utils::base::stringWidth(DFontSizeManager::instance()->get(DFontSizeManager::T8), i->name));
+    for (const MetaData *i = MetaDataDetails; !i->key.isEmpty(); ++i) {
+        maxWidth = qMax(maxWidth + 1,
+                        utils::base::stringWidth(
+                            DFontSizeManager::instance()->get(DFontSizeManager::T8), i->name));
     }
 
     return maxWidth;
@@ -89,32 +95,33 @@ static int maxTitleWidth()
 
 }  // namespace
 
-class ViewSeparator : public QLabel {
+class ViewSeparator : public QLabel
+{
     Q_OBJECT
 public:
-    explicit ViewSeparator(QWidget *parent = 0) : QLabel(parent) {
+    explicit ViewSeparator(QWidget *parent = 0)
+        : QLabel(parent)
+    {
         setFixedHeight(1);
     }
 };
 
-class DFMDArrowLineExpand : public DArrowLineExpand{
+class DFMDArrowLineExpand : public DArrowLineExpand
+{
 public:
-    DFMDArrowLineExpand(){
+    DFMDArrowLineExpand()
+    {
         if (headerLine()) {
             DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6);
 
             DPalette pa = DApplicationHelper::instance()->palette(headerLine());
             pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
             headerLine()->setPalette(pa);
-            connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
-                DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-                pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-                headerLine()->setPalette(pa);
-            });
 
             headerLine()->setLeftMargin(10);
         }
     }
+
 protected:
     void paintEvent(QPaintEvent *event) override
     {
@@ -122,7 +129,7 @@ protected:
         QPainter painter(this);
         QRectF bgRect;
         bgRect.setSize(size());
-        const QPalette pal = QGuiApplication::palette();//this->palette();
+        const QPalette pal = QGuiApplication::palette();  // this->palette();
         QColor bgColor = pal.color(QPalette::Background);
 
         QPainterPath path;
@@ -136,59 +143,45 @@ protected:
 
 #include "imageinfowidget.moc"
 
-ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightStyle, QWidget *parent)
-    : QFrame( parent),
-      m_maxTitleWidth(maxTitleWidth())
-{
-//    setObjectName("ImageInfoScrollArea");
-    setFixedWidth(300);
-    setFrameStyle(QFrame::NoFrame);
-//    setWidgetResizable(true);
-//    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-//    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    verticalScrollBar()->setContextMenuPolicy(Qt::PreventContextMenu);
-//    QPalette palette;
-//    palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
-//    setPalette(palette);
+/**
+ ***************************WARNING********************************
+ * this is method is a wrong way to implement this property dialog;
+ * TODO:: make class Inherits DDialog
+ *        then set property infomations to display.
+ */
 
-//    QFrame *content = new QFrame();
-//    QVBoxLayout *contentLayout = new QVBoxLayout(content);
-//    contentLayout->setContentsMargins(10, 10, 10, 10);
+ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightStyle,
+                                 QWidget *parent)
+    : QFrame(parent)
+    , m_maxTitleWidth(maxTitleWidth())
+{
+    setFixedWidth(300);
+    //    setMaximumHeight(300);
+    setFrameStyle(QFrame::NoFrame);
 
     // Title field
-    SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
-    title->setFixedHeight(50);
-    DFontSizeManager::instance()->bind(title, DFontSizeManager::T6);
+    //    SimpleFormLabel *title = new SimpleFormLabel(tr("Image info"));
+    //    title->setFixedHeight(50);
+    //    DFontSizeManager::instance()->bind(title, DFontSizeManager::T6);
 
-    DPalette pa = DApplicationHelper::instance()->palette(title);
-    pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-    title->setPalette(pa);
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
-        DPalette pa = DApplicationHelper::instance()->palette(title);
-        pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-        title->setPalette(pa);
-    });
+    //    DPalette pa = DApplicationHelper::instance()->palette(title);
+    //    pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
+    //    title->setPalette(pa);
 
-
-//    title->setAlignment(Qt::AlignCenter);
-//    contentLayout->addWidget(title);
-//    ViewSeparator *separator = new ViewSeparator();
-//    contentLayout->addWidget(separator);
-//    contentLayout->addSpacing(3);
     // Info field
     m_exif_base = new QFrame(this);
     m_exif_base->setFixedWidth(280);
+
     m_exif_details = new QFrame(this);
     m_exif_details->setFixedWidth(280);
+
     m_exifLayout_base = new QFormLayout();
     m_exifLayout_base->setVerticalSpacing(7);
     m_exifLayout_base->setHorizontalSpacing(16);
     m_exifLayout_base->setContentsMargins(10, 1, 7, 10);
     m_exifLayout_base->setLabelAlignment(Qt::AlignLeft);
-//    m_separator = new ViewSeparator();
-//    m_separator->setVisible(false);
+
     m_exifLayout_details = new QFormLayout();
-//    m_exifLayout_details->setSpacing(3);
     m_exifLayout_details->setVerticalSpacing(7);
     m_exifLayout_details->setHorizontalSpacing(16);
     m_exifLayout_details->setContentsMargins(10, 1, 7, 10);
@@ -197,100 +190,57 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_exif_base->setLayout(m_exifLayout_base);
     m_exif_details->setLayout(m_exifLayout_details);
 
-//    contentLayout->addLayout(m_exifLayout_base);
-//    contentLayout->addSpacing(3);
-//    contentLayout->addWidget(m_separator);
-//    contentLayout->addSpacing(3);
-//    contentLayout->addLayout(m_exifLayout_details);
-
-//    contentLayout->addSpacing(35);
-//    contentLayout->addStretch();
-
-//    setWidget(content);
-
-
     m_mainLayout = new QVBoxLayout;
 
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setMargin(0);
     m_mainLayout->setSpacing(0);
-    m_mainLayout->addWidget(title, 0, Qt::AlignHCenter | Qt::AlignTop);
-//    m_mainLayout->addWidget(m_editStackWidget, 0, Qt::AlignHCenter | Qt::AlignTop);
-
-
-    setLayout(m_mainLayout);
 
     m_scrollArea = new QScrollArea();
     QPalette palette = m_scrollArea->viewport()->palette();
     palette.setBrush(QPalette::Background, Qt::NoBrush);
     m_scrollArea->viewport()->setPalette(palette);
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
-    QFrame *infoframe= new QFrame;
+
+    QWidget *scrollContentWidget = new QWidget;
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
-    scrollWidgetLayout->setContentsMargins(10, 0, 10, 0);
-    scrollWidgetLayout->setSpacing(10);
-    infoframe->setLayout(scrollWidgetLayout);
-    m_scrollArea->setWidget(infoframe);
+    scrollWidgetLayout->setContentsMargins(0, 0, 10, 0);
+    scrollWidgetLayout->setSpacing(ArrowLineExpand_SPACING);
+    scrollContentWidget->setLayout(scrollWidgetLayout);
+    m_scrollArea->setWidget(scrollContentWidget);
     m_scrollArea->setWidgetResizable(true);
     m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
 
-    QVBoxLayout *scrolllayout = new QVBoxLayout;
-    scrolllayout->addWidget(m_scrollArea);
-    m_mainLayout->insertLayout(1, scrolllayout, 1);
+    m_mainLayout->addWidget(m_scrollArea, 1);
+    this->setLayout(m_mainLayout);
+    //    QVBoxLayout *scrolllayout = new QVBoxLayout;
+    //    scrolllayout->addWidget(m_scrollArea);
 
-//    m_basicInfoFrame = createBasicInfoWidget(fileInfo);
-
-//    QStringList titleList;
-//    titleList << tr("基本信息");
-//    titleList << tr("详细信息");
-
-
-//    m_expandGroup = addExpandWidget(titleList);
-//    m_expandGroup.at(0)->setContent(m_exif_base);
-//    m_expandGroup.at(0)->setExpand(true);
-//    m_expandGroup.at(1)->setContent(m_exif_details);
-//    m_expandGroup.at(1)->setExpand(true);
-
+    //    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(this->layout());
+    //    layout->addLayout(scrolllayout, 1);
+#if 0
     m_closedString = "";
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
-      m_closedString = ICON_CLOSE_DARK;
-    }
-    else {
-      m_closedString = ICON_CLOSE_LIGHT;
+        m_closedString = ICON_CLOSE_DARK;
+    } else {
+        m_closedString = ICON_CLOSE_LIGHT;
     }
 
     DDialogCloseButton *m_close = new DDialogCloseButton(this);
     m_close->setIcon(QIcon(m_closedString));
 
-    m_close->setIconSize(QSize(36,36));
+    m_close->setIconSize(QSize(36, 36));
     m_close->setFlat(true);
-    m_close->move(257,7);
-    DPalette palette1 ;
-    palette1.setColor(DPalette::Background, QColor(0,0,0,1));
+    m_close->move(257, 7);
+    DPalette palette1;
+    palette1.setColor(DPalette::Background, QColor(0, 0, 0, 1));
     m_close->setPalette(palette1);
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::DarkType) {
-          m_closedString = ICON_CLOSE_DARK;
-        }
-        else {
-          m_closedString = ICON_CLOSE_LIGHT;
-        }
-        m_close->setIcon(QIcon(m_closedString));
-
-        DPalette palette1 ;
-        palette1.setColor(DPalette::Background, QColor(0,0,0,1));
-        m_close->setPalette(palette1);
-    });
-
-    connect(m_close, &DDialogCloseButton::clicked, this, [ = ] {
-        emit dApp->signalM->hideExtensionPanel();
-    });
-
+    connect(m_close, &DDialogCloseButton::clicked, this,
+            [=] { emit dApp->signalM->hideExtensionPanel(); });
+#endif
 }
-
 
 void ImageInfoWidget::setImagePath(const QString &path)
 {
@@ -299,23 +249,22 @@ void ImageInfoWidget::setImagePath(const QString &path)
     m_isDetailsInfo = false;
     updateInfo();
 
-
     QStringList titleList;
     QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
-    if(nullptr != layout)
-    {
+    // clear old expandwidget
+    if (nullptr != layout) {
         QLayoutItem *child;
-         while ((child = layout->takeAt(0)) != 0)
-         {
-             layout->removeWidget(child->widget());
-             child->widget()->setParent(0);
-             delete child;
-         }
+        while ((child = layout->takeAt(0)) != nullptr) {
+            if (child->widget()) {
+                child->widget()->setParent(nullptr);
+            }
+            delete child;
+        }
     }
 
     m_expandGroup.clear();
 
-    if(m_isBaseInfo == true && m_isDetailsInfo == true ){
+    if (m_isBaseInfo == true && m_isDetailsInfo == true) {
         titleList << tr("Basic info");
         titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
@@ -324,47 +273,50 @@ void ImageInfoWidget::setImagePath(const QString &path)
         m_expandGroup.at(1)->setContent(m_exif_details);
         m_expandGroup.at(1)->setExpand(true);
 
-    }
-    else if(m_isBaseInfo == false && m_isDetailsInfo == true ){
+    } else if (m_isBaseInfo == false && m_isDetailsInfo == true) {
         titleList << tr("Details");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_details);
         m_expandGroup.at(0)->setExpand(true);
-    }
-    else if(m_isBaseInfo == true && m_isDetailsInfo == false ){
+    } else if (m_isBaseInfo == true && m_isDetailsInfo == false) {
         titleList << tr("Basic info");
         m_expandGroup = addExpandWidget(titleList);
         m_expandGroup.at(0)->setContent(m_exif_base);
         m_expandGroup.at(0)->setExpand(true);
     }
 
+    for (auto i = 0; i < m_expandGroup.count(); ++i) {
+        layout->addWidget(m_expandGroup.at(i));
+    }
 
-//    if (! visibleRegion().isNull()) {
-//    }
-//    m_expandGroup.at(0)->setContent(m_exif_base);
-//    m_expandGroup.at(1)->setContent(m_exif_details);
+    layout->addStretch();
 }
 
 void ImageInfoWidget::resizeEvent(QResizeEvent *e)
 {
-//    QScrollArea::resizeEvent(e);
-    killTimer(m_updateTid);
-    m_updateTid = startTimer(500);
+    //    QScrollArea::resizeEvent(e);
+    //    killTimer(m_updateTid);
+    //    m_updateTid = startTimer(500);
+
+    DWidget::resizeEvent(e);
 }
 
 void ImageInfoWidget::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() != m_updateTid)
-        return;
+    //    if (e->timerId() != m_updateTid)
+    //        return;
 
-    updateInfo();
-    killTimer(m_updateTid);
-    m_updateTid = 0;
+    //    updateInfo();
+    //    killTimer(m_updateTid);
+    //    m_updateTid = 0;
 
-//    QScrollArea::timerEvent(e);
+    QWidget::timerEvent(e);
+
+    //    QScrollArea::timerEvent(e);
 }
 
-void ImageInfoWidget::clearLayout(QLayout *layout) {
+void ImageInfoWidget::clearLayout(QLayout *layout)
+{
     QFormLayout *fl = static_cast<QFormLayout *>(layout);
     if (fl) {
         // FIXME fl->rowCount() will always increase
@@ -372,17 +324,19 @@ void ImageInfoWidget::clearLayout(QLayout *layout) {
             QLayoutItem *li = fl->itemAt(i, QFormLayout::LabelRole);
             QLayoutItem *fi = fl->itemAt(i, QFormLayout::FieldRole);
             if (li) {
-                if (li->widget()) delete li->widget();
+                if (li->widget())
+                    delete li->widget();
                 fl->removeItem(li);
             }
             if (fi) {
-                if (fi->widget()) delete fi->widget();
+                if (fi->widget())
+                    delete fi->widget();
                 fl->removeItem(fi);
             }
         }
     }
 }
-//QSize ImageInfoWidget::sizeHint() const
+// QSize ImageInfoWidget::sizeHint() const
 //{
 //    return QSize(m_maxContentWidth, height());
 //}
@@ -397,8 +351,8 @@ void ImageInfoWidget::updateInfo()
     using namespace utils::base;
     auto mds = getAllMetaData(m_path);
     // Minus layout margins
-//    m_maxFieldWidth = width() - m_maxTitleWidth - 20*2;
-    m_maxFieldWidth = width() - TITLE_MAXWIDTH - 20*2 - 10*2;
+    //    m_maxFieldWidth = width() - m_maxTitleWidth - 20*2;
+    m_maxFieldWidth = width() - TITLE_MAXWIDTH - 20 * 2 - 10 * 2;
 
     updateBaseInfo(mds);
     updateDetailsInfo(mds);
@@ -410,13 +364,10 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
-//    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("基本信息"));
-//    infoTitle->setAlignment(Qt::AlignLeft);
-//    m_exifLayout_base->addRow(infoTitle);
-
-    for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
+    for (MetaData *i = MetaDataBasics; !i->key.isEmpty(); i++) {
         QString value = infos.value(i->key);
-        if (value.isEmpty()) continue;
+        if (value.isEmpty())
+            continue;
 
         m_isBaseInfo = true;
 
@@ -430,46 +381,17 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
-//        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
+        //        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setFixedWidth(TITLE_MAXWIDTH);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
-        DPalette pa2= DApplicationHelper::instance()->palette(title);
+        DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-//        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
         title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
 
         m_exifLayout_base->addRow(title, field);
     }
-    connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
-        for (MetaData *i = MetaDataBasics; ! i->key.isEmpty(); i ++) {
-            QString value = infos.value(i->key);
-            if (value.isEmpty()) continue;
-
-            m_isBaseInfo = true;
-
-            SimpleFormField *field = new SimpleFormField;
-            field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
-            DPalette pa1 = DApplicationHelper::instance()->palette(field);
-            pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
-            field->setPalette(pa1);
-            field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
-
-            SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-            title->setMinimumHeight(field->minimumHeight());
-//            title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
-            title->setFixedWidth(TITLE_MAXWIDTH);
-            title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-            DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
-            DPalette pa2= DApplicationHelper::instance()->palette(title);
-            pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
-            title->setPalette(pa2);
-//            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
-        }
-    });
 }
 
 void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
@@ -478,13 +400,10 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_details);
 
-//    SimpleFormLabel *infoTitle = new SimpleFormLabel(tr("详细信息"));
-//    infoTitle->setAlignment(Qt::AlignLeft);
-//    m_exifLayout_base->addRow(infoTitle);
-
-    for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
+    for (MetaData *i = MetaDataDetails; !i->key.isEmpty(); i++) {
         QString value = infos.value(i->key);
-        if (value.isEmpty()) continue;
+        if (value.isEmpty())
+            continue;
 
         m_isDetailsInfo = true;
 
@@ -498,47 +417,16 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
-//        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
         title->setFixedWidth(TITLE_MAXWIDTH);
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
-        DPalette pa2= DApplicationHelper::instance()->palette(title);
+        DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-//        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
         title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
 
         m_exifLayout_details->addRow(title, field);
     }
-
-        connect(DApplicationHelper::instance(), &DApplicationHelper::themeTypeChanged, this, [=]{
-            for (MetaData *i = MetaDataDetails; ! i->key.isEmpty(); i ++) {
-                QString value = infos.value(i->key);
-                if (value.isEmpty()) continue;
-
-                m_isDetailsInfo = true;
-
-                SimpleFormField *field = new SimpleFormField;
-                field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-                DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
-                DPalette pa1 = DApplicationHelper::instance()->palette(field);
-                pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
-                field->setPalette(pa1);
-                field->setText(wrapStr(value, field->font(), m_maxFieldWidth));
-
-                SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
-                title->setMinimumHeight(field->minimumHeight());
-//                title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
-                title->setFixedWidth(TITLE_MAXWIDTH);
-                title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-                DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
-                DPalette pa2= DApplicationHelper::instance()->palette(title);
-                pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
-                title->setPalette(pa2);
-//                title->setText(SpliteText(trLabel(i->name) + ":", title->font(), qMin(m_maxTitleWidth, TITLE_MAXWIDTH)));
-                title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
-            }
-        });
 }
 
 QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
@@ -547,7 +435,7 @@ QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleLi
     QList<DBaseExpand *> group;
 
     for (const QString &title : titleList) {
-        DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;//DArrowLineExpand;
+        DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;  // DArrowLineExpand;
         expand->setTitle(title);
         initExpand(layout, expand);
         group.push_back(expand);
@@ -557,22 +445,21 @@ QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleLi
 }
 void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
 {
-    expand->setFixedHeight(30);
+    expand->setFixedHeight(ArrowLineExpand_HIGHT);
     QMargins cm = layout->contentsMargins();
     QRect rc = contentsRect();
-    expand->setFixedWidth(rc.width()-cm.left()-cm.right());
+    expand->setFixedWidth(rc.width() - cm.left() - cm.right());
+    expand->setExpandedSeparatorVisible(false);
+    expand->setSeparatorVisible(false);
     layout->addWidget(expand, 0, Qt::AlignTop);
 
-    connect(expand, &DBaseExpand::expandChange, this, &ImageInfoWidget::onExpandChanged);
-    DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, this);
-    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=](){
+    DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, expand);
+    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=]() {
         QRect rc = geometry();
-        rc.setHeight(contentHeight()+10);
+        rc.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
         setGeometry(rc);
 
-        if(expand->expand()){
-            emit dApp->signalM->extensionPanelHeight(contentHeight()+25);
-        }
+        emit dApp->signalM->extensionPanelHeight(contentHeight() /*+ ArrowLineExpand_SPACING * 2*/);
     });
 }
 
@@ -583,30 +470,17 @@ void ImageInfoWidget::onExpandChanged(const bool &e)
         if (e) {
             expand->setSeparatorVisible(false);
         } else {
-            QTimer::singleShot(200, expand, [ = ] {
-                expand->setSeparatorVisible(true);
-            });
+            QTimer::singleShot(200, expand, [=] { expand->setSeparatorVisible(true); });
         }
     }
 }
 
 int ImageInfoWidget::contentHeight() const
 {
-    int expandsHeight = 0;
-    int firstExpandHeight = m_expandGroup.size()>0 ? m_expandGroup.first()->getContent()->height() : -1;
-    bool atleastOneExpand = false;
-    for (const DBaseExpand* expand : m_expandGroup) {
-        expandsHeight += 30 + 5;
-        if (expand->expand()) {
-            expandsHeight += expand->getContent()->height();
-            atleastOneExpand = true;
-        }
+    int expandsHeight = ArrowLineExpand_SPACING;
+    for (const DBaseExpand *expand : m_expandGroup) {
+        expandsHeight += expand->height();
     }
-
-    if (!atleastOneExpand && firstExpandHeight > 0)
-    {
-//        expandsHeight += firstExpandHeight;
-    }
-
-    return ( expandsHeight + 45);
+    return (DIALOG_TITLEBAR_HEIGHT + expandsHeight + contentsMargins().top() +
+            contentsMargins().bottom());
 }

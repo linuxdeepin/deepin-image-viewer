@@ -203,6 +203,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>图片信息</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -221,7 +228,7 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation type="vanished">图片信息</translation>
     </message>
     <message>
         <source>Basic information</source>

@@ -199,6 +199,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -215,10 +222,6 @@
 </context>
 <context>
     <name>ImageInfoWidget</name>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Basic info</source>
         <translation type="unfinished"></translation>
