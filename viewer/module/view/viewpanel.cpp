@@ -497,6 +497,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
             const QString path = m_infos.at(m_current).filePath;
             removeCurrentImage();
             utils::base::trashFile(path);
+            emit dApp->signalM->picDelete();
         }
     });
     connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {

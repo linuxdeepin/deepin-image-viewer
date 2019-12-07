@@ -65,6 +65,7 @@ signals:
     void picNotExists(bool immediately = false);
     void picClear();
     void loadingDisplay(bool immediately = false);
+    void picDelete();
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");

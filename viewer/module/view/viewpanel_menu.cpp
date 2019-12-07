@@ -194,6 +194,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         } else {
             removeCurrentImage();
             utils::base::trashFile(path);
+            emit dApp->signalM->picDelete();
         }
         break;
 #ifndef LITE_DIV
