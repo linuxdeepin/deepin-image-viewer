@@ -38,6 +38,7 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *e) override;
+    void showEvent(QShowEvent *event) override;
 
 private slots:
     void onGotoPanel(ModulePanel *panel);

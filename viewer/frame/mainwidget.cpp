@@ -104,6 +104,10 @@ void MainWidget::resizeEvent(QResizeEvent *e)
                                   this->height() - m_bottomToolbar->height() - BOTTOM_SPACING +
                                       BOTTOM_REPAIR_SPACING);
         }
+        if(window()->isFullScreen())
+        {
+            emit dApp->signalM->sigShowFullScreen();
+        }
     }
 #ifndef LITE_DIV
     if (m_extensionPanel) {
@@ -141,6 +145,19 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     //            }
     //        }
     //    }
+}
+
+void MainWidget::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event);
+
+    if (m_bottomToolbar)
+    {
+        if(window()->isFullScreen())
+        {
+            emit dApp->signalM->sigShowFullScreen();
+        }
+    }
 }
 
 void MainWidget::onGotoPanel(ModulePanel *panel)
@@ -303,6 +320,36 @@ void MainWidget::initConnection()
     //    });
     //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
     //            &MainWidget::initStyleSheet);
+    connect(dApp->signalM, &SignalManager::sigMouseMove, this, [=] {
+        if (window()->isFullScreen())
+        {
+            QPoint pos = mapFromGlobal(QCursor::pos());
+            if (height() - 20 < pos.y()
+                && height() > pos.y()
+                && height() == m_bottomToolbar->y())
+            {
+                QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
+                animation->setDuration(200);
+                animation->setEasingCurve(QEasingCurve::NCurveTypes);
+                animation->setStartValue(QPoint((width()-m_bottomToolbar->width())/2, m_bottomToolbar->y()));
+                animation->setEndValue(QPoint((width()-m_bottomToolbar->width())/2, height() - m_bottomToolbar->height()-10));
+                animation->start(QAbstractAnimation::DeleteWhenStopped);
+            }
+            else if (height() - m_bottomToolbar->height()- 10 > pos.y()
+                     && height() - m_bottomToolbar->height()- 10 == m_bottomToolbar->y())
+            {
+                QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
+                animation->setDuration(200);
+                animation->setEasingCurve(QEasingCurve::NCurveTypes);
+                animation->setStartValue(QPoint((width()-m_bottomToolbar->width())/2, m_bottomToolbar->y()));
+                animation->setEndValue(QPoint((width()-m_bottomToolbar->width())/2, height()));
+                animation->start(QAbstractAnimation::DeleteWhenStopped);
+            }
+        }
+    });
+    connect(dApp->signalM, &SignalManager::sigShowFullScreen, this, [=] {
+        m_bottomToolbar->move((width()-m_bottomToolbar->width())/2, height());
+    });
 }
 
 void MainWidget::initBottomToolbar()

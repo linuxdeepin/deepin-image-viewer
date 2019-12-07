@@ -63,7 +63,8 @@ signals:
     void hideNavigation();
     void picInUSB(bool immediately = false);
     void picNotExists(bool immediately = false);
-    void picClear();
+    void fileDeleted();
+    void picOneClear();
     void loadingDisplay(bool immediately = false);
     void picDelete();
 
@@ -91,6 +92,8 @@ signals:
     void importDir(const QString &dir);
     void insertedIntoAlbum(const QString &album, const QStringList &paths);
     void removedFromAlbum(const QString &album, const QStringList &paths);
+    void sigMouseMove();
+    void sigShowFullScreen();
 
 private:
     explicit SignalManager(QObject *parent = 0);

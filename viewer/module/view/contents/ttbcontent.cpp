@@ -414,6 +414,10 @@ TTBContent::TTBContent(bool inDB,
 //    hb->addWidget(m_fileNameLabel);
     connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed);
     connect(dApp->signalM, &SignalManager::picDelete, this,[=]{
+        if(window()->isFullScreen())
+        {
+            emit dApp->signalM->sigShowFullScreen();
+        }
         m_imgInfos_size = m_imgInfos_size - 1;
         int windowWidth =  this->window()->geometry().width();
         if ( m_imgInfos_size <= 1 ) {

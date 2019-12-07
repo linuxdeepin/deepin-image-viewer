@@ -248,13 +248,27 @@ void ViewPanel::startFileWatcher()
     connect(m_fileManager, &DFileWatcher::fileDeleted, this, [=](){
         qDebug()<<"!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
 //        updateLocalImages();
-        emit dApp->signalM->picClear();
+        emit dApp->signalM->fileDeleted();
     });
 
-    connect(dApp->signalM, &SignalManager::picClear, this, [=]() {
-        qDebug()<<"dApp->signalM, &SignalManager::picClear";
+    connect(dApp->signalM, &SignalManager::fileDeleted, this, [=]() {
+        if (!QFileInfo(m_currentImagePath).exists()&& m_infos.count() == 0)
+        {
+            qDebug()<<"fileDeleted";
+            emit dApp->signalM->hideNavigation();
+            emit dApp->signalM->hideExtensionPanel();
+            emit dApp->signalM->picNotExists(false);
+            emit dApp->signalM->hideBottomToolbar(true);
+            emit dApp->signalM->enterView(false);
+            qDebug()<<"emit dApp->signalM->enterView(false)..................picClear";
+            emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));
+            m_stack->setCurrentIndex(1);
+        }
+    });
+    connect(dApp->signalM, &SignalManager::picOneClear, this, [=]() {
         if (!QFileInfo(m_currentImagePath).exists() && m_infos.count() == 1)
         {
+            qDebug()<<"fileDeleted";
             emit dApp->signalM->hideNavigation();
             emit dApp->signalM->hideExtensionPanel();
             emit dApp->signalM->picNotExists(false);
@@ -359,6 +373,7 @@ void ViewPanel::showFullScreen()
     m_isMaximized = window()->isMaximized();
     window()->showFullScreen();
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
+    emit dApp->signalM->sigShowFullScreen();
 }
 
 int ViewPanel::imageIndex(const QString &path)
@@ -996,25 +1011,37 @@ void ViewPanel::openImage(const QString &path, bool inDB)
 
     using namespace utils::image;
     using namespace utils::base;
-    auto ss = getAllMetaData(path);
-    QString value = ss.value("FileSize");
-    qDebug()<<"FileSize: "<<value<<value.size();
-    QString Dimension = ss.value("Dimension");
-    qDebug()<<"Dimension: "<<Dimension;
-    if (value.isEmpty()){
-          qDebug()<<"Warning: FileSize is empty";
+    auto metaData = getAllMetaData(path);
+    QString fileSize = metaData.value("FileSize");
+    qDebug()<<"FileSize: "<<fileSize<<fileSize.size();
+    QString dimension = metaData.value("Dimension");
+    qDebug()<<"Dimension: "<<dimension<<dimension.size();
+    if (fileSize.isEmpty()||dimension.isEmpty()){
+          qDebug()<<"Warning...";
     }
     else{
-        int a = value.indexOf(" ");
+        int a = fileSize.indexOf(" ");
+        int b = dimension.indexOf("x");
+        bool c = false;
         if (a > 0) {
-            double b = value.leftRef(a).toDouble();
-            QString c = value.split(" ").last();
-            qDebug()<<"a="<<a<<";b="<<b<<";c="<<c;
-            if (b > 10.0 && c == "MB"){
-                emit dApp->signalM->loadingDisplay(true);
+            double value = fileSize.leftRef(a).toDouble();
+            QString unit = fileSize.split(" ").last();
+            if (value > 10.0 && unit == "MB"){
+                c =true;
             }
         }
+        if (b > 0) {
+            int value1 = dimension.leftRef(b).toInt();
+            int value2 = dimension.rightRef(b).toInt();
+            if (value1 > 3840 || value2 > 2160){
+                c =true;
+            }
+        }
+        if(c){
+            emit dApp->signalM->loadingDisplay(true);
+        }
     }
+
     m_viewB->setImage(path);
     updateMenuContent();
 
@@ -1032,7 +1059,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
             if (!QFileInfo(m_currentImagePath).exists())
             {
                 if(m_infos.count() == 1){
-                    emit dApp->signalM->picClear();
+                    emit dApp->signalM->picOneClear();
                 }else {
                     emit dApp->signalM->picInUSB(true);
                     emit dApp->signalM->hideNavigation();
