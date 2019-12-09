@@ -252,7 +252,7 @@ void ViewPanel::startFileWatcher()
     });
 
     connect(dApp->signalM, &SignalManager::fileDeleted, this, [=]() {
-        if (!QFileInfo(m_currentImagePath).exists()&& m_infos.count() == 0)
+        if (!QFileInfo(m_currentImagePath).exists()&& m_infos.count() < 2 )
         {
             qDebug()<<"fileDeleted";
             emit dApp->signalM->hideNavigation();
