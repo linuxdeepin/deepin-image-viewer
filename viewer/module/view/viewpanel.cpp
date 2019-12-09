@@ -1023,6 +1023,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         int a = fileSize.indexOf(" ");
         int b = dimension.indexOf("x");
         bool c = false;
+        bool d = false;
         if (a > 0) {
             double value = fileSize.leftRef(a).toDouble();
             QString unit = fileSize.split(" ").last();
@@ -1033,11 +1034,11 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         if (b > 0) {
             int value1 = dimension.leftRef(b).toInt();
             int value2 = dimension.rightRef(b).toInt();
-            if (value1 > 3840 || value2 > 2160){
-                c =true;
+            if (value1 > 5120 || value2 > 3200){
+                d =true;
             }
         }
-        if(c){
+        if(c&&d){
             emit dApp->signalM->loadingDisplay(true);
         }
     }
