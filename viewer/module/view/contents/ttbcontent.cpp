@@ -571,6 +571,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 //    qDebug()<<"resizeEvent:m_imgListView.width=============="<<m_imgListView->width();
 
     setFixedWidth(m_contentWidth);
+    setImage(m_imagePath, m_imgInfos);
 
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
     for (int j = 0; j < labelList.size(); j++) {
