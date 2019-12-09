@@ -19,6 +19,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QTimer>
 #include "controller/viewerthememanager.h"
 //#include <dlistwidget.h>
 //#include <DListWidget>
@@ -49,50 +50,83 @@ class ElidedLabel;
 class QAbstractItemModel;
 //class DImageButton;
 class ImageButton;
-class ImageItem : public DLabel{
+class MyImageListWidget;
+
+class MyImageListWidget : public DWidget
+{
     Q_OBJECT
 public:
-    ImageItem(int index= 0,QString path = NULL,char *imageType = NULL, QWidget *parent = 0);
-    void setIndexNow(int i){
+    MyImageListWidget(QWidget *parent = 0);
+    bool ifMouseLeftPressed();
+    void setObj(QObject *obj);
+protected:
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
+signals:
+    void mouseLeftReleased();
+private:
+    bool bmouseleftpressed = false;
+    QObject *m_obj = nullptr;
+    QPoint m_prepoint;
+};
+class ImageItem : public DLabel
+{
+    Q_OBJECT
+public:
+    ImageItem(int index = 0, QString path = NULL, char *imageType = NULL, QWidget *parent = 0);
+    void setIndexNow(int i)
+    {
         _indexNow = i;
 
-        if (_index == _indexNow){
+        if (_index == _indexNow) {
 //            m_spinner->move(21, 21);
         }
     };
-    void setPic(QImage image){
+    void setPic(QImage image)
+    {
 //      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
     };
-    void updatePic(QPixmap pixmap){
+    void updatePic(QPixmap pixmap)
+    {
         _pixmap = pixmap;
         update();
     };
 signals:
-    void imageItemclicked(int index,int indexNow);
+    void imageItemclicked(int index, int indexNow);
 protected:
-    void mousePressEvent(QMouseEvent *ev){
-        emit imageItemclicked(_index,_indexNow);
+    void mouseReleaseEvent(QMouseEvent *ev) override
+    {
+        bmouserelease = true;
+    }
+    void mousePressEvent(QMouseEvent *ev) override
+    {
+        bmouserelease = false;
+        QEventLoop loop;
+        QTimer::singleShot(200, &loop, SLOT(quit()));
+        loop.exec();
+        if (bmouserelease )
+            emit imageItemclicked(_index, _indexNow);
     }
     void paintEvent(QPaintEvent *event);
 private:
     int _index;
     int _indexNow = -1;
-    DLabel *_image=nullptr;
+    DLabel *_image = nullptr;
     QString _path = NULL;
     QPixmap _pixmap;
-    DSpinner* m_spinner;
+    DSpinner *m_spinner;
     QString m_pixmapstring;
+    bool bmouserelease = false;
 
 };
 class TTBContent : public QLabel
 {
     Q_OBJECT
 public:
-    explicit TTBContent(bool inDB, DBImgInfoList m_infos , QWidget *parent = 0);
+    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
 
 signals:
     void clicked();
-    void imageClicked(int index,int addIndex);
+    void imageClicked(int index, int addIndex);
     void resetTransform(bool fitWindow);
     void rotateClockwise();
     void rotateCounterClockwise();
@@ -105,7 +139,7 @@ signals:
 
 public slots:
     void setCurrentDir(QString text);
-    void setImage(const QString &path,DBImgInfoList infos);
+    void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
 
 private slots:
@@ -122,18 +156,19 @@ private:
 #endif
     bool m_inDB;
 
-    DIconButton* m_adaptImageBtn;
-    DIconButton* m_adaptScreenBtn;
+    DIconButton *m_adaptImageBtn;
+    DIconButton *m_adaptScreenBtn;
 //    DIconButton* m_clBT;
-    DIconButton* m_rotateLBtn;
-    DIconButton* m_rotateRBtn;
-    DIconButton* m_trashBtn;
+    DIconButton *m_rotateLBtn;
+    DIconButton *m_rotateRBtn;
+    DIconButton *m_trashBtn;
     DIconButton *m_preButton;
     DIconButton *m_nextButton;
-    ElidedLabel* m_fileNameLabel;
+    ElidedLabel *m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
-    DWidget *m_imgListView;
+//    DWidget *m_imgListView;
+    MyImageListWidget *m_imgListView;
     DWidget *m_imgListView_prespc;
     DWidget *m_imgListView_spc;
     DWidget *m_preButton_spc;
