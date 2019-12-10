@@ -322,7 +322,7 @@ void ImageView::setImage(const QString &path)
             m_movieItem = nullptr;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (! m_watcher.isRunning()) {
-                m_watcher.setFuture(f);
+//                m_watcher.setFuture(f);
 
                 if(m_loadingDisplay){
                     m_loadingDisplay = false;
@@ -349,8 +349,8 @@ void ImageView::setImage(const QString &path)
 
                 }
 
-//                f.waitForFinished();
-//                m_watcher.setFuture(f);
+                f.waitForFinished();
+                m_watcher.setFuture(f);
 
                 emit dApp->signalM->hideNavigation();
             }

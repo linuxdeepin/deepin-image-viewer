@@ -53,77 +53,54 @@ void ImageLoader::startLoading()
     qDebug()<<"startLoading start time: "<<ms;
 
     int num =0;
-    int flag =0;
     int array =0;
+    int count = m_pathlist.size();
 
     for (QString path : m_pathlist) {
         num++;
         if(m_path == path){
-            flag =num;
-            array = flag-1;
+            array = num-1;
             num =0;
         }
     }
 
-    bool b = m_pathlist.contains(m_path);
-    int count = m_pathlist.size();
+    QStringList list;
+    for (int i=0;i<25;i++) {
+        if((array-i)>-1)
+            list.append(m_pathlist.at(array-i));
+        if((array+i)<count)
+            list.append(m_pathlist.at(array+i));
+    }
 
-    qDebug()<<"flag="<<flag;
-    qDebug()<<"array="<<array;
-    qDebug()<<"count="<<count;
-    qDebug()<<"the path="<<m_pathlist.at(array);
+    for(QString path : list)
+    {
+        QImage tImg;
 
-
-    if(b && 25<=count ){
-
-        QStringList list;
-        if(15 >= flag){
-            for (int i=0;i<25;i++) {
-                list.append(m_pathlist.at(i));
+        QString format = DetectImageFormat(path);
+        if (format.isEmpty()) {
+            QImageReader reader(path);
+            reader.setAutoTransform(true);
+            if (reader.canRead()) {
+                tImg = reader.read();
             }
-        }
-        else if (15 >= count-array) {
-            for (int i=1;i<25;i++) {
-                list.append(m_pathlist.at(count-i));
-            }
-        }
-        else {
-            for (int i=0;i<13;i++) {
-                list.append(m_pathlist.at(array-i));
-                list.append(m_pathlist.at(array+i));
-            }
-        }
-
-        for(QString path : list)
-        {
-            QImage tImg;
-
-            QString format = DetectImageFormat(path);
-            if (format.isEmpty()) {
-                QImageReader reader(path);
-                reader.setAutoTransform(true);
-                if (reader.canRead()) {
-                    tImg = reader.read();
-                }
+        } else {
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
             } else {
-                QImageReader readerF(path, format.toLatin1());
-                readerF.setAutoTransform(true);
-                if (readerF.canRead()) {
-                    tImg = readerF.read();
-                } else {
-                    qWarning() << "can't read image:" << readerF.errorString()
-                               << format;
+                qWarning() << "can't read image:" << readerF.errorString()
+                           << format;
 
-                    tImg = QImage(path);
-                }
+                tImg = QImage(path);
             }
-
-            QPixmap pixmap = QPixmap::fromImage(tImg);
-
-            m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-
-            emit sigFinishiLoad();
         }
+
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+
+        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+
+        emit sigFinishiLoad();
     }
 
     num=0;
