@@ -37,10 +37,11 @@ namespace {
 
 #define IMAGE_HEIGHT_DEFAULT    100
 
-ImageLoader::ImageLoader(Application* parent, QStringList pathlist)
+ImageLoader::ImageLoader(Application* parent, QStringList pathlist, QString path)
 {
     m_parent = parent;
     m_pathlist = pathlist;
+    m_path = path;
 }
 
 void ImageLoader::startLoading()
@@ -51,7 +52,81 @@ void ImageLoader::startLoading()
     ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
     qDebug()<<"startLoading start time: "<<ms;
 
+    int num =0;
+    int flag =0;
+    int array =0;
 
+    for (QString path : m_pathlist) {
+        num++;
+        if(m_path == path){
+            flag =num;
+            array = flag-1;
+            num =0;
+        }
+    }
+
+    bool b = m_pathlist.contains(m_path);
+    int count = m_pathlist.size();
+
+    qDebug()<<"flag="<<flag;
+    qDebug()<<"array="<<array;
+    qDebug()<<"count="<<count;
+    qDebug()<<"the path="<<m_pathlist.at(array);
+
+
+    if(b && 25<=count ){
+
+        QStringList list;
+        if(15 >= flag){
+            for (int i=0;i<25;i++) {
+                list.append(m_pathlist.at(i));
+            }
+        }
+        else if (15 >= count-array) {
+            for (int i=1;i<25;i++) {
+                list.append(m_pathlist.at(count-i));
+            }
+        }
+        else {
+            for (int i=0;i<13;i++) {
+                list.append(m_pathlist.at(array-i));
+                list.append(m_pathlist.at(array+i));
+            }
+        }
+
+        for(QString path : list)
+        {
+            QImage tImg;
+
+            QString format = DetectImageFormat(path);
+            if (format.isEmpty()) {
+                QImageReader reader(path);
+                reader.setAutoTransform(true);
+                if (reader.canRead()) {
+                    tImg = reader.read();
+                }
+            } else {
+                QImageReader readerF(path, format.toLatin1());
+                readerF.setAutoTransform(true);
+                if (readerF.canRead()) {
+                    tImg = readerF.read();
+                } else {
+                    qWarning() << "can't read image:" << readerF.errorString()
+                               << format;
+
+                    tImg = QImage(path);
+                }
+            }
+
+            QPixmap pixmap = QPixmap::fromImage(tImg);
+
+            m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+
+            emit sigFinishiLoad();
+        }
+    }
+
+    num=0;
     for(QString path : m_pathlist)
     {
         QImage tImg;
@@ -79,8 +154,27 @@ void ImageLoader::startLoading()
         QPixmap pixmap = QPixmap::fromImage(tImg);
 
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    }
 
+        num++;
+        if (10 > num)
+        {
+            emit sigFinishiLoad();
+        }
+        else if (50 > num)
+        {
+            if (0 == num%3)
+            {
+                emit sigFinishiLoad();
+            }
+        }
+        else
+        {
+            if (0 == num%100)
+            {
+                emit sigFinishiLoad();
+            }
+        }
+    }
 
     emit sigFinishiLoad();
 
@@ -160,8 +254,8 @@ Application::Application(int& argc, char** argv)
 
 
 
-    connect(dApp->signalM, &SignalManager::sendPathlist, this, [=](QStringList list){
-        m_imageloader= new ImageLoader(this, list);
+    connect(dApp->signalM, &SignalManager::sendPathlist, this, [=](QStringList list,QString path){
+        m_imageloader= new ImageLoader(this, list,path);
         m_LoadThread = new QThread();
 
         m_imageloader->moveToThread(m_LoadThread);
