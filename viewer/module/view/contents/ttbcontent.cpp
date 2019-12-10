@@ -442,7 +442,7 @@ TTBContent::TTBContent(bool inDB,
 //    qDebug()<<"init:m_imgList.width=============="<<m_imgList->width();
 
     m_imgList->setDisabled(false);
-    m_imgList->setHidden(true);
+//    m_imgList->setHidden(true);
     m_imglayout = new QHBoxLayout();
     m_imglayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     m_imglayout->setMargin(0);
@@ -455,7 +455,7 @@ TTBContent::TTBContent(bool inDB,
         m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
 //    qDebug()<<"init:m_imgListView.width=============="<<m_imgListView->width();
-    m_imgListView->hide();
+//    m_imgListView->hide();
     QPalette palette ;
     palette.setColor(QPalette::Background, QColor(0, 0, 0, 0)); // 最后一项为透明度
     m_imgList->setPalette(palette);
@@ -705,50 +705,65 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             m_imgListView->show();
 
             if (1 == m_startAnimation) {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                animation->setDuration(500);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(m_imgList->pos());
-                animation->setKeyValueAt(1,  QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 52 + 18) / 2 - ((num)*t), 0));
-                animation->setEndValue(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 52 + 18) / 2 - ((num)*t), 0));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
-                connect(animation, &QPropertyAnimation::finished,
-                        animation, &QPropertyAnimation::deleteLater);
+                if (bresized) {
+                    bresized = false;
+                    m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 52 + 18) / 2 - ((num)*t), 0));
+                } else {
+                    QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
+                    animation->setDuration(500);
+                    animation->setEasingCurve(QEasingCurve::NCurveTypes);
+                    animation->setStartValue(m_imgList->pos());
+                    animation->setKeyValueAt(1,  QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 52 + 18) / 2 - ((num)*t), 0));
+                    animation->setEndValue(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 52 + 18) / 2 - ((num)*t), 0));
+                    animation->start(QAbstractAnimation::DeleteWhenStopped);
+                    connect(animation, &QPropertyAnimation::finished,
+                            animation, &QPropertyAnimation::deleteLater);
 
-                connect(animation, &QPropertyAnimation::finished,
-                this, [ = ] {
-                    m_imgList->show();
-                });
+                    connect(animation, &QPropertyAnimation::finished,
+                    this, [ = ] {
+                        m_imgList->show();
+                    });
+                }
             } else if (2 == m_startAnimation) {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                animation->setDuration(500);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(m_imgList->pos());
-                animation->setKeyValueAt(1,  QPoint(0, 0));
-                animation->setEndValue(QPoint(0, 0));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
-                connect(animation, &QPropertyAnimation::finished,
-                        animation, &QPropertyAnimation::deleteLater);
+                if (bresized) {
+                    bresized = false;
+                    m_imgList->move(QPoint(0, 0));
+                } else {
+                    QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
+                    animation->setDuration(500);
+                    animation->setEasingCurve(QEasingCurve::NCurveTypes);
+                    animation->setStartValue(m_imgList->pos());
+                    animation->setKeyValueAt(1,  QPoint(0, 0));
+                    animation->setEndValue(QPoint(0, 0));
+                    animation->start(QAbstractAnimation::DeleteWhenStopped);
+                    connect(animation, &QPropertyAnimation::finished,
+                            animation, &QPropertyAnimation::deleteLater);
 
-                connect(animation, &QPropertyAnimation::finished,
-                this, [ = ] {
-                    m_imgList->show();
-                });
+                    connect(animation, &QPropertyAnimation::finished,
+                    this, [ = ] {
+                        m_imgList->show();
+                    });
+                }
             } else if (3 == m_startAnimation) {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                animation->setDuration(500);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(m_imgList->pos());
-                animation->setKeyValueAt(1,  QPoint(0, 0));
-                animation->setEndValue(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
-                connect(animation, &QPropertyAnimation::finished,
-                        animation, &QPropertyAnimation::deleteLater);
+                if (bresized) {
+                    bresized = false;
+                    m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+                } else {
+                    QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
+                    animation->setDuration(500);
+                    animation->setEasingCurve(QEasingCurve::NCurveTypes);
+                    animation->setStartValue(m_imgList->pos());
+                    animation->setKeyValueAt(1,  QPoint(0, 0));
+                    animation->setEndValue(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+                    animation->start(QAbstractAnimation::DeleteWhenStopped);
+                    connect(animation, &QPropertyAnimation::finished,
+                            animation, &QPropertyAnimation::deleteLater);
 
-                connect(animation, &QPropertyAnimation::finished,
-                this, [ = ] {
-                    m_imgList->show();
-                });
+                    connect(animation, &QPropertyAnimation::finished,
+                    this, [ = ] {
+                        m_imgList->show();
+                    });
+                }
             } else if (0 == m_startAnimation) {
                 m_imgList->show();
             }
