@@ -262,6 +262,10 @@ void ImageInfoWidget::setImagePath(const QString &path)
         }
     }
 
+    m_exif_base->setParent(this);
+    m_exif_details->setParent(this);
+    qDeleteAll(m_expandGroup);
+
     m_expandGroup.clear();
 
     if (m_isBaseInfo == true && m_isDetailsInfo == true) {
