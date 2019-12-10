@@ -1034,7 +1034,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         if (b > 0) {
             int value1 = dimension.leftRef(b).toInt();
             int value2 = dimension.rightRef(b).toInt();
-            if (value1 > 5120 || value2 > 3200){
+            if (value1 >= 5120 || value2 >= 3200){
                 d =true;
             }
         }
