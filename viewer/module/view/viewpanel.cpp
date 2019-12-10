@@ -753,7 +753,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
     if(pathlist.count()>0)
     {
-        emit dApp->signalM->sendPathlist(pathlist);
+        emit dApp->signalM->sendPathlist(pathlist,m_infos.at(m_current).filePath);
     }
 
     emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size() > 1));

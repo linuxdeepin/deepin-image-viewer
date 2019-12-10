@@ -40,7 +40,7 @@ class ImageLoader : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageLoader(Application* parent, QStringList pathlist);
+    explicit ImageLoader(Application* parent, QStringList pathlist, QString path);
 
     void addImageLoader(QStringList pathlist);
     void updateImageLoader(QStringList pathlist);
@@ -54,6 +54,7 @@ signals:
 private:
     Application* m_parent;
     QStringList m_pathlist;
+    QString m_path;
 
 };
 

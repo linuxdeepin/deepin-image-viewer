@@ -248,7 +248,10 @@ ImageView::ImageView(QWidget *parent)
     });
     connect(dApp->signalM, &SignalManager::loadingDisplay, this, [=](bool immediately) {
         if(immediately)
+        {
+            qDebug()<<"loading display...";
             m_loadingDisplay = true;
+        }
     });
 }
 

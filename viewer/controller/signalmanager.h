@@ -56,7 +56,7 @@ signals:
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);
     void extensionPanelHeight(int height, bool immediately = false);
-    void sendPathlist(QStringList pathlist);
+    void sendPathlist(QStringList pathlist, QString path);
     void enterView(bool immediately = false);
     void enterScaledMode(bool immediately = false);
     void usbOutIn(bool immediately = false);
