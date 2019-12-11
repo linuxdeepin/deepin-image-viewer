@@ -60,7 +60,7 @@ const int TOOLBAR_DVALUE = 114 + 8;
 
 const int THUMBNAIL_WIDTH = 32;
 const int THUMBNAIL_ADD_WIDTH = 32;
-const int THUMBNAIL_LIST_ADJUST = 9;
+const int THUMBNAIL_LIST_ADJUST = 9+5;
 const int THUMBNAIL_VIEW_DVALUE = 496;
 
 const unsigned int IMAGE_TYPE_JEPG = 0xFFD8FF;
