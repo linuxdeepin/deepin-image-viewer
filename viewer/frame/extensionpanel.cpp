@@ -19,6 +19,7 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "darrowbutton.h"
+#include <DFontSizeManager>
 
 using namespace Dtk::Widget;
 
@@ -43,6 +44,7 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
     this->setWindowTitle(tr("Image info"));
+    DFontSizeManager::instance()->bind(this, DFontSizeManager::T6, QFont::Medium);
 
     m_contentLayout = new QVBoxLayout(this);
     m_contentLayout->setContentsMargins(0, 0, 0, 0);
@@ -80,9 +82,8 @@ void ExtensionPanel::setContent(QWidget *content)
 void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
-            [=](int height, bool immediately) {
-                if (!immediately)
-                    setFixedHeight(/*qMin(height, 540)*/ height);
+            [=](int height) {
+                    setFixedHeight(height);
             });
 
     if (m_content) {

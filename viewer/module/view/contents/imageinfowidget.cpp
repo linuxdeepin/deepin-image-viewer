@@ -36,7 +36,7 @@
 
 namespace {
 
-const int TITLE_MAXWIDTH = 72 - 10;
+const int TITLE_MAXWIDTH = 72 - 3;
 const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
 const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
 
@@ -112,7 +112,7 @@ public:
     DFMDArrowLineExpand()
     {
         if (headerLine()) {
-            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6);
+            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6, QFont::Medium);
 
             DPalette pa = DApplicationHelper::instance()->palette(headerLine());
             pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));

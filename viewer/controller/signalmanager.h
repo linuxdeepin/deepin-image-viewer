@@ -55,7 +55,7 @@ signals:
     void hideBottomToolbar(bool immediately = false);
     void showExtensionPanel();
     void hideExtensionPanel(bool immediately = false);
-    void extensionPanelHeight(int height, bool immediately = false);
+    void extensionPanelHeight(int height);
     void sendPathlist(QStringList pathlist, QString path);
     void enterView(bool immediately = false);
     void enterScaledMode(bool immediately = false);
