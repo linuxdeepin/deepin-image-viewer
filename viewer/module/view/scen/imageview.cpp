@@ -401,8 +401,8 @@ void ImageView::autoFit()
     QSize image_size = image().size();
 
 
-    if ((image_size.width() >= width() ||
-         image_size.height() >= height() - 120) &&
+    if ((image_size.width() >= (width() - 20) ||
+         image_size.height() >= (height() - 120)) &&
             width() > 0 && height() > 0) {
         fitWindow();
     } else {
@@ -490,10 +490,10 @@ qreal ImageView::windowRelativeScale() const
 {
     QRectF bf = sceneRect();
 
-    if (1.0 * width() / (height() - 120) > 1.0 * bf.width() / bf.height()) {
+    if (1.0 * (width() - 20) / (height() - 120) > 1.0 * bf.width() / bf.height()) {
         return 1.0 * (height() - 120) / bf.height();
     } else {
-        return 1.0 * width() / bf.width();
+        return 1.0 * (width() - 20) / bf.width();
     }
 }
 
