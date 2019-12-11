@@ -42,6 +42,8 @@ public:
     void setLeftContent(QWidget *content);
     void setMiddleContent(QString path);
 
+    void setTitleBarTransparent(bool a);
+
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void paintEvent(QPaintEvent *e) override;

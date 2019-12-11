@@ -467,6 +467,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
         } else {
             m_viewB->fitImage();
         }
+        m_viewB->titleBarControl();
     });
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
             ttlc, &TTLContent::updateCollectButton);
@@ -521,6 +522,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         } else {
             m_viewB->fitImage();
         }
+        m_viewB->titleBarControl();
     });
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
             ttbc, &TTBContent::updateCollectButton);

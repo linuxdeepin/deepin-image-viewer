@@ -95,6 +95,8 @@ signals:
     void sigMouseMove();
     void sigShowFullScreen();
 
+    void sigImageOutTitleBar(bool b);
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

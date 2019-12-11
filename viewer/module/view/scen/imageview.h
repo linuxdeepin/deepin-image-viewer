@@ -59,6 +59,7 @@ public:
     void setScaleValue(qreal v);
 
     void autoFit();
+    void titleBarControl();
 
     const QImage image();
     qreal imageRelativeScale() const;

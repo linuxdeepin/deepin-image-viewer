@@ -251,9 +251,16 @@ void MainWidget::initTopToolbar()
     connect(dApp->signalM, &SignalManager::enterView, this, [=](bool a) {
         if (a) {
             m_topToolbar->show();
+            //new add this function.
+            // if  image height > this->height()-TITLEBAR ==>true, otherwise ==>false.
+//            m_topToolbar->setTitleBarTransparent(a);
         } else {
             m_topToolbar->hide();
         }
+    });
+
+    connect(dApp->signalM, &SignalManager::sigImageOutTitleBar, this, [=](bool a){
+        m_topToolbar->setTitleBarTransparent(a);
     });
 
     m_topSeparatorLine = new QLabel(this);

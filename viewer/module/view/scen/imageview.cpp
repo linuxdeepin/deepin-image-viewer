@@ -399,12 +399,27 @@ void ImageView::autoFit()
 
     QSize image_size = image().size();
 
+
     if ((image_size.width() >= width() ||
          image_size.height() >= height()) &&
             width() > 0 && height() > 0) {
         fitWindow();
     } else {
         fitImage();
+    }
+
+    titleBarControl();
+
+}
+
+void ImageView::titleBarControl()
+{
+    if (image().size().height() * imageRelativeScale() > height() - 100)
+    {
+        dApp->signalM->sigImageOutTitleBar(true);
+    }
+    else {
+        dApp->signalM->sigImageOutTitleBar(false);
     }
 }
 
@@ -474,6 +489,7 @@ qreal ImageView::imageRelativeScale() const
 qreal ImageView::windowRelativeScale() const
 {
     QRectF bf = sceneRect();
+
     if (1.0 * width() / height() > 1.0 * bf.width() / bf.height()) {
         return 1.0 * height() / bf.height();
     } else {
@@ -732,4 +748,6 @@ void ImageView::wheelEvent(QWheelEvent *event)
     scaleAtPoint(event->pos(), factor);
 
     event->accept();
+
+    titleBarControl();
 }

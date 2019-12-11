@@ -46,30 +46,30 @@ DWIDGET_USE_NAMESPACE
 
 namespace {
 
-const int TOP_TOOLBAR_HEIGHT = 50;
-const int ICON_MARGIN = 6;
+    const int TOP_TOOLBAR_HEIGHT = 50;
+    const int ICON_MARGIN = 6;
 
-//const QColor DARK_COVERCOLOR = QColor(0, 0, 0, 217);
-//const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
+    //const QColor DARK_COVERCOLOR = QColor(0, 0, 0, 217);
+    //const QColor LIGHT_COVERCOLOR = QColor(255, 255, 255, 230);
 
-const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 0);
-const QColor LIGHT_TOP_BORDERCOLOR = QColor(255, 255, 255, 0);
+    const QColor DARK_TOP_BORDERCOLOR = QColor(255, 255, 255, 0);
+    const QColor LIGHT_TOP_BORDERCOLOR = QColor(255, 255, 255, 0);
 
-const QColor DARK_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 51);
-const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
+    const QColor DARK_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 51);
+    const QColor LIGHT_BOTTOM_BORDERCOLOR = QColor(0, 0, 0, 26);
 }  // namespace
 
 TopToolbar::TopToolbar(bool manager, QWidget *parent)
     :DBlurEffectWidget(parent)
 {
     m_manager = manager;
-//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+    //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
 #ifndef LITE_DIV
     m_settingsWindow = new SettingsWindow();
     m_settingsWindow->hide();
 #endif
-//    setAutoFillBackground(true);
+    //    setAutoFillBackground(true);
     QPalette palette;
     palette.setColor(QPalette::Background, QColor(0,0,0,0)); // 最后一项为透明度
     setPalette(palette);
@@ -94,20 +94,44 @@ void TopToolbar::setLeftContent(QWidget *content)
 
 void TopToolbar::setMiddleContent(QString path)
 {
-//    QLayoutItem *child;
-//    while ((child = m_mLayout->takeAt(0)) != 0) {
-//        if (child->widget())
-//            child->widget()->deleteLater();
-//        delete child;
-//    }
+    //    QLayoutItem *child;
+    //    while ((child = m_mLayout->takeAt(0)) != 0) {
+    //        if (child->widget())
+    //            child->widget()->deleteLater();
+    //        delete child;
+    //    }
 
-//    m_mLayout->addWidget(content);
-//    QString filename="";
-//    if(!path.isNull() && !path.isNull()){
-//        filename = QFileInfo(path).fileName();
-//    }
-//    m_titlebar->setTitle(path);
+    //    m_mLayout->addWidget(content);
+    //    QString filename="";
+    //    if(!path.isNull() && !path.isNull()){
+    //        filename = QFileInfo(path).fileName();
+    //    }
+    //    m_titlebar->setTitle(path);
     m_titletxt->setText(path);
+}
+
+//Set titlebar background transparent
+void TopToolbar::setTitleBarTransparent(bool a)
+{
+    m_viewChange = a;
+    if(a){
+        QPalette pa1;
+        pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+        m_titlebar->setPalette(pa1);
+        m_titlebar->setBackgroundTransparent(true);
+    }
+    else {
+        m_titlebar->setBackgroundTransparent(false);
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        QPalette pa1;
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+        }
+        else {
+            pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
+        }
+        m_titlebar->setPalette(pa1);
+    }
 }
 
 void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
@@ -130,11 +154,11 @@ void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme) {
 
 
     if (curTheme == ViewerThemeManager::Dark) {
-//        setCoverBrush(QBrush(QColor(0, 0, 0, 0)));
+        //        setCoverBrush(QBrush(QColor(0, 0, 0, 0)));
         m_topBorderColor = DARK_TOP_BORDERCOLOR;
         m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
     } else {
-//        setCoverBrush(QBrush(lightLinearGrad));
+        //        setCoverBrush(QBrush(lightLinearGrad));
         m_topBorderColor = LIGHT_TOP_BORDERCOLOR;
         m_bottomBorderColor = LIGHT_BOTTOM_BORDERCOLOR;
     }
@@ -147,39 +171,39 @@ const QString TopToolbar::newAlbumShortcut() const
 
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
-//    BlurFrame::paintEvent(e);
+    //    BlurFrame::paintEvent(e);
 
     QPainter p(this);
-//    p.setRenderHint(QPainter::Antialiasing);
+    //    p.setRenderHint(QPainter::Antialiasing);
 
     // Draw inside top border
-//    const QColor tc(m_topBorderColor);
-//    int borderHeight = 1;
-//    QPainterPath tPath;
-//    tPath.moveTo(QPointF(x(), y() + borderHeight - 0.5));
-//    tPath.lineTo(QPointF(x() + width(), y() + borderHeight - 0.5));
-//    p.setPen(QPen(tc));
-//    p.drawPath(tPath);
-//    QPen tPen(tc);
-//    QLinearGradient linearGrad;
-//    linearGrad.setStart(x(), y());
-//    linearGrad.setFinalStop(x() + width(), y());
-//    linearGrad.setColorAt(0, Qt::transparent);
-//    linearGrad.setColorAt(0.005, tc);
-//    linearGrad.setColorAt(0.995, tc);
-//    linearGrad.setColorAt(1, Qt::transparent);
-//    tPen.setBrush(QBrush(linearGrad));
-//    p.setPen(tPen);
-//    p.drawPath(tPath);
+    //    const QColor tc(m_topBorderColor);
+    //    int borderHeight = 1;
+    //    QPainterPath tPath;
+    //    tPath.moveTo(QPointF(x(), y() + borderHeight - 0.5));
+    //    tPath.lineTo(QPointF(x() + width(), y() + borderHeight - 0.5));
+    //    p.setPen(QPen(tc));
+    //    p.drawPath(tPath);
+    //    QPen tPen(tc);
+    //    QLinearGradient linearGrad;
+    //    linearGrad.setStart(x(), y());
+    //    linearGrad.setFinalStop(x() + width(), y());
+    //    linearGrad.setColorAt(0, Qt::transparent);
+    //    linearGrad.setColorAt(0.005, tc);
+    //    linearGrad.setColorAt(0.995, tc);
+    //    linearGrad.setColorAt(1, Qt::transparent);
+    //    tPen.setBrush(QBrush(linearGrad));
+    //    p.setPen(tPen);
+    //    p.drawPath(tPath);
 
     // Draw inside bottom border
-//    QPainterPath bPath;
-//    borderHeight = 0;
-//    bPath.moveTo(x(), y() + height() - borderHeight - 0.5);
-//    bPath.lineTo(x() + width(), y() + height() - borderHeight - 0.5);
-//    QPen bPen(m_bottomBorderColor, borderHeight);
-//    p.setPen(bPen);
-//    p.drawPath(bPath);
+    //    QPainterPath bPath;
+    //    borderHeight = 0;
+    //    bPath.moveTo(x(), y() + height() - borderHeight - 0.5);
+    //    bPath.lineTo(x() + width(), y() + height() - borderHeight - 0.5);
+    //    QPen bPen(m_bottomBorderColor, borderHeight);
+    //    p.setPen(bPen);
+    //    p.drawPath(bPath);
     QPixmap pixmap(":/resources/common/titlebar.svg");
     const QPalette pal = QGuiApplication::palette();//this->palette();
     QBrush bgColor = QBrush(pixmap.scaled(size().width(),74));
@@ -245,43 +269,21 @@ void TopToolbar::initWidgets()
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
 
-//    initLeftContent();
-//    initMiddleContent();
-//    initRightContent();
+    //    initLeftContent();
+    //    initMiddleContent();
+    //    initRightContent();
     m_titlebar = new DTitlebar(this);
     m_titlebar->setWindowFlags(Qt::WindowMinMaxButtonsHint |Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     m_titlebar->setMenu(m_menu);
     m_titlebar->setIcon(QIcon::fromTheme("deepin-image-viewer"));
     QPalette pa;
     pa.setColor(QPalette::WindowText,QColor(255,255,255,255));
-//    pa.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+    //    pa.setColor(QPalette::ButtonText,QColor(255,255,255,204));
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                      this, [=](){
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if(!m_viewChange)
         {
-          QPalette pa1;
-          if (themeType == DGuiApplicationHelper::DarkType) {
-              pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
-          }
-          else {
-              pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
-          }
-          m_titlebar->setPalette(pa1);
-        }
-    });
-    connect(dApp->signalM, &SignalManager::enterView,
-            this, [=](bool a) {
-        m_viewChange = a;
-        if(a){
-            QPalette pa1;
-            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
-            m_titlebar->setPalette(pa1);
-            m_titlebar->setBackgroundTransparent(true);
-        }
-        else {
-            m_titlebar->setBackgroundTransparent(false);
-            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
             QPalette pa1;
             if (themeType == DGuiApplicationHelper::DarkType) {
                 pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
@@ -292,13 +294,35 @@ void TopToolbar::initWidgets()
             m_titlebar->setPalette(pa1);
         }
     });
-//    pa.setColor(QPalette::WindowText,Qt::red);
+//    connect(dApp->signalM, &SignalManager::enterView,
+//            this, [=](bool a) {
+//        m_viewChange = a;
+//        if(a){
+//            QPalette pa1;
+//            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+//            m_titlebar->setPalette(pa1);
+//            m_titlebar->setBackgroundTransparent(true);
+//        }
+//        else {
+//            m_titlebar->setBackgroundTransparent(false);
+//            DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//            QPalette pa1;
+//            if (themeType == DGuiApplicationHelper::DarkType) {
+//                pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+//            }
+//            else {
+//                pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
+//            }
+//            m_titlebar->setPalette(pa1);
+//        }
+//    });
+    //    pa.setColor(QPalette::WindowText,Qt::red);
     m_titlebar->setPalette(pa);
     m_titlebar->setTitle("");
     m_titletxt=new DLabel;
     m_titletxt->setText("");
     DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7/*,QFont::DemiBold*/);
-//    m_titletxt->setForegroundRole(DPalette::TextTitle);//songsha
+    //    m_titletxt->setForegroundRole(DPalette::TextTitle);//songsha
     DPalette p = DApplicationHelper::instance()->palette(m_titletxt);
     pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
     m_titletxt->setPalette(pa);
@@ -308,17 +332,17 @@ void TopToolbar::initWidgets()
     m_titletxt->setGraphicsEffect(shadowEffect);
     m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
 
-//    QWidget *customWidget = new QWidget();
-//    customWidget->setFixedWidth(0);
-//    m_titlebar->setCustomWidget(customWidget, false);
+    //    QWidget *customWidget = new QWidget();
+    //    customWidget->setFixedWidth(0);
+    //    m_titlebar->setCustomWidget(customWidget, false);
     m_layout->addWidget(m_titlebar);
     connect(dApp->signalM, &SignalManager::updateFileName,
             this, [ = ](const QString & filename){
-//        QString filename="";
-//        if(!vinfo.path.isNull() && !vinfo.path.isNull()){
-//            filename = QFileInfo(vinfo.path).fileName();
-//        }
-//        m_titlebar->setTitle(filename);
+        //        QString filename="";
+        //        if(!vinfo.path.isNull() && !vinfo.path.isNull()){
+        //            filename = QFileInfo(vinfo.path).fileName();
+        //        }
+        //        m_titlebar->setTitle(filename);
         QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),filename,width()-500);
         m_filename = filename;
         m_titletxt->setText(a);
@@ -353,12 +377,12 @@ void TopToolbar::initMenu()
         connect(acNA, &QAction::triggered, this, &TopToolbar::onNewAlbum);
     }
 #endif
-//    QAction *acDT = m_menu->addAction(tr("Dark theme"));
+    //    QAction *acDT = m_menu->addAction(tr("Dark theme"));
 
-//    bool checkSelected =
-//            dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark;
-//    acDT->setCheckable(checkSelected);
-//    acDT->setChecked(checkSelected);
+    //    bool checkSelected =
+    //            dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark;
+    //    acDT->setCheckable(checkSelected);
+    //    acDT->setChecked(checkSelected);
 
 #ifndef LITE_DIV
     if (m_manager)
@@ -370,19 +394,19 @@ void TopToolbar::initMenu()
 
     m_menu->addSeparator();
 
-//    if (utils::base::isCommandExist("dman")) {
-//        QAction *acH = m_menu->addAction(tr("Help"));
-//        connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
-//        QShortcut *scH = new QShortcut(QKeySequence("F1"), this);
-//        connect(scH, SIGNAL(activated()), this, SLOT(onHelp()));
-//    }
-//    QAction *acA = m_menu->addAction(tr("About"));
-//    QAction *acE = m_menu->addAction(tr("Exit"));
+    //    if (utils::base::isCommandExist("dman")) {
+    //        QAction *acH = m_menu->addAction(tr("Help"));
+    //        connect(acH, &QAction::triggered, this, &TopToolbar::onHelp);
+    //        QShortcut *scH = new QShortcut(QKeySequence("F1"), this);
+    //        connect(scH, SIGNAL(activated()), this, SLOT(onHelp()));
+    //    }
+    //    QAction *acA = m_menu->addAction(tr("About"));
+    //    QAction *acE = m_menu->addAction(tr("Exit"));
 
-//    connect(acDT, &QAction::triggered, this, &TopToolbar::onDeepColorMode);
+    //    connect(acDT, &QAction::triggered, this, &TopToolbar::onDeepColorMode);
 
-//    connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
-//    connect(acE, &QAction::triggered, dApp, &Application::quit);
+    //    connect(acA, &QAction::triggered, this, &TopToolbar::onAbout);
+    //    connect(acE, &QAction::triggered, dApp, &Application::quit);
 
 #ifndef LITE_DIV
     QShortcut *scNA = new QShortcut(QKeySequence(newAlbumShortcut()), this);
@@ -396,16 +420,16 @@ void TopToolbar::initMenu()
     connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
-//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-//            [=](ViewerThemeManager::AppTheme dark){
-//        if (dark == ViewerThemeManager::Dark) {
-//            acDT->setCheckable(true);
-//            acDT->setChecked(true);
-//        } else {
-//            acDT->setCheckable(false);
-//            acDT->setChecked(false);
-//        }
-//    });
+    //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+    //            [=](ViewerThemeManager::AppTheme dark){
+    //        if (dark == ViewerThemeManager::Dark) {
+    //            acDT->setCheckable(true);
+    //            acDT->setChecked(true);
+    //        } else {
+    //            acDT->setCheckable(false);
+    //            acDT->setChecked(false);
+    //        }
+    //    });
 
 #ifndef LITE_DIV
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] (const QString &group) {
