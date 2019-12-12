@@ -397,9 +397,7 @@ void ImageView::autoFit()
     if (image().isNull())
         return;
 
-
     QSize image_size = image().size();
-
 
     if ((image_size.width() >= (width() - 20) ||
          image_size.height() >= (height() - 120)) &&

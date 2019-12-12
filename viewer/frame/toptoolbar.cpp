@@ -115,22 +115,22 @@ void TopToolbar::setTitleBarTransparent(bool a)
 {
     m_viewChange = a;
     if(a){
-        QPalette pa1;
-        pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
-        m_titlebar->setPalette(pa1);
+//        QPalette pa1;
+//        pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+//        m_titletxt->setPalette(pa1);
         m_titlebar->setBackgroundTransparent(true);
     }
     else {
         m_titlebar->setBackgroundTransparent(false);
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        QPalette pa1;
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
-        }
-        else {
-            pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
-        }
-        m_titlebar->setPalette(pa1);
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        QPalette pa1;
+//        if (themeType == DGuiApplicationHelper::DarkType) {
+//            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+//        }
+//        else {
+//            pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
+//        }
+//        m_titletxt->setPalette(pa1);
     }
 }
 
@@ -291,7 +291,7 @@ void TopToolbar::initWidgets()
             else {
                 pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
             }
-            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa1);
         }
     });
 //    connect(dApp->signalM, &SignalManager::enterView,
@@ -323,13 +323,13 @@ void TopToolbar::initWidgets()
     m_titletxt->setText("");
     DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7/*,QFont::DemiBold*/);
     //    m_titletxt->setForegroundRole(DPalette::TextTitle);//songsha
-    DPalette p = DApplicationHelper::instance()->palette(m_titletxt);
-    pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
-    m_titletxt->setPalette(pa);
+//    DPalette p = DApplicationHelper::instance()->palette(m_titletxt);
+//    pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
+//    m_titletxt->setPalette(pa);
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
     shadowEffect->setOffset(0, 1);
     shadowEffect->setBlurRadius(1);
-    m_titletxt->setGraphicsEffect(shadowEffect);
+//    m_titletxt->setGraphicsEffect(shadowEffect);
     m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
 
     //    QWidget *customWidget = new QWidget();
