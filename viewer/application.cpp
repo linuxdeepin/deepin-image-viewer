@@ -100,7 +100,7 @@ void ImageLoader::startLoading()
 
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
 
-        emit sigFinishiLoad();
+        emit sigFinishiLoad(path);
     }
 
     num=0;
@@ -133,27 +133,29 @@ void ImageLoader::startLoading()
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
 
         num++;
-        if (10 > num)
-        {
-            emit sigFinishiLoad();
-        }
-        else if (50 > num)
-        {
-            if (0 == num%3)
-            {
-                emit sigFinishiLoad();
-            }
-        }
-        else
-        {
-            if (0 == num%100)
-            {
-                emit sigFinishiLoad();
-            }
-        }
+//        if (10 > num)
+//        {
+//            emit sigFinishiLoad();
+//        }
+//        else if (50 > num)
+//        {
+//            if (0 == num%3)
+//            {
+//                emit sigFinishiLoad();
+//            }
+//        }
+//        else
+//        {
+//            if (0 == num%100)
+//            {
+//                emit sigFinishiLoad();
+//            }
+//        }
+        emit sigFinishiLoad(path);
     }
 
-    emit sigFinishiLoad();
+    QString map ="";
+    emit sigFinishiLoad(map);
 
     gettimeofday(&tv,NULL);
     ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
@@ -201,10 +203,10 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
     }
 }
 
-void Application::finishLoadSlot()
+void Application::finishLoadSlot(QString mapPath)
 {
     qDebug()<<"finishLoadSlot";
-    emit sigFinishLoad();
+    emit sigFinishLoad(mapPath);
 }
 
 Application::Application(int& argc, char** argv)
@@ -239,7 +241,7 @@ Application::Application(int& argc, char** argv)
         m_LoadThread->start();
 
         connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
-        connect(m_imageloader, SIGNAL(sigFinishiLoad()), this, SLOT(finishLoadSlot()));
+        connect(m_imageloader, SIGNAL(sigFinishiLoad(QString)), this, SLOT(finishLoadSlot(QString)));
         emit sigstartLoad();
     });
 

@@ -49,7 +49,7 @@ public slots:
     void startLoading();
 
 signals:
-    void sigFinishiLoad();
+    void sigFinishiLoad(QString mapPath);
 
 private:
     Application* m_parent;
@@ -80,10 +80,10 @@ public:
 
 signals:
     void sigstartLoad();
-    void sigFinishLoad();
+    void sigFinishLoad(QString mapPath);
 
 public slots:
-    void finishLoadSlot();
+    void finishLoadSlot(QString mapPath);
 private:
     void initChildren();
     void initI18n();

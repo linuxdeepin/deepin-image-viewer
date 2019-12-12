@@ -167,11 +167,13 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
         _pixmap = dApp->m_imagemap.value(path);
     }
     _image = new DLabel(this);
-    connect(dApp, &Application::sigFinishLoad, this, [ = ] {
-        if (dApp->m_imagemap.contains(_path))
-        {
-            _pixmap = dApp->m_imagemap.value(_path);
-            update();
+    connect(dApp, &Application::sigFinishLoad, this, [ = ](QString mapPath) {
+        if(mapPath == _path || mapPath == ""){
+            if (dApp->m_imagemap.contains(_path))
+            {
+                _pixmap = dApp->m_imagemap.value(_path);
+                update();
+            }
         }
     });
 };
