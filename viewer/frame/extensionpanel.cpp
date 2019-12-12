@@ -90,7 +90,7 @@ void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
             [=](int height) {
-                    setFixedHeight(height+5);
+                    setFixedHeight(height+5);//tmp for imageinfo
             });
 
     if (m_content) {
