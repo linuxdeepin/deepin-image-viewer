@@ -399,8 +399,8 @@ void ImageView::autoFit()
 
     QSize image_size = image().size();
 
-    if ((image_size.width() >= (width() - 20) ||
-         image_size.height() >= (height() - 120)) &&
+    if ((image_size.width() >= width() ||
+         image_size.height() >= height() ) &&
             width() > 0 && height() > 0) {
         fitWindow();
     } else {
@@ -487,11 +487,21 @@ qreal ImageView::imageRelativeScale() const
 qreal ImageView::windowRelativeScale() const
 {
     QRectF bf = sceneRect();
-
-    if (1.0 * (width() - 20) / (height() - 120) > 1.0 * bf.width() / bf.height()) {
-        return 1.0 * (height() - 120) / bf.height();
-    } else {
-        return 1.0 * (width() - 20) / bf.width();
+    if (this->window()->isFullScreen())
+    {
+        if (1.0 * (width() - 20) / (height() - 20) > 1.0 * bf.width() / bf.height()) {
+            return 1.0 * (height() - 20) / bf.height();
+        } else {
+            return 1.0 * (width() - 20) / bf.width();
+        }
+    }
+    else
+    {
+        if (1.0 * (width() - 20) / (height() - 120) > 1.0 * bf.width() / bf.height()) {
+            return 1.0 * (height() - 120) / bf.height();
+        } else {
+            return 1.0 * (width() - 20) / bf.width();
+        }
     }
 }
 
@@ -669,7 +679,10 @@ void ImageView::onCacheFinish()
                 }
             });
             // Make sure item show in center of view after reload
-            setSceneRect(m_pixmapItem->boundingRect());
+            QRectF rect = m_pixmapItem->boundingRect();
+//            rect.setHeight(rect.height() + 30);
+            setSceneRect(rect);
+//            setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
             autoFit();
 

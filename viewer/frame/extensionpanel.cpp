@@ -76,6 +76,13 @@ void ExtensionPanel::setContent(QWidget *content)
         updateRectWithContent();
         //        m_contentLayout->addWidget(content);
         this->addContent(content);
+
+//        QLabel *label = new QLabel("xxxx");
+//        QPalette pa = label->palette();
+//        pa.setBrush(QPalette::Background, Qt::red);
+//        label->setPalette(pa);
+//        label->setAutoFillBackground(true);
+//        this->addContent(label);
     }
 }
 

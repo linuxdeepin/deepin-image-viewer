@@ -293,7 +293,8 @@ void ImageInfoWidget::setImagePath(const QString &path)
         layout->addWidget(m_expandGroup.at(i));
     }
 
-    layout->addStretch();
+    if (m_expandGroup.count() > 1)
+        layout->addStretch();
 }
 
 void ImageInfoWidget::resizeEvent(QResizeEvent *e)
