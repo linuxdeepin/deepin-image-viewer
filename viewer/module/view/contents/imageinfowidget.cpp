@@ -205,7 +205,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 
     QWidget *scrollContentWidget = new QWidget;
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
-    scrollWidgetLayout->setContentsMargins(0, 0, 10, 0);
+    scrollWidgetLayout->setContentsMargins(0, 0, 0, 0);
     scrollWidgetLayout->setSpacing(ArrowLineExpand_SPACING);
     scrollContentWidget->setLayout(scrollWidgetLayout);
     m_scrollArea->setWidget(scrollContentWidget);
