@@ -156,7 +156,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     , m_maxTitleWidth(maxTitleWidth())
 {
     setFixedWidth(300);
-        setMaximumHeight(540);
+    setMaximumHeight(540);
     setFrameStyle(QFrame::NoFrame);
 
     // Title field
