@@ -156,7 +156,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     , m_maxTitleWidth(maxTitleWidth())
 {
     setFixedWidth(300);
-    //    setMaximumHeight(300);
+        setMaximumHeight(540);
     setFrameStyle(QFrame::NoFrame);
 
     // Title field
@@ -487,6 +487,7 @@ int ImageInfoWidget::contentHeight() const
     for (const DBaseExpand *expand : m_expandGroup) {
         expandsHeight += expand->height();
     }
+
     return (DIALOG_TITLEBAR_HEIGHT + expandsHeight + contentsMargins().top() +
             contentsMargins().bottom());
 }

@@ -50,7 +50,7 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     m_contentLayout->setSpacing(0);
 
     setFixedWidth(EXTENSION_PANEL_WIDTH);
-    //    setFixedHeight(540);
+    setFixedHeight(540);
 }
 
 void ExtensionPanel::setContent(QWidget *content)
@@ -73,7 +73,7 @@ void ExtensionPanel::setContent(QWidget *content)
 #endif
         m_content = content;
         updateRectWithContent();
-        //        m_contentLayout->addWidget(content);
+//        m_contentLayout->addWidget(content);
         this->addContent(content);
 
 //        QLabel *label = new QLabel("xxxx");
@@ -89,11 +89,11 @@ void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
             [=](int height) {
-                    setFixedHeight(height+5);//tmp for imageinfo
+                    setFixedHeight(qMin(615, height+5));//tmp for imageinfo
             });
 
     if (m_content) {
-        //        resize(qMax(m_content->sizeHint().width(), EXTENSION_PANEL_WIDTH), height());
+//                resize(qMax(m_content->sizeHint().width(), EXTENSION_PANEL_WIDTH), height());
     }
 }
 
