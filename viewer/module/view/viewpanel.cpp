@@ -1054,10 +1054,14 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     m_currentImagePath = path;
 
     connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
+        if(m_currentImagePath =="")
+            return;
         if(visible){
-            m_viewB->setImage(m_currentImagePath);
-            m_stack->setCurrentIndex(0);
-            QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
+            if(QFileInfo(m_currentImagePath).exists()){
+                m_viewB->setImage(m_currentImagePath);
+                m_stack->setCurrentIndex(0);
+                QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
+            }
         }else {
             if (!QFileInfo(m_currentImagePath).exists())
             {

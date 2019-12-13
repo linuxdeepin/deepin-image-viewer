@@ -98,9 +98,10 @@ const QString &lightFile, QWidget *parent): ThemeWidget(darkFile, lightFile, par
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 
     connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
+        if(button->isVisible())
+            return;
         if(visible){
             if(m_usb){
-//                emit dApp->signalM->enterView(true);
                 button ->hide();
                 tips->hide();
                 m_usb = false;
