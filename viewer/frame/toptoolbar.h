@@ -105,6 +105,8 @@ private:
     bool m_manager;
     bool m_viewChange;
     QString m_filename = "";
+
+    QGraphicsDropShadowEffect* shadowEffect {nullptr};
 };
 
 #endif // TOPTOOLBAR_H

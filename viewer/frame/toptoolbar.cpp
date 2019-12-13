@@ -119,9 +119,19 @@ void TopToolbar::setTitleBarTransparent(bool a)
 //        pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
 //        m_titletxt->setPalette(pa1);
         m_titlebar->setBackgroundTransparent(true);
+
+        shadowEffect->setOffset(0, 1);
+        shadowEffect->setBlurRadius(1);
+//        shadowEffect->setColor(Qt::red);
+        m_titletxt->setGraphicsEffect(shadowEffect);
     }
     else {
         m_titlebar->setBackgroundTransparent(false);
+
+        shadowEffect->setOffset(0, 0);
+        shadowEffect->setBlurRadius(0);
+//        shadowEffect->setColor(Qt::yellow);
+        m_titletxt->setGraphicsEffect(shadowEffect);
 //        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
 //        QPalette pa1;
 //        if (themeType == DGuiApplicationHelper::DarkType) {
@@ -325,11 +335,17 @@ void TopToolbar::initWidgets()
     //    m_titletxt->setForegroundRole(DPalette::TextTitle);//songsha
 //    DPalette p = DApplicationHelper::instance()->palette(m_titletxt);
 //    pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
-//    m_titletxt->setPalette(pa);
+    //    m_titletxt->setPalette(pa);
+#if 0
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
     shadowEffect->setOffset(0, 1);
     shadowEffect->setBlurRadius(1);
+    m_titletxt->setGraphicsEffect(shadowEffect);
+#else
+    // add 12.13 by lz.
+    shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
 //    m_titletxt->setGraphicsEffect(shadowEffect);
+#endif
     m_titlebar->addWidget(m_titletxt,Qt::AlignCenter);
 
     //    QWidget *customWidget = new QWidget();
