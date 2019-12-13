@@ -199,6 +199,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_scrollArea = new QScrollArea();
     QPalette palette = m_scrollArea->viewport()->palette();
     palette.setBrush(QPalette::Background, Qt::NoBrush);
+//    palette.setBrush(QPalette::Background, Qt::red);
     m_scrollArea->viewport()->setPalette(palette);
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
 

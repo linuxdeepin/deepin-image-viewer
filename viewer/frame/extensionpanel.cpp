@@ -42,7 +42,6 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     : DDialog(parent)
 {
     //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-
     this->setWindowTitle(tr("Image info"));
     DFontSizeManager::instance()->bind(this, DFontSizeManager::T6, QFont::Medium);
 

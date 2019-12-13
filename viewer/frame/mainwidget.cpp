@@ -472,7 +472,7 @@ void MainWidget::initExtensionPanel()
 //            return;
 //        }
 #ifdef LITE_DIV
-        m_extensionPanel->resize(m_extensionPanel->width(), height());
+//        m_extensionPanel->resize(m_extensionPanel->width(), height());
 #endif
         m_extensionPanel->show();
         // m_extensionPanel's height is dependent on the visible of topToolbar

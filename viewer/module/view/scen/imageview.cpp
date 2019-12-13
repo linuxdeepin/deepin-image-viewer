@@ -489,10 +489,10 @@ qreal ImageView::windowRelativeScale() const
     QRectF bf = sceneRect();
     if (this->window()->isFullScreen())
     {
-        if (1.0 * (width() - 20) / (height() - 20) > 1.0 * bf.width() / bf.height()) {
-            return 1.0 * (height() - 20) / bf.height();
+        if (1.0 * (width()) / (height()) > 1.0 * bf.width() / bf.height()) {
+            return 1.0 * (height()) / bf.height();
         } else {
-            return 1.0 * (width() - 20) / bf.width();
+            return 1.0 * (width()) / bf.width();
         }
     }
     else
@@ -680,7 +680,7 @@ void ImageView::onCacheFinish()
             });
             // Make sure item show in center of view after reload
             QRectF rect = m_pixmapItem->boundingRect();
-//            rect.setHeight(rect.height() + 30);
+//            rect.setHeight(rect.height() + 50);
             setSceneRect(rect);
 //            setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
