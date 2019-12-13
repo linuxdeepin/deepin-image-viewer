@@ -360,7 +360,8 @@ QString SpliteText(const QString& text,const QFont &font,int nLabelSize)
 
         QString qstrLeftData = text.left(nPos);
         QString qstrMidData = text.mid(nPos);
-        return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+        if(qstrLeftData !="")
+            return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
     }
     return text;
 }
