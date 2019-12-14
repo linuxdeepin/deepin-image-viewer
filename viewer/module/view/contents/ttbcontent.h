@@ -41,6 +41,7 @@
 #include <DBlurEffectWidget>
 #include <DGuiApplicationHelper>
 #include <DLabel>
+#include "iconbutton.h"
 DWIDGET_USE_NAMESPACE
 
 
@@ -141,6 +142,7 @@ public slots:
     void setCurrentDir(QString text);
     void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
+    void slotTheme(bool theme);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
@@ -164,6 +166,13 @@ private:
     DIconButton *m_trashBtn;
     DIconButton *m_preButton;
     DIconButton *m_nextButton;
+    ImageIconButton  *btPre = nullptr;
+    ImageIconButton  *btNext = nullptr;
+    ImageIconButton  *btAdapt = nullptr;
+    ImageIconButton  *btFit = nullptr;
+    ImageIconButton  *btLeft = nullptr;
+    ImageIconButton  *btRight = nullptr;
+    ImageIconButton  *btTrash = nullptr;
     ElidedLabel *m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;

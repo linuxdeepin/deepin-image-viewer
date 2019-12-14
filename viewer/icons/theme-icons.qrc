@@ -7,9 +7,13 @@
         <file>texts/dcc_next_36px.svg</file>
         <file>texts/dcc_previous_36px.svg</file>
         <file>texts/dcc_right_36px.svg</file>
+        <file>icons/dcc_11_36px.svg</file>
+        <file>icons/dcc_fit_36px.svg</file>
+        <file>icons/dcc_left_36px.svg</file>
+        <file>icons/dcc_next_36px.svg</file>
+        <file>icons/dcc_previous_36px.svg</file>
+        <file>icons/dcc_right_36px.svg</file>
     </qresource>
-    <qresource prefix="/icons/deepin/builtin/light">
-    </qresource>
-    <qresource prefix="/icons/deepin/builtin/dark">
-    </qresource>
+    <qresource prefix="/icons/deepin/builtin/light"/>
+    <qresource prefix="/icons/deepin/builtin/dark"/>
 </RCC>
