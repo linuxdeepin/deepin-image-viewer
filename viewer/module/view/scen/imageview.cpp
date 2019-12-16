@@ -399,6 +399,8 @@ void ImageView::autoFit()
 
     QSize image_size = image().size();
 
+    // change some code in graphicsitem.cpp line100.
+
     if ((image_size.width() >= width() ||
          image_size.height() >= height() ) &&
             width() > 0 && height() > 0) {
@@ -453,7 +455,10 @@ void ImageView::fitWindow()
 void ImageView::fitImage()
 {
     resetTransform();
-    scale(1, 1);
+    /** change ratio from 1 to 0.9, because one of test pictures is so special that cannot use fitwindow()
+     *  when use fitImage() picture bottom is over toolbar. so use 0.9 instead.
+     */
+    scale(0.9, 0.9);
     m_isFitImage = true;
     m_isFitWindow = false;
     scaled(imageRelativeScale() * 100);
@@ -481,7 +486,7 @@ void ImageView::centerOn(int x, int y)
 qreal ImageView::imageRelativeScale() const
 {
     // vertical scale factor are equal to the horizontal one
-    return transform().m11();
+    return transform().m11() / devicePixelRatioF();
 }
 
 qreal ImageView::windowRelativeScale() const
@@ -489,16 +494,16 @@ qreal ImageView::windowRelativeScale() const
     QRectF bf = sceneRect();
     if (this->window()->isFullScreen())
     {
-        if (1.0 * (width()) / (height()) > 1.0 * bf.width() / bf.height()) {
-            return 1.0 * (height()) / bf.height();
+        if (1.0 * (width()) / (height() + 15) > 1.0 * bf.width() / bf.height()) {
+            return 1.0 * (height() + 15) / bf.height();
         } else {
             return 1.0 * (width()) / bf.width();
         }
     }
     else
     {
-        if (1.0 * (width() - 20) / (height() - 120) > 1.0 * bf.width() / bf.height()) {
-            return 1.0 * (height() - 120) / bf.height();
+        if (1.0 * (width() - 20) / (height() - 150) > 1.0 * bf.width() / bf.height()) {
+            return 1.0 * (height() - 150) / bf.height();
         } else {
             return 1.0 * (width() - 20) / bf.width();
         }

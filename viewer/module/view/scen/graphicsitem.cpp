@@ -97,7 +97,7 @@ void GraphicsPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
         pixmap.setDevicePixelRatio(painter->device()->devicePixelRatioF());
         painter->resetTransform();
-        painter->drawPixmap(offset() + QPointF(ts.dx(), ts.dy()), pixmap);
+        painter->drawPixmap(offset() + QPointF(ts.dx(), ts.dy() - 15), pixmap);
         painter->setTransform(ts);
     } else {
         QGraphicsPixmapItem::paint(painter, option, widget);
