@@ -1158,3 +1158,32 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
     }
     emit dApp->signalM->updateFileName(fileName);
 }
+
+void TTBContent::updateCollectButton()
+{
+//    if (! m_clBT)
+//        return;
+
+//    if (m_imagePath.isEmpty() || !QFileInfo(m_imagePath).exists()) {
+//        m_clBT->setDisabled(true);
+//        m_clBT->setChecked(false);
+//    }
+//    else
+//        m_clBT->setDisabled(false);
+
+//    if (! m_clBT->isEnabled()) {
+//        m_clBT->setDisabled(true);
+//    }
+//#ifndef LITE_DIV
+//    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
+//                                                      m_imagePath)) {
+//        m_clBT->setToolTip(tr("Unfavorite"));
+//        m_clBT->setChecked(true);
+//    }
+//#endif
+//    else {
+//        m_clBT->setToolTip(tr("Favorite"));
+//        m_clBT->setChecked(false);
+//        m_clBT->setDisabled(false);
+//    }
+}

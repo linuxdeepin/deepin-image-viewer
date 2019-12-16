@@ -141,6 +141,7 @@ signals:
 public slots:
     void setCurrentDir(QString text);
     void setImage(const QString &path, DBImgInfoList infos);
+    void updateCollectButton();
     void slotTheme(bool theme);
 
 private slots:
