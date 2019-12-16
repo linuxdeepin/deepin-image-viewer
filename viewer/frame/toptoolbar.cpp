@@ -114,33 +114,45 @@ void TopToolbar::setMiddleContent(QString path)
 void TopToolbar::setTitleBarTransparent(bool a)
 {
     m_viewChange = a;
-    if(a){
-//        QPalette pa1;
-//        pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
-//        m_titletxt->setPalette(pa1);
-        m_titlebar->setBackgroundTransparent(true);
 
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    QPalette pa1, pa2;
+    if(a){
+        m_titlebar->setBackgroundTransparent(true);
         shadowEffect->setOffset(0, 1);
         shadowEffect->setBlurRadius(1);
-//        shadowEffect->setColor(Qt::red);
         m_titletxt->setGraphicsEffect(shadowEffect);
-    }
-    else {
-        m_titlebar->setBackgroundTransparent(false);
-
-        shadowEffect->setOffset(0, 0);
-        shadowEffect->setBlurRadius(0);
-//        shadowEffect->setColor(Qt::yellow);
-        m_titletxt->setGraphicsEffect(shadowEffect);
-//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-//        QPalette pa1;
-//        if (themeType == DGuiApplicationHelper::DarkType) {
-//            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+//        if (themeType == DGuiApplicationHelper::LightType) {
+            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+            pa2.setColor(QPalette::WindowText,QColor(255,255,255,204));
+            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa2);
 //        }
 //        else {
 //            pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
+//            pa2.setColor(QPalette::WindowText,QColor(98,110,136,225));
+//            m_titlebar->setPalette(pa1);
+//            m_titletxt->setPalette(pa2);
 //        }
-//        m_titletxt->setPalette(pa1);
+    }
+    else {
+        m_titlebar->setBackgroundTransparent(false);
+        shadowEffect->setOffset(0, 0);
+        shadowEffect->setBlurRadius(0);
+        m_titletxt->setGraphicsEffect(shadowEffect);
+        if (themeType == DGuiApplicationHelper::LightType) {
+            pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
+            pa2.setColor(QPalette::WindowText,QColor(98,110,136,225));
+            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa2);
+        }
+        else {
+            pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+            pa2.setColor(QPalette::WindowText,QColor(255,255,255,204));
+            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa2);
+
+        }
     }
 }
 
@@ -292,16 +304,23 @@ void TopToolbar::initWidgets()
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                      this, [=](){
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        QPalette pa1, pa2;
         if(!m_viewChange)
         {
-            QPalette pa1;
             if (themeType == DGuiApplicationHelper::DarkType) {
                 pa1.setColor(QPalette::ButtonText,QColor(255,255,255,204));
+                pa2.setColor(QPalette::WindowText,QColor(255,255,255,204));
             }
             else {
                 pa1.setColor(QPalette::ButtonText,QColor(98,110,136,225));
+                pa2.setColor(QPalette::WindowText,QColor(98,110,136,225));
             }
-            m_titletxt->setPalette(pa1);
+            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa2);
+        }
+        else
+        {
+
         }
     });
 //    connect(dApp->signalM, &SignalManager::enterView,
