@@ -388,19 +388,19 @@ TTBContent::TTBContent(bool inDB,
     connect(m_rotateRBtn, &DIconButton::clicked,
             this, &TTBContent::rotateClockwise);
 #else
-    btPre = new ImageIconButton(":/icons/deepin/builtin/icons/dcc_previous_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_previous_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_previous_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_previous_36px.svg");
+    btPre = new ImageIconButton(":/resources/light/icons/previous_normal.svg",
+                                ":/resources/light/icons/previous_hover.svg",
+                                ":/resources/light/icons/previous_press.svg",
+                                ":/resources/light/icons/previous_normal.svg");
     btPre->setFixedSize(50, 50);
     btPre->setTransparent(false);
     btPre->setToolTip(tr("Previous"));
     btPre->hide();
 
-    btNext = new ImageIconButton(":/icons/deepin/builtin/icons/dcc_next_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_next_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_next_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_next_36px.svg");
+    btNext = new ImageIconButton(":/resources/light/icons/next_normal.svg",
+                                ":/resources/light/icons/next_hover.svg",
+                                ":/resources/light/icons/next_press.svg",
+                                ":/resources/light/icons/next_normal.svg");
     btNext->setFixedSize(50, 50);
     btNext->setTransparent(false);
     btNext->setToolTip(tr("Next"));
@@ -418,40 +418,41 @@ TTBContent::TTBContent(bool inDB,
     hb->addWidget(m_nextButton_spc);
 
 
-    btAdapt = new ImageIconButton(":/icons/deepin/builtin/icons/dcc_11_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_11_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_11_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_11_36px.svg");
+    btAdapt = new ImageIconButton(":/resources/light/icons/1_1_normal.svg",
+                                ":/resources/light/icons/1_1_hover.svg",
+                                ":/resources/light/icons/1_1_press.svg",
+                                ":/resources/light/icons/1_1_checked.svg");
     btAdapt->setFixedSize(50, 50);
     btAdapt->setTransparent(false);
     btAdapt->setToolTip(tr("1:1 Size"));
+    btAdapt->setCheckable(true);
     hb->addWidget(btAdapt);
     hb->addSpacing(ICON_SPACING);
 
-    btFit = new ImageIconButton(":/icons/deepin/builtin/icons/dcc_fit_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_fit_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_fit_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_fit_36px.svg");
+    btFit = new ImageIconButton(":/resources/light/icons/fit_normal.svg",
+                                ":/resources/light/icons/fit_hover.svg",
+                                ":/resources/light/icons/fit_press.svg",
+                                ":/resources/light/icons/fit_normal.svg");
     btFit->setFixedSize(50, 50);
     btFit->setTransparent(false);
     btFit->setToolTip(tr("Fit to window"));
     hb->addWidget(btFit);
     hb->addSpacing(ICON_SPACING);
 
-    btLeft = new ImageIconButton(":/icons/deepin/builtin/icons/dcc_left_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_left_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_left_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_left_36px.svg");
+    btLeft = new ImageIconButton(":/resources/light/icons/left_normal.svg",
+                                 ":/resources/light/icons/left_hover.svg",
+                                 ":/resources/light/icons/left_press.svg",
+                                 ":/resources/light/icons/left_normal.svg");
     btLeft->setFixedSize(50, 50);
     btLeft->setTransparent(false);
     btLeft->setToolTip(tr("Rotate counterclockwise"));
     hb->addWidget(btLeft);
     hb->addSpacing(ICON_SPACING);
 
-    btRight = new ImageIconButton(":/icons/deepin/builtin/icons/dcc_right_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_right_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_right_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_right_36px.svg");
+    btRight = new ImageIconButton(":/resources/light/icons/right_normal.svg",
+                                ":/resources/light/icons/right_hover.svg",
+                                ":/resources/light/icons/right_press.svg",
+                                ":/resources/light/icons/right_normal.svg");
     btRight->setFixedSize(50, 50);
     btRight->setTransparent(false);
     btRight->setToolTip(tr("Rotate clockwise"));
@@ -557,10 +558,10 @@ TTBContent::TTBContent(bool inDB,
     hb->addSpacing(ICON_SPACING);
     connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed);
 #else
-    btTrash = new ImageIconButton(":/icons/deepin/builtin/icons/dcc_delete_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_delete_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_delete_36px.svg",
-                                ":/icons/deepin/builtin/icons/dcc_delete_36px.svg");
+    btTrash = new ImageIconButton(":/resources/light/icons/delete.svg",
+                                ":/resources/light/icons/delete.svg",
+                                ":/resources/light/icons/delete.svg",
+                                ":/resources/light/icons/delete.svg");
     btTrash->setFixedSize(50, 50);
     btTrash->setTransparent(false);
     btTrash->setToolTip(tr("Delete"));
@@ -574,16 +575,24 @@ TTBContent::TTBContent(bool inDB,
     });
     connect(btAdapt, &ImageIconButton::clicked, this, [ = ] {
         emit resetTransform(false);
+        setAdaptButtonChecked(true);
     });
     connect(btFit, &ImageIconButton::clicked, this, [ = ] {
         emit resetTransform(true);
+        setAdaptButtonChecked(false);
     });
     connect(btLeft, &ImageIconButton::clicked,
             this, &TTBContent::rotateCounterClockwise);
     connect(btRight, &ImageIconButton::clicked,
             this, &TTBContent::rotateClockwise);
     connect(btTrash, &ImageIconButton::clicked, this, &TTBContent::removed);
-
+    connect(dApp->signalM, &SignalManager::isAdapt, this, [=](bool immediately) {
+        if(immediately){
+            setAdaptButtonChecked(true);
+        }else {
+            setAdaptButtonChecked(false);
+        }
+    });
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         bool theme = false;
@@ -604,6 +613,12 @@ TTBContent::TTBContent(bool inDB,
     }
     slotTheme(theme);
 #endif
+}
+void TTBContent::setAdaptButtonChecked(bool flag)
+{
+    if (btAdapt->isChecked() != flag) {
+        btAdapt->setChecked(flag);
+    }
 }
 void TTBContent::slotTheme(bool theme){
     DPalette pa;
@@ -682,27 +697,28 @@ void TTBContent::slotTheme(bool theme){
         btTrash->setPalette(pa);
     }
 
-    btPre->setPropertyPic(QString(":/icons/deepin/builtin/icons/dcc_previous_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_previous_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_previous_36px.svg").arg(rStr));
-    btNext->setPropertyPic(QString(":/icons/deepin/builtin/icons/dcc_next_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_next_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_next_36px.svg").arg(rStr));
-    btAdapt->setPropertyPic(QString(":/icons/deepin/builtin/icons/dcc_11_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_11_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_11_36px.svg").arg(rStr));
-    btFit->setPropertyPic(QString(":/icons/deepin/builtin/icons/dcc_fit_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_fit_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_fit_36px.svg").arg(rStr));
-    btLeft->setPropertyPic(QString(":/icons/deepin/builtin/icons/dcc_left_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_left_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_left_36px.svg").arg(rStr));
-    btRight->setPropertyPic(QString(":/icons/deepin/builtin/icons/dcc_right_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_right_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_right_36px.svg").arg(rStr));
-    btTrash->setPropertyPic(QString(":/icons/deepin/builtin/icons/dcc_delete_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_delete_36px.svg").arg(rStr),
-                            QString(":/icons/deepin/builtin/icons/dcc_delete_36px.svg").arg(rStr));
+    btPre->setPropertyPic(QString(":/resources/%1/icons/previous_normal.svg").arg(rStr),
+                            QString(":/resources/%1/icons/previous_hover.svg").arg(rStr),
+                            QString(":/resources/%1/icons/previous_press.svg").arg(rStr));
+    btNext->setPropertyPic(QString(":/resources/%1/icons/next_normal.svg").arg(rStr),
+                            QString(":/resources/%1/icons/next_hover.svg").arg(rStr),
+                            QString(":/resources/%1/icons/next_press.svg").arg(rStr));
+    btAdapt->setPropertyPic(QString(":/resources/%1/icons/1_1_normal.svg").arg(rStr),
+                            QString(":/resources/%1/icons/1_1_hover.svg").arg(rStr),
+                            QString(":/resources/%1/icons/1_1_press.svg").arg(rStr),
+                            QString(":/resources/%1/icons/1_1_checked.svg").arg(rStr));
+    btFit->setPropertyPic(QString(":/resources/%1/icons/fit_normal.svg").arg(rStr),
+                            QString(":/resources/%1/icons/fit_hover.svg").arg(rStr),
+                            QString(":/resources/%1/icons/fit_press.svg").arg(rStr));
+    btLeft->setPropertyPic(QString(":/resources/%1/icons/left_normal.svg").arg(rStr),
+                            QString(":/resources/%1/icons/left_hover.svg").arg(rStr),
+                            QString(":/resources/%1/icons/left_press.svg").arg(rStr));
+    btRight->setPropertyPic(QString(":/resources/%1/icons/right_normal.svg").arg(rStr),
+                            QString(":/resources/%1/icons/right_hover.svg").arg(rStr),
+                            QString(":/resources/%1/icons/right_press.svg").arg(rStr));
+    btTrash->setPropertyPic(QString(":/resources/%1/icons/delete.svg").arg(rStr),
+                            QString(":/resources/%1/icons/delete.svg").arg(rStr),
+                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
 }
 void TTBContent::updateFilenameLayout()
 {
@@ -780,7 +796,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
     }
 
     setFixedWidth(m_contentWidth);
-//    setImage(m_imagePath, m_imgInfos);//songsha
+//    setImage(m_imagePath, m_imgInfos);
 
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
     for (int j = 0; j < labelList.size(); j++) {

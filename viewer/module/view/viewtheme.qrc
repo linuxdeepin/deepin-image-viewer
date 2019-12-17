@@ -128,5 +128,55 @@
         <file>resources/light/images/button_tab_close_press 2.svg</file>
         <file>resources/light/images/naviwindow_bg.svg</file>
         <file>resources/dark/images/naviwindow_bg.svg</file>
+        <file>resources/dark/icons/1_1_checked.svg</file>
+        <file>resources/dark/icons/1_1_hover.svg</file>
+        <file>resources/dark/icons/1_1_normal.svg</file>
+        <file>resources/dark/icons/1_1_press.svg</file>
+        <file>resources/dark/icons/delete_disabled.svg</file>
+        <file>resources/dark/icons/delete.svg</file>
+        <file>resources/dark/icons/fit_hover.svg</file>
+        <file>resources/dark/icons/fit_normal.svg</file>
+        <file>resources/dark/icons/fit_press.svg</file>
+        <file>resources/dark/icons/left_disabled.svg</file>
+        <file>resources/dark/icons/left_hover.svg</file>
+        <file>resources/dark/icons/left_normal.svg</file>
+        <file>resources/dark/icons/left_press.svg</file>
+        <file>resources/dark/icons/next_disabled.svg</file>
+        <file>resources/dark/icons/next_hover.svg</file>
+        <file>resources/dark/icons/next_normal.svg</file>
+        <file>resources/dark/icons/next_press.svg</file>
+        <file>resources/dark/icons/previous_disabled.svg</file>
+        <file>resources/dark/icons/previous_hover.svg</file>
+        <file>resources/dark/icons/previous_normal.svg</file>
+        <file>resources/dark/icons/previous_press.svg</file>
+        <file>resources/dark/icons/right_disabled.svg</file>
+        <file>resources/dark/icons/right_hover.svg</file>
+        <file>resources/dark/icons/right_normal.svg</file>
+        <file>resources/dark/icons/right_press.svg</file>
+        <file>resources/light/icons/1_1_checked.svg</file>
+        <file>resources/light/icons/1_1_hover.svg</file>
+        <file>resources/light/icons/1_1_normal.svg</file>
+        <file>resources/light/icons/1_1_press.svg</file>
+        <file>resources/light/icons/delete_disabled.svg</file>
+        <file>resources/light/icons/delete.svg</file>
+        <file>resources/light/icons/fit_hover.svg</file>
+        <file>resources/light/icons/fit_normal.svg</file>
+        <file>resources/light/icons/fit_press.svg</file>
+        <file>resources/light/icons/left_disabled.svg</file>
+        <file>resources/light/icons/left_hover.svg</file>
+        <file>resources/light/icons/left_normal.svg</file>
+        <file>resources/light/icons/left_press.svg</file>
+        <file>resources/light/icons/next_disabled.svg</file>
+        <file>resources/light/icons/next_hover.svg</file>
+        <file>resources/light/icons/next_normal.svg</file>
+        <file>resources/light/icons/next_press.svg</file>
+        <file>resources/light/icons/previous_disabled.svg</file>
+        <file>resources/light/icons/previous_hover.svg</file>
+        <file>resources/light/icons/previous_normal.svg</file>
+        <file>resources/light/icons/previous_press.svg</file>
+        <file>resources/light/icons/right_disabled.svg</file>
+        <file>resources/light/icons/right_hover.svg</file>
+        <file>resources/light/icons/right_normal.svg</file>
+        <file>resources/light/icons/right_press.svg</file>
     </qresource>
 </RCC>

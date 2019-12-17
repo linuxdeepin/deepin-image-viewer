@@ -116,8 +116,15 @@ void ViewPanel::initScaleLabel()
         label->setText(QString("%1%").arg(int(perc)));
         if(perc > 100){
             emit dApp->signalM->enterScaledMode(true);
-        }else {
+            emit dApp->signalM->isAdapt(false);
+        }
+        else if (perc == 100.0) {
             emit dApp->signalM->enterScaledMode(false);
+            emit dApp->signalM->isAdapt(true);
+        }
+        else {
+            emit dApp->signalM->enterScaledMode(false);
+            emit dApp->signalM->isAdapt(false);
         }
     });
     connect(m_viewB, &ImageView::showScaleLabel, this, [=](){

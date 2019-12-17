@@ -59,6 +59,7 @@ signals:
     void sendPathlist(QStringList pathlist, QString path);
     void enterView(bool immediately = false);
     void enterScaledMode(bool immediately = false);
+    void isAdapt(bool immediately = false);
     void usbOutIn(bool immediately = false);
     void hideNavigation();
     void picInUSB(bool immediately = false);

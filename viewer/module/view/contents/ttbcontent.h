@@ -143,6 +143,7 @@ public slots:
     void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
     void slotTheme(bool theme);
+    void setAdaptButtonChecked(bool flag);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
