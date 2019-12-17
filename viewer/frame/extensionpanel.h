@@ -23,11 +23,13 @@
 #include <QHBoxLayout>
 #include <QPropertyAnimation>
 #include <QScrollArea>
+#include <DTitlebar>
+
 #include "controller/viewerthememanager.h"
 #include "widgets/blureframe.h"
 
 // class ExtensionPanel : public DFloatingWidget
-class ExtensionPanel : public DDialog
+class ExtensionPanel : public DAbstractDialog
 {
     Q_OBJECT
 public:
@@ -35,6 +37,8 @@ public:
     void setContent(QWidget *content);
     void updateRectWithContent();
     void moveWithAnimation(int x, int y);
+
+    void init();
 signals:
     void requestStopAnimation();
 
@@ -52,6 +56,8 @@ private:
 
     QVBoxLayout *m_mainLayout {nullptr};
     QScrollArea *m_scrollArea {nullptr};
+
+    Dtk::Widget::DTitlebar *m_titleBar {nullptr};
 };
 
 #endif  // EXTENSIONPANEL_H

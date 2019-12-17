@@ -548,20 +548,20 @@ QWidget *ViewPanel::toolbarTopMiddleContent()
 
 QWidget *ViewPanel::extensionPanelContent()
 {
-    QWidget *w = new QWidget;
-    w->setAttribute(Qt::WA_TranslucentBackground);
+//    QWidget *w = new QWidget;
+//    w->setAttribute(Qt::WA_TranslucentBackground);
 
-    QVBoxLayout *l = new QVBoxLayout(w);
-    l->setContentsMargins(0, 0, 0, 0);
+//    QVBoxLayout *l = new QVBoxLayout(w);
+//    l->setContentsMargins(0, 0, 0, 0);
 
     if (! m_info) {
         m_info = new ImageInfoWidget("","");
     }
 
-    l->addSpacing(0);
-    l->addWidget(m_info);
+//    l->addSpacing(0);
+//    l->addWidget(m_info);
 
-    return w;
+    return m_info;
 }
 
 const SignalManager::ViewInfo ViewPanel::viewInfo() const

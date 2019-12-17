@@ -42,7 +42,7 @@ const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
 
 #define ArrowLineExpand_HIGHT 30
 #define ArrowLineExpand_SPACING 10
-#define DIALOG_TITLEBAR_HEIGHT 70
+#define DIALOG_TITLEBAR_HEIGHT 60
 
 struct MetaData {
     QString key;
@@ -156,7 +156,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     , m_maxTitleWidth(maxTitleWidth())
 {
     setFixedWidth(300);
-    setMaximumHeight(540);
+//    setMaximumHeight(540);
     setFrameStyle(QFrame::NoFrame);
 
     // Title field
@@ -194,25 +194,27 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setMargin(0);
-    m_mainLayout->setSpacing(0);
+    m_mainLayout->setSpacing(10);
 
-    m_scrollArea = new QScrollArea();
-    QPalette palette = m_scrollArea->viewport()->palette();
-    palette.setBrush(QPalette::Background, Qt::NoBrush);
-//    palette.setBrush(QPalette::Background, Qt::red);
-    m_scrollArea->viewport()->setPalette(palette);
-    m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
+//    m_scrollArea = new QScrollArea();
+//    QPalette palette = m_scrollArea->viewport()->palette();
+//    palette.setBrush(QPalette::Background, Qt::NoBrush);
+////    palette.setBrush(QPalette::Background, Qt::red);
+//    m_scrollArea->viewport()->setPalette(palette);
+//    m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
 
-    QWidget *scrollContentWidget = new QWidget;
-    QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
-    scrollWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    scrollWidgetLayout->setSpacing(ArrowLineExpand_SPACING);
-    scrollContentWidget->setLayout(scrollWidgetLayout);
-    m_scrollArea->setWidget(scrollContentWidget);
-    m_scrollArea->setWidgetResizable(true);
-    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
+//    QWidget *scrollContentWidget = new QWidget;
+//    QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
+//    scrollWidgetLayout->setContentsMargins(0, 0, 0, 0);
+//    scrollWidgetLayout->setSpacing(ArrowLineExpand_SPACING);
+//    scrollContentWidget->setLayout(scrollWidgetLayout);
+//    m_scrollArea->setWidget(scrollContentWidget);
+//    m_scrollArea->setWidgetResizable(true);
+//    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
 
-    m_mainLayout->addWidget(m_scrollArea, 1);
+//    m_mainLayout->addWidget(m_scrollArea, 1);
+    m_mainLayout->addWidget(m_exif_base);
+    m_mainLayout->addWidget(m_exif_details);
     this->setLayout(m_mainLayout);
     //    QVBoxLayout *scrolllayout = new QVBoxLayout;
     //    scrolllayout->addWidget(m_scrollArea);
@@ -251,7 +253,8 @@ void ImageInfoWidget::setImagePath(const QString &path)
     updateInfo();
 
     QStringList titleList;
-    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
+//    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
+    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(this->layout());
     // clear old expandwidget
     if (nullptr != layout) {
         QLayoutItem *child;
@@ -263,9 +266,9 @@ void ImageInfoWidget::setImagePath(const QString &path)
         }
     }
 
-    m_exif_base->setParent(this);
-    m_exif_details->setParent(this);
-    qDeleteAll(m_expandGroup);
+//    m_exif_base->setParent(this);
+//    m_exif_details->setParent(this);
+//    qDeleteAll(m_expandGroup);
 
     m_expandGroup.clear();
 
@@ -290,12 +293,12 @@ void ImageInfoWidget::setImagePath(const QString &path)
         m_expandGroup.at(0)->setExpand(true);
     }
 
-    for (auto i = 0; i < m_expandGroup.count(); ++i) {
-        layout->addWidget(m_expandGroup.at(i));
-    }
+//    for (auto i = 0; i < m_expandGroup.count(); ++i) {
+//        layout->addWidget(m_expandGroup.at(i));
+//    }
 
-    if (m_expandGroup.count() > 1)
-        layout->addStretch();
+//    if (m_expandGroup.count() > 1)
+        layout->addStretch(1);
 }
 
 void ImageInfoWidget::resizeEvent(QResizeEvent *e)
@@ -437,7 +440,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 
 QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
 {
-    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
+    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(this->layout());
     QList<DBaseExpand *> group;
 
     for (const QString &title : titleList) {
@@ -465,7 +468,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
         rc.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
         setGeometry(rc);
 
-        emit dApp->signalM->extensionPanelHeight(contentHeight() /*+ ArrowLineExpand_SPACING * 2*/);
+        emit dApp->signalM->extensionPanelHeight(contentHeight() + ArrowLineExpand_SPACING + 5);
     });
 }
 

@@ -39,30 +39,33 @@ const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 
 ExtensionPanel::ExtensionPanel(QWidget *parent)
     //    : DFloatingWidget(parent)
-    : DDialog(parent)
+    : DAbstractDialog(parent)
 {
+    init();
     //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     this->setWindowTitle(tr("Image info"));
     DFontSizeManager::instance()->bind(this, DFontSizeManager::T6, QFont::Medium);
 
-    m_contentLayout = new QVBoxLayout(this);
-    m_contentLayout->setContentsMargins(0, 0, 0, 0);
-    m_contentLayout->setSpacing(0);
+//    m_contentLayout = new QVBoxLayout(this);
+//    m_contentLayout->setContentsMargins(0, 0, 0, 0);
+//    m_contentLayout->setSpacing(0);
+
+
 
     setFixedWidth(EXTENSION_PANEL_WIDTH);
-    setFixedHeight(540);
+    setFixedHeight(400);
 }
 
 void ExtensionPanel::setContent(QWidget *content)
 {
     if (content) {
 #if 1
-        QLayoutItem *child;
-        if ((child = m_contentLayout->takeAt(0)) != 0) {
-            if (child->widget())
-                child->widget()->deleteLater();
-            delete child;
-        }
+//        QLayoutItem *child;
+//        if ((child = m_contentLayout->takeAt(0)) != 0) {
+//            if (child->widget())
+//                child->widget()->deleteLater();
+//            delete child;
+//        }
 #else
         QLayoutItem *child;
         if ((child = m_contentLayout->takeAt(0)) != nullptr) {
@@ -73,15 +76,11 @@ void ExtensionPanel::setContent(QWidget *content)
 #endif
         m_content = content;
         updateRectWithContent();
-//        m_contentLayout->addWidget(content);
-        this->addContent(content);
 
-//        QLabel *label = new QLabel("xxxx");
-//        QPalette pa = label->palette();
-//        pa.setBrush(QPalette::Background, Qt::red);
-//        label->setPalette(pa);
-//        label->setAutoFillBackground(true);
-//        this->addContent(label);
+        QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
+        if (nullptr != layout)
+            layout->addWidget(content);
+//        this->addContent(content);
     }
 }
 
@@ -89,7 +88,7 @@ void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
             [=](int height) {
-                    setFixedHeight(qMin(615, height+5));//tmp for imageinfo
+                    setFixedHeight(qMin(540, height));//tmp for imageinfo
             });
 
     if (m_content) {
@@ -100,7 +99,7 @@ void ExtensionPanel::updateRectWithContent()
 void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
-    DDialog::mouseMoveEvent(e);
+    DAbstractDialog::mouseMoveEvent(e);
 }
 
 void ExtensionPanel::paintEvent(QPaintEvent *pe)
@@ -123,7 +122,7 @@ void ExtensionPanel::paintEvent(QPaintEvent *pe)
     //        painter.fillPath(pp, bgColor);
     //    }
     //    QWidget::paintEvent(pe);
-    DDialog::paintEvent(pe);
+    DAbstractDialog::paintEvent(pe);
 }
 //{
 //    QPainter painter(this);
@@ -180,4 +179,38 @@ void ExtensionPanel::moveWithAnimation(int x, int y)
     //            &QPropertyAnimation::deleteLater);
     //    connect(animation, &QPropertyAnimation::finished, animation,
     //    &QPropertyAnimation::deleteLater);
+}
+
+void ExtensionPanel::init()
+{
+    m_mainLayout = new QVBoxLayout;
+
+    m_titleBar = new DTitlebar();
+    m_titleBar->setMenuVisible(false);
+    m_titleBar->setBackgroundTransparent(true);
+    m_titleBar->setTitle(this->windowTitle());
+    QObject::connect(this, &ExtensionPanel::windowTitleChanged, m_titleBar, &DTitlebar::setTitle);
+
+    m_scrollArea = new QScrollArea(this);
+    QPalette palette = m_scrollArea->viewport()->palette();
+    palette.setBrush(QPalette::Background, Qt::NoBrush);
+    m_scrollArea->viewport()->setPalette(palette);
+    m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
+
+    QWidget *scrollContentWidget = new QWidget(m_scrollArea);
+    QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
+    scrollWidgetLayout->setContentsMargins(10, 0, 10, 10);
+    scrollWidgetLayout->setSpacing(0);
+    scrollContentWidget->setLayout(scrollWidgetLayout);
+    m_scrollArea->setWidget(scrollContentWidget);
+    m_scrollArea->setWidgetResizable(true);
+    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
+
+    m_mainLayout->addWidget(m_titleBar);
+    m_mainLayout->addWidget(m_scrollArea);
+
+    m_mainLayout->setSpacing(10);
+    m_mainLayout->setContentsMargins(QMargins(0, 0, 0, 0));
+
+    this->setLayout(m_mainLayout);
 }

@@ -141,7 +141,7 @@ private:
     bool m_printDialogVisible = false;
     int m_topLeftContentWidth = 0;
     ImageView *m_viewB;
-    ImageInfoWidget *m_info;
+    ImageInfoWidget *m_info {nullptr};
     ThumbnailWidget* m_emptyWidget=nullptr;
     DMenu *m_menu;
     QStackedWidget *m_stack;
@@ -164,5 +164,7 @@ private:
     DFileWatcher *m_fileManager;
     QString m_currentFilePath = "";
     bool m_finish =false;
+
+    QScrollArea *m_scrollArea {nullptr};
 };
 #endif // VIEWPANEL_H
