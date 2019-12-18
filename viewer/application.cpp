@@ -234,7 +234,7 @@ Application::Application(int& argc, char** argv)
 
 
     connect(dApp->signalM, &SignalManager::sendPathlist, this, [=](QStringList list,QString path){
-        m_imageloader= new ImageLoader(this, list,path);
+        m_imageloader= new ImageLoader(this, list, path);
         m_LoadThread = new QThread();
 
         m_imageloader->moveToThread(m_LoadThread);
