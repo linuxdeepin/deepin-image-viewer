@@ -80,7 +80,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
 {
     if (m_topToolbar) {
         m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
-        m_topSeparatorLine->setVisible(true);
+//        m_topSeparatorLine->setVisible(true);
         emit dApp->signalM->resizeFileName();
         if (e->oldSize() != e->size()) {
             emit m_topToolbar->updateMaxBtn();
@@ -114,16 +114,16 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         m_extensionPanel->setFixedHeight(height());
     }
 #endif
-    if (m_topSeparatorLine) {
-        m_topSeparatorLine->resize(window()->width(), 1);
-        m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
-    }
+//    if (m_topSeparatorLine) {
+//        m_topSeparatorLine->resize(window()->width(), 10);
+//        m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
+//    }
 
-    if (window()->isFullScreen()) {
-        m_topSeparatorLine->setVisible(false);
-    } else {
-        m_topSeparatorLine->setVisible(true);
-    }
+//    if (window()->isFullScreen()) {
+//        m_topSeparatorLine->setVisible(false);
+//    } else {
+//        m_topSeparatorLine->setVisible(true);
+//    }
 
     if (m_btmSeparatorLine) {
         m_btmSeparatorLine->resize(window()->width(), 1);
@@ -145,6 +145,7 @@ void MainWidget::resizeEvent(QResizeEvent *e)
     //            }
     //        }
     //    }
+    updateTitleShadowGeometry();
 }
 
 void MainWidget::showEvent(QShowEvent *event)
@@ -261,9 +262,14 @@ void MainWidget::initTopToolbar()
 
     connect(dApp->signalM, &SignalManager::sigImageOutTitleBar, this, [=](bool a){
         m_topToolbar->setTitleBarTransparent(a);
+        if (a) {
+            this->setTitlebarShadowEnabled(false);
+        } else {
+            this->setTitlebarShadowEnabled(true);
+        }
     });
 
-    m_topSeparatorLine = new QLabel(this);
+//    m_topSeparatorLine = new QLabel("xxxxxxx", this);
     //    m_topSeparatorLine->setObjectName("TopSeperatorLine");
     //    m_topSeparatorLine->resize(window()->width(), 1);
     //    m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
@@ -522,3 +528,37 @@ void MainWidget::initExtensionPanel()
     });
 #endif
 }
+
+void MainWidget::updateTitleShadowGeometry()
+{
+    if (!m_shadowLine)
+        return;
+
+    QRect rect(0, m_topToolbar->rect().bottom() + 1, this->width(), m_shadowLine->sizeHint().height());
+    m_shadowLine->setGeometry(rect);
+    // if window is fullscreen, don't show shadow;
+    m_shadowLine->setVisible(!window()->isFullScreen());
+    m_shadowLine->raise();
+}
+void MainWidget::setTitlebarShadowEnabled(bool titlebarShadowEnabled)
+{
+    if (static_cast<bool>(m_shadowLine) == titlebarShadowEnabled)
+        return;
+
+    if (titlebarShadowEnabled) {
+        m_shadowLine= new DShadowLine(this);
+        m_shadowLine->setAttribute(Qt::WA_AlwaysStackOnTop);
+        updateTitleShadowGeometry();
+    } else {
+        m_shadowLine->deleteLater();
+        m_shadowLine = nullptr;
+    }
+}
+
+//void MainWidget::resizeEvent(QResizeEvent *event)
+//{
+
+//    updateTitleShadowGeometry();
+
+//    return QFrame::resizeEvent(event);
+//}

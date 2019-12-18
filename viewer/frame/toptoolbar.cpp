@@ -323,6 +323,7 @@ void TopToolbar::initWidgets()
 
         }
     });
+
 //    connect(dApp->signalM, &SignalManager::enterView,
 //            this, [=](bool a) {
 //        m_viewChange = a;

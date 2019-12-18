@@ -54,20 +54,25 @@ private:
     void initPanelStack(bool manager);
 //    void initStyleSheet();
 
+    void setTitlebarShadowEnabled(bool titlebarShadowEnabled);
+    void updateTitleShadowGeometry();
+
 private:
     QStringList m_infoShowingList;
 
-    QStackedWidget  *m_panelStack;
+    QStackedWidget  *m_panelStack {nullptr};
 
 #ifndef LITE_DIV
     bool m_manager;
 #endif
-    ExtensionPanel  *m_extensionPanel;
-    BottomToolbar   *m_bottomToolbar;
-    TopToolbar      *m_topToolbar;
-    QLabel          *m_topSeparatorLine;
-    QLabel          *m_btmSeparatorLine;
-    ViewPanel       *m_viewPanel;
+    ExtensionPanel  *m_extensionPanel {nullptr};
+    BottomToolbar   *m_bottomToolbar {nullptr};
+    TopToolbar      *m_topToolbar {nullptr};
+    QLabel          *m_topSeparatorLine {nullptr};
+    QLabel          *m_btmSeparatorLine {nullptr};
+    ViewPanel       *m_viewPanel {nullptr};
+
+    DShadowLine     *m_shadowLine {nullptr};
 };
 
 #endif // MAINWIDGET_H

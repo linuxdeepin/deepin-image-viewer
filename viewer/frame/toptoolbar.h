@@ -27,6 +27,7 @@
 #include <DLabel>
 #include <QGraphicsDropShadowEffect>
 #include <DMenu>
+#include <DShadowLine>
 
 DWIDGET_USE_NAMESPACE
 
@@ -97,6 +98,8 @@ private:
     QHBoxLayout *m_rLayout = nullptr;
     DTitlebar *m_titlebar = nullptr;
     DLabel *m_titletxt = nullptr;
+
+    DShadowLine *m_shadowLine {nullptr};
 
 #ifndef LITE_DIV
     SettingsWindow *m_settingsWindow;
