@@ -45,18 +45,6 @@ const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 MainWindow::MainWindow(bool manager, QWidget *parent):
     DMainWindow(parent)
 {
-    // Maxmizing
-//    QShortcut *maxmizing = new QShortcut(QKeySequence("Ctrl+Alt+F"), this);
-//    maxmizing->setContext(Qt::WidgetWithChildrenShortcut);
-//    connect(maxmizing, &QShortcut::activated, this, [=] {
-//        if(isMaximized()){
-//            showNormal();
-//        }else {
-//            showMaximized();
-//        }
-//    });
-
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
             ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.60;
@@ -72,12 +60,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
-    qDebug()<<"**********"<<"defaultwidth ="<<defaultW
-           <<";  defaultheight ="<<defaultH
-          <<";  now width ="<<ww
-         <<";  now height ="<<wh
-        <<";  screenwidth ="<<dw.geometry().width()
-      <<";  screenheight="<<dw.geometry().height();
+
     m_mainWidget = new MainWidget(manager, this);
     QTimer::singleShot(200, [=]{
          setCentralWidget(m_mainWidget);
@@ -119,10 +102,6 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 #endif
 
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &MainWindow::onThemeChanged);
-
-
     m_vfsManager = new DGioVolumeManager;
     connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [=](){
             qDebug()<<"!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
@@ -133,12 +112,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
             emit dApp->signalM->usbOutIn(false);
             if(m_picInUSB){
                 m_picInUSB = false;
-//                if(1 == showDialog()){}
             }
     });
     connect(dApp->signalM, &SignalManager::picInUSB, this, [=](bool immediately) {
         if(immediately){
-//            emit dApp->signalM->enterView(false);
             m_picInUSB =true;
         }
     });
@@ -196,14 +173,6 @@ void MainWindow::moveCenter() {
                primaryGeometry.y() + (primaryGeometry.height() - this->height())/2);
 }
 
-void MainWindow::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    if (theme == ViewerThemeManager::Dark) {
-        setBorderColor(QColor(0, 0, 0, 204));
-    } else {
-        setBorderColor(QColor(0, 0, 0, 38));
-    }
-}
-
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
     if (! isMaximized()
@@ -219,11 +188,6 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     emit dApp->signalM->updateTopToolbar();
     DMainWindow::resizeEvent(e);
 }
-
-//void MainWindow::showEvent(QShowEvent *event) {
-//    Q_UNUSED(event);
-//    qDebug() << "showEvent time";
-//}
 
 bool MainWindow::windowAtEdge() {
     //TODO: process the multi-screen

@@ -140,24 +140,6 @@ bool CommandLine::processOption()
         return false;
     }
 
-    QString defaulttheme = dApp->setter->value(THEME_GROUP,
-                                                   THEME_TEXT).toString();
-
-    if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
-        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-    } else {
-        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-    }
-
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-                     [] (DGuiApplicationHelper::ColorType type) {
-//        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
-//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-//        } else {
-//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-//        }
-    });
-
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
 #ifndef LITE_DIV
@@ -187,6 +169,8 @@ bool CommandLine::processOption()
         DIVDBusController *dc = new DIVDBusController(dApp->signalM);
         Q_UNUSED(dc)
 #endif
+        qDebug()<<"names"<<names;
+        qDebug()<<"pas"<<pas;
         using namespace utils::image;
         QString name;
         QString value;
@@ -198,13 +182,62 @@ bool CommandLine::processOption()
         }
 
         if (values.isEmpty() && ! pas.isEmpty()){
-            name = "o"; // Default operation is open image file
-            value = pas.first();
+            QString path = pas.first();
+            qDebug()<<"path="<<path;
 
-            if (QUrl(value).isLocalFile()) {
-                value =  QUrl(value).toLocalFile();
+            bool isFile =false;
+            if (QFileInfo(path).isDir()) {
+                isFile = true;
+                qDebug()<<"Yes";
             }
-            values = pas;
+
+            if(isFile){
+                qDebug()<<"isFile";
+
+                name = "new-window";
+
+                QDir dir(path);
+                if(!dir.exists())
+                {
+                   qDebug()<<"!dir.exists()";
+                   return false;
+                }
+
+                dir.setFilter(QDir::Files | QDir::NoSymLinks);
+                QFileInfoList list =dir.entryInfoList();
+
+                int file_count =list.count();
+                if(file_count <=0)
+                {
+                    qDebug()<<"file_count <=0";
+                    return false;
+                }
+
+                QStringList string_list;
+                for(int i=0; i < list.count(); i++)
+                {
+                    QFileInfo file_info = list.at(i);
+                    QString absolute_file_path= file_info.absoluteFilePath();
+                    if (QFileInfo(absolute_file_path).exists() && imageSupportRead(absolute_file_path)) {
+                        string_list << absolute_file_path;
+                    }
+                }
+                value = string_list.first();
+                values = string_list;
+                qDebug()<<"isFile"
+                       <<"name"<<name
+                       <<"value"<<value
+                       <<"values"<<values;
+            }
+            else {
+                name = "o"; // Default operation is open image file
+                value = pas.first();
+
+                if (QUrl(value).isLocalFile()) {
+                    value =  QUrl(value).toLocalFile();
+                }
+                values = pas;
+            }
         }
 
         bool support = imageSupportRead(value);
@@ -251,7 +284,12 @@ bool CommandLine::processOption()
             qDebug() << "Set " << value << " as wallpaper.";
             dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
         }
-        else if (name.isEmpty() || name == "new-window") {
+        else if (name == "new-window") {
+            qDebug() << "new-window" << value << "file";
+            viewImage(value, values);
+            return true;
+        }
+        else if (name.isEmpty()) {
             viewImage("", {});
             return true;
         } else {
