@@ -78,19 +78,16 @@ public:
     {
         _indexNow = i;
 
-        if (_index == _indexNow) {
-//            m_spinner->move(21, 21);
-        }
-    };
+    }
     void setPic(QImage image)
     {
 //      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
-    };
+    }
     void updatePic(QPixmap pixmap)
     {
         _pixmap = pixmap;
         update();
-    };
+    }
 signals:
     void imageItemclicked(int index, int indexNow);
 protected:
@@ -104,7 +101,7 @@ protected:
         QEventLoop loop;
         QTimer::singleShot(200, &loop, SLOT(quit()));
         loop.exec();
-        if (bmouserelease )
+        if (bmouserelease)
             emit imageItemclicked(_index, _indexNow);
     }
     void paintEvent(QPaintEvent *event);
@@ -159,21 +156,21 @@ private:
 #endif
     bool m_inDB;
 
-    DIconButton *m_adaptImageBtn;
-    DIconButton *m_adaptScreenBtn;
+    DIconButton *m_adaptImageBtn {nullptr};
+    DIconButton *m_adaptScreenBtn {nullptr};
 //    DIconButton* m_clBT;
-    DIconButton *m_rotateLBtn;
-    DIconButton *m_rotateRBtn;
-    DIconButton *m_trashBtn;
-    DIconButton *m_preButton;
-    DIconButton *m_nextButton;
-    ImageIconButton  *btPre = nullptr;
-    ImageIconButton  *btNext = nullptr;
-    ImageIconButton  *btAdapt = nullptr;
-    ImageIconButton  *btFit = nullptr;
-    ImageIconButton  *btLeft = nullptr;
-    ImageIconButton  *btRight = nullptr;
-    ImageIconButton  *btTrash = nullptr;
+    DIconButton *m_rotateLBtn {nullptr};
+    DIconButton *m_rotateRBtn {nullptr};
+    DIconButton *m_trashBtn {nullptr};
+    DIconButton *m_preButton {nullptr};
+    DIconButton *m_nextButton {nullptr};
+//    ImageIconButton  *btPre = nullptr;
+//    ImageIconButton  *btNext = nullptr;
+//    ImageIconButton  *btAdapt = nullptr;
+//    ImageIconButton  *btFit = nullptr;
+//    ImageIconButton  *btLeft = nullptr;
+//    ImageIconButton  *btRight = nullptr;
+//    ImageIconButton  *btTrash = nullptr;
     ElidedLabel *m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
@@ -192,6 +189,8 @@ private:
     int m_imgInfos_size = 0;
     int m_startAnimation = 0;
     bool bresized = true;
+    bool badaptImageBtnChecked = false;
+    bool badaptScreenBtnChecked = false;
 };
 
 #endif // TTLCONTENT_H

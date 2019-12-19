@@ -387,23 +387,37 @@ TTBContent::TTBContent(bool inDB,
     connect(m_rotateRBtn, &DIconButton::clicked,
             this, &TTBContent::rotateClockwise);
 #else
-    btPre = new ImageIconButton(":/resources/light/icons/previous_normal.svg",
-                                ":/resources/light/icons/previous_hover.svg",
-                                ":/resources/light/icons/previous_press.svg",
-                                ":/resources/light/icons/previous_normal.svg");
-    btPre->setFixedSize(50, 50);
-    btPre->setTransparent(false);
-    btPre->setToolTip(tr("Previous"));
-    btPre->hide();
+//    btPre = new ImageIconButton(":/resources/light/icons/previous_normal.svg",
+//                                ":/resources/light/icons/previous_hover.svg",
+//                                ":/resources/light/icons/previous_press.svg",
+//                                ":/resources/light/icons/previous_normal.svg");
+//    btPre->setFixedSize(50, 50);
+//    btPre->setTransparent(false);
+//    btPre->setToolTip(tr("Previous"));
+//    btPre->hide();
+    // preButton
+    m_preButton = new DIconButton(this);
+    m_preButton->setObjectName("PreviousButton");
+    m_preButton->setFixedSize(ICON_SIZE);
+    m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
+    m_preButton->setIconSize(QSize(36, 36));
+    m_preButton->setToolTip(tr("Previous"));
 
-    btNext = new ImageIconButton(":/resources/light/icons/next_normal.svg",
-                                 ":/resources/light/icons/next_hover.svg",
-                                 ":/resources/light/icons/next_press.svg",
-                                 ":/resources/light/icons/next_normal.svg");
-    btNext->setFixedSize(50, 50);
-    btNext->setTransparent(false);
-    btNext->setToolTip(tr("Next"));
-    btNext->hide();
+//    btNext = new ImageIconButton(":/resources/light/icons/next_normal.svg",
+//                                 ":/resources/light/icons/next_hover.svg",
+//                                 ":/resources/light/icons/next_press.svg",
+//                                 ":/resources/light/icons/next_normal.svg");
+//    btNext->setFixedSize(50, 50);
+//    btNext->setTransparent(false);
+//    btNext->setToolTip(tr("Next"));
+//    btNext->hide();
+    // nextButton
+    m_nextButton = new DIconButton(this);
+    m_nextButton->setObjectName("NextButton");
+    m_nextButton->setFixedSize(ICON_SIZE);
+    m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
+    m_nextButton->setIconSize(QSize(36, 36));
+    m_nextButton->setToolTip(tr("Next"));
 
     m_preButton_spc = new DWidget;
     m_nextButton_spc = new DWidget;
@@ -411,51 +425,85 @@ TTBContent::TTBContent(bool inDB,
     m_nextButton_spc->hide();
     m_preButton_spc->setFixedSize(QSize(10, 50));
     m_nextButton_spc->setFixedSize(QSize(40, 50));
-    hb->addWidget(btPre);
+//    hb->addWidget(btPre);
+    hb->addWidget(m_preButton);
     hb->addWidget(m_preButton_spc);
-    hb->addWidget(btNext);
+//    hb->addWidget(btNext);
+    hb->addWidget(m_nextButton);
     hb->addWidget(m_nextButton_spc);
 
 
-    btAdapt = new ImageIconButton(":/resources/light/icons/1_1_normal.svg",
-                                  ":/resources/light/icons/1_1_hover.svg",
-                                  ":/resources/light/icons/1_1_press.svg",
-                                  ":/resources/light/icons/1_1_checked.svg");
-    btAdapt->setFixedSize(50, 50);
-    btAdapt->setTransparent(false);
-    btAdapt->setToolTip(tr("1:1 Size"));
-    btAdapt->setCheckable(true);
-    hb->addWidget(btAdapt);
+//    btAdapt = new ImageIconButton(":/resources/light/icons/1_1_normal.svg",
+//                                  ":/resources/light/icons/1_1_hover.svg",
+//                                  ":/resources/light/icons/1_1_press.svg",
+//                                  ":/resources/light/icons/1_1_checked.svg");
+//    btAdapt->setFixedSize(50, 50);
+//    btAdapt->setTransparent(false);
+//    btAdapt->setToolTip(tr("1:1 Size"));
+//    btAdapt->setCheckable(true);
+//    hb->addWidget(btAdapt);
+    // adaptImageBtn
+    m_adaptImageBtn = new DIconButton(this);
+    m_adaptImageBtn->setObjectName("AdaptBtn");
+    m_adaptImageBtn->setFixedSize(ICON_SIZE);
+    m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
+    m_adaptImageBtn->setIconSize(QSize(36, 36));
+    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
+    m_adaptImageBtn->setCheckable(true);
+    hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
 
-    btFit = new ImageIconButton(":/resources/light/icons/fit_normal.svg",
-                                ":/resources/light/icons/fit_hover.svg",
-                                ":/resources/light/icons/fit_press.svg",
-                                ":/resources/light/icons/fit_normal.svg");
-    btFit->setFixedSize(50, 50);
-    btFit->setTransparent(false);
-    btFit->setToolTip(tr("Fit to window"));
-    hb->addWidget(btFit);
+//    btFit = new ImageIconButton(":/resources/light/icons/fit_normal.svg",
+//                                ":/resources/light/icons/fit_hover.svg",
+//                                ":/resources/light/icons/fit_press.svg",
+//                                ":/resources/light/icons/fit_normal.svg");
+//    btFit->setFixedSize(50, 50);
+//    btFit->setTransparent(false);
+//    btFit->setToolTip(tr("Fit to window"));
+//    hb->addWidget(btFit);
+    // adaptScreenBtn
+    m_adaptScreenBtn = new DIconButton(this);
+    m_adaptScreenBtn->setFixedSize(ICON_SIZE);
+    m_adaptScreenBtn->setObjectName("AdaptScreenBtn");
+    m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
+    m_adaptScreenBtn->setIconSize(QSize(36, 36));
+    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
+//    m_adaptScreenBtn->setCheckable(true);
+    hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
 
-    btLeft = new ImageIconButton(":/resources/light/icons/left_normal.svg",
-                                 ":/resources/light/icons/left_hover.svg",
-                                 ":/resources/light/icons/left_press.svg",
-                                 ":/resources/light/icons/left_normal.svg");
-    btLeft->setFixedSize(50, 50);
-    btLeft->setTransparent(false);
-    btLeft->setToolTip(tr("Rotate counterclockwise"));
-    hb->addWidget(btLeft);
+//    btLeft = new ImageIconButton(":/resources/light/icons/left_normal.svg",
+//                                 ":/resources/light/icons/left_hover.svg",
+//                                 ":/resources/light/icons/left_press.svg",
+//                                 ":/resources/light/icons/left_normal.svg");
+//    btLeft->setFixedSize(50, 50);
+//    btLeft->setTransparent(false);
+//    btLeft->setToolTip(tr("Rotate counterclockwise"));
+//    hb->addWidget(btLeft);
+    // rotateLBtn
+    m_rotateLBtn = new DIconButton(this);
+    m_rotateLBtn->setFixedSize(ICON_SIZE);
+    m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
+    m_rotateLBtn->setIconSize(QSize(36, 36));
+    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
+    hb->addWidget(m_rotateLBtn);
     hb->addSpacing(ICON_SPACING);
 
-    btRight = new ImageIconButton(":/resources/light/icons/right_normal.svg",
-                                  ":/resources/light/icons/right_hover.svg",
-                                  ":/resources/light/icons/right_press.svg",
-                                  ":/resources/light/icons/right_normal.svg");
-    btRight->setFixedSize(50, 50);
-    btRight->setTransparent(false);
-    btRight->setToolTip(tr("Rotate clockwise"));
-    hb->addWidget(btRight);
+//    btRight = new ImageIconButton(":/resources/light/icons/right_normal.svg",
+//                                  ":/resources/light/icons/right_hover.svg",
+//                                  ":/resources/light/icons/right_press.svg",
+//                                  ":/resources/light/icons/right_normal.svg");
+//    btRight->setFixedSize(50, 50);
+//    btRight->setTransparent(false);
+//    btRight->setToolTip(tr("Rotate clockwise"));
+//    hb->addWidget(btRight);
+    // rotateRBtn
+    m_rotateRBtn = new DIconButton(this);
+    m_rotateRBtn->setFixedSize(ICON_SIZE);
+    m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
+    m_rotateRBtn->setIconSize(QSize(36, 36));
+    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
+    hb->addWidget(m_rotateRBtn);
     hb->addSpacing(ICON_SPACING);
 #endif
     m_imgListView_prespc = new DWidget;
@@ -559,34 +607,62 @@ TTBContent::TTBContent(bool inDB,
     hb->addSpacing(ICON_SPACING);
     connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed);
 #else
-    btTrash = new ImageIconButton(":/resources/light/icons/delete.svg",
-                                  ":/resources/light/icons/delete.svg",
-                                  ":/resources/light/icons/delete.svg",
-                                  ":/resources/light/icons/delete.svg");
-    btTrash->setFixedSize(50, 50);
-    btTrash->setTransparent(false);
-    btTrash->setToolTip(tr("Delete"));
-    hb->addWidget(btTrash);
+//    btTrash = new ImageIconButton(":/resources/light/icons/delete.svg",
+//                                  ":/resources/light/icons/delete.svg",
+//                                  ":/resources/light/icons/delete.svg",
+//                                  ":/resources/light/icons/delete.svg");
+//    btTrash->setFixedSize(50, 50);
+//    btTrash->setTransparent(false);
+//    btTrash->setToolTip(tr("Delete"));
+//    hb->addWidget(btTrash);
+    m_trashBtn = new DIconButton(this);
+    m_trashBtn->setFixedSize(ICON_SIZE);
+    m_trashBtn->setObjectName("TrashBtn");
+    m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
+    m_trashBtn->setIconSize(QSize(36, 36));
+    m_trashBtn->setToolTip(tr("Delete"));
 
-    connect(btPre, &ImageIconButton::clicked, this, [ = ] {
+    hb->addWidget(m_trashBtn);
+
+//    connect(btPre, &ImageIconButton::clicked, this, [ = ] {
+//        emit showPrevious();
+//    });
+//    connect(btNext, &ImageIconButton::clicked, this, [ = ] {
+//        emit showNext();
+//    });
+//    connect(btAdapt, &ImageIconButton::clicked, this, [ = ] {
+//        emit resetTransform(false);
+//        setAdaptButtonChecked(true);
+//    });
+//    connect(btFit, &ImageIconButton::clicked, this, [ = ] {
+//        emit resetTransform(true);
+//        setAdaptButtonChecked(false);
+//    });
+//    connect(btLeft, &ImageIconButton::clicked,
+//            this, &TTBContent::rotateCounterClockwise);
+//    connect(btRight, &ImageIconButton::clicked,
+//            this, &TTBContent::rotateClockwise);
+//    connect(btTrash, &ImageIconButton::clicked, this, &TTBContent::removed);
+    connect(m_preButton, &DIconButton::clicked, this, [ = ] {
         emit showPrevious();
     });
-    connect(btNext, &ImageIconButton::clicked, this, [ = ] {
+    connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
         emit showNext();
     });
-    connect(btAdapt, &ImageIconButton::clicked, this, [ = ] {
+    connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
         emit resetTransform(false);
         setAdaptButtonChecked(true);
     });
-    connect(btFit, &ImageIconButton::clicked, this, [ = ] {
+    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] {
         emit resetTransform(true);
         setAdaptButtonChecked(false);
     });
-    connect(btLeft, &ImageIconButton::clicked,
+    connect(m_rotateLBtn, &DIconButton::clicked,
             this, &TTBContent::rotateCounterClockwise);
-    connect(btRight, &ImageIconButton::clicked,
+    connect(m_rotateRBtn, &DIconButton::clicked,
             this, &TTBContent::rotateClockwise);
-    connect(btTrash, &ImageIconButton::clicked, this, &TTBContent::removed);
+    connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed);
+
     connect(dApp->signalM, &SignalManager::isAdapt, this, [ = ](bool immediately) {
         if (immediately) {
             setAdaptButtonChecked(true);
@@ -617,8 +693,11 @@ TTBContent::TTBContent(bool inDB,
 }
 void TTBContent::setAdaptButtonChecked(bool flag)
 {
-    if (btAdapt->isChecked() != flag) {
-        btAdapt->setChecked(flag);
+//    if (btAdapt->isChecked() != flag) {
+//        btAdapt->setChecked(flag);
+//    }
+    if (m_adaptImageBtn->isChecked() != flag) {
+        m_adaptImageBtn->setChecked(flag);
     }
 }
 void TTBContent::slotTheme(bool theme)
@@ -627,100 +706,100 @@ void TTBContent::slotTheme(bool theme)
     QString rStr;
     if (theme) {
         rStr = "dark";
-        pa = btPre->palette();
-        pa.setColor(DPalette::Light, QColor("#444444"));
-        pa.setColor(DPalette::Dark, QColor("#444444"));
-        btPre->setPalette(pa);
+//        pa = btPre->palette();
+//        pa.setColor(DPalette::Light, QColor("#444444"));
+//        pa.setColor(DPalette::Dark, QColor("#444444"));
+//        btPre->setPalette(pa);
 
-        pa = btNext->palette();
-        pa.setColor(DPalette::Light, QColor("#444444"));
-        pa.setColor(DPalette::Dark, QColor("#444444"));
-        btNext->setPalette(pa);
+//        pa = btNext->palette();
+//        pa.setColor(DPalette::Light, QColor("#444444"));
+//        pa.setColor(DPalette::Dark, QColor("#444444"));
+//        btNext->setPalette(pa);
 
-        pa = btAdapt->palette();
-        pa.setColor(DPalette::Light, QColor("#444444"));
-        pa.setColor(DPalette::Dark, QColor("#444444"));
-        btAdapt->setPalette(pa);
+//        pa = btAdapt->palette();
+//        pa.setColor(DPalette::Light, QColor("#444444"));
+//        pa.setColor(DPalette::Dark, QColor("#444444"));
+//        btAdapt->setPalette(pa);
 
-        pa = btFit->palette();
-        pa.setColor(DPalette::Light, QColor("#444444"));
-        pa.setColor(DPalette::Dark, QColor("#444444"));
-        btFit->setPalette(pa);
+//        pa = btFit->palette();
+//        pa.setColor(DPalette::Light, QColor("#444444"));
+//        pa.setColor(DPalette::Dark, QColor("#444444"));
+//        btFit->setPalette(pa);
 
-        pa = btLeft->palette();
-        pa.setColor(DPalette::Light, QColor("#444444"));
-        pa.setColor(DPalette::Dark, QColor("#444444"));
-        btLeft->setPalette(pa);
+//        pa = btLeft->palette();
+//        pa.setColor(DPalette::Light, QColor("#444444"));
+//        pa.setColor(DPalette::Dark, QColor("#444444"));
+//        btLeft->setPalette(pa);
 
-        pa = btRight->palette();
-        pa.setColor(DPalette::Light, QColor("#444444"));
-        pa.setColor(DPalette::Dark, QColor("#444444"));
-        btRight->setPalette(pa);
+//        pa = btRight->palette();
+//        pa.setColor(DPalette::Light, QColor("#444444"));
+//        pa.setColor(DPalette::Dark, QColor("#444444"));
+//        btRight->setPalette(pa);
 
-        pa = btTrash->palette();
-        pa.setColor(DPalette::Light, QColor("#444444"));
-        pa.setColor(DPalette::Dark, QColor("#444444"));
-        btTrash->setPalette(pa);
+//        pa = btTrash->palette();
+//        pa.setColor(DPalette::Light, QColor("#444444"));
+//        pa.setColor(DPalette::Dark, QColor("#444444"));
+//        btTrash->setPalette(pa);
     } else {
         rStr = "light";
-        pa = btPre->palette();
-        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
-        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
-        btPre->setPalette(pa);
+//        pa = btPre->palette();
+//        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
+//        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
+//        btPre->setPalette(pa);
 
-        pa = btNext->palette();
-        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
-        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
-        btNext->setPalette(pa);
+//        pa = btNext->palette();
+//        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
+//        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
+//        btNext->setPalette(pa);
 
-        pa = btAdapt->palette();
-        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
-        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
-        btAdapt->setPalette(pa);
+//        pa = btAdapt->palette();
+//        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
+//        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
+//        btAdapt->setPalette(pa);
 
-        pa = btFit->palette();
-        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
-        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
-        btFit->setPalette(pa);
+//        pa = btFit->palette();
+//        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
+//        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
+//        btFit->setPalette(pa);
 
-        pa = btLeft->palette();
-        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
-        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
-        btLeft->setPalette(pa);
+//        pa = btLeft->palette();
+//        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
+//        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
+//        btLeft->setPalette(pa);
 
-        pa = btRight->palette();
-        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
-        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
-        btRight->setPalette(pa);
+//        pa = btRight->palette();
+//        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
+//        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
+//        btRight->setPalette(pa);
 
-        pa = btTrash->palette();
-        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
-        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
-        btTrash->setPalette(pa);
+//        pa = btTrash->palette();
+//        pa.setColor(DPalette::Light, QColor("#FFFFFF"));
+//        pa.setColor(DPalette::Dark, QColor("#FFFFFF"));
+//        btTrash->setPalette(pa);
     }
 
-    btPre->setPropertyPic(QString(":/resources/%1/icons/previous_normal.svg").arg(rStr),
-                          QString(":/resources/%1/icons/previous_hover.svg").arg(rStr),
-                          QString(":/resources/%1/icons/previous_press.svg").arg(rStr));
-    btNext->setPropertyPic(QString(":/resources/%1/icons/next_normal.svg").arg(rStr),
-                           QString(":/resources/%1/icons/next_hover.svg").arg(rStr),
-                           QString(":/resources/%1/icons/next_press.svg").arg(rStr));
-    btAdapt->setPropertyPic(QString(":/resources/%1/icons/1_1_normal.svg").arg(rStr),
-                            QString(":/resources/%1/icons/1_1_hover.svg").arg(rStr),
-                            QString(":/resources/%1/icons/1_1_press.svg").arg(rStr),
-                            QString(":/resources/%1/icons/1_1_checked.svg").arg(rStr));
-    btFit->setPropertyPic(QString(":/resources/%1/icons/fit_normal.svg").arg(rStr),
-                          QString(":/resources/%1/icons/fit_hover.svg").arg(rStr),
-                          QString(":/resources/%1/icons/fit_press.svg").arg(rStr));
-    btLeft->setPropertyPic(QString(":/resources/%1/icons/left_normal.svg").arg(rStr),
-                           QString(":/resources/%1/icons/left_hover.svg").arg(rStr),
-                           QString(":/resources/%1/icons/left_press.svg").arg(rStr));
-    btRight->setPropertyPic(QString(":/resources/%1/icons/right_normal.svg").arg(rStr),
-                            QString(":/resources/%1/icons/right_hover.svg").arg(rStr),
-                            QString(":/resources/%1/icons/right_press.svg").arg(rStr));
-    btTrash->setPropertyPic(QString(":/resources/%1/icons/delete.svg").arg(rStr),
-                            QString(":/resources/%1/icons/delete.svg").arg(rStr),
-                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
+//    btPre->setPropertyPic(QString(":/resources/%1/icons/previous_normal.svg").arg(rStr),
+//                          QString(":/resources/%1/icons/previous_hover.svg").arg(rStr),
+//                          QString(":/resources/%1/icons/previous_press.svg").arg(rStr));
+//    btNext->setPropertyPic(QString(":/resources/%1/icons/next_normal.svg").arg(rStr),
+//                           QString(":/resources/%1/icons/next_hover.svg").arg(rStr),
+//                           QString(":/resources/%1/icons/next_press.svg").arg(rStr));
+//    btAdapt->setPropertyPic(QString(":/resources/%1/icons/1_1_normal.svg").arg(rStr),
+//                            QString(":/resources/%1/icons/1_1_hover.svg").arg(rStr),
+//                            QString(":/resources/%1/icons/1_1_press.svg").arg(rStr),
+//                            QString(":/resources/%1/icons/1_1_checked.svg").arg(rStr));
+//    btFit->setPropertyPic(QString(":/resources/%1/icons/fit_normal.svg").arg(rStr),
+//                          QString(":/resources/%1/icons/fit_hover.svg").arg(rStr),
+//                          QString(":/resources/%1/icons/fit_press.svg").arg(rStr));
+//    btLeft->setPropertyPic(QString(":/resources/%1/icons/left_normal.svg").arg(rStr),
+//                           QString(":/resources/%1/icons/left_hover.svg").arg(rStr),
+//                           QString(":/resources/%1/icons/left_press.svg").arg(rStr));
+//    btRight->setPropertyPic(QString(":/resources/%1/icons/right_normal.svg").arg(rStr),
+//                            QString(":/resources/%1/icons/right_hover.svg").arg(rStr),
+//                            QString(":/resources/%1/icons/right_press.svg").arg(rStr));
+//    btTrash->setPropertyPic(QString(":/resources/%1/icons/delete.svg").arg(rStr),
+//                            QString(":/resources/%1/icons/delete.svg").arg(rStr),
+//                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
 }
 void TTBContent::updateFilenameLayout()
 {
@@ -844,11 +923,16 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_rotateRBtn->setDisabled(true);
         m_trashBtn->setDisabled(true);
 #else
-        btAdapt->setDisabled(true);
-        btFit->setDisabled(true);
-        btLeft->setDisabled(true);
-        btRight->setDisabled(true);
-        btTrash->setDisabled(true);
+//        btAdapt->setDisabled(true);
+//        btFit->setDisabled(true);
+//        btLeft->setDisabled(true);
+//        btRight->setDisabled(true);
+//        btTrash->setDisabled(true);
+        m_adaptImageBtn->setDisabled(true);
+        m_adaptScreenBtn->setDisabled(true);
+        m_rotateLBtn->setDisabled(true);
+        m_rotateRBtn->setDisabled(true);
+        m_trashBtn->setDisabled(true);
 #endif
         m_imgList->setDisabled(false);
     } else {
@@ -856,8 +940,10 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_adaptImageBtn->setDisabled(false);
         m_adaptScreenBtn->setDisabled(false);
 #else
-        btAdapt->setDisabled(false);
-        btFit->setDisabled(false);
+//        btAdapt->setDisabled(false);
+//        btFit->setDisabled(false);
+        m_adaptImageBtn->setDisabled(false);
+        m_adaptScreenBtn->setDisabled(false);
 #endif
 
         int t = 0;
@@ -995,13 +1081,15 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 #if TTB
             m_preButton->show();
 #else
-            btPre->show();
+//            btPre->show();
+            m_preButton->show();
 #endif
             m_preButton_spc->show();
 #if TTB
             m_nextButton->show();
 #else
-            btNext->show();
+//            btNext->show();
+            m_nextButton->show();
 #endif
             m_nextButton_spc->show();
             m_imgListView_prespc->show();
@@ -1019,15 +1107,25 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_nextButton->setDisabled(false);
             }
 #else
+//            if (m_nowIndex == 0) {
+//                btPre->setDisabled(true);
+//            } else {
+//                btPre->setDisabled(false);
+//            }
+//            if (m_nowIndex == labelList.size() - 1) {
+//                btNext->setDisabled(true);
+//            } else {
+//                btNext->setDisabled(false);
+//            }
             if (m_nowIndex == 0) {
-                btPre->setDisabled(true);
+                m_preButton->setDisabled(true);
             } else {
-                btPre->setDisabled(false);
+                m_preButton->setDisabled(false);
             }
             if (m_nowIndex == labelList.size() - 1) {
-                btNext->setDisabled(true);
+                m_nextButton->setDisabled(true);
             } else {
-                btNext->setDisabled(false);
+                m_nextButton->setDisabled(false);
             }
 #endif
         } else if (m_imgInfos.size() > 1) {
@@ -1079,13 +1177,15 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 #if TTB
             m_preButton->show();
 #else
-            btPre->show();
+//            btPre->show();
+            m_preButton->show();
 #endif
             m_preButton_spc->show();
 #if TTB
             m_nextButton->show();
 #else
-            btNext->show();
+//            btNext->show();
+            m_nextButton->show();
 #endif
             m_nextButton_spc->show();
             m_imgListView_prespc->show();
@@ -1103,15 +1203,25 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_nextButton->setDisabled(false);
             }
 #else
+//            if (m_nowIndex == 0) {
+//                btPre->setDisabled(true);
+//            } else {
+//                btPre->setDisabled(false);
+//            }
+//            if (m_nowIndex == labelList.size() - 1) {
+//                btNext->setDisabled(true);
+//            } else {
+//                btNext->setDisabled(false);
+//            }
             if (m_nowIndex == 0) {
-                btPre->setDisabled(true);
+                m_preButton->setDisabled(true);
             } else {
-                btPre->setDisabled(false);
+                m_preButton->setDisabled(false);
             }
             if (m_nowIndex == labelList.size() - 1) {
-                btNext->setDisabled(true);
+                m_nextButton->setDisabled(true);
             } else {
-                btNext->setDisabled(false);
+                m_nextButton->setDisabled(false);
             }
 #endif
         } else {
@@ -1122,13 +1232,15 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 #if TTB
             m_preButton->hide();
 #else
-            btPre->hide();
+//            btPre->hide();
+            m_preButton->hide();
 #endif
             m_preButton_spc->hide();
 #if TTB
             m_nextButton->hide();
 #else
-            btNext->hide();
+//            btNext->hide();
+            m_nextButton->hide();
 #endif
             m_nextButton_spc->hide();
             m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
@@ -1152,19 +1264,34 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             }
         }
 #else
+//        if (QFileInfo(path).isReadable() &&
+//                !QFileInfo(path).isWritable()) {
+//            btTrash->setDisabled(true);
+//            btLeft->setDisabled(true);
+//            btRight->setDisabled(true);
+//        } else {
+//            btTrash->setDisabled(false);
+//            if (utils::image::imageSupportSave(path)) {
+//                btLeft->setDisabled(false);
+//                btRight->setDisabled(false);
+//            } else {
+//                btLeft->setDisabled(true);
+//                btRight->setDisabled(true);
+//            }
+//        }
         if (QFileInfo(path).isReadable() &&
                 !QFileInfo(path).isWritable()) {
-            btTrash->setDisabled(true);
-            btLeft->setDisabled(true);
-            btRight->setDisabled(true);
+            m_trashBtn->setDisabled(true);
+            m_rotateLBtn->setDisabled(true);
+            m_rotateRBtn->setDisabled(true);
         } else {
-            btTrash->setDisabled(false);
+            m_trashBtn->setDisabled(false);
             if (utils::image::imageSupportSave(path)) {
-                btLeft->setDisabled(false);
-                btRight->setDisabled(false);
+                m_rotateLBtn->setDisabled(false);
+                m_rotateRBtn->setDisabled(false);
             } else {
-                btLeft->setDisabled(true);
-                btRight->setDisabled(true);
+                m_rotateLBtn->setDisabled(true);
+                m_rotateRBtn->setDisabled(true);
             }
         }
 #endif

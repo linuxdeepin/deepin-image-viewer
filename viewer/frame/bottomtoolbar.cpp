@@ -30,9 +30,11 @@ BottomToolbar::BottomToolbar(QWidget *parent)
 {
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
-    m_mainLayout = new QHBoxLayout(this);
+    DWidget *widet = new DWidget(this);
+    m_mainLayout = new QHBoxLayout(widet);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setSpacing(0);
+    setWidget(widet);
 //    setRadius(18);
 //    setBlurRectYRadius(18);
 //    setBlurRectXRadius(18);
@@ -45,7 +47,8 @@ BottomToolbar::BottomToolbar(QWidget *parent)
 //            &BottomToolbar::onThemeChanged);
 }
 
-void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         m_coverBrush = DARK_COVERCOLOR;
     } else {
