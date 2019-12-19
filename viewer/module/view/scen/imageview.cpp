@@ -50,8 +50,7 @@
 
 DWIDGET_USE_NAMESPACE
 
-namespace
-{
+namespace {
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
@@ -237,7 +236,7 @@ ImageView::ImageView(QWidget *parent)
 
     // Use openGL to render by default
     //    setRenderer(OpenGL);
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,this, [=](){
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
         DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
         if (themeType == DGuiApplicationHelper::DarkType) {
             m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
@@ -246,10 +245,9 @@ ImageView::ImageView(QWidget *parent)
         }
         update();
     });
-    connect(dApp->signalM, &SignalManager::loadingDisplay, this, [=](bool immediately) {
-        if(immediately)
-        {
-            qDebug()<<"loading display...";
+    connect(dApp->signalM, &SignalManager::loadingDisplay, this, [ = ](bool immediately) {
+        if (immediately) {
+            qDebug() << "loading display...";
             m_loadingDisplay = true;
         }
     });
@@ -267,9 +265,9 @@ void ImageView::setImage(const QString &path)
         return;
     }
     emit dApp->signalM->enterView(true);
-    qDebug()<<"emit dApp->signalM->enterView(true)..................ImageView";
-    qDebug()<<"Path = "<<path;
-    qDebug()<<"FileType = "<<determineMimeType(path);
+    qDebug() << "emit dApp->signalM->enterView(true)..................ImageView";
+    qDebug() << "Path = " << path;
+    qDebug() << "FileType = " << determineMimeType(path);
 //    if(path == m_path)return;//Add for no repeat refresh, delete for rotation no refresh(bugID3926)
 
     m_path = path;
@@ -324,7 +322,7 @@ void ImageView::setImage(const QString &path)
             if (! m_watcher.isRunning()) {
 //                m_watcher.setFuture(f);
 
-                if(m_loadingDisplay){
+                if (m_loadingDisplay) {
                     m_loadingDisplay = false;
 
                     //show loading gif.
@@ -402,7 +400,7 @@ void ImageView::autoFit()
     // change some code in graphicsitem.cpp line100.
 
     if ((image_size.width() >= width() ||
-         image_size.height() >= height() ) &&
+            image_size.height() >= height() - 100) &&
             width() > 0 && height() > 0) {
         fitWindow();
     } else {
@@ -414,11 +412,9 @@ void ImageView::autoFit()
 
 void ImageView::titleBarControl()
 {
-    if (image().size().height() * imageRelativeScale() > height() - 100)
-    {
+    if (image().size().height() * imageRelativeScale() > height() - 100) {
         dApp->signalM->sigImageOutTitleBar(true);
-    }
-    else {
+    } else {
         dApp->signalM->sigImageOutTitleBar(false);
     }
 }
@@ -457,8 +453,9 @@ void ImageView::fitImage()
     resetTransform();
     /** change ratio from 1 to 0.9, because one of test pictures is so special that cannot use fitwindow()
      *  when use fitImage() picture bottom is over toolbar. so use 0.9 instead.
+     *  12-19,bug 9839, change 0.9->1
      */
-    scale(0.9, 0.9);
+    scale(1, 1);
     m_isFitImage = true;
     m_isFitWindow = false;
     scaled(imageRelativeScale() * 100);
@@ -492,16 +489,13 @@ qreal ImageView::imageRelativeScale() const
 qreal ImageView::windowRelativeScale() const
 {
     QRectF bf = sceneRect();
-    if (this->window()->isFullScreen())
-    {
+    if (this->window()->isFullScreen()) {
         if (1.0 * (width()) / (height() + 15) > 1.0 * bf.width() / bf.height()) {
             return 1.0 * (height() + 15) / bf.height();
         } else {
             return 1.0 * (width()) / bf.width();
         }
-    }
-    else
-    {
+    } else {
         if (1.0 * (width() - 20) / (height() - 150) > 1.0 * bf.width() / bf.height()) {
             return 1.0 * (height() - 150) / bf.height();
         } else {
@@ -654,7 +648,7 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 bool ImageView::event(QEvent *event)
 {
     if (event->type() == QEvent::Gesture)
-        handleGestureEvent(static_cast<QGestureEvent*>(event));
+        handleGestureEvent(static_cast<QGestureEvent *>(event));
 
     return QGraphicsView::event(event);
 }
@@ -671,15 +665,15 @@ void ImageView::onCacheFinish()
             resetTransform();
             m_pixmapItem = new GraphicsPixmapItem(pixmap);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [=](bool scaledmode) {
-                if(!m_pixmapItem){
-                        qDebug()<<"onCacheFinish.............m_pixmapItem="<<m_pixmapItem;
-                        update();
-                        return;
+            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+                if (!m_pixmapItem) {
+                    qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
+                    update();
+                    return;
                 }
-                if(scaledmode){
+                if (scaledmode) {
                     m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-                }else{
+                } else {
                     m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
                 }
             });
@@ -731,9 +725,9 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
     if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
-        swipeTriggered(static_cast<QSwipeGesture*>(swipe));
+        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
     else if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
-        pinchTriggered(static_cast<QPinchGesture*>(pinch));
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
@@ -746,12 +740,9 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 {
     if (gesture->state() == Qt::GestureFinished) {
         if (gesture->horizontalDirection() == QSwipeGesture::Left
-                || gesture->verticalDirection() == QSwipeGesture::Up)
-        {
+                || gesture->verticalDirection() == QSwipeGesture::Up) {
             emit nextRequested();
-        }
-        else
-        {
+        } else {
             emit previousRequested();
         }
     }
