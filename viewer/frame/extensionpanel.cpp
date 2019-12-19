@@ -38,7 +38,7 @@ const QEasingCurve ANIMATION_EASING_CURVE = QEasingCurve::InOutCubic;
 }  // namespace
 
 ExtensionPanel::ExtensionPanel(QWidget *parent)
-    //    : DFloatingWidget(parent)
+//    : DFloatingWidget(parent)
     : DAbstractDialog(parent)
 {
     init();
@@ -49,8 +49,6 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
 //    m_contentLayout = new QVBoxLayout(this);
 //    m_contentLayout->setContentsMargins(0, 0, 0, 0);
 //    m_contentLayout->setSpacing(0);
-
-
 
     setFixedWidth(EXTENSION_PANEL_WIDTH);
     setFixedHeight(400);
@@ -87,9 +85,9 @@ void ExtensionPanel::setContent(QWidget *content)
 void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
-            [=](int height) {
-                    setFixedHeight(qMin(540, height));//tmp for imageinfo
-            });
+    [ = ](int height) {
+        setFixedHeight(qMin(540, height));//tmp for imageinfo
+    });
 
     if (m_content) {
 //                resize(qMax(m_content->sizeHint().width(), EXTENSION_PANEL_WIDTH), height());

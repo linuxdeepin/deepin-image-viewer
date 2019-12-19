@@ -29,7 +29,7 @@ public:
 
     // For view images
     struct ViewInfo {
-        ModulePanel *lastPanel;                 // For back to the last panel
+        ModulePanel *lastPanel {nullptr};                 // For back to the last panel
 #ifndef LITE_DIV
         bool inDatabase = true;
 #else
@@ -71,7 +71,7 @@ signals:
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
-    void gotoPanel(ModulePanel* panel);
+    void gotoPanel(ModulePanel *panel);
     void backToMainPanel();
     void activeWindow();
 
