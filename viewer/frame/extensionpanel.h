@@ -33,7 +33,7 @@ class ExtensionPanel : public DAbstractDialog
 {
     Q_OBJECT
 public:
-    explicit ExtensionPanel(QWidget *parent);
+    explicit ExtensionPanel(QWidget *parent = nullptr);
     void setContent(QWidget *content);
     void updateRectWithContent();
     void moveWithAnimation(int x, int y);

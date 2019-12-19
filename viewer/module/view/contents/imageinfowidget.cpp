@@ -57,7 +57,8 @@ static MetaData MetaDataBasics[] = {
     {"Dimension", QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
     {"FileSize", QT_TRANSLATE_NOOP("MetadataName", "File size")},
     {"Tag", QT_TRANSLATE_NOOP("MetadataName", "Tag")},
-    {"", ""}};
+    {"", ""}
+};
 
 static MetaData MetaDataDetails[] = {
     {"ColorSpace", QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
@@ -74,7 +75,8 @@ static MetaData MetaDataDetails[] = {
     {"FlashExposureComp", QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
     {"Model", QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
     {"LensType", QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
-    {"", ""}};
+    {"", ""}
+};
 
 static int maxTitleWidth()
 {
@@ -241,12 +243,15 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_close->setPalette(palette1);
 
     connect(m_close, &DDialogCloseButton::clicked, this,
-            [=] { emit dApp->signalM->hideExtensionPanel(); });
+            [ = ] { emit dApp->signalM->hideExtensionPanel(); });
 #endif
 }
 
 void ImageInfoWidget::setImagePath(const QString &path)
 {
+    if (path == m_path)
+        return;
+
     m_path = path;
     m_isBaseInfo = false;
     m_isDetailsInfo = false;
@@ -266,9 +271,9 @@ void ImageInfoWidget::setImagePath(const QString &path)
         }
     }
 
-//    m_exif_base->setParent(this);
-//    m_exif_details->setParent(this);
-//    qDeleteAll(m_expandGroup);
+    m_exif_base->setParent(this);
+    m_exif_details->setParent(this);
+    qDeleteAll(m_expandGroup);
 
     m_expandGroup.clear();
 
@@ -298,7 +303,7 @@ void ImageInfoWidget::setImagePath(const QString &path)
 //    }
 
 //    if (m_expandGroup.count() > 1)
-        layout->addStretch(1);
+    layout->addStretch(1);
 }
 
 void ImageInfoWidget::resizeEvent(QResizeEvent *e)
@@ -463,7 +468,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
     layout->addWidget(expand, 0, Qt::AlignTop);
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, expand);
-    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=]() {
+    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [ = ]() {
         QRect rc = geometry();
         rc.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
         setGeometry(rc);
@@ -479,7 +484,7 @@ void ImageInfoWidget::onExpandChanged(const bool &e)
         if (e) {
             expand->setSeparatorVisible(false);
         } else {
-            QTimer::singleShot(200, expand, [=] { expand->setSeparatorVisible(true); });
+            QTimer::singleShot(200, expand, [ = ] { expand->setSeparatorVisible(true); });
         }
     }
 }

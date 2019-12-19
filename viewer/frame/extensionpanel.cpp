@@ -50,6 +50,8 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
 //    m_contentLayout->setContentsMargins(0, 0, 0, 0);
 //    m_contentLayout->setSpacing(0);
 
+//    this->setModal(true);
+
     setFixedWidth(EXTENSION_PANEL_WIDTH);
     setFixedHeight(400);
 }
