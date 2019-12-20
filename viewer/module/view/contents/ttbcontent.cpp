@@ -307,7 +307,7 @@ TTBContent::TTBContent(bool inDB,
     setFixedWidth(m_contentWidth);
     setFixedHeight(70);
     QHBoxLayout *hb = new QHBoxLayout(this);
-    hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 0);
+    hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 1);
     hb->setSpacing(0);
     m_inDB = inDB;
 
@@ -549,7 +549,8 @@ TTBContent::TTBContent(bool inDB,
     m_imgList->setDisabled(false);
     m_imglayout = new QHBoxLayout();
     m_imglayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    m_imglayout->setMargin(0);
+//    m_imglayout->setMargin(0);
+    m_imglayout->setContentsMargins(0, 1, 0, 0);
     m_imglayout->setSpacing(0);
     m_imgList->setLayout(m_imglayout);
 
