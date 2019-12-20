@@ -32,7 +32,7 @@ BottomToolbar::BottomToolbar(QWidget *parent)
 
     DWidget *widet = new DWidget(this);
     m_mainLayout = new QHBoxLayout(widet);
-    m_mainLayout->setContentsMargins(0, 0, 0, 0);
+    m_mainLayout->setContentsMargins(0, 0, 0, 1);
     m_mainLayout->setSpacing(0);
     setWidget(widet);
 //    setRadius(18);
