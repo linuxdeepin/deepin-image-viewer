@@ -140,6 +140,24 @@ bool CommandLine::processOption()
         return false;
     }
 
+    QString defaulttheme = dApp->setter->value(THEME_GROUP,
+                                                   THEME_TEXT).toString();
+
+    if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+    } else {
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+    }
+
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
+                     [] (DGuiApplicationHelper::ColorType type) {
+//        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
+//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+//        } else {
+//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+//        }
+    });
+
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
 #ifndef LITE_DIV
@@ -169,8 +187,6 @@ bool CommandLine::processOption()
         DIVDBusController *dc = new DIVDBusController(dApp->signalM);
         Q_UNUSED(dc)
 #endif
-        qDebug()<<"names"<<names;
-        qDebug()<<"pas"<<pas;
         using namespace utils::image;
         QString name;
         QString value;
