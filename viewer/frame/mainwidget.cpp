@@ -146,9 +146,9 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         }
 #endif
         if (this->window()->isFullScreen() || this->window()->isMaximized()) {
-            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24, TOP_TOOLBAR_HEIGHT);
+            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24, TOP_TOOLBAR_HEIGHT * 2);
         } else {
-            m_extensionPanel->move(this->window()->pos() + QPoint(this->window()->width() - m_extensionPanel->width() - 24, TOP_TOOLBAR_HEIGHT));
+            m_extensionPanel->move(this->window()->pos() + QPoint(this->window()->width() - m_extensionPanel->width() - 24, TOP_TOOLBAR_HEIGHT * 2));
         }
     }
     updateTitleShadowGeometry();
@@ -487,10 +487,10 @@ void MainWidget::initExtensionPanel()
         // m_extensionPanel's height is dependent on the visible of topToolbar
         if (this->window()->isFullScreen() || this->window()->isMaximized())
         {
-            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24, TOP_TOOLBAR_HEIGHT);
+            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24, TOP_TOOLBAR_HEIGHT * 2);
         } else
         {
-            m_extensionPanel->move(this->window()->pos() + QPoint(this->window()->width() - m_extensionPanel->width() - 24, TOP_TOOLBAR_HEIGHT));
+            m_extensionPanel->move(this->window()->pos() + QPoint(this->window()->width() - m_extensionPanel->width() - 24, TOP_TOOLBAR_HEIGHT * 2));
         }
     });
 #if 0
