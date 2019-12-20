@@ -55,7 +55,7 @@ const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.
 
 const int TOOLBAR_MINIMUN_WIDTH = 610;
 const int TOOLBAR_JUSTONE_WIDTH = 310;
-const int RT_SPACING = 20;
+const int RT_SPACING = 20 + 5;
 const int TOOLBAR_HEIGHT = 60;
 
 const int TOOLBAR_DVALUE = 114 + 8;
