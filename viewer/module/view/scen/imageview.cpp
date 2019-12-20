@@ -400,7 +400,7 @@ void ImageView::autoFit()
     // change some code in graphicsitem.cpp line100.
 
     if ((image_size.width() >= width() ||
-            image_size.height() >= height() - 100) &&
+            image_size.height() >= height() - 150) &&
             width() > 0 && height() > 0) {
         fitWindow();
     } else {
