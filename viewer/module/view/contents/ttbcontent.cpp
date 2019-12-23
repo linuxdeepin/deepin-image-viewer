@@ -219,7 +219,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
-        painter.fillRect(pixmapRect, QBrush(cl));
+
+        if (!_pixmap.isNull()) {
+            painter.fillRect(pixmapRect, QBrush(cl));
+        }
 
 
         if (themeType == DGuiApplicationHelper::DarkType) {
@@ -252,7 +255,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
-        painter.fillRect(pixmapRect, QBrush(cl));
+
+        if (!_pixmap.isNull()) {
+            painter.fillRect(pixmapRect, QBrush(cl));
+        }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
             m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
