@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
     Application::loadDXcbPlugin();
     Application a(argc, argv);
 
+    a.setAttribute(Qt::AA_UseHighDpiPixmaps);//testHighDpiP
+    a.setAttribute(Qt::AA_EnableHighDpiScaling);//testHighDpiP
     a.setAttribute(Qt::AA_ForceRasterWidgets);
 
     DLogManager::registerConsoleAppender();
