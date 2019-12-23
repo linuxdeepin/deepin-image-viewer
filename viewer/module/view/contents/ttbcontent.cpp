@@ -209,19 +209,19 @@ void ImageItem::paintEvent(QPaintEvent *event)
         pixmapRect.setWidth(backgroundRect.width() - 8);
         pixmapRect.setHeight(backgroundRect.height() - 8);
 
-        QColor cl;
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            cl = QColor(Qt::white);
-        } else {
-            cl = QColor(Qt::black);
-        }
-        cl.setAlphaF(0.1);
+//        QColor cl;
+//        if (themeType == DGuiApplicationHelper::DarkType) {
+//            cl = QColor(Qt::white);
+//        } else {
+//            cl = QColor(Qt::black);
+//        }
+//        cl.setAlphaF(0.1);
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
 
         if (!_pixmap.isNull()) {
-            painter.fillRect(pixmapRect, QBrush(cl));
+            painter.fillRect(pixmapRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
 
 
@@ -245,19 +245,19 @@ void ImageItem::paintEvent(QPaintEvent *event)
         pixmapRect.setWidth(backgroundRect.width() - 2);
         pixmapRect.setHeight(backgroundRect.height() - 0);
 
-        QColor cl;
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            cl = QColor(Qt::white);
-        } else {
-            cl = QColor(Qt::black);
-        }
-        cl.setAlphaF(0.1);
+//        QColor cl;
+//        if (themeType == DGuiApplicationHelper::DarkType) {
+//            cl = QColor(Qt::white);
+//        } else {
+//            cl = QColor(Qt::black);
+//        }
+//        cl.setAlphaF(0.1);
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
 
         if (!_pixmap.isNull()) {
-            painter.fillRect(pixmapRect, QBrush(cl));
+            painter.fillRect(pixmapRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
