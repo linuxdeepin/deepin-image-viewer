@@ -195,8 +195,8 @@ void ImageItem::paintEvent(QPaintEvent *event)
     if (_index == _indexNow) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, 8, 8);
-        painter.setClipPath(backgroundBp);
-        painter.fillRect(backgroundRect, QBrush(QColor("#2CA7F8")));
+        painter.setClipPath(backgroundBp);        ;
+        painter.fillRect(backgroundRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
 
         if (_pixmap.width() > _pixmap.height()) {
             _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height()) / 2, 0, _pixmap.height(), _pixmap.height());
