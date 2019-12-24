@@ -104,12 +104,12 @@ protected:
         if (bmouserelease)
             emit imageItemclicked(_index, _indexNow);
     }
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 private:
     int _index;
     int _indexNow = -1;
     DLabel *_image = nullptr;
-    QString _path = NULL;
+    QString _path;
     QPixmap _pixmap;
     DSpinner *m_spinner;
     QString m_pixmapstring;
@@ -120,7 +120,7 @@ class TTBContent : public QLabel
 {
     Q_OBJECT
 public:
-    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = 0);
+    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = nullptr);
 
 signals:
     void clicked();

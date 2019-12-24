@@ -515,7 +515,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     });
     connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
         if (fitWindow) {
-            m_viewB->fitWindow();
+            m_viewB->fitWindow_btnclicked();
         } else {
             m_viewB->fitImage();
         }

@@ -50,6 +50,7 @@ public:
 
     void clear();
     void fitWindow();
+    void fitWindow_btnclicked();
     void fitImage();
     void rotateClockWise();
     void rotateCounterclockwise();
@@ -64,6 +65,7 @@ public:
     const QImage image();
     qreal imageRelativeScale() const;
     qreal windowRelativeScale() const;
+    qreal windowRelativeScale_origin() const;
     const QRectF imageRect() const;
     const QString path() const;
 

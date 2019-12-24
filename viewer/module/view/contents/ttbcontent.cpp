@@ -192,14 +192,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
     QRect backgroundRect = rect();
     QRect pixmapRect;
 
-//    QColor cl;
-//    if (themeType == DGuiApplicationHelper::DarkType) {
-//        cl = QColor(Qt::white);
-//    } else {
-//        cl = QColor(Qt::black);
-//    }
-//    cl.setAlphaF(0.1);
-
     if (_index == _indexNow) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, 8, 8);
@@ -222,9 +214,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
         painter.setClipPath(bg0);
 
         if (!_pixmap.isNull()) {
-//            painter.setPen(QPen(Qt::red));
-//            painter.drawRect(pixmapRect/*, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color())*/);
-            painter.fillRect(pixmapRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
+//            painter.fillRect(pixmapRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
 
 
@@ -255,9 +245,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
         painter.setClipPath(bg0);
 
         if (!_pixmap.isNull()) {
-//            painter.setPen(QPen(Qt::red));
-//            painter.drawRect(pixmapRect/*, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color())*/);
-            painter.fillRect(pixmapRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
+//            painter.fillRect(pixmapRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
@@ -281,20 +269,25 @@ void ImageItem::paintEvent(QPaintEvent *event)
     QPixmap blankPix = _pixmap;
     blankPix.fill(Qt::white);
 
-    QRect whiteRect;
-    whiteRect.setX(pixmapRect.x() + 1);
-    whiteRect.setY(pixmapRect.y() + 1);
-    whiteRect.setWidth(pixmapRect.width() - 2);
-    whiteRect.setHeight(pixmapRect.height() - 2);
+//    QRect whiteRect;
+//    whiteRect.setX(pixmapRect.x() + 1);
+//    whiteRect.setY(pixmapRect.y() + 1);
+//    whiteRect.setWidth(pixmapRect.width() - 2);
+//    whiteRect.setHeight(pixmapRect.height() - 2);
 
     QPainterPath bg1;
-    bg1.addRoundedRect(whiteRect, 4, 4);
+    bg1.addRoundedRect(pixmapRect, 4, 4);
     painter.setClipPath(bg1);
 
-    painter.drawPixmap(whiteRect, blankPix);
-    painter.drawPixmap(whiteRect, _pixmap);
+    painter.drawPixmap(pixmapRect, blankPix);
+    painter.drawPixmap(pixmapRect, _pixmap);
 
-};
+    painter.save();
+    painter.setPen(QPen(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color(), 1));
+    painter.drawRoundedRect(pixmapRect, 4, 4);
+    painter.restore();
+}
+
 TTBContent::TTBContent(bool inDB,
                        DBImgInfoList m_infos,
                        QWidget *parent) : QLabel(parent)

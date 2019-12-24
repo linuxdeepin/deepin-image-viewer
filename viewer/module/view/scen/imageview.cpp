@@ -448,6 +448,17 @@ void ImageView::fitWindow()
     emit transformChanged();
 }
 
+void ImageView::fitWindow_btnclicked()
+{
+    qreal wrs = windowRelativeScale_origin();
+    resetTransform();
+    scale(wrs, wrs);
+    m_isFitImage = false;
+    m_isFitWindow = true;
+    scaled(imageRelativeScale() * 100);
+    emit transformChanged();
+}
+
 void ImageView::fitImage()
 {
     resetTransform();
@@ -500,6 +511,24 @@ qreal ImageView::windowRelativeScale() const
             return 1.0 * (height() - 150) / bf.height();
         } else {
             return 1.0 * (width() - 20) / bf.width();
+        }
+    }
+}
+
+qreal ImageView::windowRelativeScale_origin() const
+{
+    QRectF bf = sceneRect();
+    if (this->window()->isFullScreen()) {
+        if (1.0 * (width()) / (height()) > 1.0 * bf.width() / bf.height()) {
+            return 1.0 * (height()) / bf.height();
+        } else {
+            return 1.0 * (width()) / bf.width();
+        }
+    } else {
+        if (1.0 * (width()) / (height()) > 1.0 * bf.width() / bf.height()) {
+            return 1.0 * (height()) / bf.height();
+        } else {
+            return 1.0 * (width()) / bf.width();
         }
     }
 }
