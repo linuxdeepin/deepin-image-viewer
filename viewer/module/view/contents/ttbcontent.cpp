@@ -53,7 +53,7 @@ const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-da
 const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
 const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
 
-const int TOOLBAR_MINIMUN_WIDTH = 610;
+const int TOOLBAR_MINIMUN_WIDTH = 610 - 3;
 const int TOOLBAR_JUSTONE_WIDTH = 310;
 const int RT_SPACING = 20 + 5;
 const int TOOLBAR_HEIGHT = 60;
@@ -192,6 +192,14 @@ void ImageItem::paintEvent(QPaintEvent *event)
     QRect backgroundRect = rect();
     QRect pixmapRect;
 
+//    QColor cl;
+//    if (themeType == DGuiApplicationHelper::DarkType) {
+//        cl = QColor(Qt::white);
+//    } else {
+//        cl = QColor(Qt::black);
+//    }
+//    cl.setAlphaF(0.1);
+
     if (_index == _indexNow) {
         QPainterPath backgroundBp;
         backgroundBp.addRoundedRect(backgroundRect, 8, 8);
@@ -209,18 +217,13 @@ void ImageItem::paintEvent(QPaintEvent *event)
         pixmapRect.setWidth(backgroundRect.width() - 8);
         pixmapRect.setHeight(backgroundRect.height() - 8);
 
-//        QColor cl;
-//        if (themeType == DGuiApplicationHelper::DarkType) {
-//            cl = QColor(Qt::white);
-//        } else {
-//            cl = QColor(Qt::black);
-//        }
-//        cl.setAlphaF(0.1);
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
 
         if (!_pixmap.isNull()) {
+//            painter.setPen(QPen(Qt::red));
+//            painter.drawRect(pixmapRect/*, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color())*/);
             painter.fillRect(pixmapRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
 
@@ -236,7 +239,9 @@ void ImageItem::paintEvent(QPaintEvent *event)
         bg.addRoundedRect(pixmapRect, 4, 4);
         if (_pixmap.isNull()) {
             painter.setClipPath(bg);
-            painter.drawPixmap(pixmapRect, m_pixmapstring);
+//            painter.drawPixmap(pixmapRect, m_pixmapstring);
+            QIcon icon(m_pixmapstring);
+            icon.paint(&painter, pixmapRect);
         }
 
     } else {
@@ -245,18 +250,13 @@ void ImageItem::paintEvent(QPaintEvent *event)
         pixmapRect.setWidth(backgroundRect.width() - 2);
         pixmapRect.setHeight(backgroundRect.height() - 0);
 
-//        QColor cl;
-//        if (themeType == DGuiApplicationHelper::DarkType) {
-//            cl = QColor(Qt::white);
-//        } else {
-//            cl = QColor(Qt::black);
-//        }
-//        cl.setAlphaF(0.1);
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
 
         if (!_pixmap.isNull()) {
+//            painter.setPen(QPen(Qt::red));
+//            painter.drawRect(pixmapRect/*, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color())*/);
             painter.fillRect(pixmapRect, QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
 
@@ -271,7 +271,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
         bg.addRoundedRect(pixmapRect, 4, 4);
         if (_pixmap.isNull()) {
             painter.setClipPath(bg);
-            painter.drawPixmap(pixmapRect, m_pixmapstring);
+//            painter.drawPixmap(pixmapRect, m_pixmapstring);
+
+            QIcon icon(m_pixmapstring);
+            icon.paint(&painter, pixmapRect);
         }
     }
 
@@ -308,7 +311,6 @@ TTBContent::TTBContent(bool inDB,
     } else {
         m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
     }
-
 
     setFixedWidth(m_contentWidth);
     setFixedHeight(70);
