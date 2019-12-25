@@ -52,7 +52,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
         QStringList rl = getAllMetaData(path).value("Dimension").split("x");
         if (rl.length() == 2) {
             tSize = QSize(QString(rl.first()).toInt(),
-                           QString(rl.last()).toInt());
+                          QString(rl.last()).toInt());
         }
     }
     tSize.scale(size, Qt::KeepAspectRatio);
@@ -62,20 +62,17 @@ const QImage scaleImage(const QString &path, const QSize &size)
     if (tImg.width() > size.width() || tImg.height() > size.height()) {
         if (tImg.isNull()) {
             return QImage();
-        }
-        else {
+        } else {
             // Save as supported format and scale it again
             const QString tmp = QDir::tempPath() + "/scale_tmp_image.png";
             QFile::remove(tmp);
             if (tImg.save(tmp, "png", 50)) {
                 return scaleImage(tmp, size);
-            }
-            else {
+            } else {
                 return QImage();
             }
         }
-    }
-    else {
+    } else {
         return tImg;
     }
 }
@@ -138,30 +135,29 @@ bool imageSupportSave(const QString &path)
     // RAW image decode is too slow, and most of these does not support saving
     // RAW formats render incorrectly by freeimage
     const QStringList raws = QStringList()
-            << "CR2" << "CRW"   // Canon cameras
-            << "DCR" << "KDC"   // Kodak cameras
-            << "MRW"            // Minolta cameras
-            << "NEF"            // Nikon cameras
-            << "ORF"            // Olympus cameras
-            << "PEF"            // Pentax cameras
-            << "RAF"            // Fuji cameras
-            << "SRF"            // Sony cameras
-            << "PSD"
-            << "ICO"
-            << "TGA"
-            << "WEBP"
-            << "PBM"
-            << "XPM"
-            << "PPM"
-            << "PGM"
-            << "X3F";           // Sigma cameras
+                             << "CR2" << "CRW"   // Canon cameras
+                             << "DCR" << "KDC"   // Kodak cameras
+                             << "MRW"            // Minolta cameras
+                             << "NEF"            // Nikon cameras
+                             << "ORF"            // Olympus cameras
+                             << "PEF"            // Pentax cameras
+                             << "RAF"            // Fuji cameras
+                             << "SRF"            // Sony cameras
+                             << "PSD"
+                             << "ICO"
+                             << "TGA"
+                             << "WEBP"
+                             << "PBM"
+                             << "XPM"
+                             << "PPM"
+                             << "PGM"
+                             << "X3F";           // Sigma cameras
 
 
     if (raws.indexOf(suffix.toUpper()) != -1
             || QImageReader(path).imageCount() > 1) {
         return false;
-    }
-    else {
+    } else {
         return freeimage::canSave(path);
     }
 }
@@ -299,8 +295,7 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
     QDirIterator dirIterator(dir,
                              QDir::Files,
                              QDirIterator::Subdirectories);
-    while(dirIterator.hasNext())
-    {
+    while (dirIterator.hasNext()) {
         dirIterator.next();
         if (imageSupportRead(dirIterator.fileInfo().absoluteFilePath())) {
             infos << dirIterator.fileInfo();
@@ -358,11 +353,11 @@ const QString toMd5(const QByteArray &data)
  * \param url
  * \return
  */
-QMap<QString,QString> thumbnailAttribute(const QUrl&  url)
+QMap<QString, QString> thumbnailAttribute(const QUrl  &url)
 {
-    QMap<QString,QString> set;
+    QMap<QString, QString> set;
 
-    if(url.isLocalFile()) {
+    if (url.isLocalFile()) {
         const QString path = url.path();
         QFileInfo info(path);
         set.insert("Thumb::Mimetype", QMimeDatabase().mimeTypeForFile(path).name());
@@ -372,13 +367,12 @@ QMap<QString,QString> thumbnailAttribute(const QUrl&  url)
         set.insert("Software", "Deepin Image Viewer");
 
         QImageReader reader(path);
-        if(reader.canRead()){
+        if (reader.canRead()) {
             set.insert("Thumb::Image::Width", QString::number(reader.size().width()));
             set.insert("Thumb::Image::Height", QString::number(reader.size().height()));
         }
         return set;
-    }
-    else{
+    } else {
         //TODO for other's scheme
     }
 
@@ -392,7 +386,7 @@ const QString thumbnailCachePath()
     QStringList systemEnvs = QProcess::systemEnvironment();
     for (QString it : systemEnvs) {
         QStringList el = it.split("=");
-        if(el.length() == 2 && el.first() == "XDG_CACHE_HOME") {
+        if (el.length() == 2 && el.first() == "XDG_CACHE_HOME") {
             cacheP = el.last();
             break;
         }
@@ -420,17 +414,14 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     const QString failEncodePath = cacheP + "/fail/" + md5s + ".png";
     if (QFileInfo(encodePath).exists()) {
         return QPixmap(encodePath);
-    }
-    else if (QFileInfo(failEncodePath).exists()) {
+    } else if (QFileInfo(failEncodePath).exists()) {
         qDebug() << "Fail-thumbnail exist, won't regenerate: " << path;
         return QPixmap();
-    }
-    else {
+    } else {
         // Try to generate thumbnail and load it later
         if (! cacheOnly && generateThumbnail(path)) {
             return QPixmap(encodePath);
-        }
-        else {
+        } else {
             return QPixmap();
         }
     }
@@ -454,24 +445,23 @@ bool generateThumbnail(const QString &path)
 
     // Normal thumbnail
     QImage nImg = lImg.scaled(
-                QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE)
-                , Qt::KeepAspectRatio
-                , Qt::SmoothTransformation);
+                      QSize(THUMBNAIL_NORMAL_SIZE, THUMBNAIL_NORMAL_SIZE)
+                      , Qt::KeepAspectRatio
+                      , Qt::SmoothTransformation);
 
     // Create filed thumbnail
-    if(lImg.isNull() || nImg.isNull()) {
+    if (lImg.isNull() || nImg.isNull()) {
         const QString failedP = cacheP + "/fail/" + md5 + ".png";
-        QImage img(1,1,QImage::Format_ARGB32_Premultiplied);
+        QImage img(1, 1, QImage::Format_ARGB32_Premultiplied);
         const auto keys = attributes.keys();
         for (QString key : keys) {
             img.setText(key, attributes[key]);
         }
 
-        qDebug()<<"Save failed thumbnail:" << img.save(failedP,  "png")
-               << failedP << url;
+        qDebug() << "Save failed thumbnail:" << img.save(failedP,  "png")
+                 << failedP << url;
         return false;
-    }
-    else {
+    } else {
         for (QString key : attributes.keys()) {
             lImg.setText(key, attributes[key]);
             nImg.setText(key, attributes[key]);
@@ -480,8 +470,7 @@ bool generateThumbnail(const QString &path)
         const QString normalP = cacheP + "/normal/" + md5 + ".png";
         if (lImg.save(largeP, "png", 50) && nImg.save(normalP, "png", 50)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -521,10 +510,9 @@ bool thumbnailExist(const QString &path, ThumbnailType type)
     if (QFileInfo(thumbnailPath(path, type)).exists()
 //            || QFileInfo(thumbnailPath(path, ThumbNormal)).exists()
 //            || QFileInfo(thumbnailPath(path, ThumbFail)).exists()
-            ) {
+       ) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
