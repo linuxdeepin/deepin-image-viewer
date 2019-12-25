@@ -23,7 +23,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *par
     : QGraphicsPixmapItem(fileName, parent)
 {
     m_movie = new QMovie(fileName);
-    QObject::connect(m_movie, &QMovie::frameChanged, this, [=] {
+    QObject::connect(m_movie, &QMovie::frameChanged, this, [ = ] {
         if (m_movie.isNull()) return;
         setPixmap(m_movie->currentPixmap());
     });
@@ -97,7 +97,7 @@ void GraphicsPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
         pixmap.setDevicePixelRatio(painter->device()->devicePixelRatioF());
         painter->resetTransform();
-        painter->drawPixmap(offset() + QPointF(ts.dx(), ts.dy() - 15), pixmap);
+        painter->drawPixmap(offset() + QPointF(ts.dx(), ts.dy()), pixmap);
         painter->setTransform(ts);
     } else {
         QGraphicsPixmapItem::paint(painter, option, widget);

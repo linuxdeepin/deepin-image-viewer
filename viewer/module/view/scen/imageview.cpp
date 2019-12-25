@@ -507,8 +507,8 @@ qreal ImageView::windowRelativeScale() const
             return 1.0 * (width()) / bf.width();
         }
     } else {
-        if (1.0 * (width() - 20) / (height() - 150) > 1.0 * bf.width() / bf.height()) {
-            return 1.0 * (height() - 150) / bf.height();
+        if (1.0 * (width() - 20) / (height() - 180) > 1.0 * bf.width() / bf.height()) {
+            return 1.0 * (height() - 180) / bf.height();
         } else {
             return 1.0 * (width() - 20) / bf.width();
         }
