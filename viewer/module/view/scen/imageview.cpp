@@ -138,6 +138,7 @@ QMimeType determineMimeType(const QString &filename)
     QMimeType mimeFromExtension = db.mimeTypeForFile(inputFile, QMimeDatabase::MatchExtension);
     QMimeType mimeFromContent = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent);
 
+    qDebug() << mimeFromExtension.name() << "FE xxxxx FC" << mimeFromContent.name();
     // mimeFromContent will be "application/octet-stream" when file is
     // unreadable, so use extension.
     if (!fileinfo.isReadable()) {
@@ -264,6 +265,8 @@ void ImageView::setImage(const QString &path)
     if (path.isEmpty()) {
         return;
     }
+    QFileInfo fi(path);
+
     emit dApp->signalM->enterView(true);
     qDebug() << "emit dApp->signalM->enterView(true)..................ImageView";
     qDebug() << "Path = " << path;
@@ -273,7 +276,6 @@ void ImageView::setImage(const QString &path)
     m_path = path;
     QGraphicsScene *s = scene();
 
-    QFileInfo fi(path);
 
     QString oldHintPath = m_toast->property("hint_path").toString();
     if (oldHintPath != fi.canonicalFilePath()) {
@@ -593,7 +595,8 @@ void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
 
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    emit doubleClicked();
+    if (e->button() == Qt::LeftButton)
+        emit doubleClicked();
     QGraphicsView::mouseDoubleClickEvent(e);
 }
 
