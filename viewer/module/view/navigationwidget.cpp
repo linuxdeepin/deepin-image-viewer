@@ -214,9 +214,9 @@ void NavigationWidget::tryMoveRect(const QPoint &p)
     qreal x = p.x() * m_imageScale;
     qreal y = p.y() * m_imageScale;
 
-    qDebug() << p ;
-    qDebug() << x << y;
-    qDebug() << m_r;
+//    qDebug() << p ;
+//    qDebug() << x << y;
+//    qDebug() << m_r;
 
 
     Q_EMIT requestMove(x, y);

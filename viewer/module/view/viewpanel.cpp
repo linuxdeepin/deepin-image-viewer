@@ -718,8 +718,9 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     }
 
     if (m_infos.size() == 1) {
+        // fix: remove utils::image::supportedImageFormats(), we don't check imageformats,because tester use one pic without sufixx.
         m_imageDirIterator.reset(new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
-                                                  utils::image::supportedImageFormats(), QDir::Files | QDir::Readable));
+                                                  /*utils::image::supportedImageFormats(),*/ QDir::Files | QDir::Readable));
     } else {
         m_imageDirIterator.reset();
     }
