@@ -311,12 +311,27 @@ void ViewPanel::eatImageDirIterator()
     m_infos.clear();
 
     while (m_imageDirIterator->hasNext()) {
+
         DBImgInfo info;
 
         info.filePath = m_imageDirIterator->next();
         info.fileName = m_imageDirIterator->fileInfo().fileName();
 
-        m_infos.append(info);
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
+//        QMimeType mt1 = db.mimeTypeForFile(m_imageDirIterator->fileInfo().fileName(), QMimeDatabase::MatchContent);
+//        qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName() << m_imageDirIterator->fileInfo().filePath()
+//                 << mt.name() << "mt1" /*<< mt1.name()*/;
+
+        if (mt.name().startsWith("image/")) {
+            QString str = m_imageDirIterator->fileInfo().suffix();
+            if (utils::image::supportedImageFormats().contains("*." + str)) {
+                m_infos.append(info);
+            } else if (str.isEmpty()) {
+                m_infos.append(info);
+            }
+        }
+
     }
 
     m_imageDirIterator.reset(nullptr);
@@ -718,9 +733,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     }
 
     if (m_infos.size() == 1) {
-        // fix: remove utils::image::supportedImageFormats(), we don't check imageformats,because tester use one pic without sufixx.
         m_imageDirIterator.reset(new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
-                                                  utils::image::supportedImageFormats(), QDir::Files | QDir::Readable));
+                                                  /*utils::image::supportedImageFormats(),*/ QDir::Files | QDir::Readable | QDir::NoDotAndDotDot));
     } else {
         m_imageDirIterator.reset();
     }
@@ -955,6 +969,9 @@ void ViewPanel::backToLastPanel()
 
 void ViewPanel::rotateImage(bool clockWise)
 {
+    if (m_infos.count() < 1)
+        return;
+
     if (clockWise) {
         m_viewB->rotateClockWise();
     } else {
@@ -963,6 +980,7 @@ void ViewPanel::rotateImage(bool clockWise)
 
     m_viewB->autoFit();
     m_info->updateInfo();
+
 
     dApp->m_imageloader->updateImageLoader(QStringList(m_infos.at(m_current).filePath));
 

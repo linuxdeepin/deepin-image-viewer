@@ -56,16 +56,18 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     const SignalManager::ViewInfo viewInfo() const;
-    int getPicCount(){
+    int getPicCount()
+    {
         return m_infos.count();
     }
-    bool getPicExict(){
+    bool getPicExict()
+    {
         return !QFileInfo(m_infos.first().filePath).exists();
     }
 
 signals:
     void updateCollectButton();
-    void imageChanged(const QString &path,DBImgInfoList infos);
+    void imageChanged(const QString &path, DBImgInfoList infos);
     void viewImageFrom(QString dir);
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
@@ -98,21 +100,21 @@ private:
     void initNavigation();
 
     // Menu control
-    void appendAction(int id, const QString &text, const QString &shortcut="");
+    void appendAction(int id, const QString &text, const QString &shortcut = "");
 #ifndef LITE_DIV
-    DMenu* createAlbumMenu();
+    DMenu *createAlbumMenu();
 #endif
     void onMenuItemClicked(QAction *action);
     void updateMenuContent();
 
     // View control
     void onViewImage(const SignalManager::ViewInfo &vinfo);
-    void openImage(const QString& path, bool inDB = true);
+    void openImage(const QString &path, bool inDB = true);
     void removeCurrentImage();
     void rotateImage(bool clockWise);
     bool showNext();
     bool showPrevious();
-    bool showImage(int index,int addIndex);
+    bool showImage(int index, int addIndex);
 
     // Geometry
     void toggleFullScreen();
@@ -142,10 +144,10 @@ private:
     int m_topLeftContentWidth = 0;
     ImageView *m_viewB;
     ImageInfoWidget *m_info {nullptr};
-    ThumbnailWidget* m_emptyWidget=nullptr;
+    ThumbnailWidget *m_emptyWidget = nullptr;
     DMenu *m_menu;
     QStackedWidget *m_stack;
-    LockWidget* m_lockWidget;
+    LockWidget *m_lockWidget;
 
     // Floating component
     DAnchors<NavigationWidget> m_nav;
@@ -153,7 +155,7 @@ private:
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
 //    DBImgInfoList::ConstIterator m_current =NULL;
-    int m_current =0;
+    int m_current = 0;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 
@@ -163,7 +165,7 @@ private:
     QString m_currentImagePath = "";
     DFileWatcher *m_fileManager;
     QString m_currentFilePath = "";
-    bool m_finish =false;
+    bool m_finish = false;
 
     QScrollArea *m_scrollArea {nullptr};
 };
