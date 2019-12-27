@@ -325,7 +325,7 @@ void ViewPanel::eatImageDirIterator()
 
         if (mt.name().startsWith("image/")) {
             QString str = m_imageDirIterator->fileInfo().suffix();
-            if (utils::image::supportedImageFormats().contains("*." + str)) {
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
                 m_infos.append(info);
             } else if (str.isEmpty()) {
                 m_infos.append(info);
