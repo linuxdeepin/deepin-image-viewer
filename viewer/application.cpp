@@ -37,7 +37,7 @@ namespace {
 
 #define IMAGE_HEIGHT_DEFAULT    100
 
-ImageLoader::ImageLoader(Application* parent, QStringList pathlist, QString path)
+ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QString path)
 {
     m_parent = parent;
     m_pathlist = pathlist;
@@ -48,35 +48,35 @@ void ImageLoader::startLoading()
 {
     struct timeval tv;
     long long ms;
-    gettimeofday(&tv,NULL);
-    ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
-    qDebug()<<"startLoading start time: "<<ms;
+    gettimeofday(&tv, NULL);
+    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    qDebug() << "startLoading start time: " << ms;
 
-    int num =0;
-    int array =0;
+    int num = 0;
+    int array = 0;
     int count = m_pathlist.size();
 
     for (QString path : m_pathlist) {
         num++;
-        if(m_path == path){
-            array = num-1;
-            num =0;
+        if (m_path == path) {
+            array = num - 1;
+            num = 0;
         }
     }
 
     QStringList list;
-    for (int i=0;i<25;i++) {
-        if((array-i)>-1)
-            list.append(m_pathlist.at(array-i));
-        if((array+i)<count)
-            list.append(m_pathlist.at(array+i));
+    for (int i = 0; i < 25; i++) {
+        if ((array - i) > -1)
+            list.append(m_pathlist.at(array - i));
+        if ((array + i) < count)
+            list.append(m_pathlist.at(array + i));
     }
 
-    for(QString path : list)
-    {
+    for (QString path : list) {
         QImage tImg;
 
         QString format = DetectImageFormat(path);
+
         if (format.isEmpty()) {
             QImageReader reader(path);
             reader.setAutoTransform(true);
@@ -103,9 +103,8 @@ void ImageLoader::startLoading()
         emit sigFinishiLoad(path);
     }
 
-    num=0;
-    for(QString path : m_pathlist)
-    {
+    num = 0;
+    for (QString path : m_pathlist) {
         QImage tImg;
 
         QString format = DetectImageFormat(path);
@@ -154,18 +153,17 @@ void ImageLoader::startLoading()
         emit sigFinishiLoad(path);
     }
 
-    QString map ="";
+    QString map = "";
     emit sigFinishiLoad(map);
 
-    gettimeofday(&tv,NULL);
-    ms = (long long)tv.tv_sec*1000 + tv.tv_usec/1000;
-    qDebug()<<"startLoading end time: "<<ms;
+    gettimeofday(&tv, NULL);
+    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    qDebug() << "startLoading end time: " << ms;
 }
 
 void ImageLoader::addImageLoader(QStringList pathlist)
 {
-    for(QString path : pathlist)
-    {
+    for (QString path : pathlist) {
         QImage tImg;
 
         QString format = DetectImageFormat(path);
@@ -195,8 +193,7 @@ void ImageLoader::addImageLoader(QStringList pathlist)
 
 void ImageLoader::updateImageLoader(QStringList pathlist)
 {
-    for(QString path : pathlist)
-    {
+    for (QString path : pathlist) {
         QPixmap pixmap(path);
 
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
@@ -205,11 +202,11 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
 
 void Application::finishLoadSlot(QString mapPath)
 {
-    qDebug()<<"finishLoadSlot";
+    qDebug() << "finishLoadSlot";
     emit sigFinishLoad(mapPath);
 }
 
-Application::Application(int& argc, char** argv)
+Application::Application(int &argc, char **argv)
     : DApplication(argc, argv)
 {
     initI18n();
@@ -233,8 +230,8 @@ Application::Application(int& argc, char** argv)
 
 
 
-    connect(dApp->signalM, &SignalManager::sendPathlist, this, [=](QStringList list,QString path){
-        m_imageloader= new ImageLoader(this, list, path);
+    connect(dApp->signalM, &SignalManager::sendPathlist, this, [ = ](QStringList list, QString path) {
+        m_imageloader = new ImageLoader(this, list, path);
         m_LoadThread = new QThread();
 
         m_imageloader->moveToThread(m_LoadThread);
