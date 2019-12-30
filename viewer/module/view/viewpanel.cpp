@@ -323,7 +323,7 @@ void ViewPanel::eatImageDirIterator()
 //        qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName() << m_imageDirIterator->fileInfo().filePath()
 //                 << mt.name() << "mt1" /*<< mt1.name()*/;
 
-        if (mt.name().startsWith("image/")) {
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
             QString str = m_imageDirIterator->fileInfo().suffix();
             if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
                 m_infos.append(info);

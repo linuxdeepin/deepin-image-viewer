@@ -153,7 +153,6 @@ bool imageSupportSave(const QString &path)
                              << "PGM"
                              << "X3F";           // Sigma cameras
 
-
     if (raws.indexOf(suffix.toUpper()) != -1
             || QImageReader(path).imageCount() > 1) {
         return false;
