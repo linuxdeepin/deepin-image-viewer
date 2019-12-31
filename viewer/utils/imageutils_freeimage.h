@@ -23,6 +23,8 @@
 #include <QMap>
 #include <QString>
 #include <QDebug>
+#include <QMimeDatabase>
+#include <QMimeType>
 
 namespace utils {
 
@@ -45,16 +47,27 @@ FREE_IMAGE_FORMAT fFormat(const QString &path)
 
 const QString getFileFormat(const QString &path)
 {
+#if 0
     const FREE_IMAGE_FORMAT fif = fFormat(path);
     if (fif == FIF_UNKNOWN) {
         return QString("UNKNOW");
-    }
-    else {
+    } else {
         return QString(FreeImage_GetFIFMimeType(fif));
+    }
+#endif
+    //use mimedatabase get image mimetype
+    QFileInfo fi(path);
+    QString suffix = fi.suffix(); QMimeDatabase db;
+    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
+    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+    if (suffix.isEmpty()) {
+        return mt.name();
+    } else {
+        return mt1.name();
     }
 }
 
-FIBITMAP * readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
+FIBITMAP *readFileToFIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
     const FREE_IMAGE_FORMAT fif = fFormat(path);
 
@@ -95,16 +108,14 @@ const QDateTime getDateTime(const QString &path, bool createTime = true)
         QFileInfo info(path);
         if (createTime) {
             return info.created();
-        }
-        else {
+        } else {
             return info.lastModified();
         }
     }
 
     if (createTime) {
         return utils::base::stringToDateTime(datas["DateTimeOriginal"]);
-    }
-    else {
+    } else {
         return utils::base::stringToDateTime(datas["DateTimeDigitized"]);
     }
 }
@@ -144,8 +155,7 @@ QMap<QString, QString> getAllMetaData(const QString &path)
         QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
         admMap.insert("DateTimeOriginal",  emptyTime.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
         admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-    }
-    else {
+    } else {
         // ReFormat the date-time
         using namespace utils::base;
         // Exif version 0231
@@ -180,36 +190,35 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     return admMap;
 }
 
-FIBITMAP * makeThumbnail(const QString &path, int size) {
+FIBITMAP *makeThumbnail(const QString &path, int size)
+{
     const QByteArray pb = path.toUtf8();
     const char *pc = pb.data();
     FIBITMAP *dib = NULL;
     int flags = 0;              // default load flag
 
     FREE_IMAGE_FORMAT fif = fFormat(path);
-    if(fif == FIF_UNKNOWN) {
+    if (fif == FIF_UNKNOWN) {
         return NULL;
     }
 
     // for JPEG images, we can speedup the loading part
     // Using LibJPEG downsampling feature while loading the image...
-    if(fif == FIF_JPEG) {
+    if (fif == FIF_JPEG) {
         flags = JPEG_EXIFROTATE;
         flags |= size << 16;
         // Load the dib
         dib = FreeImage_Load(fif, pc, flags);
-        if(! dib) return NULL;
-    }
-    else {
+        if (! dib) return NULL;
+    } else {
         // Any cases other than the JPEG case: load the dib ...
-        if(fif == FIF_RAW || fif == FIF_TIFF) {
+        if (fif == FIF_RAW || fif == FIF_TIFF) {
             // ... except for RAW images, try to load the embedded JPEG preview
             // or default to RGB 24-bit ...
             flags = RAW_PREVIEW;
             dib = FreeImage_Load(fif, pc, flags);
-            if(!dib) return NULL;
-        }
-        else {
+            if (!dib) return NULL;
+        } else {
             // 某些损坏的图片� �式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
             // 除了上面�� 种可能�� 速缩略图读取的方式，都返回空
             return NULL;
@@ -236,16 +245,16 @@ bool isSupportsWriting(const QString &path)
     return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
 }
 
-bool canSave(FIBITMAP* dib, const QString &path)
+bool canSave(FIBITMAP *dib, const QString &path)
 {
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
-    if(fif != FIF_UNKNOWN ) {
+    if (fif != FIF_UNKNOWN) {
         // Check that the dib can be saved in this format
         BOOL bCanSave;
         FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
-        if(image_type == FIT_BITMAP) {
+        if (image_type == FIT_BITMAP) {
             // standard bitmap type
             // check that the plugin has sufficient writing
             // and export capabilities ...
@@ -265,19 +274,20 @@ bool canSave(FIBITMAP* dib, const QString &path)
 bool canSave(const QString &path)
 {
     FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
-    bool v= canSave(dib, path);
+    bool v = canSave(dib, path);
     FreeImage_Unload(dib);
     return v;
 }
 
-bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
+bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &path, int flag = 0)
+{
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     BOOL bSuccess = FALSE;
     const QByteArray ba = path.toUtf8();
     const char *pc = ba.data();
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(pc);
-    if(fif != FIF_UNKNOWN && canSave(dib, path)) {
+    if (fif != FIF_UNKNOWN && canSave(dib, path)) {
         bSuccess = FreeImage_Save(fif, dib, pc, flag);
     }
 
@@ -286,7 +296,7 @@ bool writeFIBITMAPToFile(FIBITMAP* dib, const QString &path, int flag = 0) {
 
 QImage noneQImage()
 {
-    static QImage none(0,0,QImage::Format_Invalid);
+    static QImage none(0, 0, QImage::Format_Invalid);
     return none;
 }
 
@@ -302,74 +312,65 @@ QImage FIBitmapToQImage(FIBITMAP *dib)
     int width  = FreeImage_GetWidth(dib);
     int height = FreeImage_GetHeight(dib);
 
-    switch (FreeImage_GetBPP(dib))
-    {
-    case 1:
-    {
+    switch (FreeImage_GetBPP(dib)) {
+    case 1: {
         QImage result(width, height, QImage::Format_Mono);
         FreeImage_ConvertToRawBits(
-                    result.scanLine(0), dib, result.bytesPerLine(), 1, 0, 0, 0, true
-                    );
+            result.scanLine(0), dib, result.bytesPerLine(), 1, 0, 0, 0, true
+        );
         return result;
     }
-    case 4: /* NOTE: QImage do not support 4-bit, convert it to 8-bit  */
-    {
+    case 4: { /* NOTE: QImage do not support 4-bit, convert it to 8-bit  */
         QImage result(width, height, QImage::Format_Indexed8);
         FreeImage_ConvertToRawBits(
-                    result.scanLine(0), dib, result.bytesPerLine(), 8, 0, 0, 0, true
-                    );
+            result.scanLine(0), dib, result.bytesPerLine(), 8, 0, 0, 0, true
+        );
         return result;
     }
-    case 8:
-    {
+    case 8: {
         QImage result(width, height, QImage::Format_Indexed8);
         FreeImage_ConvertToRawBits(
-                    result.scanLine(0), dib, result.bytesPerLine(), 8, 0, 0, 0, true
-                    );
+            result.scanLine(0), dib, result.bytesPerLine(), 8, 0, 0, 0, true
+        );
         return result;
     }
     case 16:
         if ( // 5-5-5
-             (FreeImage_GetRedMask(dib)   == FI16_555_RED_MASK) &&
-             (FreeImage_GetGreenMask(dib) == FI16_555_GREEN_MASK) &&
-             (FreeImage_GetBlueMask(dib)  == FI16_555_BLUE_MASK))
-        {
+            (FreeImage_GetRedMask(dib)   == FI16_555_RED_MASK) &&
+            (FreeImage_GetGreenMask(dib) == FI16_555_GREEN_MASK) &&
+            (FreeImage_GetBlueMask(dib)  == FI16_555_BLUE_MASK)) {
             QImage result(width, height, QImage::Format_RGB555);
             FreeImage_ConvertToRawBits(
-                        result.scanLine(0), dib, result.bytesPerLine(), 16,
-                        FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK,
-                        true
-                        );
+                result.scanLine(0), dib, result.bytesPerLine(), 16,
+                FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK,
+                true
+            );
             return result;
-        }
-        else // 5-6-5
-        {
+        } else { // 5-6-5
             QImage result(width, height, QImage::Format_RGB16);
             FreeImage_ConvertToRawBits(
-                        result.scanLine(0), dib, result.bytesPerLine(), 16,
-                        FI16_565_RED_MASK, FI16_565_GREEN_MASK, FI16_565_BLUE_MASK,
-                        true
-                        );
+                result.scanLine(0), dib, result.bytesPerLine(), 16,
+                FI16_565_RED_MASK, FI16_565_GREEN_MASK, FI16_565_BLUE_MASK,
+                true
+            );
             return result;
         }
-    case 24:
-    {
+    case 24: {
         QImage result(width, height, QImage::Format_RGB32);
         FreeImage_ConvertToRawBits(
-                    result.scanLine(0), dib, result.bytesPerLine(), 32,
-                    FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-                    true
-                    );
+            result.scanLine(0), dib, result.bytesPerLine(), 32,
+            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+            true
+        );
         return result;
     }
-    case 32:
-    {
+    case 32: {
         QImage result(width, height, QImage::Format_ARGB32);
         FreeImage_ConvertToRawBits(
-                    result.scanLine(0), dib, result.bytesPerLine(), 32,
-                    FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-                    true
-                    );
+            result.scanLine(0), dib, result.bytesPerLine(), 32,
+            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+            true
+        );
         return result;
     }
     default:
