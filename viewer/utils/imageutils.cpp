@@ -532,7 +532,8 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
           << "*.raw"
           << "*.orf"
           << "*.mrw"
-          << "*.jpe";
+          << "*.jpe"
+          << "*.xbm";
 
     return sList;
 }

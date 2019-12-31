@@ -319,19 +319,26 @@ void ViewPanel::eatImageDirIterator()
 
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
-//        QMimeType mt1 = db.mimeTypeForFile(m_imageDirIterator->fileInfo().fileName(), QMimeDatabase::MatchContent);
-//        qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName() << m_imageDirIterator->fileInfo().filePath()
-//                 << mt.name() << "mt1" /*<< mt1.name()*/;
+        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
+        qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName() << m_imageDirIterator->fileInfo().filePath()
+                 << mt.name() << "mt1" << mt1.name();
 
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
-            QString str = m_imageDirIterator->fileInfo().suffix();
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                m_infos.append(info);
-            } else if (str.isEmpty()) {
-                m_infos.append(info);
+        QString str = m_imageDirIterator->fileInfo().suffix();
+        if (str.isEmpty()) {
+            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    m_infos.append(info);
+                } else if (str.isEmpty()) {
+                    m_infos.append(info);
+                }
+            }
+        } else {
+            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    m_infos.append(info);
+                }
             }
         }
-
     }
 
     m_imageDirIterator.reset(nullptr);
@@ -732,12 +739,12 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         m_infos = getImageInfos({info});
     }
 
-    if (m_infos.size() == 1) {
-        m_imageDirIterator.reset(new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
-                                                  /*utils::image::supportedImageFormats(),*/ QDir::Files | QDir::Readable | QDir::NoDotAndDotDot));
-    } else {
-        m_imageDirIterator.reset();
-    }
+//    if (m_infos.size() == 1) {
+    m_imageDirIterator.reset(new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
+                                              /*utils::image::supportedImageFormats(),*/ QDir::Files | QDir::Readable | QDir::NoDotAndDotDot));
+//    } else {
+//        m_imageDirIterator.reset();
+//    }
 #endif
     // Get the image which need to open currently
     m_current = 0;
