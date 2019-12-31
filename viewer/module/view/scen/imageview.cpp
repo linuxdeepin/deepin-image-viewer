@@ -649,6 +649,7 @@ void ImageView::resizeEvent(QResizeEvent *event)
 void ImageView::paintEvent(QPaintEvent *event)
 {
     QGraphicsView::paintEvent(event);
+    update();
 }
 
 void ImageView::dragEnterEvent(QDragEnterEvent *e)
