@@ -387,6 +387,14 @@ void ImageView::setScaleValue(qreal v)
         m_isFitWindow = false;
     }
 
+    qreal rescale = imageRelativeScale();
+    if (rescale - 1 > -0.01 &&
+            rescale - 1 < 0.01) {
+        emit checkAdaptImageBtn();
+    } else {
+        emit disCheckAdaptImageBtn();
+    }
+
     emit scaled(imageRelativeScale() * 100);
     emit showScaleLabel();
     emit transformChanged();
@@ -444,6 +452,13 @@ void ImageView::fitWindow()
     qreal wrs = windowRelativeScale();
     resetTransform();
     scale(wrs, wrs);
+
+    if (wrs - 1 > -0.01 &&
+            wrs - 1 < 0.01) {
+        emit checkAdaptImageBtn();
+    } else {
+        emit disCheckAdaptImageBtn();
+    }
     m_isFitImage = false;
     m_isFitWindow = true;
     scaled(imageRelativeScale() * 100);
@@ -469,6 +484,7 @@ void ImageView::fitImage()
      *  12-19,bug 9839, change 0.9->1
      */
     scale(1, 1);
+    emit checkAdaptImageBtn();
     m_isFitImage = true;
     m_isFitWindow = false;
     scaled(imageRelativeScale() * 100);

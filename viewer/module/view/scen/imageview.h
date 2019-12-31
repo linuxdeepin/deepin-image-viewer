@@ -88,6 +88,8 @@ signals:
 //    void hideNavigation();
     void nextRequested();
     void previousRequested();
+    void disCheckAdaptImageBtn();
+    void checkAdaptImageBtn();
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);

@@ -141,6 +141,8 @@ public slots:
     void updateCollectButton();
     void slotTheme(bool theme);
     void setAdaptButtonChecked(bool flag);
+    void disCheckAdaptImageBtn();
+    void checkAdaptImageBtn();
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);

@@ -543,6 +543,10 @@ QWidget *ViewPanel::bottomTopLeftContent()
         }
         m_viewB->titleBarControl();
     });
+    connect(m_viewB, &ImageView::disCheckAdaptImageBtn,
+            ttbc, &TTBContent::disCheckAdaptImageBtn);
+    connect(m_viewB, &ImageView::checkAdaptImageBtn,
+            ttbc, &TTBContent::checkAdaptImageBtn);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum,
             ttbc, &TTBContent::updateCollectButton);
     connect(dApp->signalM, &SignalManager::removedFromAlbum,

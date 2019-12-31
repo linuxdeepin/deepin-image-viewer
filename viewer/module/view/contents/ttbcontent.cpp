@@ -652,8 +652,13 @@ TTBContent::TTBContent(bool inDB,
         emit showNext();
     });
     connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
-        emit resetTransform(false);
-        setAdaptButtonChecked(true);
+//        emit resetTransform(false);
+//        setAdaptButtonChecked(true);m_adaptImageBtn->setChecked(true);
+        if (!badaptImageBtnChecked)
+        {
+            badaptImageBtnChecked = true;
+            emit resetTransform(false);
+        }
     });
     connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] {
         emit resetTransform(true);
@@ -693,6 +698,20 @@ TTBContent::TTBContent(bool inDB,
     slotTheme(theme);
 #endif
 }
+
+
+void TTBContent::disCheckAdaptImageBtn()
+{
+    m_adaptImageBtn->setChecked(false);
+    badaptImageBtnChecked = false;
+}
+
+void TTBContent::checkAdaptImageBtn()
+{
+    m_adaptImageBtn->setChecked(true);
+    badaptImageBtnChecked = true;
+}
+
 void TTBContent::setAdaptButtonChecked(bool flag)
 {
 //    if (btAdapt->isChecked() != flag) {
