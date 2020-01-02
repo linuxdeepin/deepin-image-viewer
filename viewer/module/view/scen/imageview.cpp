@@ -438,6 +438,7 @@ const QImage ImageView::image()
         return m_pixmapItem->pixmap().toImage();
     } else if (m_svgItem) {    // svg
         QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+        image.fill(QColor(0, 0, 0, 0));
         QPainter imagePainter(&image);
         m_svgItem->renderer()->render(&imagePainter);
         imagePainter.end();
