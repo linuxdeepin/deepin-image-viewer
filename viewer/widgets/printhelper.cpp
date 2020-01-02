@@ -60,7 +60,7 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
         }
 
         QIcon icon(QStringLiteral(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
-        action->setIcon(icon);
+//        action->setIcon(icon);
         last_action = action;
     }
 
@@ -74,12 +74,11 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 
     printer.setColorMode(QPrinter::Color);
 
-    QPrintPreviewDialog* printDialog = new QPrintPreviewDialog(&printer, parent);
-    PrintOptionsPage *optionsPage = new PrintOptionsPage(printDialog);
-    printDialog->resize(800, 800);
+    QPrintPreviewDialog printDialog(&printer, parent);
+    PrintOptionsPage *optionsPage = new PrintOptionsPage(&printDialog);
+//    printDialog.resize(800, 800);
 
-    QToolBar *toolBar = printDialog->findChild<QToolBar*>();
-
+    QToolBar *toolBar = printDialog.findChild<QToolBar *>();
     if (toolBar) {
         QAction *page_setup_action = nullptr;
         QAction *last_action = hookToolBarActionIcons(toolBar, &page_setup_action);
@@ -93,20 +92,22 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             // 先和原有的槽断开连接
             disconnect(page_setup_action, &QAction::triggered, nullptr, nullptr);
             // 触发创建QPrintDialog对象
-            connect(page_setup_action, SIGNAL(triggered(bool)), printDialog, SLOT(_q_print()), Qt::QueuedConnection);
+            connect(page_setup_action, SIGNAL(triggered(bool)), &printDialog, SLOT(_q_print()), Qt::QueuedConnection);
             // 在QPrintDialog对象被创建后调用，用于触发显示 QPrintPropertiesDialog
-            connect(page_setup_action, &QAction::triggered, printDialog, [printDialog] {
-                auto find_child_by_name = [] (const QObject *obj, const QByteArray &class_name) {
+            connect(page_setup_action, &QAction::triggered, &printDialog, [&printDialog] {
+                auto find_child_by_name = [](const QObject * obj, const QByteArray & class_name)
+                {
                     for (QObject *child : obj->children()) {
                         if (child->metaObject()->className() == class_name) {
                             return child;
                         }
                     }
 
-                    return (QObject*)(nullptr);
+                    return (QObject *)(nullptr);
                 };
 
-                if (QPrintDialog *print_dialog = printDialog->findChild<QPrintDialog*>()) {
+                if (QPrintDialog *print_dialog = printDialog.findChild<QPrintDialog *>())
+                {
                     print_dialog->reject();
 
                     // 显示打印设置对话框
@@ -140,8 +141,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         imgs << img;
     }
 
-    if (!imgs.isEmpty())
-    {
+    if (!imgs.isEmpty()) {
         QImage img1 = imgs.first();
         qDebug() << img1.width() << img1.height();
         if (!img1.isNull() && img1.width() > img1.height()) {
@@ -153,7 +153,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     auto repaint = [&imgs, &optionsPage, &printer] {
         QPainter painter(&printer);
 
-        for (const QImage img : imgs) {
+        for (const QImage img : imgs)
+        {
             QRect rect = painter.viewport();
             QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
             QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
@@ -175,26 +176,26 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         painter.end();
     };
 
-    QObject::connect(printDialog, &QPrintPreviewDialog::paintRequested, printDialog, repaint);
-    QObject::connect(optionsPage, &PrintOptionsPage::valueChanged, optionsPage, [printDialog] {
-        if (QPrintPreviewWidget *pw = printDialog->findChild<QPrintPreviewWidget*>())
+    QObject::connect(&printDialog, &QPrintPreviewDialog::paintRequested, &printDialog, repaint);
+    QObject::connect(optionsPage, &PrintOptionsPage::valueChanged, optionsPage, [&printDialog] {
+        if (QPrintPreviewWidget *pw = printDialog.findChild<QPrintPreviewWidget *>())
             pw->updatePreview();
     });
 
-    if (printDialog->exec() == QDialog::Accepted) {
+    if (printDialog.exec() == QDialog::Accepted) {
 
         qDebug() << "print succeed!";
 
         return;
     }
 
-    QObject::connect(printDialog, &QPrintPreviewDialog::done, printDialog,
-                     &QPrintPreviewDialog::deleteLater);
+//    QObject::connect(printDialog, &QPrintPreviewDialog::done, printDialog,
+//                     &QPrintPreviewDialog::deleteLater);
 
     qDebug() << "print failed!";
 }
 
-QSize PrintHelper::adjustSize(PrintOptionsPage* optionsPage, QImage img, int resolution, const QSize & viewportSize)
+QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize)
 {
     PrintOptionsPage::ScaleMode scaleMode = optionsPage->scaleMode();
     QSize size(img.size());
@@ -223,7 +224,7 @@ QSize PrintHelper::adjustSize(PrintOptionsPage* optionsPage, QImage img, int res
     return size;
 }
 
-QPoint PrintHelper::adjustPosition(PrintOptionsPage* optionsPage, const QSize& imageSize, const QSize & viewportSize)
+QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &imageSize, const QSize &viewportSize)
 {
     Qt::Alignment alignment = optionsPage->alignment();
     int posX, posY;

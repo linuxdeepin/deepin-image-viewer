@@ -242,7 +242,6 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     p.begin(this);
 
     QImage background(m_bgImgUrl);
-
     p.drawImage(this->rect(), background);
 
     //**draw transparent background
