@@ -27,6 +27,7 @@
 #include <DBlurEffectWidget>
 #include <DFontSizeManager>
 #include <DFloatingWidget>
+#include <QHBoxLayout>
 
 DWIDGET_USE_NAMESPACE
 
@@ -63,11 +64,13 @@ void ViewPanel::initSwitchButtons()
     connect(next_button, &DImageButton::clicked, this, &ViewPanel::showNext);
 
 
-    connect(this, &ViewPanel::mouseMoved, this, [=] {
+    connect(this, &ViewPanel::mouseMoved, this, [ = ] {
         DAnchors<DImageButton> pb = pre_button;
-        if (m_info && m_info->visibleRegion().isNull()) {
+        if (m_info && m_info->visibleRegion().isNull())
+        {
             pb.setLeftMargin(0);
-        } else {
+        } else
+        {
             pb.setLeftMargin(240);
         }
 
@@ -75,10 +78,12 @@ void ViewPanel::initSwitchButtons()
         QRect left_rect = pre_button->geometry();
         QRect right_rect = next_button->geometry();
 
-        if (left_rect.contains(pos, true) || right_rect.contains(pos)) {
+        if (left_rect.contains(pos, true) || right_rect.contains(pos))
+        {
             pre_button->show();
             next_button->show();
-        } else {
+        } else
+        {
             pre_button->hide();
             next_button->hide();
         }
@@ -98,11 +103,11 @@ void ViewPanel::initScaleLabel()
     scalePerc->setAttribute(Qt::WA_TransparentForMouseEvents);
     scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
     scalePerc.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
-    scalePerc.setBottomMargin(75+14);
+    scalePerc.setBottomMargin(75 + 14);
     label->setAlignment(Qt::AlignCenter);
 //    scalePerc->setFixedSize(82, 48);
-    scalePerc->setFixedWidth(90+10);
-    scalePerc->setFixedHeight(40+10);
+    scalePerc->setFixedWidth(90 + 10);
+    scalePerc->setFixedHeight(40 + 10);
     scalePerc->adjustSize();
     label->setText("100%");
     DFontSizeManager::instance()->bind(label, DFontSizeManager::T6);
@@ -112,22 +117,20 @@ void ViewPanel::initScaleLabel()
     hideT->setSingleShot(true);
     connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
 
-    connect(m_viewB, &ImageView::scaled, this, [=](qreal perc) {
+    connect(m_viewB, &ImageView::scaled, this, [ = ](qreal perc) {
         label->setText(QString("%1%").arg(int(perc)));
-        if(perc > 100){
+        if (perc > 100) {
             emit dApp->signalM->enterScaledMode(true);
             emit dApp->signalM->isAdapt(false);
-        }
-        else if (perc == 100.0) {
+        } else if (perc == 100.0) {
             emit dApp->signalM->enterScaledMode(false);
             emit dApp->signalM->isAdapt(true);
-        }
-        else {
+        } else {
             emit dApp->signalM->enterScaledMode(false);
             emit dApp->signalM->isAdapt(false);
         }
     });
-    connect(m_viewB, &ImageView::showScaleLabel, this, [=](){
+    connect(m_viewB, &ImageView::showScaleLabel, this, [ = ]() {
         scalePerc->show();
         hideT->start(1000);
     });
@@ -141,18 +144,18 @@ void ViewPanel::initNavigation()
     m_nav.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
-    connect(this, &ViewPanel::imageChanged, this, [=] (const QString &path,DBImgInfoList infos) {
+    connect(this, &ViewPanel::imageChanged, this, [ = ](const QString & path, DBImgInfoList infos) {
         if (path.isEmpty()) m_nav->setVisible(false);
         m_nav->setImage(m_viewB->image());
     });
-    connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y){
+    connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
         m_viewB->centerOn(x, y);
     });
-    connect(m_viewB, &ImageView::transformChanged, [this](){
+    connect(m_viewB, &ImageView::transformChanged, [this]() {
         m_nav->setVisible(! m_nav->isAlwaysHidden() && ! m_viewB->isWholeImageVisible());
         m_nav->setRectInImage(m_viewB->visibleImageRect());
     });
-    connect(dApp->signalM, &SignalManager::hideNavigation, this, [=]() {
+    connect(dApp->signalM, &SignalManager::hideNavigation, this, [ = ]() {
         m_nav->setVisible(false);
     });
 }

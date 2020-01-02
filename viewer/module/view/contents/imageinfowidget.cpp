@@ -33,6 +33,7 @@
 #include <QScrollBar>
 #include <QString>
 #include <QtDebug>
+#include <DArrowLineDrawer>
 
 namespace {
 
@@ -108,24 +109,24 @@ public:
     }
 };
 
-class DFMDArrowLineExpand : public DArrowLineExpand
+class DFMDArrowLineExpand : public DArrowLineDrawer
 {
 public:
     DFMDArrowLineExpand()
     {
-        if (headerLine()) {
-            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6, QFont::Medium);
+//        if (headerLine()) {
+//            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6, QFont::Medium);
 
-            DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-            headerLine()->setPalette(pa);
+//            DPalette pa = DApplicationHelper::instance()->palette(headerLine());
+//            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
+//            headerLine()->setPalette(pa);
 
-            headerLine()->setLeftMargin(10);
-        }
+//            headerLine()->setLeftMargin(10);
+//        }
     }
 
 protected:
-    void paintEvent(QPaintEvent *event) override
+    void paintEvent(QPaintEvent *event)
     {
         Q_UNUSED(event);
         QPainter painter(this);
@@ -443,10 +444,10 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
     }
 }
 
-QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
+QList<DDrawer *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
 {
     QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(this->layout());
-    QList<DBaseExpand *> group;
+    QList<DDrawer *> group;
 
     for (const QString &title : titleList) {
         DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;  // DArrowLineExpand;
@@ -457,7 +458,7 @@ QList<DBaseExpand *> ImageInfoWidget::addExpandWidget(const QStringList &titleLi
 
     return group;
 }
-void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
+void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
 {
     expand->setFixedHeight(ArrowLineExpand_HIGHT);
     QMargins cm = layout->contentsMargins();
@@ -479,7 +480,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DBaseExpand *expand)
 
 void ImageInfoWidget::onExpandChanged(const bool &e)
 {
-    DArrowLineExpand *expand = qobject_cast<DArrowLineExpand *>(sender());
+    DArrowLineDrawer *expand = qobject_cast<DArrowLineDrawer *>(sender());
     if (expand) {
         if (e) {
             expand->setSeparatorVisible(false);
@@ -492,7 +493,7 @@ void ImageInfoWidget::onExpandChanged(const bool &e)
 int ImageInfoWidget::contentHeight() const
 {
     int expandsHeight = ArrowLineExpand_SPACING;
-    for (const DBaseExpand *expand : m_expandGroup) {
+    for (const DDrawer *expand : m_expandGroup) {
         expandsHeight += expand->height();
     }
 
