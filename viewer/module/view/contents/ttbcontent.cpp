@@ -653,7 +653,8 @@ TTBContent::TTBContent(bool inDB,
     });
     connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
 //        emit resetTransform(false);
-//        setAdaptButtonChecked(true);m_adaptImageBtn->setChecked(true);
+//        setAdaptButtonChecked(true);
+        m_adaptImageBtn->setChecked(true);
         if (!badaptImageBtnChecked)
         {
             badaptImageBtnChecked = true;
