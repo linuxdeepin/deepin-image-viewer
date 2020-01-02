@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>عارض صور ديبين</translation>
+        <source>Image Viewer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,15 +221,19 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>معلومات الصورة</translation>
+        <source>Basic info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation>هذا الملف يحتوي على صفحات عديدة، رجاء استخدم Evince لعرض جميع الصفحات.</translation>
     </message>
 </context>
 <context>
@@ -293,7 +308,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>حذف</translation>
     </message>
 </context>
 <context>
@@ -308,6 +323,21 @@
     <message>
         <source>You have no permission to view the image</source>
         <translation>ليس لديك الصلاحية لرؤية الصورة</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -326,15 +356,15 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation>الأبعاد</translation>
     </message>
     <message>
         <source>File size</source>
         <translation>حجم الملف</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>مساحة اﻷلوان</translation>
+        <source>Date captured</source>
+        <translation>تم حفظ التاريخ</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,15 +411,23 @@
         <translation>تعويض الفلاش</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>طراز الكاميرا</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>طراز العدسة</translation>
     </message>
     <message>
-        <source>Date captured</source>
+        <source>Colorspace</source>
+        <translation>مساحة اﻷلوان</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>طراز الكاميرا</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tag</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -397,50 +435,50 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation>لا يمكن تغيير الحجم</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation>ملء الصفحة إلى الصورة</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation>ملء الصورة إلى الصفحة</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation>غير الحجم إلى:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="unfinished"/>
+        <translation>مليمتر</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="unfinished"/>
+        <translation>سنتيمتر</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation>بوصة</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation>مكان الصورة</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation>الحجم</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>إعدادت الصورة</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation>إعدادت الصورة</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>حلقة</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -603,15 +645,27 @@
         <translation>مساعدة</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>خروج</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>اختصارات العرض</translation>
     </message>
     <message>
         <source>Delete</source>
+        <translation>حذف</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -747,18 +801,18 @@
     </message>
 </context>
 <context>
-    <name>TTLContent</name>
-    <message>
-        <source>Back</source>
-        <translation>رجوع</translation>
-    </message>
-    <message>
-        <source>Image management</source>
-        <translation>إدارة الصورة</translation>
-    </message>
+    <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation>مفضلتي</translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>1:1 Size</source>
@@ -777,16 +831,51 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Unfavorite</source>
+        <source>Delete</source>
         <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>TTLContent</name>
+    <message>
+        <source>Back</source>
+        <translation>رجوع</translation>
+    </message>
+    <message>
+        <source>Image management</source>
+        <translation>إدارة الصورة</translation>
+    </message>
+    <message>
+        <source>My favorite</source>
+        <translation>مفضلتي</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>حجم 1:1</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>ملء النافذة</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>لف بعكس اتجاه عقاب الساعة</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>لف باتجاه عقارب الساعة</translation>
+    </message>
+    <message>
+        <source>Unfavorite</source>
+        <translation>إزلة من المفضلة</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation>إضافة إلى المفضلة</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>حذف</translation>
     </message>
 </context>
 <context>
@@ -797,6 +886,10 @@
     </message>
     <message>
         <source>Open Image</source>
+        <translation>فتح الصورة</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -895,7 +988,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>حذف</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>الإعدادات</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation> عارض الصور من ديبين : مدير للصور٫ عصري و سلس.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>يتميز بادارة الصور٫ عرض الصور و التعديل البسيط عليها.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>سمة داكنة</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1043,15 +1120,15 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>حذف</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation>قتح الصورة.</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation>كل الصور</translation>
     </message>
 </context>
 </TS>

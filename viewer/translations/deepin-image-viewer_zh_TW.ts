@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin 看圖</translation>
+        <source>Image Viewer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>圖片資訊</translation>
+        <source>Basic info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>檔案大小</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>色彩空間</translation>
+        <source>Date captured</source>
+        <translation>已擷取日期</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>曝光補償</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>相機型號</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>鏡頭型號</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>已擷取日期</translation>
+        <source>Colorspace</source>
+        <translation>色彩空間</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>相機型號</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>圓環</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>說明</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>離開</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>顯示快速鍵</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>刪除</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>開啟圖片</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>設定</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin 看圖是一款時尚且流暢的圖片管理器，</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>包含圖片管理、圖片檢視和基本編輯功能。</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>深色模式</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin 看圖是款有著流行介面和順滑效能的圖片檢視工具。</translation>
     </message>
 </context>
 <context>

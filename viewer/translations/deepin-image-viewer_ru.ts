@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Просмотр Изображений Deepin</translation>
+        <source>Image Viewer</source>
+        <translation>Просмотр изображений</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Просмотр изображений - это инструмент для просмотра изображений с модным интерфейсом и плавной работой.</translation>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Информация об изображении</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Информация о изображении</translation>
+        <source>Basic info</source>
+        <translation>Основная информация</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Детали</translation>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>Съемное устройство было удалено, вы уверены, что хотите удалить миниатюры съемного устройства?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Размер файла</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Цветовое пространство</translation>
+        <source>Date captured</source>
+        <translation>Дата захвата</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Компенсация вспышки</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Модель камеры</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Модель линзы</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Дата захвата</translation>
+        <source>Colorspace</source>
+        <translation>Цветовое пространство</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Модель камеры</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Размеры</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Тег</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Кольцо</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>dd.MM.yyyy HH:mm:ss</translation>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>Помощь</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Выход</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Показать сочетания</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Выйти из полноэкранного режима</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Увеличить</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Уменьшить</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Открыть</translation>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Избранное</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Предыдущее</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Следующее</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>Размер 1:1</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>По размеру окна</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Повернуть против часовой стрелки</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Повернуть по часовой стрелке</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Удалить</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Открыть Файл Изображения</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Файл изображения не найден</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Настройки</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer - это современный и изящный менеджер изображений.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Он предназначен для управления, просмотра и редактирования изображениями начального уровня.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Темная тема</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin Image Viewer - это современный плавно работающий и изящный менеджер изображений</translation>
     </message>
 </context>
 <context>

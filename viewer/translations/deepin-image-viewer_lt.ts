@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin paveikslų žiūryklė</translation>
+        <source>Image Viewer</source>
+        <translation>Paveikslų žiūryklė</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Paveikslų žiūryklė yra paveikslų peržiūros įrankis su šiuolaikine sąsaja ir glotniu našumu.</translation>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Paveikslo informacija</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Paveikslo informacija</translation>
+        <source>Basic info</source>
+        <translation>Pagrindinė informacija</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Išsamiau</translation>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>Keičiamasis įrenginys ištrauktas, ar tikrai norite ištrinti keičiamojo įrenginio miniatiūras?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Atsisakyti</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Ištrinti</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Failo dydis</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Spalvų erdvė</translation>
+        <source>Date captured</source>
+        <translation>Fotografavimo data</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Blykstės kompensavimas</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Fotoaparato modelis</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Objektyvo modelis</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Fotografavimo data</translation>
+        <source>Colorspace</source>
+        <translation>Spalvų erdvė</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Fotoaparato modelis</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Matmenys</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Žymė</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Žiedas</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>Žinynas</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Išeiti</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Rodyti trumpinius</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Ištrinti</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Išeiti iš viso ekrano</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Didinti</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Mažinti</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Atverti</translation>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Mano mėgstami</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Ankstesnis</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Kitas</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>Dydis 1:1</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Talpinti į langą</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Pasukti prieš laikrodžio rodyklę</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Pasukti pagal laikrodžio rodyklę</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Ištrinti</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Atverti paveikslą</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Paveikslo failas nerastas</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Nustatymai</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin paveikslų žiūryklė yra šiuolaikinė ir glotni paveikslų tvarkytuvė.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Jos pagrindinės ypatybės yra paveikslų tvarkymas, paveikslų rodymas bei pagrindinės paveikslų redagavimo funkcijos.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Tamsi tema</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin paveikslų žiūryklė yra paveikslų peržiūros įrankis su šiuolaikine sąsaja ir glotniu našumu.</translation>
     </message>
 </context>
 <context>

@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin kuvien katseluohjelma</translation>
+        <source>Image Viewer</source>
+        <translation>Image Viewer</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Image Viewer on kuvien katseluohjelma ja muokkaustyökalu, jossa on moderni käyttöliittymä ja sujuva suorituskyky.</translation>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Kuvan tiedot</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Kuvan tiedot</translation>
+        <source>Basic info</source>
+        <translation>Perustiedot</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Tiedot</translation>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>Irrotettava laite on kytketty irti. Haluatko varmasti poistaa laitteen pikkukuvat?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Peru</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Poista</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Tiedoston koko</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Värikartta</translation>
+        <source>Date captured</source>
+        <translation>Kuvauspäivä</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Salamakompensointi</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Kameramalli</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Linssin malli</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Kuvauspäivä</translation>
+        <source>Colorspace</source>
+        <translation>Värikartta</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Kameramalli</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Mitat</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Tunniste</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Ympyrä</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>dd/MM/yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>Apua</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Poistu</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Näytä pikavalinnat</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Poista</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Poistu kokoruudusta</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Lähennä</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Loitonna</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Avaa</translation>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Suosikkini</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Edellinen</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Seuraava</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>Koko 1:1</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Sovita ikkunaan</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Kierrä vastapäivään</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Kierrä myötäpäivään</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Poista</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Avaa kuva</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Kuvatiedostoa ei löytynyt</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Asetukset</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin kuvien katseluohjelma on moderni kuvankäsittelyohjelma.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Se on varustettu kuvien järjestelyllä, kuvien katselulla sekä kuvien perusmuotoisella käsittelyllä.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Tumma teema</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin kuvien katseluohjelma on kuvien käsittelytyökalu, jossa on moderni käyttöliittymä ja sujuva suorituskyky.</translation>
     </message>
 </context>
 <context>

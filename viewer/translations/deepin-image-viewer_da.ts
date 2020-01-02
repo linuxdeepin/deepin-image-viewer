@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin billedfremviser</translation>
+        <source>Image Viewer</source>
+        <translation>Billedfremviser</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Billedfremviser er et værktøj til billedfremvisning med flot brugerflade og god ydelse.</translation>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Billedinfo</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Billedinfo</translation>
+        <source>Basic info</source>
+        <translation>Grundlæggende info</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Detaljer</translation>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>Den flytbare enhed er blevet fjernet. Er du sikker på, at du vil slette miniaturerene for den flytbare enhed?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuller</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Filstørrelse</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Farverum</translation>
+        <source>Date captured</source>
+        <translation>Optagelsesdato</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Blitzkompensering</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Kameramodel</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Linsemodel</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Optagelsesdato</translation>
+        <source>Colorspace</source>
+        <translation>Farverum</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Kameramodel</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Dimensioner</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Mærkat</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Cirkel</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>dd/MM/yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>Hjælp</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Afslut</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Vis genveje</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Slet</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Forlad fuldskærm</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Zoom ind</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Zoom ud</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Åbn</translation>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Min favorit</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Forrige</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Næste</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>1:1 størrelse</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Tilpas til vindue</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Rotér mod uret</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Rotér med uret</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Slet</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Åbn billede</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Billedfil ikke fundet</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Indstillinger</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin billedfremviser er en moderigtig og glat billedhåndtering.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Dens faciliteter er billedhåndtering, billedvisning og grundlæggende billedredigering.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Mørkt tema</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin billedfremviser er et billedfremviserværktøj med moderigtig brugerflade og glat ydelse.</translation>
     </message>
 </context>
 <context>

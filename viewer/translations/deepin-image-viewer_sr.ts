@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Дипин Прегледач Слика</translation>
+        <source>Image Viewer</source>
+        <translation>Прегледач Слика</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Прегледач Слика је алат за приказ слика са модерним сучељем и добрим перформансама.</translation>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Својства слике</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Својства слике</translation>
+        <source>Basic info</source>
+        <translation>Основни подаци</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Детаљи</translation>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>Уклоњиви уређај је ископчан. Заиста желите да обришете умањене приказе  са уклоњивог уређаја.</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Откажи</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Величина</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Опсег боја</translation>
+        <source>Date captured</source>
+        <translation>Датум снимања</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Компензација блица</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Модел апарата</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Модел сочива</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Датум снимања</translation>
+        <source>Colorspace</source>
+        <translation>Опсег боја</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Модел апарата</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Димензије</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Ознака</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Прстен</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>Помоћ</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Изађи</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Прикажи пречице</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Обриши</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Напусти цео екран</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Повећај</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Смањи</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Отвори</translation>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Омиљено</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Претходно</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Следеће</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>1:1 Размера</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Уклопи у прозор</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Ротирај улево</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Ротирај удесно</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Отвори слику</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Датотека слике није пронађена</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Подешавања</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Дипин Прегледач Слика је модеран &amp; префињен управник слика.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Омогућава управљање, прегледање и основно уређивање слика.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Тамна тема</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Дипин Прегледач Слика је алат за приказ слика са модерним сучељем и добрим перформансама.</translation>
     </message>
 </context>
 <context>

@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
+        <source>Image Viewer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Información de imagen</translation>
+        <source>Basic info</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Tamaño de archivo</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Espacio de color</translation>
+        <source>Date captured</source>
+        <translation>Fecha de la foto</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Compensación de destello</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Modelo de cámara</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Modelo de lente</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Fecha de la foto</translation>
+        <source>Colorspace</source>
+        <translation>Espacio de color</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Modelo de cámara</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Anillo</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>Ayuda</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Salir</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Mostrar atajos</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Borrar</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -797,6 +886,10 @@
     </message>
     <message>
         <source>Open Image</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Image file not found</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Configuraciones</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>El visor de imágenes deepin es un gestor de imágenes rápido y moderno.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Viene con características básicas  de gestión, visualización y edición de imágenes.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Tema Oscuro </translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>El visor de imágenes deepin es un gestor de imágenes rápido y moderno.</translation>
     </message>
 </context>
 <context>

@@ -60,7 +60,7 @@
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Recent geïmporteerd</translation>
+        <translation>Onlangs geïmporteerd</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin Afbeeldingen</translation>
+        <source>Image Viewer</source>
+        <translation>Afbeeldingen</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Afbeeldingen is een programma om afbeeldingen te tonen. Het heeft een stijlvol uiterlijk en vloeiende prestaties.</translation>
     </message>
 </context>
 <context>
@@ -162,7 +166,7 @@
     </message>
     <message>
         <source>Sync and Create</source>
-        <translation>Synchroniseren en creëren</translation>
+        <translation>Synchroniseren en maken</translation>
     </message>
     <message>
         <source>Sync</source>
@@ -170,14 +174,14 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Weet je zeker dat je een map wilt toevoegen aan de synchronisatielijst en een gelijknamig album wilt creëren?</translation>
+        <translation>Weet je zeker dat je deze map wilt toevoegen aan de synchronisatielijst en een gelijknamig album wilt samenstellen?</translation>
     </message>
 </context>
 <context>
     <name>Exporter</name>
     <message>
         <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
+        <translation>JPEG (*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
     </message>
     <message>
         <source>Exported successfully</source>
@@ -190,6 +194,13 @@
     <message>
         <source>Save</source>
         <translation>Opslaan</translation>
+    </message>
+</context>
+<context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Eigenschappen</translation>
     </message>
 </context>
 <context>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Afbeeldingsinformatie</translation>
+        <source>Basic info</source>
+        <translation>Bestandsinformatie</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Eigenschappen</translation>
     </message>
 </context>
 <context>
@@ -229,7 +244,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Volledig scherm</translation>
+        <translation>Beeldvullend</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -249,11 +264,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoriet</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -265,7 +280,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Instellen als bureaubladachtergrond</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -273,7 +288,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Afbeeldingsinformatie</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <source>Add</source>
@@ -307,7 +322,22 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Je bent niet gemachtigd om deze afbeeldingen te bekijken</translation>
+        <translation>Je bent niet gemachtigd om deze afbeelding te bekijken</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>Het verwijderbare apparaat is afgekoppeld. Weet je zeker dat je de miniatuurvoorbeelden wilt verwijderen van het apparaat?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuleren</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
@@ -333,8 +363,8 @@
         <translation>Bestandsgrootte</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Kleurruimte</translation>
+        <source>Date captured</source>
+        <translation>Gefotografeerd op</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Flitscompensatie</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Cameramodel</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Lensmodel</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Gefotografeerd op</translation>
+        <source>Colorspace</source>
+        <translation>Kleurruimte</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Cameramodel</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Afmetingen</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Label</translation>
     </message>
 </context>
 <context>
@@ -421,7 +459,7 @@
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inches</translation>
+        <translation>Inch</translation>
     </message>
     <message>
         <source>Image Position</source>
@@ -447,7 +485,7 @@
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Luxaflex</translation>
+        <translation>Rolgordijn</translation>
     </message>
     <message>
         <source>Switcher</source>
@@ -455,22 +493,26 @@
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Schuivend</translation>
+        <translation>Schuiven</translation>
     </message>
     <message>
         <source>Ring</source>
         <translation>Ring</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Selecteer map</translation>
+        <translation>Kies een map</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Deze map is uitgeschakeld bij het synchroniseren</translation>
+        <translation>Deze map wordt niet gesynchroniseerd</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -489,7 +531,7 @@
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Synchronisatie annuleren</translation>
+        <translation>Synchronisatie afbreken</translation>
     </message>
     <message>
         <source>Images</source>
@@ -497,7 +539,7 @@
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Het apparaat is losgekoppeld</translation>
+        <translation>Het apparaat is afgekoppeld</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
@@ -528,7 +570,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Volledig scherm</translation>
+        <translation>Beeldvullend</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -548,11 +590,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoriet</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -564,7 +606,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Instellen als bureaubladachtergrond</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -572,7 +614,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Afbeeldingsinformatie</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -603,10 +645,6 @@
         <translation>Hulp</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Sluiten</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Sneltoetsen tonen</translation>
     </message>
@@ -614,12 +652,28 @@
         <source>Delete</source>
         <translation>Verwijderen</translation>
     </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Beeldvullende modus afsluiten</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Inzoomen</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Uitzoomen</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Openen</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Voer een nieuwe sneltoets in</translation>
+        <translation>Druk op een nieuwe sneltoets</translation>
     </message>
 </context>
 <context>
@@ -649,7 +703,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Volledig scherm</translation>
+        <translation>Beeldvullend</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -673,11 +727,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoriet</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -689,7 +743,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Instellen als bureaubladachtergrond</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -697,7 +751,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Afbeeldingsinformatie</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <source>New album</source>
@@ -727,7 +781,7 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavoorstelling-instellingen</translation>
+        <translation>Diavoorstellingsinstellingen</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -744,6 +798,41 @@
     <message>
         <source>second</source>
         <translation>seconde</translation>
+    </message>
+</context>
+<context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Mijn favorieten</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Vorige</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Volgende</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>Grootte 1:1</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Aanpassen aan venster</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Naar links draaien</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Naar rechts draaien</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
@@ -778,11 +867,11 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoriet</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -793,11 +882,15 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Geen afbeeldingsbestanden gevonden</translation>
+        <translation>Geen afbeeldingen aangetroffen</translation>
     </message>
     <message>
         <source>Open Image</source>
         <translation>Afbeelding openen</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Afbeelding niet aangetroffen</translation>
     </message>
 </context>
 <context>
@@ -847,7 +940,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Volledig scherm</translation>
+        <translation>Beeldvullend</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -867,11 +960,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoriet</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -883,7 +976,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Instellen als bureaubladachtergrond</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -891,7 +984,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Afbeeldingsinformatie</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -902,7 +995,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavoorstelling-instellingen</translation>
+        <translation>Diavoorstellingsinstellingen</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -937,7 +1030,7 @@
     </message>
     <message>
         <source>Recent imported</source>
-        <translation>Recent geïmporteerd</translation>
+        <translation>Onlangs geïmporteerd</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Instellingen</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Afbeeldingen is een moderne en gepolijste afbeeldingenbeheerder.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Je kunt afbeeldingen bekijken en beheren en simpele bewerkingen toepassen.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Donker thema</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin Afbeeldingen is een moderne en gepolijste afbeeldingenbeheerder, met vloeiende prestaties.</translation>
     </message>
 </context>
 <context>
@@ -983,11 +1060,11 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Volledig scherm sluiten</translation>
+        <translation>Beeldvullende modus afsluiten</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Volledig scherm</translation>
+        <translation>Beeldvullend</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -1007,11 +1084,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoriet</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Geen favoriet</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -1031,7 +1108,7 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Instellen als bureaubladachtergrond</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -1039,7 +1116,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Afbeeldingsinformatie</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <source>Delete</source>

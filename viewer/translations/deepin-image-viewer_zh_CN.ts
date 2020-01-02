@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -137,16 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation type="vanished">深度看图</translation>
-    </message>
-    <message>
         <source>Image Viewer</source>
-        <translation>看图</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>看图是⼀款外观时尚，性能流畅的图⽚查看⼯具。</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -206,7 +200,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation>图片信息</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -227,24 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation type="vanished">图片信息</translation>
-    </message>
-    <message>
-        <source>Basic information</source>
-        <translation type="vanished">基本信息</translation>
-    </message>
-    <message>
-        <source>Detailed information</source>
-        <translation type="vanished">详细信息</translation>
-    </message>
-    <message>
         <source>Basic info</source>
-        <translation>基本信息</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Details</source>
-        <translation>详细信息</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -347,22 +329,22 @@
     <name>MainWindow</name>
     <message>
         <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation>移动设备已拔出，是否要删除该移动设备上的缩略图?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>图片名称</translation>
+        <translation>名称</translation>
     </message>
     <message>
         <source>Type</source>
@@ -370,19 +352,19 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改日期</translation>
+        <translation>修改时间</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation>图片尺寸</translation>
+        <translation>尺寸</translation>
     </message>
     <message>
         <source>File size</source>
         <translation>文件大小</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>颜色空间</translation>
+        <source>Date captured</source>
+        <translation>拍摄时间</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -429,24 +411,24 @@
         <translation>闪光灯补偿</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>相机型号</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>镜头型号</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>拍摄日期</translation>
+        <source>Colorspace</source>
+        <translation>颜色空间</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>相机型号</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation>图片尺寸</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Tag</source>
-        <translation>标记</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -518,12 +500,8 @@
         <translation>圆环</translation>
     </message>
     <message>
-        <source>yyyy/MM/dd HH:mm</source>
-        <translation type="vanished">yyyy年MM月dd日 HH:mm</translation>
-    </message>
-    <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy年MM月dd日 HH:mm:dd</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -667,10 +645,6 @@
         <translation>帮助</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation type="vanished">退出</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>显示快捷键</translation>
     </message>
@@ -680,19 +654,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>退出全屏</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>放大图片</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>缩小图片</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Open</source>
-        <translation>打开图片</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -830,35 +804,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation>我的收藏</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Previous</source>
-        <translation>上一张</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Next</source>
-        <translation>下一张</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 视图</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>适应窗口</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Delete</source>
-        <translation>删除</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -916,7 +890,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>没有发现图⽚⽂件</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1068,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>设置</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="vanished">深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="vanished">兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="vanished">深色主题</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="vanished">深度看图是一款外观时尚，性能流畅的图片查看工具。</translation>
     </message>
 </context>
 <context>

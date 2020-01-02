@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Visionneuse d&apos;images Deepin</translation>
+        <source>Image Viewer</source>
+        <translation>Visionneuse d&apos;images</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Image Viewer est un outil de visualisation d&apos;images avec une interface moderne et des performances accrue.</translation>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Informations sur l&apos;image</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Image infos</translation>
+        <source>Basic info</source>
+        <translation>Informations de base</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Détails</translation>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>Le périphérique amovible a été débranché, êtes-vous sûr de supprimer les vignettes du périphérique amovible ?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Taille du fichier</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Espace chromatique</translation>
+        <source>Date captured</source>
+        <translation>Date de capture</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Compensation du flash</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Modèle d&apos;appareil photo</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Modèle de lentille</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Date de capture</translation>
+        <source>Colorspace</source>
+        <translation>Espace chromatique</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Modèle d&apos;appareil photo</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Dimensions</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Étiquette</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Cercle</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -603,10 +645,6 @@
         <translation>Aide</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Quitter</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Afficher les raccourcis</translation>
     </message>
@@ -614,12 +652,28 @@
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Quitter le mode plein écran</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Agrandir</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Réduire</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Ouvrir</translation>
+    </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Créez un nouveau raccourci</translation>
+        <translation>Créer un nouveau raccourci</translation>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Mon favori</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Précédent </translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Suivant</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>Taille 1:1</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Ajuster à la fenêtre</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Rotation dans le sens antihoraire</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Rotation dans le sens horaire</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Supprimer</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Ouvrir une image</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Fichier image introuvable</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Paramètres </translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Image Viewer est un gestionnaire d&apos;images souple et moderne.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Il permet la gestion, la visualisation et l&apos;édition d&apos;images.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Thème sombre</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin Image Viewer est un outil de visionnage d&apos;images avec une interface simple et des performances accrue.</translation>
     </message>
 </context>
 <context>

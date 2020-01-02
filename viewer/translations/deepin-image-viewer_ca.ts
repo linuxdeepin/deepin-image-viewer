@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Visualitzador d&apos;imatges del Deepin</translation>
+        <source>Image Viewer</source>
+        <translation>Visor d&apos;imatges</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>El Visor d&apos;imatges és una eina de visualització d&apos;imatges amb una interfície moderna i un rendiment eficient.</translation>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Informació de la imatge</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Informació de la imatge</translation>
+        <source>Basic info</source>
+        <translation>Informació bàsica</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Detalls</translation>
     </message>
 </context>
 <context>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>El dispositiu extraïble s&apos;ha desconnectat, voleu suprimir les miniatures del dispositiu extraïble?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancel·la</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Suprimeix</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Mida del fitxer</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Espai de color</translation>
+        <source>Date captured</source>
+        <translation>Data de captura</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Compensació del flaix</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Model de la càmera</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Model de la lent</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Data de captura</translation>
+        <source>Colorspace</source>
+        <translation>Espai de color</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Model de la càmera</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Dimensions</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Etiqueta</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Anell</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>dd/MM/yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>Ajuda</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Surt</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Mostra les dreceres</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Elimina</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Surt de la pantalla completa</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Amplia</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Allunya</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Obre</translation>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Favorit</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Següent</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>Mida 1:1</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Ajusta a la finestra</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Gira a l&apos;esquerra</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Gira a la dreta</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Obre la imatge</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Configuració</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>El Visualitzador d&apos;imatges del Deepin és un gestor d&apos;imatges modern i fàcil d&apos;usar.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Té les funcions de gestió, visualització i edició bàsica d&apos;imatges.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Tema fosc</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>El Visualitzador d&apos;imatges del Deepin és una eina de visualitzador d&apos;imatges amb una interfície moderna i un rendiment eficient.</translation>
     </message>
 </context>
 <context>

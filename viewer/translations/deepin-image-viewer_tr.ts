@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Deepin Görsel Görüntüleyici</translation>
+        <translation>Deepin Resim Görüntüleyici</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
         <source>Unnamed</source>
-        <translation>Adsız</translation>
+        <translation>İsimsiz</translation>
     </message>
 </context>
 <context>
@@ -109,7 +109,7 @@
     <name>AlbumsView</name>
     <message>
         <source>Unnamed</source>
-        <translation>Adsız</translation>
+        <translation>İsimsiz</translation>
     </message>
     <message>
         <source>View</source>
@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin Görsel Görüntüleyici</translation>
+        <source>Image Viewer</source>
+        <translation>Resim Görüntüleyici</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>Resim Görüntüleyici, şık arayüz ve pürüzsüz performansa sahip bir resim görüntüleme aracıdır.</translation>
     </message>
 </context>
 <context>
@@ -193,6 +197,13 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Görsel bilgisi</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Görsel bilgisi</translation>
+        <source>Basic info</source>
+        <translation>Temel bilgi</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Ayrıntılar</translation>
     </message>
 </context>
 <context>
@@ -229,7 +244,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tam Ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -311,6 +326,21 @@
     </message>
 </context>
 <context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>Çıkarılabilir aygıt takılı değil, çıkarılabilir aygıtın küçük resimlerini silmek istediğinizden emin misiniz?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>İptal</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
+</context>
+<context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
@@ -333,8 +363,8 @@
         <translation>Dosya boyutu</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Renk aralığı</translation>
+        <source>Date captured</source>
+        <translation>Çekilme tarihi</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Flaş dengelemesi</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Kamera modeli</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Lens modeli</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Çekilme tarihi</translation>
+        <source>Colorspace</source>
+        <translation>Renk aralığı</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Kamera modeli</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Boyutlar</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Etiket</translation>
     </message>
 </context>
 <context>
@@ -460,6 +498,10 @@
     <message>
         <source>Ring</source>
         <translation>Halka</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -603,16 +645,28 @@
         <translation>Yardım</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Çıkış</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Kısayolları görüntüle</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Sil</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Tam ekrandan çık</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Yakınlaştır</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Uzaklaştır</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Aç</translation>
     </message>
 </context>
 <context>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Sık kullandıklarım</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Önceki</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Sonraki</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>1:1 Boyut</translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Pencereye sığdır</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Saat yönünün tersine döndür</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Saat yönünde döndür</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Sil</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Görüntü Aç</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Görsel dosya bulunamadı</translation>
     </message>
 </context>
 <context>
@@ -949,22 +1042,6 @@
     <message>
         <source>Settings</source>
         <translation>Ayarlar</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Deepin Görsel Görüntüleyici, modern ve sade görsel yöneticisi.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Görsel yönetimi, görsel görüntüleme ve basit görsel düzenleme özelliklerini sunar.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Koyu tema</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin Görsel Görüntüleyici, modern bir arayüz ve akıcı bir başarım sunan bir görüntü izleme aracıdır.</translation>
     </message>
 </context>
 <context>

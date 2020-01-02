@@ -3,7 +3,7 @@
     <name>AboutDialog</name>
     <message>
         <source>Deepin Image Viewer</source>
-        <translation>Visualizador de Imagens</translation>
+        <translation>Deepin Imagem</translation>
     </message>
     <message>
         <source>Version:</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>New album</source>
@@ -60,18 +60,18 @@
     <name>AlbumDelegate</name>
     <message>
         <source>Recent imported</source>
-        <translation>Importadas recentemente </translation>
+        <translation>Importadas recentemente</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Meus favoritos</translation>
+        <translation>Favoritos</translation>
     </message>
 </context>
 <context>
     <name>AlbumDeleteDialog</name>
     <message>
         <source>Are your sure to delete this album?</source>
-        <translation>Deseja excluir este álbum? </translation>
+        <translation>Excluir este álbum? </translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -90,7 +90,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Meus favoritos</translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <source>Timeline</source>
@@ -135,8 +135,12 @@
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Visualizador de Imagens </translation>
+        <source>Image Viewer</source>
+        <translation>Imagem</translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation>O Imagem é uma ferramenta de visualização de imagens com interface fashion e desempenho suave.</translation>
     </message>
 </context>
 <context>
@@ -154,11 +158,11 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Are you sure to add the pictures to the album?</source>
-        <translation>Deseja adicionar as imagens ao álbum?</translation>
+        <translation>Adicionar as imagens ao álbum?</translation>
     </message>
     <message>
         <source>Sync and Create</source>
@@ -170,7 +174,7 @@
     </message>
     <message>
         <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Deseja adicionar essa pasta à lista de sincronização e criar um álbum com este nome?</translation>
+        <translation>Adicionar essa pasta à lista de sincronização e criar um álbum com este nome?</translation>
     </message>
 </context>
 <context>
@@ -193,10 +197,17 @@
     </message>
 </context>
 <context>
+    <name>ExtensionPanel</name>
+    <message>
+        <source>Image info</source>
+        <translation>Informação da Imagem</translation>
+    </message>
+</context>
+<context>
     <name>FileDeleteDialog</name>
     <message>
         <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Deseja enviar as imagens para a lixeira?</translation>
+        <translation>Enviar as imagens para a lixeira?</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -210,8 +221,12 @@
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Informações</translation>
+        <source>Basic info</source>
+        <translation>Informação Básica</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Detalhes</translation>
     </message>
 </context>
 <context>
@@ -257,11 +272,11 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotacionar no sentido horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotacionar no sentido anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -269,7 +284,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Exibir no gerenciador de arquivos</translation>
+        <translation>Exibir no Arquivo</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -300,7 +315,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir diretório</translation>
+        <translation>Abrir Diretório</translation>
     </message>
 </context>
 <context>
@@ -308,6 +323,21 @@
     <message>
         <source>You have no permission to view the image</source>
         <translation>Você não tem permissão para visualizar essa imagem</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
+        <translation>O dispositivo removível foi desconectado. Deseja excluir as miniaturas do dispositivo removível?</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
     </message>
 </context>
 <context>
@@ -333,8 +363,8 @@
         <translation>Tamanho do arquivo</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Espaço de cor</translation>
+        <source>Date captured</source>
+        <translation>Data da Captura</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -381,16 +411,24 @@
         <translation>Compensação de flash</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Modelo da câmera</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Modelo da lente</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>Data capturada</translation>
+        <source>Colorspace</source>
+        <translation>Espaço de cor</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Modelo da câmera</translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation>Dimensões</translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation>Etiqueta</translation>
     </message>
 </context>
 <context>
@@ -461,6 +499,10 @@
         <source>Ring</source>
         <translation>Circulo</translation>
     </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>dd/MM/yyyy HH:mm:dd</translation>
+    </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
@@ -512,7 +554,7 @@
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Visualizando imagem</translation>
+        <translation>Visualizando Imagem</translation>
     </message>
     <message>
         <source>Album</source>
@@ -603,16 +645,28 @@
         <translation>Ajuda</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Sair</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Exibir atalhos</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Excluir</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation>Sair da Tela Cheia</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation>Aumentar Zoom</translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation>Reduzir Zoom</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Abrir</translation>
     </message>
 </context>
 <context>
@@ -630,7 +684,7 @@
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Visualizar imagem</translation>
+        <translation>Visualizar Imagem</translation>
     </message>
     <message>
         <source>Album</source>
@@ -747,6 +801,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation>Favoritos</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Próximo</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation>Tamanho 1:1 </translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation>Ajustar na Janela</translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation>Girar no Sentido Anti-horário</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation>Girar no Sentido Horário</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Excluir</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -798,6 +887,10 @@
     <message>
         <source>Open Image</source>
         <translation>Abrir Imagem</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation>Arquivo de Imagem não encontrado</translation>
     </message>
 </context>
 <context>
@@ -950,22 +1043,6 @@
         <source>Settings</source>
         <translation>Configurações</translation>
     </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>Visualizador de Imagens é um gerenciador de imagens moderno e sutil.</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>Seus recursos incluem gerenciamento, visualização e edição básica de imagens.</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Tema Escuro</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>O Deepin Image Viewer é uma ferramenta de visualização de imagens com interface fashion e ótimo desempenho.</translation>
-    </message>
 </context>
 <context>
     <name>ViewPanel</name>
@@ -1051,7 +1128,7 @@
     </message>
     <message>
         <source>All images</source>
-        <translation>Todas as imagens</translation>
+        <translation>Todas as Imagens</translation>
     </message>
 </context>
 </TS>
