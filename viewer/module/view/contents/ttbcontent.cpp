@@ -718,9 +718,9 @@ void TTBContent::setAdaptButtonChecked(bool flag)
 //    if (btAdapt->isChecked() != flag) {
 //        btAdapt->setChecked(flag);
 //    }
-    if (m_adaptImageBtn->isChecked() != flag) {
-        m_adaptImageBtn->setChecked(flag);
-    }
+//    if (m_adaptImageBtn->isChecked() != flag) {
+//        m_adaptImageBtn->setChecked(flag);
+//    }
 }
 void TTBContent::slotTheme(bool theme)
 {
