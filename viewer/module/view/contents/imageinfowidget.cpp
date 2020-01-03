@@ -146,13 +146,6 @@ protected:
 
 #include "imageinfowidget.moc"
 
-/**
- ***************************WARNING********************************
- * this is method is a wrong way to implement this property dialog;
- * TODO:: make class Inherits DDialog
- *        then set property infomations to display.
- */
-
 ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightStyle,
                                  QWidget *parent)
     : QFrame(parent)
@@ -309,25 +302,12 @@ void ImageInfoWidget::setImagePath(const QString &path)
 
 void ImageInfoWidget::resizeEvent(QResizeEvent *e)
 {
-    //    QScrollArea::resizeEvent(e);
-    //    killTimer(m_updateTid);
-    //    m_updateTid = startTimer(500);
-
     DWidget::resizeEvent(e);
 }
 
 void ImageInfoWidget::timerEvent(QTimerEvent *e)
 {
-    //    if (e->timerId() != m_updateTid)
-    //        return;
-
-    //    updateInfo();
-    //    killTimer(m_updateTid);
-    //    m_updateTid = 0;
-
     QWidget::timerEvent(e);
-
-    //    QScrollArea::timerEvent(e);
 }
 
 void ImageInfoWidget::clearLayout(QLayout *layout)
@@ -383,6 +363,8 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         QString value = infos.value(i->key);
         if (value.isEmpty())
             continue;
+        if ((i->key == "DateTimeOriginal"  || i->key == "DateTimeDigitized") && value.left(1) == QString("0"))
+            continue;
 
         m_isBaseInfo = true;
 
@@ -404,6 +386,10 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
+
+        QFontMetrics fm(title->font());
+        QStringList list = title->text().split("\n");
+        title->setFixedHeight(fm.height() * list.size());
 
         m_exifLayout_base->addRow(title, field);
     }

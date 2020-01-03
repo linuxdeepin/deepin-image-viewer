@@ -19,17 +19,20 @@
 
 #include <QLabel>
 
-class SimpleFormLabel : public QLabel {
+class SimpleFormLabel : public QLabel
+{
     Q_OBJECT
 public:
-    explicit SimpleFormLabel(const QString &t, QWidget *parent = 0);
+    explicit SimpleFormLabel(const QString &t, QWidget *parent = nullptr);
+    void resizeEvent(QResizeEvent *event);
 };
 
-class SimpleFormField : public QLabel {
+class SimpleFormField : public QLabel
+{
     Q_OBJECT
 public:
-    explicit SimpleFormField(QWidget *parent = 0);
+    explicit SimpleFormField(QWidget *parent = nullptr);
 protected:
-    void resizeEvent(QResizeEvent* event);
+    void resizeEvent(QResizeEvent *event);
 };
 #endif // FORMLABEL_H
