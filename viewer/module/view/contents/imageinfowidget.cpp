@@ -372,7 +372,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
-        pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
+        pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
@@ -383,7 +383,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
+        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
 
@@ -412,7 +412,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
-        pa1.setBrush(DPalette::Text, pa1.color(DPalette::TextTitle));
+        pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
@@ -422,7 +422,7 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
-        pa2.setBrush(DPalette::Text, pa2.color(DPalette::TextTitle));
+        pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
 
