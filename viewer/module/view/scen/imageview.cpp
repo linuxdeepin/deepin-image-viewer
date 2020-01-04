@@ -292,18 +292,25 @@ void ImageView::setImage(const QString &path)
     }
 
     // The suffix of svf file should be svg
-    if (QFileInfo(path).suffix() == "svg" && DSvgRenderer().load(path)) {
+    if (QFileInfo(path).suffix().toLower() == "svg" && DSvgRenderer().load(path)) {
         m_movieItem = nullptr;
         m_pixmapItem = nullptr;
         s->clear();
         resetTransform();
-        m_svgItem = new QGraphicsSvgItem(path);
-        m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
-        m_svgItem->setCacheMode(QGraphicsItem::NoCache);
-        m_svgItem->setZValue(0);
+
+        DSvgRenderer *svgRenderer = new DSvgRenderer;
+        svgRenderer->load(path);
+        m_imgSvgItem = new ImageSvgItem();
+        m_imgSvgItem->setSharedRenderer(svgRenderer);
+//        m_svgItem = new QGraphicsSvgItem(path);
+//        m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
+//        m_svgItem->setCacheMode(QGraphicsItem::NoCache);
+//        m_svgItem->setZValue(0);
         // Make sure item show in center of view after reload
-        setSceneRect(m_svgItem->boundingRect());
-        s->addItem(m_svgItem);
+//        setSceneRect(m_svgItem->boundingRect());
+//        s->addItem(m_svgItem);
+        setSceneRect(m_imgSvgItem->boundingRect());
+        s->addItem(m_imgSvgItem);
         emit imageChanged(path);
     } else {
         m_svgItem = nullptr;
