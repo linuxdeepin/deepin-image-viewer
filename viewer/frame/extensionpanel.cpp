@@ -213,4 +213,13 @@ void ExtensionPanel::init()
     m_mainLayout->setContentsMargins(QMargins(0, 0, 0, 0));
 
     this->setLayout(m_mainLayout);
+
+    m_scImageInfo = new QShortcut(this);
+    m_scImageInfo->setKey(tr("Alt+Return"));
+    m_scImageInfo->setContext(Qt::ApplicationShortcut);
+    m_scImageInfo->setAutoRepeat(false);
+
+    connect(m_scImageInfo, &QShortcut::activated, this, [this] {
+        emit dApp->signalM->hideExtensionPanel();
+    });
 }

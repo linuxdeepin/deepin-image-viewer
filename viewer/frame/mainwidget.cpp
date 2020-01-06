@@ -519,6 +519,10 @@ void MainWidget::initExtensionPanel()
             }
         }
     });
+#else
+    connect(dApp->signalM, &SignalManager::hideExtensionPanel, this, [ = ](bool immediately) {
+        m_extensionPanel->hide();
+    });
 #endif
 }
 

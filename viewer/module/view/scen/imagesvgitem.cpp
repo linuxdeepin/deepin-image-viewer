@@ -198,7 +198,7 @@ void ImageSvgItem::setSharedRenderer(DSvgRenderer *renderer)
 
     d->updateDefaultSize();
 
-//    update();
+    update();
 }
 
 void ImageSvgItem::setCachingEnabled(bool caching)

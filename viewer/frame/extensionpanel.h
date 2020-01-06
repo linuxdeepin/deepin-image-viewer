@@ -24,6 +24,7 @@
 #include <QPropertyAnimation>
 #include <QScrollArea>
 #include <DTitlebar>
+#include <QShortcut>
 
 #include "controller/viewerthememanager.h"
 #include "widgets/blureframe.h"
@@ -58,6 +59,8 @@ private:
     QScrollArea *m_scrollArea {nullptr};
 
     Dtk::Widget::DTitlebar *m_titleBar {nullptr};
+
+    QShortcut *m_scFontInfo{nullptr};
 };
 
 #endif  // EXTENSIONPANEL_H
