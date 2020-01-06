@@ -60,7 +60,7 @@ private:
 
     Dtk::Widget::DTitlebar *m_titleBar {nullptr};
 
-    QShortcut *m_scFontInfo{nullptr};
+    QShortcut *m_scImageInfo{nullptr};
 };
 
 #endif  // EXTENSIONPANEL_H
