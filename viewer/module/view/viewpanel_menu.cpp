@@ -72,36 +72,38 @@ enum MenuItemId {
 void ViewPanel::initPopupMenu()
 {
     m_menu = new DMenu;
-    connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
+    connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
         if (! m_infos.isEmpty()
-        #ifdef LITE_DIV
+#ifdef LITE_DIV
                 && !m_infos.at(m_current).filePath.isEmpty()
-        #endif
-                ) {
+#endif
+           )
+        {
             updateMenuContent();
             dApp->setOverrideCursor(Qt::ArrowCursor);
             m_menu->popup(QCursor::pos());
         }
     });
-    connect(m_menu, &DMenu::aboutToHide, this, [=] {
+    connect(m_menu, &DMenu::aboutToHide, this, [ = ] {
         dApp->restoreOverrideCursor();
     });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
-    connect(dApp->setter, &ConfigSetter::valueChanged, this, [=] {
-        if (this && this->isVisible()) {
+    connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
+        if (this && this->isVisible())
+        {
             updateMenuContent();
         }
     });
-    QShortcut* sc = new QShortcut(QKeySequence("Alt+Enter"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
-        if (m_isInfoShowed)
-            emit dApp->signalM->hideExtensionPanel();
-        else
-            emit dApp->signalM->showExtensionPanel();
-        // Update panel info
-        m_info->setImagePath(m_infos.at(m_current).filePath);
-    });
+//    QShortcut *sc = new QShortcut(QKeySequence("Alt+Enter"), this);
+//    sc->setContext(Qt::WidgetWithChildrenShortcut);
+//    connect(sc, &QShortcut::activated, this, [ = ] {
+//        if (m_isInfoShowed)
+//            emit dApp->signalM->hideExtensionPanel();
+//        else
+//            emit dApp->signalM->showExtensionPanel();
+//        // Update panel info
+//        m_info->setImagePath(m_infos.at(m_current).filePath);
+//    });
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
@@ -151,7 +153,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     using namespace utils::base;
     using namespace utils::image;
 
-    if(m_infos.isEmpty())
+    if (m_infos.isEmpty())
         return;
     const QString path = m_infos.at(m_current).filePath;
     const int id = action->property("MenuID").toInt();
@@ -229,12 +231,13 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         emit dApp->signalM->showInFileManager(path);
         break;
     case IdImageInfo:
-        if (m_isInfoShowed)
+        if (m_isInfoShowed) {
             emit dApp->signalM->hideExtensionPanel();
-        else
+        } else {
             emit dApp->signalM->showExtensionPanel();
-        // Update panel info
-        m_info->setImagePath(path);
+            // Update panel info
+            m_info->setImagePath(path);
+        }
         break;
     default:
         break;
@@ -254,8 +257,7 @@ void ViewPanel::updateMenuContent()
 
     if (window()->isFullScreen()) {
         appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
-    }
-    else {
+    } else {
         appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
     }
 #ifndef LITE_DIV
@@ -288,7 +290,7 @@ void ViewPanel::updateMenuContent()
     if (m_vinfo.inDatabase) {
         if (m_current != m_infos.constEnd() &&
                 ! DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM_NAME,
-                                               m_current->filePath)) {
+                                                           m_current->filePath)) {
             appendAction(IdAddToFavorites,
                          tr("Favorite"), ss("Favorite"));
         } else {
@@ -303,8 +305,7 @@ void ViewPanel::updateMenuContent()
     if (! m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
         appendAction(IdShowNavigationWindow,
                      tr("Show navigation window"), ss("Show navigation window", ""));
-    }
-    else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+    } else if (! m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
         appendAction(IdHideNavigationWindow,
                      tr("Hide navigation window"), ss("Hide navigation window", ""));
     }
@@ -342,8 +343,9 @@ void ViewPanel::initShortcut()
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
-        if (! dt->isActive()) {
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        if (! dt->isActive())
+        {
             dt->start();
             showPrevious();
         }
@@ -351,8 +353,9 @@ void ViewPanel::initShortcut()
     // Next
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
-        if (! dt->isActive()) {
+    connect(sc, &QShortcut::activated, this, [ = ] {
+        if (! dt->isActive())
+        {
             dt->start();
             showNext();
         }
@@ -361,44 +364,44 @@ void ViewPanel::initShortcut()
     // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
+    connect(sc, &QShortcut::activated, this, [ = ] {
         qDebug() << "Qt::Key_Up:";
         m_viewB->setScaleValue(1.1);
     });
     sc = new QShortcut(QKeySequence("Ctrl++"), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
+    connect(sc, &QShortcut::activated, this, [ = ] {
         m_viewB->setScaleValue(1.1);
     });
     sc = new QShortcut(QKeySequence("Ctrl+="), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
+    connect(sc, &QShortcut::activated, this, [ = ] {
         m_viewB->setScaleValue(1.1);
     });
     // Zoom in
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
+    connect(sc, &QShortcut::activated, this, [ = ] {
         qDebug() << "Qt::Key_Down:";
         m_viewB->setScaleValue(0.9);
     });
     sc = new QShortcut(QKeySequence("Ctrl+-"), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] {
+    connect(sc, &QShortcut::activated, this, [ = ] {
         m_viewB->setScaleValue(0.9);
     });
     // Esc
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);
-    connect(esc, &QShortcut::activated, this, [=] {
-        if (window()->isFullScreen()) {
+    connect(esc, &QShortcut::activated, this, [ = ] {
+        if (window()->isFullScreen())
+        {
             toggleFullScreen();
-        }
-        else {
+        } else
+        {
             if (m_vinfo.inDatabase) {
                 backToLastPanel();
-            }
-            else {
+            } else {
                 dApp->quit();
             }
         }
@@ -407,12 +410,13 @@ void ViewPanel::initShortcut()
     //1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
     adaptImage->setContext(Qt::WindowShortcut);
-    connect(adaptImage, &QShortcut::activated, this, [=]{
+    connect(adaptImage, &QShortcut::activated, this, [ = ] {
         m_viewB->fitImage();
     });
 }
 
-void ViewPanel::popupDelDialog(const QString path) {
+void ViewPanel::popupDelDialog(const QString path)
+{
 #ifndef LITE_DIV
     const QStringList paths(path);
     FileDeleteDialog *fdd = new FileDeleteDialog(paths);
