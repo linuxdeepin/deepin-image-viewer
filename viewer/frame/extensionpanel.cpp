@@ -222,4 +222,10 @@ void ExtensionPanel::init()
     connect(m_scImageInfo, &QShortcut::activated, this, [this] {
         emit dApp->signalM->hideExtensionPanel();
     });
+    // Esc
+    m_scEsc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    m_scEsc->setContext(Qt::WindowShortcut);
+    connect(m_scEsc, &QShortcut::activated, this, [ = ] {
+        emit dApp->signalM->hideExtensionPanel(true);
+    });
 }
