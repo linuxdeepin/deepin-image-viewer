@@ -279,7 +279,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
     bg1.addRoundedRect(pixmapRect, 4, 4);
     painter.setClipPath(bg1);
 
-    painter.drawPixmap(pixmapRect, blankPix);
+//    painter.drawPixmap(pixmapRect, blankPix);
     painter.drawPixmap(pixmapRect, _pixmap);
 
     painter.save();
