@@ -190,7 +190,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setMargin(0);
-    m_mainLayout->setSpacing(10);
+    m_mainLayout->setSpacing(0);
 
 //    m_scrollArea = new QScrollArea();
 //    QPalette palette = m_scrollArea->viewport()->palette();
@@ -436,7 +436,8 @@ QList<DDrawer *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
     QList<DDrawer *> group;
 
     for (const QString &title : titleList) {
-        DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;  // DArrowLineExpand;
+//        DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;  // DArrowLineExpand;
+        DArrowLineDrawer *expand = new DArrowLineDrawer;//DArrowLineExpand;
         expand->setTitle(title);
         initExpand(layout, expand);
         group.push_back(expand);
