@@ -190,7 +190,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
     m_mainLayout->setMargin(0);
-    m_mainLayout->setSpacing(0);
+    m_mainLayout->setSpacing(10);
 
 //    m_scrollArea = new QScrollArea();
 //    QPalette palette = m_scrollArea->viewport()->palette();
@@ -461,7 +461,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
         rc.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
         setGeometry(rc);
 
-        emit dApp->signalM->extensionPanelHeight(contentHeight() + ArrowLineExpand_SPACING + 5);
+        emit dApp->signalM->extensionPanelHeight(contentHeight() /*+ ArrowLineExpand_SPACING*/);
     });
 }
 
@@ -483,6 +483,8 @@ int ImageInfoWidget::contentHeight() const
     for (const DDrawer *expand : m_expandGroup) {
         expandsHeight += expand->height();
     }
+    if (m_expandGroup.size() == 2)
+        expandsHeight += 10;
 
     return (DIALOG_TITLEBAR_HEIGHT + expandsHeight + contentsMargins().top() +
             contentsMargins().bottom());

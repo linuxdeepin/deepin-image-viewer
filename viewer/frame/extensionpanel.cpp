@@ -88,7 +88,7 @@ void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
     [ = ](int height) {
-        setFixedHeight(qMin(540, height));//tmp for imageinfo
+        setFixedHeight(qMin(540, height)); //tmp for imageinfo
     });
 
     if (m_content) {
@@ -199,18 +199,17 @@ void ExtensionPanel::init()
 
     QWidget *scrollContentWidget = new QWidget(m_scrollArea);
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
-    scrollWidgetLayout->setContentsMargins(10, 0, 10, 10);
+    scrollWidgetLayout->setContentsMargins(10, 10, 10, 0);
     scrollWidgetLayout->setSpacing(0);
     scrollContentWidget->setLayout(scrollWidgetLayout);
     m_scrollArea->setWidget(scrollContentWidget);
     m_scrollArea->setWidgetResizable(true);
     m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
 
+    m_mainLayout->setSpacing(0);
+    m_mainLayout->setContentsMargins(QMargins(0, 0, 0, 0));
     m_mainLayout->addWidget(m_titleBar);
     m_mainLayout->addWidget(m_scrollArea);
-
-    m_mainLayout->setSpacing(10);
-    m_mainLayout->setContentsMargins(QMargins(0, 0, 0, 0));
 
     this->setLayout(m_mainLayout);
 
