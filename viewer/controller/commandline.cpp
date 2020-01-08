@@ -119,19 +119,19 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->enableMainMenu(false);
 
-    QTimer::singleShot(300, this, [ = ] {
+//    QTimer::singleShot(300, this, [ = ] {
 
-        SignalManager::ViewInfo info;
-        info.album = "";
+    SignalManager::ViewInfo info;
+    info.album = "";
 #ifndef LITE_DIV
-        info.inDatabase = false;
+    info.inDatabase = false;
 #endif
-        info.lastPanel = nullptr;
-        info.path = path;
-        info.paths = paths;
+    info.lastPanel = nullptr;
+    info.path = path;
+    info.paths = paths;
 
-        emit dApp->signalM->viewImage(info);
-    });
+    emit dApp->signalM->viewImage(info);
+//    });
 }
 
 bool CommandLine::processOption()
