@@ -655,8 +655,7 @@ void ViewPanel::dropEvent(QDropEvent *event)
     if (urls.isEmpty()) {
         return;
     }
-    emit dApp->signalM->enterView(true);
-    qDebug() << "emit dApp->signalM->enterView(true)..................dropEvent";
+
     using namespace utils::image;
     QStringList paths;
     for (QUrl url : urls) {
@@ -674,6 +673,9 @@ void ViewPanel::dropEvent(QDropEvent *event)
     }
 
     if (! paths.isEmpty()) {
+        emit dApp->signalM->enterView(true);
+        qDebug() << "emit dApp->signalM->enterView(true)..................dropEvent";
+
 #ifdef LITE_DIV
         SignalManager::ViewInfo vinfo;
 
