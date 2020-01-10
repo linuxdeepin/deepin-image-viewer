@@ -258,8 +258,8 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->hideExtensionPanel();
             emit dApp->signalM->picNotExists(false);
             emit dApp->signalM->hideBottomToolbar(true);
-            emit dApp->signalM->enterView(false);
-            qDebug() << "emit dApp->signalM->enterView(false)..................picClear";
+            emit dApp->signalM->enterView(true);
+            qDebug() << "emit dApp->signalM->enterView(true)..................picClear";
             emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
             m_stack->setCurrentIndex(1);
         }
@@ -645,6 +645,9 @@ void ViewPanel::timerEvent(QTimerEvent *e)
 
 void ViewPanel::wheelEvent(QWheelEvent *e)
 {
+    if (m_infos.size() == 0) {
+        return ;
+    }
     if (m_viewB && !m_viewB->path().isEmpty())
         qApp->sendEvent(m_viewB->viewport(), e);
 }

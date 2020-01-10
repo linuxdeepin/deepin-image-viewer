@@ -146,7 +146,7 @@ private:
     ImageInfoWidget *m_info {nullptr};
     ThumbnailWidget *m_emptyWidget = nullptr;
     DMenu *m_menu;
-    QStackedWidget *m_stack;
+    QStackedWidget *m_stack {nullptr};
     LockWidget *m_lockWidget;
 
     // Floating component

@@ -922,6 +922,8 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             return;
         emit dApp->signalM->picNotExists(true);
         qDebug() << "QFileInfo(path) is not exists.Path:" << path;
+    } else {
+        emit dApp->signalM->picNotExists(false);
     }
 
     if (infos.size() != m_imgInfos.size()) {
@@ -1205,6 +1207,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 labelList.at(t)->setFixedSize(QSize(58, 58));
                 labelList.at(t)->resize(QSize(58, 58));
             }
+
+            // fixed: add this code. when picture count less than 3. thumbnail cannot rotate.
+            labelList.at(t)->updatePic(dApp->m_imagemap.value(path));
 
             m_imgListView->show();
             m_imgList->show();
