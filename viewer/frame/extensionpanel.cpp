@@ -88,6 +88,7 @@ void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
     [ = ](int height) {
+        qDebug() << height << "&&&&&&&";
         setFixedHeight(qMin(540, height)); //tmp for imageinfo
     });
 
@@ -191,7 +192,8 @@ void ExtensionPanel::init()
     m_titleBar->setTitle(this->windowTitle());
     QObject::connect(this, &ExtensionPanel::windowTitleChanged, m_titleBar, &DTitlebar::setTitle);
 
-    m_scrollArea = new QScrollArea(this);
+    m_scrollArea = new QScrollArea;
+    m_scrollArea->setMinimumHeight(40);
     QPalette palette = m_scrollArea->viewport()->palette();
     palette.setBrush(QPalette::Background, Qt::NoBrush);
     m_scrollArea->viewport()->setPalette(palette);
@@ -199,14 +201,14 @@ void ExtensionPanel::init()
 
     QWidget *scrollContentWidget = new QWidget(m_scrollArea);
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
-    scrollWidgetLayout->setContentsMargins(10, 10, 10, 0);
+    scrollWidgetLayout->setContentsMargins(10, 0, 10, 10);
     scrollWidgetLayout->setSpacing(0);
     scrollContentWidget->setLayout(scrollWidgetLayout);
     m_scrollArea->setWidget(scrollContentWidget);
     m_scrollArea->setWidgetResizable(true);
     m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
 
-    m_mainLayout->setSpacing(0);
+    m_mainLayout->setSpacing(10);
     m_mainLayout->setContentsMargins(QMargins(0, 0, 0, 0));
     m_mainLayout->addWidget(m_titleBar);
     m_mainLayout->addWidget(m_scrollArea);
