@@ -88,7 +88,6 @@ void ExtensionPanel::updateRectWithContent()
 {
     connect(dApp->signalM, &SignalManager::extensionPanelHeight, this,
     [ = ](int height) {
-        qDebug() << height << "&&&&&&&";
         setFixedHeight(qMin(540, height)); //tmp for imageinfo
     });
 
