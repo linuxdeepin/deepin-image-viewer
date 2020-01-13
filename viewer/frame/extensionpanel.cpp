@@ -98,7 +98,7 @@ void ExtensionPanel::updateRectWithContent()
 
 void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
 {
-    Q_UNUSED(e);
+//    Q_UNUSED(e);
     DAbstractDialog::mouseMoveEvent(e);
 }
 
