@@ -240,7 +240,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
     } else {
         pixmapRect.setX(backgroundRect.x() + 1);
         pixmapRect.setY(backgroundRect.y() + 0);
-        pixmapRect.setWidth(backgroundRect.width() - 1);
+        pixmapRect.setWidth(backgroundRect.width() - 2);
         pixmapRect.setHeight(backgroundRect.height() - 0);
 
         QPainterPath bg0;
@@ -974,7 +974,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST,
                               TOOLBAR_HEIGHT);
 
-            m_imgList->setContentsMargins(7, 0, 0, 0);
+            m_imgList->setContentsMargins(0, 0, 0, 0);
 
             auto num = 32;
 
