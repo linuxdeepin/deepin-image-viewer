@@ -193,10 +193,12 @@ void ImageItem::paintEvent(QPaintEvent *event)
 
     if (_index == _indexNow) {
         QPainterPath backgroundBp;
-        backgroundBp.addRoundedRect(backgroundRect, 8, 8);
+        QRect reduceRect = QRect(backgroundRect.x() + 1, backgroundRect.y() + 1,
+                                 backgroundRect.width() - 2, backgroundRect.height() - 2);
+        backgroundBp.addRoundedRect(reduceRect, 8, 8);
         painter.setClipPath(backgroundBp);
         painter.fillRect(
-            backgroundRect,
+            reduceRect,
             QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
 
         if (_pixmap.width() > _pixmap.height()) {
@@ -207,10 +209,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
                                    _pixmap.width());
         }
 
-        pixmapRect.setX(backgroundRect.x() + 4);
-        pixmapRect.setY(backgroundRect.y() + 4);
-        pixmapRect.setWidth(backgroundRect.width() - 8);
-        pixmapRect.setHeight(backgroundRect.height() - 8);
+        pixmapRect.setX(backgroundRect.x() + 5);
+        pixmapRect.setY(backgroundRect.y() + 5);
+        pixmapRect.setWidth(backgroundRect.width() - 10);
+        pixmapRect.setHeight(backgroundRect.height() - 10);
 
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
