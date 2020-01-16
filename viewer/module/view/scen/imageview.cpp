@@ -16,33 +16,33 @@
  */
 #include "imageview.h"
 
+#include <qmath.h>
 #include <QDebug>
 #include <QFile>
-#include <QOpenGLWidget>
-#include <QWheelEvent>
-#include <QMouseEvent>
-#include <QMovie>
+#include <QGestureEvent>
+#include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsSvgItem>
-#include <QGraphicsPixmapItem>
-#include <QPaintEvent>
-#include <QtConcurrent>
 #include <QHBoxLayout>
-#include <qmath.h>
+#include <QMouseEvent>
+#include <QMovie>
+#include <QOpenGLWidget>
+#include <QPaintEvent>
 #include <QScrollBar>
-#include <QGestureEvent>
 #include <QSvgRenderer>
+#include <QWheelEvent>
+#include <QtConcurrent>
 
+#include <DGuiApplicationHelper>
+#include <DSpinner>
+#include <DSvgRenderer>
+#include "application.h"
+#include "controller/signalmanager.h"
 #include "graphicsitem.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
-#include "application.h"
 #include "widgets/toast.h"
-#include <DSvgRenderer>
-#include <DGuiApplicationHelper>
-#include "controller/signalmanager.h"
-#include <DSpinner>
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -76,8 +76,7 @@ QVariantList cachePixmap(const QString &path)
         if (readerF.canRead()) {
             tImg = readerF.read();
         } else {
-            qWarning() << "can't read image:" << readerF.errorString()
-                       << format;
+            qWarning() << "can't read image:" << readerF.errorString() << format;
 
             tImg = QImage(path);
         }
@@ -100,7 +99,10 @@ QMimeType determineMimeType(const QString &filename)
 
     // #328815: since detection-by-content does not work for compressed tar archives (see below why)
     // we cannot rely on it when the archive extension is wrong; we need to validate by hand.
-    if (fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]"))).contains(QStringLiteral("tar."))) {
+    if (fileinfo.completeSuffix()
+            .toLower()
+            .remove(QRegularExpression(QStringLiteral("[^a-z\\.]")))
+            .contains(QStringLiteral("tar."))) {
         inputFile.chop(fileinfo.completeSuffix().length());
         QString cleanExtension(fileinfo.completeSuffix().toLower());
 
@@ -149,30 +151,34 @@ QMimeType determineMimeType(const QString &filename)
     // detecting by content. The following code fixes detection of tar.gz, tar.bz2, tar.xz,
     // tar.lzo, tar.lz, tar.lrz and tar.zst.
     if ((mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-compressed-tar")) &&
-            mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
-            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-bzip-compressed-tar")) &&
-             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
-            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-xz-compressed-tar")) &&
-             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
-            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tarz")) &&
-             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress"))) ||
-            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tzo")) &&
-             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
-            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lzip-compressed-tar")) &&
-             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzip"))) ||
-            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lrzip-compressed-tar")) &&
-             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip"))) ||
-            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-lz4-compressed-tar")) &&
-             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lz4"))) ||
-            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-zstd-compressed-tar")) &&
-             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/zstd")))) {
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
+        (mimeFromExtension ==
+             db.mimeTypeForName(QStringLiteral("application/x-bzip-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
+        (mimeFromExtension ==
+             db.mimeTypeForName(QStringLiteral("application/x-xz-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
+        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tarz")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress"))) ||
+        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tzo")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
+        (mimeFromExtension ==
+             db.mimeTypeForName(QStringLiteral("application/x-lzip-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzip"))) ||
+        (mimeFromExtension ==
+             db.mimeTypeForName(QStringLiteral("application/x-lrzip-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip"))) ||
+        (mimeFromExtension ==
+             db.mimeTypeForName(QStringLiteral("application/x-lz4-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lz4"))) ||
+        (mimeFromExtension ==
+             db.mimeTypeForName(QStringLiteral("application/x-zstd-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/zstd")))) {
         return mimeFromExtension;
     }
 
     if (mimeFromExtension != mimeFromContent) {
-
         if (mimeFromContent.isDefault()) {
-
             return mimeFromExtension;
         }
 
@@ -180,8 +186,6 @@ QMimeType determineMimeType(const QString &filename)
         if (mimeFromExtension.inherits(QStringLiteral("application/x-cd-image"))) {
             return mimeFromExtension;
         }
-
-
     }
 
     return mimeFromContent;
@@ -237,16 +241,18 @@ ImageView::ImageView(QWidget *parent)
 
     // Use openGL to render by default
     //    setRenderer(OpenGL);
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ]() {
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
-        } else {
-            m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
-        }
-        update();
-    });
-    connect(dApp->signalM, &SignalManager::loadingDisplay, this, [ = ](bool immediately) {
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
+                     this, [=]() {
+                         DGuiApplicationHelper::ColorType themeType =
+                             DGuiApplicationHelper::instance()->themeType();
+                         if (themeType == DGuiApplicationHelper::DarkType) {
+                             m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
+                         } else {
+                             m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
+                         }
+                         update();
+                     });
+    connect(dApp->signalM, &SignalManager::loadingDisplay, this, [=](bool immediately) {
         if (immediately) {
             qDebug() << "loading display...";
             m_loadingDisplay = true;
@@ -271,11 +277,11 @@ void ImageView::setImage(const QString &path)
     qDebug() << "emit dApp->signalM->enterView(true)..................ImageView";
     qDebug() << "Path = " << path;
     qDebug() << "FileType = " << determineMimeType(path);
-//    if(path == m_path)return;//Add for no repeat refresh, delete for rotation no refresh(bugID3926)
+    //    if(path == m_path)return;//Add for no repeat refresh, delete for rotation no
+    //    refresh(bugID3926)
 
     m_path = path;
     QGraphicsScene *s = scene();
-
 
     QString oldHintPath = m_toast->property("hint_path").toString();
     if (oldHintPath != fi.canonicalFilePath()) {
@@ -284,7 +290,7 @@ void ImageView::setImage(const QString &path)
     m_toast->setProperty("hint_path", fi.canonicalFilePath());
 
     if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
-//        m_toast->show();
+        //        m_toast->show();
         m_toast->move(width() / 2 - m_toast->width() / 2,
                       height() - 80 - m_toast->height() / 2 - 11);
     } else {
@@ -302,18 +308,18 @@ void ImageView::setImage(const QString &path)
         svgRenderer->load(path);
         m_imgSvgItem = new ImageSvgItem();
         m_imgSvgItem->setSharedRenderer(svgRenderer);
-//        m_svgItem = new QGraphicsSvgItem(path);
-//        m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
-//        m_svgItem->setCacheMode(QGraphicsItem::NoCache);
-//        m_svgItem->setZValue(0);
+        //        m_svgItem = new QGraphicsSvgItem(path);
+        //        m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
+        //        m_svgItem->setCacheMode(QGraphicsItem::NoCache);
+        //        m_svgItem->setZValue(0);
         // Make sure item show in center of view after reload
-//        setSceneRect(m_svgItem->boundingRect());
-//        s->addItem(m_svgItem);
+        //        setSceneRect(m_svgItem->boundingRect());
+        //        s->addItem(m_svgItem);
         setSceneRect(m_imgSvgItem->boundingRect());
         s->addItem(m_imgSvgItem);
         emit imageChanged(path);
     } else {
-//        m_svgItem = nullptr;
+        //        m_svgItem = nullptr;
         m_imgSvgItem = nullptr;
         // Support gif and mng
         if (QMovie(path).frameCount() > 1) {
@@ -329,13 +335,13 @@ void ImageView::setImage(const QString &path)
         } else {
             m_movieItem = nullptr;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-            if (! m_watcher.isRunning()) {
-//                m_watcher.setFuture(f);
+            if (!m_watcher.isRunning()) {
+                //                m_watcher.setFuture(f);
 
                 if (m_loadingDisplay) {
                     m_loadingDisplay = false;
 
-                    //show loading gif.
+                    // show loading gif.
                     m_pixmapItem = nullptr;
                     s->clear();
                     resetTransform();
@@ -354,7 +360,6 @@ void ImageView::setImage(const QString &path)
                     // Make sure item show in center of view after reload
                     setSceneRect(w->rect());
                     s->addWidget(w);
-
                 }
 
                 f.waitForFinished();
@@ -382,7 +387,7 @@ void ImageView::setRenderer(RendererType type)
 void ImageView::setScaleValue(qreal v)
 {
     scale(v, v);
-    const qreal irs = imageRelativeScale()  * devicePixelRatioF();
+    const qreal irs = imageRelativeScale() * devicePixelRatioF();
     // Rollback
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / irs;
@@ -396,8 +401,7 @@ void ImageView::setScaleValue(qreal v)
     }
 
     qreal rescale = imageRelativeScale() * devicePixelRatioF();
-    if (rescale - 1 > -0.01 &&
-            rescale - 1 < 0.01) {
+    if (rescale - 1 > -0.01 && rescale - 1 < 0.01) {
         emit checkAdaptImageBtn();
     } else {
         emit disCheckAdaptImageBtn();
@@ -406,6 +410,8 @@ void ImageView::setScaleValue(qreal v)
     emit scaled(imageRelativeScale() * devicePixelRatioF() * 100);
     emit showScaleLabel();
     emit transformChanged();
+
+    titleBarControl();
 }
 
 void ImageView::autoFit()
@@ -417,9 +423,8 @@ void ImageView::autoFit()
 
     // change some code in graphicsitem.cpp line100.
 
-    if ((image_size.width() >= width() ||
-            image_size.height() >= height() - 150) &&
-            width() > 0 && height() > 0) {
+    if ((image_size.width() >= width() || image_size.height() >= height() - 150) && width() > 0 &&
+        height() > 0) {
         fitWindow();
     } else {
         fitImage();
@@ -439,13 +444,13 @@ void ImageView::titleBarControl()
 
 const QImage ImageView::image()
 {
-    if (m_movieItem) {           // bit-map
+    if (m_movieItem) {  // bit-map
         return m_movieItem->pixmap().toImage();
     } else if (m_pixmapItem) {
-        //FIXME: access to m_pixmapItem will crash
+        // FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
-//    } else if (m_svgItem) {    // svg
-    } else if (m_imgSvgItem) {    // svg
+        //    } else if (m_svgItem) {    // svg
+    } else if (m_imgSvgItem) {  // svg
         QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
         image.fill(QColor(0, 0, 0, 0));
         QPainter imagePainter(&image);
@@ -463,8 +468,7 @@ void ImageView::fitWindow()
     resetTransform();
     scale(wrs, wrs);
 
-    if (wrs - 1 > -0.01 &&
-            wrs - 1 < 0.01) {
+    if (wrs - 1 > -0.01 && wrs - 1 < 0.01) {
         emit checkAdaptImageBtn();
     } else {
         emit disCheckAdaptImageBtn();
@@ -480,8 +484,7 @@ void ImageView::fitWindow_btnclicked()
     qreal wrs = windowRelativeScale_origin();
     resetTransform();
     scale(wrs, wrs);
-    if (wrs - 1 > -0.01 &&
-            wrs - 1 < 0.01) {
+    if (wrs - 1 > -0.01 && wrs - 1 < 0.01) {
         emit checkAdaptImageBtn();
     } else {
         emit disCheckAdaptImageBtn();
@@ -495,9 +498,9 @@ void ImageView::fitWindow_btnclicked()
 void ImageView::fitImage()
 {
     resetTransform();
-    /** change ratio from 1 to 0.9, because one of test pictures is so special that cannot use fitwindow()
-     *  when use fitImage() picture bottom is over toolbar. so use 0.9 instead.
-     *  12-19,bug 9839, change 0.9->1
+    /** change ratio from 1 to 0.9, because one of test pictures is so special that cannot use
+     * fitwindow() when use fitImage() picture bottom is over toolbar. so use 0.9 instead. 12-19,bug
+     * 9839, change 0.9->1
      */
     scale(1, 1);
     emit checkAdaptImageBtn();
@@ -515,7 +518,7 @@ void ImageView::rotateClockWise()
 
 void ImageView::rotateCounterclockwise()
 {
-    utils::image::rotate(m_path, - 90);
+    utils::image::rotate(m_path, -90);
     setImage(m_path);
 }
 
@@ -674,8 +677,7 @@ void ImageView::leaveEvent(QEvent *e)
 void ImageView::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
-    m_toast->move(width() / 2 - m_toast->width() / 2,
-                  height() - 80 - m_toast->height() / 2 - 11);
+    m_toast->move(width() / 2 - m_toast->width() / 2, height() - 80 - m_toast->height() / 2 - 11);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
@@ -691,22 +693,22 @@ void ImageView::dragEnterEvent(QDragEnterEvent *e)
 
 void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 {
-//    QPixmap pm(12, 12);
-//    QPainter pmp(&pm);
-//    //TODO: the transparent box
-//    //should not be scaled with the image
-//    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
-//    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
-//    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
-//    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
-//    pmp.end();
+    //    QPixmap pm(12, 12);
+    //    QPainter pmp(&pm);
+    //    //TODO: the transparent box
+    //    //should not be scaled with the image
+    //    pmp.fillRect(0, 0, 6, 6, LIGHT_CHECKER_COLOR);
+    //    pmp.fillRect(6, 6, 6, 6, LIGHT_CHECKER_COLOR);
+    //    pmp.fillRect(0, 6, 6, 6, DARK_CHECKER_COLOR);
+    //    pmp.fillRect(6, 0, 6, 6, DARK_CHECKER_COLOR);
+    //    pmp.end();
 
     painter->save();
     painter->fillRect(rect, m_backgroundColor);
 
-//    QPixmap currentImage(m_path);
-//    if (!currentImage.isNull())
-//        painter->fillRect(currentImage.rect(), QBrush(pm));
+    //    QPixmap currentImage(m_path);
+    //    if (!currentImage.isNull())
+    //        painter->fillRect(currentImage.rect(), QBrush(pm));
     painter->restore();
 }
 
@@ -730,7 +732,7 @@ void ImageView::onCacheFinish()
             resetTransform();
             m_pixmapItem = new GraphicsPixmapItem(pixmap);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [=](bool scaledmode) {
                 if (!m_pixmapItem) {
                     qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
                     update();
@@ -744,9 +746,9 @@ void ImageView::onCacheFinish()
             });
             // Make sure item show in center of view after reload
             QRectF rect = m_pixmapItem->boundingRect();
-//            rect.setHeight(rect.height() + 50);
+            //            rect.setHeight(rect.height() + 50);
             setSceneRect(rect);
-//            setSceneRect(m_pixmapItem->boundingRect());
+            //            setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
             autoFit();
 
@@ -804,14 +806,13 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
 void ImageView::swipeTriggered(QSwipeGesture *gesture)
 {
     if (gesture->state() == Qt::GestureFinished) {
-        if (gesture->horizontalDirection() == QSwipeGesture::Left
-                || gesture->verticalDirection() == QSwipeGesture::Up) {
+        if (gesture->horizontalDirection() == QSwipeGesture::Left ||
+            gesture->verticalDirection() == QSwipeGesture::Up) {
             emit nextRequested();
         } else {
             emit previousRequested();
         }
     }
-
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)
