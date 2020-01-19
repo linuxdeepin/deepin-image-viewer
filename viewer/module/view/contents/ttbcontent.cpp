@@ -272,8 +272,8 @@ void ImageItem::paintEvent(QPaintEvent *event)
         }
     }
 
-    QPixmap blankPix = _pixmap;
-    blankPix.fill(Qt::white);
+    //    QPixmap blankPix = _pixmap;
+    //    blankPix.fill(Qt::white);
 
     //    QRect whiteRect;
     //    whiteRect.setX(pixmapRect.x() + 1);
@@ -959,6 +959,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_trashBtn->setDisabled(true);
 #endif
         m_imgList->setDisabled(false);
+
     } else {
 #if TTB
         m_adaptImageBtn->setDisabled(false);

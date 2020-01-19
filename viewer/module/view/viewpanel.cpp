@@ -514,6 +514,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
             popupDelDialog(m_infos.at(m_current).filePath);
         } else {
             const QString path = m_infos.at(m_current).filePath;
+            QFile file(path);
+            if (!file.exists())
+                return;
             removeCurrentImage();
             utils::base::trashFile(path);
             emit dApp->signalM->picDelete();
