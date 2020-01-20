@@ -25,14 +25,13 @@ class DatabaseManager;
 class DBManager;
 class Exporter;
 class Importer;
-class ScanPathsDialog;
 class SignalManager;
 class WallpaperSetter;
 class ViewerThemeManager;
 #if defined(dApp)
 #undef dApp
 #endif
-#define dApp (static_cast<Application *>(QCoreApplication::instance()))
+#define dApp (static_cast<Application*>(QCoreApplication::instance()))
 
 DWIDGET_USE_NAMESPACE
 
@@ -55,28 +54,27 @@ private:
     Application* m_parent;
     QStringList m_pathlist;
     QString m_path;
-
 };
 
-
-class Application : public DApplication {
+class Application : public DApplication
+{
     Q_OBJECT
 
 public:
     Application(int& argc, char** argv);
 
-    ConfigSetter *setter = nullptr;
-//    DBManager *dbM = nullptr;
-//    Exporter *exporter = nullptr;
-//    Importer *importer = nullptr;
-    SignalManager *signalM = nullptr;
-    WallpaperSetter *wpSetter = nullptr;
-    ViewerThemeManager *viewerTheme = nullptr;
+    ConfigSetter* setter = nullptr;
+    //    DBManager *dbM = nullptr;
+    //    Exporter *exporter = nullptr;
+    //    Importer *importer = nullptr;
+    SignalManager* signalM = nullptr;
+    WallpaperSetter* wpSetter = nullptr;
+    ViewerThemeManager* viewerTheme = nullptr;
 
     QMap<QString, QPixmap> m_imagemap;
     ImageLoader* m_imageloader;
 
-    QThread * m_LoadThread;
+    QThread* m_LoadThread;
 
 signals:
     void sigstartLoad();
@@ -84,6 +82,7 @@ signals:
 
 public slots:
     void finishLoadSlot(QString mapPath);
+
 private:
     void initChildren();
     void initI18n();

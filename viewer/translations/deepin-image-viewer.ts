@@ -1,137 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="en" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin Image Viewer</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Version:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>image</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>images</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>album</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>albums</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Manage sync</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Syncing: </translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancel</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>New album</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Unnamed</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Recent imported</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>My favorite</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Are your sure to delete this album?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancel</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Back</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>My favorite</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Timeline</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Add</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>You can add sync directory or drag and drop  images to timeline</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Unnamed</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>View</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slide show</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Rename</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copy</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="en">
 <context>
     <name>Application</name>
     <message>
@@ -151,71 +20,14 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancel</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Are you sure to add the pictures to the album?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Sync and Create</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Sync</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Are you sure to add to the sync list and create the album named after this folder?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Exported successfully</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Failed to export</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Save</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
         <translation>Image info</translation>
     </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
     <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Are you sure to throw pictures to TRASH?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancel</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -237,81 +49,6 @@
     </message>
 </context>
 <context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>View</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slide show</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Print</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copy</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Remove from album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorite</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Image info</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Add</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>You can add sync directory or drag and drop  images to timeline</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Add to album</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Add to new album</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-</context>
-<context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Delete</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished">Image file not found</translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>End show</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Pause/Play</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -894,104 +620,6 @@
     </message>
 </context>
 <context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 image</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 images</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Manage sync</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Syncing: </translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Add</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>You can add sync directory or drag and drop  images to timeline</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Add to album</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Add to new album</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>View</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Fullscreen</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slide show</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Print</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copy</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Copy to clipboard</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorite</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Unfavorite</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotate clockwise</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotate counterclockwise</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Set as wallpaper</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Display in file manager</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Image info</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-</context>
-<context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>My favorite</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Recent imported</translation>
     </message>
 </context>
 <context>

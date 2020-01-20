@@ -17,11 +17,9 @@ SOURCES += \
 !isEmpty(FULL_FUNCTIONALITY) {
     HEADERS += $$PWD/importer.h \
                $$PWD/divdbuscontroller.h \
-               $$PWD/dbmanager.h \
-               $$PWD/exporter.h
+               $$PWD/dbmanager.h
 
     SOURCES += $$PWD/importer.cpp \
                $$PWD/divdbuscontroller.cpp \
-               $$PWD/dbmanager.cpp \
-               $$PWD/exporter.cpp
+               $$PWD/dbmanager.cpp
 }

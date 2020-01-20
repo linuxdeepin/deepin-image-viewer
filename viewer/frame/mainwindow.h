@@ -18,26 +18,27 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "frame/mainwidget.h"
-#include "controller/viewerthememanager.h"
 #include "controller/dbmanager.h"
-#include "controller/exporter.h"
 #include "controller/importer.h"
+#include "controller/viewerthememanager.h"
+#include "frame/mainwidget.h"
 
 #include <DMainWindow>
-#include <QWidget>
 #include <QDebug>
+#include <QWidget>
 
 DWIDGET_USE_NAMESPACE
 
 #ifndef LITE_DIV
-class Worker : public QObject {
+class Worker : public QObject
+{
     Q_OBJECT
 public:
     Worker() {}
-    ~Worker(){}
+    ~Worker() {}
 public slots:
-    void initRec() {
+    void initRec()
+    {
         DBManager::instance();
         Exporter::instance();
         Importer::instance();
@@ -46,18 +47,19 @@ public slots:
 };
 #endif
 class DGioVolumeManager;
-class MainWindow : public  DMainWindow
+class MainWindow : public DMainWindow
 {
 public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be
     // initialize to save resource and avoid DB file lock.
-    MainWindow(bool manager, QWidget *parent=0);
+    MainWindow(bool manager, QWidget *parent = 0);
 
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     int showDialog();
+
 protected:
     void resizeEvent(QResizeEvent *e) override;
-//    void showEvent(QShowEvent *event);
+    //    void showEvent(QShowEvent *event);
 
 private:
     void moveFirstWindow();
@@ -69,4 +71,4 @@ private:
     bool m_picInUSB = false;
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H
