@@ -2,13 +2,13 @@
 
 #if !defined(QT_NO_GRAPHICSVIEW) && !defined(QT_NO_WIDGETS)
 
-#include "qpainter.h"
-#include "qstyleoption.h"
 #include "dsvgrenderer.h"
 #include "qdebug.h"
+#include "qpainter.h"
+#include "qstyleoption.h"
 
-#include "private/qobject_p.h"
 #include "private/qgraphicsitem_p.h"
+#include "private/qobject_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -18,7 +18,8 @@ public:
     Q_DECLARE_PUBLIC(ImageSvgItem)
 
     ImageSvgItemPrivate()
-        : renderer(nullptr), shared(false)
+        : renderer(nullptr)
+        , shared(false)
     {
     }
 
@@ -27,16 +28,16 @@ public:
         Q_Q(ImageSvgItem);
         q->setParentItem(parent);
         renderer = new DSvgRenderer(q);
-//        QObject::connect(renderer, SIGNAL(repaintNeeded()),
-//                         q, SLOT(_q_repaintItem()));
+        //        QObject::connect(renderer, SIGNAL(repaintNeeded()),
+        //                         q, SLOT(_q_repaintItem()));
         q->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
         q->setMaximumCacheSize(QSize(1024, 768));
     }
 
-//    void _q_repaintItem()
-//    {
-//        q_func()->update();
-//    }
+    //    void _q_repaintItem()
+    //    {
+    //        q_func()->update();
+    //    }
 
     inline void updateDefaultSize()
     {
@@ -85,8 +86,8 @@ QRectF ImageSvgItem::boundingRect() const
     return d->boundingRect;
 }
 
-static void qt_graphicsItem_highlightSelected(
-    QGraphicsItem *item, QPainter *painter, const QStyleOptionGraphicsItem *option)
+static void qt_graphicsItem_highlightSelected(QGraphicsItem *item, QPainter *painter,
+                                              const QStyleOptionGraphicsItem *option)
 {
     const QRectF murect = painter->transform().mapRect(QRectF(0, 0, 1, 1));
     if (qFuzzyIsNull(qMax(murect.width(), murect.height())))
@@ -98,36 +99,35 @@ static void qt_graphicsItem_highlightSelected(
 
     qreal itemPenWidth;
     switch (item->type()) {
-    case QGraphicsEllipseItem::Type:
-        itemPenWidth = static_cast<QGraphicsEllipseItem *>(item)->pen().widthF();
-        break;
-    case QGraphicsPathItem::Type:
-        itemPenWidth = static_cast<QGraphicsPathItem *>(item)->pen().widthF();
-        break;
-    case QGraphicsPolygonItem::Type:
-        itemPenWidth = static_cast<QGraphicsPolygonItem *>(item)->pen().widthF();
-        break;
-    case QGraphicsRectItem::Type:
-        itemPenWidth = static_cast<QGraphicsRectItem *>(item)->pen().widthF();
-        break;
-    case QGraphicsSimpleTextItem::Type:
-        itemPenWidth = static_cast<QGraphicsSimpleTextItem *>(item)->pen().widthF();
-        break;
-    case QGraphicsLineItem::Type:
-        itemPenWidth = static_cast<QGraphicsLineItem *>(item)->pen().widthF();
-        break;
-    default:
-        itemPenWidth = 1.0;
+        case QGraphicsEllipseItem::Type:
+            itemPenWidth = static_cast<QGraphicsEllipseItem *>(item)->pen().widthF();
+            break;
+        case QGraphicsPathItem::Type:
+            itemPenWidth = static_cast<QGraphicsPathItem *>(item)->pen().widthF();
+            break;
+        case QGraphicsPolygonItem::Type:
+            itemPenWidth = static_cast<QGraphicsPolygonItem *>(item)->pen().widthF();
+            break;
+        case QGraphicsRectItem::Type:
+            itemPenWidth = static_cast<QGraphicsRectItem *>(item)->pen().widthF();
+            break;
+        case QGraphicsSimpleTextItem::Type:
+            itemPenWidth = static_cast<QGraphicsSimpleTextItem *>(item)->pen().widthF();
+            break;
+        case QGraphicsLineItem::Type:
+            itemPenWidth = static_cast<QGraphicsLineItem *>(item)->pen().widthF();
+            break;
+        default:
+            itemPenWidth = 1.0;
     }
     const qreal pad = itemPenWidth / 2;
 
-    const qreal penWidth = 0; // cosmetic pen
+    const qreal penWidth = 0;  // cosmetic pen
 
     const QColor fgcolor = option->palette.windowText().color();
-    const QColor bgcolor( // ensure good contrast against fgcolor
-        fgcolor.red()   > 127 ? 0 : 255,
-        fgcolor.green() > 127 ? 0 : 255,
-        fgcolor.blue()  > 127 ? 0 : 255);
+    const QColor bgcolor(  // ensure good contrast against fgcolor
+        fgcolor.red() > 127 ? 0 : 255, fgcolor.green() > 127 ? 0 : 255,
+        fgcolor.blue() > 127 ? 0 : 255);
 
     painter->setPen(QPen(bgcolor, penWidth, Qt::SolidLine));
     painter->setBrush(Qt::NoBrush);
@@ -138,10 +138,9 @@ static void qt_graphicsItem_highlightSelected(
     painter->drawRect(item->boundingRect().adjusted(pad, pad, -pad, -pad));
 }
 
-void ImageSvgItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                         QWidget *widget)
+void ImageSvgItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-//    Q_UNUSED(option);
+    //    Q_UNUSED(option);
     Q_UNUSED(widget);
 
     Q_D(ImageSvgItem);
@@ -211,4 +210,4 @@ bool ImageSvgItem::isCachingEnabled() const
     return cacheMode() != QGraphicsItem::NoCache;
 }
 
-#endif // QT_NO_WIDGETS
+#endif  // QT_NO_WIDGETS

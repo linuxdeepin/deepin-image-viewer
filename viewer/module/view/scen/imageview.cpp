@@ -435,7 +435,21 @@ void ImageView::autoFit()
 
 void ImageView::titleBarControl()
 {
-    if (image().size().height() * imageRelativeScale() > height() - 100) {
+    qDebug() << "imageHeight:"
+             << image().size().height() * imageRelativeScale() * devicePixelRatioF()
+             << image().size().height() * imageRelativeScale() << "&&&&&&"
+             << "currentHeight" << height() << "currentRatio" << devicePixelRatioF();
+
+    qreal realHeight = 0.0;
+
+    if (m_movieItem || m_imgSvgItem) {
+        realHeight = image().size().height() * imageRelativeScale() * devicePixelRatioF();
+
+    } else {
+        realHeight = image().size().height() * imageRelativeScale();
+    }
+
+    if (realHeight > height() - 100) {
         dApp->signalM->sigImageOutTitleBar(true);
     } else {
         dApp->signalM->sigImageOutTitleBar(false);
@@ -446,6 +460,7 @@ const QImage ImageView::image()
 {
     if (m_movieItem) {  // bit-map
         return m_movieItem->pixmap().toImage();
+        //        return m_movieItem->getMovie()->currentImage();
     } else if (m_pixmapItem) {
         // FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
