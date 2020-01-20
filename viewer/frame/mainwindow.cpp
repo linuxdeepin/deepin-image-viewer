@@ -14,23 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "application.h"
-#include "controller/configsetter.h"
 #include "mainwindow.h"
-#include "mainwidget.h"
 #include <DTitlebar>
 #include <QDesktopWidget>
 #include <QFile>
 #include <QStandardPaths>
+#include "application.h"
+#include "controller/configsetter.h"
+#include "mainwidget.h"
 //#include <QDebug>
-#include <QDir>
-#include <QScreen>
-#include <QTimer>
-#include <QShortcut>
 #include <dgiovolumemanager.h>
 #include <DDialog>
-#include "utils/baseutils.h"
 #include <DFontSizeManager>
+#include <QDir>
+#include <QScreen>
+#include <QShortcut>
+#include <QTimer>
+#include "utils/baseutils.h"
 
 namespace {
 
@@ -40,21 +40,23 @@ const QString SETTINGS_GROUP = "MAINWINDOW";
 const QString SETTINGS_WINSIZE_W_KEY = "WindowWidth";
 const QString SETTINGS_WINSIZE_H_KEY = "WindowHeight";
 
-}  //namespace
+}  // namespace
 
-MainWindow::MainWindow(bool manager, QWidget *parent):
-    DMainWindow(parent)
+MainWindow::MainWindow(bool manager, QWidget *parent)
+    : DMainWindow(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
-                         ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 0.60;
+                             ? MAINWIDGET_MINIMUN_WIDTH
+                             : dw.geometry().width() * 0.60;
     const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
-                         ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 0.60;
-    const int ww = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
-                                       QVariant(defaultW)).toInt();
-    const int wh = dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
-                                       QVariant(defaultH)).toInt();
+                             ? MAINWIDGET_MINIMUN_HEIGHT
+                             : dw.geometry().height() * 0.60;
+    const int ww =
+        dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
+    const int wh =
+        dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, QVariant(defaultH)).toInt();
 
     setMinimumSize(MAINWIDGET_MINIMUN_WIDTH, MAINWIDGET_MINIMUN_HEIGHT);
     resize(ww, wh);
@@ -63,17 +65,16 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
 
     m_mainWidget = new MainWidget(manager, this);
-//    QTimer::singleShot(200, [=]{
+    //    QTimer::singleShot(200, [=]{
     setCentralWidget(m_mainWidget);
-//    });
+    //    });
 
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
         titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
         setTitlebarShadowEnabled(true);
-        connect(dApp->signalM, &SignalManager::enterView,
-        this, [ = ](bool a) {
+        connect(dApp->signalM, &SignalManager::enterView, this, [=](bool a) {
             if (a) {
                 titlebar()->setFixedHeight(0);
                 titlebar()->setTitle("");
@@ -96,29 +97,25 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
     worker->moveToThread(workerThread);
     connect(workerThread, &QThread::finished, worker, &Worker::deleteLater);
 
-    QTimer::singleShot(300, [ = ] {
-        workerThread->start();
-    });
+    QTimer::singleShot(300, [=] { workerThread->start(); });
 #endif
-
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &MainWindow::onThemeChanged);
 
-
     m_vfsManager = new DGioVolumeManager;
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [ = ]() {
+    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [=]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(true);
     });
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [ = ]() {
+    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [=]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(false);
         if (m_picInUSB) {
             m_picInUSB = false;
         }
     });
-    connect(dApp->signalM, &SignalManager::picInUSB, this, [ = ](bool immediately) {
+    connect(dApp->signalM, &SignalManager::picInUSB, this, [=](bool immediately) {
         if (immediately) {
             m_picInUSB = true;
         }
@@ -127,7 +124,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent):
 
 void MainWindow::moveFirstWindow()
 {
-    //TODO use QLocalServer more safe ?
+    // TODO use QLocalServer more safe ?
     QString cachePath = QStandardPaths::standardLocations(QStandardPaths::CacheLocation).at(0);
     QFile processFile(QString("%1/%2").arg(cachePath).arg("process.pid"));
 
@@ -148,7 +145,6 @@ void MainWindow::moveFirstWindow()
         }
     } else {
         if (processFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-
             QTextStream pidInfo(&processFile);
             pidInfo << dApp->applicationPid();
             processFile.close();
@@ -157,7 +153,6 @@ void MainWindow::moveFirstWindow()
             qDebug() << "process File open failed!";
         }
     }
-
 }
 
 void MainWindow::moveCenter()
@@ -190,10 +185,8 @@ void MainWindow::onThemeChanged(ViewerThemeManager::AppTheme theme)
 
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
-    if (! isMaximized()
-            && m_mainWidget->isVisible()
-            && ! window()->isFullScreen()
-            && ! window()->isMaximized() && !windowAtEdge()) {
+    if (!isMaximized() && m_mainWidget->isVisible() && !window()->isFullScreen() &&
+        !window()->isMaximized() && !windowAtEdge()) {
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                QVariant(m_mainWidget->width()));
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
@@ -206,12 +199,12 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 
 bool MainWindow::windowAtEdge()
 {
-    //TODO: process the multi-screen
+    // TODO: process the multi-screen
     QRect currentRect = window()->geometry();
     bool atSeperScreenPos = false;
 
-    if (currentRect.x() == 0 || qAbs(currentRect.right() -
-                                     dApp->primaryScreen()->geometry().width()) <= 5) {
+    if (currentRect.x() == 0 ||
+        qAbs(currentRect.right() - dApp->primaryScreen()->geometry().width()) <= 5) {
         atSeperScreenPos = true;
     }
 
@@ -226,7 +219,9 @@ int MainWindow::showDialog()
     QPixmap pixmap = utils::base::renderSVG(":/resources/common/warning.svg", QSize(32, 32));
     dialog->setIconPixmap(pixmap);
 
-    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?"));
+    //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete
+    //    the thumbnails of the removable device?"));
+    dialog->setMessage(tr("Image file not found"));
 
     dialog->addButton(tr("Cancel"));
     dialog->addButton(tr("Delete"), true, DDialog::ButtonRecommend);
