@@ -204,8 +204,8 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform);
     //    painter.drawPixmap(imgRect, m_defaultImage);
-    QIcon m_icon(m_defaultImage);
     //    QIcon m_icon(m_picString);
+    QIcon m_icon(m_defaultImage);
     m_icon.paint(&painter, imgRect);
 }
 

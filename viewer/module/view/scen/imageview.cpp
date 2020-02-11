@@ -691,12 +691,13 @@ void ImageView::leaveEvent(QEvent *e)
 
 void ImageView::resizeEvent(QResizeEvent *event)
 {
-    QGraphicsView::resizeEvent(event);
     m_toast->move(width() / 2 - m_toast->width() / 2, height() - 80 - m_toast->height() / 2 - 11);
 
     // when resize window, make titlebar changed.
     if (!image().isNull())
         titleBarControl();
+
+    QGraphicsView::resizeEvent(event);
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
