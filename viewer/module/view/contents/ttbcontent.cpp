@@ -978,6 +978,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             m_startAnimation = 0;
         }
 
+        if (labelList.count() == 0)
+            return;
+
         labelList.at(t)->updatePic(dApp->m_imagemap.value(path));
         for (int j = 0; j < labelList.size(); j++) {
             labelList.at(j)->setFixedSize(QSize(num, 40));
