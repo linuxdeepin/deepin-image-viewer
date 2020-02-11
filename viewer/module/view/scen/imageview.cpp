@@ -283,19 +283,19 @@ void ImageView::setImage(const QString &path)
     m_path = path;
     QGraphicsScene *s = scene();
 
-    QString oldHintPath = m_toast->property("hint_path").toString();
-    if (oldHintPath != fi.canonicalFilePath()) {
-        m_toast->setProperty("hide_by_user", false);
-    }
-    m_toast->setProperty("hint_path", fi.canonicalFilePath());
+    //    QString oldHintPath = m_toast->property("hint_path").toString();
+    //    if (oldHintPath != fi.canonicalFilePath()) {
+    //        m_toast->setProperty("hide_by_user", false);
+    //    }
+    //    m_toast->setProperty("hint_path", fi.canonicalFilePath());
 
-    if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
-        //        m_toast->show();
-        m_toast->move(width() / 2 - m_toast->width() / 2,
-                      height() - 80 - m_toast->height() / 2 - 11);
-    } else {
-        m_toast->hide();
-    }
+    //    if (QFileInfo(path).suffix() == "tif" && !m_toast->property("hide_by_user").toBool()) {
+    //        //        m_toast->show();
+    //        m_toast->move(width() / 2 - m_toast->width() / 2,
+    //                      height() - 80 - m_toast->height() / 2 - 11);
+    //    } else {
+    //        m_toast->hide();
+    //    }
 
     // The suffix of svf file should be svg
     if (QFileInfo(path).suffix().toLower() == "svg" && DSvgRenderer().load(path)) {
@@ -693,6 +693,10 @@ void ImageView::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
     m_toast->move(width() / 2 - m_toast->width() / 2, height() - 80 - m_toast->height() / 2 - 11);
+
+    // when resize window, make titlebar changed.
+    if (!image().isNull())
+        titleBarControl();
 }
 
 void ImageView::paintEvent(QPaintEvent *event)
