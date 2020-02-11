@@ -1,142 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="am_ET" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>ዲፕኢን ምስል መመልከቻ</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>እትም:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>ምስል</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>ምስል</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>አልበም</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>አልበሞች</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>የ ማዋሀጃ አስተዳዳሪ </translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>ማዋሀጃ</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>መሰረዣ</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>እሺ</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>አዲስ አልበም</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>ያልተሰየመ</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>በ ቅርብ ጊዜ የ መጡ</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>እኔ የምወዳቸው</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>እርስዎ በ እርግጥ ይህን አልበም ማጥፋት ይፈልጋሉ?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>መሰረዣ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>ማጥፊያ</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>ወደ ኋላ</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>እኔ የምወዳቸው</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>የ ሰአት መስመር</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>መጨመሪያ</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>እርስዎ መጨመር ይችላሉ ዳይሬክቶሪ ማዋሀጃ ወይንም ይጎትቱ እና ይጣሉ ምስል ወደ ሰአት መስመር ውስጥ</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>ያልተሰየመ</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>መመልከቻ</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>ተንሸራታች ማሳያ</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>እንደገና መሰየሚያ</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>ኮፒ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>ማጥፊያ</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="am_ET">
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>ዲፕኢን ምስል መመልከቻ</translation>
+        <source>Image Viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -147,153 +20,32 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
+    <name>ExtensionPanel</name>
     <message>
-        <source>Cancel</source>
-        <translation>መሰረዣ</translation>
+        <source>Image info</source>
+        <translation type="unfinished">የ ምስል መረጃ</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>እሺ</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>እርስዎ በ እርግጥ ይህን አልበም ማጥፋት ይፈልጋሉ?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>ማዋሀጃ እና መፍጠሪያ</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>ማዋሀጃ</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>እርስዎ በ እርግጥ መጨመር ይፈልጋሉ ወደ ማዋሀጃ ዝርዝር ውስጥ እና መፍጠር የ አልበም ስም በዚህ ፎልደር ውስጥ የ ተሰየመውን?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>ተሳክቶ ተልኳል</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>መላክ አልተቻለም</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>ማስቀመጫ</translation>
-    </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
-    <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>እርስዎ በ እርግጥ ይህን ስእል ወደ ቆሻሻ መጣል ይፈልጋሉ?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>መሰረዣ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>ማጥፊያ</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>የ ምስል መረጃ</translation>
+        <source>Basic info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>መመልከቻ</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>በ ሙሉ መመልከቻ ዘዴ</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>ተንሸራታች ማሳያ</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>ማተሚያ</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>ኮፒ</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>ከ አልበም ውስጥ ማስወገጃ</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>የምወዳቸው</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>የማልወዳቸው</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>እንደ ግድግዳ ወረቀት ማሰናጃ</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>በ ፋይል አስተዳዳሪ ውስጥ ማሳያ</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>የ ምስል መረጃ</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>መጨመሪያ</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>እርስዎ መጨመር ይችላሉ ዳይሬክቶሪ ማዋሀጃ ወይንም ይጎትቱ እና ይጣሉ ምስል ወደ ሰአት መስመር ውስጥ</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>ወደ አልበም መጨመሪያ</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>ወደ አዲስ አልበም መጨመሪያ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -308,6 +60,21 @@
     <message>
         <source>You have no permission to view the image</source>
         <translation>እርስዎ ይህን ምስል ለ ማየት በቂ ፍቃድ የለዎትም</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">መሰረዣ</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">ማጥፊያ</translation>
     </message>
 </context>
 <context>
@@ -326,7 +93,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File size</source>
@@ -390,57 +157,65 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -460,6 +235,10 @@
     <message>
         <source>Ring</source>
         <translation>ቀለበት</translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -603,16 +382,28 @@
         <translation>እርዳታ</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>መውጫ</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>አቋራጭ ማሳያ</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">ማጥፊያ</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">ከ ሙሉ መመልከቻ ዘዴ መውጫ</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -713,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>ማሳያ መጨረሻ</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>ማጫወቻ / ማስቆሚያ</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -747,6 +527,41 @@
     </message>
 </context>
 <context>
+    <name>TTBContent</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">ያለፈው</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">ይቀጥሉ</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">ማጥፊያ</translation>
+    </message>
+    <message>
+        <source>My favorite</source>
+        <translation type="unfinished">እኔ የምወዳቸው</translation>
+    </message>
+</context>
+<context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
@@ -762,31 +577,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">የማልወዳቸው</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">የምወዳቸው</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">ማጥፊያ</translation>
     </message>
 </context>
 <context>
@@ -797,105 +612,11 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 ምስል</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 images</source>
-        <translation>%1 ምስሎች</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>የ ማዋሀጃ አስተዳዳሪ </translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>በ ማዋሀድ ላይ</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>አልበም</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>መጨመሪያ</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>እርስዎ መጨመር ይችላሉ ዳይሬክቶሪ ማዋሀጃ ወይንም ይጎትቱ እና ይጣሉ ምስል ወደ ሰአት መስመር ውስጥ</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>ወደ አልበም መጨመሪያ</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>ወደ አዲስ አልበም ውስጥ መጨመሪያ</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>መመልከቻ</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>በ ሙሉ መመልከቻ ዘዴ</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>ተንሸራታች ማሳያ</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>ማተሚያ</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>ኮፒ</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>ወደ ቁራጭ ሰሌዳ ኮፒ ማድረጊያ</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>የምወዳቸው</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>የማልወዳቸው</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>እንደ ግድግዳ ወረቀት ማሰናጃ</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>በ ፋይል አስተዳዳሪ ውስጥ ማሳያ</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>የ ምስል መረጃ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"/>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -926,21 +647,6 @@
     </message>
 </context>
 <context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>እኔ የምወዳቸው</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>በ ቅርብ ጊዜ የ መጡ</translation>
-    </message>
-</context>
-<context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
@@ -949,22 +655,6 @@
     <message>
         <source>Settings</source>
         <translation>ማሰናጃ</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation>ዲፕኢን የ ምስል መመልከቻ ዘመናዊ &amp; ቀላል የ ምስል አስተዳዳሪ ነው</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation>የ ምስል አስተዳዳሪ: ምስል መመልከቻ: እና መሰረታዊ የ ምስል ማረሚያ</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>ጥቁር ገጽታ</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1043,15 +733,15 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">ማጥፊያ</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

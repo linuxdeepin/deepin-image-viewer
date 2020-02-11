@@ -1,142 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin preglednik slika</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Inačica:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>slika</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>slike</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>album</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>albumi</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Upravljaj sinkronizacijom</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Sinkroniziram:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Otkaži</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>U redu</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Novi album</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Neimenovano</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Nedavno uvezeno</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Moj omiljeni</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Jeste li sigurni da želite izbrisati ovaj album?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Otkaži</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Natrag</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Moj omiljeni</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Vremenski okvir</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Dodaj</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Neimenovano</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Pogled</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Preimenuj</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiraj</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hr">
 <context>
     <name>Application</name>
     <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin preglednik slika</translation>
+        <source>Image Viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -147,153 +20,32 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
+    <name>ExtensionPanel</name>
     <message>
-        <source>Cancel</source>
-        <translation>Otkaži</translation>
+        <source>Image info</source>
+        <translation type="unfinished">Informacija o slici</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>U redu</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Jeste li sigurni da želite dodati slike u album?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Sinkroniziraj i napravi</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Sinkroniziraj</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>jeste li sigurni da želite dodati listu sinkronizacije i napraviti album nazvan po ovoj mapi?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Uspješno izvezeno</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Neuspjeli izvoz</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Spremi</translation>
-    </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
-    <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Jeste li sigurni da želite baciti slike u SMEĆE?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Otkaži</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Izbriši</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
-        <source>Image info</source>
-        <translation>Informacija o slici</translation>
+        <source>Basic info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Pogled</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Ispis</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiraj</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Ukloni iz albuma</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Omiljeni</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Neomiljeni</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Zaokreni u smjeru kazaljke na satu</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Zaokreni u smjeru obrnutom od kazaljke na satu</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Informacija o slici</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Dodaj</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Dodaj u album</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Dodaj u novi album</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -308,6 +60,21 @@
     <message>
         <source>You have no permission to view the image</source>
         <translation>Nemate dozvolu da pogledate sliku</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Otkaži</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Izbriši</translation>
     </message>
 </context>
 <context>
@@ -326,7 +93,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File size</source>
@@ -354,7 +121,7 @@
     </message>
     <message>
         <source>Aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Focal length</source>
@@ -366,11 +133,11 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>White balance</source>
@@ -378,7 +145,7 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Camera model</source>
@@ -390,76 +157,88 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dimensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tag</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -470,7 +249,7 @@
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -603,16 +382,28 @@
         <translation>Pomoć</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Izađi</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>Prikaži prečace</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Izbriši</translation>
+    </message>
+    <message>
+        <source>Exit fullscreen</source>
+        <translation type="unfinished">Napusti cijeli zaslon</translation>
+    </message>
+    <message>
+        <source>Zoom in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -713,25 +504,14 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Kraj prikaza</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Zaustavi / pusti</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Duration</source>
@@ -739,11 +519,46 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>second</source>
         <translation>sekunda</translation>
+    </message>
+</context>
+<context>
+    <name>TTBContent</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Prethodno</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Slijedeće</translation>
+    </message>
+    <message>
+        <source>1:1 Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fit to window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate counterclockwise</source>
+        <translation type="unfinished">Zaokreni u smjeru obrnutom od kazaljke na satu</translation>
+    </message>
+    <message>
+        <source>Rotate clockwise</source>
+        <translation type="unfinished">Zaokreni u smjeru kazaljke na satu</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished">Izbriši</translation>
+    </message>
+    <message>
+        <source>My favorite</source>
+        <translation type="unfinished">Moj omiljeni</translation>
     </message>
 </context>
 <context>
@@ -762,31 +577,31 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Zaokreni u smjeru obrnutom od kazaljke na satu</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Zaokreni u smjeru kazaljke na satu</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Neomiljeni</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Omiljeni</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Izbriši</translation>
     </message>
 </context>
 <context>
@@ -797,112 +612,18 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 slika</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1 images</source>
-        <translation>%1 slike</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Upravljaj sinkronizacijom</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Sinkroniziram:</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Dodaj</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Dodaj u album</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Dodaj u novi album</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Pogled</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Cijeli zaslon</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Klizni prikaz</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Ispis</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiraj</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiraj u međuspremnik</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Omiljeni</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Neomiljeni</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Zaokreni u smjeru kazaljke na satu</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Zaokreni u smjeru obrnutom od kazaljke na satu</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Postavi kao tapetu</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Prikaži u upravitelju datotekama</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Informacija o slici</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"/>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Effect</source>
@@ -926,21 +647,6 @@
     </message>
 </context>
 <context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Moj omiljeni</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Nedavno uvezeno</translation>
-    </message>
-</context>
-<context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
@@ -949,22 +655,6 @@
     <message>
         <source>Settings</source>
         <translation>Postavke</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation>Tamna tema</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1043,15 +733,15 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Izbriši</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

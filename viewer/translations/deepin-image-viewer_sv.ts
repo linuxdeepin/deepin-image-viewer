@@ -1,146 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sv" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin Bildvisare</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Version:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>bild</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>bilder</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>album</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>album</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Hantera synk</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Synkar:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Nytt album</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Namnlös</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Senast importerat</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Min favorit</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Är du säker på att du vill radera detta album?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Radera</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Tillbaka</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Min favorit</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Tidslinje</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Lägg till</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Du kan lägga till synk bibliotek eller dra och släppa bilder till tidslinjen</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Namnlös</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Visa</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Bildspel</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Ändra namn</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiera</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Radera</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sv">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -151,82 +20,25 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Är du säker på att du vill lägga till bilderna i albumet?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Synka och Skapa</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Synk</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Är du säker du vill lägga till i synk listan och skapa albumet namngett efter denna mappen?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Export lyckades</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Misslyckades med exporten</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Spara</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
-    <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Är du säker på att du vill kasta bilderna i papperskorgen?</translation>
+        <translation type="unfinished">Bildinformation</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Radera</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -234,81 +46,6 @@
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
         <translation>Denna filen innehåller flera sidor, vänligen använd Evince för att se alla sidor.</translation>
-    </message>
-</context>
-<context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Visa</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Helskärm</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Bildspel</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Skriv ut</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiera</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Radera från album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Ta bort favorit</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotera medurs</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotera moturs</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Ange som bakgrundsbild</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Visa i filhanteraren</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Bildinformation</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Lägg till</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Du kan lägga till synk bibliotek eller dra och släppa bilder till tidslinken</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Lägg till i album</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Lägg till i nytt album</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Radera</translation>
     </message>
 </context>
 <context>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Avbryt</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Radera</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,11 +161,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -485,23 +222,23 @@
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -520,11 +257,11 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -654,19 +391,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Avsluta fullskärm</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Avsluta bildspel</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Pausa/Spela</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -804,35 +530,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Min favorit</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Föregående</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Nästa</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">1:1 Storlek</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Anpassa till fönster</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Rotera moturs</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Rotera medurs</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Radera</translation>
     </message>
 </context>
 <context>
@@ -890,105 +616,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 bild</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 bilder</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Hantera synkronisering</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Synkroniserar:</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Lägg till</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Du kan lägga till synk bibliotek eller dra och släppa bilder till tidslinken</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Lägg till i album</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Lägg till i nytt album</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Visa</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Fullskärm</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Bildspel</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Skriv ut</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopiera</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Kopiera till urklipp</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Ta bort favorit</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Rotera medurs</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Rotera moturs</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Ange som bakgrundsbild</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Visa i filhanteraren</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Bildinformation</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Radera</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Min favorit</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Senast importerat</translation>
     </message>
 </context>
 <context>

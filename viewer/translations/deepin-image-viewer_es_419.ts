@@ -1,146 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es_419" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Visor de imágenes Deepin</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Versión:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>Imagen</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>Imágenes</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>Álbum</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>Álbumes</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Gestión de sincronización</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Sincronizando:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Álbum nuevo</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Sin nombre</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Importados recientemente</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Mi favorito</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>¿Esta seguro de borrar este álbum?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Borrar</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Atrás</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Mi favorito</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Línea de tiempo</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Añadir</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Puedes agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Sin nombre</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Ver</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diapositivas</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Renombrar</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Borrar</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="es_419">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -151,164 +20,32 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Bien</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>¿Esta seguro de añadir las fotos al álbum?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Sincronizar y crear</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Sincronizar</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>¿Está seguro de agregar a la lista de sincronización y crear el álbum con el nombre de esta carpeta?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Exportado con éxito</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Fallo al exportar</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Guardar</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
-    <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>¿Esta seguro de tirar las fotos a la papelera?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Borrar</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Ver</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diapositivas</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Imprimir</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Eliminar del álbum</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorito</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>No favorito</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Mostrar en administrador de archivos</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Información de imagen</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Añadir</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Usted puede Agregar directorio de sincronización o arrastrar y soltar imágenes a línea de tiempo </translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Añadir al álbum</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Añadir a nuevo álbum</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Cancelar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -356,7 +93,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File size</source>
@@ -424,61 +161,61 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -501,7 +238,7 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -654,19 +391,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Salir de Pantalla Completa</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Finalizar Presentación</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Pausar/Reproducir</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -804,35 +530,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Mi favorito</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Anterior</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Siguiente</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">1:1 Tamaño</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Ajustar a Ventana</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Gire hacia la izquierda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Gire hacia la derecha</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -886,109 +612,11 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 imágen</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 imágenes</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Manager de Sincronización</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Sincronizando:</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Álbum</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Agregar</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Puede agregar directorio de sincronización o arrastrar y soltar imágenes a la línea de tiempo</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Agregar a Álbum</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Agregar a nuevo álbum</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Ver</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Pantalla Completa</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Mostrar Presentación</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Imprimir</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copiar</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Copiar a Portapapeles</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorito</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>No Favorito</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Gire hacia la derecha</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Gire hacia la izquierda</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Mostrar en Explorador de archivos</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Info de Imágen</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Borrar</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Álbum</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd MMMM aaaa</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Mi Favorito</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Importados recientemente</translation>
     </message>
 </context>
 <context>
@@ -1124,11 +737,11 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>All images</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

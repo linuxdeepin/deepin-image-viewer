@@ -1,137 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Переглядач зображень Deepin</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Версія:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>зображення</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>зображень</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>альбом</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>альбоми</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Керування синхронізацією</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Синхронізація:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Скасувати</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Гаразд</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Новий альбом</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Без назви</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Нещодавно імпортовано</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Моє обране</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Ви впевнені, що хочете видалити цей альбом?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Скасувати</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Вилучити</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Назад</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Моє обране</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Шкала часу</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Додати</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Ви можете додати директорію синхронізації або перетягнути зображення до шкали часу</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Без назви</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Вид</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Показ слайдів</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Перейменувати</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Скопіювати</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Вилучити</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="uk">
 <context>
     <name>Application</name>
     <message>
@@ -151,71 +20,14 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Скасувати</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Гаразд</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Ви впевнені, що додали фотографії в альбом?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Синхронізувати та створити</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Синхронізувати</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Чи потрібно додавати до списку синхронізації і створювати альбом, названий на честь цієї теки?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Експортовано успішно</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Не вдалося експортувати</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Зберегти</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
         <translation>Інформація про зображення</translation>
     </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
     <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Ви дійсно хочете перемістити фотографії до СМІНИКУ?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Скасувати</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Вилучити</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -237,81 +49,6 @@
     </message>
 </context>
 <context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Вид</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Повноекранний</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Слайд шоу</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Друк</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Скопіювати</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Видалити з альбому</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Моє обране</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Вилучити з Обраного</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Повернути за годинниковою стрілкою</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Повернути проти годинникової стрілки</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Встановити як шпалери</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Показати в файловому менеджері</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Інформація про зображення</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Додати</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Ви можете додати директорію синхронізації або перетягнути зображення до шкали часу</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Додати до альбому</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Додати до нового альбому</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Вилучити</translation>
-    </message>
-</context>
-<context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation>Знімний пристрій відключено, ви впевнені, що видаляєте ескізи знімного пристрою?</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Вилучити</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished">Не знайдено файлів зображень</translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Кінець шоу</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Пауза/Відтворення</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -894,104 +620,6 @@
     </message>
 </context>
 <context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 зображення</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 зображення</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Керування синхронізацією</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Синхронізація:</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Альбом</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Додати</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Ви можете додати директорію синхронізації або перетягнути зображення до шкали часу</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Додати до альбому</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Додати до нового альбому</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Вид</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Повноекранний</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Слайд шоу</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Друк</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Скопіювати</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Копіювати в буфер обміну</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Обране</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Вилучити з Обраного</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Повернути за годинниковою стрілкою</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Повернути проти годинникової стрілки</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Встановити як шпалери</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Показати в файловому менеджері</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Інформація про зображення</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Вилучити</translation>
-    </message>
-</context>
-<context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Альбом</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Моє обране</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Нещодавно імпортовано</translation>
     </message>
 </context>
 <context>

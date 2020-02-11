@@ -1,146 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin képnézegető</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Verzió:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>kép</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>képek</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>album</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>albumok</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Szinkronizáció kezelés</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Szinkronizáció:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Mégsem</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Új album</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Névtelen</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Utolsó importálás</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Kedvencek</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Biztosan töröljük ezt az albumot?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Mégse</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Vissza</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Kedvencek</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Idővonal</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Hozzáadás</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>A szinkronizáláshoz felvehetünk mappát vagy húzzuk és dobjuk ide a képet az idővonalra</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Névtelen</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Megtekintés</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diavetítés</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Átnevezés</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Másolás</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -151,82 +20,25 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Mégse</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Biztos hozzáadjuk a képeket az albumhoz?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Szinkronizálás és létrehozás</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Szinkronizálás</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Biztos hozzáadjuk a szinkronizálási listához és létrehozunk egy ilyen nevű mappát?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Exportálás sikeresen befejeződött</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Hiba lépett fel az exportálás során</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Mentés</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
-    <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Biztos áthelyezzük a képeket a Kukába?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Mégse</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -234,81 +46,6 @@
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
         <translation>Ez a fájl több oldalt tartalmaz, kérlek használd az Evince-t az összes oldal megtekintéséhez.</translation>
-    </message>
-</context>
-<context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Megtekintés</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Teljes képernyő</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diavetítés</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Nyomtatás</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Másolás</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Eltávolítás az albumból</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Kedvenc</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Nem kedvenc</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Forgatás jobbra</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Beállítás háttérnek</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Megtekintés fájlkezelőben</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Képinformáció</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Hozzáadás</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Felvehetjük a szinkronizált mappába vagy fogjuk és dobjuk az idővonalra</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Hozzáadás az albumhoz</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Hozzáadás új albumhoz</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
     </message>
 </context>
 <context>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Mégse</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Törlés</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,11 +161,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -501,7 +238,7 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -654,19 +391,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Kilépés a teljes képernyőből</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Megtekintés vége</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Megállítás/Elindítás</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -804,35 +530,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Kedvenceim</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Előző</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Következő</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Eredeti méret</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Ablakhoz igazítás</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Törlés</translation>
     </message>
 </context>
 <context>
@@ -890,105 +616,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 kép</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 kép</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Szinkronizálási beállítások</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Szinkronizálás:</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Hozzáadás</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Felvehető szinkronmappának vagy húzzuk és dobjuk ide az idővonalra</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Hozzáadás az albumhoz</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Hozzáadás új albumhoz</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Megtekintés</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Teljes képernyő</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Diavetítés</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Nyomtatás</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Másolás</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Másolás vágólapra</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Kedvenc</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Nem kedvenc</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Forgatás jobbra</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Forgatás balra</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Beállítás háttérképnek</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Megnyitás fájlkezelővel</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Kép információ</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Törlés</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>yyyy MMMM dd</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Kedvenceim</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Utolsó importálás</translation>
     </message>
 </context>
 <context>

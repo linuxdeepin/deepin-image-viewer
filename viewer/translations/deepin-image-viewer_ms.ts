@@ -1,146 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Pelihat Imej Deepin</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Versi:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>imej</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>imej</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>album</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>album</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Urus segerak</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Menyegerak:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Album baharu</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Tanpa nama</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Diimport baru-baru ini</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Kegemaran saya</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Anda pasti mahu padam album ini?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Undur</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Kegemaran saya</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Garis Masa</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Tambah</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Anda boleh menambah direktori segerak atau seret dan lepaskan imej ke dalam garis masa</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Tanpa nama</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Lihat</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Paparan slaid</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Nama semula</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Salin</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ms">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -151,82 +20,25 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Anda pasti mahu tambah gambar ke dalam album?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Segerak dan Cipta</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Segerak</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Anda pasti mahu tambah ke dalam senarai segerak dan cipta album bernama selepas folder ini?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Berjaya dieksport</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Gagal dieksport</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Simpan</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
-    <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Anda pasti mahu campak gambar ke dalam TONG SAMPAH?</translation>
+        <translation type="unfinished">Maklumat imej</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Batal</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -234,81 +46,6 @@
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
         <translation>Fail ini mengandungi halaman berbilang, sila guna Evince untuk melihat semua halaman.</translation>
-    </message>
-</context>
-<context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Lihat</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Skrin Penuh</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Paparan slaid</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Cetak</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Salin</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Buang dari album</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Kegemaran</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Nyahgemar</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Putar ikut jam</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Tetapkan sebagai kertas dinding</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Papar dalam pengurus fail</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Maklumat imej</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Tambah</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Anda boleh tambah direktori segerak atau seret dan lepas imej ke dalam garis masa</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Tambah ke album</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Tambah ke album baharu</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Batal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Padam</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,11 +161,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -501,7 +238,7 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -654,19 +391,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Keluar dari skrin penuh</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Tamat paparan</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Jeda/Main</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -804,35 +530,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Kegemaran saya</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Terdahulu</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Berikutnya</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Saiz 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Suai muat dengan tetingkap</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Putar lawan jam</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Putar ikut jam</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Padam</translation>
     </message>
 </context>
 <context>
@@ -890,105 +616,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 imej</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 imej</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Urus segerak</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Menyegerak:</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Tambah</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Anda boleh tambah direktori segerak atau seret dan lepas imej ke dalam garis masa</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Tambah ke album</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Tambah ke album baharu</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Lihat</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Skrin penuh</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Paparan slaid</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Cetak</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Salin</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Salin ke papan keratan</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Kegemaran</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Nyahgemar</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Putar ikut jam</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Putar lawan jam</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Tetapkan sebagai kertas dinding</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Papar dalam pengurus fail</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Maklumat imej</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Padam</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>hh BBBB tttt</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Kegemaran saya</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Diimport baru-baru ini</translation>
     </message>
 </context>
 <context>

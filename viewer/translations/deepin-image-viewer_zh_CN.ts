@@ -2,144 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>深度看图</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>版本：</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>张图片</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>张图片</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>个相册</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>个相册</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>同步管理</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>正在同步：</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>新建</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>新建相册</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>未命名相册</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>最近导入</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>我的收藏</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>您确定要删除此相册吗？</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>删除</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>返回</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>我的收藏</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>时间线</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>添加同步目录</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>未命名相册</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>查看</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>幻灯片放映</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>重命名</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>复制</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>删除</translation>
-    </message>
-</context>
-<context>
     <name>Application</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation type="vanished">深度看图</translation>
-    </message>
     <message>
         <source>Image Viewer</source>
         <translation>看图</translation>
@@ -157,87 +20,18 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>确认</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>是否将图片添加到该相册？</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>同步并创建</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>同步</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>是否添加到同步列表并创建以该文件夹命名的相册？</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>导出成功</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>导出失败</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>保存</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
         <translation>图片信息</translation>
     </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
     <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>您确定将图片丢到回收站吗？</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>删除</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
-    <message>
-        <source>Image info</source>
-        <translation type="vanished">图片信息</translation>
-    </message>
-    <message>
-        <source>Basic information</source>
-        <translation type="vanished">基本信息</translation>
-    </message>
-    <message>
-        <source>Detailed information</source>
-        <translation type="vanished">详细信息</translation>
-    </message>
     <message>
         <source>Basic info</source>
         <translation>基本信息</translation>
@@ -252,81 +46,6 @@
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
         <translation>此文件包含多个页面，推荐使用文档查看器查看所有页面。</translation>
-    </message>
-</context>
-<context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>查看</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>全屏</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>幻灯片放映</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>打印</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>复制</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>从相册中移除</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>收藏</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>取消收藏</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>图片信息</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>添加同步目录</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>添加到相册</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>添加到新相册</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>删除</translation>
     </message>
 </context>
 <context>
@@ -346,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation>移动设备已拔出，是否要删除该移动设备上的缩略图?</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>删除</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished">没有发现图⽚⽂件</translation>
     </message>
 </context>
 <context>
@@ -518,10 +237,6 @@
         <translation>圆环</translation>
     </message>
     <message>
-        <source>yyyy/MM/dd HH:mm</source>
-        <translation type="vanished">yyyy年MM月dd日 HH:mm</translation>
-    </message>
-    <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>yyyy年MM月dd日 HH:mm:dd</translation>
     </message>
@@ -667,10 +382,6 @@
         <translation>帮助</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation type="vanished">退出</translation>
-    </message>
-    <message>
         <source>Display shortcuts</source>
         <translation>显示快捷键</translation>
     </message>
@@ -793,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>退出幻灯片</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>暂停/播放</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -920,104 +620,6 @@
     </message>
 </context>
 <context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 张图片</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 张图片</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>同步管理</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>正在同步：</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>相册</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>添加同步目录</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>您可以添加同步目录或拖拽图片到时间线</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>添加到相册</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>添加到新相册</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>查看</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>全屏</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>幻灯片放映</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>打印</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>复制</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>复制到剪贴板</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>收藏</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>取消收藏</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>顺时针旋转</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>逆时针旋转</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>设为壁纸</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>在文件管理器中显示</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>图片信息</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>删除</translation>
-    </message>
-</context>
-<context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -1045,21 +647,6 @@
     </message>
 </context>
 <context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>yyyy年MM月dd日</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>我的收藏</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>最近导入</translation>
-    </message>
-</context>
-<context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
@@ -1068,22 +655,6 @@
     <message>
         <source>Settings</source>
         <translation>设置</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is a fashion &amp; smooth image manager.</source>
-        <translation type="vanished">深度看图是一款外观时尚，性能流畅的图片管理工具。</translation>
-    </message>
-    <message>
-        <source>It is featured with image management, image viewing and basic image editing.</source>
-        <translation type="vanished">兼具了图片管理和图片查看功能，可以进行基本的图片编辑。</translation>
-    </message>
-    <message>
-        <source>Dark theme</source>
-        <translation type="vanished">深色主题</translation>
-    </message>
-    <message>
-        <source>Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="vanished">深度看图是一款外观时尚，性能流畅的图片查看工具。</translation>
     </message>
 </context>
 <context>

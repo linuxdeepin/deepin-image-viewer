@@ -1,137 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Visualitzador d&apos;imatges del Deepin</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Versió:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>imatge</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>imatges</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>àlbum</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>àlbums</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Gestió de sincronització</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Sincronització: </translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancel·la</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>D&apos;acord</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Àlbum nou</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Sense nom</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Importat de fa poc</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Favorits</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Segur que voleu eliminar aquest àlbum?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancel·la</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Elimina</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Enrere</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Línia temporal</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Afegeix</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Podeu afegir una directori de sincronització i deixar anar imatges a la línia temporal.</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Sense nom</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Visualitza</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Presentació de diapositives</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Canvia&apos;n el nom</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Elimina</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ca">
 <context>
     <name>Application</name>
     <message>
@@ -151,71 +20,14 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancel·la</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>D&apos;acord</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Segur que voleu afegir imatges a aquest àlbum?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Sincronitza i crea</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Sincronització</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Segur que ho voleu afegir a la llista de sincronització i crear l&apos;àlbum amb el nom d&apos;aquesta carpeta?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Exportat correctament</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Ha fallat l&apos;exportació</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Desa</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
         <translation>Informació de la imatge</translation>
     </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
     <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Segur que voleu llençar les imatges a la paperera?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancel·la</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Elimina</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -237,81 +49,6 @@
     </message>
 </context>
 <context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Visualització</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Presentació de diapositives</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Imprimeix</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Elimina de l&apos;àlbum</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>No favorit</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Gira a la dreta</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Gira a l&apos;esquerra</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Estableix com a fons d&apos;escriptori</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Mostra al gestor de fitxers</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Informació de la imatge</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Afegeix</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Podeu afegir una directori de sincronització i deixar anar imatges a la línia temporal.</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Afegeix a l&apos;àlbum</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Afegeix a un àlbum nou</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Elimina</translation>
-    </message>
-</context>
-<context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation>El dispositiu extraïble s&apos;ha desconnectat, voleu suprimir les miniatures del dispositiu extraïble?</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>Cancel·la</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Suprimeix</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished">No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Acaba la presentació</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Pausa / Reprodueix</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -894,104 +620,6 @@
     </message>
 </context>
 <context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 imatge</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 imatges</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Gestió de sincronització</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Sincronització: </translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Àlbum</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Afegeix</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Podeu afegir una directori de sincronització i deixar anar imatges a la línia temporal.</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Afegeix a l&apos;àlbum</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Afegeix a un àlbum nou</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Visualització</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Presentació de diapositives</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Imprimeix</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Copia al porta-retalls</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Favorit</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>No favorit</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Gira a la dreta</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Gira a l&apos;esquerra</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Estableix com a fons d&apos;escriptori</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Mostra al gestor de fitxers</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Informació de la imatge</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Elimina</translation>
-    </message>
-</context>
-<context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Àlbum</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd mmmm aaaa</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Favorits</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Importat de fa poc</translation>
     </message>
 </context>
 <context>

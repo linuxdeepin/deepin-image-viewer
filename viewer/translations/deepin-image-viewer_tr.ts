@@ -1,137 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin Resim Görüntüleyici</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Sürüm:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>görsel</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>görseller</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>albüm</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>albümler</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Eşitleme yönetimi</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Eşitleme:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Tamam</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Yeni albüm</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>İsimsiz</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Son içe aktarılan</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Sık kullandıklarım</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Bu albümü silmek istediğinize emin misiniz?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Sil</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Geri</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Sık kullandıklarım</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Zaman tüneli</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Ekle</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Eşitlenecek klasörü ekleyebilir ya da görselleri sürükleyip zaman tüneline bırakabilirsiniz</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>İsimsiz</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Görünüm</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Yeniden adlandır</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopyala</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Sil</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="tr">
 <context>
     <name>Application</name>
     <message>
@@ -151,71 +20,14 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>Tamam</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Görselleri albüme eklemek istediğinize emin misiniz?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Eşitle ve Oluştur</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Eşitle</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Eşitleme listesine eklemek ve bu klasörün adını taşıyan bir albüm oluşturmak istediğinize emin misiniz?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Dışa aktarıldı</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Dışa aktarılamadı</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Kaydet</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
         <translation>Görsel bilgisi</translation>
     </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
     <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Görselleri çöpe atmak istediğinize emin misiniz?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Sil</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -237,81 +49,6 @@
     </message>
 </context>
 <context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Görünüm</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Tam ekran</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Yazdır</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopyala</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Albümden kaldır</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Sık kullanılanlara ekle</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Sık kullanılanlardan kaldır</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Duvar kağıdı olarak ayarla</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde görüntüle</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Görsel bilgisi</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Ekle</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Eşitlenecek klasörü ekleyebilir ya da görselleri sürükleyip zaman tüneline bırakabilirsiniz</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Albüme ekle</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Yeni albüme ekle</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Sil</translation>
-    </message>
-</context>
-<context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation>Çıkarılabilir aygıt takılı değil, çıkarılabilir aygıtın küçük resimlerini silmek istediğinizden emin misiniz?</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Sil</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished">Görsel dosya bulunamadı</translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Sunumu bitir</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Duraklat/Oynat</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -894,104 +620,6 @@
     </message>
 </context>
 <context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 görsel</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 görsel</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Eşitleme yönetimi</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Eşitleniyor:</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Albüm</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Ekle</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Eşitlenecek klasörü ekleyebilir ya da görselleri sürükleyip zaman tüneline bırakabilirsiniz</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Albüme ekle</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Yeni albüme ekle</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Görünüm</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Tam ekran</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Slayt gösterisi</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Yazdır</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopyala</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Panoya kopyala</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>Sık kullanılanlara ekle</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Sık kullanılanlardan kaldır</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Saat yönünde döndür</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Saat yönünün tersine döndür</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Duvar kağıdı olarak ayarla</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Dosya yöneticisinde görüntüle</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Görsel bilgisi</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Sil</translation>
-    </message>
-</context>
-<context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Albüm</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>gg AAAA yyyy</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Sık kullandıklarım</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Son içe aktarılan</translation>
     </message>
 </context>
 <context>

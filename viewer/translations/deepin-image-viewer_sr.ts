@@ -1,137 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Дипин Прегледач Слика</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>Верзија:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>слика</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>слика</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>албум</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>албума</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Управљај синхронизацијом</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Синхронизација:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Откажи</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>У реду</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>Нови албум</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>Неименовано</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>Недавно увезено</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Омиљено</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>Заиста желите да обришете албум?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Откажи</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Обриши</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>Назад</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Омиљено</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>Временска линија</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Додај</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Можете додати директоријум за синхронизацију или превући слике на временску линију</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>Неименовано</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Прегледај</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Покретни приказ</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>Преименуј</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Копирај</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Обриши</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sr">
 <context>
     <name>Application</name>
     <message>
@@ -151,71 +20,14 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>Откажи</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>У реду</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>Заиста желите да додате слике у албум?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>Синхро. и направи</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>Синхро.</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>Желите ли да додате на листу синхронизације и направите албум именован по овој фасцикли?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>Успешно извезено</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>Извоз неуспешан</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Сачувај</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
         <translation>Својства слике</translation>
     </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
     <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>Сигурно желите да баците слике у СМЕЋЕ?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Откажи</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Обриши</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -237,81 +49,6 @@
     </message>
 </context>
 <context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>Прегледај</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Цео екран</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Покретни приказ</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Штампај</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Копирај</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>Уклони из албума</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>У омиљено</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Из омиљеног</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Ротирај удесно</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Ротирај улево</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Постави као позадину</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Прикажи у управнику података</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Својства слике</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Додај</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Можете додати директоријум за синхронизацију или превући слике на временску линију</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Додај у албум</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Додај у нови албум</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Обриши</translation>
-    </message>
-</context>
-<context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation>Уклоњиви уређај је ископчан. Заиста желите да обришете умањене приказе  са уклоњивог уређаја.</translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation>Откажи</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Обриши</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished">Датотека слике није пронађена</translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>Окончај</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>Пауза/Пусти</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -894,104 +620,6 @@
     </message>
 </context>
 <context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 слика</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 слика/е</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>Управљај синхронизацијом</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>Синхронизација:</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>Албум</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>Додај</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>Можете додати директоријум за синхронизацију или превући слике на временску линију</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>Додај у албум</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>Додај у нови албум</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>Прегледај</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>Цео екран</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>Покретни приказ</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>Штампај</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Копирај</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>Копирај у бележницу</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>У омиљено</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>Из омиљеног</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>Ротирај удесно</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>Ротирај улево</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>Постави као позадину</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>Прикажи у управнику података</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>Својства слике</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Обриши</translation>
-    </message>
-</context>
-<context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>Албум</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>Омиљено</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>Недавно увезено</translation>
     </message>
 </context>
 <context>

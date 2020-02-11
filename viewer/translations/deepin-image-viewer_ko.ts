@@ -1,146 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <source>Deepin Image Viewer</source>
-        <translation>Deepin 이미지 보기도구</translation>
-    </message>
-    <message>
-        <source>Version:</source>
-        <translation>버전:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumBTContent</name>
-    <message>
-        <source>image</source>
-        <translation>이미지</translation>
-    </message>
-    <message>
-        <source>images</source>
-        <translation>이미지</translation>
-    </message>
-    <message>
-        <source>album</source>
-        <translation>앨범</translation>
-    </message>
-    <message>
-        <source>albums</source>
-        <translation>앨범</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>동기화 관리</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>동기화 중:</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumCreateDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>취소</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>확인</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation>새 앨범</translation>
-    </message>
-    <message>
-        <source>Unnamed</source>
-        <translation>이름 없음</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDelegate</name>
-    <message>
-        <source>Recent imported</source>
-        <translation>최근 가져온</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>내 즐겨찾기</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumDeleteDialog</name>
-    <message>
-        <source>Are your sure to delete this album?</source>
-        <translation>이 앨범을 삭제하시겠습니까?</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>취소</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>삭제</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumPanel</name>
-    <message>
-        <source>Back</source>
-        <translation>뒤로</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>내 즐겨찾기</translation>
-    </message>
-    <message>
-        <source>Timeline</source>
-        <translation>연대순</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>추가</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>동기화 디렉토리를 추가하거나 이미지를 연대순으로 끌어다 놓을 수 있습니다</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumsView</name>
-    <message>
-        <source>Unnamed</source>
-        <translation>이름 없음</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>보기</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>슬라이드 표시</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation>이름 변경</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>복사</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>삭제</translation>
-    </message>
-</context>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ko">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -151,82 +20,25 @@
     </message>
 </context>
 <context>
-    <name>DirImportDialog</name>
-    <message>
-        <source>Cancel</source>
-        <translation>취소</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>확인</translation>
-    </message>
-    <message>
-        <source>Are you sure to add the pictures to the album?</source>
-        <translation>앨범에 사진을 추가하시겠습니까?</translation>
-    </message>
-    <message>
-        <source>Sync and Create</source>
-        <translation>동기화 및 생성</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation>동기화</translation>
-    </message>
-    <message>
-        <source>Are you sure to add to the sync list and create the album named after this folder?</source>
-        <translation>동기화 목록에 추가하고 이 폴더의 이름을 딴 앨범을 생성하시겠습니까?</translation>
-    </message>
-</context>
-<context>
-    <name>Exporter</name>
-    <message>
-        <source>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</source>
-        <translation>JPEG(*.bmp *.gif *.jpg; *.jpeg; *.png *.pbm;*.pgm *.ppm *.xbm *.xpm *.svg *.dds *.icns*.jp2 *.mng *.tga *.tiff *.wbmp *.webp;)</translation>
-    </message>
-    <message>
-        <source>Exported successfully</source>
-        <translation>내보내기 성공</translation>
-    </message>
-    <message>
-        <source>Failed to export</source>
-        <translation>내보내기 실패</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>저장</translation>
-    </message>
-</context>
-<context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>FileDeleteDialog</name>
-    <message>
-        <source>Are you sure to throw pictures to TRASH?</source>
-        <translation>휴지통으로 사진을 보내시겠습니까?</translation>
+        <translation type="unfinished">이미지 정보</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>취소</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>삭제</translation>
+        <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -234,81 +46,6 @@
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
         <translation>이 파일에는 여러 페이지가 포함되어 있으므로, Evince를 사용하여 모든 페이지를 보십시오.</translation>
-    </message>
-</context>
-<context>
-    <name>ImagesView</name>
-    <message>
-        <source>View</source>
-        <translation>보기</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>전체화면</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>슬라이드 표시</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>인쇄</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>복사</translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation>엘범에서 제거</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>즐겨찾기</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>즐겨찾기 해제</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>시계 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>시계 반대 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>바탕화면으로 설정</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>파일 관리도구에 표시</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>이미지 정보</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>추가</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>동기화 디렉토리를 추가하거나 이미지를 연대순으로 끌어다 놓을 수 있습니다</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>앨범에 추가</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>새 앨범에 추가</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>삭제</translation>
     </message>
 </context>
 <context>
@@ -328,16 +65,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>The removable device has been plugged out, are you sure to delete the thumbnails of the removable device?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">취소</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">삭제</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -424,11 +161,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -501,7 +238,7 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -654,19 +391,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">전체화면 종료</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -767,17 +504,6 @@
     </message>
 </context>
 <context>
-    <name>SlideShowPanel</name>
-    <message>
-        <source>End show</source>
-        <translation>표시 종료</translation>
-    </message>
-    <message>
-        <source>Pause/Play</source>
-        <translation>일시중지/재생</translation>
-    </message>
-</context>
-<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -804,35 +530,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">내 즐겨찾기</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">이전</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">다음</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">1:1 크기</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">창에 맞춤</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">삭제</translation>
     </message>
 </context>
 <context>
@@ -890,105 +616,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>TimelineBTContent</name>
-    <message>
-        <source>%1 image</source>
-        <translation>%1 이미지</translation>
-    </message>
-    <message>
-        <source>%1 images</source>
-        <translation>%1 이미지</translation>
-    </message>
-    <message>
-        <source>Manage sync</source>
-        <translation>동기화 관리</translation>
-    </message>
-    <message>
-        <source>Syncing: </source>
-        <translation>동기화 중</translation>
-    </message>
-</context>
-<context>
-    <name>TimelinePanel</name>
-    <message>
-        <source>Album</source>
-        <translation>앨범</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation>추가</translation>
-    </message>
-    <message>
-        <source>You can add sync directory or drag and drop  images to timeline</source>
-        <translation>동기화 디렉토리를 추가하거나 이미지를 연대순으로 끌어다 놓을 수 있습니다</translation>
-    </message>
-    <message>
-        <source>Add to album</source>
-        <translation>앨범에 추가</translation>
-    </message>
-    <message>
-        <source>Add to new album</source>
-        <translation>새 앨범에 추가</translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation>보기</translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation>전체화면</translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation>슬라이드 표시</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation>인쇄</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>복사</translation>
-    </message>
-    <message>
-        <source>Copy to clipboard</source>
-        <translation>클립보드로 복사</translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation>즐겨찾기</translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation>즐겨찾기 해제</translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation>시계 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation>시계 반대 방향으로 회전</translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation>바탕화면으로 설정</translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation>파일 관리도구에 표시</translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation>이미지 정보</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>삭제</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1016,21 +644,6 @@
     <message>
         <source>Album</source>
         <translation>앨범</translation>
-    </message>
-</context>
-<context>
-    <name>TopAlbumTips</name>
-    <message>
-        <source>dd MMMM yyyy</source>
-        <translation>dd MMMM yyyy</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation>내 즐겨찾기</translation>
-    </message>
-    <message>
-        <source>Recent imported</source>
-        <translation>최근 가져온</translation>
     </message>
 </context>
 <context>

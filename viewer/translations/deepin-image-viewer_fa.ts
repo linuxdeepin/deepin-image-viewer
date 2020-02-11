@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pl">
+<TS version="2.1" language="fa">
 <context>
     <name>Application</name>
     <message>
@@ -16,14 +16,14 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>Obrazy</translation>
+        <translation>تصاویر</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Informacje o obrazie</translation>
+        <translation type="unfinished">اطلاعات تصویر</translation>
     </message>
     <message>
         <source>Alt+Return</source>
@@ -45,32 +45,32 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>Ten plik zawiera wiele stron, których przejrzenie możliwe jest w programie Evince.</translation>
+        <translation>این فایلشامل چندین صفحه است ، لطفا از Evince برای مشاهده همه صفحات استفاده کنید.</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Otwórz katalog</translation>
+        <translation>باز کردن دایرکتوری</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Nie masz uprawnień do podglądu obrazów</translation>
+        <translation>شما اجازه دیدن تصویر را ندارید</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Anuluj</translation>
+        <translation type="unfinished">لغو</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Usuń</translation>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
         <source>Image file not found</source>
@@ -81,83 +81,83 @@
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>Nazwa</translation>
+        <translation>اسم</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>Rodzaj</translation>
+        <translation>نوع</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Data modyfikacji</translation>
+        <translation>تاریخ اصلاح شدن</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Wymiar</translation>
+        <translation>ابعاد</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>Rozmiar pliku</translation>
+        <translation>حجم فایل</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Data rejestracji</translation>
+        <translation>تاریخ گرفتن عکس</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Tryb ekspozycji</translation>
+        <translation>حالت نوردهی</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Program ekspozycji</translation>
+        <translation>برنامه نوردهی</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>Czas ekspozycji</translation>
+        <translation>زمان نوردهی</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>Lampa błyskowa</translation>
+        <translation>فلش</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>Przysłona</translation>
+        <translation>دیافراگم</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>Ogniskowa</translation>
+        <translation>فاصله کانونی</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation>ایزو</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>Maksymalna przysłona</translation>
+        <translation>حداکثر دیافراگم</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>Tryb pomiaru</translation>
+        <translation>حالت نورسنجی</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>Balans bieli</translation>
+        <translation>تراز سفیدی</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Korekcja lampy błyskowej</translation>
+        <translation>خسارت فلاش</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Model obiektywu</translation>
+        <translation>مدل لنز</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>Przestrzeń kolorów</translation>
+        <translation>فضای رنگی</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Model aparatu</translation>
+        <translation>مدل دوربین</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -172,69 +172,69 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Brak skalowania</translation>
+        <translation>بدون مقیاس بندی</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Dopasuj stronę do obrazu</translation>
+        <translation>صفحه متناسب با تصویر</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Dopasuj obraz do strony</translation>
+        <translation>تناسب تصویر با صفحه</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>Zeskaluj do:</translation>
+        <translation>مقیاس به:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>Milimetry</translation>
+        <translation>میلی متر</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>Centymetry</translation>
+        <translation>سانتی متر</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>Cale</translation>
+        <translation>اینچ</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Położenie obrazu</translation>
+        <translation>موقعیت تصویر</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Skalowanie</translation>
+        <translation>مقیاس بندی</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Ustawienia obrazu</translation>
+        <translation>تنظیمات تصویر</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Ustawienia obrazu</translation>
+        <translation>تنظیمات تصویر</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Żaluzja</translation>
+        <translation>پرده‌ها</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Przełącznik</translation>
+        <translation>تعویض کننده</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Poślizg</translation>
+        <translation>کشویی</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Siatka</translation>
+        <translation>حلقه</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
@@ -245,153 +245,153 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Wybierz katalog</translation>
+        <translation>انتخاب دایرکتوری</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Wyłączono synchronizację dla tego katalogu</translation>
+        <translation>این فهرست برای همگام سازی غیرفعال است</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Dodaj katalog</translation>
+        <translation>اضافه کردن پوشه</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Zarządzanie synchronizowanymi katalogami</translation>
+        <translation>همگام سازی مدیریت دایرکتوری</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>Lista katalogów jest pusta</translation>
+        <translation>لیست دایرکتوری ها خالی است</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Anuluj synchronizację</translation>
+        <translation>لغو همگام سازی</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Obrazy</translation>
+        <translation>تصاویر</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Urządzenie zostało usunięte</translation>
+        <translation>دستگاه حذف شده است</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Ten katalog już nie istnieje </translation>
+        <translation>این دایرکتوری دیگر وجود ندارد</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Obliczanie...</translation>
+        <translation>در حال محاسبه ...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Podgląd obrazu</translation>
+        <translation>مشاهده تصویر</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>آلبوم</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ustawienia</translation>
+        <translation>تنظیمات</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Podgląd</translation>
+        <translation>نما</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pełny ekran</translation>
+        <translation>تمام صفحه</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Pokaz zdjęć</translation>
+        <translation>نمایش اسلاید</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Zakończ pokaz</translation>
+        <translation>نمایش تمام</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation>کپی</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Usuń z albumu</translation>
+        <translation>حذف از آلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Ulubione</translation>
+        <translation>علاقه مندی</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Usuń z ulubionych</translation>
+        <translation>غیر علاقه مندی</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć zgodnie z kierunkiem wskazówek zegara</translation>
+        <translation>چرخش در جهت عقربه های ساعت</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć odwrotnie do kierunku wskazówek zegara</translation>
+        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Ustaw jako tło pulpitu</translation>
+        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Wyświetl w menedżerze plików</translation>
+        <translation>نمایش در مدیر فایل</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informacje o obrazie</translation>
+        <translation>اطلاعات تصویر</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>Poprzedni</translation>
+        <translation>قبلی</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>Następny</translation>
+        <translation>بعدی</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>Poprzedni ekran</translation>
+        <translation>صفحه قبلی</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>Następny ekran</translation>
+        <translation>صفحه بعدی</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nowy album</translation>
+        <translation>آلبوم جدید</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Zmień nazwę</translation>
+        <translation>تغییر اسم</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Pomoc</translation>
+        <translation>راهنما</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Wyświetl skróty</translation>
+        <translation>نمایش میانبرها</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Wyjdź z pełnego ekranu</translation>
+        <translation type="unfinished">خروج از تمام صفحه</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -410,209 +410,209 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Prosimy wprowadzić nowy skrót</translation>
+        <translation>لطفا میانبر جدید وارد کنید</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Skróty</translation>
+        <translation>میانبرها</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Podgląd obrazu</translation>
+        <translation>مشاهده تصویر</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>آلبوم</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Przywróć domyślne</translation>
+        <translation>بازگرداندن پیش‌فرض‌ها</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Podgląd</translation>
+        <translation>نما</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pełny ekran</translation>
+        <translation>تمام صفحه</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Pokaz zdjęć</translation>
+        <translation>نمایش اسلاید</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Zakończ pokaz</translation>
+        <translation>نمایش تمام</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Drukuj</translation>
+        <translation>چاپ</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation>کپی</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Usuń z albumu</translation>
+        <translation>حذف از آلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Ulubione</translation>
+        <translation>علاقه مندی</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Usuń z ulubionych</translation>
+        <translation>غیر علاقه مندی</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć zgodnie z kierunkiem wskazówek zegara</translation>
+        <translation>چرخش در جهت عقربه های ساعت</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć odwrotnie do kierunku wskazówek zegara</translation>
+        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Ustaw jako tło pulpitu</translation>
+        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Wyświetl w menedżerze plików</translation>
+        <translation>نمایش در مدیر فایل</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informacje o obrazie</translation>
+        <translation>اطلاعات تصویر</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nowy album</translation>
+        <translation>آلبوم جدید</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Zmień nazwę</translation>
+        <translation>تغییر اسم</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation>حذف</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Ustawienia pokazu</translation>
+        <translation>تنظیمات اسلاید</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Efekt przejścia</translation>
+        <translation>افکت تعویض کردن</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Czas trwania</translation>
+        <translation>مدت</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Przełącz czas trwania</translation>
+        <translation>مدت تعویض کردن</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>sekunda</translation>
+        <translation>ثانیه</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Moje ulubione</translation>
+        <translation type="unfinished">مورد علاقه من</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Poprzedni</translation>
+        <translation type="unfinished">قبلی</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Następny</translation>
+        <translation type="unfinished">بعدی</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">Rozmiar 1:1</translation>
+        <translation type="unfinished">اندازه 1: 1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">Dopasuj do okna</translation>
+        <translation type="unfinished">متناسب با پنجره</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Obróć odwrotnie do kierunku wskazówek zegara</translation>
+        <translation type="unfinished">چرخش در جهت خلاف عقربه های ساعت</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Obróć zgodnie z kierunkiem wskazówek zegara</translation>
+        <translation type="unfinished">چرخش در جهت عقربه های ساعت</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Usuń</translation>
+        <translation type="unfinished">حذف</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>Wstecz</translation>
+        <translation>برگشت</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>Zarządzanie obrazem</translation>
+        <translation>مدیریت تصویر</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Moje ulubione</translation>
+        <translation>مورد علاقه من</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Rozmiar 1:1</translation>
+        <translation>اندازه 1: 1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Dopasuj do okna</translation>
+        <translation>متناسب با پنجره</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć odwrotnie do kierunku wskazówek zegara</translation>
+        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć zgodnie z kierunkiem wskazówek zegara</translation>
+        <translation>چرخش در جهت عقربه های ساعت</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Usuń z ulubionych</translation>
+        <translation>غیر علاقه مندی</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Ulubione</translation>
+        <translation>علاقه مندی</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation>حذف</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nie odnaleziono plików z obrazami</translation>
+        <translation>هیچ فایل تصویری یافت نشد</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Otwórz obraz</translation>
+        <translation>باز کردن تصویر</translation>
     </message>
     <message>
         <source>Image file not found</source>
@@ -623,125 +623,125 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Ustawienia pokazu</translation>
+        <translation>تنظیمات اسلاید</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Efekt</translation>
+        <translation>افکت</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Czas trwania</translation>
+        <translation>مدت</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Skróty</translation>
+        <translation>میانبرها</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Podgląd</translation>
+        <translation>نما</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation>آلبوم</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nowy album</translation>
+        <translation>آلبوم جدید</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ustawienia</translation>
+        <translation>تنظیمات</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Oś czasu</translation>
+        <translation>جدول زمانی</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Dodaj do albumu</translation>
+        <translation>اضافه کردن به آلبوم</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Dodaj do nowego albumu</translation>
+        <translation>اضافه کردن به آلبوم جدید</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Wyjdź z pełnego ekranu</translation>
+        <translation>خروج از تمام صفحه</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pełny ekran</translation>
+        <translation>تمام صفحه</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Pokaz zdjęć</translation>
+        <translation>نمایش اسلاید</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Drukuj</translation>
+        <translation>چاپ</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation>کپی</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Usuń z albumu</translation>
+        <translation>حذف از آلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Ulubione</translation>
+        <translation>علاقه مندی</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Usuń z ulubionych</translation>
+        <translation>غیر علاقه مندی</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Pokaż okno nawigacyjne</translation>
+        <translation>نمایش پنجره ناوبری</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Ukryj okno nawigacyjne</translation>
+        <translation>پنهان کردن پنجره ناوبری</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć zgodnie z kierunkiem wskazówek zegara</translation>
+        <translation>چرخش در جهت عقربه های ساعت</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć odwrotnie do kierunku wskazówek zegara</translation>
+        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Ustaw jako tło pulpitu</translation>
+        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Wyświetl w menedżerze plików</translation>
+        <translation>نمایش در مدیر فایل</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informacje o obrazie</translation>
+        <translation>اطلاعات تصویر</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Otwórz obraz</translation>
+        <translation>باز کردن تصویر</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation>Wszystkie obrazy</translation>
+        <translation>همه تصاویر</translation>
     </message>
 </context>
 </TS>
