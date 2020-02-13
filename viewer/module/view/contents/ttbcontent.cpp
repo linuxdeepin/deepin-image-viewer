@@ -1071,6 +1071,17 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_imgListView->update();
         m_imgList->update();
 
+        if (m_nowIndex == 0) {
+            m_preButton->setDisabled(true);
+        } else {
+            m_preButton->setDisabled(false);
+        }
+        if (m_nowIndex == labelList.size() - 1) {
+            m_nextButton->setDisabled(true);
+        } else {
+            m_nextButton->setDisabled(false);
+        }
+
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
