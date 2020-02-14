@@ -72,9 +72,10 @@ void ViewPanel::initPopupMenu()
 {
     m_menu = new DMenu;
     connect(this, &ViewPanel::customContextMenuRequested, this, [=] {
+        QString filePath = m_infos.at(m_current).filePath;
         if (!m_infos.isEmpty()
 #ifdef LITE_DIV
-            && !m_infos.at(m_current).filePath.isEmpty()
+            && !filePath.isEmpty() && QFileInfo(filePath).exists()
 #endif
         ) {
             updateMenuContent();
