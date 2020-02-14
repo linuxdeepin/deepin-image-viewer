@@ -261,6 +261,7 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                            (m_infos.size() > 1));
             m_stack->setCurrentIndex(1);
+            emit dApp->signalM->sigImageOutTitleBar(false);
         }
     });
     connect(dApp->signalM, &SignalManager::picOneClear, this, [=]() {
@@ -270,11 +271,12 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->hideExtensionPanel();
             emit dApp->signalM->picNotExists(false);
             emit dApp->signalM->hideBottomToolbar(true);
-            emit dApp->signalM->enterView(false);
-            qDebug() << "emit dApp->signalM->enterView(false)..................picClear";
+            emit dApp->signalM->enterView(true);
+            qDebug() << "emit dApp->signalM->enterView(true)..................picClear";
             emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                            (m_infos.size() > 1));
             m_stack->setCurrentIndex(1);
+            emit dApp->signalM->sigImageOutTitleBar(false);
         }
     });
 }
@@ -789,7 +791,6 @@ bool ViewPanel::showPrevious()
 #ifdef LITE_DIV
     eatImageDirIterator();
 #endif
-
     if (m_infos.isEmpty() || m_current == 0) {
         return false;
     }
