@@ -364,14 +364,20 @@ void ViewPanel::eatImageDirIterator()
 void ViewPanel::mousePressEvent(QMouseEvent *e)
 {
     emit dApp->signalM->hideExtensionPanel();
-    if (e->button() == Qt::BackButton) {
-        if (window()->isFullScreen()) {
-            showNormal();
-        } else {
-            backToLastPanel();
-        }
-    }
+    //    if (e->button() == Qt::BackButton) {
+    //        if (window()->isFullScreen()) {
+    //            showNormal();
+    //        } else {
+    //            backToLastPanel();
+    //        }
+    //    }
 
+    // support for mouse side buttons.
+    if (e->button() == Qt::ForwardButton) {
+        showPrevious();
+    } else if (e->button() == Qt::BackButton) {
+        showNext();
+    }
     ModulePanel::mousePressEvent(e);
 }
 
