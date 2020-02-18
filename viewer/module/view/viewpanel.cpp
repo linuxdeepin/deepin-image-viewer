@@ -635,7 +635,7 @@ void ViewPanel::wheelEvent(QWheelEvent *e)
     if (m_infos.size() == 0) {
         return;
     }
-    if (m_viewB && !m_viewB->path().isEmpty())
+    if (m_viewB && !m_viewB->path().isEmpty() && QFile(m_viewB->path()).exists())
         qApp->sendEvent(m_viewB->viewport(), e);
 }
 

@@ -359,20 +359,30 @@ void ViewPanel::initShortcut()
     });
     sc = new QShortcut(QKeySequence("Ctrl++"), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] { m_viewB->setScaleValue(1.1); });
+    connect(sc, &QShortcut::activated, this, [=] {
+        if (QFile(m_viewB->path()).exists())
+            m_viewB->setScaleValue(1.1);
+    });
     sc = new QShortcut(QKeySequence("Ctrl+="), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] { m_viewB->setScaleValue(1.1); });
+    connect(sc, &QShortcut::activated, this, [=] {
+        if (QFile(m_viewB->path()).exists())
+            m_viewB->setScaleValue(1.1);
+    });
     // Zoom in
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [=] {
         qDebug() << "Qt::Key_Down:";
-        m_viewB->setScaleValue(0.9);
+        if (QFile(m_viewB->path()).exists())
+            m_viewB->setScaleValue(0.9);
     });
     sc = new QShortcut(QKeySequence("Ctrl+-"), this);
     sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [=] { m_viewB->setScaleValue(0.9); });
+    connect(sc, &QShortcut::activated, this, [=] {
+        if (QFile(m_viewB->path()).exists())
+            m_viewB->setScaleValue(0.9);
+    });
     // Esc
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);
@@ -391,7 +401,10 @@ void ViewPanel::initShortcut()
     // 1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
     adaptImage->setContext(Qt::WindowShortcut);
-    connect(adaptImage, &QShortcut::activated, this, [=] { m_viewB->fitImage(); });
+    connect(adaptImage, &QShortcut::activated, this, [=] {
+        if (QFile(m_viewB->path()).exists())
+            m_viewB->fitImage();
+    });
 }
 
 void ViewPanel::popupDelDialog(const QString path)
