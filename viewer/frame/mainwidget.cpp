@@ -106,8 +106,6 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         }
         if (window()->isFullScreen()) {
             emit dApp->signalM->sigShowFullScreen();
-        } else {
-            emit dApp->signalM->sigImageOutTitleBar(false);
         }
     }
 #ifndef LITE_DIV

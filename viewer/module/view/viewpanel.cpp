@@ -618,6 +618,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         m_viewB->fitImage();
     } else if (m_viewB->isFitWindow()) {
         m_viewB->fitWindow();
+        emit dApp->signalM->sigImageOutTitleBar(false);
     }
 }
 
@@ -871,7 +872,7 @@ void ViewPanel::removeCurrentImage()
         if (window()->isFullScreen())
             showNormal();
         emit imageChanged("", m_infos);
-        emit dApp->signalM->enterView(false);
+        emit dApp->signalM->enterView(true);
         qDebug() << "emit dApp->signalM->enterView(false)..................removeCurrentImage";
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                        (m_infos.size() > 1));
