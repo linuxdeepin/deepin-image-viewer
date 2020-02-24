@@ -21,6 +21,7 @@
 #include "widgets/formlabel.h"
 
 #include <DApplicationHelper>
+#include <DArrowLineDrawer>
 #include <DDialogCloseButton>
 #include <DFontSizeManager>
 #include <QApplication>
@@ -33,7 +34,6 @@
 #include <QScrollBar>
 #include <QString>
 #include <QtDebug>
-#include <DArrowLineDrawer>
 
 namespace {
 
@@ -58,8 +58,7 @@ static MetaData MetaDataBasics[] = {
     {"Dimension", QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
     {"FileSize", QT_TRANSLATE_NOOP("MetadataName", "File size")},
     {"Tag", QT_TRANSLATE_NOOP("MetadataName", "Tag")},
-    {"", ""}
-};
+    {"", ""}};
 
 static MetaData MetaDataDetails[] = {
     {"ColorSpace", QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
@@ -76,8 +75,7 @@ static MetaData MetaDataDetails[] = {
     {"FlashExposureComp", QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
     {"Model", QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
     {"LensType", QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
-    {"", ""}
-};
+    {"", ""}};
 
 static int maxTitleWidth()
 {
@@ -114,15 +112,16 @@ class DFMDArrowLineExpand : public DArrowLineDrawer
 public:
     DFMDArrowLineExpand()
     {
-//        if (headerLine()) {
-//            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6, QFont::Medium);
+        //        if (headerLine()) {
+        //            DFontSizeManager::instance()->bind(headerLine(), DFontSizeManager::T6,
+        //            QFont::Medium);
 
-//            DPalette pa = DApplicationHelper::instance()->palette(headerLine());
-//            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
-//            headerLine()->setPalette(pa);
+        //            DPalette pa = DApplicationHelper::instance()->palette(headerLine());
+        //            pa.setBrush(DPalette::Text, pa.color(DPalette::TextTitle));
+        //            headerLine()->setPalette(pa);
 
-//            headerLine()->setLeftMargin(10);
-//        }
+        //            headerLine()->setLeftMargin(10);
+        //        }
     }
 
 protected:
@@ -152,7 +151,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     , m_maxTitleWidth(maxTitleWidth())
 {
     setFixedWidth(300);
-//    setMaximumHeight(540);
+    //    setMaximumHeight(540);
     setFrameStyle(QFrame::NoFrame);
 
     // Title field
@@ -192,23 +191,23 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     m_mainLayout->setMargin(0);
     m_mainLayout->setSpacing(10);
 
-//    m_scrollArea = new QScrollArea();
-//    QPalette palette = m_scrollArea->viewport()->palette();
-//    palette.setBrush(QPalette::Background, Qt::NoBrush);
-////    palette.setBrush(QPalette::Background, Qt::red);
-//    m_scrollArea->viewport()->setPalette(palette);
-//    m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
+    //    m_scrollArea = new QScrollArea();
+    //    QPalette palette = m_scrollArea->viewport()->palette();
+    //    palette.setBrush(QPalette::Background, Qt::NoBrush);
+    ////    palette.setBrush(QPalette::Background, Qt::red);
+    //    m_scrollArea->viewport()->setPalette(palette);
+    //    m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
 
-//    QWidget *scrollContentWidget = new QWidget;
-//    QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
-//    scrollWidgetLayout->setContentsMargins(0, 0, 0, 0);
-//    scrollWidgetLayout->setSpacing(ArrowLineExpand_SPACING);
-//    scrollContentWidget->setLayout(scrollWidgetLayout);
-//    m_scrollArea->setWidget(scrollContentWidget);
-//    m_scrollArea->setWidgetResizable(true);
-//    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
+    //    QWidget *scrollContentWidget = new QWidget;
+    //    QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
+    //    scrollWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    //    scrollWidgetLayout->setSpacing(ArrowLineExpand_SPACING);
+    //    scrollContentWidget->setLayout(scrollWidgetLayout);
+    //    m_scrollArea->setWidget(scrollContentWidget);
+    //    m_scrollArea->setWidgetResizable(true);
+    //    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
 
-//    m_mainLayout->addWidget(m_scrollArea, 1);
+    //    m_mainLayout->addWidget(m_scrollArea, 1);
     m_mainLayout->addWidget(m_exif_base);
     m_mainLayout->addWidget(m_exif_details);
     this->setLayout(m_mainLayout);
@@ -252,7 +251,7 @@ void ImageInfoWidget::setImagePath(const QString &path)
     updateInfo();
 
     QStringList titleList;
-//    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
+    //    QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
     QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(this->layout());
     // clear old expandwidget
     if (nullptr != layout) {
@@ -292,11 +291,11 @@ void ImageInfoWidget::setImagePath(const QString &path)
         m_expandGroup.at(0)->setExpand(true);
     }
 
-//    for (auto i = 0; i < m_expandGroup.count(); ++i) {
-//        layout->addWidget(m_expandGroup.at(i));
-//    }
+    //    for (auto i = 0; i < m_expandGroup.count(); ++i) {
+    //        layout->addWidget(m_expandGroup.at(i));
+    //    }
 
-//    if (m_expandGroup.count() > 1)
+    //    if (m_expandGroup.count() > 1)
     layout->addStretch(1);
 }
 
@@ -359,15 +358,21 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
     using namespace utils::base;
     clearLayout(m_exifLayout_base);
 
+    QFileInfo fi(m_path);
+    QString suffix = fi.suffix();
+
     for (MetaData *i = MetaDataBasics; !i->key.isEmpty(); i++) {
         QString value = infos.value(i->key);
         if (value.isEmpty())
             continue;
-        if ((i->key == "DateTimeOriginal"  || i->key == "DateTimeDigitized") && value.left(1) == QString("0"))
+        if ((i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") &&
+            value.left(1) == QString("0"))
             continue;
+        if (i->key == "FileFormat" && !suffix.isEmpty()) {
+            value = fi.suffix();
+        }
 
         m_isBaseInfo = true;
-
         SimpleFormField *field = new SimpleFormField;
         field->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(field, DFontSizeManager::T8);
@@ -436,8 +441,8 @@ QList<DDrawer *> ImageInfoWidget::addExpandWidget(const QStringList &titleList)
     QList<DDrawer *> group;
 
     for (const QString &title : titleList) {
-//        DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;  // DArrowLineExpand;
-        DArrowLineDrawer *expand = new DArrowLineDrawer;//DArrowLineExpand;
+        //        DFMDArrowLineExpand *expand = new DFMDArrowLineExpand;  // DArrowLineExpand;
+        DArrowLineDrawer *expand = new DArrowLineDrawer;  // DArrowLineExpand;
         expand->setTitle(title);
         initExpand(layout, expand);
         group.push_back(expand);
@@ -456,7 +461,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
     layout->addWidget(expand, 0, Qt::AlignTop);
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, expand);
-    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [ = ]() {
+    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=]() {
         QRect rc = geometry();
         rc.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
         setGeometry(rc);
@@ -472,7 +477,7 @@ void ImageInfoWidget::onExpandChanged(const bool &e)
         if (e) {
             expand->setSeparatorVisible(false);
         } else {
-            QTimer::singleShot(200, expand, [ = ] { expand->setSeparatorVisible(true); });
+            QTimer::singleShot(200, expand, [=] { expand->setSeparatorVisible(true); });
         }
     }
 }
