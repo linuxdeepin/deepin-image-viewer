@@ -526,7 +526,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
             if (!file.exists())
                 return;
             removeCurrentImage();
-            utils::base::trashFile(path);
+            DDesktopServices::trash(path);
             emit dApp->signalM->picDelete();
         }
     });

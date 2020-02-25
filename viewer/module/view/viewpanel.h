@@ -17,18 +17,19 @@
 #ifndef VIEWPANEL_H
 #define VIEWPANEL_H
 
-#include "module/modulepanel.h"
 #include "controller/dbmanager.h"
 #include "controller/viewerthememanager.h"
 #include "danchors.h"
-#include "thumbnailwidget.h"
 #include "lockwidget.h"
+#include "module/modulepanel.h"
+#include "thumbnailwidget.h"
 
+#include <DDesktopServices>
+#include <DFileWatcher>
+#include <DMenu>
+#include <QDirIterator>
 #include <QFileInfo>
 #include <QJsonObject>
-#include <QDirIterator>
-#include <DMenu>
-#include <DFileWatcher>
 
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
@@ -52,18 +53,12 @@ public:
     QString moduleName() Q_DECL_OVERRIDE;
     QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;
     QWidget *toolbarTopLeftContent() Q_DECL_OVERRIDE;
-    QWidget *bottomTopLeftContent() ;
+    QWidget *bottomTopLeftContent();
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     const SignalManager::ViewInfo viewInfo() const;
-    int getPicCount()
-    {
-        return m_infos.count();
-    }
-    bool getPicExict()
-    {
-        return !QFileInfo(m_infos.first().filePath).exists();
-    }
+    int getPicCount() { return m_infos.count(); }
+    bool getPicExict() { return !QFileInfo(m_infos.first().filePath).exists(); }
 
 signals:
     void updateCollectButton();
@@ -154,7 +149,7 @@ private:
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
-//    DBImgInfoList::ConstIterator m_current =NULL;
+    //    DBImgInfoList::ConstIterator m_current =NULL;
     int m_current = 0;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
@@ -169,4 +164,4 @@ private:
 
     QScrollArea *m_scrollArea {nullptr};
 };
-#endif // VIEWPANEL_H
+#endif  // VIEWPANEL_H
