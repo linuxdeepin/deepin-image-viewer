@@ -70,7 +70,7 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
 #endif
     //    setAutoFillBackground(true);
     QPalette palette;
-    palette.setColor(QPalette::Background, QColor(0, 0, 0, 0));  // 最后一项为透明度
+    palette.setColor(QPalette::Background, QColor(200, 200, 200, 50));  // 最后一项为透明度
     setPalette(palette);
 
     initMenu();
