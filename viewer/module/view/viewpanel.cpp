@@ -868,6 +868,7 @@ void ViewPanel::removeCurrentImage()
     m_infos.removeAt(m_current);
     if (m_infos.isEmpty()) {
         qDebug() << "No images to show!";
+        emit dApp->signalM->allPicDelete();
         m_current = 0;
         if (window()->isFullScreen())
             showNormal();

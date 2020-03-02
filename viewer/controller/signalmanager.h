@@ -17,8 +17,8 @@
 #ifndef SIGNALMANAGER_H
 #define SIGNALMANAGER_H
 
-#include "dbmanager.h"
 #include <QObject>
+#include "dbmanager.h"
 
 class ModulePanel;
 class SignalManager : public QObject
@@ -29,7 +29,7 @@ public:
 
     // For view images
     struct ViewInfo {
-        ModulePanel *lastPanel {nullptr};                 // For back to the last panel
+        ModulePanel *lastPanel {nullptr};  // For back to the last panel
 #ifndef LITE_DIV
         bool inDatabase = true;
 #else
@@ -37,8 +37,8 @@ public:
 #endif
         bool fullScreen = false;
         QString album = QString();
-        QString path;                           // Specific current open one
-        QStringList paths = QStringList();      // Limit the view range
+        QString path;                       // Specific current open one
+        QStringList paths = QStringList();  // Limit the view range
     };
 
 signals:
@@ -68,6 +68,7 @@ signals:
     void picOneClear();
     void loadingDisplay(bool immediately = false);
     void picDelete();
+    void allPicDelete();
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
@@ -105,4 +106,4 @@ private:
     static SignalManager *m_signalManager;
 };
 
-#endif // SIGNALMANAGER_H
+#endif  // SIGNALMANAGER_H

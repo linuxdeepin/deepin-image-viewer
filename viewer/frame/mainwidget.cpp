@@ -256,6 +256,10 @@ void MainWidget::initTopToolbar()
     //    m_topToolbar->moveWithAnimation(0, 0);
     m_topToolbar->move(0, 0);
     m_topToolbar->hide();
+    connect(dApp->signalM, &SignalManager::allPicDelete, this, [=]() {
+        m_topToolbar = new TopToolbar(false, this);
+        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+    });
     connect(dApp->signalM, &SignalManager::enterView, this, [=](bool a) {
         if (a) {
             m_topToolbar->show();
