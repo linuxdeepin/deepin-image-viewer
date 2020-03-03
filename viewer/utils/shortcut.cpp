@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "application.h"
 #include "shortcut.h"
+#include "application.h"
 
 #include "controller/configsetter.h"
 
@@ -29,9 +29,10 @@ QString ss(const QString &group, const QString &text, const QString &defaultValu
     return dApp->setter->value(group, text, defaultValue).toString();
 }
 
-}  //namespace
+}  // namespace
 
-Shortcut::Shortcut(QObject *parent) : QObject(parent)
+Shortcut::Shortcut(QObject *parent)
+    : QObject(parent)
 {
     ShortcutGroup group1;
 #ifndef LITE_DIV
@@ -44,47 +45,49 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     group2.groupName = tr("Album");
 #endif
     group3.groupName = tr("Settings");
-    group1.groupItems<<
+    group1.groupItems <<
 #ifndef LITE_DIV
-    ShortcutItem(tr("View"), "Enter")<<
+        ShortcutItem(tr("View"), "Enter") <<
 #endif
-    ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen", "F11"))<<
-    ShortcutItem(tr("Exit fullscreen"),  "Esc")<<
+        ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen", "F11"))
+                      << ShortcutItem(tr("Exit fullscreen"), "Esc") <<
 #ifndef LITE_DIV
-    ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))<<
-    ShortcutItem(tr("End show"),  ss(VIEW_GROUP, "End show"))<<
+        ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))
+                      << ShortcutItem(tr("End show"), ss(VIEW_GROUP, "End show")) <<
 #endif
-    ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy", "Ctrl + C"))<<
-    ShortcutItem(tr("Delete"),  "Delete")<<
+        ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy", "Ctrl + C"))
+                      << ShortcutItem(tr("Delete"), "Delete") <<
 #ifndef LITE_DIV
-    ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))<<
-    ShortcutItem(tr("Favorite"), ss(VIEW_GROUP, "Favorite"))<<
-    ShortcutItem(tr("Unfavorite"), ss(VIEW_GROUP, "Unfavorite"))<<
+        ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))
+                      << ShortcutItem(tr("Favorite"), ss(VIEW_GROUP, "Favorite"))
+                      << ShortcutItem(tr("Unfavorite"), ss(VIEW_GROUP, "Unfavorite")) <<
 #endif
-    ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise", "Ctrl + R"))<<
-    ShortcutItem(tr("Rotate counterclockwise"), ss(VIEW_GROUP, "Rotate counterclockwise", "Ctrl + Shift + R"))<<
-    ShortcutItem(tr("Set as wallpaper"), ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F8"))<<
-    ShortcutItem(tr("Display in file manager"), ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))<<
-//    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
-    ShortcutItem(tr("Image info"), "Alt+Enter")<<
-    ShortcutItem(tr("Previous"), "Left")<<
-    ShortcutItem(tr("Next"), "Right")<<
-    ShortcutItem(tr("Zoom in"), "Ctrl+ '+'")<<
-    ShortcutItem(tr("Zoom out"), "Ctrl+ '-'")<<
-    ShortcutItem(tr("Open"), "Ctrl+O")
+        ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise", "Ctrl + R"))
+                      << ShortcutItem(tr("Rotate counterclockwise"),
+                                      ss(VIEW_GROUP, "Rotate counterclockwise", "Ctrl + Shift + R"))
+                      << ShortcutItem(tr("Set as wallpaper"),
+                                      ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F9"))
+                      << ShortcutItem(tr("Display in file manager"),
+                                      ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))
+                      <<
+        //    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
+        ShortcutItem(tr("Image info"), "Alt+Enter") << ShortcutItem(tr("Previous"), "Left")
+                      << ShortcutItem(tr("Next"), "Right")
+                      << ShortcutItem(tr("Zoom in"), "Ctrl+ '+'")
+                      << ShortcutItem(tr("Zoom out"), "Ctrl+ '-'")
+                      << ShortcutItem(tr("Open"), "Ctrl+O")
 
 #ifndef LITE_DIV
-                     <<
-    ShortcutItem(tr("Previous screen"), "PageUp")<<
-    ShortcutItem(tr("Next screen"), "PageDown");
-    group2.groupItems<<ShortcutItem(tr("New album"), ss(ALBUM_GROUP, "New album"))<<
-                       ShortcutItem(tr("Rename"), ss(ALBUM_GROUP, "Rename"));
+                      << ShortcutItem(tr("Previous screen"), "PageUp")
+                      << ShortcutItem(tr("Next screen"), "PageDown");
+    group2.groupItems << ShortcutItem(tr("New album"), ss(ALBUM_GROUP, "New album"))
+                      << ShortcutItem(tr("Rename"), ss(ALBUM_GROUP, "Rename"));
 #else
-                        ;
+        ;
 #endif
 
-    group3.groupItems<<ShortcutItem(tr("Help"),  "F1")<<
-                       ShortcutItem(tr("Display shortcuts"), "Ctrl + Shift + ?");
+    group3.groupItems << ShortcutItem(tr("Help"), "F1")
+                      << ShortcutItem(tr("Display shortcuts"), "Ctrl + Shift + ?");
 
 #ifndef LITE_DIV
     m_shortcutGroups << group1 << group2 << group3;
@@ -92,24 +95,25 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     m_shortcutGroups << group1 << group3;
 #endif
 
-    //convert to json object
+    // convert to json object
     QJsonArray jsonGroups;
-    for(auto scg:m_shortcutGroups){
+    for (auto scg : m_shortcutGroups) {
         QJsonObject jsonGroup;
-        jsonGroup.insert("groupName",scg.groupName);
+        jsonGroup.insert("groupName", scg.groupName);
         QJsonArray jsonGroupItems;
-        for(auto sci:scg.groupItems){
+        for (auto sci : scg.groupItems) {
             QJsonObject jsonItem;
-            jsonItem.insert("name",sci.name);
-            jsonItem.insert("value",sci.value);
+            jsonItem.insert("name", sci.name);
+            jsonItem.insert("value", sci.value);
             jsonGroupItems.append(jsonItem);
         }
-        jsonGroup.insert("groupItems",jsonGroupItems);
+        jsonGroup.insert("groupItems", jsonGroupItems);
         jsonGroups.append(jsonGroup);
     }
-    m_shortcutObj.insert("shortcut",jsonGroups);
+    m_shortcutObj.insert("shortcut", jsonGroups);
 }
-QString Shortcut::toStr(){
+QString Shortcut::toStr()
+{
     QJsonDocument doc(m_shortcutObj);
     return doc.toJson().data();
 }

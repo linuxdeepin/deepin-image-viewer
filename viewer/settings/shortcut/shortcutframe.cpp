@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "shortcutframe.h"
-#include "shortcuteditor.h"
-#include "application.h"
-#include "controller/configsetter.h"
-#include "../title.h"
-#include <QVBoxLayout>
+#include <QDebug>
 #include <QFormLayout>
 #include <QPushButton>
-#include <QDebug>
+#include <QVBoxLayout>
+#include "../title.h"
+#include "application.h"
+#include "controller/configsetter.h"
+#include "shortcuteditor.h"
 
 namespace {
 
@@ -35,44 +35,40 @@ struct ShortcutKey {
 };
 
 static ShortcutKey ShortcutViewKeys[] = {
-    {"View",                        QT_TRANSLATE_NOOP("ShortcutKey", "View")},
-    {"Fullscreen",                  QT_TRANSLATE_NOOP("ShortcutKey", "Fullscreen")},
-    {"Slide show",                  QT_TRANSLATE_NOOP("ShortcutKey", "Slide show")},
-    {"End show",                    QT_TRANSLATE_NOOP("ShortcutKey", "End show")},
-    {"Print",                       QT_TRANSLATE_NOOP("ShortcutKey", "Print")},
-    {"Copy",                        QT_TRANSLATE_NOOP("ShortcutKey", "Copy")},
-    {"Throw to trash",              QT_TRANSLATE_NOOP("ShortcutKey", "Delete")},
-    {"Remove from album",           QT_TRANSLATE_NOOP("ShortcutKey", "Remove from album")},
-    {"Favorite",                    QT_TRANSLATE_NOOP("ShortcutKey", "Favorite")},
-    {"Unfavorite",                  QT_TRANSLATE_NOOP("ShortcutKey", "Unfavorite")},
-    {"Rotate clockwise",            QT_TRANSLATE_NOOP("ShortcutKey", "Rotate clockwise")},
-    {"Rotate counterclockwise",     QT_TRANSLATE_NOOP("ShortcutKey", "Rotate counterclockwise")},
-    {"Set as wallpaper",            QT_TRANSLATE_NOOP("ShortcutKey", "Set as wallpaper")},
-    {"Display in file manager",     QT_TRANSLATE_NOOP("ShortcutKey", "Display in file manager")},
-    {"Image info",                  QT_TRANSLATE_NOOP("ShortcutKey", "Image info")},
-    {"", ""}
-};
+    {"View", QT_TRANSLATE_NOOP("ShortcutKey", "View")},
+    {"Fullscreen", QT_TRANSLATE_NOOP("ShortcutKey", "Fullscreen")},
+    {"Slide show", QT_TRANSLATE_NOOP("ShortcutKey", "Slide show")},
+    {"End show", QT_TRANSLATE_NOOP("ShortcutKey", "End show")},
+    {"Print", QT_TRANSLATE_NOOP("ShortcutKey", "Print")},
+    {"Copy", QT_TRANSLATE_NOOP("ShortcutKey", "Copy")},
+    {"Throw to trash", QT_TRANSLATE_NOOP("ShortcutKey", "Delete")},
+    {"Remove from album", QT_TRANSLATE_NOOP("ShortcutKey", "Remove from album")},
+    {"Favorite", QT_TRANSLATE_NOOP("ShortcutKey", "Favorite")},
+    {"Unfavorite", QT_TRANSLATE_NOOP("ShortcutKey", "Unfavorite")},
+    {"Rotate clockwise", QT_TRANSLATE_NOOP("ShortcutKey", "Rotate clockwise")},
+    {"Rotate counterclockwise", QT_TRANSLATE_NOOP("ShortcutKey", "Rotate counterclockwise")},
+    {"Set as wallpaper", QT_TRANSLATE_NOOP("ShortcutKey", "Set as wallpaper")},
+    {"Display in file manager", QT_TRANSLATE_NOOP("ShortcutKey", "Display in file manager")},
+    {"Image info", QT_TRANSLATE_NOOP("ShortcutKey", "Image info")},
+    {"", ""}};
 
 static ShortcutKey ShortcutAlbumKeys[] = {
-    {"New album",                   QT_TRANSLATE_NOOP("ShortcutKey", "New album")},
-    {"Rename",                      QT_TRANSLATE_NOOP("ShortcutKey", "Rename")},
-    {"Delete",                      QT_TRANSLATE_NOOP("ShortcutKey", "Delete")},
-    {"", ""}
-};
+    {"New album", QT_TRANSLATE_NOOP("ShortcutKey", "New album")},
+    {"Rename", QT_TRANSLATE_NOOP("ShortcutKey", "Rename")},
+    {"Delete", QT_TRANSLATE_NOOP("ShortcutKey", "Delete")},
+    {"", ""}};
 
-const QStringList InvisibleKeys =
-        QStringList()
-        << "View"
-        << "Fullscreen"
-        << "Quit slideshow"
-        << "Copy"
-        << "Throw to trash"
-        << "Delete";
+const QStringList InvisibleKeys = QStringList() << "View"
+                                                << "Fullscreen"
+                                                << "Quit slideshow"
+                                                << "Copy"
+                                                << "Throw to trash"
+                                                << "Delete";
 
 }  // namespace
 
 ShortcutFrame::ShortcutFrame(QWidget *parent)
-    :QFrame(parent)
+    : QFrame(parent)
 {
     checkShortcut();
 
@@ -101,17 +97,16 @@ void ShortcutFrame::initViewShortcut()
     fl->setHorizontalSpacing(40);
     fl->setContentsMargins(0, 0, 0, 0);
     fl->setLabelAlignment(Qt::AlignLeft);
-//    layout->addStretch();
+    //    layout->addStretch();
     layout->addSpacing(37);
     layout->addLayout(fl);
 
-    for (ShortcutKey *i = ShortcutViewKeys; ! i->key.isEmpty(); i ++) {
+    for (ShortcutKey *i = ShortcutViewKeys; !i->key.isEmpty(); i++) {
         if (InvisibleKeys.contains(i->key)) {
             continue;
         }
-        ShortcutEditor * se = new ShortcutEditor(SHORTCUTVIEW, i->key);
-        connect(this, &ShortcutFrame::resetAll,
-                se, &ShortcutEditor::forceUpdate);
+        ShortcutEditor *se = new ShortcutEditor(SHORTCUTVIEW, i->key);
+        connect(this, &ShortcutFrame::resetAll, se, &ShortcutEditor::forceUpdate);
         fl->addRow(new Title3(trLabel(i->name) + ":"), se);
     }
 
@@ -132,17 +127,16 @@ void ShortcutFrame::initAlbumShortcut()
     fl->setHorizontalSpacing(100);
     fl->setContentsMargins(0, 0, 0, 0);
     fl->setLabelAlignment(Qt::AlignLeft);
-//    layout->addStretch();
+    //    layout->addStretch();
     layout->addSpacing(37);
     layout->addLayout(fl);
 
-    for (ShortcutKey *i = ShortcutAlbumKeys; ! i->key.isEmpty(); i ++) {
+    for (ShortcutKey *i = ShortcutAlbumKeys; !i->key.isEmpty(); i++) {
         if (InvisibleKeys.contains(i->key)) {
             continue;
         }
-        ShortcutEditor * se = new ShortcutEditor(SHORTCUTALBUM, i->key);
-        connect(this, &ShortcutFrame::resetAll,
-                se, &ShortcutEditor::forceUpdate);
+        ShortcutEditor *se = new ShortcutEditor(SHORTCUTALBUM, i->key);
+        connect(this, &ShortcutFrame::resetAll, se, &ShortcutEditor::forceUpdate);
         fl->addRow(new Title3(trLabel(i->name) + ":"), se);
     }
 
@@ -153,8 +147,7 @@ void ShortcutFrame::initResetButton()
 {
     QPushButton *resetBTN = new QPushButton(tr("Restore Defaults"));
     resetBTN->setFixedSize(310, 36);
-    connect(resetBTN, &QPushButton::clicked,
-            this, &ShortcutFrame::resetShortcut);
+    connect(resetBTN, &QPushButton::clicked, this, &ShortcutFrame::resetShortcut);
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setAlignment(Qt::AlignHCenter);
@@ -181,7 +174,7 @@ QMap<QString, QString> ShortcutFrame::viewValues()
     vs.insert("Unfavorite", "Ctrl + Shift + K");
     vs.insert("Rotate clockwise", "Ctrl + R");
     vs.insert("Rotate counterclockwise", "Ctrl + Shift + R");
-    vs.insert("Set as wallpaper", "Ctrl + F8");
+    vs.insert("Set as wallpaper", "Ctrl + F9");
     vs.insert("Display in file manager", "Ctrl + D");
     vs.insert("Image info", "Alt + Enter");
 
