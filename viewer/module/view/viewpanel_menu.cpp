@@ -323,7 +323,6 @@ void ViewPanel::updateMenuContent()
                      ss("Display in file manager", "Ctrl+D"));
     }
     appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Enter"));
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Return"));
 }
 
 void ViewPanel::initShortcut()
