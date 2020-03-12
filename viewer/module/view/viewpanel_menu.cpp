@@ -322,16 +322,27 @@ void ViewPanel::updateMenuContent()
         appendAction(IdDisplayInFileManager, tr("Display in file manager"),
                      ss("Display in file manager", "Ctrl+D"));
     }
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Enter"));
+    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Return"));
 }
 
 void ViewPanel::initShortcut()
 {
+    QShortcut *sc = nullptr;
+    // slove Alt+Enter shortcut
+    sc = new QShortcut(QKeySequence("Alt+Enter"),this);
+    sc->setContext(Qt::WindowShortcut);
+    connect(sc,&QShortcut::activated,this,[=]{
+        if(m_isInfoShowed){
+            emit dApp->signalM->hideExtensionPanel();
+        }else {
+            emit dApp->signalM->showExtensionPanel();
+        }
+    });
     // Delay image toggle
     QTimer *dt = new QTimer(this);
     dt->setSingleShot(true);
     dt->setInterval(SWITCH_IMAGE_DELAY);
-    QShortcut *sc = nullptr;
+
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);

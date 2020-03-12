@@ -102,6 +102,12 @@ void ExtensionPanel::mouseMoveEvent(QMouseEvent *e)
     DAbstractDialog::mouseMoveEvent(e);
 }
 
+void ExtensionPanel::closeEvent(QCloseEvent *e)
+{
+    emit dApp->signalM->hideExtensionPanel();
+    DAbstractDialog::closeEvent(e);
+}
+
 void ExtensionPanel::paintEvent(QPaintEvent *pe)
 {
     //    QPainter painter(this);
@@ -220,6 +226,15 @@ void ExtensionPanel::init()
     m_scImageInfo->setAutoRepeat(false);
 
     connect(m_scImageInfo, &QShortcut::activated, this, [this] {
+        emit dApp->signalM->hideExtensionPanel();
+    });
+
+    m_scImageInfonum = new QShortcut(this);
+    m_scImageInfonum->setKey(tr("Alt+Enter"));
+    m_scImageInfonum->setContext(Qt::ApplicationShortcut);
+    m_scImageInfonum->setAutoRepeat(false);
+
+    connect(m_scImageInfonum, &QShortcut::activated, this, [this] {
         emit dApp->signalM->hideExtensionPanel();
     });
     // Esc
