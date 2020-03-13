@@ -38,6 +38,8 @@
 namespace {
 
 const int TITLE_MAXWIDTH = 72 - 3;
+const int TITLE_MAXCNWIDETH = 60; //中文Title宽度
+const int TITLE_MAXOTHERWIDETH = 90; //其他语言Title宽度
 const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
 const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
 
@@ -58,7 +60,8 @@ static MetaData MetaDataBasics[] = {
     {"Dimension", QT_TRANSLATE_NOOP("MetadataName", "Dimensions")},
     {"FileSize", QT_TRANSLATE_NOOP("MetadataName", "File size")},
     {"Tag", QT_TRANSLATE_NOOP("MetadataName", "Tag")},
-    {"", ""}};
+    {"", ""}
+};
 
 static MetaData MetaDataDetails[] = {
     {"ColorSpace", QT_TRANSLATE_NOOP("MetadataName", "Colorspace")},
@@ -75,7 +78,8 @@ static MetaData MetaDataDetails[] = {
     {"FlashExposureComp", QT_TRANSLATE_NOOP("MetadataName", "Flash compensation")},
     {"Model", QT_TRANSLATE_NOOP("MetadataName", "Camera model")},
     {"LensType", QT_TRANSLATE_NOOP("MetadataName", "Lens model")},
-    {"", ""}};
+    {"", ""}
+};
 
 static int maxTitleWidth()
 {
@@ -346,13 +350,22 @@ void ImageInfoWidget::updateInfo()
     auto mds = getAllMetaData(m_path);
     // Minus layout margins
     //    m_maxFieldWidth = width() - m_maxTitleWidth - 20*2;
-    m_maxFieldWidth = width() - TITLE_MAXWIDTH - 20 * 2 - 10 * 2;
-
-    updateBaseInfo(mds);
-    updateDetailsInfo(mds);
+    //solve bug 1623 根据中英文系统语言设置Title宽度  shuwenzhi   20200313
+    QLocale local;
+    bool CNflag;
+    QLocale::Language lan = local.language();
+    if (lan == QLocale::Language::Chinese) {
+        m_maxFieldWidth = width() - TITLE_MAXCNWIDETH - 20 * 2 - 10 * 2;
+        CNflag = true;
+    } else {
+        m_maxFieldWidth = width() - TITLE_MAXOTHERWIDETH - 20 * 2 - 10 * 2;
+        CNflag = false;
+    }
+    updateBaseInfo(mds, CNflag);
+    updateDetailsInfo(mds, CNflag);
 }
 
-void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
+void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool CNflag)
 {
     using namespace utils::image;
     using namespace utils::base;
@@ -360,13 +373,12 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
 
     QFileInfo fi(m_path);
     QString suffix = fi.suffix();
-
     for (MetaData *i = MetaDataBasics; !i->key.isEmpty(); i++) {
         QString value = infos.value(i->key);
         if (value.isEmpty())
             continue;
         if ((i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") &&
-            value.left(1) == QString("0"))
+                value.left(1) == QString("0"))
             continue;
         if (i->key == "FileFormat" && !suffix.isEmpty()) {
             value = fi.suffix();
@@ -384,28 +396,35 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos)
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
         //        title->setFixedWidth(qMin(m_maxTitleWidth, TITLE_MAXWIDTH));
-        title->setFixedWidth(TITLE_MAXWIDTH);
+        if (CNflag) {
+            title->setFixedWidth(TITLE_MAXCNWIDETH);
+        } else {
+            title->setFixedWidth(TITLE_MAXOTHERWIDETH);
+        }
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
-
+        if (CNflag) {
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH));
+        } else {
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH));
+        }
         QFontMetrics fm(title->font());
         QStringList list = title->text().split("\n");
+
         title->setFixedHeight(fm.height() * list.size());
 
         m_exifLayout_base->addRow(title, field);
     }
 }
 
-void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
+void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos, bool CNflag)
 {
     using namespace utils::image;
     using namespace utils::base;
     clearLayout(m_exifLayout_details);
-
     for (MetaData *i = MetaDataDetails; !i->key.isEmpty(); i++) {
         QString value = infos.value(i->key);
         if (value.isEmpty())
@@ -423,13 +442,21 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos)
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
         title->setMinimumHeight(field->minimumHeight());
-        title->setFixedWidth(TITLE_MAXWIDTH);
+        if (CNflag) {
+            title->setFixedWidth(TITLE_MAXCNWIDETH);
+        } else {
+            title->setFixedWidth(TITLE_MAXOTHERWIDETH);
+        }
         title->setAlignment(Qt::AlignLeft | Qt::AlignTop);
         DFontSizeManager::instance()->bind(title, DFontSizeManager::T8);
         DPalette pa2 = DApplicationHelper::instance()->palette(title);
         pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
-        title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXWIDTH));
+        if (CNflag) {
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH));
+        } else {
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH));
+        }
 
         m_exifLayout_details->addRow(title, field);
     }
@@ -461,7 +488,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
     layout->addWidget(expand, 0, Qt::AlignTop);
 
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, expand);
-    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [=]() {
+    connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [ = ]() {
         QRect rc = geometry();
         rc.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
         setGeometry(rc);
@@ -477,7 +504,7 @@ void ImageInfoWidget::onExpandChanged(const bool &e)
         if (e) {
             expand->setSeparatorVisible(false);
         } else {
-            QTimer::singleShot(200, expand, [=] { expand->setSeparatorVisible(true); });
+            QTimer::singleShot(200, expand, [ = ] { expand->setSeparatorVisible(true); });
         }
     }
 }

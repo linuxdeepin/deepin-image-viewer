@@ -22,6 +22,7 @@ SimpleFormLabel::SimpleFormLabel(const QString &t, QWidget *parent)
     QFont font;
     font.setPixelSize(12);
     setFont(font);
+    //shuwenzhi
     setWordWrap(true);
 }
 

@@ -260,5 +260,4 @@ void Application::initI18n()
 //                     + QLocale::system().name() + ".qm");
 //    installTranslator(translator);
     loadTranslator(QList<QLocale>() << QLocale::system());
-
 }

@@ -53,8 +53,8 @@ protected:
 private:
     void clearLayout(QLayout *layout);
     const QString trLabel(const char *str);
-    void updateBaseInfo(const QMap<QString, QString> &infos);
-    void updateDetailsInfo(const QMap<QString, QString> &infos);
+    void updateBaseInfo(const QMap<QString, QString> &infos, bool CNflag);
+    void updateDetailsInfo(const QMap<QString, QString> &infos, bool CNflag);
     QList<DDrawer *> addExpandWidget(const QStringList &titleList);
     void initExpand(QVBoxLayout *layout, DDrawer *expand);
 

@@ -39,7 +39,7 @@ class ImageLoader : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageLoader(Application* parent, QStringList pathlist, QString path);
+    explicit ImageLoader(Application *parent, QStringList pathlist, QString path);
 
     void addImageLoader(QStringList pathlist);
     void updateImageLoader(QStringList pathlist);
@@ -51,7 +51,7 @@ signals:
     void sigFinishiLoad(QString mapPath);
 
 private:
-    Application* m_parent;
+    Application *m_parent;
     QStringList m_pathlist;
     QString m_path;
 };
@@ -61,21 +61,20 @@ class Application : public DApplication
     Q_OBJECT
 
 public:
-    Application(int& argc, char** argv);
+    Application(int &argc, char **argv);
 
-    ConfigSetter* setter = nullptr;
+    ConfigSetter *setter = nullptr;
     //    DBManager *dbM = nullptr;
     //    Exporter *exporter = nullptr;
     //    Importer *importer = nullptr;
-    SignalManager* signalM = nullptr;
-    WallpaperSetter* wpSetter = nullptr;
-    ViewerThemeManager* viewerTheme = nullptr;
+    SignalManager *signalM = nullptr;
+    WallpaperSetter *wpSetter = nullptr;
+    ViewerThemeManager *viewerTheme = nullptr;
 
     QMap<QString, QPixmap> m_imagemap;
-    ImageLoader* m_imageloader;
+    ImageLoader *m_imageloader;
 
-    QThread* m_LoadThread;
-
+    QThread *m_LoadThread;
 signals:
     void sigstartLoad();
     void sigFinishLoad(QString mapPath);
