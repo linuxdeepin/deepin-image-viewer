@@ -22,11 +22,13 @@
 
 
 struct CMOption;
-class CommandLine : public QObject {
+class CommandLine : public QObject
+{
     Q_OBJECT
 public:
     static CommandLine *instance();
     bool processOption();
+    bool processOption(QDateTime time, bool newflag);
     ~CommandLine();
 
 private:
@@ -35,7 +37,8 @@ private:
     void viewImage(const QString &path, const QStringList &paths);
 
     explicit CommandLine();
-
+    QString createOpenImageInfo(QString path, QStringList pathlist, QDateTime stime);
+    void paraOpenImageInfo(QString source, QString &path, QStringList &pathlist);
 private:
     static CommandLine *m_commandLine;
     QCommandLineParser m_cmdParser;

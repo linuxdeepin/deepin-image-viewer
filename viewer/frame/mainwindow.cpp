@@ -30,8 +30,10 @@
 #include <QScreen>
 #include <QShortcut>
 #include <QTimer>
+#include <QJsonParseError>
+#include <QJsonArray>
 #include "utils/baseutils.h"
-
+#include "../service/dbusimageview_adaptor.h"
 namespace {
 
 const int MAINWIDGET_MINIMUN_HEIGHT = 335;
@@ -48,11 +50,11 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
-                             ? MAINWIDGET_MINIMUN_WIDTH
-                             : dw.geometry().width() * 0.60;
+                         ? MAINWIDGET_MINIMUN_WIDTH
+                         : dw.geometry().width() * 0.60;
     const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
-                             ? MAINWIDGET_MINIMUN_HEIGHT
-                             : dw.geometry().height() * 0.60;
+                         ? MAINWIDGET_MINIMUN_HEIGHT
+                         : dw.geometry().height() * 0.60;
     const int ww =
         dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
     const int wh =
@@ -74,7 +76,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
         titlebar()->setTitle("");
         titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
         setTitlebarShadowEnabled(true);
-        connect(dApp->signalM, &SignalManager::enterView, this, [=](bool a) {
+        connect(dApp->signalM, &SignalManager::enterView, this, [ = ](bool a) {
             if (a) {
                 titlebar()->setFixedHeight(0);
                 titlebar()->setTitle("");
@@ -97,29 +99,31 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     worker->moveToThread(workerThread);
     connect(workerThread, &QThread::finished, worker, &Worker::deleteLater);
 
-    QTimer::singleShot(300, [=] { workerThread->start(); });
+    QTimer::singleShot(300, [ = ] { workerThread->start(); });
 #endif
 
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &MainWindow::onThemeChanged);
 
     m_vfsManager = new DGioVolumeManager;
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [=]() {
+    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(true);
     });
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [=]() {
+    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(false);
         if (m_picInUSB) {
             m_picInUSB = false;
         }
     });
-    connect(dApp->signalM, &SignalManager::picInUSB, this, [=](bool immediately) {
+    connect(dApp->signalM, &SignalManager::picInUSB, this, [ = ](bool immediately) {
         if (immediately) {
             m_picInUSB = true;
         }
     });
+    new ImageViewAdaptor(this);
+    m_currenttime = QDateTime::currentDateTime();
 }
 
 void MainWindow::moveFirstWindow()
@@ -186,7 +190,7 @@ void MainWindow::onThemeChanged(ViewerThemeManager::AppTheme theme)
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
     if (!isMaximized() && m_mainWidget->isVisible() && !window()->isFullScreen() &&
-        !window()->isMaximized() && !windowAtEdge()) {
+            !window()->isMaximized() && !windowAtEdge()) {
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY,
                                QVariant(m_mainWidget->width()));
         dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY,
@@ -204,11 +208,37 @@ bool MainWindow::windowAtEdge()
     bool atSeperScreenPos = false;
 
     if (currentRect.x() == 0 ||
-        qAbs(currentRect.right() - dApp->primaryScreen()->geometry().width()) <= 5) {
+            qAbs(currentRect.right() - dApp->primaryScreen()->geometry().width()) <= 5) {
         atSeperScreenPos = true;
     }
 
     return atSeperScreenPos;
+}
+
+void MainWindow::paraOpenImageInfo(QString source, QString &path, QStringList &pathlist, QDateTime &stime)
+{
+    QJsonParseError json_error;
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(source.toLocal8Bit(), &json_error));
+
+    if (json_error.error != QJsonParseError::NoError) {
+        return;
+    }
+    QJsonObject rootObj = jsonDoc.object();
+
+    //因为是预先定义好的JSON数据格式，所以这里可以这样读取
+    if (rootObj.contains("OpenTime")) {
+        stime = QDateTime::fromString(rootObj.value("OpenTime").toString(), "yyyy-MM-ddThh:mm:ss");
+    }
+    if (rootObj.contains("ImagePath")) {
+        path = rootObj.value("ImagePath").toString();
+    }
+    if (rootObj.contains("ImagePathList")) {
+        QJsonArray subArray = rootObj.value("ImagePathList").toArray();
+        for (int i = 0; i < subArray.size(); i++) {
+            QString subObj = subArray.at(i).toString();
+            pathlist.append(subObj);
+        }
+    }
 }
 
 int MainWindow::showDialog()
@@ -234,4 +264,33 @@ int MainWindow::showDialog()
     int mode = dialog->exec();
 
     return mode;
+}
+
+void MainWindow::OpenImage(QString path)
+{
+    QString spath;
+    QStringList pathlist;
+    QDateTime stime;
+    paraOpenImageInfo(path, spath, pathlist, stime);
+
+    if (!m_flag) {
+        SignalManager::ViewInfo info;
+        info.album = "";
+#ifndef LITE_DIV
+        info.inDatabase = false;
+#endif
+        info.lastPanel = nullptr;
+        info.path = spath;
+        info.paths = pathlist;
+
+        emit dApp->signalM->viewImage(info);
+        m_flag = true;
+    }
+
+//    qint64 temptime = m_currenttime.secsTo(stime);
+//    if (temptime < 0) return;
+//    if (temptime < 2) {
+
+
+//    }
 }

@@ -95,7 +95,7 @@ QString ViewPanel::moduleName()
 
 void ViewPanel::initConnect()
 {
-    connect(dApp->signalM, &SignalManager::updateFileName, this, [=](const QString &filename) {
+    connect(dApp->signalM, &SignalManager::updateFileName, this, [ = ](const QString & filename) {
         if (filename != "") {
             m_finish = true;
         } else {
@@ -103,7 +103,7 @@ void ViewPanel::initConnect()
         }
     });
 
-    connect(dApp->signalM, &SignalManager::gotoPanel, this, [=](ModulePanel *p) {
+    connect(dApp->signalM, &SignalManager::gotoPanel, this, [ = ](ModulePanel * p) {
         if (p != this) {
             emit dApp->signalM->showTopToolbar();
         } else {
@@ -113,46 +113,46 @@ void ViewPanel::initConnect()
         }
     });
     connect(dApp->signalM, &SignalManager::showExtensionPanel, this,
-            [=] { m_isInfoShowed = true; });
+            [ = ] { m_isInfoShowed = true; });
     connect(dApp->signalM, &SignalManager::hideExtensionPanel, this,
-            [=] { m_isInfoShowed = false; });
+            [ = ] { m_isInfoShowed = false; });
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
     connect(dApp->signalM, &SignalManager::viewImage, this,
-            [=](const SignalManager::ViewInfo &vinfo) {
-                emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-                emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
-                                                               (m_infos.size() > 1));
-                emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+    [ = ](const SignalManager::ViewInfo & vinfo) {
+        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
+                                                       (m_infos.size() > 1));
+        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
 
-                onViewImage(vinfo);
-                if (NULL == vinfo.lastPanel) {
-                    return;
-                } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
-                           vinfo.lastPanel->moduleName() == "ViewPanel") {
-                    m_currentImageLastDir = vinfo.album;
-                    emit viewImageFrom(vinfo.album);
-                } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
-                    m_currentImageLastDir = tr("Timeline");
-                    emit viewImageFrom(tr("Timeline"));
-                }
-                // TODO: there will be some others panel
-            });
+        onViewImage(vinfo);
+        if (NULL == vinfo.lastPanel) {
+            return;
+        } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
+                   vinfo.lastPanel->moduleName() == "ViewPanel") {
+            m_currentImageLastDir = vinfo.album;
+            emit viewImageFrom(vinfo.album);
+        } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
+            m_currentImageLastDir = tr("Timeline");
+            emit viewImageFrom(tr("Timeline"));
+        }
+        // TODO: there will be some others panel
+    });
 
 #ifndef LITE_DIV
     connect(dApp->signalM, &SignalManager::removedFromAlbum, this,
-            [=](const QString &album, const QStringList &paths) {
-                if (!isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty()) {
-                    return;
-                }
-                for (QString path : paths) {
-                    if (imageIndex(path) == imageIndex(m_current->filePath)) {
-                        removeCurrentImage();
-                    }
-                }
-            });
+    [ = ](const QString & album, const QStringList & paths) {
+        if (!isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty()) {
+            return;
+        }
+        for (QString path : paths) {
+            if (imageIndex(path) == imageIndex(m_current->filePath)) {
+                removeCurrentImage();
+            }
+        }
+    });
 #endif
-    connect(dApp->signalM, &SignalManager::imagesRemoved, this, [=](const DBImgInfoList &infos) {
+    connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ](const DBImgInfoList & infos) {
         if (m_infos.length() > 0) {
             removeCurrentImage();
         }
@@ -171,18 +171,19 @@ void ViewPanel::initConnect()
         filter.append(')');
 
         static QString cfgGroupName = QStringLiteral("General"),
-                       cfgLastOpenPath = QStringLiteral("LastOpenPath");
+        cfgLastOpenPath = QStringLiteral("LastOpenPath");
         QString pictureFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
         QDir existChecker(pictureFolder);
-        if (!existChecker.exists()) {
+        if (!existChecker.exists())
+        {
             pictureFolder = QDir::currentPath();
         }
         pictureFolder =
-            dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
+        dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
 
         const QStringList &image_list =
-            QFileDialog::getOpenFileNames(this, tr("Open Image"), pictureFolder, filter, nullptr,
-                                          QFileDialog::HideNameFilterDetails);
+        QFileDialog::getOpenFileNames(this, tr("Open Image"), pictureFolder, filter, nullptr,
+                                      QFileDialog::HideNameFilterDetails);
 
         if (image_list.isEmpty())
             return;
@@ -209,22 +210,22 @@ void ViewPanel::initFileSystemWatcher()
     // Watch the local file changed if it open from file manager
     QFileSystemWatcher *sw = new QFileSystemWatcher(this);
     connect(dApp->signalM, &SignalManager::viewImage, this,
-            [=](const SignalManager::ViewInfo &info) {
-                if (!sw->directories().isEmpty()) {
-                    sw->removePaths(sw->directories());
-                }
+    [ = ](const SignalManager::ViewInfo & info) {
+        if (!sw->directories().isEmpty()) {
+            sw->removePaths(sw->directories());
+        }
 
-                if (!info.inDatabase) {
-                    sw->addPath(QFileInfo(info.path).dir().absolutePath());
-                    sw->addPath(QFileInfo(info.path).absolutePath());
-                }
-            });
-    connect(sw, &QFileSystemWatcher::directoryChanged, this, [=] {
+        if (!info.inDatabase) {
+            sw->addPath(QFileInfo(info.path).dir().absolutePath());
+            sw->addPath(QFileInfo(info.path).absolutePath());
+        }
+    });
+    connect(sw, &QFileSystemWatcher::directoryChanged, this, [ = ] {
         if (m_current == m_infos.cend() || m_infos.isEmpty())
             return;
         updateLocalImages();
     });
-    connect(sw, &QFileSystemWatcher::fileChanged, this, [=] {
+    connect(sw, &QFileSystemWatcher::fileChanged, this, [ = ] {
         if (m_current == m_infos.cend() || m_infos.isEmpty())
             return;
         updateLocalImages();
@@ -243,13 +244,13 @@ void ViewPanel::startFileWatcher()
     qDebug() << "!!!!!!!!!!!!!!!!!startFileWatcher!!!!!!!!!!!!!!!!!!!!!!!!!!"
              << m_fileManager->startWatcher() << "=" << m_currentFilePath;
 
-    connect(m_fileManager, &DFileWatcher::fileDeleted, this, [=]() {
+    connect(m_fileManager, &DFileWatcher::fileDeleted, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
         //        updateLocalImages();
         emit dApp->signalM->fileDeleted();
     });
 
-    connect(dApp->signalM, &SignalManager::fileDeleted, this, [=]() {
+    connect(dApp->signalM, &SignalManager::fileDeleted, this, [ = ]() {
         if (!QFileInfo(m_currentImagePath).exists() && m_infos.count() < 2) {
             qDebug() << "fileDeleted";
             emit dApp->signalM->hideNavigation();
@@ -264,7 +265,7 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->sigImageOutTitleBar(false);
         }
     });
-    connect(dApp->signalM, &SignalManager::picOneClear, this, [=]() {
+    connect(dApp->signalM, &SignalManager::picOneClear, this, [ = ]() {
         if (!QFileInfo(m_currentImagePath).exists() && m_infos.count() == 1) {
             qDebug() << "fileDeleted";
             emit dApp->signalM->hideNavigation();
@@ -327,7 +328,7 @@ void ViewPanel::eatImageDirIterator()
         QString str = m_imageDirIterator->fileInfo().suffix();
         //        if (str.isEmpty()) {
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-            mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
             if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
                 m_infos.append(info);
             } else if (str.isEmpty()) {
@@ -463,24 +464,28 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
     connect(ttlc, &TTLContent::clicked, this, &ViewPanel::backToLastPanel);
     connect(this, &ViewPanel::viewImageFrom, ttlc,
-            [=](const QString &dir) { ttlc->setCurrentDir(dir); });
+    [ = ](const QString & dir) {
+        ttlc->setCurrentDir(dir);
+    });
     //    connect(ttlc, &TTLContent::contentWidthChanged,
     //            this, &ViewPanel::updateTopLeftWidthChanged);
     //    connect(this, &ViewPanel::updateCollectButton,
     //            ttlc, &TTLContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttlc, &TTLContent::setImage);
-    connect(ttlc, &TTLContent::rotateClockwise, this, [=] { rotateImage(true); });
-    connect(ttlc, &TTLContent::rotateCounterClockwise, this, [=] { rotateImage(false); });
-    connect(ttlc, &TTLContent::removed, this, [=] {
-        if (m_vinfo.inDatabase) {
+    connect(ttlc, &TTLContent::rotateClockwise, this, [ = ] { rotateImage(true); });
+    connect(ttlc, &TTLContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); });
+    connect(ttlc, &TTLContent::removed, this, [ = ] {
+        if (m_vinfo.inDatabase)
+        {
             popupDelDialog(m_infos.at(m_current).filePath);
-        } else {
+        } else
+        {
             const QString path = m_infos.at(m_current).filePath;
             removeCurrentImage();
             utils::base::trashFile(path);
         }
     });
-    connect(ttlc, &TTLContent::resetTransform, this, [=](bool fitWindow) {
+    connect(ttlc, &TTLContent::resetTransform, this, [ = ](bool fitWindow) {
         if (fitWindow) {
             m_viewB->fitWindow();
         } else {
@@ -509,18 +514,22 @@ QWidget *ViewPanel::bottomTopLeftContent()
 
     connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel);
     connect(this, &ViewPanel::viewImageFrom, ttbc,
-            [=](const QString &dir) { ttbc->setCurrentDir(dir); });
+    [ = ](const QString & dir) {
+        ttbc->setCurrentDir(dir);
+    });
     //    connect(ttlc, &TTLContent::contentWidthChanged,
     //            this, &ViewPanel::updateTopLeftWidthChanged);
     //    connect(this, &ViewPanel::updateCollectButton,
     //            ttlc, &TTLContent::updateCollectButton);
     connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage);
-    connect(ttbc, &TTBContent::rotateClockwise, this, [=] { rotateImage(true); });
-    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [=] { rotateImage(false); });
-    connect(ttbc, &TTBContent::removed, this, [=] {
-        if (m_vinfo.inDatabase) {
+    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); });
+    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); });
+    connect(ttbc, &TTBContent::removed, this, [ = ] {
+        if (m_vinfo.inDatabase)
+        {
             popupDelDialog(m_infos.at(m_current).filePath);
-        } else {
+        } else
+        {
             const QString path = m_infos.at(m_current).filePath;
             QFile file(path);
             if (!file.exists())
@@ -530,7 +539,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
             emit dApp->signalM->picDelete();
         }
     });
-    connect(ttbc, &TTBContent::resetTransform, this, [=](bool fitWindow) {
+    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
         if (fitWindow) {
             m_viewB->fitWindow_btnclicked();
         } else {
@@ -544,10 +553,16 @@ QWidget *ViewPanel::bottomTopLeftContent()
             &TTBContent::updateCollectButton);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
             &TTBContent::updateCollectButton);
-    connect(ttbc, &TTBContent::showPrevious, this, [=]() { this->showPrevious(); });
-    connect(ttbc, &TTBContent::showNext, this, [=]() { this->showNext(); });
+    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
+        this->showPrevious();
+    });
+    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
+        this->showNext();
+    });
     connect(ttbc, &TTBContent::imageClicked, this,
-            [=](int index, int addIndex) { this->showImage(index, addIndex); });
+    [ = ](int index, int addIndex) {
+        this->showImage(index, addIndex);
+    });
 
     return ttbc;
 }
@@ -702,6 +717,27 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     }
     emit dApp->signalM->gotoPanel(this);
 
+    //添加记忆重复打开同一路径帅选
+
+
+    DBImgInfoList t_infos;
+
+    QDir _dir(vinfo.path);
+    bool flag = false;
+    //有个风险是删除一个文件，增加一个新文件无法识别
+    if (m_fileNum == _dir.entryInfoList(QDir::Files).count()) {
+        t_infos = m_infos;
+        //剔除无效路径
+        for (int i = 0; i < t_infos.count(); i++) {
+            if (!QFile::exists(t_infos.at(i).filePath)) {
+                t_infos.removeAt(i);
+                continue;
+            }
+            if (t_infos.at(i).filePath == vinfo.path && !flag) {
+                flag = true;
+            }
+        }
+    }
     // The control buttons is difference
     if (!vinfo.inDatabase) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
@@ -710,59 +746,78 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
-    // Get view range
-    if (!vinfo.paths.isEmpty()) {
-        QFileInfoList list;
-        for (QString path : vinfo.paths) {
-            list << QFileInfo(path);
+    if (flag) {
+        m_current = 0;
+        m_infos = t_infos;
+        if (!vinfo.path.isEmpty()) {
+            for (; m_current < m_infos.size(); m_current++) {
+                if (m_infos.at(m_current).filePath == vinfo.path) {
+                    break;
+                }
+            }
         }
-        m_infos = getImageInfos(list);
-    } else
+
+        if (m_current == m_infos.size()) {
+            qWarning() << "The specify path not in view range: " << vinfo.path << vinfo.paths;
+            return;
+        }
+
+        openImage(m_infos.at(m_current).filePath);
+    } else {
+        // Get view range
+        if (!vinfo.paths.isEmpty()) {
+            QFileInfoList list;
+            for (QString path : vinfo.paths) {
+                list << QFileInfo(path);
+            }
+            m_infos = getImageInfos(list);
+        } else
 #ifndef LITE_DIV
-    {
-        if (vinfo.inDatabase) {
-            if (vinfo.album.isEmpty()) {
-                m_infos = DBManager::instance()->getAllInfos();
+        {
+            if (vinfo.inDatabase) {
+                if (vinfo.album.isEmpty()) {
+                    m_infos = DBManager::instance()->getAllInfos();
+                } else {
+                    m_infos = DBManager::instance()->getInfosByAlbum(vinfo.album);
+                }
             } else {
-                m_infos = DBManager::instance()->getInfosByAlbum(vinfo.album);
+                m_infos = getImageInfos(getFileInfos(vinfo.path));
             }
-        } else {
-            m_infos = getImageInfos(getFileInfos(vinfo.path));
         }
-    }
 #else
-    {
-        QFileInfo info(vinfo.path);
+        {
+            QFileInfo info(vinfo.path);
 
-        m_infos = getImageInfos({info});
-    }
+            m_infos = getImageInfos({info});
+        }
 
-    //    if (m_infos.size() == 1) {
-    m_imageDirIterator.reset(
-        new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
-                         /*utils::image::supportedImageFormats(),*/ QDir::Files | QDir::Readable |
+        //    if (m_infos.size() == 1) {
+        m_imageDirIterator.reset(
+            new QDirIterator(QFileInfo(m_infos.first().filePath).absolutePath(),
+                             /*utils::image::supportedImageFormats(),*/ QDir::Files | QDir::Readable |
                              QDir::NoDotAndDotDot));
-//    } else {
-//        m_imageDirIterator.reset();
-//    }
+        //    } else {
+        //        m_imageDirIterator.reset();
+        //    }
 #endif
-    // Get the image which need to open currently
-    m_current = 0;
-    if (!vinfo.path.isEmpty()) {
-        for (; m_current < m_infos.size(); m_current++) {
-            if (m_infos.at(m_current).filePath == vinfo.path) {
-                break;
+        // Get the image which need to open currently
+        m_current = 0;
+        if (!vinfo.path.isEmpty()) {
+            for (; m_current < m_infos.size(); m_current++) {
+                if (m_infos.at(m_current).filePath == vinfo.path) {
+                    break;
+                }
             }
         }
-    }
 
-    if (m_current == m_infos.size()) {
-        qWarning() << "The specify path not in view range: " << vinfo.path << vinfo.paths;
-        return;
-    }
+        if (m_current == m_infos.size()) {
+            qWarning() << "The specify path not in view range: " << vinfo.path << vinfo.paths;
+            return;
+        }
 
-    openImage(m_infos.at(m_current).filePath);
-    eatImageDirIterator();
+        openImage(m_infos.at(m_current).filePath);
+        eatImageDirIterator();
+    }
 
     QStringList pathlist;
 
@@ -937,9 +992,9 @@ void ViewPanel::initStack()
     initViewContent();
     QVBoxLayout *vl = new QVBoxLayout(this);
     connect(dApp->signalM, &SignalManager::showTopToolbar, this,
-            [=] { vl->setContentsMargins(0, 0, 0, 0); });
+            [ = ] { vl->setContentsMargins(0, 0, 0, 0); });
     connect(dApp->signalM, &SignalManager::hideTopToolbar, this,
-            [=] { vl->setContentsMargins(0, 0, 0, 0); });
+            [ = ] { vl->setContentsMargins(0, 0, 0, 0); });
     vl->addWidget(m_stack);
 
     // Empty frame
@@ -994,9 +1049,11 @@ void ViewPanel::initViewContent()
 {
     m_viewB = new ImageView;
 
-    connect(m_viewB, &ImageView::doubleClicked, [this]() { toggleFullScreen(); });
-    connect(m_viewB, &ImageView::clicked, this, [=] { dApp->signalM->hideExtensionPanel(); });
-    connect(m_viewB, &ImageView::imageChanged, this, [=](QString path) {
+    connect(m_viewB, &ImageView::doubleClicked, [this]() {
+        toggleFullScreen();
+    });
+    connect(m_viewB, &ImageView::clicked, this, [ = ] { dApp->signalM->hideExtensionPanel(); });
+    connect(m_viewB, &ImageView::imageChanged, this, [ = ](QString path) {
         emit imageChanged(path, m_infos);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
@@ -1063,7 +1120,7 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
     m_currentImagePath = path;
 
-    connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
+    connect(dApp->signalM, &SignalManager::usbOutIn, this, [ = ](bool visible) {
         if (m_currentImagePath == "")
             return;
         if (visible) {

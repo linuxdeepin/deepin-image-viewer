@@ -57,8 +57,14 @@ public:
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
     const SignalManager::ViewInfo viewInfo() const;
-    int getPicCount() { return m_infos.count(); }
-    bool getPicExict() { return !QFileInfo(m_infos.first().filePath).exists(); }
+    int getPicCount()
+    {
+        return m_infos.count();
+    }
+    bool getPicExict()
+    {
+        return !QFileInfo(m_infos.first().filePath).exists();
+    }
 
 signals:
     void updateCollectButton();
@@ -163,5 +169,7 @@ private:
     bool m_finish = false;
 
     QScrollArea *m_scrollArea {nullptr};
+
+    int          m_fileNum = 0;
 };
 #endif  // VIEWPANEL_H

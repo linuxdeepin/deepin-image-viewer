@@ -49,6 +49,7 @@ public slots:
 class DGioVolumeManager;
 class MainWindow : public DMainWindow
 {
+    Q_OBJECT
 public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be
     // initialize to save resource and avoid DB file lock.
@@ -56,7 +57,8 @@ public:
 
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     int showDialog();
-
+public slots:
+    void OpenImage(QString path);
 protected:
     void resizeEvent(QResizeEvent *e) override;
     //    void showEvent(QShowEvent *event);
@@ -65,10 +67,13 @@ private:
     void moveFirstWindow();
     void moveCenter();
     bool windowAtEdge();
-
+    void paraOpenImageInfo(QString source, QString &path, QStringList &pathlist, QDateTime &stime);
+private:
     MainWidget *m_mainWidget;
     DGioVolumeManager *m_vfsManager;
     bool m_picInUSB = false;
+    QDateTime          m_currenttime;
+    bool               m_flag = false;
 };
 
 #endif  // MAINWINDOW_H
