@@ -240,7 +240,7 @@ void TopToolbar::initLeftContent()
     QLabel *logo = new QLabel(this);
 
     QPixmap logo_pix = utils::base::renderSVG(
-        ":/images/logo/resources/images/logo/deepin-image-viewer.svg", QSize(22, 22));
+                           ":/images/logo/resources/images/logo/deepin-image-viewer.svg", QSize(22, 22));
     logo->setPixmap(logo_pix);
     logo->setAlignment(Qt::AlignCenter);
     m_layout->addSpacing(12);
@@ -298,23 +298,23 @@ void TopToolbar::initWidgets()
     pa.setColor(QPalette::WindowText, QColor(255, 255, 255, 255));
     //    pa.setColor(QPalette::ButtonText,QColor(255,255,255,204));
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                     this, [=]() {
-                         DGuiApplicationHelper::ColorType themeType =
-                             DGuiApplicationHelper::instance()->themeType();
-                         QPalette pa1, pa2;
-                         if (!m_viewChange) {
-                             if (themeType == DGuiApplicationHelper::DarkType) {
-                                 pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
-                                 pa2.setColor(QPalette::WindowText, QColor(255, 255, 255, 204));
-                             } else {
-                                 pa1.setColor(QPalette::ButtonText, QColor(98, 110, 136, 225));
-                                 pa2.setColor(QPalette::WindowText, QColor(98, 110, 136, 225));
-                             }
-                             m_titlebar->setPalette(pa1);
-                             m_titletxt->setPalette(pa2);
-                         } else {
-                         }
-                     });
+    this, [ = ]() {
+        DGuiApplicationHelper::ColorType themeType =
+            DGuiApplicationHelper::instance()->themeType();
+        QPalette pa1, pa2;
+        if (!m_viewChange) {
+            if (themeType == DGuiApplicationHelper::DarkType) {
+                pa1.setColor(QPalette::ButtonText, QColor(255, 255, 255, 204));
+                pa2.setColor(QPalette::WindowText, QColor(255, 255, 255, 204));
+            } else {
+                pa1.setColor(QPalette::ButtonText, QColor(98, 110, 136, 225));
+                pa2.setColor(QPalette::WindowText, QColor(98, 110, 136, 225));
+            }
+            m_titlebar->setPalette(pa1);
+            m_titletxt->setPalette(pa2);
+        } else {
+        }
+    });
 
     //    connect(dApp->signalM, &SignalManager::enterView,
     //            this, [=](bool a) {
@@ -349,7 +349,7 @@ void TopToolbar::initWidgets()
 //    pa.setBrush(DPalette::Text, p.color(DPalette::TextTitle));
 //    m_titletxt->setPalette(pa);
 #if 0
-    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
+    QGraphicsDropShadowEffect *shadowEffect = new QGraphicsDropShadowEffect(m_titletxt);
     shadowEffect->setOffset(0, 1);
     shadowEffect->setBlurRadius(1);
     m_titletxt->setGraphicsEffect(shadowEffect);
@@ -364,7 +364,7 @@ void TopToolbar::initWidgets()
     //    customWidget->setFixedWidth(0);
     //    m_titlebar->setCustomWidget(customWidget, false);
     m_layout->addWidget(m_titlebar);
-    connect(dApp->signalM, &SignalManager::updateFileName, this, [=](const QString &filename) {
+    connect(dApp->signalM, &SignalManager::updateFileName, this, [ = ](const QString & filename) {
         //        QString filename="";
         //        if(!vinfo.path.isNull() && !vinfo.path.isNull()){
         //            filename = QFileInfo(vinfo.path).fileName();
@@ -375,7 +375,7 @@ void TopToolbar::initWidgets()
         m_filename = filename;
         m_titletxt->setText(a);
     });
-    connect(dApp->signalM, &SignalManager::resizeFileName, this, [=]() {
+    connect(dApp->signalM, &SignalManager::resizeFileName, this, [ = ]() {
         if (m_filename != "") {
             QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),
                                        m_filename, width() - 500);
@@ -437,14 +437,9 @@ void TopToolbar::initMenu()
 #ifndef LITE_DIV
     QShortcut *scNA = new QShortcut(QKeySequence(newAlbumShortcut()), this);
 #endif
-
-    QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
-    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
 #ifndef LITE_DIV
     connect(scNA, SIGNAL(activated()), this, SLOT(onNewAlbum()));
 #endif
-    connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
     //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
     //            [=](ViewerThemeManager::AppTheme dark){
@@ -458,7 +453,7 @@ void TopToolbar::initMenu()
     //    });
 
 #ifndef LITE_DIV
-    connect(dApp->setter, &ConfigSetter::valueChanged, this, [=](const QString &group) {
+    connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ](const QString & group) {
         if (group == "SHORTCUTALBUM") {
             scNA->setKey(QKeySequence(newAlbumShortcut()));
         }
