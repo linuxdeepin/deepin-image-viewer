@@ -62,6 +62,7 @@ class Application : public DApplication
 
 public:
     Application(int &argc, char **argv);
+    ~Application();
 
     ConfigSetter *setter = nullptr;
     //    DBManager *dbM = nullptr;

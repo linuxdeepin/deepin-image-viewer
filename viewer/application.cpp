@@ -244,6 +244,12 @@ Application::Application(int &argc, char **argv)
 
 }
 
+Application::~Application()
+{
+    m_LoadThread->requestInterruption();
+    m_LoadThread->quit();
+}
+
 void Application::initChildren()
 {
     viewerTheme = ViewerThemeManager::instance();
