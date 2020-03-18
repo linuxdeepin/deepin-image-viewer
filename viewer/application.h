@@ -28,6 +28,7 @@ class Importer;
 class SignalManager;
 class WallpaperSetter;
 class ViewerThemeManager;
+class QCloseEvent;
 #if defined(dApp)
 #undef dApp
 #endif
@@ -47,6 +48,9 @@ public:
 public slots:
     void startLoading();
 
+    //add by heyi 结束线程
+    void stopThread();
+
 signals:
     void sigFinishiLoad(QString mapPath);
 
@@ -54,6 +58,7 @@ private:
     Application *m_parent;
     QStringList m_pathlist;
     QString m_path;
+    volatile bool m_bFlag;
 };
 
 class Application : public DApplication
@@ -79,6 +84,8 @@ public:
 signals:
     void sigstartLoad();
     void sigFinishLoad(QString mapPath);
+    //add by heyi
+    void endThread();
 
 public slots:
     void finishLoadSlot(QString mapPath);

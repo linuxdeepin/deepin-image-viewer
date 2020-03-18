@@ -42,6 +42,7 @@ ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QString path
     m_parent = parent;
     m_pathlist = pathlist;
     m_path = path;
+    m_bFlag = true; //heyi
 }
 
 void ImageLoader::startLoading()
@@ -104,7 +105,13 @@ void ImageLoader::startLoading()
     }
 
     num = 0;
+    m_parent->m_imagemap.clear();
     for (QString path : m_pathlist) {
+        //add by heyi 如果还未加载完成就需要退出线程需要判断
+        if (!m_bFlag) {
+            return;
+        }
+
         QImage tImg;
 
         QString format = DetectImageFormat(path);
@@ -145,7 +152,7 @@ void ImageLoader::startLoading()
 //        }
 //        else
 //        {
-//            if (0 == num%100)
+//            if (0 == num%        //connect(this, &Application::endThread, m_imageloader, &ImageLoader::stopThread);100)
 //            {
 //                emit sigFinishiLoad();
 //            }
@@ -159,6 +166,11 @@ void ImageLoader::startLoading()
     gettimeofday(&tv, NULL);
     ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
     qDebug() << "startLoading end time: " << ms;
+}
+
+void ImageLoader::stopThread()
+{
+    m_bFlag = false;
 }
 
 void ImageLoader::addImageLoader(QStringList pathlist)
@@ -196,6 +208,11 @@ void ImageLoader::updateImageLoader(QStringList pathlist)
     for (QString path : pathlist) {
         QPixmap pixmap(path);
 
+        //QThread::msleep(700);
+        if (pixmap.isNull()) {
+            int i = 0;
+        }
+
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
     }
 }
@@ -210,6 +227,7 @@ Application::Application(int &argc, char **argv)
     : DApplication(argc, argv)
 {
     initI18n();
+    m_LoadThread = nullptr;
     setOrganizationName("deepin");
     setApplicationName("deepin-image-viewer");
     setApplicationDisplayName(tr("Image Viewer"));
@@ -239,6 +257,8 @@ Application::Application(int &argc, char **argv)
 
         connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
         connect(m_imageloader, SIGNAL(sigFinishiLoad(QString)), this, SLOT(finishLoadSlot(QString)));
+        //heyi
+        connect(this, SIGNAL(endThread()), m_imageloader, SLOT(stopThread()), Qt::DirectConnection);
         emit sigstartLoad();
     });
 
@@ -246,8 +266,15 @@ Application::Application(int &argc, char **argv)
 
 Application::~Application()
 {
-    m_LoadThread->requestInterruption();
-    m_LoadThread->quit();
+    if (m_LoadThread != nullptr) {
+        if (m_LoadThread->isRunning()) {
+            //结束线程
+            m_LoadThread->requestInterruption();
+            emit endThread();
+            QThread::msleep(500);
+            m_LoadThread->quit();
+        }
+    }
 }
 
 void Application::initChildren()
