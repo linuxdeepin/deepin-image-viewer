@@ -30,6 +30,7 @@
 #include <QImageReader>
 #include <sys/time.h>
 #include <QFile>
+#include <QImage>
 
 namespace {
 
@@ -206,12 +207,8 @@ void ImageLoader::addImageLoader(QStringList pathlist)
 void ImageLoader::updateImageLoader(QStringList pathlist)
 {
     for (QString path : pathlist) {
-        QPixmap pixmap(path);
-
-        //QThread::msleep(700);
-        if (pixmap.isNull()) {
-            int i = 0;
-        }
+        QImage image(path);
+        QPixmap pixmap = QPixmap::fromImage(image);
 
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
     }
