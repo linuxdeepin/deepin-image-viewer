@@ -19,6 +19,7 @@
 
 #include <DApplication>
 #include <QThread>
+#include <QReadWriteLock>
 class Application;
 class ConfigSetter;
 class DatabaseManager;
@@ -59,6 +60,7 @@ private:
     QStringList m_pathlist;
     QString m_path;
     volatile bool m_bFlag;
+    mutable QReadWriteLock m_writelock;
 };
 
 class Application : public DApplication

@@ -107,59 +107,147 @@ void ImageLoader::startLoading()
 
     num = 0;
     m_parent->m_imagemap.clear();
-    for (QString path : m_pathlist) {
-        //add by heyi 如果还未加载完成就需要退出线程需要判断
-        if (!m_bFlag) {
-            return;
-        }
-
-        QImage tImg;
-
-        QString format = DetectImageFormat(path);
-        if (format.isEmpty()) {
-            QImageReader reader(path);
-            reader.setAutoTransform(true);
-            if (reader.canRead()) {
-                tImg = reader.read();
+    //heyi test 开辟两个线程同时加载
+    int nMedian = m_pathlist.size() / 2;
+    QThread *th1 = QThread::create([ = ]() {
+        for (int i = 0; i < nMedian + 1; i++) {
+            if (!m_bFlag) {
+                break;
             }
-        } else {
-            QImageReader readerF(path, format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                tImg = readerF.read();
+
+            QImage tImg;
+            m_writelock.lockForRead();
+            QString path = m_pathlist.at(i);
+            m_writelock.unlock();
+            QString format = DetectImageFormat(path);
+            if (format.isEmpty()) {
+                QImageReader reader(path);
+                reader.setAutoTransform(true);
+                if (reader.canRead()) {
+                    tImg = reader.read();
+                }
             } else {
-                qWarning() << "can't read image:" << readerF.errorString()
-                           << format;
+                QImageReader readerF(path, format.toLatin1());
+                readerF.setAutoTransform(true);
+                if (readerF.canRead()) {
+                    tImg = readerF.read();
+                } else {
+                    qWarning() << "can't read image:" << readerF.errorString()
+                               << format;
 
-                tImg = QImage(path);
+                    tImg = QImage(path);
+                }
             }
+
+            QPixmap pixmap = QPixmap::fromImage(tImg);
+
+            m_writelock.lockForWrite();
+            m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+            m_writelock.unlock();
+
+            emit sigFinishiLoad(path);
         }
 
-        QPixmap pixmap = QPixmap::fromImage(tImg);
+        QThread::currentThread()->quit();
+    });
 
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    QThread *th2 = QThread::create([ = ]() {
+        for (int i = nMedian; i < m_pathlist.size(); i++) {
+            if (!m_bFlag) {
+                break;
+            }
 
-        num++;
-//        if (10 > num)
-//        {
-//            emit sigFinishiLoad();
-//        }
-//        else if (50 > num)
-//        {
-//            if (0 == num%3)
-//            {
-//                emit sigFinishiLoad();
-//            }
-//        }
-//        else
-//        {
-//            if (0 == num%        //connect(this, &Application::endThread, m_imageloader, &ImageLoader::stopThread);100)
-//            {
-//                emit sigFinishiLoad();
-//            }
-//        }
-        emit sigFinishiLoad(path);
-    }
+            QImage tImg;
+            m_writelock.lockForRead();
+            QString path = m_pathlist.at(i);
+            m_writelock.unlock();
+            QString format = DetectImageFormat(path);
+            if (format.isEmpty()) {
+                QImageReader reader(path);
+                reader.setAutoTransform(true);
+                if (reader.canRead()) {
+                    tImg = reader.read();
+                }
+            } else {
+                QImageReader readerF(path, format.toLatin1());
+                readerF.setAutoTransform(true);
+                if (readerF.canRead()) {
+                    tImg = readerF.read();
+                } else {
+                    qWarning() << "can't read image:" << readerF.errorString()
+                               << format;
+
+                    tImg = QImage(path);
+                }
+            }
+
+            QPixmap pixmap = QPixmap::fromImage(tImg);
+
+            m_writelock.lockForWrite();
+            m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+            m_writelock.unlock();
+
+            emit sigFinishiLoad(path);
+        }
+
+        QThread::currentThread()->quit();
+    });
+
+    th1->start();
+    th2->start();
+    /*    for (QString path : m_pathlist) {
+            //add by heyi 如果还未加载完成就需要退出线程需要判断
+            if (!m_bFlag) {
+                return;
+            }
+
+            QImage tImg;
+
+            QString format = DetectImageFormat(path);
+            if (format.isEmpty()) {
+                QImageReader reader(path);
+                reader.setAutoTransform(true);
+                if (reader.canRead()) {
+                    tImg = reader.read();
+                }
+            } else {
+                QImageReader readerF(path, format.toLatin1());
+                readerF.setAutoTransform(true);
+                if (readerF.canRead()) {
+                    tImg = readerF.read();
+                } else {
+                    qWarning() << "can't read image:" << readerF.errorString()
+                               << format;
+
+                    tImg = QImage(path);
+                }
+            }
+
+            QPixmap pixmap = QPixmap::fromImage(tImg);
+
+            m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+
+            num++;
+    //        if (10 > num)
+    //        {
+    //            emit sigFinishiLoad();
+    //        }
+    //        else if (50 > num)
+    //        {
+    //            if (0 == num%3)
+    //            {
+    //                emit sigFinishiLoad();
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (0 == num%        //connect(this, &Application::endThread, m_imageloader, &ImageLoader::stopThread);100)
+    //            {
+    //                emit sigFinishiLoad();
+    //            }
+    //        }
+            emit sigFinishiLoad(path);
+        }*/
 
     QString map = "";
     emit sigFinishiLoad(map);
