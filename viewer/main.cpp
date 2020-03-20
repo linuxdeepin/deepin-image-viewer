@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
-
-    QSharedMemory sharedMemory(QString("deepinimangeviewsingle"));
+    QString userpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    QSharedMemory sharedMemory(userpath + QString("deepinimangeviewsingle"));
     //if (sharedMemory.isAttached()) {
     //   sharedMemory.detach();
     // }
