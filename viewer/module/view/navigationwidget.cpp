@@ -27,6 +27,7 @@
 #include <QtDebug>
 #include <DDialogCloseButton>
 #include <DGuiApplicationHelper>
+#include <QRgb>
 
 namespace {
 
@@ -222,6 +223,45 @@ void NavigationWidget::tryMoveRect(const QPoint &p)
     Q_EMIT requestMove(x, y);
 }
 
+bool NavigationWidget::checkbgisdark(QImage &img) const
+{
+    //long l = m_r.toRect().width() * m_r.toRect().height() / 100;
+    int npixcntx, npixcnty;
+    bool numlessflag;
+    m_r.toRect().width() * m_r.toRect().height() < 50 ? numlessflag = true : numlessflag = false;
+    if (numlessflag) {
+        npixcntx = m_r.toRect().width();
+        npixcnty = m_r.toRect().height();
+    } else {
+        npixcntx = m_r.toRect().width() / 5;
+        npixcnty = m_r.toRect().height() / 5;
+    }
+    int total = 0;
+    int darktotal = 0;
+    for (int i = 0; i < npixcntx; i++) {
+        for (int j = 0; j < npixcnty; j++) {
+            total++;
+            QRgb rgb;
+            if (numlessflag)
+                rgb = img.pixel(m_r.toRect().x(), m_r.toRect().y());
+            else {
+                rgb = img.pixel(m_r.toRect().x() + 5 * i, m_r.toRect().y() + 5 * j);
+            }
+            int red = qRed(rgb);
+            int green = qGreen(rgb);
+            int blue = qGreen(rgb);
+            int gray = (red * 30 + green * 59 + blue * 11) / 100;
+            if (gray < 25) {
+                darktotal++;
+            }
+        }
+    }
+    if (darktotal / (total * 1.00) > 0.95)
+        return  true;
+    else
+        return false;
+}
+
 void NavigationWidget::paintEvent(QPaintEvent *)
 {
     QImage img(m_img);
@@ -236,12 +276,16 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     QPainter p(&img);
     p.fillRect(m_r, m_mrBgColor);
 //    p.setPen(m_mrBorderColor);
-    p.setPen(QColor(0, 0, 0, 0));
+    if (checkbgisdark(img)) {
+        p.setPen(QPen(Qt::gray));
+    } else {
+        p.setPen(QColor(0, 0, 0, 0));
+    }
+
 //    p.setPen(QPen(Qt::green));
     p.drawRect(m_r);
     p.end();
     p.begin(this);
-
     QImage background(m_bgImgUrl);
     p.drawImage(this->rect(), background);
 
@@ -261,7 +305,7 @@ void NavigationWidget::paintEvent(QPaintEvent *)
     QRect borderRect = QRect(imageDrawRect.x(), imageDrawRect.y() + 1, imageDrawRect.width(), imageDrawRect.height() + 1);
 //    p.setPen(m_imgRBorderColor);
     p.setPen(QColor(0, 0, 0, 0));
-//    p.setPen(QPen(Qt::red));
+    //p.setPen(QPen(Qt::red));
     p.drawRect(borderRect);
     p.end();
 }
