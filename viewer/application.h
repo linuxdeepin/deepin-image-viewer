@@ -45,7 +45,7 @@ public:
     explicit ImageLoader(Application *parent, QStringList pathlist, QString path);
 
     void addImageLoader(QStringList pathlist);
-    void updateImageLoader(QStringList pathlist);
+    void updateImageLoader(QStringList pathlist, bool bDirection);
     //add by heyi
     void loadInterface(QString strPath);
 

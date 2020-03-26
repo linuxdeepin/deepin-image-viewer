@@ -86,32 +86,32 @@ char *getImageType(QString filepath)
     quint32 magic;
     in >> magic;
     switch (magic) {
-        case IMAGE_TYPE_JEPG:
-        case IMAGE_TYPE_JPG1:
-        case IMAGE_TYPE_JPG2:
-        case IMAGE_TYPE_JPG3:
-            //文件类型为 JEPG
-            ret = "JEPG";
-            break;
-        case IMAGE_TYPE_PNG:
-            //文件类型为 png
-            ret = "PNG";
-            break;
-        case IMAGE_TYPE_GIF:
-            //文件类型为 GIF
-            ret = "GIF";
-            break;
-        case IMAGE_TYPE_TIFF:
-            //文件类型为 TIFF
-            ret = "TIFF";
-            break;
-        case IMAGE_TYPE_BMP:
-            //文件类型为 BMP
-            ret = "BMP";
-            break;
-        default:
-            ret = nullptr;
-            break;
+    case IMAGE_TYPE_JEPG:
+    case IMAGE_TYPE_JPG1:
+    case IMAGE_TYPE_JPG2:
+    case IMAGE_TYPE_JPG3:
+        //文件类型为 JEPG
+        ret = "JEPG";
+        break;
+    case IMAGE_TYPE_PNG:
+        //文件类型为 png
+        ret = "PNG";
+        break;
+    case IMAGE_TYPE_GIF:
+        //文件类型为 GIF
+        ret = "GIF";
+        break;
+    case IMAGE_TYPE_TIFF:
+        //文件类型为 TIFF
+        ret = "TIFF";
+        break;
+    case IMAGE_TYPE_BMP:
+        //文件类型为 BMP
+        ret = "BMP";
+        break;
+    default:
+        ret = nullptr;
+        break;
     }
     return ret;
 };
@@ -155,7 +155,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
         ((DWidget *)m_obj)
-            ->move(((DWidget *)m_obj)->x() + p.x() - m_prepoint.x(), ((DWidget *)m_obj)->y());
+        ->move(((DWidget *)m_obj)->x() + p.x() - m_prepoint.x(), ((DWidget *)m_obj)->y());
         m_prepoint = p;
     }
     return false;
@@ -170,7 +170,7 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
         _pixmap = dApp->m_imagemap.value(path);
     }
     _image = new DLabel(this);
-    connect(dApp, &Application::sigFinishLoad, this, [=](QString mapPath) {
+    connect(dApp, &Application::sigFinishLoad, this, [ = ](QString mapPath) {
         if (mapPath == _path || mapPath == "") {
             if (dApp->m_imagemap.contains(_path)) {
                 _pixmap = dApp->m_imagemap.value(_path);
@@ -348,8 +348,8 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     hb->addWidget(m_nextButton);
     hb->addWidget(m_nextButton_spc);
 
-    connect(m_preButton, &DIconButton::clicked, this, [=] { emit showPrevious(); });
-    connect(m_nextButton, &DIconButton::clicked, this, [=] { emit showNext(); });
+    connect(m_preButton, &DIconButton::clicked, this, [ = ] { emit showPrevious(); });
+    connect(m_nextButton, &DIconButton::clicked, this, [ = ] { emit showNext(); });
 
     m_adaptImageBtn = new DIconButton(this);
     m_adaptImageBtn->setFixedSize(ICON_SIZE);
@@ -358,7 +358,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     m_adaptImageBtn->setToolTip(tr("1:1 Size"));
     hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_adaptImageBtn, &DIconButton::clicked, this, [=] { emit resetTransform(false); });
+    connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] { emit resetTransform(false); });
 
     m_adaptScreenBtn = new DIconButton(this);
     m_adaptScreenBtn->setFixedSize(ICON_SIZE);
@@ -367,7 +367,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     m_adaptScreenBtn->setToolTip(tr("Fit to window"));
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
-    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [=] { emit resetTransform(true); });
+    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] { emit resetTransform(true); });
 
     m_rotateLBtn = new DIconButton(this);
     m_rotateLBtn->setFixedSize(ICON_SIZE);
@@ -512,9 +512,10 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 
     m_imgListView = new MyImageListWidget();
     m_imgList = new DWidget(m_imgListView);
-    connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, [=] {
+    connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, [ = ] {
         int movex = m_imgList->x();
-        if (movex >= 0) {
+        if (movex >= 0)
+        {
             if (m_imgList->width() < m_imgListView->width()) {
                 if (m_imgList->width() + movex > m_imgListView->width()) {
                     movex = (m_imgListView->width() - m_imgList->width()) / 2;
@@ -524,7 +525,8 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
             } else {
                 movex = 0;
             }
-        } else {
+        } else
+        {
             if (m_imgList->width() < m_imgListView->width()) {
                 movex = (m_imgListView->width() - m_imgList->width()) / 2;
             } else {
@@ -543,7 +545,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
         m_imgList->setFixedSize(
             QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                        qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) -
-                      THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
+                  THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
                   TOOLBAR_HEIGHT));
     }
 
@@ -561,7 +563,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
         m_imgListView->setFixedSize(
             QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                        qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) -
-                      THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
+                  THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
                   TOOLBAR_HEIGHT));
     }
 
@@ -581,26 +583,30 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     m_fileNameLabel = new ElidedLabel();
     //    hb->addWidget(m_fileNameLabel);
 
-    connect(dApp->signalM, &SignalManager::picDelete, this, [=] {
-        if (window()->isFullScreen()) {
+    connect(dApp->signalM, &SignalManager::picDelete, this, [ = ] {
+        if (window()->isFullScreen())
+        {
             emit dApp->signalM->sigShowFullScreen();
         }
         m_imgInfos_size = m_imgInfos_size - 1;
         int windowWidth = this->window()->geometry().width();
-        if (m_imgInfos_size <= 1) {
+        if (m_imgInfos_size <= 1)
+        {
             m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-        } else if (m_imgInfos_size <= 3) {
+        } else if (m_imgInfos_size <= 3)
+        {
             m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
             m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-        } else {
+        } else
+        {
             m_contentWidth =
-                qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)),
-                     qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) +
-                THUMBNAIL_LIST_ADJUST;
+            qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)),
+                 qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) +
+            THUMBNAIL_LIST_ADJUST;
             m_imgListView->setFixedSize(
                 QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)),
                            qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) -
-                          THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
+                      THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
                       TOOLBAR_HEIGHT));
         }
         setFixedWidth(m_contentWidth);
@@ -652,18 +658,19 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     //    connect(btRight, &ImageIconButton::clicked,
     //            this, &TTBContent::rotateClockwise);
     //    connect(btTrash, &ImageIconButton::clicked, this, &TTBContent::removed);
-    connect(m_preButton, &DIconButton::clicked, this, [=] { emit showPrevious(); });
-    connect(m_nextButton, &DIconButton::clicked, this, [=] { emit showNext(); });
-    connect(m_adaptImageBtn, &DIconButton::clicked, this, [=] {
+    connect(m_preButton, &DIconButton::clicked, this, [ = ] { emit showPrevious(); });
+    connect(m_nextButton, &DIconButton::clicked, this, [ = ] { emit showNext(); });
+    connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
         //        emit resetTransform(false);
         //        setAdaptButtonChecked(true);
         m_adaptImageBtn->setChecked(true);
-        if (!badaptImageBtnChecked) {
+        if (!badaptImageBtnChecked)
+        {
             badaptImageBtnChecked = true;
             emit resetTransform(false);
         }
     });
-    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [=] {
+    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] {
         emit resetTransform(true);
         setAdaptButtonChecked(false);
     });
@@ -671,7 +678,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     connect(m_rotateRBtn, &DIconButton::clicked, this, &TTBContent::rotateClockwise);
     connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed);
 
-    connect(dApp->signalM, &SignalManager::isAdapt, this, [=](bool immediately) {
+    connect(dApp->signalM, &SignalManager::isAdapt, this, [ = ](bool immediately) {
         if (immediately) {
             setAdaptButtonChecked(true);
         } else {
@@ -679,17 +686,17 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
         }
     });
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                     this, [=]() {
-                         DGuiApplicationHelper::ColorType themeType =
-                             DGuiApplicationHelper::instance()->themeType();
-                         bool theme = false;
-                         if (themeType == DGuiApplicationHelper::DarkType) {
-                             theme = true;
-                         } else {
-                             theme = false;
-                         }
-                         slotTheme(theme);
-                     });
+    this, [ = ]() {
+        DGuiApplicationHelper::ColorType themeType =
+            DGuiApplicationHelper::instance()->themeType();
+        bool theme = false;
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            theme = true;
+        } else {
+            theme = false;
+        }
+        slotTheme(theme);
+    });
 
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     bool theme = false;
@@ -867,6 +874,11 @@ void TTBContent::updateFilenameLayout()
     m_fileNameLabel->setText(name, leftMargin);
 }
 
+void TTBContent::onChangeHideFlags(bool bFlags)
+{
+    m_bIsHide = bFlags;
+}
+
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
 
 void TTBContent::setCurrentDir(QString text)
@@ -896,7 +908,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         m_imgListView->setFixedSize(
             QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)),
                        qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) -
-                      THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
+                  THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
                   TOOLBAR_HEIGHT));
     }
 
@@ -939,6 +951,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             delete child;
         }
     }
+
     if (path.isEmpty() || !QFileInfo(path).exists() || !QFileInfo(path).isReadable()) {
         auto num = 32;
         int t = 0;
@@ -956,13 +969,16 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_imglayout->addWidget(imageItem);
                 connect(
                     imageItem, &ImageItem::imageItemclicked, this,
-                    [=](int index, int indexNow) { emit imageClicked(index, (index - indexNow)); });
+                [ = ](int index, int indexNow) {
+                    emit imageClicked(index, (index - indexNow));
+                });
             }
             if (path == info.filePath) {
                 t = i;
             }
             i++;
         }
+
         labelList = m_imgList->findChildren<ImageItem *>();
         m_nowIndex = t;
 
@@ -998,12 +1014,12 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             if (bresized) {
                 bresized = false;
                 m_imgList->move(QPoint(
-                    (qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                          (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
-                     496 - 52 + 18) /
-                            2 -
-                        ((num)*t),
-                    0));
+                                    (qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                                          (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
+                                     496 - 52 + 18) /
+                                    2 -
+                                    ((num)*t),
+                                    0));
             } else {
                 QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
                 animation->setDuration(500);
@@ -1014,21 +1030,21 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                                      THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                                     (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
                                496 - 52 + 18) /
-                                      2 -
-                                  ((num)*t),
+                              2 -
+                              ((num)*t),
                               0));
                 animation->setEndValue(QPoint(
-                    (qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                          (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
-                     496 - 52 + 18) /
-                            2 -
-                        ((num)*t),
-                    0));
+                                           (qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                                                 (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
+                                            496 - 52 + 18) /
+                                           2 -
+                                           ((num)*t),
+                                           0));
                 animation->start(QAbstractAnimation::DeleteWhenStopped);
                 connect(animation, &QPropertyAnimation::finished, animation,
                         &QPropertyAnimation::deleteLater);
 
-                connect(animation, &QPropertyAnimation::finished, this, [=] { m_imgList->show(); });
+                connect(animation, &QPropertyAnimation::finished, this, [ = ] { m_imgList->show(); });
             }
         } else if (2 == m_startAnimation) {
             if (bresized) {
@@ -1045,7 +1061,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 connect(animation, &QPropertyAnimation::finished, animation,
                         &QPropertyAnimation::deleteLater);
 
-                connect(animation, &QPropertyAnimation::finished, this, [=] { m_imgList->show(); });
+                connect(animation, &QPropertyAnimation::finished, this, [ = ] { m_imgList->show(); });
             }
         } else if (3 == m_startAnimation) {
             if (bresized) {
@@ -1062,7 +1078,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 connect(animation, &QPropertyAnimation::finished, animation,
                         &QPropertyAnimation::deleteLater);
 
-                connect(animation, &QPropertyAnimation::finished, this, [=] { m_imgList->show(); });
+                connect(animation, &QPropertyAnimation::finished, this, [ = ] { m_imgList->show(); });
             }
         } else if (0 == m_startAnimation) {
             m_imgList->show();
@@ -1124,9 +1140,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 
                     m_imglayout->addWidget(imageItem);
                     connect(imageItem, &ImageItem::imageItemclicked, this,
-                            [=](int index, int indexNow) {
-                                emit imageClicked(index, (index - indexNow));
-                            });
+                    [ = ](int index, int indexNow) {
+                        emit imageClicked(index, (index - indexNow));
+                    });
                 }
                 if (path == info.filePath) {
                     t = i;
@@ -1175,8 +1191,8 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                                       THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                                      (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
                                 496 - 52 + 18) /
-                                       2 -
-                                   ((num)*t),
+                               2 -
+                               ((num)*t),
                                0));
                 } else {
                     QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
@@ -1188,23 +1204,23 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                                          THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                                         (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
                                    496 - 52 + 18) /
-                                          2 -
-                                      ((num)*t),
+                                  2 -
+                                  ((num)*t),
                                   0));
                     animation->setEndValue(
                         QPoint((qMin((TOOLBAR_MINIMUN_WIDTH +
                                       THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                                      (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
                                 496 - 52 + 18) /
-                                       2 -
-                                   ((num)*t),
+                               2 -
+                               ((num)*t),
                                0));
                     animation->start(QAbstractAnimation::DeleteWhenStopped);
                     connect(animation, &QPropertyAnimation::finished, animation,
                             &QPropertyAnimation::deleteLater);
 
                     connect(animation, &QPropertyAnimation::finished, this,
-                            [=] { m_imgList->show(); });
+                            [ = ] { m_imgList->show(); });
                 }
             } else if (2 == m_startAnimation) {
                 if (bresized) {
@@ -1222,7 +1238,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                             &QPropertyAnimation::deleteLater);
 
                     connect(animation, &QPropertyAnimation::finished, this,
-                            [=] { m_imgList->show(); });
+                            [ = ] { m_imgList->show(); });
                 }
             } else if (3 == m_startAnimation) {
                 if (bresized) {
@@ -1241,7 +1257,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                             &QPropertyAnimation::deleteLater);
 
                     connect(animation, &QPropertyAnimation::finished, this,
-                            [=] { m_imgList->show(); });
+                            [ = ] { m_imgList->show(); });
                 }
             } else if (0 == m_startAnimation) {
                 m_imgList->show();
@@ -1320,9 +1336,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 
                     m_imglayout->addWidget(imageItem);
                     connect(imageItem, &ImageItem::imageItemclicked, this,
-                            [=](int index, int indexNow) {
-                                emit imageClicked(index, (index - indexNow));
-                            });
+                    [ = ](int index, int indexNow) {
+                        emit imageClicked(index, (index - indexNow));
+                    });
                 }
                 if (path == info.filePath) {
                     t = i;
@@ -1469,6 +1485,20 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         }
 #endif
     }
+
+    //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
+    if (m_bIsHide) {
+        m_preButton->hide();
+        m_preButton_spc->hide();
+        m_nextButton->hide();
+        m_nextButton_spc->hide();
+    } else {
+        m_preButton->show();
+        m_nextButton->show();
+        m_preButton_spc->show();
+        m_nextButton_spc->show();
+    }
+
     m_imagePath = path;
     QString fileName = "";
     if (m_imagePath != "") {

@@ -70,46 +70,13 @@ void ImageLoader::startLoading()
     //heyi test
     QStringList list;
     for (int i = 0; i < 25; i++) {
-        if ((array - i) > -1){
+        if ((array - i) > -1) {
             list.append(m_pathlist.at(array - i));
         }
-        if ((array + i) < count){
+        if ((array + i) < count) {
             list.append(m_pathlist.at(array + i));
         }
     }
-
-    /*for (QString path : list) {
-        QImage tImg;
-
-        QString format = DetectImageFormat(path);
-
-        if (format.isEmpty()) {
-            QImageReader reader(path);
-            reader.setAutoTransform(true);
-            if (reader.canRead()) {
-                tImg = reader.read();
-            }
-        } else {
-            QImageReader readerF(path, format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                tImg = readerF.read();
-            } else {
-                qWarning() << "can't read image:" << readerF.errorString()
-                           << format;
-
-                tImg = QImage(path);
-            }
-        }
-
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-
-        emit sigFinishiLoad(path);
-    }*/
-
-    //m_parent->m_imagemap.clear();
 
     //heyi test 开辟两个线程同时加载,重选中位置往两边加载
     for (int i = 0; i < array; i++) {
@@ -120,12 +87,12 @@ void ImageLoader::startLoading()
         listLoad2.append(m_pathlist.at(i));
     }
 
-    QThread* th1 = QThread::create([=](){
+    QThread *th1 = QThread::create([ = ]() {
         QString path;
         while (m_bFlag) {
             path.clear();
             m_readlock.lockForWrite();
-            if(listLoad1.isEmpty()){
+            if (listLoad1.isEmpty()) {
                 m_readlock.unlock();
                 break;
             }
@@ -141,7 +108,7 @@ void ImageLoader::startLoading()
         while (m_bFlag) {
             path.clear();
             m_readlock.lockForWrite();
-            if(listLoad2.isEmpty()){
+            if (listLoad2.isEmpty()) {
                 m_readlock.unlock();
                 break;
             }
@@ -155,12 +122,12 @@ void ImageLoader::startLoading()
         QThread::currentThread()->quit();
     });
 
-    QThread* th2 = QThread::create([=](){
+    QThread *th2 = QThread::create([ = ]() {
         QString path;
         while (m_bFlag) {
             path.clear();
             m_readlock.lockForWrite();
-            if(listLoad2.isEmpty()){
+            if (listLoad2.isEmpty()) {
                 m_readlock.unlock();
                 break;
             }
@@ -176,7 +143,7 @@ void ImageLoader::startLoading()
         while (m_bFlag) {
             path.clear();
             m_readlock.lockForWrite();
-            if(listLoad1.isEmpty()){
+            if (listLoad1.isEmpty()) {
                 m_readlock.unlock();
                 break;
             }
@@ -192,60 +159,6 @@ void ImageLoader::startLoading()
 
     th1->start();
     th2->start();
-
-    /*for (QString path : m_pathlist) {
-        //add by heyi 如果还未加载完成就需要退出线程需要判断
-        if(!m_bFlag){
-            return;
-        }
-
-        QImage tImg;
-
-        QString format = DetectImageFormat(path);
-        if (format.isEmpty()) {
-            QImageReader reader(path);
-            reader.setAutoTransform(true);
-            if (reader.canRead()) {
-                tImg = reader.read();
-            }
-        } else {
-            QImageReader readerF(path, format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                tImg = readerF.read();
-            } else {
-                qWarning() << "can't read image:" << readerF.errorString()
-                           << format;
-
-                tImg = QImage(path);
-            }
-        }
-
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-
-        num++;
-        emit sigFinishiLoad(path);
-//        if (10 > num)
-//        {
-//            emit sigFinishiLoad();
-//        }
-//        else if (50 > num)
-//        {
-//            if (0 == num%3)
-//            {
-//                emit sigFinishiLoad();
-//            }
-//        }
-//        else
-//        {
-//            if (0 == num%        //connect(this, &Application::endThread, m_imageloader, &ImageLoader::stopThread);100)
-//            {
-//                emit sigFinishiLoad();
-//            }
-//        }
-    }*/
 
     QString map = "";
     emit sigFinishiLoad(map);
@@ -289,12 +202,21 @@ void ImageLoader::addImageLoader(QStringList pathlist)
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
     }
 }
-
-void ImageLoader::updateImageLoader(QStringList pathlist)
+//modify by heyi
+void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
 {
     for (QString path : pathlist) {
-        QImage image(path);
-        QPixmap pixmap = QPixmap::fromImage(image);
+        QPixmap pixmap = m_parent->m_imagemap[path];
+        QMatrix rotate;
+        if (bDirection) {
+            rotate.rotate(90);
+        } else {
+            rotate.rotate(-90);
+        }
+
+        //QImage image(path);
+        //QPixmap pixmap = QPixmap::fromImage(image);
+        pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
     }
 }
@@ -380,10 +302,8 @@ Application::Application(int &argc, char **argv)
 
 Application::~Application()
 {
-    if(nullptr !=  m_LoadThread)
-    {
-        if(m_LoadThread->isRunning())
-        {
+    if (nullptr !=  m_LoadThread) {
+        if (m_LoadThread->isRunning()) {
             //结束线程
             m_LoadThread->requestInterruption();
             emit endThread();

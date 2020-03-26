@@ -151,29 +151,29 @@ QMimeType determineMimeType(const QString &filename)
     // detecting by content. The following code fixes detection of tar.gz, tar.bz2, tar.xz,
     // tar.lzo, tar.lz, tar.lrz and tar.zst.
     if ((mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
-        (mimeFromExtension ==
+            mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
+            (mimeFromExtension ==
              db.mimeTypeForName(QStringLiteral("application/x-bzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
-        (mimeFromExtension ==
+             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
+            (mimeFromExtension ==
              db.mimeTypeForName(QStringLiteral("application/x-xz-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
-        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tarz")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress"))) ||
-        (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tzo")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
-        (mimeFromExtension ==
+             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
+            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tarz")) &&
+             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress"))) ||
+            (mimeFromExtension == db.mimeTypeForName(QStringLiteral("application/x-tzo")) &&
+             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
+            (mimeFromExtension ==
              db.mimeTypeForName(QStringLiteral("application/x-lzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzip"))) ||
-        (mimeFromExtension ==
+             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzip"))) ||
+            (mimeFromExtension ==
              db.mimeTypeForName(QStringLiteral("application/x-lrzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip"))) ||
-        (mimeFromExtension ==
+             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip"))) ||
+            (mimeFromExtension ==
              db.mimeTypeForName(QStringLiteral("application/x-lz4-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lz4"))) ||
-        (mimeFromExtension ==
+             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lz4"))) ||
+            (mimeFromExtension ==
              db.mimeTypeForName(QStringLiteral("application/x-zstd-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/zstd")))) {
+             mimeFromContent == db.mimeTypeForName(QStringLiteral("application/zstd")))) {
         return mimeFromExtension;
     }
 
@@ -242,17 +242,17 @@ ImageView::ImageView(QWidget *parent)
     // Use openGL to render by default
     //    setRenderer(OpenGL);
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                     this, [=]() {
-                         DGuiApplicationHelper::ColorType themeType =
-                             DGuiApplicationHelper::instance()->themeType();
-                         if (themeType == DGuiApplicationHelper::DarkType) {
-                             m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
-                         } else {
-                             m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
-                         }
-                         update();
-                     });
-    connect(dApp->signalM, &SignalManager::loadingDisplay, this, [=](bool immediately) {
+    this, [ = ]() {
+        DGuiApplicationHelper::ColorType themeType =
+            DGuiApplicationHelper::instance()->themeType();
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            m_backgroundColor = utils::common::DARK_BACKGROUND_COLOR;
+        } else {
+            m_backgroundColor = utils::common::LIGHT_BACKGROUND_COLOR;
+        }
+        update();
+    });
+    connect(dApp->signalM, &SignalManager::loadingDisplay, this, [ = ](bool immediately) {
         if (immediately) {
             qDebug() << "loading display...";
             m_loadingDisplay = true;
@@ -424,7 +424,7 @@ void ImageView::autoFit()
     // change some code in graphicsitem.cpp line100.
 
     if ((image_size.width() >= width() || image_size.height() >= height() - 150) && width() > 0 &&
-        height() > 0) {
+            height() > 0) {
         fitWindow();
     } else {
         fitImage();
@@ -752,7 +752,7 @@ void ImageView::onCacheFinish()
             resetTransform();
             m_pixmapItem = new GraphicsPixmapItem(pixmap);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [=](bool scaledmode) {
+            connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
                 if (!m_pixmapItem) {
                     qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
                     update();
@@ -827,7 +827,7 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 {
     if (gesture->state() == Qt::GestureFinished) {
         if (gesture->horizontalDirection() == QSwipeGesture::Left ||
-            gesture->verticalDirection() == QSwipeGesture::Up) {
+                gesture->verticalDirection() == QSwipeGesture::Up) {
             emit nextRequested();
         } else {
             emit previousRequested();

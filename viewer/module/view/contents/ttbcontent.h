@@ -143,6 +143,8 @@ public slots:
     void setAdaptButtonChecked(bool flag);
     void disCheckAdaptImageBtn();
     void checkAdaptImageBtn();
+    //heyi test 接收到信号之后更改隐藏标志符号
+    void onChangeHideFlags(bool bFlags);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
@@ -193,6 +195,8 @@ private:
     bool bresized = true;
     bool badaptImageBtnChecked = false;
     bool badaptScreenBtnChecked = false;
+    //heyi test
+    bool m_bIsHide = false;
 };
 
 #endif // TTLCONTENT_H

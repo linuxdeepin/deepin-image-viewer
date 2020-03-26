@@ -21,13 +21,13 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
-struct ShortcutItem{
+struct ShortcutItem {
     QString name;
     QString value;
-    ShortcutItem(QString n,QString v):name(n),value(v){}
+    ShortcutItem(QString n, QString v): name(n), value(v) {}
 };
 
-struct ShortcutGroup{
+struct ShortcutGroup {
     QString groupName;
     QList<ShortcutItem> groupItems;
 };

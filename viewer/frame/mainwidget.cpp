@@ -313,7 +313,7 @@ void MainWidget::initTopToolbar()
 void MainWidget::initConnection()
 {
     QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
-    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+?"), this);
     connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
     connect(dApp->signalM, &SignalManager::backToMainPanel, this, [ = ] {

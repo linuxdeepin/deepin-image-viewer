@@ -30,7 +30,8 @@
 #include <QDirIterator>
 #include <QFileInfo>
 #include <QJsonObject>
-
+#include <QReadWriteLock>
+#include <QTimer>
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
@@ -43,6 +44,7 @@ class QFileSystemWatcher;
 class QLabel;
 class QStackedWidget;
 class SlideEffectPlayer;
+class QTimer;
 
 class ViewPanel : public ModulePanel
 {
@@ -74,6 +76,9 @@ signals:
     void updateTopLeftWidthChanged(int width);
     void updateTopLeftContentImage(const QString &path);
     void updatePath();
+    //heyi test
+    void sendLoadOver();
+    void changeHideFlag(bool bFlags);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
@@ -136,6 +141,9 @@ private slots:
 
     void updateLocalImages();
 
+    //heyi test
+    void sendSignal();
+
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
@@ -171,5 +179,7 @@ private:
     QScrollArea *m_scrollArea {nullptr};
 
     int          m_fileNum = 0;
+    QTimer       m_timer;
+    QReadWriteLock m_rwLock;
 };
 #endif  // VIEWPANEL_H
