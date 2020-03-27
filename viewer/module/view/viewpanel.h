@@ -111,6 +111,7 @@ private:
     DMenu *createAlbumMenu();
 #endif
     void onMenuItemClicked(QAction *action);
+    //更新右键菜单
     void updateMenuContent();
 
     // View control
@@ -163,6 +164,8 @@ private:
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
+    //heyi test
+    DBImgInfoList m_infosFirst;
     //    DBImgInfoList::ConstIterator m_current =NULL;
     int m_current = 0;
 #ifdef LITE_DIV
@@ -181,5 +184,8 @@ private:
     int          m_fileNum = 0;
     QTimer       m_timer;
     QReadWriteLock m_rwLock;
+    volatile bool m_bIsFirstLoad = true;
+    //第一次是否加载完成
+    volatile bool m_bFinishFirstLoad = false;
 };
 #endif  // VIEWPANEL_H
