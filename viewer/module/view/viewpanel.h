@@ -32,7 +32,6 @@
 #include <QJsonObject>
 #include <QReadWriteLock>
 #include <QTimer>
-
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
@@ -46,7 +45,6 @@ class QLabel;
 class QStackedWidget;
 class SlideEffectPlayer;
 class QTimer;
-class TTBContent;
 
 class ViewPanel : public ModulePanel
 {
@@ -144,15 +142,14 @@ private slots:
 
     void updateLocalImages();
 
-    //heyi test  发送显示缩略图的信号
+    //heyi test
     void sendSignal();
 
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
     bool m_isMaximized;
-    int m_iSlideShowTimerId;
-    TTBContent *ttbc;
+
     bool m_printDialogVisible = false;
     int m_topLeftContentWidth = 0;
     ImageView *m_viewB;
@@ -188,7 +185,7 @@ private:
     QTimer       m_timer;
     QReadWriteLock m_rwLock;
     volatile bool m_bIsFirstLoad = true;
-    //第一次开机是否加载完成
+    //第一次是否加载完成
     volatile bool m_bFinishFirstLoad = false;
 };
 #endif  // VIEWPANEL_H
