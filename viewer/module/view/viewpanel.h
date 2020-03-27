@@ -194,6 +194,7 @@ private:
     QReadWriteLock m_rwLock;
     volatile bool m_bIsFirstLoad = true;
     //第一次开机是否加载完成
+
     volatile bool m_bFinishFirstLoad = false;
 };
 #endif  // VIEWPANEL_H

@@ -917,98 +917,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         if (pathlist.size() > 0) {
             emit imageChanged(m_infos.at(m_current).filePath, m_infos);
         }
-#endif
-        //进行定时计算一秒之后显示
-        /*connect(&m_timer, &QTimer::timeout, this, [ = ]() {
-            if (!m_bIsFirstLoad) {
-                return ;
-            }
-            //设置标志，只能让初始化加载一次
-            m_bIsFirstLoad = false;
-            m_timer.stop();
-            if (!m_infos.isEmpty()) {
-                m_rwLock.lockForRead();
-                emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-                //加载第一张的时候隐藏
-                emit changeHideFlag(true);
-                m_rwLock.unlock();
-            }
-        });
-
-        //将获取文件夹所有图片放在另一个线程，先保证点击之后图片会显示
-        QThread *th = QThread::create([ = ]() {
-            m_rwLock.lockForRead();
-            eatImageDirIterator();
-            if (m_infos.size() >= 1) {
-                //QThread::currentThread()->sleep(10);
-                m_bFinishFirstLoad = true;
-                m_bIsFirstLoad = false;
-                m_timer.stop();
-                emit sendLoadOver();
-            }
-
-            m_rwLock.unlock();
-
-            if (QThread::currentThread()->isRunning()) {
-                QThread::currentThread()->requestInterruption();
-                QThread::currentThread()->quit();
-            }
-
-        });
-
-        if (th) {
-            th->start();
-        }*/
-
-        //m_timer.start(1000);
-        /*//进行定时计算，一秒之后将已经加载的图片刷新出来.
-        connect(&m_timer, &QTimer::timeout, this, [ = ]() {
-            if (!m_bIsFirstLoad) {
-                return ;
-            }
-            //设置标志，只能让初始化加载一次
-            m_timer.stop();
-            m_rwLock.lockForWrite();
-            std::sort(m_infos.begin(), m_infos.end(), compareByString);
-
-            auto cbegin = 0;
-            while (cbegin < m_infos.size()) {
-                if (m_infos.at(cbegin).filePath == m_infos.at(m_current).filePath) {
-                    m_current = cbegin;
-                    break;
-                }
-
-                ++cbegin;
-            }
-
-            QStringList pathlist;
-            m_infosFirst.clear();
-            //初次加载只显示20张图片
-            if (m_infos.size() < 1) {
-                return ;
-            }
-
-            for (int i = 0; i < 25; i++) {
-                if ((m_current - i) > -1) {
-                    pathlist.append(m_infos.at(m_current - i).filePath);
-                    m_infosFirst.append(m_infos.at(m_current - i));
-                }
-                if ((m_current + i) < m_infos.size()) {
-                    pathlist.append(m_infos.at(m_current + i).filePath);
-                    m_infosFirst.append(m_infos.at(m_current + i));
-                }
-            }
-
-            if (pathlist.count() > 0) {
-                emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
-                m_bIsFirstLoad = false;
-            }
-
-            emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-            m_rwLock.unlock();
-        });
-
-        m_timer.start(2000);*/
+#endif       
     }
 }
 
@@ -1048,8 +957,12 @@ bool ViewPanel::showPrevious()
         }
     }
 
-    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-
+    //heyi test
+    if (!m_bFinishFirstLoad) {
+        openImage(m_infosFirst.at(m_current).filePath, m_vinfo.inDatabase);
+    } else {
+        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    }
     return true;
 }
 
@@ -1074,7 +987,13 @@ bool ViewPanel::showNext()
         }
     }
 
-    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+
+    //heyi test
+    if (!m_bFinishFirstLoad) {
+        openImage(m_infosFirst.at(m_current).filePath, m_vinfo.inDatabase);
+    } else {
+        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    }
 
     return true;
 }
