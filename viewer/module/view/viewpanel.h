@@ -144,7 +144,7 @@ private slots:
 
     void updateLocalImages();
 
-    //heyi test
+    //heyi test  发送显示缩略图的信号
     void sendSignal();
 
 private:
@@ -188,7 +188,7 @@ private:
     QTimer       m_timer;
     QReadWriteLock m_rwLock;
     volatile bool m_bIsFirstLoad = true;
-    //第一次是否加载完成
+    //第一次开机是否加载完成
     volatile bool m_bFinishFirstLoad = false;
 };
 #endif  // VIEWPANEL_H

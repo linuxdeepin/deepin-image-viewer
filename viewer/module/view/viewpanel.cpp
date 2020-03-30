@@ -324,6 +324,7 @@ void ViewPanel::sendSignal()
     }
 
     emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+    emit changeHideFlag(false);
     emit imageChanged(m_infos.at(m_current).filePath, m_infos);
 }
 
@@ -674,6 +675,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         Q_EMIT dApp->signalM->hideTopToolbar(true);
     }
 
+    //heyi  test 窗口最大化时进入
     if (window()->isMaximized()) {
         /*QStringList pathlist;
 
@@ -684,7 +686,9 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         if (pathlist.count() > 0) {
             emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
         }*/
+        emit changeHideFlag(true);
     }
+
     //    if (window()->isMaximized()) {
     //        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
     //        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),(m_infos.size()
@@ -889,20 +893,19 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
         openImage(m_infos.at(m_current).filePath);
         if (!m_infos.isEmpty()) {
-            /*QStringList pathlist;
+            QStringList pathlist;
             pathlist << m_infos.at(m_current).filePath;
-            emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
+            //emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
             emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-            emit changeHideFlag(true);*/
         }
 
         //将获取文件夹所有图片放在另一个线程，先保证点击之后图片会显示
         QThread *th = QThread::create([ = ]() {
             eatImageDirIterator();
-            m_bFinishFirstLoad = true;
             m_timer.stop();
             if (!m_infos.isEmpty()) {
-                //QThread::currentThread()->sleep(10);
+                //QThread::currentThread()->sleep(4);
+                m_bFinishFirstLoad = true;
                 emit sendLoadOver();
             }
 
@@ -910,7 +913,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         });
 
         th->start();
-        //进行定时计算，一秒之后将已经加载的图片刷新出来.
+        /*//进行定时计算，一秒之后将已经加载的图片刷新出来.
         connect(&m_timer, &QTimer::timeout, this, [ = ]() {
             if (!m_bIsFirstLoad) {
                 return ;
@@ -957,7 +960,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             m_rwLock.unlock();
         });
 
-        m_timer.start(2000);
+        m_timer.start(2000);*/
     }
 }
 
@@ -982,7 +985,7 @@ bool ViewPanel::showPrevious()
 #ifdef LITE_DIV
     eatImageDirIterator();
 #endif
-    if (m_infos.isEmpty() || m_current == 0) {
+    if (m_infos.isEmpty() || m_current == 0 || !m_bFinishFirstLoad) {
         return false;
     }
 
@@ -992,12 +995,8 @@ bool ViewPanel::showPrevious()
         --m_current;
     }
 
-    //heyi test
-    if (!m_bFinishFirstLoad) {
-        openImage(m_infosFirst.at(m_current).filePath, m_vinfo.inDatabase);
-    } else {
-        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    }
+    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+
     return true;
 }
 
@@ -1007,7 +1006,7 @@ bool ViewPanel::showNext()
     eatImageDirIterator();
 #endif
 
-    if (m_infos.isEmpty() || m_current == m_infos.size() - 1) {
+    if (m_infos.isEmpty() || m_current == m_infos.size() - 1 || !m_bFinishFirstLoad) {
         return false;
     }
 
@@ -1017,12 +1016,7 @@ bool ViewPanel::showNext()
         ++m_current;
     }
 
-    //heyi test
-    if (!m_bFinishFirstLoad) {
-        openImage(m_infosFirst.at(m_current).filePath, m_vinfo.inDatabase);
-    } else {
-        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    }
+    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
 
     return true;
 }
@@ -1220,29 +1214,6 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         //        QtConcurrent::run(utils::image::removeThumbnail, path);
     }
 
-    /*using namespace utils::image;
-    using namespace utils::base;
-    //heyi test
-    if (!path.isEmpty()) {
-        if (utils::image::imageSupportRead(path)) {
-            qDebug() << "该文件可以读";
-
-        } else {
-            qDebug() << "该文件不可以读";
-        }
-
-        if (utils::image::imageSupportWrite(path)) {
-            qDebug() << "该文件可以写";
-
-        } else {
-            qDebug() << "该文件不可以写";
-        }
-
-
-        return;
-    }*/
-
-    //heyi  test
     using namespace utils::image;
     using namespace utils::base;
 
