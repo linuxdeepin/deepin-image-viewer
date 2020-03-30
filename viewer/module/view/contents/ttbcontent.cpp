@@ -1593,11 +1593,19 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_preButton_spc->hide();
         m_nextButton->hide();
         m_nextButton_spc->hide();
+        m_preButton->setDisabled(true);
+        m_preButton_spc->setDisabled(true);
+        m_nextButton->setDisabled(true);
+        m_nextButton_spc->setDisabled(true);
     } else {
         m_preButton->show();
         m_nextButton->show();
         m_preButton_spc->show();
         m_nextButton_spc->show();
+        m_preButton->setDisabled(false);
+        m_preButton_spc->setDisabled(false);
+        m_nextButton->setDisabled(false);
+        m_nextButton_spc->setDisabled(false);
     }
 
     m_imagePath = path;

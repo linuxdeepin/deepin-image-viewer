@@ -336,6 +336,10 @@ void ViewPanel::sendSignal()
             emit hidePreNextBtn(false, true);
         }
     }
+
+    emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+    emit changeHideFlag(false);
+    emit imageChanged(m_infos.at(m_current).filePath, m_infos);
 }
 
 #ifdef LITE_DIV
@@ -698,13 +702,15 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
             emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
         }*/
 
-    }
 
     //heyi   如果加载完成发送显示信号否则发送隐藏信号
     if (m_bFinishFirstLoad) {
         emit changeHideFlag(false);
     } else {
         emit changeHideFlag(true);
+    }
+
+
     }
 
     //    if (window()->isMaximized()) {
@@ -899,25 +905,19 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
-#if 1
+
         eatImageDirIterator();
         QStringList pathlist;
 
         for (int loop = 0; loop < m_infos.size(); loop++) {
             pathlist.append(m_infos.at(loop).filePath);
         }
-
-        if (pathlist.count() > 0) {
-            emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
-        }
-
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        m_bFinishFirstLoad = true;
-        //emit changeHideFlag(false);
-        if (pathlist.size() > 0) {
-            emit imageChanged(m_infos.at(m_current).filePath, m_infos);
-        }
-#endif       
+        if (!m_infos.isEmpty()) {
+            QStringList pathlist;
+            pathlist << m_infos.at(m_current).filePath;
+            //emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
+            emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+        }      
     }
 }
 
@@ -957,12 +957,8 @@ bool ViewPanel::showPrevious()
         }
     }
 
-    //heyi test
-    if (!m_bFinishFirstLoad) {
-        openImage(m_infosFirst.at(m_current).filePath, m_vinfo.inDatabase);
-    } else {
-        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    }
+    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+
     return true;
 }
 
@@ -988,12 +984,14 @@ bool ViewPanel::showNext()
     }
 
 
+
     //heyi test
     if (!m_bFinishFirstLoad) {
         openImage(m_infosFirst.at(m_current).filePath, m_vinfo.inDatabase);
     } else {
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     }
+
 
     return true;
 }
