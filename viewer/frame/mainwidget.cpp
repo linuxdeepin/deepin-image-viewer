@@ -379,7 +379,9 @@ void MainWidget::initConnection()
         }
     });
     connect(dApp->signalM, &SignalManager::sigShowFullScreen, this,
-            [ = ] { m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height()); });
+    [ = ] {
+        m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
+    });
 }
 
 void MainWidget::initBottomToolbar()
