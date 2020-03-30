@@ -1487,16 +1487,24 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
     }
 
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
-    if (m_bIsHide) {
+    if (m_bIsHide || m_imgInfos.size() <= 1) {
         m_preButton->hide();
         m_preButton_spc->hide();
         m_nextButton->hide();
         m_nextButton_spc->hide();
+        m_preButton->setDisabled(true);
+        m_preButton_spc->setDisabled(true);
+        m_nextButton->setDisabled(true);
+        m_nextButton_spc->setDisabled(true);
     } else {
         m_preButton->show();
         m_nextButton->show();
         m_preButton_spc->show();
         m_nextButton_spc->show();
+        m_preButton->setDisabled(false);
+        m_preButton_spc->setDisabled(false);
+        m_nextButton->setDisabled(false);
+        m_nextButton_spc->setDisabled(false);
     }
 
     m_imagePath = path;

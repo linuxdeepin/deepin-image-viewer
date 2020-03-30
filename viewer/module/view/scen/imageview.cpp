@@ -322,7 +322,8 @@ void ImageView::setImage(const QString &path)
         //        m_svgItem = nullptr;
         m_imgSvgItem = nullptr;
         // Support gif and mng
-        if (QMovie(path).frameCount() > 1) {
+        if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
+                || fi.suffix().toLower() == "webp") {
             m_pixmapItem = nullptr;
             s->clear();
             resetTransform();
