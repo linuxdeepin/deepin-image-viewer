@@ -22,6 +22,8 @@
 #include <qcolor.h>
 #include <QtCore/QObject>
 #include <QtCore/QEasingCurve>
+#include <QMap>
+#include <QtConcurrent>
 typedef QString EffectId;
 
 static const EffectId kInvalid = "invalid";
@@ -42,7 +44,36 @@ static const EffectId kRandom = "random";
     QPainter painter(this);
     painter.drawPixmap(rect(), *mEffect->currentFrame());
 */
+struct SlideEffectThreadData {
+    QImage mimage;
+    int num;
+    QRegion current_region;
+    QRegion next_region;
+    int width;
+    int height;
+    QImage current_image;
+    QImage next_image;
+    QRect current_rect;
+    QRect next_rect;
+};
+class ThreadRenderFrame : public QObject, public QRunnable
+{
+    Q_OBJECT
+public:
+    ThreadRenderFrame();
+    void setData(SlideEffectThreadData &data);
+public Q_SLOTS:
+    void stop();
 
+protected:
+    virtual void run();
+
+signals:
+    void signal_RenderFinish(int, QImage);
+private:
+    SlideEffectThreadData m_data;
+    bool bstop = false;
+};
 class SlideEffect : public QObject
 {
     Q_OBJECT
@@ -54,26 +85,29 @@ public:
         Circle
     };
     // default id will return an object randomly
-    static SlideEffect* create(const EffectId& id = EffectId());
-    template<class C> static void registerEffect(const EffectId& id) {
+    static SlideEffect *create(const EffectId &id = EffectId());
+    template<class C> static void registerEffect(const EffectId &id)
+    {
         Register(id, std::bind(create<C>, id));
     }
 
     SlideEffect();
     virtual ~SlideEffect();
 
-    void setEasingCurve(const QEasingCurve& easing);
+    void setEasingCurve(const QEasingCurve &easing);
     void setEasingCurve(QEasingCurve::Type easing_type);
     QEasingCurve easingCurve() const;
     void setDuration(int ms);
     int duration() const;
+    void setAllMs(int ms);
+    int allMs() const;
 
     QImage *currentFrame();
     void setType(EffectId type);
     EffectId type() const;
-/*!
-  Some class may have several effect types.
-*/
+    /*!
+      Some class may have several effect types.
+    */
     virtual EffectName effectName() const = 0;
     virtual QVector<EffectId> supportedTypes() const = 0;
     void setSpeed(qreal s);
@@ -81,29 +115,32 @@ public:
     int currentFrameNumber() const;
     int frames() const;
 
-    void setImages(const QString& currentPath, const QString& nextPath);
-    void setImages(const QImage& currentImage, const QImage& nextImage);
-/*!
-    set images' maximum size. DO NOT forget to call it
-    TODO: setFrameSize(), frameSize()
-*/
-    void setSize(const QSize& s);
+    void setImages(const QString &currentPath, const QString &nextPath);
+    void setImages(const QImage &currentImage, const QImage &nextImage);
+    /*!
+        set images' maximum size. DO NOT forget to call it
+        TODO: setFrameSize(), frameSize()
+    */
+    void setSize(const QSize &s);
     QSize size() const;
 
-    void setBackgroundColor(const QColor& color);
+    void setBackgroundColor(const QColor &color);
     QColor backgroundColor() const;
 
     void setAspectRatioMode(Qt::AspectRatioMode mode);
     Qt::AspectRatioMode aspectRatioMode() const;
 
 Q_SIGNALS:
+    void renderFrameFinish(int num, QImage image);
     void stopped();
-    void frameReady(const QImage& image);
+    void frameReady(const QImage &image);
+
 
 public Q_SLOTS:
     void start();
     void stop();
     void pause();
+    void slotrenderFrameFinish(int num, QImage image);
 protected:
     virtual void timerEvent(QTimerEvent *e);
     virtual bool prepare(); //after all parameters set and before effect start
@@ -115,13 +152,14 @@ protected:
 
     void resizeImages(); //resize to given size with given scale type
     virtual bool isEndFrame(int frame); //TODO: do not change progress
-    virtual void renderFrame();
+    virtual void renderFrame(SlideEffectThreadData &data);
 
 protected:
     bool finished;
     bool paused;
     int tid;
     int duration_ms;
+    int all_ms;
     Qt::AspectRatioMode mode;
     qreal progress_; //the step, [0,1]
     qreal speed; //>1.0
@@ -133,19 +171,26 @@ protected:
     //clip region of currentFrame() to paint current and next frame_image
     QRegion current_clip_region, next_clip_region;
 
-/*
-    rect of current and frame_image to be paint. The size is always the frame_image's size.
-    when calling drawPixmap(const QRect& target, const QPixmap& frame_image, const QRect& source),
-    if rect not equals target's rect, then the frame_image will be scaled to target's rect.
-    Here, target's rect is it's rect()
-*/
+    /*
+        rect of current and frame_image to be paint. The size is always the frame_image's size.
+        when calling drawPixmap(const QRect& target, const QPixmap& frame_image, const QRect& source),
+        if rect not equals target's rect, then the frame_image will be scaled to target's rect.
+        Here, target's rect is it's rect()
+    */
     QRect current_rect, next_rect;
     QString  current_path, next_path;
     QColor color;
     QEasingCurve easing_;
+    QMap<int, QImage> allImage;
+    int scurrent = 0;
+    QFuture<void> m_qf;
+    QList<QFuture<void>> m_qflist;
+    bool bfirsttimeout = true;
+//    QThreadPool m;
 
 private:
-    template<class C> static SlideEffect* create(EffectId id) {
+    template<class C> static SlideEffect *create(EffectId id)
+    {
         SlideEffect *e = new C();
         e->setType(id);
         return e;

@@ -34,6 +34,10 @@
 #include <QJsonArray>
 #include "utils/baseutils.h"
 #include "../service/dbusimageview_adaptor.h"
+
+#define IMAGEVIEW 0
+#define SLIDESHOW 1
+
 namespace {
 
 const int MAINWIDGET_MINIMUN_HEIGHT = 335;
@@ -65,12 +69,17 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
 
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
-
+    m_pCenterWidget = new QStackedWidget(this);
     m_mainWidget = new MainWidget(manager, this);
+    m_pCenterWidget->addWidget(m_mainWidget);
+    m_slidePanel =  new SlideShowPanel();
+    m_pCenterWidget->addWidget(m_slidePanel);
+    m_pCenterWidget->setCurrentIndex(0);
     //    QTimer::singleShot(200, [=]{
-    setCentralWidget(m_mainWidget);
+    setCentralWidget(m_pCenterWidget);
     //    });
-
+    initConnection();
+    initshortcut();
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
@@ -91,7 +100,6 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
             }
         });
     }
-    moveFirstWindow();
 
 #ifndef LITE_DIV
     QThread *workerThread = new QThread;
@@ -124,6 +132,52 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     });
     new ImageViewAdaptor(this);
     m_currenttime = QDateTime::currentDateTime();
+    moveFirstWindow();
+}
+
+void MainWindow::initshortcut()
+{
+    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    esc->setContext(Qt::WindowShortcut);
+    connect(esc, &QShortcut::activated, this, [ = ] {
+        if (window()->isFullScreen())
+        {
+            emit dApp->signalM->sigESCKeyActivated();
+            emit dApp->signalM->sigESCKeyStopSlide();
+        } else if (0 == m_pCenterWidget->currentIndex())
+        {
+            this->close();
+        }
+        emit dApp->signalM->hideExtensionPanel();
+    });
+}
+
+
+void MainWindow::initConnection()
+{
+    //幻灯片显示
+    connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
+//        if (VIEW_IMAGE != index)
+//        {
+//            m_backIndex = index;
+//        }
+        // m_backIndex_fromSlide = index;
+        titlebar()->setVisible(false);
+        setTitlebarShadowEnabled(false);
+        m_pCenterWidget->setCurrentIndex(SLIDESHOW);
+    });
+    //隐藏幻灯片显示
+    connect(dApp->signalM, &SignalManager::hideSlidePanel, this, [ = ]() {
+        emit dApp->signalM->hideExtensionPanel();
+        //if (0 != m_backIndex_fromSlide) {
+        titlebar()->setVisible(true);
+        setTitlebarShadowEnabled(true);
+        m_pCenterWidget->setCurrentIndex(IMAGEVIEW);
+        //   emit dApp->signalM->hideBottomToolbar(false);
+        //  emit dApp->signalM->hideExtensionPanel(false);
+        //  emit dApp->signalM->hideTopToolbar(false);
+
+    });
 }
 
 void MainWindow::moveFirstWindow()

@@ -134,7 +134,7 @@ signals:
     void contentWidthChanged(int width);
     void showPrevious();
     void showNext();
-
+    void ttbcontentClicked();
 public slots:
     void setCurrentDir(QString text);
     void setImage(const QString &path, DBImgInfoList infos);

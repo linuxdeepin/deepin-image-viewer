@@ -22,6 +22,8 @@
 #include "controller/importer.h"
 #include "controller/viewerthememanager.h"
 #include "frame/mainwidget.h"
+#include "module/slideshow/slideshowpanel.h"
+
 
 #include <DMainWindow>
 #include <QDebug>
@@ -54,7 +56,8 @@ public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be
     // initialize to save resource and avoid DB file lock.
     MainWindow(bool manager, QWidget *parent = 0);
-
+    void initConnection();
+    void initshortcut();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     int showDialog();
 public slots:
@@ -70,7 +73,9 @@ private:
     void paraOpenImageInfo(QString source, QString &path, QStringList &pathlist, QDateTime &stime);
 private:
     MainWidget *m_mainWidget;
+    QStackedWidget *m_pCenterWidget;
     DGioVolumeManager *m_vfsManager;
+    SlideShowPanel *m_slidePanel;
     bool m_picInUSB = false;
     QDateTime          m_currenttime;
     bool               m_flag = false;

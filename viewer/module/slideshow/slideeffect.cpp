@@ -29,7 +29,56 @@ const QString EFFECT_SETTING_GROUP = "SLIDESHOWEFFECT";
 
 QHash<EffectId, std::function<SlideEffect*()> > SlideEffect::effects;
 
-SlideEffect* SlideEffect::create(const EffectId &id)
+
+ThreadRenderFrame::ThreadRenderFrame()
+{
+    setAutoDelete(true);
+}
+
+void ThreadRenderFrame::stop()
+{
+    bstop = true;
+}
+
+void ThreadRenderFrame::setData(SlideEffectThreadData &data)
+{
+//    qDebug() << "ThreadRenderImage::setPage" << width << height;
+    m_data = data;
+}
+
+void ThreadRenderFrame::run()
+{
+    if (bstop)
+        return;
+    SlideEffectThreadData mdata = m_data;
+//    qDebug() << "-------renderFrame start num:" << mdata.num;
+    QImage image = mdata.mimage;
+    QPainter p(&image);
+    image.fill(Qt::transparent);
+    /*
+        Tell me why!
+        if draw the next frame_image first, then it will flick for FromBottom, CoverBottom effect!
+    */
+    //actually we can just paint the next frame_image if no opacity changes
+    if (bstop)
+        return;
+    p.setClipRegion(mdata.current_region);
+    p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**current_image*/mdata.current_image, mdata.current_rect);
+
+    if (bstop)
+        return;
+    p.setClipRegion(mdata.next_region);
+    p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**next_image*/mdata.next_image, mdata.next_rect);
+    if (bstop)
+        return;
+    emit signal_RenderFinish(mdata.num, image);
+
+//    qDebug() << "-------renderFrame end num:" << mdata.num;
+}
+
+
+
+SlideEffect *SlideEffect::create(const EffectId &id)
 {
     if (id == EffectId()) {
         srand(time(0));
@@ -38,6 +87,13 @@ SlideEffect* SlideEffect::create(const EffectId &id)
             QList<std::function<SlideEffect*()>> cs = effects.values();
             const int idx = rand() % cs.size();
             std::function<SlideEffect*()> c = cs.at(idx);
+//            std::function<SlideEffect*()> c;
+//            if ("enter_from_left" == id) {
+//                c = cs.at(0);
+//            } else if ("enter_from_right" == id) {
+//                c = cs.at(1);
+//            }
+
             SlideEffect *e = c();
             // Check if effect should show
             if (dApp->setter->value(EFFECT_SETTING_GROUP,
@@ -66,6 +122,7 @@ void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
 SlideEffect::SlideEffect()
 {
     duration_ms = 800;
+    all_ms = 3000;
     tid = 0;
     mode = Qt::KeepAspectRatio;
     finished = false;
@@ -78,10 +135,25 @@ SlideEffect::SlideEffect()
     color = Qt::transparent;
 
     easing_ = QEasingCurve(QEasingCurve::OutBack);
+    QThreadPool::globalInstance()->setMaxThreadCount(50);
+//    m.setMaxThreadCount(20);
+//    connect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
+}
+
+
+void SlideEffect::slotrenderFrameFinish(int num, QImage image)
+{
+    allImage[num] = image;
 }
 
 SlideEffect::~SlideEffect()
 {
+//    qDebug() << "------------SlideEffect start release";
+    disconnect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
+//    m_qf.waitForFinished();
+//    for (int i = 0; i < m_qflist.size(); i++) {
+//        m_qflist[i].waitForFinished();
+//    }
     if (current_image) {
         delete current_image;
         current_image = 0;
@@ -94,6 +166,7 @@ SlideEffect::~SlideEffect()
         delete frame_image;
         frame_image = 0;
     }
+//    qDebug() << "-------------SlideEffect end release";
 }
 
 void SlideEffect::setEasingCurve(const QEasingCurve &easing)
@@ -116,6 +189,16 @@ void SlideEffect::setDuration(int ms)
     duration_ms = ms;
 }
 
+void SlideEffect::setAllMs(int ms)
+{
+    all_ms = ms;
+}
+
+int SlideEffect::allMs() const
+{
+    return all_ms;
+}
+
 int SlideEffect::duration() const
 {
     return duration_ms;
@@ -123,8 +206,25 @@ int SlideEffect::duration() const
 
 void SlideEffect::start()
 {
+    allImage.clear();
+    allImage[frames_total] = *next_image;
     prepare();
-    tid = startTimer(duration()/frames_total);
+    current_frame = 0;
+    m_qf = QtConcurrent::run([this]() {
+        for (int i = 0; i < frames_total; i++) {
+            if (!prepareNextFrame()) {
+                stop();
+                return;
+            }
+        }
+    });
+//    QEventLoop loop;
+//    QTimer::singleShot(all_ms - duration_ms, &loop, SLOT(quit()));
+//    loop.exec();
+    scurrent = 0;
+    bfirsttimeout = true;
+    tid = startTimer(all_ms - duration_ms - 1000);
+//    tid = startTimer(duration() / frames_total);
 }
 
 void SlideEffect::stop()
@@ -134,7 +234,8 @@ void SlideEffect::stop()
     Q_EMIT stopped();
 }
 
-void SlideEffect::pause() {
+void SlideEffect::pause()
+{
     paused = !paused;
 }
 
@@ -142,11 +243,28 @@ void SlideEffect::timerEvent(QTimerEvent *e)
 {
     if (e->timerId() != tid || paused)
         return;
-    if (!prepareNextFrame()) {
+//    if (!prepareNextFrame()) {
+//        stop();
+//        return;
+//    }
+//    Q_EMIT frameReady(*currentFrame());
+    if (bfirsttimeout) {
         stop();
-        return;
+        tid = startTimer(duration() / (frames_total + 1));
+        bfirsttimeout = false;
+    } else {
+        while (true) {
+            if (scurrent > frames_total)
+                return;
+            QMap<int, QImage>::iterator it;
+            it = allImage.find(scurrent);
+            scurrent++;
+            if (it != allImage.end()) {
+                Q_EMIT frameReady(it.value());
+                return;
+            }
+        }
     }
-    Q_EMIT frameReady(*currentFrame());
 }
 
 bool SlideEffect::prepare()
@@ -170,7 +288,36 @@ bool SlideEffect::prepareNextFrame()
 {
     //current_frame++? do not paint frame 0?
     if (prepareFrameAt(++current_frame)) {
-        renderFrame();
+//        renderFrame(current_frame, current_clip_region, next_clip_region);
+
+//        virtual void renderFrame(QImage mimage, int num, QRegion current_region, QRegion next_region, int width, int height
+//                                 , QImage current_image, QImage next_image, QRect current_rect, QRect next_rect);
+        SlideEffectThreadData data;
+        data.mimage = *frame_image;
+        data.num = current_frame;
+        data.current_region = current_clip_region;
+        data.next_region = next_clip_region;
+        data.width = width;
+        data.height = height;
+        data.current_image = *current_image;
+        data.next_image = *next_image;
+        data.current_rect = current_rect;
+        data.next_rect = next_rect;
+        ThreadRenderFrame *threadf = new ThreadRenderFrame();
+        connect(threadf, &ThreadRenderFrame::signal_RenderFinish, this, &SlideEffect::slotrenderFrameFinish);
+        connect(this, &SlideEffect::deleteLater, threadf, &ThreadRenderFrame::stop);
+        threadf->setData(data);
+        QThreadPool::globalInstance()->start(threadf);
+//        m.start(threadf);
+//        QFuture<void> res = QtConcurrent::run(this, &SlideEffect::renderFrame, data);
+        //        QFuture<void> res = QtConcurrent::run(this, &SlideEffect::renderFrame, *frame_image, current_frame, current_clip_region, next_clip_region,
+//                                              width, height, *current_image, *next_image, current_rect, next_rect);
+
+//        QFuture<void> res = QtConcurrent::run([this]() {
+//            renderFrame(*frame_image, current_frame, current_clip_region, next_clip_region,
+//                        width, height, *current_image, *next_image, current_rect, next_rect);
+//        });
+//        m_qflist.append(res);
         return true;
     }
     return false;
@@ -274,7 +421,7 @@ void SlideEffect::setImages(const QImage &currentImage, const QImage &nextImage)
 }
 
 //small image zoom failed. why?
-static void scaleImageToMax(QImage* image, int width, int height)
+static void scaleImageToMax(QImage *image, int width, int height)
 {
     Q_ASSERT(image);
 //    int w = qMax(image->width(), 1);
@@ -295,7 +442,7 @@ static void scaleImageToMax(QImage* image, int width, int height)
     *image = image->scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
-static void addBackground(QImage* image, int width, int height, const QColor& color )
+static void addBackground(QImage *image, int width, int height, const QColor &color)
 {
     QImage bg(width, height, QImage::Format_ARGB32);
     bg.fill(0);
@@ -305,8 +452,8 @@ static void addBackground(QImage* image, int width, int height, const QColor& co
     p.setCompositionMode(QPainter::CompositionMode_SourceOver); //image part is the same as image
     p.setClipRect(bg.rect());
     //draw at center. If image size is larger than given size, draw the center part. Clip region is useful
-    int x = (width - image->width())/2;
-    int y = (height - image->height())/2;
+    int x = (width - image->width()) / 2;
+    int y = (height - image->height()) / 2;
 
     p.drawImage(x, y, *image);
     *image = bg;
@@ -316,10 +463,10 @@ void SlideEffect::resizeImages()
 {
     if (mode == Qt::IgnoreAspectRatio) {
         //TODO: just black background
-        if (current_image && current_image->size()!=QSize(width, height)) {
+        if (current_image && current_image->size() != QSize(width, height)) {
             *current_image = current_image->scaled(width, height); //4, 1/4
         }
-        if (next_image && next_image->size()!=QSize(width, height)) {
+        if (next_image && next_image->size() != QSize(width, height)) {
             *next_image = next_image->scaled(width, height);
         }
     } else {
@@ -332,25 +479,25 @@ void SlideEffect::resizeImages()
         }
     }
 
-    if (frame_image && frame_image->size()!=QSize(width, height)) {
+    if (frame_image && frame_image->size() != QSize(width, height)) {
         *frame_image = frame_image->scaled(width, height);
     }
 }
 
 bool SlideEffect::isEndFrame(int frame)
 {
-/*
-    progress_>=1.0 may result in the speed is too large. If we stop immediately, the final frame will never show.
-    At this time ,we show the last frame, and tell the program that effect is finished;
-*/
+    /*
+        progress_>=1.0 may result in the speed is too large. If we stop immediately, the final frame will never show.
+        At this time ,we show the last frame, and tell the program that effect is finished;
+    */
     if (finished)
         return true;
     //if (frame>frames_total)
-    //	return true;
+    //  return true;
     current_frame = frame;
-    progress_ = speed*(qreal)current_frame/(qreal)frames_total;
+    progress_ = speed * (qreal)current_frame / (qreal)frames_total;
 
-    if (progress_>=1.0) {
+    if (progress_ >= 1.0) {
         progress_ = 1.0; //It's important
         finished = true;
     }
@@ -358,21 +505,29 @@ bool SlideEffect::isEndFrame(int frame)
 }
 #include <QDebug>
 //TODO: alpha blending here
-void SlideEffect::renderFrame()
+void SlideEffect::renderFrame(SlideEffectThreadData &data)
 {
-    Q_ASSERT(frame_image);
-    QPainter p(frame_image);
-    frame_image->fill(Qt::transparent);
-/*
-    Tell me why!
-    if draw the next frame_image first, then it will flick for FromBottom, CoverBottom effect!
-*/
+//    Q_ASSERT(frame_image);
+//    QPainter p(frame_image);
+//    frame_image->fill(Qt::transparent);
+    SlideEffectThreadData mdata = data;
+//    qDebug() << "-------renderFrame start num:" << data.num;
+    QImage image = mdata.mimage;
+    QPainter p(&image);
+    image.fill(Qt::transparent);
+    /*
+        Tell me why!
+        if draw the next frame_image first, then it will flick for FromBottom, CoverBottom effect!
+    */
     //actually we can just paint the next frame_image if no opacity changes
-    p.setClipRegion(current_clip_region);
-    p.drawImage(QRect(0, 0, width, height), *current_image, current_rect);
+    p.setClipRegion(mdata.current_region);
+    p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**current_image*/mdata.current_image, mdata.current_rect);
 
-    p.setClipRegion(next_clip_region);
-    p.drawImage(QRect(0, 0, width, height), *next_image, next_rect);
+    p.setClipRegion(mdata.next_region);
+    p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**next_image*/mdata.next_image, mdata.next_rect);
+    emit renderFrameFinish(mdata.num, image);
+
+//    qDebug() << "-------renderFrame end num:" << data.num;
 }
 
 

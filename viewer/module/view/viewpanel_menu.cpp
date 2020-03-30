@@ -169,7 +169,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.lastPanel = this;
         vinfo.path = path;
         vinfo.paths = paths();
+        vinfo.viewMainWindowID = 0;
         emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
+        emit dApp->signalM->showSlidePanel(0);
         break;
     }
     case IdPrint: {
@@ -268,6 +270,7 @@ void ViewPanel::updateMenuContent()
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
         DMenu *am = createAlbumMenu();

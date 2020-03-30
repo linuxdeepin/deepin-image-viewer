@@ -69,6 +69,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
+    , m_iSlideShowTimerId(0)
 {
 #ifndef LITE_DIV
     m_vinfo.inDatabase = false;
@@ -204,6 +205,18 @@ void ViewPanel::initConnect()
         qDebug() << "emit dApp->signalM->enterView(true)..................m_emptyWidget";
 
         onViewImage(vinfo);
+        connect(dApp->signalM, &SignalManager::sigESCKeyActivated, this, [ = ] {
+            if (isVisible())
+            {
+                if (0 != m_iSlideShowTimerId) {
+                    killTimer(m_iSlideShowTimerId);
+                    m_iSlideShowTimerId = 0;
+                }
+                toggleFullScreen();
+            }
+            m_vinfo.fullScreen = false;
+            emit dApp->signalM->showBottomToolbar();
+        });
     });
 #endif
 }
@@ -405,6 +418,10 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
     } else if (e->button() == Qt::BackButton) {
         showNext();
     }
+    if (0 != m_iSlideShowTimerId) {
+        killTimer(m_iSlideShowTimerId);
+        m_iSlideShowTimerId = 0;
+    }
     ModulePanel::mousePressEvent(e);
 }
 
@@ -530,7 +547,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
 {
     if (m_infos.size() < 1)
         return nullptr;
-    TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
+    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
     //heyi test 连接更改隐藏上一张按钮信号槽
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
@@ -539,7 +556,13 @@ QWidget *ViewPanel::bottomTopLeftContent()
     } else {
         ttbc->setImage("", m_infos);
     }
-
+    connect(ttbc, &TTBContent::ttbcontentClicked, this, [ = ] {
+        if (0 != m_iSlideShowTimerId)
+        {
+            killTimer(m_iSlideShowTimerId);
+            m_iSlideShowTimerId = 0;
+        }
+    });
     connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel);
     connect(this, &ViewPanel::viewImageFrom, ttbc,
     [ = ](const QString & dir) {
@@ -681,6 +704,9 @@ void ViewPanel::timerEvent(QTimerEvent *e)
     if (e->timerId() == m_hideCursorTid && !m_menu->isVisible() && !m_printDialogVisible) {
         m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
+    if (e->timerId() == m_iSlideShowTimerId) {
+        showNext();
+    }
 
     ModulePanel::timerEvent(e);
 }
@@ -753,6 +779,14 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
     if (vinfo.fullScreen) {
         showFullScreen();
+    }
+    if (m_vinfo.slideShow) {
+        m_iSlideShowTimerId = startTimer(3000);
+    } else {
+        if (0 != m_iSlideShowTimerId) {
+            killTimer(m_iSlideShowTimerId);
+            m_iSlideShowTimerId = 0;
+        }
     }
     emit dApp->signalM->gotoPanel(this);
 

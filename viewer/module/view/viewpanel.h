@@ -32,6 +32,7 @@
 #include <QJsonObject>
 #include <QReadWriteLock>
 #include <QTimer>
+
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
 
@@ -45,6 +46,7 @@ class QLabel;
 class QStackedWidget;
 class SlideEffectPlayer;
 class QTimer;
+class TTBContent;
 
 class ViewPanel : public ModulePanel
 {
@@ -149,7 +151,8 @@ private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
     bool m_isMaximized;
-
+    int m_iSlideShowTimerId;
+    TTBContent *ttbc;
     bool m_printDialogVisible = false;
     int m_topLeftContentWidth = 0;
     ImageView *m_viewB;
