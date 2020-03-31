@@ -205,7 +205,7 @@ private:
     bool badaptImageBtnChecked = false;
     bool badaptScreenBtnChecked = false;
     //heyi test
-    bool m_bIsHide = true;
+    bool m_bIsHide = false;
 };
 
 #endif // TTLCONTENT_H

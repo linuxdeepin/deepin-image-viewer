@@ -358,8 +358,11 @@ void ViewPanel::eatImageDirIterator()
     if (!m_imageDirIterator)
         return;
 
+    //涉及到线程安全，需要加上读写锁
+    m_rwLock.lockForWrite();
     const QString currentImageFile = m_infos.at(m_current).filePath;
     m_infos.clear();
+    m_rwLock.unlock();
 
     while (m_imageDirIterator->hasNext()) {
         DBImgInfo info;
