@@ -344,8 +344,11 @@ void ViewPanel::eatImageDirIterator()
     if (!m_imageDirIterator)
         return;
 
+    //涉及到线程安全，需要加上读写锁
+    m_rwLock.lockForWrite();
     const QString currentImageFile = m_infos.at(m_current).filePath;
     m_infos.clear();
+    m_rwLock.unlock();
 
     while (m_imageDirIterator->hasNext()) {
         DBImgInfo info;
@@ -544,6 +547,7 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
     return ttlc;
 }
+
 QWidget *ViewPanel::bottomTopLeftContent()
 {
     if (m_infos.size() < 1)
@@ -618,6 +622,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
 
     return ttbc;
 }
+
 QWidget *ViewPanel::toolbarTopMiddleContent()
 {
     QWidget *w = new QWidget();
@@ -686,7 +691,12 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         if (pathlist.count() > 0) {
             emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
         }*/
-        emit changeHideFlag(true);
+        //heyi   如果加载完成发送显示信号否则发送隐藏信号
+        if (m_bFinishFirstLoad) {
+            emit changeHideFlag(false);
+        } else {
+            emit changeHideFlag(true);
+        }
     }
 
     //    if (window()->isMaximized()) {
@@ -892,20 +902,33 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
-        if (!m_infos.isEmpty()) {
-            QStringList pathlist;
-            pathlist << m_infos.at(m_current).filePath;
-            //emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
-            emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        }
+        //进行定时计算一秒之后显示
+        connect(&m_timer, &QTimer::timeout, this, [ = ]() {
+            if (!m_bIsFirstLoad) {
+                return ;
+            }
+            //设置标志，只能让初始化加载一次
+            m_timer.stop();
+            m_rwLock.lockForRead();
+            if (!m_infos.isEmpty()) {
+                QStringList pathlist;
+                pathlist << m_infos.at(m_current).filePath;
+                //emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
+                emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+                //加载第一张的时候隐藏
+                emit changeHideFlag(true);
+            }
+
+            m_rwLock.unlock();
+        });
 
         //将获取文件夹所有图片放在另一个线程，先保证点击之后图片会显示
         QThread *th = QThread::create([ = ]() {
             eatImageDirIterator();
-            m_timer.stop();
             if (!m_infos.isEmpty()) {
-                //QThread::currentThread()->sleep(4);
+                //QThread::currentThread()->sleep(10);
                 m_bFinishFirstLoad = true;
+                m_timer.stop();
                 emit sendLoadOver();
             }
 
@@ -913,6 +936,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         });
 
         th->start();
+        m_timer.start(1000);
         /*//进行定时计算，一秒之后将已经加载的图片刷新出来.
         connect(&m_timer, &QTimer::timeout, this, [ = ]() {
             if (!m_bIsFirstLoad) {
