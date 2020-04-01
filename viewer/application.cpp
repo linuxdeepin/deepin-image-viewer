@@ -207,16 +207,22 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
 {
     for (QString path : pathlist) {
         QPixmap pixmap = m_parent->m_imagemap[path];
-        QMatrix rotate;
-        if (bDirection) {
-            rotate.rotate(90);
+        if (pixmap.isNull()) {
+            QImage image(path);
+            pixmap = QPixmap::fromImage(image);
         } else {
-            rotate.rotate(-90);
+            QMatrix rotate;
+            if (bDirection) {
+                rotate.rotate(90);
+            } else {
+                rotate.rotate(-90);
+            }
+
+            pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
         }
 
         //QImage image(path);
         //QPixmap pixmap = QPixmap::fromImage(image);
-        pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
     }
 }
