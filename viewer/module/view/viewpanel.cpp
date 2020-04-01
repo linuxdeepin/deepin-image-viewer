@@ -202,6 +202,7 @@ void ViewPanel::initConnect()
 
         emit dApp->signalM->enterView(true);
         qDebug() << "emit dApp->signalM->enterView(true)..................m_emptyWidget";
+        qDebug() << "加载到onViewImage前，viewpanel.cpp 205行";
 
         onViewImage(vinfo);
     });
@@ -533,8 +534,12 @@ QWidget *ViewPanel::toolbarTopLeftContent()
 
 QWidget *ViewPanel::bottomTopLeftContent()
 {
-    if (m_infos.size() < 1)
+    m_rwLock.lockForRead();
+    if (m_infos.size() < 1) {
+        m_rwLock.unlock();
         return nullptr;
+    }
+
     TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
     //heyi test 连接更改隐藏上一张按钮信号槽
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags);
@@ -565,8 +570,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
         {
             const QString path = m_infos.at(m_current).filePath;
             QFile file(path);
-            if (!file.exists())
+            if (!file.exists()) {
+                m_rwLock.unlock();
                 return;
+            }
+
             removeCurrentImage();
             DDesktopServices::trash(path);
             emit dApp->signalM->picDelete();
@@ -597,6 +605,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         this->showImage(index, addIndex);
     });
 
+    m_rwLock.unlock();
     return ttbc;
 }
 
@@ -668,12 +677,14 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         if (pathlist.count() > 0) {
             emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
         }*/
-        //heyi   如果加载完成发送显示信号否则发送隐藏信号
-        if (m_bFinishFirstLoad) {
-            emit changeHideFlag(false);
-        } else {
-            emit changeHideFlag(true);
-        }
+
+    }
+
+    //heyi   如果加载完成发送显示信号否则发送隐藏信号
+    if (m_bFinishFirstLoad) {
+        emit changeHideFlag(false);
+    } else {
+        emit changeHideFlag(true);
     }
 
     //    if (window()->isMaximized()) {
@@ -875,17 +886,16 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             }
             //设置标志，只能让初始化加载一次
             m_timer.stop();
-            m_rwLock.lockForRead();
             if (!m_infos.isEmpty()) {
                 QStringList pathlist;
+                m_rwLock.lockForRead();
                 pathlist << m_infos.at(m_current).filePath;
+                m_rwLock.unlock();
                 //emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
                 emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
                 //加载第一张的时候隐藏
                 emit changeHideFlag(true);
             }
-
-            m_rwLock.unlock();
         });
 
         //将获取文件夹所有图片放在另一个线程，先保证点击之后图片会显示
@@ -901,7 +911,10 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             QThread::currentThread()->quit();
         });
 
-        th->start();
+        if (th) {
+            th->start();
+        }
+
         m_timer.start(1000);
         /*//进行定时计算，一秒之后将已经加载的图片刷新出来.
         connect(&m_timer, &QTimer::timeout, this, [ = ]() {
@@ -1207,7 +1220,9 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     using namespace utils::image;
     using namespace utils::base;
 
+    qDebug() << "获取所有媒体data之前";
     auto metaData = getAllMetaData(path);
+    qDebug() << "获取所有媒体data之后";
     QString fileSize = metaData.value("FileSize");
     qDebug() << "FileSize: " << fileSize << fileSize.size();
     QString dimension = metaData.value("Dimension");
@@ -1238,8 +1253,10 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         }
     }
 
+    qDebug() << "m_viewB显示之前";
     m_viewB->setImage(path);
     updateMenuContent();
+    qDebug() << "m_viewB显示之后";
 
     if (m_info) {
         m_info->setImagePath(path);
