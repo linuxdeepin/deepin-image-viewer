@@ -897,6 +897,17 @@ void TTBContent::onChangeHideFlags(bool bFlags)
         m_nextButton->setDisabled(false);
         m_nextButton_spc->setDisabled(false);
     }
+
+    //判断是否加载完成，未完成将旋转按钮禁用
+    if (bFlags) {
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
+    } else {
+        m_rotateLBtn->setEnabled(true);
+        m_rotateRBtn->setEnabled(true);
+        m_trashBtn->setEnabled(true);
+    }
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
@@ -1489,7 +1500,18 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         //                btRight->setDisabled(true);
         //            }
         //        }
-        if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
+        //判断是否加载完成，未完成将旋转按钮禁用
+        if (m_bIsHide) {
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
+            m_trashBtn->setEnabled(false);
+        } else {
+            m_rotateLBtn->setEnabled(true);
+            m_rotateRBtn->setEnabled(true);
+            m_trashBtn->setEnabled(true);
+        }
+
+        if ((QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) || (QFileInfo(path).suffix() == "gif")) {
             m_trashBtn->setDisabled(true);
             m_rotateLBtn->setDisabled(true);
             m_rotateRBtn->setDisabled(true);

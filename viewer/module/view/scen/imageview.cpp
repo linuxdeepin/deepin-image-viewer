@@ -335,6 +335,7 @@ void ImageView::setImage(const QString &path)
             emit imageChanged(path);
         } else {
             m_movieItem = nullptr;
+            qDebug() << "cache start!";
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (!m_watcher.isRunning()) {
                 //                m_watcher.setFuture(f);
@@ -743,6 +744,7 @@ bool ImageView::event(QEvent *event)
 
 void ImageView::onCacheFinish()
 {
+    qDebug() << "cache end!";
     QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
@@ -763,6 +765,7 @@ void ImageView::onCacheFinish()
                     m_pixmapItem->setTransformationMode(Qt::FastTransformation);
                 } else {
                     m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+                    //m_pixmapItem->setTransformationMode(Qt::FastTransformation);
                 }
             });
             // Make sure item show in center of view after reload
