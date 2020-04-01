@@ -223,9 +223,7 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
 
         //QImage image(path);
         //QPixmap pixmap = QPixmap::fromImage(image);
-        m_writelock.lockForWrite();
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-        m_writelock.unlock();
     }
 }
 

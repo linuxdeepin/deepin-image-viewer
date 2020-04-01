@@ -633,6 +633,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         this->showImage(index, addIndex);
     });
 
+    m_rwLock.unlock();
     return ttbc;
 }
 
@@ -704,6 +705,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         if (pathlist.count() > 0) {
             emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
         }*/
+
 
 
     //heyi   如果加载完成发送显示信号否则发送隐藏信号
@@ -911,16 +913,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
         eatImageDirIterator();
         QStringList pathlist;
-
-        for (int loop = 0; loop < m_infos.size(); loop++) {
-            pathlist.append(m_infos.at(loop).filePath);
-        }
-        if (!m_infos.isEmpty()) {
-            QStringList pathlist;
-            pathlist << m_infos.at(m_current).filePath;
-            //emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
-            emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        }      
     }
 }
 
@@ -1230,8 +1222,10 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         }
     }
 
+    qDebug() << "m_viewB显示之前";
     m_viewB->setImage(path);
     updateMenuContent();
+    qDebug() << "m_viewB显示之后";
 
     if (m_info) {
         m_info->setImagePath(path);

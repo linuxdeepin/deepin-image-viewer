@@ -913,6 +913,7 @@ void TTBContent::onChangeHideFlags(bool bFlags)
     }
 
     //判断是否加载完成，未完成将旋转和删除按钮禁用
+
     if (bFlags) {
         m_rotateLBtn->setEnabled(false);
         m_rotateRBtn->setEnabled(false);
@@ -922,6 +923,7 @@ void TTBContent::onChangeHideFlags(bool bFlags)
         m_rotateRBtn->setEnabled(true);
         m_trashBtn->setEnabled(true);
     }
+
 
     if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
         //gif图片可以删除
@@ -960,6 +962,7 @@ void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
         m_nextButton->setEnabled(true);
         m_preButton->setEnabled(true);
     }
+
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
@@ -1571,7 +1574,6 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_trashBtn->setDisabled(true);
 
             }
-
             m_rotateLBtn->setDisabled(true);
             m_rotateRBtn->setDisabled(true);
         } else {
