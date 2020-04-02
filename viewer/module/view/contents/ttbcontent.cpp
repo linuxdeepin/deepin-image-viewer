@@ -924,7 +924,6 @@ void TTBContent::onChangeHideFlags(bool bFlags)
         m_trashBtn->setEnabled(true);
     }
 
-
     if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
         //gif图片可以删除
         if ((QFileInfo(m_imagePath).suffix() == "gif")) {
@@ -963,6 +962,8 @@ void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
         m_preButton->setEnabled(true);
     }
 
+=======
+>>>>>>> Title:fix
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
@@ -1586,7 +1587,6 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_rotateRBtn->setDisabled(true);
             }
         }
-#endif
     }
 
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮

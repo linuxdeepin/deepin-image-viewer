@@ -336,10 +336,6 @@ void ViewPanel::sendSignal()
             emit hidePreNextBtn(false, true);
         }
     }
-
-    emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-    emit changeHideFlag(false);
-    emit imageChanged(m_infos.at(m_current).filePath, m_infos);
 }
 
 #ifdef LITE_DIV
@@ -572,6 +568,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     //heyi test 连接更改隐藏上一张按钮信号槽
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::DirectConnection);
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::DirectConnection);
+
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
@@ -633,7 +630,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
         this->showImage(index, addIndex);
     });
 
-    m_rwLock.unlock();
     return ttbc;
 }
 
@@ -911,8 +907,27 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
         openImage(m_infos.at(m_current).filePath);
 
+
+#if 1
         eatImageDirIterator();
         QStringList pathlist;
+
+        for (int loop = 0; loop < m_infos.size(); loop++) {
+            pathlist.append(m_infos.at(loop).filePath);
+        }
+
+        if (pathlist.count() > 0) {
+            emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
+        }
+
+        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+        m_bFinishFirstLoad = true;
+        //emit changeHideFlag(false);
+        if (pathlist.size() > 0) {
+            emit imageChanged(m_infos.at(m_current).filePath, m_infos);
+        }
+#endif
+     
     }
 }
 
