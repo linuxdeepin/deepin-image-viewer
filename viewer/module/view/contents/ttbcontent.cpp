@@ -897,6 +897,39 @@ void TTBContent::onChangeHideFlags(bool bFlags)
         m_nextButton->setDisabled(false);
         m_nextButton_spc->setDisabled(false);
     }
+
+    //判断是否加载完成，未完成将旋转和删除按钮禁用
+    if (bFlags) {
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
+    } else {
+        m_rotateLBtn->setEnabled(true);
+        m_rotateRBtn->setEnabled(true);
+        m_trashBtn->setEnabled(true);
+    }
+
+    if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
+        //gif图片可以删除
+        if ((QFileInfo(m_imagePath).suffix() == "gif")) {
+            m_trashBtn->setDisabled(false);
+        } else {
+            m_trashBtn->setDisabled(true);
+
+        }
+
+        m_rotateLBtn->setDisabled(true);
+        m_rotateRBtn->setDisabled(true);
+    } else {
+        m_trashBtn->setDisabled(false);
+        if (utils::image::imageSupportSave(m_imagePath)) {
+            m_rotateLBtn->setDisabled(false);
+            m_rotateRBtn->setDisabled(false);
+        } else {
+            m_rotateLBtn->setDisabled(true);
+            m_rotateRBtn->setDisabled(true);
+        }
+    }
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
@@ -1489,8 +1522,26 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         //                btRight->setDisabled(true);
         //            }
         //        }
-        if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-            m_trashBtn->setDisabled(true);
+        //判断是否加载完成，未完成将旋转按钮禁用
+        if (m_bIsHide) {
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
+            m_trashBtn->setEnabled(false);
+        } else {
+            m_rotateLBtn->setEnabled(true);
+            m_rotateRBtn->setEnabled(true);
+            m_trashBtn->setEnabled(true);
+        }
+
+        if ((QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) || (QFileInfo(path).suffix() == "gif")) {
+            //gif图片可以删除
+            if ((QFileInfo(path).suffix() == "gif")) {
+                m_trashBtn->setDisabled(false);
+            } else {
+                m_trashBtn->setDisabled(true);
+
+            }
+
             m_rotateLBtn->setDisabled(true);
             m_rotateRBtn->setDisabled(true);
         } else {
