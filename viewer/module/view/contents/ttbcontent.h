@@ -145,6 +145,8 @@ public slots:
     void checkAdaptImageBtn();
     //heyi test 接收到信号之后更改隐藏标志符号
     void onChangeHideFlags(bool bFlags);
+    //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
+    void onHidePreNextBtn(bool bShowAll, bool bFlag);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);

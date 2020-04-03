@@ -79,6 +79,8 @@ signals:
     //heyi test
     void sendLoadOver();
     void changeHideFlag(bool bFlags);
+    //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
+    void hidePreNextBtn(bool bShowAll, bool bFlag);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
