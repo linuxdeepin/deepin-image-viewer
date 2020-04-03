@@ -317,6 +317,8 @@ Application::~Application()
             m_LoadThread->quit();
         }
     }
+
+    emit endApplication();
 }
 
 void Application::initChildren()

@@ -95,6 +95,8 @@ signals:
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
+    //结束程序触发此槽函数
+    void endApp();
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -137,5 +139,7 @@ private:
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
     bool m_loadingDisplay = false;
+    //heyi test 保存旋转的角度
+    int m_rotateAngel = 0;
 };
 #endif // SVGVIEW_H
