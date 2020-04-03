@@ -311,6 +311,11 @@ void ViewPanel::sendSignal()
         emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit changeHideFlag(false);
+        if (m_current == 0) {
+            emit hidePreNextBtn(false, false);
+        } else if (m_current == (m_infos.size() - 1)) {
+            emit hidePreNextBtn(false, true);
+        }
     }
 }
 
@@ -330,11 +335,8 @@ void ViewPanel::eatImageDirIterator()
     if (!m_imageDirIterator)
         return;
 
-    //涉及到线程安全，需要加上读写锁
-    m_rwLock.lockForWrite();
     const QString currentImageFile = m_infos.at(m_current).filePath;
     m_infos.clear();
-    m_rwLock.unlock();
 
     while (m_imageDirIterator->hasNext()) {
         DBImgInfo info;
@@ -353,13 +355,9 @@ void ViewPanel::eatImageDirIterator()
             if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                     mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
                 if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    m_rwLock.lockForWrite();
                     m_infos.append(info);
-                    m_rwLock.unlock();
                 } else if (str.isEmpty()) {
-                    m_rwLock.lockForWrite();
                     m_infos.append(info);
-                    m_rwLock.unlock();
                 }
             }
         }
@@ -374,7 +372,6 @@ void ViewPanel::eatImageDirIterator()
     }
 
     m_imageDirIterator.reset(nullptr);
-    m_rwLock.lockForWrite();
     std::sort(m_infos.begin(), m_infos.end(), compareByString);
 
     auto cbegin = 0;
@@ -389,7 +386,6 @@ void ViewPanel::eatImageDirIterator()
         ++cbegin;
     }
 
-    m_rwLock.unlock();
 }
 #endif
 
@@ -539,8 +535,13 @@ QWidget *ViewPanel::bottomTopLeftContent()
     }
 
     TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
+    if (!ttbc) {
+        return nullptr;
+    }
+
     //heyi test 连接更改隐藏上一张按钮信号槽
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::DirectConnection);
+    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::DirectConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
@@ -875,7 +876,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
-#if 0
+#if 1
         eatImageDirIterator();
         QStringList pathlist;
 
@@ -895,7 +896,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 #endif
         //进行定时计算一秒之后显示
-        connect(&m_timer, &QTimer::timeout, this, [ = ]() {
+        /*connect(&m_timer, &QTimer::timeout, this, [ = ]() {
             if (!m_bIsFirstLoad) {
                 return ;
             }
@@ -913,9 +914,9 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
         //将获取文件夹所有图片放在另一个线程，先保证点击之后图片会显示
         QThread *th = QThread::create([ = ]() {
-            eatImageDirIterator();
             m_rwLock.lockForRead();
-            if (!m_infos.isEmpty()) {
+            eatImageDirIterator();
+            if (m_infos.size() >= 1) {
                 //QThread::currentThread()->sleep(10);
                 m_bFinishFirstLoad = true;
                 m_bIsFirstLoad = false;
@@ -924,11 +925,17 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             }
 
             m_rwLock.unlock();
+
+            if (QThread::currentThread()->isRunning()) {
+                QThread::currentThread()->requestInterruption();
+                QThread::currentThread()->quit();
+            }
+
         });
 
         if (th) {
             th->start();
-        }
+        }*/
 
         //m_timer.start(1000);
         /*//进行定时计算，一秒之后将已经加载的图片刷新出来.
@@ -1011,6 +1018,11 @@ bool ViewPanel::showPrevious()
         //        m_current = m_infos.size()-1;
     } else {
         --m_current;
+        if (m_current == 0) {
+            emit hidePreNextBtn(false, false);
+        } else {
+            emit hidePreNextBtn(true, false);
+        }
     }
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
@@ -1032,6 +1044,11 @@ bool ViewPanel::showNext()
         //        m_current = 0;
     } else {
         ++m_current;
+        if (m_current == m_infos.size() - 1) {
+            emit hidePreNextBtn(false, true);
+        } else {
+            emit hidePreNextBtn(true, false);
+        }
     }
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
@@ -1214,6 +1231,8 @@ void ViewPanel::initViewContent()
     });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
+    //heyi  test
+    connect(dApp, &Application::endApplication, m_viewB, &ImageView::endApp);
 }
 
 void ViewPanel::openImage(const QString &path, bool inDB)
@@ -1268,10 +1287,8 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         }
     }
 
-    qDebug() << "m_viewB显示之前";
     m_viewB->setImage(path);
     updateMenuContent();
-    qDebug() << "m_viewB显示之后";
 
     if (m_info) {
         m_info->setImagePath(path);
