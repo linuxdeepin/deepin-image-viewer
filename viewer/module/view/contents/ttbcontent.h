@@ -151,10 +151,14 @@ public slots:
     void onChangeHideFlags(bool bFlags);
     //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
     void onHidePreNextBtn(bool bShowAll, bool bFlag);
+<<<<<<< HEAD
     // 重命名改变itemImage路径
     void OnChangeItemPath(int ,QString);
     // 重命名改变m_imgInfos路径
     void OnSetimglist(int,QString,QString);
+=======
+
+>>>>>>> Title:build
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();

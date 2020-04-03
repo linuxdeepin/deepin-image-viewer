@@ -354,11 +354,8 @@ void ViewPanel::eatImageDirIterator()
     if (!m_imageDirIterator)
         return;
 
-    //涉及到线程安全，需要加上读写锁
-    m_rwLock.lockForWrite();
     const QString currentImageFile = m_infos.at(m_current).filePath;
     m_infos.clear();
-    m_rwLock.unlock();
 
     while (m_imageDirIterator->hasNext()) {
         DBImgInfo info;
@@ -377,13 +374,9 @@ void ViewPanel::eatImageDirIterator()
             if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                     mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
                 if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    m_rwLock.lockForWrite();
                     m_infos.append(info);
-                    m_rwLock.unlock();
                 } else if (str.isEmpty()) {
-                    m_rwLock.lockForWrite();
                     m_infos.append(info);
-                    m_rwLock.unlock();
                 }
             }
         }
@@ -561,6 +554,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     }
 
     ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
+
     if (!ttbc) {
         return nullptr;
     }
@@ -568,7 +562,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
     //heyi test 连接更改隐藏上一张按钮信号槽
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::DirectConnection);
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::DirectConnection);
-
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
@@ -906,8 +899,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
-
-
 #if 1
         eatImageDirIterator();
         QStringList pathlist;
@@ -927,7 +918,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             emit imageChanged(m_infos.at(m_current).filePath, m_infos);
         }
 #endif
-     
     }
 }
 
@@ -1237,10 +1227,8 @@ void ViewPanel::openImage(const QString &path, bool inDB)
         }
     }
 
-    qDebug() << "m_viewB显示之前";
     m_viewB->setImage(path);
     updateMenuContent();
-    qDebug() << "m_viewB显示之后";
 
     if (m_info) {
         m_info->setImagePath(path);
