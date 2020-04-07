@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,11 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -78,7 +76,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Не знайдено файлів зображень</translation>
+        <translation>Файл зображення не знайдено</translation>
     </message>
 </context>
 <context>
@@ -249,15 +247,15 @@
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Підтвердження</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Скасувати</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкажіть нову назву</translation>
     </message>
 </context>
 <context>
@@ -526,23 +524,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Попередній</translation>
+        <translation>Попередній</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Пауза</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Відтворення</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Наступний</translation>
+        <translation>Наступний</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Вихід</translation>
     </message>
 </context>
 <context>
@@ -787,7 +785,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Перейменувати</translation>
+        <translation>Перейменувати</translation>
     </message>
 </context>
 </TS>

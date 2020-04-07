@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ms">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelihat Imej</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelihat Imej merupakan  sebuah alat pelihat imej dengan antara muka berfesyen dan prestasi yang lancar.</translation>
     </message>
 </context>
 <context>
@@ -23,26 +21,26 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Maklumat imej</translation>
+        <translation>Maklumat imej</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
+        <translation>Maklumat asas</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Perincian</translation>
     </message>
 </context>
 <context>
@@ -70,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Batal</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Padam</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail imej tidak ditemui</translation>
     </message>
 </context>
 <context>
@@ -165,11 +163,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensi</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag</translation>
     </message>
 </context>
 <context>
@@ -242,22 +240,22 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Sahkan</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Batal</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Masukan satu nama baharu</translation>
     </message>
 </context>
 <context>
@@ -410,19 +408,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Keluar dari skrin penuh</translation>
+        <translation>Keluar dari skrin penuh</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum masuk</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum keluar</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Buka</translation>
     </message>
 </context>
 <context>
@@ -526,23 +524,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Terdahulu</translation>
+        <translation>Terdahulu</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeda</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Main</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Berikutnya</translation>
+        <translation>Berikutnya</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Keluar</translation>
     </message>
 </context>
 <context>
@@ -572,35 +570,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Kegemaran saya</translation>
+        <translation>Kegemaran saya</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Terdahulu</translation>
+        <translation>Terdahulu</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Berikutnya</translation>
+        <translation>Berikutnya</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">Saiz 1:1</translation>
+        <translation>Saiz 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">Suai muat dengan tetingkap</translation>
+        <translation>Suai muat dengan tetingkap</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Putar lawan jam</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Putar ikut jam</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Padam</translation>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -658,7 +656,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Fail imej tidak ditemui</translation>
     </message>
 </context>
 <context>
@@ -787,7 +785,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Nama semula</translation>
+        <translation>Nama semula</translation>
     </message>
 </context>
 </TS>

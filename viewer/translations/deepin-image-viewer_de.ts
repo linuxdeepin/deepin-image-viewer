@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildbetrachter</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Deepin Bildbetrachter ist eine elegante &amp; schnelle Bildverwaltung.</translation>
     </message>
 </context>
 <context>
@@ -27,11 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -78,7 +76,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Bilddatei nicht gefunden</translation>
+        <translation>Bilddatei nicht gefunden</translation>
     </message>
 </context>
 <context>
@@ -249,15 +247,15 @@
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestätigen</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuen Namen eingeben</translation>
     </message>
 </context>
 <context>
@@ -414,11 +412,11 @@
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom in</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>Rauszoomen</translation>
     </message>
     <message>
         <source>Open</source>
@@ -526,23 +524,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Vorheriges</translation>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Play</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Nächstes</translation>
+        <translation>Nächstes</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Beenden</translation>
     </message>
 </context>
 <context>
@@ -572,7 +570,7 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Mein Favorit</translation>
+        <translation>Mein Favorit</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -584,7 +582,7 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">Originalgröße</translation>
+        <translation>1:1 Größe</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -787,7 +785,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Umbenennen</translation>
+        <translation>Umbenennen</translation>
     </message>
 </context>
 </TS>

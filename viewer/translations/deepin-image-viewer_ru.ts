@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation>Просмотр изображений</translation>
+        <translation>Просмотр Изображений</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Просмотр изображений - это инструмент для просмотра изображений с модным интерфейсом и плавной работой.</translation>
+        <translation>Просмотр Изображений - это инструмент для просмотра изображений с современным интерфейсом и плавной работой.</translation>
     </message>
 </context>
 <context>
@@ -27,11 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -78,7 +76,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Файл изображения не найден</translation>
+        <translation>Файл изображения не найден</translation>
     </message>
 </context>
 <context>
@@ -169,7 +167,7 @@
     </message>
     <message>
         <source>Tag</source>
-        <translation>Тег</translation>
+        <translation>Ярлык</translation>
     </message>
 </context>
 <context>
@@ -249,15 +247,15 @@
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -526,23 +524,23 @@
     <name>SlideShowBottomBar</name>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Предыдущее</translation>
+        <translation>Предыдущее</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Следующее</translation>
+        <translation>Следующее</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Выход</translation>
     </message>
 </context>
 <context>
@@ -787,7 +785,7 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Переименовать</translation>
+        <translation>Переименовать</translation>
     </message>
 </context>
 </TS>
