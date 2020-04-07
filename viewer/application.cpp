@@ -300,7 +300,7 @@ Application::Application(int &argc, char **argv)
         connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
         connect(m_imageloader, SIGNAL(sigFinishiLoad(QString)), this, SLOT(finishLoadSlot(QString)));
         //heyi
-        connect(this, SIGNAL(endThread()), m_imageloader, SLOT(stopThread()), Qt::DirectConnection);
+        connect(this, SIGNAL(endThread()), m_imageloader, SLOT(stopThread()), Qt::QueuedConnection);
         emit sigstartLoad();
     });
 

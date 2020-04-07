@@ -458,7 +458,7 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->move(
             (this->width() - m_bottomToolbar->width()) / 2,
             this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
-    }, Qt::DirectConnection);
+    });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [ = ] {
         m_bottomToolbar->setVisible(true);
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());

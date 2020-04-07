@@ -77,7 +77,7 @@ signals:
     void updateTopLeftContentImage(const QString &path);
     void updatePath();
     //heyi test
-    void sendLoadOver();
+    void sendLoadOver(DBImgInfoList infos, int nCurrent);
     void changeHideFlag(bool bFlags);
     //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
     void hidePreNextBtn(bool bShowAll, bool bFlag);
@@ -145,7 +145,7 @@ private slots:
     void updateLocalImages();
 
     //heyi test  发送显示缩略图的信号
-    void sendSignal();
+    void sendSignal(DBImgInfoList infos, int nCurrent);
 
 private:
     int m_hideCursorTid;
