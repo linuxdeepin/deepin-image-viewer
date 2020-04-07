@@ -23,6 +23,9 @@
 #include "lockwidget.h"
 #include "module/modulepanel.h"
 #include "thumbnailwidget.h"
+#include "contents/ttbcontent.h"
+#include "contents/ttlcontent.h"
+#include "contents/ttmcontent.h"
 
 #include <DDesktopServices>
 #include <DFileWatcher>
@@ -81,7 +84,8 @@ signals:
     void changeHideFlag(bool bFlags);
     //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
     void hidePreNextBtn(bool bShowAll, bool bFlag);
-
+    void changeitempath(int,QString);
+    void SetImglistPath(int,QString,QString);
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -137,6 +141,8 @@ private:
     QFileInfoList getFileInfos(const QString &path);
     DBImgInfoList getImageInfos(const QFileInfoList &infos);
     const QStringList paths() const;
+    //重命名窗口处理函数
+    bool PopRenameDialog(QString &filepath,QString &filename);
     void startFileWatcher();
 
 private slots:
@@ -160,7 +166,7 @@ private:
     DMenu *m_menu;
     QStackedWidget *m_stack {nullptr};
     LockWidget *m_lockWidget;
-
+    TTBContent *ttbc;
     // Floating component
     DAnchors<NavigationWidget> m_nav;
 

@@ -831,6 +831,20 @@ void TTBContent::slotTheme(bool theme)
     //                            QString(":/resources/%1/icons/delete.svg").arg(rStr),
     //                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
 }
+
+void TTBContent::OnSetimglist(int currindex,QString filename,QString filepath)
+{
+    m_imgInfos[currindex].fileName = filename;
+    m_imgInfos[currindex].filePath = filepath;
+}
+
+void TTBContent::OnChangeItemPath(int currindex,QString path)
+{
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    ImageItem *item = labelList.at(currindex);
+    item->SetPath(path);
+}
+
 void TTBContent::updateFilenameLayout()
 {
     using namespace utils::base;

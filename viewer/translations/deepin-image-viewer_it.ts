@@ -30,6 +30,10 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
         <source>Alt+Return</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
@@ -240,6 +244,21 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annulla</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -505,6 +524,29 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Precedente</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Successiva</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -743,6 +785,10 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>All images</source>
         <translation>Tutte le immagini</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Rinomina</translation>
     </message>
 </context>
 </TS>

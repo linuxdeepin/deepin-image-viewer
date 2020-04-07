@@ -29,6 +29,10 @@
         <source>Alt+Return</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
@@ -239,6 +243,21 @@
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">Précédent </translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">Suivant</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -742,6 +784,10 @@
     <message>
         <source>All images</source>
         <translation>Toutes les images </translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Renommer </translation>
     </message>
 </context>
 </TS>

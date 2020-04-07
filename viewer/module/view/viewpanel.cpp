@@ -31,6 +31,7 @@
 #include "widgets/imagebutton.h"
 #include "widgets/printhelper.h"
 #include "widgets/printoptionspage.h"
+#include "frame/renamedialog.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -237,6 +238,24 @@ void ViewPanel::initFileSystemWatcher()
     });
 }
 #endif
+
+
+bool ViewPanel::PopRenameDialog(QString &filepath,QString &filename)
+{
+    RenameDialog *renamedlg =  new RenameDialog(filepath);
+    if(renamedlg->exec()){
+        //重命名从窗口确定后修改文件名词并修改窗口标题
+        QFile file(filepath);
+        filepath = renamedlg->GetFilePath();
+        filename = renamedlg->GetFileName();
+        bool bOk = file.rename(filepath);
+        emit dApp->signalM->changetitletext(renamedlg->GetFileName());
+        return bOk;
+    }
+    return false;
+}
+
+
 void ViewPanel::startFileWatcher()
 {
     if (m_currentFilePath == "") {
@@ -355,9 +374,13 @@ void ViewPanel::eatImageDirIterator()
             if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                     mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
                 if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    m_rwLock.lockForWrite();
                     m_infos.append(info);
+                    m_rwLock.unlock();
                 } else if (str.isEmpty()) {
+                    m_rwLock.lockForWrite();
                     m_infos.append(info);
+                    m_rwLock.unlock();
                 }
             }
         }
@@ -534,7 +557,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         return nullptr;
     }
 
-    TTBContent *ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
+    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
     if (!ttbc) {
         return nullptr;
     }

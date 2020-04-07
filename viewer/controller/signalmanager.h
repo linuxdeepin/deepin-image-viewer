@@ -71,6 +71,7 @@ signals:
     void loadingDisplay(bool immediately = false);
     void picDelete();
     void allPicDelete();
+    void changetitletext(QString);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");

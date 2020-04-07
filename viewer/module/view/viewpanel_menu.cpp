@@ -48,6 +48,7 @@ enum MenuItemId {
     IdFullScreen,
     IdExitFullScreen,
     IdStartSlideShow,
+    IdRename,
     IdPrint,
     IdAddToAlbum,
     IdCopy,
@@ -178,6 +179,30 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     }
+
+    case IdRename: {
+        QString filepath = path;
+        QString filename;
+        if(PopRenameDialog(filepath,filename))
+        {
+            m_rwLock.lockForWrite();
+            m_infos[m_current].fileName = filename;
+            m_infos[m_current].filePath = filepath;
+            m_rwLock.unlock();
+            //修改链表里被修改文件的文件名
+            connect(this, &ViewPanel::SetImglistPath, ttbc, &TTBContent::OnSetimglist);
+            emit SetImglistPath(m_current,filename,filepath);
+            dApp->m_imageloader->m_writelock.lockForWrite();
+            //修改map维护的数据
+            QPixmap pix =  dApp->m_imagemap.value(path);
+            dApp->m_imagemap.remove(path);
+            dApp->m_imagemap.insert(filepath,pix);
+            dApp->m_imageloader->m_writelock.unlock();
+            connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
+            emit changeitempath(m_current,filepath);
+        }
+        break;
+    }
 #ifndef LITE_DIV
     case IdAddToAlbum: {
         const QString album = action->data().toString();
@@ -270,6 +295,7 @@ void ViewPanel::updateMenuContent()
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+    appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
@@ -298,7 +324,7 @@ void ViewPanel::updateMenuContent()
                 !DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM_NAME, m_current->filePath)) {
             appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
         } else {
-            appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
+            appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("UnfappendAction(IdRename, tr("Rename"), ss("Rename", "F2"));avorite"));
         }
     }
 #endif

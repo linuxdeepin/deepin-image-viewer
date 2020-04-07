@@ -261,6 +261,9 @@ void MainWidget::initTopToolbar()
         m_topToolbar = new TopToolbar(false, this);
         m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
     });
+    connect(dApp->signalM, &SignalManager::changetitletext, this, [ = ](QString filename) {
+        m_topToolbar->setMiddleContent(filename);
+    });
     connect(dApp->signalM, &SignalManager::enterView, this, [ = ](bool a) {
         if (a) {
             m_topToolbar->show();
