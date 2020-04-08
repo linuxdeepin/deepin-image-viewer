@@ -368,6 +368,63 @@ void ViewPanel::eatImageDirIterator()
     if (!m_imageDirIterator)
         return;
 
+    const QString currentImageFile = m_infos.at(m_current).filePath;
+    m_infos.clear();
+
+    while (m_imageDirIterator->hasNext()) {
+        DBImgInfo info;
+
+        info.filePath = m_imageDirIterator->next();
+        info.fileName = m_imageDirIterator->fileInfo().fileName();
+
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
+        //qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName()
+        //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
+        QString str = m_imageDirIterator->fileInfo().suffix();
+        //        if (str.isEmpty()) {
+        if ("icns" != str) {
+            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    m_infos.append(info);
+                } else if (str.isEmpty()) {
+                    m_infos.append(info);
+                }
+            }
+        }
+        //        } else {
+        //            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+        //                if (utils::image::supportedImageFormats().contains("*." + str,
+        //                Qt::CaseInsensitive)) {
+        //                    m_infos.append(info);
+        //                }
+        //            }
+        //        }
+    }
+
+    m_imageDirIterator.reset(nullptr);
+    std::sort(m_infos.begin(), m_infos.end(), compareByString);
+
+    auto cbegin = 0;
+    m_current = cbegin;
+
+    while (cbegin < m_infos.size()) {
+        if (m_infos.at(cbegin).filePath == currentImageFile) {
+            m_current = cbegin;
+            break;
+        }
+
+        ++cbegin;
+    }
+}
+
+void ViewPanel::newEatImageDirIterator()
+{
+    if (!m_imageDirIterator)
+        return;
+
     //test heyi 定义局部变量读写
     DBImgInfoList infos;
     int nCurrent = 0;
@@ -938,6 +995,11 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             emit imageChanged(m_infos.at(m_current).filePath, m_infos);
         }
 
+        if (m_current == 0) {
+            emit hidePreNextBtn(false, false);
+        } else if (m_current == (m_infos.size() - 1)) {
+            emit hidePreNextBtn(false, true);
+        }
 #endif
     }
 }
