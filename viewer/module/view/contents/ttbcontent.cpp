@@ -877,6 +877,75 @@ void TTBContent::updateFilenameLayout()
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;
+    //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
+    if (bFlags || m_imgInfos.size() <= 1) {
+        m_preButton->hide();
+        m_preButton_spc->hide();
+        m_nextButton->hide();
+        m_nextButton_spc->hide();
+        m_preButton->setDisabled(true);
+        m_preButton_spc->setDisabled(true);
+        m_nextButton->setDisabled(true);
+        m_nextButton_spc->setDisabled(true);
+    } else {
+        m_preButton->show();
+        m_nextButton->show();
+        m_preButton_spc->show();
+        m_nextButton_spc->show();
+        m_preButton->setDisabled(false);
+        m_preButton_spc->setDisabled(false);
+        m_nextButton->setDisabled(false);
+        m_nextButton_spc->setDisabled(false);
+    }
+
+    //判断是否加载完成，未完成将旋转和删除按钮禁用
+    if (bFlags) {
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
+    } else {
+        m_rotateLBtn->setEnabled(true);
+        m_rotateRBtn->setEnabled(true);
+        m_trashBtn->setEnabled(true);
+    }
+
+    if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
+        //gif图片可以删除
+        if ((QFileInfo(m_imagePath).suffix() == "gif")) {
+            m_trashBtn->setDisabled(false);
+        } else {
+            m_trashBtn->setDisabled(true);
+
+        }
+
+        m_rotateLBtn->setDisabled(true);
+        m_rotateRBtn->setDisabled(true);
+    } else {
+        m_trashBtn->setDisabled(false);
+        if (utils::image::imageSupportSave(m_imagePath)) {
+            m_rotateLBtn->setDisabled(false);
+            m_rotateRBtn->setDisabled(false);
+        } else {
+            m_rotateLBtn->setDisabled(true);
+            m_rotateRBtn->setDisabled(true);
+        }
+    }
+}
+
+void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
+{
+    if (!bShowAll) {
+        if (bFlag) {
+            m_nextButton->setEnabled(false);
+            m_preButton->setEnabled(true);
+        } else {
+            m_nextButton->setEnabled(true);
+            m_preButton->setEnabled(false);
+        }
+    } else {
+        m_nextButton->setEnabled(true);
+        m_preButton->setEnabled(true);
+    }
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
@@ -945,9 +1014,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_imgInfos = infos;
 
         QLayoutItem *child;
-        while ((child = m_imglayout->takeAt(0)) != 0) {
+        while ((child = m_imglayout->takeAt(0)) != nullptr) {
             m_imglayout->removeWidget(child->widget());
-            child->widget()->setParent(0);
+            child->widget()->setParent(nullptr);
             delete child;
         }
     }
@@ -1469,8 +1538,26 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         //                btRight->setDisabled(true);
         //            }
         //        }
-        if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-            m_trashBtn->setDisabled(true);
+        //判断是否加载完成，未完成将旋转按钮禁用
+        if (m_bIsHide) {
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
+            m_trashBtn->setEnabled(false);
+        } else {
+            m_rotateLBtn->setEnabled(true);
+            m_rotateRBtn->setEnabled(true);
+            m_trashBtn->setEnabled(true);
+        }
+
+        if ((QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) || (QFileInfo(path).suffix() == "gif")) {
+            //gif图片可以删除
+            if ((QFileInfo(path).suffix() == "gif")) {
+                m_trashBtn->setDisabled(false);
+            } else {
+                m_trashBtn->setDisabled(true);
+
+            }
+
             m_rotateLBtn->setDisabled(true);
             m_rotateRBtn->setDisabled(true);
         } else {
@@ -1487,7 +1574,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
     }
 
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
-    if (m_bIsHide) {
+    if (m_bIsHide || m_imgInfos.size() <= 1) {
         m_preButton->hide();
         m_preButton_spc->hide();
         m_nextButton->hide();

@@ -77,8 +77,10 @@ signals:
     void updateTopLeftContentImage(const QString &path);
     void updatePath();
     //heyi test
-    void sendLoadOver();
+    void sendLoadOver(DBImgInfoList infos, int nCurrent);
     void changeHideFlag(bool bFlags);
+    //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
+    void hidePreNextBtn(bool bShowAll, bool bFlag);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
@@ -142,8 +144,8 @@ private slots:
 
     void updateLocalImages();
 
-    //heyi test
-    void sendSignal();
+    //heyi test  发送显示缩略图的信号
+    void sendSignal(DBImgInfoList infos, int nCurrent);
 
 private:
     int m_hideCursorTid;
@@ -185,7 +187,7 @@ private:
     QTimer       m_timer;
     QReadWriteLock m_rwLock;
     volatile bool m_bIsFirstLoad = true;
-    //第一次是否加载完成
+    //第一次开机是否加载完成
     volatile bool m_bFinishFirstLoad = false;
 };
 #endif  // VIEWPANEL_H

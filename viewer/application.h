@@ -95,6 +95,8 @@ signals:
     void sigFinishLoad(QString mapPath);
     //add by heyi
     void endThread();
+    //结束程序的时候触发此信号
+    void endApplication();
 
 public slots:
     void finishLoadSlot(QString mapPath);

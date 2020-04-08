@@ -280,6 +280,17 @@ void ImageView::setImage(const QString &path)
     //    if(path == m_path)return;//Add for no repeat refresh, delete for rotation no
     //    refresh(bugID3926)
 
+    //heyi test  添加是否切换了图片识别
+    if (!m_path.isEmpty() && m_path != path) {
+        if (0 != m_rotateAngel) {
+            m_rotateAngel =  m_rotateAngel % 360;
+            if (0 != m_rotateAngel) {
+                utils::image::rotate(m_path, m_rotateAngel);
+                m_rotateAngel = 0;
+            }
+        }
+    }
+
     m_path = path;
     QGraphicsScene *s = scene();
 
@@ -322,7 +333,8 @@ void ImageView::setImage(const QString &path)
         //        m_svgItem = nullptr;
         m_imgSvgItem = nullptr;
         // Support gif and mng
-        if (QMovie(path).frameCount() > 1) {
+        if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
+                || fi.suffix().toLower() == "webp") {
             m_pixmapItem = nullptr;
             s->clear();
             resetTransform();
@@ -334,6 +346,7 @@ void ImageView::setImage(const QString &path)
             emit imageChanged(path);
         } else {
             m_movieItem = nullptr;
+            qDebug() << "cache start!";
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (!m_watcher.isRunning()) {
                 //                m_watcher.setFuture(f);
@@ -527,14 +540,79 @@ void ImageView::fitImage()
 
 void ImageView::rotateClockWise()
 {
-    utils::image::rotate(m_path, 90);
-    setImage(m_path);
+    //utils::image::rotate(m_path, 90);
+    QPixmap pixmap = m_pixmapItem->pixmap();
+    QMatrix rotate;
+    rotate.rotate(90);
+
+    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    scene()->clear();
+    resetTransform();
+    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+        if (!m_pixmapItem) {
+            qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
+            update();
+            return;
+        }
+        if (scaledmode) {
+            m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+        } else {
+            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        }
+    });
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+    scene()->addItem(m_pixmapItem);
+    autoFit();
+    m_rotateAngel += 90;
+
+    //emit imageChanged(m_path);
+
+    //setImage(m_path);
 }
 
 void ImageView::rotateCounterclockwise()
 {
-    utils::image::rotate(m_path, -90);
-    setImage(m_path);
+    //utils::image::rotate(m_path, -90);
+    QPixmap pixmap = m_pixmapItem->pixmap();
+    QMatrix rotate;
+    rotate.rotate(-90);
+
+    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    scene()->clear();
+    resetTransform();
+    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+        if (!m_pixmapItem) {
+            qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
+            update();
+            return;
+        }
+        if (scaledmode) {
+            m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+        } else {
+            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        }
+    });
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+    scene()->addItem(m_pixmapItem);
+    autoFit();
+    m_rotateAngel -= 90;
+
+    //emit imageChanged(m_path);
+    //setImage(m_path);
 }
 
 void ImageView::centerOn(int x, int y)
@@ -643,6 +721,19 @@ void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
 #endif
 }
 
+void ImageView::endApp()
+{
+    if (!m_path.isEmpty()) {
+        if (0 != m_rotateAngel) {
+            m_rotateAngel =  m_rotateAngel % 360;
+            if (0 != m_rotateAngel) {
+                utils::image::rotate(m_path, m_rotateAngel);
+                m_rotateAngel = 0;
+            }
+        }
+    }
+}
+
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton)
@@ -742,6 +833,7 @@ bool ImageView::event(QEvent *event)
 
 void ImageView::onCacheFinish()
 {
+    qDebug() << "cache end!";
     QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
@@ -762,6 +854,7 @@ void ImageView::onCacheFinish()
                     m_pixmapItem->setTransformationMode(Qt::FastTransformation);
                 } else {
                     m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+                    //m_pixmapItem->setTransformationMode(Qt::FastTransformation);
                 }
             });
             // Make sure item show in center of view after reload
