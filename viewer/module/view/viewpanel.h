@@ -174,6 +174,8 @@ private:
     QScopedPointer<QDirIterator> m_imageDirIterator;
 
     void eatImageDirIterator();
+    //heyi add
+    void newEatImageDirIterator();
 #endif
     QString m_currentImageLastDir = "";
     QString m_currentImagePath = "";
