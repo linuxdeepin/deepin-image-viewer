@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
         //sharedMemory.detach();
         qint64 temptime = rstime.secsTo(wstime);
         if (!rstime.isValid()) return  0;
-        if (temptime >= 0 && temptime <= 2 && rstime.isValid()) {
+        if (temptime >= 0 && temptime <= 1 && rstime.isValid()) {
             newflag = false;
         }
         //if (sharedMemory.isAttached()) //检测程序当前是否关联共享内存
