@@ -280,7 +280,7 @@ void ImageView::setImage(const QString &path)
     //    if(path == m_path)return;//Add for no repeat refresh, delete for rotation no
     //    refresh(bugID3926)
 
-    //heyi test  添加是否切换了图片识别
+    //heyi test  识别是否切换了图片，并判定上一张图片旋转状态是否发生了改变
     if (!m_path.isEmpty() && m_path != path) {
         if (0 != m_rotateAngel) {
             m_rotateAngel =  m_rotateAngel % 360;
@@ -404,6 +404,7 @@ void ImageView::setScaleValue(qreal v)
     // Rollback
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / irs;
+        if (minv < 1.1) return;
         scale(minv, minv);
     } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
         const qreal maxv = MAX_SCALE_FACTOR / irs;
