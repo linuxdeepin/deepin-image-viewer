@@ -384,14 +384,12 @@ void ViewPanel::eatImageDirIterator()
         //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
         QString str = m_imageDirIterator->fileInfo().suffix();
         //        if (str.isEmpty()) {
-        if ("icns" != str) {
-            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    m_infos.append(info);
-                } else if (str.isEmpty()) {
-                    m_infos.append(info);
-                }
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                m_infos.append(info);
+            } else if (str.isEmpty()) {
+                m_infos.append(info);
             }
         }
         //        } else {
