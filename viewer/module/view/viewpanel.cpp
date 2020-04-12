@@ -369,7 +369,8 @@ void ViewPanel::eatImageDirIterator()
         return;
 
     const QString currentImageFile = m_infos.at(m_current).filePath;
-    m_infos.clear();
+    DBImgInfo infoNow = m_infos.at(m_current);
+    //m_infos.clear();
 
     //设置初始化加载图片数量
     int nCurrentNum = 0;
@@ -395,9 +396,13 @@ void ViewPanel::eatImageDirIterator()
             if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                     mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
                 if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    m_infos.append(info);
+                    if (!m_infos.contains(info)) {
+                        m_infos.append(info);
+                    }
                 } else if (str.isEmpty()) {
-                    m_infos.append(info);
+                    if (!m_infos.contains(info)) {
+                        m_infos.append(info);
+                    }
                 }
             }
         }
@@ -469,7 +474,7 @@ void ViewPanel::newEatImageDirIterator()
         //        }
     }
 
-    m_imageDirIterator.reset(nullptr);
+    //m_imageDirIterator.reset(nullptr);
     std::sort(m_infos.begin(), m_infos.end(), compareByString);
 
     auto cbegin = 0;
@@ -487,11 +492,13 @@ void ViewPanel::newEatImageDirIterator()
 
 void ViewPanel::eatImageDirIteratorThread()
 {
-    if (!m_imageDirIterator) {
-        m_imageDirIterator.reset(
+    if (!m_imageDirIteratorThread && !m_currentFilePath.isEmpty()) {
+        m_imageDirIteratorThread.reset(
             new QDirIterator(m_currentFilePath,
                              QDir::Files | QDir::Readable |
                              QDir::NoDotAndDotDot));
+    } else {
+        return;
     }
 
     m_infosAll.clear();
@@ -500,14 +507,14 @@ void ViewPanel::eatImageDirIteratorThread()
     QMimeType mt, mt1;
     QString str;
 
-    while (m_imageDirIterator->hasNext()) {
+    while (m_imageDirIteratorThread->hasNext()) {
         info.clear();
-        info.filePath = m_imageDirIterator->next();
-        info.fileName = m_imageDirIterator->fileInfo().fileName();
+        info.filePath = m_imageDirIteratorThread->next();
+        info.fileName = m_imageDirIteratorThread->fileInfo().fileName();
 
         mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
         mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
-        str = m_imageDirIterator->fileInfo().suffix();
+        str = m_imageDirIteratorThread->fileInfo().suffix();
         if ("icns" != str) {
             if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                     mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
@@ -520,8 +527,17 @@ void ViewPanel::eatImageDirIteratorThread()
         }
     }
 
-    m_imageDirIterator.reset(nullptr);
+    m_imageDirIteratorThread.reset(nullptr);
     //std::sort(m_infos.begin(), m_infos.end(), compareByString);
+    QStringList pathlist;
+
+    for (int loop = 0; loop < m_infosAll.size(); loop++) {
+        pathlist.append(m_infosAll.at(loop).filePath);
+    }
+
+    if (pathlist.count() > 0) {
+        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
+    }
 }
 #endif
 
@@ -812,16 +828,12 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
             emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
         }*/
 
-
-
         //heyi   如果加载完成发送显示信号否则发送隐藏信号
         if (m_bFinishFirstLoad) {
             emit changeHideFlag(false);
         } else {
             emit changeHideFlag(true);
         }
-
-
     }
 
     //    if (window()->isMaximized()) {

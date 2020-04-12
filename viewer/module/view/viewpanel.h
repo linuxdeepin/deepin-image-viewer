@@ -182,6 +182,8 @@ private:
     int m_current = 0;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
+    //后台加载迭代器
+    QScopedPointer<QDirIterator> m_imageDirIteratorThread;
 
     void eatImageDirIterator();
     //heyi add 备份初始信息读取代码
@@ -190,6 +192,7 @@ private:
     void eatImageDirIteratorThread();
 #endif
     QString m_currentImageLastDir = "";
+    //当前图片路径
     QString m_currentImagePath = "";
     DFileWatcher *m_fileManager;
     //当前选中文件夹路径
