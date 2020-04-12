@@ -37,6 +37,8 @@
 #include <QTimer>
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
+//初始加载张数
+#define LOAD_NUMBER 100
 
 class ImageButton;
 class ImageInfoWidget;
@@ -84,10 +86,11 @@ signals:
     void changeHideFlag(bool bFlags);
     //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
     void hidePreNextBtn(bool bShowAll, bool bFlag);
+    //后台加载完成之后将所有图片信息发送给操作控件
+    void sendAllImageInfos(DBImgInfoList allInfos);
 
-    void changeitempath(int,QString);
-    void SetImglistPath(int,QString,QString);
-
+    void changeitempath(int, QString);
+    void SetImglistPath(int, QString, QString);
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -144,12 +147,11 @@ private:
     DBImgInfoList getImageInfos(const QFileInfoList &infos);
     const QStringList paths() const;
     //重命名窗口处理函数
-    bool PopRenameDialog(QString &filepath,QString &filename);
+    bool PopRenameDialog(QString &filepath, QString &filename);
     void startFileWatcher();
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
     void updateLocalImages();
 
     //heyi test  发送显示缩略图的信号
@@ -174,20 +176,23 @@ private:
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
-    //heyi test
-    DBImgInfoList m_infosFirst;
+    //heyi test 优化新增后台加载所有图片信息结构体。
+    DBImgInfoList m_infosAll;
     //    DBImgInfoList::ConstIterator m_current =NULL;
     int m_current = 0;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 
     void eatImageDirIterator();
-    //heyi add
+    //heyi add 备份初始信息读取代码
     void newEatImageDirIterator();
+    //heyi add 线程函数，遍历选中文件夹获取所有图片信息
+    void eatImageDirIteratorThread();
 #endif
     QString m_currentImageLastDir = "";
     QString m_currentImagePath = "";
     DFileWatcher *m_fileManager;
+    //当前选中文件夹路径
     QString m_currentFilePath = "";
     bool m_finish = false;
 

@@ -243,10 +243,10 @@ void ViewPanel::initFileSystemWatcher()
 #endif
 
 
-bool ViewPanel::PopRenameDialog(QString &filepath,QString &filename)
+bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
 {
     RenameDialog *renamedlg =  new RenameDialog(filepath);
-    if(renamedlg->exec()){
+    if (renamedlg->exec()) {
         //重命名从窗口确定后修改文件名词并修改窗口标题
         QFile file(filepath);
         filepath = renamedlg->GetFilePath();
@@ -371,6 +371,71 @@ void ViewPanel::eatImageDirIterator()
     const QString currentImageFile = m_infos.at(m_current).filePath;
     m_infos.clear();
 
+    //设置初始化加载图片数量
+    int nCurrentNum = 0;
+    while (m_imageDirIterator->hasNext()) {
+        //判断是否达到初始化加载张数
+        if (nCurrentNum >= LOAD_NUMBER) {
+            break;
+        }
+
+        DBImgInfo info;
+
+        info.filePath = m_imageDirIterator->next();
+        info.fileName = m_imageDirIterator->fileInfo().fileName();
+
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
+        //qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName()
+        //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
+        QString str = m_imageDirIterator->fileInfo().suffix();
+        //        if (str.isEmpty()) {
+        if ("icns" != str) {
+            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    m_infos.append(info);
+                } else if (str.isEmpty()) {
+                    m_infos.append(info);
+                }
+            }
+        }
+        //        } else {
+        //            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+        //                if (utils::image::supportedImageFormats().contains("*." + str,
+        //                Qt::CaseInsensitive)) {
+        //                    m_infos.append(info);
+        //                }
+        //            }
+        //        }
+        nCurrentNum++;
+    }
+
+    m_imageDirIterator.reset(nullptr);
+    //std::sort(m_infos.begin(), m_infos.end(), compareByString);
+
+    auto cbegin = 0;
+    m_current = cbegin;
+
+    while (cbegin < m_infos.size()) {
+        if (m_infos.at(cbegin).filePath == currentImageFile) {
+            m_current = cbegin;
+            break;
+        }
+
+        ++cbegin;
+    }
+}
+
+void ViewPanel::newEatImageDirIterator()
+{
+    if (!m_imageDirIterator)
+        return;
+
+    const QString currentImageFile = m_infos.at(m_current).filePath;
+    m_infos.clear();
+
     while (m_imageDirIterator->hasNext()) {
         DBImgInfo info;
 
@@ -384,12 +449,14 @@ void ViewPanel::eatImageDirIterator()
         //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
         QString str = m_imageDirIterator->fileInfo().suffix();
         //        if (str.isEmpty()) {
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                m_infos.append(info);
-            } else if (str.isEmpty()) {
-                m_infos.append(info);
+        if ("icns" != str) {
+            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    m_infos.append(info);
+                } else if (str.isEmpty()) {
+                    m_infos.append(info);
+                }
             }
         }
         //        } else {
@@ -418,67 +485,43 @@ void ViewPanel::eatImageDirIterator()
     }
 }
 
-void ViewPanel::newEatImageDirIterator()
+void ViewPanel::eatImageDirIteratorThread()
 {
-    if (!m_imageDirIterator)
-        return;
+    if (!m_imageDirIterator) {
+        m_imageDirIterator.reset(
+            new QDirIterator(m_currentFilePath,
+                             QDir::Files | QDir::Readable |
+                             QDir::NoDotAndDotDot));
+    }
 
-    //test heyi 定义局部变量读写
-    DBImgInfoList infos;
-    int nCurrent = 0;
-    infos.clear();
-    const QString currentImageFile = m_infos.at(m_current).filePath;
+    m_infosAll.clear();
+    DBImgInfo info;
+    QMimeDatabase db;
+    QMimeType mt, mt1;
+    QString str;
 
     while (m_imageDirIterator->hasNext()) {
-        DBImgInfo info;
-
+        info.clear();
         info.filePath = m_imageDirIterator->next();
         info.fileName = m_imageDirIterator->fileInfo().fileName();
 
-        QMimeDatabase db;
-        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
-        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
-        //qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName()
-        //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
-        QString str = m_imageDirIterator->fileInfo().suffix();
-        //        if (str.isEmpty()) {
+        mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
+        mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
+        str = m_imageDirIterator->fileInfo().suffix();
         if ("icns" != str) {
             if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                     mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
                 if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    infos.append(info);
+                    m_infosAll.append(info);
                 } else if (str.isEmpty()) {
-                    infos.append(info);
+                    m_infosAll.append(info);
                 }
             }
         }
-        //        } else {
-        //            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-        //                if (utils::image::supportedImageFormats().contains("*." + str,
-        //                Qt::CaseInsensitive)) {
-        //                    m_infos.append(info);
-        //                }
-        //            }
-        //        }
     }
 
     m_imageDirIterator.reset(nullptr);
-    std::sort(infos.begin(), infos.end(), compareByString);
-
-    auto cbegin = 0;
-    nCurrent = cbegin;
-
-    while (cbegin < infos.size()) {
-        if (infos.at(cbegin).filePath == currentImageFile) {
-            nCurrent = cbegin;
-            break;
-        }
-
-        ++cbegin;
-    }
-
-    //QThread::currentThread()->sleep(10);
-    emit sendLoadOver(infos, nCurrent);
+    //std::sort(m_infos.begin(), m_infos.end(), compareByString);
 }
 #endif
 
@@ -771,12 +814,12 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 
 
-    //heyi   如果加载完成发送显示信号否则发送隐藏信号
-    if (m_bFinishFirstLoad) {
-        emit changeHideFlag(false);
-    } else {
-        emit changeHideFlag(true);
-    }
+        //heyi   如果加载完成发送显示信号否则发送隐藏信号
+        if (m_bFinishFirstLoad) {
+            emit changeHideFlag(false);
+        } else {
+            emit changeHideFlag(true);
+        }
 
 
     }
@@ -974,7 +1017,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
-#if 1
         eatImageDirIterator();
         QStringList pathlist;
 
@@ -998,7 +1040,15 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         } else if (m_current == (m_infos.size() - 1)) {
             emit hidePreNextBtn(false, true);
         }
-#endif
+
+        //开启后台加载所有图片信息
+        QThread *loadTh = QThread::create([ = ]() {
+            eatImageDirIteratorThread();
+        });
+
+        if (loadTh && !m_infos.isEmpty()) {
+            loadTh->start();
+        }
     }
 }
 
@@ -1064,15 +1114,7 @@ bool ViewPanel::showNext()
         }
     }
 
-
-
-    //heyi test
-    if (!m_bFinishFirstLoad) {
-        openImage(m_infosFirst.at(m_current).filePath, m_vinfo.inDatabase);
-    } else {
-        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    }
-
+    openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
 
     return true;
 }

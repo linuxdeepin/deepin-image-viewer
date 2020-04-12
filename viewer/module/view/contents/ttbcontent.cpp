@@ -537,6 +537,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
         }
         m_imgList->move(movex, m_imgList->y());
     });
+
     m_imgListView->setObj(m_imgList);
     m_imgList->installEventFilter(m_imgListView);
     if (m_imgInfos.size() <= 3) {
@@ -709,6 +710,11 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 #endif
 }
 
+LOAD_DIRECTION TTBContent::judgeLoadDire(int move)
+{
+
+}
+
 void TTBContent::disCheckAdaptImageBtn()
 {
     m_adaptImageBtn->setChecked(false);
@@ -832,13 +838,13 @@ void TTBContent::slotTheme(bool theme)
     //                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
 }
 
-void TTBContent::OnSetimglist(int currindex,QString filename,QString filepath)
+void TTBContent::OnSetimglist(int currindex, QString filename, QString filepath)
 {
     m_imgInfos[currindex].fileName = filename;
     m_imgInfos[currindex].filePath = filepath;
 }
 
-void TTBContent::OnChangeItemPath(int currindex,QString path)
+void TTBContent::OnChangeItemPath(int currindex, QString path)
 {
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
     ImageItem *item = labelList.at(currindex);
@@ -947,6 +953,21 @@ void TTBContent::onChangeHideFlags(bool bFlags)
     }
 }
 
+void TTBContent::loadBack()
+{
+
+}
+
+void TTBContent::loadFront()
+{
+
+}
+
+void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
+{
+    m_AllImgInfos = AllImgInfos;
+}
+
 void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
 {
     if (!bShowAll) {
@@ -961,12 +982,6 @@ void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
         m_nextButton->setEnabled(true);
         m_preButton->setEnabled(true);
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> Title:fix
-=======
->>>>>>> Title:build
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
@@ -1030,6 +1045,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         emit dApp->signalM->picNotExists(false);
     }
 
+    //判断当前缩略图个数是否等于传入的缩略图数量，不想等全部删除重新生成新的
     if (infos.size() != m_imgInfos.size()) {
         m_imgInfos.clear();
         m_imgInfos = infos;
@@ -1063,9 +1079,11 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                     emit imageClicked(index, (index - indexNow));
                 });
             }
+
             if (path == info.filePath) {
                 t = i;
             }
+
             i++;
         }
 
@@ -1227,6 +1245,8 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                     imageItem->setFixedSize(QSize(num, 40));
                     imageItem->resize(QSize(num, 40));
                     imageItem->installEventFilter(m_imgListView);
+                    imageItem->setObjectName(QString::number(i));
+
 
                     m_imglayout->addWidget(imageItem);
                     connect(imageItem, &ImageItem::imageItemclicked, this,
@@ -1239,6 +1259,12 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 }
                 i++;
             }
+
+            /*ImageItem *test = m_imgList->findChild<ImageItem *>("0");
+            qDebug() << "图元名称" << test->objectName();
+            m_imglayout->removeWidget(test);
+            test->setParent(nullptr);
+            test->deleteLater();*/
             labelList = m_imgList->findChildren<ImageItem *>();
             m_nowIndex = t;
 
@@ -1578,6 +1604,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_trashBtn->setDisabled(true);
 
             }
+
             m_rotateLBtn->setDisabled(true);
             m_rotateRBtn->setDisabled(true);
         } else {
@@ -1590,6 +1617,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_rotateRBtn->setDisabled(true);
             }
         }
+#endif
     }
 
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮

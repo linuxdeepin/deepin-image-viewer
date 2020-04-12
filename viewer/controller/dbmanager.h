@@ -54,6 +54,14 @@ struct DBImgInfo {
                 time == other.time);
     }
 
+    //add by heyi
+    void clear()
+    {
+        filePath.clear();
+        fileName.clear();
+        dirHash.clear();
+    }
+
     friend QDebug operator<<(QDebug &dbg, const DBImgInfo &info)
     {
         dbg << "(DBImgInfo)["
