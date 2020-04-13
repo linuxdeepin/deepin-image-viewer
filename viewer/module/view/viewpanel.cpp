@@ -534,10 +534,6 @@ void ViewPanel::eatImageDirIteratorThread()
     for (int loop = 0; loop < m_infosAll.size(); loop++) {
         pathlist.append(m_infosAll.at(loop).filePath);
     }
-
-    if (pathlist.count() > 0) {
-        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
-    }
 }
 #endif
 

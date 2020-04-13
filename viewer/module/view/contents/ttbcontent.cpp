@@ -147,10 +147,10 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         bmouseleftpressed = false;
         emit mouseLeftReleased();
     }
-    if (e->type() == QEvent::Leave && obj == m_obj) {
-        bmouseleftpressed = false;
-        emit mouseLeftReleased();
-    }
+//    if (e->type() == QEvent::Leave && obj == m_obj) {
+//        bmouseleftpressed = false;
+//        emit mouseLeftReleased();
+//    }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
@@ -512,6 +512,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 
     m_imgListView = new MyImageListWidget();
     m_imgList = new DWidget(m_imgListView);
+    //拖动后移动多少
     connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, [ = ] {
         int movex = m_imgList->x();
         if (movex >= 0)
@@ -535,7 +536,28 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
                 }
             }
         }
+
         m_imgList->move(movex, m_imgList->y());
+        //add by heyi 判断是否向左或者向右加载新的图元
+        LOAD_DIRECTION loadDire = judgeLoadDire(m_nLastMove, movex);
+        switch (loadDire)
+        {
+        case LOAD_LEFT: {
+            break;
+        }
+        case LOAD_RIGHT: {
+            break;
+        }
+        case NOT_LOAD: {
+            break;
+        }
+        default: {
+            break;
+        }
+
+        }
+
+        m_nLastMove = movex;
     });
 
     m_imgListView->setObj(m_imgList);
@@ -710,9 +732,24 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 #endif
 }
 
-LOAD_DIRECTION TTBContent::judgeLoadDire(int move)
+LOAD_DIRECTION TTBContent::judgeLoadDire(int nLastMove, int move)
 {
+    LOAD_DIRECTION loadDire = NOT_LOAD;
+    if (0 == move) {
+        //说明向右拖动到最左边边界，到达第一张图片
+        loadDire = LOAD_LEFT;
+    } else {
+        //判断上一次位置和这次位置，得出向左或者向右
+        if ((move - nLastMove) > 0) {
+            //向右拖动，向左加载
+            loadDire = LOAD_LEFT;
+        } else {
+            //向左拖动，向右加载
+            loadDire = LOAD_RIGHT;
+        }
+    }
 
+    return loadDire;
 }
 
 void TTBContent::disCheckAdaptImageBtn()
@@ -953,12 +990,12 @@ void TTBContent::onChangeHideFlags(bool bFlags)
     }
 }
 
-void TTBContent::loadBack()
+void TTBContent::loadBack(DBImgInfoList infos)
 {
 
 }
 
-void TTBContent::loadFront()
+void TTBContent::loadFront(DBImgInfoList infos)
 {
 
 }
@@ -966,6 +1003,87 @@ void TTBContent::loadFront()
 void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
 {
     m_AllImgInfos = AllImgInfos;
+    //接收到所有信息之后生成所有的图元
+    m_strFirstPath = m_imgInfos.at(0).fileName;
+    //找到第一张图片在所有信息中的位置
+    int nFirstIndex = 0;
+    int nEndIndex = 0;
+    for (int i = 0; i < AllImgInfos.size(); i++) {
+        if (m_strFirstPath == AllImgInfos.at(i).fileName) {
+            nFirstIndex = i;
+        }
+
+        if (m_strEndPsth == AllImgInfos.at(i).fileName) {
+            nEndIndex = i;
+            break;
+        }
+    }
+
+    //左边的图片信息和右边的图片信息
+    DBImgInfoList leftInfo, rightInfo;
+    leftInfo = AllImgInfos.mid(0, nFirstIndex);
+    rightInfo = AllImgInfos.mid(nEndIndex + 1, AllImgInfos.size() - nEndIndex - 1);
+    m_nowIndex += leftInfo.size();
+    //先生成左边图元
+    for (DBImgInfo info : leftInfo) {
+        char *imageType = getImageType(info.filePath);
+        ImageItem *imageItem = new ImageItem(1, info.filePath, imageType);
+        imageItem->setFixedSize(QSize(32, 40));
+        imageItem->resize(QSize(32, 40));
+        imageItem->installEventFilter(m_imgListView);
+
+        m_imglayout->insertWidget(0, imageItem);
+        connect(
+            imageItem, &ImageItem::imageItemclicked, this,
+        [ = ](int index, int indexNow) {
+            emit imageClicked(index, (index - indexNow));
+        });
+    }
+    //再生成右边图元
+    for (DBImgInfo info : rightInfo) {
+        char *imageType = getImageType(info.filePath);
+        ImageItem *imageItem = new ImageItem(1, info.filePath, imageType);
+        imageItem->setFixedSize(QSize(32, 40));
+        imageItem->resize(QSize(32, 40));
+        imageItem->installEventFilter(m_imgListView);
+
+        m_imglayout->addWidget(imageItem);
+        connect(
+            imageItem, &ImageItem::imageItemclicked, this,
+        [ = ](int index, int indexNow) {
+            emit imageClicked(index, (index - indexNow));
+        });
+    }
+
+    //重新设置所有的图元信息
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+
+    int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
+    int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
+    if (m_nowIndex > a && m_nowIndex < b) {
+        m_startAnimation = 1;
+    } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
+        m_startAnimation = 2;
+    } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
+        m_startAnimation = 3;
+    } else {
+        m_startAnimation = 0;
+    }
+
+    if (labelList.count() == 0)
+        return;
+
+    labelList.at(m_nowIndex)->updatePic(dApp->m_imagemap.value(m_AllImgInfos.at(m_nowIndex).filePath));
+    for (int j = 0; j < labelList.size(); j++) {
+        labelList.at(j)->setFixedSize(QSize(32, 40));
+        labelList.at(j)->resize(QSize(32, 40));
+        labelList.at(j)->setIndex(j);
+        labelList.at(j)->setIndexNow(m_nowIndex);
+    }
+    if (labelList.size() > 0) {
+        labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
+        labelList.at(m_nowIndex)->resize(QSize(58, 58));
+    }
 }
 
 void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
