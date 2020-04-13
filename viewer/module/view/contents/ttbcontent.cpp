@@ -1058,18 +1058,6 @@ void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
     //重新设置所有的图元信息
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
 
-    int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
-    int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
-    if (m_nowIndex > a && m_nowIndex < b) {
-        m_startAnimation = 1;
-    } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
-        m_startAnimation = 2;
-    } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
-        m_startAnimation = 3;
-    } else {
-        m_startAnimation = 0;
-    }
-
     if (labelList.count() == 0)
         return;
 
