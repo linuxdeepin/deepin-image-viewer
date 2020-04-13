@@ -72,7 +72,7 @@ public:
     {
         return !QFileInfo(m_infos.first().filePath).exists();
     }
-
+    void AddDataToList(int Pages,LOAD_DIRECTION Dirction);
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path, DBImgInfoList infos);
@@ -126,6 +126,7 @@ private:
     void updateMenuContent();
 
     // View control
+    void LoadDirPathFirst(bool bLoadAll =false);
     void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString &path, bool inDB = true);
     void removeCurrentImage();
@@ -180,6 +181,9 @@ private:
     DBImgInfoList m_infosAll;
     //    DBImgInfoList::ConstIterator m_current =NULL;
     int m_current = 0;
+    int m_firstindex = 0;
+    int m_lastindex = 0;
+    QFileInfoList m_AllPath;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
     //后台加载迭代器

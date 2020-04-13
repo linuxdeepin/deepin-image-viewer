@@ -137,7 +137,6 @@ public:
     explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = nullptr);
     //判断当前拖动之后是否进行加载新的图片，向左或者向右或者不变
     LOAD_DIRECTION judgeLoadDire(int nLastMove, int move);
-
 signals:
     void clicked();
     void imageClicked(int index, int addIndex);

@@ -62,7 +62,7 @@ const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 // const QSize ICON_SIZE = QSize(48, 40);
 
 }  // namespace
-
+const int First_Load_Image = 100;
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
     , m_hideCursorTid(0)
@@ -243,6 +243,19 @@ void ViewPanel::initFileSystemWatcher()
 #endif
 
 
+void ViewPanel::AddDataToList(int Pages,LOAD_DIRECTION Dirction)
+{
+    DBImgInfo info;
+    if(Dirction == LOAD_LEFT)
+    {
+        if(m_firstindex-Pages<0)
+            m_firstindex=0;
+        else
+            m_firstindex -=Pages;
+    }
+}
+
+
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
 {
     RenameDialog *renamedlg =  new RenameDialog(filepath);
@@ -392,19 +405,18 @@ void ViewPanel::eatImageDirIterator()
         //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
         QString str = m_imageDirIterator->fileInfo().suffix();
         //        if (str.isEmpty()) {
-        if ("icns" != str) {
-            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    if (!m_infos.contains(info)) {
-                        m_infos.append(info);
-                    }
-                } else if (str.isEmpty()) {
-                    if (!m_infos.contains(info)) {
-                        m_infos.append(info);
-                    }
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                if (m_infos.contains(info)) {
+                    m_infos.append(info);
+                }
+            } else if (str.isEmpty()) {
+                if (!m_infos.contains(info)) {
+                    m_infos.append(info);
                 }
             }
+
         }
         //        } else {
         //            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
@@ -492,48 +504,9 @@ void ViewPanel::newEatImageDirIterator()
 
 void ViewPanel::eatImageDirIteratorThread()
 {
-    if (!m_imageDirIteratorThread && !m_currentFilePath.isEmpty()) {
-        m_imageDirIteratorThread.reset(
-            new QDirIterator(m_currentFilePath,
-                             QDir::Files | QDir::Readable |
-                             QDir::NoDotAndDotDot));
-    } else {
-        return;
-    }
-
+    if(m_AllPath.count()<1) return;
     m_infosAll.clear();
-    DBImgInfo info;
-    QMimeDatabase db;
-    QMimeType mt, mt1;
-    QString str;
-
-    while (m_imageDirIteratorThread->hasNext()) {
-        info.clear();
-        info.filePath = m_imageDirIteratorThread->next();
-        info.fileName = m_imageDirIteratorThread->fileInfo().fileName();
-
-        mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
-        mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
-        str = m_imageDirIteratorThread->fileInfo().suffix();
-        if ("icns" != str) {
-            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    m_infosAll.append(info);
-                } else if (str.isEmpty()) {
-                    m_infosAll.append(info);
-                }
-            }
-        }
-    }
-
-    m_imageDirIteratorThread.reset(nullptr);
-    //std::sort(m_infos.begin(), m_infos.end(), compareByString);
-    QStringList pathlist;
-
-    for (int loop = 0; loop < m_infosAll.size(); loop++) {
-        pathlist.append(m_infosAll.at(loop).filePath);
-    }
+    LoadDirPathFirst(true);
 }
 #endif
 
@@ -913,6 +886,54 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
     event->accept();
     ModulePanel::dragEnterEvent(event);
 }
+//Load 100 pictures while first
+void ViewPanel::LoadDirPathFirst(bool bLoadAll)
+{
+        int nCount = m_AllPath.count();
+        int i = 0;
+        int nimgcount = 0;
+        int nStartIndex = m_current-50>0?m_current-50:0;
+        while (i<nCount) {
+            if(!bLoadAll)
+            {
+                if(nimgcount>First_Load_Image) break;
+            }else {
+                nStartIndex = i;
+            }
+            DBImgInfo info;
+            info.filePath = m_AllPath.at(nStartIndex).filePath();
+            info.fileName = m_AllPath.at(nStartIndex).fileName();
+            QMimeDatabase db;
+            QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
+            QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
+            qDebug() << nimgcount;
+            QString str = m_AllPath.at(nStartIndex).suffix();
+            nStartIndex++;
+            //        if (str.isEmpty()) {
+            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                   // if (!m_infos.contains(info)) {
+                        nimgcount++;
+                        if(bLoadAll)
+                            m_infosAll.append(info);
+                        else
+                            m_infos.append(info);
+                    //}
+                } else if (str.isEmpty()) {
+                    //if (!m_infos.contains(info)) {
+                        nimgcount++;
+                        if(bLoadAll)
+                            m_infosAll.append(info);
+                        else
+                            m_infos.append(info);
+                   // }
+                }
+
+            }
+            i++;
+        }
+}
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
@@ -929,7 +950,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     //添加记忆重复打开同一路径帅选
 
     DBImgInfoList t_infos;
-
     QDir _dir(vinfo.path);
     bool flag = false;
     //有个风险是删除一个文件，增加一个新文件无法识别
@@ -945,6 +965,21 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 flag = true;
             }
         }
+       m_infos = t_infos;
+    }
+    //Load 100 pictures while first
+    if(m_infos.count()<1 && !vinfo.path.isEmpty())
+    {
+        QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
+        QDir _dirinit(DirPath);
+        m_AllPath = _dirinit.entryInfoList(QDir::Files|QDir::Readable|QDir::NoDotAndDotDot,QDir::Name|QDir::IgnoreCase);
+        m_current= 0;
+        for (; m_current < m_AllPath.size(); m_current++) {
+            if (m_AllPath.at(m_current).filePath() == vinfo.path) {
+                break;
+            }
+        }
+        LoadDirPathFirst();
     }
     // The control buttons is difference
     if (!vinfo.inDatabase) {
@@ -979,7 +1014,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             for (QString path : vinfo.paths) {
                 list << QFileInfo(path);
             }
-            m_infos = getImageInfos(list);
+           // m_infos = getImageInfos(list);
         } else
 #ifndef LITE_DIV
         {
@@ -1025,7 +1060,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
-        eatImageDirIterator();
+      //  eatImageDirIterator();
         QStringList pathlist;
 
         for (int loop = 0; loop < m_infos.size(); loop++) {
