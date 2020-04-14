@@ -512,7 +512,6 @@ void ViewPanel::eatImageDirIteratorThread()
     if (m_AllPath.count() < 1) return;
     m_infosAll.clear();
     LoadDirPathFirst(true);
-    emit sendAllImageInfos(m_infosAll);
     QStringList pathlist;
     QString currfilename = m_infos.at(m_current).fileName;
     m_infos = m_infosAll;
@@ -522,6 +521,7 @@ void ViewPanel::eatImageDirIteratorThread()
             break;
         }
     }
+    emit sendAllImageInfos(m_infosAll);
 //    for (int loop = 0; loop < m_infos.size(); loop++) {
 //        pathlist.append(m_infos.at(loop).filePath);
 //    }
