@@ -901,6 +901,7 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 //Load 100 pictures while first
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
+    m_infos.clear();
     int nCount = m_AllPath.count();
     int i = 0;
     int nimgcount = 0;
@@ -1103,7 +1104,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        if(m_AllPath.size()>101)
+        if(m_AllPath.size()>100)
         {
             QThread *loadTh = QThread::create([ = ]() {
                 eatImageDirIteratorThread();
