@@ -344,7 +344,9 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
         m_bFinishFirstLoad = true;
         m_bIsFirstLoad = false;
     }
-
+    //第一次加载为所有图片不进行刷新
+    if(infos.size() == m_infos.size())
+        return;
     m_infos = infos;
     QStringList pathlist;
     qDebug() << "xixixixi" << QThread::currentThreadId();
