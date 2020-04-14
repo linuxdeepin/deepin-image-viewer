@@ -243,15 +243,14 @@ void ViewPanel::initFileSystemWatcher()
 #endif
 
 
-void ViewPanel::AddDataToList(int Pages,LOAD_DIRECTION Dirction)
+void ViewPanel::AddDataToList(int Pages, LOAD_DIRECTION Dirction)
 {
     DBImgInfo info;
-    if(Dirction == LOAD_LEFT)
-    {
-        if(m_firstindex-Pages<0)
-            m_firstindex=0;
+    if (Dirction == LOAD_LEFT) {
+        if (m_firstindex - Pages < 0)
+            m_firstindex = 0;
         else
-            m_firstindex -=Pages;
+            m_firstindex -= Pages;
     }
 }
 
@@ -504,9 +503,20 @@ void ViewPanel::newEatImageDirIterator()
 
 void ViewPanel::eatImageDirIteratorThread()
 {
-    if(m_AllPath.count()<1) return;
+    if (m_AllPath.count() < 1) return;
     m_infosAll.clear();
     LoadDirPathFirst(true);
+    m_infos = m_infosAll;
+    emit sendAllImageInfos(m_infosAll);
+    QStringList pathlist;
+
+    for (int loop = 0; loop < m_infos.size(); loop++) {
+        pathlist.append(m_infos.at(loop).filePath);
+    }
+
+    if (pathlist.count() > 0) {
+        emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
+    }
 }
 #endif
 
@@ -664,6 +674,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     //heyi test 连接更改隐藏上一张按钮信号槽
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::QueuedConnection);
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::QueuedConnection);
+    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::QueuedConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
@@ -889,50 +900,49 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 //Load 100 pictures while first
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
-        int nCount = m_AllPath.count();
-        int i = 0;
-        int nimgcount = 0;
-        int nStartIndex = m_current-50>0?m_current-50:0;
-        while (i<nCount) {
-            if(!bLoadAll)
-            {
-                if(nimgcount>First_Load_Image) break;
-            }else {
-                nStartIndex = i;
-            }
-            DBImgInfo info;
-            info.filePath = m_AllPath.at(nStartIndex).filePath();
-            info.fileName = m_AllPath.at(nStartIndex).fileName();
-            QMimeDatabase db;
-            QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
-            QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
-            qDebug() << nimgcount;
-            QString str = m_AllPath.at(nStartIndex).suffix();
-            nStartIndex++;
-            //        if (str.isEmpty()) {
-            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                   // if (!m_infos.contains(info)) {
-                        nimgcount++;
-                        if(bLoadAll)
-                            m_infosAll.append(info);
-                        else
-                            m_infos.append(info);
-                    //}
-                } else if (str.isEmpty()) {
-                    //if (!m_infos.contains(info)) {
-                        nimgcount++;
-                        if(bLoadAll)
-                            m_infosAll.append(info);
-                        else
-                            m_infos.append(info);
-                   // }
-                }
-
-            }
-            i++;
+    int nCount = m_AllPath.count();
+    int i = 0;
+    int nimgcount = 0;
+    int nStartIndex = m_current - 50 > 0 ? m_current - 50 : 0;
+    while (i < nCount) {
+        if (!bLoadAll) {
+            if (nimgcount > First_Load_Image) break;
+        } else {
+            nStartIndex = i;
         }
+        DBImgInfo info;
+        info.filePath = m_AllPath.at(nStartIndex).filePath();
+        info.fileName = m_AllPath.at(nStartIndex).fileName();
+        QMimeDatabase db;
+        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
+        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
+        qDebug() << nimgcount;
+        QString str = m_AllPath.at(nStartIndex).suffix();
+        nStartIndex++;
+        //        if (str.isEmpty()) {
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                // if (!m_infos.contains(info)) {
+                nimgcount++;
+                if (bLoadAll)
+                    m_infosAll.append(info);
+                else
+                    m_infos.append(info);
+                //}
+            } else if (str.isEmpty()) {
+                //if (!m_infos.contains(info)) {
+                nimgcount++;
+                if (bLoadAll)
+                    m_infosAll.append(info);
+                else
+                    m_infos.append(info);
+                // }
+            }
+
+        }
+        i++;
+    }
 }
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
@@ -965,15 +975,14 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 flag = true;
             }
         }
-       m_infos = t_infos;
+        m_infos = t_infos;
     }
     //Load 100 pictures while first
-    if(m_infos.count()<1 && !vinfo.path.isEmpty())
-    {
+    if (m_infos.count() < 1 && !vinfo.path.isEmpty()) {
         QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
         QDir _dirinit(DirPath);
-        m_AllPath = _dirinit.entryInfoList(QDir::Files|QDir::Readable|QDir::NoDotAndDotDot,QDir::Name|QDir::IgnoreCase);
-        m_current= 0;
+        m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
+        m_current = 0;
         for (; m_current < m_AllPath.size(); m_current++) {
             if (m_AllPath.at(m_current).filePath() == vinfo.path) {
                 break;
@@ -1014,7 +1023,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             for (QString path : vinfo.paths) {
                 list << QFileInfo(path);
             }
-           // m_infos = getImageInfos(list);
+            // m_infos = getImageInfos(list);
         } else
 #ifndef LITE_DIV
         {
@@ -1060,7 +1069,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
-      //  eatImageDirIterator();
+        //  eatImageDirIterator();
         QStringList pathlist;
 
         for (int loop = 0; loop < m_infos.size(); loop++) {

@@ -1004,74 +1004,80 @@ void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
 {
     m_AllImgInfos = AllImgInfos;
     //接收到所有信息之后生成所有的图元
-    m_strFirstPath = m_imgInfos.at(0).fileName;
-    //找到第一张图片在所有信息中的位置
-    int nFirstIndex = 0;
-    int nEndIndex = 0;
-    for (int i = 0; i < AllImgInfos.size(); i++) {
-        if (m_strFirstPath == AllImgInfos.at(i).fileName) {
-            nFirstIndex = i;
-        }
+    m_strFirstPath = m_imgInfos.at(0).filePath;
+    m_strEndPsth = m_imgInfos.last().filePath;
+    m_strCurImagePath = m_imgInfos.at(m_nowIndex).filePath;
+    setImage(m_strCurImagePath, m_AllImgInfos);
+//    //找到第一张图片在所有信息中的位置
+//    int nFirstIndex = 0;
+//    int nEndIndex = 0;
+//    for (int i = 0; i < AllImgInfos.size(); i++) {
+//        if (m_strFirstPath == AllImgInfos.at(i).filePath) {
+//            nFirstIndex = i;
+//        }
 
-        if (m_strEndPsth == AllImgInfos.at(i).fileName) {
-            nEndIndex = i;
-            break;
-        }
-    }
+//        if (m_strEndPsth == AllImgInfos.at(i).filePath) {
+//            nEndIndex = i;
+//        }
 
-    //左边的图片信息和右边的图片信息
-    DBImgInfoList leftInfo, rightInfo;
-    leftInfo = AllImgInfos.mid(0, nFirstIndex);
-    rightInfo = AllImgInfos.mid(nEndIndex + 1, AllImgInfos.size() - nEndIndex - 1);
-    m_nowIndex += leftInfo.size();
-    //先生成左边图元
-    for (DBImgInfo info : leftInfo) {
-        char *imageType = getImageType(info.filePath);
-        ImageItem *imageItem = new ImageItem(1, info.filePath, imageType);
-        imageItem->setFixedSize(QSize(32, 40));
-        imageItem->resize(QSize(32, 40));
-        imageItem->installEventFilter(m_imgListView);
+//        if (m_strCurImagePath == AllImgInfos.at(i).filePath) {
+//            m_nowIndex = i;
+//        }
+//    }
 
-        m_imglayout->insertWidget(0, imageItem);
-        connect(
-            imageItem, &ImageItem::imageItemclicked, this,
-        [ = ](int index, int indexNow) {
-            emit imageClicked(index, (index - indexNow));
-        });
-    }
-    //再生成右边图元
-    for (DBImgInfo info : rightInfo) {
-        char *imageType = getImageType(info.filePath);
-        ImageItem *imageItem = new ImageItem(1, info.filePath, imageType);
-        imageItem->setFixedSize(QSize(32, 40));
-        imageItem->resize(QSize(32, 40));
-        imageItem->installEventFilter(m_imgListView);
+//    //左边的图片信息和右边的图片信息
+//    DBImgInfoList leftInfo, rightInfo;
+//    leftInfo = AllImgInfos.mid(0, nFirstIndex);
+//    rightInfo = AllImgInfos.mid(nEndIndex + 1, AllImgInfos.size() - nEndIndex - 1);
+//    m_nowIndex = nFirstIndex;
+//    //先生成左边图元
+//    for (DBImgInfo info : leftInfo) {
+//        char *imageType = getImageType(info.filePath);
+//        ImageItem *imageItem = new ImageItem(1, info.filePath, imageType);
+//        imageItem->setFixedSize(QSize(32, 40));
+//        imageItem->resize(QSize(32, 40));
+//        imageItem->installEventFilter(m_imgListView);
 
-        m_imglayout->addWidget(imageItem);
-        connect(
-            imageItem, &ImageItem::imageItemclicked, this,
-        [ = ](int index, int indexNow) {
-            emit imageClicked(index, (index - indexNow));
-        });
-    }
+//        m_imglayout->insertWidget(0, imageItem);
+//        connect(
+//            imageItem, &ImageItem::imageItemclicked, this,
+//        [ = ](int index, int indexNow) {
+//            emit imageClicked(index, (index - indexNow));
+//        });
+//    }
+//    //再生成右边图元
+//    for (DBImgInfo info : rightInfo) {
+//        char *imageType = getImageType(info.filePath);
+//        ImageItem *imageItem = new ImageItem(1, info.filePath, imageType);
+//        imageItem->setFixedSize(QSize(32, 40));
+//        imageItem->resize(QSize(32, 40));
+//        imageItem->installEventFilter(m_imgListView);
 
-    //重新设置所有的图元信息
-    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+//        m_imglayout->addWidget(imageItem);
+//        connect(
+//            imageItem, &ImageItem::imageItemclicked, this,
+//        [ = ](int index, int indexNow) {
+//            emit imageClicked(index, (index - indexNow));
+//        });
+//    }
 
-    if (labelList.count() == 0)
-        return;
+//    //重新设置所有的图元信息
+//    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
 
-    labelList.at(m_nowIndex)->updatePic(dApp->m_imagemap.value(m_AllImgInfos.at(m_nowIndex).filePath));
-    for (int j = 0; j < labelList.size(); j++) {
-        labelList.at(j)->setFixedSize(QSize(32, 40));
-        labelList.at(j)->resize(QSize(32, 40));
-        labelList.at(j)->setIndex(j);
-        labelList.at(j)->setIndexNow(m_nowIndex);
-    }
-    if (labelList.size() > 0) {
-        labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
-        labelList.at(m_nowIndex)->resize(QSize(58, 58));
-    }
+//    if (labelList.count() == 0)
+//        return;
+
+//    labelList.at(m_nowIndex)->updatePic(dApp->m_imagemap.value(m_AllImgInfos.at(m_nowIndex).filePath));
+//    for (int j = 0; j < labelList.size(); j++) {
+//        labelList.at(j)->setFixedSize(QSize(32, 40));
+//        labelList.at(j)->resize(QSize(32, 40));
+//        labelList.at(j)->setIndex(j);
+//        labelList.at(j)->setIndexNow(m_nowIndex);
+//    }
+//    if (labelList.size() > 0) {
+//        labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
+//        labelList.at(m_nowIndex)->resize(QSize(58, 58));
+//    }
 }
 
 void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)

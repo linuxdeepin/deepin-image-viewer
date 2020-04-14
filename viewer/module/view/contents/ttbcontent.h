@@ -220,6 +220,7 @@ private:
     //第一次100张图片的最后一张路径
     QString m_strEndPsth;
     QString m_imagePath;
+    QString m_strCurImagePath;
     int m_windowWidth;
     int m_contentWidth;
     int m_lastIndex = 0;
