@@ -915,7 +915,6 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         QMimeDatabase db;
         QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
-        qDebug() << nimgcount;
         QString str = m_AllPath.at(nStartIndex).suffix();
         nStartIndex++;
         //        if (str.isEmpty()) {
@@ -1070,6 +1069,11 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             }
 
             LoadDirPathFirst();
+            for (; m_current < m_infos.size(); m_current++) {
+                if (m_infos.at(m_current).filePath == vinfo.path) {
+                    break;
+                }
+            }
         }
 
         //eatImageDirIterator();
@@ -1097,12 +1101,15 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        QThread *loadTh = QThread::create([ = ]() {
-            eatImageDirIteratorThread();
-        });
+        if(m_AllPath.size()>101)
+        {
+            QThread *loadTh = QThread::create([ = ]() {
+                eatImageDirIteratorThread();
+            });
 
-        if (loadTh && !vinfo.path.isEmpty()) {
-            loadTh->start();
+            if (loadTh && !vinfo.path.isEmpty()) {
+                loadTh->start();
+            }
         }
     }
 }
