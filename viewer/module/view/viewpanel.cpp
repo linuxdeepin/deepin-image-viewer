@@ -521,7 +521,10 @@ void ViewPanel::eatImageDirIteratorThread()
             break;
         }
     }
+    qDebug() << "123";
     emit sendAllImageInfos(m_infosAll);
+    qDebug() << "123";
+    //emit imageChanged(m_infos.at(m_current).filePath, m_infos);
 //    for (int loop = 0; loop < m_infos.size(); loop++) {
 //        pathlist.append(m_infos.at(loop).filePath);
 //    }
@@ -915,7 +918,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     int nCount = m_AllPath.count();
     int i = 0;
     int nimgcount = 0;
-    int nStartIndex = m_current - 50 > 0 ? m_current - 50 : 0;
+    int nStartIndex = m_current - First_Load_Image/2 > 0 ? m_current - First_Load_Image/2 : 0;
     while (i < nCount) {
         if (!bLoadAll) {
             if (nimgcount > First_Load_Image) break;
@@ -959,6 +962,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
+    qDebug() << "onviewimage";
     m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
     startFileWatcher();
     using namespace utils::base;
@@ -987,20 +991,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 flag = true;
             }
         }
-        m_infos = t_infos;
-    }
-    //Load 100 pictures while first
-    if (m_infos.count() < 1 && !vinfo.path.isEmpty()) {
-        QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
-        QDir _dirinit(DirPath);
-        m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
-        m_current = 0;
-        for (; m_current < m_AllPath.size(); m_current++) {
-            if (m_AllPath.at(m_current).filePath() == vinfo.path) {
-                break;
-            }
-        }
-        LoadDirPathFirst();
+       // m_infos = t_infos;
     }
     // The control buttons is difference
     if (!vinfo.inDatabase) {
@@ -1035,7 +1026,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             for (QString path : vinfo.paths) {
                 list << QFileInfo(path);
             }
-            // m_infos = getImageInfos(list);
+             m_infos = getImageInfos(list);
         } else
 #ifndef LITE_DIV
         {
@@ -1081,6 +1072,19 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
+        //Load 100 pictures while first
+        if (!vinfo.path.isEmpty()) {
+            QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
+            QDir _dirinit(DirPath);
+            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
+            m_current = 0;
+            LoadDirPathFirst();
+            for (; m_current < m_AllPath.size(); m_current++) {
+                if (m_infos.at(m_current).filePath == vinfo.path) {
+                    break;
+                }
+            }
+        }
         //  eatImageDirIterator();
         QStringList pathlist;
 
@@ -1186,7 +1190,7 @@ bool ViewPanel::showNext()
 bool ViewPanel::showImage(int index, int addindex)
 {
 #ifdef LITE_DIV
-    eatImageDirIterator();
+    //eatImageDirIterator();
 #endif
 
     if (m_infos.isEmpty()) {
