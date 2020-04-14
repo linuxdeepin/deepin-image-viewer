@@ -1104,7 +1104,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        if(m_AllPath.size()>100)
+        if(m_AllPath.size()>First_Load_Image)
         {
             QThread *loadTh = QThread::create([ = ]() {
                 eatImageDirIteratorThread();
