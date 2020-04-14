@@ -243,18 +243,17 @@ void ViewPanel::initFileSystemWatcher()
 #endif
 
 
-void ViewPanel::AddDataToList(LOAD_DIRECTION Dirction,int pages)
+void ViewPanel::AddDataToList(LOAD_DIRECTION Dirction, int pages)
 {
     DBImgInfo info;
-    if(Dirction == LOAD_LEFT)
-    {
+    if (Dirction == LOAD_LEFT) {
         for (; m_firstindex < m_infosAll.size(); m_firstindex++) {
             if (m_infos.at(m_firstindex).fileName == m_infosAll.at(m_firstindex).fileName) {
                 break;
             }
         }
-        if(m_firstindex-pages<0)
-            m_firstindex=0;
+        if (m_firstindex - pages < 0)
+            m_firstindex = 0;
         else
             m_firstindex -= pages;
     }
@@ -344,13 +343,9 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
     if (infos.size() >= 1) {
         m_bFinishFirstLoad = true;
         m_bIsFirstLoad = false;
-        m_timer.stop();
     }
 
-    m_infos.clear();
     m_infos = infos;
-    m_current = nCurrent;
-
     QStringList pathlist;
     qDebug() << "xixixixi" << QThread::currentThreadId();
 
@@ -359,7 +354,7 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
     }
 
     if (pathlist.count() > 0) {
-        emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
+        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit changeHideFlag(false);
         if (m_current == 0) {
@@ -395,7 +390,7 @@ void ViewPanel::eatImageDirIterator()
     while (m_imageDirIterator->hasNext()) {
         //判断是否达到初始化加载张数
         if (nCurrentNum >= LOAD_NUMBER) {
-            break;
+            //break;
         }
 
         DBImgInfo info;
@@ -413,7 +408,7 @@ void ViewPanel::eatImageDirIterator()
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                 mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
             if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                if (m_infos.contains(info)) {
+                if (!m_infos.contains(info)) {
                     m_infos.append(info);
                 }
             } else if (str.isEmpty()) {
@@ -509,19 +504,22 @@ void ViewPanel::newEatImageDirIterator()
 
 void ViewPanel::eatImageDirIteratorThread()
 {
-    if (m_AllPath.count() < 1) return;
+    //if (m_AllPath.count() < 1) return;
     m_infosAll.clear();
     LoadDirPathFirst(true);
     QStringList pathlist;
-    QString currfilename = m_infos.at(m_current).fileName;
-    m_infos = m_infosAll;
     m_current = 0;
     for (; m_current < m_infosAll.size(); m_current++) {
-        if (m_infosAll.at(m_current).fileName == currfilename) {
+        if (m_infosAll.at(m_current).filePath == m_currentImagePath) {
             break;
         }
     }
-    emit sendAllImageInfos(m_infosAll);
+
+    //m_infos = m_infosAll;
+    //emit sendAllImageInfos(m_infosAll);
+    //emit imageChanged(m_infos.at(m_current).filePath, m_infos);
+    emit sendLoadOver(m_infosAll, m_current);
+//    QStringList pathlist;
 //    for (int loop = 0; loop < m_infos.size(); loop++) {
 //        pathlist.append(m_infos.at(loop).filePath);
 //    }
@@ -987,21 +985,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 flag = true;
             }
         }
-        m_infos = t_infos;
     }
-    //Load 100 pictures while first
-    if (m_infos.count() < 1 && !vinfo.path.isEmpty()) {
-        QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
-        QDir _dirinit(DirPath);
-        m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
-        m_current = 0;
-        for (; m_current < m_AllPath.size(); m_current++) {
-            if (m_AllPath.at(m_current).filePath() == vinfo.path) {
-                break;
-            }
-        }
-        LoadDirPathFirst();
-    }
+
     // The control buttons is difference
     if (!vinfo.inDatabase) {
         emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
@@ -1035,7 +1020,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             for (QString path : vinfo.paths) {
                 list << QFileInfo(path);
             }
-            // m_infos = getImageInfos(list);
+
+            m_infos = getImageInfos(list);
         } else
 #ifndef LITE_DIV
         {
@@ -1081,7 +1067,22 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         openImage(m_infos.at(m_current).filePath);
-        //  eatImageDirIterator();
+        //Load 100 pictures while first
+        if (!vinfo.path.isEmpty()) {
+            QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
+            QDir _dirinit(DirPath);
+            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
+            m_current = 0;
+            for (; m_current < m_AllPath.size(); m_current++) {
+                if (m_AllPath.at(m_current).filePath() == vinfo.path) {
+                    break;
+                }
+            }
+
+            LoadDirPathFirst();
+        }
+
+        //eatImageDirIterator();
         QStringList pathlist;
 
         for (int loop = 0; loop < m_infos.size(); loop++) {
@@ -1089,14 +1090,14 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         if (pathlist.count() > 0) {
-            emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
+            emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
         }
 
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         m_bFinishFirstLoad = true;
         emit changeHideFlag(false);
         if (pathlist.size() > 0) {
-            emit imageChanged(m_infos.at(m_current).filePath, m_infos);
+            //mit imageChanged(vinfo.path, m_infos);
         }
 
         if (m_current == 0) {
@@ -1110,7 +1111,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             eatImageDirIteratorThread();
         });
 
-        if (loadTh && !m_infos.isEmpty()) {
+        if (loadTh && !vinfo.path.isEmpty()) {
             loadTh->start();
         }
     }
@@ -1135,7 +1136,7 @@ void ViewPanel::toggleFullScreen()
 bool ViewPanel::showPrevious()
 {
 #ifdef LITE_DIV
-    eatImageDirIterator();
+    //eatImageDirIterator();
 #endif
     if (m_infos.isEmpty() || m_current == 0 || !m_bFinishFirstLoad) {
         return false;
@@ -1160,7 +1161,7 @@ bool ViewPanel::showPrevious()
 bool ViewPanel::showNext()
 {
 #ifdef LITE_DIV
-    eatImageDirIterator();
+    //eatImageDirIterator();
 #endif
 
     if (m_infos.isEmpty() || m_current == m_infos.size() - 1 || !m_bFinishFirstLoad) {
@@ -1186,7 +1187,7 @@ bool ViewPanel::showNext()
 bool ViewPanel::showImage(int index, int addindex)
 {
 #ifdef LITE_DIV
-    eatImageDirIterator();
+    //eatImageDirIterator();
 #endif
 
     if (m_infos.isEmpty()) {
@@ -1215,7 +1216,7 @@ void ViewPanel::removeCurrentImage()
 
 #ifdef LITE_DIV
     // 在删除当前图片之前将图片列表初始化完成
-    eatImageDirIterator();
+    //eatImageDirIterator();
 #endif
     m_infos.removeAt(m_current);
     if (m_infos.isEmpty()) {

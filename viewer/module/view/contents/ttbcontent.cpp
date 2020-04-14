@@ -1157,6 +1157,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         emit dApp->signalM->picNotExists(false);
     }
 
+    qDebug() << "时间1";
     //判断当前缩略图个数是否等于传入的缩略图数量，不想等全部删除重新生成新的
     if (infos.size() != m_imgInfos.size()) {
         m_imgInfos.clear();
@@ -1382,10 +1383,6 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 
             int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
             int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
-            //            qDebug()<<"a="<<a;
-            //            qDebug()<<"b="<<b;
-            //            qDebug()<<"m_nowIndex="<<m_nowIndex;
-            //            qDebug()<<"m_imgInfos.size()="<<m_imgInfos.size();
             if (m_nowIndex > a && m_nowIndex < b) {
                 m_startAnimation = 1;
             } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
@@ -1751,6 +1748,8 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         fileName = QFileInfo(m_imagePath).fileName();
     }
     emit dApp->signalM->updateFileName(fileName);
+
+    qDebug() << "时间2";
 }
 
 void TTBContent::updateCollectButton()
