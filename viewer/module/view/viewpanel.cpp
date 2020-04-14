@@ -515,18 +515,7 @@ void ViewPanel::eatImageDirIteratorThread()
         }
     }
 
-    //m_infos = m_infosAll;
-    //emit sendAllImageInfos(m_infosAll);
-    //emit imageChanged(m_infos.at(m_current).filePath, m_infos);
     emit sendLoadOver(m_infosAll, m_current);
-//    QStringList pathlist;
-//    for (int loop = 0; loop < m_infos.size(); loop++) {
-//        pathlist.append(m_infos.at(loop).filePath);
-//    }
-
-//    if (pathlist.count() > 0) {
-//        emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
-//    }
 }
 #endif
 
@@ -913,7 +902,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     int nCount = m_AllPath.count();
     int i = 0;
     int nimgcount = 0;
-    int nStartIndex = m_current - 50 > 0 ? m_current - 50 : 0;
+    int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0;
     while (i < nCount) {
         if (!bLoadAll) {
             if (nimgcount > First_Load_Image) break;
@@ -957,6 +946,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
+    qDebug() << "onviewimage";
     m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
     startFileWatcher();
     using namespace utils::base;

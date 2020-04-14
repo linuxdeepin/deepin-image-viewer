@@ -1002,13 +1002,15 @@ void TTBContent::loadFront(DBImgInfoList infos)
 
 void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
 {
+    qDebug() << "234";
     m_AllImgInfos = AllImgInfos;
+    qDebug() << "345";
     //接收到所有信息之后生成所有的图元
     m_strFirstPath = m_imgInfos.at(0).filePath;
     m_strEndPsth = m_imgInfos.last().filePath;
     m_strCurImagePath = m_imgInfos.at(m_nowIndex).filePath;
     setImage(m_strCurImagePath, m_AllImgInfos);
-//    //找到第一张图片在所有信息中的位置
+    //找到第一张图片在所有信息中的位置
 //    int nFirstIndex = 0;
 //    int nEndIndex = 0;
 //    for (int i = 0; i < AllImgInfos.size(); i++) {
@@ -1024,7 +1026,7 @@ void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
 //            m_nowIndex = i;
 //        }
 //    }
-
+//qDebug() << "444";
 //    //左边的图片信息和右边的图片信息
 //    DBImgInfoList leftInfo, rightInfo;
 //    leftInfo = AllImgInfos.mid(0, nFirstIndex);
@@ -1045,6 +1047,7 @@ void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
 //            emit imageClicked(index, (index - indexNow));
 //        });
 //    }
+//    qDebug() << "555";
 //    //再生成右边图元
 //    for (DBImgInfo info : rightInfo) {
 //        char *imageType = getImageType(info.filePath);
@@ -1060,8 +1063,8 @@ void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
 //            emit imageClicked(index, (index - indexNow));
 //        });
 //    }
-
-//    //重新设置所有的图元信息
+//qDebug() << "666";
+    //重新设置所有的图元信息
 //    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
 
 //    if (labelList.count() == 0)
