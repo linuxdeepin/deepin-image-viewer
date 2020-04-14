@@ -243,14 +243,20 @@ void ViewPanel::initFileSystemWatcher()
 #endif
 
 
-void ViewPanel::AddDataToList(int Pages, LOAD_DIRECTION Dirction)
+void ViewPanel::AddDataToList(LOAD_DIRECTION Dirction,int pages)
 {
     DBImgInfo info;
-    if (Dirction == LOAD_LEFT) {
-        if (m_firstindex - Pages < 0)
-            m_firstindex = 0;
+    if(Dirction == LOAD_LEFT)
+    {
+        for (; m_firstindex < m_infosAll.size(); m_firstindex++) {
+            if (m_infos.at(m_firstindex).fileName == m_infosAll.at(m_firstindex).fileName) {
+                break;
+            }
+        }
+        if(m_firstindex-pages<0)
+            m_firstindex=0;
         else
-            m_firstindex -= Pages;
+            m_firstindex -= pages;
     }
 }
 
@@ -506,17 +512,23 @@ void ViewPanel::eatImageDirIteratorThread()
     if (m_AllPath.count() < 1) return;
     m_infosAll.clear();
     LoadDirPathFirst(true);
-    m_infos = m_infosAll;
     emit sendAllImageInfos(m_infosAll);
     QStringList pathlist;
-
-    for (int loop = 0; loop < m_infos.size(); loop++) {
-        pathlist.append(m_infos.at(loop).filePath);
+    QString currfilename = m_infos.at(m_current).fileName;
+    m_infos = m_infosAll;
+    m_current = 0;
+    for (; m_current < m_infosAll.size(); m_current++) {
+        if (m_infosAll.at(m_current).fileName == currfilename) {
+            break;
+        }
     }
+//    for (int loop = 0; loop < m_infos.size(); loop++) {
+//        pathlist.append(m_infos.at(loop).filePath);
+//    }
 
-    if (pathlist.count() > 0) {
-        emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
-    }
+//    if (pathlist.count() > 0) {
+//        emit dApp->signalM->sendPathlist(pathlist, m_infos.at(m_current).filePath);
+//    }
 }
 #endif
 

@@ -72,7 +72,7 @@ public:
     {
         return !QFileInfo(m_infos.first().filePath).exists();
     }
-    void AddDataToList(int Pages,LOAD_DIRECTION Dirction);
+    void AddDataToList(LOAD_DIRECTION Dirction,int pages = 30);
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path, DBImgInfoList infos);
