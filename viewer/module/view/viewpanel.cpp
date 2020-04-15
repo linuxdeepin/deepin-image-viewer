@@ -345,7 +345,7 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
         m_bIsFirstLoad = false;
     }
     //第一次加载为所有图片不进行刷新
-    if(infos.size() == m_infos.size())
+    if (infos.size() == m_infos.size())
         return;
     m_infos = infos;
     QStringList pathlist;
@@ -507,16 +507,16 @@ void ViewPanel::newEatImageDirIterator()
 void ViewPanel::eatImageDirIteratorThread()
 {
     //if (m_AllPath.count() < 1) return;
-    m_infosAll.clear();
+    QThread::currentThread()->sleep(3);
     LoadDirPathFirst(true);
     QStringList pathlist;
-    m_current = 0;
-    for (; m_current < m_infosAll.size(); m_current++) {
-        if (m_infosAll.at(m_current).filePath == m_currentImagePath) {
+    int begin = 0;
+    for (; begin < m_infosAll.size(); begin++) {
+        if (m_infosAll.at(begin).filePath == m_currentImagePath) {
             break;
         }
     }
-
+    m_current = begin;
     emit sendLoadOver(m_infosAll, m_current);
 }
 #endif
@@ -901,7 +901,10 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 //Load 100 pictures while first
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
-    m_infos.clear();
+    if (bLoadAll)
+        m_infosAll.clear();
+    else
+        m_infos.clear();
     int nCount = m_AllPath.count();
     int i = 0;
     int nimgcount = 0;
@@ -1072,11 +1075,13 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             }
 
             LoadDirPathFirst();
-            for (; m_current < m_infos.size(); m_current++) {
-                if (m_infos.at(m_current).filePath == vinfo.path) {
+            int begin = 0;
+            for (; begin < m_infos.size(); begin++) {
+                if (m_infos.at(begin).filePath == vinfo.path) {
                     break;
                 }
             }
+            m_current = begin;
         }
 
         //eatImageDirIterator();
@@ -1104,8 +1109,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        if(m_AllPath.size()>First_Load_Image)
-        {
+        if (m_AllPath.size() > First_Load_Image) {
             QThread *loadTh = QThread::create([ = ]() {
                 eatImageDirIteratorThread();
             });
