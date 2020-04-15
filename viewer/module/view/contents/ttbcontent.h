@@ -113,7 +113,7 @@ protected:
     {
         bmouserelease = false;
         QEventLoop loop;
-        QTimer::singleShot(100, &loop, SLOT(quit()));
+        QTimer::singleShot(200, &loop, SLOT(quit()));
         loop.exec();
         if (bmouserelease)
             emit imageItemclicked(_index, _indexNow);

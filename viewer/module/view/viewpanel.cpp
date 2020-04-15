@@ -348,6 +348,7 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
     if (infos.size() == m_infos.size())
         return;
     m_infos = infos;
+    m_current = nCurrent;
     QStringList pathlist;
     qDebug() << "xixixixi" << QThread::currentThreadId();
 
@@ -516,8 +517,8 @@ void ViewPanel::eatImageDirIteratorThread()
             break;
         }
     }
-    m_current = begin;
-    emit sendLoadOver(m_infosAll, m_current);
+
+    emit sendLoadOver(m_infosAll, begin);
 }
 #endif
 
