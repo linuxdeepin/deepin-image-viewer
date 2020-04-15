@@ -816,6 +816,8 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         } else {
             emit changeHideFlag(true);
         }
+
+
     }
 
     //    if (window()->isMaximized()) {

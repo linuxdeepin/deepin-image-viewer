@@ -147,10 +147,10 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         bmouseleftpressed = false;
         emit mouseLeftReleased();
     }
-//    if (e->type() == QEvent::Leave && obj == m_obj) {
-//        bmouseleftpressed = false;
-//        emit mouseLeftReleased();
-//    }
+    if (e->type() == QEvent::Leave && obj == m_obj) {
+        bmouseleftpressed = false;
+        emit mouseLeftReleased();
+    }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
@@ -1147,6 +1147,9 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(m_nowIndex)->resize(QSize(60, 58));
         labelList.at(m_nowIndex)->setContentsMargins(0, 0, 0, 0);
     }
+
+    //图动窗口的时候重置缩略图布局
+    emit m_imgListView->mouseLeftReleased();
 }
 
 void TTBContent::setImage(const QString &path, DBImgInfoList infos)
