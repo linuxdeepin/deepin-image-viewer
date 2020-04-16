@@ -32,6 +32,9 @@
 #include <QSvgRenderer>
 #include <QWheelEvent>
 #include <QtConcurrent>
+#include <QPainter>
+#include <QTransform>
+#include <QSvgGenerator>
 
 #include <DGuiApplicationHelper>
 #include <DSpinner>
@@ -542,36 +545,63 @@ void ImageView::fitImage()
 void ImageView::rotateClockWise()
 {
     //utils::image::rotate(m_path, 90);
-    QPixmap pixmap = m_pixmapItem->pixmap();
-    QMatrix rotate;
-    rotate.rotate(90);
+    if (QFileInfo(m_path).suffix() == "sg") {
+        m_movieItem = nullptr;
+        m_pixmapItem = nullptr;
+        scene()->clear();
+        resetTransform();
 
-    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
-    pixmap.setDevicePixelRatio(devicePixelRatioF());
-    scene()->clear();
-    resetTransform();
-    m_pixmapItem = new GraphicsPixmapItem(pixmap);
-    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-    connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
-        if (!m_pixmapItem) {
-            qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
-            update();
-            return;
-        }
-        if (scaledmode) {
-            m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-        } else {
-            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        }
-    });
-    // Make sure item show in center of view after reload
-    QRectF rect = m_pixmapItem->boundingRect();
-    //            rect.setHeight(rect.height() + 50);
-    setSceneRect(rect);
-    //            setSceneRect(m_pixmapItem->boundingRect());
-    scene()->addItem(m_pixmapItem);
-    autoFit();
-    m_rotateAngel += 90;
+        QSvgGenerator generator;
+        QImage pix(m_path);
+        //QString dpath = path.right(path.length() - path.lastIndexOf("/") - 1);
+        //QString strTmpPath = tr("/tmp/%1").arg(dpath);
+        //QSvgGenerator generator;
+        generator.setFileName(m_path);
+        //generator.setSize(pix.size());
+        generator.setViewBox(pix.rect());
+        QPainter painter;
+        painter.begin(&generator);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+        painter.translate(pix.rect().width(), 0);
+        painter.rotate(90);
+        painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
+        generator.setSize(pix.size()); //do not remove this
+        painter.end();
+        setSceneRect(pix.rect());
+        //scene()->addItem((QGraphicsItem *)(&generator));
+    } else {
+        QPixmap pixmap = m_pixmapItem->pixmap();
+        QMatrix rotate;
+        rotate.rotate(90);
+
+        pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        scene()->clear();
+        resetTransform();
+        m_pixmapItem = new GraphicsPixmapItem(pixmap);
+        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+            if (!m_pixmapItem) {
+                qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
+                update();
+                return;
+            }
+            if (scaledmode) {
+                m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+            } else {
+                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+            }
+        });
+        // Make sure item show in center of view after reload
+        QRectF rect = m_pixmapItem->boundingRect();
+        //            rect.setHeight(rect.height() + 50);
+        setSceneRect(rect);
+        //            setSceneRect(m_pixmapItem->boundingRect());
+        scene()->addItem(m_pixmapItem);
+        autoFit();
+        m_rotateAngel += 90;
+    }
+
 
     //emit imageChanged(m_path);
 
@@ -783,6 +813,7 @@ void ImageView::leaveEvent(QEvent *e)
 
 void ImageView::resizeEvent(QResizeEvent *event)
 {
+    qDebug() << "ImageView::resizeEvent";
     m_toast->move(width() / 2 - m_toast->width() / 2, height() - 80 - m_toast->height() / 2 - 11);
 
     // when resize window, make titlebar changed.

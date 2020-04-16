@@ -72,7 +72,7 @@ public:
     {
         return !QFileInfo(m_infos.first().filePath).exists();
     }
-    void AddDataToList(LOAD_DIRECTION Dirction,int pages = 30);
+    void AddDataToList(LOAD_DIRECTION Dirction, int pages = 30);
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path, DBImgInfoList infos);
@@ -126,7 +126,7 @@ private:
     void updateMenuContent();
 
     // View control
-    void LoadDirPathFirst(bool bLoadAll =false);
+    void LoadDirPathFirst(bool bLoadAll = false);
     void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString &path, bool inDB = true);
     void removeCurrentImage();

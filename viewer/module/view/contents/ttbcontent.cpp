@@ -957,15 +957,15 @@ void TTBContent::onChangeHideFlags(bool bFlags)
 
     //判断是否加载完成，未完成将旋转和删除按钮禁用
 
-    if (bFlags) {
-        m_rotateLBtn->setEnabled(false);
-        m_rotateRBtn->setEnabled(false);
-        m_trashBtn->setEnabled(false);
-    } else {
-        m_rotateLBtn->setEnabled(true);
-        m_rotateRBtn->setEnabled(true);
-        m_trashBtn->setEnabled(true);
-    }
+//    if (bFlags) {
+//        m_rotateLBtn->setEnabled(false);
+//        m_rotateRBtn->setEnabled(false);
+//        m_trashBtn->setEnabled(false);
+//    } else {
+//        m_rotateLBtn->setEnabled(true);
+//        m_rotateRBtn->setEnabled(true);
+//        m_trashBtn->setEnabled(true);
+//    }
 
     if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
         //gif图片可以删除
@@ -984,8 +984,13 @@ void TTBContent::onChangeHideFlags(bool bFlags)
             m_rotateLBtn->setDisabled(false);
             m_rotateRBtn->setDisabled(false);
         } else {
-            m_rotateLBtn->setDisabled(true);
-            m_rotateRBtn->setDisabled(true);
+            if (QFileInfo(m_imagePath).suffix() == "sg") {
+                m_rotateLBtn->setDisabled(false);
+                m_rotateRBtn->setDisabled(false);
+            } else {
+                m_rotateLBtn->setDisabled(true);
+                m_rotateRBtn->setDisabled(true);
+            }
         }
     }
 }
@@ -1728,8 +1733,13 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_rotateLBtn->setDisabled(false);
                 m_rotateRBtn->setDisabled(false);
             } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
+                if ((QFileInfo(path).suffix() == "sg")) {
+                    m_rotateLBtn->setDisabled(false);
+                    m_rotateRBtn->setDisabled(false);
+                } else {
+                    m_rotateLBtn->setDisabled(true);
+                    m_rotateRBtn->setDisabled(true);
+                }
             }
         }
 #endif

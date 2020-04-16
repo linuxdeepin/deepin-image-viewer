@@ -350,7 +350,6 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
     m_infos = infos;
     m_current = nCurrent;
     QStringList pathlist;
-    qDebug() << "xixixixi" << QThread::currentThreadId();
 
     for (int loop = 0; loop < m_infos.size(); loop++) {
         pathlist.append(m_infos.at(loop).filePath);
@@ -816,8 +815,6 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         } else {
             emit changeHideFlag(true);
         }
-
-
     }
 
     //    if (window()->isMaximized()) {
