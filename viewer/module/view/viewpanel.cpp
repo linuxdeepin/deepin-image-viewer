@@ -912,8 +912,9 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     int nCount = m_AllPath.count();
     int i = 0;
     int nimgcount = 0;
-    int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0;
-    while (i < nCount) {
+    //获取前当前位置前50个文件的位置
+    int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0; //
+    while (i < nCount && nStartIndex < nCount) {
         if (!bLoadAll) {
             if (nimgcount > First_Load_Image) break;
         } else {
