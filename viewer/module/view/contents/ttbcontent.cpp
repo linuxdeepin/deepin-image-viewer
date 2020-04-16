@@ -320,7 +320,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 1);
     hb->setSpacing(0);
     m_inDB = inDB;
-
+    connect(parent, SIGNAL(sigResize()), this, SLOT(onResize()));
 #if TTB
     m_preButton = new DIconButton(this);
     m_preButton->setFixedSize(ICON_SIZE);
@@ -1149,7 +1149,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
     }
 
     //图动窗口的时候重置缩略图布局
-    emit m_imgListView->mouseLeftReleased();
+    //emit m_imgListView->mouseLeftReleased();
 }
 
 void TTBContent::setImage(const QString &path, DBImgInfoList infos)
@@ -1785,4 +1785,73 @@ void TTBContent::updateCollectButton()
     //        m_clBT->setChecked(false);
     //        m_clBT->setDisabled(false);
     //    }
+}
+
+
+void TTBContent::onResize()
+{
+
+    if (m_imgInfos.size() <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_imgInfos.size() <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+    } else {
+        m_contentWidth =
+            qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                 qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) +
+            THUMBNAIL_LIST_ADJUST;
+    }
+
+    setFixedWidth(m_contentWidth);
+    setFixedHeight(70);
+    m_windowWidth =  this->window()->geometry().width();
+    if (m_imgInfos.size() <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_imgInfos.size() <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+    } else {
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+    }
+    setFixedWidth(m_contentWidth);
+//    m_contentWidth = window()->width() - 20;
+//    setFixedWidth(m_contentWidth);
+//    emit dApp->signalM->sigViewPanelSizeChanged();
+    int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
+    int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
+    if (m_nowIndex > a && m_nowIndex < b) {
+        m_startAnimation = 1;
+    } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
+        m_startAnimation = 2;
+    } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
+        m_startAnimation = 3;
+    } else {
+        m_startAnimation = 0;
+    }
+//    m_imgListView->show();
+
+//    if (!binsertneedupdate)
+//        return;
+    if (1 == m_startAnimation) {
+        m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                                     (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 228 + 18) / 2 - ((32)*m_nowIndex), 0));
+    } else if (2 == m_startAnimation) {
+        m_imgList->move(QPoint(0, 0));
+    } else if (3 == m_startAnimation) {
+        m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+    } else if (0 == m_startAnimation) {
+        m_imgList->move(QPoint(0, 0));
+    }
+//    m_windowWidth =  this->window()->geometry().width();
+//    if (m_ItemLoaded.size() <= 1) {
+//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+//    } else if (m_ItemLoaded.size() <= 3) {
+//        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+//    } else {
+//        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+//    }
+//    setFixedWidth(m_contentWidth);
 }
