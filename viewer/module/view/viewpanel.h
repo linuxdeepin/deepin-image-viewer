@@ -91,6 +91,7 @@ signals:
 
     void changeitempath(int, QString);
     void SetImglistPath(int, QString, QString);
+    void sigResize();
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;

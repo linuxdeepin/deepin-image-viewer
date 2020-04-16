@@ -666,7 +666,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         return nullptr;
     }
 
-    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos);
+    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos,this);
 
     if (!ttbc) {
         return nullptr;
@@ -777,10 +777,11 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
     }
 
     if (e->type() == QEvent::Resize && this->isVisible() && m_finish) {
-        emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
-                                                       (m_infos.size() > 1));
-        emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+       // emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+      //  emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
+       //                                                (m_infos.size() > 1));
+        emit sigResize();
+        //emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
 
     return false;

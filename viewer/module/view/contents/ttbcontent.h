@@ -172,7 +172,7 @@ public slots:
     void OnChangeItemPath(int, QString);
     // 重命名改变m_imgInfos路径
     void OnSetimglist(int, QString, QString);
-
+    void onResize();
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();
