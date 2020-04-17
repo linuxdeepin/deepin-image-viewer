@@ -261,6 +261,9 @@ void MainWidget::initTopToolbar()
         m_topToolbar = new TopToolbar(false, this);
         m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
     });
+    connect(dApp->signalM, &SignalManager::changetitletext, this, [ = ](QString filename) {
+        m_topToolbar->setMiddleContent(filename);
+    });
     connect(dApp->signalM, &SignalManager::enterView, this, [ = ](bool a) {
         if (a) {
             m_topToolbar->show();
@@ -312,9 +315,10 @@ void MainWidget::initTopToolbar()
 
 void MainWidget::initConnection()
 {
-    QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
-    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+?"), this);
-    connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    //屏蔽CTrl+Q快捷键
+   // QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
+    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+   // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
     connect(dApp->signalM, &SignalManager::backToMainPanel, this, [ = ] {
         window()->show();
@@ -341,7 +345,6 @@ void MainWidget::initConnection()
         window()->raise();
         window()->activateWindow();
     });
-
     connect(dApp->signalM, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);
     connect(dApp->signalM, &SignalManager::showInFileManager, this,
     [ = ](const QString & path) {
@@ -379,7 +382,9 @@ void MainWidget::initConnection()
         }
     });
     connect(dApp->signalM, &SignalManager::sigShowFullScreen, this,
-            [ = ] { m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height()); });
+    [ = ] {
+        m_bottomToolbar->move((width() - m_bottomToolbar->width()) / 2, height());
+    });
 }
 
 void MainWidget::initBottomToolbar()

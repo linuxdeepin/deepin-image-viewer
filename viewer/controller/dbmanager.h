@@ -47,14 +47,23 @@ struct DBImgInfo {
     QString dirHash;
     QDateTime time;
 
-    bool operator==(const DBImgInfo& other)
+    bool operator==(const DBImgInfo &other)
     {
         return (filePath == other.filePath &&
                 fileName == other.fileName &&
                 time == other.time);
     }
 
-    friend QDebug operator<<(QDebug &dbg, const DBImgInfo& info) {
+    //add by heyi
+    void clear()
+    {
+        filePath.clear();
+        fileName.clear();
+        dirHash.clear();
+    }
+
+    friend QDebug operator<<(QDebug &dbg, const DBImgInfo &info)
+    {
         dbg << "(DBImgInfo)["
             << "Path:" << info.filePath
             << "Name:" << info.fileName
@@ -65,13 +74,14 @@ struct DBImgInfo {
     }
 };
 typedef QList<DBImgInfo> DBImgInfoList;
+Q_DECLARE_METATYPE(DBImgInfoList)
 
 class QSqlDatabase;
 class DBManager : public QObject
 {
     Q_OBJECT
 public:
-    static DBManager* instance();
+    static DBManager *instance();
     explicit DBManager(QObject *parent = 0);
 
     // TableImage
@@ -111,7 +121,7 @@ private:
     void importVersion1Data();
     void importVersion2Data();
 
-    static DBManager* m_dbManager;
+    static DBManager *m_dbManager;
 private:
     QString m_connectionName;
     mutable QMutex m_mutex;

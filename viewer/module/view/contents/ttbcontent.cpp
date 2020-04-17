@@ -320,7 +320,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 1);
     hb->setSpacing(0);
     m_inDB = inDB;
-
+    connect(parent, SIGNAL(sigResize()), this, SLOT(onResize()));
 #if TTB
     m_preButton = new DIconButton(this);
     m_preButton->setFixedSize(ICON_SIZE);
@@ -512,6 +512,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 
     m_imgListView = new MyImageListWidget();
     m_imgList = new DWidget(m_imgListView);
+    //拖动后移动多少
     connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, [ = ] {
         int movex = m_imgList->x();
         if (movex >= 0)
@@ -535,8 +536,30 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
                 }
             }
         }
+
         m_imgList->move(movex, m_imgList->y());
+        //add by heyi 判断是否向左或者向右加载新的图元
+        LOAD_DIRECTION loadDire = judgeLoadDire(m_nLastMove, movex);
+        switch (loadDire)
+        {
+        case LOAD_LEFT: {
+            break;
+        }
+        case LOAD_RIGHT: {
+            break;
+        }
+        case NOT_LOAD: {
+            break;
+        }
+        default: {
+            break;
+        }
+
+        }
+
+        m_nLastMove = movex;
     });
+
     m_imgListView->setObj(m_imgList);
     m_imgList->installEventFilter(m_imgListView);
     if (m_imgInfos.size() <= 3) {
@@ -709,6 +732,26 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 #endif
 }
 
+LOAD_DIRECTION TTBContent::judgeLoadDire(int nLastMove, int move)
+{
+    LOAD_DIRECTION loadDire = NOT_LOAD;
+    if (0 == move) {
+        //说明向右拖动到最左边边界，到达第一张图片
+        loadDire = LOAD_LEFT;
+    } else {
+        //判断上一次位置和这次位置，得出向左或者向右
+        if ((move - nLastMove) > 0) {
+            //向右拖动，向左加载
+            loadDire = LOAD_LEFT;
+        } else {
+            //向左拖动，向右加载
+            loadDire = LOAD_RIGHT;
+        }
+    }
+
+    return loadDire;
+}
+
 void TTBContent::disCheckAdaptImageBtn()
 {
     m_adaptImageBtn->setChecked(false);
@@ -831,6 +874,20 @@ void TTBContent::slotTheme(bool theme)
     //                            QString(":/resources/%1/icons/delete.svg").arg(rStr),
     //                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
 }
+
+void TTBContent::OnSetimglist(int currindex, QString filename, QString filepath)
+{
+    m_imgInfos[currindex].fileName = filename;
+    m_imgInfos[currindex].filePath = filepath;
+}
+
+void TTBContent::OnChangeItemPath(int currindex, QString path)
+{
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    ImageItem *item = labelList.at(currindex);
+    item->SetPath(path);
+}
+
 void TTBContent::updateFilenameLayout()
 {
     using namespace utils::base;
@@ -874,9 +931,228 @@ void TTBContent::updateFilenameLayout()
     m_fileNameLabel->setText(name, leftMargin);
 }
 
+bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent)
+{
+    bool bRet = true;
+    ImageItem *test = m_imgList->findChild<ImageItem *>(strPath);
+    if (!test) {
+        bRet = false;
+        return bRet;
+    }
+
+    qDebug() << "被删除的图片路径：" << test->objectName();
+    m_imglayout->removeWidget(test);
+    test->setParent(nullptr);
+    test->deleteLater();
+
+    m_imgInfos = infos;
+    m_nowIndex = nCurrent;
+    //删除当前图片之后将当前图片和之后的所有图片index减一
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    if (nCurrent != 0) {
+        for (int i = nCurrent; i < labelList.size(); i++) {
+            labelList.at(i)->setIndex(i);
+        }
+    } else {
+        for (int i = 0; i < labelList.size(); i++) {
+            labelList.at(i)->setIndex(i);
+        }
+    }
+    //将所有的NowIndex重置
+    for (int i = 0; i < labelList.size(); i++) {
+        labelList.at(i)->setIndexNow(nCurrent);
+    }
+
+    m_imgList->adjustSize();
+
+    return bRet;
+}
+
+void TTBContent::setIsConnectDel(bool bFlags)
+{
+    if (bFlags) {
+        connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed, Qt::UniqueConnection);
+    } else {
+        m_trashBtn->disconnect();
+    }
+}
+
+void TTBContent::disableDelAct(bool bFlags)
+{
+    m_trashBtn->setEnabled(bFlags);
+}
+
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;
+    //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
+    if (bFlags || m_imgInfos.size() <= 1) {
+        m_preButton->hide();
+        m_preButton_spc->hide();
+        m_nextButton->hide();
+        m_nextButton_spc->hide();
+        m_preButton->setDisabled(true);
+        m_preButton_spc->setDisabled(true);
+        m_nextButton->setDisabled(true);
+        m_nextButton_spc->setDisabled(true);
+    } else {
+        m_preButton->show();
+        m_nextButton->show();
+        m_preButton_spc->show();
+        m_nextButton_spc->show();
+        m_preButton->setDisabled(false);
+        m_preButton_spc->setDisabled(false);
+        m_nextButton->setDisabled(false);
+        m_nextButton_spc->setDisabled(false);
+    }
+
+    //判断是否加载完成，未完成将旋转和删除按钮禁用
+
+//    if (bFlags) {
+//        m_rotateLBtn->setEnabled(false);
+//        m_rotateRBtn->setEnabled(false);
+//        m_trashBtn->setEnabled(false);
+//    } else {
+//        m_rotateLBtn->setEnabled(true);
+//        m_rotateRBtn->setEnabled(true);
+//        m_trashBtn->setEnabled(true);
+//    }
+
+    if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
+        //gif图片可以删除
+        if ((QFileInfo(m_imagePath).suffix() == "gif")) {
+            m_trashBtn->setDisabled(false);
+        } else {
+            m_trashBtn->setDisabled(true);
+
+        }
+
+        m_rotateLBtn->setDisabled(true);
+        m_rotateRBtn->setDisabled(true);
+    } else {
+        m_trashBtn->setDisabled(false);
+        if (utils::image::imageSupportSave(m_imagePath)) {
+            m_rotateLBtn->setDisabled(false);
+            m_rotateRBtn->setDisabled(false);
+        } else {
+            if (QFileInfo(m_imagePath).suffix() == "sg") {
+                m_rotateLBtn->setDisabled(false);
+                m_rotateRBtn->setDisabled(false);
+            } else {
+                m_rotateLBtn->setDisabled(true);
+                m_rotateRBtn->setDisabled(true);
+            }
+        }
+    }
+}
+
+void TTBContent::loadBack(DBImgInfoList infos)
+{
+
+}
+
+void TTBContent::loadFront(DBImgInfoList infos)
+{
+
+}
+
+void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
+{
+    qDebug() << "234";
+    m_AllImgInfos = AllImgInfos;
+    qDebug() << "345";
+    //接收到所有信息之后生成所有的图元
+    m_strFirstPath = m_imgInfos.at(0).filePath;
+    m_strEndPsth = m_imgInfos.last().filePath;
+    m_strCurImagePath = m_imgInfos.at(m_nowIndex).filePath;
+    setImage(m_strCurImagePath, m_AllImgInfos);
+    //找到第一张图片在所有信息中的位置
+//    int nFirstIndex = 0;
+//    int nEndIndex = 0;
+//    for (int i = 0; i < AllImgInfos.size(); i++) {
+//        if (m_strFirstPath == AllImgInfos.at(i).filePath) {
+//            nFirstIndex = i;
+//        }
+
+//        if (m_strEndPsth == AllImgInfos.at(i).filePath) {
+//            nEndIndex = i;
+//        }
+
+//        if (m_strCurImagePath == AllImgInfos.at(i).filePath) {
+//            m_nowIndex = i;
+//        }
+//    }
+//qDebug() << "444";
+//    //左边的图片信息和右边的图片信息
+//    DBImgInfoList leftInfo, rightInfo;
+//    leftInfo = AllImgInfos.mid(0, nFirstIndex);
+//    rightInfo = AllImgInfos.mid(nEndIndex + 1, AllImgInfos.size() - nEndIndex - 1);
+//    m_nowIndex = nFirstIndex;
+//    //先生成左边图元
+//    for (DBImgInfo info : leftInfo) {
+//        char *imageType = getImageType(info.filePath);
+//        ImageItem *imageItem = new ImageItem(1, info.filePath, imageType);
+//        imageItem->setFixedSize(QSize(32, 40));
+//        imageItem->resize(QSize(32, 40));
+//        imageItem->installEventFilter(m_imgListView);
+
+//        m_imglayout->insertWidget(0, imageItem);
+//        connect(
+//            imageItem, &ImageItem::imageItemclicked, this,
+//        [ = ](int index, int indexNow) {
+//            emit imageClicked(index, (index - indexNow));
+//        });
+//    }
+//    qDebug() << "555";
+//    //再生成右边图元
+//    for (DBImgInfo info : rightInfo) {
+//        char *imageType = getImageType(info.filePath);
+//        ImageItem *imageItem = new ImageItem(1, info.filePath, imageType);
+//        imageItem->setFixedSize(QSize(32, 40));
+//        imageItem->resize(QSize(32, 40));
+//        imageItem->installEventFilter(m_imgListView);
+
+//        m_imglayout->addWidget(imageItem);
+//        connect(
+//            imageItem, &ImageItem::imageItemclicked, this,
+//        [ = ](int index, int indexNow) {
+//            emit imageClicked(index, (index - indexNow));
+//        });
+//    }
+//qDebug() << "666";
+    //重新设置所有的图元信息
+//    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+
+//    if (labelList.count() == 0)
+//        return;
+
+//    labelList.at(m_nowIndex)->updatePic(dApp->m_imagemap.value(m_AllImgInfos.at(m_nowIndex).filePath));
+//    for (int j = 0; j < labelList.size(); j++) {
+//        labelList.at(j)->setFixedSize(QSize(32, 40));
+//        labelList.at(j)->resize(QSize(32, 40));
+//        labelList.at(j)->setIndex(j);
+//        labelList.at(j)->setIndexNow(m_nowIndex);
+//    }
+//    if (labelList.size() > 0) {
+//        labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
+//        labelList.at(m_nowIndex)->resize(QSize(58, 58));
+//    }
+}
+
+void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
+{
+    if (!bShowAll) {
+        if (bFlag) {
+            m_nextButton->setEnabled(false);
+            m_preButton->setEnabled(true);
+        } else {
+            m_nextButton->setEnabled(true);
+            m_preButton->setEnabled(false);
+        }
+    } else {
+        m_nextButton->setEnabled(true);
+        m_preButton->setEnabled(true);
+    }
 }
 
 void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
@@ -927,6 +1203,9 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(m_nowIndex)->resize(QSize(60, 58));
         labelList.at(m_nowIndex)->setContentsMargins(0, 0, 0, 0);
     }
+
+    //图动窗口的时候重置缩略图布局
+    //emit m_imgListView->mouseLeftReleased();
 }
 
 void TTBContent::setImage(const QString &path, DBImgInfoList infos)
@@ -940,14 +1219,16 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         emit dApp->signalM->picNotExists(false);
     }
 
+    qDebug() << "时间1";
+    //判断当前缩略图个数是否等于传入的缩略图数量，不想等全部删除重新生成新的
     if (infos.size() != m_imgInfos.size()) {
         m_imgInfos.clear();
         m_imgInfos = infos;
 
         QLayoutItem *child;
-        while ((child = m_imglayout->takeAt(0)) != 0) {
+        while ((child = m_imglayout->takeAt(0)) != nullptr) {
             m_imglayout->removeWidget(child->widget());
-            child->widget()->setParent(0);
+            child->widget()->setParent(nullptr);
             delete child;
         }
     }
@@ -973,9 +1254,11 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                     emit imageClicked(index, (index - indexNow));
                 });
             }
+
             if (path == info.filePath) {
                 t = i;
             }
+
             i++;
         }
 
@@ -1137,6 +1420,8 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                     imageItem->setFixedSize(QSize(num, 40));
                     imageItem->resize(QSize(num, 40));
                     imageItem->installEventFilter(m_imgListView);
+                    imageItem->setObjectName(info.filePath);
+
 
                     m_imglayout->addWidget(imageItem);
                     connect(imageItem, &ImageItem::imageItemclicked, this,
@@ -1149,15 +1434,17 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 }
                 i++;
             }
+
+            /*ImageItem *test = m_imgList->findChild<ImageItem *>("0");
+            qDebug() << "图元名称" << test->objectName();
+            m_imglayout->removeWidget(test);
+            test->setParent(nullptr);
+            test->deleteLater();*/
             labelList = m_imgList->findChildren<ImageItem *>();
             m_nowIndex = t;
 
             int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
             int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
-            //            qDebug()<<"a="<<a;
-            //            qDebug()<<"b="<<b;
-            //            qDebug()<<"m_nowIndex="<<m_nowIndex;
-            //            qDebug()<<"m_imgInfos.size()="<<m_imgInfos.size();
             if (m_nowIndex > a && m_nowIndex < b) {
                 m_startAnimation = 1;
             } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
@@ -1469,8 +1756,26 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         //                btRight->setDisabled(true);
         //            }
         //        }
-        if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-            m_trashBtn->setDisabled(true);
+        //判断是否加载完成，未完成将旋转按钮禁用
+        if (m_bIsHide) {
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
+            m_trashBtn->setEnabled(false);
+        } else {
+            m_rotateLBtn->setEnabled(true);
+            m_rotateRBtn->setEnabled(true);
+            m_trashBtn->setEnabled(true);
+        }
+
+        if ((QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) || (QFileInfo(path).suffix() == "gif")) {
+            //gif图片可以删除
+            if ((QFileInfo(path).suffix() == "gif")) {
+                m_trashBtn->setDisabled(false);
+            } else {
+                m_trashBtn->setDisabled(true);
+
+            }
+
             m_rotateLBtn->setDisabled(true);
             m_rotateRBtn->setDisabled(true);
         } else {
@@ -1479,15 +1784,20 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_rotateLBtn->setDisabled(false);
                 m_rotateRBtn->setDisabled(false);
             } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
+                if ((QFileInfo(path).suffix() == "sg")) {
+                    m_rotateLBtn->setDisabled(false);
+                    m_rotateRBtn->setDisabled(false);
+                } else {
+                    m_rotateLBtn->setDisabled(true);
+                    m_rotateRBtn->setDisabled(true);
+                }
             }
         }
 #endif
     }
 
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
-    if (m_bIsHide) {
+    if (m_bIsHide || m_imgInfos.size() <= 1) {
         m_preButton->hide();
         m_preButton_spc->hide();
         m_nextButton->hide();
@@ -1505,6 +1815,8 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         fileName = QFileInfo(m_imagePath).fileName();
     }
     emit dApp->signalM->updateFileName(fileName);
+
+    m_imgList->adjustSize();
 }
 
 void TTBContent::updateCollectButton()
@@ -1534,4 +1846,55 @@ void TTBContent::updateCollectButton()
     //        m_clBT->setChecked(false);
     //        m_clBT->setDisabled(false);
     //    }
+}
+
+void TTBContent::onResize()
+{
+    if (m_imgInfos.size() <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_imgInfos.size() <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+    } else {
+        m_contentWidth =
+            qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                 qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) +
+            THUMBNAIL_LIST_ADJUST;
+    }
+
+    setFixedWidth(m_contentWidth);
+    setFixedHeight(70);
+    m_windowWidth =  this->window()->geometry().width();
+    if (m_imgInfos.size() <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_imgInfos.size() <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+    } else {
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+    }
+
+    setFixedWidth(m_contentWidth);
+    int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
+    int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
+    if (m_nowIndex > a && m_nowIndex < b) {
+        m_startAnimation = 1;
+    } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
+        m_startAnimation = 2;
+    } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
+        m_startAnimation = 3;
+    } else {
+        m_startAnimation = 0;
+    }
+
+    if (1 == m_startAnimation) {
+        m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                                     (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 228 + 18) / 2 - ((32)*m_nowIndex), 0));
+    } else if (2 == m_startAnimation) {
+        m_imgList->move(QPoint(0, 0));
+    } else if (3 == m_startAnimation) {
+        m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+    } else if (0 == m_startAnimation) {
+        m_imgList->move(QPoint(0, 0));
+    }
 }

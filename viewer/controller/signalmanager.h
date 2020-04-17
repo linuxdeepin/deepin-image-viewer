@@ -30,12 +30,14 @@ public:
     // For view images
     struct ViewInfo {
         ModulePanel *lastPanel {nullptr};  // For back to the last panel
+        int viewMainWindowID = 0;
+        bool fullScreen = false;
+        bool slideShow = false;
 #ifndef LITE_DIV
         bool inDatabase = true;
 #else
         static constexpr bool inDatabase = false;
 #endif
-        bool fullScreen = false;
         QString album = QString();
         QString path;                       // Specific current open one
         QStringList paths = QStringList();  // Limit the view range
@@ -69,12 +71,14 @@ signals:
     void loadingDisplay(bool immediately = false);
     void picDelete();
     void allPicDelete();
+    void changetitletext(QString);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
     void gotoPanel(ModulePanel *panel);
     void backToMainPanel();
     void activeWindow();
+    void showSlidePanel(int index);
 
     void imagesInserted(const DBImgInfoList infos);
     void imagesRemoved(const DBImgInfoList &infos);
@@ -83,6 +87,15 @@ signals:
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
+    void updateButton();
+    void updatePauseButton();
+    void sigStartTimer();
+    void initButton();
+    void imagesRemovedPar(const DBImgInfoList &infos);
+    void sigESCKeyStopSlide();
+    void sigESCKeyActivated();
+    void hideSlidePanel();
+    void viewImageNoNeedReload(/*QString &filename*/int &fileindex);
 
     void viewImage(const ViewInfo &vinfo);
     void updateFileName(const QString &fileName);

@@ -25,6 +25,7 @@
 #include "widgets/separator.h"
 #include "module/view/viewpanel.h"
 
+
 #include <QFrame>
 #include <QStackedWidget>
 
@@ -61,6 +62,7 @@ private:
     QStringList m_infoShowingList;
 
     QStackedWidget  *m_panelStack {nullptr};
+
 
 #ifndef LITE_DIV
     bool m_manager;

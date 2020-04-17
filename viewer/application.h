@@ -48,7 +48,8 @@ public:
     void updateImageLoader(QStringList pathlist, bool bDirection);
     //add by heyi
     void loadInterface(QString strPath);
-
+    mutable QReadWriteLock m_readlock;
+    mutable QReadWriteLock m_writelock;
 public slots:
     void startLoading();
 
@@ -64,8 +65,6 @@ private:
     QString m_path;
     //add by heyi
     volatile bool m_bFlag;
-    mutable QReadWriteLock m_readlock;
-    mutable QReadWriteLock m_writelock;
     QList<QString> listLoad1;
     QList<QString> listLoad2;
 };
@@ -95,6 +94,8 @@ signals:
     void sigFinishLoad(QString mapPath);
     //add by heyi
     void endThread();
+    //结束程序的时候触发此信号
+    void endApplication();
 
 public slots:
     void finishLoadSlot(QString mapPath);

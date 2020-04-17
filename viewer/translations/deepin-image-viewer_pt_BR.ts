@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -23,18 +21,22 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation>Informação da Imagem</translation>
+        <translation>Informação da imagem</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informação Básica</translation>
+        <translation>Informação básica</translation>
     </message>
     <message>
         <source>Details</source>
@@ -59,7 +61,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Você não tem permissão para visualizar essa imagem</translation>
+        <translation>O usuário não tem permissão para visualizar a imagem</translation>
     </message>
 </context>
 <context>
@@ -74,7 +76,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Arquivo de Imagem não encontrado</translation>
+        <translation>Nenhuma imagem encontrada</translation>
     </message>
 </context>
 <context>
@@ -89,7 +91,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Data modificada</translation>
+        <translation>Última modificação</translation>
     </message>
     <message>
         <source>Dimension</source>
@@ -101,7 +103,7 @@
     </message>
     <message>
         <source>Date captured</source>
-        <translation>Data da Captura</translation>
+        <translation>Data da captura</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -109,7 +111,7 @@
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Configuração de exposição</translation>
+        <translation>Programa de exposição</translation>
     </message>
     <message>
         <source>Exposure time</source>
@@ -172,7 +174,7 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Sem escala</translation>
+        <translation>Nenhuma escala</translation>
     </message>
     <message>
         <source>Fit page to image</source>
@@ -242,10 +244,25 @@
     </message>
 </context>
 <context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Confirmar</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Digite um novo nome</translation>
+    </message>
+</context>
+<context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Selecionar diretório</translation>
+        <translation>Selecionar Diretório</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
@@ -257,11 +274,11 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Gerenciamento de Sincronização de Diretórios</translation>
+        <translation>Gerenciamento de Diretório Sincronizado</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>A lista de diretórios está vazia</translation>
+        <translation>A lista do diretório está vazia</translation>
     </message>
 </context>
 <context>
@@ -307,11 +324,11 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela cheia</translation>
+        <translation>Tela Cheia</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de slides</translation>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>End show</source>
@@ -331,7 +348,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover favorito</translation>
+        <translation>Remover dos Favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -347,11 +364,11 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Exibir no gerenciador de arquivos</translation>
+        <translation>Exibir no Gerenciador de Arquivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informações</translation>
+        <translation>Informação da imagem</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -395,11 +412,11 @@
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Aumentar Zoom</translation>
+        <translation>Aumentar zoom</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Reduzir Zoom</translation>
+        <translation>Reduzir zoom</translation>
     </message>
     <message>
         <source>Open</source>
@@ -410,7 +427,7 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Por favor, insira um novo atalho</translation>
+        <translation>Insira um novo atalho</translation>
     </message>
 </context>
 <context>
@@ -429,7 +446,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Restaurar padrões</translation>
+        <translation>Restaurar Padrões</translation>
     </message>
 </context>
 <context>
@@ -440,11 +457,11 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela cheia</translation>
+        <translation>Tela Cheia</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de slides</translation>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>End show</source>
@@ -468,7 +485,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover favorito</translation>
+        <translation>Remover dos Favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -484,11 +501,11 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Exibir no gerenciador de arquivos</translation>
+        <translation>Exibir no Gerenciador de Arquivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informações</translation>
+        <translation>Informação da imagem</translation>
     </message>
     <message>
         <source>New album</source>
@@ -504,14 +521,37 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pausar</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Reproduzir</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Próximo</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Sair</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configurações do slide</translation>
+        <translation>Configurações de Slide</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Efeito da transição</translation>
+        <translation>Efeito de transição</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -546,15 +586,15 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Ajustar na Janela</translation>
+        <translation>Ajustar na janela</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Girar no Sentido Anti-horário</translation>
+        <translation>Girar no sentido anti-horário</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Girar no Sentido Horário</translation>
+        <translation>Girar no sentido horário</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -573,7 +613,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Meus favoritos</translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <source>1:1 Size</source>
@@ -593,11 +633,11 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Desfavoritar</translation>
+        <translation>Remover dos Favoritos</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favoritar</translation>
+        <translation>Favorito</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -608,7 +648,7 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nenhum arquivo de imagem encontrado</translation>
+        <translation>Nenhuma imagem encontrada</translation>
     </message>
     <message>
         <source>Open Image</source>
@@ -616,14 +656,14 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Arquivo de Imagem não encontrado</translation>
+        <translation>Nenhuma imagem encontrada</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configurações do slide</translation>
+        <translation>Configurações de Slide</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -673,15 +713,15 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Sair do modo tela cheia</translation>
+        <translation>Sair da Tela Cheia</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Tela cheia</translation>
+        <translation>Tela Cheia</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de slides</translation>
+        <translation>Apresentação de Slides</translation>
     </message>
     <message>
         <source>Print</source>
@@ -701,11 +741,11 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover favorito</translation>
+        <translation>Remover dos Favoritos</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Mostrar janela de navegação</translation>
+        <translation>Exibir janela de navegação</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
@@ -725,11 +765,11 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Exibir no gerenciador de arquivos</translation>
+        <translation>Exibir no Gerenciador de Arquivos</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informações</translation>
+        <translation>Informação da imagem</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -741,7 +781,11 @@
     </message>
     <message>
         <source>All images</source>
-        <translation>Todas as Imagens</translation>
+        <translation>Todas as imagens</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Renomear</translation>
     </message>
 </context>
 </TS>

@@ -23,6 +23,9 @@
 #include "lockwidget.h"
 #include "module/modulepanel.h"
 #include "thumbnailwidget.h"
+#include "contents/ttbcontent.h"
+#include "contents/ttlcontent.h"
+#include "contents/ttmcontent.h"
 
 #include <DDesktopServices>
 #include <DFileWatcher>
@@ -34,6 +37,8 @@
 #include <QTimer>
 DWIDGET_USE_NAMESPACE
 DCORE_USE_NAMESPACE
+//初始加载张数
+#define LOAD_NUMBER 100
 
 class ImageButton;
 class ImageInfoWidget;
@@ -67,7 +72,7 @@ public:
     {
         return !QFileInfo(m_infos.first().filePath).exists();
     }
-
+    void AddDataToList(LOAD_DIRECTION Dirction, int pages = 30);
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path, DBImgInfoList infos);
@@ -77,11 +82,21 @@ signals:
     void updateTopLeftContentImage(const QString &path);
     void updatePath();
     //heyi test
-    void sendLoadOver();
+    void sendLoadOver(DBImgInfoList infos, int nCurrent);
     void changeHideFlag(bool bFlags);
+    //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
+    void hidePreNextBtn(bool bShowAll, bool bFlag);
+    //后台加载完成之后将所有图片信息发送给操作控件
+    void sendAllImageInfos(DBImgInfoList allInfos);
 
+    void changeitempath(int, QString);
+    void SetImglistPath(int, QString, QString);
+    void sigResize();
+    //未完全加载完图片信息时禁止删除图片
+    void disableDel(bool bFlags);
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
@@ -115,9 +130,11 @@ private:
     void updateMenuContent();
 
     // View control
+    void LoadDirPathFirst(bool bLoadAll = false);
     void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString &path, bool inDB = true);
-    void removeCurrentImage();
+    //删除当前选中的图片
+    bool removeCurrentImage();
     void rotateImage(bool clockWise);
     bool showNext();
     bool showPrevious();
@@ -135,15 +152,16 @@ private:
     QFileInfoList getFileInfos(const QString &path);
     DBImgInfoList getImageInfos(const QFileInfoList &infos);
     const QStringList paths() const;
+    //重命名窗口处理函数
+    bool PopRenameDialog(QString &filepath, QString &filename);
     void startFileWatcher();
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-
     void updateLocalImages();
 
-    //heyi test
-    void sendSignal();
+    //heyi test  发送显示缩略图的信号
+    void sendSignal(DBImgInfoList infos, int nCurrent);
 
 private:
     int m_hideCursorTid;
@@ -158,24 +176,33 @@ private:
     DMenu *m_menu;
     QStackedWidget *m_stack {nullptr};
     LockWidget *m_lockWidget;
-
+    TTBContent *ttbc;
     // Floating component
     DAnchors<NavigationWidget> m_nav;
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
-    //heyi test
-    DBImgInfoList m_infosFirst;
+    //heyi test 优化新增后台加载所有图片信息结构体。
+    DBImgInfoList m_infosAll;
     //    DBImgInfoList::ConstIterator m_current =NULL;
     int m_current = 0;
+    int m_firstindex = 0;
+    int m_lastindex = 0;
+    QFileInfoList m_AllPath;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 
     void eatImageDirIterator();
+    //heyi add 备份初始信息读取代码
+    void newEatImageDirIterator();
+    //heyi add 线程函数，遍历选中文件夹获取所有图片信息
+    void eatImageDirIteratorThread();
 #endif
     QString m_currentImageLastDir = "";
+    //当前图片路径
     QString m_currentImagePath = "";
     DFileWatcher *m_fileManager;
+    //当前选中文件夹路径
     QString m_currentFilePath = "";
     bool m_finish = false;
 
@@ -185,7 +212,9 @@ private:
     QTimer       m_timer;
     QReadWriteLock m_rwLock;
     volatile bool m_bIsFirstLoad = true;
-    //第一次是否加载完成
+    //第一次开机是否加载完成
     volatile bool m_bFinishFirstLoad = false;
+    //是否允许删除
+    volatile bool m_bAllowDel = false;
 };
 #endif  // VIEWPANEL_H

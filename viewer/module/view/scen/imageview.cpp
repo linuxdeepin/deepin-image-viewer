@@ -32,6 +32,9 @@
 #include <QSvgRenderer>
 #include <QWheelEvent>
 #include <QtConcurrent>
+#include <QPainter>
+#include <QTransform>
+#include <QSvgGenerator>
 
 #include <DGuiApplicationHelper>
 #include <DSpinner>
@@ -280,6 +283,17 @@ void ImageView::setImage(const QString &path)
     //    if(path == m_path)return;//Add for no repeat refresh, delete for rotation no
     //    refresh(bugID3926)
 
+    //heyi test  识别是否切换了图片，并判定上一张图片旋转状态是否发生了改变
+    if (!m_path.isEmpty() && m_path != path) {
+        if (0 != m_rotateAngel) {
+            m_rotateAngel =  m_rotateAngel % 360;
+            if (0 != m_rotateAngel) {
+                utils::image::rotate(m_path, m_rotateAngel);
+                m_rotateAngel = 0;
+            }
+        }
+    }
+
     m_path = path;
     QGraphicsScene *s = scene();
 
@@ -322,7 +336,8 @@ void ImageView::setImage(const QString &path)
         //        m_svgItem = nullptr;
         m_imgSvgItem = nullptr;
         // Support gif and mng
-        if (QMovie(path).frameCount() > 1) {
+        if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
+                || fi.suffix().toLower() == "webp") {
             m_pixmapItem = nullptr;
             s->clear();
             resetTransform();
@@ -334,6 +349,7 @@ void ImageView::setImage(const QString &path)
             emit imageChanged(path);
         } else {
             m_movieItem = nullptr;
+            qDebug() << "cache start!";
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
             if (!m_watcher.isRunning()) {
                 //                m_watcher.setFuture(f);
@@ -391,6 +407,7 @@ void ImageView::setScaleValue(qreal v)
     // Rollback
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / irs;
+        if (minv < 1.09) return;
         scale(minv, minv);
     } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
         const qreal maxv = MAX_SCALE_FACTOR / irs;
@@ -527,14 +544,106 @@ void ImageView::fitImage()
 
 void ImageView::rotateClockWise()
 {
-    utils::image::rotate(m_path, 90);
-    setImage(m_path);
+    //utils::image::rotate(m_path, 90);
+    if (QFileInfo(m_path).suffix() == "sg") {
+        m_movieItem = nullptr;
+        m_pixmapItem = nullptr;
+        scene()->clear();
+        resetTransform();
+
+        QSvgGenerator generator;
+        QImage pix(m_path);
+        //QString dpath = path.right(path.length() - path.lastIndexOf("/") - 1);
+        //QString strTmpPath = tr("/tmp/%1").arg(dpath);
+        //QSvgGenerator generator;
+        generator.setFileName(m_path);
+        //generator.setSize(pix.size());
+        generator.setViewBox(pix.rect());
+        QPainter painter;
+        painter.begin(&generator);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+        painter.translate(pix.rect().width(), 0);
+        painter.rotate(90);
+        painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
+        generator.setSize(pix.size()); //do not remove this
+        painter.end();
+        setSceneRect(pix.rect());
+        //scene()->addItem((QGraphicsItem *)(&generator));
+    } else {
+        QPixmap pixmap = m_pixmapItem->pixmap();
+        QMatrix rotate;
+        rotate.rotate(90);
+
+        pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        scene()->clear();
+        resetTransform();
+        m_pixmapItem = new GraphicsPixmapItem(pixmap);
+        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+            if (!m_pixmapItem) {
+                qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
+                update();
+                return;
+            }
+            if (scaledmode) {
+                m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+            } else {
+                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+            }
+        });
+        // Make sure item show in center of view after reload
+        QRectF rect = m_pixmapItem->boundingRect();
+        //            rect.setHeight(rect.height() + 50);
+        setSceneRect(rect);
+        //            setSceneRect(m_pixmapItem->boundingRect());
+        scene()->addItem(m_pixmapItem);
+        autoFit();
+        m_rotateAngel += 90;
+    }
+
+
+    //emit imageChanged(m_path);
+
+    //setImage(m_path);
 }
 
 void ImageView::rotateCounterclockwise()
 {
-    utils::image::rotate(m_path, -90);
-    setImage(m_path);
+    //utils::image::rotate(m_path, -90);
+    QPixmap pixmap = m_pixmapItem->pixmap();
+    QMatrix rotate;
+    rotate.rotate(-90);
+
+    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    scene()->clear();
+    resetTransform();
+    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+        if (!m_pixmapItem) {
+            qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
+            update();
+            return;
+        }
+        if (scaledmode) {
+            m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+        } else {
+            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        }
+    });
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+    scene()->addItem(m_pixmapItem);
+    autoFit();
+    m_rotateAngel -= 90;
+
+    //emit imageChanged(m_path);
+    //setImage(m_path);
 }
 
 void ImageView::centerOn(int x, int y)
@@ -643,6 +752,19 @@ void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
 #endif
 }
 
+void ImageView::endApp()
+{
+    if (!m_path.isEmpty()) {
+        if (0 != m_rotateAngel) {
+            m_rotateAngel =  m_rotateAngel % 360;
+            if (0 != m_rotateAngel) {
+                utils::image::rotate(m_path, m_rotateAngel);
+                m_rotateAngel = 0;
+            }
+        }
+    }
+}
+
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton)
@@ -691,6 +813,7 @@ void ImageView::leaveEvent(QEvent *e)
 
 void ImageView::resizeEvent(QResizeEvent *event)
 {
+    qDebug() << "ImageView::resizeEvent";
     m_toast->move(width() / 2 - m_toast->width() / 2, height() - 80 - m_toast->height() / 2 - 11);
 
     // when resize window, make titlebar changed.
@@ -709,6 +832,7 @@ void ImageView::paintEvent(QPaintEvent *event)
 void ImageView::dragEnterEvent(QDragEnterEvent *e)
 {
     e->accept();
+    e->acceptProposedAction();
 }
 
 void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
@@ -742,6 +866,7 @@ bool ImageView::event(QEvent *event)
 
 void ImageView::onCacheFinish()
 {
+    qDebug() << "cache end!";
     QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
@@ -762,6 +887,7 @@ void ImageView::onCacheFinish()
                     m_pixmapItem->setTransformationMode(Qt::FastTransformation);
                 } else {
                     m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+                    //m_pixmapItem->setTransformationMode(Qt::FastTransformation);
                 }
             });
             // Make sure item show in center of view after reload

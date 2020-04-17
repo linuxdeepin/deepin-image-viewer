@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="uk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,7 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -74,7 +76,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Не знайдено файлів зображень</translation>
+        <translation>Файл зображення не знайдено</translation>
     </message>
 </context>
 <context>
@@ -239,6 +241,21 @@
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>dd-MM-yyyy HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Підтвердження</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Скасувати</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Вкажіть нову назву</translation>
     </message>
 </context>
 <context>
@@ -504,6 +521,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Попередній</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Пауза</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Відтворення</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Наступний</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Вихід</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -742,6 +782,10 @@
     <message>
         <source>All images</source>
         <translation>усі зображення</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Перейменувати</translation>
     </message>
 </context>
 </TS>

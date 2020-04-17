@@ -53,6 +53,12 @@ class QAbstractItemModel;
 class ImageButton;
 class MyImageListWidget;
 
+enum LOAD_DIRECTION {
+    LOAD_LEFT = 0,  //向左加载
+    LOAD_RIGHT,     //向右加载
+    NOT_LOAD        //不加载
+};
+
 class MyImageListWidget : public DWidget
 {
     Q_OBJECT
@@ -88,6 +94,14 @@ public:
         _pixmap = pixmap;
         update();
     }
+    void setIndex(int index)
+    {
+        _index = index;
+    }
+    void SetPath(QString path)
+    {
+        _path = path;
+    }
 signals:
     void imageItemclicked(int index, int indexNow);
 protected:
@@ -121,7 +135,8 @@ class TTBContent : public QLabel
     Q_OBJECT
 public:
     explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = nullptr);
-
+    //判断当前拖动之后是否进行加载新的图片，向左或者向右或者不变
+    LOAD_DIRECTION judgeLoadDire(int nLastMove, int move);
 signals:
     void clicked();
     void imageClicked(int index, int addIndex);
@@ -134,7 +149,7 @@ signals:
     void contentWidthChanged(int width);
     void showPrevious();
     void showNext();
-
+    void ttbcontentClicked();
 public slots:
     void setCurrentDir(QString text);
     void setImage(const QString &path, DBImgInfoList infos);
@@ -145,6 +160,25 @@ public slots:
     void checkAdaptImageBtn();
     //heyi test 接收到信号之后更改隐藏标志符号
     void onChangeHideFlags(bool bFlags);
+    //向后加载30张 add by heyi
+    void loadBack(DBImgInfoList infos);
+    //向前加载30张 add by heyi
+    void loadFront(DBImgInfoList infos);
+    //接收加载完毕之后的所有图片信息 add by heyi
+    void receveAllIamgeInfos(DBImgInfoList AllImgInfos);
+    //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
+    void onHidePreNextBtn(bool bShowAll, bool bFlag);
+    // 重命名改变itemImage路径
+    void OnChangeItemPath(int, QString);
+    // 重命名改变m_imgInfos路径
+    void OnSetimglist(int, QString, QString);
+    void onResize();
+    //根据路径从布局中删除指定的图片
+    bool delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent);
+    //设置删除按钮信号是否连接,true连接，false断开连接
+    void setIsConnectDel(bool bFlasg);
+    //第一次加载100张时禁止使用删除按钮,按钮置灰色
+    void disableDelAct(bool bFlags);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
@@ -184,14 +218,24 @@ private:
     DWidget *m_imgListView_spc;
     DWidget *m_preButton_spc;
     DWidget *m_nextButton_spc;
+    //当前显示的图片信息
     DBImgInfoList m_imgInfos ;
+    //所有图片信息
+    DBImgInfoList m_AllImgInfos ;
+    //第一次100张图片的第一张图片路径
+    QString m_strFirstPath;
+    //第一次100张图片的最后一张路径
+    QString m_strEndPsth;
     QString m_imagePath;
+    QString m_strCurImagePath;
     int m_windowWidth;
     int m_contentWidth;
     int m_lastIndex = 0;
     int m_nowIndex = 0;
     int m_imgInfos_size = 0;
     int m_startAnimation = 0;
+    //上一次拖动后移动的X坐标
+    int m_nLastMove = 0;
     bool bresized = true;
     bool badaptImageBtnChecked = false;
     bool badaptScreenBtnChecked = false;

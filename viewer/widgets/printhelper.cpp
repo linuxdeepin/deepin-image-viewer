@@ -69,6 +69,7 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
+    qDebug() << "ready to print!    File:" << __FILE__ << "    Line:" << __LINE__;
     QPrinter printer;
     QImage img;
 
@@ -99,17 +100,18 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 {
                     for (QObject *child : obj->children()) {
                         if (child->metaObject()->className() == class_name) {
+                            qDebug() << "return child!    File:" << __FILE__ << "    Line:" << __LINE__;
                             return child;
                         }
                     }
-
+                    qDebug() << "return nullptr!    File:" << __FILE__ << "    Line:" << __LINE__;
                     return (QObject *)(nullptr);
                 };
 
                 if (QPrintDialog *print_dialog = printDialog.findChild<QPrintDialog *>())
                 {
                     print_dialog->reject();
-
+                    qDebug() << "show print_properties_dialog!    File:" << __FILE__ << "    Line:" << __LINE__;
                     // 显示打印设置对话框
                     if (QObject *print_properties_dialog = find_child_by_name(print_dialog, "QUnixPrintWidget"))
                         QMetaObject::invokeMethod(print_properties_dialog, "_q_btnPropertiesClicked");
@@ -117,6 +119,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             }, Qt::QueuedConnection);
         }
     } else {
+        qDebug() << "optionsPage hide!    File:" << __FILE__ << "    Line:" << __LINE__;
         optionsPage->hide();
     }
 
@@ -161,30 +164,36 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 
             if (size.width() < img.width() || size.height() < img.height()) {
                 painter.drawImage(pos.x(), pos.y(), img.scaledToWidth(size.width(), Qt::SmoothTransformation));
+                qDebug() << "painter drawImage normal!    File:" << __FILE__ << "    Line:" << __LINE__;
             } else {
                 painter.setRenderHint(QPainter::SmoothPixmapTransform);
                 painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
                 painter.setWindow(img.rect());
                 painter.drawImage(0, 0, img);
+                qDebug() << "painter drawImage (0,0)!    File:" << __FILE__ << "    Line:" << __LINE__;
             }
 
             if (img != imgs.last()) {
                 printer.newPage();
+                qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
             }
         }
 
         painter.end();
+        qDebug() << "painter OK!    File:" << __FILE__ << "    Line:" << __LINE__;
     };
 
     QObject::connect(&printDialog, &QPrintPreviewDialog::paintRequested, &printDialog, repaint);
     QObject::connect(optionsPage, &PrintOptionsPage::valueChanged, optionsPage, [&printDialog] {
         if (QPrintPreviewWidget *pw = printDialog.findChild<QPrintPreviewWidget *>())
             pw->updatePreview();
+
+        qDebug() << "painter updatePreview!    File:" << __FILE__ << "    Line:" << __LINE__;
     });
 
     if (printDialog.exec() == QDialog::Accepted) {
 
-        qDebug() << "print succeed!";
+        qDebug() << "send print order succeed!";
 
         return;
     }
@@ -220,7 +229,7 @@ QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int res
             size.setHeight(int(hImg * resolution));
         }
     }
-
+    qDebug() << "adjustSize:" << size <<"    File:" << __FILE__ << "    Line:" << __LINE__;
     return size;
 }
 
@@ -244,6 +253,6 @@ QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &i
     } else {
         posY = viewportSize.height() - imageSize.height();
     }
-
+    qDebug() << "adjustPosition X:" << posX << "Y:" << posY <<"    File:" << __FILE__ << "    Line:" << __LINE__;
     return QPoint(posX, posY);
 }

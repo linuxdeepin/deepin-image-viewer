@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ko">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>이미지 보기도구</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>이미지 보기도구는 인기있는 인터페이스와 원활한 성능을 갖춘 이미지보기 도구입니다.</translation>
     </message>
 </context>
 <context>
@@ -23,22 +21,26 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">이미지 정보</translation>
+        <translation>이미지 정보</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Return</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
+        <translation>기본 정보</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>상세 정보</translation>
     </message>
 </context>
 <context>
@@ -66,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">삭제</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>이미지 파일을 찾을 수 없음</translation>
     </message>
 </context>
 <context>
@@ -161,11 +163,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation>치수</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>태그</translation>
     </message>
 </context>
 <context>
@@ -238,7 +240,22 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>확인</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>취소</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>새 이름 입력</translation>
     </message>
 </context>
 <context>
@@ -391,19 +408,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">전체화면 종료</translation>
+        <translation>전체화면 종료</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>확대</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>축소</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>열기</translation>
     </message>
 </context>
 <context>
@@ -504,6 +521,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>이전</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>일시중지</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>재생</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>다음</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>종료</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -530,35 +570,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">내 즐겨찾기</translation>
+        <translation>내 즐겨찾기</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">이전</translation>
+        <translation>이전</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">다음</translation>
+        <translation>다음</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">1:1 크기</translation>
+        <translation>1:1 크기</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">창에 맞춤</translation>
+        <translation>창에 맞춤</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">시계 반대 방향으로 회전</translation>
+        <translation>시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">시계 방향으로 회전</translation>
+        <translation>시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">삭제</translation>
+        <translation>삭제</translation>
     </message>
 </context>
 <context>
@@ -616,7 +656,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>이미지 파일을 찾을 수 없음</translation>
     </message>
 </context>
 <context>
@@ -742,6 +782,10 @@
     <message>
         <source>All images</source>
         <translation>모든 이미지</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>이름 변경</translation>
     </message>
 </context>
 </TS>

@@ -555,7 +555,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
             }
             // QProcess::execute("dbus-send --print-reply --dest=com.deepin.ImageViewer "
             // "/com/deepin/ImageViewer com.deepin.ImageViewer.RaiseWindow");
-            iface.asyncCall("RaiseWindow");
+            //iface.asyncCall("RaiseWindow");
 
             return false;
         }
