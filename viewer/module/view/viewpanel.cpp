@@ -902,6 +902,12 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
     event->accept();
     ModulePanel::dragEnterEvent(event);
 }
+
+void ViewPanel::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
 //Load 100 pictures while first
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
