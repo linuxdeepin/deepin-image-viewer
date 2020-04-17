@@ -342,6 +342,7 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
 {
     if (infos.size() >= 1) {
         m_bFinishFirstLoad = true;
+        m_bAllowDel = true;
         m_bIsFirstLoad = false;
     }
     //第一次加载为所有图片不进行刷新
@@ -507,7 +508,7 @@ void ViewPanel::newEatImageDirIterator()
 void ViewPanel::eatImageDirIteratorThread()
 {
     //if (m_AllPath.count() < 1) return;
-    QThread::currentThread()->sleep(3);
+    QThread::currentThread()->sleep(2);
     LoadDirPathFirst(true);
     QStringList pathlist;
     int begin = 0;
@@ -666,7 +667,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         return nullptr;
     }
 
-    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos,this);
+    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, this);
 
     if (!ttbc) {
         return nullptr;
@@ -676,6 +677,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::QueuedConnection);
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::QueuedConnection);
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::QueuedConnection);
+    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::QueuedConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
@@ -777,9 +779,9 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
     }
 
     if (e->type() == QEvent::Resize && this->isVisible() && m_finish) {
-       // emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
-      //  emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
-       //                                                (m_infos.size() > 1));
+        // emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
+        //  emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
+        //                                                (m_infos.size() > 1));
         emit sigResize();
         //emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
     }
@@ -897,6 +899,7 @@ void ViewPanel::dragEnterEvent(QDragEnterEvent *event)
 {
     event->setDropAction(Qt::CopyAction);
     event->accept();
+    event->acceptProposedAction();
     ModulePanel::dragEnterEvent(event);
 }
 
@@ -1104,8 +1107,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        m_bFinishFirstLoad = true;
         emit changeHideFlag(false);
+        m_bAllowDel = false;
         if (pathlist.size() > 0) {
             //mit imageChanged(vinfo.path, m_infos);
         }
@@ -1123,8 +1126,14 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             });
 
             if (loadTh && !vinfo.path.isEmpty()) {
+                //发送按钮置灰信号
+                emit disableDel(false);
+                m_bAllowDel = false;
                 loadTh->start();
             }
+        } else {
+            m_bFinishFirstLoad = true;
+            m_bAllowDel = true;
         }
     }
 }
@@ -1222,10 +1231,13 @@ bool ViewPanel::showImage(int index, int addindex)
 
 void ViewPanel::removeCurrentImage()
 {
-    if (m_infos.isEmpty()) {
+    if (m_infos.isEmpty() || !m_bAllowDel) {
         return;
     }
 
+    //断开删除信号
+    ttbc->setIsConnectDel(false);
+    m_bAllowDel = false;
 #ifdef LITE_DIV
     // 在删除当前图片之前将图片列表初始化完成
     //eatImageDirIterator();
@@ -1248,35 +1260,14 @@ void ViewPanel::removeCurrentImage()
         if (m_current == m_infos.size()) {
             m_current = 0;
         }
+
+        ttbc->delPictureFromPath(m_infos.at(m_current).filePath, m_infos, m_current);
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
     }
-    //    if (m_current != m_infos.cend()) {
-    //        m_infos.removeAt(imageIndex(m_current->filePath));
-    //        if (! showNext()) {
-    //            if (! showPrevious()) {
-    //                qDebug() << "No images to show!";
-    //                m_current = m_infos.cend();
-    //                emit imageChanged("",m_infos);
-    //                m_emptyWidget->setThumbnailImage(QPixmap());
-    //                m_stack->setCurrentIndex(1);
-    //            }
-    //        }
-    //    }else {
-    //        m_infos.removeAt(imageIndex(m_current->filePath));
-    //        if (m_infos.isEmpty()) {
-    //            qDebug() << "No images to show!";
-    //            m_current = m_infos.cend();
-    //            emit imageChanged("",m_infos);
-    //            m_emptyWidget->setThumbnailImage(QPixmap());
-    //            m_stack->setCurrentIndex(1);
-    //        }else {
-    //            if (m_current == m_infos.cend()) {
-    //                m_current = m_infos.cbegin();
-    //            }
-    //            openImage(m_current->filePath, m_vinfo.inDatabase);
-    //        }
-    //    }
+
+    ttbc->setIsConnectDel(true);
+    m_bAllowDel = true;
 }
 
 void ViewPanel::viewOnNewProcess(const QStringList &paths)

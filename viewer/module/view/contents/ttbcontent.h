@@ -173,6 +173,13 @@ public slots:
     // 重命名改变m_imgInfos路径
     void OnSetimglist(int, QString, QString);
     void onResize();
+    //根据路径从布局中删除指定的图片
+    bool delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent);
+    //设置删除按钮信号是否连接,true连接，false断开连接
+    void setIsConnectDel(bool bFlasg);
+    //第一次加载100张时禁止使用删除按钮,按钮置灰色
+    void disableDelAct(bool bFlags);
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();

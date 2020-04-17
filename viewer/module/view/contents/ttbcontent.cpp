@@ -931,6 +931,57 @@ void TTBContent::updateFilenameLayout()
     m_fileNameLabel->setText(name, leftMargin);
 }
 
+bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent)
+{
+    bool bRet = true;
+    ImageItem *test = m_imgList->findChild<ImageItem *>(strPath);
+    if (!test) {
+        bRet = false;
+        return bRet;
+    }
+
+    qDebug() << "被删除的图片路径：" << test->objectName();
+    m_imglayout->removeWidget(test);
+    test->setParent(nullptr);
+    test->deleteLater();
+
+    m_imgInfos = infos;
+    m_nowIndex = nCurrent;
+    //删除当前图片之后将当前图片和之后的所有图片index减一
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    if (nCurrent != 0) {
+        for (int i = nCurrent; i < labelList.size(); i++) {
+            labelList.at(i)->setIndex(i);
+        }
+    } else {
+        for (int i = 0; i < labelList.size(); i++) {
+            labelList.at(i)->setIndex(i);
+        }
+    }
+    //将所有的NowIndex重置
+    for (int i = 0; i < labelList.size(); i++) {
+        labelList.at(i)->setIndexNow(nCurrent);
+    }
+
+    m_imgList->adjustSize();
+
+    return bRet;
+}
+
+void TTBContent::setIsConnectDel(bool bFlags)
+{
+    if (bFlags) {
+        connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed, Qt::UniqueConnection);
+    } else {
+        m_trashBtn->disconnect();
+    }
+}
+
+void TTBContent::disableDelAct(bool bFlags)
+{
+    m_trashBtn->setEnabled(bFlags);
+}
+
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;
@@ -1369,7 +1420,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                     imageItem->setFixedSize(QSize(num, 40));
                     imageItem->resize(QSize(num, 40));
                     imageItem->installEventFilter(m_imgListView);
-                    imageItem->setObjectName(QString::number(i));
+                    imageItem->setObjectName(info.filePath);
 
 
                     m_imglayout->addWidget(imageItem);
@@ -1765,7 +1816,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
     }
     emit dApp->signalM->updateFileName(fileName);
 
-    qDebug() << "时间2";
+    m_imgList->adjustSize();
 }
 
 void TTBContent::updateCollectButton()
@@ -1797,10 +1848,8 @@ void TTBContent::updateCollectButton()
     //    }
 }
 
-
 void TTBContent::onResize()
 {
-
     if (m_imgInfos.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     } else if (m_imgInfos.size() <= 3) {
@@ -1824,10 +1873,8 @@ void TTBContent::onResize()
         m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
         m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
+
     setFixedWidth(m_contentWidth);
-//    m_contentWidth = window()->width() - 20;
-//    setFixedWidth(m_contentWidth);
-//    emit dApp->signalM->sigViewPanelSizeChanged();
     int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
     int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
     if (m_nowIndex > a && m_nowIndex < b) {
@@ -1839,10 +1886,7 @@ void TTBContent::onResize()
     } else {
         m_startAnimation = 0;
     }
-//    m_imgListView->show();
 
-//    if (!binsertneedupdate)
-//        return;
     if (1 == m_startAnimation) {
         m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                                      (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 228 + 18) / 2 - ((32)*m_nowIndex), 0));
@@ -1853,15 +1897,4 @@ void TTBContent::onResize()
     } else if (0 == m_startAnimation) {
         m_imgList->move(QPoint(0, 0));
     }
-//    m_windowWidth =  this->window()->geometry().width();
-//    if (m_ItemLoaded.size() <= 1) {
-//        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-//    } else if (m_ItemLoaded.size() <= 3) {
-//        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
-//        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
-//    } else {
-//        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-//        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_filelist_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
-//    }
-//    setFixedWidth(m_contentWidth);
 }

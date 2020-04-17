@@ -92,6 +92,8 @@ signals:
     void changeitempath(int, QString);
     void SetImglistPath(int, QString, QString);
     void sigResize();
+    //未完全加载完图片信息时禁止删除图片
+    void disableDel(bool bFlags);
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
@@ -131,6 +133,7 @@ private:
     void LoadDirPathFirst(bool bLoadAll = false);
     void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString &path, bool inDB = true);
+    //删除当前选中的图片
     void removeCurrentImage();
     void rotateImage(bool clockWise);
     bool showNext();
@@ -188,8 +191,6 @@ private:
     QFileInfoList m_AllPath;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
-    //后台加载迭代器
-    QScopedPointer<QDirIterator> m_imageDirIteratorThread;
 
     void eatImageDirIterator();
     //heyi add 备份初始信息读取代码
@@ -213,5 +214,7 @@ private:
     volatile bool m_bIsFirstLoad = true;
     //第一次开机是否加载完成
     volatile bool m_bFinishFirstLoad = false;
+    //是否允许删除
+    volatile bool m_bAllowDel = false;
 };
 #endif  // VIEWPANEL_H

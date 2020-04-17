@@ -832,6 +832,7 @@ void ImageView::paintEvent(QPaintEvent *event)
 void ImageView::dragEnterEvent(QDragEnterEvent *e)
 {
     e->accept();
+    e->acceptProposedAction();
 }
 
 void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
