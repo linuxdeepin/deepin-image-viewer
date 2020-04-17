@@ -342,9 +342,17 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
 {
     if (infos.size() >= 1) {
         m_bFinishFirstLoad = true;
-        m_bAllowDel = true;
         m_bIsFirstLoad = false;
     }
+
+    //开启延时删除标志线程
+    connect(&m_timer, &QTimer::timeout, this, [ = ]() {
+        m_timer.stop();
+        m_bAllowDel = true;
+    });
+
+    m_timer.start(2000);
+
     //第一次加载为所有图片不进行刷新
     if (infos.size() == m_infos.size())
         return;
@@ -709,9 +717,10 @@ QWidget *ViewPanel::bottomTopLeftContent()
                 return;
             }
 
-            removeCurrentImage();
-            DDesktopServices::trash(path);
-            emit dApp->signalM->picDelete();
+            if (removeCurrentImage()) {
+                DDesktopServices::trash(path);
+                emit dApp->signalM->picDelete();
+            }
         }
     });
     connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
@@ -1229,10 +1238,10 @@ bool ViewPanel::showImage(int index, int addindex)
     return true;
 }
 
-void ViewPanel::removeCurrentImage()
+bool ViewPanel::removeCurrentImage()
 {
     if (m_infos.isEmpty() || !m_bAllowDel) {
-        return;
+        return false;
     }
 
     //断开删除信号
@@ -1268,6 +1277,8 @@ void ViewPanel::removeCurrentImage()
 
     ttbc->setIsConnectDel(true);
     m_bAllowDel = true;
+
+    return true;
 }
 
 void ViewPanel::viewOnNewProcess(const QStringList &paths)

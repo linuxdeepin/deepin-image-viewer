@@ -134,7 +134,7 @@ private:
     void onViewImage(const SignalManager::ViewInfo &vinfo);
     void openImage(const QString &path, bool inDB = true);
     //删除当前选中的图片
-    void removeCurrentImage();
+    bool removeCurrentImage();
     void rotateImage(bool clockWise);
     bool showNext();
     bool showPrevious();

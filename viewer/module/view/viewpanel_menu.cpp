@@ -183,23 +183,22 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdRename: {
         QString filepath = path;
         QString filename;
-        if(PopRenameDialog(filepath,filename))
-        {
+        if (PopRenameDialog(filepath, filename)) {
             m_rwLock.lockForWrite();
             m_infos[m_current].fileName = filename;
             m_infos[m_current].filePath = filepath;
             m_rwLock.unlock();
             //修改链表里被修改文件的文件名
             connect(this, &ViewPanel::SetImglistPath, ttbc, &TTBContent::OnSetimglist);
-            emit SetImglistPath(m_current,filename,filepath);
+            emit SetImglistPath(m_current, filename, filepath);
             dApp->m_imageloader->m_writelock.lockForWrite();
             //修改map维护的数据
             QPixmap pix =  dApp->m_imagemap.value(path);
             dApp->m_imagemap.remove(path);
-            dApp->m_imagemap.insert(filepath,pix);
+            dApp->m_imagemap.insert(filepath, pix);
             dApp->m_imageloader->m_writelock.unlock();
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
-            emit changeitempath(m_current,filepath);
+            emit changeitempath(m_current, filepath);
         }
         break;
     }
@@ -225,9 +224,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             QFile file(path);
             if (!file.exists())
                 break;
-            removeCurrentImage();
-            DDesktopServices::trash(path);
-            emit dApp->signalM->picDelete();
+            //modify by heyi
+            if (removeCurrentImage()) {
+                DDesktopServices::trash(path);
+                emit dApp->signalM->picDelete();
+            }
         }
         break;
 #ifndef LITE_DIV
