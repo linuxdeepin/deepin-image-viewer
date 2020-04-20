@@ -296,7 +296,8 @@ void ViewPanel::updateMenuContent()
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
-    appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
+    if(QFileInfo(m_currentImagePath).isWritable() && QFileInfo(m_currentImagePath).isReadable())
+        appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
