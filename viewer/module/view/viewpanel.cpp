@@ -48,7 +48,7 @@
 #include <QtConcurrent>
 #include <QThread>
 #include <QPainter>
-
+#include <DMessageBox>
 #include <DRecentManager>
 
 #include "imageutils.h"
@@ -269,7 +269,8 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         filepath = renamedlg->GetFilePath();
         filename = renamedlg->GetFileName();
         bool bOk = file.rename(filepath);
-        emit dApp->signalM->changetitletext(renamedlg->GetFileName());
+        if(bOk)
+            emit dApp->signalM->changetitletext(renamedlg->GetFileName());
         return bOk;
     }
     return false;

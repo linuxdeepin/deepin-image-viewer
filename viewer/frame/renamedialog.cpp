@@ -42,8 +42,11 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
     m_vlayout->addStretch();
     m_vlayout->addLayout(m_hlayout);
     widet->setLayout(m_vlayout);
-    m_lineedt->lineEdit()->setFocus();
     InitDlg();
+
+    m_lineedt->lineEdit()->setFocus();
+    int Dirlen = m_DirPath.size() + 1 + m_labformat->text().size();
+    m_lineedt->lineEdit()->setMaxLength(255-Dirlen);
     connect(m_lineedt,&DLineEdit::textChanged,this,[=](const QString& text){
         if(text.isEmpty())
             okbtn->setEnabled(false);
