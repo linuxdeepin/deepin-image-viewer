@@ -27,6 +27,7 @@ private:
     QString m_filenamepath;
     QString m_filename;
     QString m_DirPath;
+    QString m_basename;
 };
 
 #endif // RENAMEDIALOG_H

@@ -43,7 +43,6 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
     m_vlayout->addLayout(m_hlayout);
     widet->setLayout(m_vlayout);
     InitDlg();
-
     m_lineedt->lineEdit()->setFocus();
     int Dirlen = m_DirPath.size() + 1 + m_labformat->text().size();
     m_lineedt->lineEdit()->setMaxLength(255-Dirlen);
@@ -62,6 +61,15 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
     connect(cancelbtn,&DPushButton::clicked,this,[=]{
         reject();
     });
+    connect(m_lineedt,&DLineEdit::textChanged,this,[=](const QString &arg){
+        if(arg == m_basename)
+        {
+            okbtn->setEnabled(false);
+        }else {
+            okbtn->setEnabled(true);
+        }
+    });
+    okbtn->setEnabled(false);
 }
 
 
@@ -82,7 +90,7 @@ void RenameDialog::InitDlg()
     m_filename = fileinfo.fileName();
     QString format = fileinfo.suffix();
     QString basename;
-    basename = fileinfo.baseName();
-    m_lineedt->setText(basename);
+    m_basename = fileinfo.baseName();
+    m_lineedt->setText(m_basename);
     m_labformat->setText("." + format);
 }
