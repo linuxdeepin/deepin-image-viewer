@@ -197,6 +197,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             dApp->m_imagemap.remove(path);
             dApp->m_imagemap.insert(filepath, pix);
             dApp->m_imageloader->m_writelock.unlock();
+            m_currentImagePath  =filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);
         }
@@ -296,7 +297,8 @@ void ViewPanel::updateMenuContent()
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
-    if(QFileInfo(m_currentImagePath).isWritable() && QFileInfo(m_currentImagePath).isReadable())
+    if(QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
+            QFileInfo(m_infos.at(m_current).filePath).isWritable())
         appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
 #ifndef LITE_DIV
