@@ -97,6 +97,10 @@ public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
     //结束程序触发此槽函数
     void endApp();
+    //重新加载svg图片
+    bool reloadSvgPix(QString strPath, int nAngel);
+    //根据角度旋转pixmap
+    void rotatePixmap(int nAngel);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;

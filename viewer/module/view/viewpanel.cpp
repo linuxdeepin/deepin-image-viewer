@@ -269,7 +269,7 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         filepath = renamedlg->GetFilePath();
         filename = renamedlg->GetFileName();
         bool bOk = file.rename(filepath);
-        if(bOk)
+        if (bOk)
             emit dApp->signalM->changetitletext(renamedlg->GetFileName());
         return bOk;
     }
@@ -327,6 +327,75 @@ void ViewPanel::startFileWatcher()
     });
 }
 
+void ViewPanel::disconnectTTbc()
+{
+    if (ttbc) {
+        ttbc->disconnect();
+    }
+}
+
+void ViewPanel::reConnectTTbc()
+{
+    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
+    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
+    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
+    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::UniqueConnection);
+
+    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel, Qt::UniqueConnection);
+    connect(this, &ViewPanel::viewImageFrom, ttbc,
+    [ = ](const QString & dir) {
+        ttbc->setCurrentDir(dir);
+    }, Qt::UniqueConnection);
+
+    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::removed, this, [ = ] {
+        if (m_vinfo.inDatabase)
+        {
+            popupDelDialog(m_infos.at(m_current).filePath);
+        } else
+        {
+            const QString path = m_infos.at(m_current).filePath;
+            QFile file(path);
+            if (!file.exists()) {
+                return;
+            }
+
+            if (removeCurrentImage()) {
+                DDesktopServices::trash(path);
+                emit dApp->signalM->picDelete();
+            }
+        }
+    }, Qt::UniqueConnection);
+
+    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
+        if (fitWindow) {
+            m_viewB->fitWindow_btnclicked();
+        } else {
+            m_viewB->fitImage();
+        }
+        m_viewB->titleBarControl();
+    }, Qt::UniqueConnection);
+
+    connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
+    connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
+            &TTBContent::updateCollectButton, Qt::UniqueConnection);
+    connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
+            &TTBContent::updateCollectButton, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
+        this->showPrevious();
+    }, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
+        this->showNext();
+    }, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::imageClicked, this,
+    [ = ](int index, int addIndex) {
+        this->showImage(index, addIndex);
+    }, Qt::UniqueConnection);
+}
+
 void ViewPanel::updateLocalImages()
 {
     const QString cp = m_infos.at(m_current).filePath;
@@ -346,7 +415,9 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
         m_bIsFirstLoad = false;
     }
 
-    //开启延时删除标志线程
+    //断开TTBC所有信号与槽的连接
+    disconnectTTbc();
+    //开启延时删除标志定时器
     connect(&m_timer, &QTimer::timeout, this, [ = ]() {
         m_timer.stop();
         m_bAllowDel = true;
@@ -361,12 +432,11 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
     m_current = nCurrent;
     QStringList pathlist;
 
-    for (int loop = 0; loop < m_infos.size(); loop++) {
+    for (int loop = 0; loop < 1000; loop++) {
         pathlist.append(m_infos.at(loop).filePath);
     }
 
     if (pathlist.count() > 0) {
-        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit changeHideFlag(false);
         if (m_current == 0) {
@@ -374,7 +444,14 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
         } else if (m_current == (m_infos.size() - 1)) {
             emit hidePreNextBtn(false, true);
         }
+
+        //emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
     }
+}
+
+void ViewPanel::recvLoadSignal(bool bFlags)
+{
+
 }
 
 #ifdef LITE_DIV
@@ -674,6 +751,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
 {
     if (m_infos.size() < 1) {
         return nullptr;
+    }
+
+    if (ttbc) {
+        ttbc->deleteLater();
+        ttbc = nullptr;
     }
 
     ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, this);

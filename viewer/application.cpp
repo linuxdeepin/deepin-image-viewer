@@ -98,6 +98,7 @@ void ImageLoader::startLoading()
             }
 
             path = listLoad1.back();
+            qDebug() << "线程1当前加载的图片：" << path;
             //加载完成之后删除该图片路径
             listLoad1.pop_back();
             m_readlock.unlock();
@@ -114,6 +115,7 @@ void ImageLoader::startLoading()
             }
 
             path = listLoad2.front();
+            qDebug() << "线程1当前加载的图片：" << path;
             listLoad2.pop_front();
             m_readlock.unlock();
             loadInterface(path);
@@ -133,6 +135,7 @@ void ImageLoader::startLoading()
             }
 
             path = listLoad2.front();
+            qDebug() << "线程2当前加载的图片：" << path;
             //加载完成之后删除该图片路径
             listLoad2.pop_front();
             m_readlock.unlock();
@@ -149,6 +152,7 @@ void ImageLoader::startLoading()
             }
 
             path = listLoad1.back();
+            qDebug() << "线程2当前加载的图片：" << path;
             listLoad1.pop_back();
             m_readlock.unlock();
             loadInterface(path);

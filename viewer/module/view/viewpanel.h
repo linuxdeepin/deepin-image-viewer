@@ -94,6 +94,9 @@ signals:
     void sigResize();
     //未完全加载完图片信息时禁止删除图片
     void disableDel(bool bFlags);
+    //发送需要加载的信息，向前或者向后,true为头部加载，false尾部加载
+    void sendLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
@@ -155,6 +158,10 @@ private:
     //重命名窗口处理函数
     bool PopRenameDialog(QString &filepath, QString &filename);
     void startFileWatcher();
+    //断开ttbc所有的信号连接
+    void disconnectTTbc();
+    //重新连接TTBC工具栏所有信号
+    void reConnectTTbc();
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
@@ -162,6 +169,8 @@ private slots:
 
     //heyi test  发送显示缩略图的信号
     void sendSignal(DBImgInfoList infos, int nCurrent);
+    //接受向前加载或者向后加载信号,true为头部加载，false为尾部加载
+    void recvLoadSignal(bool bFlags);
 
 private:
     int m_hideCursorTid;
@@ -176,7 +185,7 @@ private:
     DMenu *m_menu;
     QStackedWidget *m_stack {nullptr};
     LockWidget *m_lockWidget;
-    TTBContent *ttbc;
+    TTBContent *ttbc = nullptr;
     // Floating component
     DAnchors<NavigationWidget> m_nav;
 
