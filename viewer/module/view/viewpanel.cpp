@@ -482,14 +482,36 @@ void ViewPanel::recvLoadSignal(bool bFlags)
         if(m_infosHead.isEmpty()) return;
         m_infosadd.clear();
         for (int i =0;i<Load_Image_Count;++i) {
+            if(m_infosHead.isEmpty()) break;
             DBImgInfo info =m_infosHead.takeLast();
             m_infosadd.append(info);
+            m_infos.push_front(info);
         }
+        int begin = 0;
+        for (; begin < m_infos.size(); begin++) {
+            if (m_infos.at(begin).filePath == m_currentImagePath) {
+                break;
+            }
+        }
+        m_current = begin;
+
     }else {
         if(m_infosTail.isEmpty()) return;
         m_infosadd.clear();
-        DBImgInfo info =m_infosTail.takeLast();
-        m_infosadd.append(info);
+        for (int i =0;i<Load_Image_Count;++i) {
+            if(m_infosTail.isEmpty()) break;
+            DBImgInfo info =m_infosTail.takeFirst();
+            m_infosadd.append(info);
+            m_infos.append(info);
+        }
+
+        int begin = 0;
+        for (; begin < m_infos.size(); begin++) {
+            if (m_infos.at(begin).filePath == m_currentImagePath) {
+                break;
+            }
+        }
+        m_current = begin;
     }
     emit sendLoadAddInfos(m_infosadd, bFlags);
 }
