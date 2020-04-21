@@ -6,6 +6,7 @@
 
 #include <QLabel>
 #include <DMessageBox>
+#include <QRegExp>
 
 #define FILENAMEMAXLENGTH 255
 
@@ -50,6 +51,10 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
     m_lineedt->lineEdit()->setFocus();
     int Dirlen = m_DirPath.size() + 1 + m_labformat->text().size();
     m_lineedt->lineEdit()->setMaxLength(FILENAMEMAXLENGTH-Dirlen);
+    //正则表达式排除‘\’,'/'
+    QRegExp rx("[^\\\\//]*");
+    QRegExpValidator *pReg = new QRegExpValidator(rx, this);
+    m_lineedt->lineEdit()->setValidator(pReg);
     connect(m_lineedt,&DLineEdit::textChanged,this,[=](const QString& text){
         if(text.isEmpty())
             okbtn->setEnabled(false);
