@@ -63,6 +63,7 @@ const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 
 }  // namespace
 const int First_Load_Image = 100;
+const int Load_Image_Count = 50;
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
     , m_hideCursorTid(0)
@@ -92,6 +93,7 @@ ViewPanel::ViewPanel(QWidget *parent)
 
     //heyi test
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
+    m_nosupportformat << "jp2" << "dds" << "psd" << "pcx" << "exr" << "avi" << "ct" << "pict" << "pic";
 }
 
 QString ViewPanel::moduleName()
@@ -132,18 +134,39 @@ void ViewPanel::initConnect()
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                        (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-
-        onViewImage(vinfo);
-        if (NULL == vinfo.lastPanel) {
-            return;
-        } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
-                   vinfo.lastPanel->moduleName() == "ViewPanel") {
-            m_currentImageLastDir = vinfo.album;
-            emit viewImageFrom(vinfo.album);
-        } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
-            m_currentImageLastDir = tr("Timeline");
-            emit viewImageFrom(tr("Timeline"));
-        }
+        //打开不支持的文件格式 跳到第一张
+//        QFileInfo fileinfo(vinfo.path);
+//        QString strformat = fileinfo.suffix();
+//        SignalManager::ViewInfo tmpvinfo = vinfo;
+//        if(!vinfo.path.isEmpty() && m_nosupportformat.contains(strformat,Qt::CaseSensitive))
+//        {
+//            m_current = 0;
+//            tmpvinfo.path = m_infos.at(m_current).filePath;
+//            onViewImage(tmpvinfo);
+//            if (NULL == tmpvinfo.lastPanel) {
+//                return;
+//            } else if (tmpvinfo.lastPanel->moduleName() == "AlbumPanel" ||
+//                       tmpvinfo.lastPanel->moduleName() == "ViewPanel") {
+//                m_currentImageLastDir = tmpvinfo.album;
+//                emit viewImageFrom(tmpvinfo.album);
+//            } else if (tmpvinfo.lastPanel->moduleName() == "TimelinePanel") {
+//                m_currentImageLastDir = tr("Timeline");
+//                emit viewImageFrom(tr("Timeline"));
+//            }
+//        }else
+//        {
+            onViewImage(vinfo);
+            if (NULL == vinfo.lastPanel) {
+                return;
+            } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
+                       vinfo.lastPanel->moduleName() == "ViewPanel") {
+                m_currentImageLastDir = vinfo.album;
+                emit viewImageFrom(vinfo.album);
+            } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
+                m_currentImageLastDir = tr("Timeline");
+                emit viewImageFrom(tr("Timeline"));
+            }
+//        }
         // TODO: there will be some others panel
     });
 
@@ -451,7 +474,24 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
 
 void ViewPanel::recvLoadSignal(bool bFlags)
 {
-
+    //筛选所有图片格式
+    if(!m_CollFileFinish)
+        return;
+    if(bFlags)
+    {
+        if(m_infosHead.isEmpty()) return;
+        m_infosadd.clear();
+        for (int i =0;i<Load_Image_Count;++i) {
+            DBImgInfo info =m_infosHead.takeLast();
+            m_infosadd.append(info);
+        }
+    }else {
+        if(m_infosTail.isEmpty()) return;
+        m_infosadd.clear();
+        DBImgInfo info =m_infosTail.takeLast();
+        m_infosadd.append(info);
+    }
+    emit sendLoadAddInfos(m_infosadd, bFlags);
 }
 
 #ifdef LITE_DIV
@@ -596,15 +636,16 @@ void ViewPanel::eatImageDirIteratorThread()
     //if (m_AllPath.count() < 1) return;
     QThread::currentThread()->sleep(2);
     LoadDirPathFirst(true);
-    QStringList pathlist;
-    int begin = 0;
-    for (; begin < m_infosAll.size(); begin++) {
-        if (m_infosAll.at(begin).filePath == m_currentImagePath) {
-            break;
-        }
-    }
+    m_CollFileFinish = true;
+//    QStringList pathlist;
+//    int begin = 0;
+//    for (; begin < m_infosAll.size(); begin++) {
+//        if (m_infosAll.at(begin).filePath == m_currentImagePath) {
+//            break;
+//        }
+//    }
 
-    emit sendLoadOver(m_infosAll, begin);
+    //emit sendLoadOver(m_infosAll, begin);
 }
 #endif
 
@@ -978,7 +1019,6 @@ void ViewPanel::dropEvent(QDropEvent *event)
 
         vinfo.path = paths.first();
         vinfo.paths = paths;
-
         onViewImage(vinfo);
 #else
         viewOnNewProcess(paths);
@@ -1006,17 +1046,27 @@ void ViewPanel::dragMoveEvent(QDragMoveEvent *event)
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
     if (bLoadAll)
+    {
+        m_infosHead.clear();
+        m_infosTail.clear();
         m_infosAll.clear();
+    }
     else
         m_infos.clear();
     int nCount = m_AllPath.count();
     int i = 0;
     int nimgcount = 0;
     //获取前当前位置前50个文件的位置
-    int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0; //
+    int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0;
+    if(!bLoadAll)
+        m_firstindex = nStartIndex;
     while (i < nCount && nStartIndex < nCount) {
         if (!bLoadAll) {
-            if (nimgcount > First_Load_Image) break;
+            if (nimgcount >= First_Load_Image)
+            {
+                m_lastindex = nimgcount-1;
+                break;
+            }
         } else {
             nStartIndex = i;
         }
@@ -1028,14 +1078,20 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
         QString str = m_AllPath.at(nStartIndex).suffix();
         nStartIndex++;
-        //        if (str.isEmpty()) {
+        if (!m_nosupportformat.contains(str,Qt::CaseSensitive)) {
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                 mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
             if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
                 // if (!m_infos.contains(info)) {
                 nimgcount++;
                 if (bLoadAll)
+                {
+                    if(i<m_firstindex)
+                        m_infosHead.append(info);
+                    else if(i>m_lastindex)
+                        m_infosTail.append(info);
                     m_infosAll.append(info);
+                }
                 else
                     m_infos.append(info);
                 //}
@@ -1043,10 +1099,16 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
                 //if (!m_infos.contains(info)) {
                 nimgcount++;
                 if (bLoadAll)
+                {
+                    if(i<m_firstindex)
+                        m_infosHead.append(info);
+                    else if(i>m_lastindex)
+                        m_infosTail.append(info);
                     m_infosAll.append(info);
+                }
                 else
                     m_infos.append(info);
-                // }
+                 }
             }
 
         }

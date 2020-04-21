@@ -162,7 +162,6 @@ private:
     void disconnectTTbc();
     //重新连接TTBC工具栏所有信号
     void reConnectTTbc();
-
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateLocalImages();
@@ -191,6 +190,9 @@ private:
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
+    DBImgInfoList m_infosadd;
+    DBImgInfoList m_infosHead;
+    DBImgInfoList m_infosTail;
     //heyi test 优化新增后台加载所有图片信息结构体。
     DBImgInfoList m_infosAll;
     //    DBImgInfoList::ConstIterator m_current =NULL;
@@ -198,6 +200,7 @@ private:
     int m_firstindex = 0;
     int m_lastindex = 0;
     QFileInfoList m_AllPath;
+    bool m_CollFileFinish = false;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 
@@ -225,5 +228,7 @@ private:
     volatile bool m_bFinishFirstLoad = false;
     //是否允许删除
     volatile bool m_bAllowDel = false;
+    //排除不支持格式
+    QStringList m_nosupportformat;
 };
 #endif  // VIEWPANEL_H
