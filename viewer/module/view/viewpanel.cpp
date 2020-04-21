@@ -134,39 +134,17 @@ void ViewPanel::initConnect()
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                        (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-        //打开不支持的文件格式 跳到第一张
-//        QFileInfo fileinfo(vinfo.path);
-//        QString strformat = fileinfo.suffix();
-//        SignalManager::ViewInfo tmpvinfo = vinfo;
-//        if(!vinfo.path.isEmpty() && m_nosupportformat.contains(strformat,Qt::CaseSensitive))
-//        {
-//            m_current = 0;
-//            tmpvinfo.path = m_infos.at(m_current).filePath;
-//            onViewImage(tmpvinfo);
-//            if (NULL == tmpvinfo.lastPanel) {
-//                return;
-//            } else if (tmpvinfo.lastPanel->moduleName() == "AlbumPanel" ||
-//                       tmpvinfo.lastPanel->moduleName() == "ViewPanel") {
-//                m_currentImageLastDir = tmpvinfo.album;
-//                emit viewImageFrom(tmpvinfo.album);
-//            } else if (tmpvinfo.lastPanel->moduleName() == "TimelinePanel") {
-//                m_currentImageLastDir = tr("Timeline");
-//                emit viewImageFrom(tr("Timeline"));
-//            }
-//        }else
-//        {
-            onViewImage(vinfo);
-            if (NULL == vinfo.lastPanel) {
-                return;
-            } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
-                       vinfo.lastPanel->moduleName() == "ViewPanel") {
-                m_currentImageLastDir = vinfo.album;
-                emit viewImageFrom(vinfo.album);
-            } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
-                m_currentImageLastDir = tr("Timeline");
-                emit viewImageFrom(tr("Timeline"));
-            }
-//        }
+        onViewImage(vinfo);
+        if (NULL == vinfo.lastPanel) {
+            return;
+        } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
+                   vinfo.lastPanel->moduleName() == "ViewPanel") {
+            m_currentImageLastDir = vinfo.album;
+            emit viewImageFrom(vinfo.album);
+        } else if (vinfo.lastPanel->moduleName() == "TimelinePanel") {
+            m_currentImageLastDir = tr("Timeline");
+            emit viewImageFrom(tr("Timeline"));
+        }
         // TODO: there will be some others panel
     });
 
@@ -1363,6 +1341,7 @@ bool ViewPanel::showNext()
     //eatImageDirIterator();
 #endif
 
+    if(m_infos.size() == m_current) m_current = 0;
     if (m_infos.isEmpty() || m_current == m_infos.size() - 1 || !m_bFinishFirstLoad) {
         return false;
     }
