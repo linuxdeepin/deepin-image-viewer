@@ -66,7 +66,9 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
         reject();
     });
     connect(m_lineedt,&DLineEdit::textChanged,this,[=](const QString &arg){
-        if(arg == m_basename)
+        QString fileabname = m_DirPath+ "/" + arg+m_labformat->text();
+        QFile file(fileabname);
+        if(file.exists())
         {
             okbtn->setEnabled(false);
         }else {
