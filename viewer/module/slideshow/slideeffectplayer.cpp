@@ -345,14 +345,21 @@ void SlideEffectPlayer::cacheNext()
             current = 0;
         }
     }
-
     QString path = m_paths[current];
-
+    if(m_current !=0)
+    {
+        QString curpath = m_paths[current-1];
+        if (m_cacheImages.value(curpath).isNull())
+        {
+            QImage img = utils::image::getRotatedImage(curpath);
+            m_cacheImages.insert(curpath, img);
+        }
+    }
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages.insert(path, img)";
+            qDebug() << "m_cacheImagesnext.insert(path, img)";
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
@@ -375,7 +382,7 @@ void SlideEffectPlayer::cachePrevious()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages.insert(path, img)";
+            qDebug() << "m_cacheImagespre.insert(path, img)";
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
