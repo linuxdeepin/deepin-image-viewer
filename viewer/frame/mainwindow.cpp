@@ -137,19 +137,19 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
 
 void MainWindow::initshortcut()
 {
-    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    esc->setContext(Qt::WindowShortcut);
-    connect(esc, &QShortcut::activated, this, [ = ] {
-        if (window()->isFullScreen())
-        {
-            emit dApp->signalM->sigESCKeyActivated();
-            emit dApp->signalM->sigESCKeyStopSlide();
-        } else if (0 == m_pCenterWidget->currentIndex())
-        {
-            this->close();
-        }
-        emit dApp->signalM->hideExtensionPanel();
-    });
+//    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+//    esc->setContext(Qt::WindowShortcut);
+//    connect(esc, &QShortcut::activated, this, [ = ] {
+//        if (window()->isFullScreen())
+//        {
+//            emit dApp->signalM->sigESCKeyActivated();
+//            emit dApp->signalM->sigESCKeyStopSlide();
+//        } else if (0 == m_pCenterWidget->currentIndex())
+//        {
+//            this->close();
+//        }
+//        emit dApp->signalM->hideExtensionPanel();
+//    });
 }
 
 

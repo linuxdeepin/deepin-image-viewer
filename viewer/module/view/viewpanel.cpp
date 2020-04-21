@@ -769,6 +769,8 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::QueuedConnection);
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::QueuedConnection);
     connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::QueuedConnection);
+    connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos, Qt::QueuedConnection);
+    connect(ttbc, &TTBContent::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::QueuedConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath, m_infos);

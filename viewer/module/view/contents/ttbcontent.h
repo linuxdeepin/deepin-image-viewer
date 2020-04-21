@@ -102,6 +102,10 @@ public:
     {
         _path = path;
     }
+    inline QString getPath()
+    {
+        return _path;
+    }
 signals:
     void imageItemclicked(int index, int indexNow);
 protected:
@@ -128,7 +132,6 @@ private:
     DSpinner *m_spinner;
     QString m_pixmapstring;
     bool bmouserelease = false;
-
 };
 class TTBContent : public QLabel
 {
@@ -152,6 +155,7 @@ signals:
     void ttbcontentClicked();
     //接受向前加载或者向后加载信号,true为头部加载，false为尾部加载
     void sendLoadSignal(bool bFlags);
+
 public slots:
     void setCurrentDir(QString text);
     void setImage(const QString &path, DBImgInfoList infos);

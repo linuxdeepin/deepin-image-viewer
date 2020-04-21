@@ -543,9 +543,11 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
         switch (loadDire)
         {
         case LOAD_LEFT: {
+            emit sendLoadSignal(true);
             break;
         }
         case LOAD_RIGHT: {
+            emit sendLoadSignal(false);
             break;
         }
         case NOT_LOAD: {
@@ -982,9 +984,13 @@ void TTBContent::disableDelAct(bool bFlags)
     m_trashBtn->setEnabled(bFlags);
 }
 
-void TTBContent::recvLoadAddInfos(DBImgInfoList allInfos, bool bFlags)
+void TTBContent::recvLoadAddInfos(DBImgInfoList newInfos, bool bFlags)
 {
-
+    if (bFlags) {
+        loadFront(newInfos);
+    } else {
+        loadBack(newInfos);
+    }
 }
 
 void TTBContent::onChangeHideFlags(bool bFlags)
@@ -1053,12 +1059,76 @@ void TTBContent::onChangeHideFlags(bool bFlags)
 
 void TTBContent::loadBack(DBImgInfoList infos)
 {
+    //遍历infos动态生成图元，并将图元加入布局
+    foreach (DBImgInfo info, infos) {
+        char *imageType = getImageType(info.filePath);
+        ImageItem *imageItem = new ImageItem(0, info.filePath, imageType);
+        imageItem->setFixedSize(QSize(32, 40));
+        imageItem->resize(QSize(32, 40));
+        imageItem->installEventFilter(m_imgListView);
+        imageItem->setObjectName(info.filePath);
 
+        m_imglayout->addWidget(imageItem);
+        connect(
+            imageItem, &ImageItem::imageItemclicked, this,
+        [ = ](int index, int indexNow) {
+            emit imageClicked(index, (index - indexNow));
+        });
+
+        m_imgInfos.push_back(info);
+        onResize();
+        m_imgList->adjustSize();
+    }
+
+    //重置图元当前信息
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    for (int i = 0; i < labelList.size(); i++) {
+        labelList.at(i)->setIndex(i);
+        if (labelList.at(i)->getPath() == m_strCurImagePath) {
+            m_nowIndex = i;
+        }
+    }
+
+    for (int i = 0; i < labelList.size(); i++) {
+        labelList.at(i)->setIndexNow(m_nowIndex);
+    }
 }
 
 void TTBContent::loadFront(DBImgInfoList infos)
 {
+    //遍历infos动态生成图元，并将图元加入布局
+    foreach (DBImgInfo info, infos) {
+        char *imageType = getImageType(info.filePath);
+        ImageItem *imageItem = new ImageItem(0, info.filePath, imageType);
+        imageItem->setFixedSize(QSize(32, 40));
+        imageItem->resize(QSize(32, 40));
+        imageItem->installEventFilter(m_imgListView);
+        imageItem->setObjectName(info.filePath);
 
+        m_imglayout->insertWidget(0, imageItem);
+        connect(
+            imageItem, &ImageItem::imageItemclicked, this,
+        [ = ](int index, int indexNow) {
+            emit imageClicked(index, (index - indexNow));
+        });
+
+        m_imgInfos.push_front(info);
+        onResize();
+        m_imgList->adjustSize();
+    }
+
+    //重置图元当前信息
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    for (int i = 0; i < labelList.size(); i++) {
+        labelList.at(i)->setIndex(i);
+        if (labelList.at(i)->getPath() == m_strCurImagePath) {
+            m_nowIndex = i;
+        }
+    }
+
+    for (int i = 0; i < labelList.size(); i++) {
+        labelList.at(i)->setIndexNow(m_nowIndex);
+    }
 }
 
 void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
