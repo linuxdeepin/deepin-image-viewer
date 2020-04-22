@@ -1098,7 +1098,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     while (i < nCount && nStartIndex < nCount) {
         if (!bLoadAll) {
             if (nimgcount >= First_Load_Image) {
-                m_lastindex = nimgcount - 1;
+                m_lastindex =m_firstindex+ nimgcount-1;
                 break;
             }
         } else {
