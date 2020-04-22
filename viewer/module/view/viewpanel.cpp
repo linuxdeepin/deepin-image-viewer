@@ -414,54 +414,59 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
     if (infos.size() >= 1) {
         m_bFinishFirstLoad = true;
         m_bIsFirstLoad = false;
+        m_bAllowDel = true;
     }
 
-    //断开TTBC所有信号与槽的连接
-    disconnectTTbc();
-    //开启延时删除标志定时器
-    connect(&m_timer, &QTimer::timeout, this, [ = ]() {
-        m_timer.stop();
-        m_bAllowDel = true;
-    });
+//    //断开TTBC所有信号与槽的连接
+//    disconnectTTbc();
+//    //开启延时删除标志定时器
+//    connect(&m_timer, &QTimer::timeout, this, [ = ]() {
+//        m_timer.stop();
+//        m_bAllowDel = true;
+//    });
 
-    m_timer.start(2000);
+//    m_timer.start(2000);
 
     //第一次加载为所有图片不进行刷新
-    if (infos.size() == m_infos.size())
-        return;
-    m_infos = infos;
-    m_current = nCurrent;
-    QStringList pathlist;
+//    if (infos.size() == m_infos.size())
+//        return;
+//    m_infos = infos;
+//    m_current = nCurrent;
+//    QStringList pathlist;
 
-    for (int loop = 0; loop < 1000; loop++) {
-        pathlist.append(m_infos.at(loop).filePath);
-    }
+//    for (int loop = 0; loop < m_infosAll.size(); loop++) {
+//        pathlist.append(m_infosAll.at(loop).filePath);
+//    }
 
-    if (pathlist.count() > 0) {
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        emit changeHideFlag(false);
-        if (m_current == 0) {
-            emit hidePreNextBtn(false, false);
-        } else if (m_current == (m_infos.size() - 1)) {
-            emit hidePreNextBtn(false, true);
-        }
+//    if (pathlist.size() > 0) {
+//        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
+//    }
 
-        //emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
-    }
+//    if (pathlist.count() > 0) {
+//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+//        emit changeHideFlag(false);
+//        if (m_current == 0) {
+//            emit hidePreNextBtn(false, false);
+//        } else if (m_current == (m_infos.size() - 1)) {
+//            emit hidePreNextBtn(false, true);
+//        }
+
+//        //emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
+//    }
 }
 
 void ViewPanel::recvLoadSignal(bool bFlags)
 {
+    m_infosadd.clear();
     //筛选所有图片格式
-    if(!m_CollFileFinish)
+    if (!m_CollFileFinish)
         return;
-    if(bFlags)
-    {
-        if(m_infosHead.isEmpty()) return;
+    if (bFlags) {
+        if (m_infosHead.isEmpty()) return;
         m_infosadd.clear();
-        for (int i =0;i<Load_Image_Count;++i) {
-            if(m_infosHead.isEmpty()) break;
-            DBImgInfo info =m_infosHead.takeLast();
+        for (int i = 0; i < Load_Image_Count; ++i) {
+            if (m_infosHead.isEmpty()) break;
+            DBImgInfo info = m_infosHead.takeLast();
             m_infosadd.append(info);
             m_infos.push_front(info);
         }
@@ -473,12 +478,12 @@ void ViewPanel::recvLoadSignal(bool bFlags)
         }
         m_current = begin;
 
-    }else {
-        if(m_infosTail.isEmpty()) return;
+    } else {
+        if (m_infosTail.isEmpty()) return;
         m_infosadd.clear();
-        for (int i =0;i<Load_Image_Count;++i) {
-            if(m_infosTail.isEmpty()) break;
-            DBImgInfo info =m_infosTail.takeFirst();
+        for (int i = 0; i < Load_Image_Count; ++i) {
+            if (m_infosTail.isEmpty()) break;
+            DBImgInfo info = m_infosTail.takeFirst();
             m_infosadd.append(info);
             m_infos.append(info);
         }
@@ -491,16 +496,32 @@ void ViewPanel::recvLoadSignal(bool bFlags)
         }
         m_current = begin;
     }
+
+    int houzi = 0;
+    foreach (DBImgInfo var, m_infos) {
+        if (var.filePath == m_currentImagePath) {
+            houzi++;
+        }
+    }
+
     emit sendLoadAddInfos(m_infosadd, bFlags);
+
+    QStringList pathlist;
+
+    for (int loop = 0; loop < m_infosadd.size(); loop++) {
+        pathlist.append(m_infosadd.at(loop).filePath);
+    }
+
+    if (pathlist.size() > 0) {
+        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
+    }
 }
 
 void ViewPanel::slotExitFullScreen()
 {
-    if (window()->isFullScreen())
-    {
+    if (window()->isFullScreen()) {
         toggleFullScreen();
-    } else
-    {
+    } else {
         if (m_vinfo.inDatabase) {
             backToLastPanel();
         } else {
@@ -661,7 +682,7 @@ void ViewPanel::eatImageDirIteratorThread()
 //        }
 //    }
 
-    //emit sendLoadOver(m_infosAll, begin);
+    emit sendLoadOver(m_infos, m_current);
 }
 #endif
 
@@ -1061,26 +1082,23 @@ void ViewPanel::dragMoveEvent(QDragMoveEvent *event)
 //Load 100 pictures while first
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
-    if (bLoadAll)
-    {
+    if (bLoadAll) {
         m_infosHead.clear();
         m_infosTail.clear();
         m_infosAll.clear();
-    }
-    else
+    } else
         m_infos.clear();
     int nCount = m_AllPath.count();
     int i = 0;
     int nimgcount = 0;
     //获取前当前位置前50个文件的位置
     int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0;
-    if(!bLoadAll)
+    if (!bLoadAll)
         m_firstindex = nStartIndex;
     while (i < nCount && nStartIndex < nCount) {
         if (!bLoadAll) {
-            if (nimgcount >= First_Load_Image)
-            {
-                m_lastindex = nimgcount-1;
+            if (nimgcount >= First_Load_Image) {
+                m_lastindex = nimgcount - 1;
                 break;
             }
         } else {
@@ -1094,37 +1112,33 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
         QString str = m_AllPath.at(nStartIndex).suffix();
         nStartIndex++;
-        if (!m_nosupportformat.contains(str,Qt::CaseSensitive)) {
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                // if (!m_infos.contains(info)) {
-                nimgcount++;
-                if (bLoadAll)
-                {
-                    if(i<m_firstindex)
-                        m_infosHead.append(info);
-                    else if(i>m_lastindex)
-                        m_infosTail.append(info);
-                    m_infosAll.append(info);
+        if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
+            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    // if (!m_infos.contains(info)) {
+                    nimgcount++;
+                    if (bLoadAll) {
+                        if (i < m_firstindex)
+                            m_infosHead.append(info);
+                        else if (i > m_lastindex)
+                            m_infosTail.append(info);
+                        m_infosAll.append(info);
+                    } else
+                        m_infos.append(info);
+                    //}
+                } else if (str.isEmpty()) {
+                    //if (!m_infos.contains(info)) {
+                    nimgcount++;
+                    if (bLoadAll) {
+                        if (i < m_firstindex)
+                            m_infosHead.append(info);
+                        else if (i > m_lastindex)
+                            m_infosTail.append(info);
+                        m_infosAll.append(info);
+                    } else
+                        m_infos.append(info);
                 }
-                else
-                    m_infos.append(info);
-                //}
-            } else if (str.isEmpty()) {
-                //if (!m_infos.contains(info)) {
-                nimgcount++;
-                if (bLoadAll)
-                {
-                    if(i<m_firstindex)
-                        m_infosHead.append(info);
-                    else if(i>m_lastindex)
-                        m_infosTail.append(info);
-                    m_infosAll.append(info);
-                }
-                else
-                    m_infos.append(info);
-                 }
             }
 
         }
@@ -1299,8 +1313,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
             if (loadTh && !vinfo.path.isEmpty()) {
                 //发送按钮置灰信号
-                emit disableDel(false);
-                m_bAllowDel = false;
+                //emit disableDel(false);
+                //m_bAllowDel = false;
                 loadTh->start();
             }
         } else {
@@ -1357,7 +1371,7 @@ bool ViewPanel::showNext()
     //eatImageDirIterator();
 #endif
 
-    if(m_infos.size() == m_current) m_current = 0;
+    if (m_infos.size() == m_current) m_current = 0;
     if (m_infos.isEmpty() || m_current == m_infos.size() - 1 || !m_bFinishFirstLoad) {
         return false;
     }
@@ -1399,6 +1413,7 @@ bool ViewPanel::showImage(int index, int addindex)
     //        }
     m_current = index;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+
     return true;
 }
 

@@ -307,7 +307,6 @@ Application::Application(int &argc, char **argv)
         connect(this, SIGNAL(endThread()), m_imageloader, SLOT(stopThread()), Qt::QueuedConnection);
         emit sigstartLoad();
     });
-
 }
 
 Application::~Application()

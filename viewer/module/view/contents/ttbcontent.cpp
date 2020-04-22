@@ -539,25 +539,25 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 
         m_imgList->move(movex, m_imgList->y());
         //add by heyi 判断是否向左或者向右加载新的图元
-        LOAD_DIRECTION loadDire = judgeLoadDire(m_nLastMove, movex);
-        switch (loadDire)
-        {
-        case LOAD_LEFT: {
-            emit sendLoadSignal(true);
-            break;
-        }
-        case LOAD_RIGHT: {
-            emit sendLoadSignal(false);
-            break;
-        }
-        case NOT_LOAD: {
-            break;
-        }
-        default: {
-            break;
-        }
+//        LOAD_DIRECTION loadDire = judgeLoadDire(m_nLastMove, movex);
+//        switch (loadDire)
+//        {
+//        case LOAD_LEFT: {
+//            emit sendLoadSignal(true);
+//            break;
+//        }
+//        case LOAD_RIGHT: {
+//            emit sendLoadSignal(false);
+//            break;
+//        }
+//        case NOT_LOAD: {
+//            break;
+//        }
+//        default: {
+//            break;
+//        }
 
-        }
+//        }
 
         m_nLastMove = movex;
     });
@@ -737,18 +737,23 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 LOAD_DIRECTION TTBContent::judgeLoadDire(int nLastMove, int move)
 {
     LOAD_DIRECTION loadDire = NOT_LOAD;
-    if (0 == move) {
-        //说明向右拖动到最左边边界，到达第一张图片
+//    if (0 == move) {
+//        //说明向右拖动到最左边边界，到达第一张图片
+//        loadDire = LOAD_LEFT;
+//    } else {
+//        //判断上一次位置和这次位置，得出向左或者向右
+//        if ((move - nLastMove) > 0) {
+//            //向右拖动，向左加载
+//            loadDire = LOAD_LEFT;
+//        } else {
+//            //向左拖动，向右加载
+//            loadDire = LOAD_RIGHT;
+//        }
+//    }
+    if ((m_imgInfos.size() - m_nowIndex) < 20) {
+        loadDire = LOAD_RIGHT;
+    } else if (m_nowIndex < 20) {
         loadDire = LOAD_LEFT;
-    } else {
-        //判断上一次位置和这次位置，得出向左或者向右
-        if ((move - nLastMove) > 0) {
-            //向右拖动，向左加载
-            loadDire = LOAD_LEFT;
-        } else {
-            //向左拖动，向右加载
-            loadDire = LOAD_RIGHT;
-        }
     }
 
     return loadDire;
@@ -1059,14 +1064,18 @@ void TTBContent::onChangeHideFlags(bool bFlags)
 
 void TTBContent::loadBack(DBImgInfoList infos)
 {
+    //先将先前的图元index改变为最新的
+    int nAddSize = m_imgInfos.size();
+
     //遍历infos动态生成图元，并将图元加入布局
     foreach (DBImgInfo info, infos) {
         char *imageType = getImageType(info.filePath);
-        ImageItem *imageItem = new ImageItem(0, info.filePath, imageType);
+        ImageItem *imageItem = new ImageItem(nAddSize, info.filePath, imageType);
         imageItem->setFixedSize(QSize(32, 40));
         imageItem->resize(QSize(32, 40));
         imageItem->installEventFilter(m_imgListView);
         imageItem->setObjectName(info.filePath);
+        imageItem->setIndexNow(m_nowIndex);
 
         m_imglayout->addWidget(imageItem);
         connect(
@@ -1076,34 +1085,41 @@ void TTBContent::loadBack(DBImgInfoList infos)
         });
 
         m_imgInfos.push_back(info);
-        onResize();
         m_imgList->adjustSize();
+        nAddSize++;
     }
 
-    //重置图元当前信息
-    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
-    for (int i = 0; i < labelList.size(); i++) {
-        labelList.at(i)->setIndex(i);
-        if (labelList.at(i)->getPath() == m_strCurImagePath) {
-            m_nowIndex = i;
-        }
-    }
+    //将所有图元当前的nowindex重置
 
-    for (int i = 0; i < labelList.size(); i++) {
-        labelList.at(i)->setIndexNow(m_nowIndex);
-    }
+    onResize();
+    setImage(m_strCurImagePath, m_imgInfos);
 }
 
 void TTBContent::loadFront(DBImgInfoList infos)
 {
+    //先将先前的图元index改变为最新的
+    int nAddSize = infos.size();
+    int nCurrentIndex = 0;
+    m_nowIndex = m_nowIndex + nAddSize;
+    //重置图元当前信息
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    for (int i = 0; i < labelList.size(); i++) {
+        nCurrentIndex = labelList.at(i)->getIndex();
+        labelList.at(i)->setIndex(nCurrentIndex + nAddSize);
+        labelList.at(i)->setIndexNow(m_nowIndex);
+    }
+
+    //将新插入的图元赋值index
+    nAddSize--;
     //遍历infos动态生成图元，并将图元加入布局
     foreach (DBImgInfo info, infos) {
         char *imageType = getImageType(info.filePath);
-        ImageItem *imageItem = new ImageItem(0, info.filePath, imageType);
+        ImageItem *imageItem = new ImageItem(nAddSize, info.filePath, imageType);
         imageItem->setFixedSize(QSize(32, 40));
         imageItem->resize(QSize(32, 40));
         imageItem->installEventFilter(m_imgListView);
         imageItem->setObjectName(info.filePath);
+        imageItem->setIndexNow(m_nowIndex);
 
         m_imglayout->insertWidget(0, imageItem);
         connect(
@@ -1113,29 +1129,19 @@ void TTBContent::loadFront(DBImgInfoList infos)
         });
 
         m_imgInfos.push_front(info);
-        onResize();
         m_imgList->adjustSize();
+        nAddSize--;
     }
 
-    //重置图元当前信息
-    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
-    for (int i = 0; i < labelList.size(); i++) {
-        labelList.at(i)->setIndex(i);
-        if (labelList.at(i)->getPath() == m_strCurImagePath) {
-            m_nowIndex = i;
-        }
-    }
+    labelList = m_imgList->findChildren<ImageItem *>();
 
-    for (int i = 0; i < labelList.size(); i++) {
-        labelList.at(i)->setIndexNow(m_nowIndex);
-    }
+    onResize();
+    setImage(m_strCurImagePath, m_imgInfos);
 }
 
 void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
 {
-    qDebug() << "234";
     m_AllImgInfos = AllImgInfos;
-    qDebug() << "345";
     //接收到所有信息之后生成所有的图元
     m_strFirstPath = m_imgInfos.at(0).filePath;
     m_strEndPsth = m_imgInfos.last().filePath;
@@ -1459,16 +1465,22 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             }
             qDebug() << "m_startAnimation=" << m_startAnimation;
 
-            labelList.at(t)->updatePic(dApp->m_imagemap.value(path));
-
             for (int j = 0; j < labelList.size(); j++) {
                 labelList.at(j)->setFixedSize(QSize(num, 40));
                 labelList.at(j)->resize(QSize(num, 40));
                 labelList.at(j)->setIndexNow(t);
             }
+
+            int houzi = 0;
             if (labelList.size() > 0) {
-                labelList.at(t)->setFixedSize(QSize(58, 58));
-                labelList.at(t)->resize(QSize(58, 58));
+                for (int k = 0; k < labelList.size(); k++) {
+                    if (path == labelList.at(k)->getPath()) {
+                        labelList.at(k)->setFixedSize(QSize(58, 58));
+                        labelList.at(k)->resize(QSize(58, 58));
+                        labelList.at(k)->updatePic(dApp->m_imagemap.value(path));
+                        houzi++;
+                    }
+                }
             }
 
             m_imgListView->show();
@@ -1820,6 +1832,12 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
     emit dApp->signalM->updateFileName(fileName);
 
     m_imgList->adjustSize();
+    m_strCurImagePath = path;
+    if ((m_imgInfos.size() - m_nowIndex) < 20) {
+        emit sendLoadSignal(false);
+    } else if (m_nowIndex < 20) {
+        emit sendLoadSignal(true);
+    }
     qDebug() << "时间2";
 }
 

@@ -106,6 +106,10 @@ public:
     {
         return _path;
     }
+    inline int getIndex()
+    {
+        return _index;
+    }
 signals:
     void imageItemclicked(int index, int indexNow);
 protected:
