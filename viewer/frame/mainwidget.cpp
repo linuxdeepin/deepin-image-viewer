@@ -315,6 +315,8 @@ void MainWidget::initTopToolbar()
 
 void MainWidget::initConnection()
 {
+
+    connect(this,SIGNAL(sigExitFullScreen()),m_viewPanel,SLOT(slotExitFullScreen()));
     //屏蔽CTrl+Q快捷键
    // QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);

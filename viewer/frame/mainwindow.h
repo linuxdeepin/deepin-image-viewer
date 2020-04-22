@@ -65,7 +65,8 @@ public slots:
 protected:
     void resizeEvent(QResizeEvent *e) override;
     //    void showEvent(QShowEvent *event);
-
+signals:
+    void sigExitFull();
 private:
     void moveFirstWindow();
     void moveCenter();

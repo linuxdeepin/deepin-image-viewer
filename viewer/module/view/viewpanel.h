@@ -170,7 +170,7 @@ private slots:
     void sendSignal(DBImgInfoList infos, int nCurrent);
     //接受向前加载或者向后加载信号,true为头部加载，false为尾部加载
     void recvLoadSignal(bool bFlags);
-
+    void slotExitFullScreen();
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;

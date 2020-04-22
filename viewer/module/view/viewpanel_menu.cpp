@@ -439,22 +439,22 @@ void ViewPanel::initShortcut()
             m_viewB->setScaleValue(0.9);
     });
     // Esc
-    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    esc->setContext(Qt::WindowShortcut);
-    connect(esc, &QShortcut::activated, this, [ = ] {
-        if (window()->isFullScreen())
-        {
-            toggleFullScreen();
-        } else
-        {
-            if (m_vinfo.inDatabase) {
-                backToLastPanel();
-            } else {
-                dApp->quit();
-            }
-        }
-        emit dApp->signalM->hideExtensionPanel(true);
-    });
+//    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+//    esc->setContext(Qt::WindowShortcut);
+//    connect(esc, &QShortcut::activated, this, [ = ] {
+//        if (window()->isFullScreen())
+//        {
+//            toggleFullScreen();
+//        } else
+//        {
+//            if (m_vinfo.inDatabase) {
+//                backToLastPanel();
+//            } else {
+//                dApp->quit();
+//            }
+//        }
+//        emit dApp->signalM->hideExtensionPanel(true);
+//    });
     // 1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
     adaptImage->setContext(Qt::WindowShortcut);

@@ -494,6 +494,22 @@ void ViewPanel::recvLoadSignal(bool bFlags)
     emit sendLoadAddInfos(m_infosadd, bFlags);
 }
 
+void ViewPanel::slotExitFullScreen()
+{
+    if (window()->isFullScreen())
+    {
+        toggleFullScreen();
+    } else
+    {
+        if (m_vinfo.inDatabase) {
+            backToLastPanel();
+        } else {
+            dApp->quit();
+        }
+    }
+    emit dApp->signalM->hideExtensionPanel(true);
+}
+
 #ifdef LITE_DIV
 bool compareByString(const DBImgInfo &str1, const DBImgInfo &str2)
 {
