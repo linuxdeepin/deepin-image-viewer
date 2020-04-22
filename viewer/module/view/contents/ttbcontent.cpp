@@ -955,20 +955,29 @@ bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nC
     m_imgInfos = infos;
     m_nowIndex = nCurrent;
     //删除当前图片之后将当前图片和之后的所有图片index减一
-    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
-    if (nCurrent != 0) {
-        for (int i = nCurrent; i < labelList.size(); i++) {
-            labelList.at(i)->setIndex(i);
+    int i = 0;
+    foreach (DBImgInfo var, m_imgInfos) {
+        ImageItem *test = m_imgList->findChild<ImageItem *>(var.filePath);
+        if (test) {
+            test->setIndex(i);
         }
-    } else {
-        for (int i = 0; i < labelList.size(); i++) {
-            labelList.at(i)->setIndex(i);
-        }
+
+        i++;
     }
-    //将所有的NowIndex重置
-    for (int i = 0; i < labelList.size(); i++) {
-        labelList.at(i)->setIndexNow(nCurrent);
-    }
+//    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+//    if (nCurrent != 0) {
+//        for (int i = nCurrent; i < labelList.size(); i++) {
+//            labelList.at(i)->setIndex(i);
+//        }
+//    } else {
+//        for (int i = 0; i < labelList.size(); i++) {
+//            labelList.at(i)->setIndex(i);
+//        }
+//    }
+//    //将所有的NowIndex重置
+//    for (int i = 0; i < labelList.size(); i++) {
+//        labelList.at(i)->setIndexNow(nCurrent);
+//    }
 
     m_imgList->adjustSize();
 
@@ -1471,14 +1480,13 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 labelList.at(j)->setIndexNow(t);
             }
 
-            int houzi = 0;
             if (labelList.size() > 0) {
                 for (int k = 0; k < labelList.size(); k++) {
                     if (path == labelList.at(k)->getPath()) {
                         labelList.at(k)->setFixedSize(QSize(58, 58));
                         labelList.at(k)->resize(QSize(58, 58));
                         labelList.at(k)->updatePic(dApp->m_imagemap.value(path));
-                        houzi++;
+                        break;
                     }
                 }
             }

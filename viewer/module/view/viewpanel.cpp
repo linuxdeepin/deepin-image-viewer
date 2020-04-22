@@ -1098,7 +1098,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     while (i < nCount && nStartIndex < nCount) {
         if (!bLoadAll) {
             if (nimgcount >= First_Load_Image) {
-                m_lastindex =m_firstindex+ nimgcount-1;
+                m_lastindex = m_firstindex + nimgcount - 1;
                 break;
             }
         } else {
@@ -1449,7 +1449,7 @@ bool ViewPanel::removeCurrentImage()
             m_current = 0;
         }
 
-        ttbc->delPictureFromPath(m_infos.at(m_current).filePath, m_infos, m_current);
+        ttbc->delPictureFromPath(m_currentImagePath, m_infos, m_current);
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
     }
