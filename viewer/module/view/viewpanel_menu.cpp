@@ -297,6 +297,8 @@ void ViewPanel::updateMenuContent()
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+    //修复打开不支持显示的图片在缩略图中没有，current出现超出界限崩溃问题
+    if(m_current >= m_infos.size()) m_current = 0;
     if(QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
             QFileInfo(m_infos.at(m_current).filePath).isWritable())
         appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
