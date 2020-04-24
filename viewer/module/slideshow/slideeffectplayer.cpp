@@ -346,7 +346,7 @@ void SlideEffectPlayer::cacheNext()
         }
     }
     QString path = m_paths[current];
-    if(m_current !=0)
+    if(current != 0 )
     {
         QString curpath = m_paths[current-1];
         if (m_cacheImages.value(curpath).isNull())
