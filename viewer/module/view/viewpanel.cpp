@@ -105,6 +105,19 @@ void ViewPanel::initConnect()
 {
     //heyi  test
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
+    connect(dApp, &Application::dynamicLoadFinished, this, [ = ]() {
+        //开启延时删除标志定时器
+        connect(&m_timer, &QTimer::timeout, this, [ = ]() {
+            m_timer.stop();
+            ttbc->setIsConnectDel(true);
+            m_bAllowDel = true;
+            ttbc->disableDelAct(true);
+        });
+
+        m_timer.start(2000);
+    });
+
+    connect(this, &ViewPanel::sendDynamicLoadPaths, dApp, &Application::loadPixThread);
     connect(dApp->signalM, &SignalManager::updateFileName, this, [ = ](const QString & filename) {
         if (filename != "") {
             m_finish = true;
@@ -513,7 +526,10 @@ void ViewPanel::recvLoadSignal(bool bFlags)
     }
 
     if (pathlist.size() > 0) {
-        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
+        ttbc->setIsConnectDel(false);
+        m_bAllowDel = false;
+        ttbc->disableDelAct(false);
+        emit sendDynamicLoadPaths(pathlist);
     }
 }
 
@@ -1425,6 +1441,7 @@ bool ViewPanel::removeCurrentImage()
 
     //断开删除信号
     ttbc->setIsConnectDel(false);
+    ttbc->disableDelAct(false);
     m_bAllowDel = false;
 #ifdef LITE_DIV
     // 在删除当前图片之前将图片列表初始化完成
@@ -1456,6 +1473,7 @@ bool ViewPanel::removeCurrentImage()
 
     ttbc->setIsConnectDel(true);
     m_bAllowDel = true;
+    ttbc->disableDelAct(true);
 
     return true;
 }

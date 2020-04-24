@@ -96,6 +96,8 @@ signals:
     void disableDel(bool bFlags);
     //发送需要加载的信息，向前或者向后,true为头部加载，false尾部加载
     void sendLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
+    //发送动态加载路径
+    void sendDynamicLoadPaths(QStringList paths);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
