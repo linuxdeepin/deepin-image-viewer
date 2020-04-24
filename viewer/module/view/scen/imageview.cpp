@@ -317,20 +317,22 @@ void ImageView::setImage(const QString &path)
         m_pixmapItem = nullptr;
         s->clear();
         resetTransform();
-
+#if 0
         DSvgRenderer *svgRenderer = new DSvgRenderer;
         svgRenderer->load(path);
         m_imgSvgItem = new ImageSvgItem();
         m_imgSvgItem->setSharedRenderer(svgRenderer);
-        //        m_svgItem = new QGraphicsSvgItem(path);
-        //        m_svgItem->setFlags(QGraphicsItem::ItemClipsToShape);
-        //        m_svgItem->setCacheMode(QGraphicsItem::NoCache);
-        //        m_svgItem->setZValue(0);
-        // Make sure item show in center of view after reload
-        //        setSceneRect(m_svgItem->boundingRect());
-        //        s->addItem(m_svgItem);
         setSceneRect(m_imgSvgItem->boundingRect());
         s->addItem(m_imgSvgItem);
+#else
+        //heyi test
+        QSvgRenderer *svgRenderer = new QSvgRenderer;
+        svgRenderer->load(path);
+        m_svgItem = new QGraphicsSvgItem();
+        m_svgItem->setSharedRenderer(svgRenderer);
+        setSceneRect(m_svgItem->boundingRect());
+        s->addItem(m_svgItem);
+#endif
         emit imageChanged(path);
     } else {
         //        m_svgItem = nullptr;
@@ -531,9 +533,9 @@ void ImageView::fitImage()
 {
     resetTransform();
     /** change ratio from 1 to 0.9, because one of test pictures is so special that cannot use
-     * fitwindow() when use fitImage() picture bottom is over toolbar. so use 0.9 instead. 12-19,bug
-     * 9839, change 0.9->1
-     */
+    * fitwindow() when use fitImage() picture bottom is over toolbar. so use 0.9 instead. 12-19,bug
+    * 9839, change 0.9->1
+    */
     scale(1, 1);
     emit checkAdaptImageBtn();
     m_isFitImage = true;
@@ -544,106 +546,20 @@ void ImageView::fitImage()
 
 void ImageView::rotateClockWise()
 {
-    //utils::image::rotate(m_path, 90);
-    if (QFileInfo(m_path).suffix() == "sg") {
-        m_movieItem = nullptr;
-        m_pixmapItem = nullptr;
-        scene()->clear();
-        resetTransform();
-
-        QSvgGenerator generator;
-        QImage pix(m_path);
-        //QString dpath = path.right(path.length() - path.lastIndexOf("/") - 1);
-        //QString strTmpPath = tr("/tmp/%1").arg(dpath);
-        //QSvgGenerator generator;
-        generator.setFileName(m_path);
-        //generator.setSize(pix.size());
-        generator.setViewBox(pix.rect());
-        QPainter painter;
-        painter.begin(&generator);
-        painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-        painter.translate(pix.rect().width(), 0);
-        painter.rotate(90);
-        painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
-        generator.setSize(pix.size()); //do not remove this
-        painter.end();
-        setSceneRect(pix.rect());
-        //scene()->addItem((QGraphicsItem *)(&generator));
+    if (QFileInfo(m_path).suffix() == "svg") {
+        reloadSvgPix(m_path, 90);
     } else {
-        QPixmap pixmap = m_pixmapItem->pixmap();
-        QMatrix rotate;
-        rotate.rotate(90);
-
-        pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
-        pixmap.setDevicePixelRatio(devicePixelRatioF());
-        scene()->clear();
-        resetTransform();
-        m_pixmapItem = new GraphicsPixmapItem(pixmap);
-        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
-            if (!m_pixmapItem) {
-                qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
-                update();
-                return;
-            }
-            if (scaledmode) {
-                m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-            } else {
-                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-            }
-        });
-        // Make sure item show in center of view after reload
-        QRectF rect = m_pixmapItem->boundingRect();
-        //            rect.setHeight(rect.height() + 50);
-        setSceneRect(rect);
-        //            setSceneRect(m_pixmapItem->boundingRect());
-        scene()->addItem(m_pixmapItem);
-        autoFit();
-        m_rotateAngel += 90;
+        rotatePixmap(90);
     }
-
-
-    //emit imageChanged(m_path);
-
-    //setImage(m_path);
 }
 
 void ImageView::rotateCounterclockwise()
 {
-    //utils::image::rotate(m_path, -90);
-    QPixmap pixmap = m_pixmapItem->pixmap();
-    QMatrix rotate;
-    rotate.rotate(-90);
-
-    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
-    pixmap.setDevicePixelRatio(devicePixelRatioF());
-    scene()->clear();
-    resetTransform();
-    m_pixmapItem = new GraphicsPixmapItem(pixmap);
-    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-    connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
-        if (!m_pixmapItem) {
-            qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
-            update();
-            return;
-        }
-        if (scaledmode) {
-            m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-        } else {
-            m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        }
-    });
-    // Make sure item show in center of view after reload
-    QRectF rect = m_pixmapItem->boundingRect();
-    //            rect.setHeight(rect.height() + 50);
-    setSceneRect(rect);
-    //            setSceneRect(m_pixmapItem->boundingRect());
-    scene()->addItem(m_pixmapItem);
-    autoFit();
-    m_rotateAngel -= 90;
-
-    //emit imageChanged(m_path);
-    //setImage(m_path);
+    if (QFileInfo(m_path).suffix() == "svg") {
+        reloadSvgPix(m_path, -90);
+    } else {
+        rotatePixmap(-90);
+    }
 }
 
 void ImageView::centerOn(int x, int y)
@@ -763,6 +679,53 @@ void ImageView::endApp()
             }
         }
     }
+}
+
+bool ImageView::reloadSvgPix(QString strPath, int nAngel)
+{
+    bool bRet = true;
+    QSvgGenerator generator;
+    QImage pix(strPath);
+
+    generator.setFileName(strPath);
+    generator.setViewBox(pix.rect());
+    QPainter painter;
+    painter.begin(&generator);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    if (nAngel < 0) {
+        painter.translate(0, pix.rect().height());
+    } else {
+        painter.translate(pix.rect().width(), 0);
+    }
+
+    painter.rotate(nAngel);
+    painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
+    generator.setSize(pix.size());
+    painter.end();
+    setImage(strPath);
+    return  bRet;
+}
+
+void ImageView::rotatePixmap(int nAngel)
+{
+    QPixmap pixmap = m_pixmapItem->pixmap();
+    QMatrix rotate;
+    rotate.rotate(nAngel);
+
+    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    scene()->clear();
+    resetTransform();
+    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+    scene()->addItem(m_pixmapItem);
+    autoFit();
+    m_rotateAngel += nAngel;
 }
 
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)

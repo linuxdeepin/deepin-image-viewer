@@ -96,13 +96,26 @@ signals:
     void endThread();
     //结束程序的时候触发此信号
     void endApplication();
+    //图片加载完成发送信号
+    void sigFinishiLoad(QString mapPath);
+    //动态加载完成,通知vipine可以允许进行删除操作了
+    void dynamicLoadFinished();
 
 public slots:
     void finishLoadSlot(QString mapPath);
+    //开启动态加载图片线程
+    void loadPixThread(QStringList paths);
+    //add by heyi
+    void loadInterface(QString strPath);
 
 private:
     void initChildren();
     void initI18n();
+
+private:
+    //读写锁
+    QReadWriteLock m_rwLock;
+    QStringList m_loadPaths;
 };
 
 #endif  // APPLICATION_H_

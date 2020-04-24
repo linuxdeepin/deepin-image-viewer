@@ -48,7 +48,7 @@
 #include <QtConcurrent>
 #include <QThread>
 #include <QPainter>
-
+#include <DMessageBox>
 #include <DRecentManager>
 
 #include "imageutils.h"
@@ -63,6 +63,7 @@ const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 
 }  // namespace
 const int First_Load_Image = 100;
+const int Load_Image_Count = 50;
 ViewPanel::ViewPanel(QWidget *parent)
     : ModulePanel(parent)
     , m_hideCursorTid(0)
@@ -92,6 +93,7 @@ ViewPanel::ViewPanel(QWidget *parent)
 
     //heyi test
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
+    m_nosupportformat << "jp2" << "dds" << "psd" << "pcx" << "exr" << "avi" << "ct" << "pict" << "pic";
 }
 
 QString ViewPanel::moduleName()
@@ -103,6 +105,19 @@ void ViewPanel::initConnect()
 {
     //heyi  test
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
+    connect(dApp, &Application::dynamicLoadFinished, this, [ = ]() {
+        //开启延时删除标志定时器
+        connect(&m_timer, &QTimer::timeout, this, [ = ]() {
+            m_timer.stop();
+            ttbc->setIsConnectDel(true);
+            m_bAllowDel = true;
+            ttbc->disableDelAct(true);
+        });
+
+        m_timer.start(2000);
+    });
+
+    connect(this, &ViewPanel::sendDynamicLoadPaths, dApp, &Application::loadPixThread);
     connect(dApp->signalM, &SignalManager::updateFileName, this, [ = ](const QString & filename) {
         if (filename != "") {
             m_finish = true;
@@ -132,7 +147,6 @@ void ViewPanel::initConnect()
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                        (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-
         onViewImage(vinfo);
         if (NULL == vinfo.lastPanel) {
             return;
@@ -269,7 +283,8 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         filepath = renamedlg->GetFilePath();
         filename = renamedlg->GetFileName();
         bool bOk = file.rename(filepath);
-        emit dApp->signalM->changetitletext(renamedlg->GetFileName());
+        if (bOk)
+            emit dApp->signalM->changetitletext(renamedlg->GetFileName());
         return bOk;
     }
     return false;
@@ -326,6 +341,75 @@ void ViewPanel::startFileWatcher()
     });
 }
 
+void ViewPanel::disconnectTTbc()
+{
+    if (ttbc) {
+        ttbc->disconnect();
+    }
+}
+
+void ViewPanel::reConnectTTbc()
+{
+    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
+    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
+    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
+    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::UniqueConnection);
+
+    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel, Qt::UniqueConnection);
+    connect(this, &ViewPanel::viewImageFrom, ttbc,
+    [ = ](const QString & dir) {
+        ttbc->setCurrentDir(dir);
+    }, Qt::UniqueConnection);
+
+    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::removed, this, [ = ] {
+        if (m_vinfo.inDatabase)
+        {
+            popupDelDialog(m_infos.at(m_current).filePath);
+        } else
+        {
+            const QString path = m_infos.at(m_current).filePath;
+            QFile file(path);
+            if (!file.exists()) {
+                return;
+            }
+
+            if (removeCurrentImage()) {
+                DDesktopServices::trash(path);
+                emit dApp->signalM->picDelete();
+            }
+        }
+    }, Qt::UniqueConnection);
+
+    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
+        if (fitWindow) {
+            m_viewB->fitWindow_btnclicked();
+        } else {
+            m_viewB->fitImage();
+        }
+        m_viewB->titleBarControl();
+    }, Qt::UniqueConnection);
+
+    connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
+    connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
+    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
+            &TTBContent::updateCollectButton, Qt::UniqueConnection);
+    connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
+            &TTBContent::updateCollectButton, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
+        this->showPrevious();
+    }, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
+        this->showNext();
+    }, Qt::UniqueConnection);
+    connect(ttbc, &TTBContent::imageClicked, this,
+    [ = ](int index, int addIndex) {
+        this->showImage(index, addIndex);
+    }, Qt::UniqueConnection);
+}
+
 void ViewPanel::updateLocalImages()
 {
     const QString cp = m_infos.at(m_current).filePath;
@@ -343,37 +427,124 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
     if (infos.size() >= 1) {
         m_bFinishFirstLoad = true;
         m_bIsFirstLoad = false;
+        m_bAllowDel = true;
     }
 
-    //开启延时删除标志线程
-    connect(&m_timer, &QTimer::timeout, this, [ = ]() {
-        m_timer.stop();
-        m_bAllowDel = true;
-    });
+//    //断开TTBC所有信号与槽的连接
+//    disconnectTTbc();
+//    //开启延时删除标志定时器
+//    connect(&m_timer, &QTimer::timeout, this, [ = ]() {
+//        m_timer.stop();
+//        m_bAllowDel = true;
+//    });
 
-    m_timer.start(2000);
+//    m_timer.start(2000);
 
     //第一次加载为所有图片不进行刷新
-    if (infos.size() == m_infos.size())
-        return;
-    m_infos = infos;
-    m_current = nCurrent;
-    QStringList pathlist;
+//    if (infos.size() == m_infos.size())
+//        return;
+//    m_infos = infos;
+//    m_current = nCurrent;
+//    QStringList pathlist;
 
-    for (int loop = 0; loop < m_infos.size(); loop++) {
-        pathlist.append(m_infos.at(loop).filePath);
+//    for (int loop = 0; loop < m_infosAll.size(); loop++) {
+//        pathlist.append(m_infosAll.at(loop).filePath);
+//    }
+
+//    if (pathlist.size() > 0) {
+//        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
+//    }
+
+//    if (pathlist.count() > 0) {
+//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
+//        emit changeHideFlag(false);
+//        if (m_current == 0) {
+//            emit hidePreNextBtn(false, false);
+//        } else if (m_current == (m_infos.size() - 1)) {
+//            emit hidePreNextBtn(false, true);
+//        }
+
+//        //emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
+//    }
+}
+
+void ViewPanel::recvLoadSignal(bool bFlags)
+{
+    m_infosadd.clear();
+    //筛选所有图片格式
+    if (!m_CollFileFinish)
+        return;
+    if (bFlags) {
+        if (m_infosHead.isEmpty()) return;
+        m_infosadd.clear();
+        for (int i = 0; i < Load_Image_Count; ++i) {
+            if (m_infosHead.isEmpty()) break;
+            DBImgInfo info = m_infosHead.takeLast();
+            m_infosadd.append(info);
+            m_infos.push_front(info);
+        }
+        int begin = 0;
+        for (; begin < m_infos.size(); begin++) {
+            if (m_infos.at(begin).filePath == m_currentImagePath) {
+                break;
+            }
+        }
+        m_current = begin;
+
+    } else {
+        if (m_infosTail.isEmpty()) return;
+        m_infosadd.clear();
+        for (int i = 0; i < Load_Image_Count; ++i) {
+            if (m_infosTail.isEmpty()) break;
+            DBImgInfo info = m_infosTail.takeFirst();
+            m_infosadd.append(info);
+            m_infos.append(info);
+        }
+
+        int begin = 0;
+        for (; begin < m_infos.size(); begin++) {
+            if (m_infos.at(begin).filePath == m_currentImagePath) {
+                break;
+            }
+        }
+        m_current = begin;
     }
 
-    if (pathlist.count() > 0) {
-        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
-        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        emit changeHideFlag(false);
-        if (m_current == 0) {
-            emit hidePreNextBtn(false, false);
-        } else if (m_current == (m_infos.size() - 1)) {
-            emit hidePreNextBtn(false, true);
+    int houzi = 0;
+    foreach (DBImgInfo var, m_infos) {
+        if (var.filePath == m_currentImagePath) {
+            houzi++;
         }
     }
+
+    emit sendLoadAddInfos(m_infosadd, bFlags);
+
+    QStringList pathlist;
+
+    for (int loop = 0; loop < m_infosadd.size(); loop++) {
+        pathlist.append(m_infosadd.at(loop).filePath);
+    }
+
+    if (pathlist.size() > 0) {
+        ttbc->setIsConnectDel(false);
+        m_bAllowDel = false;
+        ttbc->disableDelAct(false);
+        emit sendDynamicLoadPaths(pathlist);
+    }
+}
+
+void ViewPanel::slotExitFullScreen()
+{
+    if (window()->isFullScreen()) {
+        toggleFullScreen();
+    } else {
+        if (m_vinfo.inDatabase) {
+            backToLastPanel();
+        } else {
+            dApp->quit();
+        }
+    }
+    emit dApp->signalM->hideExtensionPanel(true);
 }
 
 #ifdef LITE_DIV
@@ -518,15 +689,16 @@ void ViewPanel::eatImageDirIteratorThread()
     //if (m_AllPath.count() < 1) return;
     QThread::currentThread()->sleep(2);
     LoadDirPathFirst(true);
-    QStringList pathlist;
-    int begin = 0;
-    for (; begin < m_infosAll.size(); begin++) {
-        if (m_infosAll.at(begin).filePath == m_currentImagePath) {
-            break;
-        }
-    }
+    m_CollFileFinish = true;
+//    QStringList pathlist;
+//    int begin = 0;
+//    for (; begin < m_infosAll.size(); begin++) {
+//        if (m_infosAll.at(begin).filePath == m_currentImagePath) {
+//            break;
+//        }
+//    }
 
-    emit sendLoadOver(m_infosAll, begin);
+    emit sendLoadOver(m_infos, m_current);
 }
 #endif
 
@@ -675,6 +847,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
         return nullptr;
     }
 
+    if (ttbc) {
+        ttbc->deleteLater();
+        ttbc = nullptr;
+    }
+
     ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, this);
 
     if (!ttbc) {
@@ -686,6 +863,8 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::QueuedConnection);
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::QueuedConnection);
     connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::QueuedConnection);
+    connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos, Qt::QueuedConnection);
+    connect(ttbc, &TTBContent::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::QueuedConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
@@ -893,7 +1072,6 @@ void ViewPanel::dropEvent(QDropEvent *event)
 
         vinfo.path = paths.first();
         vinfo.paths = paths;
-
         onViewImage(vinfo);
 #else
         viewOnNewProcess(paths);
@@ -920,18 +1098,25 @@ void ViewPanel::dragMoveEvent(QDragMoveEvent *event)
 //Load 100 pictures while first
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
-    if (bLoadAll)
+    if (bLoadAll) {
+        m_infosHead.clear();
+        m_infosTail.clear();
         m_infosAll.clear();
-    else
+    } else
         m_infos.clear();
     int nCount = m_AllPath.count();
     int i = 0;
     int nimgcount = 0;
     //获取前当前位置前50个文件的位置
-    int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0; //
+    int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0;
+    if (!bLoadAll)
+        m_firstindex = nStartIndex;
     while (i < nCount && nStartIndex < nCount) {
         if (!bLoadAll) {
-            if (nimgcount > First_Load_Image) break;
+            if (nimgcount >= First_Load_Image) {
+                m_lastindex = m_firstindex + nimgcount - 1;
+                break;
+            }
         } else {
             nStartIndex = i;
         }
@@ -943,25 +1128,33 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
         QString str = m_AllPath.at(nStartIndex).suffix();
         nStartIndex++;
-        //        if (str.isEmpty()) {
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                // if (!m_infos.contains(info)) {
-                nimgcount++;
-                if (bLoadAll)
-                    m_infosAll.append(info);
-                else
-                    m_infos.append(info);
-                //}
-            } else if (str.isEmpty()) {
-                //if (!m_infos.contains(info)) {
-                nimgcount++;
-                if (bLoadAll)
-                    m_infosAll.append(info);
-                else
-                    m_infos.append(info);
-                // }
+        if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
+            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                    // if (!m_infos.contains(info)) {
+                    nimgcount++;
+                    if (bLoadAll) {
+                        if (i < m_firstindex)
+                            m_infosHead.append(info);
+                        else if (i > m_lastindex)
+                            m_infosTail.append(info);
+                        m_infosAll.append(info);
+                    } else
+                        m_infos.append(info);
+                    //}
+                } else if (str.isEmpty()) {
+                    //if (!m_infos.contains(info)) {
+                    nimgcount++;
+                    if (bLoadAll) {
+                        if (i < m_firstindex)
+                            m_infosHead.append(info);
+                        else if (i > m_lastindex)
+                            m_infosTail.append(info);
+                        m_infosAll.append(info);
+                    } else
+                        m_infos.append(info);
+                }
             }
 
         }
@@ -1136,8 +1329,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
             if (loadTh && !vinfo.path.isEmpty()) {
                 //发送按钮置灰信号
-                emit disableDel(false);
-                m_bAllowDel = false;
+                //emit disableDel(false);
+                //m_bAllowDel = false;
                 loadTh->start();
             }
         } else {
@@ -1194,6 +1387,7 @@ bool ViewPanel::showNext()
     //eatImageDirIterator();
 #endif
 
+    if (m_infos.size() == m_current) m_current = 0;
     if (m_infos.isEmpty() || m_current == m_infos.size() - 1 || !m_bFinishFirstLoad) {
         return false;
     }
@@ -1235,6 +1429,7 @@ bool ViewPanel::showImage(int index, int addindex)
     //        }
     m_current = index;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+
     return true;
 }
 
@@ -1246,6 +1441,7 @@ bool ViewPanel::removeCurrentImage()
 
     //断开删除信号
     ttbc->setIsConnectDel(false);
+    ttbc->disableDelAct(false);
     m_bAllowDel = false;
 #ifdef LITE_DIV
     // 在删除当前图片之前将图片列表初始化完成
@@ -1270,13 +1466,14 @@ bool ViewPanel::removeCurrentImage()
             m_current = 0;
         }
 
-        ttbc->delPictureFromPath(m_infos.at(m_current).filePath, m_infos, m_current);
+        ttbc->delPictureFromPath(m_currentImagePath, m_infos, m_current);
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
     }
 
     ttbc->setIsConnectDel(true);
     m_bAllowDel = true;
+    ttbc->disableDelAct(true);
 
     return true;
 }

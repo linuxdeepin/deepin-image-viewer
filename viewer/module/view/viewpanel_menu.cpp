@@ -197,6 +197,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             dApp->m_imagemap.remove(path);
             dApp->m_imagemap.insert(filepath, pix);
             dApp->m_imageloader->m_writelock.unlock();
+            m_currentImagePath  =filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);
         }
@@ -296,7 +297,9 @@ void ViewPanel::updateMenuContent()
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
-    appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
+    if(QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
+            QFileInfo(m_infos.at(m_current).filePath).isWritable())
+        appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
@@ -436,22 +439,22 @@ void ViewPanel::initShortcut()
             m_viewB->setScaleValue(0.9);
     });
     // Esc
-    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    esc->setContext(Qt::WindowShortcut);
-    connect(esc, &QShortcut::activated, this, [ = ] {
-        if (window()->isFullScreen())
-        {
-            toggleFullScreen();
-        } else
-        {
-            if (m_vinfo.inDatabase) {
-                backToLastPanel();
-            } else {
-                dApp->quit();
-            }
-        }
-        emit dApp->signalM->hideExtensionPanel(true);
-    });
+//    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+//    esc->setContext(Qt::WindowShortcut);
+//    connect(esc, &QShortcut::activated, this, [ = ] {
+//        if (window()->isFullScreen())
+//        {
+//            toggleFullScreen();
+//        } else
+//        {
+//            if (m_vinfo.inDatabase) {
+//                backToLastPanel();
+//            } else {
+//                dApp->quit();
+//            }
+//        }
+//        emit dApp->signalM->hideExtensionPanel(true);
+//    });
     // 1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
     adaptImage->setContext(Qt::WindowShortcut);

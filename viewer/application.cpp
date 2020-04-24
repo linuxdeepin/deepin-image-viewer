@@ -98,6 +98,7 @@ void ImageLoader::startLoading()
             }
 
             path = listLoad1.back();
+            qDebug() << "线程1当前加载的图片：" << path;
             //加载完成之后删除该图片路径
             listLoad1.pop_back();
             m_readlock.unlock();
@@ -114,6 +115,7 @@ void ImageLoader::startLoading()
             }
 
             path = listLoad2.front();
+            qDebug() << "线程1当前加载的图片：" << path;
             listLoad2.pop_front();
             m_readlock.unlock();
             loadInterface(path);
@@ -133,6 +135,7 @@ void ImageLoader::startLoading()
             }
 
             path = listLoad2.front();
+            qDebug() << "线程2当前加载的图片：" << path;
             //加载完成之后删除该图片路径
             listLoad2.pop_front();
             m_readlock.unlock();
@@ -149,6 +152,7 @@ void ImageLoader::startLoading()
             }
 
             path = listLoad1.back();
+            qDebug() << "线程2当前加载的图片：" << path;
             listLoad1.pop_back();
             m_readlock.unlock();
             loadInterface(path);
@@ -165,7 +169,6 @@ void ImageLoader::startLoading()
 
     gettimeofday(&tv, NULL);
     ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
-    qDebug() << "startLoading end time: " << ms;
 }
 
 void ImageLoader::stopThread()
@@ -265,6 +268,59 @@ void Application::finishLoadSlot(QString mapPath)
     emit sigFinishLoad(mapPath);
 }
 
+void Application::loadPixThread(QStringList paths)
+{
+    m_rwLock.lockForWrite();
+    m_loadPaths = paths;
+    m_rwLock.unlock();
+    //开启线程进行后台加载图片
+    QThread *th = QThread::create([ = ]() {
+        m_rwLock.lockForRead();
+        QStringList pathList = m_loadPaths;
+        m_rwLock.unlock();
+        foreach (QString var, pathList) {
+            loadInterface(var);
+        }
+
+        //发送动态加载完成信号
+        emit dynamicLoadFinished();
+        QThread::currentThread()->quit();
+    });
+
+    th->start();
+}
+
+void Application::loadInterface(QString path)
+{
+    QImage tImg;
+    QString format = DetectImageFormat(path);
+    if (format.isEmpty()) {
+        QImageReader reader(path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        }
+    } else {
+        QImageReader readerF(path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+                       << format;
+
+            tImg = QImage(path);
+        }
+    }
+
+    QPixmap pixmap = QPixmap::fromImage(tImg);
+    m_rwLock.lockForWrite();
+    m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    m_rwLock.unlock();
+
+    finishLoadSlot(path);
+}
+
 Application::Application(int &argc, char **argv)
     : DApplication(argc, argv)
 {
@@ -303,7 +359,6 @@ Application::Application(int &argc, char **argv)
         connect(this, SIGNAL(endThread()), m_imageloader, SLOT(stopThread()), Qt::QueuedConnection);
         emit sigstartLoad();
     });
-
 }
 
 Application::~Application()

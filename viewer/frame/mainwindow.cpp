@@ -140,21 +140,28 @@ void MainWindow::initshortcut()
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);
     connect(esc, &QShortcut::activated, this, [ = ] {
-        if (window()->isFullScreen())
+        if(IMAGEVIEW == m_pCenterWidget->currentIndex())
+            emit sigExitFull();
+        else
         {
-            emit dApp->signalM->sigESCKeyActivated();
-            emit dApp->signalM->sigESCKeyStopSlide();
-        } else if (0 == m_pCenterWidget->currentIndex())
-        {
-            this->close();
+            if (window()->isFullScreen())
+            {
+                emit dApp->signalM->sigESCKeyActivated();
+                emit dApp->signalM->sigESCKeyStopSlide();
+            } else if (0 == m_pCenterWidget->currentIndex())
+            {
+                this->close();
+            }
+            emit dApp->signalM->hideExtensionPanel();
         }
-        emit dApp->signalM->hideExtensionPanel();
     });
 }
 
 
 void MainWindow::initConnection()
 {
+
+    connect(this,SIGNAL(sigExitFull()), m_mainWidget,SIGNAL(sigExitFullScreen()));
     //幻灯片显示
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
 //        if (VIEW_IMAGE != index)
