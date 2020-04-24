@@ -66,7 +66,7 @@ signals:
     void hideNavigation();
     void picInUSB(bool immediately = false);
     void picNotExists(bool immediately = false);
-    void fileDeleted();
+    void fileDeleted(QString);
     void picOneClear();
     void loadingDisplay(bool immediately = false);
     void picDelete();

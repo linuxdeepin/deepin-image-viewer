@@ -140,6 +140,7 @@ private:
     void openImage(const QString &path, bool inDB = true);
     //删除当前选中的图片
     bool removeCurrentImage();
+    bool removeImagePath(QString path);
     void rotateImage(bool clockWise);
     bool showNext();
     bool showPrevious();

@@ -303,13 +303,13 @@ void ViewPanel::startFileWatcher()
     qDebug() << "!!!!!!!!!!!!!!!!!startFileWatcher!!!!!!!!!!!!!!!!!!!!!!!!!!"
              << m_fileManager->startWatcher() << "=" << m_currentFilePath;
 
-    connect(m_fileManager, &DFileWatcher::fileDeleted, this, [ = ]() {
+    connect(m_fileManager, &DFileWatcher::fileDeleted, this, [ = ](const QUrl &url) {
         qDebug() << "!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
         //        updateLocalImages();
-        emit dApp->signalM->fileDeleted();
+        emit dApp->signalM->fileDeleted(url.path());
     });
 
-    connect(dApp->signalM, &SignalManager::fileDeleted, this, [ = ]() {
+    connect(dApp->signalM, &SignalManager::fileDeleted, this, [ = ](QString deletedpath) {
         if (!QFileInfo(m_currentImagePath).exists() && m_infos.count() < 2) {
             qDebug() << "fileDeleted";
             emit dApp->signalM->hideNavigation();
@@ -322,6 +322,9 @@ void ViewPanel::startFileWatcher()
                                                            (m_infos.size() > 1));
             m_stack->setCurrentIndex(1);
             emit dApp->signalM->sigImageOutTitleBar(false);
+            emit dApp->signalM->changetitletext("");
+        }else {
+            removeImagePath(deletedpath);
         }
     });
     connect(dApp->signalM, &SignalManager::picOneClear, this, [ = ]() {
@@ -1475,6 +1478,22 @@ bool ViewPanel::removeCurrentImage()
     m_bAllowDel = true;
     ttbc->disableDelAct(true);
 
+    return true;
+}
+
+bool ViewPanel::removeImagePath(QString path)
+{
+    if (m_infos.isEmpty()) {
+        return false;
+    }
+    int currentindex = 0;
+    for (;currentindex<m_infos.size();currentindex++) {
+        if(path == m_infos[currentindex].filePath) break;
+    }
+    if(currentindex == m_current)
+    {
+        openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    }
     return true;
 }
 
