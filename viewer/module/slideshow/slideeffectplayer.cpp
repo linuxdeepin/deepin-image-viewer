@@ -163,8 +163,10 @@ void SlideEffectPlayer::start()
     m_running = true;
     if (!b_4k)
         m_tid = startTimer(ANIMATION_DURATION );
+//        m_tid = startTimer(2 );
     else
         m_tid = startTimer(ANIMATION_DURATION_4K );
+//        m_tid = startTimer(2 );
 }
 
 void SlideEffectPlayer::pause()
@@ -223,13 +225,29 @@ bool SlideEffectPlayer::startNext()
     m_effect = SlideEffect::create("");
 //    m_effect = SlideEffect::create("enter_from_right");
 //    if ((m_screenrect.width()*m_ratio) < 3000 && (m_screenrect.height()*m_ratio) < 3000) {
-    if (!b_4k) {
-        m_effect->setDuration(ANIMATION_DURATION);
-        m_effect->setAllMs(SLIDER_DURATION);
-    } else {
-//        qDebug() << "------------------4K";
-        m_effect->setDuration(ANIMATION_DURATION_4K);
-        m_effect->setAllMs(SLIDER_DURATION_4K);
+
+    //maozhengyu 点击下一张图片加载延时
+    if(!bstartnext){
+        if (!b_4k) {
+            m_effect->setDuration(ANIMATION_DURATION);
+            m_effect->setAllMs(SLIDER_DURATION);
+        } else {
+    //        qDebug() << "------------------4K";
+            m_effect->setDuration(ANIMATION_DURATION_4K);
+            m_effect->setAllMs(SLIDER_DURATION_4K);
+        }
+    }else{
+        if (!b_4k) {
+            m_effect->setDuration(ANIMATION_DURATION);
+    //        m_effect->setAllMs(SLIDER_DURATION);
+            m_effect->setAllMs(2200);
+        } else {
+    //        qDebug() << "------------------4K";
+            m_effect->setDuration(ANIMATION_DURATION_4K);
+    //        m_effect->setAllMs(SLIDER_DURATION_4K);
+            m_effect->setAllMs(3500);
+        }
+        bstartnext = false;
     }
     m_effect->setSize(fSize);
 
@@ -252,6 +270,7 @@ bool SlideEffectPlayer::startNext()
         }
     }, Qt::DirectConnection);
     QMetaObject::invokeMethod(m_effect, "start");
+
 
     if (m_current == m_paths.length() - 1) {
 //        emit dApp->signalM->updateButton();
@@ -304,11 +323,15 @@ bool SlideEffectPlayer::startPrevious()
     m_effect = SlideEffect::create("enter_from_left");
     if (!b_4k) {
         m_effect->setDuration(ANIMATION_DURATION);
-        m_effect->setAllMs(SLIDER_DURATION);
+//        m_effect->setAllMs(SLIDER_DURATION);
+
+        m_effect->setAllMs(2200);
     } else {
         qDebug() << "------------------4K";
         m_effect->setDuration(ANIMATION_DURATION_4K);
-        m_effect->setAllMs(SLIDER_DURATION_4K);
+//        m_effect->setAllMs(SLIDER_DURATION_4K);
+
+        m_effect->setAllMs(3500);
     }
     m_effect->setSize(fSize);
 
@@ -403,6 +426,11 @@ void SlideEffectPlayer::cachePrevious()
     }
 }
 
+void SlideEffectPlayer::setStartNextFlag(bool flag)
+{
+    bstartnext = flag;
+}
+
 void SlideEffectPlayer::stop()
 {
     if (!isRunning())
@@ -418,4 +446,3 @@ void SlideEffectPlayer::stop()
     m_cacheImages.clear();
     Q_EMIT finished();
 }
-

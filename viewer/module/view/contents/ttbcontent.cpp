@@ -980,6 +980,7 @@ bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nC
 //    }
 
     m_imgList->adjustSize();
+    onResize();
 
     return bRet;
 }

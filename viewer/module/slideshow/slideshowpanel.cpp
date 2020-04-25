@@ -97,6 +97,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //    });
     connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [ = ] {
         m_player->startNext();
+        m_player->setStartNextFlag(true);
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, [ = ] {
         backToLastPanel();

@@ -71,6 +71,7 @@ private:
     void showNormal();
     void onMenuItemClicked(QAction *action);
     void onThemeChanged(ViewerThemeManager::AppTheme dark);
+
 private:
     int                  m_hideCursorTid;
     int                  m_startTid;
