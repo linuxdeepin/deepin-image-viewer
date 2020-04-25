@@ -18,7 +18,10 @@
 #define TITLELINE_H
 
 #include <QWidget>
-#include <QLabel>
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 class Title1 : public QWidget
 {
@@ -33,14 +36,14 @@ private:
     QString m_title;
 };
 
-class Title2 : public QLabel
+class Title2 : public QLbtoDLabel
 {
     Q_OBJECT
 public:
     explicit Title2(const QString &title, QWidget *parent = 0);
 };
 
-class Title3 : public QLabel
+class Title3 : public QLbtoDLabel
 {
     Q_OBJECT
 public:

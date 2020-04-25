@@ -35,7 +35,7 @@
 
 #include <QApplication>
 #include <QDebug>
-#include <QFileDialog>
+#include <DFileDialog>
 #include <QFileInfo>
 #include <QFileSystemWatcher>
 #include <QHBoxLayout>
@@ -44,7 +44,6 @@
 #include <QProcess>
 #include <QProxyStyle>
 #include <QResizeEvent>
-#include <QStackedWidget>
 #include <QtConcurrent>
 #include <QThread>
 #include <QPainter>
@@ -55,6 +54,7 @@
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
+typedef DFileDialog QFDToDFileDialog;
 
 namespace {
 
@@ -204,8 +204,8 @@ void ViewPanel::initConnect()
         dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
 
         const QStringList &image_list =
-        QFileDialog::getOpenFileNames(this, tr("Open Image"), pictureFolder, filter, nullptr,
-                                      QFileDialog::HideNameFilterDetails);
+        QFDToDFileDialog::getOpenFileNames(this, tr("Open Image"), pictureFolder, filter, nullptr,
+                                      QFDToDFileDialog::HideNameFilterDetails);
 
         if (image_list.isEmpty())
             return;
@@ -1512,7 +1512,7 @@ void ViewPanel::viewOnNewProcess(const QStringList &paths)
 
 void ViewPanel::initStack()
 {
-    m_stack = new QStackedWidget;
+    m_stack = new QSWToDStackedWidget;
     m_stack->setMouseTracking(true);
     m_stack->setContentsMargins(0, 0, 0, 0);
 

@@ -73,7 +73,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
                      });
 
     setMouseTracking(true);
-    m_thumbnailLabel = new QLabel(this);
+    m_thumbnailLabel = new QLbtoDLabel(this);
     //    m_thumbnailLabel->setObjectName("ThumbnailLabel");
     m_thumbnailLabel->setFixedSize(THUMBNAIL_BORDERSIZE);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());

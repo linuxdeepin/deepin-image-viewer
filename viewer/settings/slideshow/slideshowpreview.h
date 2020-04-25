@@ -17,9 +17,12 @@
 #ifndef SLIDESHOWPREVIEW_H
 #define SLIDESHOWPREVIEW_H
 
-#include <QFrame>
+#include <DFrame>
 
-class SlideshowPreview : public QFrame
+DWIDGET_USE_NAMESPACE
+typedef DFrame QFrToDFrame;
+
+class SlideshowPreview : public QFrToDFrame
 {
     Q_OBJECT
 public:

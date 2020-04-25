@@ -1,22 +1,26 @@
 #include "printoptionspage.h"
 #include <QHBoxLayout>
-#include <QToolButton>
-#include <QGroupBox>
+#include <DToolButton>
+#include <DGroupBox>
 #include <QRadioButton>
 #include <QPushButton>
 #include <QDebug>
 
+DWIDGET_USE_NAMESPACE
+typedef DToolButton QTBToDToolButton;
+typedef DGroupBox QGBToDGroupBox;
+
 PrintOptionsPage::PrintOptionsPage(QWidget *parent)
-    : QDialog(parent),
+    : QDlgToDialog(parent),
       m_settings("deepin", "print-image-option")
 {
     m_noScaleBtn = new QRadioButton(tr("No scaling"));
     m_fitToImageBtn = new QRadioButton(tr("Fit page to image"));
     m_fitToPageBtn = new QRadioButton(tr("Fit image to page"));
     m_scaleBtn = new QRadioButton(tr("Scale to:"));
-    m_printWidth = new QDoubleSpinBox;
-    m_printHeight = new QDoubleSpinBox;
-    m_printUnit = new QComboBox;
+    m_printWidth = new QDSBToDDoubleSpinBox;
+    m_printHeight = new QDSBToDDoubleSpinBox;
+    m_printUnit = new QCBToDComboBox;
     m_buttonGroup = new QButtonGroup;
     m_posBtnGroup = new QButtonGroup;
 
@@ -34,7 +38,7 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
 
     QHBoxLayout *layout = new QHBoxLayout(this);
 
-    QGroupBox *posBtnBox = new QGroupBox(tr("Image Position"));
+    QGBToDGroupBox *posBtnBox = new QGBToDGroupBox(tr("Image Position"));
 
     QVBoxLayout *vLayout = new QVBoxLayout;
     QWidget *btnsWidget = new QWidget;
@@ -47,7 +51,7 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
 
     for (int row = 0; row < 3; ++row) {
         for (int column = 0; column < 3; ++column) {
-            QToolButton *btn = new QToolButton(posBtnBox);
+            QTBToDToolButton *btn = new QTBToDToolButton(posBtnBox);
             btn->setFixedSize(40, 40);
             btn->setCheckable(true);
             btnsLayout->addWidget(btn, row, column);
@@ -72,7 +76,7 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
             }
         }
 
-    QGroupBox *groupBox = new QGroupBox(tr("Scaling"));
+    QGBToDGroupBox *groupBox = new QGBToDGroupBox(tr("Scaling"));
     QVBoxLayout *groupLayout = new QVBoxLayout;
     groupBox->setLayout(groupLayout);
 
@@ -121,9 +125,9 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
         emit valueChanged();
     });
 
-    connect(m_printWidth, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
-    connect(m_printHeight, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
-    connect(m_printUnit, &QComboBox::currentTextChanged, this, &PrintOptionsPage::valueChanged);
+    connect(m_printWidth, static_cast<void(QDSBToDDoubleSpinBox::*)(double)>(&QDSBToDDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
+    connect(m_printHeight, static_cast<void(QDSBToDDoubleSpinBox::*)(double)>(&QDSBToDDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
+    connect(m_printUnit, &QCBToDComboBox::currentTextChanged, this, &PrintOptionsPage::valueChanged);
 
     init();
 }

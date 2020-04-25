@@ -30,7 +30,7 @@ const double MAX_SPEED_TIME = 14;
 }  // namespace
 
 ScrollBar::ScrollBar(QWidget *parent)
-    : QScrollBar(parent)
+    : QSBToDScrollBar(parent)
     , m_speedTime(DEFAULT_SPEED_TIME)
     , m_directionFlag(1)
 {
@@ -81,7 +81,7 @@ void ScrollBar::wheelEvent(QWheelEvent *e)
         QWheelEvent ve(e->pos(), e->globalPos(), e->pixelDelta()
                        , e->angleDelta(), e->delta() * 16/*speed up*/
                        , Qt::Vertical, e->buttons(), e->modifiers());
-        QScrollBar::wheelEvent(&ve);
+        QSBToDScrollBar::wheelEvent(&ve);
         m_timer->start();
     }
     // Active by mouse

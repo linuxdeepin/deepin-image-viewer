@@ -20,9 +20,12 @@
 #include "utils/imageutils.h"
 #include <QFrame>
 #include <QThread>
+#include <DLabel>
 
 class QHBoxLayout;
-class QLabel;
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 // CountingThread
 class CountingThread : public QThread {
@@ -76,9 +79,9 @@ private:
     int m_countTID;
     CountingThread *m_thread = nullptr;
     QString m_path;
-    QLabel *m_dirLabel;
-    QLabel *m_pathLabel;
-    QLabel *m_countLabel;
+    QLbtoDLabel *m_dirLabel;
+    QLbtoDLabel *m_pathLabel;
+    QLbtoDLabel *m_countLabel;
     QHBoxLayout *m_mainLayout;
 };
 

@@ -1,11 +1,14 @@
 #ifndef ELIDEDLABEL_H
 #define ELIDEDLABEL_H
 
-#include <QLabel>
-
 #include "controller/viewerthememanager.h"
+#include <DLabel>
 
-class ElidedLabel : public QLabel
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
+
+class ElidedLabel : public QLbtoDLabel
 {
     Q_OBJECT
 public:

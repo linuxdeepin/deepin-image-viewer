@@ -28,20 +28,20 @@ const int MAX_FIELD_WIDTH = 140;
 const int TITLE_MAXWIDTH = 80;
 }
 
-class SimpleFormLabel : public QLabel
+class SimpleFormLabel : public QLbtoDLabel
 {
     Q_OBJECT
 public:
     explicit SimpleFormLabel(const QString &t, QWidget *parent = 0)
-        : QLabel(t, parent) {}
+        : QLbtoDLabel(t, parent) {}
 };
 
-class SimpleFormField : public QLabel
+class SimpleFormField : public QLbtoDLabel
 {
     Q_OBJECT
 public:
     explicit SimpleFormField(QWidget *parent = 0)
-        : QLabel(parent)
+        : QLbtoDLabel(parent)
     {
         setWordWrap(true);
     }
@@ -54,7 +54,7 @@ protected:
             // define minimum height
             setMinimumHeight(heightForWidth(width()));
         }
-        QLabel::resizeEvent(event);
+        QLbtoDLabel::resizeEvent(event);
     }
 };
 
@@ -72,7 +72,7 @@ BlureInfoFrame::BlureInfoFrame(QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(5, 5, 5, 5);
 
-    QFrame *tf = new QFrame;
+    QFrToDFrame *tf = new QFrToDFrame;
     tf->setObjectName("InfoTopContent");
     tf->setContentsMargins(0, 0, 0, 0);
     m_topLayout = new QVBoxLayout(tf);
@@ -85,7 +85,7 @@ BlureInfoFrame::BlureInfoFrame(QWidget *parent)
     layout->addWidget(s);
     layout->addSpacing(5);
 
-    m_infoFrame = new QFrame;
+    m_infoFrame = new QFrToDFrame;
     m_infoLayout = new QFormLayout(m_infoFrame);
     m_infoLayout->setSpacing(3);
     m_infoLayout->setContentsMargins(10, 0, 10, 0);

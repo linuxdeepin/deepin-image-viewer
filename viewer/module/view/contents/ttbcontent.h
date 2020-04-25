@@ -42,7 +42,10 @@
 #include <DGuiApplicationHelper>
 #include <DLabel>
 #include "iconbutton.h"
+#include <DLabel>
+
 DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 
 class PushButton;
@@ -137,7 +140,7 @@ private:
     QString m_pixmapstring;
     bool bmouserelease = false;
 };
-class TTBContent : public QLabel
+class TTBContent : public QLbtoDLabel
 {
     Q_OBJECT
 public:

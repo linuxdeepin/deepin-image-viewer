@@ -130,7 +130,7 @@ void ContentsFrame::initScrollArea()
     m_area->setWidgetResizable(true);
     m_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    QWidget *content = new QWidget;
+    QWdToDWidget *content = new QWdToDWidget;
     QVBoxLayout *layout = new QVBoxLayout(content);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);

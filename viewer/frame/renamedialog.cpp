@@ -4,9 +4,13 @@
 #include "utils/imageutils.h"
 #include "application.h"
 
-#include <QLabel>
 #include <DMessageBox>
 #include <QRegExp>
+
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 #define FILENAMEMAXLENGTH 255
 
@@ -23,7 +27,7 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
     m_edtlayout = new QHBoxLayout();
     m_lineedt = new DLineEdit(widet);
     QFrame *line = new QFrame(widet);
-    QLabel *labtitle = new QLabel();
+    QLbtoDLabel *labtitle = new QLbtoDLabel();
     okbtn = new DSuggestButton(widet);
     cancelbtn = new DPushButton(widet);
     m_labformat = new DLabel(widet);

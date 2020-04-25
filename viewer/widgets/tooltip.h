@@ -18,9 +18,12 @@
 #define TOOLTIP_H
 
 #include <QWidget>
-#include <QLabel>
+#include <DLabel>
 
-class Tooltip : public QLabel
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
+class Tooltip : public QLbtoDLabel
 {
     Q_OBJECT
 public:

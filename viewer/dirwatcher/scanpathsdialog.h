@@ -20,12 +20,16 @@
 
 #include <QFrame>
 #include <DMainWindow>
+#include <DLabel>
+#include <DStackedWidget>
+#include <DWidget>
 
 DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DStackedWidget QSWToDStackedWidget;
+typedef DWidget QWdToDWidget;
 
-class QLabel;
 class QVBoxLayout;
-class QStackedWidget;
 class ScanPathsDialog : public DMainWindow
 {
     Q_OBJECT
@@ -65,10 +69,10 @@ private:
 private:
     static ScanPathsDialog *m_dialog;
     int m_messageTID;
-    QLabel *m_messageLabel;
+    QLbtoDLabel *m_messageLabel;
     QVBoxLayout *m_mainLayout;
     QVBoxLayout *m_pathsLayout;
-    QStackedWidget *m_contentStack;
+    QSWToDStackedWidget *m_contentStack;
 };
 
 #endif // SCANPATHSDIALOG_H

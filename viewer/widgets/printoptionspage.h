@@ -1,15 +1,20 @@
 #ifndef PRINTOPTIONSPAGE_H
 #define PRINTOPTIONSPAGE_H
 
-#include <QDialog>
+#include <DDialog>
 #include <QRadioButton>
-#include <QDoubleSpinBox>
+#include <DDoubleSpinBox>
 #include <QButtonGroup>
-#include <QComboBox>
+#include <DComboBox>
 #include <QCheckBox>
 #include <QSettings>
 
-class PrintOptionsPage : public QDialog
+DWIDGET_USE_NAMESPACE
+typedef DDialog QDlgToDialog;
+typedef DDoubleSpinBox QDSBToDDoubleSpinBox;
+typedef DComboBox QCBToDComboBox;
+
+class PrintOptionsPage : public QDlgToDialog
 {
     Q_OBJECT
 
@@ -49,9 +54,9 @@ private:
     QRadioButton *m_fitToImageBtn;
     QRadioButton *m_fitToPageBtn;
     QRadioButton *m_scaleBtn;
-    QDoubleSpinBox *m_printWidth;
-    QDoubleSpinBox *m_printHeight;
-    QComboBox *m_printUnit;
+    QDSBToDDoubleSpinBox *m_printWidth;
+    QDSBToDDoubleSpinBox *m_printHeight;
+    QCBToDComboBox *m_printUnit;
     QButtonGroup *m_buttonGroup;
     QButtonGroup *m_posBtnGroup;
     QSettings m_settings;

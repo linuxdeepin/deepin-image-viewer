@@ -34,6 +34,7 @@ const int ANIMATION_DURATION  = 1000;
 const int SLIDER_DURATION  = 3000;
 const int ANIMATION_DURATION_4K  = 2300;
 const int SLIDER_DURATION_4K  = 7000;
+
 //const int ANIMATION_DURATION  = 2500;
 //const int SLIDER_DURATION  = 7000;
 

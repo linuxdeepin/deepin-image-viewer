@@ -296,7 +296,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
 }
 
 TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
-    : QLabel(parent)
+    : QLbtoDLabel(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = std::max(this->window()->width(),

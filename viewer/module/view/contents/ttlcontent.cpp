@@ -43,7 +43,7 @@ const int LEFT_SPACE = 20;
 }  // namespace
 
 TTLContent::TTLContent(bool inDB,
-                       QWidget *parent) : QLabel(parent)
+                       QWidget *parent) : QLbtoDLabel(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = std::max(this->window()->width(),

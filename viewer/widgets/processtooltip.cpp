@@ -43,9 +43,10 @@ ProcessTooltip::ProcessTooltip(QWidget *parent)
 
     setFixedHeight(TOOLTIP_HEIGHT);
 
-    m_icon = new QLabel;
+    m_icon = new QLbtoDLabel;
 
-    m_message = new QLabel;
+    m_message = new QLbtoDLabel;
+
     m_message->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 //    m_message->setStyleSheet(QString("font-size: 12px;color: %1;").arg(m_textColor));
 

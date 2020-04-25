@@ -46,10 +46,15 @@ class ImageView;
 class ImageWidget;
 class NavigationWidget;
 class QFileSystemWatcher;
-class QLabel;
-class QStackedWidget;
 class SlideEffectPlayer;
 class QTimer;
+
+#include <DLabel>
+#include <DStackedWidget>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DStackedWidget QSWToDStackedWidget;
 
 class ViewPanel : public ModulePanel
 {
@@ -185,7 +190,7 @@ private:
     ImageInfoWidget *m_info {nullptr};
     ThumbnailWidget *m_emptyWidget = nullptr;
     DMenu *m_menu;
-    QStackedWidget *m_stack {nullptr};
+    QSWToDStackedWidget *m_stack {nullptr};
     LockWidget *m_lockWidget;
     TTBContent *ttbc = nullptr;
     // Floating component

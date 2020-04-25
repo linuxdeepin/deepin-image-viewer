@@ -33,7 +33,6 @@
 #include <QFile>
 #include <QFileSystemWatcher>
 #include <QHBoxLayout>
-#include <QLabel>
 
 #include <ddialog.h>
 using namespace Dtk::Widget;
@@ -221,7 +220,7 @@ void MainWidget::initPanelStack(bool manager)
 #else
     Q_UNUSED(manager)
 #endif
-    m_panelStack = new QStackedWidget(this);
+    m_panelStack = new QSWToDStackedWidget(this);
     m_panelStack->setObjectName("PanelStack");
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -395,7 +394,7 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar->move(
         0, height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 
-    m_btmSeparatorLine = new QLabel(this);
+    m_btmSeparatorLine = new QLbtoDLabel(this);
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbar, this, [ = ](bool wideMode) {
         if (wideMode) {

@@ -19,14 +19,19 @@
 
 #include <QDebug>
 #include <QDesktopWidget>
-#include <QFrame>
+#include <DFrame>
 #include <QHBoxLayout>
-#include <QLabel>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QTimer>
 #include <QIcon>
 #include <QApplication>
+
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DFrame QFrToDFrame;
 
 PushButton::PushButton(QWidget *parent)
     : QWidget(parent)
@@ -313,11 +318,11 @@ QColor PushButton::getTextColor() const
 
 void PushButton::showTooltip(const QPoint &pos)
 {
-    QFrame *tf = new QFrame();
+    QFrToDFrame *tf = new QFrToDFrame();
 //    tf->setStyleSheet(this->styleSheet());
     tf->setWindowFlags(Qt::ToolTip);
     tf->setAttribute(Qt::WA_TranslucentBackground);
-    QLabel *tl = new QLabel(tf);
+    QLbtoDLabel *tl = new QLbtoDLabel(tf);
     tl->setObjectName("ButtonTooltip");
     tl->setText(toolTip());
     QHBoxLayout *layout = new QHBoxLayout(tf);
@@ -334,8 +339,8 @@ void PushButton::showTooltip(const QPoint &pos)
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 
-    connect(this, &PushButton::mouseLeave, tf, &QFrame::deleteLater);
-    connect(this, &PushButton::clicked, tf, &QFrame::deleteLater);
+    connect(this, &PushButton::mouseLeave, tf, &QFrToDFrame::deleteLater);
+    connect(this, &PushButton::clicked, tf, &QFrToDFrame::deleteLater);
 }
 
 void PushButton::onThemeChanged(ViewerThemeManager::AppTheme theme)

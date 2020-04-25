@@ -17,12 +17,15 @@
 #include "shortcutframe.h"
 #include <QDebug>
 #include <QFormLayout>
-#include <QPushButton>
+#include <DPushButton>
 #include <QVBoxLayout>
 #include "../title.h"
 #include "application.h"
 #include "controller/configsetter.h"
 #include "shortcuteditor.h"
+
+DWIDGET_USE_NAMESPACE
+typedef DPushButton QPBtnDPushButton;
 
 namespace {
 
@@ -68,7 +71,7 @@ const QStringList InvisibleKeys = QStringList() << "View"
 }  // namespace
 
 ShortcutFrame::ShortcutFrame(QWidget *parent)
-    : QFrame(parent)
+    : QFrToDFrame(parent)
 {
     checkShortcut();
 
@@ -145,9 +148,9 @@ void ShortcutFrame::initAlbumShortcut()
 
 void ShortcutFrame::initResetButton()
 {
-    QPushButton *resetBTN = new QPushButton(tr("Restore Defaults"));
+    QPBtnDPushButton *resetBTN = new QPBtnDPushButton(tr("Restore Defaults"));
     resetBTN->setFixedSize(310, 36);
-    connect(resetBTN, &QPushButton::clicked, this, &ShortcutFrame::resetShortcut);
+    connect(resetBTN, &QPBtnDPushButton::clicked, this, &ShortcutFrame::resetShortcut);
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setAlignment(Qt::AlignHCenter);

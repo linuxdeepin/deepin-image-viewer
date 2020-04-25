@@ -19,7 +19,7 @@
 
 #include <QDebug>
 #include <QDesktopWidget>
-#include <QFrame>
+#include <DFrame>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPainter>
@@ -27,6 +27,11 @@
 #include <QTimer>
 #include <QIcon>
 #include <QApplication>
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DFrame QFrToDFrame;
 
 ReturnButton::ReturnButton(QWidget *parent)
     : QWidget(parent)
@@ -356,11 +361,11 @@ QColor ReturnButton::getTextColor() const
 
 void ReturnButton::showTooltip(const QPoint &pos)
 {
-    QFrame *tf = new QFrame();
+    QFrToDFrame *tf = new QFrToDFrame();
 //    tf->setStyleSheet(this->styleSheet());
     tf->setWindowFlags(Qt::ToolTip);
     tf->setAttribute(Qt::WA_TranslucentBackground);
-    QLabel *tl = new QLabel(tf);
+    QLbtoDLabel *tl = new QLbtoDLabel(tf);
     tl->setObjectName("ButtonTooltip");
     tl->setText(toolTip());
     QHBoxLayout *layout = new QHBoxLayout(tf);
@@ -377,8 +382,8 @@ void ReturnButton::showTooltip(const QPoint &pos)
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 
-    connect(this, &ReturnButton::mouseLeave, tf, &QFrame::deleteLater);
-    connect(this, &ReturnButton::clicked, tf, &QFrame::deleteLater);
+    connect(this, &ReturnButton::mouseLeave, tf, &QFrToDFrame::deleteLater);
+    connect(this, &ReturnButton::clicked, tf, &QFrToDFrame::deleteLater);
 }
 
 void ReturnButton::onThemeChanged(ViewerThemeManager::AppTheme theme)

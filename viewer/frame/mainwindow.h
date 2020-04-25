@@ -28,8 +28,10 @@
 #include <DMainWindow>
 #include <QDebug>
 #include <QWidget>
+#include <DStackedWidget>
 
 DWIDGET_USE_NAMESPACE
+typedef DStackedWidget QSWToDStackedWidget;
 
 #ifndef LITE_DIV
 class Worker : public QObject
@@ -74,7 +76,7 @@ private:
     void paraOpenImageInfo(QString source, QString &path, QStringList &pathlist, QDateTime &stime);
 private:
     MainWidget *m_mainWidget;
-    QStackedWidget *m_pCenterWidget;
+    QSWToDStackedWidget *m_pCenterWidget;
     DGioVolumeManager *m_vfsManager;
     SlideShowPanel *m_slidePanel;
     bool m_picInUSB = false;

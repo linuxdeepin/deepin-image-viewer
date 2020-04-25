@@ -18,8 +18,11 @@
 #define CONTENTSFRAME_H
 
 #include "titlebutton.h"
-#include <QWidget>
+#include <DWidget>
 #include <QScrollArea>
+
+DWIDGET_USE_NAMESPACE
+typedef DWidget QWdToDWidget;
 
 class QVBoxLayout;
 class ContentsFrame : public QWidget

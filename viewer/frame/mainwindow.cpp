@@ -69,7 +69,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
 
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
-    m_pCenterWidget = new QStackedWidget(this);
+    m_pCenterWidget = new QSWToDStackedWidget(this);
     m_mainWidget = new MainWidget(manager, this);
     m_pCenterWidget->addWidget(m_mainWidget);
     m_slidePanel =  new SlideShowPanel();
