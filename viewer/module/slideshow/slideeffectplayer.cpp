@@ -89,10 +89,12 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
 //    }
 
     if (bneedupdatepausebutton) {
-        emit dApp->signalM->updateButton();
-        emit dApp->signalM->updatePauseButton();
-        bneedupdatepausebutton = false;
-        return;
+        //emit dApp->signalM->updateButton();
+       // emit dApp->signalM->updatePauseButton();
+        //bneedupdatepausebutton = false;
+        //return;
+        //m_current = 0;
+        bneedupdatepausebutton =false;
     }
     if (! startNext()) {
         stop();
@@ -341,6 +343,7 @@ void SlideEffectPlayer::cacheNext()
         if (bfirstrun) {
             current = m_paths.length() - 1;
             bneedupdatepausebutton = true;
+            current = 0;
 //            emit dApp->signalM->updatePauseButton();
         } else {
             current = 0;
@@ -350,6 +353,15 @@ void SlideEffectPlayer::cacheNext()
     if(current != 0 )
     {
         QString curpath = m_paths[current-1];
+        if (m_cacheImages.value(curpath).isNull())
+        {
+            QImage img = utils::image::getRotatedImage(curpath);
+            m_cacheImages.insert(curpath, img);
+        }
+    }
+    if(current == m_paths.size()-1)
+    {
+        QString curpath = m_paths[0];
         if (m_cacheImages.value(curpath).isNull())
         {
             QImage img = utils::image::getRotatedImage(curpath);
