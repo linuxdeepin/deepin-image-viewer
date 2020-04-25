@@ -116,6 +116,8 @@ private:
     //读写锁
     QReadWriteLock m_rwLock;
     QStringList m_loadPaths;
+    //线程结束标志位
+    volatile bool m_bThreadExit = false;
 };
 
 #endif  // APPLICATION_H_

@@ -284,13 +284,11 @@ void ImageView::setImage(const QString &path)
     //    refresh(bugID3926)
 
     //heyi test  识别是否切换了图片，并判定上一张图片旋转状态是否发生了改变
-    if (!m_path.isEmpty() && m_path != path) {
+    if (0 != m_rotateAngel) {
+        m_rotateAngel =  m_rotateAngel % 360;
         if (0 != m_rotateAngel) {
-            m_rotateAngel =  m_rotateAngel % 360;
-            if (0 != m_rotateAngel) {
-                utils::image::rotate(m_path, m_rotateAngel);
-                m_rotateAngel = 0;
-            }
+            utils::image::rotate(m_path, m_rotateAngel);
+            m_rotateAngel = 0;
         }
     }
 
@@ -657,6 +655,17 @@ bool ImageView::isFitImage() const
 bool ImageView::isFitWindow() const
 {
     return m_isFitWindow;
+}
+
+void ImageView::rotatePixCurrent()
+{
+    if (0 != m_rotateAngel) {
+        m_rotateAngel =  m_rotateAngel % 360;
+        if (0 != m_rotateAngel) {
+            utils::image::rotate(m_path, m_rotateAngel);
+            m_rotateAngel = 0;
+        }
+    }
 }
 
 void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)

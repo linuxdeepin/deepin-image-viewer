@@ -105,6 +105,10 @@ void ViewPanel::initConnect()
 {
     //heyi  test
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
+    connect(dApp, &Application::endThread, this, [ = ]() {
+        m_bThreadExit = true;
+    });
+
     connect(dApp, &Application::dynamicLoadFinished, this, [ = ]() {
         //开启延时删除标志定时器
         connect(&m_timer, &QTimer::timeout, this, [ = ]() {
@@ -147,6 +151,11 @@ void ViewPanel::initConnect()
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                        (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
+//        int ret = QMessageBox::warning(this, tr("My Application"),
+//                                       "我套你猴子",
+//                                       QMessageBox::Save | QMessageBox::Discard
+//                                       | QMessageBox::Cancel,
+//                                       QMessageBox::Save);
         onViewImage(vinfo);
         if (NULL == vinfo.lastPanel) {
             return;
@@ -205,7 +214,7 @@ void ViewPanel::initConnect()
 
         const QStringList &image_list =
         QFDToDFileDialog::getOpenFileNames(this, tr("Open Image"), pictureFolder, filter, nullptr,
-                                      QFDToDFileDialog::HideNameFilterDetails);
+                                           QFDToDFileDialog::HideNameFilterDetails);
 
         if (image_list.isEmpty())
             return;
@@ -222,6 +231,11 @@ void ViewPanel::initConnect()
         qDebug() << "emit dApp->signalM->enterView(true)..................m_emptyWidget";
         qDebug() << "加载到onViewImage前，viewpanel.cpp 205行";
 
+//        int ret = QMessageBox::warning(this, tr("My Application"),
+//                                       "我套你猴子1",
+//                                       QMessageBox::Save | QMessageBox::Discard
+//                                       | QMessageBox::Cancel,
+//                                       QMessageBox::Save);
         onViewImage(vinfo);
     });
 #endif
@@ -303,7 +317,7 @@ void ViewPanel::startFileWatcher()
     qDebug() << "!!!!!!!!!!!!!!!!!startFileWatcher!!!!!!!!!!!!!!!!!!!!!!!!!!"
              << m_fileManager->startWatcher() << "=" << m_currentFilePath;
 
-    connect(m_fileManager, &DFileWatcher::fileDeleted, this, [ = ](const QUrl &url) {
+    connect(m_fileManager, &DFileWatcher::fileDeleted, this, [ = ](const QUrl & url) {
         qDebug() << "!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
         //        updateLocalImages();
         emit dApp->signalM->fileDeleted(url.path());
@@ -323,7 +337,7 @@ void ViewPanel::startFileWatcher()
             m_stack->setCurrentIndex(1);
             emit dApp->signalM->sigImageOutTitleBar(false);
             emit dApp->signalM->changetitletext("");
-        }else {
+        } else {
             removeImagePath(deletedpath);
         }
     });
@@ -690,7 +704,6 @@ void ViewPanel::newEatImageDirIterator()
 void ViewPanel::eatImageDirIteratorThread()
 {
     //if (m_AllPath.count() < 1) return;
-    QThread::currentThread()->sleep(2);
     LoadDirPathFirst(true);
     m_CollFileFinish = true;
 //    QStringList pathlist;
@@ -1075,6 +1088,11 @@ void ViewPanel::dropEvent(QDropEvent *event)
 
         vinfo.path = paths.first();
         vinfo.paths = paths;
+//        int ret = QMessageBox::warning(this, tr("My Application"),
+//                                       "我套你猴子2",
+//                                       QMessageBox::Save | QMessageBox::Discard
+//                                       | QMessageBox::Cancel,
+//                                       QMessageBox::Save);
         onViewImage(vinfo);
 #else
         viewOnNewProcess(paths);
@@ -1101,6 +1119,11 @@ void ViewPanel::dragMoveEvent(QDragMoveEvent *event)
 //Load 100 pictures while first
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
+    if (m_bThreadExit) {
+        QThread::currentThread()->quit();
+        return;
+    }
+
     if (bLoadAll) {
         m_infosHead.clear();
         m_infosTail.clear();
@@ -1114,7 +1137,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0;
     if (!bLoadAll)
         m_firstindex = nStartIndex;
-    while (i < nCount && nStartIndex < nCount) {
+    while (i < nCount && nStartIndex < nCount && !m_bThreadExit) {
         if (!bLoadAll) {
             if (nimgcount >= First_Load_Image) {
                 m_lastindex = m_firstindex + nimgcount - 1;
@@ -1169,6 +1192,11 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
     qDebug() << "onviewimage";
     m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
+//    int ret = QMessageBox::warning(this, tr("My Application"),
+//                                   m_currentFilePath,
+//                                   QMessageBox::Save | QMessageBox::Discard
+//                                   | QMessageBox::Cancel,
+//                                   QMessageBox::Save);
     startFileWatcher();
     using namespace utils::base;
     m_vinfo = vinfo;
@@ -1430,8 +1458,20 @@ bool ViewPanel::showImage(int index, int addindex)
     //                --m_current;
     //            }
     //        }
+    //判断当前图片是否旋转过，如果被旋转就写入本地文件
+
     m_current = index;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    //发送更新缩略图接口信号
+    QStringList pathlist;
+    pathlist.append(m_infos.at(m_current).filePath);
+
+    if (pathlist.size() > 0) {
+        ttbc->setIsConnectDel(false);
+        m_bAllowDel = false;
+        ttbc->disableDelAct(false);
+        emit sendDynamicLoadPaths(pathlist);
+    }
 
     return true;
 }
@@ -1487,11 +1527,10 @@ bool ViewPanel::removeImagePath(QString path)
         return false;
     }
     int currentindex = 0;
-    for (;currentindex<m_infos.size();currentindex++) {
-        if(path == m_infos[currentindex].filePath) break;
+    for (; currentindex < m_infos.size(); currentindex++) {
+        if (path == m_infos[currentindex].filePath) break;
     }
-    if(currentindex == m_current)
-    {
+    if (currentindex == m_current) {
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     }
     return true;

@@ -279,6 +279,10 @@ void Application::loadPixThread(QStringList paths)
         QStringList pathList = m_loadPaths;
         m_rwLock.unlock();
         foreach (QString var, pathList) {
+            if (m_bThreadExit) {
+                break;
+            }
+
             loadInterface(var);
         }
 
@@ -367,8 +371,9 @@ Application::~Application()
         if (m_LoadThread->isRunning()) {
             //结束线程
             m_LoadThread->requestInterruption();
+            m_bThreadExit = true;
             emit endThread();
-            QThread::msleep(500);
+            QThread::msleep(1000);
             m_LoadThread->quit();
         }
     }

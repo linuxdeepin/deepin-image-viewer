@@ -78,6 +78,8 @@ public:
 
     bool isFitImage() const;
     bool isFitWindow() const;
+    //add by heyi 判断当前图片是否被旋转，如果是，写入本地
+    void rotatePixCurrent();
 
 signals:
     void clicked();

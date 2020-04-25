@@ -147,10 +147,10 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         bmouseleftpressed = false;
         emit mouseLeftReleased();
     }
-    if (e->type() == QEvent::Leave && obj == m_obj) {
-        bmouseleftpressed = false;
-        emit mouseLeftReleased();
-    }
+//    if (e->type() == QEvent::Leave && obj == m_obj) {
+//        bmouseleftpressed = false;
+//        emit mouseLeftReleased();
+//    }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
@@ -525,6 +525,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
                 }
             } else {
                 movex = 0;
+                emit sendLoadSignal(true);
             }
         } else
         {
@@ -533,32 +534,12 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
             } else {
                 if (movex < m_imgListView->width() - m_imgList->width()) {
                     movex = m_imgListView->width() - m_imgList->width();
+                    emit sendLoadSignal(false);
                 }
             }
         }
 
         m_imgList->move(movex, m_imgList->y());
-        //add by heyi 判断是否向左或者向右加载新的图元
-//        LOAD_DIRECTION loadDire = judgeLoadDire(m_nLastMove, movex);
-//        switch (loadDire)
-//        {
-//        case LOAD_LEFT: {
-//            emit sendLoadSignal(true);
-//            break;
-//        }
-//        case LOAD_RIGHT: {
-//            emit sendLoadSignal(false);
-//            break;
-//        }
-//        case NOT_LOAD: {
-//            break;
-//        }
-//        default: {
-//            break;
-//        }
-
-//        }
-
         m_nLastMove = movex;
     });
 
@@ -1102,7 +1083,20 @@ void TTBContent::loadBack(DBImgInfoList infos)
     //将所有图元当前的nowindex重置
 
     onResize();
-    setImage(m_strCurImagePath, m_imgInfos);
+    if (m_imgInfos.size() > 3) {
+        m_imgList->setFixedSize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+        m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST,
+                          TOOLBAR_HEIGHT);
+
+        m_imgList->setContentsMargins(0, 0, 0, 0);
+
+        m_imgList->show();
+        m_imgListView->show();
+
+        m_imgList->update();
+        m_imgListView->update();
+        m_imgList->move(m_nLastMove, m_imgList->y());
+    }
 }
 
 void TTBContent::loadFront(DBImgInfoList infos)
@@ -1146,7 +1140,21 @@ void TTBContent::loadFront(DBImgInfoList infos)
     labelList = m_imgList->findChildren<ImageItem *>();
 
     onResize();
-    setImage(m_strCurImagePath, m_imgInfos);
+    m_imgList->adjustSize();
+    if (m_imgInfos.size() > 3) {
+        m_imgList->setFixedSize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+        m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST,
+                          TOOLBAR_HEIGHT);
+
+        m_imgList->setContentsMargins(0, 0, 0, 0);
+
+        m_imgList->show();
+        m_imgListView->show();
+
+        m_imgList->update();
+        m_imgListView->update();
+        m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
+    }
 }
 
 void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
@@ -1473,6 +1481,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             } else {
                 m_startAnimation = 0;
             }
+
             qDebug() << "m_startAnimation=" << m_startAnimation;
 
             for (int j = 0; j < labelList.size(); j++) {
@@ -1842,11 +1851,6 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
 
     m_imgList->adjustSize();
     m_strCurImagePath = path;
-    if ((m_imgInfos.size() - m_nowIndex) < 20) {
-        emit sendLoadSignal(false);
-    } else if (m_nowIndex < 20) {
-        emit sendLoadSignal(true);
-    }
     qDebug() << "时间2";
 }
 

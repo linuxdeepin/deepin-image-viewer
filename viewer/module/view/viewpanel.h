@@ -238,5 +238,7 @@ private:
     volatile bool m_bAllowDel = false;
     //排除不支持格式
     QStringList m_nosupportformat;
+    //程序关闭时线程退出标志
+    volatile bool m_bThreadExit = false;
 };
 #endif  // VIEWPANEL_H

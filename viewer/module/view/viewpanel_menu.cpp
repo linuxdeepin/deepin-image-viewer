@@ -197,7 +197,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             dApp->m_imagemap.remove(path);
             dApp->m_imagemap.insert(filepath, pix);
             dApp->m_imageloader->m_writelock.unlock();
-            m_currentImagePath  =filepath;
+            m_currentImagePath  = filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);
         }
@@ -281,6 +281,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 
 void ViewPanel::updateMenuContent()
 {
+    //add by heyi 判断当前图片是否被旋转
+    m_viewB->rotatePixCurrent();
+
     m_menu->clear();
     qDeleteAll(this->actions());
 
@@ -298,8 +301,8 @@ void ViewPanel::updateMenuContent()
 #endif
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
     //修复打开不支持显示的图片在缩略图中没有，current出现超出界限崩溃问题
-    if(m_current >= m_infos.size()) m_current = 0;
-    if(QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
+    if (m_current >= m_infos.size()) m_current = 0;
+    if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
             QFileInfo(m_infos.at(m_current).filePath).isWritable())
         appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
