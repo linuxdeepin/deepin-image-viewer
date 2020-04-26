@@ -114,11 +114,14 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
             &MainWindow::onThemeChanged);
 
     m_vfsManager = new DGioVolumeManager;
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [ = ]() {
+    m_diskManager = new DDiskManager(this);
+    m_diskManager->setWatchChanges(true);
+    //m_vfsManager出现bug 当先插入u盘再打开程序时不能检测到u盘拔出时检测不到 正确做法disk和gio都要链接信号和槽，不能直接链接gio
+    connect(m_diskManager, &DDiskManager::mountAdded, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(true);
     });
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [ = ]() {
+    connect(m_diskManager, &DDiskManager::diskDeviceRemoved, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(false);
         if (m_picInUSB) {
