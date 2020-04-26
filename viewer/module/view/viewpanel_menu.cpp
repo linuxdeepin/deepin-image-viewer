@@ -191,12 +191,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             //修改链表里被修改文件的文件名
             connect(this, &ViewPanel::SetImglistPath, ttbc, &TTBContent::OnSetimglist);
             emit SetImglistPath(m_current, filename, filepath);
-            dApp->m_imageloader->m_writelock.lockForWrite();
             //修改map维护的数据
+            dApp->getRwLock().lockForWrite();
             QPixmap pix =  dApp->m_imagemap.value(path);
             dApp->m_imagemap.remove(path);
             dApp->m_imagemap.insert(filepath, pix);
-            dApp->m_imageloader->m_writelock.unlock();
+            dApp->getRwLock().unlock();
             m_currentImagePath  = filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);

@@ -209,6 +209,7 @@ void ImageLoader::addImageLoader(QStringList pathlist)
 void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
 {
     for (QString path : pathlist) {
+        dApp->getRwLock().lockForWrite();
         QPixmap pixmap = m_parent->m_imagemap[path];
         if (pixmap.isNull()) {
             QImage image(path);
@@ -227,6 +228,7 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
         //QImage image(path);
         //QPixmap pixmap = QPixmap::fromImage(image);
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+        dApp->getRwLock().unlock();
     }
 }
 

@@ -77,6 +77,12 @@ public:
     Application(int &argc, char **argv);
     ~Application();
 
+    //获取线程安全读写锁，在外部读取map时使用
+    inline QReadWriteLock &getRwLock()
+    {
+        return m_rwLock;
+    }
+
     ConfigSetter *setter = nullptr;
     //    DBManager *dbM = nullptr;
     //    Exporter *exporter = nullptr;
