@@ -738,19 +738,6 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 LOAD_DIRECTION TTBContent::judgeLoadDire(int nLastMove, int move)
 {
     LOAD_DIRECTION loadDire = NOT_LOAD;
-//    if (0 == move) {
-//        //说明向右拖动到最左边边界，到达第一张图片
-//        loadDire = LOAD_LEFT;
-//    } else {
-//        //判断上一次位置和这次位置，得出向左或者向右
-//        if ((move - nLastMove) > 0) {
-//            //向右拖动，向左加载
-//            loadDire = LOAD_LEFT;
-//        } else {
-//            //向左拖动，向右加载
-//            loadDire = LOAD_RIGHT;
-//        }
-//    }
     if ((m_imgInfos.size() - m_nowIndex) < 20) {
         loadDire = LOAD_RIGHT;
     } else if (m_nowIndex < 20) {

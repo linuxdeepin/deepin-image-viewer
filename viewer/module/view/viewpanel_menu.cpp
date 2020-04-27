@@ -33,7 +33,7 @@
 
 namespace {
 
-const int SWITCH_IMAGE_DELAY = 300;
+const int SWITCH_IMAGE_DELAY = 200;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const QString FAVORITES_ALBUM_NAME = "My favorite";
 
