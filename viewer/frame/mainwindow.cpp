@@ -32,8 +32,11 @@
 #include <QTimer>
 #include <QJsonParseError>
 #include <QJsonArray>
+#include <QShortcut>
+
 #include "utils/baseutils.h"
 #include "../service/dbusimageview_adaptor.h"
+#include "shortcut.h"
 
 #define IMAGEVIEW 0
 #define SLIDESHOW 1
@@ -164,6 +167,21 @@ void MainWindow::initshortcut()
 void MainWindow::initConnection()
 {
 
+
+    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+   // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    connect(scViewShortcut, &QShortcut::activated, this, [=]{
+        qDebug() << "receive Ctrl+Shift+/";
+        QRect rect = window()->geometry();
+        QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+        Shortcut sc;
+        QStringList shortcutString;
+        QString param1 = "-j=" + sc.toStr();
+        QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+        shortcutString << param1 << param2;
+        qDebug() << shortcutString;
+        QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
+    });
     connect(this,SIGNAL(sigExitFull()), m_mainWidget,SIGNAL(sigExitFullScreen()));
     //幻灯片显示
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {

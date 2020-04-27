@@ -52,6 +52,10 @@ const QString LOCMAP_SELECTED_DARK = ":/resources/dark/images/58 drak.svg";
 const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-dark.svg";
 const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
 const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
+const QString LOCMAP_SELECTED_DAMAGED_DARK = ":/resources/dark/images/picture_damaged-58_drak.svg";
+const QString LOCMAP_NOT_SELECTED_DAMAGED_DARK = ":/resources/dark/images/picture_damaged_dark.svg";
+const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/resources/light/images/picture_damaged_58.svg";
+const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/resources/light/images/picture_damaged.svg";
 
 const int TOOLBAR_MINIMUN_WIDTH = 610 - 3;
 const int TOOLBAR_JUSTONE_WIDTH = 310;
@@ -190,7 +194,8 @@ void ImageItem::paintEvent(QPaintEvent *event)
 
     QRect backgroundRect = rect();
     QRect pixmapRect;
-
+    QFileInfo fileinfo(_path);
+    QString str = fileinfo.suffix();
     if (_index == _indexNow) {
         QPainterPath backgroundBp;
         QRect reduceRect = QRect(backgroundRect.x() + 1, backgroundRect.y() + 1,
@@ -224,9 +229,15 @@ void ImageItem::paintEvent(QPaintEvent *event)
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
-            m_pixmapstring = LOCMAP_SELECTED_DARK;
+            if(utils::image::supportedImageFormats().contains("*."+ str, Qt::CaseInsensitive) && fileinfo.isReadable())
+                m_pixmapstring = LOCMAP_SELECTED_DARK;
+            else
+                m_pixmapstring = LOCMAP_SELECTED_DAMAGED_DARK;
         } else {
-            m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+            if(utils::image::supportedImageFormats().contains("*."+ str, Qt::CaseInsensitive) && fileinfo.isReadable())
+                m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+            else
+                m_pixmapstring = LOCMAP_SELECTED_DAMAGED_LIGHT;
         }
 
         QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(60, 60));
@@ -255,9 +266,15 @@ void ImageItem::paintEvent(QPaintEvent *event)
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
-            m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
+            if(utils::image::supportedImageFormats().contains("*."+ str, Qt::CaseInsensitive) && fileinfo.isReadable())
+                m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
+            else
+                m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_DARK;
         } else {
-            m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
+            if(utils::image::supportedImageFormats().contains("*."+ str, Qt::CaseInsensitive) && fileinfo.isReadable())
+                m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
+            else
+                m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_LIGHT;
         }
 
         QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(30, 40));
@@ -1260,7 +1277,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         }
     }
 
-    if (path.isEmpty() || !QFileInfo(path).exists() || !QFileInfo(path).isReadable()) {
+    if (path.isEmpty() || !QFileInfo(path).exists() /*|| !QFileInfo(path).isReadable()*/) {
         auto num = 32;
         int t = 0;
         int i = 0;
