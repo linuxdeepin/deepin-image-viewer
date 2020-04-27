@@ -32,8 +32,11 @@
 #include <QTimer>
 #include <QJsonParseError>
 #include <QJsonArray>
+#include <QShortcut>
+
 #include "utils/baseutils.h"
 #include "../service/dbusimageview_adaptor.h"
+#include "shortcut.h"
 
 #define IMAGEVIEW 0
 #define SLIDESHOW 1
@@ -114,11 +117,14 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
             &MainWindow::onThemeChanged);
 
     m_vfsManager = new DGioVolumeManager;
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [ = ]() {
+    m_diskManager = new DDiskManager(this);
+    m_diskManager->setWatchChanges(true);
+    //m_vfsManager出现bug 当先插入u盘再打开程序时不能检测到u盘拔出时检测不到 正确做法disk和gio都要链接信号和槽，不能直接链接gio
+    connect(m_diskManager, &DDiskManager::mountAdded, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(true);
     });
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [ = ]() {
+    connect(m_diskManager, &DDiskManager::diskDeviceRemoved, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(false);
         if (m_picInUSB) {
@@ -161,6 +167,21 @@ void MainWindow::initshortcut()
 void MainWindow::initConnection()
 {
 
+
+    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+   // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    connect(scViewShortcut, &QShortcut::activated, this, [=]{
+        qDebug() << "receive Ctrl+Shift+/";
+        QRect rect = window()->geometry();
+        QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+        Shortcut sc;
+        QStringList shortcutString;
+        QString param1 = "-j=" + sc.toStr();
+        QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+        shortcutString << param1 << param2;
+        qDebug() << shortcutString;
+        QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
+    });
     connect(this,SIGNAL(sigExitFull()), m_mainWidget,SIGNAL(sigExitFullScreen()));
     //幻灯片显示
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {

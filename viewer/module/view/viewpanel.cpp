@@ -1154,7 +1154,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
         QString str = m_AllPath.at(nStartIndex).suffix();
         nStartIndex++;
-        if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
+       // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
             if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                     mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
                 if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
@@ -1169,7 +1169,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
                     } else
                         m_infos.append(info);
                     //}
-                } else if (str.isEmpty()) {
+                } else if (/*str.isEmpty()*/1) {
                     //if (!m_infos.contains(info)) {
                     nimgcount++;
                     if (bLoadAll) {
@@ -1183,7 +1183,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
                 }
             }
 
-        }
+       // }
         i++;
     }
 }
@@ -1310,7 +1310,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         if (!vinfo.path.isEmpty()) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
-            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Readable | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
+            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {

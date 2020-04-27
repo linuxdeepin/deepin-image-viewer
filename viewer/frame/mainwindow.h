@@ -24,15 +24,23 @@
 #include "frame/mainwidget.h"
 #include "module/slideshow/slideshowpanel.h"
 
-
+#include <dgiomount.h>
 #include <DMainWindow>
 #include <QDebug>
 #include <QWidget>
 #include <DStackedWidget>
+#include <ddiskmanager.h>
+#include <dblockdevice.h>
+#include <ddiskdevice.h>
 
 DWIDGET_USE_NAMESPACE
 typedef DStackedWidget QSWToDStackedWidget;
 
+#undef signals
+extern "C" {
+#include <gio/gio.h>
+}
+#define signals public
 #ifndef LITE_DIV
 class Worker : public QObject
 {
@@ -78,6 +86,7 @@ private:
     MainWidget *m_mainWidget;
     QSWToDStackedWidget *m_pCenterWidget;
     DGioVolumeManager *m_vfsManager;
+    DDiskManager *m_diskManager;
     SlideShowPanel *m_slidePanel;
     bool m_picInUSB = false;
     QDateTime          m_currenttime;

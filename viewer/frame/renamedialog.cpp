@@ -56,7 +56,7 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
     int Dirlen = m_DirPath.size() + 1 + m_labformat->text().size();
     m_lineedt->lineEdit()->setMaxLength(FILENAMEMAXLENGTH-Dirlen);
     //正则表达式排除‘\’,'/'
-    QRegExp rx("[^\\\\//]*");
+    QRegExp rx("[^\\\\//:*?\"<>|]*");
     QRegExpValidator *pReg = new QRegExpValidator(rx, this);
     m_lineedt->lineEdit()->setValidator(pReg);
     connect(m_lineedt,&DLineEdit::textChanged,this,[=](const QString& text){
