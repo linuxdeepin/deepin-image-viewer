@@ -171,6 +171,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.path = path;
         vinfo.paths = paths();
         vinfo.viewMainWindowID = 0;
+
+        //获取当前图片，节省第一张幻灯片加载图片的时间，在龙芯电脑上getFitImage耗时很严重，测试图片5.8M耗时0.6s
+//        QPixmap pix = this->grab(QRect(QPoint( 0, 0 ),QSize( this->size().width(),this->size().height())));
+//        QImage img = pix.toImage();
+        QImage img = m_viewB->image();
+        emit dApp->signalM->setFirstImg(img);
         emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
         emit dApp->signalM->showSlidePanel(0);
         break;

@@ -71,6 +71,7 @@ private:
     void showNormal();
     void onMenuItemClicked(QAction *action);
     void onThemeChanged(ViewerThemeManager::AppTheme dark);
+    void saveFirstImg(QImage);
 
 private:
     int                  m_hideCursorTid;
@@ -85,6 +86,8 @@ private:
     DIconButton         *m_cancelslideshow;
     QColor               m_bgColor;
     bool a = true;
+    bool m_bFirstImg = false;
+    QImage m_firstImg;
 
     SlideShowBottomBar *slideshowbottombar;
 
