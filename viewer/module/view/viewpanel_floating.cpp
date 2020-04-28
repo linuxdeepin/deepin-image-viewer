@@ -98,7 +98,7 @@ void ViewPanel::initScaleLabel()
 
     QHBoxLayout *layout = new QHBoxLayout();
     scalePerc->setLayout(layout);
-    QLabel *label = new QLabel();
+    QLbtoDLabel *label = new QLbtoDLabel();
     layout->addWidget(label);
     scalePerc->setAttribute(Qt::WA_TransparentForMouseEvents);
     scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
@@ -115,7 +115,7 @@ void ViewPanel::initScaleLabel()
 
     QTimer *hideT = new QTimer(this);
     hideT->setSingleShot(true);
-    connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
+    connect(hideT, &QTimer::timeout, scalePerc, &QLbtoDLabel::hide);
 
     connect(m_viewB, &ImageView::scaled, this, [ = ](qreal perc) {
         label->setText(QString("%1%").arg(int(perc)));

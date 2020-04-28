@@ -100,12 +100,12 @@ static int maxTitleWidth()
 
 }  // namespace
 
-class ViewSeparator : public QLabel
+class ViewSeparator : public QLbtoDLabel
 {
     Q_OBJECT
 public:
     explicit ViewSeparator(QWidget *parent = 0)
-        : QLabel(parent)
+        : QLbtoDLabel(parent)
     {
         setFixedHeight(1);
     }
@@ -391,6 +391,21 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool C
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
         pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
+
+        //maozhengyu 修改图片信息日期显示格式为年月日
+        if(i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized"){
+            QString temp = "";
+            QStringList date = value.split("/");
+            QStringList DateFormat = QObject::tr("年/月/日").split("/");
+            for(int i = 0; i < date.size(); i++){
+                temp += date[i];
+                if(i < DateFormat.size() - 1)
+                    temp += DateFormat[i];
+            }
+            temp.insert(10,DateFormat[2]);
+            value = temp;
+        }
+
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");

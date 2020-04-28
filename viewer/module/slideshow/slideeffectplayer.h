@@ -70,7 +70,7 @@ Q_SIGNALS:
     void currentImageChanged(const QString &path);
     void stepChanged(int steps);
     void updateButton();
-
+    void sigLoadslideshowpathlst(bool bflag);
 public Q_SLOTS:
     void start();
     void stop();
@@ -85,6 +85,7 @@ public:
     void cacheNext();
     bool startPrevious();
     void cachePrevious();
+    void setStartNextFlag(bool flag);
 
 private:
     bool m_running = false;
@@ -103,4 +104,7 @@ private:
     bool b_4k = false;
     bool bfirstrun = true;
     bool bneedupdatepausebutton = false;
+
+    //maozhengyu 点击下一张标志
+    bool bstartnext = false;
 };

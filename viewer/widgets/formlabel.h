@@ -17,9 +17,12 @@
 #ifndef FORMLABEL_H
 #define FORMLABEL_H
 
-#include <QLabel>
+#include <DLabel>
 
-class SimpleFormLabel : public QLabel
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
+class SimpleFormLabel : public QLbtoDLabel
 {
     Q_OBJECT
 public:
@@ -27,7 +30,7 @@ public:
     void resizeEvent(QResizeEvent *event);
 };
 
-class SimpleFormField : public QLabel
+class SimpleFormField : public QLbtoDLabel
 {
     Q_OBJECT
 public:

@@ -41,7 +41,12 @@
 #include <QResizeEvent>
 #include <QShortcut>
 #include <QStyleFactory>
+#include <DLabel>
+#include <DWidget>
+
 DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DWidget QWdToDWidget;
 
 namespace {
 
@@ -232,12 +237,12 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 
 void TopToolbar::initLeftContent()
 {
-    QWidget *w = new QWidget;
+    QWdToDWidget *w = new QWdToDWidget;
     m_lLayout = new QHBoxLayout(w);
     m_lLayout->setContentsMargins(0, 0, 0, 0);
     m_lLayout->setSpacing(0);
 #ifdef LITE_DIV
-    QLabel *logo = new QLabel(this);
+    QLbtoDLabel *logo = new QLbtoDLabel(this);
 
     QPixmap logo_pix = utils::base::renderSVG(
                            ":/images/logo/resources/images/logo/deepin-image-viewer.svg", QSize(22, 22));
@@ -251,7 +256,7 @@ void TopToolbar::initLeftContent()
 
 void TopToolbar::initMiddleContent()
 {
-    QWidget *w = new QWidget;
+    QWdToDWidget *w = new QWdToDWidget;
     w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     m_mLayout = new QHBoxLayout(w);
     m_mLayout->setContentsMargins(0, 0, 0, 0);
@@ -262,7 +267,7 @@ void TopToolbar::initMiddleContent()
 
 void TopToolbar::initRightContent()
 {
-    QWidget *w = new QWidget;
+    QWdToDWidget *w = new QWdToDWidget;
     m_rLayout = new QHBoxLayout(w);
     m_rLayout->setContentsMargins(0, 0, 0, 0);
     m_rLayout->setSpacing(0);
@@ -274,7 +279,7 @@ void TopToolbar::initRightContent()
     m_titlebar->setMenu(m_menu);
     m_titlebar->setBackgroundTransparent(true);
 
-    QWidget *customWidget = new QWidget();
+    QWdToDWidget *customWidget = new QWdToDWidget();
     customWidget->setFixedWidth(0);
     m_titlebar->setCustomWidget(customWidget, false);
     m_rLayout->addWidget(m_titlebar);

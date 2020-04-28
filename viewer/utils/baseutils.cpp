@@ -131,7 +131,11 @@ void showInFileManager(const QString &path)
         return;
     }
 
+#if 1
     QUrl url = QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath());
+#else
+    QUrl url = QUrl::fromLocalFile(path);
+#endif
     Dtk::Widget::DDesktopServices::showFileItem(url);
 //    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
 //    QUrlQuery query;

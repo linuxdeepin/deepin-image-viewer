@@ -61,13 +61,13 @@ void Title1::paintEvent(QPaintEvent *e)
 }
 
 Title2::Title2(const QString &title, QWidget *parent)
-    :QLabel(title, parent)
+    :QLbtoDLabel(title, parent)
 {
 
 }
 
 Title3::Title3(const QString &title, QWidget *parent)
-    :QLabel(title, parent)
+    :QLbtoDLabel(title, parent)
 {
 
 }

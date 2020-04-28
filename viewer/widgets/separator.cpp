@@ -17,6 +17,6 @@
 #include "separator.h"
 #include "utils/baseutils.h"
 
-Separator::Separator(QWidget *parent) : QLabel(parent)
+Separator::Separator(QWidget *parent) : QLbtoDLabel(parent)
 {
 }

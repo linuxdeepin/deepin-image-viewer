@@ -113,7 +113,8 @@ const QDateTime getCreateDateTime(const QString &path)
 bool imageSupportRead(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
-
+//解决freeimage不支持icns
+    if(suffix == "icns") return true;
     //FIXME: file types below will cause freeimage to crash on loading,
     // take them here for good.
     QStringList errorList;

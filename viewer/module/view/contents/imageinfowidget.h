@@ -27,7 +27,11 @@
 #include <DScrollArea>
 #include <denhancedwidget.h>
 #include <DDrawer>
+#include <DLabel>
+
 DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
 //class DBaseExpand;
 class QFormLayout;
 class QVBoxLayout;

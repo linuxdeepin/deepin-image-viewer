@@ -23,11 +23,11 @@
 LockWidget::LockWidget(const QString &darkFile,
     const QString &lightFile, QWidget *parent)
     : ThemeWidget(darkFile, lightFile, parent) {
-    m_bgLabel = new QLabel();
+    m_bgLabel = new QLbtoDLabel();
     m_bgLabel->setFixedSize(166, 166);
     m_bgLabel->setObjectName("BgLabel");
 
-    m_lockTips = new QLabel();
+    m_lockTips = new QLbtoDLabel();
     m_lockTips->setObjectName("LockTips");
     setContentText(tr("You have no permission to view the image"));
     QVBoxLayout *layout = new QVBoxLayout(this);

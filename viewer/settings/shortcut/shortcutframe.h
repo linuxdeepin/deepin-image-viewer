@@ -17,10 +17,13 @@
 #ifndef SHORTCUTFRAME_H
 #define SHORTCUTFRAME_H
 
-#include <QFrame>
+#include <DFrame>
+
+DWIDGET_USE_NAMESPACE
+typedef DFrame QFrToDFrame;
 
 class QVBoxLayout;
-class ShortcutFrame : public QFrame
+class ShortcutFrame : public QFrToDFrame
 {
     Q_OBJECT
 public:

@@ -24,6 +24,11 @@
 #include "controller/viewerthememanager.h"
 #include "widgets/themewidget.h"
 
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
 class ThumbnailWidget : public ThemeWidget {
     Q_OBJECT
 public:
@@ -46,7 +51,7 @@ private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     bool m_isDefaultThumbnail = false;
-    QLabel* m_thumbnailLabel;
+    QLbtoDLabel* m_thumbnailLabel;
     QPixmap m_logo;
 #ifndef LITE_DIV
     QLabel* m_tips;

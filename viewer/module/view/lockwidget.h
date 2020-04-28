@@ -20,6 +20,11 @@
 #include <QLabel>
 #include "widgets/themewidget.h"
 
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
 class LockWidget : public ThemeWidget {
     Q_OBJECT
 public:
@@ -31,7 +36,7 @@ public slots:
     void setContentText(const QString &text);
 
 private:
-    QLabel *m_bgLabel;
-    QLabel *m_lockTips;
+    QLbtoDLabel *m_bgLabel;
+    QLbtoDLabel *m_lockTips;
 };
 #endif // LOCKWIDGET_H

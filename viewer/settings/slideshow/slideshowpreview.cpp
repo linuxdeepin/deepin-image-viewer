@@ -61,7 +61,7 @@ QMap<int, QString> pathMap()
 }
 
 SlideshowPreview::SlideshowPreview(SlideshowEffect effect, QWidget *parent)
-    : QFrame(parent)
+    : QFrToDFrame(parent)
     , m_effect(effect)
     , m_currentFrame(0)
 {
@@ -124,7 +124,7 @@ void SlideshowPreview::timerEvent(QTimerEvent *e)
         this->update();
     }
 
-    QFrame::timerEvent(e);
+    QFrToDFrame::timerEvent(e);
 }
 
 void SlideshowPreview::enterEvent(QEvent *e)
@@ -146,7 +146,7 @@ void SlideshowPreview::mousePressEvent(QMouseEvent *e)
 {
     // One effect at least
     if (activedEffectCount() <= 1 && m_checked) {
-        QFrame::mousePressEvent(e);
+        QFrToDFrame::mousePressEvent(e);
     }
     else if (e->button() == Qt::LeftButton) {
         e->accept();

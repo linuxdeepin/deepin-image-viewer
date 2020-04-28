@@ -78,6 +78,8 @@ public:
 
     bool isFitImage() const;
     bool isFitWindow() const;
+    //add by heyi 判断当前图片是否被旋转，如果是，写入本地
+    void rotatePixCurrent();
 
 signals:
     void clicked();
@@ -97,6 +99,10 @@ public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
     //结束程序触发此槽函数
     void endApp();
+    //重新加载svg图片
+    bool reloadSvgPix(QString strPath, int nAngel);
+    //根据角度旋转pixmap
+    void rotatePixmap(int nAngel);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;

@@ -66,8 +66,13 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //    [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/
 //        backToLastPanel();
 //    });
+
+    connect(m_player, SIGNAL(sigLoadslideshowpathlst(bool)),
+            this, SIGNAL(sigloadSlideshowpath(bool)));
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
+    connect(dApp->signalM, &SignalManager::setFirstImg,
+            this, &SlideShowPanel::saveFirstImg);
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
     connect(dApp->signalM, &SignalManager::imagesRemovedPar, [ = ](
     const DBImgInfoList & infos) {
@@ -97,6 +102,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //    });
     connect(slideshowbottombar, &SlideShowBottomBar::showNext, this, [ = ] {
         m_player->startNext();
+        m_player->setStartNextFlag(true);
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, [ = ] {
         backToLastPanel();
@@ -331,6 +337,29 @@ void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
     backToLastPanel();
 }
 
+void SlideShowPanel::Receiveslideshowpathlst(bool flag, DBImgInfoList slideshowpaths)
+{
+    slotLoadSlideShow(flag,slideshowpaths);
+}
+
+//动态加载后的数据结构给予幻灯片新的播放路径list，重新设置index
+void SlideShowPanel::slotLoadSlideShow(bool bflag, DBImgInfoList infoslideshow)
+{
+    Q_UNUSED(bflag);
+    QStringList list;
+    for (DBImgInfo info : infoslideshow) {
+
+        list << info.filePath;
+    }
+    if(list.size() == m_vinfo.paths.size()) return;
+    m_fileSystemMonitor->removePaths(m_vinfo.paths);
+    m_vinfo.paths = list;
+    m_fileSystemMonitor->addPaths(m_vinfo.paths);
+    QString curpath = m_player->currentImagePath();
+    m_player->setImagePaths(list);
+    m_player->setCurrentImage(curpath);
+}
+
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
 //    if (!(e->buttons() | Qt::NoButton)) {
@@ -372,6 +401,12 @@ void SlideShowPanel::setImage(const QImage &img)
 
 //    update();
     repaint();
+}
+
+void SlideShowPanel::saveFirstImg(QImage img)
+{
+    m_bFirstImg = true;
+    m_firstImg = img;
 }
 
 void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
@@ -426,6 +461,7 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
     slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
 
     m_player->start();
+
 //    emit dApp->signalM->gotoPanel(this);
     showFullScreen();
 }
@@ -444,10 +480,48 @@ void SlideShowPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
-    window()->showFullScreen();
-//    showFullScreen();
+    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    pAn->setDuration(50);
+    pAn->setEasingCurve(QEasingCurve::Linear);
+    pAn->setEndValue(1);
+    pAn->setStartValue(0);
+    pAn->start(QAbstractAnimation::DeleteWhenStopped);
+    QTime t1 = QTime::currentTime();
 
-    setImage(getFitImage(m_player->currentImagePath()));
+    window()->showFullScreen();
+    QTime t2 = QTime::currentTime();
+    int tCoust = t1.msecsTo(t2);
+    qDebug() << "TimeCost SysShowFullScreen:" << tCoust;
+
+    if (m_bFirstImg){
+        QDesktopWidget *dw = dApp->desktop();
+        const int dww = dw->screenGeometry(window()).width();
+        const int dwh = dw->screenGeometry(window()).height();
+
+        QImage ti(dww, dwh, QImage::Format_ARGB32);
+
+        QRectF source(0.0, 0.0, m_firstImg.width(), m_firstImg.height());
+        QRectF target;
+        if (1.0 * dww / dwh > 1.0 * m_firstImg.width() / m_firstImg.height()) {
+            const qreal w = 1.0 * m_firstImg.width() * dwh / m_firstImg.height();
+            target = QRectF((dww - w) / 2, 0.0, w, dwh);
+        } else {
+            const qreal h = 1.0 * m_firstImg.height() * dww / m_firstImg.width();
+            target = QRectF(0.0, (dwh - h) / 2, dww, h);
+        }
+
+        QPainter painter(&ti);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+        painter.fillRect(0, 0, dww, dwh, m_bgColor);
+        painter.drawImage(target, m_firstImg, source);
+
+        setImage(ti);
+        m_bFirstImg = false;
+    }
+    else {
+        setImage(getFitImage(m_player->currentImagePath()));
+    }
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->hideExtensionPanel(true);
     emit dApp->signalM->hideTopToolbar(true);

@@ -224,6 +224,7 @@ void SlideEffect::start()
     scurrent = 0;
     bfirsttimeout = true;
     tid = startTimer(all_ms - duration_ms - 1000);
+
 //    tid = startTimer(duration() / frames_total);
 }
 
@@ -251,6 +252,7 @@ void SlideEffect::timerEvent(QTimerEvent *e)
     if (bfirsttimeout) {
         stop();
         tid = startTimer(duration() / (frames_total + 1));
+//        tid = startTimer(20);
         bfirsttimeout = false;
     } else {
         while (true) {

@@ -33,7 +33,6 @@
 #include <QFile>
 #include <QFileSystemWatcher>
 #include <QHBoxLayout>
-#include <QLabel>
 
 #include <ddialog.h>
 using namespace Dtk::Widget;
@@ -221,7 +220,7 @@ void MainWidget::initPanelStack(bool manager)
 #else
     Q_UNUSED(manager)
 #endif
-    m_panelStack = new QStackedWidget(this);
+    m_panelStack = new QSWToDStackedWidget(this);
     m_panelStack->setObjectName("PanelStack");
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -315,11 +314,14 @@ void MainWidget::initTopToolbar()
 
 void MainWidget::initConnection()
 {
+    connect(this,SIGNAL(mainwgtloadslideshowpath(bool)),m_viewPanel,SLOT(slotLoadSlideshow(bool)));
+    connect(m_viewPanel,SIGNAL(sigsendslideshowlist(bool,DBImgInfoList)),this,SIGNAL(sigmaindgtslideshowpath(bool,DBImgInfoList)));
+    connect(this,SIGNAL(sigExitFullScreen()),m_viewPanel,SLOT(slotExitFullScreen()));
     //屏蔽CTrl+Q快捷键
    // QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
-    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+   // QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
+    //connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
     connect(dApp->signalM, &SignalManager::backToMainPanel, this, [ = ] {
         window()->show();
         window()->raise();
@@ -393,7 +395,7 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar->move(
         0, height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 
-    m_btmSeparatorLine = new QLabel(this);
+    m_btmSeparatorLine = new QLbtoDLabel(this);
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbar, this, [ = ](bool wideMode) {
         if (wideMode) {

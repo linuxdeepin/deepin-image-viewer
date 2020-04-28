@@ -24,17 +24,18 @@
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
 #include "widgets/imagebutton.h"
-#include <QFileDialog>
+#include <DFileDialog>
 #include <QFileSystemWatcher>
-#include <QPushButton>
+#include <DPushButton>
 #include <QScreen>
 #include <QScrollArea>
-#include <QStackedWidget>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 #include <QDebug>
 
 DWIDGET_USE_NAMESPACE
+typedef DPushButton QPBtnDPushButton;
+typedef DFileDialog QFDToDFileDialog;
 
 namespace {
 
@@ -56,7 +57,7 @@ ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     if (titlebar()) titlebar()->setFixedHeight(0);
     setFixedSize(DIALOG_WIDTH, DIALOG_HEIGHT);
 
-    QWidget *w = new QWidget(this);
+    QWdToDWidget *w = new QWdToDWidget(this);
     setCentralWidget(w);
     m_mainLayout = new QVBoxLayout(w);
     m_mainLayout->setContentsMargins(0, 0, 0, 0);
@@ -112,14 +113,14 @@ void ScanPathsDialog::timerEvent(QTimerEvent *e)
 
 void ScanPathsDialog::showSelectDialog()
 {
-    QFileDialog *dialog = new QFileDialog(this);
+    QFDToDFileDialog *dialog = new QFDToDFileDialog(this);
     dialog->setWindowTitle(tr("Select Directory"));
     dialog->setDirectory(QStandardPaths::standardLocations(
                              QStandardPaths::PicturesLocation).first());
-    dialog->setAcceptMode(QFileDialog::AcceptOpen);
-    dialog->setFileMode(QFileDialog::Directory);
+    dialog->setAcceptMode(QFDToDFileDialog::AcceptOpen);
+    dialog->setFileMode(QFDToDFileDialog::Directory);
     dialog->setOptions(
-                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+                QFDToDFileDialog::ShowDirsOnly | QFDToDFileDialog::DontResolveSymlinks);
     if (dialog->exec()) {
         auto files = dialog->selectedFiles();
         if (! files.isEmpty()) {
@@ -188,7 +189,7 @@ void ScanPathsDialog::removePath(const QString &path)
 
 void ScanPathsDialog::initAddButton()
 {
-    QPushButton * button = new QPushButton(tr("Add folder"));
+    QPBtnDPushButton * button = new QPBtnDPushButton(tr("Add folder"));
     button->setFixedSize(310, 39);
     button->setObjectName("AddButton");
     m_mainLayout->addSpacing(7);
@@ -250,7 +251,7 @@ void ScanPathsDialog::initSinglaFileWatcher()
 
 void ScanPathsDialog::initTitle()
 {
-    QLabel *title = new QLabel(tr("Sync Directory Management"));
+    QLbtoDLabel *title = new QLbtoDLabel(tr("Sync Directory Management"));
     title->setAlignment(Qt::AlignCenter);
     title->setObjectName("TitleLabel");
 
@@ -260,7 +261,7 @@ void ScanPathsDialog::initTitle()
     cb->setFixedSize(24, 24);
     connect(cb, &ImageButton::clicked, this, &ScanPathsDialog::hide);
 
-    QWidget *w = new QWidget;
+    QWdToDWidget *w = new QWdToDWidget;
     w->setFixedHeight(27);
     QHBoxLayout *layout = new QHBoxLayout(w);
     layout->setContentsMargins(24 + 5, 0, 5, 0);
@@ -275,7 +276,7 @@ void ScanPathsDialog::initTitle()
 void ScanPathsDialog::initPathsArea()
 {
     // Empty frame
-    QLabel *el = new QLabel(tr("The directory list is empty"));
+    QLbtoDLabel *el = new QLbtoDLabel(tr("The directory list is empty"));
     el->setAlignment(Qt::AlignCenter);
     el->setObjectName("EmptyFrame");
 
@@ -285,7 +286,7 @@ void ScanPathsDialog::initPathsArea()
     area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     area->setObjectName("PathsScrollArea");
 
-    QWidget *areaContent = new QWidget;
+    QWdToDWidget *areaContent = new QWdToDWidget;
     areaContent->setObjectName("PathsContent");
     m_pathsLayout = new QVBoxLayout(areaContent);
     m_pathsLayout->setAlignment(Qt::AlignTop);
@@ -293,7 +294,7 @@ void ScanPathsDialog::initPathsArea()
     m_pathsLayout->setSpacing(0);
     area->setWidget(areaContent);
 
-    m_contentStack = new QStackedWidget;
+    m_contentStack = new QSWToDStackedWidget;
     m_contentStack->setContentsMargins(0, 0, 0, 0);
     m_contentStack->setFixedSize(354, 250);
     m_contentStack->addWidget(el);
@@ -312,7 +313,7 @@ void ScanPathsDialog::initPathsArea()
 
 void ScanPathsDialog::initMessageLabel()
 {
-    m_messageLabel = new QLabel;
+    m_messageLabel = new QLbtoDLabel;
     m_messageLabel->setObjectName("MessageLabel");
     m_messageLabel->setAlignment(Qt::AlignCenter);
     m_mainLayout->addSpacing(10);

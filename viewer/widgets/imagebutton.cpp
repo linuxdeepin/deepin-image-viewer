@@ -18,12 +18,15 @@
 #include "application.h"
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QFrame>
+#include <DFrame>
 #include <QFile>
 #include <QHelpEvent>
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QTimer>
+
+DWIDGET_USE_NAMESPACE
+typedef DFrame QFrToDFrame;
 
 ImageButton::ImageButton(QWidget *parent)
     : DImageButton(parent), m_tooltipVisiable(false)
@@ -110,11 +113,11 @@ void ImageButton::showTooltip(const QPoint &gPos)
         m_tooltipVisiable = true;
     }
 
-    QFrame *tf = new QFrame();
+    QFrToDFrame *tf = new QFrToDFrame();
 //    tf->setStyleSheet(this->styleSheet());
     tf->setWindowFlags(Qt::ToolTip);
     tf->setAttribute(Qt::WA_TranslucentBackground);
-    QLabel *tl = new QLabel(tf);
+    QLbtoDLabel *tl = new QLbtoDLabel(tf);
     tl->setObjectName("ButtonTooltip");
     tl->setText(toolTip());
     QHBoxLayout *layout = new QHBoxLayout(tf);
@@ -131,9 +134,9 @@ void ImageButton::showTooltip(const QPoint &gPos)
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 
-    connect(tf, &QFrame::destroyed, this, [=] {
+    connect(tf, &QFrToDFrame::destroyed, this, [=] {
         m_tooltipVisiable = false;
     });
 
-    connect(this, &ImageButton::mouseLeave, tf, &QFrame::deleteLater);
+    connect(this, &ImageButton::mouseLeave, tf, &QFrToDFrame::deleteLater);
 }

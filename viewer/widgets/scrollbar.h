@@ -17,11 +17,14 @@
 #ifndef SCROLLBAR_H
 #define SCROLLBAR_H
 
-#include <QScrollBar>
+#include <DScrollBar>
+
+DWIDGET_USE_NAMESPACE
+typedef DScrollBar QSBToDScrollBar;
 
 class QTimer;
 class QPropertyAnimation;
-class ScrollBar : public QScrollBar
+class ScrollBar : public QSBToDScrollBar
 {
     Q_OBJECT
 public:

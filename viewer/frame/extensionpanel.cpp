@@ -204,7 +204,7 @@ void ExtensionPanel::init()
     m_scrollArea->viewport()->setPalette(palette);
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
 
-    QWidget *scrollContentWidget = new QWidget(m_scrollArea);
+    QWdToDWidget *scrollContentWidget = new QWdToDWidget(m_scrollArea);
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
     scrollWidgetLayout->setContentsMargins(10, 0, 10, 10);
     scrollWidgetLayout->setSpacing(0);

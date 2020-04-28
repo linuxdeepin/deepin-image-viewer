@@ -20,9 +20,13 @@
 #include <QWidget>
 
 #include "controller/viewerthememanager.h"
+#include <DLabel>
+#include <DPushButton>
 
-class QPushButton;
-class QLabel;
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DPushButton QPBtnDPushButton;
+
 class ImportFrame : public QWidget
 {
     Q_OBJECT
@@ -36,9 +40,9 @@ private slots:
 signals:
     void clicked();
 private:
-    QPushButton *m_importButton;
-    QLabel *m_bgLabel;
-    QLabel *m_titleLabel;
+    QPBtnDPushButton *m_importButton;
+    QLbtoDLabel *m_bgLabel;
+    QLbtoDLabel *m_titleLabel;
 };
 
 #endif // IMPORTFRAME_H

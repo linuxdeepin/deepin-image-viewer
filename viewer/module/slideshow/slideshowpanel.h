@@ -52,8 +52,12 @@ protected:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
     void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
-
+signals:
+    void sigloadSlideshowpath(bool bflag);
+private slots:
+    void Receiveslideshowpathlst(bool flag,DBImgInfoList slideshowpaths);
 private:
+    void slotLoadSlideShow(bool bflag,DBImgInfoList infoslideshow);
     void backToLastPanel();
 
     QImage getFitImage(const QString &path);
@@ -71,6 +75,8 @@ private:
     void showNormal();
     void onMenuItemClicked(QAction *action);
     void onThemeChanged(ViewerThemeManager::AppTheme dark);
+    void saveFirstImg(QImage);
+
 private:
     int                  m_hideCursorTid;
     int                  m_startTid;
@@ -84,6 +90,8 @@ private:
     DIconButton         *m_cancelslideshow;
     QColor               m_bgColor;
     bool a = true;
+    bool m_bFirstImg = false;
+    QImage m_firstImg;
 
     SlideShowBottomBar *slideshowbottombar;
 

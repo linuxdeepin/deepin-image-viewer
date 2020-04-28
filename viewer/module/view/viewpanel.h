@@ -46,10 +46,15 @@ class ImageView;
 class ImageWidget;
 class NavigationWidget;
 class QFileSystemWatcher;
-class QLabel;
-class QStackedWidget;
 class SlideEffectPlayer;
 class QTimer;
+
+#include <DLabel>
+#include <DStackedWidget>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DStackedWidget QSWToDStackedWidget;
 
 class ViewPanel : public ModulePanel
 {
@@ -94,6 +99,12 @@ signals:
     void sigResize();
     //未完全加载完图片信息时禁止删除图片
     void disableDel(bool bFlags);
+    //发送需要加载的信息，向前或者向后,true为头部加载，false尾部加载
+    void sendLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
+    //发送动态加载路径
+    void sendDynamicLoadPaths(QStringList paths);
+    //发送心的list到slideshow
+    void sigsendslideshowlist(bool bflag,DBImgInfoList infosldeshow);
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
@@ -135,6 +146,7 @@ private:
     void openImage(const QString &path, bool inDB = true);
     //删除当前选中的图片
     bool removeCurrentImage();
+    bool removeImagePath(QString path);
     void rotateImage(bool clockWise);
     bool showNext();
     bool showPrevious();
@@ -152,17 +164,24 @@ private:
     QFileInfoList getFileInfos(const QString &path);
     DBImgInfoList getImageInfos(const QFileInfoList &infos);
     const QStringList paths() const;
+    const QStringList slideshowpaths() const;
     //重命名窗口处理函数
     bool PopRenameDialog(QString &filepath, QString &filename);
     void startFileWatcher();
-
+    //断开ttbc所有的信号连接
+    void disconnectTTbc();
+    //重新连接TTBC工具栏所有信号
+    void reConnectTTbc();
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateLocalImages();
 
     //heyi test  发送显示缩略图的信号
     void sendSignal(DBImgInfoList infos, int nCurrent);
-
+    //接受向前加载或者向后加载信号,true为头部加载，false为尾部加载
+    void recvLoadSignal(bool bFlags);
+    void slotExitFullScreen();
+    void slotLoadSlideshow(bool bflag);
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
@@ -174,14 +193,18 @@ private:
     ImageInfoWidget *m_info {nullptr};
     ThumbnailWidget *m_emptyWidget = nullptr;
     DMenu *m_menu;
-    QStackedWidget *m_stack {nullptr};
+    QSWToDStackedWidget *m_stack {nullptr};
     LockWidget *m_lockWidget;
-    TTBContent *ttbc;
+    TTBContent *ttbc = nullptr;
     // Floating component
     DAnchors<NavigationWidget> m_nav;
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
+    DBImgInfoList m_infoslideshow;
+    DBImgInfoList m_infosadd;
+    DBImgInfoList m_infosHead;
+    DBImgInfoList m_infosTail;
     //heyi test 优化新增后台加载所有图片信息结构体。
     DBImgInfoList m_infosAll;
     //    DBImgInfoList::ConstIterator m_current =NULL;
@@ -189,6 +212,7 @@ private:
     int m_firstindex = 0;
     int m_lastindex = 0;
     QFileInfoList m_AllPath;
+    bool m_CollFileFinish = false;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
 
@@ -216,5 +240,9 @@ private:
     volatile bool m_bFinishFirstLoad = false;
     //是否允许删除
     volatile bool m_bAllowDel = false;
+    //排除不支持格式
+    QStringList m_nosupportformat;
+    //程序关闭时线程退出标志
+    volatile bool m_bThreadExit = false;
 };
 #endif  // VIEWPANEL_H

@@ -66,7 +66,7 @@ signals:
     void hideNavigation();
     void picInUSB(bool immediately = false);
     void picNotExists(bool immediately = false);
-    void fileDeleted();
+    void fileDeleted(QString);
     void picOneClear();
     void loadingDisplay(bool immediately = false);
     void picDelete();
@@ -87,6 +87,8 @@ signals:
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
+    void setFirstImg(const QImage &img);
+    void LoadSlideShow(bool bFlag);
     void updateButton();
     void updatePauseButton();
     void sigStartTimer();

@@ -42,7 +42,10 @@
 #include <DGuiApplicationHelper>
 #include <DLabel>
 #include "iconbutton.h"
+#include <DLabel>
+
 DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 
 class PushButton;
@@ -102,6 +105,14 @@ public:
     {
         _path = path;
     }
+    inline QString getPath()
+    {
+        return _path;
+    }
+    inline int getIndex()
+    {
+        return _index;
+    }
 signals:
     void imageItemclicked(int index, int indexNow);
 protected:
@@ -128,9 +139,8 @@ private:
     DSpinner *m_spinner;
     QString m_pixmapstring;
     bool bmouserelease = false;
-
 };
-class TTBContent : public QLabel
+class TTBContent : public QLbtoDLabel
 {
     Q_OBJECT
 public:
@@ -150,6 +160,9 @@ signals:
     void showPrevious();
     void showNext();
     void ttbcontentClicked();
+    //接受向前加载或者向后加载信号,true为头部加载，false为尾部加载
+    void sendLoadSignal(bool bFlags);
+
 public slots:
     void setCurrentDir(QString text);
     void setImage(const QString &path, DBImgInfoList infos);
@@ -179,6 +192,8 @@ public slots:
     void setIsConnectDel(bool bFlasg);
     //第一次加载100张时禁止使用删除按钮,按钮置灰色
     void disableDelAct(bool bFlags);
+    //发送需要加载的信息，向前或者向后,true为头部加载，false尾部加载
+    void recvLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);

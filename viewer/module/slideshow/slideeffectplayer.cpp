@@ -34,6 +34,7 @@ const int ANIMATION_DURATION  = 1000;
 const int SLIDER_DURATION  = 3000;
 const int ANIMATION_DURATION_4K  = 2300;
 const int SLIDER_DURATION_4K  = 7000;
+
 //const int ANIMATION_DURATION  = 2500;
 //const int SLIDER_DURATION  = 7000;
 
@@ -88,10 +89,12 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
 //    }
 
     if (bneedupdatepausebutton) {
-        emit dApp->signalM->updateButton();
-        emit dApp->signalM->updatePauseButton();
-        bneedupdatepausebutton = false;
-        return;
+        //emit dApp->signalM->updateButton();
+       // emit dApp->signalM->updatePauseButton();
+        //bneedupdatepausebutton = false;
+        //return;
+        //m_current = 0;
+        bneedupdatepausebutton =false;
     }
     if (! startNext()) {
         stop();
@@ -123,6 +126,7 @@ void SlideEffectPlayer::setImagePaths(const QStringList &paths)
     m_paths = paths;
     m_current = 0;
 }
+
 
 void SlideEffectPlayer::setCurrentImage(const QString &path)
 {
@@ -160,8 +164,10 @@ void SlideEffectPlayer::start()
     m_running = true;
     if (!b_4k)
         m_tid = startTimer(ANIMATION_DURATION );
+//        m_tid = startTimer(2 );
     else
         m_tid = startTimer(ANIMATION_DURATION_4K );
+//        m_tid = startTimer(2 );
 }
 
 void SlideEffectPlayer::pause()
@@ -171,6 +177,7 @@ void SlideEffectPlayer::pause()
         m_effect->pause();
     }
 }
+
 
 bool SlideEffectPlayer::startNext()
 {
@@ -186,9 +193,14 @@ bool SlideEffectPlayer::startNext()
     if (1 == m_paths.length()) {
         return false;
     }
-
+//    if(m_paths.size() > 99)
+//    {
+//        if(m_current == m_paths.size() -2 || m_current == m_paths.size() -1)
+//            emit sigLoadslideshowpathlst(false);
+//    }
     int current = m_current + 1;
     if (current == m_paths.length()) {
+        //emit sigLoadslideshowpathlst(false);
         current = 0;
     }
 
@@ -220,13 +232,29 @@ bool SlideEffectPlayer::startNext()
     m_effect = SlideEffect::create("");
 //    m_effect = SlideEffect::create("enter_from_right");
 //    if ((m_screenrect.width()*m_ratio) < 3000 && (m_screenrect.height()*m_ratio) < 3000) {
-    if (!b_4k) {
-        m_effect->setDuration(ANIMATION_DURATION);
-        m_effect->setAllMs(SLIDER_DURATION);
-    } else {
-//        qDebug() << "------------------4K";
-        m_effect->setDuration(ANIMATION_DURATION_4K);
-        m_effect->setAllMs(SLIDER_DURATION_4K);
+
+    //maozhengyu 点击下一张图片加载延时
+    if(!bstartnext){
+        if (!b_4k) {
+            m_effect->setDuration(ANIMATION_DURATION);
+            m_effect->setAllMs(SLIDER_DURATION);
+        } else {
+    //        qDebug() << "------------------4K";
+            m_effect->setDuration(ANIMATION_DURATION_4K);
+            m_effect->setAllMs(SLIDER_DURATION_4K);
+        }
+    }else{
+        if (!b_4k) {
+            m_effect->setDuration(ANIMATION_DURATION);
+    //        m_effect->setAllMs(SLIDER_DURATION);
+            m_effect->setAllMs(2200);
+        } else {
+    //        qDebug() << "------------------4K";
+            m_effect->setDuration(ANIMATION_DURATION_4K);
+    //        m_effect->setAllMs(SLIDER_DURATION_4K);
+            m_effect->setAllMs(3500);
+        }
+        bstartnext = false;
     }
     m_effect->setSize(fSize);
 
@@ -249,6 +277,7 @@ bool SlideEffectPlayer::startNext()
         }
     }, Qt::DirectConnection);
     QMetaObject::invokeMethod(m_effect, "start");
+
 
     if (m_current == m_paths.length() - 1) {
 //        emit dApp->signalM->updateButton();
@@ -301,11 +330,15 @@ bool SlideEffectPlayer::startPrevious()
     m_effect = SlideEffect::create("enter_from_left");
     if (!b_4k) {
         m_effect->setDuration(ANIMATION_DURATION);
-        m_effect->setAllMs(SLIDER_DURATION);
+//        m_effect->setAllMs(SLIDER_DURATION);
+
+        m_effect->setAllMs(2200);
     } else {
         qDebug() << "------------------4K";
         m_effect->setDuration(ANIMATION_DURATION_4K);
-        m_effect->setAllMs(SLIDER_DURATION_4K);
+//        m_effect->setAllMs(SLIDER_DURATION_4K);
+
+        m_effect->setAllMs(3500);
     }
     m_effect->setSize(fSize);
 
@@ -340,19 +373,36 @@ void SlideEffectPlayer::cacheNext()
         if (bfirstrun) {
             current = m_paths.length() - 1;
             bneedupdatepausebutton = true;
+            current = 0;
 //            emit dApp->signalM->updatePauseButton();
         } else {
             current = 0;
         }
     }
-
     QString path = m_paths[current];
-
+    if(current != 0 )
+    {
+        QString curpath = m_paths[current-1];
+        if (m_cacheImages.value(curpath).isNull())
+        {
+            QImage img = utils::image::getRotatedImage(curpath);
+            m_cacheImages.insert(curpath, img);
+        }
+    }
+    if(current == m_paths.size()-1)
+    {
+        QString curpath = m_paths[0];
+        if (m_cacheImages.value(curpath).isNull())
+        {
+            QImage img = utils::image::getRotatedImage(curpath);
+            m_cacheImages.insert(curpath, img);
+        }
+    }
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages.insert(path, img)";
+            qDebug() << "m_cacheImagesnext.insert(path, img)";
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
@@ -375,12 +425,17 @@ void SlideEffectPlayer::cachePrevious()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
-            qDebug() << "m_cacheImages.insert(path, img)";
+            qDebug() << "m_cacheImagespre.insert(path, img)";
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
         t->start();
     }
+}
+
+void SlideEffectPlayer::setStartNextFlag(bool flag)
+{
+    bstartnext = flag;
 }
 
 void SlideEffectPlayer::stop()
@@ -398,4 +453,3 @@ void SlideEffectPlayer::stop()
     m_cacheImages.clear();
     Q_EMIT finished();
 }
-
