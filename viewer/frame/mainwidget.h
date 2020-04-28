@@ -52,6 +52,8 @@ private slots:
     void onShowImageInfo(const QString &path);
 signals:
     void sigExitFullScreen();
+    void mainwgtloadslideshowpath(bool bflag);
+    void sigmaindgtslideshowpath(bool bflag,DBImgInfoList);
 private:
     void initBottomToolbar();
     void initExtensionPanel();

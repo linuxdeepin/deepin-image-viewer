@@ -169,7 +169,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.fullScreen = window()->isFullScreen();
         vinfo.lastPanel = this;
         vinfo.path = path;
-        vinfo.paths = paths();
+        vinfo.paths = slideshowpaths();
         vinfo.viewMainWindowID = 0;
 
         //获取当前图片，节省第一张幻灯片加载图片的时间，在龙芯电脑上getFitImage耗时很严重，测试图片5.8M耗时0.6s

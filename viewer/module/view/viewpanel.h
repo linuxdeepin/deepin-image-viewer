@@ -103,7 +103,8 @@ signals:
     void sendLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
     //发送动态加载路径
     void sendDynamicLoadPaths(QStringList paths);
-
+    //发送心的list到slideshow
+    void sigsendslideshowlist(bool bflag,DBImgInfoList infosldeshow);
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
@@ -163,6 +164,7 @@ private:
     QFileInfoList getFileInfos(const QString &path);
     DBImgInfoList getImageInfos(const QFileInfoList &infos);
     const QStringList paths() const;
+    const QStringList slideshowpaths() const;
     //重命名窗口处理函数
     bool PopRenameDialog(QString &filepath, QString &filename);
     void startFileWatcher();
@@ -179,6 +181,7 @@ private slots:
     //接受向前加载或者向后加载信号,true为头部加载，false为尾部加载
     void recvLoadSignal(bool bFlags);
     void slotExitFullScreen();
+    void slotLoadSlideshow(bool bflag);
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
@@ -198,6 +201,7 @@ private:
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
+    DBImgInfoList m_infoslideshow;
     DBImgInfoList m_infosadd;
     DBImgInfoList m_infosHead;
     DBImgInfoList m_infosTail;

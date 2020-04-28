@@ -127,6 +127,7 @@ void SlideEffectPlayer::setImagePaths(const QStringList &paths)
     m_current = 0;
 }
 
+
 void SlideEffectPlayer::setCurrentImage(const QString &path)
 {
     for (int i = 0; i < m_paths.length(); i++) {
@@ -177,6 +178,7 @@ void SlideEffectPlayer::pause()
     }
 }
 
+
 bool SlideEffectPlayer::startNext()
 {
     qDebug() << "SlideEffectPlayer::startNext()";
@@ -191,9 +193,14 @@ bool SlideEffectPlayer::startNext()
     if (1 == m_paths.length()) {
         return false;
     }
-
+//    if(m_paths.size() > 99)
+//    {
+//        if(m_current == m_paths.size() -2 || m_current == m_paths.size() -1)
+//            emit sigLoadslideshowpathlst(false);
+//    }
     int current = m_current + 1;
     if (current == m_paths.length()) {
+        //emit sigLoadslideshowpathlst(false);
         current = 0;
     }
 
