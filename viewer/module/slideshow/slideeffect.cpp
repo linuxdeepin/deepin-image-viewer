@@ -210,14 +210,25 @@ void SlideEffect::start()
     allImage[frames_total] = *next_image;
     prepare();
     current_frame = 0;
-    m_qf = QtConcurrent::run([this]() {
-        for (int i = 0; i < frames_total; i++) {
-            if (!prepareNextFrame()) {
-                stop();
-                return;
-            }
+
+    m_readlock.lockForRead();
+    for (int i = 0; i < frames_total; i++) {
+        if (!prepareNextFrame()) {
+            stop();
+            m_readlock.unlock();
+            return;
         }
-    });
+    }
+    m_readlock.unlock();
+//    m_qf = QtConcurrent::run([this]() {
+//        for (int i = 0; i < frames_total; i++) {
+//            if (!prepareNextFrame()) {
+//                stop();
+//                return;
+//            }
+//        }
+//    });
+
 //    QEventLoop loop;
 //    QTimer::singleShot(all_ms - duration_ms, &loop, SLOT(quit()));
 //    loop.exec();

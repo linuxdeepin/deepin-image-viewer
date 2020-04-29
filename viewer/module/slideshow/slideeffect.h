@@ -187,7 +187,7 @@ protected:
     QList<QFuture<void>> m_qflist;
     bool bfirsttimeout = true;
 //    QThreadPool m;
-
+    mutable QReadWriteLock m_readlock;
 private:
     template<class C> static SlideEffect *create(EffectId id)
     {
