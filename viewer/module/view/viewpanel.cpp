@@ -298,7 +298,7 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         filename = renamedlg->GetFileName();
         bool bOk = file.rename(filepath);
         if (bOk)
-            emit dApp->signalM->changetitletext(renamedlg->GetFileName());
+            emit dApp->signalM->updateFileName(renamedlg->GetFileName());
         return bOk;
     }
     return false;
