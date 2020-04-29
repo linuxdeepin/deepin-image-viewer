@@ -88,6 +88,7 @@ signals:
     void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
     void setFirstImg(const QImage &img);
+    void LoadSlideShow(bool bFlag);
     void updateButton();
     void updatePauseButton();
     void sigStartTimer();

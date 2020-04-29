@@ -109,7 +109,10 @@ void TopToolbar::setMiddleContent(QString path)
     //        filename = QFileInfo(path).fileName();
     //    }
     //    m_titlebar->setTitle(path);
-    m_titletxt->setText(path);
+    //修复名字过长显示不完整bug
+    QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),
+                               path, width() - 500);
+    m_titletxt->setText(a);
 }
 
 // Set titlebar background transparent

@@ -66,6 +66,9 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //    [ = ] {/*m_player->stop(); this->showNormal();emit dApp->signalM->hideImageView(); m_cancelslideshow->hide();*/
 //        backToLastPanel();
 //    });
+
+    connect(m_player, SIGNAL(sigLoadslideshowpathlst(bool)),
+            this, SIGNAL(sigloadSlideshowpath(bool)));
     connect(dApp->signalM, &SignalManager::startSlideShow,
             this, &SlideShowPanel::startSlideShow);
     connect(dApp->signalM, &SignalManager::setFirstImg,
@@ -334,6 +337,29 @@ void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
     backToLastPanel();
 }
 
+void SlideShowPanel::Receiveslideshowpathlst(bool flag, DBImgInfoList slideshowpaths)
+{
+    slotLoadSlideShow(flag,slideshowpaths);
+}
+
+//动态加载后的数据结构给予幻灯片新的播放路径list，重新设置index
+void SlideShowPanel::slotLoadSlideShow(bool bflag, DBImgInfoList infoslideshow)
+{
+    Q_UNUSED(bflag);
+    QStringList list;
+    for (DBImgInfo info : infoslideshow) {
+
+        list << info.filePath;
+    }
+    if(list.size() == m_vinfo.paths.size()) return;
+    m_fileSystemMonitor->removePaths(m_vinfo.paths);
+    m_vinfo.paths = list;
+    m_fileSystemMonitor->addPaths(m_vinfo.paths);
+    QString curpath = m_player->currentImagePath();
+    m_player->setImagePaths(list);
+    m_player->setCurrentImage(curpath);
+}
+
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
 //    if (!(e->buttons() | Qt::NoButton)) {
@@ -454,7 +480,6 @@ void SlideShowPanel::showFullScreen()
 {
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
-
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
     QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
     pAn->setDuration(50);
@@ -497,11 +522,6 @@ void SlideShowPanel::showFullScreen()
     else {
         setImage(getFitImage(m_player->currentImagePath()));
     }
-
-    t2 = QTime::currentTime();
-    tCoust = t1.msecsTo(t2);
-    qDebug() << "TimeCost setImage:" << tCoust;
-
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->hideExtensionPanel(true);
     emit dApp->signalM->hideTopToolbar(true);

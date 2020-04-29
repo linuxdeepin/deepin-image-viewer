@@ -166,8 +166,6 @@ void MainWindow::initshortcut()
 
 void MainWindow::initConnection()
 {
-
-
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, &QShortcut::activated, this, [=]{
@@ -182,6 +180,8 @@ void MainWindow::initConnection()
         qDebug() << shortcutString;
         QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
     });
+    connect(m_slidePanel,SIGNAL(sigloadSlideshowpath(bool)),m_mainWidget,SIGNAL(mainwgtloadslideshowpath(bool)));
+    connect(m_mainWidget,SIGNAL(sigmaindgtslideshowpath(bool,DBImgInfoList)),m_slidePanel,SLOT(Receiveslideshowpathlst(bool,DBImgInfoList)));
     connect(this,SIGNAL(sigExitFull()), m_mainWidget,SIGNAL(sigExitFullScreen()));
     //幻灯片显示
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {

@@ -298,7 +298,7 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         filename = renamedlg->GetFileName();
         bool bOk = file.rename(filepath);
         if (bOk)
-            emit dApp->signalM->changetitletext(renamedlg->GetFileName());
+            emit dApp->signalM->updateFileName(renamedlg->GetFileName());
         return bOk;
     }
     return false;
@@ -499,6 +499,10 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             DBImgInfo info = m_infosHead.takeLast();
             m_infosadd.append(info);
             m_infos.push_front(info);
+            QFileInfo finfo(info.filePath);
+            QString str = finfo.suffix();
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
+                m_infoslideshow.push_front(info);
         }
         int begin = 0;
         for (; begin < m_infos.size(); begin++) {
@@ -516,6 +520,10 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             DBImgInfo info = m_infosTail.takeFirst();
             m_infosadd.append(info);
             m_infos.append(info);
+            QFileInfo finfo(info.filePath);
+            QString str = finfo.suffix();
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
+                m_infoslideshow.push_front(info);
         }
 
         int begin = 0;
@@ -562,6 +570,26 @@ void ViewPanel::slotExitFullScreen()
         }
     }
     emit dApp->signalM->hideExtensionPanel(true);
+}
+
+void ViewPanel::slotLoadSlideshow(bool bFlags)
+{
+    if (!m_CollFileFinish)
+        return;
+    if (bFlags) {
+        for (int i = 0; i < Load_Image_Count; ++i) {
+            if (m_infosHead.isEmpty()) break;
+            DBImgInfo info = m_infosHead.takeLast();
+            m_infoslideshow.push_front(info);
+        }
+    } else {
+        for (int i = 0; i < Load_Image_Count; ++i) {
+            if (m_infosTail.isEmpty()) break;
+            DBImgInfo info = m_infosTail.takeFirst();
+            m_infoslideshow.append(info);
+        }
+    }
+    emit sigsendslideshowlist(bFlags,m_infoslideshow);
 }
 
 #ifdef LITE_DIV
@@ -792,6 +820,17 @@ const QStringList ViewPanel::paths() const
 {
     QStringList list;
     for (DBImgInfo info : m_infos) {
+        list << info.filePath;
+    }
+
+    return list;
+}
+
+const QStringList ViewPanel::slideshowpaths() const
+{
+    QStringList list;
+    for (DBImgInfo info : m_infoslideshow) {
+
         list << info.filePath;
     }
 
@@ -1167,7 +1206,12 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
                             m_infosTail.append(info);
                         m_infosAll.append(info);
                     } else
+                    {
                         m_infos.append(info);
+                        //由于m_infos存在不可查看图片，而且幻灯片打开的时候再筛选容易造成打开幻灯片较卡
+                        if (!m_nosupportformat.contains(str, Qt::CaseSensitive))
+                            m_infoslideshow.append(info);
+                    }
                     //}
                 } else if (/*str.isEmpty()*/1) {
                     //if (!m_infos.contains(info)) {
@@ -1367,6 +1411,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         } else {
             m_bFinishFirstLoad = true;
             m_bAllowDel = true;
+            m_CollFileFinish = true;
         }
     }
 }

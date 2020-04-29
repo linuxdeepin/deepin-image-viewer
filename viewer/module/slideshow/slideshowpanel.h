@@ -52,8 +52,12 @@ protected:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
     void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
-
+signals:
+    void sigloadSlideshowpath(bool bflag);
+private slots:
+    void Receiveslideshowpathlst(bool flag,DBImgInfoList slideshowpaths);
 private:
+    void slotLoadSlideShow(bool bflag,DBImgInfoList infoslideshow);
     void backToLastPanel();
 
     QImage getFitImage(const QString &path);

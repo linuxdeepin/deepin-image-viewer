@@ -70,7 +70,7 @@ Q_SIGNALS:
     void currentImageChanged(const QString &path);
     void stepChanged(int steps);
     void updateButton();
-
+    void sigLoadslideshowpathlst(bool bflag);
 public Q_SLOTS:
     void start();
     void stop();
