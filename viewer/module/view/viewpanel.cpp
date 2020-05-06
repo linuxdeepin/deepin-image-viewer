@@ -1760,11 +1760,11 @@ void ViewPanel::openImage(const QString &path, bool inDB)
             }
         }
     });
-
+    QPixmap pixmapthumb = utils::image::getThumbnail(path);
     if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+        m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable()) {
+    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);

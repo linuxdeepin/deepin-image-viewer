@@ -138,6 +138,7 @@ private:
     QPixmap _pixmap;
     DSpinner *m_spinner;
     QString m_pixmapstring;
+    bool bFirstUpdate = true;;
     bool bmouserelease = false;
 };
 class TTBContent : public QLbtoDLabel

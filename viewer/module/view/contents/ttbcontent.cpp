@@ -169,7 +169,6 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
 {
     _index = index;
     _path = path;
-
     dApp->getRwLock().lockForRead();
     if (dApp->m_imagemap.contains(path)) {
         _pixmap = dApp->m_imagemap.value(path);
@@ -177,6 +176,7 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
     _image = new DLabel(this);
     connect(dApp, &Application::sigFinishLoad, this, [ = ](QString mapPath) {
         if (mapPath == _path || mapPath == "") {
+            bFirstUpdate = false;
             if (dApp->m_imagemap.contains(_path)) {
                 _pixmap = dApp->m_imagemap.value(_path);
                 update();
@@ -194,7 +194,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
 
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform |
                            QPainter::Antialiasing);
-
     QRect backgroundRect = rect();
     QRect pixmapRect;
     QFileInfo fileinfo(_path);
@@ -232,12 +231,12 @@ void ImageItem::paintEvent(QPaintEvent *event)
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && fileinfo.isReadable())
+            if(bFirstUpdate)
                 m_pixmapstring = LOCMAP_SELECTED_DARK;
             else
                 m_pixmapstring = LOCMAP_SELECTED_DAMAGED_DARK;
         } else {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && fileinfo.isReadable())
+            if(bFirstUpdate)
                 m_pixmapstring = LOCMAP_SELECTED_LIGHT;
             else
                 m_pixmapstring = LOCMAP_SELECTED_DAMAGED_LIGHT;
@@ -252,7 +251,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
             QIcon icon(m_pixmapstring);
             icon.paint(&painter, pixmapRect);
         }
-
     } else {
         pixmapRect.setX(backgroundRect.x() + 1);
         pixmapRect.setY(backgroundRect.y() + 0);
@@ -269,12 +267,12 @@ void ImageItem::paintEvent(QPaintEvent *event)
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && fileinfo.isReadable())
+            if(bFirstUpdate)
                 m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
             else
                 m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_DARK;
         } else {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && fileinfo.isReadable())
+            if(bFirstUpdate)
                 m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
             else
                 m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_LIGHT;
@@ -291,7 +289,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
             icon.paint(&painter, pixmapRect);
         }
     }
-
     //    QPixmap blankPix = _pixmap;
     //    blankPix.fill(Qt::white);
 
