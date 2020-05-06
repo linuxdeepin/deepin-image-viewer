@@ -220,11 +220,14 @@ void ImageItem::paintEvent(QPaintEvent *event)
         pixmapRect.setY(backgroundRect.y() + 5);
         pixmapRect.setWidth(backgroundRect.width() - 10);
         pixmapRect.setHeight(backgroundRect.height() - 10);
-
+        //修复透明图片被选中后透明地方变成绿色
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
-
+        if(themeType == DGuiApplicationHelper::LightType)
+            painter.fillRect(pixmapRect,QBrush(Qt::white));
+        else if(themeType == DGuiApplicationHelper::DarkType)
+            painter.fillRect(pixmapRect,QBrush(Qt::black));
         if (!_pixmap.isNull()) {
             //            painter.fillRect(pixmapRect,
             //            QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
