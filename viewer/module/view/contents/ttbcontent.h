@@ -46,7 +46,7 @@
 
 DWIDGET_USE_NAMESPACE
 typedef DLabel QLbtoDLabel;
-
+//#define HEYI
 
 class PushButton;
 class ReturnButton;
@@ -138,6 +138,7 @@ private:
     QPixmap _pixmap;
     DSpinner *m_spinner;
     QString m_pixmapstring;
+    bool bFirstUpdate = true;;
     bool bmouserelease = false;
 };
 class TTBContent : public QLbtoDLabel
@@ -171,29 +172,52 @@ public slots:
     void setAdaptButtonChecked(bool flag);
     void disCheckAdaptImageBtn();
     void checkAdaptImageBtn();
+
     //heyi test 接收到信号之后更改隐藏标志符号
     void onChangeHideFlags(bool bFlags);
+
     //向后加载30张 add by heyi
     void loadBack(DBImgInfoList infos);
+
     //向前加载30张 add by heyi
     void loadFront(DBImgInfoList infos);
+
     //接收加载完毕之后的所有图片信息 add by heyi
     void receveAllIamgeInfos(DBImgInfoList AllImgInfos);
+
     //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
     void onHidePreNextBtn(bool bShowAll, bool bFlag);
+
     // 重命名改变itemImage路径
     void OnChangeItemPath(int, QString);
+
     // 重命名改变m_imgInfos路径
     void OnSetimglist(int, QString, QString);
     void onResize();
+
     //根据路径从布局中删除指定的图片
     bool delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent);
+
     //设置删除按钮信号是否连接,true连接，false断开连接
     void setIsConnectDel(bool bFlasg);
+
     //第一次加载100张时禁止使用删除按钮,按钮置灰色
     void disableDelAct(bool bFlags);
+
     //发送需要加载的信息，向前或者向后,true为头部加载，false尾部加载
     void recvLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
+
+    //根据传入的图片信息数量判断是否需要重新生成新的图元,返回true表示需要重新生成，false则不需要重新生成
+    bool judgeReloadItem(const DBImgInfoList &inputInfos, DBImgInfoList &localInfos);
+
+    //根据传入的图片信息生成新的缩略图元
+    void reloadItems(DBImgInfoList &inputInfos, QString strCurPath);
+
+    //显示缩略图动画效果
+    void showAnimation();
+
+    //根据当前图片属性设置按钮属性
+    void setBtnAttribute(const QString strPath);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);

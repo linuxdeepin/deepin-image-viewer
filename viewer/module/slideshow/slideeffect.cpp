@@ -144,6 +144,27 @@ SlideEffect::SlideEffect()
 void SlideEffect::slotrenderFrameFinish(int num, QImage image)
 {
     allImage[num] = image;
+    if(image.isNull()){
+        qDebug() << "image.isNull";
+    }
+    //定时器改线程同步,add by hujianbo
+    if (num == m_nNum) {
+        m_nNum = -1;
+        int nCount = 0;
+        QMap<int, QImage>::iterator iter = allImage.begin();
+        while (iter != allImage.end()) {
+            if(nCount > allImage.size()+100){
+                break;//如果延迟500ms还没有结果，先退出，时间后续根据测试情况再确定
+            }
+            nCount ++;
+            if (iter.value().isNull()){
+                QThread::msleep(5);
+                iter --;
+            }
+            iter ++;
+        }
+        tid = startTimer(1);
+    }
 }
 
 SlideEffect::~SlideEffect()
@@ -210,20 +231,34 @@ void SlideEffect::start()
     allImage[frames_total] = *next_image;
     prepare();
     current_frame = 0;
-    m_qf = QtConcurrent::run([this]() {
-        for (int i = 0; i < frames_total; i++) {
-            if (!prepareNextFrame()) {
-                stop();
-                return;
-            }
+
+    m_readlock.lockForRead();
+    for (int i = 0; i < frames_total; i++) {
+        if (i == frames_total-1) {
+            m_nNum = frames_total;
         }
-    });
+        if (!prepareNextFrame()) {
+            stop();
+            m_readlock.unlock();
+            return;
+        }
+    }
+    m_readlock.unlock();
+//    m_qf = QtConcurrent::run([this]() {
+//        for (int i = 0; i < frames_total; i++) {
+//            if (!prepareNextFrame()) {
+//                stop();
+//                return;
+//            }
+//        }
+//    });
+
 //    QEventLoop loop;
 //    QTimer::singleShot(all_ms - duration_ms, &loop, SLOT(quit()));
 //    loop.exec();
     scurrent = 0;
     bfirsttimeout = true;
-    tid = startTimer(all_ms - duration_ms - 1000);
+    //tid = startTimer(all_ms - duration_ms - 1000);
 
 //    tid = startTimer(duration() / frames_total);
 }

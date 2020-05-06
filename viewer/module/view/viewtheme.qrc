@@ -182,5 +182,7 @@
         <file>resources/dark/images/picture_damaged-58_drak.svg</file>
         <file>resources/light/images/picture_damaged_58.svg</file>
         <file>resources/light/images/picture_damaged.svg</file>
+        <file>resources/dark/images/picture damaged_dark.svg</file>
+        <file>resources/light/images/picture damaged_light.svg</file>
     </qresource>
 </RCC>

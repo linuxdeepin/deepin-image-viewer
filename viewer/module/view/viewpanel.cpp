@@ -298,7 +298,7 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         filename = renamedlg->GetFileName();
         bool bOk = file.rename(filepath);
         if (bOk)
-            emit dApp->signalM->changetitletext(renamedlg->GetFileName());
+            emit dApp->signalM->updateFileName(renamedlg->GetFileName());
         return bOk;
     }
     return false;
@@ -770,6 +770,13 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
 
 void ViewPanel::showNormal()
 {
+    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    pAn->setDuration(50);
+    pAn->setEasingCurve(QEasingCurve::Linear);
+    pAn->setEndValue(1);
+    pAn->setStartValue(0);
+    pAn->start(QAbstractAnimation::DeleteWhenStopped);
     if (m_isMaximized) {
         this->window()->showMaximized();
     } else {
@@ -781,6 +788,14 @@ void ViewPanel::showNormal()
 
 void ViewPanel::showFullScreen()
 {
+    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    pAn->setDuration(50);
+    pAn->setEasingCurve(QEasingCurve::Linear);
+    pAn->setEndValue(1);
+    pAn->setStartValue(0);
+    pAn->start(QAbstractAnimation::DeleteWhenStopped);
+
     m_isMaximized = window()->isMaximized();
     window()->showFullScreen();
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
@@ -1760,11 +1775,11 @@ void ViewPanel::openImage(const QString &path, bool inDB)
             }
         }
     });
-
+    QPixmap pixmapthumb = utils::image::getThumbnail(path);
     if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+        m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable()) {
+    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);

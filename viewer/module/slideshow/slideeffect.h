@@ -160,6 +160,7 @@ protected:
     int tid;
     int duration_ms;
     int all_ms;
+    int m_nNum;
     Qt::AspectRatioMode mode;
     qreal progress_; //the step, [0,1]
     qreal speed; //>1.0
@@ -187,7 +188,7 @@ protected:
     QList<QFuture<void>> m_qflist;
     bool bfirsttimeout = true;
 //    QThreadPool m;
-
+    mutable QReadWriteLock m_readlock;
 private:
     template<class C> static SlideEffect *create(EffectId id)
     {

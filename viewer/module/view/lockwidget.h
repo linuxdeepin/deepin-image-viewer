@@ -34,8 +34,14 @@ public:
 
 public slots:
     void setContentText(const QString &text);
+protected:
 
 private:
+    void onThemeChanged(ViewerThemeManager::AppTheme theme);
+    QLbtoDLabel* m_thumbnailLabel;
+    QPixmap m_logo;
+    QString m_picString;
+    bool m_theme;
     QLbtoDLabel *m_bgLabel;
     QLbtoDLabel *m_lockTips;
 };

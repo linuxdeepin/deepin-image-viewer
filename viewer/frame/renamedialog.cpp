@@ -8,6 +8,7 @@
 #include <QRegExp>
 
 #include <DLabel>
+#include <QDebug>
 
 DWIDGET_USE_NAMESPACE
 typedef DLabel QLbtoDLabel;
@@ -54,18 +55,10 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
     InitDlg();
     m_lineedt->lineEdit()->setFocus();
     int Dirlen = m_DirPath.size() + 1 + m_labformat->text().size();
-    m_lineedt->lineEdit()->setMaxLength(FILENAMEMAXLENGTH-Dirlen);
-    //正则表达式排除‘\’,'/'
+    //正则表达式排除文管不支持的字符
     QRegExp rx("[^\\\\//:*?\"<>|]*");
     QRegExpValidator *pReg = new QRegExpValidator(rx, this);
     m_lineedt->lineEdit()->setValidator(pReg);
-    connect(m_lineedt,&DLineEdit::textChanged,this,[=](const QString& text){
-        if(text.isEmpty())
-            okbtn->setEnabled(false);
-        else {
-            okbtn->setEnabled(true);
-        }
-    });
     connect(okbtn,&DSuggestButton::clicked,this,[=]{
         m_filename = m_lineedt->text() + m_labformat->text();
         m_filenamepath = m_DirPath + "/" + m_filename;
@@ -75,14 +68,47 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
         reject();
     });
     connect(m_lineedt,&DLineEdit::textChanged,this,[=](const QString &arg){
+        int len = arg.toLocal8Bit().length();
+        //修复字符串长度超长会将
+        if(len> 255 - Dirlen) return;
         QString fileabname = m_DirPath+ "/" + arg+m_labformat->text();
         QFile file(fileabname);
-        if(file.exists())
+        if(file.exists() || arg.isEmpty())
         {
             okbtn->setEnabled(false);
         }else {
             okbtn->setEnabled(true);
         }
+    });
+    connect(m_lineedt,&DLineEdit::textEdited,this,[=](const QString &arg){
+
+        qDebug() << "textEdited" << arg;
+        unsigned num = 0;
+        int i = 0;
+        int len = arg.toLocal8Bit().length();
+        QString Interceptstr;
+        if( len> 255 - Dirlen)
+        {
+            unsigned num = 0;
+            int i = 0;
+            for(;i< arg.size();i++)
+            {
+                if(arg.at(i) >= 0x4e00 && arg.at(i) <= 0x9fa5)
+                {
+                    if(num >= 255 - Dirlen-1) break;
+                    num += 3;
+                }
+                else if(num < 255 - Dirlen)
+                {
+                    num += 1;
+                }
+                else{
+                    break;
+                }
+            }
+            Interceptstr = arg.left(i);
+            m_lineedt->lineEdit()->setText(Interceptstr);
+        };
     });
     okbtn->setEnabled(false);
 }
