@@ -156,8 +156,9 @@ void SlideShowPanel::resizeEvent(QResizeEvent *e)
 
 void SlideShowPanel::backToLastPanel()
 {
-    m_player->stop();
     showNormal();
+    m_player->stop();
+
 
     if (0 == m_vinfo.viewMainWindowID) {
         //        m_vinfo.path = m_player->currentImagePath();
@@ -468,10 +469,19 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 
 void SlideShowPanel::showNormal()
 {
+    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    pAn->setDuration(50);
+    pAn->setEasingCurve(QEasingCurve::Linear);
+    pAn->setEndValue(1);
+    pAn->setStartValue(0);
+    pAn->start(QAbstractAnimation::DeleteWhenStopped);
+
     if (m_isMaximized) {
 //        window()->showNormal();
         window()->showMaximized();
     } else {
+
         window()->showNormal();
     }
 }
@@ -487,14 +497,13 @@ void SlideShowPanel::showFullScreen()
     pAn->setEndValue(1);
     pAn->setStartValue(0);
     pAn->start(QAbstractAnimation::DeleteWhenStopped);
-    QTime t1 = QTime::currentTime();
 
     window()->showFullScreen();
-    QTime t2 = QTime::currentTime();
-    int tCoust = t1.msecsTo(t2);
-    qDebug() << "TimeCost SysShowFullScreen:" << tCoust;
 
-    if (m_bFirstImg){
+    QString strPath = m_player->currentImagePath();
+    QFileInfo fileInfo(strPath);
+
+    if (m_bFirstImg && fileInfo.suffix() != "svg"){
         QDesktopWidget *dw = dApp->desktop();
         const int dww = dw->screenGeometry(window()).width();
         const int dwh = dw->screenGeometry(window()).height();
@@ -520,7 +529,7 @@ void SlideShowPanel::showFullScreen()
         m_bFirstImg = false;
     }
     else {
-        setImage(getFitImage(m_player->currentImagePath()));
+        setImage(getFitImage(strPath));
     }
     emit dApp->signalM->hideBottomToolbar(true);
     emit dApp->signalM->hideExtensionPanel(true);

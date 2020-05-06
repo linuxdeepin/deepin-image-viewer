@@ -770,6 +770,13 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
 
 void ViewPanel::showNormal()
 {
+    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    pAn->setDuration(50);
+    pAn->setEasingCurve(QEasingCurve::Linear);
+    pAn->setEndValue(1);
+    pAn->setStartValue(0);
+    pAn->start(QAbstractAnimation::DeleteWhenStopped);
     if (m_isMaximized) {
         this->window()->showMaximized();
     } else {
@@ -781,6 +788,14 @@ void ViewPanel::showNormal()
 
 void ViewPanel::showFullScreen()
 {
+    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    pAn->setDuration(50);
+    pAn->setEasingCurve(QEasingCurve::Linear);
+    pAn->setEndValue(1);
+    pAn->setStartValue(0);
+    pAn->start(QAbstractAnimation::DeleteWhenStopped);
+
     m_isMaximized = window()->isMaximized();
     window()->showFullScreen();
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
