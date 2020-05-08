@@ -1245,6 +1245,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
        // }
         i++;
     }
+    if (!bLoadAll) m_lastindex = m_firstindex + nimgcount - 1;
 }
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
@@ -1369,7 +1370,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         if (!vinfo.path.isEmpty()) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
-            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
+            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::LocaleAware);
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {
