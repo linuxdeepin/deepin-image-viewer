@@ -78,6 +78,10 @@ public:
         return !QFileInfo(m_infos.first().filePath).exists();
     }
     void AddDataToList(LOAD_DIRECTION Dirction, int pages = 30);
+
+    //获取当前位置和上一张和下一张图片路径
+    QStringList getPathsFromCurrent(int nCurrent);
+
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path, DBImgInfoList infos);
@@ -89,22 +93,31 @@ signals:
     //heyi test
     void sendLoadOver(DBImgInfoList infos, int nCurrent);
     void changeHideFlag(bool bFlags);
+
     //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
     void hidePreNextBtn(bool bShowAll, bool bFlag);
     //后台加载完成之后将所有图片信息发送给操作控件
+
     void sendAllImageInfos(DBImgInfoList allInfos);
 
     void changeitempath(int, QString);
+
     void SetImglistPath(int, QString, QString);
+
     void sigResize();
+
     //未完全加载完图片信息时禁止删除图片
     void disableDel(bool bFlags);
+
     //发送需要加载的信息，向前或者向后,true为头部加载，false尾部加载
     void sendLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
-    //发送动态加载路径
+
+    //发送动态加载路径,包括加载大图
     void sendDynamicLoadPaths(QStringList paths);
+
     //发送心的list到slideshow
-    void sigsendslideshowlist(bool bflag,DBImgInfoList infosldeshow);
+    void sigsendslideshowlist(bool bflag, DBImgInfoList infosldeshow);
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
@@ -172,6 +185,7 @@ private:
     void disconnectTTbc();
     //重新连接TTBC工具栏所有信号
     void reConnectTTbc();
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateLocalImages();
@@ -182,6 +196,7 @@ private slots:
     void recvLoadSignal(bool bFlags);
     void slotExitFullScreen();
     void slotLoadSlideshow(bool bflag);
+
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
@@ -209,6 +224,8 @@ private:
     DBImgInfoList m_infosAll;
     //    DBImgInfoList::ConstIterator m_current =NULL;
     int m_current = 0;
+    //存储上一次图片位置
+    int m_lastCurrent = 0;
     int m_firstindex = 0;
     int m_lastindex = 0;
     QFileInfoList m_AllPath;

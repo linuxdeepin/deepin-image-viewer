@@ -287,6 +287,21 @@ void ViewPanel::AddDataToList(LOAD_DIRECTION Dirction, int pages)
     }
 }
 
+QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
+{
+    QStringList pathsList;
+    if (nCurrent - 1 >= 0) {
+        pathsList.append(m_infos.at(m_current - 1).filePath);
+    }
+
+    if (nCurrent + 1 <= m_infos.size() - 1) {
+        pathsList.append(m_infos.at(m_current + 1).filePath);
+    }
+
+    pathsList.append(m_infos.at(m_current).filePath);
+
+    return pathsList;
+}
 
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
 {
@@ -589,7 +604,7 @@ void ViewPanel::slotLoadSlideshow(bool bFlags)
             m_infoslideshow.append(info);
         }
     }
-    emit sigsendslideshowlist(bFlags,m_infoslideshow);
+    emit sigsendslideshowlist(bFlags, m_infoslideshow);
 }
 
 #ifdef LITE_DIV
@@ -1208,44 +1223,42 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
         QString str = m_AllPath.at(nStartIndex).suffix();
         nStartIndex++;
-       // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
-            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    // if (!m_infos.contains(info)) {
-                    nimgcount++;
-                    if (bLoadAll) {
-                        if (i < m_firstindex)
-                            m_infosHead.append(info);
-                        else if (i > m_lastindex)
-                            m_infosTail.append(info);
-                        m_infosAll.append(info);
-                    } else
-                    {
-                        m_infos.append(info);
-                        //由于m_infos存在不可查看图片，而且幻灯片打开的时候再筛选容易造成打开幻灯片较卡
-                        if (!m_nosupportformat.contains(str, Qt::CaseSensitive))
-                            m_infoslideshow.append(info);
-                    }
-                    //}
-                } else if (/*str.isEmpty()*/1) {
-                    //if (!m_infos.contains(info)) {
-                    nimgcount++;
-                    if (bLoadAll) {
-                        if (i < m_firstindex)
-                            m_infosHead.append(info);
-                        else if (i > m_lastindex)
-                            m_infosTail.append(info);
-                        m_infosAll.append(info);
-                    } else
-                        m_infos.append(info);
+        // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
+        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+                // if (!m_infos.contains(info)) {
+                nimgcount++;
+                if (bLoadAll) {
+                    if (i < m_firstindex)
+                        m_infosHead.append(info);
+                    else if (i > m_lastindex)
+                        m_infosTail.append(info);
+                    m_infosAll.append(info);
+                } else {
+                    m_infos.append(info);
+                    //由于m_infos存在不可查看图片，而且幻灯片打开的时候再筛选容易造成打开幻灯片较卡
+                    if (!m_nosupportformat.contains(str, Qt::CaseSensitive))
+                        m_infoslideshow.append(info);
                 }
+                //}
+            } else if (/*str.isEmpty()*/1) {
+                //if (!m_infos.contains(info)) {
+                nimgcount++;
+                if (bLoadAll) {
+                    if (i < m_firstindex)
+                        m_infosHead.append(info);
+                    else if (i > m_lastindex)
+                        m_infosTail.append(info);
+                    m_infosAll.append(info);
+                } else
+                    m_infos.append(info);
             }
+        }
 
-       // }
+        // }
         i++;
     }
-    if (!bLoadAll) m_lastindex = m_firstindex + nimgcount - 1;
 }
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
@@ -1370,7 +1383,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         if (!vinfo.path.isEmpty()) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
-            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::LocaleAware);
+            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {
@@ -1389,6 +1402,12 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //eatImageDirIterator();
+        //缓存当先现实图片的上一张和下一张
+        if (!vinfo.path.isEmpty()) {
+            qDebug() << "开始判定缓存时间：";
+            QStringList pathlist = getPathsFromCurrent(m_current);
+            m_viewB->recvPathsToCache(pathlist);
+        }
         QStringList pathlist;
 
         for (int loop = 0; loop < m_infos.size(); loop++) {
@@ -1453,6 +1472,7 @@ bool ViewPanel::showPrevious()
 #ifdef LITE_DIV
     //eatImageDirIterator();
 #endif
+    m_lastCurrent = m_current;
     if (m_infos.isEmpty() || m_current == 0 || !m_bFinishFirstLoad) {
         return false;
     }
@@ -1478,7 +1498,7 @@ bool ViewPanel::showNext()
 #ifdef LITE_DIV
     //eatImageDirIterator();
 #endif
-
+    m_lastCurrent = m_current;
     if (m_infos.size() == m_current) m_current = 0;
     if (m_infos.isEmpty() || m_current == m_infos.size() - 1 || !m_bFinishFirstLoad) {
         return false;
@@ -1521,6 +1541,7 @@ bool ViewPanel::showImage(int index, int addindex)
     //        }
     //判断当前图片是否旋转过，如果被旋转就写入本地文件
 
+    m_lastCurrent = m_current;
     m_current = index;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
     //发送更新缩略图接口信号
@@ -1746,6 +1767,13 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     }
 
     m_viewB->setImage(path);
+    //缓存当先现实图片的上一张和下一张
+    if (!path.isEmpty()) {
+        qDebug() << "开始判定缓存时间：";
+        QStringList pathlist = getPathsFromCurrent(m_current);
+        m_viewB->recvPathsToCache(pathlist);
+    }
+
     updateMenuContent();
 
     if (m_info) {

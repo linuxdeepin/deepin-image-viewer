@@ -19,6 +19,8 @@
 
 #include <QGraphicsView>
 #include <QFutureWatcher>
+#include <QHash>
+#include <QReadWriteLock>
 #include "controller/viewerthememanager.h"
 
 #include "imagesvgitem.h"
@@ -78,8 +80,15 @@ public:
 
     bool isFitImage() const;
     bool isFitWindow() const;
+
     //add by heyi 判断当前图片是否被旋转，如果是，写入本地
     void rotatePixCurrent();
+
+    //缓存图片线程，将缩略图的图片缓存到hash  add by heyi
+    void cacheThread(const QString strPath);
+
+    //从hash中获取图片并显示
+    void showPixmap(QString strPath);
 
 signals:
     void clicked();
@@ -99,10 +108,24 @@ public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
     //结束程序触发此槽函数
     void endApp();
+
     //重新加载svg图片
     bool reloadSvgPix(QString strPath, int nAngel);
+
     //根据角度旋转pixmap
     void rotatePixmap(int nAngel);
+
+    //接收图片路径进行缓存  add by heyi
+    void recvPathsToCache(const QStringList pathsList);
+
+    //根据图片路径删除缓存
+    void delCacheFromPath(const QString strPath);
+
+    //删除所有缓存
+    void delAllCache();
+
+    //判断两次图片路径差异，将差异部分缓存删除并缓存新的图片
+    QStringList removeDiff(QStringList pathsList);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -144,6 +167,14 @@ private:
 
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
+    //缓存锁
+    QReadWriteLock m_rwCacheLock;
+    QHash<QString, QPixmap> m_hsPixap;
+//    QHash<QString, QSvgRenderer> m_hsSvg;
+//    QHash<QString, GraphicsMovieItem> m_hsMovie;
+    QStringList m_pathsList;
+    QStringList m_pLastPaths;
+
     bool m_loadingDisplay = false;
     //heyi test 保存旋转的角度
     int m_rotateAngel = 0;

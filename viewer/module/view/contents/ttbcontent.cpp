@@ -1291,6 +1291,9 @@ void TTBContent::onChangeHideFlags(bool bFlags)
 
 void TTBContent::loadBack(DBImgInfoList infos)
 {
+    if (infos.size() > 0) {
+        onHidePreNextBtn(true, false);
+    }
     //先将先前的图元index改变为最新的
     int nAddSize = m_imgInfos.size();
 
@@ -1337,6 +1340,9 @@ void TTBContent::loadBack(DBImgInfoList infos)
 
 void TTBContent::loadFront(DBImgInfoList infos)
 {
+    if (infos.size() > 0) {
+        onHidePreNextBtn(true, false);
+    }
     //先将先前的图元index改变为最新的
     int nAddSize = infos.size();
     int nCurrentIndex = 0;
