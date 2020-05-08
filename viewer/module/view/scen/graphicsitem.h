@@ -19,6 +19,7 @@
 
 #include <QGraphicsPixmapItem>
 #include <QPointer>
+#include <QTimer>
 
 class QMovie;
 class GraphicsMovieItem : public QGraphicsPixmapItem, QObject
@@ -31,7 +32,9 @@ public:
     void stop();
 
 private:
-    QPointer<QMovie> m_movie;
+    void *m_pGif;
+    QTimer *m_pTImer;
+    int m_index;
 };
 
 class GraphicsPixmapItem : public QGraphicsPixmapItem

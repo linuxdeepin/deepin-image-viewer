@@ -114,7 +114,7 @@ bool imageSupportRead(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
 //解决freeimage不支持icns
-    if(suffix == "icns") return true;
+    if (suffix == "icns") return true;
     //FIXME: file types below will cause freeimage to crash on loading,
     // take them here for good.
     QStringList errorList;
@@ -693,6 +693,19 @@ QStringList supportedImageFormats()
     return list;
 }
 
+
+void *openGiffromPath(const QString &path)
+{
+    return freeimage::openGiffromPath(path);
+}
+int getGifImageCount(void *pGIF)
+{
+    return freeimage::getGifImageCount(pGIF);
+}
+QImage getGifImage(int index, void *pGIF)
+{
+    return freeimage::getGifImage(index, pGIF);
+}
 }  // namespace image
 
 }  //namespace utils
