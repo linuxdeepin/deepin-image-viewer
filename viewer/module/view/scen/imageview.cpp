@@ -342,7 +342,7 @@ void ImageView::setImage(const QString &path)
             m_pixmapItem = nullptr;
             s->clear();
             resetTransform();
-            m_movieItem = new GraphicsMovieItem(path);
+            m_movieItem = new GraphicsMovieItem(path, fi.suffix());
             m_movieItem->start();
             // Make sure item show in center of view after reload
             setSceneRect(m_movieItem->boundingRect());
@@ -685,7 +685,7 @@ void ImageView::cacheThread(const QString strPath)
         m_rwCacheLock.unlock();
     } else if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
                || fi.suffix().toLower() == "webp") {
-        GraphicsMovieItem movieItem(strPath);
+        GraphicsMovieItem movieItem(strPath, fi.suffix());
         m_rwCacheLock.lockForWrite();
         //m_hsMovie.insert(strPath, movieItem);
         m_rwCacheLock.unlock();
