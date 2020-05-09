@@ -207,14 +207,14 @@ void ImageItem::paintEvent(QPaintEvent *event)
         painter.fillRect(
             reduceRect,
             QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
-
-        if (_pixmap.width() > _pixmap.height()) {
-            _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height()) / 2, 0, _pixmap.height(),
-                                   _pixmap.height());
-        } else if (_pixmap.width() < _pixmap.height()) {
-            _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width()) / 2, _pixmap.width(),
-                                   _pixmap.width());
-        }
+//LMH解决选中竖图，大小改变0509,屏蔽掉修改图片形状
+//        if (_pixmap.width() > _pixmap.height()) {
+//            _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height()) / 2, 0, _pixmap.height(),
+//                                   _pixmap.height());
+//        } else if (_pixmap.width() < _pixmap.height()) {
+//            _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width()) / 2, _pixmap.width(),
+//                                   _pixmap.width());
+//        }
 
         pixmapRect.setX(backgroundRect.x() + 5);
         pixmapRect.setY(backgroundRect.y() + 5);
@@ -224,22 +224,22 @@ void ImageItem::paintEvent(QPaintEvent *event)
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
-        if(themeType == DGuiApplicationHelper::LightType)
-            painter.fillRect(pixmapRect,QBrush(Qt::white));
-        else if(themeType == DGuiApplicationHelper::DarkType)
-            painter.fillRect(pixmapRect,QBrush(Qt::black));
+        if (themeType == DGuiApplicationHelper::LightType)
+            painter.fillRect(pixmapRect, QBrush(Qt::white));
+        else if (themeType == DGuiApplicationHelper::DarkType)
+            painter.fillRect(pixmapRect, QBrush(Qt::black));
         if (!_pixmap.isNull()) {
             //            painter.fillRect(pixmapRect,
             //            QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
-            if(bFirstUpdate)
+            if (bFirstUpdate)
                 m_pixmapstring = LOCMAP_SELECTED_DARK;
             else
                 m_pixmapstring = LOCMAP_SELECTED_DAMAGED_DARK;
         } else {
-            if(bFirstUpdate)
+            if (bFirstUpdate)
                 m_pixmapstring = LOCMAP_SELECTED_LIGHT;
             else
                 m_pixmapstring = LOCMAP_SELECTED_DAMAGED_LIGHT;
@@ -270,12 +270,12 @@ void ImageItem::paintEvent(QPaintEvent *event)
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
-            if(bFirstUpdate)
+            if (bFirstUpdate)
                 m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
             else
                 m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_DARK;
         } else {
-            if(bFirstUpdate)
+            if (bFirstUpdate)
                 m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
             else
                 m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_LIGHT;
