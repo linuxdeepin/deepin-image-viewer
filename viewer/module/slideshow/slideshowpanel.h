@@ -54,6 +54,7 @@ protected:
     void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
 signals:
     void sigloadSlideshowpath(bool bflag);
+    void sigpauseclicked();
 private slots:
     void Receiveslideshowpathlst(bool flag,DBImgInfoList slideshowpaths);
 private:
@@ -64,6 +65,7 @@ private:
 
     void initeffectPlay();
     void initMenu();
+    void updateMenu();
     void initShortcut();
     void initFileSystemMonitor();
 
