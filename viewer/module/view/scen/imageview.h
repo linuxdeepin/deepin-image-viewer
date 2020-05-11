@@ -47,6 +47,13 @@ class ImageView : public QGraphicsView
 {
     Q_OBJECT
 
+    //显示的图片类型枚举 add by heyi
+    enum PICTURE_TYPE {
+        NORMAL,         //普通图片
+        SVG,            //SVG
+        KINETOGRAM      //动态图片
+    };
+
 public:
     enum RendererType { Native, OpenGL };
 
@@ -89,6 +96,12 @@ public:
 
     //从hash中获取图片并显示
     void showPixmap(QString strPath);
+
+    //判断当前图片类型
+    PICTURE_TYPE judgePictureType(const QString strPath);
+
+    //根据图片类型用不同的方式加载显示
+    bool loadPictureByType(PICTURE_TYPE type, const QString strPath);
 
 signals:
     void clicked();

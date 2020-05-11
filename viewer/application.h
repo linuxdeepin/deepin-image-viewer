@@ -50,6 +50,7 @@ public:
     void loadInterface(QString strPath);
     mutable QReadWriteLock m_readlock;
     mutable QReadWriteLock m_writelock;
+    mutable QReadWriteLock m_flagLock;
 public slots:
     void startLoading();
 

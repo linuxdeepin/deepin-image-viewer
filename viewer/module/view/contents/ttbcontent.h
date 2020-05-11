@@ -219,6 +219,9 @@ public slots:
     //根据当前图片属性设置按钮属性
     void setBtnAttribute(const QString strPath);
 
+    //添加点击加载功能
+    void clickLoad(const int nCurrent);
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();

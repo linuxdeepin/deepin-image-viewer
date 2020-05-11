@@ -294,7 +294,6 @@ void ImageView::setImage(const QString &path)
     }
 
     m_path = path;
-    QGraphicsScene *s = scene();
 
     QString oldHintPath = m_toast->property("hint_path").toString();
     if (oldHintPath != fi.canonicalFilePath()) {
@@ -310,87 +309,8 @@ void ImageView::setImage(const QString &path)
         m_toast->hide();
     }
 
-    // The suffix of svf file should be svg
-    if (QFileInfo(path).suffix().toLower() == "svg" && DSvgRenderer().load(path)) {
-        m_movieItem = nullptr;
-        m_pixmapItem = nullptr;
-        s->clear();
-        resetTransform();
-#if 0
-        DSvgRenderer *svgRenderer = new DSvgRenderer;
-        svgRenderer->load(path);
-        m_imgSvgItem = new ImageSvgItem();
-        m_imgSvgItem->setSharedRenderer(svgRenderer);
-        setSceneRect(m_imgSvgItem->boundingRect());
-        s->addItem(m_imgSvgItem);
-#else
-        //heyi test
-        QSvgRenderer *svgRenderer = new QSvgRenderer;
-        svgRenderer->load(path);
-        m_svgItem = new QGraphicsSvgItem();
-        m_svgItem->setSharedRenderer(svgRenderer);
-        setSceneRect(m_svgItem->boundingRect());
-        s->addItem(m_svgItem);
-#endif
-        emit imageChanged(path);
-    } else {
-        //        m_svgItem = nullptr;
-        m_imgSvgItem = nullptr;
-        // Support gif and mng
-        if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
-                || fi.suffix().toLower() == "webp") {
-            m_pixmapItem = nullptr;
-            s->clear();
-            resetTransform();
-            m_movieItem = new GraphicsMovieItem(path, fi.suffix());
-            m_movieItem->start();
-            // Make sure item show in center of view after reload
-            setSceneRect(m_movieItem->boundingRect());
-            s->addItem(m_movieItem);
-            emit imageChanged(path);
-        } else {
-            m_movieItem = nullptr;
-            qDebug() << "cache start!";
-            if (m_hsPixap.contains(path)) {
-                showPixmap(path);
-            } else {
-                QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, path);
-                if (!m_watcher.isRunning()) {
-                    //                m_watcher.setFuture(f);
-
-                    if (m_loadingDisplay) {
-                        m_loadingDisplay = false;
-
-                        // show loading gif.
-                        m_pixmapItem = nullptr;
-                        s->clear();
-                        resetTransform();
-
-                        auto spinner = new DSpinner;
-                        spinner->setFixedSize(SPINNER_SIZE);
-                        spinner->start();
-                        QWidget *w = new QWidget();
-                        w->setFixedSize(SPINNER_SIZE);
-                        QHBoxLayout *hLayout = new QHBoxLayout;
-                        hLayout->setMargin(0);
-                        hLayout->setSpacing(0);
-                        hLayout->addWidget(spinner, 0, Qt::AlignCenter);
-                        w->setLayout(hLayout);
-
-                        // Make sure item show in center of view after reload
-                        setSceneRect(w->rect());
-                        s->addWidget(w);
-                    }
-
-                    f.waitForFinished();
-                    m_watcher.setFuture(f);
-
-                }
-
-                emit dApp->signalM->hideNavigation();
-            }
-        }
-    }
+    PICTURE_TYPE type = judgePictureType(path);
+    loadPictureByType(type, path);
 }
 
 void ImageView::setRenderer(RendererType type)
@@ -754,6 +674,109 @@ void ImageView::showPixmap(QString path)
 
         emit imageChanged(path);
     }
+}
+
+ImageView::PICTURE_TYPE ImageView::judgePictureType(const QString strPath)
+{
+    PICTURE_TYPE pixType = NORMAL;
+    if (strPath.isEmpty()) {
+        return pixType;
+    }
+
+    QFileInfo fi(strPath);
+    QString strType = fi.suffix().toLower();
+    if (strType == "svg" && DSvgRenderer().load(strPath)) {
+        pixType = PICTURE_TYPE::SVG;
+    } else if (strType == "mng" || strType == "gif"
+               || strType == "webp") {
+        pixType = PICTURE_TYPE::KINETOGRAM;
+    } else {
+        pixType = PICTURE_TYPE::NORMAL;
+    }
+
+    return pixType;
+}
+
+bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString strPath)
+{
+    bool bRet = true;
+    QGraphicsScene *s = scene();
+    switch (type) {
+    case PICTURE_TYPE::NORMAL: {
+        m_movieItem = nullptr;
+        qDebug() << "cache start!";
+        if (m_hsPixap.contains(strPath)) {
+            showPixmap(strPath);
+        } else {
+            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, strPath);
+            if (!m_watcher.isRunning()) {
+                //                m_watcher.setFuture(f);
+
+                if (m_loadingDisplay) {
+                    m_loadingDisplay = false;
+
+                    // show loading gif.
+                    m_pixmapItem = nullptr;
+                    s->clear();
+                    resetTransform();
+
+                    auto spinner = new DSpinner;
+                    spinner->setFixedSize(SPINNER_SIZE);
+                    spinner->start();
+                    QWidget *w = new QWidget();
+                    w->setFixedSize(SPINNER_SIZE);
+                    QHBoxLayout *hLayout = new QHBoxLayout;
+                    hLayout->setMargin(0);
+                    hLayout->setSpacing(0);
+                    hLayout->addWidget(spinner, 0, Qt::AlignCenter);
+                    w->setLayout(hLayout);
+
+                    // Make sure item show in center of view after reload
+                    setSceneRect(w->rect());
+                    s->addWidget(w);
+                }
+
+                f.waitForFinished();
+                m_watcher.setFuture(f);
+            }
+
+            emit dApp->signalM->hideNavigation();
+        }
+        break;
+    }
+
+    case PICTURE_TYPE::SVG: {
+        m_movieItem = nullptr;
+        m_pixmapItem = nullptr;
+        s->clear();
+        resetTransform();
+        //heyi test
+        QSvgRenderer *svgRenderer = new QSvgRenderer;
+        svgRenderer->load(strPath);
+        m_svgItem = new QGraphicsSvgItem();
+        m_svgItem->setSharedRenderer(svgRenderer);
+        setSceneRect(m_svgItem->boundingRect());
+        s->addItem(m_svgItem);
+        emit imageChanged(strPath);
+        break;
+    }
+
+    case PICTURE_TYPE::KINETOGRAM: {
+        m_pixmapItem = nullptr;
+        s->clear();
+        resetTransform();
+        m_movieItem = new GraphicsMovieItem(strPath, QFileInfo(strPath).suffix());
+        m_movieItem->start();
+        // Make sure item show in center of view after reload
+        setSceneRect(m_movieItem->boundingRect());
+        s->addItem(m_movieItem);
+        emit imageChanged(strPath);
+        break;
+    }
+
+    }
+
+    return bRet;
 }
 
 void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
