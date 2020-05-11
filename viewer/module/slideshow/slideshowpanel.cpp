@@ -358,6 +358,7 @@ void SlideShowPanel::Receiveslideshowpathlst(bool flag, DBImgInfoList slideshowp
 void SlideShowPanel::slotLoadSlideShow(bool bflag, DBImgInfoList infoslideshow)
 {
     Q_UNUSED(bflag);
+    if(m_player->GetPathList().size() == 0) return;
     QStringList list;
     for (DBImgInfo info : infoslideshow) {
 

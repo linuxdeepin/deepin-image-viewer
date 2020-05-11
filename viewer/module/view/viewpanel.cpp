@@ -538,7 +538,7 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             QFileInfo finfo(info.filePath);
             QString str = finfo.suffix();
             if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
-                m_infoslideshow.push_front(info);
+                m_infoslideshow.append(info);
         }
 
         int begin = 0;
@@ -556,7 +556,7 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             houzi++;
         }
     }
-
+    emit sigsendslideshowlist(bFlags, m_infoslideshow);
     emit sendLoadAddInfos(m_infosadd, bFlags);
 
     QStringList pathlist;

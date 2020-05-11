@@ -63,7 +63,7 @@ public:
     QString currentImagePath() const;
     bool isRunning() const;
     int currentImageIndex() const;
-
+    QStringList GetPathList();
 Q_SIGNALS:
     void frameReady(const QImage &image);
     void finished();

@@ -143,6 +143,11 @@ int SlideEffectPlayer::currentImageIndex() const
     return m_current;
 }
 
+QStringList SlideEffectPlayer::GetPathList()
+{
+    return m_paths;
+}
+
 QString SlideEffectPlayer::currentImagePath() const
 {
     return m_paths[m_current];
@@ -369,14 +374,17 @@ void SlideEffectPlayer::cacheNext()
     qDebug() << "SlideEffectPlayer::cacheNext()";
     int current = m_current;
     current ++;
-    if (current == m_paths.length()) {
-        if (bfirstrun) {
-            current = m_paths.length() - 1;
-            bneedupdatepausebutton = true;
-            current = 0;
-//            emit dApp->signalM->updatePauseButton();
-        } else {
-            current = 0;
+    if(current == m_paths.length())
+    {
+        emit sigLoadslideshowpathlst(false);
+        if (current == m_paths.length()) {
+            if (bfirstrun) {
+                current = m_paths.length() - 1;
+                bneedupdatepausebutton = true;
+                current = 0;
+            } else {
+                current = 0;
+            }
         }
     }
     QString path = m_paths[current];
