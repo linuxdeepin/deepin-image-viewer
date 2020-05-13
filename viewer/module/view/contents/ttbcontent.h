@@ -146,26 +146,67 @@ class TTBContent : public QLbtoDLabel
     Q_OBJECT
 public:
     explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = nullptr);
-    //判断当前拖动之后是否进行加载新的图片，向左或者向右或者不变
-    LOAD_DIRECTION judgeLoadDire(int nLastMove, int move);
+
+    /**
+     * @brief setWindoeSize 缩略图窗口大小设置
+     * @param inDB          是否连接数据库
+     * @param m_infos       需要显示的缩略图信息集合
+     * @param parent        缩略图控件的父对象
+     */
+    void setWindoeSize(bool inDB, DBImgInfoList m_infos, QWidget *parent);
+
+    /**
+     * @brief initBtn   生成工具栏按钮
+     */
+    void initBtn();
+
+    /**
+     * @brief toolbarSigConnection 工具栏信号连接
+     */
+    void toolbarSigConnection();
+
 signals:
     void clicked();
     void imageClicked(int index, int addIndex);
     void resetTransform(bool fitWindow);
+
+    /**
+     * @brief rotateClockwise   顺时针旋转
+     */
     void rotateClockwise();
+    /**
+     * @brief rotateCounterClockwise    逆时针旋转
+     */
     void rotateCounterClockwise();
 
     void removed();
     void imageEmpty(bool v);
     void contentWidthChanged(int width);
+
+    /**
+     * @brief showPrevious  显示上一张图片
+     */
     void showPrevious();
+
+    /**
+     * @brief showNext      显示下一张图片
+     */
     void showNext();
     void ttbcontentClicked();
-    //接受向前加载或者向后加载信号,true为头部加载，false为尾部加载
+    /**
+     * @brief sendLoadSignal    发送向前加载或者向后加载信号
+     * @param bFlags            true为头部加载，false为尾部加载
+     */
     void sendLoadSignal(bool bFlags);
 
 public slots:
     void setCurrentDir(QString text);
+
+    /**
+     * @brief setImage  显示加载缩略图
+     * @param path      当前选中显示图片路径
+     * @param infos     当前需要显示的所有缩略图信息集合
+     */
     void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
     void slotTheme(bool theme);
@@ -173,19 +214,35 @@ public slots:
     void disCheckAdaptImageBtn();
     void checkAdaptImageBtn();
 
-    //heyi test 接收到信号之后更改隐藏标志符号
+    /**
+     * @brief onChangeHideFlags     接收到信号之后更改隐藏标志符号
+     * @param bFlags                true为隐藏，false不隐藏
+     */
     void onChangeHideFlags(bool bFlags);
 
-    //向后加载30张 add by heyi
+    /**
+     * @brief loadBack      动态向后加载
+     * @param infos         加载的图片信息集合
+     */
     void loadBack(DBImgInfoList infos);
 
-    //向前加载30张 add by heyi
+    /**
+     * @brief loadFront     动态向前加载
+     * @param infos         加载的图片信息集合
+     */
     void loadFront(DBImgInfoList infos);
 
-    //接收加载完毕之后的所有图片信息 add by heyi
+    /**
+     * @brief receveAllIamgeInfos   接收加载完毕之后的所有图片信息
+     * @param AllImgInfos           所有图片信息集合
+     */
     void receveAllIamgeInfos(DBImgInfoList AllImgInfos);
 
-    //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
+    /**
+     * @brief onHidePreNextBtn  置灰上一张下一张按钮
+     * @param bShowAll          表示是否显示全部左右按钮，true为全部显示，false为不全部显示
+     * @param bFlag             false表示第一张，true最后一张
+     */
     void onHidePreNextBtn(bool bShowAll, bool bFlag);
 
     // 重命名改变itemImage路径
@@ -193,33 +250,70 @@ public slots:
 
     // 重命名改变m_imgInfos路径
     void OnSetimglist(int, QString, QString);
+
+    /**
+     * @brief onResize  重置缩略图控件大小
+     */
     void onResize();
 
-    //根据路径从布局中删除指定的图片
+    /**
+     * @brief delPictureFromPath    根据路径从布局中删除指定的图片
+     * @param strPath               被删除的图片路径
+     * @param infos                 删除后的图片信息集合
+     * @param nCurrent              当前选中位置
+     * @return                      true为删除成功，false为删除失败
+     */
     bool delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent);
 
-    //设置删除按钮信号是否连接,true连接，false断开连接
+    /**
+     * @brief setIsConnectDel   设置删除按钮信号是否连接
+     * @param bFlasg            true连接，false断开连接
+     */
     void setIsConnectDel(bool bFlasg);
 
-    //第一次加载100张时禁止使用删除按钮,按钮置灰色
+    /**
+     * @brief disableDelAct     第一次加载100张时禁止使用删除按钮,按钮置灰色
+     * @param bFlags            true删除按钮可用，false为删除按钮置灰
+     */
     void disableDelAct(bool bFlags);
 
-    //发送需要加载的信息，向前或者向后,true为头部加载，false尾部加载
+    /**
+     * @brief recvLoadAddInfos  发送需要加载的信息，向前或者向后
+     * @param allInfos          新加载的图片信息集合
+     * @param bFlags            true为头部加载，false尾部加载
+     */
     void recvLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
 
-    //根据传入的图片信息数量判断是否需要重新生成新的图元,返回true表示需要重新生成，false则不需要重新生成
+    /**
+     * @brief judgeReloadItem   根据传入的图片信息数量判断是否需要重新生成新的图元
+     * @param inputInfos        传入新的图片信息集合
+     * @param localInfos        当前所有图片信息集合
+     * @return                  返回true表示需要重新生成，false则不需要重新生成
+     */
     bool judgeReloadItem(const DBImgInfoList &inputInfos, DBImgInfoList &localInfos);
 
-    //根据传入的图片信息生成新的缩略图元
+    /**
+     * @brief reloadItems   根据传入的图片信息生成新的缩略图元
+     * @param inputInfos    传入的图片信息集合
+     * @param strCurPath    当前需要显示的图片路径
+     */
     void reloadItems(DBImgInfoList &inputInfos, QString strCurPath);
 
-    //显示缩略图动画效果
+    /**
+     * @brief showAnimation 显示缩略图动画效果
+     */
     void showAnimation();
 
-    //根据当前图片属性设置按钮属性
+    /**
+     * @brief setBtnAttribute 根据当前图片属性设置按钮属性
+     * @param strPath   当前图片路径
+     */
     void setBtnAttribute(const QString strPath);
 
-    //添加点击加载功能
+    /**
+     * @brief clickLoad 添加点击加载功能
+     * @param nCurrent  当前点击的位置
+     */
     void clickLoad(const int nCurrent);
 
 private slots:
@@ -244,13 +338,6 @@ private:
     DIconButton *m_trashBtn {nullptr};
     DIconButton *m_preButton {nullptr};
     DIconButton *m_nextButton {nullptr};
-//    ImageIconButton  *btPre = nullptr;
-//    ImageIconButton  *btNext = nullptr;
-//    ImageIconButton  *btAdapt = nullptr;
-//    ImageIconButton  *btFit = nullptr;
-//    ImageIconButton  *btLeft = nullptr;
-//    ImageIconButton  *btRight = nullptr;
-//    ImageIconButton  *btTrash = nullptr;
     ElidedLabel *m_fileNameLabel;
     DWidget *m_imgList;
     QHBoxLayout *m_imglayout;
