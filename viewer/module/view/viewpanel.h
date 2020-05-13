@@ -79,7 +79,11 @@ public:
     }
     void AddDataToList(LOAD_DIRECTION Dirction, int pages = 30);
 
-    //获取当前位置和上一张和下一张图片路径
+    /**
+     * @brief getPathsFromCurrent   获取当前位置和上一张和下一张图片路径
+     * @param nCurrent              当前图片的位置
+     * @return
+     */
     QStringList getPathsFromCurrent(int nCurrent);
 
 signals:
@@ -90,29 +94,59 @@ signals:
     void updateTopLeftWidthChanged(int width);
     void updateTopLeftContentImage(const QString &path);
     void updatePath();
-    //heyi test
+
+    /**
+     * @brief sendLoadOver  加载完成信号
+     * @param infos         加载完成的图片信息集合
+     * @param nCurrent      当前需要显示的图片索引
+     */
     void sendLoadOver(DBImgInfoList infos, int nCurrent);
+
+    /**
+     * @brief changeHideFlag    改变隐藏属性信号
+     * @param bFlags            true为隐藏，false为不隐藏
+     */
     void changeHideFlag(bool bFlags);
 
-    //置灰上一张下一张按钮，false表示第一张，true最后一张,bShowAll表示是否显示全部左右按钮
+    /**
+     * @brief hidePreNextBtn    置灰上一张下一张按钮
+     * @param bShowAll          bShowAll表示是否显示全部左右按钮
+     * @param bFlag             false表示第一张，true最后一张
+     */
     void hidePreNextBtn(bool bShowAll, bool bFlag);
-    //后台加载完成之后将所有图片信息发送给操作控件
 
+    /**
+     * @brief sendAllImageInfos 后台加载完成之后将所有图片信息发送给操作控件
+     * @param allInfos          所有信息集合
+     */
     void sendAllImageInfos(DBImgInfoList allInfos);
 
     void changeitempath(int, QString);
 
     void SetImglistPath(int, QString, QString);
 
+    /**
+     * @brief sigResize     通知重置大小信号
+     */
     void sigResize();
 
-    //未完全加载完图片信息时禁止删除图片
+    /**
+     * @brief disableDel    未完全加载完图片信息时禁止删除图片
+     * @param bFlags        true为禁用，false为不禁用
+     */
     void disableDel(bool bFlags);
 
-    //发送需要加载的信息，向前或者向后,true为头部加载，false尾部加载
+    /**
+     * @brief sendLoadAddInfos  发送需要加载的信息，向前或者向后
+     * @param allInfos          动态加载的图片信息
+     * @param bFlags            true为头部加载，false尾部加载
+     */
     void sendLoadAddInfos(DBImgInfoList allInfos, bool bFlags);
 
-    //发送动态加载路径,包括加载大图
+    /**
+     * @brief sendDynamicLoadPaths  发送动态加载路径,包括加载大图
+     * @param paths                 需要动态加载的图片路径
+     */
     void sendDynamicLoadPaths(QStringList paths);
 
     //发送心的list到slideshow
@@ -145,45 +179,140 @@ private:
     void initNavigation();
 
     // Menu control
+    /**
+     * @brief appendAction  添加右键菜单按钮
+     * @param id            按钮枚举ID
+     * @param text          按钮名称
+     * @param shortcut      按钮快捷键
+     */
     void appendAction(int id, const QString &text, const QString &shortcut = "");
 #ifndef LITE_DIV
     DMenu *createAlbumMenu();
 #endif
+
+    /**
+     * @brief onMenuItemClicked     点击右键菜单
+     * @param action                被点击的按钮
+     */
     void onMenuItemClicked(QAction *action);
-    //更新右键菜单
+
+    /**
+     * @brief updateMenuContent 更新右键菜单
+     */
     void updateMenuContent();
 
     // View control
+    /**
+     * @brief LoadDirPathFirst  加载当前文件夹图片路径，并判断是否是第一次加载
+     * @param bLoadAll          false为第一次，true为加载所有
+     */
     void LoadDirPathFirst(bool bLoadAll = false);
+
+    /**
+     * @brief onViewImage   打开选中的图片
+     * @param vinfo         选中的图片信息
+     */
     void onViewImage(const SignalManager::ViewInfo &vinfo);
+
+    /**
+     * @brief openImage     打开并显示选中图片
+     * @param path          图片路径
+     * @param inDB          是否链接数据库
+     */
     void openImage(const QString &path, bool inDB = true);
-    //删除当前选中的图片
+
+    /**
+     * @brief removeCurrentImage    删除当前的图片
+     * @return                      成功返回true，失败返回false
+     */
     bool removeCurrentImage();
+
     bool removeImagePath(QString path);
+
+    /**
+     * @brief rotateImage   旋转图片
+     * @param clockWise     true为顺时针旋转，false为逆时针旋转
+     */
     void rotateImage(bool clockWise);
+
+    /**
+     * @brief showNext  显示下一张图片
+     * @return
+     */
     bool showNext();
+
+    /**
+     * @brief showPrevious  显示上一张
+     * @return
+     */
     bool showPrevious();
+
+    /**
+     * @brief showImage  根据索引值显示图片
+     * @param index      传入的索引值
+     * @param addIndex   传入的值与现在的值之差
+     * @return
+     */
     bool showImage(int index, int addIndex);
 
     // Geometry
+    /**
+     * @brief toggleFullScreen  全屏切换
+     */
     void toggleFullScreen();
+
+    /**
+     * @brief showNormal    正常显示
+     */
     void showNormal();
+
+    /**
+     * @brief showFullScreen    全屏显示
+     */
     void showFullScreen();
 
     void viewOnNewProcess(const QStringList &paths);
     void backToLastPanel();
 
+    /**
+     * @brief imageIndex    图元索引值
+     * @param path          图片路径
+     * @return              该图元的索引值
+     */
     int imageIndex(const QString &path);
+
     QFileInfoList getFileInfos(const QString &path);
+    /**
+     * @brief getImageInfos     根据传入图片信息转换为详细信息
+     * @param infos             传入的图片信息
+     * @return                  详细图片信息
+     */
     DBImgInfoList getImageInfos(const QFileInfoList &infos);
+
+    /**
+     * @brief paths 当前显示图片的路径集合
+     * @return      返回当前所有图片路径
+     */
     const QStringList paths() const;
     const QStringList slideshowpaths() const;
-    //重命名窗口处理函数
+
+    /**
+     * @brief PopRenameDialog   重命名窗口处理函数
+     * @param filepath          图片路径
+     * @param filename          图片名称
+     * @return                  成功返回true，失败返回false
+     */
     bool PopRenameDialog(QString &filepath, QString &filename);
     void startFileWatcher();
-    //断开ttbc所有的信号连接
+
+    /**
+     * @brief disconnectTTbc   断开ttbc所有的信号连接
+     */
     void disconnectTTbc();
-    //重新连接TTBC工具栏所有信号
+
+    /**
+     * @brief reConnectTTbc     重新连接TTBC工具栏所有信号
+     */
     void reConnectTTbc();
 
 private slots:
@@ -191,11 +320,39 @@ private slots:
     void updateLocalImages();
 
     //heyi test  发送显示缩略图的信号
+    /**
+     * @brief sendSignal    发送显示缩略图的信号
+     * @param infos         当前需要显示缩略图信息集合
+     * @param nCurrent      当前显示图片索引号
+     */
     void sendSignal(DBImgInfoList infos, int nCurrent);
-    //接受向前加载或者向后加载信号,true为头部加载，false为尾部加载
+
+    /**
+     * @brief recvLoadSignal    接受向前加载或者向后加载信号
+     * @param bFlags            true为头部加载，false为尾部加载
+     */
     void recvLoadSignal(bool bFlags);
+
+    /**
+     * @brief slotExitFullScreen    退出全屏
+     */
     void slotExitFullScreen();
     void slotLoadSlideshow(bool bflag);
+
+    /**
+     * @brief eatImageDirIterator   迭代获取当前文件夹所有图片信息
+     */
+    void eatImageDirIterator();
+
+    /**
+     * @brief newEatImageDirIterator    备份初始信息读取代码
+     */
+    void newEatImageDirIterator();
+
+    /**
+     * @brief eatImageDirIteratorThread 线程函数，遍历选中文件夹获取所有图片信息
+     */
+    void eatImageDirIteratorThread();
 
 private:
     int m_hideCursorTid;
@@ -232,12 +389,6 @@ private:
     bool m_CollFileFinish = false;
 #ifdef LITE_DIV
     QScopedPointer<QDirIterator> m_imageDirIterator;
-
-    void eatImageDirIterator();
-    //heyi add 备份初始信息读取代码
-    void newEatImageDirIterator();
-    //heyi add 线程函数，遍历选中文件夹获取所有图片信息
-    void eatImageDirIteratorThread();
 #endif
     QString m_currentImageLastDir = "";
     //当前图片路径

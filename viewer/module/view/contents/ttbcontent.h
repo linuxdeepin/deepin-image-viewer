@@ -83,43 +83,77 @@ class ImageItem : public DLabel
     Q_OBJECT
 public:
     ImageItem(int index = 0, QString path = NULL, char *imageType = NULL, QWidget *parent = 0);
+
+    /**
+     * @brief setIndexNow   设置当前显示图片索引位置
+     * @param i             索引标识号
+     */
     void setIndexNow(int i)
     {
         _indexNow = i;
 
     }
+
     void setPic(QImage image)
     {
 //      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
     }
+
+    /**
+     * @brief updatePic     更新图元缩略图
+     * @param pixmap        新传入的缩略图
+     */
     void updatePic(QPixmap pixmap)
     {
         _pixmap = pixmap;
         update();
     }
+
+    /**
+     * @brief setIndex  设置当前图元索引位置
+     * @param index     传入的索引值
+     */
     void setIndex(int index)
     {
         _index = index;
     }
+
+    /**
+     * @brief SetPath   设置当前图元路径
+     * @param path      传入的路径
+     */
     void SetPath(QString path)
     {
         _path = path;
     }
+
+    /**
+     * @brief getPath   获取当前图元路径
+     * @return          返回当前图元路径
+     */
     inline QString getPath()
     {
         return _path;
     }
+
+    /**
+     * @brief getIndex  获取当前图元索引
+     * @return          返回当前图元索引
+     */
     inline int getIndex()
     {
         return _index;
     }
+
 signals:
     void imageItemclicked(int index, int indexNow);
+
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override
     {
         bmouserelease = true;
     }
+
     void mousePressEvent(QMouseEvent *ev) override
     {
         bmouserelease = false;
@@ -129,7 +163,9 @@ protected:
         if (bmouserelease)
             emit imageItemclicked(_index, _indexNow);
     }
+
     void paintEvent(QPaintEvent *event) override;
+
 private:
     int _index;
     int _indexNow = -1;
@@ -141,6 +177,7 @@ private:
     bool bFirstUpdate = true;;
     bool bmouserelease = false;
 };
+
 class TTBContent : public QLbtoDLabel
 {
     Q_OBJECT
@@ -167,6 +204,12 @@ public:
 
 signals:
     void clicked();
+
+    /**
+     * @brief imageClicked  点击图元触发
+     * @param index         被点击图元的索引号
+     * @param addIndex      点击的图元与之前显示图元索引值之差
+     */
     void imageClicked(int index, int addIndex);
     void resetTransform(bool fitWindow);
 
@@ -209,6 +252,11 @@ public slots:
      */
     void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
+
+    /**
+     * @brief slotTheme     系统主题更改
+     * @param theme         更改的主题样式
+     */
     void slotTheme(bool theme);
     void setAdaptButtonChecked(bool flag);
     void disCheckAdaptImageBtn();
