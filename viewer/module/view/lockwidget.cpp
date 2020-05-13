@@ -25,7 +25,7 @@
 
 const QString ICON_PIXMAP_DARK = ":/resources/dark/images/picture damaged_dark.svg";
 const QString ICON_PIXMAP_LIGHT = ":/resources/light/images/picture damaged_light.svg";
-const QSize THUMBNAIL_SIZE = QSize(180, 180);
+const QSize THUMBNAIL_SIZE = QSize(151, 151);
 LockWidget::LockWidget(const QString &darkFile,
     const QString &lightFile, QWidget *parent)
     : ThemeWidget(darkFile, lightFile, parent) {
@@ -39,7 +39,7 @@ LockWidget::LockWidget(const QString &darkFile,
         m_theme = false;
     }
     m_bgLabel = new QLbtoDLabel();
-    m_bgLabel->setFixedSize(166, 166);
+    m_bgLabel->setFixedSize(151, 151);
     m_bgLabel->setObjectName("BgLabel");
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                      this, [=]() {

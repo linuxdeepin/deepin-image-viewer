@@ -57,7 +57,8 @@ const QString getFileFormat(const QString &path)
 #endif
     //use mimedatabase get image mimetype
     QFileInfo fi(path);
-    QString suffix = fi.suffix(); QMimeDatabase db;
+    QString suffix = fi.suffix();
+    QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
     QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
     if (suffix.isEmpty()) {
@@ -378,7 +379,49 @@ QImage FIBitmapToQImage(FIBITMAP *dib)
     }
     return noneQImage();
 }
-
+/**
+ * @brief openGiffromPath
+ * @param[in]  path
+ * @return void *
+ * @author LMH
+ * @time 2020/05/08
+ * 用freeimage打开Gif图片
+ */
+void *openGiffromPath(const QString &path)
+{
+    FREE_IMAGE_FORMAT fif = FIF_GIF;
+    FIBITMAP *fiBmp = FreeImage_Load(fif, path.toStdString().c_str(), GIF_DEFAULT);
+    FIMULTIBITMAP *pGIF = FreeImage_OpenMultiBitmap(fif, path.toStdString().c_str(), 0, 1, 0, GIF_PLAYBACK);
+    return pGIF;
+}
+/**
+ * @brief getGifImageCount
+ * @param[in]  pGIF
+ * @return int
+ * @author LMH
+ * @time 2020/05/08
+ * 返回gif一共的帧数
+ */
+int getGifImageCount(void *pGIF)
+{
+    return FreeImage_GetPageCount((FIMULTIBITMAP *)pGIF);
+}
+/**
+ * @brief getGifImage
+ * @param[in]  index
+ * @param[in]  pGIF
+ * @return QImage
+ * @author LMH
+ * @time 2020/05/08
+ * 返回gif某一帧数的图片
+ */
+QImage getGifImage(int index, void *pGIF)
+{
+    FIBITMAP *tmpMap = FreeImage_LockPage((FIMULTIBITMAP *)pGIF, index);
+    QImage image = freeimage::FIBitmapToQImage(tmpMap);
+    FreeImage_UnlockPage((FIMULTIBITMAP *)pGIF, tmpMap, 1);
+    return image;
+}
 }  // namespace freeimage
 
 }  // namespace image

@@ -89,13 +89,22 @@ void ImageLoader::startLoading()
 
     QThread *th1 = QThread::create([ = ]() {
         QString path;
-        while (m_bFlag) {
+        while (1) {
             path.clear();
             m_readlock.lockForWrite();
             if (listLoad1.isEmpty()) {
                 m_readlock.unlock();
                 break;
             }
+
+            //判断线程标识
+            m_flagLock.lockForRead();
+            if (!m_bFlag) {
+                m_flagLock.unlock();
+                break;
+            }
+
+            m_flagLock.unlock();
 
             path = listLoad1.back();
             qDebug() << "线程1当前加载的图片：" << path;
@@ -106,13 +115,22 @@ void ImageLoader::startLoading()
         }
 
         //帮助另一个线程加载，从左往右加载
-        while (m_bFlag) {
+        while (1) {
             path.clear();
             m_readlock.lockForWrite();
             if (listLoad2.isEmpty()) {
                 m_readlock.unlock();
                 break;
             }
+
+            //判断线程标识
+            m_flagLock.lockForRead();
+            if (!m_bFlag) {
+                m_flagLock.unlock();
+                break;
+            }
+
+            m_flagLock.unlock();
 
             path = listLoad2.front();
             qDebug() << "线程1当前加载的图片：" << path;
@@ -126,13 +144,22 @@ void ImageLoader::startLoading()
 
     QThread *th2 = QThread::create([ = ]() {
         QString path;
-        while (m_bFlag) {
+        while (1) {
             path.clear();
             m_readlock.lockForWrite();
             if (listLoad2.isEmpty()) {
                 m_readlock.unlock();
                 break;
             }
+
+            //判断线程标识
+            m_flagLock.lockForRead();
+            if (!m_bFlag) {
+                m_flagLock.unlock();
+                break;
+            }
+
+            m_flagLock.unlock();
 
             path = listLoad2.front();
             qDebug() << "线程2当前加载的图片：" << path;
@@ -143,13 +170,22 @@ void ImageLoader::startLoading()
         }
 
         //帮助另一个线程加载，从右往左加载
-        while (m_bFlag) {
+        while (1) {
             path.clear();
             m_readlock.lockForWrite();
             if (listLoad1.isEmpty()) {
                 m_readlock.unlock();
                 break;
             }
+
+            //判断线程标识
+            m_flagLock.lockForRead();
+            if (!m_bFlag) {
+                m_flagLock.unlock();
+                break;
+            }
+
+            m_flagLock.unlock();
 
             path = listLoad1.back();
             qDebug() << "线程2当前加载的图片：" << path;
@@ -173,7 +209,9 @@ void ImageLoader::startLoading()
 
 void ImageLoader::stopThread()
 {
+    m_flagLock.lockForWrite();
     m_bFlag = false;
+    m_flagLock.unlock();
 }
 
 void ImageLoader::addImageLoader(QStringList pathlist)

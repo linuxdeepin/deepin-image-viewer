@@ -314,7 +314,7 @@ void MainWidget::initTopToolbar()
 
 void MainWidget::initConnection()
 {
-    connect(this,SIGNAL(mainwgtloadslideshowpath(bool)),m_viewPanel,SLOT(slotLoadSlideshow(bool)));
+    connect(this,SIGNAL(mainwgtloadslideshowpath(bool)),m_viewPanel,SLOT(recvLoadSignal(bool)));
     connect(m_viewPanel,SIGNAL(sigsendslideshowlist(bool,DBImgInfoList)),this,SIGNAL(sigmaindgtslideshowpath(bool,DBImgInfoList)));
     connect(this,SIGNAL(sigExitFullScreen()),m_viewPanel,SLOT(slotExitFullScreen()));
     //屏蔽CTrl+Q快捷键
