@@ -163,12 +163,33 @@ protected:
     void wheelEvent(QWheelEvent *e) override;
 
 private:
+    /**
+     * @brief initConnect   初始化信号连接
+     */
     void initConnect();
+
     void initFileSystemWatcher();
+
+    /**
+     * @brief initPopupMenu     初始化右键弹出菜单
+     */
     void initPopupMenu();
+
+    /**
+     * @brief initShortcut      初始化快捷键
+     */
     void initShortcut();
+
+    /**
+     * @brief initStack         初始化堆叠窗口
+     */
     void initStack();
+
+    /**
+     * @brief initViewContent   初始化视图区域信号连接
+     */
     void initViewContent();
+
     void popupDelDialog(const QString path);
     void popupPrintDialog(const QString path);
 

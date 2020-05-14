@@ -392,18 +392,10 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool C
         pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
 
-        //maozhengyu 修改图片信息日期显示格式为年月日
-        if(i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized"){
-            QString temp = "";
-            QStringList date = value.split("/");
-            QStringList DateFormat = QObject::tr("年/月/日").split("/");
-            for(int i = 0; i < date.size(); i++){
-                temp += date[i];
-                if(i < DateFormat.size() - 1)
-                    temp += DateFormat[i];
-            }
-            temp.insert(10,DateFormat[2]);
-            value = temp;
+        //hujianbo 修改图片信息中文修改格式为年月日，英文不变，修复bug24447
+        if (CNflag) {
+            QDateTime tmpTime = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+            value = tmpTime.toString("yyyy年MM月dd日 hh:mm:ss");
         }
 
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
