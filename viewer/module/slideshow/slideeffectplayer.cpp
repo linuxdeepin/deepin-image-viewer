@@ -242,8 +242,8 @@ bool SlideEffectPlayer::startNext()
         m_current--;
         LoopPlayoldpath = "";
         newPath = m_paths[m_current];
-        oldImg = utils::image::getRotatedImage(oldPath);
     }
+    oldImg = utils::image::getRotatedImage(oldPath);
     if(newPath.isEmpty())
         newPath = m_paths[m_current];
     m_effect = SlideEffect::create("");
