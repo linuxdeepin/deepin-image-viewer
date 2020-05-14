@@ -215,16 +215,17 @@ bool SlideEffectPlayer::startNext()
 
     if (m_effect)
         m_effect->deleteLater();
-
-    const QString oldPath = m_paths[m_current];
-
+    QString oldPath,newPath;
+    oldPath = m_paths[m_current];
+    if(m_current+1<m_paths.size())
+        newPath = m_paths[m_current+1];
     if (m_paths.length() > 1) {
         m_current++;
         if (m_current == m_paths.length()) {
             m_current = 0;
         }
     }
-
+    QImage oldImg = m_cacheImages.value(oldPath);
 //    static bool bfirst = true;
 //    if (bfirst) {
     cacheNext();
@@ -233,7 +234,18 @@ bool SlideEffectPlayer::startNext()
 //        QTimer::singleShot(3000, &loop, SLOT(quit()));
 //        loop.exec();
 //    }
-    QString newPath = m_paths[m_current];
+
+    if(bLoopPlayback && m_current == 1)
+    {
+        oldPath = LoopPlayoldpath;
+        bLoopPlayback = false;
+        m_current--;
+        LoopPlayoldpath = "";
+        newPath = m_paths[m_current];
+        oldImg = utils::image::getRotatedImage(oldPath);
+    }
+    if(newPath.isEmpty())
+        newPath = m_paths[m_current];
     m_effect = SlideEffect::create("");
 //    m_effect = SlideEffect::create("enter_from_right");
 //    if ((m_screenrect.width()*m_ratio) < 3000 && (m_screenrect.height()*m_ratio) < 3000) {
@@ -264,13 +276,9 @@ bool SlideEffectPlayer::startNext()
     m_effect->setSize(fSize);
 
     using namespace utils::image;
-    qDebug() << "m_cacheImages.value";
-    QImage oldImg = m_cacheImages.value(oldPath);
     QImage newImg = m_cacheImages.value(newPath);
 // The "newPath" would be the next "oldPath", so there is no need to remove it now
 //    m_cacheImages.remove(oldPath);
-
-    qDebug() << m_cacheImages;
     m_effect->setImages(oldImg, newImg);
     if (!m_thread.isRunning())
         m_thread.start();
@@ -374,9 +382,11 @@ void SlideEffectPlayer::cacheNext()
     qDebug() << "SlideEffectPlayer::cacheNext()";
     int current = m_current;
     current ++;
+    //Load the following pictures and thumbnails when playing the last thumbnail
     if(current == m_paths.length())
     {
         emit sigLoadslideshowpathlst(false);
+        //Load front pictures when playing the last file
         if (current == m_paths.length()) {
             if (bfirstrun) {
                 current = m_paths.length() - 1;
@@ -385,9 +395,16 @@ void SlideEffectPlayer::cacheNext()
             } else {
                 current = 0;
             }
+            LoopPlayoldpath = m_paths[m_current];
+            bLoopPlayback = true;
+            connect(dApp->signalM,&SignalManager::sigNoneedLoadfrontslideshow,this,[=]{
+                bLoopPlayback = false;
+            });
+            emit dApp->signalM->sigLoadfrontSlideshow();
         }
     }
     QString path = m_paths[current];
+    //Load current pixmap for fix bug 21480
     if(current != 0 )
     {
         QString curpath = m_paths[current-1];
@@ -397,13 +414,22 @@ void SlideEffectPlayer::cacheNext()
             m_cacheImages.insert(curpath, img);
         }
     }
-    if(current == m_paths.size()-1)
+    if(current == 0)
     {
         QString curpath = m_paths[0];
         if (m_cacheImages.value(curpath).isNull())
         {
             QImage img = utils::image::getRotatedImage(curpath);
             m_cacheImages.insert(curpath, img);
+        }
+        if(m_paths.size() >1)
+        {
+            QString curpath = m_paths[1];
+            if (m_cacheImages.value(curpath).isNull())
+            {
+                QImage img = utils::image::getRotatedImage(curpath);
+                m_cacheImages.insert(curpath, img);
+            }
         }
     }
     if (m_cacheImages.value(path).isNull()) {

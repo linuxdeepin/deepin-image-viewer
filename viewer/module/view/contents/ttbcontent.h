@@ -281,6 +281,14 @@ public slots:
     void loadFront(DBImgInfoList infos);
 
     /**
+     * @brief ReInit
+     * clear thumbnails and Load front thumbnails
+     * @param infos
+     * Loaded files list
+     */
+    void ReInitFirstthumbnails(DBImgInfoList infos);
+
+    /**
      * @brief receveAllIamgeInfos   接收加载完毕之后的所有图片信息
      * @param AllImgInfos           所有图片信息集合
      */

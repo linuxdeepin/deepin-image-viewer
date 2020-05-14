@@ -104,6 +104,7 @@ QString ViewPanel::moduleName()
 void ViewPanel::initConnect()
 {
     //heyi  test
+    connect(dApp->signalM, &SignalManager::sigLoadfrontSlideshow,this,&ViewPanel::SlotLoadFrontThumbnailsAndClearTail);
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
     connect(dApp, &Application::endThread, this, [ = ]() {
         m_bThreadExit = true;
@@ -508,10 +509,11 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
 
 void ViewPanel::recvLoadSignal(bool bFlags)
 {
-    m_infosadd.clear();
     //筛选所有图片格式
     if (!m_CollFileFinish)
         return;
+    if(m_infos.size() == m_infosAll.size()) return;
+    m_infosadd.clear();
     if (bFlags) {
         if (m_infosHead.isEmpty()) return;
         m_infosadd.clear();
@@ -764,6 +766,42 @@ void ViewPanel::eatImageDirIteratorThread()
 //    }
 
     emit sendLoadOver(m_infos, m_current);
+}
+
+void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
+{
+    if (!m_CollFileFinish)
+        return;
+    if(m_infosAll.size() == m_infos.size())
+    {
+        emit dApp->signalM->sigNoneedLoadfrontslideshow();
+        return;
+    }
+    m_infosHead.clear();
+    m_infos.clear();
+    m_infosTail = m_infosAll;
+    m_infoslideshow.clear();
+    for (int i=0;i<Load_Image_Count;i++) {
+        DBImgInfo info = m_infosTail.takeFirst();
+        m_infos.append(info);
+        QFileInfo file(info.filePath);
+        QString str = file.suffix();
+        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
+            m_infoslideshow.append(info);
+    }
+    QStringList pathlist;
+    emit dApp->signalM->sigLoadHeadThunbnail(m_infos);
+    emit sigsendslideshowlist(false, m_infoslideshow);
+    for (int loop = 0; loop < m_infos.size(); loop++) {
+        pathlist.append(m_infos.at(loop).filePath);
+    }
+
+    if (pathlist.size() > 0) {
+        ttbc->setIsConnectDel(false);
+        m_bAllowDel = false;
+        ttbc->disableDelAct(false);
+        emit sendDynamicLoadPaths(pathlist);
+    }
 }
 #endif
 
@@ -1246,6 +1284,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
                     //由于m_infos存在不可查看图片，而且幻灯片打开的时候再筛选容易造成打开幻灯片较卡
                     if (!m_nosupportformat.contains(str, Qt::CaseSensitive))
                         m_infoslideshow.append(info);
+                    m_infosAll.append(info);
                 }
                 //}
             } else if (/*str.isEmpty()*/1) {
@@ -1258,7 +1297,10 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
                         m_infosTail.append(info);
                     m_infosAll.append(info);
                 } else
+                {
                     m_infos.append(info);
+                    m_infosAll.append(info);
+                }
             }
         }
 
@@ -1439,7 +1481,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        if (m_AllPath.size() > First_Load_Image) {
+        if (m_AllPath.size() > m_infos.size()) {
             QThread *loadTh = QThread::create([ = ]() {
                 eatImageDirIteratorThread();
             });

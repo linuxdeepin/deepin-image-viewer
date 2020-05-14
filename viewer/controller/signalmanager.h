@@ -114,6 +114,25 @@ signals:
 
     void sigImageOutTitleBar(bool b);
 
+    // Handle By shuwenzhi
+    /**
+     * @brief sigLoadHeadThunbnail
+     * Load first thumbnail by files
+     * @param infos
+     * thumbnails files
+     */
+    void sigLoadHeadThunbnail(const DBImgInfoList infos);
+    /**
+     * @brief sigLoadSlideshow
+     * Load first slideshow by files
+     */
+    void sigLoadfrontSlideshow();
+    /**
+     * @brief sigNoneedLoadfrontslideshow
+     * No need to load slides
+     */
+    void sigNoneedLoadfrontslideshow();
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

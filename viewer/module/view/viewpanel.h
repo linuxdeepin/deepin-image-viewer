@@ -354,6 +354,12 @@ private slots:
      */
     void eatImageDirIteratorThread();
 
+    /**
+     * @brief LoadFrontThumbnailsAndClearTail
+     * Load front thumbnails and clear up tail thumbnails
+     */
+    void SlotLoadFrontThumbnailsAndClearTail();
+
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;

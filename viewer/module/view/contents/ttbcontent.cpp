@@ -885,6 +885,7 @@ void TTBContent::toolbarSigConnection()
         }
         slotTheme(theme);
     });
+    connect(dApp->signalM,&SignalManager::sigLoadHeadThunbnail,this,&TTBContent::ReInitFirstthumbnails);
 }
 
 void TTBContent::disCheckAdaptImageBtn()
@@ -1544,6 +1545,23 @@ void TTBContent::loadFront(DBImgInfoList infos)
         m_imgListView->update();
         m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
     }
+}
+
+void TTBContent::ReInitFirstthumbnails(DBImgInfoList infos)
+{
+    //clear thumbnails widget
+    m_imgInfos.clear();
+    m_nowIndex = 0;
+    QLayoutItem *child;
+    while ((child = m_imglayout->takeAt(0)) != nullptr) {
+        //setParent为NULL，防止删除之后界面不消失
+        if(child->widget())
+        {
+            child->widget()->setParent(nullptr);
+        }
+        delete child;
+    }
+    loadBack(infos);
 }
 
 void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
