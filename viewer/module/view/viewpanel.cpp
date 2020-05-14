@@ -304,8 +304,8 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
     if (nCurrent + 1 <= m_infos.size() - 1) {
         pathsList.append(m_infos.at(m_current + 1).filePath);
     }
-
-    pathsList.append(m_infos.at(m_current).filePath);
+    if(m_infos.size()>m_current)
+        pathsList.append(m_infos.at(m_current).filePath);
 
     return pathsList;
 }
@@ -1432,7 +1432,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         if (!vinfo.path.isEmpty()) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
-            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::LocaleAware);
+            m_AllPath = _dirinit.entryInfoList(QDir::Files|QDir::Hidden|QDir::NoDotAndDotDot, QDir::LocaleAware);
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {
