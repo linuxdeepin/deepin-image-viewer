@@ -800,7 +800,7 @@ void TTBContent::toolbarSigConnection()
                 }
             } else {
                 movex = 0;
-                emit sendLoadSignal(true);
+                emit dApp->signalM->sendLoadSignal(true);
             }
         } else
         {
@@ -809,7 +809,7 @@ void TTBContent::toolbarSigConnection()
             } else {
                 if (movex < m_imgListView->width() - m_imgList->width()) {
                     movex = m_imgListView->width() - m_imgList->width();
-                    emit sendLoadSignal(false);
+                    emit dApp->signalM->sendLoadSignal(false);
                 }
             }
         }
@@ -1369,7 +1369,7 @@ void TTBContent::setBtnAttribute(const QString strPath)
 void TTBContent::clickLoad(const int nCurrent)
 {
     if (nCurrent == m_imgInfos.size() - 1) {
-        sendLoadSignal(false);
+        dApp->signalM->sendLoadSignal(false);
     }
 }
 

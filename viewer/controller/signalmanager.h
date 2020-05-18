@@ -132,6 +132,11 @@ signals:
      * No need to load slides
      */
     void sigNoneedLoadfrontslideshow();
+    /**
+     * @brief sendLoadSignal    发送向前加载或者向后加载信号
+     * @param bFlags            true为头部加载，false为尾部加载
+     */
+    void sendLoadSignal(bool bFlags);
 
 private:
     explicit SignalManager(QObject *parent = 0);

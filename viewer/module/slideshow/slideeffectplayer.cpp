@@ -322,12 +322,15 @@ bool SlideEffectPlayer::startPrevious()
 
     int current = m_current - 1;
     if (current == -1) {
-        current = m_paths.length() - 1;
+        emit dApp->signalM->sendLoadSignal(true);
+        if (m_current == 0) {
+            current = m_paths.length() - 1;
+        }
     }
 
-    if (m_cacheImages.value(m_paths[current]).isNull()) {
-        return false;
-    }
+    //if (m_cacheImages.value(m_paths[current]).isNull()) {
+        //return false;
+   // }
 
     if (m_effect)
         m_effect->deleteLater();
@@ -361,8 +364,20 @@ bool SlideEffectPlayer::startPrevious()
 
     using namespace utils::image;
     qDebug() << "m_cacheImages.value";
-    QImage oldImg = m_cacheImages.value(oldPath);
-    QImage newImg = m_cacheImages.value(newPath);
+   // QImage oldImg = m_cacheImages.value(oldPath);
+    QImage oldImg = utils::image::getRotatedImage(oldPath);
+   // QImage newImg = m_cacheImages.value(newPath);
+    QImage newImg = utils::image::getRotatedImage(newPath);
+    if(newImg.isNull())
+    {
+        if(m_current>0)
+            newPath = m_paths[m_current];
+        else
+        {
+            m_current = m_paths.length() - 1;
+        }
+        newImg = utils::image::getRotatedImage(newPath);
+    }
     // The "newPath" would be the next "oldPath", so there is no need to remove it now
 
 //    m_cacheImages.remove(oldPath);
@@ -469,6 +484,7 @@ void SlideEffectPlayer::cachePrevious()
     int current = m_current;
     current--;
     if (-1 == current) {
+        //emit dApp->signalM->sendLoadSignal(false);
         current = m_paths.length() - 1;
     }
 

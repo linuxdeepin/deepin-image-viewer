@@ -449,6 +449,12 @@ void ViewPanel::reConnectTTbc()
     }, Qt::UniqueConnection);
 }
 
+bool ViewPanel::GetPixmapStatus(QString filename)
+{
+    QPixmap pic = dApp->m_imagemap.value(filename);
+    return !pic.isNull();
+}
+
 void ViewPanel::updateLocalImages()
 {
     const QString cp = m_infos.at(m_current).filePath;
@@ -524,7 +530,7 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             m_infos.push_front(info);
             QFileInfo finfo(info.filePath);
             QString str = finfo.suffix();
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && finfo.isReadable())
                 m_infoslideshow.push_front(info);
         }
         int begin = 0;
@@ -545,7 +551,7 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             m_infos.append(info);
             QFileInfo finfo(info.filePath);
             QString str = finfo.suffix();
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
+            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && finfo.isReadable())
                 m_infoslideshow.append(info);
         }
 
@@ -993,7 +999,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::QueuedConnection);
     connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::QueuedConnection);
     connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos, Qt::QueuedConnection);
-    connect(ttbc, &TTBContent::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::QueuedConnection);
+    connect(dApp->signalM, &SignalManager::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::UniqueConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
         ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
@@ -1165,7 +1171,7 @@ void ViewPanel::wheelEvent(QWheelEvent *e)
     if (m_infos.size() == 0) {
         return;
     }
-    if (m_viewB && !m_viewB->path().isEmpty() && QFile(m_viewB->path()).exists())
+    if (m_viewB && !m_viewB->path().isEmpty() && QFile(m_viewB->path()).exists() && GetPixmapStatus(m_currentImagePath))
         qApp->sendEvent(m_viewB->viewport(), e);
 }
 

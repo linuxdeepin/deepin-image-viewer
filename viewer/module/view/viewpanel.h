@@ -335,6 +335,14 @@ private:
      * @brief reConnectTTbc     重新连接TTBC工具栏所有信号
      */
     void reConnectTTbc();
+    /**
+     * @brief GetPixmapStatus
+     * whether the picture is loaded successfully
+     * @param filename
+     * picture name
+     * @return
+     */
+    bool GetPixmapStatus(QString filename);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
