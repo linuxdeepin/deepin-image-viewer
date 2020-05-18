@@ -149,7 +149,11 @@ signals:
      */
     void sendDynamicLoadPaths(QStringList paths);
 
-    //发送心的list到slideshow
+    /**
+     * @brief sigsendslideshowlist  发送新的list到slideshow
+     * @param bflag
+     * @param infosldeshow
+     */
     void sigsendslideshowlist(bool bflag, DBImgInfoList infosldeshow);
 
 protected:
@@ -348,7 +352,6 @@ private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateLocalImages();
 
-    //heyi test  发送显示缩略图的信号
     /**
      * @brief sendSignal    发送显示缩略图的信号
      * @param infos         当前需要显示缩略图信息集合

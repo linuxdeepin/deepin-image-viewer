@@ -246,6 +246,7 @@ public slots:
      * @param infos     当前需要显示的所有缩略图信息集合
      */
     void setImage(const QString &path, DBImgInfoList infos);
+
     void updateCollectButton();
 
     /**
@@ -296,11 +297,20 @@ public slots:
      */
     void onHidePreNextBtn(bool bShowAll, bool bFlag);
 
-    // 重命名改变itemImage路径
-    void OnChangeItemPath(int, QString);
+    /**
+     * @brief OnChangeItemPath  重命名改变itemImage路径
+     * @param currindex         当前图片的索引
+     * @param path              图片的新路径
+     */
+    void OnChangeItemPath(int currindex, QString path);
 
-    // 重命名改变m_imgInfos路径
-    void OnSetimglist(int, QString, QString);
+    /**
+     * @brief OnSetimglist  重命名改变m_imgInfos路径
+     * @param currindex     当前图片索引号
+     * @param filename      更改后的图片名称
+     * @param filepath      更好后的图片路径
+     */
+    void OnSetimglist(int currindex, QString filename, QString filepath);
 
     /**
      * @brief onResize  重置缩略图控件大小

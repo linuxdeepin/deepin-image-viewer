@@ -873,6 +873,7 @@ void ImageView::recvPathsToCache(const QStringList pathsList)
 
     });
 
+    connect(th, &QThread::finished, th, &QObject::deleteLater);
     th->start();
 }
 

@@ -104,7 +104,7 @@ QString ViewPanel::moduleName()
 void ViewPanel::initConnect()
 {
     //heyi  test
-    connect(dApp->signalM, &SignalManager::sigLoadfrontSlideshow,this,&ViewPanel::SlotLoadFrontThumbnailsAndClearTail);
+    connect(dApp->signalM, &SignalManager::sigLoadfrontSlideshow, this, &ViewPanel::SlotLoadFrontThumbnailsAndClearTail);
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
     connect(dApp, &Application::endThread, this, [ = ]() {
         m_bThreadExit = true;
@@ -326,7 +326,7 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
     return false;
 }
 
-
+//#include <QFileSystemWatcher>
 void ViewPanel::startFileWatcher()
 {
     if (m_currentFilePath == "") {
@@ -335,14 +335,28 @@ void ViewPanel::startFileWatcher()
     }
 
     m_fileManager = new DFileWatcher(m_currentFilePath, this);
+//    QFileSystemWatcher *haha = new QFileSystemWatcher();
+//    haha->addPath(m_currentFilePath);
+//    connect(haha, &QFileSystemWatcher::fileChanged, this, [ = ](const QString & path) {
+//        QString xixi = path;
+//    });
+
+//    connect(haha, &QFileSystemWatcher::directoryChanged, this, [ = ](const QString & path) {
+//        QString xixi = path;
+//    });
+
     m_fileManager->startWatcher();
     qDebug() << "!!!!!!!!!!!!!!!!!startFileWatcher!!!!!!!!!!!!!!!!!!!!!!!!!!"
              << m_fileManager->startWatcher() << "=" << m_currentFilePath;
 
     connect(m_fileManager, &DFileWatcher::fileDeleted, this, [ = ](const QUrl & url) {
         qDebug() << "!!!!!!!!!!!!!!!!!FileDeleted!!!!!!!!!!!!!!!!!!!!!!!!!!";
-        //        updateLocalImages();
         emit dApp->signalM->fileDeleted(url.path());
+    });
+
+    connect(m_fileManager, &DFileWatcher::subfileCreated, this, [ = ](const QUrl & url) {
+        qDebug() << "!!!!!!!!!!!!!!!!!subfileCreated!!!!!!!!!!!!!!!!!!!!!!!!!!";
+        emit dApp->signalM->fileCreate(url.path());
     });
 
     connect(dApp->signalM, &SignalManager::fileDeleted, this, [ = ](QString deletedpath) {
@@ -363,6 +377,7 @@ void ViewPanel::startFileWatcher()
             removeImagePath(deletedpath);
         }
     });
+
     connect(dApp->signalM, &SignalManager::picOneClear, this, [ = ]() {
         if (!QFileInfo(m_currentImagePath).exists() && m_infos.count() == 1) {
             qDebug() << "fileDeleted";
@@ -378,6 +393,7 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->sigImageOutTitleBar(false);
         }
     });
+
 }
 
 void ViewPanel::disconnectTTbc()
@@ -518,7 +534,7 @@ void ViewPanel::recvLoadSignal(bool bFlags)
     //筛选所有图片格式
     if (!m_CollFileFinish)
         return;
-    if(m_infos.size() == m_infosAll.size()) return;
+    if (m_infos.size() == m_infosAll.size()) return;
     m_infosadd.clear();
     if (bFlags) {
         if (m_infosHead.isEmpty()) return;
@@ -778,8 +794,7 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
 {
     if (!m_CollFileFinish)
         return;
-    if(m_infosAll.size() == m_infos.size())
-    {
+    if (m_infosAll.size() == m_infos.size()) {
         emit dApp->signalM->sigNoneedLoadfrontslideshow();
         return;
     }
@@ -787,7 +802,7 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
     m_infos.clear();
     m_infosTail = m_infosAll;
     m_infoslideshow.clear();
-    for (int i=0;i<Load_Image_Count;i++) {
+    for (int i = 0; i < Load_Image_Count; i++) {
         DBImgInfo info = m_infosTail.takeFirst();
         m_infos.append(info);
         QFileInfo file(info.filePath);
@@ -836,7 +851,7 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
 void ViewPanel::showNormal()
 {
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
     pAn->setDuration(50);
     pAn->setEasingCurve(QEasingCurve::Linear);
     pAn->setEndValue(1);
@@ -854,7 +869,7 @@ void ViewPanel::showNormal()
 void ViewPanel::showFullScreen()
 {
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
     pAn->setDuration(50);
     pAn->setEasingCurve(QEasingCurve::Linear);
     pAn->setEndValue(1);
@@ -1302,8 +1317,7 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
                     else if (i > m_lastindex)
                         m_infosTail.append(info);
                     m_infosAll.append(info);
-                } else
-                {
+                } else {
                     m_infos.append(info);
                     m_infosAll.append(info);
                 }
@@ -1496,6 +1510,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 //发送按钮置灰信号
                 //emit disableDel(false);
                 //m_bAllowDel = false;
+                connect(loadTh, &QThread::finished, loadTh, &QObject::deleteLater);
                 loadTh->start();
             }
         } else {

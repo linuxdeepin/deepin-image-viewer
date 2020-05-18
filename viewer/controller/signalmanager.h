@@ -67,6 +67,13 @@ signals:
     void picInUSB(bool immediately = false);
     void picNotExists(bool immediately = false);
     void fileDeleted(QString);
+
+    /**
+     * @brief fileCreate    被监测的文件夹有新文件加入
+     * @param strFilePath   新加入的文件路径
+     */
+    void fileCreate(QString strFilePath);
+
     void picOneClear();
     void loadingDisplay(bool immediately = false);
     void picDelete();
