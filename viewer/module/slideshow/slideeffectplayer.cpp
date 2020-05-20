@@ -323,7 +323,7 @@ bool SlideEffectPlayer::startPrevious()
     int current = m_current - 1;
     if (current == -1) {
         emit dApp->signalM->sendLoadSignal(true);
-        if (m_current == 0) {
+        if (m_current == -1) {
             current = m_paths.length() - 1;
         }
     }
