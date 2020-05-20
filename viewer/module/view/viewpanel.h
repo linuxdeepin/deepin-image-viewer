@@ -244,7 +244,7 @@ private:
      * @param path          图片路径
      * @param inDB          是否链接数据库
      */
-    void openImage(const QString &path, bool inDB = true);
+    void openImage(const QString path, bool inDB = true);
 
     /**
      * @brief removeCurrentImage    删除当前的图片

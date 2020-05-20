@@ -217,6 +217,7 @@ signals:
      * @brief rotateClockwise   顺时针旋转
      */
     void rotateClockwise();
+
     /**
      * @brief rotateCounterClockwise    逆时针旋转
      */
@@ -235,6 +236,7 @@ signals:
      * @brief showNext      显示下一张图片
      */
     void showNext();
+
     void ttbcontentClicked();
 
 public slots:

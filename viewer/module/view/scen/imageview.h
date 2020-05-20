@@ -79,7 +79,7 @@ public:
      * @brief setImage  设置显示图片
      * @param path      显示的图片路径
      */
-    void setImage(const QString &path);
+    void setImage(const QString path);
 
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);

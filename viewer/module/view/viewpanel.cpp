@@ -304,7 +304,7 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
     if (nCurrent + 1 <= m_infos.size() - 1) {
         pathsList.append(m_infos.at(m_current + 1).filePath);
     }
-    if(m_infos.size()>m_current)
+    if (m_infos.size() > m_current)
         pathsList.append(m_infos.at(m_current).filePath);
 
     return pathsList;
@@ -1452,7 +1452,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         if (!vinfo.path.isEmpty()) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
-            m_AllPath = _dirinit.entryInfoList(QDir::Files|QDir::Hidden|QDir::NoDotAndDotDot, QDir::LocaleAware);
+            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot, QDir::LocaleAware);
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {
@@ -1784,7 +1784,7 @@ void ViewPanel::initViewContent()
     connect(dApp, &Application::endApplication, m_viewB, &ImageView::endApp);
 }
 
-void ViewPanel::openImage(const QString &path, bool inDB)
+void ViewPanel::openImage(const QString path, bool inDB)
 {
     //    if (! QFileInfo(path).exists()) {
     // removeCurrentImage() will cause timerEvent be trigered again by
@@ -1847,8 +1847,10 @@ void ViewPanel::openImage(const QString &path, bool inDB)
     updateMenuContent();
 
     if (m_info) {
+        qDebug() << path;
         m_info->setImagePath(path);
     }
+
     m_currentImagePath = path;
 
     connect(dApp->signalM, &SignalManager::usbOutIn, this, [ = ](bool visible) {
