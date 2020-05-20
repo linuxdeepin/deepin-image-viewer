@@ -197,6 +197,8 @@ void ImageLoader::startLoading()
         QThread::currentThread()->quit();
     });
 
+    connect(th1, &QThread::finished, th1, &QObject::deleteLater);
+    connect(th2, &QThread::finished, th2, &QObject::deleteLater);
     th1->start();
     th2->start();
 
@@ -331,6 +333,7 @@ void Application::loadPixThread(QStringList paths)
         QThread::currentThread()->quit();
     });
 
+    connect(th, &QThread::finished, th, &QObject::deleteLater);
     th->start();
 }
 
@@ -407,6 +410,8 @@ Application::Application(int &argc, char **argv)
 
 Application::~Application()
 {
+    //隐藏详细信息
+    emit signalM->hideExtensionPanel();
     if (nullptr !=  m_LoadThread) {
         if (m_LoadThread->isRunning()) {
             //结束线程

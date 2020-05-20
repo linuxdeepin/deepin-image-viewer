@@ -45,19 +45,40 @@ public:
     explicit ImageLoader(Application *parent, QStringList pathlist, QString path);
 
     void addImageLoader(QStringList pathlist);
+
+    /**
+     * @brief updateImageLoader 更新缩略图，如果有旋转并旋转
+     * @param pathlist          更新的图片路径
+     * @param bDirection        旋转方向
+     */
     void updateImageLoader(QStringList pathlist, bool bDirection);
-    //add by heyi
+
+    /**
+     * @brief loadInterface 缩略图加载接口
+     * @param strPath       加载的图片路径
+     */
     void loadInterface(QString strPath);
+
     mutable QReadWriteLock m_readlock;
     mutable QReadWriteLock m_writelock;
     mutable QReadWriteLock m_flagLock;
 public slots:
+
+    /**
+     * @brief startLoading  开始加载缩略图
+     */
     void startLoading();
 
-    //add by heyi 结束线程
+    /**
+     * @brief stopThread    结束线程
+     */
     void stopThread();
 
 signals:
+    /**
+     * @brief sigFinishiLoad    缩略图加载完成信号
+     * @param mapPath           加载完成的缩略图路径
+     */
     void sigFinishiLoad(QString mapPath);
 
 private:
@@ -78,7 +99,10 @@ public:
     Application(int &argc, char **argv);
     ~Application();
 
-    //获取线程安全读写锁，在外部读取map时使用
+    /**
+     * @brief getRwLock 获取线程安全读写锁，在外部读取map时使用
+     * @return          读写锁
+     */
     inline QReadWriteLock &getRwLock()
     {
         return m_rwLock;
@@ -97,26 +121,66 @@ public:
 
     QThread *m_LoadThread;
 signals:
+    /**
+     * @brief sigstartLoad  加载线程启动信号
+     */
     void sigstartLoad();
+
+    /**
+     * @brief sigFinishLoad 缩略图加载完成信号
+     * @param mapPath
+     */
     void sigFinishLoad(QString mapPath);
-    //add by heyi
+
+    /**
+     * @brief endThread 结束线程信号
+     */
     void endThread();
-    //结束程序的时候触发此信号
+
+    /**
+     * @brief endApplication    结束程序的时候触发此信号
+     */
     void endApplication();
-    //图片加载完成发送信号
+
+    /**
+     * @brief sigFinishiLoad    图片加载完成发送信号
+     * @param mapPath           加载完成的图片路径
+     */
     void sigFinishiLoad(QString mapPath);
-    //动态加载完成,通知vipine可以允许进行删除操作了
+
+    /**
+     * @brief dynamicLoadFinished   动态加载完成,通知vipine可以允许进行删除操作了
+     */
     void dynamicLoadFinished();
 
 public slots:
+    /**
+     * @brief finishLoadSlot    缩略图加载完成信号
+     * @param mapPath           加载完成的图片路径
+     */
     void finishLoadSlot(QString mapPath);
-    //开启动态加载图片线程
+
+    /**
+     * @brief loadPixThread 开启动态加载图片线程
+     * @param paths         动态加载的图片路径
+     */
     void loadPixThread(QStringList paths);
-    //add by heyi
+
+    /**
+     * @brief loadInterface 缩略图加载接口
+     * @param strPath       加载的图片路径
+     */
     void loadInterface(QString strPath);
 
 private:
+    /**
+     * @brief initChildren  初始化子类对象
+     */
     void initChildren();
+
+    /**
+     * @brief initI18n  初始化系统编码
+     */
     void initI18n();
 
 private:

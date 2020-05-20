@@ -43,7 +43,7 @@ public:
     explicit ImageInfoWidget(const QString &darkStyle,
                              const QString &lightStyle,
                              QWidget *parent = 0);
-    void setImagePath(const QString &path);
+    void setImagePath(const QString path);
     void updateInfo();
     int contentHeight() const;
 //    QSize sizeHint() const override;

@@ -1,4 +1,4 @@
-/*
+    /*
  * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -107,4 +107,8 @@ private:
 
     //maozhengyu 点击下一张标志
     bool bstartnext = false;
+    //Loop play flag
+    bool bLoopPlayback = false;
+    //save last image
+    QString LoopPlayoldpath;
 };

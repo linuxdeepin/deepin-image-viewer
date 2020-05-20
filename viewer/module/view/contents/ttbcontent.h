@@ -83,43 +83,77 @@ class ImageItem : public DLabel
     Q_OBJECT
 public:
     ImageItem(int index = 0, QString path = NULL, char *imageType = NULL, QWidget *parent = 0);
+
+    /**
+     * @brief setIndexNow   设置当前显示图片索引位置
+     * @param i             索引标识号
+     */
     void setIndexNow(int i)
     {
         _indexNow = i;
 
     }
+
     void setPic(QImage image)
     {
 //      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
     }
+
+    /**
+     * @brief updatePic     更新图元缩略图
+     * @param pixmap        新传入的缩略图
+     */
     void updatePic(QPixmap pixmap)
     {
         _pixmap = pixmap;
         update();
     }
+
+    /**
+     * @brief setIndex  设置当前图元索引位置
+     * @param index     传入的索引值
+     */
     void setIndex(int index)
     {
         _index = index;
     }
+
+    /**
+     * @brief SetPath   设置当前图元路径
+     * @param path      传入的路径
+     */
     void SetPath(QString path)
     {
         _path = path;
     }
+
+    /**
+     * @brief getPath   获取当前图元路径
+     * @return          返回当前图元路径
+     */
     inline QString getPath()
     {
         return _path;
     }
+
+    /**
+     * @brief getIndex  获取当前图元索引
+     * @return          返回当前图元索引
+     */
     inline int getIndex()
     {
         return _index;
     }
+
 signals:
     void imageItemclicked(int index, int indexNow);
+
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override
     {
         bmouserelease = true;
     }
+
     void mousePressEvent(QMouseEvent *ev) override
     {
         bmouserelease = false;
@@ -129,7 +163,9 @@ protected:
         if (bmouserelease)
             emit imageItemclicked(_index, _indexNow);
     }
+
     void paintEvent(QPaintEvent *event) override;
+
 private:
     int _index;
     int _indexNow = -1;
@@ -141,6 +177,7 @@ private:
     bool bFirstUpdate = true;;
     bool bmouserelease = false;
 };
+
 class TTBContent : public QLbtoDLabel
 {
     Q_OBJECT
@@ -167,6 +204,12 @@ public:
 
 signals:
     void clicked();
+
+    /**
+     * @brief imageClicked  点击图元触发
+     * @param index         被点击图元的索引号
+     * @param addIndex      点击的图元与之前显示图元索引值之差
+     */
     void imageClicked(int index, int addIndex);
     void resetTransform(bool fitWindow);
 
@@ -174,6 +217,7 @@ signals:
      * @brief rotateClockwise   顺时针旋转
      */
     void rotateClockwise();
+
     /**
      * @brief rotateCounterClockwise    逆时针旋转
      */
@@ -192,12 +236,8 @@ signals:
      * @brief showNext      显示下一张图片
      */
     void showNext();
+
     void ttbcontentClicked();
-    /**
-     * @brief sendLoadSignal    发送向前加载或者向后加载信号
-     * @param bFlags            true为头部加载，false为尾部加载
-     */
-    void sendLoadSignal(bool bFlags);
 
 public slots:
     void setCurrentDir(QString text);
@@ -208,7 +248,13 @@ public slots:
      * @param infos     当前需要显示的所有缩略图信息集合
      */
     void setImage(const QString &path, DBImgInfoList infos);
+
     void updateCollectButton();
+
+    /**
+     * @brief slotTheme     系统主题更改
+     * @param theme         更改的主题样式
+     */
     void slotTheme(bool theme);
     void setAdaptButtonChecked(bool flag);
     void disCheckAdaptImageBtn();
@@ -233,6 +279,14 @@ public slots:
     void loadFront(DBImgInfoList infos);
 
     /**
+     * @brief ReInit
+     * clear thumbnails and Load front thumbnails
+     * @param infos
+     * Loaded files list
+     */
+    void ReInitFirstthumbnails(DBImgInfoList infos);
+
+    /**
      * @brief receveAllIamgeInfos   接收加载完毕之后的所有图片信息
      * @param AllImgInfos           所有图片信息集合
      */
@@ -245,11 +299,20 @@ public slots:
      */
     void onHidePreNextBtn(bool bShowAll, bool bFlag);
 
-    // 重命名改变itemImage路径
-    void OnChangeItemPath(int, QString);
+    /**
+     * @brief OnChangeItemPath  重命名改变itemImage路径
+     * @param currindex         当前图片的索引
+     * @param path              图片的新路径
+     */
+    void OnChangeItemPath(int currindex, QString path);
 
-    // 重命名改变m_imgInfos路径
-    void OnSetimglist(int, QString, QString);
+    /**
+     * @brief OnSetimglist  重命名改变m_imgInfos路径
+     * @param currindex     当前图片索引号
+     * @param filename      更改后的图片名称
+     * @param filepath      更好后的图片路径
+     */
+    void OnSetimglist(int currindex, QString filename, QString filepath);
 
     /**
      * @brief onResize  重置缩略图控件大小

@@ -135,7 +135,7 @@ SlideEffect::SlideEffect()
     color = Qt::transparent;
 
     easing_ = QEasingCurve(QEasingCurve::OutBack);
-    QThreadPool::globalInstance()->setMaxThreadCount(50);
+    QThreadPool::globalInstance()->setMaxThreadCount(8);
 //    m.setMaxThreadCount(20);
 //    connect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
 }
@@ -187,7 +187,7 @@ SlideEffect::~SlideEffect()
         delete frame_image;
         frame_image = 0;
     }
-//    qDebug() << "-------------SlideEffect end release";
+    qDebug() << "-------------SlideEffect end release";
 }
 
 void SlideEffect::setEasingCurve(const QEasingCurve &easing)

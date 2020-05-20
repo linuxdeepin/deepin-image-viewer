@@ -53,7 +53,7 @@ private slots:
 signals:
     void sigExitFullScreen();
     void mainwgtloadslideshowpath(bool bflag);
-    void sigmaindgtslideshowpath(bool bflag,DBImgInfoList);
+    void sigmaindgtslideshowpath(bool bflag, DBImgInfoList);
 private:
     void initBottomToolbar();
     void initExtensionPanel();
@@ -78,8 +78,8 @@ private:
     ExtensionPanel  *m_extensionPanel {nullptr};
     BottomToolbar   *m_bottomToolbar {nullptr};
     TopToolbar      *m_topToolbar {nullptr};
-    QLbtoDLabel          *m_topSeparatorLine {nullptr};
-    QLbtoDLabel          *m_btmSeparatorLine {nullptr};
+    QLbtoDLabel     *m_topSeparatorLine {nullptr};
+    QLbtoDLabel     *m_btmSeparatorLine {nullptr};
     ViewPanel       *m_viewPanel {nullptr};
 
     DShadowLine     *m_shadowLine {nullptr};

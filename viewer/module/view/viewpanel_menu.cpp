@@ -345,10 +345,10 @@ void ViewPanel::updateMenuContent()
 #endif
     m_menu->addSeparator();
     /**************************************************************************/
-    if (!m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+    if (!m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden() && GetPixmapStatus(m_currentImagePath)) {
         appendAction(IdShowNavigationWindow, tr("Show navigation window"),
                      ss("Show navigation window", ""));
-    } else if (!m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+    } else if (!m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()&& GetPixmapStatus(m_currentImagePath)) {
         appendAction(IdHideNavigationWindow, tr("Hide navigation window"),
                      ss("Hide navigation window", ""));
     }
