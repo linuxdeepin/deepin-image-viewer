@@ -707,6 +707,8 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         qDebug() << "cache start!";
         if (m_hsPixap.contains(strPath)) {
             showPixmap(strPath);
+            //fix 26153
+            emit dApp->signalM->hideNavigation();
         } else {
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, strPath);
             if (!m_watcher.isRunning()) {
@@ -775,7 +777,6 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     }
 
     }
-
     return bRet;
 }
 
