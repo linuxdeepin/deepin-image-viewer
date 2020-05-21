@@ -1345,7 +1345,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
     //emit m_imgListView->mouseLeftReleased();
 }
 
-void TTBContent::setImage(const QString &path, DBImgInfoList infos)
+void TTBContent::setImage(const QString path, DBImgInfoList infos)
 {
     if (!infos.isEmpty() && !QFileInfo(path).exists()) {
         if (infos.size() == 1)

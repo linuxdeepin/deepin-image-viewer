@@ -611,7 +611,7 @@ void ViewPanel::slotExitFullScreen()
         if (m_vinfo.inDatabase) {
             backToLastPanel();
         } else {
-            dApp->quit();
+            //dApp->quit();
         }
     }
     emit dApp->signalM->hideExtensionPanel(true);
@@ -1009,11 +1009,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
     }
 
     //heyi test 连接更改隐藏上一张按钮信号槽
-    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::QueuedConnection);
-    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::QueuedConnection);
-    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::QueuedConnection);
-    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::QueuedConnection);
-    connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos, Qt::QueuedConnection);
+    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags);
+    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn);
+    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos);
+    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct);
+    connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos);
     connect(dApp->signalM, &SignalManager::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::UniqueConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
     if (!m_infos.isEmpty() && m_current < m_infos.size()) {
@@ -1484,7 +1484,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         if (pathlist.count() > 0) {
-            emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
+            //emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
         }
 
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
@@ -1511,7 +1511,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 //emit disableDel(false);
                 //m_bAllowDel = false;
                 connect(loadTh, &QThread::finished, loadTh, &QObject::deleteLater);
-                loadTh->start();
+                //loadTh->start();
             }
         } else {
             m_bFinishFirstLoad = true;
@@ -1898,5 +1898,5 @@ void ViewPanel::openImage(const QString path, bool inDB)
         //        emit updateCollectButton();
     }
 
-    QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
+    //QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
 }

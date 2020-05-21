@@ -247,7 +247,7 @@ public slots:
      * @param path      当前选中显示图片路径
      * @param infos     当前需要显示的所有缩略图信息集合
      */
-    void setImage(const QString &path, DBImgInfoList infos);
+    void setImage(const QString path, DBImgInfoList infos);
 
     void updateCollectButton();
 
