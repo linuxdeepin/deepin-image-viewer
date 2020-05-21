@@ -1484,7 +1484,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         if (pathlist.count() > 0) {
-            //emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
+            emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
         }
 
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
@@ -1511,7 +1511,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 //emit disableDel(false);
                 //m_bAllowDel = false;
                 connect(loadTh, &QThread::finished, loadTh, &QObject::deleteLater);
-                //loadTh->start();
+                loadTh->start();
             }
         } else {
             m_bFinishFirstLoad = true;
