@@ -870,8 +870,8 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
 
     for (DBImgInfo info : inputInfos) {
         if (labelList.size() != inputInfos.size()) {
-            char *imageType = getImageType(info.filePath);
-            ImageItem *imageItem = new ImageItem(i, info.filePath, imageType);
+            //char *imageType = getImageType(info.filePath);
+            ImageItem *imageItem = new ImageItem(i, info.filePath, nullptr);
             imageItem->setFixedSize(QSize(num, 40));
             imageItem->resize(QSize(num, 40));
             imageItem->installEventFilter(m_imgListView);
@@ -1360,10 +1360,13 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
     qDebug() << "时间1";
     //判断当前缩略图个数是否等于传入的缩略图数量，不想等全部删除重新生成新的
     judgeReloadItem(infos, m_imgInfos);
+    qDebug() << "judgeReloadItem完成";
 
     if (path.isEmpty() || !QFileInfo(path).exists()) {
         reloadItems(m_imgInfos, path);
+        qDebug() << "reloadItems完成";
         showAnimation();
+        qDebug() << "reloadItems完成";
 
         if (m_nowIndex == 0) {
             m_preButton->setDisabled(true);
@@ -1402,8 +1405,11 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
                               TOOLBAR_HEIGHT);
 
             m_imgList->setContentsMargins(0, 0, 0, 0);
+            qDebug() << "reloadItems开始";
             reloadItems(m_imgInfos, path);
+            qDebug() << "reloadItems完成";
             showAnimation();
+            qDebug() << "showAnimation完成";
 
 #if TTB
             m_preButton->show();
@@ -1450,7 +1456,9 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
             m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
 
             m_imgList->setContentsMargins(0, 0, 0, 0);
+            qDebug() << "reloadItems开始";
             reloadItems(m_imgInfos, path);
+            qDebug() << "reloadItems完成";
 
             m_imgListView->show();
             m_imgList->show();
@@ -1536,7 +1544,9 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
             }
         }
 #else
+        qDebug() << "setBtnAttribute开始";
         setBtnAttribute(path);
+        qDebug() << "setBtnAttribute完成";
 
 #endif
     }
@@ -1557,6 +1567,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
     m_imagePath = path;
     QString fileName = "";
     if (m_imagePath != "") {
+        qDebug() << "1570";
         fileName = QFileInfo(m_imagePath).fileName();
     }
     emit dApp->signalM->updateFileName(fileName);

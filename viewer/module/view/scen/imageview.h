@@ -81,6 +81,8 @@ public:
      */
     void setImage(const QString path);
 
+    QVariantList cachePixmap(const QString path);
+
     void setRenderer(RendererType type = Native);
     void setScaleValue(qreal v);
 
@@ -153,6 +155,17 @@ signals:
     void disCheckAdaptImageBtn();
     void checkAdaptImageBtn();
 
+    /**
+     * @brief cacheEnd  当前显示图片缓存
+     */
+    void cacheEnd();
+
+    /**
+     * @brief cacheThreadEnd
+     * @param vl
+     */
+    void cacheThreadEndSig(QVariantList vl);
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 
@@ -216,7 +229,7 @@ private slots:
     /**
      * @brief onCacheFinish 普通图片缓存结束
      */
-    void onCacheFinish();
+    void onCacheFinish(QVariantList vl);
 
     /**
      * @brief onThemeChanged 主题切换

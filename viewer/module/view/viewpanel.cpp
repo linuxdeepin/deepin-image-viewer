@@ -1016,11 +1016,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos);
     connect(dApp->signalM, &SignalManager::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::UniqueConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
-    if (!m_infos.isEmpty() && m_current < m_infos.size()) {
-        ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
-    } else {
-        ttbc->setImage("", m_infos);
-    }
+//    if (!m_infos.isEmpty() && m_current < m_infos.size()) {
+//        ttbc->setImage(m_infos.at(m_current).filePath, m_infos);
+//    } else {
+//        ttbc->setImage("", m_infos);
+//    }
 
     connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel);
     connect(this, &ViewPanel::viewImageFrom, ttbc,
@@ -1471,28 +1471,19 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //eatImageDirIterator();
-        //缓存当先现实图片的上一张和下一张
-        if (!vinfo.path.isEmpty()) {
-            qDebug() << "开始判定缓存时间：";
-            QStringList pathlist = getPathsFromCurrent(m_current);
-            m_viewB->recvPathsToCache(pathlist);
-        }
-        QStringList pathlist;
+//        QStringList pathlist;
 
-        for (int loop = 0; loop < m_infos.size(); loop++) {
-            pathlist.append(m_infos.at(loop).filePath);
-        }
+//        for (int loop = 0; loop < m_infos.size(); loop++) {
+//            pathlist.append(m_infos.at(loop).filePath);
+//        }
 
-        if (pathlist.count() > 0) {
-            emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
-        }
+//        if (pathlist.count() > 0) {
+//            //emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
+//        }
 
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit changeHideFlag(false);
         m_bAllowDel = false;
-        if (pathlist.size() > 0) {
-            //mit imageChanged(vinfo.path, m_infos);
-        }
 
         if (m_current == 0) {
             emit hidePreNextBtn(false, false);
@@ -1766,16 +1757,35 @@ void ViewPanel::rotateImage(bool clockWise)
 
 void ViewPanel::initViewContent()
 {
+    if (m_viewB) {
+        m_viewB->deleteLater();
+    }
+
     m_viewB = new ImageView;
 
     connect(m_viewB, &ImageView::doubleClicked, [this]() {
         toggleFullScreen();
     });
+
+    //heyi add
+    connect(m_viewB, &ImageView::cacheEnd, this, [ = ]() {
+        QStringList pathlist;
+
+        for (int loop = 0; loop < m_infos.size(); loop++) {
+            pathlist.append(m_infos.at(loop).filePath);
+        }
+
+        if (pathlist.count() > 0) {
+            emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
+        }
+    });
+
     connect(m_viewB, &ImageView::clicked, this, [ = ] { dApp->signalM->hideExtensionPanel(); });
     connect(m_viewB, &ImageView::imageChanged, this, [ = ](QString path) {
         emit imageChanged(path, m_infos);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
+        qDebug() << "GG斯密达";
         m_viewB->autoFit();
     });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
@@ -1860,6 +1870,7 @@ void ViewPanel::openImage(const QString path, bool inDB)
             if (QFileInfo(m_currentImagePath).exists()) {
                 m_viewB->setImage(m_currentImagePath);
                 m_stack->setCurrentIndex(0);
+                qDebug() << "GG斯密达";
                 QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
             }
         } else {

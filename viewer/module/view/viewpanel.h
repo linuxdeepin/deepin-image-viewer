@@ -399,7 +399,7 @@ private:
 
     bool m_printDialogVisible = false;
     int m_topLeftContentWidth = 0;
-    ImageView *m_viewB;
+    ImageView *m_viewB {nullptr};
     ImageInfoWidget *m_info {nullptr};
     ThumbnailWidget *m_emptyWidget = nullptr;
     DMenu *m_menu;

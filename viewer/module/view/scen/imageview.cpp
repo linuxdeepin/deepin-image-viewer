@@ -63,34 +63,43 @@ const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.02;
 const QSize SPINNER_SIZE = QSize(40, 40);
 
-QVariantList cachePixmap(const QString &path)
-{
-    QImage tImg;
+//QVariantList cachePixmap(const QString path)
+//{
+//    QImage tImg;
 
-    QString format = DetectImageFormat(path);
-    if (format.isEmpty()) {
-        QImageReader reader(path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        }
-    } else {
-        QImageReader readerF(path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            qWarning() << "can't read image:" << readerF.errorString() << format;
+//    QString format = DetectImageFormat(path);
+//    if (format.isEmpty()) {
+//        qDebug() << "开始读取缓存";
+//        QImageReader reader(path);
+//        qDebug() << "render结束";
+//        reader.setAutoTransform(true);
+//        if (reader.canRead()) {
+//            qDebug() << "开始render读取到img";
+//            tImg = reader.read();
+//            qDebug() << "render读取到img完成";
+//        }
+//    } else {
+//        qDebug() << "开始读取缓存";
+//        QImageReader readerF(path, format.toLatin1());
+//        qDebug() << "render结束";
+//        readerF.setAutoTransform(true);
+//        if (readerF.canRead()) {
+//            qDebug() << "开始render读取到img";
+//            tImg = readerF.read();
+//            qDebug() << "render读取到img完成";
+//        } else {
+//            qWarning() << "can't read image:" << readerF.errorString() << format;
 
-            tImg = QImage(path);
-        }
-    }
+//            tImg = QImage(path);
+//        }
+//    }
 
-    QPixmap p = QPixmap::fromImage(tImg);
-    QVariantList vl;
-    vl << QVariant(path) << QVariant(p);
-    return vl;
-}
+//    QPixmap p = QPixmap::fromImage(tImg);
+//    QVariantList vl;
+//    vl << QVariant(path) << QVariant(p);
+//    qDebug() << "render缓存结束";
+//    return vl;
+//}
 
 }  // namespace
 
@@ -195,6 +204,45 @@ QMimeType determineMimeType(const QString &filename)
     return mimeFromContent;
 }
 
+QVariantList ImageView::cachePixmap(const QString path)
+{
+    QImage tImg;
+
+    QString format = DetectImageFormat(path);
+    if (format.isEmpty()) {
+        qDebug() << "render开始";
+        QImageReader reader(path);
+        qDebug() << "render结束";
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            qDebug() << "开始render读取到img";
+            tImg = reader.read();
+            qDebug() << "render读取到img完成";
+        }
+    } else {
+        qDebug() << "开始读取缓存";
+        QImageReader readerF(path, format.toLatin1());
+        qDebug() << "render结束";
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            qDebug() << "开始render读取到img";
+            tImg = readerF.read();
+            qDebug() << "render读取到img完成";
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString() << format;
+
+            tImg = QImage(path);
+        }
+    }
+
+    QPixmap p = QPixmap::fromImage(tImg);
+    QVariantList vl;
+    vl << QVariant(path) << QVariant(p);
+    qDebug() << "render缓存结束";
+    emit cacheThreadEndSig(vl);
+    return vl;
+}
+
 ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
@@ -224,6 +272,7 @@ ImageView::ImageView(QWidget *parent)
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
+    connect(this, &ImageView::cacheThreadEndSig, this, &ImageView::onCacheFinish);
 
     m_toast = new Toast(this);
     m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
@@ -713,7 +762,14 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
             //fix 26153
             emit dApp->signalM->hideNavigation();
         } else {
-            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, strPath);
+            //QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, strPath);
+            QThread *th = QThread::create([ = ]() {
+                cachePixmap(m_path);
+            });
+
+            connect(th, &QThread::finished, th, &QObject::deleteLater);
+            th->start();
+
             if (!m_watcher.isRunning()) {
                 //                m_watcher.setFuture(f);
 
@@ -741,8 +797,8 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
                     s->addWidget(w);
                 }
 
-                f.waitForFinished();
-                m_watcher.setFuture(f);
+//                f.waitForFinished();
+//                m_watcher.setFuture(f);
             }
 
             emit dApp->signalM->hideNavigation();
@@ -1014,10 +1070,10 @@ bool ImageView::event(QEvent *event)
     return QGraphicsView::event(event);
 }
 
-void ImageView::onCacheFinish()
+void ImageView::onCacheFinish(QVariantList vl)
 {
     qDebug() << "cache end!";
-    QVariantList vl = m_watcher.result();
+    //QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
@@ -1049,7 +1105,12 @@ void ImageView::onCacheFinish()
             qDebug() << "GG 斯密达";
             autoFit();
 
-            //emit imageChanged(path);
+            emit imageChanged(path);
+            static bool firstLoad = false;
+            if (!firstLoad) {
+                emit cacheEnd();
+                firstLoad = true;
+            }
 
             //将缓存的图片加入hash
             if (!m_hsPixap.contains(path)) {
