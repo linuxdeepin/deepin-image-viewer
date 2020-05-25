@@ -60,7 +60,7 @@ const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const qreal MAX_SCALE_FACTOR = 20.0;
-const qreal MIN_SCALE_FACTOR = 0.02;
+const qreal MIN_SCALE_FACTOR = 0.029;
 const QSize SPINNER_SIZE = QSize(40, 40);
 
 //QVariantList cachePixmap(const QString path)
@@ -382,7 +382,7 @@ void ImageView::setScaleValue(qreal v)
     // Rollback
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / irs;
-        if (minv < 1.09) return;
+       // if (minv < 1.09) return;
         scale(minv, minv);
     } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
         const qreal maxv = MAX_SCALE_FACTOR / irs;
