@@ -264,8 +264,7 @@ void SlideShowPanel::initMenu()
 void SlideShowPanel::updateMenu()
 {
     m_menu->clear();
-    appendAction(IdPlayOrPause, tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()),
-                 QKeySequence(Qt::Key_Space).toString());
+    appendAction(IdPlayOrPause, tr(slideshowbottombar->m_playpauseButton->toolTip().toStdString().c_str()),"");
     QString stopSc = dApp->setter->value(SHORTCUTVIEW_GROUP,
                                          "Slide show").toString();
     stopSc.replace(" ", "");
