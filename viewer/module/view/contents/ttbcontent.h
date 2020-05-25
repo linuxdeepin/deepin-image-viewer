@@ -66,7 +66,7 @@ class MyImageListWidget : public DWidget
 {
     Q_OBJECT
 public:
-    MyImageListWidget(QWidget *parent = 0);
+    MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
     void setObj(QObject *obj);
 protected:
@@ -96,7 +96,7 @@ public:
 
     void setPic(QImage image)
     {
-//      _image->setPixmap(QPixmap::fromImage(image.scaled(60,50)));
+        _image->setPixmap(QPixmap::fromImage(image.scaled(60, 50)));
     }
 
     /**
@@ -151,11 +151,13 @@ signals:
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override
     {
+        ev->x();
         bmouserelease = true;
     }
 
     void mousePressEvent(QMouseEvent *ev) override
     {
+        ev->x();
         bmouserelease = false;
         QEventLoop loop;
         QTimer::singleShot(200, &loop, SLOT(quit()));
@@ -174,7 +176,7 @@ private:
     QPixmap _pixmap;
     DSpinner *m_spinner;
     QString m_pixmapstring;
-    bool bFirstUpdate = true;;
+    bool bFirstUpdate = true;
     bool bmouserelease = false;
 };
 

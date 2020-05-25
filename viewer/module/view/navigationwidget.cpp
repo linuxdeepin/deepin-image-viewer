@@ -271,7 +271,7 @@ void NavigationWidget::paintEvent(QPaintEvent *)
         return;
     }
 
-    const qreal ratio = devicePixelRatioF();
+//    const qreal ratio = devicePixelRatioF();
 
     QPainter p(&img);
     p.fillRect(m_r, m_mrBgColor);

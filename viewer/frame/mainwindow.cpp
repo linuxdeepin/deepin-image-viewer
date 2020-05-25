@@ -146,16 +146,14 @@ void MainWindow::initshortcut()
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);
     connect(esc, &QShortcut::activated, this, [ = ] {
-        if(IMAGEVIEW == m_pCenterWidget->currentIndex())
+        if (IMAGEVIEW == m_pCenterWidget->currentIndex())
             emit sigExitFull();
         else
         {
-            if (window()->isFullScreen())
-            {
+            if (window()->isFullScreen()) {
                 emit dApp->signalM->sigESCKeyActivated();
                 emit dApp->signalM->sigESCKeyStopSlide();
-            } else if (0 == m_pCenterWidget->currentIndex())
-            {
+            } else if (0 == m_pCenterWidget->currentIndex()) {
                 this->close();
             }
             emit dApp->signalM->hideExtensionPanel();
@@ -167,8 +165,8 @@ void MainWindow::initshortcut()
 void MainWindow::initConnection()
 {
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
-   // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, &QShortcut::activated, this, [=]{
+    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
         qDebug() << "receive Ctrl+Shift+/";
         QRect rect = window()->geometry();
         QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
@@ -180,11 +178,12 @@ void MainWindow::initConnection()
         qDebug() << shortcutString;
         QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
     });
-    connect(m_slidePanel,SIGNAL(sigloadSlideshowpath(bool)),m_mainWidget,SIGNAL(mainwgtloadslideshowpath(bool)));
-    connect(m_mainWidget,SIGNAL(sigmaindgtslideshowpath(bool,DBImgInfoList)),m_slidePanel,SLOT(Receiveslideshowpathlst(bool,DBImgInfoList)));
-    connect(this,SIGNAL(sigExitFull()), m_mainWidget,SIGNAL(sigExitFullScreen()));
+    connect(m_slidePanel, SIGNAL(sigloadSlideshowpath(bool)), m_mainWidget, SIGNAL(mainwgtloadslideshowpath(bool)));
+    connect(m_mainWidget, SIGNAL(sigmaindgtslideshowpath(bool, DBImgInfoList)), m_slidePanel, SLOT(Receiveslideshowpathlst(bool, DBImgInfoList)));
+    connect(this, SIGNAL(sigExitFull()), m_mainWidget, SIGNAL(sigExitFullScreen()));
     //幻灯片显示
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
+        Q_UNUSED(index);
 //        if (VIEW_IMAGE != index)
 //        {
 //            m_backIndex = index;

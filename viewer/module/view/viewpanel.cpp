@@ -164,7 +164,7 @@ void ViewPanel::initConnect()
 //                                       | QMessageBox::Cancel,
 //                                       QMessageBox::Save);
         onViewImage(vinfo);
-        if (NULL == vinfo.lastPanel) {
+        if (nullptr == vinfo.lastPanel) {
             return;
         } else if (vinfo.lastPanel->moduleName() == "AlbumPanel" ||
                    vinfo.lastPanel->moduleName() == "ViewPanel") {
@@ -194,6 +194,8 @@ void ViewPanel::initConnect()
         if (m_infos.length() > 0) {
             removeCurrentImage();
         }
+
+        infos.size();
 
         updateMenuContent();
     });
@@ -485,6 +487,7 @@ void ViewPanel::updateLocalImages()
 
 void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
 {
+    Q_UNUSED(nCurrent);
     if (infos.size() >= 1) {
         m_bFinishFirstLoad = true;
         m_bIsFirstLoad = false;
@@ -846,7 +849,12 @@ void ViewPanel::mousePressEvent(QMouseEvent *e)
     ModulePanel::mousePressEvent(e);
 }
 
-void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
+void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
+    if (theme == ViewerThemeManager::Dark) {
+
+    }
+}
 
 void ViewPanel::showNormal()
 {
@@ -1587,6 +1595,8 @@ bool ViewPanel::showImage(int index, int addindex)
     //eatImageDirIterator();
 #endif
 
+    Q_UNUSED(addindex);
+
     if (m_infos.isEmpty()) {
         return false;
     }
@@ -1610,9 +1620,9 @@ bool ViewPanel::showImage(int index, int addindex)
     pathlist.append(m_infos.at(m_current).filePath);
 
     if (pathlist.size() > 0) {
-        ttbc->setIsConnectDel(false);
-        m_bAllowDel = false;
-        ttbc->disableDelAct(false);
+//        ttbc->setIsConnectDel(false);
+//        m_bAllowDel = false;
+//        ttbc->disableDelAct(false);
         emit sendDynamicLoadPaths(pathlist);
     }
 
@@ -1847,12 +1857,12 @@ void ViewPanel::openImage(const QString path, bool inDB)
     }
 
     m_viewB->setImage(path);
-    //缓存当先现实图片的上一张和下一张
-    if (!path.isEmpty()) {
-        qDebug() << "开始判定缓存时间：";
-        QStringList pathlist = getPathsFromCurrent(m_current);
-        m_viewB->recvPathsToCache(pathlist);
-    }
+//    //缓存当先现实图片的上一张和下一张
+//    if (!path.isEmpty()) {
+//        qDebug() << "开始判定缓存时间：";
+//        QStringList pathlist = getPathsFromCurrent(m_current);
+//        m_viewB->recvPathsToCache(pathlist);
+//    }
 
     updateMenuContent();
 

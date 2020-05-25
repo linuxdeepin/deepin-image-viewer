@@ -15,12 +15,12 @@ typedef DLabel QLbtoDLabel;
 
 #define FILENAMEMAXLENGTH 255
 
-RenameDialog::RenameDialog(QString filename,QWidget *parent)
-    :DDialog (parent)
-    ,m_filenamepath(filename)
+RenameDialog::RenameDialog(QString filename, QWidget *parent)
+    : DDialog (parent)
+    , m_filenamepath(filename)
 {
     this->setIcon(QIcon::fromTheme("deepin-image-viewer"));
-    setFixedSize(380,180);
+    setFixedSize(380, 180);
     DWidget *widet = new DWidget(this);
     addContent(widet);
     m_vlayout = new QVBoxLayout(widet);
@@ -59,50 +59,41 @@ RenameDialog::RenameDialog(QString filename,QWidget *parent)
     QRegExp rx("[^\\\\//:*?\"<>|]*");
     QRegExpValidator *pReg = new QRegExpValidator(rx, this);
     m_lineedt->lineEdit()->setValidator(pReg);
-    connect(okbtn,&DSuggestButton::clicked,this,[=]{
+    connect(okbtn, &DSuggestButton::clicked, this, [ = ] {
         m_filename = m_lineedt->text() + m_labformat->text();
         m_filenamepath = m_DirPath + "/" + m_filename;
         accept();
     });
-    connect(cancelbtn,&DPushButton::clicked,this,[=]{
+    connect(cancelbtn, &DPushButton::clicked, this, [ = ] {
         reject();
     });
-    connect(m_lineedt,&DLineEdit::textChanged,this,[=](const QString &arg){
+    connect(m_lineedt, &DLineEdit::textChanged, this, [ = ](const QString & arg) {
         int len = arg.toLocal8Bit().length();
         //修复字符串长度超长会将
-        if(len> 255 - Dirlen) return;
-        QString fileabname = m_DirPath+ "/" + arg+m_labformat->text();
+        if (len > 255 - Dirlen) return;
+        QString fileabname = m_DirPath + "/" + arg + m_labformat->text();
         QFile file(fileabname);
-        if(file.exists() || arg.isEmpty())
-        {
+        if (file.exists() || arg.isEmpty()) {
             okbtn->setEnabled(false);
-        }else {
+        } else {
             okbtn->setEnabled(true);
         }
     });
-    connect(m_lineedt,&DLineEdit::textEdited,this,[=](const QString &arg){
+    connect(m_lineedt, &DLineEdit::textEdited, this, [ = ](const QString & arg) {
 
         qDebug() << "textEdited" << arg;
-        unsigned num = 0;
-        int i = 0;
         int len = arg.toLocal8Bit().length();
         QString Interceptstr;
-        if( len> 255 - Dirlen)
-        {
-            unsigned num = 0;
+        if ( len > 255 - Dirlen) {
+            int num = 0;
             int i = 0;
-            for(;i< arg.size();i++)
-            {
-                if(arg.at(i) >= 0x4e00 && arg.at(i) <= 0x9fa5)
-                {
-                    if(num >= 255 - Dirlen-1) break;
+            for (; i < arg.size(); i++) {
+                if (arg.at(i) >= 0x4e00 && arg.at(i) <= 0x9fa5) {
+                    if (num >= 255 - Dirlen - 1) break;
                     num += 3;
-                }
-                else if(num < 255 - Dirlen)
-                {
+                } else if (num < 255 - Dirlen) {
                     num += 1;
-                }
-                else{
+                } else {
                     break;
                 }
             }
@@ -120,9 +111,9 @@ void RenameDialog::onThemeChanged(ViewerThemeManager::AppTheme theme)
 
 
     if (theme == ViewerThemeManager::Dark) {
-        pe.setColor(QPalette::WindowText,Qt::darkGray);
+        pe.setColor(QPalette::WindowText, Qt::darkGray);
     } else {
-        pe.setColor(QPalette::WindowText,Qt::lightGray);
+        pe.setColor(QPalette::WindowText, Qt::lightGray);
     }
     m_labformat->setPalette(pe);
 }

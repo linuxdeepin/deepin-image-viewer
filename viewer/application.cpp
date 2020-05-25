@@ -27,6 +27,7 @@
 #include <QTranslator>
 #include <DApplicationSettings>
 #include <QIcon>
+#include <QPaintDevice>
 #include <QImageReader>
 #include <sys/time.h>
 #include <QFile>
@@ -296,6 +297,7 @@ void ImageLoader::loadInterface(QString path)
     }
 
     QPixmap pixmap = QPixmap::fromImage(tImg);
+    //int haha = pixmap.devicePixelRatio();
 
     m_writelock.lockForWrite();
     m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));

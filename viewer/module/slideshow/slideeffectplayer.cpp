@@ -90,11 +90,11 @@ void SlideEffectPlayer::timerEvent(QTimerEvent *e)
 
     if (bneedupdatepausebutton) {
         //emit dApp->signalM->updateButton();
-       // emit dApp->signalM->updatePauseButton();
+        // emit dApp->signalM->updatePauseButton();
         //bneedupdatepausebutton = false;
         //return;
         //m_current = 0;
-        bneedupdatepausebutton =false;
+        bneedupdatepausebutton = false;
     }
     if (! startNext()) {
         stop();
@@ -215,10 +215,10 @@ bool SlideEffectPlayer::startNext()
 
     if (m_effect)
         m_effect->deleteLater();
-    QString oldPath,newPath;
+    QString oldPath, newPath;
     oldPath = m_paths[m_current];
-    if(m_current+1<m_paths.size())
-        newPath = m_paths[m_current+1];
+    if (m_current + 1 < m_paths.size())
+        newPath = m_paths[m_current + 1];
     if (m_paths.length() > 1) {
         m_current++;
         if (m_current == m_paths.length()) {
@@ -235,41 +235,40 @@ bool SlideEffectPlayer::startNext()
 //        loop.exec();
 //    }
 
-    if(bLoopPlayback && m_current == 1)
-    {
+    if (bLoopPlayback && m_current == 1) {
         oldPath = LoopPlayoldpath;
         bLoopPlayback = false;
         m_current--;
         LoopPlayoldpath = "";
         newPath = m_paths[m_current];
     }
-   // if(oldImg.isNull())
-        oldImg = utils::image::getRotatedImage(oldPath);
-    if(newPath.isEmpty())
+    // if(oldImg.isNull())
+    oldImg = utils::image::getRotatedImage(oldPath);
+    if (newPath.isEmpty())
         newPath = m_paths[m_current];
     m_effect = SlideEffect::create("");
 //    m_effect = SlideEffect::create("enter_from_right");
 //    if ((m_screenrect.width()*m_ratio) < 3000 && (m_screenrect.height()*m_ratio) < 3000) {
 
     //maozhengyu 点击下一张图片加载延时
-    if(!bstartnext){
+    if (!bstartnext) {
         if (!b_4k) {
             m_effect->setDuration(ANIMATION_DURATION);
             m_effect->setAllMs(SLIDER_DURATION);
         } else {
-    //        qDebug() << "------------------4K";
+            //        qDebug() << "------------------4K";
             m_effect->setDuration(ANIMATION_DURATION_4K);
             m_effect->setAllMs(SLIDER_DURATION_4K);
         }
-    }else{
+    } else {
         if (!b_4k) {
             m_effect->setDuration(ANIMATION_DURATION);
-    //        m_effect->setAllMs(SLIDER_DURATION);
+            //        m_effect->setAllMs(SLIDER_DURATION);
             m_effect->setAllMs(2200);
         } else {
-    //        qDebug() << "------------------4K";
+            //        qDebug() << "------------------4K";
             m_effect->setDuration(ANIMATION_DURATION_4K);
-    //        m_effect->setAllMs(SLIDER_DURATION_4K);
+            //        m_effect->setAllMs(SLIDER_DURATION_4K);
             m_effect->setAllMs(3500);
         }
         bstartnext = false;
@@ -279,7 +278,7 @@ bool SlideEffectPlayer::startNext()
     using namespace utils::image;
 
     QImage newImg = m_cacheImages.value(newPath);
-    if(newImg.isNull())
+    if (newImg.isNull())
         newImg = utils::image::getRotatedImage(newPath);
 // The "newPath" would be the next "oldPath", so there is no need to remove it now
 //    m_cacheImages.remove(oldPath);
@@ -329,8 +328,8 @@ bool SlideEffectPlayer::startPrevious()
     }
 
     //if (m_cacheImages.value(m_paths[current]).isNull()) {
-        //return false;
-   // }
+    //return false;
+    // }
 
     if (m_effect)
         m_effect->deleteLater();
@@ -364,16 +363,14 @@ bool SlideEffectPlayer::startPrevious()
 
     using namespace utils::image;
     qDebug() << "m_cacheImages.value";
-   // QImage oldImg = m_cacheImages.value(oldPath);
+    // QImage oldImg = m_cacheImages.value(oldPath);
     QImage oldImg = utils::image::getRotatedImage(oldPath);
-   // QImage newImg = m_cacheImages.value(newPath);
+    // QImage newImg = m_cacheImages.value(newPath);
     QImage newImg = utils::image::getRotatedImage(newPath);
-    if(newImg.isNull())
-    {
-        if(m_current>0)
+    if (newImg.isNull()) {
+        if (m_current > 0)
             newPath = m_paths[m_current];
-        else
-        {
+        else {
             m_current = m_paths.length() - 1;
         }
         newImg = utils::image::getRotatedImage(newPath);
@@ -402,8 +399,7 @@ void SlideEffectPlayer::cacheNext()
     int current = m_current;
     current ++;
     //Load the following pictures and thumbnails when playing the last thumbnail
-    if(current == m_paths.length())
-    {
+    if (current == m_paths.length()) {
         emit sigLoadslideshowpathlst(false);
         //Load front pictures when playing the last file
         if (current == m_paths.length()) {
@@ -416,7 +412,7 @@ void SlideEffectPlayer::cacheNext()
             }
             LoopPlayoldpath = m_paths[m_current];
             bLoopPlayback = true;
-            connect(dApp->signalM,&SignalManager::sigNoneedLoadfrontslideshow,this,[=]{
+            connect(dApp->signalM, &SignalManager::sigNoneedLoadfrontslideshow, this, [ = ] {
                 bLoopPlayback = false;
             });
             emit dApp->signalM->sigLoadfrontSlideshow();
@@ -424,28 +420,22 @@ void SlideEffectPlayer::cacheNext()
     }
     QString path = m_paths[current];
     //Load current pixmap for fix bug 21480
-    if(current != 0 )
-    {
-        QString curpath = m_paths[current-1];
-        if (m_cacheImages.value(curpath).isNull())
-        {
+    if (current != 0 ) {
+        QString curpath = m_paths[current - 1];
+        if (m_cacheImages.value(curpath).isNull()) {
             //QImage img = utils::image::getRotatedImage(curpath);
             //m_cacheImages.insert(curpath, img);
         }
     }
-    if(current == 0)
-    {
+    if (current == 0) {
         QString curpath = m_paths[0];
-        if (m_cacheImages.value(curpath).isNull())
-        {
+        if (m_cacheImages.value(curpath).isNull()) {
             //QImage img = utils::image::getRotatedImage(curpath);
             //m_cacheImages.insert(curpath, img);
         }
-        if(m_paths.size() >1)
-        {
+        if (m_paths.size() > 1) {
             QString curpath = m_paths[1];
-            if (m_cacheImages.value(curpath).isNull())
-            {
+            if (m_cacheImages.value(curpath).isNull()) {
                 //QImage img = utils::image::getRotatedImage(curpath);
                 //m_cacheImages.insert(curpath, img);
             }
@@ -455,6 +445,8 @@ void SlideEffectPlayer::cacheNext()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
+            Q_UNUSED(path);
+            Q_UNUSED(img);
 //            if(m_paths.size()>3)
 //            {
 //                int rmindex = current-3;
@@ -494,6 +486,8 @@ void SlideEffectPlayer::cachePrevious()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
+            Q_UNUSED(path);
+            Q_UNUSED(img);
             qDebug() << "m_cacheImagespre.insert(path, img)";
             //m_cacheImages.insert(path, img);
         });

@@ -289,11 +289,11 @@ void MainWidget::initTopToolbar()
     //    m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
 
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent, this, [ = ](QWidget * c) {
-        //        if (c != nullptr)
+        if (c != nullptr) {};
         //            m_topToolbar->setLeftContent(c);
     });
     connect(dApp->signalM, &SignalManager::updateTopToolbarMiddleContent, this, [ = ](QWidget * c) {
-        //        if (c != nullptr)
+        if (c != nullptr) {};
         //            m_topToolbar->setMiddleContent();
     });
     connect(dApp->signalM, &SignalManager::showTopToolbar, this, [ = ] {
@@ -314,13 +314,13 @@ void MainWidget::initTopToolbar()
 
 void MainWidget::initConnection()
 {
-    connect(this,SIGNAL(mainwgtloadslideshowpath(bool)),m_viewPanel,SLOT(recvLoadSignal(bool)));
-    connect(m_viewPanel,SIGNAL(sigsendslideshowlist(bool,DBImgInfoList)),this,SIGNAL(sigmaindgtslideshowpath(bool,DBImgInfoList)));
-    connect(this,SIGNAL(sigExitFullScreen()),m_viewPanel,SLOT(slotExitFullScreen()));
+    connect(this, SIGNAL(mainwgtloadslideshowpath(bool)), m_viewPanel, SLOT(recvLoadSignal(bool)));
+    connect(m_viewPanel, SIGNAL(sigsendslideshowlist(bool, DBImgInfoList)), this, SIGNAL(sigmaindgtslideshowpath(bool, DBImgInfoList)));
+    connect(this, SIGNAL(sigExitFullScreen()), m_viewPanel, SLOT(slotExitFullScreen()));
     //屏蔽CTrl+Q快捷键
-   // QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
-   // QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
-   // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    // QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
+    // QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     //connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
     connect(dApp->signalM, &SignalManager::backToMainPanel, this, [ = ] {
         window()->show();
@@ -546,6 +546,7 @@ void MainWidget::initExtensionPanel()
 #else
     connect(dApp->signalM, &SignalManager::hideExtensionPanel, this,
     [ = ](bool immediately) {
+        if (immediately) {};
         m_extensionPanel->hide();
     });
 #endif

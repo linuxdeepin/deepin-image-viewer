@@ -173,6 +173,8 @@ void ExtensionPanel::paintEvent(QPaintEvent *pe)
 //}
 void ExtensionPanel::moveWithAnimation(int x, int y)
 {
+    Q_UNUSED(x);
+    Q_UNUSED(y);
     //    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
     //    animation->setDuration(ANIMATION_DURATION);
     //    animation->setEasingCurve(ANIMATION_EASING_CURVE);

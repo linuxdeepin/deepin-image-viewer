@@ -100,7 +100,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     connect(slideshowbottombar, &SlideShowBottomBar::showPrevious, this, [ = ] {
         m_player->startPrevious();
     });
-    connect(this,SIGNAL(sigpauseclicked()),slideshowbottombar->m_playpauseButton,SIGNAL(clicked()));
+    connect(this, SIGNAL(sigpauseclicked()), slideshowbottombar->m_playpauseButton, SIGNAL(clicked()));
 //    connect(slideshowbottombar, &SlideShowBottomBar::showPause, this, [=]{
 
 //    });
@@ -254,7 +254,7 @@ void SlideShowPanel::initMenu()
     m_menu = new QMenu;
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::onMenuItemClicked);
-    connect(this, &SlideShowPanel::customContextMenuRequested, this, [=] {
+    connect(this, &SlideShowPanel::customContextMenuRequested, this, [ = ] {
         updateMenu();
         m_menu->popup(QCursor::pos());
     });
@@ -269,7 +269,7 @@ void SlideShowPanel::updateMenu()
                                          "Slide show").toString();
     stopSc.replace(" ", "");
     appendAction(IdStopslideshow, tr(slideshowbottombar->m_cancelButton->toolTip().toStdString().c_str()),
-                  stopSc);
+                 stopSc);
 
 }
 
@@ -281,7 +281,7 @@ void SlideShowPanel::onMenuItemClicked(QAction *action)
         backToLastPanel();
         break;
     case IdPlayOrPause:
-       // m_player->pause();
+        // m_player->pause();
         emit sigpauseclicked();
         break;
     default:
@@ -340,30 +340,32 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
 
 void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
 {
+    Q_UNUSED(e);
     backToLastPanel();
 }
 
 void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
 {
+    Q_UNUSED(e);
     backToLastPanel();
 }
 
 void SlideShowPanel::Receiveslideshowpathlst(bool flag, DBImgInfoList slideshowpaths)
 {
-    slotLoadSlideShow(flag,slideshowpaths);
+    slotLoadSlideShow(flag, slideshowpaths);
 }
 
 //动态加载后的数据结构给予幻灯片新的播放路径list，重新设置index
 void SlideShowPanel::slotLoadSlideShow(bool bflag, DBImgInfoList infoslideshow)
 {
     Q_UNUSED(bflag);
-    if(m_player->GetPathList().size() == 0) return;
+    if (m_player->GetPathList().size() == 0) return;
     QStringList list;
     for (DBImgInfo info : infoslideshow) {
 
         list << info.filePath;
     }
-    if(list.size() == m_vinfo.paths.size()) return;
+    if (list.size() == m_vinfo.paths.size()) return;
     m_fileSystemMonitor->removePaths(m_vinfo.paths);
     m_vinfo.paths = list;
     m_fileSystemMonitor->addPaths(m_vinfo.paths);
@@ -374,6 +376,7 @@ void SlideShowPanel::slotLoadSlideShow(bool bflag, DBImgInfoList infoslideshow)
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
+    Q_UNUSED(e);
 //    if (!(e->buttons() | Qt::NoButton)) {
     this->setCursor(Qt::ArrowCursor);
 //        emit mouseHoverMoved();
@@ -481,7 +484,7 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
 void SlideShowPanel::showNormal()
 {
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
     pAn->setDuration(50);
     pAn->setEasingCurve(QEasingCurve::Linear);
     pAn->setEndValue(1);
@@ -502,7 +505,7 @@ void SlideShowPanel::showFullScreen()
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-    QPropertyAnimation *pAn = new QPropertyAnimation(window(),"windowOpacity");
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
     pAn->setDuration(50);
     pAn->setEasingCurve(QEasingCurve::Linear);
     pAn->setEndValue(1);
@@ -514,7 +517,7 @@ void SlideShowPanel::showFullScreen()
     QString strPath = m_player->currentImagePath();
     QFileInfo fileInfo(strPath);
 
-    if (m_bFirstImg && fileInfo.suffix() != "svg"){
+    if (m_bFirstImg && fileInfo.suffix() != "svg") {
         QDesktopWidget *dw = dApp->desktop();
         const int dww = dw->screenGeometry(window()).width();
         const int dwh = dw->screenGeometry(window()).height();
@@ -538,8 +541,7 @@ void SlideShowPanel::showFullScreen()
 
         setImage(ti);
         m_bFirstImg = false;
-    }
-    else {
+    } else {
         setImage(getFitImage(strPath));
     }
     emit dApp->signalM->hideBottomToolbar(true);
@@ -591,6 +593,7 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark)
 
 void SlideShowPanel::keyPressEvent(QKeyEvent *e)
 {
+    Q_UNUSED(e);
 //    if (Qt::Key_Space == e->key()) {
 //        m_player->pause();
 //    }

@@ -196,7 +196,7 @@ const QString TopToolbar::newAlbumShortcut() const
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
     //    BlurFrame::paintEvent(e);
-
+    e->rect();
     QPainter p(this);
     //    p.setRenderHint(QPainter::Antialiasing);
 

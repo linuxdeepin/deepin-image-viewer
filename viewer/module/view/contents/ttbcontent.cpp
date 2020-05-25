@@ -95,23 +95,23 @@ char *getImageType(QString filepath)
     case IMAGE_TYPE_JPG2:
     case IMAGE_TYPE_JPG3:
         //文件类型为 JEPG
-        ret = "JEPG";
+        ret = QString("JEPG").toLatin1().data();
         break;
     case IMAGE_TYPE_PNG:
         //文件类型为 png
-        ret = "PNG";
+        ret = QString("PNG").toLatin1().data();
         break;
     case IMAGE_TYPE_GIF:
         //文件类型为 GIF
-        ret = "GIF";
+        ret = QString("GIF").toLatin1().data();
         break;
     case IMAGE_TYPE_TIFF:
         //文件类型为 TIFF
-        ret = "TIFF";
+        ret = QString("TIFF").toLatin1().data();
         break;
     case IMAGE_TYPE_BMP:
         //文件类型为 BMP
-        ret = "BMP";
+        ret = QString("BMP").toLatin1().data();
         break;
     default:
         ret = nullptr;
@@ -167,6 +167,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 
 ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
 {
+    Q_UNUSED(imageType);
+    Q_UNUSED(parent);
     _index = index;
     _path = path;
     dApp->getRwLock().lockForRead();
@@ -189,6 +191,7 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
 
 void ImageItem::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
 
     QPainter painter(this);
@@ -606,6 +609,7 @@ void TTBContent::checkAdaptImageBtn()
 
 void TTBContent::setAdaptButtonChecked(bool flag)
 {
+    Q_UNUSED(flag);
     //    if (btAdapt->isChecked() != flag) {
     //        btAdapt->setChecked(flag);
     //    }
@@ -1292,7 +1296,10 @@ void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
     }
 }
 
-void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
+void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
+    Q_UNUSED(theme);
+}
 
 void TTBContent::setCurrentDir(QString text)
 {
@@ -1398,7 +1405,6 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
         m_adaptScreenBtn->setDisabled(false);
 #endif
 
-        int t = 0;
         if (m_imgInfos.size() > 3) {
             m_imgList->setFixedSize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
             m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST,

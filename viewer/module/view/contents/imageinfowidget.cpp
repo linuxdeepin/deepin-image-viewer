@@ -104,7 +104,7 @@ class ViewSeparator : public QLbtoDLabel
 {
     Q_OBJECT
 public:
-    explicit ViewSeparator(QWidget *parent = 0)
+    explicit ViewSeparator(QWidget *parent = nullptr)
         : QLbtoDLabel(parent)
     {
         setFixedHeight(1);
@@ -154,6 +154,8 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     : QFrame(parent)
     , m_maxTitleWidth(maxTitleWidth())
 {
+    Q_UNUSED(darkStyle);
+    Q_UNUSED(lightStyle);
     setFixedWidth(300);
     //    setMaximumHeight(540);
     setFrameStyle(QFrame::NoFrame);
