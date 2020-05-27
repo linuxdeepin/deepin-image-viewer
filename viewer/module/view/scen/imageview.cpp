@@ -748,7 +748,6 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 {
     bool bRet = true;
     QGraphicsScene *s = scene();
-    s->clear();
     switch (type) {
     case PICTURE_TYPE::NORMAL: {
         m_movieItem = nullptr;

@@ -140,7 +140,6 @@ SlideEffect::SlideEffect()
 //    connect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
 }
 
-
 void SlideEffect::slotrenderFrameFinish(int num, QImage image)
 {
     allImage[num] = image;
@@ -564,7 +563,12 @@ void SlideEffect::renderFrame(SlideEffectThreadData &data)
     p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**next_image*/mdata.next_image, mdata.next_rect);
     emit renderFrameFinish(mdata.num, image);
 
-//    qDebug() << "-------renderFrame end num:" << data.num;
+    //    qDebug() << "-------renderFrame end num:" << data.num;
+}
+
+void SlideEffect::clearimagemap()
+{
+    allImage.clear();
 }
 
 

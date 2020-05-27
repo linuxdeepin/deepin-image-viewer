@@ -297,6 +297,10 @@ private:
     void showFullScreen();
 
     void viewOnNewProcess(const QStringList &paths);
+    /**
+     * @brief backToLastPanel
+     * quit slideshow
+     */
     void backToLastPanel();
 
     /**
@@ -369,7 +373,7 @@ private slots:
      * @brief slotExitFullScreen    退出全屏
      */
     void slotExitFullScreen();
-    void slotLoadSlideshow(bool bflag);
+    //void slotLoadSlideshow(bool bflag);
 
     /**
      * @brief eatImageDirIterator   迭代获取当前文件夹所有图片信息
@@ -392,6 +396,28 @@ private slots:
      */
     void SlotLoadFrontThumbnailsAndClearTail();
 
+    /**
+     * @brief slotGetLastThumbnailPath
+     * get last thumbnail path
+     * @param path
+     * last thumbnail path
+     */
+    void slotGetLastThumbnailPath(QString& path);
+
+    /**
+     * @brief slotLoadTailThumbnailsAndClearFront
+     * Load tail thumbnails and clear up front thumbnails
+     */
+    void slotLoadTailThumbnailsAndClearFront();
+
+    /**
+     * @brief slotGetFirstThumbnailPath
+     * get first thumbnail
+     * @param path
+     * first thumbnail path
+     */
+    void slotGetFirstThumbnailPath(QString& path);
+
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
@@ -411,6 +437,7 @@ private:
 
     SignalManager::ViewInfo m_vinfo;
     DBImgInfoList m_infos;
+    //abandonment value
     DBImgInfoList m_infoslideshow;
     DBImgInfoList m_infosadd;
     DBImgInfoList m_infosHead;

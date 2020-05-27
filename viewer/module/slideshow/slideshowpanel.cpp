@@ -163,7 +163,6 @@ void SlideShowPanel::backToLastPanel()
     showNormal();
     m_player->stop();
 
-
     if (0 == m_vinfo.viewMainWindowID) {
         //        m_vinfo.path = m_player->currentImagePath();
         //        m_vinfo.fullScreen = false;
@@ -178,8 +177,8 @@ void SlideShowPanel::backToLastPanel()
         loop.exec();
         //        QString path = m_player->currentImagePath();
         //        emit dApp->signalM->viewImageNoNeedReload(path);
-        int pathindex = m_player->currentImageIndex();
-        emit dApp->signalM->viewImageNoNeedReload(pathindex);
+        QString currentpath = m_player->GetCurrentImagePath();
+        emit dApp->signalM->viewImageNoNeedReload(currentpath);
     } else {
         emit dApp->signalM->hideSlidePanel();
     }
@@ -435,7 +434,10 @@ void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
     m_vinfo = vinfo;
     m_player->setImagePaths(vinfo.paths);
     m_player->setCurrentImage(vinfo.path);
-
+    QString lastpath,firstpath;
+    emit dApp->signalM->sigGetLastThumbnailPath(lastpath);
+    emit dApp->signalM->sigGetFirstThumbnailpath(firstpath);
+    m_player->SetfirstlastThunbnailpath(firstpath,lastpath);
 //    m_startTid = startTimer(DELAY_START_INTERVAL);
 
     this->setCursor(Qt::BlankCursor);

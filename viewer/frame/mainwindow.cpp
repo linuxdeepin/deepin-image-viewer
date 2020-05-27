@@ -207,6 +207,7 @@ void MainWindow::initConnection()
         titlebar()->setVisible(true);
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(IMAGEVIEW);
+       // delete m_slidePanel;
         //   emit dApp->signalM->hideBottomToolbar(false);
         //  emit dApp->signalM->hideExtensionPanel(false);
         //  emit dApp->signalM->hideTopToolbar(false);
