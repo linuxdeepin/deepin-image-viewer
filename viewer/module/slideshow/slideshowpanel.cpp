@@ -60,7 +60,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     initFileSystemMonitor();
     setMouseTracking(true);
 //    m_cancelslideshow = new DIconButton(this);
-//    m_cancelslideshow->setIcon(QIcon(":/resources/exit_slider.svg"));
+//    m_cancelslideshow->setIcon(QIcon(":/assets/exit_slider.svg"));
 //    m_cancelslideshow->setIconSize(QSize(50, 50));
 //    m_cancelslideshow->setFixedSize(QSize(50, 50));
 //    connect(m_cancelslideshow, &DIconButton::clicked, m_player,

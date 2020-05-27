@@ -108,9 +108,9 @@ void BlureInfoFrame::setTopContent(QWidget *w)
 
     ImageButton *cb = new ImageButton(this);
     cb->setTooltipVisible(true);
-    cb->setNormalPic(":/resources/common/images/closewindow_normal.png");
-    cb->setHoverPic(":/resources/common/images/closewindow_hover.png");
-    cb->setPressPic(":/resources/common/images/closewindow_press.png");
+    cb->setNormalPic(":/assets/common/images/closewindow_normal.png");
+    cb->setHoverPic(":/assets/common/images/closewindow_hover.png");
+    cb->setPressPic(":/assets/common/images/closewindow_press.png");
     cb->setFixedSize(24, 24);
     cb->move(this->sizeHint().width() - cb->width() - 5, 0);
     connect(cb, &ImageButton::clicked, this, &BlureInfoFrame::close);

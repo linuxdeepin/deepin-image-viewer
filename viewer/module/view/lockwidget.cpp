@@ -23,8 +23,8 @@
 #include "utils/baseutils.h"
 #include "application.h"
 
-const QString ICON_PIXMAP_DARK = ":/resources/dark/images/picture damaged_dark.svg";
-const QString ICON_PIXMAP_LIGHT = ":/resources/light/images/picture damaged_light.svg";
+const QString ICON_PIXMAP_DARK = ":/assets/dark/images/picture damaged_dark.svg";
+const QString ICON_PIXMAP_LIGHT = ":/assets/light/images/picture damaged_light.svg";
 const QSize THUMBNAIL_SIZE = QSize(151, 151);
 LockWidget::LockWidget(const QString &darkFile,
     const QString &lightFile, QWidget *parent)

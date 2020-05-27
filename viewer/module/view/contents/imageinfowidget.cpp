@@ -40,8 +40,8 @@ namespace {
 const int TITLE_MAXWIDTH = 72 - 3;
 const int TITLE_MAXCNWIDETH = 60; //中文Title宽度
 const int TITLE_MAXOTHERWIDETH = 90; //其他语言Title宽度
-const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
-const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
+const QString ICON_CLOSE_DARK = ":/assets/dark/images/close_normal.svg";
+const QString ICON_CLOSE_LIGHT = ":/assets/light/images/close_normal .svg";
 
 #define ArrowLineExpand_HIGHT 30
 #define ArrowLineExpand_SPACING 10

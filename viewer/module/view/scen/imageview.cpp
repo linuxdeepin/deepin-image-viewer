@@ -276,7 +276,7 @@ ImageView::ImageView(QWidget *parent)
     connect(this, &ImageView::cacheThreadEndSig, this, &ImageView::onCacheFinish);
 
     m_toast = new Toast(this);
-    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
+    m_toast->setIcon(":/assets/common/images/dialog_warning.svg");
     m_toast->setText(tr("This file contains multiple pages, please use Evince to view all pages."));
     m_toast->hide();
     // TODO

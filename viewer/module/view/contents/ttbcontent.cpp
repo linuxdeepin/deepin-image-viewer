@@ -48,14 +48,14 @@ const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
 const int LEFT_SPACE = 20;
-const QString LOCMAP_SELECTED_DARK = ":/resources/dark/images/58 drak.svg";
-const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-dark.svg";
-const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
-const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
-const QString LOCMAP_SELECTED_DAMAGED_DARK = ":/resources/dark/images/picture_damaged-58_drak.svg";
-const QString LOCMAP_NOT_SELECTED_DAMAGED_DARK = ":/resources/dark/images/picture_damaged_dark.svg";
-const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/resources/light/images/picture_damaged_58.svg";
-const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/resources/light/images/picture_damaged.svg";
+const QString LOCMAP_SELECTED_DARK = ":/assets/dark/images/58 drak.svg";
+const QString LOCMAP_NOT_SELECTED_DARK = ":/assets/dark/images/imagewithbg-dark.svg";
+const QString LOCMAP_SELECTED_LIGHT = ":/assets/light/images/58.svg";
+const QString LOCMAP_NOT_SELECTED_LIGHT = ":/assets/light/images/imagewithbg.svg";
+const QString LOCMAP_SELECTED_DAMAGED_DARK = ":/assets/dark/images/picture_damaged-58_drak.svg";
+const QString LOCMAP_NOT_SELECTED_DAMAGED_DARK = ":/assets/dark/images/picture_damaged_dark.svg";
+const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/assets/light/images/picture_damaged_58.svg";
+const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/assets/light/images/picture_damaged.svg";
 
 const int TOOLBAR_MINIMUN_WIDTH = 610 - 3;
 const int TOOLBAR_JUSTONE_WIDTH = 310;
@@ -695,28 +695,28 @@ void TTBContent::slotTheme(bool theme)
         //        btTrash->setPalette(pa);
     }
 
-    //    btPre->setPropertyPic(QString(":/resources/%1/icons/previous_normal.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/previous_hover.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/previous_press.svg").arg(rStr));
-    //    btNext->setPropertyPic(QString(":/resources/%1/icons/next_normal.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/next_hover.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/next_press.svg").arg(rStr));
-    //    btAdapt->setPropertyPic(QString(":/resources/%1/icons/1_1_normal.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_hover.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_press.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_checked.svg").arg(rStr));
-    //    btFit->setPropertyPic(QString(":/resources/%1/icons/fit_normal.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/fit_hover.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/fit_press.svg").arg(rStr));
-    //    btLeft->setPropertyPic(QString(":/resources/%1/icons/left_normal.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/left_hover.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/left_press.svg").arg(rStr));
-    //    btRight->setPropertyPic(QString(":/resources/%1/icons/right_normal.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/right_hover.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/right_press.svg").arg(rStr));
-    //    btTrash->setPropertyPic(QString(":/resources/%1/icons/delete.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/delete.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
+    //    btPre->setPropertyPic(QString(":/assets/%1/icons/previous_normal.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/previous_hover.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/previous_press.svg").arg(rStr));
+    //    btNext->setPropertyPic(QString(":/assets/%1/icons/next_normal.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/next_hover.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/next_press.svg").arg(rStr));
+    //    btAdapt->setPropertyPic(QString(":/assets/%1/icons/1_1_normal.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_hover.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_press.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_checked.svg").arg(rStr));
+    //    btFit->setPropertyPic(QString(":/assets/%1/icons/fit_normal.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/fit_hover.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/fit_press.svg").arg(rStr));
+    //    btLeft->setPropertyPic(QString(":/assets/%1/icons/left_normal.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/left_hover.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/left_press.svg").arg(rStr));
+    //    btRight->setPropertyPic(QString(":/assets/%1/icons/right_normal.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/right_hover.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/right_press.svg").arg(rStr));
+    //    btTrash->setPropertyPic(QString(":/assets/%1/icons/delete.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/delete.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/delete.svg").arg(rStr));
 }
 
 void TTBContent::OnSetimglist(int currindex, QString filename, QString filepath)

@@ -46,7 +46,7 @@ QMap<int, QString> nameMap()
     return nm;
 }
 
-const QString PREVIEW_ROOT_PATH = ":/settings/images/slideshow/resources/images/slideshow/";
+const QString PREVIEW_ROOT_PATH = ":/settings/images/slideshow/assets/images/slideshow/";
 QMap<int, QString> pathMap()
 {
     QMap<int, QString> pm;
@@ -104,8 +104,8 @@ void SlideshowPreview::paintEvent(QPaintEvent *e)
 
     // Draw check state
     const QString cip = checked()
-            ? ":/settings/images/resources/images/checkbox_checked.png"
-            : ":/settings/images/resources/images/checkbox_unchecked.png";
+            ? ":/settings/images/assets/images/checkbox_checked.png"
+            : ":/settings/images/assets/images/checkbox_unchecked.png";
     QRect checkRect(MAX_WIDTH - CHECK_ICON_SIZE, 0,
                     CHECK_ICON_SIZE, CHECK_ICON_SIZE);
     painter.drawPixmap(checkRect, QPixmap(cip));

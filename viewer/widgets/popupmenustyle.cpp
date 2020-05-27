@@ -25,9 +25,9 @@
 namespace {
 
 const QString SUB_MENU_NORMAL_ICON =
-        ":/resources/common/images/sub_menu_normal.png";
+        ":/assets/common/images/sub_menu_normal.png";
 const QString SUB_MENU_HOVER_ICON =
-        ":/resources/common/images/sub_menu_hover.png";
+        ":/assets/common/images/sub_menu_hover.png";
 
 const qreal FRAME_BORDER_WIDTH = 0.5;
 const int FRAME_BORDER_RADIUS = 4;

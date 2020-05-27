@@ -334,7 +334,7 @@ int MainWindow::showDialog()
     qDebug() << "!!!!!!!!!!!!!!!!!!showDialog!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     DDialog *dialog = new DDialog;
 
-    QPixmap pixmap = utils::base::renderSVG(":/resources/common/warning.svg", QSize(32, 32));
+    QPixmap pixmap = utils::base::renderSVG(":/assets/common/warning.svg", QSize(32, 32));
     dialog->setIconPixmap(pixmap);
 
     //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete

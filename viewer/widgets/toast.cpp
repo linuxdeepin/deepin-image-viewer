@@ -171,10 +171,10 @@ void ToastPrivate::initUI()
     textLabel = new QLabel;
     textLabel->setVisible(false);
 
-    closeBt = new DImageButton(":/resources/common/images/input_clear_normal.svg",
-                               ":/resources/common/images/input_clear_hover.svg",
-                               ":/resources/common/images/input_clear_press.svg",
-                               ":/resources/common/images/input_clear_normal.svg");
+    closeBt = new DImageButton(":/assets/common/images/input_clear_normal.svg",
+                               ":/assets/common/images/input_clear_hover.svg",
+                               ":/assets/common/images/input_clear_press.svg",
+                               ":/assets/common/images/input_clear_normal.svg");
 
     q->connect(closeBt, &DImageButton::clicked, q, [ = ]() {
         q->hide();
