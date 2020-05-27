@@ -150,7 +150,7 @@ void CommandLine::showHelp()
     fputs(qPrintable(m_cmdParser.helpText()), stdout);
 }
 
-void CommandLine::viewImage(const QString &path, const QStringList &paths)
+void CommandLine::viewImage(const QString path, const QStringList paths)
 {
     MainWindow *w = new MainWindow(false);
     w->setWindowRadius(18);

@@ -36,6 +36,7 @@
 #include <QPainter>
 #include <QTransform>
 #include <QSvgGenerator>
+#include <QScreen>
 
 #include <DGuiApplicationHelper>
 #include <DSpinner>
@@ -376,7 +377,7 @@ void ImageView::setScaleValue(qreal v)
     // Rollback
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / irs;
-       // if (minv < 1.09) return;
+        // if (minv < 1.09) return;
         scale(minv, minv);
     } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
         const qreal maxv = MAX_SCALE_FACTOR / irs;
@@ -747,6 +748,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 {
     bool bRet = true;
     QGraphicsScene *s = scene();
+    s->clear();
     switch (type) {
     case PICTURE_TYPE::NORMAL: {
         m_movieItem = nullptr;
@@ -1067,11 +1069,18 @@ bool ImageView::event(QEvent *event)
 void ImageView::onCacheFinish(QVariantList vl)
 {
     qDebug() << "cache end!";
+    QScreen *screen = QGuiApplication::primaryScreen ();
+    QRect mm = screen->availableGeometry() ;
+    int screen_width = mm.width();
+    int screen_height = mm.height();
+    qDebug() << screen_width << screen_height;
+
     //QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
-        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        pixmap = pixmap.scaled(screen_width, screen_height, Qt::KeepAspectRatio);
+        //pixmap.setDevicePixelRatio(devicePixelRatioF());
         if (path == m_path) {
             scene()->clear();
             resetTransform();
@@ -1097,7 +1106,7 @@ void ImageView::onCacheFinish(QVariantList vl)
             //            setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
             qDebug() << "GG 斯密达";
-            autoFit();
+            //autoFit();
 
             emit imageChanged(path);
             static bool firstLoad = false;

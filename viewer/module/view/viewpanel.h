@@ -60,7 +60,7 @@ class ViewPanel : public ModulePanel
 {
     Q_OBJECT
 public:
-    explicit ViewPanel(QWidget *parent = 0);
+    explicit ViewPanel(QWidget *parent = nullptr);
 
     QString moduleName() Q_DECL_OVERRIDE;
     QWidget *toolbarBottomContent() Q_DECL_OVERRIDE;

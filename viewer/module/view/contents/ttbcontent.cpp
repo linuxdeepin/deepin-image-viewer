@@ -910,6 +910,7 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
     }
 
     qDebug() << "m_startAnimation=" << m_startAnimation;
+    ImageItem *curitem = m_imgList->findChild<ImageItem *>(strCurPath);
 
     for (int j = 0; j < labelList.size(); j++) {
         labelList.at(j)->setFixedSize(QSize(num, 40));
@@ -917,17 +918,12 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
         labelList.at(j)->setIndexNow(t);
     }
 
-    if (labelList.size() > 0) {
-        for (int k = 0; k < labelList.size(); k++) {
-            if (strCurPath == labelList.at(k)->getPath()) {
-                labelList.at(k)->setFixedSize(QSize(58, 58));
-                labelList.at(k)->resize(QSize(58, 58));
-                dApp->getRwLock().lockForRead();
-                labelList.at(k)->updatePic(dApp->m_imagemap.value(strCurPath));
-                dApp->getRwLock().unlock();
-                break;
-            }
-        }
+    if (curitem) {
+        curitem->setFixedSize(QSize(58, 58));
+        curitem->resize(QSize(58, 58));
+        dApp->getRwLock().lockForRead();
+        curitem->updatePic(dApp->m_imagemap.value(strCurPath));
+        dApp->getRwLock().unlock();
     }
 
     m_imgListView->show();

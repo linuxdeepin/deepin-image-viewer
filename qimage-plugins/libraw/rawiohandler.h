@@ -38,7 +38,7 @@ public:
     virtual bool read(QImage *image);
     static bool canRead(QIODevice *device);
     virtual QVariant option(ImageOption option) const;
-    virtual void setOption(ImageOption option, const QVariant & value);
+    virtual void setOption(ImageOption option, const QVariant &value);
     virtual bool supportsOption(ImageOption option) const;
 
 private:

@@ -1,0 +1,6 @@
+   {
+       "type": opensource,
+       "3rdparty": [“deepin-image-viewer/viewer/utils/*.h,*.cpp”],
+       "ignore": [deepin-image-viewer/viewer/utils/utils.pri],
+       "license": []
+   }

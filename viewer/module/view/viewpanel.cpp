@@ -493,43 +493,6 @@ void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
         m_bIsFirstLoad = false;
         m_bAllowDel = true;
     }
-
-//    //断开TTBC所有信号与槽的连接
-//    disconnectTTbc();
-//    //开启延时删除标志定时器
-//    connect(&m_timer, &QTimer::timeout, this, [ = ]() {
-//        m_timer.stop();
-//        m_bAllowDel = true;
-//    });
-
-//    m_timer.start(2000);
-
-    //第一次加载为所有图片不进行刷新
-//    if (infos.size() == m_infos.size())
-//        return;
-//    m_infos = infos;
-//    m_current = nCurrent;
-//    QStringList pathlist;
-
-//    for (int loop = 0; loop < m_infosAll.size(); loop++) {
-//        pathlist.append(m_infosAll.at(loop).filePath);
-//    }
-
-//    if (pathlist.size() > 0) {
-//        emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
-//    }
-
-//    if (pathlist.count() > 0) {
-//        emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-//        emit changeHideFlag(false);
-//        if (m_current == 0) {
-//            emit hidePreNextBtn(false, false);
-//        } else if (m_current == (m_infos.size() - 1)) {
-//            emit hidePreNextBtn(false, true);
-//        }
-
-//        //emit dApp->signalM->sendPathlist(pathlist, m_currentImagePath);
-//    }
 }
 
 void ViewPanel::recvLoadSignal(bool bFlags)
@@ -1342,11 +1305,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
     qDebug() << "onviewimage";
     m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
-//    int ret = QMessageBox::warning(this, tr("My Application"),
-//                                   m_currentFilePath,
-//                                   QMessageBox::Save | QMessageBox::Discard
-//                                   | QMessageBox::Cancel,
-//                                   QMessageBox::Save);
     startFileWatcher();
     using namespace utils::base;
     m_vinfo = vinfo;
