@@ -145,6 +145,14 @@ signals:
      */
     void sendLoadSignal(bool bFlags);
 
+    /**
+     * @brief sigDrawingBoard
+     * open Deepin-Image-Draw
+     * @param paths
+     * Images Paths
+     */
+    void sigDrawingBoard(QStringList paths);
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

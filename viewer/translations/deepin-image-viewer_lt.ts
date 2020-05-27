@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="lt">
 <context>
     <name>Application</name>
     <message>
@@ -29,7 +31,7 @@
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -786,6 +788,10 @@
     <message>
         <source>Rename</source>
         <translation>Pervadinti</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

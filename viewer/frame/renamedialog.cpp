@@ -84,14 +84,19 @@ RenameDialog::RenameDialog(QString filename, QWidget *parent)
         qDebug() << "textEdited" << arg;
         int len = arg.toLocal8Bit().length();
         QString Interceptstr;
-        if ( len > 255 - Dirlen) {
+        if( len> 255 - Dirlen)
+        {
             int num = 0;
             int i = 0;
-            for (; i < arg.size(); i++) {
-                if (arg.at(i) >= 0x4e00 && arg.at(i) <= 0x9fa5) {
-                    if (num >= 255 - Dirlen - 1) break;
+            for(;i< arg.size();i++)
+            {
+                if(arg.at(i) >= 0x4e00 && arg.at(i) <= 0x9fa5)
+                {
                     num += 3;
-                } else if (num < 255 - Dirlen) {
+                    if(num >= 255 - Dirlen-1) break;
+                }
+                else if(num < 255 - Dirlen)
+                {
                     num += 1;
                 } else {
                     break;

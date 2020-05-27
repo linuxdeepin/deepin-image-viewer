@@ -787,7 +787,11 @@
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Rename</translation>
+        <translation>Rename</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>Draw</translation>
     </message>
 </context>
 </TS>

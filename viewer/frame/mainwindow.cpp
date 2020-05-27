@@ -21,6 +21,7 @@
 #include <QStandardPaths>
 #include "application.h"
 #include "controller/configsetter.h"
+#include "controller/dbusclient.h"
 #include "mainwidget.h"
 //#include <QDebug>
 #include <dgiovolumemanager.h>
@@ -83,6 +84,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     //    });
     initConnection();
     initshortcut();
+    initdbus();
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
@@ -159,6 +161,11 @@ void MainWindow::initshortcut()
             emit dApp->signalM->hideExtensionPanel();
         }
     });
+}
+
+void MainWindow::initdbus()
+{
+    m_dbus = new Dbusclient();
 }
 
 
