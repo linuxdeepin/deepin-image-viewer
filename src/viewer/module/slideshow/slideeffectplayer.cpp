@@ -440,8 +440,11 @@ void SlideEffectPlayer::cacheNext()
                 rmindex = m_paths.length()-1;
             else if(-2 == rmindex)
                 rmindex = m_paths.length()-2;
-            QString rmpath = m_paths[rmindex];
-            m_cacheImages.remove(rmpath);
+            if(m_paths.length() != 2)
+            {
+                QString rmpath = m_paths[rmindex];
+                m_cacheImages.remove(rmpath);
+            }
             m_cacheImages.insert(path, img);
 
         });
@@ -557,8 +560,11 @@ void SlideEffectPlayer::cachePrevious()
                 rmindex = 0;
             else if(m_paths.size()+1 == rmindex)
                 rmindex = 1;
-            QString rmpath = m_paths[rmindex];
-            m_cacheImages.remove(rmpath);
+            if(m_paths.length() != 2)
+            {
+                QString rmpath = m_paths[rmindex];
+                m_cacheImages.remove(rmpath);
+            }
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
