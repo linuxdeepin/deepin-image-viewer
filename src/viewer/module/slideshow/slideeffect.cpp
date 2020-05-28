@@ -135,7 +135,7 @@ SlideEffect::SlideEffect()
     color = Qt::transparent;
 
     easing_ = QEasingCurve(QEasingCurve::OutBack);
-    QThreadPool::globalInstance()->setMaxThreadCount(8);
+    QThreadPool::globalInstance()->setMaxThreadCount(3);
 //    m.setMaxThreadCount(20);
 //    connect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
 }

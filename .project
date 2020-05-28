@@ -2,5 +2,5 @@
        "type": "opensource",
        "3rdparty": [],
        "ignore": ["icons","docs","assets","debian", "translations","*.txt","*.md","*.pro","*.toml","*.service","*.qrc","*.pro","*.svg", "*.png", "*.qm", "*.ts","*.pro.user.*","*.json","*.pri"],
-       "license": ["LICENSE"]
+       "license": ["GPLv3"]
    }
