@@ -27,6 +27,7 @@
 #include <QTranslator>
 #include <DApplicationSettings>
 #include <QIcon>
+#include <QPaintDevice>
 #include <QImageReader>
 #include <sys/time.h>
 #include <QFile>
@@ -51,7 +52,7 @@ void ImageLoader::startLoading()
 {
     struct timeval tv;
     long long ms;
-    gettimeofday(&tv, NULL);
+    gettimeofday(&tv, nullptr);
     ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
     qDebug() << "startLoading start time: " << ms;
 
@@ -274,28 +275,29 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
 
 void ImageLoader::loadInterface(QString path)
 {
-    QImage tImg;
-    QString format = DetectImageFormat(path);
-    if (format.isEmpty()) {
-        QImageReader reader(path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        }
-    } else {
-        QImageReader readerF(path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            qWarning() << "can't read image:" << readerF.errorString()
-                       << format;
+//    QImage tImg;
+//    QString format = DetectImageFormat(path);
+//    if (format.isEmpty()) {
+//        QImageReader reader(path);
+//        reader.setAutoTransform(true);
+//        if (reader.canRead()) {
+//            tImg = reader.read();
+//        }
+//    } else {
+//        QImageReader readerF(path, format.toLatin1());
+//        readerF.setAutoTransform(true);
+//        if (readerF.canRead()) {
+//            tImg = readerF.read();
+//        } else {
+//            qWarning() << "can't read image:" << readerF.errorString()
+//                       << format;
 
-            tImg = QImage(path);
-        }
-    }
+//            tImg = QImage(path);
+//        }
+//    }
 
-    QPixmap pixmap = QPixmap::fromImage(tImg);
+    QPixmap pixmap(path);/* = QPixmap::fromImage(tImg);*/
+    //int haha = pixmap.devicePixelRatio();
 
     m_writelock.lockForWrite();
     m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
@@ -339,28 +341,28 @@ void Application::loadPixThread(QStringList paths)
 
 void Application::loadInterface(QString path)
 {
-    QImage tImg;
-    QString format = DetectImageFormat(path);
-    if (format.isEmpty()) {
-        QImageReader reader(path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        }
-    } else {
-        QImageReader readerF(path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            qWarning() << "can't read image:" << readerF.errorString()
-                       << format;
+//    QImage tImg;
+//    QString format = DetectImageFormat(path);
+//    if (format.isEmpty()) {
+//        QImageReader reader(path);
+//        reader.setAutoTransform(true);
+//        if (reader.canRead()) {
+//            tImg = reader.read();
+//        }
+//    } else {
+//        QImageReader readerF(path, format.toLatin1());
+//        readerF.setAutoTransform(true);
+//        if (readerF.canRead()) {
+//            tImg = readerF.read();
+//        } else {
+//            qWarning() << "can't read image:" << readerF.errorString()
+//                       << format;
 
-            tImg = QImage(path);
-        }
-    }
+//            tImg = QImage(path);
+//        }
+//    }
 
-    QPixmap pixmap = QPixmap::fromImage(tImg);
+    QPixmap pixmap(path); /*= QPixmap::fromImage(tImg);*/
     m_rwLock.lockForWrite();
     m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
     m_rwLock.unlock();

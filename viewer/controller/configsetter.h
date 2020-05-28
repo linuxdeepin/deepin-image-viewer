@@ -26,18 +26,18 @@ class ConfigSetter : public QObject
     Q_OBJECT
 public:
     static ConfigSetter *instance();
-    void setValue(const QString &group, const QString &key,
-                  const QVariant &value);
-    QVariant value(const QString &group, const QString &key,
-                   const QVariant &defaultValue = QVariant());
-    QStringList keys(const QString &group);
+    void setValue(const QString group, const QString key,
+                  const QVariant value);
+    QVariant value(const QString group, const QString key,
+                   const QVariant defaultValue = QVariant());
+    QStringList keys(const QString group);
 
 signals:
     void valueChanged(const QString &group, const QString &key,
                       const QVariant &value);
 
 private:
-    explicit ConfigSetter(QObject *parent = 0);
+    explicit ConfigSetter(QObject *parent = nullptr);
 
 private:
     static ConfigSetter *m_setter;

@@ -25,6 +25,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &fil
     , m_suffix(fileName)
     , m_index(0)
 {
+    Q_UNUSED(fileSuffix);
     if (m_suffix.contains("gif"))
         //用freeimage解析gif
     {

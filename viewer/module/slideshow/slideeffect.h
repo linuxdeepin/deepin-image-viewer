@@ -141,6 +141,7 @@ public Q_SLOTS:
     void stop();
     void pause();
     void slotrenderFrameFinish(int num, QImage image);
+    void clearimagemap();
 protected:
     virtual void timerEvent(QTimerEvent *e);
     virtual bool prepare(); //after all parameters set and before effect start
@@ -184,8 +185,8 @@ protected:
     QEasingCurve easing_;
     QMap<int, QImage> allImage;
     int scurrent = 0;
-    QFuture<void> m_qf;
-    QList<QFuture<void>> m_qflist;
+    //QFuture<void> m_qf;
+    //QList<QFuture<void>> m_qflist;
     bool bfirsttimeout = true;
 //    QThreadPool m;
     mutable QReadWriteLock m_readlock;

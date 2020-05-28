@@ -157,7 +157,7 @@ WallpaperSetter::DE WallpaperSetter::getDE()
 
 bool WallpaperSetter::testDE(const QString &app)
 {
-    bool v;
+    bool v = false;
     QProcess p;
     p.start(QString("ps -A"));
     while (p.waitForReadyRead(3000)) {

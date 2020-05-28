@@ -77,6 +77,7 @@ const QString ImportFrame::buttonText() const
     return m_importButton->text();
 }
 
-void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-
+void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
+    Q_UNUSED(theme);
 }

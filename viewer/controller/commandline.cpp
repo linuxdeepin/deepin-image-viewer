@@ -150,7 +150,7 @@ void CommandLine::showHelp()
     fputs(qPrintable(m_cmdParser.helpText()), stdout);
 }
 
-void CommandLine::viewImage(const QString &path, const QStringList &paths)
+void CommandLine::viewImage(const QString path, const QStringList paths)
 {
     MainWindow *w = new MainWindow(false);
     w->setWindowRadius(18);
@@ -197,6 +197,7 @@ bool CommandLine::processOption()
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
     [](DGuiApplicationHelper::ColorType type) {
+        Q_UNUSED(type);
         //        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
         //            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
         //        } else {
@@ -369,6 +370,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
     [](DGuiApplicationHelper::ColorType type) {
+        Q_UNUSED(type);
 //        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
 //            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
 //        } else {

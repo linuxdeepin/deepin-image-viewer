@@ -65,6 +65,7 @@ enum MenuItemId {
     IdDisplayInFileManager,
     IdImageInfo,
     IdSubMenu,
+    IdDraw
 };
 
 }  // namespace
@@ -158,7 +159,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         return;
     const QString path = m_infos.at(m_current).filePath;
     const int id = action->property("MenuID").toInt();
-
     switch (MenuItemId(id)) {
     case IdFullScreen:
     case IdExitFullScreen:
@@ -278,6 +278,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             m_info->setImagePath(path);
         }
         break;
+    case IdDraw: {
+            QStringList pathlist;
+            pathlist << path;
+            emit dApp->signalM->sigDrawingBoard(pathlist);
+            break;
+        }
     default:
         break;
     }
@@ -373,6 +379,7 @@ void ViewPanel::updateMenuContent()
                      ss("Display in file manager", "Ctrl+D"));
     }
     appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Return"));
+    //appendAction(IdDraw, tr("Draw"), ss("Draw", ""));
 }
 
 void ViewPanel::initShortcut()

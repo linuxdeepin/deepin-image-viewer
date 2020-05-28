@@ -13,6 +13,7 @@ CONFIG += c++11 link_pkgconfig
 PKGCONFIG += x11 xext libexif dtkwidget gio-unix-2.0 gio-qt udisks2-qt5
 #PKGCONFIG += dtkwidget
  QT += dtkwidget
+ QT += dbus
 LIBS += -lfreeimage
 
 #gtk+-2.0
@@ -80,16 +81,16 @@ desktop.path = $$PREFIX/share/applications/
 desktop.files = $$PWD/deepin-image-viewer.desktop
 
 icons.path = $$APPSHAREDIR/icons
-icons.files = $$PWD/resources/images/*
+icons.files = $$PWD/assets/images/*
 
 manual.path = $$MANDIR
-manual.files = $$PWD/doc/*
+manual.files = $$PWD/docs/doc/*
 
 manual_icon.path = $$MANICONDIR
-manual_icon.files = $$PWD/doc/common/deepin-image-viewer.svg
+manual_icon.files = $$PWD/docs/doc/common/deepin-image-viewer.svg
 
 app_icon.path = $$APPICONDIR
-app_icon.files = $$PWD/resources/images/logo/deepin-image-viewer.svg
+app_icon.files = $$PWD/assets/images/logo/deepin-image-viewer.svg
 
 dbus_service.path =  $$PREFIX/share/dbus-1/services
 dbus_service.files += $$PWD/com.deepin.ImageViewer.service

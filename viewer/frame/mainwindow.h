@@ -36,6 +36,8 @@
 DWIDGET_USE_NAMESPACE
 typedef DStackedWidget QSWToDStackedWidget;
 
+class Dbusclient;
+
 #undef signals
 extern "C" {
 #include <gio/gio.h>
@@ -68,6 +70,11 @@ public:
     MainWindow(bool manager, QWidget *parent = 0);
     void initConnection();
     void initshortcut();
+    /**
+     * @brief initdbus
+     * create dbusclient
+     */
+    void initdbus();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     int showDialog();
 public slots:
@@ -91,6 +98,7 @@ private:
     bool m_picInUSB = false;
     QDateTime          m_currenttime;
     bool               m_flag = false;
+    Dbusclient *m_dbus;
 };
 
 #endif  // MAINWINDOW_H

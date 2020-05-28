@@ -40,8 +40,8 @@ namespace {
 const int TITLE_MAXWIDTH = 72 - 3;
 const int TITLE_MAXCNWIDETH = 60; //中文Title宽度
 const int TITLE_MAXOTHERWIDETH = 90; //其他语言Title宽度
-const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
-const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
+const QString ICON_CLOSE_DARK = ":/assets/dark/images/close_normal.svg";
+const QString ICON_CLOSE_LIGHT = ":/assets/light/images/close_normal .svg";
 
 #define ArrowLineExpand_HIGHT 30
 #define ArrowLineExpand_SPACING 10
@@ -104,7 +104,7 @@ class ViewSeparator : public QLbtoDLabel
 {
     Q_OBJECT
 public:
-    explicit ViewSeparator(QWidget *parent = 0)
+    explicit ViewSeparator(QWidget *parent = nullptr)
         : QLbtoDLabel(parent)
     {
         setFixedHeight(1);
@@ -154,6 +154,8 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     : QFrame(parent)
     , m_maxTitleWidth(maxTitleWidth())
 {
+    Q_UNUSED(darkStyle);
+    Q_UNUSED(lightStyle);
     setFixedWidth(300);
     //    setMaximumHeight(540);
     setFrameStyle(QFrame::NoFrame);

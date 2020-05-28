@@ -39,7 +39,7 @@ class MainWidget : public QFrame
     Q_OBJECT
 
 public:
-    MainWidget(bool manager, QWidget *parent = 0);
+    MainWidget(bool manager, QWidget *parent = nullptr);
     ~MainWidget();
 
 protected:

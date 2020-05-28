@@ -59,7 +59,7 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
             *pageSetupAction = action;
         }
 
-        QIcon icon(QStringLiteral(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
+        QIcon icon(QStringLiteral(":/qt-project.org/dialogs/assets/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
 //        action->setIcon(icon);
         last_action = action;
     }
@@ -83,7 +83,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     if (toolBar) {
         QAction *page_setup_action = nullptr;
         QAction *last_action = hookToolBarActionIcons(toolBar, &page_setup_action);
-        QAction *action = new QAction(QIcon(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/preview-24.svg"),
+        QAction *action = new QAction(QIcon(":/qt-project.org/dialogs/assets/images/qprintpreviewdialog/images/preview-24.svg"),
                                       QCoreApplication::translate("PrintPreviewDialog", "Image Settings"), toolBar);
         connect(action, &QAction::triggered, optionsPage, &PrintOptionsPage::show);
         toolBar->insertAction(last_action, action);

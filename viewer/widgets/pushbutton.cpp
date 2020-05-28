@@ -219,8 +219,7 @@ void PushButton::paintEvent(QPaintEvent *e)
             const QRect pr(m.left(), (height() - ph) / 2, ph, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap
                                /*pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding)*/);
-        }
-        else {
+        } else {
             ph = pixHeight;
             const QRect pr(m.left(), (height() - ph) / 2, pixWidth, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap);
@@ -232,7 +231,7 @@ void PushButton::paintEvent(QPaintEvent *e)
     const int tw = width() - m.left() - spacing - ph - m.right();
     const int th = fm.height();
     const QRect textRect(m.left() + ph + spacing, (height() - th) / 2,
-                   tw, th);
+                         tw, th);
     const QString mt = fm.elidedText(m_text, Qt::ElideMiddle, tw);
     painter.setPen(QPen(getTextColor()));
     painter.drawText(textRect, Qt::AlignCenter, mt);
@@ -297,11 +296,9 @@ QString PushButton::getPixmap() const
 {
     if (m_checked) {
         return checkedPic();
-    }
-    else if (isEnabled()) {
+    } else if (isEnabled()) {
         return m_currentPic;
-    }
-    else {
+    } else {
         return disablePic();
     }
 }
@@ -310,8 +307,7 @@ QColor PushButton::getTextColor() const
 {
     if (isEnabled()) {
         return m_currentColor;
-    }
-    else {
+    } else {
         return disableColor();
     }
 }
@@ -335,7 +331,7 @@ void PushButton::showTooltip(const QPoint &pos)
     if (y > dr.y() + dr.height()) {
         y = pos.y() - tf->height() - 10;
     }
-    tf->move(pos.x() - tf->width()/3, y - tf->height()/3);
+    tf->move(pos.x() - tf->width() / 3, y - tf->height() / 3);
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 
@@ -345,7 +341,7 @@ void PushButton::showTooltip(const QPoint &pos)
 
 void PushButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-
+    Q_UNUSED(theme);
 }
 
 bool PushButton::getChecked() const

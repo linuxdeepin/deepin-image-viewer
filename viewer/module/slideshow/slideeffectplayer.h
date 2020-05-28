@@ -58,12 +58,21 @@ public:
     }
     // call setCurrentImage later
     void setImagePaths(const QStringList &paths);
+    /**
+     * @brief SetlastThunbnailpath
+     * set last thumbnail path
+     * @param path
+     * last thunbnail path
+     */
+    void SetfirstlastThunbnailpath(const QString firstpath,const QString lastpath);
     // invalid path: black image+1st image
     void setCurrentImage(const QString &path = QString());
     QString currentImagePath() const;
     bool isRunning() const;
     int currentImageIndex() const;
+    QString GetCurrentImagePath();
     QStringList GetPathList();
+
 Q_SIGNALS:
     void frameReady(const QImage &image);
     void finished();
@@ -83,6 +92,7 @@ public:
     int duration() const;
     bool startNext();
     void cacheNext();
+    void cacheNextBackUp();
     bool startPrevious();
     void cachePrevious();
     void setStartNextFlag(bool flag);
@@ -111,4 +121,12 @@ private:
     bool bLoopPlayback = false;
     //save last image
     QString LoopPlayoldpath;
+    //last thunbnail path
+    QString m_LastThumbnailPath;
+    //first thumbnail path
+    QString m_FirstThumbnailPath;
+    //slideshow new path
+    QString m_newpath;
+    //slideshow old path
+    QString m_oldpath;
 };

@@ -33,10 +33,10 @@
 //{
 //    QString iconPath;
 //    if (dApp->viewerTheme->getCurrentTheme() == ViewerThemeManager::Dark) {
-//        iconPath = ":/images/loadings/resources/dark/images/dark_loading/loading_%1.png";
+//        iconPath = ":/images/loadings/assets/dark/images/dark_loading/loading_%1.png";
 //    }
 //    else {
-//        iconPath = ":/images/loadings/resources/light/images/white_loading/loading_%1.png";
+//        iconPath = ":/images/loadings/assets/light/images/white_loading/loading_%1.png";
 //    }
 //    m_iconPaths.clear();
 

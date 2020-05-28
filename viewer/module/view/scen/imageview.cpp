@@ -36,6 +36,7 @@
 #include <QPainter>
 #include <QTransform>
 #include <QSvgGenerator>
+#include <QScreen>
 
 #include <DGuiApplicationHelper>
 #include <DSpinner>
@@ -60,37 +61,46 @@ const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
 const qreal MAX_SCALE_FACTOR = 20.0;
-const qreal MIN_SCALE_FACTOR = 0.02;
+const qreal MIN_SCALE_FACTOR = 0.029;
 const QSize SPINNER_SIZE = QSize(40, 40);
 
-QVariantList cachePixmap(const QString &path)
-{
-    QImage tImg;
+//QVariantList cachePixmap(const QString path)
+//{
+//    QImage tImg;
 
-    QString format = DetectImageFormat(path);
-    if (format.isEmpty()) {
-        QImageReader reader(path);
-        reader.setAutoTransform(true);
-        if (reader.canRead()) {
-            tImg = reader.read();
-        }
-    } else {
-        QImageReader readerF(path, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            qWarning() << "can't read image:" << readerF.errorString() << format;
+//    QString format = DetectImageFormat(path);
+//    if (format.isEmpty()) {
+//        qDebug() << "开始读取缓存";
+//        QImageReader reader(path);
+//        qDebug() << "render结束";
+//        reader.setAutoTransform(true);
+//        if (reader.canRead()) {
+//            qDebug() << "开始render读取到img";
+//            tImg = reader.read();
+//            qDebug() << "render读取到img完成";
+//        }
+//    } else {
+//        qDebug() << "开始读取缓存";
+//        QImageReader readerF(path, format.toLatin1());
+//        qDebug() << "render结束";
+//        readerF.setAutoTransform(true);
+//        if (readerF.canRead()) {
+//            qDebug() << "开始render读取到img";
+//            tImg = readerF.read();
+//            qDebug() << "render读取到img完成";
+//        } else {
+//            qWarning() << "can't read image:" << readerF.errorString() << format;
 
-            tImg = QImage(path);
-        }
-    }
+//            tImg = QImage(path);
+//        }
+//    }
 
-    QPixmap p = QPixmap::fromImage(tImg);
-    QVariantList vl;
-    vl << QVariant(path) << QVariant(p);
-    return vl;
-}
+//    QPixmap p = QPixmap::fromImage(tImg);
+//    QVariantList vl;
+//    vl << QVariant(path) << QVariant(p);
+//    qDebug() << "render缓存结束";
+//    return vl;
+//}
 
 }  // namespace
 
@@ -195,6 +205,45 @@ QMimeType determineMimeType(const QString &filename)
     return mimeFromContent;
 }
 
+QVariantList ImageView::cachePixmap(const QString path)
+{
+    QImage tImg;
+
+    QString format = DetectImageFormat(path);
+    if (format.isEmpty()) {
+        qDebug() << "render开始";
+        QImageReader reader(path);
+        qDebug() << "render结束";
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            qDebug() << "开始render读取到img";
+            tImg = reader.read();
+            qDebug() << "render读取到img完成";
+        }
+    } else {
+        qDebug() << "开始读取缓存";
+        QImageReader readerF(path, format.toLatin1());
+        qDebug() << "render结束";
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            qDebug() << "开始render读取到img";
+            tImg = readerF.read();
+            qDebug() << "render读取到img完成";
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString() << format;
+
+            tImg = QImage(path);
+        }
+    }
+
+    QPixmap p = QPixmap::fromImage(tImg);
+    QVariantList vl;
+    vl << QVariant(path) << QVariant(p);
+    qDebug() << "render缓存结束";
+    emit cacheThreadEndSig(vl);
+    return vl;
+}
+
 ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
@@ -224,9 +273,10 @@ ImageView::ImageView(QWidget *parent)
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
+    connect(this, &ImageView::cacheThreadEndSig, this, &ImageView::onCacheFinish);
 
     m_toast = new Toast(this);
-    m_toast->setIcon(":/resources/common/images/dialog_warning.svg");
+    m_toast->setIcon(":/assets/common/images/dialog_warning.svg");
     m_toast->setText(tr("This file contains multiple pages, please use Evince to view all pages."));
     m_toast->hide();
     // TODO
@@ -285,13 +335,7 @@ void ImageView::setImage(const QString path)
     //    refresh(bugID3926)
 
     //heyi test  识别是否切换了图片，并判定上一张图片旋转状态是否发生了改变
-    if (0 != m_rotateAngel) {
-        m_rotateAngel =  m_rotateAngel % 360;
-        if (0 != m_rotateAngel) {
-            utils::image::rotate(m_path, m_rotateAngel);
-            m_rotateAngel = 0;
-        }
-    }
+    rotatePixCurrent();
 
     m_path = path;
 
@@ -333,7 +377,7 @@ void ImageView::setScaleValue(qreal v)
     // Rollback
     if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
         const qreal minv = MIN_SCALE_FACTOR / irs;
-        if (minv < 1.09) return;
+        // if (minv < 1.09) return;
         scale(minv, minv);
     } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
         const qreal maxv = MAX_SCALE_FACTOR / irs;
@@ -354,6 +398,7 @@ void ImageView::setScaleValue(qreal v)
     emit showScaleLabel();
     emit transformChanged();
 
+    qDebug() << "我套你猴子啊!";
     titleBarControl();
 }
 
@@ -373,6 +418,7 @@ void ImageView::autoFit()
         fitImage();
     }
 
+    qDebug() << "我套你猴子啊!";
     titleBarControl();
 }
 
@@ -670,6 +716,7 @@ void ImageView::showPixmap(QString path)
         setSceneRect(rect);
         //            setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
+        qDebug() << "GG 斯密达";
         autoFit();
 
         emit imageChanged(path);
@@ -707,8 +754,17 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         qDebug() << "cache start!";
         if (m_hsPixap.contains(strPath)) {
             showPixmap(strPath);
+            //fix 26153
+            emit dApp->signalM->hideNavigation();
         } else {
-            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, strPath);
+            //QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, strPath);
+            QThread *th = QThread::create([ = ]() {
+                cachePixmap(m_path);
+            });
+
+            connect(th, &QThread::finished, th, &QObject::deleteLater);
+            th->start();
+
             if (!m_watcher.isRunning()) {
                 //                m_watcher.setFuture(f);
 
@@ -736,8 +792,8 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
                     s->addWidget(w);
                 }
 
-                f.waitForFinished();
-                m_watcher.setFuture(f);
+//                f.waitForFinished();
+//                m_watcher.setFuture(f);
             }
 
             emit dApp->signalM->hideNavigation();
@@ -775,7 +831,6 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     }
 
     }
-
     return bRet;
 }
 
@@ -844,6 +899,7 @@ void ImageView::rotatePixmap(int nAngel)
     setSceneRect(rect);
     //            setSceneRect(m_pixmapItem->boundingRect());
     scene()->addItem(m_pixmapItem);
+    qDebug() << "GG 斯密达";
     autoFit();
     m_rotateAngel += nAngel;
 }
@@ -961,8 +1017,10 @@ void ImageView::resizeEvent(QResizeEvent *event)
     m_toast->move(width() / 2 - m_toast->width() / 2, height() - 80 - m_toast->height() / 2 - 11);
 
     // when resize window, make titlebar changed.
-    if (!image().isNull())
+    if (!image().isNull()) {
+        qDebug() << "我套你猴子啊!";
         titleBarControl();
+    }
 
     QGraphicsView::resizeEvent(event);
 }
@@ -1007,14 +1065,21 @@ bool ImageView::event(QEvent *event)
     return QGraphicsView::event(event);
 }
 
-void ImageView::onCacheFinish()
+void ImageView::onCacheFinish(QVariantList vl)
 {
     qDebug() << "cache end!";
-    QVariantList vl = m_watcher.result();
+    QScreen *screen = QGuiApplication::primaryScreen ();
+    QRect mm = screen->availableGeometry() ;
+    int screen_width = mm.width();
+    int screen_height = mm.height();
+    qDebug() << screen_width << screen_height;
+
+    //QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
-        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        pixmap = pixmap.scaled(screen_width, screen_height, Qt::KeepAspectRatio);
+        //pixmap.setDevicePixelRatio(devicePixelRatioF());
         if (path == m_path) {
             scene()->clear();
             resetTransform();
@@ -1039,14 +1104,20 @@ void ImageView::onCacheFinish()
             setSceneRect(rect);
             //            setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
-            autoFit();
+            qDebug() << "GG 斯密达";
+            //autoFit();
 
             emit imageChanged(path);
+            static bool firstLoad = false;
+            if (!firstLoad) {
+                emit cacheEnd();
+                firstLoad = true;
+            }
 
             //将缓存的图片加入hash
-            if (!m_hsPixap.contains(path)) {
-                m_hsPixap.insert(path, pixmap);
-            }
+//            if (!m_hsPixap.contains(path)) {
+//                m_hsPixap.insert(path, pixmap);
+//            }
         }
     }
 }
@@ -1116,5 +1187,6 @@ void ImageView::wheelEvent(QWheelEvent *event)
 
     event->accept();
 
+    qDebug() << "我套你猴子啊!";
     titleBarControl();
 }

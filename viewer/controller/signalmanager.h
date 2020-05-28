@@ -104,7 +104,7 @@ signals:
     void sigESCKeyStopSlide();
     void sigESCKeyActivated();
     void hideSlidePanel();
-    void viewImageNoNeedReload(/*QString &filename*/int &fileindex);
+    void viewImageNoNeedReload(QString &filename/*int &fileindex*/);
 
     void viewImage(const ViewInfo &vinfo);
     void updateFileName(const QString &fileName);
@@ -145,6 +145,35 @@ signals:
      */
     void sendLoadSignal(bool bFlags);
 
+    /**
+     * @brief sigDrawingBoard
+     * open Deepin-Image-Draw
+     * @param paths
+     * Images Paths
+     */
+    void sigDrawingBoard(QStringList paths);
+
+    /**
+     * @brief sigGetLastThumbnailPath
+     * get last thumbnail path
+     * @param path
+     * last thumbnail path
+     */
+    void sigGetLastThumbnailPath(QString& path);
+    /**
+     * @brief sigLoadTailThumbnail
+     * Load last thumbnails
+     * @param infos
+     * thumbnails files
+     */
+    void sigLoadTailThumbnail();
+    /**
+     * @brief sigGetFirstThumbnailpath
+     * get first thumbnail
+     * @param path
+     * thumbnail path
+     */
+    void sigGetFirstThumbnailpath(QString& path);
 private:
     explicit SignalManager(QObject *parent = 0);
 

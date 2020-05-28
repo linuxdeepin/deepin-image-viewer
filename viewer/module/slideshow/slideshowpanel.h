@@ -59,6 +59,10 @@ private slots:
     void Receiveslideshowpathlst(bool flag,DBImgInfoList slideshowpaths);
 private:
     void slotLoadSlideShow(bool bflag,DBImgInfoList infoslideshow);
+    /**
+     * @brief backToLastPanel
+     * quit slide show
+     */
     void backToLastPanel();
 
     QImage getFitImage(const QString &path);

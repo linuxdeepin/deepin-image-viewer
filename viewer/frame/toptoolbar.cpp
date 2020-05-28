@@ -196,7 +196,7 @@ const QString TopToolbar::newAlbumShortcut() const
 void TopToolbar::paintEvent(QPaintEvent *e)
 {
     //    BlurFrame::paintEvent(e);
-
+    e->rect();
     QPainter p(this);
     //    p.setRenderHint(QPainter::Antialiasing);
 
@@ -228,7 +228,7 @@ void TopToolbar::paintEvent(QPaintEvent *e)
     //    QPen bPen(m_bottomBorderColor, borderHeight);
     //    p.setPen(bPen);
     //    p.drawPath(bPath);
-    QPixmap pixmap(":/resources/common/titlebar.svg");
+    QPixmap pixmap(":/assets/common/titlebar.svg");
     const QPalette pal = QGuiApplication::palette();  // this->palette();
     QBrush bgColor = QBrush(pixmap.scaled(size().width(), 74));
     QRectF bgRect;
@@ -248,7 +248,7 @@ void TopToolbar::initLeftContent()
     QLbtoDLabel *logo = new QLbtoDLabel(this);
 
     QPixmap logo_pix = utils::base::renderSVG(
-                           ":/images/logo/resources/images/logo/deepin-image-viewer.svg", QSize(22, 22));
+                           ":/images/logo/assets/images/logo/deepin-image-viewer.svg", QSize(22, 22));
     logo->setPixmap(logo_pix);
     logo->setAlignment(Qt::AlignCenter);
     m_layout->addSpacing(12);

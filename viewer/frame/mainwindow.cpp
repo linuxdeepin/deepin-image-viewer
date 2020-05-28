@@ -21,6 +21,7 @@
 #include <QStandardPaths>
 #include "application.h"
 #include "controller/configsetter.h"
+#include "controller/dbusclient.h"
 #include "mainwidget.h"
 //#include <QDebug>
 #include <dgiovolumemanager.h>
@@ -83,6 +84,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     //    });
     initConnection();
     initshortcut();
+    initdbus();
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
@@ -146,16 +148,14 @@ void MainWindow::initshortcut()
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);
     connect(esc, &QShortcut::activated, this, [ = ] {
-        if(IMAGEVIEW == m_pCenterWidget->currentIndex())
+        if (IMAGEVIEW == m_pCenterWidget->currentIndex())
             emit sigExitFull();
         else
         {
-            if (window()->isFullScreen())
-            {
+            if (window()->isFullScreen()) {
                 emit dApp->signalM->sigESCKeyActivated();
                 emit dApp->signalM->sigESCKeyStopSlide();
-            } else if (0 == m_pCenterWidget->currentIndex())
-            {
+            } else if (0 == m_pCenterWidget->currentIndex()) {
                 this->close();
             }
             emit dApp->signalM->hideExtensionPanel();
@@ -163,12 +163,17 @@ void MainWindow::initshortcut()
     });
 }
 
+void MainWindow::initdbus()
+{
+    m_dbus = new Dbusclient();
+}
+
 
 void MainWindow::initConnection()
 {
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
-   // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, &QShortcut::activated, this, [=]{
+    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
         qDebug() << "receive Ctrl+Shift+/";
         QRect rect = window()->geometry();
         QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
@@ -180,11 +185,12 @@ void MainWindow::initConnection()
         qDebug() << shortcutString;
         QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
     });
-    connect(m_slidePanel,SIGNAL(sigloadSlideshowpath(bool)),m_mainWidget,SIGNAL(mainwgtloadslideshowpath(bool)));
-    connect(m_mainWidget,SIGNAL(sigmaindgtslideshowpath(bool,DBImgInfoList)),m_slidePanel,SLOT(Receiveslideshowpathlst(bool,DBImgInfoList)));
-    connect(this,SIGNAL(sigExitFull()), m_mainWidget,SIGNAL(sigExitFullScreen()));
+    connect(m_slidePanel, SIGNAL(sigloadSlideshowpath(bool)), m_mainWidget, SIGNAL(mainwgtloadslideshowpath(bool)));
+    connect(m_mainWidget, SIGNAL(sigmaindgtslideshowpath(bool, DBImgInfoList)), m_slidePanel, SLOT(Receiveslideshowpathlst(bool, DBImgInfoList)));
+    connect(this, SIGNAL(sigExitFull()), m_mainWidget, SIGNAL(sigExitFullScreen()));
     //幻灯片显示
     connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
+        Q_UNUSED(index);
 //        if (VIEW_IMAGE != index)
 //        {
 //            m_backIndex = index;
@@ -201,6 +207,7 @@ void MainWindow::initConnection()
         titlebar()->setVisible(true);
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(IMAGEVIEW);
+       // delete m_slidePanel;
         //   emit dApp->signalM->hideBottomToolbar(false);
         //  emit dApp->signalM->hideExtensionPanel(false);
         //  emit dApp->signalM->hideTopToolbar(false);
@@ -328,7 +335,7 @@ int MainWindow::showDialog()
     qDebug() << "!!!!!!!!!!!!!!!!!!showDialog!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     DDialog *dialog = new DDialog;
 
-    QPixmap pixmap = utils::base::renderSVG(":/resources/common/warning.svg", QSize(32, 32));
+    QPixmap pixmap = utils::base::renderSVG(":/assets/common/warning.svg", QSize(32, 32));
     dialog->setIconPixmap(pixmap);
 
     //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete

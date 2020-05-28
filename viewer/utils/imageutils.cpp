@@ -340,6 +340,7 @@ const QImage loadTga(QString filePath, bool &success)
         //get variables
         vui8Pixels = new std::vector<std::uint8_t>;
         bool bCompressed;
+        Q_UNUSED(bCompressed);
         std::uint32_t ui32IDLength;
         std::uint32_t ui32PicType;
         std::uint32_t ui32PaletteLength;

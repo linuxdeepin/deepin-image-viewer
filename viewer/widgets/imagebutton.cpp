@@ -37,8 +37,8 @@ ImageButton::ImageButton(QWidget *parent)
 }
 
 ImageButton::ImageButton(const QString &normalPic, const QString &hoverPic,
-                          const QString &pressPic, const QString &disablePic,
-                          QWidget *parent)
+                         const QString &pressPic, const QString &disablePic,
+                         QWidget *parent)
     : DImageButton(normalPic, hoverPic, pressPic, parent)
     , m_tooltipVisiable(false)
     , m_disablePic_(disablePic)
@@ -72,12 +72,10 @@ bool ImageButton::event(QEvent *e)
 
             return false;
         }
-    }
-    else if (e->type() == QEvent::Leave)  {
+    } else if (e->type() == QEvent::Leave)  {
         emit mouseLeave();
         DImageButton::leaveEvent(e);
-    }
-    else if (e->type() == QEvent::MouseButtonPress) {
+    } else if (e->type() == QEvent::MouseButtonPress) {
         emit mouseLeave();
 
     }
@@ -85,15 +83,18 @@ bool ImageButton::event(QEvent *e)
     return DImageButton::event(e);
 }
 
-void ImageButton::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-
+void ImageButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
+    Q_UNUSED(theme);
 }
 
-void ImageButton::setTooltipVisible(bool visible){
+void ImageButton::setTooltipVisible(bool visible)
+{
     m_tooltipVisiable = visible;
 }
 
-bool ImageButton::tooltipVisible() {
+bool ImageButton::tooltipVisible()
+{
     return m_tooltipVisiable;
 }
 
@@ -108,8 +109,7 @@ void ImageButton::showTooltip(const QPoint &gPos)
 {
     if (toolTip().trimmed().isEmpty() || m_tooltipVisiable) {
         return;
-    }
-    else {
+    } else {
         m_tooltipVisiable = true;
     }
 
@@ -130,11 +130,11 @@ void ImageButton::showTooltip(const QPoint &gPos)
     if (y > dr.y() + dr.height()) {
         y = gPos.y() - tf->height() - 10;
     }
-    tf->move(gPos.x() - tf->width()/3, y - tf->height()/3);
+    tf->move(gPos.x() - tf->width() / 3, y - tf->height() / 3);
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 
-    connect(tf, &QFrToDFrame::destroyed, this, [=] {
+    connect(tf, &QFrToDFrame::destroyed, this, [ = ] {
         m_tooltipVisiable = false;
     });
 

@@ -48,14 +48,14 @@ const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
 const int LEFT_SPACE = 20;
-const QString LOCMAP_SELECTED_DARK = ":/resources/dark/images/58 drak.svg";
-const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-dark.svg";
-const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
-const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
-const QString LOCMAP_SELECTED_DAMAGED_DARK = ":/resources/dark/images/picture_damaged-58_drak.svg";
-const QString LOCMAP_NOT_SELECTED_DAMAGED_DARK = ":/resources/dark/images/picture_damaged_dark.svg";
-const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/resources/light/images/picture_damaged_58.svg";
-const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/resources/light/images/picture_damaged.svg";
+const QString LOCMAP_SELECTED_DARK = ":/assets/dark/images/58 drak.svg";
+const QString LOCMAP_NOT_SELECTED_DARK = ":/assets/dark/images/imagewithbg-dark.svg";
+const QString LOCMAP_SELECTED_LIGHT = ":/assets/light/images/58.svg";
+const QString LOCMAP_NOT_SELECTED_LIGHT = ":/assets/light/images/imagewithbg.svg";
+const QString LOCMAP_SELECTED_DAMAGED_DARK = ":/assets/dark/images/picture_damaged-58_drak.svg";
+const QString LOCMAP_NOT_SELECTED_DAMAGED_DARK = ":/assets/dark/images/picture_damaged_dark.svg";
+const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/assets/light/images/picture_damaged_58.svg";
+const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/assets/light/images/picture_damaged.svg";
 
 const int TOOLBAR_MINIMUN_WIDTH = 610 - 3;
 const int TOOLBAR_JUSTONE_WIDTH = 310;
@@ -95,23 +95,23 @@ char *getImageType(QString filepath)
     case IMAGE_TYPE_JPG2:
     case IMAGE_TYPE_JPG3:
         //文件类型为 JEPG
-        ret = "JEPG";
+        ret = QString("JEPG").toLatin1().data();
         break;
     case IMAGE_TYPE_PNG:
         //文件类型为 png
-        ret = "PNG";
+        ret = QString("PNG").toLatin1().data();
         break;
     case IMAGE_TYPE_GIF:
         //文件类型为 GIF
-        ret = "GIF";
+        ret = QString("GIF").toLatin1().data();
         break;
     case IMAGE_TYPE_TIFF:
         //文件类型为 TIFF
-        ret = "TIFF";
+        ret = QString("TIFF").toLatin1().data();
         break;
     case IMAGE_TYPE_BMP:
         //文件类型为 BMP
-        ret = "BMP";
+        ret = QString("BMP").toLatin1().data();
         break;
     default:
         ret = nullptr;
@@ -167,6 +167,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 
 ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
 {
+    Q_UNUSED(imageType);
+    Q_UNUSED(parent);
     _index = index;
     _path = path;
     dApp->getRwLock().lockForRead();
@@ -189,6 +191,7 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
 
 void ImageItem::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
 
     QPainter painter(this);
@@ -606,6 +609,7 @@ void TTBContent::checkAdaptImageBtn()
 
 void TTBContent::setAdaptButtonChecked(bool flag)
 {
+    Q_UNUSED(flag);
     //    if (btAdapt->isChecked() != flag) {
     //        btAdapt->setChecked(flag);
     //    }
@@ -691,28 +695,28 @@ void TTBContent::slotTheme(bool theme)
         //        btTrash->setPalette(pa);
     }
 
-    //    btPre->setPropertyPic(QString(":/resources/%1/icons/previous_normal.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/previous_hover.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/previous_press.svg").arg(rStr));
-    //    btNext->setPropertyPic(QString(":/resources/%1/icons/next_normal.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/next_hover.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/next_press.svg").arg(rStr));
-    //    btAdapt->setPropertyPic(QString(":/resources/%1/icons/1_1_normal.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_hover.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_press.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_checked.svg").arg(rStr));
-    //    btFit->setPropertyPic(QString(":/resources/%1/icons/fit_normal.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/fit_hover.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/fit_press.svg").arg(rStr));
-    //    btLeft->setPropertyPic(QString(":/resources/%1/icons/left_normal.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/left_hover.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/left_press.svg").arg(rStr));
-    //    btRight->setPropertyPic(QString(":/resources/%1/icons/right_normal.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/right_hover.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/right_press.svg").arg(rStr));
-    //    btTrash->setPropertyPic(QString(":/resources/%1/icons/delete.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/delete.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
+    //    btPre->setPropertyPic(QString(":/assets/%1/icons/previous_normal.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/previous_hover.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/previous_press.svg").arg(rStr));
+    //    btNext->setPropertyPic(QString(":/assets/%1/icons/next_normal.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/next_hover.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/next_press.svg").arg(rStr));
+    //    btAdapt->setPropertyPic(QString(":/assets/%1/icons/1_1_normal.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_hover.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_press.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_checked.svg").arg(rStr));
+    //    btFit->setPropertyPic(QString(":/assets/%1/icons/fit_normal.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/fit_hover.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/fit_press.svg").arg(rStr));
+    //    btLeft->setPropertyPic(QString(":/assets/%1/icons/left_normal.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/left_hover.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/left_press.svg").arg(rStr));
+    //    btRight->setPropertyPic(QString(":/assets/%1/icons/right_normal.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/right_hover.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/right_press.svg").arg(rStr));
+    //    btTrash->setPropertyPic(QString(":/assets/%1/icons/delete.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/delete.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/delete.svg").arg(rStr));
 }
 
 void TTBContent::OnSetimglist(int currindex, QString filename, QString filepath)
@@ -870,8 +874,8 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
 
     for (DBImgInfo info : inputInfos) {
         if (labelList.size() != inputInfos.size()) {
-            char *imageType = getImageType(info.filePath);
-            ImageItem *imageItem = new ImageItem(i, info.filePath, imageType);
+            //char *imageType = getImageType(info.filePath);
+            ImageItem *imageItem = new ImageItem(i, info.filePath, nullptr);
             imageItem->setFixedSize(QSize(num, 40));
             imageItem->resize(QSize(num, 40));
             imageItem->installEventFilter(m_imgListView);
@@ -906,6 +910,7 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
     }
 
     qDebug() << "m_startAnimation=" << m_startAnimation;
+    ImageItem *curitem = m_imgList->findChild<ImageItem *>(strCurPath);
 
     for (int j = 0; j < labelList.size(); j++) {
         labelList.at(j)->setFixedSize(QSize(num, 40));
@@ -913,17 +918,12 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
         labelList.at(j)->setIndexNow(t);
     }
 
-    if (labelList.size() > 0) {
-        for (int k = 0; k < labelList.size(); k++) {
-            if (strCurPath == labelList.at(k)->getPath()) {
-                labelList.at(k)->setFixedSize(QSize(58, 58));
-                labelList.at(k)->resize(QSize(58, 58));
-                dApp->getRwLock().lockForRead();
-                labelList.at(k)->updatePic(dApp->m_imagemap.value(strCurPath));
-                dApp->getRwLock().unlock();
-                break;
-            }
-        }
+    if (curitem) {
+        curitem->setFixedSize(QSize(58, 58));
+        curitem->resize(QSize(58, 58));
+        dApp->getRwLock().lockForRead();
+        curitem->updatePic(dApp->m_imagemap.value(strCurPath));
+        dApp->getRwLock().unlock();
     }
 
     m_imgListView->show();
@@ -1292,7 +1292,10 @@ void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
     }
 }
 
-void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
+void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
+    Q_UNUSED(theme);
+}
 
 void TTBContent::setCurrentDir(QString text)
 {
@@ -1345,7 +1348,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
     //emit m_imgListView->mouseLeftReleased();
 }
 
-void TTBContent::setImage(const QString &path, DBImgInfoList infos)
+void TTBContent::setImage(const QString path, DBImgInfoList infos)
 {
     if (!infos.isEmpty() && !QFileInfo(path).exists()) {
         if (infos.size() == 1)
@@ -1360,10 +1363,13 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
     qDebug() << "时间1";
     //判断当前缩略图个数是否等于传入的缩略图数量，不想等全部删除重新生成新的
     judgeReloadItem(infos, m_imgInfos);
+    qDebug() << "judgeReloadItem完成";
 
     if (path.isEmpty() || !QFileInfo(path).exists()) {
         reloadItems(m_imgInfos, path);
+        qDebug() << "reloadItems完成";
         showAnimation();
+        qDebug() << "reloadItems完成";
 
         if (m_nowIndex == 0) {
             m_preButton->setDisabled(true);
@@ -1395,15 +1401,17 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_adaptScreenBtn->setDisabled(false);
 #endif
 
-        int t = 0;
         if (m_imgInfos.size() > 3) {
             m_imgList->setFixedSize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
             m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST,
                               TOOLBAR_HEIGHT);
 
             m_imgList->setContentsMargins(0, 0, 0, 0);
+            qDebug() << "reloadItems开始";
             reloadItems(m_imgInfos, path);
+            qDebug() << "reloadItems完成";
             showAnimation();
+            qDebug() << "showAnimation完成";
 
 #if TTB
             m_preButton->show();
@@ -1450,7 +1458,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
 
             m_imgList->setContentsMargins(0, 0, 0, 0);
+            qDebug() << "reloadItems开始";
             reloadItems(m_imgInfos, path);
+            qDebug() << "reloadItems完成";
 
             m_imgListView->show();
             m_imgList->show();
@@ -1536,7 +1546,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             }
         }
 #else
+        qDebug() << "setBtnAttribute开始";
         setBtnAttribute(path);
+        qDebug() << "setBtnAttribute完成";
 
 #endif
     }
@@ -1557,6 +1569,7 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
     m_imagePath = path;
     QString fileName = "";
     if (m_imagePath != "") {
+        qDebug() << "1570";
         fileName = QFileInfo(m_imagePath).fileName();
     }
     emit dApp->signalM->updateFileName(fileName);
