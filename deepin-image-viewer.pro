@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 SUBDIRS += \
-        viewer \
-        qimage-plugins
+        src/viewer \
+        src/qimage-plugins
