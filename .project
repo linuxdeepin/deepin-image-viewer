@@ -1,6 +1,6 @@
    {
-       "type": opensource,
-       "3rdparty": [“deepin-image-viewer/viewer/utils/*.h,*.cpp”],
-       "ignore": [deepin-image-viewer/viewer/utils/utils.pri],
-       "license": []
+       "type": "opensource",
+       "3rdparty": [],
+       "ignore": ["icons","docs","assets","debian", "translations","*.txt","*.md","*.pro","*.toml","*.service","*.qrc","*.pro","*.svg", "*.png", "*.qm", "*.ts","*.pro.user.*","*.json","*.pri"],
+       "license": ["GPLv3"]
    }
