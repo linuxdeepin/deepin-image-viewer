@@ -43,6 +43,8 @@ DWIDGET_BEGIN_NAMESPACE
 class Toast;
 DWIDGET_END_NAMESPACE
 
+//#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
+
 class ImageView : public QGraphicsView
 {
     Q_OBJECT
@@ -57,7 +59,7 @@ class ImageView : public QGraphicsView
 public:
     enum RendererType { Native, OpenGL };
 
-    ImageView(QWidget *parent = 0);
+    ImageView(QWidget *parent = nullptr);
 
     void clear();
     void fitWindow();
