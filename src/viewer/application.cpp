@@ -69,7 +69,7 @@ void ImageLoader::startLoading()
             num = 0;
         }
     }
-
+    dApp->getRwLock().unlock();
     //heyi test
     QStringList list;
     for (int i = 0; i < 25; i++) {
@@ -245,7 +245,10 @@ void ImageLoader::addImageLoader(QStringList pathlist)
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
 
+        //LMH0601加锁
+        dApp->getRwLock().lockForWrite();
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+        dApp->getRwLock().unlock();
     }
 }
 //modify by heyi
@@ -303,9 +306,9 @@ void ImageLoader::loadInterface(QString path)
 #else
     QPixmap pixmap(path);
 #endif
-    m_writelock.lockForWrite();
+    dApp->getRwLock().lockForWrite();
     m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    m_writelock.unlock();
+    dApp->getRwLock().unlock();
 
     emit sigFinishiLoad(path);
 }
@@ -321,8 +324,9 @@ void Application::loadPixThread(QStringList paths)
     m_loadPaths = paths;
     m_rwLock.unlock();
     //开启线程进行后台加载图片
+
     QThread *th = QThread::create([ = ]() {
-        m_rwLock.lockForRead();
+        m_rwLock.lockForWrite();
         QStringList pathList = m_loadPaths;
         m_rwLock.unlock();
         foreach (QString var, pathList) {
@@ -335,7 +339,9 @@ void Application::loadPixThread(QStringList paths)
 
         //发送动态加载完成信号
         emit dynamicLoadFinished();
+
         QThread::currentThread()->quit();
+
     });
 
     connect(th, &QThread::finished, th, &QObject::deleteLater);
@@ -370,9 +376,9 @@ void Application::loadInterface(QString path)
 #else
     QPixmap pixmap(path);
 #endif
-    m_rwLock.lockForWrite();
+    dApp->getRwLock().lockForWrite();
     m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    m_rwLock.unlock();
+    dApp->getRwLock().unlock();
 
     finishLoadSlot(path);
 }

@@ -207,6 +207,7 @@ QMimeType determineMimeType(const QString &filename)
 
 QVariantList ImageView::cachePixmap(const QString path)
 {
+
 #ifdef PIXMAP_LOAD
     QImage tImg;
     QString format = DetectImageFormat(path);
@@ -766,6 +767,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 
             connect(th, &QThread::finished, th, &QObject::deleteLater);
             th->start();
+
 //            static bool haha = false;
 //            if (!haha) {
 //                th->start();
@@ -1086,7 +1088,7 @@ void ImageView::onCacheFinish(QVariantList vl)
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
         vl.clear();
-        pixmap = pixmap.scaled(screen_width, screen_height, Qt::KeepAspectRatio);
+       // pixmap = pixmap.scaled(screen_width, screen_height, Qt::KeepAspectRatio);
         pixmap.setDevicePixelRatio(devicePixelRatioF());
         if (path == m_path) {
             scene()->clear();
@@ -1194,6 +1196,6 @@ void ImageView::wheelEvent(QWheelEvent *event)
     scaleAtPoint(event->pos(), factor);
 
     event->accept();
-
+    qDebug()<<"21312";
     titleBarControl();
 }

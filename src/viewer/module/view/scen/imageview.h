@@ -278,5 +278,6 @@ private:
     bool m_loadingDisplay = false;
     //heyi test 保存旋转的角度
     int m_rotateAngel = 0;
+
 };
 #endif // SVGVIEW_H

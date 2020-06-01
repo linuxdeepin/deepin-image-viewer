@@ -318,6 +318,7 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
 
 void ViewPanel::refreshPixmap(QString strPath)
 {
+
     if (strPath.isEmpty()) {
         return;
     }
@@ -328,6 +329,7 @@ void ViewPanel::refreshPixmap(QString strPath)
     dApp->getRwLock().unlock();
 
     emit dApp->finishLoadSlot(strPath);
+
 }
 
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
@@ -1638,7 +1640,14 @@ bool ViewPanel::showImage(int index, int addindex)
 
     m_lastCurrent = m_current;
     m_current = index;
+    if(m_infos.at(m_current).filePath == m_currentImagePath &&NULL!=m_currentImagePath)
+    {
+        return false;
+    }
+    dApp->getRwLock().lockForWrite();
+    m_currentImagePath = m_infos.at(m_current).filePath;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    dApp->getRwLock().unlock();
     //发送更新缩略图接口信号
     QStringList pathlist;
     pathlist.append(m_infos.at(m_current).filePath);
@@ -1647,8 +1656,8 @@ bool ViewPanel::showImage(int index, int addindex)
 //        ttbc->setIsConnectDel(false);
 //        m_bAllowDel = false;
 //        ttbc->disableDelAct(false);
-        refreshPixmap(m_infos.at(m_current).filePath);
-        //emit sendDynamicLoadPaths(pathlist);
+     //   refreshPixmap(m_infos.at(m_current).filePath);
+        emit sendDynamicLoadPaths(pathlist);
     }
 
     return true;
@@ -1830,6 +1839,7 @@ void ViewPanel::initViewContent()
 
 void ViewPanel::openImage(const QString path, bool inDB)
 {
+
     //    if (! QFileInfo(path).exists()) {
     // removeCurrentImage() will cause timerEvent be trigered again by
     // showNext() or showPrevious(), so delay to remove current image
