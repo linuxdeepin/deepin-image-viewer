@@ -1820,7 +1820,6 @@ void ViewPanel::initViewContent()
         emit imageChanged(path, m_infos);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
-        qDebug() << "GG斯密达";
         m_viewB->autoFit();
     });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
@@ -1905,7 +1904,6 @@ void ViewPanel::openImage(const QString path, bool inDB)
             if (QFileInfo(m_currentImagePath).exists()) {
                 m_viewB->setImage(m_currentImagePath);
                 m_stack->setCurrentIndex(0);
-                qDebug() << "GG斯密达";
                 QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
             }
         } else {

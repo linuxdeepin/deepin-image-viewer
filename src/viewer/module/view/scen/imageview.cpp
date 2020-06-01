@@ -402,7 +402,6 @@ void ImageView::setScaleValue(qreal v)
     emit showScaleLabel();
     emit transformChanged();
 
-    qDebug() << "我套你猴子啊!";
     titleBarControl();
 }
 
@@ -422,7 +421,6 @@ void ImageView::autoFit()
         fitImage();
     }
 
-    qDebug() << "我套你猴子啊!";
     titleBarControl();
 }
 
@@ -720,7 +718,7 @@ void ImageView::showPixmap(QString path)
         setSceneRect(rect);
         //            setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
-        qDebug() << "GG 斯密达";
+
         autoFit();
 
         emit imageChanged(path);
@@ -908,7 +906,7 @@ void ImageView::rotatePixmap(int nAngel)
     setSceneRect(rect);
     //            setSceneRect(m_pixmapItem->boundingRect());
     scene()->addItem(m_pixmapItem);
-    qDebug() << "GG 斯密达";
+
     autoFit();
     m_rotateAngel += nAngel;
 }
@@ -1027,7 +1025,7 @@ void ImageView::resizeEvent(QResizeEvent *event)
 
     // when resize window, make titlebar changed.
     if (!image().isNull()) {
-        qDebug() << "我套你猴子啊!";
+
         titleBarControl();
     }
 
@@ -1114,7 +1112,7 @@ void ImageView::onCacheFinish(QVariantList vl)
             setSceneRect(rect);
             //            setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
-            qDebug() << "GG 斯密达";
+
             autoFit();
 
             emit imageChanged(path);
@@ -1197,6 +1195,5 @@ void ImageView::wheelEvent(QWheelEvent *event)
 
     event->accept();
 
-    qDebug() << "我套你猴子啊!";
     titleBarControl();
 }
