@@ -72,9 +72,6 @@ CommandLine *CommandLine::instance()
 CommandLine::CommandLine()
 {
     m_cmdParser.addHelpOption();
-//    m_cmdParser.addVersionOption();
-//    m_cmdParser.addPositionalArgument("value", QCoreApplication::translate(
-//        "main", "Value that use for options."), "[value]");
 
     for (const CMOption *i = options; ! i->shortOption.isEmpty(); ++i) {
         addOption(i);
@@ -198,11 +195,7 @@ bool CommandLine::processOption()
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
     [](DGuiApplicationHelper::ColorType type) {
         Q_UNUSED(type);
-        //        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
-        //            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-        //        } else {
-        //            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-        //        }
+
     });
 
     QStringList names = m_cmdParser.optionNames();
@@ -368,16 +361,16 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     }
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-    [](DGuiApplicationHelper::ColorType type) {
-        Q_UNUSED(type);
-//        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
-//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-//        } else {
-//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-//        }
-    });
-    //QMessageBox::information(0, "1111", "1111");
+//    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
+//    [](DGuiApplicationHelper::ColorType type) {
+//        Q_UNUSED(type);
+////        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
+////            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+////        } else {
+////            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+////        }
+//    });
+
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
@@ -555,9 +548,6 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
 
 
             }
-            // QProcess::execute("dbus-send --print-reply --dest=com.deepin.ImageViewer "
-            // "/com/deepin/ImageViewer com.deepin.ImageViewer.RaiseWindow");
-            //iface.asyncCall("RaiseWindow");
 
             return false;
         }

@@ -40,6 +40,8 @@ namespace {
 
 #define IMAGE_HEIGHT_DEFAULT    100
 
+//#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
+
 ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QString path)
 {
     m_parent = parent;
@@ -53,7 +55,7 @@ void ImageLoader::startLoading()
     struct timeval tv;
     long long ms;
     gettimeofday(&tv, nullptr);
-    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    ms = static_cast<long long>(tv.tv_sec) * 1000 + tv.tv_usec / 1000;
     qDebug() << "startLoading start time: " << ms;
 
     int num = 0;
@@ -67,7 +69,7 @@ void ImageLoader::startLoading()
             num = 0;
         }
     }
-
+    dApp->getRwLock().unlock();
     //heyi test
     QStringList list;
     for (int i = 0; i < 25; i++) {
@@ -108,7 +110,7 @@ void ImageLoader::startLoading()
             m_flagLock.unlock();
 
             path = listLoad1.back();
-            qDebug() << "线程1当前加载的图片：" << path;
+//            qDebug() << "线程1当前加载的图片：" << path;
             //加载完成之后删除该图片路径
             listLoad1.pop_back();
             m_readlock.unlock();
@@ -134,7 +136,7 @@ void ImageLoader::startLoading()
             m_flagLock.unlock();
 
             path = listLoad2.front();
-            qDebug() << "线程1当前加载的图片：" << path;
+//            qDebug() << "线程1当前加载的图片：" << path;
             listLoad2.pop_front();
             m_readlock.unlock();
             loadInterface(path);
@@ -163,7 +165,7 @@ void ImageLoader::startLoading()
             m_flagLock.unlock();
 
             path = listLoad2.front();
-            qDebug() << "线程2当前加载的图片：" << path;
+//            qDebug() << "线程2当前加载的图片：" << path;
             //加载完成之后删除该图片路径
             listLoad2.pop_front();
             m_readlock.unlock();
@@ -189,7 +191,7 @@ void ImageLoader::startLoading()
             m_flagLock.unlock();
 
             path = listLoad1.back();
-            qDebug() << "线程2当前加载的图片：" << path;
+//            qDebug() << "线程2当前加载的图片：" << path;
             listLoad1.pop_back();
             m_readlock.unlock();
             loadInterface(path);
@@ -206,8 +208,8 @@ void ImageLoader::startLoading()
     QString map = "";
     emit sigFinishiLoad(map);
 
-    gettimeofday(&tv, NULL);
-    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    gettimeofday(&tv, nullptr);
+    ms = static_cast<long long>(tv.tv_sec) * 1000 + tv.tv_usec / 1000;
 }
 
 void ImageLoader::stopThread()
@@ -243,7 +245,10 @@ void ImageLoader::addImageLoader(QStringList pathlist)
         }
         QPixmap pixmap = QPixmap::fromImage(tImg);
 
+        //LMH0601加锁
+        dApp->getRwLock().lockForWrite();
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+        dApp->getRwLock().unlock();
     }
 }
 //modify by heyi
@@ -275,40 +280,41 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
 
 void ImageLoader::loadInterface(QString path)
 {
-//    QImage tImg;
-//    QString format = DetectImageFormat(path);
-//    if (format.isEmpty()) {
-//        QImageReader reader(path);
-//        reader.setAutoTransform(true);
-//        if (reader.canRead()) {
-//            tImg = reader.read();
-//        }
-//    } else {
-//        QImageReader readerF(path, format.toLatin1());
-//        readerF.setAutoTransform(true);
-//        if (readerF.canRead()) {
-//            tImg = readerF.read();
-//        } else {
-//            qWarning() << "can't read image:" << readerF.errorString()
-//                       << format;
+#ifdef PIXMAP_LOAD
+    QImage tImg;
+    QString format = DetectImageFormat(path);
+    if (format.isEmpty()) {
+        QImageReader reader(path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        }
+    } else {
+        QImageReader readerF(path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+                       << format;
 
-//            tImg = QImage(path);
-//        }
-//    }
+            tImg = QImage(path);
+        }
+    }
 
-    QPixmap pixmap(path);/* = QPixmap::fromImage(tImg);*/
-    //int haha = pixmap.devicePixelRatio();
-
-    m_writelock.lockForWrite();
+    QPixmap pixmap = QPixmap::fromImage(tImg);
+#else
+    QPixmap pixmap(path);
+#endif
+    dApp->getRwLock().lockForWrite();
     m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    m_writelock.unlock();
+    dApp->getRwLock().unlock();
 
     emit sigFinishiLoad(path);
 }
 
 void Application::finishLoadSlot(QString mapPath)
 {
-    qDebug() << "finishLoadSlot";
     emit sigFinishLoad(mapPath);
 }
 
@@ -318,8 +324,9 @@ void Application::loadPixThread(QStringList paths)
     m_loadPaths = paths;
     m_rwLock.unlock();
     //开启线程进行后台加载图片
+
     QThread *th = QThread::create([ = ]() {
-        m_rwLock.lockForRead();
+        m_rwLock.lockForWrite();
         QStringList pathList = m_loadPaths;
         m_rwLock.unlock();
         foreach (QString var, pathList) {
@@ -332,7 +339,9 @@ void Application::loadPixThread(QStringList paths)
 
         //发送动态加载完成信号
         emit dynamicLoadFinished();
+
         QThread::currentThread()->quit();
+
     });
 
     connect(th, &QThread::finished, th, &QObject::deleteLater);
@@ -341,31 +350,35 @@ void Application::loadPixThread(QStringList paths)
 
 void Application::loadInterface(QString path)
 {
-//    QImage tImg;
-//    QString format = DetectImageFormat(path);
-//    if (format.isEmpty()) {
-//        QImageReader reader(path);
-//        reader.setAutoTransform(true);
-//        if (reader.canRead()) {
-//            tImg = reader.read();
-//        }
-//    } else {
-//        QImageReader readerF(path, format.toLatin1());
-//        readerF.setAutoTransform(true);
-//        if (readerF.canRead()) {
-//            tImg = readerF.read();
-//        } else {
-//            qWarning() << "can't read image:" << readerF.errorString()
-//                       << format;
+#ifdef PIXMAP_LOAD
+    QImage tImg;
+    QString format = DetectImageFormat(path);
+    if (format.isEmpty()) {
+        QImageReader reader(path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        }
+    } else {
+        QImageReader readerF(path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+                       << format;
 
-//            tImg = QImage(path);
-//        }
-//    }
+            tImg = QImage(path);
+        }
+    }
 
-    QPixmap pixmap(path); /*= QPixmap::fromImage(tImg);*/
-    m_rwLock.lockForWrite();
+    QPixmap pixmap = QPixmap::fromImage(tImg);
+#else
+    QPixmap pixmap(path);
+#endif
+    dApp->getRwLock().lockForWrite();
     m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    m_rwLock.unlock();
+    dApp->getRwLock().unlock();
 
     finishLoadSlot(path);
 }

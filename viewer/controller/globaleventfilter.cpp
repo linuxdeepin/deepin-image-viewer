@@ -36,25 +36,5 @@ bool GlobalEventFilter::eventFilter(QObject *obj, QEvent *e)
         }
     }
 
-//    if (e->type() != QEvent::Paint &&
-//            e->type() != QEvent::MetaCall &&
-//            e->type() != QEvent::UpdateRequest &&
-//            e->type() != QEvent::MouseMove &&
-//            e->type() != QEvent::ChildAdded &&
-//            e->type() != QEvent::ChildRemoved &&
-//            e->type() != QEvent::LayoutRequest &&
-//            e->type() != QEvent::Move &&
-//            e->type() != QEvent::Timer &&
-//            e->type() != QEvent::FutureCallOut &&
-//            e->type() != QEvent::DeferredDelete &&
-//            e->type() != QEvent::Resize) {
-
-//        qDebug() << e->type();
-//    }
-//    if (e->type() == QEvent::WindowStateChange) {
-//        if (QWindowStateChangeEvent *we = static_cast<QWindowStateChangeEvent *>(e)) {
-//            emit SignalManager::instance()->windowStatesChanged(we->oldState());
-//        }
-//    }
     return false;
 }
