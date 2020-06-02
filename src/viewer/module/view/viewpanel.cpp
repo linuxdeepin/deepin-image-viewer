@@ -1677,7 +1677,9 @@ bool ViewPanel::removeCurrentImage()
     // 在删除当前图片之前将图片列表初始化完成
     //eatImageDirIterator();
 #endif
+    DBImgInfo imginfo = m_infos[m_current];
     m_infos.removeAt(m_current);
+    m_infosAll.removeOne(imginfo);
     if (m_infos.isEmpty()) {
         qDebug() << "No images to show!";
         emit dApp->signalM->allPicDelete();
