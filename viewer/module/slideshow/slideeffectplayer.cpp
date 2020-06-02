@@ -440,8 +440,11 @@ void SlideEffectPlayer::cacheNext()
                 rmindex = m_paths.length()-1;
             else if(-2 == rmindex)
                 rmindex = m_paths.length()-2;
-            QString rmpath = m_paths[rmindex];
-            m_cacheImages.remove(rmpath);
+            if(m_paths.length() != 2)
+            {
+                QString rmpath = m_paths[rmindex];
+                m_cacheImages.remove(rmpath);
+            }
             m_cacheImages.insert(path, img);
 
         });
@@ -557,8 +560,11 @@ void SlideEffectPlayer::cachePrevious()
                 rmindex = 0;
             else if(m_paths.size()+1 == rmindex)
                 rmindex = 1;
-            QString rmpath = m_paths[rmindex];
-            m_cacheImages.remove(rmpath);
+            if(m_paths.length() != 2)
+            {
+                QString rmpath = m_paths[rmindex];
+                m_cacheImages.remove(rmpath);
+            }
             m_cacheImages.insert(path, img);
         });
         connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
@@ -581,7 +587,11 @@ void SlideEffectPlayer::stop()
     }
 
     killTimer(m_tid);
-    m_effect->clearimagemap();
+    //LMH0601 解决29706 【看图】【5.6.3.5】【sp1】播放幻灯片时，在第一张图片上双击鼠标，应用闪退
+    if(nullptr!=m_effect)
+    {
+        m_effect->clearimagemap();
+    }
     m_tid = 0;
     m_running = false;
     m_cacheImages.clear();
