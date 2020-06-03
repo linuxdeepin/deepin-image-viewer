@@ -57,7 +57,8 @@ using namespace Dtk::Widget;
 typedef DFileDialog QFDToDFileDialog;
 
 namespace {
-
+//LMH0603删除按键延迟
+const int DELAY_DESTROY_TIME=1000;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 // const QSize ICON_SIZE = QSize(48, 40);
 
@@ -71,6 +72,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
+    , m_dtr(nullptr)
 {
 #ifndef LITE_DIV
     m_vinfo.inDatabase = false;
@@ -254,6 +256,13 @@ void ViewPanel::initConnect()
 //                                       QMessageBox::Save);
         onViewImage(vinfo);
     });
+    //LMH
+    if (nullptr == m_dtr)
+    {
+        m_dtr = new QTimer(this);
+        m_dtr->setSingleShot(true);
+        m_dtr->setInterval(DELAY_DESTROY_TIME);
+    }
 #endif
 }
 
@@ -445,6 +454,10 @@ void ViewPanel::reConnectTTbc()
     connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
     connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
     connect(ttbc, &TTBContent::removed, this, [ = ] {
+        if (m_dtr->isActive()) {
+            return ;
+        }
+        m_dtr->start();
         if (m_vinfo.inDatabase)
         {
             popupDelDialog(m_infos.at(m_current).filePath);
@@ -1083,6 +1096,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); });
     connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); });
     connect(ttbc, &TTBContent::removed, this, [ = ] {
+
+        if (m_dtr->isActive()) {
+            return ;
+        }
+        m_dtr->start();
         if (m_vinfo.inDatabase)
         {
             popupDelDialog(m_infos.at(m_current).filePath);
@@ -1713,6 +1731,7 @@ bool ViewPanel::removeCurrentImage()
         ttbc->delPictureFromPath(m_currentImagePath, m_infos, m_current);
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
+
     }
 
 //    ttbc->setIsConnectDel(true);
