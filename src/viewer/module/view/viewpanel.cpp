@@ -197,6 +197,9 @@ void ViewPanel::initConnect()
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ](const DBImgInfoList & infos) {
         if (m_infos.length() > 0) {
             removeCurrentImage();
+            ttbc->setIsConnectDel(true);
+            m_bAllowDel = true;
+            ttbc->disableDelAct(true);
         }
 
         infos.size();
@@ -456,6 +459,9 @@ void ViewPanel::reConnectTTbc()
             if (removeCurrentImage()) {
                 DDesktopServices::trash(path);
                 emit dApp->signalM->picDelete();
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
             }
         }
     }, Qt::UniqueConnection);
@@ -1012,6 +1018,9 @@ QWidget *ViewPanel::toolbarTopLeftContent()
             const QString path = m_infos.at(m_current).filePath;
             removeCurrentImage();
             utils::base::trashFile(path);
+            ttbc->setIsConnectDel(true);
+            m_bAllowDel = true;
+            ttbc->disableDelAct(true);
         }
     });
     connect(ttlc, &TTLContent::resetTransform, this, [ = ](bool fitWindow) {
@@ -1088,6 +1097,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
             if (removeCurrentImage()) {
                 DDesktopServices::trash(path);
                 emit dApp->signalM->picDelete();
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
             }
         }
     });
@@ -1703,9 +1715,9 @@ bool ViewPanel::removeCurrentImage()
         emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
     }
 
-    ttbc->setIsConnectDel(true);
-    m_bAllowDel = true;
-    ttbc->disableDelAct(true);
+//    ttbc->setIsConnectDel(true);
+//    m_bAllowDel = true;
+//    ttbc->disableDelAct(true);
 
     return true;
 }

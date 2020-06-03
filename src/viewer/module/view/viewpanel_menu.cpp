@@ -235,6 +235,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             if (removeCurrentImage()) {
                 DDesktopServices::trash(path);
                 emit dApp->signalM->picDelete();
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
             }
         }
         break;
