@@ -457,11 +457,11 @@ const QImage ImageView::image()
         // FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
         //    } else if (m_svgItem) {    // svg
-    } else if (m_imgSvgItem) {  // svg
-        QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+    } else if (m_svgItem) {  // svg
+        QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
         image.fill(QColor(0, 0, 0, 0));
         QPainter imagePainter(&image);
-        m_imgSvgItem->renderer()->render(&imagePainter);
+        m_svgItem->renderer()->render(&imagePainter);
         imagePainter.end();
         return image;
     } else {
@@ -827,7 +827,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         s->addItem(m_svgItem);
         //LMH0603解决svg和gif和mng缩略图不显示问题
         QThread *th = QThread::create([ = ]() {
-              emit imageChanged(strPath);
+            emit imageChanged(strPath);
             static bool firstLoad = false;
             if (!firstLoad) {
                 emit cacheEnd();
