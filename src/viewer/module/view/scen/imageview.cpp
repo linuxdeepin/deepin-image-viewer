@@ -816,13 +816,26 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         s->clear();
         resetTransform();
         //heyi test
+
+
+
         QSvgRenderer *svgRenderer = new QSvgRenderer;
         svgRenderer->load(strPath);
         m_svgItem = new QGraphicsSvgItem();
         m_svgItem->setSharedRenderer(svgRenderer);
         setSceneRect(m_svgItem->boundingRect());
         s->addItem(m_svgItem);
-        emit imageChanged(strPath);
+        //LMH0603解决svg和gif和mng缩略图不显示问题
+        QThread *th = QThread::create([ = ]() {
+              emit imageChanged(strPath);
+            static bool firstLoad = false;
+            if (!firstLoad) {
+                emit cacheEnd();
+                firstLoad = true;
+            }
+        });
+        connect(th, &QThread::finished, th, &QObject::deleteLater);
+        th->start();
         break;
     }
 
@@ -835,7 +848,18 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);
-        emit imageChanged(strPath);
+        //LMH0603解决svg和gif和mng缩略图不显示问题
+        QThread *th = QThread::create([ = ]() {
+              emit imageChanged(strPath);
+            static bool firstLoad = false;
+            if (!firstLoad) {
+                emit cacheEnd();
+                firstLoad = true;
+            }
+        });
+
+        connect(th, &QThread::finished, th, &QObject::deleteLater);
+        th->start();
         break;
     }
 
