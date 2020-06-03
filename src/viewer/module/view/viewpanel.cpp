@@ -1615,7 +1615,13 @@ bool ViewPanel::showPrevious()
     }
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    //LMH0603判断，发送更新缩略图接口信号
+    QStringList pathlist;
+    pathlist.append(m_infos.at(m_current).filePath);
 
+    if (pathlist.size() > 0) {
+        emit sendDynamicLoadPaths(pathlist);
+    }
     return true;
 }
 
@@ -1642,7 +1648,13 @@ bool ViewPanel::showNext()
     }
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    //发送更新缩略图接口信号
+    QStringList pathlist;
+    pathlist.append(m_infos.at(m_current).filePath);
 
+    if (pathlist.size() > 0) {
+        emit sendDynamicLoadPaths(pathlist);
+    }
     return true;
 }
 
