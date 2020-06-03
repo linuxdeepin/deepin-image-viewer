@@ -1544,7 +1544,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 //        if (pathlist.count() > 0) {
 //            //emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
 //        }
-
+        if(m_infos.size()>0)
+            emit m_viewB->cacheEnd();
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit changeHideFlag(false);
         m_bAllowDel = false;
