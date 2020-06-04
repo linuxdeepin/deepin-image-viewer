@@ -235,6 +235,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             if (removeCurrentImage()) {
                 DDesktopServices::trash(path);
                 emit dApp->signalM->picDelete();
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
             }
         }
         break;
@@ -398,17 +401,17 @@ void ViewPanel::initShortcut()
         }
     });
     // Delay image toggle
-    QTimer *dt = new QTimer(this);
-    dt->setSingleShot(true);
-    dt->setInterval(SWITCH_IMAGE_DELAY);
+    QTimer *m_dt = new QTimer(this);
+    m_dt->setSingleShot(true);
+    m_dt->setInterval(SWITCH_IMAGE_DELAY);
 
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        if (!dt->isActive())
+        if (!m_dt->isActive())
         {
-            dt->start();
+            m_dt->start();
             showPrevious();
         }
     });
@@ -416,9 +419,9 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        if (!dt->isActive())
+        if (!m_dt->isActive())
         {
-            dt->start();
+            m_dt->start();
             showNext();
         }
     });

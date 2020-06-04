@@ -784,7 +784,7 @@ bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nC
         return bRet;
     }
 
-    qDebug() << "被删除的图片路径：" << test->objectName();
+    //qDebug() << "被删除的图片路径：" << test->objectName();
     m_imglayout->removeWidget(test);
     test->setParent(nullptr);
     test->deleteLater();
@@ -801,6 +801,7 @@ bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nC
 
         i++;
     }
+
 //    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
 //    if (nCurrent != 0) {
 //        for (int i = nCurrent; i < labelList.size(); i++) {
@@ -883,6 +884,7 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
 
 
             m_imglayout->addWidget(imageItem);
+            int nn = m_imglayout->count();
             connect(imageItem, &ImageItem::imageItemclicked, this,
             [ = ](int index, int indexNow) {
                 emit imageClicked(index, (index - indexNow));
@@ -921,9 +923,10 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
     if (curitem) {
         curitem->setFixedSize(QSize(58, 58));
         curitem->resize(QSize(58, 58));
-        dApp->getRwLock().lockForRead();
+        //LMH0603，造成死锁的情况了，暂时屏蔽掉该锁，导致点击一张svg图片会卡死
+        //dApp->getRwLock().lockForRead();
         curitem->updatePic(dApp->m_imagemap.value(strCurPath));
-        dApp->getRwLock().unlock();
+        //dApp->getRwLock().unlock();
     }
 
     m_imgListView->show();

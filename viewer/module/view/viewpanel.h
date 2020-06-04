@@ -483,5 +483,8 @@ private:
     QStringList m_nosupportformat;
     //程序关闭时线程退出标志
     volatile bool m_bThreadExit = false;
+    //LMH延时Remove
+    QTimer *m_dtr = nullptr;
+
 };
 #endif  // VIEWPANEL_H
