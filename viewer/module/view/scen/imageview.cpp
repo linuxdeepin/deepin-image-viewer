@@ -434,7 +434,7 @@ void ImageView::titleBarControl()
 
     qreal realHeight = 0.0;
 
-    if (m_movieItem || m_imgSvgItem) {
+    if (m_movieItem || m_svgItem) {
         realHeight = image().size().height() * imageRelativeScale() * devicePixelRatioF();
 
     } else {
