@@ -825,17 +825,24 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         m_svgItem->setSharedRenderer(svgRenderer);
         setSceneRect(m_svgItem->boundingRect());
         s->addItem(m_svgItem);
+
         //LMH0603解决svg和gif和mng缩略图不显示问题
-        QThread *th = QThread::create([ = ]() {
+        if(dApp->m_firstLoad)
+        {
+            QThread *th = QThread::create([ = ]() {
+                emit imageChanged(strPath);
+//                static bool firstLoad = false;
+//                if (!firstLoad) {
+//                    emit cacheEnd();
+//                    firstLoad = true;
+//                }
+            });
+            connect(th, &QThread::finished, th, &QObject::deleteLater);
+            th->start();
+            dApp->m_firstLoad =false;
+        }else {
             emit imageChanged(strPath);
-//            static bool firstLoad = false;
-//            if (!firstLoad) {
-//                emit cacheEnd();
-//                firstLoad = true;
-//            }
-        });
-        connect(th, &QThread::finished, th, &QObject::deleteLater);
-        th->start();
+        }
         break;
     }
 
@@ -849,17 +856,23 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);
         //LMH0603解决svg和gif和mng缩略图不显示问题
-        QThread *th = QThread::create([ = ]() {
-              emit imageChanged(strPath);
-//            static bool firstLoad = false;
-//            if (!firstLoad) {
-//                emit cacheEnd();
-//                firstLoad = true;
-//            }
-        });
+        if(dApp->m_firstLoad)
+        {
+            QThread *th = QThread::create([ = ]() {
+                emit imageChanged(strPath);
+//                static bool firstLoad = false;
+//                if (!firstLoad) {
+//                    emit cacheEnd();
+//                    firstLoad = true;
+//                }
+            });
 
-        connect(th, &QThread::finished, th, &QObject::deleteLater);
-        th->start();
+            connect(th, &QThread::finished, th, &QObject::deleteLater);
+            th->start();
+            dApp->m_firstLoad =false;
+        }else {
+            emit imageChanged(strPath);
+}
         break;
     }
 
