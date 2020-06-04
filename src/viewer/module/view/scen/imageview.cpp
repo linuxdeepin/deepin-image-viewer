@@ -831,11 +831,12 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         {
             QThread *th = QThread::create([ = ]() {
                 emit imageChanged(strPath);
-//                static bool firstLoad = false;
-//                if (!firstLoad) {
-//                    emit cacheEnd();
-//                    firstLoad = true;
-//                }
+              //  bool firstLoad = false;
+              //  if (!firstLoad) {
+                qDebug() << "load cache";
+                    emit cacheEnd();
+                  //  firstLoad = true;
+               // }
             });
             connect(th, &QThread::finished, th, &QObject::deleteLater);
             th->start();
@@ -860,16 +861,18 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         {
             QThread *th = QThread::create([ = ]() {
                 emit imageChanged(strPath);
-//                static bool firstLoad = false;
-//                if (!firstLoad) {
-//                    emit cacheEnd();
-//                    firstLoad = true;
-//                }
+              //  bool firstLoad = false;
+              //  if (!firstLoad) {
+                qDebug() << "load cache";
+                    emit cacheEnd();
+                   // firstLoad = true;
+             //   }
             });
 
             connect(th, &QThread::finished, th, &QObject::deleteLater);
             th->start();
             dApp->m_firstLoad =false;
+
         }else {
             emit imageChanged(strPath);
 }
@@ -1155,10 +1158,11 @@ void ImageView::onCacheFinish(QVariantList vl)
             autoFit();
 
             emit imageChanged(path);
-            static bool firstLoad = false;
-            if (!firstLoad) {
+            //static bool firstLoad = false;
+            if (dApp->m_firstLoad) {
+                qDebug() << "load cache";
                 emit cacheEnd();
-                firstLoad = true;
+               // firstLoad = true;
             }
 
             //将缓存的图片加入hash
