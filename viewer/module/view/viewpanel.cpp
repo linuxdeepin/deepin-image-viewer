@@ -1510,7 +1510,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             qWarning() << "The specify path not in view range: " << vinfo.path << vinfo.paths;
             return;
         }
-
+        dApp->m_firstLoad = true;
         //Load 100 pictures while first
         if (!vinfo.path.isEmpty()) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
@@ -1551,14 +1551,11 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 //            QFileInfo fileinfo(vinfo.path);
 //            format = fileinfo.suffix();
 //        }
-//        if(!dApp->m_firstLoad || format=="svg")
-//            emit m_viewB->cacheEnd();
 //        if(m_infos.size()>0 && !m_infos[0].fileName.isEmpty())
 //        {
 //            dApp->m_firstLoad = false;
 //        }
-        emit m_viewB->cacheEnd();
-        dApp->m_firstLoad = true;
+
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
         emit changeHideFlag(false);
         m_bAllowDel = false;
