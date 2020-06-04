@@ -58,7 +58,7 @@ typedef DFileDialog QFDToDFileDialog;
 
 namespace {
 //LMH0603删除按键延迟
-const int DELAY_DESTROY_TIME=1000;
+const int DELAY_DESTROY_TIME=500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 // const QSize ICON_SIZE = QSize(48, 40);
 

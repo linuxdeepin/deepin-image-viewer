@@ -828,11 +828,11 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         //LMH0603解决svg和gif和mng缩略图不显示问题
         QThread *th = QThread::create([ = ]() {
             emit imageChanged(strPath);
-            static bool firstLoad = false;
-            if (!firstLoad) {
-                emit cacheEnd();
-                firstLoad = true;
-            }
+//            static bool firstLoad = false;
+//            if (!firstLoad) {
+//                emit cacheEnd();
+//                firstLoad = true;
+//            }
         });
         connect(th, &QThread::finished, th, &QObject::deleteLater);
         th->start();
@@ -851,11 +851,11 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         //LMH0603解决svg和gif和mng缩略图不显示问题
         QThread *th = QThread::create([ = ]() {
               emit imageChanged(strPath);
-            static bool firstLoad = false;
-            if (!firstLoad) {
-                emit cacheEnd();
-                firstLoad = true;
-            }
+//            static bool firstLoad = false;
+//            if (!firstLoad) {
+//                emit cacheEnd();
+//                firstLoad = true;
+//            }
         });
 
         connect(th, &QThread::finished, th, &QObject::deleteLater);
