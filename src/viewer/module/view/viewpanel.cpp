@@ -1111,7 +1111,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
             if (!file.exists()) {
                 return;
             }
-
             if (removeCurrentImage()) {
                 DDesktopServices::trash(path);
                 emit dApp->signalM->picDelete();
