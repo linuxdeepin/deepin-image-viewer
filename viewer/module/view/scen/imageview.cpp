@@ -1162,6 +1162,7 @@ void ImageView::onCacheFinish(QVariantList vl)
             if (dApp->m_firstLoad) {
                 emit cacheEnd();
                // firstLoad = true;
+                dApp->m_firstLoad = false;
             }
 
             //将缓存的图片加入hash
