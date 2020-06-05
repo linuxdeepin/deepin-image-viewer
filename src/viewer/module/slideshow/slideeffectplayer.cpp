@@ -587,7 +587,11 @@ void SlideEffectPlayer::stop()
     }
 
     killTimer(m_tid);
-    m_effect->clearimagemap();
+    //LMH0601 解决29706 【看图】【5.6.3.5】【sp1】播放幻灯片时，在第一张图片上双击鼠标，应用闪退
+    if(nullptr!=m_effect)
+    {
+        m_effect->clearimagemap();
+    }
     m_tid = 0;
     m_running = false;
     m_cacheImages.clear();

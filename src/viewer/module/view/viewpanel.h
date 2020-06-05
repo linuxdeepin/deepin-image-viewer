@@ -86,6 +86,12 @@ public:
      */
     QStringList getPathsFromCurrent(int nCurrent);
 
+    /**
+    * @brief refreshPixmap  点击缩略图刷新图片
+    * @param strPath        缩略图路径
+    */
+    void refreshPixmap(QString strPath);
+
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path, DBImgInfoList infos);
@@ -402,7 +408,7 @@ private slots:
      * @param path
      * last thumbnail path
      */
-    void slotGetLastThumbnailPath(QString& path);
+    void slotGetLastThumbnailPath(QString &path);
 
     /**
      * @brief slotLoadTailThumbnailsAndClearFront
@@ -416,7 +422,7 @@ private slots:
      * @param path
      * first thumbnail path
      */
-    void slotGetFirstThumbnailPath(QString& path);
+    void slotGetFirstThumbnailPath(QString &path);
 
 private:
     int m_hideCursorTid;
@@ -477,5 +483,8 @@ private:
     QStringList m_nosupportformat;
     //程序关闭时线程退出标志
     volatile bool m_bThreadExit = false;
+    //LMH延时Remove
+    QTimer *m_dtr = nullptr;
+
 };
 #endif  // VIEWPANEL_H

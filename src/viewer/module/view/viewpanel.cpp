@@ -57,7 +57,8 @@ using namespace Dtk::Widget;
 typedef DFileDialog QFDToDFileDialog;
 
 namespace {
-
+//LMH0603删除按键延迟
+const int DELAY_DESTROY_TIME=500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 // const QSize ICON_SIZE = QSize(48, 40);
 
@@ -71,6 +72,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     , m_viewB(nullptr)
     , m_info(nullptr)
     , m_stack(nullptr)
+    , m_dtr(nullptr)
 {
 #ifndef LITE_DIV
     m_vinfo.inDatabase = false;
@@ -104,8 +106,8 @@ QString ViewPanel::moduleName()
 void ViewPanel::initConnect()
 {
     //heyi  test
-    connect(dApp->signalM, &SignalManager::sigGetLastThumbnailPath,this,&ViewPanel::slotGetLastThumbnailPath);
-    connect(dApp->signalM, &SignalManager::sigGetFirstThumbnailpath,this,&ViewPanel::slotGetFirstThumbnailPath);
+    connect(dApp->signalM, &SignalManager::sigGetLastThumbnailPath, this, &ViewPanel::slotGetLastThumbnailPath);
+    connect(dApp->signalM, &SignalManager::sigGetFirstThumbnailpath, this, &ViewPanel::slotGetFirstThumbnailPath);
     connect(dApp->signalM, &SignalManager::sigLoadfrontSlideshow, this, &ViewPanel::SlotLoadFrontThumbnailsAndClearTail);
     connect(dApp->signalM, &SignalManager::sigLoadTailThumbnail, this, &ViewPanel::slotLoadTailThumbnailsAndClearFront);
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
@@ -125,7 +127,7 @@ void ViewPanel::initConnect()
         m_timer.start(2000);
     });
 
-    connect(this, &ViewPanel::sendDynamicLoadPaths, dApp, &Application::loadPixThread);
+    connect(this, &ViewPanel::sendDynamicLoadPaths, dApp, &Application::loadPixThread,Qt::QueuedConnection);
     connect(dApp->signalM, &SignalManager::updateFileName, this, [ = ](const QString & filename) {
         if (filename != "") {
             m_finish = true;
@@ -150,7 +152,7 @@ void ViewPanel::initConnect()
 
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
     connect(dApp->signalM, &SignalManager::viewImageNoNeedReload,
-    this, [ = ](QString &filename) {
+    this, [ = ](QString & filename) {
 //        emit imageChanged(filename);
 //        openImage(filename);
         int fileindex = imageIndex(filename);
@@ -197,6 +199,9 @@ void ViewPanel::initConnect()
     connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ](const DBImgInfoList & infos) {
         if (m_infos.length() > 0) {
             removeCurrentImage();
+            ttbc->setIsConnectDel(true);
+            m_bAllowDel = true;
+            ttbc->disableDelAct(true);
         }
 
         infos.size();
@@ -251,6 +256,13 @@ void ViewPanel::initConnect()
 //                                       QMessageBox::Save);
         onViewImage(vinfo);
     });
+    //LMH
+    if (nullptr == m_dtr)
+    {
+        m_dtr = new QTimer(this);
+        m_dtr->setSingleShot(true);
+        m_dtr->setInterval(DELAY_DESTROY_TIME);
+    }
 #endif
 }
 
@@ -314,6 +326,22 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
         pathsList.append(m_infos.at(m_current).filePath);
 
     return pathsList;
+}
+
+void ViewPanel::refreshPixmap(QString strPath)
+{
+
+    if (strPath.isEmpty()) {
+        return;
+    }
+
+    QPixmap pixmap(strPath);
+    dApp->getRwLock().lockForWrite();
+    dApp->m_imagemap.insert(strPath, pixmap.scaledToHeight(100,  Qt::FastTransformation));
+    dApp->getRwLock().unlock();
+
+    emit dApp->finishLoadSlot(strPath);
+
 }
 
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
@@ -426,6 +454,10 @@ void ViewPanel::reConnectTTbc()
     connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
     connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
     connect(ttbc, &TTBContent::removed, this, [ = ] {
+        if (m_dtr->isActive()) {
+            return ;
+        }
+        m_dtr->start();
         if (m_vinfo.inDatabase)
         {
             popupDelDialog(m_infos.at(m_current).filePath);
@@ -440,6 +472,9 @@ void ViewPanel::reConnectTTbc()
             if (removeCurrentImage()) {
                 DDesktopServices::trash(path);
                 emit dApp->signalM->picDelete();
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
             }
         }
     }, Qt::UniqueConnection);
@@ -514,10 +549,10 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             DBImgInfo info = m_infosHead.takeLast();
             m_infosadd.append(info);
             m_infos.push_front(info);
-           // QFileInfo finfo(info.filePath);
-           // QString str = finfo.suffix();
-           // if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && finfo.isReadable())
-           //    m_infoslideshow.push_front(info);
+            // QFileInfo finfo(info.filePath);
+            // QString str = finfo.suffix();
+            // if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && finfo.isReadable())
+            //    m_infoslideshow.push_front(info);
         }
         int begin = 0;
         for (; begin < m_infos.size(); begin++) {
@@ -536,9 +571,9 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             m_infosadd.append(info);
             m_infos.append(info);
             //QFileInfo finfo(info.filePath);
-           // QString str = finfo.suffix();
-           // if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && finfo.isReadable())
-           //    m_infoslideshow.append(info);
+            // QString str = finfo.suffix();
+            // if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive) && finfo.isReadable())
+            //    m_infoslideshow.append(info);
         }
 
         int begin = 0;
@@ -556,7 +591,7 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             houzi++;
         }
     }
-   // emit sigsendslideshowlist(bFlags, m_infoslideshow);
+    // emit sigsendslideshowlist(bFlags, m_infoslideshow);
     emit sendLoadAddInfos(m_infosadd, bFlags);
 
     QStringList pathlist;
@@ -775,7 +810,7 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
     m_infosTail = m_infosAll;
     m_infoslideshow.clear();
     for (int i = 0; i < Load_Image_Count; i++) {
-        if(m_infosTail.isEmpty()) break;
+        if (m_infosTail.isEmpty()) break;
         DBImgInfo info = m_infosTail.takeFirst();
         m_infos.append(info);
         QFileInfo file(info.filePath);
@@ -800,7 +835,7 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
 
 void ViewPanel::slotGetLastThumbnailPath(QString &path)
 {
-    path = m_infos[m_infos.size()-1].filePath;
+    path = m_infos[m_infos.size() - 1].filePath;
 }
 
 void ViewPanel::slotLoadTailThumbnailsAndClearFront()
@@ -816,9 +851,9 @@ void ViewPanel::slotLoadTailThumbnailsAndClearFront()
     m_infosTail.clear();
     m_infoslideshow.clear();
     for (int i = 0; i < Load_Image_Count; i++) {
-        if(m_infosHead.isEmpty()) break;
+        if (m_infosHead.isEmpty()) break;
         DBImgInfo info = m_infosHead.takeLast();
-        m_infos.insert(0,info);
+        m_infos.insert(0, info);
         QFileInfo file(info.filePath);
         QString str = file.suffix();
 //        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
@@ -996,6 +1031,9 @@ QWidget *ViewPanel::toolbarTopLeftContent()
             const QString path = m_infos.at(m_current).filePath;
             removeCurrentImage();
             utils::base::trashFile(path);
+            ttbc->setIsConnectDel(true);
+            m_bAllowDel = true;
+            ttbc->disableDelAct(true);
         }
     });
     connect(ttlc, &TTLContent::resetTransform, this, [ = ](bool fitWindow) {
@@ -1058,6 +1096,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); });
     connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); });
     connect(ttbc, &TTBContent::removed, this, [ = ] {
+
+        if (m_dtr->isActive()) {
+            return ;
+        }
+        m_dtr->start();
         if (m_vinfo.inDatabase)
         {
             popupDelDialog(m_infos.at(m_current).filePath);
@@ -1072,6 +1115,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
             if (removeCurrentImage()) {
                 DDesktopServices::trash(path);
                 emit dApp->signalM->picDelete();
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
             }
         }
     });
@@ -1464,8 +1510,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             qWarning() << "The specify path not in view range: " << vinfo.path << vinfo.paths;
             return;
         }
-
-        openImage(m_infos.at(m_current).filePath);
+        dApp->m_firstLoad = true;
         //Load 100 pictures while first
         if (!vinfo.path.isEmpty()) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
@@ -1487,7 +1532,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             }
             m_current = begin;
         }
-
+        openImage(m_infos.at(m_current).filePath);
         //eatImageDirIterator();
 //        QStringList pathlist;
 
@@ -1497,6 +1542,18 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
 //        if (pathlist.count() > 0) {
 //            //emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
+//        }
+     //   if(m_infos.size()>0)
+      //      emit m_viewB->cacheEnd();
+//        QString format;
+//        if(!vinfo.path.isEmpty())
+//        {
+//            QFileInfo fileinfo(vinfo.path);
+//            format = fileinfo.suffix();
+//        }
+//        if(m_infos.size()>0 && !m_infos[0].fileName.isEmpty())
+//        {
+//            dApp->m_firstLoad = false;
 //        }
 
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
@@ -1568,7 +1625,13 @@ bool ViewPanel::showPrevious()
     }
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    //LMH0603判断，发送更新缩略图接口信号
+    QStringList pathlist;
+    pathlist.append(m_infos.at(m_current).filePath);
 
+    if (pathlist.size() > 0) {
+        emit sendDynamicLoadPaths(pathlist);
+    }
     return true;
 }
 
@@ -1595,7 +1658,13 @@ bool ViewPanel::showNext()
     }
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    //发送更新缩略图接口信号
+    QStringList pathlist;
+    pathlist.append(m_infos.at(m_current).filePath);
 
+    if (pathlist.size() > 0) {
+        emit sendDynamicLoadPaths(pathlist);
+    }
     return true;
 }
 
@@ -1624,7 +1693,14 @@ bool ViewPanel::showImage(int index, int addindex)
 
     m_lastCurrent = m_current;
     m_current = index;
+    if(m_infos.at(m_current).filePath == m_currentImagePath &&NULL!=m_currentImagePath)
+    {
+        return false;
+    }
+    dApp->getRwLock().lockForWrite();
+    m_currentImagePath = m_infos.at(m_current).filePath;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
+    dApp->getRwLock().unlock();
     //发送更新缩略图接口信号
     QStringList pathlist;
     pathlist.append(m_infos.at(m_current).filePath);
@@ -1633,6 +1709,7 @@ bool ViewPanel::showImage(int index, int addindex)
 //        ttbc->setIsConnectDel(false);
 //        m_bAllowDel = false;
 //        ttbc->disableDelAct(false);
+     //   refreshPixmap(m_infos.at(m_current).filePath);
         emit sendDynamicLoadPaths(pathlist);
     }
 
@@ -1653,7 +1730,9 @@ bool ViewPanel::removeCurrentImage()
     // 在删除当前图片之前将图片列表初始化完成
     //eatImageDirIterator();
 #endif
+    DBImgInfo imginfo = m_infos[m_current];
     m_infos.removeAt(m_current);
+    m_infosAll.removeOne(imginfo);
     if (m_infos.isEmpty()) {
         qDebug() << "No images to show!";
         emit dApp->signalM->allPicDelete();
@@ -1675,11 +1754,12 @@ bool ViewPanel::removeCurrentImage()
         ttbc->delPictureFromPath(m_currentImagePath, m_infos, m_current);
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
+
     }
 
-    ttbc->setIsConnectDel(true);
-    m_bAllowDel = true;
-    ttbc->disableDelAct(true);
+//    ttbc->setIsConnectDel(true);
+//    m_bAllowDel = true;
+//    ttbc->disableDelAct(true);
 
     return true;
 }
@@ -1805,7 +1885,6 @@ void ViewPanel::initViewContent()
         emit imageChanged(path, m_infos);
         // Pixmap is cache in thread, make sure the size would correct after
         // cache is finish
-        qDebug() << "GG斯密达";
         m_viewB->autoFit();
     });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
@@ -1816,6 +1895,7 @@ void ViewPanel::initViewContent()
 
 void ViewPanel::openImage(const QString path, bool inDB)
 {
+
     //    if (! QFileInfo(path).exists()) {
     // removeCurrentImage() will cause timerEvent be trigered again by
     // showNext() or showPrevious(), so delay to remove current image
@@ -1890,7 +1970,6 @@ void ViewPanel::openImage(const QString path, bool inDB)
             if (QFileInfo(m_currentImagePath).exists()) {
                 m_viewB->setImage(m_currentImagePath);
                 m_stack->setCurrentIndex(0);
-                qDebug() << "GG斯密达";
                 QTimer::singleShot(0, m_viewB, &ImageView::autoFit);
             }
         } else {

@@ -207,8 +207,9 @@ QMimeType determineMimeType(const QString &filename)
 
 QVariantList ImageView::cachePixmap(const QString path)
 {
-    QImage tImg;
 
+#ifdef PIXMAP_LOAD
+    QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
         qDebug() << "render开始";
@@ -237,6 +238,10 @@ QVariantList ImageView::cachePixmap(const QString path)
     }
 
     QPixmap p = QPixmap::fromImage(tImg);
+#else
+    QPixmap p(path);
+#endif
+
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
     qDebug() << "render缓存结束";
@@ -398,7 +403,6 @@ void ImageView::setScaleValue(qreal v)
     emit showScaleLabel();
     emit transformChanged();
 
-    qDebug() << "我套你猴子啊!";
     titleBarControl();
 }
 
@@ -418,7 +422,6 @@ void ImageView::autoFit()
         fitImage();
     }
 
-    qDebug() << "我套你猴子啊!";
     titleBarControl();
 }
 
@@ -454,11 +457,11 @@ const QImage ImageView::image()
         // FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
         //    } else if (m_svgItem) {    // svg
-    } else if (m_imgSvgItem) {  // svg
-        QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+    } else if (m_svgItem) {  // svg
+        QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
         image.fill(QColor(0, 0, 0, 0));
         QPainter imagePainter(&image);
-        m_imgSvgItem->renderer()->render(&imagePainter);
+        m_svgItem->renderer()->render(&imagePainter);
         imagePainter.end();
         return image;
     } else {
@@ -716,7 +719,7 @@ void ImageView::showPixmap(QString path)
         setSceneRect(rect);
         //            setSceneRect(m_pixmapItem->boundingRect());
         scene()->addItem(m_pixmapItem);
-        qDebug() << "GG 斯密达";
+
         autoFit();
 
         emit imageChanged(path);
@@ -753,7 +756,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         m_movieItem = nullptr;
         qDebug() << "cache start!";
         if (m_hsPixap.contains(strPath)) {
-            showPixmap(strPath);
+            //showPixmap(strPath);
             //fix 26153
             emit dApp->signalM->hideNavigation();
         } else {
@@ -764,6 +767,12 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 
             connect(th, &QThread::finished, th, &QObject::deleteLater);
             th->start();
+
+//            static bool haha = false;
+//            if (!haha) {
+//                th->start();
+//                haha = true;
+//            }
 
             if (!m_watcher.isRunning()) {
                 //                m_watcher.setFuture(f);
@@ -807,13 +816,34 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         s->clear();
         resetTransform();
         //heyi test
+
+
+
         QSvgRenderer *svgRenderer = new QSvgRenderer;
         svgRenderer->load(strPath);
         m_svgItem = new QGraphicsSvgItem();
         m_svgItem->setSharedRenderer(svgRenderer);
         setSceneRect(m_svgItem->boundingRect());
         s->addItem(m_svgItem);
-        emit imageChanged(strPath);
+
+        //LMH0603解决svg和gif和mng缩略图不显示问题
+        if(dApp->m_firstLoad)
+        {
+            QThread *th = QThread::create([ = ]() {
+                emit imageChanged(strPath);
+              //  bool firstLoad = false;
+              //  if (!firstLoad) {
+                qDebug() << "load cache";
+                    emit cacheEnd();
+                  //  firstLoad = true;
+               // }
+            });
+            connect(th, &QThread::finished, th, &QObject::deleteLater);
+            th->start();
+            dApp->m_firstLoad =false;
+        }else {
+            emit imageChanged(strPath);
+        }
         break;
     }
 
@@ -826,7 +856,26 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);
-        emit imageChanged(strPath);
+        //LMH0603解决svg和gif和mng缩略图不显示问题
+        if(dApp->m_firstLoad)
+        {
+            QThread *th = QThread::create([ = ]() {
+                emit imageChanged(strPath);
+              //  bool firstLoad = false;
+              //  if (!firstLoad) {
+                qDebug() << "load cache";
+                    emit cacheEnd();
+                   // firstLoad = true;
+             //   }
+            });
+
+            connect(th, &QThread::finished, th, &QObject::deleteLater);
+            th->start();
+            dApp->m_firstLoad =false;
+
+        }else {
+            emit imageChanged(strPath);
+}
         break;
     }
 
@@ -899,7 +948,7 @@ void ImageView::rotatePixmap(int nAngel)
     setSceneRect(rect);
     //            setSceneRect(m_pixmapItem->boundingRect());
     scene()->addItem(m_pixmapItem);
-    qDebug() << "GG 斯密达";
+
     autoFit();
     m_rotateAngel += nAngel;
 }
@@ -1018,7 +1067,7 @@ void ImageView::resizeEvent(QResizeEvent *event)
 
     // when resize window, make titlebar changed.
     if (!image().isNull()) {
-        qDebug() << "我套你猴子啊!";
+
         titleBarControl();
     }
 
@@ -1078,8 +1127,9 @@ void ImageView::onCacheFinish(QVariantList vl)
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
-        pixmap = pixmap.scaled(screen_width, screen_height, Qt::KeepAspectRatio);
-        //pixmap.setDevicePixelRatio(devicePixelRatioF());
+        vl.clear();
+       // pixmap = pixmap.scaled(screen_width, screen_height, Qt::KeepAspectRatio);
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
         if (path == m_path) {
             scene()->clear();
             resetTransform();
@@ -1104,14 +1154,16 @@ void ImageView::onCacheFinish(QVariantList vl)
             setSceneRect(rect);
             //            setSceneRect(m_pixmapItem->boundingRect());
             scene()->addItem(m_pixmapItem);
-            qDebug() << "GG 斯密达";
-            //autoFit();
+
+            autoFit();
 
             emit imageChanged(path);
-            static bool firstLoad = false;
-            if (!firstLoad) {
+            //static bool firstLoad = false;
+            if (dApp->m_firstLoad) {
+                qDebug() << "load cache";
                 emit cacheEnd();
-                firstLoad = true;
+                dApp->m_firstLoad =false;
+               // firstLoad = true;
             }
 
             //将缓存的图片加入hash
@@ -1151,7 +1203,7 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
     const QPointF curPos = mapFromScene(targetScenePos);
     const QPointF centerPos = QPointF(width() / 2.0, height() / 2.0) + (curPos - targetPos);
     const QPointF centerScenePos = mapToScene(centerPos.toPoint());
-    centerOn(centerScenePos.x(), centerScenePos.y());
+    centerOn(static_cast<int>(centerScenePos.x()), static_cast<int>(centerScenePos.y()));
 }
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
@@ -1186,7 +1238,6 @@ void ImageView::wheelEvent(QWheelEvent *event)
     scaleAtPoint(event->pos(), factor);
 
     event->accept();
-
-    qDebug() << "我套你猴子啊!";
+    qDebug()<<"21312";
     titleBarControl();
 }
