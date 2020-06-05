@@ -120,6 +120,7 @@ public:
     ImageLoader *m_imageloader;
 
     QThread *m_LoadThread;
+    bool m_firstLoad = true;
 signals:
     /**
      * @brief sigstartLoad  加载线程启动信号

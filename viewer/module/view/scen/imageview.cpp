@@ -457,11 +457,11 @@ const QImage ImageView::image()
         // FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
         //    } else if (m_svgItem) {    // svg
-    } else if (m_imgSvgItem) {  // svg
-        QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+    } else if (m_svgItem) {  // svg
+        QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
         image.fill(QColor(0, 0, 0, 0));
         QPainter imagePainter(&image);
-        m_imgSvgItem->renderer()->render(&imagePainter);
+        m_svgItem->renderer()->render(&imagePainter);
         imagePainter.end();
         return image;
     } else {
@@ -816,13 +816,34 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         s->clear();
         resetTransform();
         //heyi test
+
+
+
         QSvgRenderer *svgRenderer = new QSvgRenderer;
         svgRenderer->load(strPath);
         m_svgItem = new QGraphicsSvgItem();
         m_svgItem->setSharedRenderer(svgRenderer);
         setSceneRect(m_svgItem->boundingRect());
         s->addItem(m_svgItem);
-        emit imageChanged(strPath);
+
+        //LMH0603解决svg和gif和mng缩略图不显示问题
+        if(dApp->m_firstLoad)
+        {
+            QThread *th = QThread::create([ = ]() {
+                emit imageChanged(strPath);
+              //  bool firstLoad = false;
+              //  if (!firstLoad) {
+                    emit cacheEnd();
+                qDebug() << "load cache";
+                  //  firstLoad = true;
+               // }
+            });
+            connect(th, &QThread::finished, th, &QObject::deleteLater);
+            th->start();
+            dApp->m_firstLoad =false;
+        }else {
+            emit imageChanged(strPath);
+        }
         break;
     }
 
@@ -835,7 +856,26 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);
-        emit imageChanged(strPath);
+        //LMH0603解决svg和gif和mng缩略图不显示问题
+        if(dApp->m_firstLoad)
+        {
+            QThread *th = QThread::create([ = ]() {
+                emit imageChanged(strPath);
+              //  bool firstLoad = false;
+              //  if (!firstLoad) {
+                qDebug() << "load cache";
+                    emit cacheEnd();
+                   // firstLoad = true;
+             //   }
+            });
+
+            connect(th, &QThread::finished, th, &QObject::deleteLater);
+            th->start();
+            dApp->m_firstLoad =false;
+
+        }else {
+            emit imageChanged(strPath);
+}
         break;
     }
 
@@ -1118,10 +1158,11 @@ void ImageView::onCacheFinish(QVariantList vl)
             autoFit();
 
             emit imageChanged(path);
-            static bool firstLoad = false;
-            if (!firstLoad) {
+            //static bool firstLoad = false;
+            if (dApp->m_firstLoad) {
                 emit cacheEnd();
-                firstLoad = true;
+               // firstLoad = true;
+                dApp->m_firstLoad = false;
             }
 
             //将缓存的图片加入hash
