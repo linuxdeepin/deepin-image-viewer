@@ -208,7 +208,7 @@ QMimeType determineMimeType(const QString &filename)
 QVariantList ImageView::cachePixmap(const QString path)
 {
 
-#ifdef PIXMAP_LOAD
+#ifndef PIXMAP_LOAD
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {

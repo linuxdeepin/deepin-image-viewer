@@ -112,6 +112,11 @@ void ViewPanel::initConnect()
     connect(dApp->signalM, &SignalManager::sigLoadTailThumbnail, this, &ViewPanel::slotLoadTailThumbnailsAndClearFront);
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
     connect(dApp, &Application::endThread, this, [ = ]() {
+                    m_infos.clear();
+                    m_infosadd.clear();
+                    m_infosHead.clear();
+                    m_infosTail.clear();
+                    m_infosAll.clear();
         m_bThreadExit = true;
     });
 
@@ -330,15 +335,14 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
 
 void ViewPanel::refreshPixmap(QString strPath)
 {
-
+    QMutexLocker(&dApp->getRwLock());
     if (strPath.isEmpty()) {
         return;
     }
-
+    //dApp->getRwLock().lockForWrite();
     QPixmap pixmap(strPath);
-    dApp->getRwLock().lockForWrite();
     dApp->m_imagemap.insert(strPath, pixmap.scaledToHeight(100,  Qt::FastTransformation));
-    dApp->getRwLock().unlock();
+   // dApp->getRwLock().unlock();
 
     emit dApp->finishLoadSlot(strPath);
 
@@ -1322,7 +1326,6 @@ void ViewPanel::dragMoveEvent(QDragMoveEvent *event)
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
     if (m_bThreadExit) {
-        QThread::currentThread()->quit();
         return;
     }
 
@@ -1696,10 +1699,11 @@ bool ViewPanel::showImage(int index, int addindex)
     {
         return false;
     }
-    dApp->getRwLock().lockForWrite();
+//    dApp->getRwLock().unlock();
+//    dApp->getRwLock().lockForWrite();
     m_currentImagePath = m_infos.at(m_current).filePath;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    dApp->getRwLock().unlock();
+//    dApp->getRwLock().unlock();
     //发送更新缩略图接口信号
     QStringList pathlist;
     pathlist.append(m_infos.at(m_current).filePath);

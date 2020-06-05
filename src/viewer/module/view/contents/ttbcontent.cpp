@@ -171,7 +171,6 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
     Q_UNUSED(parent);
     _index = index;
     _path = path;
-    dApp->getRwLock().lockForRead();
     if (dApp->m_imagemap.contains(path)) {
         _pixmap = dApp->m_imagemap.value(path);
     }
@@ -185,8 +184,6 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
             }
         }
     });
-
-    dApp->getRwLock().unlock();
 };
 
 void ImageItem::paintEvent(QPaintEvent *event)
