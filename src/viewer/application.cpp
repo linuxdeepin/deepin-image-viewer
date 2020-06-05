@@ -205,9 +205,7 @@ void ImageLoader::startLoading()
 
 void ImageLoader::stopThread()
 {
-    m_flagLock.lockForWrite();
     m_bFlag = false;
-    m_flagLock.unlock();
 }
 
 void ImageLoader::addImageLoader(QStringList pathlist)
@@ -406,10 +404,11 @@ Application::Application(int &argc, char **argv)
 
 
     connect(dApp->signalM, &SignalManager::sendPathlist, this, [ = ](QStringList list, QString path) {
-        if(m_LoadThread && m_LoadThread->isRunning()){
-            emit endThread();
-            QThread::msleep(500);
-        }
+//        if(m_LoadThread && m_LoadThread->isRunning()){
+//            emit endThread();
+//            QThread::msleep(500);
+
+//        }
         m_imageloader = new ImageLoader(this, list, path);
         m_LoadThread = new QThread();
 

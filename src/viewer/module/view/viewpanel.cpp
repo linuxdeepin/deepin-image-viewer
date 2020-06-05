@@ -112,11 +112,6 @@ void ViewPanel::initConnect()
     connect(dApp->signalM, &SignalManager::sigLoadTailThumbnail, this, &ViewPanel::slotLoadTailThumbnailsAndClearFront);
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
     connect(dApp, &Application::endThread, this, [ = ]() {
-                    m_infos.clear();
-                    m_infosadd.clear();
-                    m_infosHead.clear();
-                    m_infosTail.clear();
-                    m_infosAll.clear();
         m_bThreadExit = true;
     });
 
@@ -1403,6 +1398,15 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
+    if(dApp->m_LoadThread && dApp->m_LoadThread->isRunning()){
+        emit dApp->endThread();
+        QThread::msleep(500);
+        m_infos.clear();
+        m_infosadd.clear();
+        m_infosHead.clear();
+        m_infosTail.clear();
+        m_infosAll.clear();
+    }
     qDebug() << "onviewimage";
     m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
     startFileWatcher();
