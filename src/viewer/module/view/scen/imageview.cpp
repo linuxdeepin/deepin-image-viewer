@@ -1162,6 +1162,7 @@ void ImageView::onCacheFinish(QVariantList vl)
             if (dApp->m_firstLoad) {
                 qDebug() << "load cache";
                 emit cacheEnd();
+                dApp->m_firstLoad =false;
                // firstLoad = true;
             }
 
