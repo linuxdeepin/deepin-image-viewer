@@ -20,6 +20,7 @@
 #include <DApplication>
 #include <QThread>
 #include <QReadWriteLock>
+#include <QMutex>
 #include <QList>
 class Application;
 class ConfigSetter;
@@ -74,6 +75,7 @@ public slots:
      */
     void stopThread();
 
+
 signals:
     /**
      * @brief sigFinishiLoad    缩略图加载完成信号
@@ -103,7 +105,7 @@ public:
      * @brief getRwLock 获取线程安全读写锁，在外部读取map时使用
      * @return          读写锁
      */
-    inline QReadWriteLock &getRwLock()
+    inline QMutex &getRwLock()
     {
         return m_rwLock;
     }
@@ -186,7 +188,7 @@ private:
 
 private:
     //读写锁
-    QReadWriteLock m_rwLock;
+    QMutex m_rwLock;
     QStringList m_loadPaths;
     //线程结束标志位
     volatile bool m_bThreadExit = false;

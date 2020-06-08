@@ -208,7 +208,7 @@ QMimeType determineMimeType(const QString &filename)
 QVariantList ImageView::cachePixmap(const QString path)
 {
 
-#ifdef PIXMAP_LOAD
+#ifndef PIXMAP_LOAD
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -833,8 +833,8 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
                 emit imageChanged(strPath);
               //  bool firstLoad = false;
               //  if (!firstLoad) {
-                    emit cacheEnd();
                 qDebug() << "load cache";
+                    emit cacheEnd();
                   //  firstLoad = true;
                // }
             });
@@ -1160,9 +1160,10 @@ void ImageView::onCacheFinish(QVariantList vl)
             emit imageChanged(path);
             //static bool firstLoad = false;
             if (dApp->m_firstLoad) {
+                qDebug() << "load cache";
                 emit cacheEnd();
+                dApp->m_firstLoad =false;
                // firstLoad = true;
-                dApp->m_firstLoad = false;
             }
 
             //将缓存的图片加入hash
