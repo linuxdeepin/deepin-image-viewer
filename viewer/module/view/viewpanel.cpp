@@ -1406,6 +1406,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         m_infosHead.clear();
         m_infosTail.clear();
         m_infosAll.clear();
+        m_bThreadExit = false;
     }
     qDebug() << "onviewimage";
     m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
