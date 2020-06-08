@@ -80,7 +80,8 @@ void ImageLoader::startLoading()
             list.append(m_pathlist.at(array + i));
         }
     }
-
+    listLoad1.clear();
+    listLoad2.clear();
     //heyi test 开辟两个线程同时加载,重选中位置往两边加载
     for (int i = 0; i < array; i++) {
         listLoad1.append(m_pathlist.at(i));
@@ -101,13 +102,10 @@ void ImageLoader::startLoading()
             }
 
             //判断线程标识
-            m_flagLock.lockForRead();
             if (!m_bFlag) {
-                m_flagLock.unlock();
+                m_readlock.unlock();
                 break;
             }
-
-            m_flagLock.unlock();
 
             path = listLoad1.back();
 //            qDebug() << "线程1当前加载的图片：" << path;
@@ -127,13 +125,10 @@ void ImageLoader::startLoading()
             }
 
             //判断线程标识
-            m_flagLock.lockForRead();
             if (!m_bFlag) {
-                m_flagLock.unlock();
+                m_readlock.unlock();
                 break;
             }
-
-            m_flagLock.unlock();
 
             path = listLoad2.front();
 //            qDebug() << "线程1当前加载的图片：" << path;
@@ -141,7 +136,7 @@ void ImageLoader::startLoading()
             m_readlock.unlock();
             loadInterface(path);
         }
-
+        qDebug()<< "th1"<<QThread::currentThreadId();
         QThread::currentThread()->quit();
     });
 
@@ -156,9 +151,8 @@ void ImageLoader::startLoading()
             }
 
             //判断线程标识
-            m_flagLock.lockForRead();
             if (!m_bFlag) {
-                m_flagLock.unlock();
+                m_readlock.unlock();
                 break;
             }
 
@@ -182,24 +176,21 @@ void ImageLoader::startLoading()
             }
 
             //判断线程标识
-            m_flagLock.lockForRead();
             if (!m_bFlag) {
-                m_flagLock.unlock();
+                m_readlock.unlock();
                 break;
             }
 
-            m_flagLock.unlock();
 
             path = listLoad1.back();
-//            qDebug() << "线程2当前加载的图片：" << path;
+            qDebug() << "线程2当前加载的图片：" << path;
             listLoad1.pop_back();
             m_readlock.unlock();
             loadInterface(path);
         }
-
+        qDebug()<<QThread::currentThreadId();
         QThread::currentThread()->quit();
     });
-
     connect(th1, &QThread::finished, th1, &QObject::deleteLater);
     connect(th2, &QThread::finished, th2, &QObject::deleteLater);
     th1->start();
@@ -214,9 +205,7 @@ void ImageLoader::startLoading()
 
 void ImageLoader::stopThread()
 {
-    m_flagLock.lockForWrite();
     m_bFlag = false;
-    m_flagLock.unlock();
 }
 
 void ImageLoader::addImageLoader(QStringList pathlist)
@@ -243,19 +232,21 @@ void ImageLoader::addImageLoader(QStringList pathlist)
                 tImg = QImage(path);
             }
         }
+        //LMH0601加锁
+        QMutexLocker(&dApp->getRwLock());
+        //dApp->getRwLock().lockForWrite();
         QPixmap pixmap = QPixmap::fromImage(tImg);
 
-        //LMH0601加锁
-        dApp->getRwLock().lockForWrite();
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-        dApp->getRwLock().unlock();
+        //dApp->getRwLock().unlock();
     }
 }
 //modify by heyi
 void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
 {
     for (QString path : pathlist) {
-        dApp->getRwLock().lockForWrite();
+        QMutexLocker(&dApp->getRwLock());
+//        dApp->getRwLock().lockForWrite();
         QPixmap pixmap = m_parent->m_imagemap[path];
         if (pixmap.isNull()) {
             QImage image(path);
@@ -274,13 +265,15 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
         //QImage image(path);
         //QPixmap pixmap = QPixmap::fromImage(image);
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-        dApp->getRwLock().unlock();
+       // dApp->getRwLock().unlock();
     }
 }
 
 void ImageLoader::loadInterface(QString path)
 {
-#ifdef PIXMAP_LOAD
+    QMutexLocker(&dApp->getRwLock());
+   // dApp->getRwLock().lockForWrite();
+#ifndef PIXMAP_LOAD
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -306,9 +299,9 @@ void ImageLoader::loadInterface(QString path)
 #else
     QPixmap pixmap(path);
 #endif
-    dApp->getRwLock().lockForWrite();
+
     m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    dApp->getRwLock().unlock();
+   // dApp->getRwLock().unlock();
 
     emit sigFinishiLoad(path);
 }
@@ -320,15 +313,15 @@ void Application::finishLoadSlot(QString mapPath)
 
 void Application::loadPixThread(QStringList paths)
 {
-    m_rwLock.lockForWrite();
+
     m_loadPaths = paths;
-    m_rwLock.unlock();
+
     //开启线程进行后台加载图片
 
     QThread *th = QThread::create([ = ]() {
-        m_rwLock.lockForWrite();
+
         QStringList pathList = m_loadPaths;
-        m_rwLock.unlock();
+
         foreach (QString var, pathList) {
             if (m_bThreadExit) {
                 break;
@@ -350,7 +343,9 @@ void Application::loadPixThread(QStringList paths)
 
 void Application::loadInterface(QString path)
 {
-#ifdef PIXMAP_LOAD
+    QMutexLocker(&dApp->getRwLock());
+   //  dApp->getRwLock().lockForWrite();
+#ifndef PIXMAP_LOAD
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -376,9 +371,9 @@ void Application::loadInterface(QString path)
 #else
     QPixmap pixmap(path);
 #endif
-    dApp->getRwLock().lockForWrite();
+
     m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    dApp->getRwLock().unlock();
+   // dApp->getRwLock().unlock();
 
     finishLoadSlot(path);
 }
@@ -409,16 +404,28 @@ Application::Application(int &argc, char **argv)
 
 
     connect(dApp->signalM, &SignalManager::sendPathlist, this, [ = ](QStringList list, QString path) {
+//        if(m_LoadThread && m_LoadThread->isRunning()){
+//            emit endThread();
+//            QThread::msleep(500);
+
+//        }
         m_imageloader = new ImageLoader(this, list, path);
         m_LoadThread = new QThread();
 
         m_imageloader->moveToThread(m_LoadThread);
-        m_LoadThread->start();
+
+        connect(m_LoadThread, &QThread::finished, m_LoadThread, &QObject::deleteLater);
 
         connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
         connect(m_imageloader, SIGNAL(sigFinishiLoad(QString)), this, SLOT(finishLoadSlot(QString)));
         //heyi
         connect(this, SIGNAL(endThread()), m_imageloader, SLOT(stopThread()), Qt::QueuedConnection);
+
+        m_LoadThread->start();
+
+
+
+
         emit sigstartLoad();
     });
 }
