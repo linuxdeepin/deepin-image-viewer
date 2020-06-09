@@ -398,6 +398,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
     } else {
         DIVDBusController *dc = new DIVDBusController(dApp->signalM);
         Q_UNUSED(dc)
+    }
 #endif
         using namespace utils::image;
         QString name;
