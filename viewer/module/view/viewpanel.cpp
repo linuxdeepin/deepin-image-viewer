@@ -164,11 +164,7 @@ void ViewPanel::initConnect()
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                        (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-//        int ret = QMessageBox::warning(this, tr("My Application"),
-//                                       "我套你猴子",
-//                                       QMessageBox::Save | QMessageBox::Discard
-//                                       | QMessageBox::Cancel,
-//                                       QMessageBox::Save);
+
         onViewImage(vinfo);
         if (nullptr == vinfo.lastPanel) {
             return;
@@ -249,11 +245,6 @@ void ViewPanel::initConnect()
         qDebug() << "emit dApp->signalM->enterView(true)..................m_emptyWidget";
         qDebug() << "加载到onViewImage前，viewpanel.cpp 205行";
 
-//        int ret = QMessageBox::warning(this, tr("My Application"),
-//                                       "我套你猴子1",
-//                                       QMessageBox::Save | QMessageBox::Discard
-//                                       | QMessageBox::Cancel,
-//                                       QMessageBox::Save);
         onViewImage(vinfo);
     });
     //LMH
