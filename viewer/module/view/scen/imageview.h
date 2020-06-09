@@ -91,7 +91,7 @@ public:
     void autoFit();
     void titleBarControl();
 
-    const QImage image();
+    const QImage image(bool brefresh = false);
     qreal imageRelativeScale() const;
     qreal windowRelativeScale() const;
     qreal windowRelativeScale_origin() const;
@@ -278,6 +278,6 @@ private:
     bool m_loadingDisplay = false;
     //heyi test 保存旋转的角度
     int m_rotateAngel = 0;
-
+    QImage m_svgimg;
 };
 #endif // SVGVIEW_H
