@@ -19,7 +19,7 @@
 #include <QDebug>
 #include <QPainter>
 
-GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent)
+GraphicsMovieItem::GraphicsMovieItem(const QString &fileName,const QString &suffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
 {
     m_movie = new QMovie(fileName);
