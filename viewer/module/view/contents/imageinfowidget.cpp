@@ -314,6 +314,18 @@ void ImageInfoWidget::timerEvent(QTimerEvent *e)
 {
     QWidget::timerEvent(e);
 }
+//LMH0609解决31498 【看图】【5.6.3.9】【sp2】更改字体大小后，图片信息窗口文字布局展示异常
+void ImageInfoWidget::paintEvent(QPaintEvent *event)
+{
+    QFont font;
+    int currentSize = DFontSizeManager::instance()->fontPixelSize(font );
+    //LMH0609判断与上次自体的大小是否一样，不一样则刷新
+    if (currentSize != m_currentFontSize) {
+        m_currentFontSize = currentSize;
+        updateInfo();
+    }
+    QWidget::paintEvent(event);
+}
 
 void ImageInfoWidget::clearLayout(QLayout *layout)
 {
