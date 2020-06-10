@@ -198,11 +198,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             connect(this, &ViewPanel::SetImglistPath, ttbc, &TTBContent::OnSetimglist);
             emit SetImglistPath(m_current, filename, filepath);
             //修改map维护的数据
-            dApp->getRwLock().lockForWrite();
+            //dApp->getRwLock().lockForWrite();
+            QMutexLocker(&dApp->getRwLock());
             QPixmap pix =  dApp->m_imagemap.value(path);
             dApp->m_imagemap.remove(path);
             dApp->m_imagemap.insert(filepath, pix);
-            dApp->getRwLock().unlock();
+           // dApp->getRwLock().unlock();
             m_currentImagePath  = filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);

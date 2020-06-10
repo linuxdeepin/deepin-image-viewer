@@ -164,11 +164,7 @@ void ViewPanel::initConnect()
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                        (m_infos.size() > 1));
         emit dApp->signalM->updateTopToolbarMiddleContent(toolbarTopMiddleContent());
-//        int ret = QMessageBox::warning(this, tr("My Application"),
-//                                       "我套你猴子",
-//                                       QMessageBox::Save | QMessageBox::Discard
-//                                       | QMessageBox::Cancel,
-//                                       QMessageBox::Save);
+
         onViewImage(vinfo);
         if (nullptr == vinfo.lastPanel) {
             return;
@@ -249,11 +245,6 @@ void ViewPanel::initConnect()
         qDebug() << "emit dApp->signalM->enterView(true)..................m_emptyWidget";
         qDebug() << "加载到onViewImage前，viewpanel.cpp 205行";
 
-//        int ret = QMessageBox::warning(this, tr("My Application"),
-//                                       "我套你猴子1",
-//                                       QMessageBox::Save | QMessageBox::Discard
-//                                       | QMessageBox::Cancel,
-//                                       QMessageBox::Save);
         onViewImage(vinfo);
     });
     //LMH
@@ -330,15 +321,14 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
 
 void ViewPanel::refreshPixmap(QString strPath)
 {
-
+    QMutexLocker(&dApp->getRwLock());
     if (strPath.isEmpty()) {
         return;
     }
-
+    //dApp->getRwLock().lockForWrite();
     QPixmap pixmap(strPath);
-    dApp->getRwLock().lockForWrite();
     dApp->m_imagemap.insert(strPath, pixmap.scaledToHeight(100,  Qt::FastTransformation));
-    dApp->getRwLock().unlock();
+   // dApp->getRwLock().unlock();
 
     emit dApp->finishLoadSlot(strPath);
 
@@ -1111,7 +1101,6 @@ QWidget *ViewPanel::bottomTopLeftContent()
             if (!file.exists()) {
                 return;
             }
-
             if (removeCurrentImage()) {
                 DDesktopServices::trash(path);
                 emit dApp->signalM->picDelete();
@@ -1323,7 +1312,6 @@ void ViewPanel::dragMoveEvent(QDragMoveEvent *event)
 void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 {
     if (m_bThreadExit) {
-        QThread::currentThread()->quit();
         return;
     }
 
@@ -1401,6 +1389,16 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
+    if(dApp->m_LoadThread && dApp->m_LoadThread->isRunning()){
+        emit dApp->endThread();
+        QThread::msleep(500);
+        m_infos.clear();
+        m_infosadd.clear();
+        m_infosHead.clear();
+        m_infosTail.clear();
+        m_infosAll.clear();
+        m_bThreadExit = false;
+    }
     qDebug() << "onviewimage";
     m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
     startFileWatcher();
@@ -1697,10 +1695,11 @@ bool ViewPanel::showImage(int index, int addindex)
     {
         return false;
     }
-    dApp->getRwLock().lockForWrite();
+//    dApp->getRwLock().unlock();
+//    dApp->getRwLock().lockForWrite();
     m_currentImagePath = m_infos.at(m_current).filePath;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    dApp->getRwLock().unlock();
+//    dApp->getRwLock().unlock();
     //发送更新缩略图接口信号
     QStringList pathlist;
     pathlist.append(m_infos.at(m_current).filePath);

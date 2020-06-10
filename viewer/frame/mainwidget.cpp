@@ -257,8 +257,14 @@ void MainWidget::initTopToolbar()
     m_topToolbar->move(0, 0);
     m_topToolbar->hide();
     connect(dApp->signalM, &SignalManager::allPicDelete, this, [ = ]() {
-        m_topToolbar = new TopToolbar(false, this);
-        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+       //LMH0609解决31220 【看图】【5.6.3.9】【sp1】删除整个目录的图片后重新打开一个目录，全屏观看图片，展示异常
+        if(nullptr!=m_topToolbar)
+        {
+            m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+        }
+        else {
+            m_topToolbar = new TopToolbar(false, this);
+        }
     });
     connect(dApp->signalM, &SignalManager::changetitletext, this, [ = ](QString filename) {
         m_topToolbar->setMiddleContent(filename);

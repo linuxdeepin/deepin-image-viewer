@@ -171,7 +171,6 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
     Q_UNUSED(parent);
     _index = index;
     _path = path;
-    dApp->getRwLock().lockForRead();
     if (dApp->m_imagemap.contains(path)) {
         _pixmap = dApp->m_imagemap.value(path);
     }
@@ -185,8 +184,6 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
             }
         }
     });
-
-    dApp->getRwLock().unlock();
 };
 
 void ImageItem::paintEvent(QPaintEvent *event)
@@ -428,7 +425,6 @@ void TTBContent::initBtn()
     m_imgListView_prespc->setFixedSize(QSize(10, 50));
     hb->addWidget(m_imgListView_prespc);
     m_imgListView_prespc->hide();
-
     m_imgListView = new MyImageListWidget();
     m_imgList = new DWidget(m_imgListView);
     m_imgListView->setObj(m_imgList);
@@ -449,6 +445,13 @@ void TTBContent::initBtn()
     //    m_imglayout->setMargin(0);
     m_imglayout->setContentsMargins(0, 1, 0, 0);
     m_imglayout->setSpacing(0);
+//LMH0605
+    DLabel *pLabel=new DLabel (this);
+    pLabel->setMaximumSize(QSize(0,58));
+    pLabel->setFixedSize(QSize(0,58));
+    pLabel->resize(QSize(0,58));
+    m_imglayout->addWidget(pLabel);
+
     m_imgList->setLayout(m_imglayout);
 
     if (m_imgInfos.size() <= 3) {

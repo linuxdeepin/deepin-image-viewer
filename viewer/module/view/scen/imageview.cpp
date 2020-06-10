@@ -208,7 +208,7 @@ QMimeType determineMimeType(const QString &filename)
 QVariantList ImageView::cachePixmap(const QString path)
 {
 
-#ifdef PIXMAP_LOAD
+#ifndef PIXMAP_LOAD
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -448,7 +448,7 @@ void ImageView::titleBarControl()
     }
 }
 
-const QImage ImageView::image()
+const QImage ImageView::image(bool brefresh)
 {
     if (m_movieItem) {  // bit-map
         return m_movieItem->pixmap().toImage();
@@ -458,12 +458,16 @@ const QImage ImageView::image()
         return m_pixmapItem->pixmap().toImage();
         //    } else if (m_svgItem) {    // svg
     } else if (m_svgItem) {  // svg
-        QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
-        image.fill(QColor(0, 0, 0, 0));
-        QPainter imagePainter(&image);
-        m_svgItem->renderer()->render(&imagePainter);
-        imagePainter.end();
-        return image;
+        if(brefresh)
+        {
+            QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+            image.fill(QColor(0, 0, 0, 0));
+            QPainter imagePainter(&image);
+            m_svgItem->renderer()->render(&imagePainter);
+            imagePainter.end();
+            m_svgimg = image;
+        }
+        return m_svgimg;
     } else {
         return QImage();
     }

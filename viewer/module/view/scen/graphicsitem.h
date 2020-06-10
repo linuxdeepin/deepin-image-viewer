@@ -24,18 +24,14 @@ class QMovie;
 class GraphicsMovieItem : public QGraphicsPixmapItem, QObject
 {
 public:
-    explicit GraphicsMovieItem(const QString &fileName, const QString &fileSuffix, QGraphicsItem *parent = 0);
+    explicit GraphicsMovieItem(const QString &fileName,const QString &suffix=NULL,QGraphicsItem *parent = 0);
     ~GraphicsMovieItem();
     bool isValid() const;
     void start();
     void stop();
 
 private:
-    QPointer <QMovie> m_movie;
-    QString m_suffix;
-    void *m_pGif;
-    QTimer *m_pTImer;
-    int m_index;
+    QPointer<QMovie> m_movie;
 };
 
 class GraphicsPixmapItem : public QGraphicsPixmapItem

@@ -147,7 +147,7 @@ void ViewPanel::initNavigation()
     connect(this, &ViewPanel::imageChanged, this, [ = ](const QString & path, DBImgInfoList infos) {
         Q_UNUSED(infos);
         if (path.isEmpty()) m_nav->setVisible(false);
-        m_nav->setImage(m_viewB->image());
+        m_nav->setImage(m_viewB->image(true));
     });
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
         m_viewB->centerOn(x, y);
