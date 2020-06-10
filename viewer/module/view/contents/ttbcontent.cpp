@@ -177,10 +177,10 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
     _image = new DLabel(this);
     connect(dApp, &Application::sigFinishLoad, this, [ = ](QString mapPath) {
         if (mapPath == _path || mapPath == "") {
-            bFirstUpdate = false;
             if (dApp->m_imagemap.contains(_path)) {
                 _pixmap = dApp->m_imagemap.value(_path);
                 update();
+                bFirstUpdate = false;
             }
         }
     });
@@ -301,7 +301,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
     //    whiteRect.setY(pixmapRect.y() + 1);
     //    whiteRect.setWidth(pixmapRect.width() - 2);
     //    whiteRect.setHeight(pixmapRect.height() - 2);
-
     QPainterPath bg1;
     bg1.addRoundedRect(pixmapRect, 4, 4);
     painter.setClipPath(bg1);
