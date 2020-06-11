@@ -1514,6 +1514,18 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
             m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot, QDir::LocaleAware);
+            //LMH0611判断是否存在不是图片的文件，并从m_AllPath删除不是图片的文件路径
+            QFileInfoList errorstrList;
+            for(auto str:m_AllPath){
+                QString strSuffix = str.suffix();
+                if (!utils::image::supportedImageFormats().contains("*." + strSuffix, Qt::CaseInsensitive)) {
+                    errorstrList.push_back(str);
+                }
+            }
+            for(auto str:errorstrList){
+                m_AllPath.removeOne(str);
+            }
+
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {

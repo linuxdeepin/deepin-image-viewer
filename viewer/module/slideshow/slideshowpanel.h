@@ -93,7 +93,7 @@ private:
     SlideEffectPlayer   *m_player;
     bool                 m_isMaximized;
     QFileSystemWatcher  *m_fileSystemMonitor;
-    DIconButton         *m_cancelslideshow;
+    //DIconButton         *m_cancelslideshow;//LMH0611没有被用到，且没有被初始化
     QColor               m_bgColor;
     bool a = true;
     bool m_bFirstImg = false;

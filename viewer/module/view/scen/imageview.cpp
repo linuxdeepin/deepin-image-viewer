@@ -48,6 +48,7 @@
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "widgets/toast.h"
+#include <malloc.h>
 
 #ifndef QT_NO_OPENGL
 #include <QGLWidget>
@@ -326,6 +327,8 @@ void ImageView::clear()
 
 void ImageView::setImage(const QString path)
 {
+    //LMH0610清理堆空间
+     malloc_trim(0);
     // Empty path will cause crash in release-build mode
     if (path.isEmpty()) {
         return;

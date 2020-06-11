@@ -20,6 +20,8 @@
 #include "utils/imageutils.h"
 #include <QPainter>
 #include <QtCore/QTimerEvent>
+#include <malloc.h>
+#include <QDebug>
 
 namespace {
 
@@ -33,6 +35,19 @@ QHash<EffectId, std::function<SlideEffect*()> > SlideEffect::effects;
 ThreadRenderFrame::ThreadRenderFrame()
 {
     setAutoDelete(true);
+}
+
+ThreadRenderFrame::~ThreadRenderFrame()
+{
+   //清空
+   m_data.mimage=QImage();
+   m_data.next_image=QImage();
+   m_data.current_image=QImage();
+   m_data.current_region=QRegion();
+   m_data.next_region=QRegion();
+   m_data.current_rect=QRect();
+   m_data.next_rect=QRect();
+
 }
 
 void ThreadRenderFrame::stop()
@@ -87,12 +102,7 @@ SlideEffect *SlideEffect::create(const EffectId &id)
             QList<std::function<SlideEffect*()>> cs = effects.values();
             const int idx = rand() % cs.size();
             std::function<SlideEffect*()> c = cs.at(idx);
-//            std::function<SlideEffect*()> c;
-//            if ("enter_from_left" == id) {
-//                c = cs.at(0);
-//            } else if ("enter_from_right" == id) {
-//                c = cs.at(1);
-//            }
+
 
             SlideEffect *e = c();
             // Check if effect should show
@@ -130,7 +140,9 @@ SlideEffect::SlideEffect()
     speed = 1.0;
     current_frame = 0;
     frames_total = 17;
-    current_image = next_image = frame_image = 0;
+    current_image=nullptr;
+    next_image=nullptr;
+    frame_image=nullptr;
     width = height = 0;
     color = Qt::transparent;
 
@@ -176,16 +188,22 @@ SlideEffect::~SlideEffect()
 //    }
     if (current_image) {
         delete current_image;
-        current_image = 0;
+        current_image = nullptr;
     }
     if (next_image) {
         delete next_image;
-        next_image = 0;
+        next_image = nullptr;
     }
     if (frame_image) {
         delete frame_image;
-        frame_image = 0;
+        frame_image = nullptr;
     }
+    for(auto image:allImage)
+    {
+        image=QImage();
+    }
+    allImage.clear();
+    malloc_trim(0);
     qDebug() << "-------------SlideEffect end release";
 }
 
@@ -226,6 +244,9 @@ int SlideEffect::duration() const
 
 void SlideEffect::start()
 {
+    for(auto image:allImage){
+        image=QImage();
+    }
     allImage.clear();
     allImage[frames_total] = *next_image;
     prepare();
@@ -432,6 +453,7 @@ void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
     if (!next_image)
         next_image = new QImage();
     *next_image = utils::image::getRotatedImage(next_path);//.copy();
+
     if (current_path.isEmpty()) {
         qDebug("The first image. create blank image");
         current_image = new QImage(next_image->size(), QImage::Format_ARGB32);
@@ -440,6 +462,8 @@ void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
         if (!current_image)
             current_image = new QImage();
         *current_image = utils::image::getRotatedImage(current_path);//.copy();
+
+
     }
 }
 
@@ -454,6 +478,7 @@ void SlideEffect::setImages(const QImage &currentImage, const QImage &nextImage)
         next_image = new QImage(nextImage);
     else
         *next_image = nextImage;//.copy();
+
 }
 
 //small image zoom failed. why?
@@ -539,7 +564,7 @@ bool SlideEffect::isEndFrame(int frame)
     }
     return false;
 }
-#include <QDebug>
+
 //TODO: alpha blending here
 void SlideEffect::renderFrame(SlideEffectThreadData &data)
 {
@@ -568,6 +593,10 @@ void SlideEffect::renderFrame(SlideEffectThreadData &data)
 
 void SlideEffect::clearimagemap()
 {
+    for(auto image :allImage)
+    {
+        image=QImage();
+    }
     allImage.clear();
 }
 

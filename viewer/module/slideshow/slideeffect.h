@@ -45,22 +45,23 @@ static const EffectId kRandom = "random";
     painter.drawPixmap(rect(), *mEffect->currentFrame());
 */
 struct SlideEffectThreadData {
-    QImage mimage;
     int num;
-    QRegion current_region;
-    QRegion next_region;
     int width;
     int height;
-    QImage current_image;
-    QImage next_image;
+    QRegion current_region;
+    QRegion next_region;
     QRect current_rect;
     QRect next_rect;
+    QImage mimage;
+    QImage current_image;
+    QImage next_image;
 };
 class ThreadRenderFrame : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
     ThreadRenderFrame();
+    ~ThreadRenderFrame();
     void setData(SlideEffectThreadData &data);
 public Q_SLOTS:
     void stop();
@@ -168,7 +169,7 @@ protected:
     EffectId effect_type;
     int frames_total, current_frame;
     //if current_image is null, just paint next_image inside
-    QImage *frame_image, *current_image, *next_image;
+    QImage *frame_image{nullptr}, *current_image{nullptr}, *next_image{nullptr};
     int width, height;
     //clip region of currentFrame() to paint current and next frame_image
     QRegion current_clip_region, next_clip_region;

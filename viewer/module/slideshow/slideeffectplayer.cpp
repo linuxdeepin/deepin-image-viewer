@@ -592,6 +592,10 @@ void SlideEffectPlayer::stop()
     {
         m_effect->clearimagemap();
     }
+    for(auto image:m_cacheImages)
+    {
+        image=QImage();
+    }
     m_tid = 0;
     m_running = false;
     m_cacheImages.clear();
