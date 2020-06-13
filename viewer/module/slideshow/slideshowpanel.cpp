@@ -517,7 +517,7 @@ void SlideShowPanel::showNormal()
     pAn->start(QAbstractAnimation::DeleteWhenStopped);
 
     if (m_isMaximized) {
-//        window()->showNormal();
+        window()->showNormal();
         window()->showMaximized();
     } else {
 

@@ -906,7 +906,8 @@ void ViewPanel::showNormal()
     pAn->setStartValue(0);
     pAn->start(QAbstractAnimation::DeleteWhenStopped);
     if (m_isMaximized) {
-        this->window()->showMaximized();
+        window()->showNormal();
+        window()->showMaximized();
     } else {
         window()->showNormal();
     }
