@@ -59,10 +59,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
                          ? MAINWIDGET_MINIMUN_WIDTH
-                         : dw.geometry().width() * 0.60;
+                         : dw.geometry().width() * 3 / 5;
     const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
                          ? MAINWIDGET_MINIMUN_HEIGHT
-                         : dw.geometry().height() * 0.60;
+                         : dw.geometry().height() * 3 / 5;
     const int ww =
         dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
     const int wh =
@@ -336,7 +336,8 @@ int MainWindow::showDialog()
     DDialog *dialog = new DDialog;
 
     QPixmap pixmap = utils::base::renderSVG(":/assets/common/warning.svg", QSize(32, 32));
-    dialog->setIconPixmap(pixmap);
+    QIcon icon(pixmap);
+    dialog->setIcon(icon);
 
     //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete
     //    the thumbnails of the removable device?"));
