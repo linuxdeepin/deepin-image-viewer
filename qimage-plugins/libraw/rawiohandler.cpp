@@ -30,8 +30,8 @@ class RawIOHandlerPrivate
 {
 public:
     RawIOHandlerPrivate(RawIOHandler *qq):
-        raw(0),
-        stream(0),
+        raw(nullptr),
+        stream(nullptr),
         q(qq)
     {}
 
@@ -49,26 +49,26 @@ public:
 RawIOHandlerPrivate::~RawIOHandlerPrivate()
 {
     delete raw;
-    raw = 0;
+    raw = nullptr;
     delete stream;
-    stream = 0;
+    stream = nullptr;
 }
 
 bool RawIOHandlerPrivate::load(QIODevice *device)
 {
-    if (device == 0) return false;
+    if (device == nullptr) return false;
 
     device->seek(0);
-    if (raw != 0) return true;
+    if (raw != nullptr) return true;
 
     stream = new Datastream(device);
     raw = new LibRaw;
     raw->imgdata.params.use_rawspeed = 1;
     if (raw->open_datastream(stream) != LIBRAW_SUCCESS) {
         delete raw;
-        raw = 0;
+        raw = nullptr;
         delete stream;
-        stream = 0;
+        stream = nullptr;
         return false;
     }
 
@@ -138,7 +138,7 @@ bool RawIOHandler::read(QImage *image)
     QImage unscaled;
     uchar *pixels = nullptr;
     if (output->type == LIBRAW_IMAGE_JPEG) {
-        unscaled.loadFromData(output->data, output->data_size, "JPEG");
+        unscaled.loadFromData(output->data, static_cast<int>(output->data_size), "JPEG");
         if (imgdata.sizes.flip != 0) {
             QTransform rotation;
             int angle = 0;
