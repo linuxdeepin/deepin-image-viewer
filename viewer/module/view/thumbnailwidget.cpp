@@ -93,7 +93,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     DSuggestButton *button = new DSuggestButton(tr("Open Image"), this);
     button->setFixedWidth(302);
     button->setFixedHeight(36);
-    button->setShortcut(QKeySequence("Ctrl+O"));
+    // button->setShortcut(QKeySequence("Ctrl+O"));
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 
     connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {

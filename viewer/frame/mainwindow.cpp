@@ -147,6 +147,12 @@ void MainWindow::initshortcut()
 {
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);
+    //解决在打开图片后,Ctrl+O快捷键无效，将快捷键实现放到此处，方便鱼其他地方调用
+    QShortcut *ctrlq = new QShortcut(QKeySequence("Ctrl+O"), this);
+    ctrlq->setContext(Qt::WindowShortcut);
+    connect(ctrlq, &QShortcut::activated, this, [=] {
+        emit dApp->signalM->sigOpenFileDialog();
+    });
     connect(esc, &QShortcut::activated, this, [ = ] {
         if (IMAGEVIEW == m_pCenterWidget->currentIndex())
             emit sigExitFull();

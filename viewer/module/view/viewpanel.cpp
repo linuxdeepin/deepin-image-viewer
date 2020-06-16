@@ -206,7 +206,10 @@ void ViewPanel::initConnect()
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
-
+    //接受信号管理器信号，打开FileDialog
+    connect(dApp->signalM, &SignalManager::sigOpenFileDialog, this, [=] {
+        emit m_emptyWidget->openImageInDialog();
+    });
 #ifdef LITE_DIV
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
