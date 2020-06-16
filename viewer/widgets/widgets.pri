@@ -13,7 +13,7 @@ HEADERS += \
     $$PWD/scrollbar.h \
     $$PWD/scaleslider.h \
     $$PWD/slider.h \
-    $$PWD/blureinfoframe.h \
+#    $$PWD/blureinfoframe.h \
     $$PWD/separator.h \
     $$PWD/thumbnaildelegate.h \
     $$PWD/loadingicon.h \
@@ -37,7 +37,7 @@ SOURCES += \
     $$PWD/scrollbar.cpp \
     $$PWD/scaleslider.cpp \
     $$PWD/slider.cpp \
-    $$PWD/blureinfoframe.cpp \
+#    $$PWD/blureinfoframe.cpp \
     $$PWD/separator.cpp \
     $$PWD/thumbnaildelegate.cpp \
     $$PWD/loadingicon.cpp \

@@ -28,7 +28,15 @@
 
 #include "dtkwidget_global.h"
 #include <DObject>
+#include <DObjectPrivate>
 
+#include <QLabel>
+#include <DIconButton>
+#include "imagebutton.h"
+#include <dimagebutton.h>
+#include "dthememanager.h"
+#include "dgraphicsgloweffect.h"
+#include <QPropertyAnimation>
 DWIDGET_BEGIN_NAMESPACE
 
 class ToastPrivate;
@@ -58,6 +66,24 @@ private:
 
     D_DECLARE_PRIVATE(Toast)
 };
+class ToastPrivate: public DTK_CORE_NAMESPACE::DObjectPrivate
 
+{
+public:
+    ToastPrivate(Toast *qq);
+
+    QIcon   icon;
+    QLabel  *iconLabel      = Q_NULLPTR;
+    QLabel  *textLabel      = Q_NULLPTR;
+
+    ImageButton *closeBt    = Q_NULLPTR;
+
+    QPropertyAnimation  *animation  = Q_NULLPTR;
+    DGraphicsGlowEffect *effect     = Q_NULLPTR;
+
+    void initUI();
+private:
+    D_DECLARE_PUBLIC(Toast)
+};
 
 DWIDGET_END_NAMESPACE

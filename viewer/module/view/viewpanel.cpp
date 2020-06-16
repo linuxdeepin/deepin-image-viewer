@@ -206,7 +206,10 @@ void ViewPanel::initConnect()
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
-
+    //接受信号管理器信号，打开FileDialog
+    connect(dApp->signalM, &SignalManager::sigOpenFileDialog, this, [=] {
+        emit m_emptyWidget->openImageInDialog();
+    });
 #ifdef LITE_DIV
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
@@ -906,7 +909,8 @@ void ViewPanel::showNormal()
     pAn->setStartValue(0);
     pAn->start(QAbstractAnimation::DeleteWhenStopped);
     if (m_isMaximized) {
-        this->window()->showMaximized();
+        window()->showNormal();
+        window()->showMaximized();
     } else {
         window()->showNormal();
     }
@@ -1514,6 +1518,18 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
             m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot, QDir::LocaleAware);
+            //LMH0611判断是否存在不是图片的文件，并从m_AllPath删除不是图片的文件路径
+            QFileInfoList errorstrList;
+            for(auto str:m_AllPath){
+                QString strSuffix = str.suffix();
+                if (!utils::image::supportedImageFormats().contains("*." + strSuffix, Qt::CaseInsensitive)) {
+                    errorstrList.push_back(str);
+                }
+            }
+            for(auto str:errorstrList){
+                m_AllPath.removeOne(str);
+            }
+
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {
@@ -1747,12 +1763,16 @@ bool ViewPanel::removeCurrentImage()
         m_stack->setCurrentIndex(1);
     } else {
         if (m_current == m_infos.size()) {
-            m_current = 0;
+            //LMH0611删除最后一张图片跳转到上一张
+            m_current--;
         }
+        else {
 
+        }
         ttbc->delPictureFromPath(m_currentImagePath, m_infos, m_current);
         openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
         emit dApp->signalM->updateBottomToolbar(m_infos.size() > 1);
+
 
     }
 

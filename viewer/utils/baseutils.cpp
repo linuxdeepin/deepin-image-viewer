@@ -341,7 +341,7 @@ QString wrapStr(const QString &str, const QFont &font, int maxWidth)
 }
 
 
-QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
+QString SpliteText(const QString &text, const QFont &font, int nLabelSize,bool bReturn)
 {
     QFontMetrics fm(font);
     int nTextSize = fm.width(text);
@@ -360,8 +360,17 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 
         QString qstrLeftData = text.left(nPos);
         QString qstrMidData = text.mid(nPos);
-        if (qstrLeftData != "")
-            return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+        if(bReturn)
+        {
+            qstrLeftData.replace(" ","\n");
+            qstrMidData.replace(" ","\n");
+            if (qstrLeftData != "")
+                return qstrLeftData + SpliteText(qstrMidData, font, nLabelSize);
+        }else
+        {
+            if (qstrLeftData != "")
+                return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+        }
     }
     return text;
 }

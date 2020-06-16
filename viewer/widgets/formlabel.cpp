@@ -42,7 +42,8 @@ SimpleFormField::SimpleFormField(QWidget *parent)
     QFont font;
     font.setPixelSize(12);
     setFont(font);
-    setWordWrap(true);
+    //取消内容信息标签换行
+   // setWordWrap(true);
 }
 
 void SimpleFormField::resizeEvent(QResizeEvent *event)

@@ -38,8 +38,9 @@
 namespace {
 
 const int TITLE_MAXWIDTH = 72 - 3;
-const int TITLE_MAXCNWIDETH = 60; //中文Title宽度
-const int TITLE_MAXOTHERWIDETH = 90; //其他语言Title宽度
+//const
+int TITLE_MAXCNWIDETH = 80; //中文Title宽度
+int TITLE_MAXOTHERWIDETH = 105; //其他语言Title宽度
 const QString ICON_CLOSE_DARK = ":/assets/dark/images/close_normal.svg";
 const QString ICON_CLOSE_LIGHT = ":/assets/light/images/close_normal .svg";
 
@@ -178,7 +179,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 
     m_exifLayout_base = new QFormLayout();
     m_exifLayout_base->setVerticalSpacing(7);
-    m_exifLayout_base->setHorizontalSpacing(16);
+    m_exifLayout_base->setHorizontalSpacing(10);
     m_exifLayout_base->setContentsMargins(10, 1, 7, 10);
     m_exifLayout_base->setLabelAlignment(Qt::AlignLeft);
 
@@ -322,6 +323,7 @@ void ImageInfoWidget::paintEvent(QPaintEvent *event)
     //LMH0609判断与上次自体的大小是否一样，不一样则刷新
     if (currentSize != m_currentFontSize) {
         m_currentFontSize = currentSize;
+        TITLE_MAXCNWIDETH = currentSize*4;
         updateInfo();
     }
     QWidget::paintEvent(event);
@@ -369,10 +371,10 @@ void ImageInfoWidget::updateInfo()
     bool CNflag;
     QLocale::Language lan = local.language();
     if (lan == QLocale::Language::Chinese) {
-        m_maxFieldWidth = width() - TITLE_MAXCNWIDETH - 20 * 2 - 10 * 2;
+        m_maxFieldWidth = width() - TITLE_MAXCNWIDETH/* - 20 * 2 */- 10*2-10;
         CNflag = true;
     } else {
-        m_maxFieldWidth = width() - TITLE_MAXOTHERWIDETH - 20 * 2 - 10 * 2;
+        m_maxFieldWidth = width() - TITLE_MAXOTHERWIDETH/* - 20 * 2 */- 10*2-10;
         CNflag = false;
     }
     updateBaseInfo(mds, CNflag);
@@ -431,9 +433,9 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool C
         pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         if (CNflag) {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH,true));
         } else {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH,true));
         }
         QFontMetrics fm(title->font());
         QStringList list = title->text().split("\n");
@@ -477,9 +479,9 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos, boo
         pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         if (CNflag) {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH,true));
         } else {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH,true));
         }
 
         m_exifLayout_details->addRow(title, field);

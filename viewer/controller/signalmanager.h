@@ -174,6 +174,13 @@ signals:
      * thumbnail path
      */
     void sigGetFirstThumbnailpath(QString& path);
+
+    /**
+     * @brief sigOpenFileDialog
+     * 弹出FileDialog信号
+     */
+    void sigOpenFileDialog();
+
 private:
     explicit SignalManager(QObject *parent = 0);
 

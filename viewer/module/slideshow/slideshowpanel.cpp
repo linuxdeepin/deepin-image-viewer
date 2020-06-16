@@ -33,7 +33,9 @@
 #include <QResizeEvent>
 #include <QShortcut>
 #include <QStyleFactory>
-
+//LMH0610
+#include <QPixmapCache>
+#include <malloc.h>
 namespace {
 
 const int DELAY_START_INTERVAL = 500;
@@ -49,6 +51,8 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     : ModulePanel(parent)
     , m_hideCursorTid(0)
     , m_startTid(0)
+    , m_sEsc(nullptr)
+
 {
     setFocusPolicy(Qt::StrongFocus);
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -110,6 +114,7 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     });
     connect(slideshowbottombar, &SlideShowBottomBar::showCancel, this, [ = ] {
         backToLastPanel();
+
     });
 }
 
@@ -220,14 +225,29 @@ void SlideShowPanel::backToLastPanel()
 //        emit dApp->signalM->backToMainPanel();
 //    }
 
+    //LMH0610清空m_img
     // Clear cache
-    QImage ti(width(), height(), QImage::Format_ARGB32);
-    ti.fill(0);
-    setImage(ti);
+//    QImage ti(width(), height(), QImage::Format_ARGB32);
+//    ti.fill(0);
+//    setImage(ti);
+//    QShortcut           *m_sEsc;
+//    SignalManager::ViewInfo m_vinfo;
+//    QImage               m_img;
+//    QMenu               *m_menu;
+//    SlideEffectPlayer   *m_player;
+//    bool                 m_isMaximized;
+//    QFileSystemWatcher  *m_fileSystemMonitor;
+//    DIconButton         *m_cancelslideshow;
+    m_img=QImage();
+    m_firstImg=QImage();
 
     this->setCursor(Qt::ArrowCursor);
     killTimer(m_hideCursorTid);
     m_hideCursorTid = 0;
+
+//LMH内存处理
+    QPixmapCache::clear();
+    malloc_trim(0);
 }
 
 void SlideShowPanel::initeffectPlay()
@@ -298,8 +318,11 @@ void SlideShowPanel::initShortcut()
 
 void SlideShowPanel::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::BackButton)
-        m_sEsc->activated();
+    if (e->button() == Qt::BackButton){
+        if(nullptr!=m_sEsc){
+            m_sEsc->activated();
+        }
+    }
 }
 
 void SlideShowPanel::initFileSystemMonitor()
@@ -494,7 +517,7 @@ void SlideShowPanel::showNormal()
     pAn->start(QAbstractAnimation::DeleteWhenStopped);
 
     if (m_isMaximized) {
-//        window()->showNormal();
+        window()->showNormal();
         window()->showMaximized();
     } else {
 

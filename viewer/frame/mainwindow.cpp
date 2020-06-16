@@ -59,10 +59,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
                          ? MAINWIDGET_MINIMUN_WIDTH
-                         : dw.geometry().width() * 0.60;
+                         : dw.geometry().width() * 3 / 5;
     const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
                          ? MAINWIDGET_MINIMUN_HEIGHT
-                         : dw.geometry().height() * 0.60;
+                         : dw.geometry().height() * 3 / 5;
     const int ww =
         dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
     const int wh =
@@ -147,6 +147,12 @@ void MainWindow::initshortcut()
 {
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     esc->setContext(Qt::WindowShortcut);
+    //解决在打开图片后,Ctrl+O快捷键无效，将快捷键实现放到此处，方便鱼其他地方调用
+    QShortcut *ctrlq = new QShortcut(QKeySequence("Ctrl+O"), this);
+    ctrlq->setContext(Qt::WindowShortcut);
+    connect(ctrlq, &QShortcut::activated, this, [=] {
+        emit dApp->signalM->sigOpenFileDialog();
+    });
     connect(esc, &QShortcut::activated, this, [ = ] {
         if (IMAGEVIEW == m_pCenterWidget->currentIndex())
             emit sigExitFull();
@@ -336,7 +342,8 @@ int MainWindow::showDialog()
     DDialog *dialog = new DDialog;
 
     QPixmap pixmap = utils::base::renderSVG(":/assets/common/warning.svg", QSize(32, 32));
-    dialog->setIconPixmap(pixmap);
+    QIcon icon(pixmap);
+    dialog->setIcon(icon);
 
     //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete
     //    the thumbnails of the removable device?"));
