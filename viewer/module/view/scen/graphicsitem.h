@@ -19,7 +19,9 @@
 
 #include <QGraphicsPixmapItem>
 #include <QPointer>
-#include <gif_lib.h>
+#include <unistd.h>
+#include "giflib/gif_lib.h"
+
 class QMovie;
 class GraphicsMovieItem : public QGraphicsPixmapItem, QObject
 {
@@ -74,7 +76,7 @@ private:
     QTimer *m_pTImer = nullptr;
     bool m_bRetThread = true;
 
-    QThread *m_th;
+    QThread *m_th = nullptr;
 };
 
 class GraphicsPixmapItem : public QGraphicsPixmapItem

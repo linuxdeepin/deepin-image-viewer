@@ -180,6 +180,12 @@ signals:
      * 弹出FileDialog信号
      */
     void sigOpenFileDialog();
+    /**
+     * @brief sigGifImage
+     * 发送Qimage更新信号
+     * @author lmh
+     */
+    void sigGifImageRe();
 
 private:
     explicit SignalManager(QObject *parent = 0);

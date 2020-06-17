@@ -20,8 +20,10 @@
 #include <QPainter>
 #include <QFileInfo>
 #include <QThread>
-#include <unistd.h>
+#include <QDateTime>
 #include <QTimer>
+#include "application.h"
+#include "controller/signalmanager.h"
 GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
     , gEffectGifFile(fileName)
@@ -32,22 +34,31 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suf
     if (file.suffix().contains("gif")) {
         m_index = 0;
         gEffectGifFile = fileName;
-
+        QObject::connect(dApp->signalM, &SignalManager::sigGifImageRe, this, [=] {
+            setPixmap(QPixmap::fromImage(first));
+        });
+        QObject::connect(dApp, &Application::endThread, this, [=]() {
+            m_bRetThread = false;
+            if (nullptr != m_th) {
+                m_th->wait();
+            }
+        });
         m_th = QThread::create([=]() {
             while (m_bRetThread) {
                 GifLoadFile();
                 GifFrameShow();
                 GifFreeFile();
             }
+
         });
 
         m_th->start();
-        ;
-        m_pTImer = new QTimer(this);
-        QObject::connect(m_pTImer, &QTimer::timeout, this, [=] {
-            setPixmap(QPixmap::fromImage(first));
-        });
-        m_pTImer->start(50);
+        //        m_pTImer = new QTimer(this);
+
+        //        QObject::connect(m_pTImer, &QTimer::timeout, this, [=] {
+        //                        setPixmap(QPixmap::fromImage(first));
+        //        });
+        //        m_pTImer->start(50);
     } else {
         m_movie = new QMovie(fileName);
         QObject::connect(m_movie, &QMovie::frameChanged, this, [=] {
@@ -67,11 +78,10 @@ GraphicsMovieItem::~GraphicsMovieItem()
     prepareGeometryChange();
 
     m_bRetThread = false;
-    //sleep(1);
     if (nullptr != m_th) {
-        //m_th->quit();
         m_th->wait();
     }
+
     if (nullptr != m_movie) {
         m_movie->stop();
         m_movie->deleteLater();
@@ -341,7 +351,7 @@ int32_t GraphicsMovieItem::GifFrameShow()
 
     return ret;
 }
-
+#include <QByteArray>
 void GraphicsMovieItem::GifScreenBufferToRgb888(ColorMapObject *ColorMap,
                                                 uint8_t *inRgb,
                                                 GifRowType *ScreenBuffer,
@@ -351,13 +361,13 @@ void GraphicsMovieItem::GifScreenBufferToRgb888(ColorMapObject *ColorMap,
 {
     GifColorType *ColorMapEntry = NULL;
     GifRowType GifRow = NULL;
-    uint8_t *rgbBuf = inRgb;
+    QByteArray byte;
     int32_t idxH = 0;
     int32_t idxW = 0;
+    int startTime = QDateTime::currentMSecsSinceEpoch();
     QImage img(ScreenWidth, ScreenHeight, QImage::Format_ARGB32);
     for (idxH = 0; idxH < ScreenHeight; idxH++) {
         GifRow = ScreenBuffer[idxH];
-        rgbBuf = inRgb + idxH * ScreenWidth * 3;
 
         for (idxW = 0; idxW < ScreenWidth; idxW++) {
             ColorMapEntry = &ColorMap->Colors[GifRow[idxW]];
@@ -369,7 +379,11 @@ void GraphicsMovieItem::GifScreenBufferToRgb888(ColorMapObject *ColorMap,
             }
         }
     }
-    usleep(50000);
+    int endTime = QDateTime::currentMSecsSinceEpoch();
+    int tolTime = endTime - startTime;
+    if (tolTime < 100) {
+        QThread::msleep(100 - tolTime);
+    }
 
     if (!m_bRetThread) {
         return;
@@ -380,4 +394,5 @@ void GraphicsMovieItem::GifScreenBufferToRgb888(ColorMapObject *ColorMap,
         painter.drawImage(0, 0, img);
         painter.end();
     }
+    emit dApp->signalM->sigGifImageRe();
 }
