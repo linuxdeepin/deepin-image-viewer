@@ -16,7 +16,7 @@ class SlideShowBottomBar : public DFloatingWidget
     Q_OBJECT
 
 public:
-    explicit SlideShowBottomBar(QWidget *parent = 0);
+    explicit SlideShowBottomBar(QWidget *parent = nullptr);
 
 public:
     DIconButton *m_preButton;

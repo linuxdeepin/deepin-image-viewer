@@ -31,7 +31,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suf
     Q_UNUSED(suffix);
     QFileInfo file(fileName);
 
-    if (file.suffix().contains("gif")) {
+    if (QImageReader(fileName).format().contains("gif")) {
         m_index = 0;
         gEffectGifFile = fileName;
         QObject::connect(dApp->signalM, &SignalManager::sigGifImageRe, this, [=] {
@@ -53,12 +53,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suf
         });
 
         m_th->start();
-        //        m_pTImer = new QTimer(this);
 
-        //        QObject::connect(m_pTImer, &QTimer::timeout, this, [=] {
-        //                        setPixmap(QPixmap::fromImage(first));
-        //        });
-        //        m_pTImer->start(50);
     } else {
         m_movie = new QMovie(fileName);
         QObject::connect(m_movie, &QMovie::frameChanged, this, [=] {
@@ -166,13 +161,13 @@ int32_t GraphicsMovieItem::GifLoadFile()
         if (!m_bRetThread) {
             return -1;
         }
-        if (NULL == gEffectGifFile) {
+        if (nullptr == gEffectGifFile) {
             ret = -1;
             break;
         }
 
         gpGifFile = DGifOpenFileName(gEffectGifFile.toStdString().c_str(), &error);
-        if (NULL == gpGifFile) {
+        if (nullptr == gpGifFile) {
             ret = -2;
             break;
         }
@@ -182,33 +177,33 @@ int32_t GraphicsMovieItem::GifLoadFile()
             break;
         }
 
-        gpScreenBuffer = (GifRowType *)malloc(gpGifFile->SHeight * sizeof(GifRowType));
-        if (NULL == gpScreenBuffer) {
+        gpScreenBuffer = static_cast<GifRowType *>(malloc(static_cast<size_t>(gpGifFile->SHeight * static_cast<int32_t>((sizeof(GifRowType))))));
+        if (nullptr == gpScreenBuffer) {
             ret = -4;
             break;
         }
 
         /* Size in bytes one row */
-        size = gpGifFile->SWidth * sizeof(GifPixelType);
-        gpScreenBuffer[0] = (GifRowType)malloc(size);
-        if (NULL == gpScreenBuffer[0]) {
+        size = gpGifFile->SWidth * static_cast<int32_t>(sizeof(GifPixelType));
+        gpScreenBuffer[0] = static_cast<GifRowType>(malloc(static_cast<size_t>(size)));
+        if (nullptr == gpScreenBuffer[0]) {
             ret = -5;
             break;
         }
 
         /* Set its color to BackGround */
         for (idx = 0; idx < gpGifFile->SWidth; idx++) {
-            gpScreenBuffer[0][idx] = gpGifFile->SBackGroundColor;
+            gpScreenBuffer[0][idx] = static_cast<unsigned char>(gpGifFile->SBackGroundColor);
         }
 
         /* Allocate the other rows, and set their color to background too */
         for (idx = 1; idx < gpGifFile->SHeight; idx++) {
-            gpScreenBuffer[idx] = (GifRowType)malloc(size);
-            if (NULL == gpScreenBuffer[idx]) {
+            gpScreenBuffer[idx] = static_cast<GifRowType>(malloc(static_cast<size_t>(size)));
+            if (nullptr == gpScreenBuffer[idx]) {
                 ret = -6;
                 break;
             }
-            memcpy(gpScreenBuffer[idx], gpScreenBuffer[0], size);
+            memcpy(gpScreenBuffer[idx], gpScreenBuffer[0], static_cast<size_t>(size));
         }
 
         if (0 > ret) {
@@ -227,31 +222,32 @@ void GraphicsMovieItem::GifFreeFile()
 {
     int32_t idx = 0;
     int32_t error = 0;
-    if (!m_bRetThread) {
+    if (!m_bRetThread || nullptr == gpGifFile) {
+        m_bRetThread = false;
         return;
     }
     for (idx = 0; idx < gpGifFile->SHeight; idx++) {
-        if (NULL != gpScreenBuffer[idx]) {
+        if (nullptr != gpScreenBuffer[idx]) {
             free(gpScreenBuffer[idx]);
-            gpScreenBuffer[idx] = NULL;
+            gpScreenBuffer[idx] = nullptr;
         }
     }
 
-    if (NULL != gpScreenBuffer) {
+    if (nullptr != gpScreenBuffer) {
         free(gpScreenBuffer);
-        gpScreenBuffer = NULL;
+        gpScreenBuffer = nullptr;
     }
 
-    if (NULL != gpGifFile) {
+    if (nullptr != gpGifFile) {
         DGifCloseFile(gpGifFile, &error);
-        gpGifFile = NULL;
+        gpGifFile = nullptr;
     }
 }
 
 int32_t GraphicsMovieItem::GifFrameShow()
 {
-    ColorMapObject *colorMap = NULL;
-    GifByteType *extension = NULL;
+    ColorMapObject *colorMap = nullptr;
+    GifByteType *extension = nullptr;
 
     int32_t InterlacedOffset[] = {0, 4, 2, 1}; // The way Interlaced image should
     int32_t InterlacedJumps[] = {8, 8, 4, 2}; // be read - offsets and jumps...
@@ -299,7 +295,7 @@ int32_t GraphicsMovieItem::GifFrameShow()
             }
 
             colorMap = (gpGifFile->Image.ColorMap ? gpGifFile->Image.ColorMap : gpGifFile->SColorMap);
-            if (colorMap == NULL) {
+            if (colorMap == nullptr) {
                 ret = -3;
                 break;
             }
@@ -318,10 +314,10 @@ int32_t GraphicsMovieItem::GifFrameShow()
                 if (extension[0] & 0x01)
                     tras = NO_TRANSPARENT_COLOR;
                 else
-                    tras = (int)extension[4];
+                    tras = static_cast<int>(extension[4]);
             }
 
-            while (extension != NULL) {
+            while (extension != nullptr) {
                 temp++;
                 if (DGifGetExtensionNext(gpGifFile, &extension) == GIF_ERROR) {
                     ret = -5;
@@ -331,7 +327,7 @@ int32_t GraphicsMovieItem::GifFrameShow()
                     if (extension[0] & 0x01)
                         tras = NO_TRANSPARENT_COLOR;
                     else
-                        tras = (int)extension[4];
+                        tras = static_cast<int>(extension[4]);
                 }
             }
 
@@ -359,16 +355,17 @@ void GraphicsMovieItem::GifScreenBufferToRgb888(ColorMapObject *ColorMap,
                                                 int32_t ScreenHeight,
                                                 int alphaIndex)
 {
+    Q_UNUSED(inRgb);
     if (m_fisrtImage) {
         first = QImage(ScreenWidth, ScreenHeight, QImage::Format_RGB32);
         m_fisrtImage = false;
     }
-    GifColorType *ColorMapEntry = NULL;
-    GifRowType GifRow = NULL;
+    GifColorType *ColorMapEntry = nullptr;
+    // GifRowType GifRow = nullptr;
     QByteArray byte;
     int32_t idxH = 0;
     int32_t idxW = 0;
-    int startTime = QDateTime::currentMSecsSinceEpoch();
+    int startTime = static_cast<int>(QDateTime::currentMSecsSinceEpoch());
     // QImage img(ScreenWidth, ScreenHeight, QImage::Format_ARGB32);
     for (idxH = 0; idxH < ScreenHeight; idxH++) {
 
@@ -388,11 +385,11 @@ void GraphicsMovieItem::GifScreenBufferToRgb888(ColorMapObject *ColorMap,
         return;
     }
 
-    int endTime = QDateTime::currentMSecsSinceEpoch();
+    int endTime = static_cast<int>(QDateTime::currentMSecsSinceEpoch());
     int tolTime = endTime - startTime;
 
     if (tolTime < 100) {
-        QThread::msleep(100 - tolTime);
+        QThread::msleep(static_cast<unsigned long>((100 - tolTime)));
     }
 
     emit dApp->signalM->sigGifImageRe();

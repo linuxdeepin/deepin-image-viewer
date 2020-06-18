@@ -28,7 +28,7 @@ two modules will be linked.  Preserve this property!
 
 /* avoid extra function call in case we use fread (TVT) */
 #define READ(_gif, _buf, _len) \
-    (((GifFilePrivateType *)_gif->Private)->Read ? ((GifFilePrivateType *)_gif->Private)->Read(_gif, _buf, _len) : fread(_buf, 1, _len, ((GifFilePrivateType *)_gif->Private)->File))
+    (((GifFilePrivateType *)_gif->Private)->Read ? (size_t)(((GifFilePrivateType *)_gif->Private)->Read(_gif, _buf, _len)) : fread(_buf, 1, _len, ((GifFilePrivateType *)_gif->Private)->File))
 
 static int DGifGetWord(GifFileType *GifFile, GifWord *Word);
 static int DGifSetupDecompress(GifFileType *GifFile);
@@ -371,7 +371,7 @@ int DGifGetImageDesc(GifFileType *GifFile)
         }
 
         /* Get the image local color map: */
-        for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++) {
+        for (i = 0; i < (unsigned int)GifFile->Image.ColorMap->ColorCount; i++) {
             /* coverity[check_return] */
             if (READ(GifFile, Buf, 3) != 3) {
                 GifFreeMapObject(GifFile->Image.ColorMap);
