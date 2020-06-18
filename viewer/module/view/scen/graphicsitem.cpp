@@ -31,7 +31,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suf
     Q_UNUSED(suffix);
     QFileInfo file(fileName);
 
-    if (file.suffix().contains("gif")) {
+    if (QImageReader(fileName).format().contains("gif")) {
         m_index = 0;
         gEffectGifFile = fileName;
         QObject::connect(dApp->signalM, &SignalManager::sigGifImageRe, this, [=] {
@@ -53,12 +53,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suf
         });
 
         m_th->start();
-        //        m_pTImer = new QTimer(this);
 
-        //        QObject::connect(m_pTImer, &QTimer::timeout, this, [=] {
-        //                        setPixmap(QPixmap::fromImage(first));
-        //        });
-        //        m_pTImer->start(50);
     } else {
         m_movie = new QMovie(fileName);
         QObject::connect(m_movie, &QMovie::frameChanged, this, [=] {
@@ -227,7 +222,8 @@ void GraphicsMovieItem::GifFreeFile()
 {
     int32_t idx = 0;
     int32_t error = 0;
-    if (!m_bRetThread) {
+    if (!m_bRetThread || nullptr == gpGifFile) {
+        m_bRetThread = false;
         return;
     }
     for (idx = 0; idx < gpGifFile->SHeight; idx++) {
