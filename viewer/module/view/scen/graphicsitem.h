@@ -19,6 +19,8 @@
 
 #include <QGraphicsPixmapItem>
 #include <QPointer>
+#include <unistd.h>
+#include "giflib/gif_lib.h"
 
 class QMovie;
 class GraphicsMovieItem : public QGraphicsPixmapItem, QObject
@@ -29,9 +31,52 @@ public:
     bool isValid() const;
     void start();
     void stop();
+    /**
+     * @brief GifLoadFile
+     * 加载gif文件，分配资源
+     * @return int32_t
+     */
+    int32_t GifLoadFile(void);
+    /**
+     * @brief GifLoadFile
+     * 释放gif文件，释放资源
+     * @return
+     */
+    void GifFreeFile(void);
+    /**
+     * @brief GifFrameShow
+     * 读取gif图片
+     * @return
+     */
+    int32_t GifFrameShow(void);
+    /**
+     * @brief GifScreenBufferToRgb888
+     * 读取buffer转化为rgb，逐个对点绘制
+     * @return
+     */
+    void GifScreenBufferToRgb888(ColorMapObject *ColorMap, uint8_t *inRgb,
+                                 GifRowType *ScreenBuffer, int32_t ScreenWidth, int32_t ScreenHeight,
+                                 int alphaIndex = 0);
 
 private:
     QPointer<QMovie> m_movie;
+
+    GifRecordType gRecordType = UNDEFINED_RECORD_TYPE;
+    GifRowType *gpScreenBuffer = nullptr;
+    GifFileType *gpGifFile = nullptr;
+    QString gEffectGifFile;
+
+    QMap<int, QImage> m_map;
+    QImage first;
+    QImage m_currentImage;
+    int tras;
+    int m_index = 0;
+    int m_indexDisplay = 0;
+    QString m_suffix;
+    QTimer *m_pTImer = nullptr;
+    bool m_bRetThread = true;
+    bool m_fisrtImage = true;
+    QThread *m_th = nullptr;
 };
 
 class GraphicsPixmapItem : public QGraphicsPixmapItem
