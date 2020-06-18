@@ -75,7 +75,7 @@ private:
     QString m_suffix;
     QTimer *m_pTImer = nullptr;
     bool m_bRetThread = true;
-
+    bool m_fisrtImage = true;
     QThread *m_th = nullptr;
 };
 

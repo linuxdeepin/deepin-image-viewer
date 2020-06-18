@@ -30,7 +30,7 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suf
 {
     Q_UNUSED(suffix);
     QFileInfo file(fileName);
-    first = QImage(fileName);
+
     if (file.suffix().contains("gif")) {
         m_index = 0;
         gEffectGifFile = fileName;
@@ -359,40 +359,41 @@ void GraphicsMovieItem::GifScreenBufferToRgb888(ColorMapObject *ColorMap,
                                                 int32_t ScreenHeight,
                                                 int alphaIndex)
 {
+    if (m_fisrtImage) {
+        first = QImage(ScreenWidth, ScreenHeight, QImage::Format_RGB32);
+        m_fisrtImage = false;
+    }
     GifColorType *ColorMapEntry = NULL;
     GifRowType GifRow = NULL;
     QByteArray byte;
     int32_t idxH = 0;
     int32_t idxW = 0;
     int startTime = QDateTime::currentMSecsSinceEpoch();
-    QImage img(ScreenWidth, ScreenHeight, QImage::Format_ARGB32);
+    // QImage img(ScreenWidth, ScreenHeight, QImage::Format_ARGB32);
     for (idxH = 0; idxH < ScreenHeight; idxH++) {
-        GifRow = ScreenBuffer[idxH];
 
         for (idxW = 0; idxW < ScreenWidth; idxW++) {
-            ColorMapEntry = &ColorMap->Colors[GifRow[idxW]];
+            ColorMapEntry = &ColorMap->Colors[ScreenBuffer[idxH][idxW]];
             //如果是透明色
-            if (alphaIndex == GifRow[idxW]) {
-                img.setPixel(idxW, idxH, qRgba(ColorMapEntry->Red, ColorMapEntry->Green, ColorMapEntry->Blue, 0));
+            if (alphaIndex == ScreenBuffer[idxH][idxW] || first.pixel(idxW, idxH) == qRgb(ColorMapEntry->Red, ColorMapEntry->Green, ColorMapEntry->Blue)) {
+                //img.setPixel(idxW, idxH, qRgba(ColorMapEntry->Red, ColorMapEntry->Green, ColorMapEntry->Blue, 0));
             } else {
-                img.setPixel(idxW, idxH, qRgba(ColorMapEntry->Red, ColorMapEntry->Green, ColorMapEntry->Blue, 255));
+                // img.setPixel(idxW, idxH, qRgba(ColorMapEntry->Red, ColorMapEntry->Green, ColorMapEntry->Blue, 255));
+                first.setPixel(idxW, idxH, qRgba(ColorMapEntry->Red, ColorMapEntry->Green, ColorMapEntry->Blue, 255));
             }
         }
-    }
-    int endTime = QDateTime::currentMSecsSinceEpoch();
-    int tolTime = endTime - startTime;
-    if (tolTime < 100) {
-        QThread::msleep(100 - tolTime);
     }
 
     if (!m_bRetThread) {
         return;
     }
-    if (!first.isNull()) {
-        QPainter painter(&first);
-        painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        painter.drawImage(0, 0, img);
-        painter.end();
+
+    int endTime = QDateTime::currentMSecsSinceEpoch();
+    int tolTime = endTime - startTime;
+
+    if (tolTime < 100) {
+        QThread::msleep(100 - tolTime);
     }
+
     emit dApp->signalM->sigGifImageRe();
 }
