@@ -1,8 +1,8 @@
-# Deepin Image Viewer
+### Deepin Image Viewer
 
-Image viewer for Deepin Desktop Environment.
+Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance  developed by Deepin Technology.
 
-## Dependencies
+### Dependencies
 
 ### Build dependencies
 
