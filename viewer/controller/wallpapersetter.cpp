@@ -15,12 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "wallpapersetter.h"
+#include "application.h"
+
 #include <QTimer>
 #include <QFile>
 #include <QFileInfo>
 #include <QProcess>
 #include <QDebug>
 #include <QDBusInterface>
+#include <QScreen>
 
 #include <unistd.h>
 
@@ -45,20 +48,21 @@ void WallpaperSetter::setWallpaper(const QString &path)
     const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
     QFile(path).copy(tmpImg);
 
-
-    if (!qEnvironmentVariableIsEmpty("FLATPAK_APPID")) {
+    //设置壁纸代码改变，采用DBus,原方法保留
+    if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
         // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
         qDebug() << "SettingWallpaper: " << "flatpak" << path;
         QDBusInterface interface("com.deepin.daemon.Appearance",
                                      "/com/deepin/daemon/Appearance",
                                      "com.deepin.daemon.Appearance");
         if (interface.isValid()) {
-            QDBusMessage reply = interface.call("Set", "background", path);
+            QString screenname = dApp->primaryScreen()->name();
+            QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
             qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
         } else {
             qWarning() << "SettingWallpaper failed" << interface.lastError();
         }
-    } else {
+    }/* else {
         DE de = getDE();
         qDebug() << "SettingWallpaper: " << de << path;
         switch (de) {
@@ -80,7 +84,7 @@ void WallpaperSetter::setWallpaper(const QString &path)
         default:
             setGNOMEShellWallpaper(tmpImg);
         }
-    }
+    }*/
 
 
     // Remove the tmp file
