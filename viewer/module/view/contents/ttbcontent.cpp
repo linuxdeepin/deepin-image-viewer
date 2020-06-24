@@ -1381,7 +1381,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
         } else {
             m_preButton->setDisabled(false);
         }
-        if (m_nowIndex == labelList.size() - 1) {
+        if (m_nowIndex == m_imgInfos.size() - 1) {
             m_nextButton->setDisabled(true);
         } else {
             m_nextButton->setDisabled(false);
@@ -1452,7 +1452,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_imgInfos.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
@@ -1506,7 +1506,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_imgInfos.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
