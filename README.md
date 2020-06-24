@@ -1,8 +1,8 @@
-# Deepin Image Viewer
+### Deepin Image Viewer
 
-Image viewer for Deepin Desktop Environment.
+Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance  developed by Deepin Technology.
 
-## Dependencies
+### Dependencies
 
 ### Build dependencies
 
@@ -40,7 +40,14 @@ $ make
 ```
 $ sudo make install
 ```
+## Usage
 
+Execute `deepin-image-viewer`
+
+## Documentations
+
+ - [Development Documentation](https://linuxdeepin.github.io/deepin-image-viewer/)
+ - [User Documentation](https://wiki.deepin.org/wiki/Deepin_Image_Viewer) | [用户文档](https://wikidev.uniontech.com/index.php?title=%E7%9C%8B%E5%9B%BE)
 When install complete, the executable binary file is placed into `/usr/bin/deepin-viewer`.
 
 ## Getting help
