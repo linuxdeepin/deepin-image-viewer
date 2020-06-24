@@ -730,6 +730,7 @@ void TTBContent::OnSetimglist(int currindex, QString filename, QString filepath)
 void TTBContent::OnChangeItemPath(int currindex, QString path)
 {
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    if(labelList.count() == 0) return;
     ImageItem *item = labelList.at(currindex);
     item->SetPath(path);
 }
