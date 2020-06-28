@@ -435,12 +435,14 @@ void SlideEffectPlayer::cacheNext()
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
             //free memory
+            //只有一张图片不加载下一张
+            if(m_paths.length()<2) return;
             int rmindex = m_current-2;
             if(-1 == rmindex)
                 rmindex = m_paths.length()-1;
             else if(-2 == rmindex)
                 rmindex = m_paths.length()-2;
-            if(m_paths.length() != 2)
+            if(m_paths.length() != 2 && rmindex>-1)
             {
                 QString rmpath = m_paths[rmindex];
                 m_cacheImages.remove(rmpath);
@@ -554,13 +556,15 @@ void SlideEffectPlayer::cachePrevious()
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
         this, [ = ] (const QString path, const QImage img) {
+            //修复只有一张图片不加载上一张
+            if(m_paths.length() < 2) return;
             qDebug() << "m_cacheImagespre.insert(path, img)";
             int rmindex = m_current+2;
             if(m_paths.size() == rmindex)
                 rmindex = 0;
             else if(m_paths.size()+1 == rmindex)
                 rmindex = 1;
-            if(m_paths.length() != 2)
+            if(m_paths.length() != 2 && rmindex!= -1)
             {
                 QString rmpath = m_paths[rmindex];
                 m_cacheImages.remove(rmpath);
