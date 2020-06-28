@@ -837,7 +837,10 @@ void TTBContent::setIsConnectDel(bool bFlags)
 
 void TTBContent::disableDelAct(bool bFlags)
 {
-    m_trashBtn->setEnabled(bFlags);
+    //对于只读权限的图片，切换图片后等待5秒左右，删除按钮会激活并删除只读图片
+    QFileInfo fileinfo(m_strCurImagePath);
+    if(fileinfo.isReadable() && fileinfo.isWritable() && bFlags)
+        m_trashBtn->setEnabled(bFlags);
 }
 
 void TTBContent::recvLoadAddInfos(DBImgInfoList newInfos, bool bFlags)
