@@ -837,7 +837,10 @@ void TTBContent::setIsConnectDel(bool bFlags)
 
 void TTBContent::disableDelAct(bool bFlags)
 {
-    m_trashBtn->setEnabled(bFlags);
+    //对于只读权限的图片，切换图片后等待5秒左右，删除按钮会激活并删除只读图片
+    QFileInfo fileinfo(m_strCurImagePath);
+    if(fileinfo.isReadable() && fileinfo.isWritable() && bFlags)
+        m_trashBtn->setEnabled(bFlags);
 }
 
 void TTBContent::recvLoadAddInfos(DBImgInfoList newInfos, bool bFlags)
@@ -914,22 +917,32 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
     }
 
     qDebug() << "m_startAnimation=" << m_startAnimation;
-    ImageItem *curitem = m_imgList->findChild<ImageItem *>(strCurPath);
+//    ImageItem *curitem = m_imgList->findChild<ImageItem *>(strCurPath);
 
     for (int j = 0; j < labelList.size(); j++) {
         labelList.at(j)->setFixedSize(QSize(num, 40));
         labelList.at(j)->resize(QSize(num, 40));
         labelList.at(j)->setIndexNow(t);
     }
-
-    if (curitem) {
-        curitem->setFixedSize(QSize(58, 58));
-        curitem->resize(QSize(58, 58));
-        //LMH0603，造成死锁的情况了，暂时屏蔽掉该锁，导致点击一张svg图片会卡死
-        //dApp->getRwLock().lockForRead();
-        curitem->updatePic(dApp->m_imagemap.value(strCurPath));
-        //dApp->getRwLock().unlock();
+    //还原7b23fc部分代码
+    if(labelList.size()>0)
+    {
+        for (int k = 0;k<labelList.size();k++) {
+            if(strCurPath == labelList.at(k)->getPath()){
+                labelList.at(k)->setFixedSize(QSize(58, 58));
+                labelList.at(k)->resize(QSize(58, 58));
+                labelList.at(k)->updatePic(dApp->m_imagemap.value(strCurPath));
+            }
+        }
     }
+//    if (curitem) {
+//        curitem->setFixedSize(QSize(58, 58));
+//        curitem->resize(QSize(58, 58));
+//        //LMH0603，造成死锁的情况了，暂时屏蔽掉该锁，导致点击一张svg图片会卡死
+//        //dApp->getRwLock().lockForRead();
+//        curitem->updatePic(dApp->m_imagemap.value(strCurPath));
+//        //dApp->getRwLock().unlock();
+//    }
 
     m_imgListView->show();
 }
@@ -1381,7 +1394,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
         } else {
             m_preButton->setDisabled(false);
         }
-        if (m_nowIndex == labelList.size() - 1) {
+        if (m_nowIndex == m_imgInfos.size() - 1) {
             m_nextButton->setDisabled(true);
         } else {
             m_nextButton->setDisabled(false);
@@ -1452,7 +1465,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_imgInfos.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
@@ -1506,7 +1519,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_imgInfos.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);

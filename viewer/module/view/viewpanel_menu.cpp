@@ -191,8 +191,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         QString filename;
         if (PopRenameDialog(filepath, filename)) {
             m_rwLock.lockForWrite();
+            //重命名后维护已经加载的文件名
+            int allcurrent = m_infosAll.indexOf(m_infos[m_current]);
             m_infos[m_current].fileName = filename;
             m_infos[m_current].filePath = filepath;
+            m_infosAll[allcurrent].fileName = filename;
+            m_infosAll[allcurrent].filePath = filepath;
             m_rwLock.unlock();
             //修改链表里被修改文件的文件名
             connect(this, &ViewPanel::SetImglistPath, ttbc, &TTBContent::OnSetimglist);
