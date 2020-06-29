@@ -301,8 +301,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 
 void ViewPanel::updateMenuContent()
 {
-    //add by heyi 判断当前图片是否被旋转
-    m_viewB->rotatePixCurrent();
 
     m_menu->clear();
     qDeleteAll(this->actions());
