@@ -178,7 +178,8 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
     connect(dApp, &Application::sigFinishLoad, this, [ = ](QString mapPath) {
         if (mapPath == _path || mapPath == "") {
             if (dApp->m_imagemap.contains(_path)) {
-                _pixmap = dApp->m_imagemap.value(_path);
+                if(!dApp->m_imagemap.value(_path).isNull())
+                    _pixmap = dApp->m_imagemap.value(_path);
                 update();
                 bFirstUpdate = false;
             }
@@ -931,7 +932,9 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
             if(strCurPath == labelList.at(k)->getPath()){
                 labelList.at(k)->setFixedSize(QSize(58, 58));
                 labelList.at(k)->resize(QSize(58, 58));
-                labelList.at(k)->updatePic(dApp->m_imagemap.value(strCurPath));
+                QPixmap imgpix = dApp->m_imagemap.value(strCurPath);
+                if(!imgpix.isNull())
+                    labelList.at(k)->updatePic(imgpix);
             }
         }
     }
