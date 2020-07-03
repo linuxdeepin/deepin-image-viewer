@@ -201,7 +201,8 @@ void ViewPanel::initConnect()
         }
 
         infos.size();
-
+        //add by heyi 判断当前图片是否被旋转
+        m_viewB->rotatePixCurrent();
         updateMenuContent();
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
@@ -1972,7 +1973,6 @@ void ViewPanel::openImage(const QString path, bool inDB)
 //        QStringList pathlist = getPathsFromCurrent(m_current);
 //        m_viewB->recvPathsToCache(pathlist);
 //    }
-
     updateMenuContent();
 
     if (m_info) {
