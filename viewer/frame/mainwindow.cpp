@@ -229,18 +229,30 @@ void MainWindow::moveFirstWindow()
 
     if (processFile.exists()) {
         if (processFile.open(QIODevice::ReadWrite)) {
-            int historyId = processFile.readAll().toInt();
-            QDir hisProcessDir(QString("/proc/%1").arg(historyId));
-            processFile.close();
-            if (hisProcessDir.exists())
-                return;
+            // int historyId = processFile.readAll().toInt();
+            // processFile.close();
+            // QDir hisProcessDir(QString("/proc/%1").arg(historyId));
 
-            if (processFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
-                QTextStream pidInfo(&processFile);
-                pidInfo << dApp->applicationPid();
-                processFile.close();
-            }
-            this->moveCenter();
+            // if (hisProcessDir.exists())
+            //    return;
+             //修复程序退出太慢，关闭程序后台进程退出完成前再次点击窗口未居中
+             m_sharememory.setKey("deepin-image-viewer-siglewindow");
+             //用于上一个进程异常退出共享内存没有释放，再此处释放
+             if(m_sharememory.attach())
+                 m_sharememory.detach();
+             if(!m_sharememory.create(4))
+             {
+                 //创建失败则关联程序
+                 if (!m_sharememory.isAttached()) //检测程序当前是否关联共享内存
+                     m_sharememory.attach();
+                 return;
+             }
+             if (processFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
+                 QTextStream pidInfo(&processFile);
+                 pidInfo << dApp->applicationPid();
+                 processFile.close();
+             }
+             this->moveCenter();
         }
     } else {
         if (processFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -294,6 +306,13 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 
     emit dApp->signalM->updateTopToolbar();
     DMainWindow::resizeEvent(e);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event);
+    if (m_sharememory.isAttached()) //检测程序当前是否关联共享内存
+        m_sharememory.detach();
 }
 
 bool MainWindow::windowAtEdge()
