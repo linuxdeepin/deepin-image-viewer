@@ -32,6 +32,7 @@
 #include <ddiskmanager.h>
 #include <dblockdevice.h>
 #include <ddiskdevice.h>
+#include <QSharedMemory>
 
 DWIDGET_USE_NAMESPACE
 typedef DStackedWidget QSWToDStackedWidget;
@@ -81,6 +82,7 @@ public slots:
     void OpenImage(QString path);
 protected:
     void resizeEvent(QResizeEvent *e) override;
+    void closeEvent(QCloseEvent *event) override;
     //    void showEvent(QShowEvent *event);
 signals:
     void sigExitFull();
@@ -99,6 +101,7 @@ private:
     QDateTime          m_currenttime;
     bool               m_flag = false;
     Dbusclient *m_dbus;
+    QSharedMemory m_sharememory;
 };
 
 #endif  // MAINWINDOW_H
