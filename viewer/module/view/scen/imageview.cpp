@@ -1329,8 +1329,9 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 
 void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
 {
-    if(thumbnailpixmap.isNull())
-        return;
+//    if(thumbnailpixmap.isNull())
+//        return;
+    qDebug() << "sigpath" << filePath;
     sigPath = filePath;
     scene()->clear();
     resetTransform();

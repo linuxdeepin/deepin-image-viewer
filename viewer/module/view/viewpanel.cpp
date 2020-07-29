@@ -1140,6 +1140,12 @@ QWidget *ViewPanel::bottomTopLeftContent()
         this->showImage(index, addIndex);
     });
     connect(ttbc, &TTBContent::showvaguepixmap, m_viewB, &ImageView::showVagueImage);
+    /*lmh0729*/
+    connect(ttbc, &TTBContent::showvaguepixmap, this, [=](QPixmap pix,QString path){
+        Q_UNUSED(pix);
+        Q_UNUSED(m_currentImagePath);
+        m_bIsOpenPicture=false;
+    });
     return ttbc;
 }
 
@@ -1703,7 +1709,9 @@ bool ViewPanel::showImage(int index, int addindex)
 
     m_lastCurrent = m_current;
     m_current = index;
-    if(m_infos.at(m_current).filePath == m_currentImagePath &&NULL!=m_currentImagePath)
+    /*lmh0729加上
+*/
+    if(m_infos.at(m_current).filePath == m_currentImagePath&&m_bIsOpenPicture /*&&NULL!=m_currentImagePath*/)
     {
         return false;
     }
@@ -1723,7 +1731,7 @@ bool ViewPanel::showImage(int index, int addindex)
      //   refreshPixmap(m_infos.at(m_current).filePath);
      //   emit sendDynamicLoadPaths(pathlist);
     }
-
+m_bIsOpenPicture=true;
     return true;
 }
 

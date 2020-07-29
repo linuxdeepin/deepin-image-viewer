@@ -151,6 +151,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     if (e->type() == QEvent::MouseButtonRelease) {
         bmouseleftpressed = false;
 
+
         int firsttolast=0;
         if(m_vecPoint.size()>0){
             firsttolast=m_vecPoint.first().x()-m_vecPoint.last().x();
@@ -160,11 +161,15 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         QPropertyAnimation *animation = new QPropertyAnimation((DWidget *)m_obj, "pos");
         animation->setEasingCurve(QEasingCurve::NCurveTypes);
         animation->setStartValue(((DWidget *)m_obj)->pos());
-        if(firsttolast<20 && firsttolast>-20){
+        if(firsttolast<20 && firsttolast>-20 ||m_vecPoint.size()<20){
             animation->deleteLater();
             m_iRet=false;
             bMove=false;
             bmouseleftpressed = false;
+//            if(m_currentImageItem){
+//                m_currentImageItem->emitClickEndSig();
+//            }
+            m_vecPoint.clear();
             emit mouseLeftReleased();
             return false;
         }
@@ -218,13 +223,17 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
             //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
         }
+        int i=0;
         connect(animation, &QPropertyAnimation::finished, [=]{
             m_iRet=false;
             bMove=false;
+            bmouseleftpressed = false;
+            m_vecPoint.clear();
             if(m_currentImageItem){
                 m_currentImageItem->emitClickEndSig();
             }
-            m_vecPoint.clear();
+
+            dynamic_cast<DWidget *>(m_obj)->resize(dynamic_cast<DWidget *>(m_obj)->width()+1,dynamic_cast<DWidget *>(m_obj)->height());
 
         });
         /*lmh0727*/
@@ -253,6 +262,12 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                 }
             }
             m_iRet=false;
+            bMove=false;
+            bmouseleftpressed = false;
+            m_vecPoint.clear();
+            if(m_currentImageItem){
+                m_currentImageItem->emitClickEndSig();
+            }
         });
         connect(th, &QThread::finished, th, &QObject::deleteLater);
         th->start();
@@ -273,6 +288,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         QPoint p = mouseEvent->globalPos();
         if(m_vecPoint.size()<20){
             m_vecPoint.push_back(p);
+            return false;
         }
         else{
             m_vecPoint.pop_front();
@@ -282,13 +298,14 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         ->move(((DWidget *)m_obj)->x() + p.x() - m_prepoint.x(), ((DWidget *)m_obj)->y());
         m_prepoint = p;
         QPoint CurrentcoursePoint = mouseEvent->globalPos();//获取当前光标的位置
-        if((CurrentcoursePoint.x()-m_lastPoint.x())<32 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-32)
+        if((CurrentcoursePoint.x()-m_lastPoint.x())<32 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-32  /*||(CurrentcoursePoint.x()-m_lastPoint.x())>64 ||(CurrentcoursePoint.x()-m_lastPoint.x())<-64*/)
         {
             return false;
         }
-
+        m_lastPoint=CurrentcoursePoint;
         /*lmh0727*/
-        QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+
+            QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
         int middle = (this->geometry().left() + this->geometry().right()) / 2;
 
 
@@ -310,7 +327,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             }
         }
 
-         m_lastPoint=CurrentcoursePoint;
     }
     return false;
 }
@@ -1058,16 +1074,20 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
             connect(imageItem, &ImageItem::imageMoveclicked, this,
             [ = ](int index) {
                 m_nowIndex = index;
-               qDebug()<<"m_nowIndex: "<<index;
+                qDebug()<<"m_nowIndex: "<<index;
                 if(bMove){
                     if(m_lastIndex >-1){
                         QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                         if(lastlabelList.isEmpty()){
-                            return;
                         }
-                        lastlabelList.at(0)->setFixedSize(QSize(32,40));
-                        lastlabelList.at(0)->resize(QSize(32,40));
-                        lastlabelList.at(0)->setIndexNow(m_nowIndex);
+                        else {
+                            for(int i=0;i<lastlabelList.size();i++){
+                                lastlabelList.at(i)->setFixedSize(QSize(32,40));
+                                lastlabelList.at(i)->resize(QSize(32,40));
+                                lastlabelList.at(i)->setIndexNow(m_nowIndex);
+                            }
+                        }
+
                     }
                     m_lastIndex=m_nowIndex;
                     QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(index));
@@ -1080,7 +1100,6 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
                             QPixmap pix=img->getPixmap();
                             emit showvaguepixmap(pix,labelList.at(0)->getPath());
                         }
-
                     }
 
                 }
@@ -1387,11 +1406,15 @@ void TTBContent::loadBack(DBImgInfoList infos)
                 if(m_lastIndex >-1){
                     QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                     if(lastlabelList.isEmpty()){
-                        return;
                     }
-                    lastlabelList.at(0)->setFixedSize(QSize(32,40));
-                    lastlabelList.at(0)->resize(QSize(32,40));
-                    lastlabelList.at(0)->setIndexNow(m_nowIndex);
+                    else {
+                        for(int i=0;i<lastlabelList.size();i++){
+                            lastlabelList.at(i)->setFixedSize(QSize(32,40));
+                            lastlabelList.at(i)->resize(QSize(32,40));
+                            lastlabelList.at(i)->setIndexNow(m_nowIndex);
+                        }
+                    }
+
                 }
                 m_lastIndex=m_nowIndex;
                 QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(index));
@@ -1479,11 +1502,15 @@ void TTBContent::loadFront(DBImgInfoList infos)
                 if(m_lastIndex >-1){
                     QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
                     if(lastlabelList.isEmpty()){
-                        return;
                     }
-                    lastlabelList.at(0)->setFixedSize(QSize(32,40));
-                    lastlabelList.at(0)->resize(QSize(32,40));
-                    lastlabelList.at(0)->setIndexNow(m_nowIndex);
+                    else {
+                        for(int i=0;i<lastlabelList.size();i++){
+                            lastlabelList.at(i)->setFixedSize(QSize(32,40));
+                            lastlabelList.at(i)->resize(QSize(32,40));
+                            lastlabelList.at(i)->setIndexNow(m_nowIndex);
+                        }
+                    }
+
                 }
                 m_lastIndex=m_nowIndex;
                 QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(index));

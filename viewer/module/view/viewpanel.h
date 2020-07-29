@@ -486,5 +486,8 @@ private:
     //LMH延时Remove
     QTimer *m_dtr = nullptr;
 
+    //lmh0729判断是否判断打开图片与上一张是否相同
+    bool m_bIsOpenPicture=true;
+
 };
 #endif  // VIEWPANEL_H

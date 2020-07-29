@@ -194,7 +194,7 @@ private:
     QPoint m_prepoint;
     QPoint m_lastPoint;
     ImageItem *m_currentImageItem=nullptr;
-    bool m_iRet=true;
+    bool m_iRet=false;
     QVector <QPoint> m_vecPoint;
 };
 
