@@ -21,6 +21,7 @@
 #include <QFutureWatcher>
 #include <QHash>
 #include <QReadWriteLock>
+#include <QTimer>
 #include "controller/viewerthememanager.h"
 
 #include "imagesvgitem.h"
@@ -143,6 +144,7 @@ public:
      */
     bool loadPictureByType(PICTURE_TYPE type, const QString strPath);
 
+
 signals:
     void clicked();
     void doubleClicked();
@@ -167,6 +169,7 @@ signals:
      * @param vl
      */
     void cacheThreadEndSig(QVariantList vl);
+    void sigShowImage(QImage);
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
@@ -213,6 +216,22 @@ public slots:
      * @return
      */
     QStringList removeDiff(QStringList pathsList);
+
+    /**
+     * @brief showVagueImage
+     * 在触屏拖动窗口的时候，显示模糊的缩略图
+     * @param thumbnailpixmap
+     * 缩略图pixmap
+     */
+    void showVagueImage(QPixmap thumbnailpixmap,QString filePath);
+
+    /**
+     * @brief showFileImage
+     * 在视图区域显示文件原图
+     */
+    void showFileImage();
+
+    void startLoadPixmap();
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -279,5 +298,14 @@ private:
     //heyi test 保存旋转的角度
     int m_rotateAngel = 0;
     QImage m_svgimg;
+    QTimer m_timerLoadPixmap;
+    QString timerPath;
+    QString sigPath;
+    bool showImageFlag = false;
+
+    /*lmh0729*/
+    bool isFirstPinch=false;
+    QPointF centerPoint;
+    int m_maxTouchPoints=0;
 };
 #endif // SVGVIEW_H

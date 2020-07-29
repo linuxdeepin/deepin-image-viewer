@@ -22,6 +22,7 @@
 #include <QReadWriteLock>
 #include <QMutex>
 #include <QList>
+
 class Application;
 class ConfigSetter;
 class DatabaseManager;

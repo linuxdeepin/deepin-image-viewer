@@ -36,12 +36,24 @@
 #include <QApplication>
 #include <fstream>
 
+#ifdef USE_UNIONIMAGE
+#include "unionimage.h"
+#endif
 namespace utils {
 
 namespace image {
 
 const QImage scaleImage(const QString &path, const QSize &size)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QImage tImg(size,QImage::Format_ARGB32);
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+    return tImg;
+#else
     QImageReader reader(path);
     reader.setAutoTransform(true);
     if (! reader.canRead()) {
@@ -76,7 +88,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
         }
     } else {
         return tImg;
-    }
+#endif
 }
 
 const QDateTime getCreateDateTime(const QString &path)
@@ -112,6 +124,10 @@ const QDateTime getCreateDateTime(const QString &path)
 
 bool imageSupportRead(const QString &path)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    return UnionImage_NameSpace::isImageSupportRotate(path);
+#else
     const QString suffix = QFileInfo(path).suffix();
 //解决freeimage不支持icns
     if (suffix == "icns") return true;
@@ -129,12 +145,21 @@ bool imageSupportRead(const QString &path)
     else {
         return (suffix == "svg");
     }
+#endif
 }
 
 bool imageSupportSave(const QString &path)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    return UnionImage_NameSpace::canSave(path);
+#else
     const QString suffix = QFileInfo(path).suffix();
-
+    //J2K格式暂时不支持
+    if(suffix.toUpper() == "J2K")
+    {
+        return false;
+    }
     // RAW image decode is too slow, and most of these does not support saving
     // RAW formats render incorrectly by freeimage
     const QStringList raws = QStringList()
@@ -162,15 +187,26 @@ bool imageSupportSave(const QString &path)
     } else {
         return freeimage::canSave(path);
     }
+#endif
 }
 
 bool imageSupportWrite(const QString &path)
 {
+        /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    return UnionImage_NameSpace::canSave(path);
+#else
     return freeimage::isSupportsWriting(path);
+#endif
 }
 
 bool rotate(const QString &path, int degree)
 {
+        /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QString erroMsg;
+    return UnionImage_NameSpace::rotateImageFIle(degree, path, erroMsg);
+#else
     if (degree % 90 != 0)
         return false;
 
@@ -219,6 +255,7 @@ bool rotate(const QString &path, int degree)
     removeThumbnail(path);
 
     return v;
+ #endif
 }
 
 /*!
@@ -310,7 +347,11 @@ const QFileInfoList getImagesInfo(const QString &dir, bool recursive)
 
 const QString getOrientation(const QString &path)
 {
+#ifdef USE_UNIONIMAGE
+    return UnionImage_NameSpace::getOrientation(path);
+#else
     return freeimage::getOrientation(path);
+#endif
 }
 const QImage loadTga(QString filePath, bool &success)
 {
@@ -441,15 +482,16 @@ const QImage loadTga(QString filePath, bool &success)
  */
 const QImage getRotatedImage(const QString &path)
 {
-    /*   QImage tImg;
-       QImageReader reader(path);
-       reader.setAutoTransform(true);
-       if (reader.canRead()) {
-           tImg = reader.read();
-       }
-       return tImg;*/
-    QImage tImg;
 
+
+    QImage tImg;
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+#else
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
         QImageReader reader(path);
@@ -472,12 +514,18 @@ const QImage getRotatedImage(const QString &path)
             tImg = QImage(path);
         }
     }
+#endif
     return tImg;
 }
 
 const QMap<QString, QString> getAllMetaData(const QString &path)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    return UnionImage_NameSpace::getAllMetaData(path);
+#else
     return freeimage::getAllMetaData(path);
+#endif
 }
 
 const QPixmap cachePixmap(const QString &path)
@@ -562,10 +610,12 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     const QString failEncodePath = cacheP + "/fail/" + md5s + ".png";
     if (QFileInfo(encodePath).exists()) {
         return QPixmap(encodePath);
-    } else if (QFileInfo(failEncodePath).exists()) {
+    }
+    /*lmh0724使用USE_UNIONIMAGE*/
+    /*else if (QFileInfo(failEncodePath).exists()) {
         qDebug() << "Fail-thumbnail exist, won't regenerate: " << path;
         return QPixmap();
-    } else {
+    } */else {
         // Try to generate thumbnail and load it later
         if (! cacheOnly && generateThumbnail(path)) {
             return QPixmap(encodePath);
@@ -689,9 +739,19 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
 
 QStringList supportedImageFormats()
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QStringList list ;
+    for(auto str:UnionImage_NameSpace::unionImageSupportFormat()){
+        str="*."+str;
+        list+=str;
+    }
+    return list;
+#else
     static QStringList list = fromByteArrayList(QImageReader::supportedImageFormats());
 
     return list;
+#endif
 }
 
 

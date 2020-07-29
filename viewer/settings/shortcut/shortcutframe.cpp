@@ -178,8 +178,8 @@ QMap<QString, QString> ShortcutFrame::viewValues()
     vs.insert("Rotate clockwise", "Ctrl + R");
     vs.insert("Rotate counterclockwise", "Ctrl + Shift + R");
     vs.insert("Set as wallpaper", "Ctrl + F9");
-    vs.insert("Display in file manager", "Ctrl + D");
-    vs.insert("Image info", "Alt + Enter");
+    vs.insert("Display in file manager", "Alt + D");
+    vs.insert("Image info", "Ctrl + I");
 
     return vs;
 }

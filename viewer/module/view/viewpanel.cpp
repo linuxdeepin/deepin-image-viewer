@@ -325,7 +325,7 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
 
 void ViewPanel::refreshPixmap(QString strPath)
 {
-    QMutexLocker(&dApp->getRwLock());
+    QMutexLocker locker(&dApp->getRwLock());
     if (strPath.isEmpty()) {
         return;
     }
@@ -1139,7 +1139,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     [ = ](int index, int addIndex) {
         this->showImage(index, addIndex);
     });
-
+    connect(ttbc, &TTBContent::showvaguepixmap, m_viewB, &ImageView::showVagueImage);
     return ttbc;
 }
 
@@ -1721,7 +1721,7 @@ bool ViewPanel::showImage(int index, int addindex)
 //        m_bAllowDel = false;
 //        ttbc->disableDelAct(false);
      //   refreshPixmap(m_infos.at(m_current).filePath);
-        emit sendDynamicLoadPaths(pathlist);
+     //   emit sendDynamicLoadPaths(pathlist);
     }
 
     return true;
@@ -1904,8 +1904,10 @@ void ViewPanel::initViewContent()
     });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
+    connect(m_viewB, SIGNAL(sigShowImage(QImage)), m_viewB, SLOT(showFileImage(QImage)));
     //heyi  test
     connect(dApp, &Application::endApplication, m_viewB, &ImageView::endApp);
+
 }
 
 void ViewPanel::openImage(const QString path, bool inDB)
