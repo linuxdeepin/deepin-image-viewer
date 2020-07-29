@@ -66,11 +66,22 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     Q_UNUSED(manager)
     initPanelStack(false);
 #endif
-    initExtensionPanel();
-    initTopToolbar();
-    initBottomToolbar();
+    /*lmh0722*/
+    if(0==dApp->m_timer){
+        initExtensionPanel();
+        initTopToolbar();
+        initBottomToolbar();
+        initConnection();
+    }
+    else {
+        QTimer::singleShot(dApp->m_timer, [=]{
+        initExtensionPanel();
+        initTopToolbar();
+        initBottomToolbar();
+        initConnection();
+        });
+    }
 
-    initConnection();
 }
 
 MainWidget::~MainWidget() {}
