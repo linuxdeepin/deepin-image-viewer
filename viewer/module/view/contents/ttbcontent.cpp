@@ -161,14 +161,23 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         QPropertyAnimation *animation = new QPropertyAnimation((DWidget *)m_obj, "pos");
         animation->setEasingCurve(QEasingCurve::NCurveTypes);
         animation->setStartValue(((DWidget *)m_obj)->pos());
-        if(firsttolast<20 && firsttolast>-20 ||m_vecPoint.size()<20){
+        if(m_vecPoint.size()<20){
             animation->deleteLater();
             m_iRet=false;
             bMove=false;
             bmouseleftpressed = false;
-//            if(m_currentImageItem){
-//                m_currentImageItem->emitClickEndSig();
-//            }
+            m_vecPoint.clear();
+            emit mouseLeftReleased();
+            return false;
+        }
+        else if(firsttolast<20 && firsttolast>-20 ){
+            animation->deleteLater();
+            m_iRet=false;
+            bMove=false;
+            bmouseleftpressed = false;
+            if(m_currentImageItem){
+                m_currentImageItem->emitClickEndSig();
+            }
             m_vecPoint.clear();
             emit mouseLeftReleased();
             return false;
