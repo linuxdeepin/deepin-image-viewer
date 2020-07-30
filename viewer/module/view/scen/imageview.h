@@ -236,6 +236,8 @@ public slots:
      */
     void startLoadPixmap();
 
+    void SlotStopShowThread();
+
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
@@ -310,5 +312,6 @@ private:
     bool isFirstPinch=false;
     QPointF centerPoint;
     int m_maxTouchPoints=0;
+    bool m_bStopShowThread = false;
 };
 #endif // SVGVIEW_H

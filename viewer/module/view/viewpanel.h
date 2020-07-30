@@ -162,6 +162,12 @@ signals:
      */
     void sigsendslideshowlist(bool bflag, DBImgInfoList infosldeshow);
 
+    /**
+     * @brief sigStopshowThread
+     * 停止滑动缩略图加载原图线程
+     */
+    void sigStopshowThread();
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;

@@ -1365,6 +1365,7 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
 {
     qDebug() << "sigpath" << filePath;
+    m_bStopShowThread=false;
     //一张图片内重复移动不刷新
     if(sigPath == filePath) return;
     sigPath = filePath;
@@ -1387,20 +1388,19 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     m_pixmapItem->setGraphicsEffect(blurEffect);
     scene()->addItem(m_pixmapItem);
 
-    fitWindow();
-    /*
     if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
             height() > 0) {
         fitWindow();
     } else {
         fitImage();
-    }*/
+    }
 
 
 }
 
 void ImageView::showFileImage()
 {
+    if(m_bStopShowThread) return;
     QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         scene()->clear();
@@ -1433,6 +1433,7 @@ void ImageView::startLoadPixmap()
         }else
         {
             //QImage在线程池中内存泄露更小选用线程池
+            if(m_bStopShowThread) return;
             QFuture<QVariantList> f = QtConcurrent::run(m_pool, cacheImage,timerPath);
             if (m_watcher.isRunning()) {
                 m_watcher.cancel();
@@ -1442,6 +1443,11 @@ void ImageView::startLoadPixmap()
             showImageFlag = true;
         }
     }
+}
+
+void ImageView::SlotStopShowThread()
+{
+    m_bStopShowThread = true;
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)

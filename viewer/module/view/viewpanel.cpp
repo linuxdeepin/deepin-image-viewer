@@ -206,6 +206,7 @@ void ViewPanel::initConnect()
         updateMenuContent();
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
+    connect(this, &ViewPanel::sigStopshowThread, m_viewB, &ImageView::SlotStopShowThread);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     //接受信号管理器信号，打开FileDialog
     connect(dApp->signalM, &SignalManager::sigOpenFileDialog, this, [=] {
@@ -1691,7 +1692,7 @@ bool ViewPanel::showImage(int index, int addindex)
 #endif
 
     Q_UNUSED(addindex);
-
+    emit sigStopshowThread();
     if (m_infos.isEmpty()) {
         return false;
     }
