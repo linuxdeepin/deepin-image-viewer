@@ -167,6 +167,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             bMove=false;
             bmouseleftpressed = false;
             m_vecPoint.clear();
+            m_lastPoint=QPoint(0,0);
             emit mouseLeftReleased();
             return false;
         }
@@ -179,6 +180,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                 m_currentImageItem->emitClickEndSig();
             }
             m_vecPoint.clear();
+            m_lastPoint=QPoint(0,0);
             emit mouseLeftReleased();
             return false;
         }
@@ -241,7 +243,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             if(m_currentImageItem){
                 m_currentImageItem->emitClickEndSig();
             }
-
+            m_lastPoint=QPoint(0,0);
             dynamic_cast<DWidget *>(m_obj)->resize(dynamic_cast<DWidget *>(m_obj)->width()+1,dynamic_cast<DWidget *>(m_obj)->height());
 
         });
@@ -252,7 +254,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                 QThread::msleep(50);
                 QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
                 int middle = (this->geometry().left() + this->geometry().right()) / 2;
-                qDebug()<<"middle: "<<middle;
+                int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
                 for (int i = 0; i < list.size(); i++) {
                     QList<ImageItem *> labelList = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i));
                     if (labelList.size() > 0) {
@@ -260,12 +262,14 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                         if (nullptr == img) {
                             continue;
                         }
-                        int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
                         int left = this->geometry().left() + img->geometry().left() + listLeft;
                         int right = this->geometry().left() + img->geometry().right() + listLeft;
                         if (left <= middle && middle < right) {
-                            img->emitClickSig(i);
-                            m_currentImageItem=img;
+                            if(m_currentImageItem!=img){
+                                img->emitClickSig(i);
+                                m_currentImageItem=img;
+                            }
+                            break;
                         }
                     }
                 }
@@ -295,6 +299,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         }
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
+        qDebug()<<p;
         if(m_vecPoint.size()<20){
             m_vecPoint.push_back(p);
             return false;
@@ -306,7 +311,11 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         ((DWidget *)m_obj)
         ->move(((DWidget *)m_obj)->x() + p.x() - m_prepoint.x(), ((DWidget *)m_obj)->y());
         m_prepoint = p;
+
         QPoint CurrentcoursePoint = mouseEvent->globalPos();//获取当前光标的位置
+        if(m_lastPoint==QPoint(0,0)){
+            m_lastPoint=CurrentcoursePoint;
+        }
         if((CurrentcoursePoint.x()-m_lastPoint.x())<32 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-32  /*||(CurrentcoursePoint.x()-m_lastPoint.x())>64 ||(CurrentcoursePoint.x()-m_lastPoint.x())<-64*/)
         {
             return false;
@@ -314,9 +323,9 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_lastPoint=CurrentcoursePoint;
         /*lmh0727*/
 
-            QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+        QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
         int middle = (this->geometry().left() + this->geometry().right()) / 2;
-
+        int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
 
         for (int i = 0; i < list.size(); i++) {
             QList<ImageItem *> labelList = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i));
@@ -325,13 +334,14 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                 if (nullptr == img) {
                     continue;
                 }
-                int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-
                 int left = this->geometry().left() + img->geometry().left() + listLeft;
                 int right = this->geometry().left() + img->geometry().right() + listLeft;
                 if (left <= middle && middle < right) {
-                    img->emitClickSig(i);
-                    m_currentImageItem=img;
+                    if(m_currentImageItem!=img){
+                        img->emitClickSig(i);
+                        m_currentImageItem=img;
+                    }
+                    break;
                 }
             }
         }
@@ -1086,7 +1096,7 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
                 qDebug()<<"m_nowIndex: "<<index;
                 if(bMove){
                     if(m_lastIndex >-1){
-                        QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
+                        QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
                         if(lastlabelList.isEmpty()){
                         }
                         else {
@@ -1413,7 +1423,7 @@ void TTBContent::loadBack(DBImgInfoList infos)
             qDebug()<<"m_nowIndex: "<<index;
             if(bMove){
                 if(m_lastIndex >-1){
-                    QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
+                    QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
                     if(lastlabelList.isEmpty()){
                     }
                     else {
@@ -1509,7 +1519,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
             qDebug()<<"m_nowIndex: "<<index;
             if(bMove){
                 if(m_lastIndex >-1){
-                    QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(m_lastIndex));
+                    QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
                     if(lastlabelList.isEmpty()){
                     }
                     else {
