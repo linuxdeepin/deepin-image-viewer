@@ -86,7 +86,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
                 return QImage();
             }
         }
-    } else {
+    } else
         return tImg;
 #endif
 }

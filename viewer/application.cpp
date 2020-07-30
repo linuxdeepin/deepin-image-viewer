@@ -330,6 +330,7 @@ void ImageLoader::loadInterface(QString path)
     QPixmap pixmap = QPixmap::fromImage(tImg);
 #endif
     QMutexLocker locker(&dApp->getRwLock());
+    m_parent->m_rectmap.insert(path, tImg.rect());
     m_parent->m_imagemap.insert(path, pixmap);
    // dApp->getRwLock().unlock();
 
@@ -408,7 +409,7 @@ void Application::loadInterface(QString path)
 
     QPixmap pixmap = QPixmap::fromImage(tImg);
 #endif
-
+    m_rectmap.insert(path, tImg.rect());
     m_imagemap.insert(path, pixmap);
    // dApp->getRwLock().unlock();
 

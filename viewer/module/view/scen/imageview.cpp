@@ -65,6 +65,9 @@ namespace {
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
+const QString ICON_PIXMAP_DARK = ":/assets/dark/images/picture damaged_dark.svg";
+const QString ICON_PIXMAP_LIGHT = ":/assets/light/images/picture damaged_light.svg";
+
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.029;
 const QSize SPINNER_SIZE = QSize(40, 40);
@@ -114,13 +117,45 @@ QVariantList cacheImage(const QString &path)
 {
     QImage tImg;
     QString errMsg;
+#if USE_UNIONIMAGE
     UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg);
+#else
+    QString format = DetectImageFormat(path);
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString() << format;
 
+                tImg = QImage(path);
+            }
+#endif
       QPixmap p = QPixmap::fromImage(tImg);
     if (QFileInfo(path).exists() && p.isNull()) {
         //判定为损坏图片
-        //p = utils::image::getDamagePixmap(DApplicationHelper::instance()->themeType() == DApplicationHelper::LightType);
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        QString picString;
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            picString = ICON_PIXMAP_DARK;
+        } else {
+            picString = ICON_PIXMAP_LIGHT;
+        }
+#if USE_UNIONIMAGE
+        UnionImage_NameSpace::loadStaticImageFromFile(picString, tImg, errMsg);
+#else
+        QImageReader readerF(picString, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString() << format;
+
+            tImg = QImage(picString);
+        }
+#endif
         qDebug() << errMsg;
+        p = QPixmap::fromImage(tImg);
     }
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
@@ -1329,16 +1364,19 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 
 void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
 {
-//    if(thumbnailpixmap.isNull())
-//        return;
     qDebug() << "sigpath" << filePath;
+    //一张图片内重复移动不刷新
+    if(sigPath == filePath) return;
     sigPath = filePath;
     scene()->clear();
     resetTransform();
+    QRect rect1=  dApp->m_rectmap[filePath];
+    thumbnailpixmap = thumbnailpixmap.scaled(rect1.size());
     m_pixmapItem = new GraphicsPixmapItem(thumbnailpixmap);
     m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
     // Make sure item show in center of view after reload
     QRectF rect = m_pixmapItem->boundingRect();
+
     //            rect.setHeight(rect.height() + 50);
     setSceneRect(rect);
     //            setSceneRect(m_pixmapItem->boundingRect());
@@ -1350,6 +1388,13 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     scene()->addItem(m_pixmapItem);
 
     fitWindow();
+    /*
+    if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
+            height() > 0) {
+        fitWindow();
+    } else {
+        fitImage();
+    }*/
 
 
 }

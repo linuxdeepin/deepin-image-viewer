@@ -230,7 +230,10 @@ public slots:
      * 在视图区域显示文件原图
      */
     void showFileImage();
-
+    /**
+     * @brief startLoadPixmap
+     * 开启线程池加载原图
+     */
     void startLoadPixmap();
 
 protected:

@@ -120,6 +120,7 @@ public:
     ViewerThemeManager *viewerTheme = nullptr;
 
     QMap<QString, QPixmap> m_imagemap;
+    QMap<QString, QRect> m_rectmap;
     ImageLoader *m_imageloader;
 
     QThread *m_LoadThread;
