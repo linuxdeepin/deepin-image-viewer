@@ -35,7 +35,7 @@
 #include <QSharedMemory>
 
 DWIDGET_USE_NAMESPACE
-typedef DStackedWidget QSWToDStackedWidget;
+typedef QStackedWidget QSWToDStackedWidget;
 
 class Dbusclient;
 
@@ -92,7 +92,7 @@ private:
     bool windowAtEdge();
     void paraOpenImageInfo(QString source, QString &path, QStringList &pathlist, QDateTime &stime);
 private:
-    MainWidget *m_mainWidget;
+    MainWidget *m_mainWidget=nullptr;
     QSWToDStackedWidget *m_pCenterWidget;
     DGioVolumeManager *m_vfsManager;
     DDiskManager *m_diskManager;

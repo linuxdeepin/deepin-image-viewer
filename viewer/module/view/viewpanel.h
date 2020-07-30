@@ -177,6 +177,12 @@ private:
      * @brief initConnect   初始化信号连接
      */
     void initConnect();
+    /**
+     * @brief initConnectOpenImage   启动时间优化，单独拿出filedialog的信号槽函数
+     * @author lmh
+     * @date   0722
+     */
+    void initConnectOpenImage();
 
     void initFileSystemWatcher();
 

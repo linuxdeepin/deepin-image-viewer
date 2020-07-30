@@ -377,10 +377,18 @@ void Application::loadInterface(QString path)
 
     finishLoadSlot(path);
 }
-
+#include <QtConcurrent>
+#include <QWidget>
+#include <QIcon>
 Application::Application(int &argc, char **argv)
     : DApplication(argc, argv)
 {
+//    QtConcurrent::run([](){
+//            QWidget *w = new QWidget;
+//            w->setWindowIcon(QIcon::fromTheme("dde-file-manager"));
+//            w->winId();
+//            w->deleteLater();
+//        });
     initI18n();
     m_LoadThread = nullptr;
     setOrganizationName("deepin");
@@ -398,7 +406,9 @@ Application::Application(int &argc, char **argv)
     setApplicationVersion(DApplication::buildVersion("20190828"));
     installEventFilter(new GlobalEventFilter());
 
+//    QTimer::singleShot(1000,[=]{
 
+//    });
     initChildren();
 
 

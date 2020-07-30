@@ -22,6 +22,7 @@
 #include <QReadWriteLock>
 #include <QMutex>
 #include <QList>
+
 class Application;
 class ConfigSetter;
 class DatabaseManager;
@@ -123,6 +124,7 @@ public:
 
     QThread *m_LoadThread;
     bool m_firstLoad = true;
+    int  m_timer=0;
 signals:
     /**
      * @brief sigstartLoad  加载线程启动信号
