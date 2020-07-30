@@ -19,7 +19,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "unionimage.h"
-#include "Source/FreeImage.h"
+#include <FreeImage.h>
 #include "giflib/cmanagerattributeservice.h"
 
 #include <QObject>
@@ -107,10 +107,10 @@ public:
         //m_freeiamge_formats["UNKNOWN"] = -1;
         m_freeiamge_formats["BMP"]     =  FIF_BMP;
         m_freeiamge_formats["ICO"]     =  FIF_ICO;
-        m_freeiamge_formats["JPG"]     =  -2;
-        m_freeiamge_formats["JPE"]     =  -2;
-        m_freeiamge_formats["JPS"]     =  -2;
-        m_freeiamge_formats["JPEG"]    =  -2;
+        m_freeiamge_formats["JPG"]     =  FIF_JPEG;
+        m_freeiamge_formats["JPE"]     =  FIF_JPEG;
+        m_freeiamge_formats["JPS"]     =  FIF_JPEG;
+        m_freeiamge_formats["JPEG"]    =  FIF_JPEG;
         m_freeiamge_formats["JNG"]     =  FIF_JNG;
         m_freeiamge_formats["KOALA"]   =  FIF_KOALA;
         m_freeiamge_formats["KOA"]     =  FIF_KOALA;
@@ -130,7 +130,7 @@ public:
         m_freeiamge_formats["TGA"]     =  FIF_TARGA;
         m_freeiamge_formats["TARGA"]   =  FIF_TARGA;
         m_freeiamge_formats["TIFF"]    =  FIF_TIFF;//use qt
-        m_freeiamge_formats["TIF"]    =  FIF_TIFF;//use qt
+        m_freeiamge_formats["TIF"]     =  FIF_TIFF;//use qt
         m_freeiamge_formats["WBMP"]    =  FIF_WBMP;
         m_freeiamge_formats["PSD"]     =  FIF_PSD;
         m_freeiamge_formats["CUT"]     =  FIF_CUT;
@@ -155,16 +155,22 @@ public:
         m_freeiamge_formats["RAW"]     =  FIF_RAW;
         m_freeiamge_formats["WEBP"]    =  FIF_WEBP;
         m_freeiamge_formats["JXR"]     =  FIF_JXR;
-        m_movie_formats["MNG"]    =  FIF_MNG;
-        m_movie_formats["GIF"]    =  FIF_GIF;
-//        m_movie_formats["TIF"]    =  FIF_TIFF;
-//        for (auto i : QImageReader::supportedImageFormats()) {
-//            m_qtSupported.append(QString(i));
-//        }
-        m_qtSupported << "JPG" << "JPEG" << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF" << "TIFF" << "BMP";
-//        m_qtSupported.removeOne("jpg");
-//        m_qtSupported.removeOne("jpeg");
+        m_movie_formats["MNG"]         =  FIF_MNG;
+        m_movie_formats["GIF"]         =  FIF_GIF;
+        m_qtSupported << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
+                      << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
+                      << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
+                      << "TIFF" << "BMP" << "XPM" << "MRW" << "DNG"
+                      << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
+                      << "NEF" ;
+
         m_not_support_rotate_format << "PFM" << "HDR" << "GIF" << "MNG";
+        m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
+                  << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
+                  << "SVG" << "TGA" << "XPM" << "ICO" << "ICNS"
+                  << "PSD" << "G3" << "J2C" << "J2K" << "JNG"
+                  << "JP2" << "PCD" << "PCX" << "PCT"
+                  << "PICT" << "PIC" << "RAS";
     }
     ~UnionImage_Private()
     {
@@ -175,6 +181,7 @@ public:
     QStringList m_qtSupported;
     QHash<QString, int> m_freeiamge_formats;
     QHash<QString, int> m_movie_formats;
+    QStringList m_canSave;
 };
 
 static UnionImage_Private union_image_private;
@@ -192,10 +199,22 @@ UNIONIMAGESHARED_EXPORT QImage noneQImage()
 
 UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat()
 {
-    QStringList res = union_image_private.m_freeiamge_formats.keys();
-    for (const QString &i : union_image_private.m_qtSupported) {
-        if (!res.contains(i))
-            res.append(i);
+    static QStringList res;
+    if (res.empty()) {
+        QStringList list = union_image_private.m_freeiamge_formats.keys();
+        for (const QString &i : union_image_private.m_freeiamge_formats.keys()) {
+            if (!list.contains(i))
+                list.append(i.toLower());
+        }
+        for (const QString &i : union_image_private.m_qtSupported) {
+            if (!list.contains(i))
+                list.append(i);
+        }
+        for (const QString &i : union_image_private.m_qtSupported) {
+            if (!list.contains(i))
+                list.append(i.toLower());
+        }
+        res.append(list);
     }
     return res;
 }
@@ -371,14 +390,7 @@ UNIONIMAGESHARED_EXPORT QImage FIBitmap2QImage(FIBITMAP *dib)
     }
     case 48:
     case 64:
-    case 96: {
-        QImage result(width, height, QImage::Format_RGB30);
-        FIBITMAP *res = FreeImage_ConvertToType(dib, FIT_FLOAT);
-        FreeImage_ConvertToRawBits(result.scanLine(0), res, result.bytesPerLine(), 32,
-                                   FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, true);
-        FreeImage_Unload(res);
-        return result;
-    }
+    case 96:
     //128位暂不支持
     case 128:
     default:
@@ -507,32 +519,22 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
-    bool bCanSave = false;
-    FIBITMAP *dib = readFile2FIBITMAP(path, FIF_LOAD_NOPIXELS);
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
     if (fif != FIF_UNKNOWN) {
         // Check that the dib can be saved in this format
-
-        FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
-
-        if (image_type == FIT_BITMAP) {
-            // standard bitmap type
-            // check that the plugin has sufficient writing
-            // and export capabilities ...
-            int bpp = static_cast<int>(FreeImage_GetBPP(dib));
-            bCanSave = (FreeImage_FIFSupportsWriting(fif) &&
-                        FreeImage_FIFSupportsExportBPP(fif, bpp));
-        } else {
-            // special bitmap type
-            // check that the plugin has sufficient export capabilities
-            bCanSave = FreeImage_FIFSupportsExportType(fif, image_type);
+        if (union_image_private.m_canSave.contains(union_image_private.m_freeiamge_formats.key(fif))) {
+            return true;
         }
     }
-    FreeImage_Unload(dib);
-    return bCanSave;
+    QFileInfo info(path);
+    if (union_image_private.m_canSave.contains(info.suffix().toUpper()))
+        return true;
+    return false;
 }
+
+
 
 /**
  * @brief writeFIBITMAPToFile
@@ -562,7 +564,7 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion()
 //    ver.append(QString(FreeImage_GetVersion()));
 //    ver.append("\n");
     ver.append("UnionImage Version:");
-    ver.append("0.0.2");
+    ver.append("1.0.0");
     ver.append("\n");
     return ver;
 }
@@ -578,7 +580,7 @@ UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width, int height, i
     return true;
 }
 
-
+QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     QFileInfo file_info(path);
@@ -586,14 +588,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
     FREE_IMAGE_FORMAT f = FreeImage_GetFileType(temp_path.data());
-//    QString myFormat = detectImageFormat(path);//debug
-//    if (union_image_private.m_movie_formats.contains(file_suffix_upper) || union_image_private.m_movie_formats.values().contains(f)) {
-//        errorMsg = "dynamic Image";
-//        return false;
-//    }
-    bool isSameFormat = true;
     if (f != FIF_UNKNOWN && f != union_image_private.m_freeiamge_formats[file_suffix_upper]) {
-        isSameFormat = false;
         file_suffix_upper = union_image_private.m_freeiamge_formats.key(f);
     }
     if (f == FIF_TIFF) {
@@ -612,9 +607,25 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
         reader.setAutoTransform(true);
         res_qt = reader.read();
         if (res_qt.isNull()) {
-            errorMsg = "load image by qt faild, use format:" + format_bar.toLatin1() + " ,path:" + path;
-            res = QImage();
-            return false;
+            //try old loading method
+            QString format = PrivateDetectImageFormat(path);
+            QImageReader readerF(path, format.toLatin1());
+            QImage try_res;
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                try_res = readerF.read();
+            } else {
+                errorMsg = "can't read image:" + readerF.errorString() + format;
+                try_res = QImage(path);
+            }
+            if (try_res.isNull()) {
+                errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
+                res = QImage();
+                return false;
+            }
+            errorMsg = "use old method to load QImage";
+            res = try_res;
+            return true;
         }
         errorMsg = "use QImage";
         res = res_qt;
@@ -774,7 +785,6 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         erroMsg = "unsupported angel";
         return false;
     }
-
     QString format = detectImageFormat(path);
     if (format == "SVG") {
         QImage image_copy;
@@ -830,6 +840,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         if (FreeImage_GetThumbnail(dib)) {
             FIBITMAP *thumb = FreeImage_GetThumbnail(dib);
             FIBITMAP *rotateThumb = FreeImage_Rotate(thumb, -angel);
+
             FreeImage_SetThumbnail(rotateRes, rotateThumb);
             FreeImage_Unload(rotateThumb);
         }
@@ -864,6 +875,7 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, co
     QImage image_copy;
     if (img.isNull()) return false;
     else image_copy = img;
+
     QString format = detectImageFormat(path);
     if (format == "SVG") {
         QSvgGenerator generator;
@@ -1007,22 +1019,7 @@ UNIONIMAGESHARED_EXPORT QMap<QString, QString> getAllMetaData(const QString &pat
 
 UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path)
 {
-    const QString suffix = QFileInfo(path).suffix();
-
-    QStringList raws = union_image_private.m_freeiamge_formats.keys();
-    raws << "SVG";
-
-    //dynamic image can not be supported
-    if (QMovie::supportedFormats().contains(suffix.toLower().toUtf8().data())) {
-        QMovie movie(path);
-        return movie.frameCount() == 1 ? true : false;
-    }
-    //some images that decode slow also should be written.
-    if (raws.contains(suffix.toUpper())) {
-        return true;
-    } else {
-        return false;
-    }
+    return canSave(path);
 }
 
 UNIONIMAGESHARED_EXPORT bool isSupportsReading(const QString &path)
@@ -1180,6 +1177,98 @@ QImage UnionMovieImage::next()
         break;
     }
     return d->res;
+}
+
+QString PrivateDetectImageFormat(const QString &filepath)
+{
+    QFile file(filepath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return "";
+    }
+
+    const QByteArray data = file.read(1024);
+
+    // Check bmp file.
+    if (data.startsWith("BM")) {
+        return "bmp";
+    }
+
+    // Check dds file.
+    if (data.startsWith("DDS")) {
+        return "dds";
+    }
+
+    // Check gif file.
+    if (data.startsWith("GIF8")) {
+        return "gif";
+    }
+
+    // Check Max OS icons file.
+    if (data.startsWith("icns")) {
+        return "icns";
+    }
+
+    // Check jpeg file.
+    if (data.startsWith("\xff\xd8")) {
+        return "jpg";
+    }
+
+    // Check mng file.
+    if (data.startsWith("\x8a\x4d\x4e\x47\x0d\x0a\x1a\x0a")) {
+        return "mng";
+    }
+
+    // Check net pbm file (BitMap).
+    if (data.startsWith("P1") || data.startsWith("P4")) {
+        return "pbm";
+    }
+
+    // Check pgm file (GrayMap).
+    if (data.startsWith("P2") || data.startsWith("P5")) {
+        return "pgm";
+    }
+
+    // Check ppm file (PixMap).
+    if (data.startsWith("P3") || data.startsWith("P6")) {
+        return "ppm";
+    }
+
+    // Check png file.
+    if (data.startsWith("\x89PNG\x0d\x0a\x1a\x0a")) {
+        return "png";
+    }
+
+    // Check svg file.
+    if (data.indexOf("<svg") > -1) {
+        return "svg";
+    }
+
+    // TODO(xushaohua): tga file is not supported yet.
+
+    // Check tiff file.
+    if (data.startsWith("MM\x00\x2a") || data.startsWith("II\x2a\x00")) {
+        // big-endian, little-endian.
+        return "tiff";
+    }
+
+    // TODO(xushaohua): Support wbmp file.
+
+    // Check webp file.
+    if (data.startsWith("RIFFr\x00\x00\x00WEBPVP")) {
+        return "webp";
+    }
+
+    // Check xbm file.
+    if (data.indexOf("#define max_width ") > -1 &&
+            data.indexOf("#define max_height ") > -1) {
+        return "xbm";
+    }
+
+    // Check xpm file.
+    if (data.startsWith("/* XPM */")) {
+        return "xpm";
+    }
+    return "";
 }
 
 };

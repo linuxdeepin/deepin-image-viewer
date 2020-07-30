@@ -56,10 +56,20 @@ enum SupportType {
 };
 
 /**
- * @brief UnionImageVersion
- * @return 版本信息
+ ************************************************************************************************
+ *                                                                                              *
+ *  Function name:                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ *                                                                                              *
+ ************************************************************************************************
  */
 UNIONIMAGESHARED_EXPORT QString unionImageVersion();
+
 
 /**
  * @brief UnionImageSupporFormat
