@@ -499,6 +499,12 @@ void ViewPanel::reConnectTTbc()
     [ = ](int index, int addIndex) {
         this->showImage(index, addIndex);
     }, Qt::UniqueConnection);
+    /*lmh0731*/
+    connect(ttbc, &TTBContent::imageMoveEnded, this,
+                    [ = ](int index, int addIndex,bool iRet) {
+        this->m_bIsOpenPicture=iRet;
+        this->showImage(index, addIndex);
+    }, Qt::UniqueConnection);
 }
 
 bool ViewPanel::GetPixmapStatus(QString filename)
@@ -1138,6 +1144,12 @@ QWidget *ViewPanel::bottomTopLeftContent()
     });
     connect(ttbc, &TTBContent::imageClicked, this,
     [ = ](int index, int addIndex) {
+        this->showImage(index, addIndex);
+    });
+    /*lmh0731*/
+    connect(ttbc, &TTBContent::imageMoveEnded, this,
+                    [ = ](int index, int addIndex,bool iRet) {
+        this->m_bIsOpenPicture=iRet;
         this->showImage(index, addIndex);
     });
     connect(ttbc, &TTBContent::showvaguepixmap, m_viewB, &ImageView::showVagueImage);

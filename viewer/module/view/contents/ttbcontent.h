@@ -174,31 +174,6 @@ private:
     bool bmouserelease = false;
 
 };
-
-
-class MyImageListWidget : public DWidget
-{
-    Q_OBJECT
-public:
-    MyImageListWidget(QWidget *parent = nullptr);
-    bool ifMouseLeftPressed();
-    void setObj(QObject *obj);
-protected:
-    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
-signals:
-    void mouseLeftReleased();
-private:
-    QTimer *m_timer = nullptr;
-    bool bmouseleftpressed = false;
-    QObject *m_obj = nullptr;
-    QPoint m_prepoint;
-    QPoint m_lastPoint;
-    ImageItem *m_currentImageItem=nullptr;
-    bool m_iRet=false;
-    QVector <QPoint> m_vecPoint;
-};
-
-
 class TTBContent : public QLbtoDLabel
 {
     Q_OBJECT
@@ -233,6 +208,8 @@ signals:
      * @param addIndex      点击的图元与之前显示图元索引值之差
      */
     void imageClicked(int index, int addIndex);
+    /*lmh0731*/
+    void imageMoveEnded(int index, int addIndex,bool iRet);
     void resetTransform(bool fitWindow);
 
     /**
@@ -460,5 +437,32 @@ private:
     //heyi test
     bool m_bIsHide = false;
 };
+
+
+class MyImageListWidget : public DWidget
+{
+    Q_OBJECT
+public:
+    MyImageListWidget(QWidget *parent = nullptr);
+    bool ifMouseLeftPressed();
+    void setObj(QObject *obj);
+protected:
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
+signals:
+    void mouseLeftReleased();
+private:
+    QTimer *m_timer = nullptr;
+    bool bmouseleftpressed = false;
+    QObject *m_obj = nullptr;
+    QPoint m_prepoint;
+    QPoint m_lastPoint;
+    ImageItem *m_currentImageItem=nullptr;
+    bool m_iRet=false;
+    QVector <QPoint> m_vecPoint;
+    QMutex m_threadMutex;
+    bool m_bthreadMutex=false;
+};
+
+
 
 #endif // TTLCONTENT_H

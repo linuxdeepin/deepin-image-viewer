@@ -249,6 +249,11 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         });
         /*lmh0727*/
         QThread *th = QThread::create([=]() {
+            if(m_bthreadMutex){
+                return;
+            }
+            m_bthreadMutex=true;
+            QMutexLocker locker(&m_threadMutex);
             while(m_iRet &&bMove)
             {
                 QThread::msleep(50);
@@ -281,6 +286,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             if(m_currentImageItem){
                 m_currentImageItem->emitClickEndSig();
             }
+            m_bthreadMutex=false;
         });
         connect(th, &QThread::finished, th, &QObject::deleteLater);
         th->start();
@@ -293,10 +299,10 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 //        emit mouseLeftReleased();
     }
     if (e->type() == QEvent::MouseMove && bmouseleftpressed) {
-        bMove=true;
         if(m_iRet){
             return false;
         }
+        bMove=true;
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
         qDebug()<<p;
@@ -1126,7 +1132,8 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
             connect(imageItem, &ImageItem::imageItemclicked, this,
             [ = ](int index, int indexNow) {
                 m_nowIndex = index;
-                emit imageClicked(index, (index - indexNow));
+//                emit imageClicked(index, (index - indexNow));
+                emit imageMoveEnded(index, (index - indexNow),false);
                 m_lastIndex=m_nowIndex;
             });
 
@@ -1454,7 +1461,8 @@ void TTBContent::loadBack(DBImgInfoList infos)
             imageItem, &ImageItem::imageItemclicked, this,
         [ = ](int index, int indexNow) {
             m_nowIndex = index;
-            emit imageClicked(index, (index - indexNow));
+//            emit imageClicked(index, (index - indexNow));
+            emit imageMoveEnded(index, (index - indexNow),false);
             m_lastIndex=m_nowIndex;
         });
 
@@ -1549,7 +1557,8 @@ void TTBContent::loadFront(DBImgInfoList infos)
         connect(imageItem, &ImageItem::imageItemclicked, this,
                     [ = ](int index, int indexNow) {
             m_nowIndex = index;
-            emit imageClicked(index, (index - indexNow));
+//            emit imageClicked(index, (index - indexNow));
+            emit imageMoveEnded(index, (index - indexNow),false);
             m_lastIndex=m_nowIndex;
         });
 
