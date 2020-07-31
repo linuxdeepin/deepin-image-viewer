@@ -21,7 +21,7 @@
 #ifndef CMANAGERATTRIBUTESERVICE_H
 #define CMANAGERATTRIBUTESERVICE_H
 
-#include "giflib/gif_lib.h"
+#include "module/view/scen/giflib/gif_lib.h"
 #include <QObject>
 #include <QImage>
 #include <QMap>
