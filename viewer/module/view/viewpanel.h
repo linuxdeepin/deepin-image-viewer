@@ -162,6 +162,12 @@ signals:
      */
     void sigsendslideshowlist(bool bflag, DBImgInfoList infosldeshow);
 
+    /**
+     * @brief sigStopshowThread
+     * 停止滑动缩略图加载原图线程
+     */
+    void sigStopshowThread();
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
@@ -485,6 +491,9 @@ private:
     volatile bool m_bThreadExit = false;
     //LMH延时Remove
     QTimer *m_dtr = nullptr;
+
+    //lmh0729判断是否判断打开图片与上一张是否相同
+    bool m_bIsOpenPicture=true;
 
 };
 #endif  // VIEWPANEL_H

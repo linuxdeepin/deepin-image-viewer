@@ -54,12 +54,19 @@
 #include <QGLWidget>
 #endif
 
+#ifdef USE_UNIONIMAGE
+#include "unionimage.h"
+#endif
+
 DWIDGET_USE_NAMESPACE
 
 namespace {
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
+
+const QString ICON_PIXMAP_DARK = ":/assets/dark/images/picture damaged_dark.svg";
+const QString ICON_PIXMAP_LIGHT = ":/assets/light/images/picture damaged_light.svg";
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.029;
@@ -104,6 +111,56 @@ const QSize SPINNER_SIZE = QSize(40, 40);
 //}
 
 }  // namespace
+
+//开启线程加载原图
+QVariantList cacheImage(const QString &path)
+{
+    QImage tImg;
+    QString errMsg;
+#if USE_UNIONIMAGE
+    UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg);
+#else
+    QString format = DetectImageFormat(path);
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString() << format;
+
+                tImg = QImage(path);
+            }
+#endif
+      QPixmap p = QPixmap::fromImage(tImg);
+    if (QFileInfo(path).exists() && p.isNull()) {
+        //判定为损坏图片
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        QString picString;
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            picString = ICON_PIXMAP_DARK;
+        } else {
+            picString = ICON_PIXMAP_LIGHT;
+        }
+#if USE_UNIONIMAGE
+        UnionImage_NameSpace::loadStaticImageFromFile(picString, tImg, errMsg);
+#else
+        QImageReader readerF(picString, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString() << format;
+
+            tImg = QImage(picString);
+        }
+#endif
+        qDebug() << errMsg;
+        p = QPixmap::fromImage(tImg);
+    }
+    QVariantList vl;
+    vl << QVariant(path) << QVariant(p);
+    return vl;
+}
 
 QMimeType determineMimeType(const QString &filename)
 {
@@ -209,7 +266,15 @@ QMimeType determineMimeType(const QString &filename)
 QVariantList ImageView::cachePixmap(const QString path)
 {
 
-#ifndef PIXMAP_LOAD
+#ifdef USE_UNIONIMAGE
+
+    QImage tImg;
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+    QPixmap p = QPixmap::fromImage(tImg);
+#else
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -239,8 +304,6 @@ QVariantList ImageView::cachePixmap(const QString path)
     }
 
     QPixmap p = QPixmap::fromImage(tImg);
-#else
-    QPixmap p(path);
 #endif
 
     QVariantList vl;
@@ -275,7 +338,7 @@ ImageView::ImageView(QWidget *parent)
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
 
-    connect(&m_watcher, SIGNAL(finished()), this, SLOT(onCacheFinish()));
+    connect(&m_watcher, SIGNAL(finished()), this, SLOT(showFileImage()));
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
@@ -318,6 +381,8 @@ ImageView::ImageView(QWidget *parent)
             m_loadingDisplay = true;
         }
     });
+    connect(&m_timerLoadPixmap,SIGNAL(timeout()),this,SLOT(startLoadPixmap()));
+    m_timerLoadPixmap.start(300);
 }
 
 void ImageView::clear()
@@ -704,7 +769,6 @@ void ImageView::showPixmap(QString path)
     if (path == m_path) {
         scene()->clear();
         resetTransform();
-
         m_pixmapItem = new GraphicsPixmapItem(pixmap);
         m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
@@ -1115,7 +1179,39 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 
 bool ImageView::event(QEvent *event)
 {
-    if (event->type() == QEvent::Gesture)
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
+            evType == QEvent::TouchEnd) {
+        if(evType == QEvent::TouchBegin){
+            m_maxTouchPoints=0;
+        }
+        else if(evType == QEvent::TouchUpdate){
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+            if(touchPoints.size()>m_maxTouchPoints){
+                m_maxTouchPoints=touchPoints.size();
+            }
+        }
+        if (evType == QEvent::TouchEnd) {
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+
+            if (m_maxTouchPoints <= 1 ||m_maxTouchPoints > 2) {
+                //QPointF centerPointOffset = gesture->centerPoint();
+                qreal offset = touchPoints.at(0).lastPos().x() - touchPoints.at(0).startPos().x();
+                if (qAbs(offset) > 200) {
+                    if (offset > 0) {
+                        emit previousRequested();
+                        qDebug() << "zy------ImageView::event previousRequested";
+                    } else {
+                        emit nextRequested();
+                        qDebug() << "zy------ImageView::event nextRequested";
+                    }
+                }
+            }
+        }
+        return true;
+    } else if (event->type() == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
     return QGraphicsView::event(event);
@@ -1215,16 +1311,42 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
-    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
+/*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
         swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-    else if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+    else */if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
 {
-    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
-    scaleAtPoint(pos, gesture->scaleFactor());
+//    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+//    scaleAtPoint(pos, gesture->scaleFactor());
+    QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+        if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+            QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+            scaleAtPoint(pos, gesture->scaleFactor());
+        }
+
+        if (changeFlags & QPinchGesture::CenterPointChanged) {
+            if (!isFirstPinch) {
+                centerPoint = gesture->centerPoint();
+                isFirstPinch = true;
+            }
+        }
+        if (gesture->state() == Qt::GestureFinished) {
+            QPointF centerPointOffset = gesture->centerPoint();
+            qreal offset = centerPointOffset.x() - centerPoint.x();
+            if (qAbs(offset) > 200) {
+                if (offset > 0) {
+                    emit previousRequested();
+                    qDebug() << "zy------ImageView::pinchTriggered nextRequested";
+                } else {
+                    emit nextRequested();
+                    qDebug() << "zy------ImageView::pinchTriggered previousRequested";
+                }
+            }
+            isFirstPinch = false;
+        }
 }
 
 void ImageView::swipeTriggered(QSwipeGesture *gesture)
@@ -1237,6 +1359,95 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
             emit previousRequested();
         }
     }
+}
+
+
+void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
+{
+    qDebug() << "sigpath" << filePath;
+    m_bStopShowThread=false;
+    //一张图片内重复移动不刷新
+    if(sigPath == filePath) return;
+    sigPath = filePath;
+    scene()->clear();
+    resetTransform();
+    QRect rect1=  dApp->m_rectmap[filePath];
+    thumbnailpixmap = thumbnailpixmap.scaled(rect1.size());
+    m_pixmapItem = new GraphicsPixmapItem(thumbnailpixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+    //缩略图显示马赛克较为明显，采用高斯模糊
+    QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect(this);
+    blurEffect->setBlurRadius(8);
+    //blurEffect->setBlurHints(QGraphicsBlurEffect::QualityHint);
+    m_pixmapItem->setGraphicsEffect(blurEffect);
+    scene()->addItem(m_pixmapItem);
+
+    if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
+            height() > 0) {
+        fitWindow();
+    } else {
+        fitImage();
+    }
+
+
+}
+
+void ImageView::showFileImage()
+{
+    if(m_bStopShowThread) return;
+    QVariantList vl = m_watcher.result();
+    if (vl.length() == 2) {
+        scene()->clear();
+        resetTransform();
+        QPixmap pixmap = vl.last().value<QPixmap>();
+        m_pixmapItem = new GraphicsPixmapItem(pixmap);
+        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        // Make sure item show in center of view after reload
+        QRectF rect = m_pixmapItem->boundingRect();
+        //            rect.setHeight(rect.height() + 50);
+        setSceneRect(rect);
+        //            setSceneRect(m_pixmapItem->boundingRect());
+        scene()->addItem(m_pixmapItem);
+        autoFit();
+    }
+}
+
+void ImageView::startLoadPixmap()
+{
+    if(timerPath != sigPath || sigPath.isEmpty())
+    {
+        timerPath = sigPath;
+        showImageFlag = false;
+        return;
+    }else {
+        //在缩略图加载完成前不加载原图
+        if((dApp->m_LoadThread && dApp->m_LoadThread->isRunning()) || showImageFlag)
+        {
+            return;
+        }else
+        {
+            //QImage在线程池中内存泄露更小选用线程池
+            if(m_bStopShowThread) return;
+            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cacheImage,timerPath);
+            if (m_watcher.isRunning()) {
+                m_watcher.cancel();
+                m_watcher.waitForFinished();
+            }
+            m_watcher.setFuture(f);
+            showImageFlag = true;
+        }
+    }
+}
+
+void ImageView::SlotStopShowThread()
+{
+    m_bStopShowThread = true;
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)

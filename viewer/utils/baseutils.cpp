@@ -44,6 +44,9 @@
 #include <DDesktopServices>
 #include <QImageReader>
 
+#ifdef USE_UNIONIMAGE
+#include "unionimage.h"
+#endif
 DWIDGET_USE_NAMESPACE
 
 namespace utils {
@@ -55,6 +58,18 @@ const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QImage tImg(size,QImage::Format_ARGB32);
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+    QPixmap pixmap;
+    pixmap = QPixmap::fromImage(tImg);
+
+    return pixmap;
+#else
     QImageReader reader;
     QPixmap pixmap;
 
@@ -70,6 +85,7 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
     }
 
     return pixmap;
+#endif
 }
 
 QString sizeToHuman(const qlonglong bytes)

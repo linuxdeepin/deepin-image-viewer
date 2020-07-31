@@ -206,6 +206,7 @@ void ViewPanel::initConnect()
         updateMenuContent();
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
+    connect(this, &ViewPanel::sigStopshowThread, m_viewB, &ImageView::SlotStopShowThread);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     //接受信号管理器信号，打开FileDialog
     connect(dApp->signalM, &SignalManager::sigOpenFileDialog, this, [=] {
@@ -325,7 +326,7 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
 
 void ViewPanel::refreshPixmap(QString strPath)
 {
-    QMutexLocker(&dApp->getRwLock());
+    QMutexLocker locker(&dApp->getRwLock());
     if (strPath.isEmpty()) {
         return;
     }
@@ -496,6 +497,12 @@ void ViewPanel::reConnectTTbc()
     }, Qt::UniqueConnection);
     connect(ttbc, &TTBContent::imageClicked, this,
     [ = ](int index, int addIndex) {
+        this->showImage(index, addIndex);
+    }, Qt::UniqueConnection);
+    /*lmh0731*/
+    connect(ttbc, &TTBContent::imageMoveEnded, this,
+                    [ = ](int index, int addIndex,bool iRet) {
+        this->m_bIsOpenPicture=iRet;
         this->showImage(index, addIndex);
     }, Qt::UniqueConnection);
 }
@@ -1139,7 +1146,19 @@ QWidget *ViewPanel::bottomTopLeftContent()
     [ = ](int index, int addIndex) {
         this->showImage(index, addIndex);
     });
-
+    /*lmh0731*/
+    connect(ttbc, &TTBContent::imageMoveEnded, this,
+                    [ = ](int index, int addIndex,bool iRet) {
+        this->m_bIsOpenPicture=iRet;
+        this->showImage(index, addIndex);
+    });
+    connect(ttbc, &TTBContent::showvaguepixmap, m_viewB, &ImageView::showVagueImage);
+    /*lmh0729*/
+    connect(ttbc, &TTBContent::showvaguepixmap, this, [=](QPixmap pix,QString path){
+        Q_UNUSED(pix);
+        Q_UNUSED(m_currentImagePath);
+        m_bIsOpenPicture=false;
+    });
     return ttbc;
 }
 
@@ -1685,7 +1704,7 @@ bool ViewPanel::showImage(int index, int addindex)
 #endif
 
     Q_UNUSED(addindex);
-
+    emit sigStopshowThread();
     if (m_infos.isEmpty()) {
         return false;
     }
@@ -1703,7 +1722,9 @@ bool ViewPanel::showImage(int index, int addindex)
 
     m_lastCurrent = m_current;
     m_current = index;
-    if(m_infos.at(m_current).filePath == m_currentImagePath &&NULL!=m_currentImagePath)
+    /*lmh0729加上
+*/
+    if(m_infos.at(m_current).filePath == m_currentImagePath&&m_bIsOpenPicture /*&&NULL!=m_currentImagePath*/)
     {
         return false;
     }
@@ -1721,9 +1742,9 @@ bool ViewPanel::showImage(int index, int addindex)
 //        m_bAllowDel = false;
 //        ttbc->disableDelAct(false);
      //   refreshPixmap(m_infos.at(m_current).filePath);
-        emit sendDynamicLoadPaths(pathlist);
+     //   emit sendDynamicLoadPaths(pathlist);
     }
-
+m_bIsOpenPicture=true;
     return true;
 }
 
@@ -1904,8 +1925,10 @@ void ViewPanel::initViewContent()
     });
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
+    connect(m_viewB, SIGNAL(sigShowImage(QImage)), m_viewB, SLOT(showFileImage(QImage)));
     //heyi  test
     connect(dApp, &Application::endApplication, m_viewB, &ImageView::endApp);
+
 }
 
 void ViewPanel::openImage(const QString path, bool inDB)
