@@ -95,16 +95,6 @@ void ViewPanel::initPopupMenu()
             updateMenuContent();
         }
     });
-    //    QShortcut *sc = new QShortcut(QKeySequence("Alt+Enter"), this);
-    //    sc->setContext(Qt::WidgetWithChildrenShortcut);
-    //    connect(sc, &QShortcut::activated, this, [ = ] {
-    //        if (m_isInfoShowed)
-    //            emit dApp->signalM->hideExtensionPanel();
-    //        else
-    //            emit dApp->signalM->showExtensionPanel();
-    //        // Update panel info
-    //        m_info->setImagePath(m_infos.at(m_current).filePath);
-    //    });
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
@@ -203,7 +193,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             emit SetImglistPath(m_current, filename, filepath);
             //修改map维护的数据
             //dApp->getRwLock().lockForWrite();
-            QMutexLocker(&dApp->getRwLock());
+            QMutexLocker locker(&dApp->getRwLock());
             QPixmap pix =  dApp->m_imagemap.value(path);
             dApp->m_imagemap.remove(path);
             dApp->m_imagemap.insert(filepath, pix);
@@ -382,27 +372,15 @@ void ViewPanel::updateMenuContent()
 #endif
     {
         appendAction(IdDisplayInFileManager, tr("Display in file manager"),
-                     ss("Display in file manager", "Ctrl+D"));
+                     ss("Display in file manager", "Alt+D"));
     }
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Return"));
+    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Ctrl+I"));
     //appendAction(IdDraw, tr("Draw"), ss("Draw", ""));
 }
 
 void ViewPanel::initShortcut()
 {
     QShortcut *sc = nullptr;
-    // slove Alt+Enter shortcut
-    sc = new QShortcut(QKeySequence("Alt+Enter"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [ = ] {
-        if (m_isInfoShowed)
-        {
-            emit dApp->signalM->hideExtensionPanel();
-        } else
-        {
-            emit dApp->signalM->showExtensionPanel();
-        }
-    });
     // Delay image toggle
     QTimer *m_dt = new QTimer(this);
     m_dt->setSingleShot(true);

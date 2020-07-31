@@ -68,10 +68,10 @@ Shortcut::Shortcut(QObject *parent)
                       << ShortcutItem(tr("Set as wallpaper"),
                                       ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F9"))
                       << ShortcutItem(tr("Display in file manager"),
-                                      ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))
+                                      ss(VIEW_GROUP, "Display in file manager", "Alt + D"))
                       <<
         //    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
-        ShortcutItem(tr("Image info"), "Alt+Enter") << ShortcutItem(tr("Previous"), "Left")
+        ShortcutItem(tr("Image info"), "Ctrl + I") << ShortcutItem(tr("Previous"), "Left")
                       << ShortcutItem(tr("Next"), "Right")
                       << ShortcutItem(tr("Zoom in"), "Ctrl+ '+'")
                       << ShortcutItem(tr("Zoom out"), "Ctrl+ '-'")
