@@ -39,9 +39,11 @@ const QString FAVORITES_ALBUM_NAME = "My favorite";
 
 QString ss(const QString &text, const QString &defaultValue)
 {
-    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
+    //采用代码中快捷键不使用配置文件快捷键
+   // QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
+    QString str = defaultValue;
     str.replace(" ", "");
-    return str;
+    return defaultValue;
 }
 
 enum MenuItemId {
