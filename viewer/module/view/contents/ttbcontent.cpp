@@ -384,7 +384,7 @@ void ImageItem::emitClickSig(QString path)
 
 void ImageItem::emitClickEndSig()
 {
-    emit imageItemclicked(_index,_indexNow);
+    emit imageItemclicked(_index,_indexNow,false);
 };
 
 void ImageItem::paintEvent(QPaintEvent *event)
@@ -1128,11 +1128,13 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
                 }
             });
             connect(imageItem, &ImageItem::imageItemclicked, this,
-            [ = ](int index, int indexNow) {
+            [ = ](int index, int indexNow,bool iRet) {
                 m_nowIndex = index;
 //                emit imageClicked(index, (index - indexNow));
-                emit imageMoveEnded(index, (index - indexNow),false);
+                emit imageMoveEnded(index, (index - indexNow),iRet);
                 m_lastIndex=m_nowIndex;
+                onResize();
+                m_imgList->adjustSize();
             });
 
         }
@@ -1456,13 +1458,14 @@ void TTBContent::loadBack(DBImgInfoList infos)
 
             }
         });
-        connect(
-            imageItem, &ImageItem::imageItemclicked, this,
-        [ = ](int index, int indexNow) {
+        connect(imageItem, &ImageItem::imageItemclicked, this,
+        [ = ](int index, int indexNow,bool iRet) {
             m_nowIndex = index;
-//            emit imageClicked(index, (index - indexNow));
-            emit imageMoveEnded(index, (index - indexNow),false);
+//                emit imageClicked(index, (index - indexNow));
+            emit imageMoveEnded(index, (index - indexNow),iRet);
             m_lastIndex=m_nowIndex;
+            onResize();
+            m_imgList->adjustSize();
         });
 
         m_imgInfos.push_back(info);
@@ -1555,11 +1558,13 @@ void TTBContent::loadFront(DBImgInfoList infos)
             }
         });
         connect(imageItem, &ImageItem::imageItemclicked, this,
-                    [ = ](int index, int indexNow) {
+        [ = ](int index, int indexNow,bool iRet) {
             m_nowIndex = index;
-//            emit imageClicked(index, (index - indexNow));
-            emit imageMoveEnded(index, (index - indexNow),false);
+//                emit imageClicked(index, (index - indexNow));
+            emit imageMoveEnded(index, (index - indexNow),iRet);
             m_lastIndex=m_nowIndex;
+            onResize();
+            m_imgList->adjustSize();
         });
 
         m_imgInfos.push_front(info);

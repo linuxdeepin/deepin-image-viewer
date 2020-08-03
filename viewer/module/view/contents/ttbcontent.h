@@ -140,7 +140,7 @@ public:
     void emitClickSig(QString path);
     void emitClickEndSig();
 signals:
-    void imageItemclicked(int index, int indexNow);
+    void imageItemclicked(int index, int indexNow,bool iRet=false);
     void imageMoveclicked(QString path);
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override
@@ -157,7 +157,7 @@ protected:
         QTimer::singleShot(200, &loop, SLOT(quit()));
         loop.exec();
         if (bmouserelease)
-            emit imageItemclicked(_index, _indexNow);
+            emit imageItemclicked(_index, _indexNow,true);
     }
 
     void paintEvent(QPaintEvent *event) override;
