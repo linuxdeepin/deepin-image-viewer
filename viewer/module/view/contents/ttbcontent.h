@@ -137,11 +137,11 @@ public:
         return _pixmap;
     }
 
-    void emitClickSig(int index);
+    void emitClickSig(QString path);
     void emitClickEndSig();
 signals:
     void imageItemclicked(int index, int indexNow);
-    void imageMoveclicked(int index);
+    void imageMoveclicked(QString path);
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override
     {
