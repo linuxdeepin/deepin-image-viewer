@@ -1156,7 +1156,14 @@ QWidget *ViewPanel::bottomTopLeftContent()
     /*lmh0729*/
     connect(ttbc, &TTBContent::showvaguepixmap, this, [=](QPixmap pix,QString path){
         Q_UNUSED(pix);
-        Q_UNUSED(m_currentImagePath);
+        int begin = 0;
+        m_currentImagePath=path;
+        for (; begin < m_infos.size(); begin++) {
+            if (m_infos.at(begin).filePath == m_currentImagePath) {
+                break;
+            }
+        }
+        m_current = begin;
         m_bIsOpenPicture=false;
     });
     return ttbc;
