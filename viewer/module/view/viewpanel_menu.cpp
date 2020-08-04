@@ -80,9 +80,8 @@ void ViewPanel::initPopupMenu()
             return;
         QString filePath = m_infos.at(m_current).filePath;
 #ifdef LITE_DIV
-        if (!filePath.isEmpty() && QFileInfo(filePath).exists()
+        if (!filePath.isEmpty() && QFileInfo(filePath).exists())
 #endif
-           )
         {
             updateMenuContent();
             dApp->setOverrideCursor(Qt::ArrowCursor);

@@ -46,11 +46,11 @@ namespace {
 //#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
 
 ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QString path)
+    :m_parent(parent),
+     m_pathlist(pathlist),
+     m_path(path),
+     m_bFlag(true)
 {
-    m_parent = parent;
-    m_pathlist = pathlist;
-    m_path = path;
-    m_bFlag = true; //heyi
 }
 
 void ImageLoader::startLoading()
