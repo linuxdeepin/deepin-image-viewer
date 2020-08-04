@@ -234,7 +234,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
             //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
         }
-        int i=0;
         connect(animation, &QPropertyAnimation::finished, [=]{
             m_iRet=false;
             bMove=false;
@@ -306,7 +305,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         bMove=true;
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
-        qDebug()<<p;
         if(m_vecPoint.size()<20){
             m_vecPoint.push_back(p);
             return false;

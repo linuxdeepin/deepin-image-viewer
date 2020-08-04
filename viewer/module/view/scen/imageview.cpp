@@ -1382,8 +1382,7 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
         double witchToheight=dwidth/dheight;
         double hrect=screenRect.width();
         double h=hrect/witchToheight;
-//        thumbnailpixmap = thumbnailpixmap.scaled(screenRect.width(),(double)(rect1.height())/witchToheight);
-        thumbnailpixmap = thumbnailpixmap.scaled(screenRect.width(),h);
+        thumbnailpixmap = thumbnailpixmap.scaled(screenRect.width(),static_cast<int>(h));
     }
     else {
             thumbnailpixmap = thumbnailpixmap.scaled(rect1.size());
