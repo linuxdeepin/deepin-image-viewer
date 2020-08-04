@@ -50,7 +50,7 @@ public:
     static inline const char *staticInterfaceName()
     { return "com.deepin.ImageViewer"; }
 public:
-    DIVDBusController(QObject *parent = 0);
+    DIVDBusController(QObject *parent = nullptr);
 
     ~DIVDBusController();
 

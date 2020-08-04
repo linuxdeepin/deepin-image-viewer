@@ -1408,8 +1408,8 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     } else {
         fitImage();
     }
-
-
+    /*lmh0804*/
+    emit imageChanged(filePath);
 }
 
 void ImageView::showFileImage()
@@ -1419,6 +1419,8 @@ void ImageView::showFileImage()
     if (vl.length() == 2) {
         scene()->clear();
         resetTransform();
+        m_movieItem = nullptr;
+        m_svgItem = nullptr;
         QPixmap pixmap = vl.last().value<QPixmap>();
         m_pixmapItem = new GraphicsPixmapItem(pixmap);
         m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
