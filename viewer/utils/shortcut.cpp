@@ -51,6 +51,8 @@ Shortcut::Shortcut(QObject *parent)
 #endif
         ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen", "F11"))
                       << ShortcutItem(tr("Exit fullscreen"), "Esc") <<
+        ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show", "F5"))
+                      << ShortcutItem(tr("Rename"), "F2") <<
 #ifndef LITE_DIV
         ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))
                       << ShortcutItem(tr("End show"), ss(VIEW_GROUP, "End show")) <<

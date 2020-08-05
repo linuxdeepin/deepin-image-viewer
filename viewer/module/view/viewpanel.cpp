@@ -906,12 +906,12 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 
     }
 }
-
 void ViewPanel::showNormal()
 {
+
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-    pAn->setDuration(50);
+    pAn->setDuration(200);
     pAn->setEasingCurve(QEasingCurve::Linear);
     pAn->setEndValue(1);
     pAn->setStartValue(0);
@@ -922,12 +922,16 @@ void ViewPanel::showNormal()
     } else {
         window()->showNormal();
     }
-
+    /*lmh0804改，增加设置窗口取消置顶*/
+    window()->setWindowFlags(Qt::Widget);
+    window()->showNormal();
     emit dApp->signalM->showTopToolbar();
 }
 
 void ViewPanel::showFullScreen()
 {
+    /*lmh0804改，增加设置窗口置顶*/
+    window()->setWindowFlags(window()->windowFlags() | Qt::WindowStaysOnTopHint);
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
     pAn->setDuration(50);
@@ -1156,7 +1160,14 @@ QWidget *ViewPanel::bottomTopLeftContent()
     /*lmh0729*/
     connect(ttbc, &TTBContent::showvaguepixmap, this, [=](QPixmap pix,QString path){
         Q_UNUSED(pix);
-        Q_UNUSED(m_currentImagePath);
+        int begin = 0;
+        m_currentImagePath=path;
+        for (; begin < m_infos.size(); begin++) {
+            if (m_infos.at(begin).filePath == m_currentImagePath) {
+                break;
+            }
+        }
+        m_current = begin;
         m_bIsOpenPicture=false;
     });
     return ttbc;
@@ -1417,6 +1428,15 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     if (!bLoadAll) m_lastindex = m_firstindex + nimgcount - 1;
 }
 
+bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
+{
+    static QCollator sortCollator;
+
+    sortCollator.setNumericMode(true);
+
+    return sortCollator.compare(str1.baseName(), str2.baseName()) < 0;
+}
+
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
     if(dApp->m_LoadThread && dApp->m_LoadThread->isRunning()){
@@ -1543,8 +1563,9 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         if (!vinfo.path.isEmpty()) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
-            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot, QDir::LocaleAware);
-
+            m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
+            //修复Ｑt带后缀排序错误的问题
+            qSort(m_AllPath.begin(),m_AllPath.end(),compareByFileInfo);
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {

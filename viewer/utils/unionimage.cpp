@@ -164,12 +164,11 @@ public:
                       << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
                       << "NEF" ;
 
-        m_not_support_rotate_format << "PFM" << "HDR" << "GIF" << "MNG";
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
-                  << "SVG" << "TGA" << "XPM" << "ICO" << "ICNS"
-                  << "PSD" << "G3" << "J2C" << "J2K" << "JNG"
-                  << "JP2" << "PCD" << "PCX" << "PCT"
+                  << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
+                  << "J2C" << "J2K" << "JNG" << "JP2" << "PCD"
+                  << "PCX" << "PCT"
                   << "PICT" << "PIC" << "RAS";
     }
     ~UnionImage_Private()
@@ -177,7 +176,6 @@ public:
 
     }
     QMutex freeimage_mutex;
-    QStringList m_not_support_rotate_format;
     QStringList m_qtSupported;
     QHash<QString, int> m_freeiamge_formats;
     QHash<QString, int> m_movie_formats;
@@ -215,6 +213,7 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat()
                 list.append(i.toLower());
         }
         res.append(list);
+        res.append(union_image_private.m_movie_formats.keys());
     }
     return res;
 }

@@ -37,10 +37,12 @@
 #include <QTransform>
 #include <QSvgGenerator>
 #include <QScreen>
+#include <QDesktopWidget>
 
 #include <DGuiApplicationHelper>
 #include <DSpinner>
 #include <DSvgRenderer>
+
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "graphicsitem.h"
@@ -334,7 +336,7 @@ ImageView::ImageView(QWidget *parent)
     setFrameShape(QFrame::Shape::NoFrame);
 
     viewport()->setCursor(Qt::ArrowCursor);
-
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
 
@@ -1111,6 +1113,7 @@ void ImageView::mousePressEvent(QMouseEvent *e)
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
+
     if (!(e->buttons() | Qt::NoButton)) {
         viewport()->setCursor(Qt::ArrowCursor);
 
@@ -1210,7 +1213,13 @@ bool ImageView::event(QEvent *event)
                 }
             }
         }
-        return true;
+        /*lmh0804*/
+        const QRect &r = visibleImageRect();
+        double left=r.width()+r.x();
+        const QRectF &sr = sceneRect();
+        if((left-sr.width()>=-1 &&left-sr.width()<=1) ||(r.x()<=1) ||(r.width() >= sr.width())){
+            return true;
+        }
     } else if (event->type() == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
@@ -1361,7 +1370,7 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
     }
 }
 
-
+#include <QApplication>
 void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
 {
     qDebug() << "sigpath" << filePath;
@@ -1372,7 +1381,19 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     scene()->clear();
     resetTransform();
     QRect rect1=  dApp->m_rectmap[filePath];
-    thumbnailpixmap = thumbnailpixmap.scaled(rect1.size());
+    //获取主屏幕分辨率lmh0803,如果分辨率大于屏幕分辨率，则采用scaled屏幕分辨率,解决效率问题
+    QRect screenRect = QApplication::desktop()->screenGeometry();
+    if(rect1.width()>screenRect.width()){
+        double dwidth=rect1.width();
+        double dheight=rect1.height();
+        double witchToheight=dwidth/dheight;
+        double hrect=screenRect.width();
+        double h=hrect/witchToheight;
+        thumbnailpixmap = thumbnailpixmap.scaled(screenRect.width(),static_cast<int>(h));
+    }
+    else {
+            thumbnailpixmap = thumbnailpixmap.scaled(rect1.size());
+    }
     m_pixmapItem = new GraphicsPixmapItem(thumbnailpixmap);
     m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
     // Make sure item show in center of view after reload
@@ -1383,7 +1404,7 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     //            setSceneRect(m_pixmapItem->boundingRect());
     //缩略图显示马赛克较为明显，采用高斯模糊
     QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect(this);
-    blurEffect->setBlurRadius(8);
+    blurEffect->setBlurRadius(6);
     //blurEffect->setBlurHints(QGraphicsBlurEffect::QualityHint);
     m_pixmapItem->setGraphicsEffect(blurEffect);
     scene()->addItem(m_pixmapItem);
@@ -1394,8 +1415,8 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     } else {
         fitImage();
     }
-
-
+    /*lmh0804*/
+    emit imageChanged(filePath);
 }
 
 void ImageView::showFileImage()
@@ -1405,6 +1426,8 @@ void ImageView::showFileImage()
     if (vl.length() == 2) {
         scene()->clear();
         resetTransform();
+        m_movieItem = nullptr;
+        m_svgItem = nullptr;
         QPixmap pixmap = vl.last().value<QPixmap>();
         m_pixmapItem = new GraphicsPixmapItem(pixmap);
         m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);

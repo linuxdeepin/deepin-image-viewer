@@ -234,7 +234,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
             //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
         }
-        int i=0;
         connect(animation, &QPropertyAnimation::finished, [=]{
             m_iRet=false;
             bMove=false;
@@ -257,13 +256,14 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
             while(m_iRet &&bMove)
             {
                 QThread::msleep(50);
+                /*lmh0727*/
+
                 QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
                 int middle = (this->geometry().left() + this->geometry().right()) / 2;
                 int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-                for (int i = 0; i < list.size(); i++) {
-                    QList<ImageItem *> labelList = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i));
-                    if (labelList.size() > 0) {
-                        ImageItem *img = labelList.at(0);
+                if(list.size()>2){
+                    for (int i = 2; i < list.size(); i++) {
+                        ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
                         if (nullptr == img) {
                             continue;
                         }
@@ -271,7 +271,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                         int right = this->geometry().left() + img->geometry().right() + listLeft;
                         if (left <= middle && middle < right) {
                             if(m_currentImageItem!=img){
-                                img->emitClickSig(i);
+                                img->emitClickSig(img->getPath());
                                 m_currentImageItem=img;
                             }
                             break;
@@ -305,7 +305,6 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         bMove=true;
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
-        qDebug()<<p;
         if(m_vecPoint.size()<20){
             m_vecPoint.push_back(p);
             return false;
@@ -332,11 +331,9 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
         int middle = (this->geometry().left() + this->geometry().right()) / 2;
         int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-
-        for (int i = 0; i < list.size(); i++) {
-            QList<ImageItem *> labelList = dynamic_cast<DWidget *>(m_obj)->findChildren<ImageItem *>(QString("%1").arg(i));
-            if (labelList.size() > 0) {
-                ImageItem *img = labelList.at(0);
+        if(list.size()>2){
+            for (int i = 2; i < list.size(); i++) {
+                ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
                 if (nullptr == img) {
                     continue;
                 }
@@ -344,14 +341,13 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                 int right = this->geometry().left() + img->geometry().right() + listLeft;
                 if (left <= middle && middle < right) {
                     if(m_currentImageItem!=img){
-                        img->emitClickSig(i);
+                        img->emitClickSig(img->getPath());
                         m_currentImageItem=img;
                     }
                     break;
                 }
             }
         }
-
     }
     return false;
 }
@@ -379,15 +375,14 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
     });
 }
 
-void ImageItem::emitClickSig(int index)
+void ImageItem::emitClickSig(QString path)
 {
-    emit imageMoveclicked(index);
-//    emit imageItemclicked(_index,_indexNow);
+    emit imageMoveclicked(path);
 }
 
 void ImageItem::emitClickEndSig()
 {
-    emit imageItemclicked(_index,_indexNow);
+    emit imageItemclicked(_index,_indexNow,false);
 };
 
 void ImageItem::paintEvent(QPaintEvent *event)
@@ -1094,28 +1089,13 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
             imageItem->installEventFilter(m_imgListView);
             imageItem->setObjectName(info.filePath);
             /*LMH0727*/
-            imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
+           // imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
             m_imglayout->addWidget(imageItem);
             connect(imageItem, &ImageItem::imageMoveclicked, this,
-            [ = ](int index) {
-                m_nowIndex = index;
-                qDebug()<<"m_nowIndex: "<<index;
+            [ = ](QString path) {
                 if(bMove){
-                    if(m_lastIndex >-1){
-                        QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
-                        if(lastlabelList.isEmpty()){
-                        }
-                        else {
-                            for(int i=0;i<lastlabelList.size();i++){
-                                lastlabelList.at(i)->setFixedSize(QSize(32,40));
-                                lastlabelList.at(i)->resize(QSize(32,40));
-                                lastlabelList.at(i)->setIndexNow(m_nowIndex);
-                            }
-                        }
-
-                    }
                     m_lastIndex=m_nowIndex;
-                    QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(index));
+                    QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
                     if(labelList.size()>0){
                         ImageItem *img =labelList.at(0);
                         if(nullptr !=img){
@@ -1123,18 +1103,36 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
                             labelList.at(0)->setFixedSize(QSize(58,58));
                             labelList.at(0)->resize(QSize(58,58));
                             QPixmap pix=img->getPixmap();
+                            m_nowIndex=img->getIndex();
                             emit showvaguepixmap(pix,labelList.at(0)->getPath());
                         }
+                    }
+                    if(m_lastIndex >-1){
+                        QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
+                        if(lastlabelList.isEmpty()){
+                        }
+                        else {
+                            for(int i=0;i<lastlabelList.size();i++){
+                                if(lastlabelList.at(i)->getIndex()!=m_nowIndex){
+                                    lastlabelList.at(i)->setFixedSize(QSize(32,40));
+                                    lastlabelList.at(i)->resize(QSize(32,40));
+                                    lastlabelList.at(i)->setIndexNow(m_nowIndex);
+                                }
+                            }
+                        }
+
                     }
 
                 }
             });
             connect(imageItem, &ImageItem::imageItemclicked, this,
-            [ = ](int index, int indexNow) {
+            [ = ](int index, int indexNow,bool iRet) {
                 m_nowIndex = index;
 //                emit imageClicked(index, (index - indexNow));
-                emit imageMoveEnded(index, (index - indexNow),false);
+                emit imageMoveEnded(index, (index - indexNow),iRet);
                 m_lastIndex=m_nowIndex;
+                onResize();
+                m_imgList->adjustSize();
             });
 
         }
@@ -1422,28 +1420,13 @@ void TTBContent::loadBack(DBImgInfoList infos)
         imageItem->setObjectName(info.filePath);
         imageItem->setIndexNow(m_nowIndex);
         /*LMH0727*/
-        imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
+        //imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
         m_imglayout->addWidget(imageItem);
         connect(imageItem, &ImageItem::imageMoveclicked, this,
-        [ = ](int index) {
-            m_nowIndex = index;
-            qDebug()<<"m_nowIndex: "<<index;
+        [ = ](QString path) {
             if(bMove){
-                if(m_lastIndex >-1){
-                    QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
-                    if(lastlabelList.isEmpty()){
-                    }
-                    else {
-                        for(int i=0;i<lastlabelList.size();i++){
-                            lastlabelList.at(i)->setFixedSize(QSize(32,40));
-                            lastlabelList.at(i)->resize(QSize(32,40));
-                            lastlabelList.at(i)->setIndexNow(m_nowIndex);
-                        }
-                    }
-
-                }
                 m_lastIndex=m_nowIndex;
-                QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(index));
+                QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
                 if(labelList.size()>0){
                     ImageItem *img =labelList.at(0);
                     if(nullptr !=img){
@@ -1451,19 +1434,36 @@ void TTBContent::loadBack(DBImgInfoList infos)
                         labelList.at(0)->setFixedSize(QSize(58,58));
                         labelList.at(0)->resize(QSize(58,58));
                         QPixmap pix=img->getPixmap();
+                        m_nowIndex=img->getIndex();
                         emit showvaguepixmap(pix,labelList.at(0)->getPath());
                     }
+                }
+                if(m_lastIndex >-1){
+                    QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
+                    if(lastlabelList.isEmpty()){
+                    }
+                    else {
+                        for(int i=0;i<lastlabelList.size();i++){
+                            if(lastlabelList.at(i)->getIndex()!=m_nowIndex){
+                                lastlabelList.at(i)->setFixedSize(QSize(32,40));
+                                lastlabelList.at(i)->resize(QSize(32,40));
+                                lastlabelList.at(i)->setIndexNow(m_nowIndex);
+                            }
+                        }
+                    }
+
                 }
 
             }
         });
-        connect(
-            imageItem, &ImageItem::imageItemclicked, this,
-        [ = ](int index, int indexNow) {
+        connect(imageItem, &ImageItem::imageItemclicked, this,
+        [ = ](int index, int indexNow,bool iRet) {
             m_nowIndex = index;
-//            emit imageClicked(index, (index - indexNow));
-            emit imageMoveEnded(index, (index - indexNow),false);
+//                emit imageClicked(index, (index - indexNow));
+            emit imageMoveEnded(index, (index - indexNow),iRet);
             m_lastIndex=m_nowIndex;
+            onResize();
+            m_imgList->adjustSize();
         });
 
         m_imgInfos.push_back(info);
@@ -1519,28 +1519,13 @@ void TTBContent::loadFront(DBImgInfoList infos)
         imageItem->setObjectName(info.filePath);
         imageItem->setIndexNow(m_nowIndex);
         /*LMH0727*/
-        imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
+        //imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
         m_imglayout->insertWidget(0, imageItem);
         connect(imageItem, &ImageItem::imageMoveclicked, this,
-        [ = ](int index) {
-            m_nowIndex = index;
-            qDebug()<<"m_nowIndex: "<<index;
+        [ = ](QString path) {
             if(bMove){
-                if(m_lastIndex >-1){
-                    QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
-                    if(lastlabelList.isEmpty()){
-                    }
-                    else {
-                        for(int i=0;i<lastlabelList.size();i++){
-                            lastlabelList.at(i)->setFixedSize(QSize(32,40));
-                            lastlabelList.at(i)->resize(QSize(32,40));
-                            lastlabelList.at(i)->setIndexNow(m_nowIndex);
-                        }
-                    }
-
-                }
                 m_lastIndex=m_nowIndex;
-                QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(QString("%1").arg(index));
+                QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
                 if(labelList.size()>0){
                     ImageItem *img =labelList.at(0);
                     if(nullptr !=img){
@@ -1548,18 +1533,36 @@ void TTBContent::loadFront(DBImgInfoList infos)
                         labelList.at(0)->setFixedSize(QSize(58,58));
                         labelList.at(0)->resize(QSize(58,58));
                         QPixmap pix=img->getPixmap();
+                        m_nowIndex=img->getIndex();
                         emit showvaguepixmap(pix,labelList.at(0)->getPath());
                     }
+                }
+                if(m_lastIndex >-1){
+                    QList <ImageItem *>lastlabelList=m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
+                    if(lastlabelList.isEmpty()){
+                    }
+                    else {
+                        for(int i=0;i<lastlabelList.size();i++){
+                            if(lastlabelList.at(i)->getIndex()!=m_nowIndex){
+                                lastlabelList.at(i)->setFixedSize(QSize(32,40));
+                                lastlabelList.at(i)->resize(QSize(32,40));
+                                lastlabelList.at(i)->setIndexNow(m_nowIndex);
+                            }
+                        }
+                    }
+
                 }
 
             }
         });
         connect(imageItem, &ImageItem::imageItemclicked, this,
-                    [ = ](int index, int indexNow) {
+        [ = ](int index, int indexNow,bool iRet) {
             m_nowIndex = index;
-//            emit imageClicked(index, (index - indexNow));
-            emit imageMoveEnded(index, (index - indexNow),false);
+//                emit imageClicked(index, (index - indexNow));
+            emit imageMoveEnded(index, (index - indexNow),iRet);
             m_lastIndex=m_nowIndex;
+            onResize();
+            m_imgList->adjustSize();
         });
 
         m_imgInfos.push_front(info);
