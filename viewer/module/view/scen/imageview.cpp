@@ -336,7 +336,7 @@ ImageView::ImageView(QWidget *parent)
     setFrameShape(QFrame::Shape::NoFrame);
 
     viewport()->setCursor(Qt::ArrowCursor);
-
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
 
@@ -1113,6 +1113,7 @@ void ImageView::mousePressEvent(QMouseEvent *e)
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
+
     if (!(e->buttons() | Qt::NoButton)) {
         viewport()->setCursor(Qt::ArrowCursor);
 
@@ -1212,7 +1213,13 @@ bool ImageView::event(QEvent *event)
                 }
             }
         }
-        return true;
+        /*lmh0804*/
+        const QRect &r = visibleImageRect();
+        double left=r.width()+r.x();
+        const QRectF &sr = sceneRect();
+        if((left-sr.width()>=-1 &&left-sr.width()<=1) ||(r.x()<=1) ||(r.width() >= sr.width())){
+            return true;
+        }
     } else if (event->type() == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
