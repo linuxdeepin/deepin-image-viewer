@@ -906,12 +906,12 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 
     }
 }
-
 void ViewPanel::showNormal()
 {
+
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-    pAn->setDuration(50);
+    pAn->setDuration(200);
     pAn->setEasingCurve(QEasingCurve::Linear);
     pAn->setEndValue(1);
     pAn->setStartValue(0);
@@ -922,12 +922,16 @@ void ViewPanel::showNormal()
     } else {
         window()->showNormal();
     }
-
+    /*lmh0804改，增加设置窗口取消置顶*/
+    window()->setWindowFlags(Qt::Widget);
+    window()->showNormal();
     emit dApp->signalM->showTopToolbar();
 }
 
 void ViewPanel::showFullScreen()
 {
+    /*lmh0804改，增加设置窗口置顶*/
+    window()->setWindowFlags(window()->windowFlags() | Qt::WindowStaysOnTopHint);
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
     pAn->setDuration(50);
