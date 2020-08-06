@@ -284,6 +284,7 @@ private:
     QString m_loadingIconPath;
     QThreadPool *m_pool;
     DTK_WIDGET_NAMESPACE::Toast *m_toast;
+    qreal m_scal = 1.0;
 
     QGraphicsSvgItem *m_svgItem = nullptr;
 
@@ -302,6 +303,7 @@ private:
     bool m_loadingDisplay = false;
     //heyi test 保存旋转的角度
     int m_rotateAngel = 0;
+    int m_rotateAngelTouch = 0;
     QImage m_svgimg;
     QTimer m_timerLoadPixmap;
     QString timerPath;
