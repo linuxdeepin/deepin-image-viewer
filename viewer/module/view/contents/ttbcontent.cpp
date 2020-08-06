@@ -1093,6 +1093,7 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
             m_imglayout->addWidget(imageItem);
             connect(imageItem, &ImageItem::imageMoveclicked, this,
             [ = ](QString path) {
+                m_bMoving=false;
                 if(bMove){
                     m_lastIndex=m_nowIndex;
                     QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
@@ -1127,6 +1128,8 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
             });
             connect(imageItem, &ImageItem::imageItemclicked, this,
             [ = ](int index, int indexNow,bool iRet) {
+                m_bMoving=true;
+
                 m_nowIndex = index;
 //                emit imageClicked(index, (index - indexNow));
                 emit imageMoveEnded(index, (index - indexNow),iRet);
@@ -1291,6 +1294,12 @@ void TTBContent::showAnimation()
 
 void TTBContent::setBtnAttribute(const QString strPath)
 {
+    if(!m_bMoving){
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
+        return;
+    }
     //判断是否加载完成，未完成将旋转按钮禁用
     if (m_bIsHide) {
         m_rotateLBtn->setEnabled(false);
@@ -1424,6 +1433,7 @@ void TTBContent::loadBack(DBImgInfoList infos)
         m_imglayout->addWidget(imageItem);
         connect(imageItem, &ImageItem::imageMoveclicked, this,
         [ = ](QString path) {
+            m_bMoving=false;
             if(bMove){
                 m_lastIndex=m_nowIndex;
                 QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
@@ -1458,6 +1468,7 @@ void TTBContent::loadBack(DBImgInfoList infos)
         });
         connect(imageItem, &ImageItem::imageItemclicked, this,
         [ = ](int index, int indexNow,bool iRet) {
+            m_bMoving=true;
             m_nowIndex = index;
 //                emit imageClicked(index, (index - indexNow));
             emit imageMoveEnded(index, (index - indexNow),iRet);
@@ -1523,6 +1534,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
         m_imglayout->insertWidget(0, imageItem);
         connect(imageItem, &ImageItem::imageMoveclicked, this,
         [ = ](QString path) {
+            m_bMoving=false;
             if(bMove){
                 m_lastIndex=m_nowIndex;
                 QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
@@ -1557,6 +1569,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
         });
         connect(imageItem, &ImageItem::imageItemclicked, this,
         [ = ](int index, int indexNow,bool iRet) {
+            m_bMoving=true;
             m_nowIndex = index;
 //                emit imageClicked(index, (index - indexNow));
             emit imageMoveEnded(index, (index - indexNow),iRet);

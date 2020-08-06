@@ -436,6 +436,8 @@ private:
     bool badaptScreenBtnChecked = false;
     //heyi test
     bool m_bIsHide = false;
+
+    bool m_bMoving=true;
 };
 
 

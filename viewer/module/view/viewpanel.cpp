@@ -964,16 +964,20 @@ void ViewPanel::showFullScreen()
 {
     /*lmh0804改，增加设置窗口置顶*/
     window()->setWindowFlags(window()->windowFlags() | Qt::WindowStaysOnTopHint);
-    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-    QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-    pAn->setDuration(50);
-    pAn->setEasingCurve(QEasingCurve::Linear);
-    pAn->setEndValue(1);
-    pAn->setStartValue(0);
-    pAn->start(QAbstractAnimation::DeleteWhenStopped);
-
+    window()->setWindowFlags(Qt::Widget);
     m_isMaximized = window()->isMaximized();
-    window()->showFullScreen();
+    // Full screen then hide bars because hide animation depends on height()
+    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
+    QTimer::singleShot(100,[=]{
+        QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
+        pAn->setDuration(200);
+        pAn->setEasingCurve(QEasingCurve::Linear);
+        pAn->setEndValue(1);
+        pAn->setStartValue(0);
+        pAn->start(QAbstractAnimation::DeleteWhenStopped);
+
+        window()->showFullScreen();
+    });
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
 }
@@ -1987,6 +1991,7 @@ void ViewPanel::initViewContent()
 void ViewPanel::openImage(const QString path, bool inDB)
 {
 
+
     //    if (! QFileInfo(path).exists()) {
     // removeCurrentImage() will cause timerEvent be trigered again by
     // showNext() or showPrevious(), so delay to remove current image
@@ -2018,6 +2023,7 @@ void ViewPanel::openImage(const QString path, bool inDB)
         int b = dimension.indexOf("x");
         bool c = false;
         bool d = false;
+        bool g=false;
         if (a > 0) {
             double value = fileSize.leftRef(a).toDouble();
             QString unit = fileSize.split(" ").last();
@@ -2031,13 +2037,15 @@ void ViewPanel::openImage(const QString path, bool inDB)
             if (value1 >= 5120 || value2 >= 3200) {
                 d = true;
             }
+            if (value1 >= 20000 || value2 >= 15000) {
+                g = true;
+            }
         }
         if (c && d) {
             emit dApp->signalM->loadingDisplay(true);
         }
     }
-
-    m_viewB->setImage(path);
+       m_viewB->setImage(path);
 //    //缓存当先现实图片的上一张和下一张
 //    if (!path.isEmpty()) {
 //        qDebug() << "开始判定缓存时间：";
