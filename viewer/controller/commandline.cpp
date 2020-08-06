@@ -149,6 +149,9 @@ void CommandLine::showHelp()
 
 void CommandLine::viewImage(const QString path, const QStringList paths)
 {
+    if (!QFileInfo(path).exists()) {
+        dApp->m_timer=1000;
+    }
     MainWindow *w = new MainWindow(false);
     w->setWindowRadius(18);
     w->setBorderWidth(0);
