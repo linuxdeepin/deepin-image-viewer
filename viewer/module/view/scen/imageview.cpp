@@ -447,16 +447,21 @@ void ImageView::setRenderer(RendererType type)
 
 void ImageView::setScaleValue(qreal v)
 {
+    //由于矩阵被旋转，通过矩阵获取缩放因子，计算缩放比例错误，因此记录过程中的缩放因子来判断缩放比例
+    m_scal *=v;
+    qDebug() << m_scal;
     scale(v, v);
     const qreal irs = imageRelativeScale() * devicePixelRatioF();
     // Rollback
-    if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
-        const qreal minv = MIN_SCALE_FACTOR / irs;
+    if (v < 1 && /*irs <= MIN_SCALE_FACTOR)*/m_scal<0.03) {
+        const qreal minv = MIN_SCALE_FACTOR / m_scal;
         // if (minv < 1.09) return;
         scale(minv, minv);
-    } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
-        const qreal maxv = MAX_SCALE_FACTOR / irs;
+        m_scal *=minv;
+    } else if (v > 1 && /*irs >= MAX_SCALE_FACTOR*/m_scal>20) {
+        const qreal maxv = MAX_SCALE_FACTOR / m_scal;
         scale(maxv, maxv);
+        m_scal *=maxv;
     } else {
         m_isFitImage = false;
         m_isFitWindow = false;
@@ -469,7 +474,7 @@ void ImageView::setScaleValue(qreal v)
         emit disCheckAdaptImageBtn();
     }
 
-    emit scaled(imageRelativeScale() * devicePixelRatioF() * 100);
+    emit scaled(/*imageRelativeScale() * devicePixelRatioF() * 100*/m_scal*100);
     emit showScaleLabel();
     emit transformChanged();
 
@@ -546,6 +551,7 @@ const QImage ImageView::image(bool brefresh)
 void ImageView::fitWindow()
 {
     qreal wrs = windowRelativeScale();
+    m_scal = wrs;
     resetTransform();
     scale(wrs, wrs);
 
@@ -564,6 +570,7 @@ void ImageView::fitWindow_btnclicked()
 {
     qreal wrs = windowRelativeScale_origin();
     resetTransform();
+    m_scal = wrs;
     scale(wrs, wrs);
     if (wrs - 1 > -0.01 && wrs - 1 < 0.01) {
         emit checkAdaptImageBtn();
@@ -583,6 +590,7 @@ void ImageView::fitImage()
     * fitwindow() when use fitImage() picture bottom is over toolbar. so use 0.9 instead. 12-19,bug
     * 9839, change 0.9->1
     */
+    m_scal = 1.0;
     scale(1, 1);
     emit checkAdaptImageBtn();
     m_isFitImage = true;
@@ -1306,7 +1314,6 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 
     // Do the scaling.
     setScaleValue(factor);
-
     // Restore the zoom anchor point.
     //
     // The Basic idea here is we don't care how the scene is scaled or transformed,
@@ -1328,34 +1335,41 @@ void ImageView::handleGestureEvent(QGestureEvent *gesture)
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
 {
-//    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
-//    scaleAtPoint(pos, gesture->scaleFactor());
+    //    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+    //    scaleAtPoint(pos, gesture->scaleFactor());
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
-        if (changeFlags & QPinchGesture::ScaleFactorChanged) {
-            QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
-            scaleAtPoint(pos, gesture->scaleFactor());
-        }
+    //缩放手势
+    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+        QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+        scaleAtPoint(pos, gesture->scaleFactor());
+    }
+    //旋转手势
+    if (changeFlags & QPinchGesture::RotationAngleChanged) {
+        qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
+        m_rotateAngelTouch += rotationDelta;
+        rotate(rotationDelta);
+    }
 
-        if (changeFlags & QPinchGesture::CenterPointChanged) {
-            if (!isFirstPinch) {
-                centerPoint = gesture->centerPoint();
-                isFirstPinch = true;
+    if (changeFlags & QPinchGesture::CenterPointChanged) {
+        if (!isFirstPinch) {
+            centerPoint = gesture->centerPoint();
+            isFirstPinch = true;
+        }
+    }
+    if (gesture->state() == Qt::GestureFinished) {
+        QPointF centerPointOffset = gesture->centerPoint();
+        qreal offset = centerPointOffset.x() - centerPoint.x();
+        if (qAbs(offset) > 200) {
+            if (offset > 0) {
+                emit previousRequested();
+                qDebug() << "zy------ImageView::pinchTriggered nextRequested";
+            } else {
+                emit nextRequested();
+                qDebug() << "zy------ImageView::pinchTriggered previousRequested";
             }
         }
-        if (gesture->state() == Qt::GestureFinished) {
-            QPointF centerPointOffset = gesture->centerPoint();
-            qreal offset = centerPointOffset.x() - centerPoint.x();
-            if (qAbs(offset) > 200) {
-                if (offset > 0) {
-                    emit previousRequested();
-                    qDebug() << "zy------ImageView::pinchTriggered nextRequested";
-                } else {
-                    emit nextRequested();
-                    qDebug() << "zy------ImageView::pinchTriggered previousRequested";
-                }
-            }
-            isFirstPinch = false;
-        }
+        isFirstPinch = false;
+    }
 }
 
 void ImageView::swipeTriggered(QSwipeGesture *gesture)

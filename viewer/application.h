@@ -125,6 +125,9 @@ public:
 
     QThread *m_LoadThread;
     bool m_firstLoad = true;
+
+    /*lmh0806儒码优化*/
+    int  m_timer=0;
 signals:
     /**
      * @brief sigstartLoad  加载线程启动信号

@@ -66,11 +66,21 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     Q_UNUSED(manager)
     initPanelStack(false);
 #endif
-    initExtensionPanel();
-    initTopToolbar();
-    initBottomToolbar();
-
-    initConnection();
+    /*lmh0806儒码*/
+    if(0==dApp->m_timer){
+        initExtensionPanel();
+        initTopToolbar();
+        initBottomToolbar();
+        initConnection();
+    }
+    else {
+        QTimer::singleShot(dApp->m_timer, [=]{
+        initExtensionPanel();
+        initTopToolbar();
+        initBottomToolbar();
+        initConnection();
+        });
+    }
 }
 
 MainWidget::~MainWidget() {}

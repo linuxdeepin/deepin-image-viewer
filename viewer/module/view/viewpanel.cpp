@@ -79,23 +79,50 @@ ViewPanel::ViewPanel(QWidget *parent)
 #endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();
-    initFloatingComponent();
+    /*lmh0722*/
+    if(0==dApp->m_timer){
+        initFloatingComponent();
 
-    initConnect();
-    initShortcut();
+        initConnectOpenImage();
+        initConnect();
+        initShortcut();
 #ifndef LITE_DIV
-    initFileSystemWatcher();
+        initFileSystemWatcher();
 #endif
 
-    initPopupMenu();
+        initPopupMenu();
 
-    setAcceptDrops(true);
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    installEventFilter(this);
+        setAcceptDrops(true);
+        setContextMenuPolicy(Qt::CustomContextMenu);
+        installEventFilter(this);
 
-    //heyi test
-    qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
-    m_nosupportformat << "jp2" << "dds" << "psd" << "pcx" << "exr" << "avi" << "ct" << "pict" << "pic";
+        //heyi test
+        qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
+        m_nosupportformat << "jp2" << "dds" << "psd" << "pcx" << "exr" << "avi" << "ct" << "pict" << "pic";
+    }
+    else {
+        m_stack->setCurrentIndex(1);
+        initConnectOpenImage();
+        QTimer::singleShot(dApp->m_timer, [=]{
+            initFloatingComponent();
+
+            initConnect();
+            initShortcut();
+#ifndef LITE_DIV
+            initFileSystemWatcher();
+#endif
+
+            initPopupMenu();
+
+            setAcceptDrops(true);
+            setContextMenuPolicy(Qt::CustomContextMenu);
+            installEventFilter(this);
+
+            //heyi test
+            qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
+            m_nosupportformat << "jp2" << "dds" << "psd" << "pcx" << "exr" << "avi" << "ct" << "pict" << "pic";
+        });
+    }
 }
 
 QString ViewPanel::moduleName()
@@ -213,6 +240,19 @@ void ViewPanel::initConnect()
         emit m_emptyWidget->openImageInDialog();
     });
 #ifdef LITE_DIV
+
+    //LMH
+    if (nullptr == m_dtr)
+    {
+        m_dtr = new QTimer(this);
+        m_dtr->setSingleShot(true);
+        m_dtr->setInterval(DELAY_DESTROY_TIME);
+    }
+#endif
+}
+
+void ViewPanel::initConnectOpenImage()
+{
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
 
@@ -252,14 +292,6 @@ void ViewPanel::initConnect()
 
         onViewImage(vinfo);
     });
-    //LMH
-    if (nullptr == m_dtr)
-    {
-        m_dtr = new QTimer(this);
-        m_dtr->setSingleShot(true);
-        m_dtr->setInterval(DELAY_DESTROY_TIME);
-    }
-#endif
 }
 
 #ifndef LITE_DIV
