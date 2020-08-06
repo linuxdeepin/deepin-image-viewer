@@ -1485,6 +1485,15 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         m_infosAll.clear();
         m_bThreadExit = false;
     }
+    /*swz0806 解决bug 41526 【专业版 sp3】【看图】【5.6.3.23】打开一个目录的图片后，直接将另一个目录拖拽进应用后，会同时存在两个目录的图片*/
+    if(!vinfo.path.isEmpty())
+    {
+        m_infos.clear();
+        m_infosadd.clear();
+        m_infosHead.clear();
+        m_infosTail.clear();
+        m_infosAll.clear();
+    }
     qDebug() << "onviewimage";
     m_currentFilePath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
     startFileWatcher();
