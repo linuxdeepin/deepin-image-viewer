@@ -45,6 +45,9 @@ namespace image {
 
 const QImage scaleImage(const QString &path, const QSize &size)
 {
+    if (!imageSupportRead(path)){
+        return QImage();
+    }
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
     QImage tImg(size,QImage::Format_ARGB32);
