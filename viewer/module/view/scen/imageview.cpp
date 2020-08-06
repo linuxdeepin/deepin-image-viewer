@@ -267,12 +267,16 @@ QMimeType determineMimeType(const QString &filename)
 
 QVariantList ImageView::cachePixmap(const QString path)
 {
-
+    using namespace utils;
+    using namespace image;
 #ifdef USE_UNIONIMAGE
 
     QImage tImg;
     QString errMsg;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+    if (!imageSupportRead(path)){
+        tImg= QImage();
+    }
+    else if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
         qDebug() << errMsg;
     }
     QPixmap p = QPixmap::fromImage(tImg);

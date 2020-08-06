@@ -146,7 +146,7 @@ public:
         m_freeiamge_formats["J2K"]     =  FIF_J2K;
         m_freeiamge_formats["J2C"]     =  FIF_J2K;
         m_freeiamge_formats["JPC"]     =  FIF_J2K;
-        m_freeiamge_formats["JP2"]     =  FIF_JP2;
+//        m_freeiamge_formats["JP2"]     =  FIF_JP2;
         //m_freeiamge_formats["PFM"]     =  FIF_PFM;covert failed
         m_freeiamge_formats["PCT"]     =  FIF_PICT;
         m_freeiamge_formats["PIC"]     =  FIF_PICT;
@@ -167,7 +167,9 @@ public:
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                   << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
-                  << "J2C" << "J2K" << "JNG" << "JP2" << "PCD"
+                  << "J2C" << "J2K" << "JNG"
+//                  << "JP2"
+                  << "PCD"
                   << "PCX" << "PCT"
                   << "PICT" << "PIC" << "RAS";
     }
@@ -582,6 +584,17 @@ UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width, int height, i
 QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
+    /*lmh0806判断后缀名是不支持格式，直接返回空的Image*/
+    if(NULL==format_bar){
+        QStringList formatlist = UnionImage_NameSpace::unionImageSupportFormat();
+        QFileInfo fileinfo(path);
+        QString format = fileinfo.suffix().toUpper();
+        if(!formatlist.contains(format)){
+            res=QImage();
+            return false;
+        }
+    }
+
     QFileInfo file_info(path);
     QString file_suffix_upper = file_info.suffix().toUpper();
     QByteArray temp_path;
