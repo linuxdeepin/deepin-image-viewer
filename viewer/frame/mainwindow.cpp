@@ -76,15 +76,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     m_pCenterWidget = new QSWToDStackedWidget(this);
     m_mainWidget = new MainWidget(manager, this);
     m_pCenterWidget->addWidget(m_mainWidget);
-    m_slidePanel =  new SlideShowPanel();
-    m_pCenterWidget->addWidget(m_slidePanel);
     m_pCenterWidget->setCurrentIndex(0);
-    //    QTimer::singleShot(200, [=]{
-    setCentralWidget(m_pCenterWidget);
-    //    });
-    initConnection();
-    initshortcut();
-    initdbus();
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
@@ -106,6 +98,16 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
         });
     }
 
+    setCentralWidget(m_pCenterWidget);
+    moveFirstWindow();
+
+    /*lmh0806儒码优化*/
+    QTimer::singleShot(dApp->m_timer, [=]{
+        m_slidePanel =  new SlideShowPanel();
+        m_pCenterWidget->addWidget(m_slidePanel);
+        initConnection();
+        initshortcut();
+        initdbus();
 #ifndef LITE_DIV
     QThread *workerThread = new QThread;
     Worker *worker = new Worker();
@@ -140,7 +142,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     });
     new ImageViewAdaptor(this);
     m_currenttime = QDateTime::currentDateTime();
-    moveFirstWindow();
+    });
 }
 
 void MainWindow::initshortcut()
