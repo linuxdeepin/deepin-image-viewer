@@ -134,7 +134,7 @@ bool imageSupportRead(const QString &path)
 bool imageSupportSave(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
-
+    if (suffix == "jp2" || suffix == "j2k") return false;
     // RAW image decode is too slow, and most of these does not support saving
     // RAW formats render incorrectly by freeimage
     const QStringList raws = QStringList()
