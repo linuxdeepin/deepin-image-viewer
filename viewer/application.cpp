@@ -217,19 +217,19 @@ void ImageLoader::addImageLoader(QStringList pathlist)
         if (format.isEmpty()) {
             QImageReader reader(path);
             reader.setAutoTransform(true);
-            if (reader.canRead()) {
+            if (reader.canRead() && reader.imageCount()>0) {
                 tImg = reader.read();
             }
         } else {
             QImageReader readerF(path, format.toLatin1());
             readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
+            if (readerF.canRead() && readerF.imageCount()>0) {
                 tImg = readerF.read();
             } else {
                 qWarning() << "can't read image:" << readerF.errorString()
                            << format;
 
-                tImg = QImage(path);
+                tImg = QImage();
             }
         }
         //LMH0601加锁
@@ -279,19 +279,19 @@ void ImageLoader::loadInterface(QString path)
     if (format.isEmpty()) {
         QImageReader reader(path);
         reader.setAutoTransform(true);
-        if (reader.canRead()) {
+        if (reader.canRead() && reader.imageCount()>0) {
             tImg = reader.read();
         }
     } else {
         QImageReader readerF(path, format.toLatin1());
         readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
+        if (readerF.canRead() && readerF.imageCount()>0) {
             tImg = readerF.read();
         } else {
             qWarning() << "can't read image:" << readerF.errorString()
                        << format;
 
-            tImg = QImage(path);
+            tImg = QImage();
         }
     }
 
@@ -351,19 +351,19 @@ void Application::loadInterface(QString path)
     if (format.isEmpty()) {
         QImageReader reader(path);
         reader.setAutoTransform(true);
-        if (reader.canRead()) {
+        if (reader.canRead() && reader.imageCount()>0) {
             tImg = reader.read();
         }
     } else {
         QImageReader readerF(path, format.toLatin1());
         readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
+        if (readerF.canRead() && readerF.imageCount()>0) {
             tImg = readerF.read();
         } else {
             qWarning() << "can't read image:" << readerF.errorString()
                        << format;
 
-            tImg = QImage(path);
+            tImg = QImage();
         }
     }
 
