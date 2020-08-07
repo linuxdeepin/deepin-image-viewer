@@ -217,7 +217,7 @@ QVariantList ImageView::cachePixmap(const QString path)
         QImageReader reader(path);
         qDebug() << "render结束";
         reader.setAutoTransform(true);
-        if (reader.canRead()) {
+        if (reader.canRead() && reader.imageCount()>0) {
             qDebug() << "开始render读取到img";
             tImg = reader.read();
             qDebug() << "render读取到img完成";
@@ -227,14 +227,15 @@ QVariantList ImageView::cachePixmap(const QString path)
         QImageReader readerF(path, format.toLatin1());
         qDebug() << "render结束";
         readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
+        qDebug()<<readerF.imageCount();
+        if (readerF.canRead() && readerF.imageCount()>0) {
             qDebug() << "开始render读取到img";
             tImg = readerF.read();
             qDebug() << "render读取到img完成";
         } else {
             qWarning() << "can't read image:" << readerF.errorString() << format;
 
-            tImg = QImage(path);
+            tImg = QImage();
         }
     }
 
@@ -673,18 +674,18 @@ void ImageView::cacheThread(const QString strPath)
         if (format.isEmpty()) {
             QImageReader reader(strPath);
             reader.setAutoTransform(true);
-            if (reader.canRead()) {
+            if (reader.canRead() && reader.imageCount()>0) {
                 tImg = reader.read();
             }
         } else {
             QImageReader readerF(strPath, format.toLatin1());
             readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
+            if (readerF.canRead() && readerF.imageCount()>0) {
                 tImg = readerF.read();
             } else {
                 qWarning() << "can't read image:" << readerF.errorString() << format;
 
-                tImg = QImage(strPath);
+                tImg = QImage();
             }
         }
 
