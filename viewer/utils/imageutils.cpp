@@ -134,7 +134,7 @@ bool imageSupportRead(const QString &path)
 bool imageSupportSave(const QString &path)
 {
     const QString suffix = QFileInfo(path).suffix();
-
+    if (suffix == "jp2" || suffix == "j2k") return false;
     // RAW image decode is too slow, and most of these does not support saving
     // RAW formats render incorrectly by freeimage
     const QStringList raws = QStringList()
@@ -454,7 +454,7 @@ const QImage getRotatedImage(const QString &path)
     if (format.isEmpty()) {
         QImageReader reader(path);
         reader.setAutoTransform(true);
-        if (reader.canRead()) {
+        if (reader.canRead() && reader.imageCount()>0) {
             tImg = reader.read();
         } else if (path.contains(".tga")) {
             bool ret = false;
@@ -463,13 +463,13 @@ const QImage getRotatedImage(const QString &path)
     } else {
         QImageReader readerF(path, format.toLatin1());
         readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
+        if (readerF.canRead() && readerF.imageCount()>0) {
             tImg = readerF.read();
         } else {
             qWarning() << "can't read image:" << readerF.errorString()
                        << format;
 
-            tImg = QImage(path);
+            tImg = QImage();
         }
     }
     return tImg;
@@ -515,7 +515,7 @@ QMap<QString, QString> thumbnailAttribute(const QUrl  &url)
         set.insert("Software", "Deepin Image Viewer");
 
         QImageReader reader(path);
-        if (reader.canRead()) {
+        if (reader.canRead() && reader.imageCount()>0) {
             set.insert("Thumb::Image::Width", QString::number(reader.size().width()));
             set.insert("Thumb::Image::Height", QString::number(reader.size().height()));
         }
