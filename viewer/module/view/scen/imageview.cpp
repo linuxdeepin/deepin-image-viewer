@@ -529,14 +529,19 @@ void ImageView::titleBarControl()
 
 const QImage ImageView::image(bool brefresh)
 {
-    if (m_movieItem) {  // bit-map
-        return m_movieItem->pixmap().toImage();
-        //        return m_movieItem->getMovie()->currentImage();
-    } else if (m_pixmapItem) {
+       /*lmh0807,解决崩溃的问题*/
+    if (m_pixmapItem) {
         // FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
         //    } else if (m_svgItem) {    // svg
-    } else if (m_svgItem) {  // svg
+    }
+    else if (m_movieItem) {  // bit-map
+        return m_movieItem->pixmap().toImage();
+        //        return m_movieItem->getMovie()->currentImage();
+    }
+
+
+    else  if (m_svgItem) {  // svg
         if(brefresh)
         {
             QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
@@ -1397,6 +1402,8 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     if(sigPath == filePath) return;
     sigPath = filePath;
     scene()->clear();
+    m_movieItem = nullptr;
+    m_svgItem = nullptr;
     resetTransform();
     QRect rect1=  dApp->m_rectmap[filePath];
     //获取主屏幕分辨率lmh0803,如果分辨率大于屏幕分辨率，则采用scaled屏幕分辨率,解决效率问题
