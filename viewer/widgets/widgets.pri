@@ -11,7 +11,8 @@ HEADERS += \
     $$PWD/blureframe.h \
     $$PWD/processtooltip.h \
     $$PWD/scrollbar.h \
-    $$PWD/scaleslider.h \
+#    lmh0810
+#    $$PWD/scaleslider.h \ //
     $$PWD/slider.h \
 #    $$PWD/blureinfoframe.h \
     $$PWD/separator.h \
@@ -35,7 +36,8 @@ SOURCES += \
     $$PWD/blureframe.cpp \
     $$PWD/processtooltip.cpp \
     $$PWD/scrollbar.cpp \
-    $$PWD/scaleslider.cpp \
+#    lmh0810
+#    $$PWD/scaleslider.cpp \
     $$PWD/slider.cpp \
 #    $$PWD/blureinfoframe.cpp \
     $$PWD/separator.cpp \

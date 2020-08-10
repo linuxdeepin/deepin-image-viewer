@@ -28,9 +28,8 @@ class ScrollBar : public QSBToDScrollBar
 {
     Q_OBJECT
 public:
-    explicit ScrollBar(QWidget *parent = 0);
+    explicit ScrollBar(QWidget *parent = nullptr);
     void stopScroll();
-    bool isScrolling() const;
 
 protected:
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;

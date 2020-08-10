@@ -18,8 +18,6 @@
 #include "application.h"
 #include "contents/imageinfowidget.h"
 #include "contents/ttbcontent.h"
-#include "contents/ttlcontent.h"
-#include "contents/ttmcontent.h"
 #include "controller/configsetter.h"
 #include "controller/divdbuscontroller.h"
 #include "controller/signalmanager.h"
