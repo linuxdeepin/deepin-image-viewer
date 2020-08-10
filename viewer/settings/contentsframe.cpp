@@ -18,7 +18,7 @@
 #include "shortcut/shortcutframe.h"
 #include "slideshow/slideshowframe.h"
 #include <dimagebutton.h>
-#include <scrollbar.h>
+#include "widgets/scrollbar.h"
 #include <QCursor>
 #include <QPropertyAnimation>
 #include <QVBoxLayout>
