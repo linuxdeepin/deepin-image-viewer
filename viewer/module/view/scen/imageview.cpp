@@ -280,6 +280,18 @@ QVariantList ImageView::cachePixmap(const QString path)
         qDebug() << errMsg;
     }
     QPixmap p = QPixmap::fromImage(tImg);
+    if (QFileInfo(path).exists() && p.isNull()) {
+        //判定为损坏图片
+        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+        QString picString;
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            picString = ICON_PIXMAP_DARK;
+        } else {
+            picString = ICON_PIXMAP_LIGHT;
+        }
+        UnionImage_NameSpace::loadStaticImageFromFile(picString, tImg, errMsg);
+        p = QPixmap::fromImage(tImg);
+    }
 #else
     QImage tImg;
     QString format = DetectImageFormat(path);
@@ -311,7 +323,6 @@ QVariantList ImageView::cachePixmap(const QString path)
 
     QPixmap p = QPixmap::fromImage(tImg);
 #endif
-
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
     qDebug() << "render缓存结束";
@@ -841,6 +852,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 {
     bool bRet = true;
     QGraphicsScene *s = scene();
+    m_bRoate = UnionImage_NameSpace::isImageSupportRotate(strPath);
     switch (type) {
     case PICTURE_TYPE::NORMAL: {
         m_movieItem = nullptr;
@@ -995,7 +1007,7 @@ void ImageView::endApp()
     }
 }
 
-bool ImageView::reloadSvgPix(QString strPath, int nAngel)
+bool ImageView::reloadSvgPix(QString strPath, int nAngel,bool fitauto)
 {
     bool bRet = true;
     QSvgGenerator generator;
@@ -1016,12 +1028,14 @@ bool ImageView::reloadSvgPix(QString strPath, int nAngel)
     painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
     generator.setSize(pix.size());
     painter.end();
-    setImage(strPath);
+    if(fitauto)
+        setImage(strPath);
     return  bRet;
 }
 
 void ImageView::rotatePixmap(int nAngel)
 {
+    if(!m_pixmapItem) return;
     QPixmap pixmap = m_pixmapItem->pixmap();
     QMatrix rotate;
     rotate.rotate(nAngel);
@@ -1354,8 +1368,20 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     }
     //旋转手势
     if (changeFlags & QPinchGesture::RotationAngleChanged) {
+        if(!m_bRoate) return;
+        if(!ratateflag)
+        {
+            qDebug() << "ratateflag" << gesture->lastRotationAngle();
+            gesture->setRotationAngle(gesture->lastRotationAngle());
+            return;
+        }
         qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
-        m_rotateAngelTouch += rotationDelta;
+        m_rotateAngelTouch = gesture->rotationAngle();
+     //   if(m_rotateAngelTouch>360) m_rotateAngelTouch = m_rotateAngelTouch-360;
+        qDebug()<<gesture->rotationAngle();
+        qDebug()<<gesture->lastRotationAngle();
+        qDebug()<<rotationDelta;
+        qDebug()<<m_rotateAngelTouch;
         rotate(rotationDelta);
     }
 
@@ -1367,6 +1393,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     }
     if (gesture->state() == Qt::GestureFinished) {
         QPointF centerPointOffset = gesture->centerPoint();
+        ratateflag = false;
         qreal offset = centerPointOffset.x() - centerPoint.x();
         if (qAbs(offset) > 200) {
             if (offset > 0) {
@@ -1376,8 +1403,69 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
                 emit nextRequested();
                 qDebug() << "zy------ImageView::pinchTriggered previousRequested";
             }
+            isFirstPinch = false;
+            //return;
         }
         isFirstPinch = false;
+        gesture->setCenterPoint(centerPoint);
+      //旋转松开手势操作
+       // m_rotateAngelTouch = m_rotateAngelTouch % 360;
+        //int abs(m_rotateAngelTouch);
+        if(!m_bRoate) return;
+        QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
+         animation->setDuration(200);
+         //if(m_rotateAngelTouch<0) m_rotateAngelTouch += 360;
+         qreal endvalue;
+         bool unrotateflag = false;
+         if(abs(0-abs(m_rotateAngelTouch))<=10)
+         {
+            endvalue = 0;
+         }else if(abs(360-abs(m_rotateAngelTouch))<=10)
+         {
+             endvalue = 0;
+             unrotateflag = true;
+         }else if(abs(90-abs(m_rotateAngelTouch))<=10)
+         {
+             endvalue = m_rotateAngelTouch>0?90:-90;
+         }else if(abs(180-abs(m_rotateAngelTouch))<=10)
+         {
+             endvalue = m_rotateAngelTouch>0?180:-180;
+         }else if(abs(270-abs(m_rotateAngelTouch))<=10)
+         {
+             endvalue = m_rotateAngelTouch>0?270:-270;
+         }else {
+            endvalue = 0;
+         }
+         if(!m_bRoate) endvalue = 0;
+         m_endvalue=endvalue;
+         animation->setStartValue(unrotateflag?m_rotateAngelTouch-360:m_rotateAngelTouch);
+         animation->setEndValue(endvalue);
+//        animation->setEasingCurve(QEasingCurve::Linear);
+         connect(animation, &QVariantAnimation::valueChanged, [=](const QVariant &value){
+
+            // QTransform t;
+             //t.rotate(value.toReal());
+            // if(value.toReal() == endvalue) return;
+             qDebug()<<value;
+             qreal angle = value.toReal() - m_rotateAngelTouch;
+             qDebug()<<m_rotateAngelTouch;
+             m_rotateAngelTouch = value.toReal();
+             if(value.toReal() != endvalue || m_svgItem)
+                this->rotate(angle);
+             qDebug()<<angle;
+             //setPixmap(pixmap.transformed(t));
+         });
+        // animation->setLoopCount(1); //旋转次数
+         connect(animation, SIGNAL(finished()), this, SLOT(OnFinishPinchAnimal()));
+         animation->start(QAbstractAnimation::KeepWhenStopped);
+         qDebug() << "finish";
+//         QPropertyAnimation *anim1 = new QPropertyAnimation(this, "pos");
+//          anim1->setStartValue(QPoint(-100, -100));
+//          anim1->setEndValue(QPoint(500, 100));
+//          anim1->setEasingCurve(QEasingCurve::Linear);
+//          connect(anim1, SIGNAL(finished()), this, SLOT(EndAnimation())); //动画结束后需要执行的函数
+//          anim1->start(QAbstractAnimation::KeepWhenStopped);
+
     }
 }
 
@@ -1391,6 +1479,47 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
             emit previousRequested();
         }
     }
+}
+
+void ImageView::OnFinishPinchAnimal()
+{
+    ratateflag = true;
+    m_rotateAngelTouch=0;
+    if(m_svgItem)
+    {
+      //  reloadSvgPix(m_path,90,false);
+        m_rotateAngel += m_endvalue;
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,m_endvalue);
+        emit dApp->signalM->sigUpdateThunbnail(m_path);
+        return;
+    }
+    //QStranform旋转到180度有问题，暂未解决，因此动画结束后旋转Pixmap到180
+    QPixmap pixmap;
+    pixmap = m_pixmapItem->pixmap();
+    QMatrix rotate;
+    rotate.rotate(m_endvalue);
+
+    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    scene()->clear();
+    resetTransform();
+    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+
+    scene()->addItem(m_pixmapItem);
+    scale(m_scal,m_scal);
+    if(m_bRoate)
+    {
+        m_rotateAngel += m_endvalue;
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,m_endvalue);
+        emit dApp->signalM->sigUpdateThunbnail(m_path);
+    }
+    qDebug() << m_endvalue;
 }
 
 #include <QApplication>

@@ -380,6 +380,14 @@ public slots:
      */
     void clickLoad(const int nCurrent);
 
+    /**
+     * @brief OnUpdateThumbnail
+     * 更新缩略图
+     * @param path
+     * 需要更新的缩略图路径
+     */
+    void OnUpdateThumbnail(QString path);
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();

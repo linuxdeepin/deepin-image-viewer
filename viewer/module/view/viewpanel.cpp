@@ -1110,6 +1110,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     }
 
     //heyi test 连接更改隐藏上一张按钮信号槽
+    connect(dApp->signalM,&SignalManager::sigUpdateThunbnail,ttbc,&TTBContent::OnUpdateThumbnail);
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags);
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn);
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos);
@@ -2092,7 +2093,7 @@ void ViewPanel::openImage(const QString path, bool inDB)
         m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
-        m_stack->setCurrentIndex(2);
+        m_stack->setCurrentIndex(0);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
     } else {
