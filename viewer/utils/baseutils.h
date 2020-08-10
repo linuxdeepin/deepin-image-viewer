@@ -148,15 +148,15 @@ QString     sizeToHuman(const qlonglong bytes);
 QString     timeToString(const QDateTime &time, bool normalFormat = false);
 QDateTime   stringToDateTime(const QString &time);
 QString     getFileContent(const QString &file);
-QString     symFilePath(const QString &path);
-bool        writeTextFile(QString filePath, QString content);
+//QString     symFilePath(const QString &path);
+//bool        writeTextFile(QString filePath, QString content);
 
 bool        trashFile(const QString &file);
-bool        trashFiles(const QStringList &files);
+//bool        trashFiles(const QStringList &files);
 
 bool        onMountDevice(const QString &path);
 bool        mountDeviceExist(const QString &path);
-bool        isCommandExist(const QString &command);
+//bool        isCommandExist(const QString &command);
 }  // namespace base
 
 }  // namespace utils

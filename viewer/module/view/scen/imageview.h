@@ -123,11 +123,11 @@ public:
      */
     void cacheThread(const QString strPath);
 
-    /**
-     * @brief showPixmap    从hash中获取图片并显示
-     * @param strPath       显示的图片路径
-     */
-    void showPixmap(QString strPath);
+//    /**
+//     * @brief showPixmap    从hash中获取图片并显示
+//     * @param strPath       显示的图片路径
+//     */
+//    void showPixmap(QString strPath);
 
     /**
      * @brief judgePictureType  判断当前图片类型

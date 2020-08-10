@@ -1231,10 +1231,6 @@ QWidget *ViewPanel::extensionPanelContent()
     return m_info;
 }
 
-const SignalManager::ViewInfo ViewPanel::viewInfo() const
-{
-    return m_vinfo;
-}
 
 bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
 {

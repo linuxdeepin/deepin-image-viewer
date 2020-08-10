@@ -31,9 +31,7 @@ class ImportFrame : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ImportFrame(QWidget *parent = 0);
-    void setTitle(const QString &title);
-    void setButtonText(const QString &text);
+    explicit ImportFrame(QWidget *parent = nullptr);
     const QString buttonText() const;
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);

@@ -779,42 +779,42 @@ void ImageView::cacheThread(const QString strPath)
     }
 }
 
-void ImageView::showPixmap(QString path)
-{
-    m_rwCacheLock.lockForRead();
-    QPixmap pixmap = m_hsPixap.value(path);
-    m_rwCacheLock.unlock();
-    pixmap.setDevicePixelRatio(devicePixelRatioF());
-    if (path == m_path) {
-        scene()->clear();
-        resetTransform();
-        m_pixmapItem = new GraphicsPixmapItem(pixmap);
-        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
-            if (!m_pixmapItem) {
-                qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
-                update();
-                return;
-            }
-            if (scaledmode) {
-                m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-            } else {
-                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-                //m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-            }
-        });
-        // Make sure item show in center of view after reload
-        QRectF rect = m_pixmapItem->boundingRect();
-        //            rect.setHeight(rect.height() + 50);
-        setSceneRect(rect);
-        //            setSceneRect(m_pixmapItem->boundingRect());
-        scene()->addItem(m_pixmapItem);
+//void ImageView::showPixmap(QString path)
+//{
+//    m_rwCacheLock.lockForRead();
+//    QPixmap pixmap = m_hsPixap.value(path);
+//    m_rwCacheLock.unlock();
+//    pixmap.setDevicePixelRatio(devicePixelRatioF());
+//    if (path == m_path) {
+//        scene()->clear();
+//        resetTransform();
+//        m_pixmapItem = new GraphicsPixmapItem(pixmap);
+//        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+//        connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+//            if (!m_pixmapItem) {
+//                qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
+//                update();
+//                return;
+//            }
+//            if (scaledmode) {
+//                m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+//            } else {
+//                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+//                //m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+//            }
+//        });
+//        // Make sure item show in center of view after reload
+//        QRectF rect = m_pixmapItem->boundingRect();
+//        //            rect.setHeight(rect.height() + 50);
+//        setSceneRect(rect);
+//        //            setSceneRect(m_pixmapItem->boundingRect());
+//        scene()->addItem(m_pixmapItem);
 
-        autoFit();
+//        autoFit();
 
-        emit imageChanged(path);
-    }
-}
+//        emit imageChanged(path);
+//    }
+//}
 
 ImageView::PICTURE_TYPE ImageView::judgePictureType(const QString strPath)
 {
