@@ -174,10 +174,6 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
     update();
 }
 
-bool ThumbnailWidget::isDefaultThumbnail()
-{
-    return m_isDefaultThumbnail;
-}
 
 void ThumbnailWidget::paintEvent(QPaintEvent *event)
 {

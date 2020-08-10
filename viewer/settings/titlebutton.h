@@ -36,7 +36,6 @@ public:
     explicit TitleButton(SettingID id, bool bigFont, const QString &title, QWidget *parent = 0);
 
     SettingID id() const;
-    void setId(const SettingID &id);
 
     bool isActived() const;
     void setIsActived(bool isActived);
