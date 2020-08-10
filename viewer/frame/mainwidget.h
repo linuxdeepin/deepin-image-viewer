@@ -48,7 +48,7 @@ protected:
 
 private slots:
     void onGotoPanel(ModulePanel *panel);
-    void onImported(const QString &message, bool success);
+//    void onImported(const QString &message, bool success);
     void onShowImageInfo(const QString &path);
 signals:
     void sigExitFullScreen();

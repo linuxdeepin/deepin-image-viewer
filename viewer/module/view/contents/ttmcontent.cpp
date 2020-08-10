@@ -57,11 +57,6 @@ TTMContent::TTMContent(QWidget *parent)
     });
 }
 
-const QString TTMContent::getCurrentPath()
-{
-    return m_path;
-}
-
 void TTMContent::setPath(const QString &path)
 {
     m_path = path;

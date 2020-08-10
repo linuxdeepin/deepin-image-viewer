@@ -34,9 +34,8 @@ class TTMContent : public QFrame
 {
     Q_OBJECT
 public:
-    explicit TTMContent(QWidget *parent = 0);
+    explicit TTMContent(QWidget *parent = nullptr);
 
-    const QString getCurrentPath();
 
 public slots:
     void setPath(const QString &path);

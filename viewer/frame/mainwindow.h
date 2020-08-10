@@ -77,7 +77,7 @@ public:
      */
     void initdbus();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    int showDialog();
+//    int showDialog();
 public slots:
     void OpenImage(QString path);
 protected:

@@ -65,11 +65,6 @@ void ScrollBar::stopScroll()
     m_animation->stop();
 }
 
-bool ScrollBar::isScrolling() const
-{
-    return (m_animation->state() == QPropertyAnimation::Running ||
-            m_timer->isActive());
-}
 
 void ScrollBar::wheelEvent(QWheelEvent *e)
 {

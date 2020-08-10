@@ -107,7 +107,3 @@ TitleButton::SettingID TitleButton::id() const
     return m_id;
 }
 
-void TitleButton::setId(const SettingID &id)
-{
-    m_id = id;
-}

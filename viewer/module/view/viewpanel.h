@@ -25,7 +25,6 @@
 #include "thumbnailwidget.h"
 #include "contents/ttbcontent.h"
 #include "contents/ttlcontent.h"
-#include "contents/ttmcontent.h"
 
 #include <DDesktopServices>
 #include <DFileWatcher>
@@ -217,7 +216,6 @@ private:
 
     // Floating component
     void initFloatingComponent();
-    void initSwitchButtons();
     void initScaleLabel();
     void initNavigation();
 

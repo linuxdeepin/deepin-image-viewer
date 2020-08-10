@@ -66,7 +66,7 @@ LockWidget::LockWidget(const QString &darkFile,
     layout->addStretch(1);
     QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
     m_bgLabel->setPixmap(logo_pix);
-    layout->addWidget(m_bgLabel, 0, Qt::AlignHCenter | Qt::AlignHCenter);
+    layout->addWidget(m_bgLabel, 0, Qt::AlignHCenter );
     //layout->addSpacing(18);
     //layout->addWidget(m_lockTips, 0, Qt::AlignHCenter);
     layout->addStretch(1);

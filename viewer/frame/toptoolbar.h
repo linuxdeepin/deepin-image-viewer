@@ -40,7 +40,6 @@ class TopToolbar : public DBlurEffectWidget
     Q_OBJECT
 public:
     TopToolbar(bool manager, QWidget *parent);
-    void setLeftContent(QWidget *content);
     void setMiddleContent(QString path);
 
     void setTitleBarTransparent(bool a);
@@ -64,27 +63,13 @@ private:
         IdSeparator
     };
 
-    void initLeftContent();
-    void initMiddleContent();
-    void initRightContent();
     void initMenu();
     void initWidgets();
     QString  geteElidedText(QFont font, QString str, int MaxWidth);
 
 private slots:
-//    void onAbout();
-    void onHelp();
-#ifndef LITE_DIV
-    void onNewAlbum();
-    void onSetting();
-#endif
-    void onViewShortcut();
-    void onDeepColorMode();
 
     void onThemeChanged(ViewerThemeManager::AppTheme curTheme);
-
-private:
-    const QString newAlbumShortcut() const;
 
 private:
     QColor m_coverBrush;
@@ -101,9 +86,6 @@ private:
 
     DShadowLine *m_shadowLine {nullptr};
 
-#ifndef LITE_DIV
-    SettingsWindow *m_settingsWindow;
-#endif
     DMenu *m_menu;
     bool m_manager;
     bool m_viewChange;
