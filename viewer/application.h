@@ -53,7 +53,7 @@ public:
      * @param pathlist          更新的图片路径
      * @param bDirection        旋转方向
      */
-    void updateImageLoader(QStringList pathlist, bool bDirection);
+    void updateImageLoader(QStringList pathlist, bool bDirection,int rotateangle = 90);
 
     /**
      * @brief loadInterface 缩略图加载接口

@@ -162,17 +162,17 @@ void Importer::stopDirCollect(const QString &dir)
     emit imported(true);
 }
 
-void Importer::showImportDialog(const QString &album)
-{
-    QString dir = QFDToDFileDialog::getExistingDirectory(
-                nullptr, tr("Open Directory"), QDir::homePath(),
-                QFDToDFileDialog::ShowDirsOnly | QFDToDFileDialog::DontResolveSymlinks);
+//void Importer::showImportDialog(const QString &album)
+//{
+//    QString dir = QFDToDFileDialog::getExistingDirectory(
+//                nullptr, tr("Open Directory"), QDir::homePath(),
+//                QFDToDFileDialog::ShowDirsOnly | QFDToDFileDialog::DontResolveSymlinks);
 
-    if (dir.isEmpty()) return;
-    if (ScanPathsDialog::instance()->addPath(dir)) {
-        appendDir(dir, album);
-    }
-}
+//    if (dir.isEmpty()) return;
+//    if (ScanPathsDialog::instance()->addPath(dir)) {
+//        appendDir(dir, album);
+//    }
+//}
 
 DirCollectThread::DirCollectThread(const QString &root, const QString &album)
     :QThread(NULL)
