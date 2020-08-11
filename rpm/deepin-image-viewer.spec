@@ -1,4 +1,4 @@
-Name:           deepin-image-viewer
+Name:           deepin_image_viewer
 Version:        1.3.17
 Release:        1
 Summary:        Deepin Image Viewer
