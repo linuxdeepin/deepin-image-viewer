@@ -1364,7 +1364,11 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     //缩放手势
     if (changeFlags & QPinchGesture::ScaleFactorChanged) {
         QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
-        scaleAtPoint(pos, gesture->scaleFactor());
+        if(abs(gesture->scaleFactor()-1)>0.006)
+        {
+            qDebug() << "scaleFactor" << gesture->scaleFactor();
+            scaleAtPoint(pos, gesture->scaleFactor());
+        }
     }
     //旋转手势
     if (changeFlags & QPinchGesture::RotationAngleChanged) {
@@ -1376,13 +1380,11 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
             return;
         }
         qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
-        m_rotateAngelTouch = gesture->rotationAngle();
-     //   if(m_rotateAngelTouch>360) m_rotateAngelTouch = m_rotateAngelTouch-360;
-        qDebug()<<gesture->rotationAngle();
-        qDebug()<<gesture->lastRotationAngle();
-        qDebug()<<rotationDelta;
-        qDebug()<<m_rotateAngelTouch;
-        rotate(rotationDelta);
+        if(abs(rotationDelta)>0.2)
+        {
+            m_rotateAngelTouch = gesture->rotationAngle();
+            rotate(rotationDelta);
+        }
     }
 
     if (changeFlags & QPinchGesture::CenterPointChanged) {
@@ -1393,8 +1395,9 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     }
     if (gesture->state() == Qt::GestureFinished) {
         QPointF centerPointOffset = gesture->centerPoint();
-        ratateflag = false;
         qreal offset = centerPointOffset.x() - centerPoint.x();
+        qDebug() <<"centerPointOffset"<< centerPointOffset.x();
+        qDebug() <<"centerPointOffset"<< centerPoint.x();
         if (qAbs(offset) > 200) {
             if (offset > 0) {
                 emit previousRequested();
@@ -1412,6 +1415,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
        // m_rotateAngelTouch = m_rotateAngelTouch % 360;
         //int abs(m_rotateAngelTouch);
         if(!m_bRoate) return;
+        ratateflag = false;
         QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
          animation->setDuration(200);
          //if(m_rotateAngelTouch<0) m_rotateAngelTouch += 360;
