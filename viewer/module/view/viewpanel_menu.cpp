@@ -202,6 +202,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             m_currentImagePath  = filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);
+            m_viewB->setPath(filepath);
         }
         break;
     }
