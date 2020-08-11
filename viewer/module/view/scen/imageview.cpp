@@ -701,6 +701,11 @@ const QString ImageView::path() const
     return m_path;
 }
 
+void ImageView::setPath(const QString path)
+{
+    m_path = path;
+}
+
 QPoint ImageView::mapToImage(const QPoint &p) const
 {
     return viewportTransform().inverted().map(p);
@@ -1396,8 +1401,6 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     if (gesture->state() == Qt::GestureFinished) {
         QPointF centerPointOffset = gesture->centerPoint();
         qreal offset = centerPointOffset.x() - centerPoint.x();
-        qDebug() <<"centerPointOffset"<< centerPointOffset.x();
-        qDebug() <<"centerPointOffset"<< centerPoint.x();
         if (qAbs(offset) > 200) {
             if (offset > 0) {
                 emit previousRequested();
