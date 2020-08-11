@@ -187,8 +187,16 @@ signals:
      */
     void sigGifImageRe();
 
+    /**
+     * @brief sigUpdateThunbnail
+     * 改变缩略图信号
+     * @param path
+     * 缩略图路径
+     */
+    void sigUpdateThunbnail(QString path);
+
 private:
-    explicit SignalManager(QObject *parent = 0);
+    explicit SignalManager(QObject *parent = nullptr);
 
 private:
     static SignalManager *m_signalManager;

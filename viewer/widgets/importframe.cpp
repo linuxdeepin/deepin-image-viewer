@@ -59,18 +59,9 @@ ImportFrame::ImportFrame(QWidget *parent)
 
 }
 
-void ImportFrame::setTitle(const QString &title)
-{
-    m_titleLabel->setText(title);
 
-    int textHeight = utils::base::stringHeight(m_titleLabel->font(), m_titleLabel->text());
-    m_titleLabel->setMinimumHeight(textHeight + 2);
-}
 
-void ImportFrame::setButtonText(const QString &text)
-{
-    m_importButton->setText(text);
-}
+
 
 const QString ImportFrame::buttonText() const
 {

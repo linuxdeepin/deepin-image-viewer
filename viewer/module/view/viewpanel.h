@@ -25,7 +25,6 @@
 #include "thumbnailwidget.h"
 #include "contents/ttbcontent.h"
 #include "contents/ttlcontent.h"
-#include "contents/ttmcontent.h"
 
 #include <DDesktopServices>
 #include <DFileWatcher>
@@ -68,7 +67,6 @@ public:
     QWidget *bottomTopLeftContent();
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
-    const SignalManager::ViewInfo viewInfo() const;
     int getPicCount()
     {
         return m_infos.count();
@@ -217,7 +215,6 @@ private:
 
     // Floating component
     void initFloatingComponent();
-    void initSwitchButtons();
     void initScaleLabel();
     void initNavigation();
 

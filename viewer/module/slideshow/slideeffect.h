@@ -111,8 +111,6 @@ public:
     */
     virtual EffectName effectName() const = 0;
     virtual QVector<EffectId> supportedTypes() const = 0;
-    void setSpeed(qreal s);
-    void setFrames(int frames);
     int currentFrameNumber() const;
     int frames() const;
 
@@ -125,11 +123,6 @@ public:
     void setSize(const QSize &s);
     QSize size() const;
 
-    void setBackgroundColor(const QColor &color);
-    QColor backgroundColor() const;
-
-    void setAspectRatioMode(Qt::AspectRatioMode mode);
-    Qt::AspectRatioMode aspectRatioMode() const;
 
 Q_SIGNALS:
     void renderFrameFinish(int num, QImage image);

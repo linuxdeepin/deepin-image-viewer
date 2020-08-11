@@ -45,6 +45,8 @@ class Toast;
 DWIDGET_END_NAMESPACE
 
 //#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
+Q_PROPERTY(QPointF pos READ pos WRITE setPos)  //移动
+Q_PROPERTY(int rotation READ rotation WRITE setRotation) //旋转
 
 class ImageView : public QGraphicsView
 {
@@ -104,6 +106,8 @@ public:
      */
     const QString path() const;
 
+    void setPath(const QString path);
+
     QPoint mapToImage(const QPoint &p) const;
     QRect mapToImage(const QRect &r) const;
     QRect visibleImageRect() const;
@@ -123,11 +127,11 @@ public:
      */
     void cacheThread(const QString strPath);
 
-    /**
-     * @brief showPixmap    从hash中获取图片并显示
-     * @param strPath       显示的图片路径
-     */
-    void showPixmap(QString strPath);
+//    /**
+//     * @brief showPixmap    从hash中获取图片并显示
+//     * @param strPath       显示的图片路径
+//     */
+//    void showPixmap(QString strPath);
 
     /**
      * @brief judgePictureType  判断当前图片类型
@@ -185,7 +189,7 @@ public slots:
      * @param nAngel        旋转角度
      * @return              true为加载成功，false为加载失败
      */
-    bool reloadSvgPix(QString strPath, int nAngel);
+    bool reloadSvgPix(QString strPath, int nAngel,bool fitauto = true);
 
     /**
      * @brief rotatePixmap  根据角度旋转pixmap
@@ -274,6 +278,12 @@ private slots:
     void pinchTriggered(QPinchGesture *gesture);
     void swipeTriggered(QSwipeGesture *gesture);
 
+    /**
+     * @brief OnFinishPinchAnimal
+     * 旋转图片松开手指回到特殊位置结束动画槽函数
+     */
+    void OnFinishPinchAnimal();
+
 private:
     bool m_isFitImage;
     bool m_isFitWindow;
@@ -285,6 +295,10 @@ private:
     QThreadPool *m_pool;
     DTK_WIDGET_NAMESPACE::Toast *m_toast;
     qreal m_scal = 1.0;
+    qreal m_angle = 0;
+    qreal m_endvalue;
+    bool ratateflag = true;
+    bool m_bRoate;
 
     QGraphicsSvgItem *m_svgItem = nullptr;
 
@@ -303,7 +317,7 @@ private:
     bool m_loadingDisplay = false;
     //heyi test 保存旋转的角度
     int m_rotateAngel = 0;
-    int m_rotateAngelTouch = 0;
+    qreal m_rotateAngelTouch = 0;
     QImage m_svgimg;
     QTimer m_timerLoadPixmap;
     QString timerPath;

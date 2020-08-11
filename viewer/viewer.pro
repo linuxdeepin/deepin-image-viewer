@@ -4,14 +4,15 @@
 #
 #-------------------------------------------------
 
-QT += core gui sql dbus concurrent svg x11extras printsupport
+QT += core gui sql dbus concurrent svg  printsupport
+# QT += x11extras
 qtHaveModule(opengl): QT += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += x11 xext libexif dtkwidget gio-unix-2.0 gio-qt udisks2-qt5
-#PKGCONFIG += dtkwidget
+PKGCONFIG +=   libexif dtkwidget  gio-qt udisks2-qt5
+# PKGCONFIG += xext x11 gio-unix-2.0
  QT += dtkwidget
  QT += dbus
 LIBS += -lfreeimage

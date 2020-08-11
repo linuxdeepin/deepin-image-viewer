@@ -266,7 +266,7 @@ void ImageLoader::addImageLoader(QStringList pathlist)
 
 }
 //modify by heyi
-void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
+void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int rotateangle)
 {
     for (QString path : pathlist) {
         QMutexLocker locker(&dApp->getRwLock());
@@ -278,9 +278,9 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
         } else {
             QMatrix rotate;
             if (bDirection) {
-                rotate.rotate(90);
+                rotate.rotate(rotateangle);
             } else {
-                rotate.rotate(-90);
+                rotate.rotate(0-rotateangle);
             }
 
             pixmap = pixmap.transformed(rotate, Qt::FastTransformation);

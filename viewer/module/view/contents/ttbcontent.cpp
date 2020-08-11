@@ -1347,6 +1347,14 @@ void TTBContent::clickLoad(const int nCurrent)
     }
 }
 
+void TTBContent::OnUpdateThumbnail(QString path)
+{
+    ImageItem* item = m_imgList->findChild<ImageItem*>(path);
+    QPixmap imgpix = dApp->m_imagemap.value(path);
+    if(!imgpix.isNull())
+        item->updatePic(imgpix);
+}
+
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;

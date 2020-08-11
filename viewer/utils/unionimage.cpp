@@ -165,7 +165,7 @@ public:
                       << "NEF" ;
 
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
-                  << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
+                  << "PGM" << "PPM" << "PNM" << "WBMP"
                   << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
                   << "J2C" << "J2K" << "JNG"
 //                  << "JP2"

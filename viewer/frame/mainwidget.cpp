@@ -193,12 +193,12 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     m_panelStack->setCurrentWidget(panel);
 }
 
-void MainWidget::onImported(const QString &message, bool success)
-{
-    ProcessTooltip *t = new ProcessTooltip(this);
-    t->showTooltip(message, success);
-    t->move((width() - t->width()) / 2, height() * 4 / 5);
-}
+//void MainWidget::onImported(const QString &message, bool success)
+//{
+//    ProcessTooltip *t = new ProcessTooltip(this);
+//    t->showTooltip(message, success);
+//    t->move((width() - t->width()) / 2, height() * 4 / 5);
+//}
 
 void MainWidget::onShowImageInfo(const QString &path)
 {
