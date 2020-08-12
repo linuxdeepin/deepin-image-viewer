@@ -34,7 +34,6 @@ Requires:       hicolor-icon-theme
  
 %prep
 %setup -q
-sed -i 's|lrelease|lrelease-qt5|g' viewer/generate_translations.sh
  
 %build
 %qmake_qt5 PREFIX=%{_prefix}
