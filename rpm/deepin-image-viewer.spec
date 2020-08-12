@@ -25,6 +25,7 @@ BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libstartup-notification-1.0)
 BuildRequires:  pkgconfig(xcb-util)
 BuildRequires:  pkgconfig(xext)
+BuildRequires:  pkgconfig(gio-qt) 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
