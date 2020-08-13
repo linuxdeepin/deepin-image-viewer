@@ -1500,6 +1500,7 @@ void ImageView::OnFinishPinchAnimal()
         emit dApp->signalM->sigUpdateThunbnail(m_path);
         return;
     }
+    if(!m_pixmapItem) return;
     //QStranform旋转到180度有问题，暂未解决，因此动画结束后旋转Pixmap到180
     QPixmap pixmap;
     pixmap = m_pixmapItem->pixmap();
