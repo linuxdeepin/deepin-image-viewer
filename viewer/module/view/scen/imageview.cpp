@@ -1428,7 +1428,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
         m_rotateflag = false;
         QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
          animation->setDuration(200);
-         //if(m_rotateAngelTouch<0) m_rotateAngelTouch += 360;
+         if(m_rotateAngelTouch<0) m_rotateAngelTouch += 360;
          qreal endvalue;
          bool unrotateflag = false;
          if(abs(0-abs(m_rotateAngelTouch))<=10)
@@ -1452,33 +1452,27 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
          }
          if(!m_bRoate) endvalue = 0;
          m_endvalue=endvalue;
-         animation->setStartValue(unrotateflag?m_rotateAngelTouch-360:m_rotateAngelTouch);
+         qreal startvalue;
+         if(m_rotateAngelTouch>180)
+         {
+             startvalue = m_rotateAngelTouch-360;
+         }else {
+             startvalue =m_rotateAngelTouch;
+         }
+         animation->setStartValue(startvalue);
          animation->setEndValue(endvalue);
-//        animation->setEasingCurve(QEasingCurve::Linear);
+        // qDebug()<<"angle finish" <<m_rotateAngelTouch << endvalue;
          connect(animation, &QVariantAnimation::valueChanged, [=](const QVariant &value){
-
-            // QTransform t;
-             //t.rotate(value.toReal());
-            // if(value.toReal() == endvalue) return;
-             qDebug()<<value;
              qreal angle = value.toReal() - m_rotateAngelTouch;
-             qDebug()<<m_rotateAngelTouch;
              m_rotateAngelTouch = value.toReal();
              if(value.toReal() != endvalue || m_svgItem)
                 this->rotate(angle);
-             qDebug()<<angle;
              //setPixmap(pixmap.transformed(t));
          });
         // animation->setLoopCount(1); //旋转次数
          connect(animation, SIGNAL(finished()), this, SLOT(OnFinishPinchAnimal()));
          animation->start(QAbstractAnimation::KeepWhenStopped);
          qDebug() << "finish";
-//         QPropertyAnimation *anim1 = new QPropertyAnimation(this, "pos");
-//          anim1->setStartValue(QPoint(-100, -100));
-//          anim1->setEndValue(QPoint(500, 100));
-//          anim1->setEasingCurve(QEasingCurve::Linear);
-//          connect(anim1, SIGNAL(finished()), this, SLOT(EndAnimation())); //动画结束后需要执行的函数
-//          anim1->start(QAbstractAnimation::KeepWhenStopped);
 
     }
 }

@@ -1353,7 +1353,7 @@ void TTBContent::OnUpdateThumbnail(QString path)
     ImageItem* item = m_imgList->findChild<ImageItem*>(path);
     if(!item) return;
     QPixmap imgpix = dApp->m_imagemap.value(path);
-    if(!imgpix)
+    if(!imgpix.isNull())
         item->updatePic(imgpix);
 }
 
