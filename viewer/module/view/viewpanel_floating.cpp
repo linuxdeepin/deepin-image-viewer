@@ -97,6 +97,10 @@ void ViewPanel::initNavigation()
         if (path.isEmpty()) m_nav->setVisible(false);
         m_nav->setImage(m_viewB->image(true));
     });
+    connect(dApp->signalM, &SignalManager::UpdateNavImg, this, [ = ]() {
+        m_nav->setImage(m_viewB->image(true));
+        m_nav->setRectInImage(m_viewB->visibleImageRect());
+    });
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
         m_viewB->centerOn(x, y);
     });

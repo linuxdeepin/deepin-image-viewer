@@ -1253,9 +1253,13 @@ bool ImageView::event(QEvent *event)
         const QRect &r = visibleImageRect();
         double left=r.width()+r.x();
         const QRectF &sr = sceneRect();
-        if((left-sr.width()>=-1 &&left-sr.width()<=1) ||(r.x()<=1) ||(r.width() >= sr.width())){
+        //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
+        if((r.width()>=sr.width() &&r.height()>=sr.height())){
             return true;
         }
+//        if((left-sr.width()>=-1 &&left-sr.width()<=1) ||(r.x()<=1) ||(r.width() >= sr.width())){
+//            return true;
+//        }
     } else if (event->type() == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
@@ -1530,6 +1534,7 @@ void ImageView::OnFinishPinchAnimal()
         m_rotateAngel += m_endvalue;
         dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,m_endvalue);
         emit dApp->signalM->sigUpdateThunbnail(m_path);
+        emit dApp->signalM->UpdateNavImg();
     }
     qDebug() << m_endvalue;
 }
