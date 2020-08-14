@@ -1378,13 +1378,16 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     //旋转手势
     if (changeFlags & QPinchGesture::RotationAngleChanged) {
         if(!m_bRoate) return;
-        if(!ratateflag)
+        //释放手指后旋转的位置未结束不能进行下次旋转
+        if(!m_rotateflag)
         {
             qDebug() << "ratateflag" << gesture->lastRotationAngle();
             gesture->setRotationAngle(gesture->lastRotationAngle());
             return;
         }
         qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
+        //防止在旋转过程中触发切换到下一张
+        if(abs(gesture->rotationAngle())>20) m_bnextflag = false;
         if(abs(rotationDelta)>0.2)
         {
             m_rotateAngelTouch = gesture->rotationAngle();
@@ -1401,7 +1404,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     if (gesture->state() == Qt::GestureFinished) {
         QPointF centerPointOffset = gesture->centerPoint();
         qreal offset = centerPointOffset.x() - centerPoint.x();
-        if (qAbs(offset) > 200) {
+        if (qAbs(offset) > 200 && m_bnextflag) {
             if (offset > 0) {
                 emit previousRequested();
                 qDebug() << "zy------ImageView::pinchTriggered nextRequested";
@@ -1418,7 +1421,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
        // m_rotateAngelTouch = m_rotateAngelTouch % 360;
         //int abs(m_rotateAngelTouch);
         if(!m_bRoate) return;
-        ratateflag = false;
+        m_rotateflag = false;
         QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
          animation->setDuration(200);
          //if(m_rotateAngelTouch<0) m_rotateAngelTouch += 360;
@@ -1490,7 +1493,8 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
 
 void ImageView::OnFinishPinchAnimal()
 {
-    ratateflag = true;
+    m_rotateflag = true;
+    m_bnextflag = true;
     m_rotateAngelTouch=0;
     if(m_svgItem)
     {

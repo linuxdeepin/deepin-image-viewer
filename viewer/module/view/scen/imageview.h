@@ -297,8 +297,10 @@ private:
     qreal m_scal = 1.0;
     qreal m_angle = 0;
     qreal m_endvalue;
-    bool ratateflag = true;
+    bool m_rotateflag = true;
     bool m_bRoate;
+    //允许二指滑动切换上下一张标记
+    bool m_bnextflag = true;
 
     QGraphicsSvgItem *m_svgItem = nullptr;
 
