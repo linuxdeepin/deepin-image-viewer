@@ -857,7 +857,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 {
     bool bRet = true;
     QGraphicsScene *s = scene();
-    m_bRoate = UnionImage_NameSpace::isImageSupportRotate(strPath);
+    m_bRoate = UnionImage_NameSpace::isImageSupportRotate(strPath) && QFileInfo(strPath).isWritable();
     switch (type) {
     case PICTURE_TYPE::NORMAL: {
         m_movieItem = nullptr;
