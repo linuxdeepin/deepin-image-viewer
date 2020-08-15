@@ -720,7 +720,7 @@ bool thumbnailExist(const QString &path, ThumbnailType type)
         return false;
     }
 }
-
+/*
 static QStringList fromByteArrayList(const QByteArrayList &list)
 {
     QStringList sList;
@@ -742,7 +742,7 @@ static QStringList fromByteArrayList(const QByteArrayList &list)
 
     return sList;
 }
-
+*/
 QStringList supportedImageFormats()
 {
     /*lmh0724使用USE_UNIONIMAGE*/
