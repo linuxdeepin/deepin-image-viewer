@@ -466,7 +466,7 @@ void ImageView::setScaleValue(qreal v)
     m_scal *=v;
     qDebug() << m_scal;
     scale(v, v);
-    const qreal irs = imageRelativeScale() * devicePixelRatioF();
+    //const qreal irs = imageRelativeScale() * devicePixelRatioF();
     // Rollback
     if (v < 1 && /*irs <= MIN_SCALE_FACTOR)*/m_scal<0.03) {
         const qreal minv = MIN_SCALE_FACTOR / m_scal;
@@ -1251,7 +1251,7 @@ bool ImageView::event(QEvent *event)
         }
         /*lmh0804*/
         const QRect &r = visibleImageRect();
-        double left=r.width()+r.x();
+        //double left=r.width()+r.x();
         const QRectF &sr = sceneRect();
         //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
         if((r.width()>=sr.width() &&r.height()>=sr.height())){
@@ -1430,14 +1430,12 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
          animation->setDuration(200);
          if(m_rotateAngelTouch<0) m_rotateAngelTouch += 360;
          qreal endvalue;
-         bool unrotateflag = false;
          if(abs(0-abs(m_rotateAngelTouch))<=10)
          {
             endvalue = 0;
          }else if(abs(360-abs(m_rotateAngelTouch))<=10)
          {
              endvalue = 0;
-             unrotateflag = true;
          }else if(abs(90-abs(m_rotateAngelTouch))<=10)
          {
              endvalue = m_rotateAngelTouch>0?90:-90;
@@ -1594,6 +1592,7 @@ void ImageView::showFileImage()
         m_movieItem = nullptr;
         m_svgItem = nullptr;
         QPixmap pixmap = vl.last().value<QPixmap>();
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
         m_pixmapItem = new GraphicsPixmapItem(pixmap);
         m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         // Make sure item show in center of view after reload
