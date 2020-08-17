@@ -45,11 +45,10 @@ export PATH=%{_qt5_bindir}:$PATH
 %make_build
 %install
 %make_install INSTALL_ROOT=%{buildroot}
-install -Dm644
+
  
 %check
-desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
-appstream-util validate-relax --nonet 
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop 
  
 %files
 %doc README.md
