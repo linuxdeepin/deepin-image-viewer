@@ -56,7 +56,6 @@ export PATH=%{_qt5_bindir}:$PATH
 %{_datadir}/%{name}/
 %{_datadir}/dman/%{name}/
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/deepin/apps/scalable/%{name}.svg
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
  
 %changelog
