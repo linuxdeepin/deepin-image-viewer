@@ -4,7 +4,7 @@ Release:        5%{?dist}
 Summary:        Deepin Image Viewer
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-image-viewer
-Source0:        %{url}/archive/%{version}/%{name}_%{version}.orig.tar.xz
+Source0:        %{name}_%{version}.tar.gz
  
 BuildRequires:  gcc-c++
 BuildRequires:  freeimage-devel
@@ -26,6 +26,7 @@ BuildRequires:  pkgconfig(libstartup-notification-1.0)
 BuildRequires:  pkgconfig(xcb-util)
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(gio-qt) 
+BuildRequires:  pkgconfig(udisks2-qt5) 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
