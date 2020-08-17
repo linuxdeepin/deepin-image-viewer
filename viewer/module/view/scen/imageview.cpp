@@ -334,7 +334,7 @@ ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
     , m_pool(new QThreadPool())
-    , m_svgItem(nullptr)
+    , m_imgSvgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
 {
@@ -552,13 +552,13 @@ const QImage ImageView::image(bool brefresh)
     }
 
 
-    else  if (m_svgItem) {  // svg
+    else  if (m_imgSvgItem) {  // svg
         if(brefresh)
         {
-            QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+            QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
             image.fill(QColor(0, 0, 0, 0));
             QPainter imagePainter(&image);
-            m_svgItem->renderer()->render(&imagePainter);
+            m_imgSvgItem->renderer()->render(&imagePainter);
             imagePainter.end();
             m_svgimg = image;
         }
@@ -926,12 +926,12 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 
 
 
-        QSvgRenderer *svgRenderer = new QSvgRenderer;
-        svgRenderer->load(strPath);
-        m_svgItem = new QGraphicsSvgItem();
-        m_svgItem->setSharedRenderer(svgRenderer);
-        setSceneRect(m_svgItem->boundingRect());
-        s->addItem(m_svgItem);
+//        QSvgRenderer *svgRenderer = new QSvgRenderer;
+//        svgRenderer->load(strPath);
+        m_imgSvgItem = new ImageSvgItem(strPath);
+//        m_imgSvgItem->setSharedRenderer(svgRenderer);
+        setSceneRect(m_imgSvgItem->boundingRect());
+        s->addItem(m_imgSvgItem);
 
         //LMH0603解决svg和gif和mng缩略图不显示问题
         if(dApp->m_firstLoad)
@@ -1463,7 +1463,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
          connect(animation, &QVariantAnimation::valueChanged, [=](const QVariant &value){
              qreal angle = value.toReal() - m_rotateAngelTouch;
              m_rotateAngelTouch = value.toReal();
-             if(value.toReal() != endvalue || m_svgItem)
+             if(value.toReal() != endvalue || m_imgSvgItem)
                 this->rotate(angle);
              //setPixmap(pixmap.transformed(t));
          });
@@ -1492,7 +1492,7 @@ void ImageView::OnFinishPinchAnimal()
     m_rotateflag = true;
     m_bnextflag = true;
     m_rotateAngelTouch=0;
-    if(m_svgItem)
+    if(m_imgSvgItem)
     {
       //  reloadSvgPix(m_path,90,false);
         m_rotateAngel += m_endvalue;
@@ -1541,7 +1541,7 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     sigPath = filePath;
     scene()->clear();
     m_movieItem = nullptr;
-    m_svgItem = nullptr;
+    m_imgSvgItem = nullptr;
     resetTransform();
     QRect rect1=  dApp->m_rectmap[filePath];
     //获取主屏幕分辨率lmh0803,如果分辨率大于屏幕分辨率，则采用scaled屏幕分辨率,解决效率问题
@@ -1590,7 +1590,7 @@ void ImageView::showFileImage()
         scene()->clear();
         resetTransform();
         m_movieItem = nullptr;
-        m_svgItem = nullptr;
+        m_imgSvgItem = nullptr;
         QPixmap pixmap = vl.last().value<QPixmap>();
         pixmap.setDevicePixelRatio(devicePixelRatioF());
         m_pixmapItem = new GraphicsPixmapItem(pixmap);
