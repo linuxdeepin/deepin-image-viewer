@@ -31,7 +31,6 @@
 
 DWIDGET_USE_NAMESPACE
 
-class SettingsWindow;
 class QHBoxLayout;
 class QProcess;
 

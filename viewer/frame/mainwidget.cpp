@@ -24,7 +24,7 @@
 //#include "module/timeline/timelinepanel.h"
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
-#include "widgets/dialogs/imginfodialog.h"
+//#include "widgets/dialogs/imginfodialog.h"
 #include "widgets/processtooltip.h"
 #include "widgets/separator.h"
 
