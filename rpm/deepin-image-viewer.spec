@@ -45,11 +45,11 @@ export PATH=%{_qt5_bindir}:$PATH
 %make_build
 %install
 %make_install INSTALL_ROOT=%{buildroot}
-install -Dm644 %{buildroot}%{_metainfodir}/%{name}.appdata.xml
+install -Dm644
  
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
+appstream-util validate-relax --nonet 
  
 %files
 %doc README.md
@@ -59,7 +59,6 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 %{_datadir}/dbus-1/services/*.service
 %{_datadir}/%{name}/
 %{_datadir}/dman/%{name}/
-%{_metainfodir}/%{name}.appdata.xml
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/deepin/apps/scalable/%{name}.svg
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
