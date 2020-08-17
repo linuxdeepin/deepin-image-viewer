@@ -1338,7 +1338,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     }
     //旋转手势
     if (changeFlags & QPinchGesture::RotationAngleChanged) {
-        if(!m_bRoate) return;
+        if(!m_bRoate || m_maxTouchPoints>2) return;
         //释放手指后旋转的位置未结束不能进行下次旋转
         if(!m_rotateflag)
         {
@@ -1395,20 +1395,20 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
              endvalue = 0;
          }else if(abs(90-abs(m_rotateAngelTouch))<=10)
          {
-             endvalue = m_rotateAngelTouch>0?90:-90;
+             endvalue = 90;
          }else if(abs(180-abs(m_rotateAngelTouch))<=10)
          {
-             endvalue = m_rotateAngelTouch>0?180:-180;
+             endvalue = 180;
          }else if(abs(270-abs(m_rotateAngelTouch))<=10)
          {
-             endvalue = m_rotateAngelTouch>0?270:-270;
+             endvalue = 270;
          }else {
             endvalue = 0;
          }
          if(!m_bRoate) endvalue = 0;
          m_endvalue=endvalue;
          qreal startvalue;
-         if(m_rotateAngelTouch>180)
+         if(abs(m_rotateAngelTouch-endvalue)>180)
          {
              startvalue = m_rotateAngelTouch-360;
          }else {
