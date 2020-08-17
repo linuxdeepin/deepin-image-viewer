@@ -141,7 +141,6 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
         }
     });
     new ImageViewAdaptor(this);
-    m_currenttime = QDateTime::currentDateTime();
     });
 }
 
