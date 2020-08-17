@@ -2027,7 +2027,7 @@ void ViewPanel::openImage(const QString path, bool inDB)
         int b = dimension.indexOf("x");
         bool c = false;
         bool d = false;
-        bool g=false;
+        //bool g=false;
         if (a > 0) {
             double value = fileSize.leftRef(a).toDouble();
             QString unit = fileSize.split(" ").last();
@@ -2042,7 +2042,7 @@ void ViewPanel::openImage(const QString path, bool inDB)
                 d = true;
             }
             if (value1 >= 20000 || value2 >= 15000) {
-                g = true;
+               // g = true;
             }
         }
         if (c && d) {

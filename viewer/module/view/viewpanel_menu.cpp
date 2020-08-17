@@ -39,6 +39,7 @@ const QString FAVORITES_ALBUM_NAME = "My favorite";
 
 QString ss(const QString &text, const QString &defaultValue)
 {
+    Q_UNUSED(text);
     //采用代码中快捷键不使用配置文件快捷键
    // QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
     QString str = defaultValue;

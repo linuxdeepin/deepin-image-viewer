@@ -195,6 +195,8 @@ signals:
      */
     void sigUpdateThunbnail(QString path);
 
+    void UpdateNavImg();
+
 private:
     explicit SignalManager(QObject *parent = nullptr);
 

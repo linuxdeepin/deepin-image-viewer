@@ -174,7 +174,6 @@ int32_t CManagerAttributeService::GifFrameShow()
     int32_t iW = 0;
     int32_t iH = 0;
     int32_t ret = 0;
-    static int temp = 0;
     do {
         if (!m_couldRun) {
             break;

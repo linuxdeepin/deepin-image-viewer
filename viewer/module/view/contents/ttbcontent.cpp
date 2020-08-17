@@ -934,6 +934,7 @@ void TTBContent::OnChangeItemPath(int currindex, QString path)
     if(labelList.count() == 0) return;
     ImageItem *item = labelList.at(currindex);
     item->SetPath(path);
+    item->setObjectName(path);
 }
 
 void TTBContent::updateFilenameLayout()
@@ -1350,6 +1351,7 @@ void TTBContent::clickLoad(const int nCurrent)
 void TTBContent::OnUpdateThumbnail(QString path)
 {
     ImageItem* item = m_imgList->findChild<ImageItem*>(path);
+    if(!item) return;
     QPixmap imgpix = dApp->m_imagemap.value(path);
     if(!imgpix.isNull())
         item->updatePic(imgpix);
