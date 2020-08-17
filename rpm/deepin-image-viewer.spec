@@ -47,9 +47,6 @@ export PATH=%{_qt5_bindir}:$PATH
 %make_install INSTALL_ROOT=%{buildroot}
 
  
-%check
-desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop 
- 
 %files
 %doc README.md
 %license LICENSE
