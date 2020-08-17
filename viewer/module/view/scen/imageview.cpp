@@ -859,6 +859,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     QGraphicsScene *s = scene();
     m_bRoate = UnionImage_NameSpace::isImageSupportRotate(strPath) && QFileInfo(strPath).isWritable();
     switch (type) {
+    case PICTURE_TYPE::SVG:
     case PICTURE_TYPE::NORMAL: {
         m_movieItem = nullptr;
         qDebug() << "cache start!";
@@ -913,43 +914,6 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
             }
 
             emit dApp->signalM->hideNavigation();
-        }
-        break;
-    }
-
-    case PICTURE_TYPE::SVG: {
-        m_movieItem = nullptr;
-        m_pixmapItem = nullptr;
-        s->clear();
-        resetTransform();
-        //heyi test
-
-
-
-//        QSvgRenderer *svgRenderer = new QSvgRenderer;
-//        svgRenderer->load(strPath);
-        m_imgSvgItem = new ImageSvgItem(strPath);
-//        m_imgSvgItem->setSharedRenderer(svgRenderer);
-        setSceneRect(m_imgSvgItem->boundingRect());
-        s->addItem(m_imgSvgItem);
-
-        //LMH0603解决svg和gif和mng缩略图不显示问题
-        if(dApp->m_firstLoad)
-        {
-            QThread *th = QThread::create([ = ]() {
-                emit imageChanged(strPath);
-              //  bool firstLoad = false;
-              //  if (!firstLoad) {
-                qDebug() << "load cache";
-                    emit cacheEnd();
-                  //  firstLoad = true;
-               // }
-            });
-            connect(th, &QThread::finished, th, &QObject::deleteLater);
-            th->start();
-            dApp->m_firstLoad =false;
-        }else {
-            emit imageChanged(strPath);
         }
         break;
     }
