@@ -45,7 +45,7 @@ export PATH=%{_qt5_bindir}:$PATH
 %make_build
 %install
 %make_install INSTALL_ROOT=%{buildroot}
-install -Dm644 %SOURCE1 %{buildroot}%{_metainfodir}/%{name}.appdata.xml
+install -Dm644 %{buildroot}%{_metainfodir}/%{name}.appdata.xml
  
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop ||:
