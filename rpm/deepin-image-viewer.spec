@@ -27,6 +27,7 @@ BuildRequires:  pkgconfig(xcb-util)
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(gio-qt) 
 BuildRequires:  pkgconfig(udisks2-qt5) 
+BuildRequires:  pkgconfig(Qt5Multimedia) 
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
