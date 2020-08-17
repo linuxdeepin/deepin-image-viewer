@@ -979,23 +979,16 @@ void ImageView::endApp()
 bool ImageView::reloadSvgPix(QString strPath, int nAngel,bool fitauto)
 {
     bool bRet = true;
+    QMatrix leftmatrix;
+    QImage img(strPath);
+    leftmatrix.rotate(nAngel);
+    img=img.transformed(leftmatrix,Qt::SmoothTransformation);
     QSvgGenerator generator;
-    QImage pix(strPath);
-
     generator.setFileName(strPath);
-    generator.setViewBox(pix.rect());
+    generator.setViewBox(img.rect());
     QPainter painter;
     painter.begin(&generator);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-    if (nAngel < 0) {
-        painter.translate(0, pix.rect().height());
-    } else {
-        painter.translate(pix.rect().width(), 0);
-    }
-
-    painter.rotate(nAngel);
-    painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
-    generator.setSize(pix.size());
+    painter.drawImage(img.rect(),img);
     painter.end();
     if(fitauto)
         setImage(strPath);
