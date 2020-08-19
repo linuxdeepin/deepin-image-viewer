@@ -40,6 +40,9 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     : ThemeWidget(darkFile, lightFile, parent)
 {
     m_picString = "";
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
+    grabGesture(Qt::PinchGesture);
+    grabGesture(Qt::SwipeGesture);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
         m_picString = ICON_IMPORT_PHOTO_DARK;
@@ -178,6 +181,7 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
 void ThumbnailWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
+    qDebug() << m_defaultImage;
     if (m_defaultImage.isNull()) {
         if (m_theme) {
             m_defaultImage = m_logo;
@@ -210,6 +214,38 @@ void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
     QWidget::mouseMoveEvent(event);
 
     emit mouseHoverMoved();
+}
+
+bool ThumbnailWidget::event(QEvent *event)
+{
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
+            evType == QEvent::TouchEnd) {
+        if(evType == QEvent::TouchBegin)
+        {
+            qDebug() << "QEvent::TouchBegin";
+        }else if(evType == QEvent::TouchUpdate)
+        {
+            qDebug() << "QEvent::TouchUpdate";
+        }else if(evType == QEvent::TouchEnd)
+        {
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+            qreal offset = touchPoints.at(0).lastPos().x() - touchPoints.at(0).startPos().x();
+            if (qAbs(offset) > 200) {
+                if (offset > 0) {
+                    emit previousRequested();
+                    qDebug() << "zy------ImageView::event previousRequested";
+                } else {
+                    emit nextRequested();
+                    qDebug() << "zy------ImageView::event nextRequested";
+                }
+            }
+            qDebug() << "QEvent::TouchEnd";
+        }
+        return true;
+    }
+    QWidget::event(event);
 }
 
 ThumbnailWidget::~ThumbnailWidget() {}
