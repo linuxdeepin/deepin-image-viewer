@@ -471,6 +471,7 @@ private:
     QVector <QPoint> m_vecPoint;
     QMutex m_threadMutex;
     bool m_bthreadMutex=false;
+    int m_maxTouchPoints=0;
 };
 
 
