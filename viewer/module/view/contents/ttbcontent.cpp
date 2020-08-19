@@ -124,6 +124,7 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     : DWidget(parent), m_timer(new QTimer(this))
 {
     setMouseTracking(true);
+
     m_timer->setSingleShot(200);
 }
 
@@ -135,6 +136,12 @@ bool MyImageListWidget::ifMouseLeftPressed()
 void MyImageListWidget::setObj(QObject *obj)
 {
     m_obj = obj;
+//     this->setAttribute(Qt::WA_AcceptTouchEvents);
+    static_cast<QWidget *>(m_obj)->setAttribute(Qt::WA_AcceptTouchEvents);
+    static_cast<QWidget *>(m_obj)->setMouseTracking(true);
+    static_cast<QWidget *>(m_obj)->setAcceptDrops(false);
+    static_cast<QWidget *>(m_obj)->grabGesture(Qt::PinchGesture);
+    static_cast<QWidget *>(m_obj)->grabGesture(Qt::SwipeGesture);
 }
 
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
@@ -147,10 +154,39 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         m_prepoint = mouseEvent->globalPos();
         qDebug() << "m_prepoint:" << m_prepoint;
     }
+    //lmh0819当手指拖动，有另外一只手指介入，则不会触发release事件，所以造成这样，当qt组修复这个问题，可以屏蔽掉代码，解决bug43181
+    if (e->type() == QEvent::TouchBegin || e->type() == QEvent::TouchUpdate ||
+            e->type() == QEvent::TouchEnd) {
+        if(e->type() == QEvent::TouchBegin){
+            m_maxTouchPoints=0;
+        }
+        else if(e->type() == QEvent::TouchUpdate){
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(e);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+            if(touchPoints.size()>m_maxTouchPoints){
+                m_maxTouchPoints=touchPoints.size();
+            }
+        }
+        if(e->type() == QEvent::TouchEnd){
+            if(m_maxTouchPoints>=2){
+                qDebug()<<e->type();
+                m_iRet=false;
+                bMove=false;
+                bmouseleftpressed = false;
+                if(m_currentImageItem){
+                    m_currentImageItem->emitClickEndSig();
+                }
+                m_vecPoint.clear();
+                m_lastPoint=QPoint(0,0);
+                emit mouseLeftReleased();
+                return false;
+            }
+        }
+    }
 
     if (e->type() == QEvent::MouseButtonRelease) {
         bmouseleftpressed = false;
-
+qDebug()<<e->type();
 
         int firsttolast=0;
         if(m_vecPoint.size()>0){
