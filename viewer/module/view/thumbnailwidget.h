@@ -37,6 +37,8 @@ public:
     ~ThumbnailWidget();
 signals:
     void mouseHoverMoved();
+    void nextRequested();
+    void previousRequested();
 #ifdef LITE_DIV
     void openImageInDialog();
 #endif
@@ -46,6 +48,7 @@ public slots:
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    bool event(QEvent *event) override;
 private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 

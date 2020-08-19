@@ -251,6 +251,8 @@ void ViewPanel::initConnect()
 
 void ViewPanel::initConnectOpenImage()
 {
+    connect(m_emptyWidget, &ThumbnailWidget::previousRequested, this, &ViewPanel::showPrevious);
+    connect(m_emptyWidget, &ThumbnailWidget::nextRequested, this, &ViewPanel::showNext);
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
 
