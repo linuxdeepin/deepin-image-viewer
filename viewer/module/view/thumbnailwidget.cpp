@@ -209,11 +209,36 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
     m_icon.paint(&painter, imgRect);
 }
 
+void ThumbnailWidget::mouseReleaseEvent(QMouseEvent *e)
+{
+    QWidget::mouseReleaseEvent(e);
+    if(e->source() == Qt::MouseEventSynthesizedByQt)
+    {
+        int offset = e->pos().x()-m_startx;
+        if (qAbs(offset) > 200) {
+            if (offset > 0) {
+                emit previousRequested();
+                qDebug() << "zy------ThumbnailWidget::event previousRequested";
+            } else {
+                emit nextRequested();
+                qDebug() << "zy------ThumbnailWidget::event nextRequested";
+            }
+        }
+    }
+    m_startx = 0;
+}
+
+void ThumbnailWidget::mousePressEvent(QMouseEvent *e)
+{
+    QWidget::mousePressEvent(e);
+    m_startx = e->pos().x();
+}
+
 void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    QWidget::mouseMoveEvent(event);
+   // QWidget::mouseMoveEvent(event);
 
-    emit mouseHoverMoved();
+  //  emit mouseHoverMoved();
 }
 
 bool ThumbnailWidget::event(QEvent *event)
@@ -243,7 +268,7 @@ bool ThumbnailWidget::event(QEvent *event)
             }
             qDebug() << "QEvent::TouchEnd";
         }
-        return true;
+        //return true;
     }
     QWidget::event(event);
 }

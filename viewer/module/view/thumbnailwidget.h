@@ -47,6 +47,8 @@ public slots:
     void setThumbnailImage(const QPixmap thumbnail);
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     bool event(QEvent *event) override;
 private:
@@ -63,6 +65,7 @@ private:
     QString m_picString;
     bool m_theme;
     bool m_usb = false;
+    int m_startx = 0;
 };
 
 #endif // THUMBNAILWIDGET_H

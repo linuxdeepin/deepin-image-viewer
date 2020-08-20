@@ -37,6 +37,7 @@ class QThreadPool;
 class QGestureEvent;
 class QPinchGesture;
 class QSwipeGesture;
+class QPanGesture;
 QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
@@ -301,6 +302,7 @@ private:
     bool m_bRoate;
     //允许二指滑动切换上下一张标记
     bool m_bnextflag = true;
+    int m_startpointx;
 
     QGraphicsSvgItem *m_svgItem = nullptr;
 
