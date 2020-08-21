@@ -163,7 +163,7 @@ public:
                       << "TIFF" << "BMP" << "XPM" << "MRW" << "DNG"
                       << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
                       << "NEF" ;
-
+//webp　pic有动图暂时排除
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                   << "PGM" << "PPM" << "PNM" << "WBMP"
                   << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
@@ -171,7 +171,7 @@ public:
 //                  << "JP2"
                   << "PCD"
                   << "PCX" << "PCT"
-                  << "PICT" << "PIC" << "RAS";
+                  << "RAS";
     }
     ~UnionImage_Private()
     {
