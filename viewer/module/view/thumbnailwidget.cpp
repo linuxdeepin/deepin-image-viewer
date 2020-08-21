@@ -263,7 +263,7 @@ bool ThumbnailWidget::event(QEvent *event)
         }
     } else if (event->type() == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
-    QWidget::event(event);
+    return QWidget::event(event);
 }
 
 void ThumbnailWidget::pinchTriggered(QPinchGesture *gesture)
