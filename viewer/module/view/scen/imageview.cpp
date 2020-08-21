@@ -1092,7 +1092,7 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
     QGraphicsView::mouseReleaseEvent(e);
 
     viewport()->setCursor(Qt::ArrowCursor);
-    if(e->source() == Qt::MouseEventSynthesizedByQt)
+    if(e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints==1)
     {
         const QRect &r = visibleImageRect();
         //double left=r.width()+r.x();
@@ -1198,7 +1198,7 @@ bool ImageView::event(QEvent *event)
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
             evType == QEvent::TouchEnd) {
         if(evType == QEvent::TouchBegin){
-            m_maxTouchPoints=0;
+            m_maxTouchPoints=1;
         }
         else if(evType == QEvent::TouchUpdate){
             QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
@@ -1210,7 +1210,7 @@ bool ImageView::event(QEvent *event)
             QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
             QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
 
-            if (m_maxTouchPoints <= 1 ||m_maxTouchPoints > 2) {
+            if (m_maxTouchPoints <= 1 /*||m_maxTouchPoints > 2*/) {
                 //QPointF centerPointOffset = gesture->centerPoint();
                 qreal offset = touchPoints.at(0).lastPos().x() - touchPoints.at(0).startPos().x();
                 if (qAbs(offset) > 200) {
@@ -1345,6 +1345,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     //    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
     //    scaleAtPoint(pos, gesture->scaleFactor());
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+    m_maxTouchPoints = 2;
     //缩放手势
     if (changeFlags & QPinchGesture::ScaleFactorChanged) {
         QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());

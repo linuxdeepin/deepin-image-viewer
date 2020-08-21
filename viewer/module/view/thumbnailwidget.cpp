@@ -17,6 +17,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QVBoxLayout>
+#include <QGestureEvent>
 
 #include <DSuggestButton>
 
@@ -43,6 +44,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
+    grabGesture(Qt::PanGesture);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
         m_picString = ICON_IMPORT_PHOTO_DARK;
@@ -212,7 +214,7 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
 void ThumbnailWidget::mouseReleaseEvent(QMouseEvent *e)
 {
     QWidget::mouseReleaseEvent(e);
-    if(e->source() == Qt::MouseEventSynthesizedByQt)
+    if(e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1)
     {
         int offset = e->pos().x()-m_startx;
         if (qAbs(offset) > 200) {
@@ -241,6 +243,14 @@ void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
   //  emit mouseHoverMoved();
 }
 
+void ThumbnailWidget::handleGestureEvent(QGestureEvent *gesture)
+{
+/*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
+        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+    else */if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+}
+
 bool ThumbnailWidget::event(QEvent *event)
 {
     QEvent::Type evType = event->type();
@@ -249,28 +259,17 @@ bool ThumbnailWidget::event(QEvent *event)
         if(evType == QEvent::TouchBegin)
         {
             qDebug() << "QEvent::TouchBegin";
-        }else if(evType == QEvent::TouchUpdate)
-        {
-            qDebug() << "QEvent::TouchUpdate";
-        }else if(evType == QEvent::TouchEnd)
-        {
-            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
-            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
-            qreal offset = touchPoints.at(0).lastPos().x() - touchPoints.at(0).startPos().x();
-            if (qAbs(offset) > 200) {
-                if (offset > 0) {
-                    emit previousRequested();
-                    qDebug() << "zy------ImageView::event previousRequested";
-                } else {
-                    emit nextRequested();
-                    qDebug() << "zy------ImageView::event nextRequested";
-                }
-            }
-            qDebug() << "QEvent::TouchEnd";
+            m_maxTouchPoints = 1;
         }
-        //return true;
-    }
+    } else if (event->type() == QEvent::Gesture)
+        handleGestureEvent(static_cast<QGestureEvent *>(event));
     QWidget::event(event);
+}
+
+void ThumbnailWidget::pinchTriggered(QPinchGesture *gesture)
+{
+    Q_UNUSED(gesture);
+    m_maxTouchPoints = 2;
 }
 
 ThumbnailWidget::~ThumbnailWidget() {}
