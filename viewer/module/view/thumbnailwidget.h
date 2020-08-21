@@ -21,10 +21,16 @@
 #include <QPaintEvent>
 #include <QMouseEvent>
 
+
 #include "controller/viewerthememanager.h"
 #include "widgets/themewidget.h"
 
 #include <DLabel>
+
+class QGestureEvent;
+class QPinchGesture;
+class QSwipeGesture;
+class QPanGesture;
 
 DWIDGET_USE_NAMESPACE
 typedef DLabel QLbtoDLabel;
@@ -37,15 +43,23 @@ public:
     ~ThumbnailWidget();
 signals:
     void mouseHoverMoved();
+    void nextRequested();
+    void previousRequested();
 #ifdef LITE_DIV
     void openImageInDialog();
 #endif
 
 public slots:
+    void handleGestureEvent(QGestureEvent *gesture);
     void setThumbnailImage(const QPixmap thumbnail);
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    bool event(QEvent *event) override;
+private slots:
+    void pinchTriggered(QPinchGesture *gesture);
 private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
@@ -60,6 +74,8 @@ private:
     QString m_picString;
     bool m_theme;
     bool m_usb = false;
+    int m_startx = 0;
+    int m_maxTouchPoints = 0;
 };
 
 #endif // THUMBNAILWIDGET_H

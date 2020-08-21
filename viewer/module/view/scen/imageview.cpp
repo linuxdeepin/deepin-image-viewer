@@ -354,7 +354,7 @@ ImageView::ImageView(QWidget *parent)
     this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
-
+    grabGesture(Qt::PanGesture);
     connect(&m_watcher, SIGNAL(finished()), this, SLOT(showFileImage()));
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
@@ -1092,21 +1092,40 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
     QGraphicsView::mouseReleaseEvent(e);
 
     viewport()->setCursor(Qt::ArrowCursor);
+    if(e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints==1)
+    {
+        const QRect &r = visibleImageRect();
+        //double left=r.width()+r.x();
+        const QRectF &sr = sceneRect();
+        //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
+        if((r.width()>=sr.width() &&r.height()>=sr.height())){
+            int xpos = e->pos().x()-m_startpointx;
+            if(abs(xpos)> 200 && m_startpointx!= 0)
+            {
+                if(xpos>0)
+                {
+                    emit previousRequested();
+                }else {
+                    emit nextRequested();
+                }
+            }
+        }
+    }
+    m_startpointx=0;
 }
 
 void ImageView::mousePressEvent(QMouseEvent *e)
 {
     QGraphicsView::mousePressEvent(e);
-
     viewport()->unsetCursor();
     viewport()->setCursor(Qt::ArrowCursor);
 
     emit clicked();
+    m_startpointx = e->pos().x();
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
 {
-
     if (!(e->buttons() | Qt::NoButton)) {
         viewport()->setCursor(Qt::ArrowCursor);
 
@@ -1179,7 +1198,7 @@ bool ImageView::event(QEvent *event)
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
             evType == QEvent::TouchEnd) {
         if(evType == QEvent::TouchBegin){
-            m_maxTouchPoints=0;
+            m_maxTouchPoints=1;
         }
         else if(evType == QEvent::TouchUpdate){
             QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
@@ -1187,12 +1206,11 @@ bool ImageView::event(QEvent *event)
             if(touchPoints.size()>m_maxTouchPoints){
                 m_maxTouchPoints=touchPoints.size();
             }
-        }
-        if (evType == QEvent::TouchEnd) {
+        }else if (evType == QEvent::TouchEnd) {
             QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
             QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
 
-            if (m_maxTouchPoints <= 1 ||m_maxTouchPoints > 2) {
+            if (m_maxTouchPoints <= 1 /*||m_maxTouchPoints > 2*/) {
                 //QPointF centerPointOffset = gesture->centerPoint();
                 qreal offset = touchPoints.at(0).lastPos().x() - touchPoints.at(0).startPos().x();
                 if (qAbs(offset) > 200) {
@@ -1212,7 +1230,7 @@ bool ImageView::event(QEvent *event)
         const QRectF &sr = sceneRect();
         //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
         if((r.width()>=sr.width() &&r.height()>=sr.height())){
-            return true;
+            //return true;
         }
 //        if((left-sr.width()>=-1 &&left-sr.width()<=1) ||(r.x()<=1) ||(r.width() >= sr.width())){
 //            return true;
@@ -1327,6 +1345,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
     //    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
     //    scaleAtPoint(pos, gesture->scaleFactor());
     QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+    m_maxTouchPoints = 2;
     //缩放手势
     if (changeFlags & QPinchGesture::ScaleFactorChanged) {
         QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
@@ -1363,19 +1382,6 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
         }
     }
     if (gesture->state() == Qt::GestureFinished) {
-        QPointF centerPointOffset = gesture->centerPoint();
-        qreal offset = centerPointOffset.x() - centerPoint.x();
-        if (qAbs(offset) > 200 && m_bnextflag) {
-            if (offset > 0) {
-                emit previousRequested();
-                qDebug() << "zy------ImageView::pinchTriggered nextRequested";
-            } else {
-                emit nextRequested();
-                qDebug() << "zy------ImageView::pinchTriggered previousRequested";
-            }
-            isFirstPinch = false;
-            //return;
-        }
         isFirstPinch = false;
         gesture->setCenterPoint(centerPoint);
       //旋转松开手势操作

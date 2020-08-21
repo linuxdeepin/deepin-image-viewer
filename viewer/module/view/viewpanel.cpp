@@ -251,6 +251,8 @@ void ViewPanel::initConnect()
 
 void ViewPanel::initConnectOpenImage()
 {
+    connect(m_emptyWidget, &ThumbnailWidget::previousRequested, this, &ViewPanel::showPrevious);
+    connect(m_emptyWidget, &ThumbnailWidget::nextRequested, this, &ViewPanel::showNext);
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
 
@@ -952,30 +954,30 @@ void ViewPanel::showNormal()
     } else {
         window()->showNormal();
     }
-    /*lmh0804改，增加设置窗口取消置顶*/
-    window()->setWindowFlags(Qt::Widget);
-    window()->showNormal();
+//    /*lmh0804改，增加设置窗口取消置顶*/
+//    window()->setWindowFlags(Qt::Widget);
+//    window()->showNormal();
     emit dApp->signalM->showTopToolbar();
 }
 
 void ViewPanel::showFullScreen()
 {
     /*lmh0804改，增加设置窗口置顶*/
-    window()->setWindowFlags(window()->windowFlags() | Qt::WindowStaysOnTopHint);
-    window()->setWindowFlags(Qt::Widget);
+//    window()->setWindowFlags(window()->windowFlags() | Qt::WindowStaysOnTopHint);
+//    window()->setWindowFlags(Qt::Widget);
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-    QTimer::singleShot(100,[=]{
+
         QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-        pAn->setDuration(200);
+        pAn->setDuration(50);
         pAn->setEasingCurve(QEasingCurve::Linear);
         pAn->setEndValue(1);
         pAn->setStartValue(0);
         pAn->start(QAbstractAnimation::DeleteWhenStopped);
 
         window()->showFullScreen();
-    });
+
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
 }
