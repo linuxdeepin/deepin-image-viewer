@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
         memcpy(to, from, qMin(sharedMemory.size(), size));
         sharedMemory.unlock();
         qDebug() << teststr;
-        qDebug() << "create";
+        qDebug() << "create";  
     }
 
     //if (!newflag) return 0;
