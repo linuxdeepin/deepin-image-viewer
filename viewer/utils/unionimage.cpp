@@ -170,7 +170,7 @@ public:
                   << "J2C" << "J2K" << "JNG"
 //                  << "JP2"
                   << "PCD"
-                  << "PCX" << "PCT"
+                  << "PCX"
                   << "RAS";
     }
     ~UnionImage_Private()
@@ -585,7 +585,7 @@ QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     /*lmh0806判断后缀名是不支持格式，直接返回空的Image*/
-    if(NULL==format_bar){
+    if(nullptr==format_bar){
         QStringList formatlist = UnionImage_NameSpace::unionImageSupportFormat();
         QFileInfo fileinfo(path);
         QString format = fileinfo.suffix().toUpper();
