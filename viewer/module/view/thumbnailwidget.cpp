@@ -238,6 +238,7 @@ void ThumbnailWidget::mousePressEvent(QMouseEvent *e)
 
 void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event)
    // QWidget::mouseMoveEvent(event);
 
   //  emit mouseHoverMoved();

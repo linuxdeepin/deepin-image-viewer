@@ -718,7 +718,7 @@ QRect ImageView::mapToImage(const QRect &r) const
 
 QRect ImageView::visibleImageRect() const
 {
-    return mapToImage(rect()) & QRect(0, 0, sceneRect().width(), sceneRect().height());
+    return mapToImage(rect()) & QRect(0, 0, static_cast<int>(sceneRect().width()), static_cast<int>(sceneRect().height()));
 }
 
 bool ImageView::isWholeImageVisible() const
@@ -1426,7 +1426,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
          connect(animation, &QVariantAnimation::valueChanged, [=](const QVariant &value){
              qreal angle = value.toReal() - m_rotateAngelTouch;
              m_rotateAngelTouch = value.toReal();
-             if(value.toReal() != endvalue || m_imgSvgItem)
+             if(static_cast<int>(value.toReal()) != static_cast<int>(endvalue) || m_imgSvgItem)
                 this->rotate(angle);
              //setPixmap(pixmap.transformed(t));
          });
@@ -1459,7 +1459,7 @@ void ImageView::OnFinishPinchAnimal()
     {
       //  reloadSvgPix(m_path,90,false);
         m_rotateAngel += m_endvalue;
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,m_endvalue);
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,static_cast<int>(m_endvalue));
         emit dApp->signalM->sigUpdateThunbnail(m_path);
         return;
     }
@@ -1487,7 +1487,7 @@ void ImageView::OnFinishPinchAnimal()
     if(m_bRoate)
     {
         m_rotateAngel += m_endvalue;
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,m_endvalue);
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,static_cast<int>(m_endvalue));
         emit dApp->signalM->sigUpdateThunbnail(m_path);
         emit dApp->signalM->UpdateNavImg();
     }
