@@ -1246,6 +1246,5 @@ void ImageView::wheelEvent(QWheelEvent *event)
     scaleAtPoint(event->pos(), factor);
 
     event->accept();
-    qDebug()<<"21312";
     titleBarControl();
 }
