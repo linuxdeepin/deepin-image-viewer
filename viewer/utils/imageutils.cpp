@@ -773,6 +773,54 @@ QImage getGifImage(int index, void *pGIF)
 {
     return freeimage::getGifImage(index, pGIF);
 }
+
+bool imageSupportWallPaper(const QString &path)
+{
+    bool iRet=false;
+    QStringList listsupportWallPaper;
+    listsupportWallPaper << "bmp"
+                         << "cod"
+                         << "png"
+                         << "gif"
+                         << "ief"
+                         << "jpe"
+                         << "jpeg"
+                         << "jpg"
+                         << "jfif"
+                         << "svg"
+                         << "tif"
+                         << "tiff"
+                         << "ras"
+                         << "cmx"
+                         << "ico"
+                         << "pnm"
+                         << "pbm"
+                         << "pgm"
+                         << "ppm"
+                         << "rgb"
+                         << "xbm"
+                         << "xpm"
+                         << "xwd";
+    //
+    QImageReader reader(path);
+    if(reader.imageCount()>0)
+    {
+        qDebug()<<reader.format();
+        if(listsupportWallPaper.contains(reader.format())){
+            iRet=true;
+        }
+        else {
+            const QString suffix = QFileInfo(path).suffix();
+            if(suffix=="ico")
+            {
+                iRet=true;
+            }
+        }
+    }
+
+    return iRet;
+}
+
 }  // namespace image
 
 }  //namespace utils

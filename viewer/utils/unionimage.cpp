@@ -270,6 +270,11 @@ UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
  */
 UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path)
 {
+    QImageReader reader(path);
+    if(reader.format()!=nullptr)
+    {
+        return reader.format();
+    }
     QFileInfo fi(path);
     QString suffix = fi.suffix();
     return suffix;
@@ -617,7 +622,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
-        if(reader.imageCount()>0){
+        if(reader.imageCount()>0|| file_suffix_upper=="MNG"){
             res_qt = reader.read();
             if (res_qt.isNull()) {
                 //try old loading method
