@@ -20,7 +20,7 @@
 #include "controller/importer.h"
 #include "controller/signalmanager.h"
 #include "controller/viewerthememanager.h"
-#include "settings/settingswindow.h"
+//#include "settings/settingswindow.h"
 #include "utils/baseutils.h"
 #include "utils/shortcut.h"
 

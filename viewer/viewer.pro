@@ -106,8 +106,18 @@ DISTFILES += \
     com.deepin.ImageViewer.service
 
 load(dtk_qmake)
+
+QMAKE_CXXFLAGS += -Wl,-as-need -fPIE
+QMAKE_LFLAGS+=-pie
+
 host_sw_64: {
 # 在 sw_64 平台上添加此参数，否则会在旋转图片时崩溃
     QMAKE_CFLAGS += -mieee
     QMAKE_CXXFLAGS += -mieee
+}
+
+host_mips64:{
+   QMAKE_CXX += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi
+   QMAKE_CXXFLAGS += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,-as-need -fPIE
+   QMAKE_LFLAGS+=-Wl,--as-needed -pie
 }

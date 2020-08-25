@@ -175,6 +175,7 @@ signals:
      */
     void cacheThreadEndSig(QVariantList vl);
     void sigShowImage(QImage);
+    void sigUpdateImageView(QString&);
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);

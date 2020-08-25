@@ -231,6 +231,7 @@ void ViewPanel::initConnect()
         updateMenuContent();
     });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
+    connect(m_viewB, &ImageView::sigUpdateImageView, this, &ViewPanel::slotUpdateImageView);
     connect(this, &ViewPanel::sigStopshowThread, m_viewB, &ImageView::SlotStopShowThread);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     //接受信号管理器信号，打开FileDialog
@@ -910,6 +911,20 @@ void ViewPanel::slotLoadTailThumbnailsAndClearFront()
 void ViewPanel::slotGetFirstThumbnailPath(QString &path)
 {
     path = m_infos[0].filePath;
+}
+
+void ViewPanel::slotUpdateImageView(QString &path)
+{
+    QPixmap pixmapthumb = utils::image::getThumbnail(path);
+    if (!QFileInfo(path).exists()) {
+        m_emptyWidget->setThumbnailImage(pixmapthumb);
+        m_stack->setCurrentIndex(1);
+    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
+        m_stack->setCurrentIndex(0);
+    } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
+        m_stack->setCurrentIndex(0);
+    } else
+        m_stack->setCurrentIndex(0);
 }
 
 void ViewPanel::mousePressEvent(QMouseEvent *e)

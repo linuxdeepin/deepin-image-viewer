@@ -170,7 +170,7 @@ public:
                   << "J2C" << "J2K" << "JNG"
 //                  << "JP2"
                   << "PCD"
-                  << "PCX" << "PCT"
+                  << "PCX"
                   << "RAS";
     }
     ~UnionImage_Private()
@@ -270,6 +270,11 @@ UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
  */
 UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path)
 {
+    QImageReader reader(path);
+    if(reader.format()!=nullptr)
+    {
+        return reader.format();
+    }
     QFileInfo fi(path);
     QString suffix = fi.suffix();
     return suffix;
@@ -585,7 +590,7 @@ QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     /*lmh0806判断后缀名是不支持格式，直接返回空的Image*/
-    if(NULL==format_bar){
+    if(nullptr==format_bar){
         QStringList formatlist = UnionImage_NameSpace::unionImageSupportFormat();
         QFileInfo fileinfo(path);
         QString format = fileinfo.suffix().toUpper();
@@ -617,30 +622,36 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
-        res_qt = reader.read();
-        if (res_qt.isNull()) {
-            //try old loading method
-            QString format = PrivateDetectImageFormat(path);
-            QImageReader readerF(path, format.toLatin1());
-            QImage try_res;
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                try_res = readerF.read();
-            } else {
-                errorMsg = "can't read image:" + readerF.errorString() + format;
-                try_res = QImage(path);
+        if(reader.imageCount()>0|| file_suffix_upper=="MNG"){
+            res_qt = reader.read();
+            if (res_qt.isNull()) {
+                //try old loading method
+                QString format = PrivateDetectImageFormat(path);
+                QImageReader readerF(path, format.toLatin1());
+                QImage try_res;
+                readerF.setAutoTransform(true);
+                if (readerF.canRead()) {
+                    try_res = readerF.read();
+                } else {
+                    errorMsg = "can't read image:" + readerF.errorString() + format;
+                    try_res = QImage(path);
+                }
+                if (try_res.isNull()) {
+                    errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
+                    res = QImage();
+                    return false;
+                }
+                errorMsg = "use old method to load QImage";
+                res = try_res;
+                return true;
             }
-            if (try_res.isNull()) {
-                errorMsg = "load image by qt faild, use format:" + reader.format() + " ,path:" + path;
-                res = QImage();
-                return false;
-            }
-            errorMsg = "use old method to load QImage";
-            res = try_res;
-            return true;
+            errorMsg = "use QImage";
+            res = res_qt;
         }
-        errorMsg = "use QImage";
-        res = res_qt;
+        else{
+            res=QImage();
+            return false;
+        }
         return true;
     } else {
         if (f != FREE_IMAGE_FORMAT::FIF_UNKNOWN || union_image_private.m_freeiamge_formats.contains(file_suffix_upper)) {
