@@ -1542,7 +1542,9 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
         fitImage();
     }
     /*lmh0804*/
-    emit imageChanged(filePath);
+    //emit imageChanged(filePath);
+    emit dApp->signalM->UpdateNavImg();
+    emit sigUpdateImageView(filePath);
 }
 
 void ImageView::showFileImage()

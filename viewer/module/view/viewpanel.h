@@ -433,6 +433,14 @@ private slots:
      */
     void slotGetFirstThumbnailPath(QString &path);
 
+    /**
+     * @brief slotUpdateImageView
+     * 拖动缩略图的时候判断是否需要切换stack窗口
+     * @param path
+     * 切换的路径
+     */
+    void slotUpdateImageView(QString &path);
+
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
