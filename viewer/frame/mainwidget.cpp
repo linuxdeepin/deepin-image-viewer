@@ -25,8 +25,8 @@
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 //#include "widgets/dialogs/imginfodialog.h"
-#include "widgets/processtooltip.h"
-#include "widgets/separator.h"
+//#include "widgets/processtooltip.h"
+//#include "widgets/separator.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
