@@ -367,7 +367,7 @@ void ViewPanel::updateMenuContent()
                      ss("Rotate counterclockwise", "Ctrl+Shift+R"));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
+    if (utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
         appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
     }
 #ifndef LITE_DIV
