@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=Graphics;GTK;DDE;
 Comment=Deepin Image Viewer
-Exec=deepin-image-viewer --new-window %F
+Exec=/usr/bin/deepin-turbo-invoker  --type=dtkwidget deepin-image-viewer %U
 GenericName=Image Viewer
 Icon=deepin-image-viewer
 Keywords=Image;Viewer;Jpg;Jpeg;Png;
@@ -11,6 +11,7 @@ StartupNotify=false
 Type=Application
 X-Deepin-ManualID=deepin-image-viewer
 X-Deepin-Vendor=deepin
+TZ='Asia/Shanghai'
 
 # Translations:
 # Do not manually modify!
