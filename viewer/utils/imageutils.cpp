@@ -779,7 +779,7 @@ bool imageSupportWallPaper(const QString &path)
     bool iRet=false;
     QStringList listsupportWallPaper;
     listsupportWallPaper << "bmp"
-                         << "cod"
+//                         << "cod"
                          << "png"
                          << "gif"
                          << "ief"
@@ -787,20 +787,21 @@ bool imageSupportWallPaper(const QString &path)
                          << "jpeg"
                          << "jpg"
                          << "jfif"
-                         << "svg"
+//                         << "svg"
                          << "tif"
                          << "tiff"
-                         << "ras"
-                         << "cmx"
-                         << "ico"
-                         << "pnm"
-                         << "pbm"
-                         << "pgm"
-                         << "ppm"
-                         << "rgb"
-                         << "xbm"
-                         << "xpm"
-                         << "xwd";
+//                         << "ras"
+//                         << "cmx"
+//                         << "ico"
+//                         << "pnm"
+//                         << "pbm"
+//                         << "pgm"
+//                         << "ppm"
+//                         << "rgb"
+//                         << "xbm"
+//                         << "xpm"
+//                         << "xwd"
+                            ;
     //
     QImageReader reader(path);
     if(reader.imageCount()>0)
