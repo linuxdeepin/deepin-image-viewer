@@ -129,10 +129,7 @@ bool imageSupportRead(const QString &path)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
-    QStringList formatlist = UnionImage_NameSpace::unionImageSupportFormat();
-    QFileInfo fileinfo(path);
-    QString format = fileinfo.suffix().toUpper();
-    return formatlist.contains(format)?true:false;
+    return UnionImage_NameSpace::isSupportReading(path);
 #else
     const QString suffix = QFileInfo(path).suffix();
 //解决freeimage不支持icns
