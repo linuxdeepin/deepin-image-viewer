@@ -522,9 +522,32 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
     }
     return nullptr;
 }
+UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path)
+{
+    bool iRet=false;
+    FIBITMAP *dib=nullptr;
+    const QByteArray ba = path.toUtf8();
+    const char *pc = ba.data();
+    const FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(pc);
+    if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
+        dib = FreeImage_Load(fif, pc, 0);
+    }
+    if (nullptr != dib) {
+        iRet= true;
+        FreeImage_Unload(dib);
+    }
+    else if(QImageReader(path).canRead()){
+        iRet= true;
+    }
+    return iRet;
 
+}
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
+    if(!isSupportReading(path))
+    {
+        return false;
+    }
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
@@ -534,9 +557,10 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
             return true;
         }
     }
-    QFileInfo info(path);
-    if (union_image_private.m_canSave.contains(info.suffix().toUpper()))
+    QImageReader reader(path);
+    if (reader.canRead()) {
         return true;
+    }
     return false;
 }
 
