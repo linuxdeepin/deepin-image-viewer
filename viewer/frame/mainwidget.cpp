@@ -155,14 +155,10 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         }
 #endif
         // 获取widget左上角坐标的全局坐标
+        //lmh0826,解决bug44826
         QPoint p = this->mapToGlobal(QPoint(0, 0));
-        if (this->window()->isFullScreen() || this->window()->isMaximized()) {
-            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24,
-                                   TOP_TOOLBAR_HEIGHT * 2);
-        } else {
-            m_extensionPanel->move(p + QPoint(this->window()->width() - m_extensionPanel->width() - 24,
-                                              TOP_TOOLBAR_HEIGHT * 2));
-        }
+        m_extensionPanel->move(p + QPoint(this->window()->width() - m_extensionPanel->width() - 24,
+                                          TOP_TOOLBAR_HEIGHT * 2));
     }
     updateTitleShadowGeometry();
 }
