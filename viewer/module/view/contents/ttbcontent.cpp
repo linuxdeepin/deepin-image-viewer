@@ -1335,6 +1335,16 @@ void TTBContent::setBtnAttribute(const QString strPath)
         m_rotateLBtn->setEnabled(false);
         m_rotateRBtn->setEnabled(false);
         m_trashBtn->setEnabled(false);
+        m_adaptImageBtn->setEnabled(false);
+        m_adaptScreenBtn->setEnabled(false);
+        return;
+    }
+    if(!utils::image::imageSupportRead(strPath)){
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
+        m_adaptImageBtn->setEnabled(false);
+        m_adaptScreenBtn->setEnabled(false);
         return;
     }
     //判断是否加载完成，未完成将旋转按钮禁用
