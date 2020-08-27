@@ -55,6 +55,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
     if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
         qDebug() << errMsg;
     }
+    tImg = tImg.scaled(size);
     return tImg;
 #else
     QImageReader reader(path);

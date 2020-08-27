@@ -526,24 +526,19 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
 
 UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path)
 {
-    bool iRet=false;
-    FIBITMAP *dib=nullptr;
-    QImageReader reader(path);
-    QString file_suffix_upper = reader.format().toUpper();
-    const QByteArray ba = path.toUtf8();
-    const char *pc = ba.data();
-    const FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(pc);
-    if ((fif != FIF_UNKNOWN)&&fif == union_image_private.m_freeiamge_formats[file_suffix_upper]&& FreeImage_FIFSupportsReading(fif)) {
-        dib = FreeImage_Load(fif, pc, 0);
-    }
-    if (nullptr != dib) {
-        iRet= true;
-        FreeImage_Unload(dib);
-    }
-    else if((reader.imageCount()>0 ||reader.format().toLower()=="MNG") &&reader.canRead()){
-        iRet= true;
-    }
-    return iRet;
+    const FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(path.toUtf8().data());
+    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
+//    bool iRet=false;
+//    QImageReader reader(path);
+//    QString file_suffix_upper = reader.format().toUpper();
+//    if(!union_image_private.m_freeiamge_formats[file_suffix_upper])
+//    {
+//        iRet=false;
+//    }
+//    else if((reader.imageCount()>0 ||reader.format().toLower()=="MNG") &&reader.canRead()){
+//        iRet= true;
+//    }
+//    return iRet;
 
 }
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
