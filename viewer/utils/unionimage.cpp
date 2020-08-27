@@ -526,6 +526,7 @@ UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path)
 {
     bool iRet=false;
     FIBITMAP *dib=nullptr;
+    QImageReader reader(path);
     const QByteArray ba = path.toUtf8();
     const char *pc = ba.data();
     const FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(pc);
@@ -536,7 +537,8 @@ UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path)
         iRet= true;
         FreeImage_Unload(dib);
     }
-    else if(QImageReader(path).canRead()){
+
+    else if((reader.imageCount()>0 ||reader.format().toLower()=="MNG") &&reader.canRead()){
         iRet= true;
     }
     return iRet;
