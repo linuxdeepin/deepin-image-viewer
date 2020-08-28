@@ -918,11 +918,11 @@ void ViewPanel::slotGetFirstThumbnailPath(QString &path)
 
 void ViewPanel::slotUpdateImageView(QString &path)
 {
-    m_pixmapthumb = utils::image::getThumbnail(path);
+    QPixmap pixmapthumb = utils::image::getThumbnail(path);
     if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(m_pixmapthumb);
+        m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable() || m_pixmapthumb.isNull()) {
+    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
         emit sigDisenablebutton();
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
