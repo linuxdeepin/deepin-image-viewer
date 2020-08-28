@@ -254,6 +254,8 @@ void ViewPanel::initConnectOpenImage()
 {
     connect(m_emptyWidget, &ThumbnailWidget::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_emptyWidget, &ThumbnailWidget::nextRequested, this, &ViewPanel::showNext);
+    connect(m_lockWidget, &LockWidget::previousRequested, this, &ViewPanel::showPrevious);
+    connect(m_lockWidget, &LockWidget::nextRequested, this, &ViewPanel::showNext);
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
 
@@ -1121,8 +1123,12 @@ QWidget *ViewPanel::bottomTopLeftContent()
         ttbc->deleteLater();
         ttbc = nullptr;
     }
-
-    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, this);
+    bool flag;
+    if(m_stack->currentIndex() != 0)
+        flag = true;
+    else
+        flag = false;
+    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, flag,this);
 
     if (!ttbc) {
         return nullptr;

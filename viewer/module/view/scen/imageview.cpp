@@ -1521,6 +1521,8 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     //emit imageChanged(filePath);
     emit dApp->signalM->UpdateNavImg();
     emit sigUpdateImageView(filePath);
+    QFileInfo fileinfo(filePath);
+    emit dApp->signalM->updateFileName(fileinfo.fileName());
 }
 
 void ImageView::showFileImage()

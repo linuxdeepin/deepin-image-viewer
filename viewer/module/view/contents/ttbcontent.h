@@ -178,7 +178,7 @@ class TTBContent : public QLbtoDLabel
 {
     Q_OBJECT
 public:
-    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = nullptr);
+    explicit TTBContent(bool inDB, DBImgInfoList m_infos, bool flag,QWidget *parent = nullptr);
 
     /**
      * @brief setWindoeSize 缩略图窗口大小设置
