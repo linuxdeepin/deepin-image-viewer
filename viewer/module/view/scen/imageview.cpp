@@ -912,6 +912,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
               //  if (!firstLoad) {
                 qDebug() << "load cache";
                     emit cacheEnd();
+                emit sigStackChange(m_path);
                    // firstLoad = true;
              //   }
             });
@@ -922,6 +923,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 
         }else {
             emit imageChanged(strPath);
+            emit sigStackChange(m_path);
 }
         break;
     }
@@ -1275,6 +1277,7 @@ void ImageView::onCacheFinish(QVariantList vl)
 //            }
         }
     }
+    emit sigStackChange(m_path);
 }
 
 void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme)
