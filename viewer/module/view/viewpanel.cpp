@@ -254,6 +254,8 @@ void ViewPanel::initConnectOpenImage()
 {
     connect(m_emptyWidget, &ThumbnailWidget::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_emptyWidget, &ThumbnailWidget::nextRequested, this, &ViewPanel::showNext);
+    connect(m_lockWidget, &LockWidget::previousRequested, this, &ViewPanel::showPrevious);
+    connect(m_lockWidget, &LockWidget::nextRequested, this, &ViewPanel::showNext);
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
 
@@ -467,6 +469,7 @@ void ViewPanel::disconnectTTbc()
 
 void ViewPanel::reConnectTTbc()
 {
+    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
@@ -915,12 +918,13 @@ void ViewPanel::slotGetFirstThumbnailPath(QString &path)
 
 void ViewPanel::slotUpdateImageView(QString &path)
 {
-    QPixmap pixmapthumb = utils::image::getThumbnail(path);
+    m_pixmapthumb = utils::image::getThumbnail(path);
     if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(pixmapthumb);
+        m_emptyWidget->setThumbnailImage(m_pixmapthumb);
         m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
-        m_stack->setCurrentIndex(0);
+    } else if (!QFileInfo(path).isReadable() || m_pixmapthumb.isNull()) {
+        emit sigDisenablebutton();
+        m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
     } else
@@ -1119,13 +1123,18 @@ QWidget *ViewPanel::bottomTopLeftContent()
         ttbc->deleteLater();
         ttbc = nullptr;
     }
-
-    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, this);
+    bool flag;
+    if(m_stack->currentIndex() != 0)
+        flag = true;
+    else
+        flag = false;
+    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, flag,this);
 
     if (!ttbc) {
         return nullptr;
     }
 
+    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
     //heyi test 连接更改隐藏上一张按钮信号槽
     connect(dApp->signalM,&SignalManager::sigUpdateThunbnail,ttbc,&TTBContent::OnUpdateThumbnail);
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags);
@@ -1133,6 +1142,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos);
     connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct);
     connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos);
+
     connect(dApp->signalM, &SignalManager::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::UniqueConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
 //    if (!m_infos.isEmpty() && m_current < m_infos.size()) {
@@ -2099,29 +2109,49 @@ void ViewPanel::openImage(const QString path, bool inDB)
                     emit dApp->signalM->picInUSB(true);
                     emit dApp->signalM->hideNavigation();
                     emit dApp->signalM->hideExtensionPanel();
-                    m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
-                    m_stack->setCurrentIndex(1);
+                    if(!m_th){
+                        m_th->deleteLater();
+                        m_th=nullptr;
+                    }
+                    m_th= QThread::create([=]() {
+                        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));                
+                    });
+                    connect(m_th, &QThread::finished, m_th, [=]{
+                        m_stack->setCurrentIndex(1);
+                        m_th->deleteLater();
+                        m_th=nullptr;
+                    });
+                    m_th->start();
                 }
             }
         }
     });
-    QPixmap pixmapthumb = utils::image::getThumbnail(path);
-    if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(pixmapthumb);
-        m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
-        m_stack->setCurrentIndex(0);
-    } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-        m_stack->setCurrentIndex(0);
-    } else {
-        m_stack->setCurrentIndex(0);
+    m_th= QThread::create([=]() {
+        m_pixmapthumb = utils::image::getThumbnail(path);
+    });
+    m_stack->setCurrentIndex(0);
+    connect(m_th, &QThread::finished, m_th, [=]{
+        if (!QFileInfo(path).exists()) {
+            m_emptyWidget->setThumbnailImage(m_pixmapthumb);
+            m_stack->setCurrentIndex(1);
+        } else if (!QFileInfo(path).isReadable() || m_pixmapthumb.isNull()) {
+            emit sigDisenablebutton();
+            m_stack->setCurrentIndex(2);
+        } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
+            m_stack->setCurrentIndex(0);
+        } else {
+            m_stack->setCurrentIndex(0);
+            // open success.
+            DRecentData data;
+            data.appName = "Deepin Image Viewer";
+            data.appExec = "deepin-image-viewer";
+            DRecentManager::addItem(path, data);
+        }
+        m_th->deleteLater();
+        m_th=nullptr;
+    });
+    m_th->start();
 
-        // open success.
-        DRecentData data;
-        data.appName = "Deepin Image Viewer";
-        data.appExec = "deepin-image-viewer";
-        DRecentManager::addItem(path, data);
-    }
     if (inDB) {
         emit updateTopLeftContentImage(path);
         //        emit updateCollectButton();

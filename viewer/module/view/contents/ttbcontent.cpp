@@ -550,9 +550,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
     painter.restore();
 }
 
-TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
+TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos,bool flag, QWidget *parent)
     : QLbtoDLabel(parent)
 {
+    m_NotImageViewFlag = flag;
     setWindoeSize(inDB, m_infos, parent);
     initBtn();
     toolbarSigConnection();
@@ -1404,6 +1405,15 @@ void TTBContent::OnUpdateThumbnail(QString path)
         item->updatePic(imgpix);
 }
 
+void TTBContent::DisEnablettbButton()
+{
+    m_rotateLBtn->setEnabled(false);
+    m_rotateRBtn->setEnabled(false);
+    m_adaptImageBtn->setEnabled(false);
+    m_adaptScreenBtn->setEnabled(false);
+    m_NotImageViewFlag = true;
+}
+
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;
@@ -1966,7 +1976,14 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #endif
     }
-
+    if(m_NotImageViewFlag)
+    {
+        m_adaptImageBtn->setDisabled(true);
+        m_adaptScreenBtn->setDisabled(true);
+        m_rotateLBtn->setDisabled(true);
+        m_rotateRBtn->setDisabled(true);
+    }
+    m_NotImageViewFlag = false;
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
     if (m_bIsHide || m_imgInfos.size() <= 1) {
         m_preButton->hide();
