@@ -370,6 +370,13 @@ private:
     bool GetPixmapStatus(QString filename);
 
 private slots:
+    /**
+     *
+     * @date 2020/08/28
+     * @auther lmh
+     * @brief 设置第几个栈窗体
+     */
+    void slotCurrentStackWidget(QString &path);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateLocalImages();
 
@@ -508,10 +515,7 @@ private:
     //lmh0729判断是否判断打开图片与上一张是否相同
     bool m_bIsOpenPicture=true;
 
-    //lmh0828
-    QThread * m_th{nullptr};
 
-    QPixmap m_pixmapthumb;
 
 };
 #endif  // VIEWPANEL_H
