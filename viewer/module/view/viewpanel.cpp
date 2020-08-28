@@ -918,11 +918,11 @@ void ViewPanel::slotGetFirstThumbnailPath(QString &path)
 
 void ViewPanel::slotUpdateImageView(QString &path)
 {
-    m_pixmapthumb = utils::image::getThumbnail(path);
+    QPixmap pixmapthumb = utils::image::getThumbnail(path);
     if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(m_pixmapthumb);
+        m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable() || m_pixmapthumb.isNull()) {
+    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
         emit sigDisenablebutton();
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
@@ -2109,28 +2109,19 @@ void ViewPanel::openImage(const QString path, bool inDB)
                     emit dApp->signalM->picInUSB(true);
                     emit dApp->signalM->hideNavigation();
                     emit dApp->signalM->hideExtensionPanel();
-                    if(!m_th){
-                        m_th->deleteLater();
-                        m_th=nullptr;
-                    }
-                    m_th= QThread::create([=]() {
-                        m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));                
-                    });
-                    connect(m_th, &QThread::finished, m_th, [=]{
-                        m_stack->setCurrentIndex(1);
-                        m_th->deleteLater();
-                        m_th=nullptr;
-                    });
-                    m_th->start();
+                    m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+                    m_stack->setCurrentIndex(1);
                 }
             }
         }
     });
-    m_th= QThread::create([=]() {
-        m_pixmapthumb = utils::image::getThumbnail(path);
-    });
+//    m_th= QThread::create([=]() {
+
+//    });
+
+//    connect(m_th, &QThread::finished, m_th, [=]{
+    m_pixmapthumb = utils::image::getThumbnail(path);
     m_stack->setCurrentIndex(0);
-    connect(m_th, &QThread::finished, m_th, [=]{
         if (!QFileInfo(path).exists()) {
             m_emptyWidget->setThumbnailImage(m_pixmapthumb);
             m_stack->setCurrentIndex(1);
@@ -2147,10 +2138,10 @@ void ViewPanel::openImage(const QString path, bool inDB)
             data.appExec = "deepin-image-viewer";
             DRecentManager::addItem(path, data);
         }
-        m_th->deleteLater();
-        m_th=nullptr;
-    });
-    m_th->start();
+//        m_th->deleteLater();
+//        m_th=nullptr;
+
+//    m_th->start();
 
     if (inDB) {
         emit updateTopLeftContentImage(path);
