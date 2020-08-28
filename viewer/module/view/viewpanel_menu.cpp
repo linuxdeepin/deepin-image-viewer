@@ -432,20 +432,24 @@ void ViewPanel::initShortcut()
     // Zoom out (Ctrl++ Not working, This is a confirmed bug in Qt 5.5.0)
     sc = new QShortcut(QKeySequence(Qt::Key_Up), this);
     sc->setContext(Qt::WindowShortcut);
+    //fix 36530 当图片读取失败时（格式不支持、文件损坏、没有权限），不能进行缩放操作
     connect(sc, &QShortcut::activated, this, [ = ] {
         qDebug() << "Qt::Key_Up:";
-        m_viewB->setScaleValue(1.1);
+        if(!m_viewB->image().isNull())
+        {
+            m_viewB->setScaleValue(1.1);
+        }
     });
     sc = new QShortcut(QKeySequence("Ctrl++"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        if (QFile(m_viewB->path()).exists())
+        if (QFile(m_viewB->path()).exists() && !m_viewB->image().isNull())
             m_viewB->setScaleValue(1.1);
     });
     sc = new QShortcut(QKeySequence("Ctrl+="), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        if (QFile(m_viewB->path()).exists())
+        if (QFile(m_viewB->path()).exists() && !m_viewB->image().isNull())
             m_viewB->setScaleValue(1.1);
     });
     // Zoom in
@@ -453,13 +457,13 @@ void ViewPanel::initShortcut()
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
         qDebug() << "Qt::Key_Down:";
-        if (QFile(m_viewB->path()).exists())
+        if (QFile(m_viewB->path()).exists() && !m_viewB->image().isNull())
             m_viewB->setScaleValue(0.9);
     });
     sc = new QShortcut(QKeySequence("Ctrl+-"), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        if (QFile(m_viewB->path()).exists())
+        if (QFile(m_viewB->path()).exists() && !m_viewB->image().isNull())
             m_viewB->setScaleValue(0.9);
     });
     // Esc
