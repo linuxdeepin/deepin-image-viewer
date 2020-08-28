@@ -18,9 +18,12 @@
 #define TITLEFRAME_H
 
 #include "titlebutton.h"
-#include <QFrame>
+#include <DFrame>
 
-class TitleFrame : public QFrame
+DWIDGET_USE_NAMESPACE
+typedef DFrame QFrToDFrame;
+
+class TitleFrame : public QFrToDFrame
 {
     Q_OBJECT
 public:

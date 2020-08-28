@@ -19,14 +19,19 @@
 
 #include <QDebug>
 #include <QDesktopWidget>
-#include <QFrame>
+#include <DFrame>
 #include <QHBoxLayout>
-#include <QLabel>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QTimer>
 #include <QIcon>
 #include <QApplication>
+
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DFrame QFrToDFrame;
 
 PushButton::PushButton(QWidget *parent)
     : QWidget(parent)
@@ -214,8 +219,7 @@ void PushButton::paintEvent(QPaintEvent *e)
             const QRect pr(m.left(), (height() - ph) / 2, ph, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap
                                /*pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding)*/);
-        }
-        else {
+        } else {
             ph = pixHeight;
             const QRect pr(m.left(), (height() - ph) / 2, pixWidth, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap);
@@ -227,7 +231,7 @@ void PushButton::paintEvent(QPaintEvent *e)
     const int tw = width() - m.left() - spacing - ph - m.right();
     const int th = fm.height();
     const QRect textRect(m.left() + ph + spacing, (height() - th) / 2,
-                   tw, th);
+                         tw, th);
     const QString mt = fm.elidedText(m_text, Qt::ElideMiddle, tw);
     painter.setPen(QPen(getTextColor()));
     painter.drawText(textRect, Qt::AlignCenter, mt);
@@ -292,11 +296,9 @@ QString PushButton::getPixmap() const
 {
     if (m_checked) {
         return checkedPic();
-    }
-    else if (isEnabled()) {
+    } else if (isEnabled()) {
         return m_currentPic;
-    }
-    else {
+    } else {
         return disablePic();
     }
 }
@@ -305,19 +307,18 @@ QColor PushButton::getTextColor() const
 {
     if (isEnabled()) {
         return m_currentColor;
-    }
-    else {
+    } else {
         return disableColor();
     }
 }
 
 void PushButton::showTooltip(const QPoint &pos)
 {
-    QFrame *tf = new QFrame();
+    QFrToDFrame *tf = new QFrToDFrame();
 //    tf->setStyleSheet(this->styleSheet());
     tf->setWindowFlags(Qt::ToolTip);
     tf->setAttribute(Qt::WA_TranslucentBackground);
-    QLabel *tl = new QLabel(tf);
+    QLbtoDLabel *tl = new QLbtoDLabel(tf);
     tl->setObjectName("ButtonTooltip");
     tl->setText(toolTip());
     QHBoxLayout *layout = new QHBoxLayout(tf);
@@ -330,17 +331,17 @@ void PushButton::showTooltip(const QPoint &pos)
     if (y > dr.y() + dr.height()) {
         y = pos.y() - tf->height() - 10;
     }
-    tf->move(pos.x() - tf->width()/3, y - tf->height()/3);
+    tf->move(pos.x() - tf->width() / 3, y - tf->height() / 3);
 
     QTimer::singleShot(5000, tf, SLOT(deleteLater()));
 
-    connect(this, &PushButton::mouseLeave, tf, &QFrame::deleteLater);
-    connect(this, &PushButton::clicked, tf, &QFrame::deleteLater);
+    connect(this, &PushButton::mouseLeave, tf, &QFrToDFrame::deleteLater);
+    connect(this, &PushButton::clicked, tf, &QFrToDFrame::deleteLater);
 }
 
 void PushButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
-
+    Q_UNUSED(theme);
 }
 
 bool PushButton::getChecked() const

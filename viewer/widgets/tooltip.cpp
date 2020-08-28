@@ -18,7 +18,7 @@
 #include <QFile>
 #include <QDebug>
 
-Tooltip::Tooltip(QWidget *parent) : QLabel(parent)
+Tooltip::Tooltip(QWidget *parent) : QLbtoDLabel(parent)
 {
     initStyleSheet();
 }

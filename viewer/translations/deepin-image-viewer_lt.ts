@@ -27,6 +27,10 @@
     </message>
     <message>
         <source>Alt+Return</source>
+        <translation>Alt+Įvesti</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -74,7 +78,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Paveikslo failas nerastas</translation>
+        <translation>Paveikslas nerastas</translation>
     </message>
 </context>
 <context>
@@ -238,7 +242,22 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Patvirtinti</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Atsisakyti</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Įveskite naują pavadinimą</translation>
     </message>
 </context>
 <context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Ankstesnis</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pristabdyti</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Paleisti</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Kitas</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Išeiti</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>Visi paveikslai</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Pervadinti</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

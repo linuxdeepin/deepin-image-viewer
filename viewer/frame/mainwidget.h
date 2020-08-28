@@ -25,15 +25,21 @@
 #include "widgets/separator.h"
 #include "module/view/viewpanel.h"
 
+
 #include <QFrame>
-#include <QStackedWidget>
+#include <DStackedWidget>
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+typedef DStackedWidget QSWToDStackedWidget;
 
 class MainWidget : public QFrame
 {
     Q_OBJECT
 
 public:
-    MainWidget(bool manager, QWidget *parent = 0);
+    MainWidget(bool manager, QWidget *parent = nullptr);
     ~MainWidget();
 
 protected:
@@ -44,7 +50,10 @@ private slots:
     void onGotoPanel(ModulePanel *panel);
     void onImported(const QString &message, bool success);
     void onShowImageInfo(const QString &path);
-
+signals:
+    void sigExitFullScreen();
+    void mainwgtloadslideshowpath(bool bflag);
+    void sigmaindgtslideshowpath(bool bflag, DBImgInfoList);
 private:
     void initBottomToolbar();
     void initExtensionPanel();
@@ -60,7 +69,8 @@ private:
 private:
     QStringList m_infoShowingList;
 
-    QStackedWidget  *m_panelStack {nullptr};
+    QSWToDStackedWidget  *m_panelStack {nullptr};
+
 
 #ifndef LITE_DIV
     bool m_manager;
@@ -68,8 +78,8 @@ private:
     ExtensionPanel  *m_extensionPanel {nullptr};
     BottomToolbar   *m_bottomToolbar {nullptr};
     TopToolbar      *m_topToolbar {nullptr};
-    QLabel          *m_topSeparatorLine {nullptr};
-    QLabel          *m_btmSeparatorLine {nullptr};
+    QLbtoDLabel     *m_topSeparatorLine {nullptr};
+    QLbtoDLabel     *m_btmSeparatorLine {nullptr};
     ViewPanel       *m_viewPanel {nullptr};
 
     DShadowLine     *m_shadowLine {nullptr};

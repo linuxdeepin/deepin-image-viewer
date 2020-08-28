@@ -29,6 +29,10 @@
         <source>Alt+Return</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
@@ -65,16 +69,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished">መሰረዣ</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation type="unfinished">ማጥፊያ</translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -100,8 +104,8 @@
         <translation>የ ፋይል መጠን</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>የ ቀለም ቦታ</translation>
+        <source>Date captured</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -148,16 +152,16 @@
         <translation>ፍላሽ ማካካሻ</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>የ ካሜራው አይነት</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>የ ሌንስ አይነት</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <source>Colorspace</source>
+        <translation>የ ቀለም ቦታ</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>የ ካሜራው አይነት</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -238,6 +242,21 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>መሰረዣ</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>ያለፈው</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>ይቀጥሉ</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>መውጫ</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -528,6 +570,10 @@
 </context>
 <context>
     <name>TTBContent</name>
+    <message>
+        <source>My favorite</source>
+        <translation type="unfinished">እኔ የምወዳቸው</translation>
+    </message>
     <message>
         <source>Previous</source>
         <translation type="unfinished">ያለፈው</translation>
@@ -555,10 +601,6 @@
     <message>
         <source>Delete</source>
         <translation type="unfinished">ማጥፊያ</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation type="unfinished">እኔ የምወዳቸው</translation>
     </message>
 </context>
 <context>
@@ -741,6 +783,14 @@
     </message>
     <message>
         <source>All images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>እንደገና መሰየሚያ</translation>
+    </message>
+    <message>
+        <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

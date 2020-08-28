@@ -29,6 +29,10 @@
         <source>Alt+Return</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
@@ -242,6 +246,21 @@
     </message>
 </context>
 <context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Batal</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
@@ -311,7 +330,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Pertunjukan slide</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>End show</source>
@@ -444,7 +463,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Pertunjukan slide</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>End show</source>
@@ -501,6 +520,29 @@
     <message>
         <source>Delete</source>
         <translation>Hapus</translation>
+    </message>
+</context>
+<context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Sebelumnya</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Selanjutnya</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Keluar</translation>
     </message>
 </context>
 <context>
@@ -681,7 +723,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Pertunjukan slide</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Print</source>
@@ -741,6 +783,14 @@
     </message>
     <message>
         <source>All images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Ganti nama</translation>
+    </message>
+    <message>
+        <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

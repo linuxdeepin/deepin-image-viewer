@@ -27,7 +27,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -74,7 +78,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Afbeelding niet aangetroffen</translation>
+        <translation>Afbeelding niet aangetroffen</translation>
     </message>
 </context>
 <context>
@@ -239,6 +243,21 @@
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Oké</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuleren</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Voer een nieuwe naam in</translation>
     </message>
 </context>
 <context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Vorige</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pauzeren</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Afspelen</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Volgende</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Sluiten</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>Alle afbeeldingen</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Naam wijzigen</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

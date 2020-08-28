@@ -20,14 +20,15 @@
  */
 #include "toast.h"
 
-#include <DObjectPrivate>
+
 
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QIcon>
-
+#include <DIconButton>
+#include "imagebutton.h"
 #include <dimagebutton.h>
 #include "dthememanager.h"
 #include "dgraphicsgloweffect.h"
@@ -35,29 +36,15 @@
 
 DWIDGET_BEGIN_NAMESPACE
 
-class ToastPrivate: public DTK_CORE_NAMESPACE::DObjectPrivate
-{
-public:
-    ToastPrivate(Toast *qq);
 
-    QIcon   icon;
-    QLabel  *iconLabel      = Q_NULLPTR;
-    QLabel  *textLabel      = Q_NULLPTR;
-    DImageButton *closeBt    = Q_NULLPTR;
-
-    QPropertyAnimation  *animation  = Q_NULLPTR;
-    DGraphicsGlowEffect *effect     = Q_NULLPTR;
-
-    void initUI();
-private:
-    D_DECLARE_PUBLIC(Toast)
-};
 
 Toast::Toast(QWidget *parent) :
     QFrame(parent), DObject(*new ToastPrivate(this))
 {
     D_D(Toast);
+
     DThemeManager::registerWidget(this);
+
     d->initUI();
 }
 
@@ -171,12 +158,12 @@ void ToastPrivate::initUI()
     textLabel = new QLabel;
     textLabel->setVisible(false);
 
-    closeBt = new DImageButton(":/resources/common/images/input_clear_normal.svg",
-                               ":/resources/common/images/input_clear_hover.svg",
-                               ":/resources/common/images/input_clear_press.svg",
-                               ":/resources/common/images/input_clear_normal.svg");
+    closeBt = new ImageButton(":/assets/common/images/input_clear_normal.svg",
+                               ":/assets/common/images/input_clear_hover.svg",
+                               ":/assets/common/images/input_clear_press.svg",
+                               ":/assets/common/images/input_clear_normal.svg");
 
-    q->connect(closeBt, &DImageButton::clicked, q, [ = ]() {
+    q->connect(closeBt, &ImageButton::clicked, q, [ = ]() {
         q->hide();
         q->setProperty("hide_by_user", true);
     });

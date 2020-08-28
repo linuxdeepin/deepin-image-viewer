@@ -17,10 +17,13 @@
 #ifndef SLIDESHOWFRAME_H
 #define SLIDESHOWFRAME_H
 
-#include <QFrame>
+#include <DFrame>
+
+DWIDGET_USE_NAMESPACE
+typedef DFrame QFrToDFrame;
 
 class QVBoxLayout;
-class SlideshowFrame : public QFrame
+class SlideshowFrame : public QFrToDFrame
 {
     Q_OBJECT
 public:

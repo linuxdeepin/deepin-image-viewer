@@ -22,7 +22,10 @@
 
 #include <QFrame>
 #include <QWidget>
-#include <QLabel>
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 class PushButton;
 class QHBoxLayout;
@@ -44,7 +47,7 @@ private slots:
 
 private:
     QHBoxLayout* m_layout;
-    QLabel* m_emptyLabel;
+    QLbtoDLabel* m_emptyLabel;
     ElidedLabel* m_fileNameLabel;
 
     QString m_path;

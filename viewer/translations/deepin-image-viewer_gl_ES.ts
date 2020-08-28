@@ -29,6 +29,10 @@
         <source>Alt+Return</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
@@ -238,6 +242,21 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Seguinte</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Saír</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -741,6 +783,14 @@
     </message>
     <message>
         <source>All images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Renomear</translation>
+    </message>
+    <message>
+        <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

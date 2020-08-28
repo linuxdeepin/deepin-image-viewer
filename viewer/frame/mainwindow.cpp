@@ -21,6 +21,7 @@
 #include <QStandardPaths>
 #include "application.h"
 #include "controller/configsetter.h"
+#include "controller/dbusclient.h"
 #include "mainwidget.h"
 //#include <QDebug>
 #include <dgiovolumemanager.h>
@@ -32,8 +33,15 @@
 #include <QTimer>
 #include <QJsonParseError>
 #include <QJsonArray>
+#include <QShortcut>
+
 #include "utils/baseutils.h"
 #include "../service/dbusimageview_adaptor.h"
+#include "shortcut.h"
+
+#define IMAGEVIEW 0
+#define SLIDESHOW 1
+
 namespace {
 
 const int MAINWIDGET_MINIMUN_HEIGHT = 335;
@@ -51,10 +59,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
                          ? MAINWIDGET_MINIMUN_WIDTH
-                         : dw.geometry().width() * 0.60;
+                         : dw.geometry().width() * 3 / 5;
     const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
                          ? MAINWIDGET_MINIMUN_HEIGHT
-                         : dw.geometry().height() * 0.60;
+                         : dw.geometry().height() * 3 / 5;
     const int ww =
         dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
     const int wh =
@@ -65,12 +73,18 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
 
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
-
+    m_pCenterWidget = new QSWToDStackedWidget(this);
     m_mainWidget = new MainWidget(manager, this);
+    m_pCenterWidget->addWidget(m_mainWidget);
+    m_slidePanel =  new SlideShowPanel();
+    m_pCenterWidget->addWidget(m_slidePanel);
+    m_pCenterWidget->setCurrentIndex(0);
     //    QTimer::singleShot(200, [=]{
-    setCentralWidget(m_mainWidget);
+    setCentralWidget(m_pCenterWidget);
     //    });
-
+    initConnection();
+    initshortcut();
+    initdbus();
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
@@ -91,7 +105,6 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
             }
         });
     }
-    moveFirstWindow();
 
 #ifndef LITE_DIV
     QThread *workerThread = new QThread;
@@ -106,11 +119,14 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
             &MainWindow::onThemeChanged);
 
     m_vfsManager = new DGioVolumeManager;
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [ = ]() {
+    m_diskManager = new DDiskManager(this);
+    m_diskManager->setWatchChanges(true);
+    //m_vfsManager出现bug 当先插入u盘再打开程序时不能检测到u盘拔出时检测不到 正确做法disk和gio都要链接信号和槽，不能直接链接gio
+    connect(m_diskManager, &DDiskManager::mountAdded, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(true);
     });
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [ = ]() {
+    connect(m_diskManager, &DDiskManager::diskDeviceRemoved, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(false);
         if (m_picInUSB) {
@@ -124,6 +140,85 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     });
     new ImageViewAdaptor(this);
     m_currenttime = QDateTime::currentDateTime();
+    moveFirstWindow();
+}
+
+void MainWindow::initshortcut()
+{
+    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    esc->setContext(Qt::WindowShortcut);
+    //解决在打开图片后,Ctrl+O快捷键无效，将快捷键实现放到此处，方便鱼其他地方调用
+    QShortcut *ctrlq = new QShortcut(QKeySequence("Ctrl+O"), this);
+    ctrlq->setContext(Qt::WindowShortcut);
+    connect(ctrlq, &QShortcut::activated, this, [=] {
+        emit dApp->signalM->sigOpenFileDialog();
+    });
+    connect(esc, &QShortcut::activated, this, [ = ] {
+        if (IMAGEVIEW == m_pCenterWidget->currentIndex())
+            emit sigExitFull();
+        else
+        {
+            if (window()->isFullScreen()) {
+                emit dApp->signalM->sigESCKeyActivated();
+                emit dApp->signalM->sigESCKeyStopSlide();
+            } else if (0 == m_pCenterWidget->currentIndex()) {
+                this->close();
+            }
+            emit dApp->signalM->hideExtensionPanel();
+        }
+    });
+}
+
+void MainWindow::initdbus()
+{
+    m_dbus = new Dbusclient();
+}
+
+
+void MainWindow::initConnection()
+{
+    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
+        qDebug() << "receive Ctrl+Shift+/";
+        QRect rect = window()->geometry();
+        QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+        Shortcut sc;
+        QStringList shortcutString;
+        QString param1 = "-j=" + sc.toStr();
+        QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+        shortcutString << param1 << param2;
+        qDebug() << shortcutString;
+        QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
+    });
+    connect(m_slidePanel, SIGNAL(sigloadSlideshowpath(bool)), m_mainWidget, SIGNAL(mainwgtloadslideshowpath(bool)));
+    connect(m_mainWidget, SIGNAL(sigmaindgtslideshowpath(bool, DBImgInfoList)), m_slidePanel, SLOT(Receiveslideshowpathlst(bool, DBImgInfoList)));
+    connect(this, SIGNAL(sigExitFull()), m_mainWidget, SIGNAL(sigExitFullScreen()));
+    //幻灯片显示
+    connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
+        Q_UNUSED(index);
+//        if (VIEW_IMAGE != index)
+//        {
+//            m_backIndex = index;
+//        }
+        // m_backIndex_fromSlide = index;
+        titlebar()->setVisible(false);
+        setTitlebarShadowEnabled(false);
+        m_pCenterWidget->setCurrentIndex(SLIDESHOW);
+    });
+    //隐藏幻灯片显示
+    connect(dApp->signalM, &SignalManager::hideSlidePanel, this, [ = ]() {
+        emit dApp->signalM->hideExtensionPanel();
+        //if (0 != m_backIndex_fromSlide) {
+        titlebar()->setVisible(true);
+        setTitlebarShadowEnabled(true);
+        m_pCenterWidget->setCurrentIndex(IMAGEVIEW);
+       // delete m_slidePanel;
+        //   emit dApp->signalM->hideBottomToolbar(false);
+        //  emit dApp->signalM->hideExtensionPanel(false);
+        //  emit dApp->signalM->hideTopToolbar(false);
+
+    });
 }
 
 void MainWindow::moveFirstWindow()
@@ -246,8 +341,9 @@ int MainWindow::showDialog()
     qDebug() << "!!!!!!!!!!!!!!!!!!showDialog!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     DDialog *dialog = new DDialog;
 
-    QPixmap pixmap = utils::base::renderSVG(":/resources/common/warning.svg", QSize(32, 32));
-    dialog->setIconPixmap(pixmap);
+    QPixmap pixmap = utils::base::renderSVG(":/assets/common/warning.svg", QSize(32, 32));
+    QIcon icon(pixmap);
+    dialog->setIcon(icon);
 
     //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete
     //    the thumbnails of the removable device?"));

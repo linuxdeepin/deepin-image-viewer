@@ -43,9 +43,10 @@ ProcessTooltip::ProcessTooltip(QWidget *parent)
 
     setFixedHeight(TOOLTIP_HEIGHT);
 
-    m_icon = new QLabel;
+    m_icon = new QLbtoDLabel;
 
-    m_message = new QLabel;
+    m_message = new QLbtoDLabel;
+
     m_message->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 //    m_message->setStyleSheet(QString("font-size: 12px;color: %1;").arg(m_textColor));
 
@@ -76,10 +77,10 @@ void ProcessTooltip::onThemeChanged(ViewerThemeManager::AppTheme theme) {
 void ProcessTooltip::showTooltip(const QString &message, bool success)
 {
     if (success) {
-        m_icon->setPixmap(QPixmap(":/resources/common/images/success_tick.png"));
+        m_icon->setPixmap(QPixmap(":/assets/common/images/success_tick.png"));
     }
     else {
-        m_icon->setPixmap(QPixmap(":/resources/common/images/failure_cross.png"));
+        m_icon->setPixmap(QPixmap(":/assets/common/images/failure_cross.png"));
     }
     m_message->setText(message);
 

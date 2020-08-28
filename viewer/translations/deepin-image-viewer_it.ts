@@ -28,7 +28,11 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Indietro</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Invio</translation>
     </message>
 </context>
 <context>
@@ -75,7 +79,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">File immagine non trovato</translation>
+        <translation>File immagine non trovato</translation>
     </message>
 </context>
 <context>
@@ -240,6 +244,21 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Conferma</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Inserisci un nuovo nome</translation>
     </message>
 </context>
 <context>
@@ -505,6 +524,29 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Precedente</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pausa</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Play</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Successiva</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Esci</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -743,6 +785,14 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <message>
         <source>All images</source>
         <translation>Tutte le immagini</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Rinomina</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

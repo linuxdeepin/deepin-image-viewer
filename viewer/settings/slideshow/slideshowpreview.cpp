@@ -46,7 +46,7 @@ QMap<int, QString> nameMap()
     return nm;
 }
 
-const QString PREVIEW_ROOT_PATH = ":/settings/images/slideshow/resources/images/slideshow/";
+const QString PREVIEW_ROOT_PATH = ":/settings/images/slideshow/assets/images/slideshow/";
 QMap<int, QString> pathMap()
 {
     QMap<int, QString> pm;
@@ -61,7 +61,7 @@ QMap<int, QString> pathMap()
 }
 
 SlideshowPreview::SlideshowPreview(SlideshowEffect effect, QWidget *parent)
-    : QFrame(parent)
+    : QFrToDFrame(parent)
     , m_effect(effect)
     , m_currentFrame(0)
 {
@@ -104,8 +104,8 @@ void SlideshowPreview::paintEvent(QPaintEvent *e)
 
     // Draw check state
     const QString cip = checked()
-            ? ":/settings/images/resources/images/checkbox_checked.png"
-            : ":/settings/images/resources/images/checkbox_unchecked.png";
+            ? ":/settings/images/assets/images/checkbox_checked.png"
+            : ":/settings/images/assets/images/checkbox_unchecked.png";
     QRect checkRect(MAX_WIDTH - CHECK_ICON_SIZE, 0,
                     CHECK_ICON_SIZE, CHECK_ICON_SIZE);
     painter.drawPixmap(checkRect, QPixmap(cip));
@@ -124,7 +124,7 @@ void SlideshowPreview::timerEvent(QTimerEvent *e)
         this->update();
     }
 
-    QFrame::timerEvent(e);
+    QFrToDFrame::timerEvent(e);
 }
 
 void SlideshowPreview::enterEvent(QEvent *e)
@@ -146,7 +146,7 @@ void SlideshowPreview::mousePressEvent(QMouseEvent *e)
 {
     // One effect at least
     if (activedEffectCount() <= 1 && m_checked) {
-        QFrame::mousePressEvent(e);
+        QFrToDFrame::mousePressEvent(e);
     }
     else if (e->button() == Qt::LeftButton) {
         e->accept();

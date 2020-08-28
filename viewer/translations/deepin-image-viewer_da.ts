@@ -27,7 +27,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Retur</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -74,7 +78,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Billedfil ikke fundet</translation>
+        <translation>Billedfil ikke fundet</translation>
     </message>
 </context>
 <context>
@@ -239,6 +243,21 @@
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>dd/MM/yyyy HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Bekræft</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuller</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Indtast et nyt navn</translation>
     </message>
 </context>
 <context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Forrige</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pause</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Afspil</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Næste</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Afslut</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>Alle billeder</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Omdøb</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

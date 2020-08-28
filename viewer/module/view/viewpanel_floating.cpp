@@ -42,8 +42,8 @@ void ViewPanel::initSwitchButtons()
 {
     using namespace utils::base;
 
-    DAnchors<DImageButton> pre_button = new DImageButton(this);
-    DAnchors<DImageButton> next_button = new DImageButton(this);
+    DAnchors<DIconButton> pre_button = new DIconButton(this);
+    DAnchors<DIconButton> next_button = new DIconButton(this);
 
     pre_button->setObjectName("PreviousButton");
     next_button->setObjectName("NextButton");
@@ -60,12 +60,12 @@ void ViewPanel::initSwitchButtons()
     pre_button->hide();
     next_button->hide();
 
-    connect(pre_button, &DImageButton::clicked, this, &ViewPanel::showPrevious);
-    connect(next_button, &DImageButton::clicked, this, &ViewPanel::showNext);
+    connect(pre_button, &DIconButton::clicked, this, &ViewPanel::showPrevious);
+    connect(next_button, &DIconButton::clicked, this, &ViewPanel::showNext);
 
 
     connect(this, &ViewPanel::mouseMoved, this, [ = ] {
-        DAnchors<DImageButton> pb = pre_button;
+        DAnchors<DIconButton> pb = pre_button;
         if (m_info && m_info->visibleRegion().isNull())
         {
             pb.setLeftMargin(0);
@@ -98,7 +98,7 @@ void ViewPanel::initScaleLabel()
 
     QHBoxLayout *layout = new QHBoxLayout();
     scalePerc->setLayout(layout);
-    QLabel *label = new QLabel();
+    QLbtoDLabel *label = new QLbtoDLabel();
     layout->addWidget(label);
     scalePerc->setAttribute(Qt::WA_TransparentForMouseEvents);
     scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
@@ -115,7 +115,7 @@ void ViewPanel::initScaleLabel()
 
     QTimer *hideT = new QTimer(this);
     hideT->setSingleShot(true);
-    connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
+    connect(hideT, &QTimer::timeout, scalePerc, &QLbtoDLabel::hide);
 
     connect(m_viewB, &ImageView::scaled, this, [ = ](qreal perc) {
         label->setText(QString("%1%").arg(int(perc)));
@@ -145,8 +145,9 @@ void ViewPanel::initNavigation()
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
     connect(this, &ViewPanel::imageChanged, this, [ = ](const QString & path, DBImgInfoList infos) {
+        Q_UNUSED(infos);
         if (path.isEmpty()) m_nav->setVisible(false);
-        m_nav->setImage(m_viewB->image());
+        m_nav->setImage(m_viewB->image(true));
     });
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
         m_viewB->centerOn(x, y);

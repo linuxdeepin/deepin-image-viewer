@@ -36,6 +36,10 @@
 #include <QtMath>
 
 #include "denhancedwidget.h"
+#include <DScrollBar>
+
+DWIDGET_USE_NAMESPACE
+typedef DScrollBar QSBToDScrollBar;
 
 namespace {
 
@@ -306,7 +310,7 @@ void ThumbnailListView::paintEvent(QPaintEvent *e)
 
 void ThumbnailListView::wheelEvent(QWheelEvent *e)
 {
-    QScrollBar *sb = verticalScrollBar();
+    QSBToDScrollBar *sb = verticalScrollBar();
     if (e->orientation() == Qt::Vertical &&
             sb->value() <= sb->maximum() &&
             sb->value() >= sb->minimum()) {

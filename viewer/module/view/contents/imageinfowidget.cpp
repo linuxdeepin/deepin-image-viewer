@@ -38,10 +38,11 @@
 namespace {
 
 const int TITLE_MAXWIDTH = 72 - 3;
-const int TITLE_MAXCNWIDETH = 60; //中文Title宽度
-const int TITLE_MAXOTHERWIDETH = 90; //其他语言Title宽度
-const QString ICON_CLOSE_DARK = ":/resources/dark/images/close_normal.svg";
-const QString ICON_CLOSE_LIGHT = ":/resources/light/images/close_normal .svg";
+//const
+int TITLE_MAXCNWIDETH = 80; //中文Title宽度
+int TITLE_MAXOTHERWIDETH = 105; //其他语言Title宽度
+const QString ICON_CLOSE_DARK = ":/assets/dark/images/close_normal.svg";
+const QString ICON_CLOSE_LIGHT = ":/assets/light/images/close_normal .svg";
 
 #define ArrowLineExpand_HIGHT 30
 #define ArrowLineExpand_SPACING 10
@@ -100,12 +101,12 @@ static int maxTitleWidth()
 
 }  // namespace
 
-class ViewSeparator : public QLabel
+class ViewSeparator : public QLbtoDLabel
 {
     Q_OBJECT
 public:
-    explicit ViewSeparator(QWidget *parent = 0)
-        : QLabel(parent)
+    explicit ViewSeparator(QWidget *parent = nullptr)
+        : QLbtoDLabel(parent)
     {
         setFixedHeight(1);
     }
@@ -154,6 +155,8 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     : QFrame(parent)
     , m_maxTitleWidth(maxTitleWidth())
 {
+    Q_UNUSED(darkStyle);
+    Q_UNUSED(lightStyle);
     setFixedWidth(300);
     //    setMaximumHeight(540);
     setFrameStyle(QFrame::NoFrame);
@@ -176,7 +179,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 
     m_exifLayout_base = new QFormLayout();
     m_exifLayout_base->setVerticalSpacing(7);
-    m_exifLayout_base->setHorizontalSpacing(16);
+    m_exifLayout_base->setHorizontalSpacing(10);
     m_exifLayout_base->setContentsMargins(10, 1, 7, 10);
     m_exifLayout_base->setLabelAlignment(Qt::AlignLeft);
 
@@ -244,7 +247,7 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
 #endif
 }
 
-void ImageInfoWidget::setImagePath(const QString &path)
+void ImageInfoWidget::setImagePath(const QString path)
 {
     if (path == m_path)
         return;
@@ -312,6 +315,19 @@ void ImageInfoWidget::timerEvent(QTimerEvent *e)
 {
     QWidget::timerEvent(e);
 }
+//LMH0609解决31498 【看图】【5.6.3.9】【sp2】更改字体大小后，图片信息窗口文字布局展示异常
+void ImageInfoWidget::paintEvent(QPaintEvent *event)
+{
+    QFont font;
+    int currentSize = DFontSizeManager::instance()->fontPixelSize(font );
+    //LMH0609判断与上次自体的大小是否一样，不一样则刷新
+    if (currentSize != m_currentFontSize) {
+        m_currentFontSize = currentSize;
+        TITLE_MAXCNWIDETH = currentSize*4;
+        updateInfo();
+    }
+    QWidget::paintEvent(event);
+}
 
 void ImageInfoWidget::clearLayout(QLayout *layout)
 {
@@ -355,10 +371,10 @@ void ImageInfoWidget::updateInfo()
     bool CNflag;
     QLocale::Language lan = local.language();
     if (lan == QLocale::Language::Chinese) {
-        m_maxFieldWidth = width() - TITLE_MAXCNWIDETH - 20 * 2 - 10 * 2;
+        m_maxFieldWidth = width() - TITLE_MAXCNWIDETH/* - 20 * 2 */- 10*2-10;
         CNflag = true;
     } else {
-        m_maxFieldWidth = width() - TITLE_MAXOTHERWIDETH - 20 * 2 - 10 * 2;
+        m_maxFieldWidth = width() - TITLE_MAXOTHERWIDETH/* - 20 * 2 */- 10*2-10;
         CNflag = false;
     }
     updateBaseInfo(mds, CNflag);
@@ -391,6 +407,16 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool C
         DPalette pa1 = DApplicationHelper::instance()->palette(field);
         pa1.setBrush(DPalette::WindowText, pa1.color(DPalette::TextTitle));
         field->setPalette(pa1);
+
+        //hujianbo 修改图片信息中文修改格式为年月日，英文不变，修复bug24447  备注：随系统升级有时拿到的是年月日格式 ，有时是/格式
+        if (i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") {
+            if (CNflag) {
+                QDateTime tmpTime = QDateTime::fromString(value, "yyyy/MM/dd hh:mm:ss");
+                if (!tmpTime.isNull())
+                    value = tmpTime.toString("yyyy年MM月dd日 hh:mm:ss");
+            }
+        }
+
         field->setText(SpliteText(value, field->font(), m_maxFieldWidth));
 
         SimpleFormLabel *title = new SimpleFormLabel(trLabel(i->name) + ":");
@@ -407,9 +433,9 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool C
         pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         if (CNflag) {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH,true));
         } else {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH,true));
         }
         QFontMetrics fm(title->font());
         QStringList list = title->text().split("\n");
@@ -453,9 +479,9 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos, boo
         pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         if (CNflag) {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH,true));
         } else {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH,true));
         }
 
         m_exifLayout_details->addRow(title, field);

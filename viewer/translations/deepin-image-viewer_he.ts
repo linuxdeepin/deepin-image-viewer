@@ -23,10 +23,14 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">פרטי התמונה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Alt+Return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -65,16 +69,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished">ביטול</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">מחיקה</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -100,8 +104,8 @@
         <translation>גודל הקובץ</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>מרחב צבע</translation>
+        <source>Date captured</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -148,16 +152,16 @@
         <translation>פיצוי מבזק</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>דגם המצלמה</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>דגם העדשה</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <source>Colorspace</source>
+        <translation>מרחב צבע</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>דגם המצלמה</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -242,6 +246,21 @@
     </message>
 </context>
 <context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>ביטול</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
@@ -303,15 +322,15 @@
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">תצוגה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">מסך מלא</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">מצגת</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>End show</source>
@@ -319,39 +338,39 @@
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">העתקה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">הסרה מהאלבום</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">הוספה למועדפים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">הסרה מהמועדפים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">הטייה עם כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">הטייה נגד כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">הגדרה כתמונת רקע</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">הצגה במנהל הקבצים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">פרטי התמונה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Previous</source>
@@ -371,7 +390,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">אלבום חדש</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rename</source>
@@ -387,7 +406,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">מחיקה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -436,15 +455,15 @@
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="unfinished">תצוגה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">מסך מלא</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">מצגת</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>End show</source>
@@ -452,47 +471,47 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">הדפסה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">העתקה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">הסרה מהאלבום</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">הוספה למועדפים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">הסרה מהמועדפים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">הטייה עם כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">הטייה נגד כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">הגדרה כתמונת רקע</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">הצגה במנהל הקבצים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">פרטי התמונה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">אלבום חדש</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rename</source>
@@ -500,7 +519,30 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">מחיקה</translation>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -529,6 +571,10 @@
 <context>
     <name>TTBContent</name>
     <message>
+        <source>My favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
@@ -546,26 +592,22 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">הטייה נגד כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">הטייה עם כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">מחיקה</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
-        <translation type="unfinished">המועדף שלי</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished">חזרה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image management</source>
@@ -573,7 +615,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">המועדף שלי</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>1:1 Size</source>
@@ -585,23 +627,23 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">הטייה נגד כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">הטייה עם כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">הסרה מהמועדפים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">הוספה למועדפים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">מחיקה</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -639,7 +681,7 @@
     </message>
     <message>
         <source>View</source>
-        <translation type="unfinished">תצוגה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Album</source>
@@ -650,7 +692,7 @@
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="unfinished">אלבום חדש</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
@@ -661,15 +703,15 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation type="unfinished">ציר זמן</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">הוספה לאלבום</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished">הוספה לאלבום חדש</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -677,31 +719,31 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">מסך מלא</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">מצגת</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">הדפסה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">העתקה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">הסרה מהאלבום</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">הוספה למועדפים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">הסרה מהמועדפים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -713,27 +755,27 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">הטייה עם כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">הטייה נגד כיוון השעון</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">הגדרה כתמונת רקע</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">הצגה במנהל הקבצים</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">פרטי התמונה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">מחיקה</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open Image</source>
@@ -741,6 +783,14 @@
     </message>
     <message>
         <source>All images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>שינוי שם</translation>
+    </message>
+    <message>
+        <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -5,11 +5,11 @@
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Prohlížeč obrázků</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prohlížeč obrázků je příjemný a snadno ovladatelný správce obrázků.</translation>
     </message>
 </context>
 <context>
@@ -23,22 +23,26 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Informace o obrázku</translation>
+        <translation>Informace o obrázku</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
+        <translation>Základní údaje</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Podrobnosti</translation>
     </message>
 </context>
 <context>
@@ -66,15 +70,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrázkový soubor nenalezen</translation>
     </message>
 </context>
 <context>
@@ -161,11 +165,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozměry</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka</translation>
     </message>
 </context>
 <context>
@@ -238,7 +242,22 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
+        <translation>rrrr/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Potvrdit</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušit</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Napište nový název</translation>
     </message>
 </context>
 <context>
@@ -391,19 +410,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">Opustit celou obrazovku</translation>
+        <translation>Opustit celou obrazovku</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>Přiblížit</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>Oddálit</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít</translation>
     </message>
 </context>
 <context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Předchozí</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pozastavit</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Přehrát</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Další</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Ukončit</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -530,35 +572,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Moje oblíbené</translation>
+        <translation>Moje oblíbené</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Předchozí</translation>
+        <translation>Předchozí</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Další</translation>
+        <translation>Další</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">Velikost 1:1</translation>
+        <translation>Velikost 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">Přizpůsobit oknu</translation>
+        <translation>Přizpůsobit oknu</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Otočit proti směru hodinových ručiček</translation>
+        <translation>Otočit vpravo</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Otočit po směru hodinových ručiček</translation>
+        <translation>Otočit vlevo</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
@@ -616,7 +658,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrázkový soubor nenalezen</translation>
     </message>
 </context>
 <context>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>Všechny obrázky</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Přejmenovat</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

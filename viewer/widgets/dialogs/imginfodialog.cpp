@@ -24,9 +24,12 @@
 #include <dtitlebar.h>
 #include <QFormLayout>
 #include <QKeyEvent>
-#include <QLabel>
 #include <QPainter>
 #include <QVBoxLayout>
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 namespace {
 
@@ -104,7 +107,7 @@ void ImgInfoDialog::keyPressEvent(QKeyEvent *e)
 void ImgInfoDialog::initThumbnail(const QString &path)
 {
     using namespace utils::image;
-    QLabel *iconLabel = new QLabel;
+    QLbtoDLabel *iconLabel = new QLbtoDLabel;
     iconLabel->setObjectName("IconLabel");
     QPixmap pixmap = cutSquareImage(getThumbnail(path),
                                     QSize(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT) * devicePixelRatioF());
@@ -123,7 +126,7 @@ void ImgInfoDialog::initThumbnail(const QString &path)
 
 void ImgInfoDialog::initSeparator()
 {
-    QLabel *sl = new QLabel;
+    QLbtoDLabel *sl = new QLbtoDLabel;
     sl->setObjectName("Separator");
     sl->setFixedSize(MAX_WIDTH - 5 * 2, 1);
     m_layout->addSpacing(9);
@@ -169,9 +172,9 @@ void ImgInfoDialog::initCloseButton()
 {
     ImageButton* cb = new ImageButton(this);
     cb->setTooltipVisible(true);
-    cb->setNormalPic(":/resources/common/images/window_close_normal.svg");
-    cb->setHoverPic(":/resources/common/images/window_close_hover.svg");
-    cb->setPressPic("::/resources/common/images/window_close_press.svg");
+    cb->setNormalPic(":/assets/common/images/window_close_normal.svg");
+    cb->setHoverPic(":/assets/common/images/window_close_hover.svg");
+    cb->setPressPic("::/assets/common/images/window_close_press.svg");
     cb->setFixedSize(27, 23);
     cb->move(this->x() + this->width() - cb->width() + 1, 4);
     connect(cb, &ImageButton::clicked, this, &ImgInfoDialog::close);

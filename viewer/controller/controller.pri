@@ -4,7 +4,8 @@ HEADERS += \
     $$PWD/commandline.h \
     $$PWD/configsetter.h \
     $$PWD/globaleventfilter.h \
-    $$PWD/viewerthememanager.h
+    $$PWD/viewerthememanager.h \
+    $$PWD/dbusclient.h
 
 SOURCES += \
     $$PWD/signalmanager.cpp \
@@ -12,7 +13,8 @@ SOURCES += \
     $$PWD/commandline.cpp \
     $$PWD/configsetter.cpp \
     $$PWD/globaleventfilter.cpp \
-    $$PWD/viewerthememanager.cpp
+    $$PWD/viewerthememanager.cpp \
+    $$PWD/dbusclient.cpp
 
 !isEmpty(FULL_FUNCTIONALITY) {
     HEADERS += $$PWD/importer.h \

@@ -9,7 +9,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer es una herramienta de visualización de imágenes con una interfaz de moda y un rendimiento suave.</translation>
+        <translation>Visor de imágenes es una herramienta de visualización de imágenes con una interfaz de moda y un rendimiento suave.</translation>
     </message>
 </context>
 <context>
@@ -27,7 +27,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt + Enter</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt + Enter</translation>
     </message>
 </context>
 <context>
@@ -45,14 +49,14 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>Este archivo contiene varias páginas. Usa Evince para ver todas las páginas.</translation>
+        <translation>Este archivo contiene varias páginas. Use Evince para ver todas las páginas.</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir directorio</translation>
+        <translation>Abrir carpeta</translation>
     </message>
 </context>
 <context>
@@ -70,11 +74,11 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Borrar</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">No se encontró el archivo de imagen</translation>
+        <translation>No se encontró el archivo de imagen</translation>
     </message>
 </context>
 <context>
@@ -242,14 +246,29 @@
     </message>
 </context>
 <context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Confirmar</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Ingrese un nuevo nombre</translation>
+    </message>
+</context>
+<context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Seleccionar directorio</translation>
+        <translation>Seleccionar carpeta</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Este directorio está desactivado para sincronización</translation>
+        <translation>Esta carpeta está desactivada para sincronización</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -257,11 +276,11 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Administración de directorios de sincronización</translation>
+        <translation>Administración de carpetas sincronizadas</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>La lista de directorios esta vacía</translation>
+        <translation>La lista de carpetas esta vacía</translation>
     </message>
 </context>
 <context>
@@ -280,11 +299,11 @@
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Este directorio ya no existe</translation>
+        <translation>Esta carpeta ya no existe</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>Calculando...</translation>
+        <translation>Calculando…</translation>
     </message>
 </context>
 <context>
@@ -311,7 +330,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentar en diapositivas</translation>
+        <translation>Presentación</translation>
     </message>
     <message>
         <source>End show</source>
@@ -323,15 +342,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar del álbum</translation>
+        <translation>Quitar del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Destacar</translation>
+        <translation>Añadir a favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No destacar</translation>
+        <translation>Quitar de favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -387,7 +406,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Borrar</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -399,7 +418,7 @@
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Alejar el zoom</translation>
+        <translation>Reducir</translation>
     </message>
     <message>
         <source>Open</source>
@@ -421,7 +440,7 @@
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Ver Imágen</translation>
+        <translation>Ver imágen</translation>
     </message>
     <message>
         <source>Album</source>
@@ -444,7 +463,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentar en diapositivas</translation>
+        <translation>Presentación</translation>
     </message>
     <message>
         <source>End show</source>
@@ -460,15 +479,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover del álbum</translation>
+        <translation>Quitar del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Destacar</translation>
+        <translation>Añadir a favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No destacar</translation>
+        <translation>Quitar de favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -488,7 +507,7 @@
     </message>
     <message>
         <source>Image info</source>
-        <translation>Info de Imágen</translation>
+        <translation>Información de imágen</translation>
     </message>
     <message>
         <source>New album</source>
@@ -500,14 +519,37 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Borrar</translation>
+    </message>
+</context>
+<context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pausar</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Reproducir</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Siguiente</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Salir</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Presentar en diapositivas</translation>
+        <translation>Ajustes de presentación</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -519,7 +561,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Cambiar Duración</translation>
+        <translation>Cambiar duración</translation>
     </message>
     <message>
         <source>second</source>
@@ -558,7 +600,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Borrar</translation>
     </message>
 </context>
 <context>
@@ -593,15 +635,15 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No destacar</translation>
+        <translation>Quitar de favoritos</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Añadir a favoritos</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Borrar</translation>
     </message>
 </context>
 <context>
@@ -623,7 +665,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración de la presentación</translation>
+        <translation>Ajustes de presentación</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -665,11 +707,11 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Agregar a álbum</translation>
+        <translation>Añadir a álbum</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Agregar a nuevo álbum</translation>
+        <translation>Añadir a nuevo álbum</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -681,7 +723,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentar en diapositivas</translation>
+        <translation>Presentación</translation>
     </message>
     <message>
         <source>Print</source>
@@ -693,15 +735,15 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Remover del álbum</translation>
+        <translation>Quitar del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Destacar</translation>
+        <translation>Añadir a favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>No destacar</translation>
+        <translation>Quitar de favoritos</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -725,7 +767,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en explorador de archivos</translation>
+        <translation>Mostrar en el gestor de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -733,7 +775,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation>Borrar</translation>
     </message>
     <message>
         <source>Open Image</source>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>Todas las imágenes</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Renombrar</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

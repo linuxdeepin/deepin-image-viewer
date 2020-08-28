@@ -24,7 +24,6 @@
 #include <QFileInfo>
 #include <QFileSystemWatcher>
 #include <QFontMetrics>
-#include <QLabel>
 #include <QStringList>
 #include <QStyle>
 #include <QVBoxLayout>
@@ -127,7 +126,7 @@ void ScanPathsItem::initCountThread()
 void ScanPathsItem::initLeftIcon()
 {
     // Left icon
-    QLabel *icon = new QLabel;
+    QLbtoDLabel *icon = new QLbtoDLabel;
     icon->setFixedSize(ICON_SIZE, ICON_SIZE);
     icon->setObjectName("PathItemIcon");
     m_mainLayout->addSpacing(10);
@@ -137,11 +136,11 @@ void ScanPathsItem::initLeftIcon()
 void ScanPathsItem::initMiddleContent()
 {
     // Middle content
-    m_dirLabel = new QLabel;
+    m_dirLabel = new QLbtoDLabel;
     m_dirLabel->setObjectName("PathItemDirLabel");
     m_dirLabel->setText(QFontMetrics(m_dirLabel->font()).elidedText(
         QFileInfo(m_path).fileName(), Qt::ElideRight, LABEL_DEFAULT_WIDTH));
-    m_pathLabel = new QLabel;
+    m_pathLabel = new QLbtoDLabel;
     m_pathLabel->setObjectName("PathItemPathLabel");
     m_pathLabel->setText(QFontMetrics(m_pathLabel->font()).elidedText(
                            m_path, Qt::ElideMiddle, LABEL_DEFAULT_WIDTH));
@@ -153,7 +152,7 @@ void ScanPathsItem::initMiddleContent()
     dirLayout->addWidget(m_pathLabel);
     dirLayout->addStretch();
 
-    m_countLabel = new QLabel;
+    m_countLabel = new QLbtoDLabel;
     m_countLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     m_countLabel->setObjectName("PathItemCountLabel");
 

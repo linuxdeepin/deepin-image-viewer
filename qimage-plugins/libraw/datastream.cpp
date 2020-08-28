@@ -38,7 +38,7 @@ int Datastream::valid()
 
 int Datastream::read(void *ptr, size_t size, size_t nmemb)
 {
-    return int(m_device->read((char *)ptr, size * nmemb));
+    return int(m_device->read((char *)ptr,qint64( size * nmemb)));
 }
 
 int Datastream::seek(INT64 offset, int whence)
@@ -85,7 +85,7 @@ int Datastream::get_char()
 
 char *Datastream::gets(char *s, int n)
 {
-    return m_device->readLine(s, n) >= 0 ? s : NULL;
+    return m_device->readLine(s, n) >= 0 ? s : nullptr;
 }
 
 int Datastream::scanf_one(const char *fmt, void *val)
@@ -113,5 +113,5 @@ int Datastream::eof()
 
 void *Datastream::make_jas_stream()
 {
-    return NULL;
+    return nullptr;
 }

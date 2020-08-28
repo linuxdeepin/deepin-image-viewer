@@ -1,6 +1,0 @@
-   {
-       "type": "opensource",
-       "3rdparty": [],
-       "ignore": ["./.tx","./LICENSE","icons","docs","doc","assets","resources","debian", "translations","*.txt","*.md","*.pro","*.toml","*.service","*.qrc","*.pro","*.svg", "*.png", "*.qm", "*.ts", "*.pro.user","*.pro.user.*","*.json","*.pri","./.gitignore"],
-       "license": ["GPLv3"]
-   }

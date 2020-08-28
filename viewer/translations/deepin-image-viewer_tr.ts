@@ -27,7 +27,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Return</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -74,7 +78,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Görsel dosya bulunamadı</translation>
+        <translation>Görsel dosya bulunamadı</translation>
     </message>
 </context>
 <context>
@@ -239,6 +243,21 @@
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Onayla</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>İptal</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Yeni bir ad gir</translation>
     </message>
 </context>
 <context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Önceki</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Duraklat</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Oynat</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Sonraki</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Çıkış</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>Tüm görüntüler</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Yeniden adlandır</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

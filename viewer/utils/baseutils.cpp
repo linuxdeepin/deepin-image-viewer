@@ -131,7 +131,11 @@ void showInFileManager(const QString &path)
         return;
     }
 
+#if 1
     QUrl url = QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath());
+#else
+    QUrl url = QUrl::fromLocalFile(path);
+#endif
     Dtk::Widget::DDesktopServices::showFileItem(url);
 //    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
 //    QUrlQuery query;
@@ -337,7 +341,7 @@ QString wrapStr(const QString &str, const QFont &font, int maxWidth)
 }
 
 
-QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
+QString SpliteText(const QString &text, const QFont &font, int nLabelSize,bool bReturn)
 {
     QFontMetrics fm(font);
     int nTextSize = fm.width(text);
@@ -356,8 +360,17 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 
         QString qstrLeftData = text.left(nPos);
         QString qstrMidData = text.mid(nPos);
-        if (qstrLeftData != "")
-            return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+        if(bReturn)
+        {
+            qstrLeftData.replace(" ","\n");
+            qstrMidData.replace(" ","\n");
+            if (qstrLeftData != "")
+                return qstrLeftData + SpliteText(qstrMidData, font, nLabelSize);
+        }else
+        {
+            if (qstrLeftData != "")
+                return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+        }
     }
     return text;
 }

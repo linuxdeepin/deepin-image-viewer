@@ -24,24 +24,23 @@
 #include <QVBoxLayout>
 #include <QStyle>
 #include <QFileDialog>
-#include <QLabel>
 
 ImportFrame::ImportFrame(QWidget *parent)
     : QWidget(parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     this->setAcceptDrops(true);
-    m_bgLabel = new QLabel();
+    m_bgLabel = new QLbtoDLabel();
     m_bgLabel->setFixedSize(164, 104);
     m_bgLabel->setObjectName("ImportBgLabel");
 
 
-    m_importButton = new QPushButton();
+    m_importButton = new QPBtnDPushButton();
     m_importButton->setFixedSize(120, 20);
     m_importButton->setObjectName("ImportFrameButton");
-    connect(m_importButton, &QPushButton::clicked, this, &ImportFrame::clicked);
+    connect(m_importButton, &QPBtnDPushButton::clicked, this, &ImportFrame::clicked);
 
-    m_titleLabel = new QLabel();
+    m_titleLabel = new QLbtoDLabel();
     m_titleLabel->setObjectName("ImportFrameTooltip");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -78,6 +77,7 @@ const QString ImportFrame::buttonText() const
     return m_importButton->text();
 }
 
-void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-
+void ImportFrame::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
+    Q_UNUSED(theme);
 }

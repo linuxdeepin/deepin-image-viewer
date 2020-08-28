@@ -28,6 +28,9 @@
 
 #include "controller/viewerthememanager.h"
 #include "widgets/blureframe.h"
+#include <DWidget>
+DWIDGET_USE_NAMESPACE
+typedef DWidget QWdToDWidget;
 
 // class ExtensionPanel : public DFloatingWidget
 class ExtensionPanel : public DAbstractDialog
@@ -47,13 +50,13 @@ protected:
     //    void paintEvent(QPaintEvent *) override;
     //    void mouseMoveEvent(QMouseEvent *e) override;
     void closeEvent(QCloseEvent *e) override;
-    void paintEvent(QPaintEvent *);
-    void mouseMoveEvent(QMouseEvent *e);
+    void paintEvent(QPaintEvent *) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
 public slots:
 
 private:
     QColor m_coverBrush;
-    QWidget *m_content;
+    QWdToDWidget *m_content;
     QVBoxLayout *m_contentLayout;
 
     QVBoxLayout *m_mainLayout {nullptr};

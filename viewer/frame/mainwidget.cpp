@@ -18,10 +18,10 @@
 #include "application.h"
 #include "controller/configsetter.h"
 #include "controller/importer.h"
-#include "module/album/albumpanel.h"
+//#include "module/album/albumpanel.h"
 //#include "module/edit/EditPanel.h"
 #include "module/slideshow/slideshowpanel.h"
-#include "module/timeline/timelinepanel.h"
+//#include "module/timeline/timelinepanel.h"
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "widgets/dialogs/imginfodialog.h"
@@ -33,7 +33,6 @@
 #include <QFile>
 #include <QFileSystemWatcher>
 #include <QHBoxLayout>
-#include <QLabel>
 
 #include <ddialog.h>
 using namespace Dtk::Widget;
@@ -221,7 +220,7 @@ void MainWidget::initPanelStack(bool manager)
 #else
     Q_UNUSED(manager)
 #endif
-    m_panelStack = new QStackedWidget(this);
+    m_panelStack = new QSWToDStackedWidget(this);
     m_panelStack->setObjectName("PanelStack");
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -258,8 +257,17 @@ void MainWidget::initTopToolbar()
     m_topToolbar->move(0, 0);
     m_topToolbar->hide();
     connect(dApp->signalM, &SignalManager::allPicDelete, this, [ = ]() {
-        m_topToolbar = new TopToolbar(false, this);
-        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+       //LMH0609解决31220 【看图】【5.6.3.9】【sp1】删除整个目录的图片后重新打开一个目录，全屏观看图片，展示异常
+        if(nullptr!=m_topToolbar)
+        {
+            m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+        }
+        else {
+            m_topToolbar = new TopToolbar(false, this);
+        }
+    });
+    connect(dApp->signalM, &SignalManager::changetitletext, this, [ = ](QString filename) {
+        m_topToolbar->setMiddleContent(filename);
     });
     connect(dApp->signalM, &SignalManager::enterView, this, [ = ](bool a) {
         if (a) {
@@ -287,11 +295,11 @@ void MainWidget::initTopToolbar()
     //    m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
 
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent, this, [ = ](QWidget * c) {
-        //        if (c != nullptr)
+        if (c != nullptr) {};
         //            m_topToolbar->setLeftContent(c);
     });
     connect(dApp->signalM, &SignalManager::updateTopToolbarMiddleContent, this, [ = ](QWidget * c) {
-        //        if (c != nullptr)
+        if (c != nullptr) {};
         //            m_topToolbar->setMiddleContent();
     });
     connect(dApp->signalM, &SignalManager::showTopToolbar, this, [ = ] {
@@ -312,10 +320,14 @@ void MainWidget::initTopToolbar()
 
 void MainWidget::initConnection()
 {
-    QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
-    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+?"), this);
-    connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
+    connect(this, SIGNAL(mainwgtloadslideshowpath(bool)), m_viewPanel, SLOT(recvLoadSignal(bool)));
+    connect(m_viewPanel, SIGNAL(sigsendslideshowlist(bool, DBImgInfoList)), this, SIGNAL(sigmaindgtslideshowpath(bool, DBImgInfoList)));
+    connect(this, SIGNAL(sigExitFullScreen()), m_viewPanel, SLOT(slotExitFullScreen()));
+    //屏蔽CTrl+Q快捷键
+    // QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
+    // QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    //connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
     connect(dApp->signalM, &SignalManager::backToMainPanel, this, [ = ] {
         window()->show();
         window()->raise();
@@ -341,7 +353,6 @@ void MainWidget::initConnection()
         window()->raise();
         window()->activateWindow();
     });
-
     connect(dApp->signalM, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);
     connect(dApp->signalM, &SignalManager::showInFileManager, this,
     [ = ](const QString & path) {
@@ -390,7 +401,7 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar->move(
         0, height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 
-    m_btmSeparatorLine = new QLabel(this);
+    m_btmSeparatorLine = new QLbtoDLabel(this);
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbar, this, [ = ](bool wideMode) {
         if (wideMode) {
@@ -458,7 +469,7 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->move(
             (this->width() - m_bottomToolbar->width()) / 2,
             this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
-    }, Qt::DirectConnection);
+    });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [ = ] {
         m_bottomToolbar->setVisible(true);
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
@@ -541,6 +552,7 @@ void MainWidget::initExtensionPanel()
 #else
     connect(dApp->signalM, &SignalManager::hideExtensionPanel, this,
     [ = ](bool immediately) {
+        if (immediately) {};
         m_extensionPanel->hide();
     });
 #endif

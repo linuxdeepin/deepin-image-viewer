@@ -18,9 +18,12 @@
 #define SEPARATOR_H
 
 #include <QWidget>
-#include <QLabel>
+#include <DLabel>
 
-class Separator : public QLabel
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
+class Separator : public QLbtoDLabel
 {
     Q_OBJECT
 public:

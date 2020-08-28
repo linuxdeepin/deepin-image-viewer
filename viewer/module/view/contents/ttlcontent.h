@@ -21,10 +21,15 @@
 #include <QLabel>
 #include "controller/viewerthememanager.h"
 #include "controller/dbmanager.h"
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
 class PushButton;
 class ReturnButton;
 class ElidedLabel;
-class TTLContent : public QLabel
+class TTLContent : public QLbtoDLabel
 {
     Q_OBJECT
 public:

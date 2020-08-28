@@ -18,7 +18,7 @@
 #include "shortcut/shortcutframe.h"
 #include "slideshow/slideshowframe.h"
 #include <dimagebutton.h>
-#include <dscrollbar.h>
+#include <scrollbar.h>
 #include <QCursor>
 #include <QPropertyAnimation>
 #include <QVBoxLayout>
@@ -79,9 +79,9 @@ ContentsFrame::ContentsFrame(QWidget *parent)
     m_layout->setSpacing(0);
 
     // Close button
-    DImageButton *cb = new DImageButton(":/settings/images/resources/images/close_normal.png",
-                                        ":/settings/images/resources/images/close_hover.png",
-                                        ":/settings/images/resources/images/close_press.png");
+    DImageButton *cb = new DImageButton(":/settings/images/assets/images/close_normal.png",
+                                        ":/settings/images/assets/images/close_hover.png",
+                                        ":/settings/images/assets/images/close_press.png");
     connect(cb, &DImageButton::clicked, parent->window(), &QWidget::hide);
     QFrame *cbf = new QFrame;
     cbf->setObjectName("CloseButtonFrame");
@@ -130,7 +130,7 @@ void ContentsFrame::initScrollArea()
     m_area->setWidgetResizable(true);
     m_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    QWidget *content = new QWidget;
+    QWdToDWidget *content = new QWdToDWidget;
     QVBoxLayout *layout = new QVBoxLayout(content);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);

@@ -21,7 +21,11 @@
 #include "application.h"
 #include "controller/viewerthememanager.h"
 
-class QLabel;
+#include <DLabel>
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
 class ProcessTooltip : public BlurFrame
 {
     Q_OBJECT
@@ -30,8 +34,8 @@ public:
     void showTooltip(const QString &message, bool success);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
-    QLabel *m_icon;
-    QLabel *m_message;
+    QLbtoDLabel *m_icon;
+    QLbtoDLabel *m_message;
 
     QColor m_coverColor;
     QColor m_borderColor;

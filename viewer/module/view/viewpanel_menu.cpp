@@ -33,7 +33,7 @@
 
 namespace {
 
-const int SWITCH_IMAGE_DELAY = 300;
+const int SWITCH_IMAGE_DELAY = 200;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
 const QString FAVORITES_ALBUM_NAME = "My favorite";
 
@@ -48,6 +48,7 @@ enum MenuItemId {
     IdFullScreen,
     IdExitFullScreen,
     IdStartSlideShow,
+    IdRename,
     IdPrint,
     IdAddToAlbum,
     IdCopy,
@@ -64,6 +65,7 @@ enum MenuItemId {
     IdDisplayInFileManager,
     IdImageInfo,
     IdSubMenu,
+    IdDraw
 };
 
 }  // namespace
@@ -157,7 +159,6 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         return;
     const QString path = m_infos.at(m_current).filePath;
     const int id = action->property("MenuID").toInt();
-
     switch (MenuItemId(id)) {
     case IdFullScreen:
     case IdExitFullScreen:
@@ -168,12 +169,49 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.fullScreen = window()->isFullScreen();
         vinfo.lastPanel = this;
         vinfo.path = path;
-        vinfo.paths = paths();
+        vinfo.paths = slideshowpaths();
+        vinfo.viewMainWindowID = 0;
+
+        //获取当前图片，节省第一张幻灯片加载图片的时间，在龙芯电脑上getFitImage耗时很严重，测试图片5.8M耗时0.6s
+//        QPixmap pix = this->grab(QRect(QPoint( 0, 0 ),QSize( this->size().width(),this->size().height())));
+//        QImage img = pix.toImage();
+        QImage img = m_viewB->image();
+        emit dApp->signalM->setFirstImg(img);
         emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
+        emit dApp->signalM->showSlidePanel(0);
         break;
     }
     case IdPrint: {
         PrintHelper::showPrintDialog(QStringList(path), this);
+        break;
+    }
+
+    case IdRename: {
+        QString filepath = path;
+        QString filename;
+        if (PopRenameDialog(filepath, filename)) {
+            m_rwLock.lockForWrite();
+            //重命名后维护已经加载的文件名
+            int allcurrent = m_infosAll.indexOf(m_infos[m_current]);
+            m_infos[m_current].fileName = filename;
+            m_infos[m_current].filePath = filepath;
+            m_infosAll[allcurrent].fileName = filename;
+            m_infosAll[allcurrent].filePath = filepath;
+            m_rwLock.unlock();
+            //修改链表里被修改文件的文件名
+            connect(this, &ViewPanel::SetImglistPath, ttbc, &TTBContent::OnSetimglist);
+            emit SetImglistPath(m_current, filename, filepath);
+            //修改map维护的数据
+            //dApp->getRwLock().lockForWrite();
+            QMutexLocker(&dApp->getRwLock());
+            QPixmap pix =  dApp->m_imagemap.value(path);
+            dApp->m_imagemap.remove(path);
+            dApp->m_imagemap.insert(filepath, pix);
+           // dApp->getRwLock().unlock();
+            m_currentImagePath  = filepath;
+            connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
+            emit changeitempath(m_current, filepath);
+        }
         break;
     }
 #ifndef LITE_DIV
@@ -198,9 +236,14 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             QFile file(path);
             if (!file.exists())
                 break;
-            removeCurrentImage();
-            DDesktopServices::trash(path);
-            emit dApp->signalM->picDelete();
+            //modify by heyi
+            if (removeCurrentImage()) {
+                DDesktopServices::trash(path);
+                emit dApp->signalM->picDelete();
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
+            }
         }
         break;
 #ifndef LITE_DIV
@@ -243,6 +286,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             m_info->setImagePath(path);
         }
         break;
+    case IdDraw: {
+            QStringList pathlist;
+            pathlist << path;
+            emit dApp->signalM->sigDrawingBoard(pathlist);
+            break;
+        }
     default:
         break;
     }
@@ -252,6 +301,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 
 void ViewPanel::updateMenuContent()
 {
+
     m_menu->clear();
     qDeleteAll(this->actions());
 
@@ -268,6 +318,12 @@ void ViewPanel::updateMenuContent()
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+    //修复打开不支持显示的图片在缩略图中没有，current出现超出界限崩溃问题
+    if (m_current >= m_infos.size()) m_current = 0;
+    if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
+            QFileInfo(m_infos.at(m_current).filePath).isWritable())
+        appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
+    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
 #ifndef LITE_DIV
     if (m_vinfo.inDatabase) {
         DMenu *am = createAlbumMenu();
@@ -295,16 +351,16 @@ void ViewPanel::updateMenuContent()
                 !DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM_NAME, m_current->filePath)) {
             appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
         } else {
-            appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("Unfavorite"));
+            appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("UnfappendAction(IdRename, tr("Rename"), ss("Rename", "F2"));avorite"));
         }
     }
 #endif
     m_menu->addSeparator();
     /**************************************************************************/
-    if (!m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden()) {
+    if (!m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden() && GetPixmapStatus(m_currentImagePath)) {
         appendAction(IdShowNavigationWindow, tr("Show navigation window"),
                      ss("Show navigation window", ""));
-    } else if (!m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()) {
+    } else if (!m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()&& GetPixmapStatus(m_currentImagePath)) {
         appendAction(IdHideNavigationWindow, tr("Hide navigation window"),
                      ss("Hide navigation window", ""));
     }
@@ -329,6 +385,7 @@ void ViewPanel::updateMenuContent()
                      ss("Display in file manager", "Ctrl+D"));
     }
     appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Return"));
+    //appendAction(IdDraw, tr("Draw"), ss("Draw", ""));
 }
 
 void ViewPanel::initShortcut()
@@ -347,17 +404,17 @@ void ViewPanel::initShortcut()
         }
     });
     // Delay image toggle
-    QTimer *dt = new QTimer(this);
-    dt->setSingleShot(true);
-    dt->setInterval(SWITCH_IMAGE_DELAY);
+    QTimer *m_dt = new QTimer(this);
+    m_dt->setSingleShot(true);
+    m_dt->setInterval(SWITCH_IMAGE_DELAY);
 
     // Previous
     sc = new QShortcut(QKeySequence(Qt::Key_Left), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        if (!dt->isActive())
+        if (!m_dt->isActive())
         {
-            dt->start();
+            m_dt->start();
             showPrevious();
         }
     });
@@ -365,9 +422,9 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Right), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
-        if (!dt->isActive())
+        if (!m_dt->isActive())
         {
-            dt->start();
+            m_dt->start();
             showNext();
         }
     });
@@ -406,22 +463,22 @@ void ViewPanel::initShortcut()
             m_viewB->setScaleValue(0.9);
     });
     // Esc
-    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
-    esc->setContext(Qt::WindowShortcut);
-    connect(esc, &QShortcut::activated, this, [ = ] {
-        if (window()->isFullScreen())
-        {
-            toggleFullScreen();
-        } else
-        {
-            if (m_vinfo.inDatabase) {
-                backToLastPanel();
-            } else {
-                dApp->quit();
-            }
-        }
-        emit dApp->signalM->hideExtensionPanel(true);
-    });
+//    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+//    esc->setContext(Qt::WindowShortcut);
+//    connect(esc, &QShortcut::activated, this, [ = ] {
+//        if (window()->isFullScreen())
+//        {
+//            toggleFullScreen();
+//        } else
+//        {
+//            if (m_vinfo.inDatabase) {
+//                backToLastPanel();
+//            } else {
+//                dApp->quit();
+//            }
+//        }
+//        emit dApp->signalM->hideExtensionPanel(true);
+//    });
     // 1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
     adaptImage->setContext(Qt::WindowShortcut);

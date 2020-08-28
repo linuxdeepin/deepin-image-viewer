@@ -173,6 +173,8 @@ void ExtensionPanel::paintEvent(QPaintEvent *pe)
 //}
 void ExtensionPanel::moveWithAnimation(int x, int y)
 {
+    Q_UNUSED(x);
+    Q_UNUSED(y);
     //    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
     //    animation->setDuration(ANIMATION_DURATION);
     //    animation->setEasingCurve(ANIMATION_EASING_CURVE);
@@ -204,7 +206,7 @@ void ExtensionPanel::init()
     m_scrollArea->viewport()->setPalette(palette);
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
 
-    QWidget *scrollContentWidget = new QWidget(m_scrollArea);
+    QWdToDWidget *scrollContentWidget = new QWdToDWidget(m_scrollArea);
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
     scrollWidgetLayout->setContentsMargins(10, 0, 10, 10);
     scrollWidgetLayout->setSpacing(0);

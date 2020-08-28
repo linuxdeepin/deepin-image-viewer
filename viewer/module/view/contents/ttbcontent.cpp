@@ -48,10 +48,14 @@ const int RETURN_BTN_MAX = 200;
 const int FILENAME_MAX_LENGTH = 600;
 const int RIGHT_TITLEBAR_WIDTH = 100;
 const int LEFT_SPACE = 20;
-const QString LOCMAP_SELECTED_DARK = ":/resources/dark/images/58 drak.svg";
-const QString LOCMAP_NOT_SELECTED_DARK = ":/resources/dark/images/imagewithbg-dark.svg";
-const QString LOCMAP_SELECTED_LIGHT = ":/resources/light/images/58.svg";
-const QString LOCMAP_NOT_SELECTED_LIGHT = ":/resources/light/images/imagewithbg.svg";
+const QString LOCMAP_SELECTED_DARK = ":/assets/dark/images/58 drak.svg";
+const QString LOCMAP_NOT_SELECTED_DARK = ":/assets/dark/images/imagewithbg-dark.svg";
+const QString LOCMAP_SELECTED_LIGHT = ":/assets/light/images/58.svg";
+const QString LOCMAP_NOT_SELECTED_LIGHT = ":/assets/light/images/imagewithbg.svg";
+const QString LOCMAP_SELECTED_DAMAGED_DARK = ":/assets/dark/images/picture_damaged-58_drak.svg";
+const QString LOCMAP_NOT_SELECTED_DAMAGED_DARK = ":/assets/dark/images/picture_damaged_dark.svg";
+const QString LOCMAP_SELECTED_DAMAGED_LIGHT = ":/assets/light/images/picture_damaged_58.svg";
+const QString LOCMAP_NOT_SELECTED_DAMAGED_LIGHT = ":/assets/light/images/picture_damaged.svg";
 
 const int TOOLBAR_MINIMUN_WIDTH = 610 - 3;
 const int TOOLBAR_JUSTONE_WIDTH = 310;
@@ -91,23 +95,23 @@ char *getImageType(QString filepath)
     case IMAGE_TYPE_JPG2:
     case IMAGE_TYPE_JPG3:
         //文件类型为 JEPG
-        ret = "JEPG";
+        ret = QString("JEPG").toLatin1().data();
         break;
     case IMAGE_TYPE_PNG:
         //文件类型为 png
-        ret = "PNG";
+        ret = QString("PNG").toLatin1().data();
         break;
     case IMAGE_TYPE_GIF:
         //文件类型为 GIF
-        ret = "GIF";
+        ret = QString("GIF").toLatin1().data();
         break;
     case IMAGE_TYPE_TIFF:
         //文件类型为 TIFF
-        ret = "TIFF";
+        ret = QString("TIFF").toLatin1().data();
         break;
     case IMAGE_TYPE_BMP:
         //文件类型为 BMP
-        ret = "BMP";
+        ret = QString("BMP").toLatin1().data();
         break;
     default:
         ret = nullptr;
@@ -163,9 +167,10 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 
 ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
 {
+    Q_UNUSED(imageType);
+    Q_UNUSED(parent);
     _index = index;
     _path = path;
-
     if (dApp->m_imagemap.contains(path)) {
         _pixmap = dApp->m_imagemap.value(path);
     }
@@ -173,24 +178,28 @@ ImageItem::ImageItem(int index, QString path, char *imageType, QWidget *parent)
     connect(dApp, &Application::sigFinishLoad, this, [ = ](QString mapPath) {
         if (mapPath == _path || mapPath == "") {
             if (dApp->m_imagemap.contains(_path)) {
-                _pixmap = dApp->m_imagemap.value(_path);
+                if(!dApp->m_imagemap.value(_path).isNull())
+                    _pixmap = dApp->m_imagemap.value(_path);
                 update();
+                bFirstUpdate = false;
             }
         }
     });
 };
+
 void ImageItem::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
 
     QPainter painter(this);
 
     painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform |
                            QPainter::Antialiasing);
-
     QRect backgroundRect = rect();
     QRect pixmapRect;
-
+    QFileInfo fileinfo(_path);
+    QString str = fileinfo.suffix();
     if (_index == _indexNow) {
         QPainterPath backgroundBp;
         QRect reduceRect = QRect(backgroundRect.x() + 1, backgroundRect.y() + 1,
@@ -200,33 +209,42 @@ void ImageItem::paintEvent(QPaintEvent *event)
         painter.fillRect(
             reduceRect,
             QBrush(DGuiApplicationHelper::instance()->applicationPalette().highlight().color()));
-
-        if (_pixmap.width() > _pixmap.height()) {
-            _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height()) / 2, 0, _pixmap.height(),
-                                   _pixmap.height());
-        } else if (_pixmap.width() < _pixmap.height()) {
-            _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width()) / 2, _pixmap.width(),
-                                   _pixmap.width());
-        }
+//LMH解决选中竖图，大小改变0509,屏蔽掉修改图片形状
+//        if (_pixmap.width() > _pixmap.height()) {
+//            _pixmap = _pixmap.copy((_pixmap.width() - _pixmap.height()) / 2, 0, _pixmap.height(),
+//                                   _pixmap.height());
+//        } else if (_pixmap.width() < _pixmap.height()) {
+//            _pixmap = _pixmap.copy(0, (_pixmap.height() - _pixmap.width()) / 2, _pixmap.width(),
+//                                   _pixmap.width());
+//        }
 
         pixmapRect.setX(backgroundRect.x() + 5);
         pixmapRect.setY(backgroundRect.y() + 5);
         pixmapRect.setWidth(backgroundRect.width() - 10);
         pixmapRect.setHeight(backgroundRect.height() - 10);
-
+        //修复透明图片被选中后透明地方变成绿色
         QPainterPath bg0;
         bg0.addRoundedRect(pixmapRect, 4, 4);
         painter.setClipPath(bg0);
-
+        if (themeType == DGuiApplicationHelper::LightType)
+            painter.fillRect(pixmapRect, QBrush(Qt::white));
+        else if (themeType == DGuiApplicationHelper::DarkType)
+            painter.fillRect(pixmapRect, QBrush(Qt::black));
         if (!_pixmap.isNull()) {
             //            painter.fillRect(pixmapRect,
             //            QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
-            m_pixmapstring = LOCMAP_SELECTED_DARK;
+            if (bFirstUpdate)
+                m_pixmapstring = LOCMAP_SELECTED_DARK;
+            else
+                m_pixmapstring = LOCMAP_SELECTED_DAMAGED_DARK;
         } else {
-            m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+            if (bFirstUpdate)
+                m_pixmapstring = LOCMAP_SELECTED_LIGHT;
+            else
+                m_pixmapstring = LOCMAP_SELECTED_DAMAGED_LIGHT;
         }
 
         QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(60, 60));
@@ -238,7 +256,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
             QIcon icon(m_pixmapstring);
             icon.paint(&painter, pixmapRect);
         }
-
     } else {
         pixmapRect.setX(backgroundRect.x() + 1);
         pixmapRect.setY(backgroundRect.y() + 0);
@@ -255,9 +272,15 @@ void ImageItem::paintEvent(QPaintEvent *event)
         }
 
         if (themeType == DGuiApplicationHelper::DarkType) {
-            m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
+            if (bFirstUpdate)
+                m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
+            else
+                m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_DARK;
         } else {
-            m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
+            if (bFirstUpdate)
+                m_pixmapstring = LOCMAP_NOT_SELECTED_LIGHT;
+            else
+                m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_LIGHT;
         }
 
         QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(30, 40));
@@ -271,7 +294,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
             icon.paint(&painter, pixmapRect);
         }
     }
-
     //    QPixmap blankPix = _pixmap;
     //    blankPix.fill(Qt::white);
 
@@ -280,7 +302,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
     //    whiteRect.setY(pixmapRect.y() + 1);
     //    whiteRect.setWidth(pixmapRect.width() - 2);
     //    whiteRect.setHeight(pixmapRect.height() - 2);
-
     QPainterPath bg1;
     bg1.addRoundedRect(pixmapRect, 4, 4);
     painter.setClipPath(bg1);
@@ -296,7 +317,14 @@ void ImageItem::paintEvent(QPaintEvent *event)
 }
 
 TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
-    : QLabel(parent)
+    : QLbtoDLabel(parent)
+{
+    setWindoeSize(inDB, m_infos, parent);
+    initBtn();
+    toolbarSigConnection();
+}
+
+void TTBContent::setWindoeSize(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = std::max(this->window()->width(),
@@ -316,86 +344,15 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
 
     setFixedWidth(m_contentWidth);
     setFixedHeight(70);
+    m_inDB = inDB;
+    connect(parent, SIGNAL(sigResize()), this, SLOT(onResize()));
+}
+
+void TTBContent::initBtn()
+{
     QHBoxLayout *hb = new QHBoxLayout(this);
     hb->setContentsMargins(LEFT_MARGIN, 0, LEFT_MARGIN, 1);
     hb->setSpacing(0);
-    m_inDB = inDB;
-
-#if TTB
-    m_preButton = new DIconButton(this);
-    m_preButton->setFixedSize(ICON_SIZE);
-    m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
-    m_preButton->setIconSize(QSize(36, 36));
-    m_preButton->setToolTip(tr("Previous"));
-    m_preButton->hide();
-
-    m_nextButton = new DIconButton(this);
-    m_nextButton->setFixedSize(ICON_SIZE);
-    m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
-    m_nextButton->setIconSize(QSize(36, 36));
-    m_nextButton->setToolTip(tr("Next"));
-    m_nextButton->hide();
-    m_nextButton->setContentsMargins(0, 0, 30, 0);
-
-    m_preButton_spc = new DWidget;
-    m_nextButton_spc = new DWidget;
-    m_preButton_spc->hide();
-    m_nextButton_spc->hide();
-    m_preButton_spc->setFixedSize(QSize(10, 50));
-    m_nextButton_spc->setFixedSize(QSize(40, 50));
-    hb->addWidget(m_preButton);
-    hb->addWidget(m_preButton_spc);
-    hb->addWidget(m_nextButton);
-    hb->addWidget(m_nextButton_spc);
-
-    connect(m_preButton, &DIconButton::clicked, this, [ = ] { emit showPrevious(); });
-    connect(m_nextButton, &DIconButton::clicked, this, [ = ] { emit showNext(); });
-
-    m_adaptImageBtn = new DIconButton(this);
-    m_adaptImageBtn->setFixedSize(ICON_SIZE);
-    m_adaptImageBtn->setIcon(QIcon::fromTheme("dcc_11"));
-    m_adaptImageBtn->setIconSize(QSize(36, 36));
-    m_adaptImageBtn->setToolTip(tr("1:1 Size"));
-    hb->addWidget(m_adaptImageBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] { emit resetTransform(false); });
-
-    m_adaptScreenBtn = new DIconButton(this);
-    m_adaptScreenBtn->setFixedSize(ICON_SIZE);
-    m_adaptScreenBtn->setIcon(QIcon::fromTheme("dcc_fit"));
-    m_adaptScreenBtn->setIconSize(QSize(36, 36));
-    m_adaptScreenBtn->setToolTip(tr("Fit to window"));
-    hb->addWidget(m_adaptScreenBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] { emit resetTransform(true); });
-
-    m_rotateLBtn = new DIconButton(this);
-    m_rotateLBtn->setFixedSize(ICON_SIZE);
-    m_rotateLBtn->setIcon(QIcon::fromTheme("dcc_left"));
-    m_rotateLBtn->setIconSize(QSize(36, 36));
-    m_rotateLBtn->setToolTip(tr("Rotate counterclockwise"));
-    hb->addWidget(m_rotateLBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_rotateLBtn, &DIconButton::clicked, this, &TTBContent::rotateCounterClockwise);
-
-    m_rotateRBtn = new DIconButton(this);
-    m_rotateRBtn->setFixedSize(ICON_SIZE);
-    m_rotateRBtn->setIcon(QIcon::fromTheme("dcc_right"));
-    m_rotateRBtn->setIconSize(QSize(36, 36));
-    m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
-    hb->addWidget(m_rotateRBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_rotateRBtn, &DIconButton::clicked, this, &TTBContent::rotateClockwise);
-#else
-    //    btPre = new ImageIconButton(":/resources/light/icons/previous_normal.svg",
-    //                                ":/resources/light/icons/previous_hover.svg",
-    //                                ":/resources/light/icons/previous_press.svg",
-    //                                ":/resources/light/icons/previous_normal.svg");
-    //    btPre->setFixedSize(50, 50);
-    //    btPre->setTransparent(false);
-    //    btPre->setToolTip(tr("Previous"));
-    //    btPre->hide();
-    // preButton
     m_preButton = new DIconButton(this);
     m_preButton->setObjectName("PreviousButton");
     m_preButton->setFixedSize(ICON_SIZE);
@@ -403,14 +360,6 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     m_preButton->setIconSize(QSize(36, 36));
     m_preButton->setToolTip(tr("Previous"));
 
-    //    btNext = new ImageIconButton(":/resources/light/icons/next_normal.svg",
-    //                                 ":/resources/light/icons/next_hover.svg",
-    //                                 ":/resources/light/icons/next_press.svg",
-    //                                 ":/resources/light/icons/next_normal.svg");
-    //    btNext->setFixedSize(50, 50);
-    //    btNext->setTransparent(false);
-    //    btNext->setToolTip(tr("Next"));
-    //    btNext->hide();
     // nextButton
     m_nextButton = new DIconButton(this);
     m_nextButton->setObjectName("NextButton");
@@ -432,15 +381,6 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     hb->addWidget(m_nextButton);
     hb->addWidget(m_nextButton_spc);
 
-    //    btAdapt = new ImageIconButton(":/resources/light/icons/1_1_normal.svg",
-    //                                  ":/resources/light/icons/1_1_hover.svg",
-    //                                  ":/resources/light/icons/1_1_press.svg",
-    //                                  ":/resources/light/icons/1_1_checked.svg");
-    //    btAdapt->setFixedSize(50, 50);
-    //    btAdapt->setTransparent(false);
-    //    btAdapt->setToolTip(tr("1:1 Size"));
-    //    btAdapt->setCheckable(true);
-    //    hb->addWidget(btAdapt);
     // adaptImageBtn
     m_adaptImageBtn = new DIconButton(this);
     m_adaptImageBtn->setObjectName("AdaptBtn");
@@ -452,14 +392,6 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     hb->addWidget(m_adaptImageBtn);
     hb->addSpacing(ICON_SPACING);
 
-    //    btFit = new ImageIconButton(":/resources/light/icons/fit_normal.svg",
-    //                                ":/resources/light/icons/fit_hover.svg",
-    //                                ":/resources/light/icons/fit_press.svg",
-    //                                ":/resources/light/icons/fit_normal.svg");
-    //    btFit->setFixedSize(50, 50);
-    //    btFit->setTransparent(false);
-    //    btFit->setToolTip(tr("Fit to window"));
-    //    hb->addWidget(btFit);
     // adaptScreenBtn
     m_adaptScreenBtn = new DIconButton(this);
     m_adaptScreenBtn->setFixedSize(ICON_SIZE);
@@ -471,14 +403,6 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     hb->addWidget(m_adaptScreenBtn);
     hb->addSpacing(ICON_SPACING);
 
-    //    btLeft = new ImageIconButton(":/resources/light/icons/left_normal.svg",
-    //                                 ":/resources/light/icons/left_hover.svg",
-    //                                 ":/resources/light/icons/left_press.svg",
-    //                                 ":/resources/light/icons/left_normal.svg");
-    //    btLeft->setFixedSize(50, 50);
-    //    btLeft->setTransparent(false);
-    //    btLeft->setToolTip(tr("Rotate counterclockwise"));
-    //    hb->addWidget(btLeft);
     // rotateLBtn
     m_rotateLBtn = new DIconButton(this);
     m_rotateLBtn->setFixedSize(ICON_SIZE);
@@ -488,14 +412,6 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     hb->addWidget(m_rotateLBtn);
     hb->addSpacing(ICON_SPACING);
 
-    //    btRight = new ImageIconButton(":/resources/light/icons/right_normal.svg",
-    //                                  ":/resources/light/icons/right_hover.svg",
-    //                                  ":/resources/light/icons/right_press.svg",
-    //                                  ":/resources/light/icons/right_normal.svg");
-    //    btRight->setFixedSize(50, 50);
-    //    btRight->setTransparent(false);
-    //    btRight->setToolTip(tr("Rotate clockwise"));
-    //    hb->addWidget(btRight);
     // rotateRBtn
     m_rotateRBtn = new DIconButton(this);
     m_rotateRBtn->setFixedSize(ICON_SIZE);
@@ -504,39 +420,13 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     m_rotateRBtn->setToolTip(tr("Rotate clockwise"));
     hb->addWidget(m_rotateRBtn);
     hb->addSpacing(ICON_SPACING);
-#endif
+
     m_imgListView_prespc = new DWidget;
     m_imgListView_prespc->setFixedSize(QSize(10, 50));
     hb->addWidget(m_imgListView_prespc);
     m_imgListView_prespc->hide();
-
     m_imgListView = new MyImageListWidget();
     m_imgList = new DWidget(m_imgListView);
-    connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, [ = ] {
-        int movex = m_imgList->x();
-        if (movex >= 0)
-        {
-            if (m_imgList->width() < m_imgListView->width()) {
-                if (m_imgList->width() + movex > m_imgListView->width()) {
-                    movex = (m_imgListView->width() - m_imgList->width()) / 2;
-                } else {
-                    return;
-                }
-            } else {
-                movex = 0;
-            }
-        } else
-        {
-            if (m_imgList->width() < m_imgListView->width()) {
-                movex = (m_imgListView->width() - m_imgList->width()) / 2;
-            } else {
-                if (movex < m_imgListView->width() - m_imgList->width()) {
-                    movex = m_imgListView->width() - m_imgList->width();
-                }
-            }
-        }
-        m_imgList->move(movex, m_imgList->y());
-    });
     m_imgListView->setObj(m_imgList);
     m_imgList->installEventFilter(m_imgListView);
     if (m_imgInfos.size() <= 3) {
@@ -555,6 +445,13 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     //    m_imglayout->setMargin(0);
     m_imglayout->setContentsMargins(0, 1, 0, 0);
     m_imglayout->setSpacing(0);
+//LMH0605
+    DLabel *pLabel=new DLabel (this);
+    pLabel->setMaximumSize(QSize(0,58));
+    pLabel->setFixedSize(QSize(0,58));
+    pLabel->resize(QSize(0,58));
+    m_imglayout->addWidget(pLabel);
+
     m_imgList->setLayout(m_imglayout);
 
     if (m_imgInfos.size() <= 3) {
@@ -573,7 +470,6 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     m_imgListView->setPalette(palette);
 
     hb->addWidget(m_imgListView);
-    //    hb->addSpacing(20);
 
     m_imgListView_spc = new DWidget;
     m_imgListView_spc->setFixedSize(QSize(24 - 9 + 10, 50));  // temp
@@ -581,7 +477,56 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
     m_imgListView_spc->hide();
 
     m_fileNameLabel = new ElidedLabel();
-    //    hb->addWidget(m_fileNameLabel);
+    m_trashBtn = new DIconButton(this);
+    m_trashBtn->setFixedSize(ICON_SIZE);
+    m_trashBtn->setObjectName("TrashBtn");
+    m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
+    m_trashBtn->setIconSize(QSize(36, 36));
+    m_trashBtn->setToolTip(tr("Delete"));
+
+    hb->addWidget(m_trashBtn);
+    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+    bool theme = false;
+    if (themeType == DGuiApplicationHelper::DarkType) {
+        theme = true;
+    } else {
+        theme = false;
+    }
+    slotTheme(theme);
+}
+
+void TTBContent::toolbarSigConnection()
+{
+    //拖动后移动多少
+    connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, [ = ] {
+        int movex = m_imgList->x();
+        if (movex >= 0)
+        {
+            if (m_imgList->width() < m_imgListView->width()) {
+                if (m_imgList->width() + movex > m_imgListView->width()) {
+                    movex = (m_imgListView->width() - m_imgList->width()) / 2;
+                } else {
+                    return;
+                }
+            } else {
+                movex = 0;
+                emit dApp->signalM->sendLoadSignal(true);
+            }
+        } else
+        {
+            if (m_imgList->width() < m_imgListView->width()) {
+                movex = (m_imgListView->width() - m_imgList->width()) / 2;
+            } else {
+                if (movex < m_imgListView->width() - m_imgList->width()) {
+                    movex = m_imgListView->width() - m_imgList->width();
+                    emit dApp->signalM->sendLoadSignal(false);
+                }
+            }
+        }
+
+        m_imgList->move(movex, m_imgList->y());
+        m_nLastMove = movex;
+    });
 
     connect(dApp->signalM, &SignalManager::picDelete, this, [ = ] {
         if (window()->isFullScreen())
@@ -612,57 +557,9 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
         setFixedWidth(m_contentWidth);
     });
 
-#if TTB
-    m_trashBtn = new DIconButton(this);
-    m_trashBtn->setFixedSize(ICON_SIZE);
-    m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
-    m_trashBtn->setIconSize(QSize(36, 36));
-    m_trashBtn->setToolTip(tr("Delete"));
-    hb->addWidget(m_trashBtn);
-    hb->addSpacing(ICON_SPACING);
-    connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed);
-#else
-    //    btTrash = new ImageIconButton(":/resources/light/icons/delete.svg",
-    //                                  ":/resources/light/icons/delete.svg",
-    //                                  ":/resources/light/icons/delete.svg",
-    //                                  ":/resources/light/icons/delete.svg");
-    //    btTrash->setFixedSize(50, 50);
-    //    btTrash->setTransparent(false);
-    //    btTrash->setToolTip(tr("Delete"));
-    //    hb->addWidget(btTrash);
-    m_trashBtn = new DIconButton(this);
-    m_trashBtn->setFixedSize(ICON_SIZE);
-    m_trashBtn->setObjectName("TrashBtn");
-    m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
-    m_trashBtn->setIconSize(QSize(36, 36));
-    m_trashBtn->setToolTip(tr("Delete"));
-
-    hb->addWidget(m_trashBtn);
-
-    //    connect(btPre, &ImageIconButton::clicked, this, [ = ] {
-    //        emit showPrevious();
-    //    });
-    //    connect(btNext, &ImageIconButton::clicked, this, [ = ] {
-    //        emit showNext();
-    //    });
-    //    connect(btAdapt, &ImageIconButton::clicked, this, [ = ] {
-    //        emit resetTransform(false);
-    //        setAdaptButtonChecked(true);
-    //    });
-    //    connect(btFit, &ImageIconButton::clicked, this, [ = ] {
-    //        emit resetTransform(true);
-    //        setAdaptButtonChecked(false);
-    //    });
-    //    connect(btLeft, &ImageIconButton::clicked,
-    //            this, &TTBContent::rotateCounterClockwise);
-    //    connect(btRight, &ImageIconButton::clicked,
-    //            this, &TTBContent::rotateClockwise);
-    //    connect(btTrash, &ImageIconButton::clicked, this, &TTBContent::removed);
     connect(m_preButton, &DIconButton::clicked, this, [ = ] { emit showPrevious(); });
     connect(m_nextButton, &DIconButton::clicked, this, [ = ] { emit showNext(); });
     connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
-        //        emit resetTransform(false);
-        //        setAdaptButtonChecked(true);
         m_adaptImageBtn->setChecked(true);
         if (!badaptImageBtnChecked)
         {
@@ -670,6 +567,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
             emit resetTransform(false);
         }
     });
+
     connect(m_adaptScreenBtn, &DIconButton::clicked, this, [ = ] {
         emit resetTransform(true);
         setAdaptButtonChecked(false);
@@ -697,16 +595,7 @@ TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent)
         }
         slotTheme(theme);
     });
-
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    bool theme = false;
-    if (themeType == DGuiApplicationHelper::DarkType) {
-        theme = true;
-    } else {
-        theme = false;
-    }
-    slotTheme(theme);
-#endif
+    connect(dApp->signalM, &SignalManager::sigLoadHeadThunbnail, this, &TTBContent::ReInitFirstthumbnails);
 }
 
 void TTBContent::disCheckAdaptImageBtn()
@@ -723,6 +612,7 @@ void TTBContent::checkAdaptImageBtn()
 
 void TTBContent::setAdaptButtonChecked(bool flag)
 {
+    Q_UNUSED(flag);
     //    if (btAdapt->isChecked() != flag) {
     //        btAdapt->setChecked(flag);
     //    }
@@ -808,29 +698,44 @@ void TTBContent::slotTheme(bool theme)
         //        btTrash->setPalette(pa);
     }
 
-    //    btPre->setPropertyPic(QString(":/resources/%1/icons/previous_normal.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/previous_hover.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/previous_press.svg").arg(rStr));
-    //    btNext->setPropertyPic(QString(":/resources/%1/icons/next_normal.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/next_hover.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/next_press.svg").arg(rStr));
-    //    btAdapt->setPropertyPic(QString(":/resources/%1/icons/1_1_normal.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_hover.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_press.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/1_1_checked.svg").arg(rStr));
-    //    btFit->setPropertyPic(QString(":/resources/%1/icons/fit_normal.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/fit_hover.svg").arg(rStr),
-    //                          QString(":/resources/%1/icons/fit_press.svg").arg(rStr));
-    //    btLeft->setPropertyPic(QString(":/resources/%1/icons/left_normal.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/left_hover.svg").arg(rStr),
-    //                           QString(":/resources/%1/icons/left_press.svg").arg(rStr));
-    //    btRight->setPropertyPic(QString(":/resources/%1/icons/right_normal.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/right_hover.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/right_press.svg").arg(rStr));
-    //    btTrash->setPropertyPic(QString(":/resources/%1/icons/delete.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/delete.svg").arg(rStr),
-    //                            QString(":/resources/%1/icons/delete.svg").arg(rStr));
+    //    btPre->setPropertyPic(QString(":/assets/%1/icons/previous_normal.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/previous_hover.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/previous_press.svg").arg(rStr));
+    //    btNext->setPropertyPic(QString(":/assets/%1/icons/next_normal.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/next_hover.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/next_press.svg").arg(rStr));
+    //    btAdapt->setPropertyPic(QString(":/assets/%1/icons/1_1_normal.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_hover.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_press.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/1_1_checked.svg").arg(rStr));
+    //    btFit->setPropertyPic(QString(":/assets/%1/icons/fit_normal.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/fit_hover.svg").arg(rStr),
+    //                          QString(":/assets/%1/icons/fit_press.svg").arg(rStr));
+    //    btLeft->setPropertyPic(QString(":/assets/%1/icons/left_normal.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/left_hover.svg").arg(rStr),
+    //                           QString(":/assets/%1/icons/left_press.svg").arg(rStr));
+    //    btRight->setPropertyPic(QString(":/assets/%1/icons/right_normal.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/right_hover.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/right_press.svg").arg(rStr));
+    //    btTrash->setPropertyPic(QString(":/assets/%1/icons/delete.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/delete.svg").arg(rStr),
+    //                            QString(":/assets/%1/icons/delete.svg").arg(rStr));
 }
+
+void TTBContent::OnSetimglist(int currindex, QString filename, QString filepath)
+{
+    m_imgInfos[currindex].fileName = filename;
+    m_imgInfos[currindex].filePath = filepath;
+}
+
+void TTBContent::OnChangeItemPath(int currindex, QString path)
+{
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    if(labelList.count() == 0) return;
+    ImageItem *item = labelList.at(currindex);
+    item->SetPath(path);
+}
+
 void TTBContent::updateFilenameLayout()
 {
     using namespace utils::base;
@@ -874,6 +779,325 @@ void TTBContent::updateFilenameLayout()
     m_fileNameLabel->setText(name, leftMargin);
 }
 
+bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent)
+{
+    bool bRet = true;
+    ImageItem *test = m_imgList->findChild<ImageItem *>(strPath);
+    if (!test) {
+        bRet = false;
+        return bRet;
+    }
+
+    //qDebug() << "被删除的图片路径：" << test->objectName();
+    m_imglayout->removeWidget(test);
+    test->setParent(nullptr);
+    test->deleteLater();
+
+    m_imgInfos = infos;
+    m_nowIndex = nCurrent;
+    //删除当前图片之后将当前图片和之后的所有图片index减一
+    int i = 0;
+    foreach (DBImgInfo var, m_imgInfos) {
+        ImageItem *test = m_imgList->findChild<ImageItem *>(var.filePath);
+        if (test) {
+            test->setIndex(i);
+        }
+
+        i++;
+    }
+
+//    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+//    if (nCurrent != 0) {
+//        for (int i = nCurrent; i < labelList.size(); i++) {
+//            labelList.at(i)->setIndex(i);
+//        }
+//    } else {
+//        for (int i = 0; i < labelList.size(); i++) {
+//            labelList.at(i)->setIndex(i);
+//        }
+//    }
+//    //将所有的NowIndex重置
+//    for (int i = 0; i < labelList.size(); i++) {
+//        labelList.at(i)->setIndexNow(nCurrent);
+//    }
+
+    m_imgList->adjustSize();
+    onResize();
+
+    return bRet;
+}
+
+void TTBContent::setIsConnectDel(bool bFlags)
+{
+    if (bFlags) {
+        connect(m_trashBtn, &DIconButton::clicked, this, &TTBContent::removed, Qt::UniqueConnection);
+    } else {
+        m_trashBtn->disconnect();
+    }
+}
+
+void TTBContent::disableDelAct(bool bFlags)
+{
+    //对于只读权限的图片，切换图片后等待5秒左右，删除按钮会激活并删除只读图片
+    QFileInfo fileinfo(m_strCurImagePath);
+    if(fileinfo.isReadable() && fileinfo.isWritable() && bFlags)
+        m_trashBtn->setEnabled(bFlags);
+}
+
+void TTBContent::recvLoadAddInfos(DBImgInfoList newInfos, bool bFlags)
+{
+    if (bFlags) {
+        loadFront(newInfos);
+    } else {
+        loadBack(newInfos);
+    }
+}
+
+bool TTBContent::judgeReloadItem(const DBImgInfoList &inputInfos, DBImgInfoList &localInfos)
+{
+    bool bRet = false;
+    if (inputInfos.size() != localInfos.size()) {
+        localInfos.clear();
+        localInfos = inputInfos;
+
+        QLayoutItem *child;
+        while ((child = m_imglayout->takeAt(0)) != nullptr) {
+            m_imglayout->removeWidget(child->widget());
+            child->widget()->setParent(nullptr);
+            delete child;
+        }
+
+        bRet = true;
+    }
+
+    return bRet;
+}
+
+void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
+{
+    int i = 0;
+    int num = 32;
+    int t = 0;
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+
+    for (DBImgInfo info : inputInfos) {
+        if (labelList.size() != inputInfos.size()) {
+            //char *imageType = getImageType(info.filePath);
+            ImageItem *imageItem = new ImageItem(i, info.filePath, nullptr);
+            imageItem->setFixedSize(QSize(num, 40));
+            imageItem->resize(QSize(num, 40));
+            imageItem->installEventFilter(m_imgListView);
+            imageItem->setObjectName(info.filePath);
+
+
+            m_imglayout->addWidget(imageItem);
+            connect(imageItem, &ImageItem::imageItemclicked, this,
+            [ = ](int index, int indexNow) {
+                emit imageClicked(index, (index - indexNow));
+            });
+        }
+        if (strCurPath == info.filePath) {
+            t = i;
+        }
+        i++;
+    }
+
+    labelList = m_imgList->findChildren<ImageItem *>();
+    m_nowIndex = t;
+
+    int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
+    int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
+    if (m_nowIndex > a && m_nowIndex < b) {
+        m_startAnimation = 1;
+    } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
+        m_startAnimation = 2;
+    } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
+        m_startAnimation = 3;
+    } else {
+        m_startAnimation = 0;
+    }
+
+    qDebug() << "m_startAnimation=" << m_startAnimation;
+//    ImageItem *curitem = m_imgList->findChild<ImageItem *>(strCurPath);
+
+    for (int j = 0; j < labelList.size(); j++) {
+        labelList.at(j)->setFixedSize(QSize(num, 40));
+        labelList.at(j)->resize(QSize(num, 40));
+        labelList.at(j)->setIndexNow(t);
+    }
+    //还原7b23fc部分代码
+    if(labelList.size()>0)
+    {
+        for (int k = 0;k<labelList.size();k++) {
+            if(strCurPath == labelList.at(k)->getPath()){
+                labelList.at(k)->setFixedSize(QSize(58, 58));
+                labelList.at(k)->resize(QSize(58, 58));
+                QPixmap imgpix = dApp->m_imagemap.value(strCurPath);
+                if(!imgpix.isNull())
+                    labelList.at(k)->updatePic(imgpix);
+            }
+        }
+    }
+//    if (curitem) {
+//        curitem->setFixedSize(QSize(58, 58));
+//        curitem->resize(QSize(58, 58));
+//        //LMH0603，造成死锁的情况了，暂时屏蔽掉该锁，导致点击一张svg图片会卡死
+//        //dApp->getRwLock().lockForRead();
+//        curitem->updatePic(dApp->m_imagemap.value(strCurPath));
+//        //dApp->getRwLock().unlock();
+//    }
+
+    m_imgListView->show();
+}
+
+void TTBContent::showAnimation()
+{
+    int num = 32;
+    int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
+    int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
+    if (m_nowIndex > a && m_nowIndex < b) {
+        m_startAnimation = 1;
+    } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
+        m_startAnimation = 2;
+    } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
+        m_startAnimation = 3;
+    } else {
+        m_startAnimation = 0;
+    }
+
+    if (1 == m_startAnimation) {
+        if (bresized) {
+            bresized = false;
+            m_imgList->move(
+                QPoint((qMin((TOOLBAR_MINIMUN_WIDTH +
+                              THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                             (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
+                        496 - 52 + 18) /
+                       2 -
+                       ((num)*m_nowIndex),
+                       0));
+        } else {
+            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
+            animation->setDuration(500);
+            animation->setEasingCurve(QEasingCurve::NCurveTypes);
+            animation->setStartValue(m_imgList->pos());
+            animation->setKeyValueAt(
+                1, QPoint((qMin((TOOLBAR_MINIMUN_WIDTH +
+                                 THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                                (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
+                           496 - 52 + 18) /
+                          2 -
+                          ((num)*m_nowIndex),
+                          0));
+            animation->setEndValue(
+                QPoint((qMin((TOOLBAR_MINIMUN_WIDTH +
+                              THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                             (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
+                        496 - 52 + 18) /
+                       2 -
+                       ((num)*m_nowIndex),
+                       0));
+            animation->start(QAbstractAnimation::DeleteWhenStopped);
+            connect(animation, &QPropertyAnimation::finished, animation,
+                    &QPropertyAnimation::deleteLater);
+
+            connect(animation, &QPropertyAnimation::finished, this,
+                    [ = ] { m_imgList->show(); });
+        }
+    } else if (2 == m_startAnimation) {
+        if (bresized) {
+            bresized = false;
+            m_imgList->move(QPoint(0, 0));
+        } else {
+            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
+            animation->setDuration(500);
+            animation->setEasingCurve(QEasingCurve::NCurveTypes);
+            animation->setStartValue(m_imgList->pos());
+            animation->setKeyValueAt(1, QPoint(0, 0));
+            animation->setEndValue(QPoint(0, 0));
+            animation->start(QAbstractAnimation::DeleteWhenStopped);
+            connect(animation, &QPropertyAnimation::finished, animation,
+                    &QPropertyAnimation::deleteLater);
+
+            connect(animation, &QPropertyAnimation::finished, this,
+                    [ = ] { m_imgList->show(); });
+        }
+    } else if (3 == m_startAnimation) {
+        if (bresized) {
+            bresized = false;
+            m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+        } else {
+            QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
+            animation->setDuration(500);
+            animation->setEasingCurve(QEasingCurve::NCurveTypes);
+            animation->setStartValue(m_imgList->pos());
+            animation->setKeyValueAt(1, QPoint(0, 0));
+            animation->setEndValue(
+                QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+            animation->start(QAbstractAnimation::DeleteWhenStopped);
+            connect(animation, &QPropertyAnimation::finished, animation,
+                    &QPropertyAnimation::deleteLater);
+
+            connect(animation, &QPropertyAnimation::finished, this,
+                    [ = ] { m_imgList->show(); });
+        }
+    } else if (0 == m_startAnimation) {
+        m_imgList->show();
+    }
+
+    m_imgListView->update();
+    m_imgList->update();
+}
+
+void TTBContent::setBtnAttribute(const QString strPath)
+{
+    //判断是否加载完成，未完成将旋转按钮禁用
+    if (m_bIsHide) {
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
+    } else {
+        m_rotateLBtn->setEnabled(true);
+        m_rotateRBtn->setEnabled(true);
+        m_trashBtn->setEnabled(true);
+    }
+
+    if ((QFileInfo(strPath).isReadable() && !QFileInfo(strPath).isWritable()) || (QFileInfo(strPath).suffix() == "gif")) {
+        //gif图片可以删除
+        if ((QFileInfo(strPath).suffix() == "gif")) {
+            m_trashBtn->setDisabled(false);
+        } else {
+            m_trashBtn->setDisabled(true);
+
+        }
+
+        m_rotateLBtn->setDisabled(true);
+        m_rotateRBtn->setDisabled(true);
+    } else {
+        m_trashBtn->setDisabled(false);
+        if (utils::image::imageSupportSave(strPath)) {
+            m_rotateLBtn->setDisabled(false);
+            m_rotateRBtn->setDisabled(false);
+        } else {
+            if ((QFileInfo(strPath).suffix() == "svg")) {
+                m_rotateLBtn->setDisabled(false);
+                m_rotateRBtn->setDisabled(false);
+            } else {
+                m_rotateLBtn->setDisabled(true);
+                m_rotateRBtn->setDisabled(true);
+            }
+        }
+    }
+
+}
+
+void TTBContent::clickLoad(const int nCurrent)
+{
+    if (nCurrent == m_imgInfos.size() - 1) {
+        dApp->signalM->sendLoadSignal(false);
+    }
+}
+
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;
@@ -899,15 +1123,16 @@ void TTBContent::onChangeHideFlags(bool bFlags)
     }
 
     //判断是否加载完成，未完成将旋转和删除按钮禁用
-    if (bFlags) {
-        m_rotateLBtn->setEnabled(false);
-        m_rotateRBtn->setEnabled(false);
-        m_trashBtn->setEnabled(false);
-    } else {
-        m_rotateLBtn->setEnabled(true);
-        m_rotateRBtn->setEnabled(true);
-        m_trashBtn->setEnabled(true);
-    }
+
+//    if (bFlags) {
+//        m_rotateLBtn->setEnabled(false);
+//        m_rotateRBtn->setEnabled(false);
+//        m_trashBtn->setEnabled(false);
+//    } else {
+//        m_rotateLBtn->setEnabled(true);
+//        m_rotateRBtn->setEnabled(true);
+//        m_trashBtn->setEnabled(true);
+//    }
 
     if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
         //gif图片可以删除
@@ -926,13 +1151,172 @@ void TTBContent::onChangeHideFlags(bool bFlags)
             m_rotateLBtn->setDisabled(false);
             m_rotateRBtn->setDisabled(false);
         } else {
-            m_rotateLBtn->setDisabled(true);
-            m_rotateRBtn->setDisabled(true);
+            if (QFileInfo(m_imagePath).suffix() == "svg") {
+                m_rotateLBtn->setDisabled(false);
+                m_rotateRBtn->setDisabled(false);
+            } else {
+                m_rotateLBtn->setDisabled(true);
+                m_rotateRBtn->setDisabled(true);
+            }
         }
     }
 }
 
-void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme) {}
+void TTBContent::loadBack(DBImgInfoList infos)
+{
+    if (infos.size() > 0) {
+        onHidePreNextBtn(true, false);
+    }
+    //先将先前的图元index改变为最新的
+    int nAddSize = m_imgInfos.size();
+
+    //遍历infos动态生成图元，并将图元加入布局
+    foreach (DBImgInfo info, infos) {
+        char *imageType = getImageType(info.filePath);
+        ImageItem *imageItem = new ImageItem(nAddSize, info.filePath, imageType);
+        imageItem->setFixedSize(QSize(32, 40));
+        imageItem->resize(QSize(32, 40));
+        imageItem->installEventFilter(m_imgListView);
+        imageItem->setObjectName(info.filePath);
+        imageItem->setIndexNow(m_nowIndex);
+
+        m_imglayout->addWidget(imageItem);
+        connect(
+            imageItem, &ImageItem::imageItemclicked, this,
+        [ = ](int index, int indexNow) {
+            emit imageClicked(index, (index - indexNow));
+        });
+
+        m_imgInfos.push_back(info);
+        m_imgList->adjustSize();
+        nAddSize++;
+    }
+
+    //将所有图元当前的nowindex重置
+
+    onResize();
+    if (m_imgInfos.size() > 3) {
+        m_imgList->setFixedSize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+        m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST,
+                          TOOLBAR_HEIGHT);
+
+        m_imgList->setContentsMargins(0, 0, 0, 0);
+
+        m_imgList->show();
+        m_imgListView->show();
+
+        m_imgList->update();
+        m_imgListView->update();
+        m_imgList->move(m_nLastMove, m_imgList->y());
+    }
+}
+
+void TTBContent::loadFront(DBImgInfoList infos)
+{
+    if (infos.size() > 0) {
+        onHidePreNextBtn(true, false);
+    }
+    //先将先前的图元index改变为最新的
+    int nAddSize = infos.size();
+    int nCurrentIndex = 0;
+    m_nowIndex = m_nowIndex + nAddSize;
+    //重置图元当前信息
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    for (int i = 0; i < labelList.size(); i++) {
+        nCurrentIndex = labelList.at(i)->getIndex();
+        labelList.at(i)->setIndex(nCurrentIndex + nAddSize);
+        labelList.at(i)->setIndexNow(m_nowIndex);
+    }
+
+    //将新插入的图元赋值index
+    nAddSize--;
+    //遍历infos动态生成图元，并将图元加入布局
+    foreach (DBImgInfo info, infos) {
+        char *imageType = getImageType(info.filePath);
+        ImageItem *imageItem = new ImageItem(nAddSize, info.filePath, imageType);
+        imageItem->setFixedSize(QSize(32, 40));
+        imageItem->resize(QSize(32, 40));
+        imageItem->installEventFilter(m_imgListView);
+        imageItem->setObjectName(info.filePath);
+        imageItem->setIndexNow(m_nowIndex);
+
+        m_imglayout->insertWidget(0, imageItem);
+        connect(
+            imageItem, &ImageItem::imageItemclicked, this,
+        [ = ](int index, int indexNow) {
+            emit imageClicked(index, (index - indexNow));
+        });
+
+        m_imgInfos.push_front(info);
+        m_imgList->adjustSize();
+        nAddSize--;
+    }
+
+    labelList = m_imgList->findChildren<ImageItem *>();
+
+    onResize();
+    m_imgList->adjustSize();
+    if (m_imgInfos.size() > 3) {
+        m_imgList->setFixedSize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
+        m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST,
+                          TOOLBAR_HEIGHT);
+
+        m_imgList->setContentsMargins(0, 0, 0, 0);
+
+        m_imgList->show();
+        m_imgListView->show();
+
+        m_imgList->update();
+        m_imgListView->update();
+        m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
+    }
+}
+
+void TTBContent::ReInitFirstthumbnails(DBImgInfoList infos)
+{
+    //clear thumbnails widget
+    m_imgInfos.clear();
+    m_nowIndex = 0;
+    QLayoutItem *child;
+    while ((child = m_imglayout->takeAt(0)) != nullptr) {
+        //setParent为NULL，防止删除之后界面不消失
+        if (child->widget()) {
+            child->widget()->setParent(nullptr);
+        }
+        delete child;
+    }
+    loadBack(infos);
+}
+
+void TTBContent::receveAllIamgeInfos(DBImgInfoList AllImgInfos)
+{
+    m_AllImgInfos = AllImgInfos;
+    //接收到所有信息之后生成所有的图元
+    m_strFirstPath = m_imgInfos.at(0).filePath;
+    m_strEndPsth = m_imgInfos.last().filePath;
+    m_strCurImagePath = m_imgInfos.at(m_nowIndex).filePath;
+}
+
+void TTBContent::onHidePreNextBtn(bool bShowAll, bool bFlag)
+{
+    if (!bShowAll) {
+        if (bFlag) {
+            m_nextButton->setEnabled(false);
+            m_preButton->setEnabled(true);
+        } else {
+            m_nextButton->setEnabled(true);
+            m_preButton->setEnabled(false);
+        }
+    } else {
+        m_nextButton->setEnabled(true);
+        m_preButton->setEnabled(true);
+    }
+}
+
+void TTBContent::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
+    Q_UNUSED(theme);
+}
 
 void TTBContent::setCurrentDir(QString text)
 {
@@ -980,9 +1364,12 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(m_nowIndex)->resize(QSize(60, 58));
         labelList.at(m_nowIndex)->setContentsMargins(0, 0, 0, 0);
     }
+
+    //图动窗口的时候重置缩略图布局
+    //emit m_imgListView->mouseLeftReleased();
 }
 
-void TTBContent::setImage(const QString &path, DBImgInfoList infos)
+void TTBContent::setImage(const QString path, DBImgInfoList infos)
 {
     if (!infos.isEmpty() && !QFileInfo(path).exists()) {
         if (infos.size() == 1)
@@ -993,159 +1380,24 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         emit dApp->signalM->picNotExists(false);
     }
 
-    if (infos.size() != m_imgInfos.size()) {
-        m_imgInfos.clear();
-        m_imgInfos = infos;
+    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+    qDebug() << "时间1";
+    //判断当前缩略图个数是否等于传入的缩略图数量，不想等全部删除重新生成新的
+    judgeReloadItem(infos, m_imgInfos);
+    qDebug() << "judgeReloadItem完成";
 
-        QLayoutItem *child;
-        while ((child = m_imglayout->takeAt(0)) != 0) {
-            m_imglayout->removeWidget(child->widget());
-            child->widget()->setParent(0);
-            delete child;
-        }
-    }
-
-    if (path.isEmpty() || !QFileInfo(path).exists() || !QFileInfo(path).isReadable()) {
-        auto num = 32;
-        int t = 0;
-        int i = 0;
-
-        QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
-        for (DBImgInfo info : m_imgInfos) {
-            if (labelList.size() != m_imgInfos.size()) {
-                char *imageType = getImageType(info.filePath);
-                ImageItem *imageItem = new ImageItem(i, info.filePath, imageType);
-                imageItem->setFixedSize(QSize(num, 40));
-                imageItem->resize(QSize(num, 40));
-                imageItem->installEventFilter(m_imgListView);
-
-                m_imglayout->addWidget(imageItem);
-                connect(
-                    imageItem, &ImageItem::imageItemclicked, this,
-                [ = ](int index, int indexNow) {
-                    emit imageClicked(index, (index - indexNow));
-                });
-            }
-            if (path == info.filePath) {
-                t = i;
-            }
-            i++;
-        }
-
-        labelList = m_imgList->findChildren<ImageItem *>();
-        m_nowIndex = t;
-
-        int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
-        int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
-        if (m_nowIndex > a && m_nowIndex < b) {
-            m_startAnimation = 1;
-        } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
-            m_startAnimation = 2;
-        } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
-            m_startAnimation = 3;
-        } else {
-            m_startAnimation = 0;
-        }
-
-        if (labelList.count() == 0)
-            return;
-
-        labelList.at(t)->updatePic(dApp->m_imagemap.value(path));
-        for (int j = 0; j < labelList.size(); j++) {
-            labelList.at(j)->setFixedSize(QSize(num, 40));
-            labelList.at(j)->resize(QSize(num, 40));
-            labelList.at(j)->setIndexNow(t);
-        }
-        if (labelList.size() > 0) {
-            labelList.at(t)->setFixedSize(QSize(58, 58));
-            labelList.at(t)->resize(QSize(58, 58));
-        }
-
-        m_imgListView->show();
-
-        if (1 == m_startAnimation) {
-            if (bresized) {
-                bresized = false;
-                m_imgList->move(QPoint(
-                                    (qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                                          (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
-                                     496 - 52 + 18) /
-                                    2 -
-                                    ((num)*t),
-                                    0));
-            } else {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                animation->setDuration(500);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(m_imgList->pos());
-                animation->setKeyValueAt(
-                    1, QPoint((qMin((TOOLBAR_MINIMUN_WIDTH +
-                                     THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                                    (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
-                               496 - 52 + 18) /
-                              2 -
-                              ((num)*t),
-                              0));
-                animation->setEndValue(QPoint(
-                                           (qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                                                 (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
-                                            496 - 52 + 18) /
-                                           2 -
-                                           ((num)*t),
-                                           0));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
-                connect(animation, &QPropertyAnimation::finished, animation,
-                        &QPropertyAnimation::deleteLater);
-
-                connect(animation, &QPropertyAnimation::finished, this, [ = ] { m_imgList->show(); });
-            }
-        } else if (2 == m_startAnimation) {
-            if (bresized) {
-                bresized = false;
-                m_imgList->move(QPoint(0, 0));
-            } else {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                animation->setDuration(500);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(m_imgList->pos());
-                animation->setKeyValueAt(1, QPoint(0, 0));
-                animation->setEndValue(QPoint(0, 0));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
-                connect(animation, &QPropertyAnimation::finished, animation,
-                        &QPropertyAnimation::deleteLater);
-
-                connect(animation, &QPropertyAnimation::finished, this, [ = ] { m_imgList->show(); });
-            }
-        } else if (3 == m_startAnimation) {
-            if (bresized) {
-                bresized = false;
-                m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
-            } else {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                animation->setDuration(500);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(m_imgList->pos());
-                animation->setKeyValueAt(1, QPoint(0, 0));
-                animation->setEndValue(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
-                connect(animation, &QPropertyAnimation::finished, animation,
-                        &QPropertyAnimation::deleteLater);
-
-                connect(animation, &QPropertyAnimation::finished, this, [ = ] { m_imgList->show(); });
-            }
-        } else if (0 == m_startAnimation) {
-            m_imgList->show();
-        }
-
-        m_imgListView->update();
-        m_imgList->update();
+    if (path.isEmpty() || !QFileInfo(path).exists()) {
+        reloadItems(m_imgInfos, path);
+        qDebug() << "reloadItems完成";
+        showAnimation();
+        qDebug() << "reloadItems完成";
 
         if (m_nowIndex == 0) {
             m_preButton->setDisabled(true);
         } else {
             m_preButton->setDisabled(false);
         }
-        if (m_nowIndex == labelList.size() - 1) {
+        if (m_nowIndex == m_imgInfos.size() - 1) {
             m_nextButton->setDisabled(true);
         } else {
             m_nextButton->setDisabled(false);
@@ -1170,154 +1422,18 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_adaptScreenBtn->setDisabled(false);
 #endif
 
-        int t = 0;
         if (m_imgInfos.size() > 3) {
             m_imgList->setFixedSize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
             m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH + THUMBNAIL_LIST_ADJUST,
                               TOOLBAR_HEIGHT);
 
             m_imgList->setContentsMargins(0, 0, 0, 0);
+            qDebug() << "reloadItems开始";
+            reloadItems(m_imgInfos, path);
+            qDebug() << "reloadItems完成";
+            showAnimation();
+            qDebug() << "showAnimation完成";
 
-            auto num = 32;
-
-            int i = 0;
-            QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
-
-            for (DBImgInfo info : m_imgInfos) {
-                if (labelList.size() != m_imgInfos.size()) {
-                    char *imageType = getImageType(info.filePath);
-                    ImageItem *imageItem = new ImageItem(i, info.filePath, imageType);
-                    imageItem->setFixedSize(QSize(num, 40));
-                    imageItem->resize(QSize(num, 40));
-                    imageItem->installEventFilter(m_imgListView);
-
-                    m_imglayout->addWidget(imageItem);
-                    connect(imageItem, &ImageItem::imageItemclicked, this,
-                    [ = ](int index, int indexNow) {
-                        emit imageClicked(index, (index - indexNow));
-                    });
-                }
-                if (path == info.filePath) {
-                    t = i;
-                }
-                i++;
-            }
-            labelList = m_imgList->findChildren<ImageItem *>();
-            m_nowIndex = t;
-
-            int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
-            int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
-            //            qDebug()<<"a="<<a;
-            //            qDebug()<<"b="<<b;
-            //            qDebug()<<"m_nowIndex="<<m_nowIndex;
-            //            qDebug()<<"m_imgInfos.size()="<<m_imgInfos.size();
-            if (m_nowIndex > a && m_nowIndex < b) {
-                m_startAnimation = 1;
-            } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
-                m_startAnimation = 2;
-            } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
-                m_startAnimation = 3;
-            } else {
-                m_startAnimation = 0;
-            }
-            qDebug() << "m_startAnimation=" << m_startAnimation;
-
-            labelList.at(t)->updatePic(dApp->m_imagemap.value(path));
-
-            for (int j = 0; j < labelList.size(); j++) {
-                labelList.at(j)->setFixedSize(QSize(num, 40));
-                labelList.at(j)->resize(QSize(num, 40));
-                labelList.at(j)->setIndexNow(t);
-            }
-            if (labelList.size() > 0) {
-                labelList.at(t)->setFixedSize(QSize(58, 58));
-                labelList.at(t)->resize(QSize(58, 58));
-            }
-
-            m_imgListView->show();
-
-            if (1 == m_startAnimation) {
-                if (bresized) {
-                    bresized = false;
-                    m_imgList->move(
-                        QPoint((qMin((TOOLBAR_MINIMUN_WIDTH +
-                                      THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                                     (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
-                                496 - 52 + 18) /
-                               2 -
-                               ((num)*t),
-                               0));
-                } else {
-                    QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                    animation->setDuration(500);
-                    animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                    animation->setStartValue(m_imgList->pos());
-                    animation->setKeyValueAt(
-                        1, QPoint((qMin((TOOLBAR_MINIMUN_WIDTH +
-                                         THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                                        (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
-                                   496 - 52 + 18) /
-                                  2 -
-                                  ((num)*t),
-                                  0));
-                    animation->setEndValue(
-                        QPoint((qMin((TOOLBAR_MINIMUN_WIDTH +
-                                      THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
-                                     (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) -
-                                496 - 52 + 18) /
-                               2 -
-                               ((num)*t),
-                               0));
-                    animation->start(QAbstractAnimation::DeleteWhenStopped);
-                    connect(animation, &QPropertyAnimation::finished, animation,
-                            &QPropertyAnimation::deleteLater);
-
-                    connect(animation, &QPropertyAnimation::finished, this,
-                            [ = ] { m_imgList->show(); });
-                }
-            } else if (2 == m_startAnimation) {
-                if (bresized) {
-                    bresized = false;
-                    m_imgList->move(QPoint(0, 0));
-                } else {
-                    QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                    animation->setDuration(500);
-                    animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                    animation->setStartValue(m_imgList->pos());
-                    animation->setKeyValueAt(1, QPoint(0, 0));
-                    animation->setEndValue(QPoint(0, 0));
-                    animation->start(QAbstractAnimation::DeleteWhenStopped);
-                    connect(animation, &QPropertyAnimation::finished, animation,
-                            &QPropertyAnimation::deleteLater);
-
-                    connect(animation, &QPropertyAnimation::finished, this,
-                            [ = ] { m_imgList->show(); });
-                }
-            } else if (3 == m_startAnimation) {
-                if (bresized) {
-                    bresized = false;
-                    m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
-                } else {
-                    QPropertyAnimation *animation = new QPropertyAnimation(m_imgList, "pos");
-                    animation->setDuration(500);
-                    animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                    animation->setStartValue(m_imgList->pos());
-                    animation->setKeyValueAt(1, QPoint(0, 0));
-                    animation->setEndValue(
-                        QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
-                    animation->start(QAbstractAnimation::DeleteWhenStopped);
-                    connect(animation, &QPropertyAnimation::finished, animation,
-                            &QPropertyAnimation::deleteLater);
-
-                    connect(animation, &QPropertyAnimation::finished, this,
-                            [ = ] { m_imgList->show(); });
-                }
-            } else if (0 == m_startAnimation) {
-                m_imgList->show();
-            }
-
-            m_imgListView->update();
-            m_imgList->update();
 #if TTB
             m_preButton->show();
 #else
@@ -1347,22 +1463,12 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_nextButton->setDisabled(false);
             }
 #else
-            //            if (m_nowIndex == 0) {
-            //                btPre->setDisabled(true);
-            //            } else {
-            //                btPre->setDisabled(false);
-            //            }
-            //            if (m_nowIndex == labelList.size() - 1) {
-            //                btNext->setDisabled(true);
-            //            } else {
-            //                btNext->setDisabled(false);
-            //            }
             if (m_nowIndex == 0) {
                 m_preButton->setDisabled(true);
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_imgInfos.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
@@ -1373,45 +1479,9 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             m_imgList->resize((m_imgInfos.size() + 1) * THUMBNAIL_WIDTH, TOOLBAR_HEIGHT);
 
             m_imgList->setContentsMargins(0, 0, 0, 0);
-
-            auto num = 32;
-
-            int i = 0;
-            QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
-
-            for (DBImgInfo info : m_imgInfos) {
-                if (labelList.size() != m_imgInfos.size()) {
-                    char *imageType = getImageType(info.filePath);
-                    ImageItem *imageItem = new ImageItem(i, info.filePath, imageType);
-                    imageItem->setFixedSize(QSize(num, 40));
-                    imageItem->resize(QSize(num, 40));
-                    imageItem->installEventFilter(m_imgListView);
-
-                    m_imglayout->addWidget(imageItem);
-                    connect(imageItem, &ImageItem::imageItemclicked, this,
-                    [ = ](int index, int indexNow) {
-                        emit imageClicked(index, (index - indexNow));
-                    });
-                }
-                if (path == info.filePath) {
-                    t = i;
-                }
-                i++;
-            }
-            labelList = m_imgList->findChildren<ImageItem *>();
-            m_nowIndex = t;
-            for (int j = 0; j < labelList.size(); j++) {
-                labelList.at(j)->setFixedSize(QSize(num, 40));
-                labelList.at(j)->resize(QSize(num, 40));
-                labelList.at(j)->setIndexNow(t);
-            }
-            if (labelList.size() > 0) {
-                labelList.at(t)->setFixedSize(QSize(58, 58));
-                labelList.at(t)->resize(QSize(58, 58));
-            }
-
-            // fixed: add this code. when picture count less than 3. thumbnail cannot rotate.
-            labelList.at(t)->updatePic(dApp->m_imagemap.value(path));
+            qDebug() << "reloadItems开始";
+            reloadItems(m_imgInfos, path);
+            qDebug() << "reloadItems完成";
 
             m_imgListView->show();
             m_imgList->show();
@@ -1447,22 +1517,12 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
                 m_nextButton->setDisabled(false);
             }
 #else
-            //            if (m_nowIndex == 0) {
-            //                btPre->setDisabled(true);
-            //            } else {
-            //                btPre->setDisabled(false);
-            //            }
-            //            if (m_nowIndex == labelList.size() - 1) {
-            //                btNext->setDisabled(true);
-            //            } else {
-            //                btNext->setDisabled(false);
-            //            }
             if (m_nowIndex == 0) {
                 m_preButton->setDisabled(true);
             } else {
                 m_preButton->setDisabled(false);
             }
-            if (m_nowIndex == labelList.size() - 1) {
+            if (m_nowIndex == m_imgInfos.size() - 1) {
                 m_nextButton->setDisabled(true);
             } else {
                 m_nextButton->setDisabled(false);
@@ -1507,53 +1567,10 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
             }
         }
 #else
-        //        if (QFileInfo(path).isReadable() &&
-        //                !QFileInfo(path).isWritable()) {
-        //            btTrash->setDisabled(true);
-        //            btLeft->setDisabled(true);
-        //            btRight->setDisabled(true);
-        //        } else {
-        //            btTrash->setDisabled(false);
-        //            if (utils::image::imageSupportSave(path)) {
-        //                btLeft->setDisabled(false);
-        //                btRight->setDisabled(false);
-        //            } else {
-        //                btLeft->setDisabled(true);
-        //                btRight->setDisabled(true);
-        //            }
-        //        }
-        //判断是否加载完成，未完成将旋转按钮禁用
-        if (m_bIsHide) {
-            m_rotateLBtn->setEnabled(false);
-            m_rotateRBtn->setEnabled(false);
-            m_trashBtn->setEnabled(false);
-        } else {
-            m_rotateLBtn->setEnabled(true);
-            m_rotateRBtn->setEnabled(true);
-            m_trashBtn->setEnabled(true);
-        }
+        qDebug() << "setBtnAttribute开始";
+        setBtnAttribute(path);
+        qDebug() << "setBtnAttribute完成";
 
-        if ((QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) || (QFileInfo(path).suffix() == "gif")) {
-            //gif图片可以删除
-            if ((QFileInfo(path).suffix() == "gif")) {
-                m_trashBtn->setDisabled(false);
-            } else {
-                m_trashBtn->setDisabled(true);
-
-            }
-
-            m_rotateLBtn->setDisabled(true);
-            m_rotateRBtn->setDisabled(true);
-        } else {
-            m_trashBtn->setDisabled(false);
-            if (utils::image::imageSupportSave(path)) {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
-            } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
-            }
-        }
 #endif
     }
 
@@ -1563,27 +1580,25 @@ void TTBContent::setImage(const QString &path, DBImgInfoList infos)
         m_preButton_spc->hide();
         m_nextButton->hide();
         m_nextButton_spc->hide();
-        m_preButton->setDisabled(true);
-        m_preButton_spc->setDisabled(true);
-        m_nextButton->setDisabled(true);
-        m_nextButton_spc->setDisabled(true);
     } else {
         m_preButton->show();
         m_nextButton->show();
         m_preButton_spc->show();
         m_nextButton_spc->show();
-        m_preButton->setDisabled(false);
-        m_preButton_spc->setDisabled(false);
-        m_nextButton->setDisabled(false);
-        m_nextButton_spc->setDisabled(false);
     }
 
     m_imagePath = path;
     QString fileName = "";
     if (m_imagePath != "") {
+        qDebug() << "1570";
         fileName = QFileInfo(m_imagePath).fileName();
     }
     emit dApp->signalM->updateFileName(fileName);
+
+    m_imgList->adjustSize();
+    m_strCurImagePath = path;
+    qDebug() << "时间2";
+    clickLoad(m_nowIndex);
 }
 
 void TTBContent::updateCollectButton()
@@ -1613,4 +1628,55 @@ void TTBContent::updateCollectButton()
     //        m_clBT->setChecked(false);
     //        m_clBT->setDisabled(false);
     //    }
+}
+
+void TTBContent::onResize()
+{
+    if (m_imgInfos.size() <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_imgInfos.size() <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+    } else {
+        m_contentWidth =
+            qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                 qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) +
+            THUMBNAIL_LIST_ADJUST;
+    }
+
+    setFixedWidth(m_contentWidth);
+    setFixedHeight(70);
+    m_windowWidth =  this->window()->geometry().width();
+    if (m_imgInfos.size() <= 1) {
+        m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
+    } else if (m_imgInfos.size() <= 3) {
+        m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
+        m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
+    } else {
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+    }
+
+    setFixedWidth(m_contentWidth);
+    int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
+    int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
+    if (m_nowIndex > a && m_nowIndex < b) {
+        m_startAnimation = 1;
+    } else if (m_nowIndex < m_imgInfos.size() - 2 * a && m_nowIndex > -1) {
+        m_startAnimation = 2;
+    } else if (m_nowIndex > 2 * a - 1 && m_nowIndex < m_imgInfos.size()) {
+        m_startAnimation = 3;
+    } else {
+        m_startAnimation = 0;
+    }
+
+    if (1 == m_startAnimation) {
+        m_imgList->move(QPoint((qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
+                                     (qMax(width() - RT_SPACING, TOOLBAR_MINIMUN_WIDTH))) - 496 - 228 + 18) / 2 - ((32)*m_nowIndex), 0));
+    } else if (2 == m_startAnimation) {
+        m_imgList->move(QPoint(0, 0));
+    } else if (3 == m_startAnimation) {
+        m_imgList->move(QPoint(m_imgListView->width() - m_imgList->width() + 5, 0));
+    } else if (0 == m_startAnimation) {
+        m_imgList->move(QPoint(0, 0));
+    }
 }

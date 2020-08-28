@@ -5,11 +5,11 @@
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>看圖</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>看圖是一款外觀時尚，性能流暢的圖片查看工具。</translation>
     </message>
 </context>
 <context>
@@ -23,10 +23,14 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">圖片資訊</translation>
+        <translation>圖片資訊</translation>
     </message>
     <message>
         <source>Alt+Return</source>
+        <translation>Alt+Return</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -34,11 +38,11 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"></translation>
+        <translation>基本訊息</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細訊息</translation>
     </message>
 </context>
 <context>
@@ -66,15 +70,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">刪除</translation>
+        <translation>刪除</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>未發現圖片文件</translation>
     </message>
 </context>
 <context>
@@ -161,11 +165,11 @@
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation>圖片尺寸</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>标记</translation>
     </message>
 </context>
 <context>
@@ -238,6 +242,21 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -391,19 +410,19 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished">結束全螢幕</translation>
+        <translation>退出全螢幕</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>放大圖片</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>縮小圖片</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>打開</translation>
     </message>
 </context>
 <context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>上一張</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一張</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>離開</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -530,35 +572,35 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">我的最愛</translation>
+        <translation>我的最愛</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">上一張</translation>
+        <translation>上一張</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">下一張</translation>
+        <translation>下一張</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">1:1 大小</translation>
+        <translation>1:1视图</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished">縮放到視窗大小</translation>
+        <translation>縮放到視窗大小</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">逆時針旋轉</translation>
+        <translation>逆時針旋轉</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">順時針旋轉</translation>
+        <translation>順時針旋轉</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">刪除</translation>
+        <translation>刪除</translation>
     </message>
 </context>
 <context>
@@ -616,7 +658,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>未發現圖片文件</translation>
     </message>
 </context>
 <context>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>所有圖片</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重新命名</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

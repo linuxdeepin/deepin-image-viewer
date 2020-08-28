@@ -29,6 +29,10 @@
         <source>Alt+Return</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
@@ -65,16 +69,16 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished">Ακύρωση</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Διαγραφή</translation>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image file not found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -100,8 +104,8 @@
         <translation>Μέγεθος αρχείου</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>Χρωματικός χώρος</translation>
+        <source>Date captured</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -148,16 +152,16 @@
         <translation>Ένταση φλάς</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>Μοντέλο κάμερας</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>Μοντέλο φακού</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation type="unfinished"></translation>
+        <source>Colorspace</source>
+        <translation>Χρωματικός χώρος</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>Μοντέλο κάμερας</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -238,6 +242,21 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Ακύρωση</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -371,7 +390,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Νέο άλμπουμ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rename</source>
@@ -387,7 +406,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Διαγραφή</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -452,7 +471,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Εκτύπωση</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copy</source>
@@ -492,7 +511,7 @@
     </message>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Νέο άλμπουμ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rename</source>
@@ -500,7 +519,30 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Διαγραφή</translation>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Προηγούμενο</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Επόμενο</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -529,6 +571,10 @@
 <context>
     <name>TTBContent</name>
     <message>
+        <source>My favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Previous</source>
         <translation type="unfinished">Προηγούμενο</translation>
     </message>
@@ -554,10 +600,6 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Διαγραφή</translation>
-    </message>
-    <message>
-        <source>My favorite</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -565,7 +607,7 @@
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Πίσω</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image management</source>
@@ -601,7 +643,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Διαγραφή</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -650,7 +692,7 @@
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="unfinished">Νέο άλμπουμ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
@@ -661,15 +703,15 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation type="unfinished">Χρονοδιάγραμμα</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation type="unfinished">Προσθήκη στο άλμπουμ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation type="unfinished">Προσθήκη σε νέο άλμπουμ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -685,7 +727,7 @@
     </message>
     <message>
         <source>Print</source>
-        <translation type="unfinished">Εκτύπωση</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copy</source>
@@ -733,7 +775,7 @@
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Διαγραφή</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open Image</source>
@@ -741,6 +783,14 @@
     </message>
     <message>
         <source>All images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Μετονομασία</translation>
+    </message>
+    <message>
+        <source>Draw</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

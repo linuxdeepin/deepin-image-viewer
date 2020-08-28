@@ -35,12 +35,12 @@ const QString SETTINGS_GROUP = "VIEWPANEL";
 const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
 const int IMAGE_MARGIN = 5;
 const int IMAGE_MARGIN_BOTTOM = 5;
-const QString ICON_CLOSE_NORMAL_LIGHT = ":/resources/light/images/button_tab_close_normal 2.svg";
-const QString ICON_CLOSE_HOVER_LIGHT = ":/resources/light/images/button_tab_close_hover 2.svg";
-const QString ICON_CLOSE_PRESS_LIGHT = ":/resources/light/images/button_tab_close_press 2.svg";
-const QString ICON_CLOSE_NORMAL_DARK = ":/resources/dark/images/button_tab_close_normal 3.svg";
-const QString ICON_CLOSE_HOVER_DARK = ":/resources/dark/images/button_tab_close_hover 3.svg";
-const QString ICON_CLOSE_PRESS_DARK = ":/resources/dark/images/button_tab_close_press 3.svg";
+const QString ICON_CLOSE_NORMAL_LIGHT = ":/assets/light/images/button_tab_close_normal 2.svg";
+const QString ICON_CLOSE_HOVER_LIGHT = ":/assets/light/images/button_tab_close_hover 2.svg";
+const QString ICON_CLOSE_PRESS_LIGHT = ":/assets/light/images/button_tab_close_press 2.svg";
+const QString ICON_CLOSE_NORMAL_DARK = ":/assets/dark/images/button_tab_close_normal 3.svg";
+const QString ICON_CLOSE_HOVER_DARK = ":/assets/dark/images/button_tab_close_hover 3.svg";
+const QString ICON_CLOSE_PRESS_DARK = ":/assets/dark/images/button_tab_close_press 3.svg";
 
 }  // namespace
 
@@ -271,7 +271,7 @@ void NavigationWidget::paintEvent(QPaintEvent *)
         return;
     }
 
-    const qreal ratio = devicePixelRatioF();
+//    const qreal ratio = devicePixelRatioF();
 
     QPainter p(&img);
     p.fillRect(m_r, m_mrBgColor);

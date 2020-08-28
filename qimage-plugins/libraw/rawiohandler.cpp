@@ -30,8 +30,8 @@ class RawIOHandlerPrivate
 {
 public:
     RawIOHandlerPrivate(RawIOHandler *qq):
-        raw(0),
-        stream(0),
+        raw(nullptr),
+        stream(nullptr),
         q(qq)
     {}
 
@@ -49,26 +49,26 @@ public:
 RawIOHandlerPrivate::~RawIOHandlerPrivate()
 {
     delete raw;
-    raw = 0;
+    raw = nullptr;
     delete stream;
-    stream = 0;
+    stream = nullptr;
 }
 
 bool RawIOHandlerPrivate::load(QIODevice *device)
 {
-    if (device == 0) return false;
+    if (device == nullptr) return false;
 
     device->seek(0);
-    if (raw != 0) return true;
+    if (raw != nullptr) return true;
 
     stream = new Datastream(device);
     raw = new LibRaw;
     raw->imgdata.params.use_rawspeed = 1;
     if (raw->open_datastream(stream) != LIBRAW_SUCCESS) {
         delete raw;
-        raw = 0;
+        raw = nullptr;
         delete stream;
-        stream = 0;
+        stream = nullptr;
         return false;
     }
 
@@ -119,12 +119,12 @@ bool RawIOHandler::read(QImage *image)
     if (!d->load(device())) return false;
 
     QSize finalSize = d->scaledSize.isValid() ?
-        d->scaledSize : d->defaultSize;
+                      d->scaledSize : d->defaultSize;
 
     const libraw_data_t &imgdata = d->raw->imgdata;
     libraw_processed_image_t *output;
     if (finalSize.width() < imgdata.thumbnail.twidth ||
-        finalSize.height() < imgdata.thumbnail.theight) {
+            finalSize.height() < imgdata.thumbnail.theight) {
         qDebug() << "Using thumbnail";
         d->raw->unpack_thumb();
         output = d->raw->dcraw_make_mem_thumb();
@@ -136,9 +136,9 @@ bool RawIOHandler::read(QImage *image)
     }
 
     QImage unscaled;
-    uchar *pixels = 0;
+    uchar *pixels = nullptr;
     if (output->type == LIBRAW_IMAGE_JPEG) {
-        unscaled.loadFromData(output->data, output->data_size, "JPEG");
+        unscaled.loadFromData(output->data, static_cast<int>(output->data_size), "JPEG");
         if (imgdata.sizes.flip != 0) {
             QTransform rotation;
             int angle = 0;
@@ -170,8 +170,8 @@ bool RawIOHandler::read(QImage *image)
         unscaled = QImage(pixels,
                           output->width, output->height,
                           QImage::Format_RGB32)
-                // QImage::Format_RGB32 will cause window transparent, DON'T know why
-                .convertToFormat(QImage::Format_ARGB32);
+                   // QImage::Format_RGB32 will cause window transparent, DON'T know why
+                   .convertToFormat(QImage::Format_ARGB32);
     }
 
     if (unscaled.size() != finalSize) {
@@ -195,7 +195,7 @@ bool RawIOHandler::read(QImage *image)
 
 QVariant RawIOHandler::option(ImageOption option) const
 {
-    switch(option) {
+    switch (option) {
     case ImageFormat:
         return QImage::Format_RGB32;
     case Size:
@@ -210,9 +210,9 @@ QVariant RawIOHandler::option(ImageOption option) const
 }
 
 
-void RawIOHandler::setOption(ImageOption option, const QVariant & value)
+void RawIOHandler::setOption(ImageOption option, const QVariant &value)
 {
-    switch(option) {
+    switch (option) {
     case ScaledSize:
         d->scaledSize = value.toSize();
         break;
@@ -224,8 +224,7 @@ void RawIOHandler::setOption(ImageOption option, const QVariant & value)
 
 bool RawIOHandler::supportsOption(ImageOption option) const
 {
-    switch (option)
-    {
+    switch (option) {
     case ImageFormat:
     case Size:
     case ScaledSize:

@@ -32,8 +32,8 @@
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
-const QString ICON_IMPORT_PHOTO_DARK = ":/resources/dark/images/icon_import_photo dark.svg";
-const QString ICON_IMPORT_PHOTO_LIGHT = ":/resources/light/images/icon_import_photo.svg";
+const QString ICON_IMPORT_PHOTO_DARK = ":/assets/dark/images/icon_import_photo dark.svg";
+const QString ICON_IMPORT_PHOTO_LIGHT = ":/assets/light/images/icon_import_photo.svg";
 }  // namespace
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFile, QWidget *parent)
@@ -73,7 +73,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
                      });
 
     setMouseTracking(true);
-    m_thumbnailLabel = new QLabel(this);
+    m_thumbnailLabel = new QLbtoDLabel(this);
     //    m_thumbnailLabel->setObjectName("ThumbnailLabel");
     m_thumbnailLabel->setFixedSize(THUMBNAIL_BORDERSIZE);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -93,7 +93,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     DSuggestButton *button = new DSuggestButton(tr("Open Image"), this);
     button->setFixedWidth(302);
     button->setFixedHeight(36);
-    button->setShortcut(QKeySequence("Ctrl+O"));
+    // button->setShortcut(QKeySequence("Ctrl+O"));
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 
     connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {

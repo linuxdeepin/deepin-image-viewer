@@ -5,11 +5,11 @@
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildbetrachter</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Deepin Bildbetrachter ist eine elegante &amp; schnelle Bildverwaltung.</translation>
     </message>
 </context>
 <context>
@@ -27,7 +27,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Return</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -74,7 +78,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Bilddatei nicht gefunden</translation>
+        <translation>Bilddatei nicht gefunden</translation>
     </message>
 </context>
 <context>
@@ -242,6 +246,21 @@
     </message>
 </context>
 <context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Bestätigen</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Neuen Namen eingeben</translation>
+    </message>
+</context>
+<context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
@@ -395,11 +414,11 @@
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom in</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>Rauszoomen</translation>
     </message>
     <message>
         <source>Open</source>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Vorheriges</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pause</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Play</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Nächstes</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Beenden</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -530,7 +572,7 @@
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished">Mein Favorit</translation>
+        <translation>Mein Favorit</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -542,7 +584,7 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished">Originalgröße</translation>
+        <translation>1:1 Größe</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>Alle Bilder</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Umbenennen</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

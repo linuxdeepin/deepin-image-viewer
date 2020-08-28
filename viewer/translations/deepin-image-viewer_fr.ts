@@ -9,7 +9,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer est un outil de visualisation d&apos;images avec une interface moderne et des performances accrue.</translation>
+        <translation>Image Viewer est un programme à visualiser avec une interface moderne puisque des performances superbes.</translation>
     </message>
 </context>
 <context>
@@ -27,6 +27,10 @@
     </message>
     <message>
         <source>Alt+Return</source>
+        <translation>Alt+Entrée</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -34,7 +38,7 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informations de base</translation>
+        <translation>Informations éssentiels</translation>
     </message>
     <message>
         <source>Details</source>
@@ -74,7 +78,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Fichier image introuvable</translation>
+        <translation>Fichier image non trouvé</translation>
     </message>
 </context>
 <context>
@@ -239,6 +243,21 @@
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annuler</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -504,6 +523,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Précédent </translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Suivant</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Quitter</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -546,7 +588,7 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Ajuster à la fenêtre</translation>
+        <translation>Adapter au fenêtre courante</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
@@ -742,6 +784,14 @@
     <message>
         <source>All images</source>
         <translation>Toutes les images </translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Renommer </translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

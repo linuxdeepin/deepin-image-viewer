@@ -27,7 +27,11 @@
 #include <DScrollArea>
 #include <denhancedwidget.h>
 #include <DDrawer>
+#include <DLabel>
+
 DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
+
 //class DBaseExpand;
 class QFormLayout;
 class QVBoxLayout;
@@ -39,7 +43,7 @@ public:
     explicit ImageInfoWidget(const QString &darkStyle,
                              const QString &lightStyle,
                              QWidget *parent = 0);
-    void setImagePath(const QString &path);
+    void setImagePath(const QString path);
     void updateInfo();
     int contentHeight() const;
 //    QSize sizeHint() const override;
@@ -49,7 +53,7 @@ public slots:
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
-
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 private:
     void clearLayout(QLayout *layout);
     const QString trLabel(const char *str);
@@ -62,6 +66,7 @@ private:
     int m_updateTid = 0;
     int m_maxTitleWidth;  //For align colon
     int m_maxFieldWidth;
+    int m_currentFontSize; //LMH0609上次显示的字体大小
     bool m_isBaseInfo = false;
     bool m_isDetailsInfo = false;
     QString m_path;
