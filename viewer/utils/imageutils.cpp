@@ -622,10 +622,10 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
         return QPixmap(encodePath);
     }
     /*lmh0724使用USE_UNIONIMAGE*/
-    /*else if (QFileInfo(failEncodePath).exists()) {
-        qDebug() << "Fail-thumbnail exist, won't regenerate: " << path;
+    else if (QFileInfo(failEncodePath).exists()) {
+        qDebug() << "Fail-thumbnail exist, won't regenerate: " ;
         return QPixmap();
-    } */else {
+    }else {
         // Try to generate thumbnail and load it later
         if (! cacheOnly && generateThumbnail(path)) {
             return QPixmap(encodePath);

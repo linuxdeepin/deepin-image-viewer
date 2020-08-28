@@ -549,6 +549,32 @@ bool ViewPanel::GetPixmapStatus(QString filename)
     return !pic.isNull();
 }
 
+void ViewPanel::slotCurrentStackWidget(QString &path)
+{
+    QPixmap pixmapthumb= dApp->m_imagemap.value(path);
+    if(pixmapthumb.isNull())
+    {
+        pixmapthumb = utils::image::getThumbnail(path);
+    }
+    if (!QFileInfo(path).exists()) {
+        m_emptyWidget->setThumbnailImage(pixmapthumb);
+        m_stack->setCurrentIndex(1);
+    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
+        emit sigDisenablebutton();
+        m_stack->setCurrentIndex(2);
+    } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
+        m_stack->setCurrentIndex(0);
+    } else {
+        m_stack->setCurrentIndex(0);
+        // open success.
+        DRecentData data;
+        data.appName = "Deepin Image Viewer";
+        data.appExec = "deepin-image-viewer";
+        DRecentManager::addItem(path, data);
+    }
+
+}
+
 void ViewPanel::updateLocalImages()
 {
     const QString cp = m_infos.at(m_current).filePath;
@@ -916,9 +942,13 @@ void ViewPanel::slotGetFirstThumbnailPath(QString &path)
     path = m_infos[0].filePath;
 }
 
-void ViewPanel::slotUpdateImageView(QString &path)
+void  ViewPanel::slotUpdateImageView(QString &path)
 {
-    QPixmap pixmapthumb = utils::image::getThumbnail(path);
+    QPixmap pixmapthumb= dApp->m_imagemap.value(path);
+    if(pixmapthumb.isNull())
+    {
+        pixmapthumb = utils::image::getThumbnail(path);
+    }
     if (!QFileInfo(path).exists()) {
         m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
@@ -2011,6 +2041,7 @@ void ViewPanel::initViewContent()
         // cache is finish
         m_viewB->autoFit();
     });
+    connect(m_viewB, &ImageView::sigStackChange, this, &ViewPanel::slotCurrentStackWidget);
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
     connect(m_viewB, SIGNAL(sigShowImage(QImage)), m_viewB, SLOT(showFileImage(QImage)));
@@ -2109,39 +2140,19 @@ void ViewPanel::openImage(const QString path, bool inDB)
                     emit dApp->signalM->picInUSB(true);
                     emit dApp->signalM->hideNavigation();
                     emit dApp->signalM->hideExtensionPanel();
-                    m_emptyWidget->setThumbnailImage(utils::image::getThumbnail(path));
+                    QPixmap pixmapthumb= dApp->m_imagemap.value(path);
+                    if(pixmapthumb.isNull())
+                    {
+                        pixmapthumb = utils::image::getThumbnail(path);
+                    }
+                    m_emptyWidget->setThumbnailImage(pixmapthumb);
                     m_stack->setCurrentIndex(1);
                 }
             }
         }
     });
-//    m_th= QThread::create([=]() {
-
-//    });
-
-//    connect(m_th, &QThread::finished, m_th, [=]{
-    m_pixmapthumb = utils::image::getThumbnail(path);
     m_stack->setCurrentIndex(0);
-        if (!QFileInfo(path).exists()) {
-            m_emptyWidget->setThumbnailImage(m_pixmapthumb);
-            m_stack->setCurrentIndex(1);
-        } else if (!QFileInfo(path).isReadable() || m_pixmapthumb.isNull()) {
-            emit sigDisenablebutton();
-            m_stack->setCurrentIndex(2);
-        } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-            m_stack->setCurrentIndex(0);
-        } else {
-            m_stack->setCurrentIndex(0);
-            // open success.
-            DRecentData data;
-            data.appName = "Deepin Image Viewer";
-            data.appExec = "deepin-image-viewer";
-            DRecentManager::addItem(path, data);
-        }
-//        m_th->deleteLater();
-//        m_th=nullptr;
 
-//    m_th->start();
 
     if (inDB) {
         emit updateTopLeftContentImage(path);
