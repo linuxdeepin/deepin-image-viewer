@@ -177,6 +177,8 @@ signals:
     void sigShowImage(QImage);
     void sigUpdateImageView(QString&);
 
+    void sigStackChange(QString&);
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 

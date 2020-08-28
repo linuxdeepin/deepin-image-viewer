@@ -1976,14 +1976,14 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #endif
     }
-    if(m_NotImageViewFlag)
+    if(!m_NotImageViewFlag)
     {
         m_adaptImageBtn->setDisabled(true);
         m_adaptScreenBtn->setDisabled(true);
         m_rotateLBtn->setDisabled(true);
         m_rotateRBtn->setDisabled(true);
     }
-    m_NotImageViewFlag = false;
+    m_NotImageViewFlag = true;
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
     if (m_bIsHide || m_imgInfos.size() <= 1) {
         m_preButton->hide();
