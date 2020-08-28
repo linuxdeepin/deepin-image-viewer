@@ -467,6 +467,7 @@ void ViewPanel::disconnectTTbc()
 
 void ViewPanel::reConnectTTbc()
 {
+    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
@@ -920,7 +921,8 @@ void ViewPanel::slotUpdateImageView(QString &path)
         m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
-        m_stack->setCurrentIndex(0);
+        emit sigDisenablebutton();
+        m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
     } else
@@ -1126,6 +1128,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
         return nullptr;
     }
 
+    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
     //heyi test 连接更改隐藏上一张按钮信号槽
     connect(dApp->signalM,&SignalManager::sigUpdateThunbnail,ttbc,&TTBContent::OnUpdateThumbnail);
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags);
@@ -1133,6 +1136,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos);
     connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct);
     connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos);
+
     connect(dApp->signalM, &SignalManager::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::UniqueConnection);
     //    ttlc->setCurrentDir(m_currentImageLastDir);
 //    if (!m_infos.isEmpty() && m_current < m_infos.size()) {
@@ -2110,7 +2114,8 @@ void ViewPanel::openImage(const QString path, bool inDB)
         m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
-        m_stack->setCurrentIndex(0);
+        emit sigDisenablebutton();
+        m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
     } else {

@@ -388,6 +388,8 @@ public slots:
      */
     void OnUpdateThumbnail(QString path);
 
+    void DisEnablettbButton();
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();
@@ -446,6 +448,8 @@ private:
     bool m_bIsHide = false;
 
     bool m_bMoving=true;
+
+    bool m_NotImageViewFlag = false;
 };
 
 

@@ -543,8 +543,8 @@ UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path)
 }
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
-    if(!isSupportReading(path))
-    {
+    QImageReader r(path);
+    if (r.imageCount() > 1) {
         return false;
     }
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -645,7 +645,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
-        if(reader.imageCount()>0|| file_suffix_upper=="MNG"){
+        if(reader.imageCount()>0|| file_suffix_upper!="ICNS"){
             res_qt = reader.read();
             if (res_qt.isNull()) {
                 //try old loading method
@@ -672,6 +672,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             res = res_qt;
         }
         else{
+            int n =reader.imageCount();
             res=QImage();
             return false;
         }

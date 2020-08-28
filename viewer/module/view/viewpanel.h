@@ -166,6 +166,8 @@ signals:
      */
     void sigStopshowThread();
 
+    void sigDisenablebutton();
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
