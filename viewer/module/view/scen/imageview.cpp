@@ -134,31 +134,7 @@ QVariantList cacheImage(const QString &path)
             }
 #endif
       QPixmap p = QPixmap::fromImage(tImg);
-    if (QFileInfo(path).exists() && p.isNull()) {
-        //判定为损坏图片
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        QString picString;
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            picString = ICON_PIXMAP_DARK;
-        } else {
-            picString = ICON_PIXMAP_LIGHT;
-        }
-#if USE_UNIONIMAGE
-        UnionImage_NameSpace::loadStaticImageFromFile(picString, tImg, errMsg);
-#else
-        QImageReader readerF(picString, format.toLatin1());
-        readerF.setAutoTransform(true);
-        if (readerF.canRead()) {
-            tImg = readerF.read();
-        } else {
-            qWarning() << "can't read image:" << readerF.errorString() << format;
 
-            tImg = QImage(picString);
-        }
-#endif
-        qDebug() << errMsg;
-        p = QPixmap::fromImage(tImg);
-    }
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
     return vl;
@@ -280,18 +256,18 @@ QVariantList ImageView::cachePixmap(const QString path)
         qDebug() << errMsg;
     }
     QPixmap p = QPixmap::fromImage(tImg);
-    if (QFileInfo(path).exists() && p.isNull()) {
-        //判定为损坏图片
-        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-        QString picString;
-        if (themeType == DGuiApplicationHelper::DarkType) {
-            picString = ICON_PIXMAP_DARK;
-        } else {
-            picString = ICON_PIXMAP_LIGHT;
-        }
-        UnionImage_NameSpace::loadStaticImageFromFile(picString, tImg, errMsg);
-        p = QPixmap::fromImage(tImg);
-    }
+//    if (QFileInfo(path).exists() && p.isNull()) {
+//        //判定为损坏图片
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        QString picString;
+//        if (themeType == DGuiApplicationHelper::DarkType) {
+//            picString = ICON_PIXMAP_DARK;
+//        } else {
+//            picString = ICON_PIXMAP_LIGHT;
+//        }
+//        UnionImage_NameSpace::loadStaticImageFromFile(picString, tImg, errMsg);
+//        p = QPixmap::fromImage(tImg);
+//    }
 #else
     QImage tImg;
     QString format = DetectImageFormat(path);
@@ -1545,6 +1521,8 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     //emit imageChanged(filePath);
     emit dApp->signalM->UpdateNavImg();
     emit sigUpdateImageView(filePath);
+    QFileInfo fileinfo(filePath);
+    emit dApp->signalM->updateFileName(fileinfo.fileName());
 }
 
 void ImageView::showFileImage()

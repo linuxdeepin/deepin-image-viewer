@@ -55,6 +55,7 @@ const QImage scaleImage(const QString &path, const QSize &size)
     if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
         qDebug() << errMsg;
     }
+    tImg = tImg.scaled(size);
     return tImg;
 #else
     QImageReader reader(path);
@@ -129,7 +130,13 @@ bool imageSupportRead(const QString &path)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
-    return UnionImage_NameSpace::isSupportReading(path);
+    const QString suffix = QFileInfo(path).suffix();
+    QStringList errorList;
+    errorList << "X3F";
+    if (errorList.indexOf(suffix.toUpper()) != -1) {
+        return false;
+    }
+    return UnionImage_NameSpace::unionImageSupportFormat().contains(suffix.toUpper());
 #else
     const QString suffix = QFileInfo(path).suffix();
 //解决freeimage不支持icns

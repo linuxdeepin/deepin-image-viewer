@@ -143,16 +143,16 @@ public:
         m_freeiamge_formats["G3"]      =  FIF_FAXG3;//FAXG3
         m_freeiamge_formats["SGI"]     =  FIF_SGI;
         m_freeiamge_formats["EXR"]     =  FIF_EXR;
-        m_freeiamge_formats["J2K"]     =  FIF_J2K;
-        m_freeiamge_formats["J2C"]     =  FIF_J2K;
-        m_freeiamge_formats["JPC"]     =  FIF_J2K;
+        //m_freeiamge_formats["J2K"]     =  FIF_J2K;
+        //m_freeiamge_formats["J2C"]     =  FIF_J2K;
+       // m_freeiamge_formats["JPC"]     =  FIF_J2K;
 //        m_freeiamge_formats["JP2"]     =  FIF_JP2;
         //m_freeiamge_formats["PFM"]     =  FIF_PFM;covert failed
         m_freeiamge_formats["PCT"]     =  FIF_PICT;
         m_freeiamge_formats["PIC"]     =  FIF_PICT;
         m_freeiamge_formats["PICT"]    =  FIF_PICT;
         m_freeiamge_formats["PIC"]     =  FIF_PICT;
-        m_freeiamge_formats["RAW"]     =  FIF_RAW;
+//        m_freeiamge_formats["RAW"]     =  FIF_RAW;
         m_freeiamge_formats["WEBP"]    =  FIF_WEBP;
         m_freeiamge_formats["JXR"]     =  FIF_JXR;
         m_movie_formats["MNG"]         =  FIF_MNG;
@@ -160,14 +160,15 @@ public:
         m_qtSupported << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                       << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
-                      << "TIFF" << "BMP" << "XPM" << "MRW" << "DNG"
-                      << "RAF"  << "CR2" << "MEF" << "RAW" << "ORF"
+                      << "TIFF" << "BMP" << "XPM"  << "DNG"
+                      << "RAF"  << "CR2" << "MEF" << "ORF"
+//                      << "RAW" << "MRW"
                       << "NEF" ;
 //webp　pic有动图暂时排除
         m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
                   << "PGM" << "PPM" << "PNM" << "WBMP"
                   << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
-                  << "J2C" << "J2K" << "JNG"
+                  << "JNG"
 //                  << "JP2"
                   << "PCD"
                   << "PCX"
@@ -522,32 +523,28 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int fla
     }
     return nullptr;
 }
+
 UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path)
 {
-    bool iRet=false;
-    FIBITMAP *dib=nullptr;
-    QImageReader reader(path);
-    const QByteArray ba = path.toUtf8();
-    const char *pc = ba.data();
-    const FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(pc);
-    if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
-        dib = FreeImage_Load(fif, pc, 0);
-    }
-    if (nullptr != dib) {
-        iRet= true;
-        FreeImage_Unload(dib);
-    }
-
-    else if((reader.imageCount()>0 ||reader.format().toLower()=="MNG") &&reader.canRead()){
-        iRet= true;
-    }
-    return iRet;
+    const FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(path.toUtf8().data());
+    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
+//    bool iRet=false;
+//    QImageReader reader(path);
+//    QString file_suffix_upper = reader.format().toUpper();
+//    if(!union_image_private.m_freeiamge_formats[file_suffix_upper])
+//    {
+//        iRet=false;
+//    }
+//    else if((reader.imageCount()>0 ||reader.format().toLower()=="MNG") &&reader.canRead()){
+//        iRet= true;
+//    }
+//    return iRet;
 
 }
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
 {
-    if(!isSupportReading(path))
-    {
+    QImageReader r(path);
+    if (r.imageCount() > 1) {
         return false;
     }
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -648,7 +645,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
-        if(reader.imageCount()>0|| file_suffix_upper=="MNG"){
+        if(reader.imageCount()>0|| file_suffix_upper!="ICNS"){
             res_qt = reader.read();
             if (res_qt.isNull()) {
                 //try old loading method
@@ -675,6 +672,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             res = res_qt;
         }
         else{
+            int n =reader.imageCount();
             res=QImage();
             return false;
         }
