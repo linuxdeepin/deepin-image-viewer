@@ -508,5 +508,10 @@ private:
     //lmh0729判断是否判断打开图片与上一张是否相同
     bool m_bIsOpenPicture=true;
 
+    //lmh0828
+    QThread * m_th{nullptr};
+
+    QPixmap m_pixmapthumb;
+
 };
 #endif  // VIEWPANEL_H
