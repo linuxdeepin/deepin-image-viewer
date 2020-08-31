@@ -551,6 +551,7 @@ bool ViewPanel::GetPixmapStatus(QString filename)
 
 void ViewPanel::slotCurrentStackWidget(QString &path)
 {
+    emit imageChanged(path,m_infos);
     QPixmap pixmapthumb= dApp->m_imagemap.value(path);
     if(pixmapthumb.isNull())
     {

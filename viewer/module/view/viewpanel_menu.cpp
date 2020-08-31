@@ -358,7 +358,7 @@ void ViewPanel::updateMenuContent()
                      ss("Hide navigation window", ""));
     }
     /**************************************************************************/
-    if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
+    if (m_stack->currentIndex()==0&&QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
             QFileInfo(m_infos.at(m_current).filePath).isWritable() &&
             utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
         m_menu->addSeparator();
@@ -367,7 +367,7 @@ void ViewPanel::updateMenuContent()
                      ss("Rotate counterclockwise", "Ctrl+Shift+R"));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
+    if (m_stack->currentIndex()==0&&utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
         appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
     }
 #ifndef LITE_DIV
