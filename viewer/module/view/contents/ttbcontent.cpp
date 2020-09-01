@@ -25,6 +25,7 @@
 #include "widgets/elidedlabel.h"
 #include "widgets/pushbutton.h"
 #include "widgets/returnbutton.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <DImageButton>
 #include <DSpinner>
@@ -553,6 +554,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
 TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos,bool flag, QWidget *parent)
     : QLbtoDLabel(parent)
 {
+#ifdef OPENACCESSIBLE
+    setObjectName(TTBCONTENT_WIDGET);
+    setAccessibleName(TTBCONTENT_WIDGET);
+#endif
     m_NotImageViewFlag = flag;
     setWindoeSize(inDB, m_infos, parent);
     initBtn();
@@ -718,7 +723,22 @@ void TTBContent::initBtn()
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
     m_trashBtn->setIconSize(QSize(36, 36));
     m_trashBtn->setToolTip(tr("Delete"));
-
+#ifdef OPENACCESSIBLE
+    m_adaptImageBtn->setObjectName(ADAPT_BUTTON);
+    m_adaptScreenBtn->setObjectName(ADAPT_SCREEN_BUTTON);
+    m_preButton->setObjectName(PRE_BUTTON);
+    m_nextButton->setObjectName(NEXT_BUTTON);
+    m_rotateRBtn->setObjectName(CLOCKWISE_ROTATION);
+    m_rotateLBtn->setObjectName(COUNTER_CLOCKWISE_ROTATION);
+    m_trashBtn->setObjectName(TRASH_BUTTON);
+    m_adaptImageBtn->setAccessibleName(ADAPT_BUTTON);
+    m_adaptScreenBtn->setAccessibleName(ADAPT_SCREEN_BUTTON);
+    m_preButton->setAccessibleName(PRE_BUTTON);
+    m_nextButton->setAccessibleName(NEXT_BUTTON);
+    m_rotateRBtn->setAccessibleName(CLOCKWISE_ROTATION);
+    m_rotateLBtn->setAccessibleName(COUNTER_CLOCKWISE_ROTATION);
+    m_trashBtn->setAccessibleName(TRASH_BUTTON);
+#endif
     hb->addWidget(m_trashBtn);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     bool theme = false;

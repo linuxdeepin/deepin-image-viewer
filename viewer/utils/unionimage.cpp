@@ -673,7 +673,6 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             res = res_qt;
         }
         else{
-            int n =reader.imageCount();
             res=QImage();
             return false;
         }

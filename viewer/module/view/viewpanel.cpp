@@ -49,6 +49,7 @@
 #include <DRecentManager>
 
 #include "imageutils.h"
+#include "accessibility/ac-desktop-define.h"
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;
@@ -74,6 +75,10 @@ ViewPanel::ViewPanel(QWidget *parent)
 {
 #ifndef LITE_DIV
     m_vinfo.inDatabase = false;
+#endif
+#ifdef OPENACCESSIBLE
+    setObjectName(VIEW_PANEL_WIDGET);
+    setAccessibleName(VIEW_PANEL_WIDGET);
 #endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();

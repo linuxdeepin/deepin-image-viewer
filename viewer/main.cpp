@@ -22,6 +22,7 @@
 #include <DLog>
 #include <QTranslator>
 #include <DApplicationSettings>
+#include "accessibility/acobjectlist.h"
 
 using namespace Dtk::Core;
 
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
     Application a(argc, argv);
 
     a.setAttribute(Qt::AA_ForceRasterWidgets);
-
+    QAccessible::installFactory(accessibleFactory);
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
