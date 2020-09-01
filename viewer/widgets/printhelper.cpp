@@ -10,7 +10,8 @@
 #include <QCoreApplication>
 #include <QImageReader>
 #include <QDebug>
-
+#include <dprintpreviewwidget.h>
+#include <dprintpreviewdialog.h>
 #ifdef USE_UNIONIMAGE
 #include "unionimage.h"
 #endif
@@ -73,152 +74,42 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
-    qDebug() << "ready to print!    File:" << __FILE__ << "    Line:" << __LINE__;
-    QPrinter printer;
-    QImage img;
-
-    printer.setColorMode(QPrinter::Color);
-
-    QPrintPreviewDialog printDialog(&printer, parent);
-    PrintOptionsPage *optionsPage = new PrintOptionsPage(&printDialog);
-//    printDialog.resize(800, 800);
-
-    QToolBar *toolBar = printDialog.findChild<QToolBar *>();
-    if (toolBar) {
-        QAction *page_setup_action = nullptr;
-        QAction *last_action = hookToolBarActionIcons(toolBar, &page_setup_action);
-        QAction *action = new QAction(QIcon(":/qt-project.org/dialogs/assets/images/qprintpreviewdialog/images/preview-24.svg"),
-                                      QCoreApplication::translate("PrintPreviewDialog", "Image Settings"), toolBar);
-        connect(action, &QAction::triggered, optionsPage, &PrintOptionsPage::show);
-        toolBar->insertAction(last_action, action);
-
-        // 使用QPrintPropertiesDialog代替QPageSetupDialog, 用于解决使用QPageSetupDialog进行打印设置无效的问题
-        if (page_setup_action) {
-            // 先和原有的槽断开连接
-            disconnect(page_setup_action, &QAction::triggered, nullptr, nullptr);
-            // 触发创建QPrintDialog对象
-            connect(page_setup_action, SIGNAL(triggered(bool)), &printDialog, SLOT(_q_print()), Qt::QueuedConnection);
-            // 在QPrintDialog对象被创建后调用，用于触发显示 QPrintPropertiesDialog
-            connect(page_setup_action, &QAction::triggered, &printDialog, [&printDialog] {
-                auto find_child_by_name = [](const QObject * obj, const QByteArray & class_name)
-                {
-                    for (QObject *child : obj->children()) {
-                        if (child->metaObject()->className() == class_name) {
-                            qDebug() << "return child!    File:" << __FILE__ << "    Line:" << __LINE__;
-                            return child;
-                        }
-                    }
-                    qDebug() << "return nullptr!    File:" << __FILE__ << "    Line:" << __LINE__;
-                    return (QObject *)(nullptr);
-                };
-
-                if (QPrintDialog *print_dialog = printDialog.findChild<QPrintDialog *>())
-                {
-                    print_dialog->reject();
-                    qDebug() << "show print_properties_dialog!    File:" << __FILE__ << "    Line:" << __LINE__;
-                    // 显示打印设置对话框
-                    if (QObject *print_properties_dialog = find_child_by_name(print_dialog, "QUnixPrintWidget"))
-                        QMetaObject::invokeMethod(print_properties_dialog, "_q_btnPropertiesClicked");
-                }
-            }, Qt::QueuedConnection);
+    //lmh20200901，全新用dtk的打印
+    DPrintPreviewDialog printDialog2(nullptr);
+    QObject::connect(&printDialog2,&DPrintPreviewDialog::paintRequested,parent,[=](DPrinter *_printer){
+        QPainter painter(_printer);
+        QList<QImage> imgs;
+        QImage img;
+#if USE_UNIONIMAGE
+        for(const QString &path :paths){
+            QString errMsg;
+            UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
+            if(!img.isNull()){
+                imgs<<img;
+            }
         }
-    } else {
-        qDebug() << "optionsPage hide!    File:" << __FILE__ << "    Line:" << __LINE__;
-        optionsPage->hide();
-    }
-
-    // HACK: Qt的打印设置有点bug，属性对话框中手动设置了纸张方向为横向（默认纵向）其实并不生效，
-    //（猜测是透过cups协商出了问题，跟踪src/printsupport里面的代码没有问题，
-    // 应该在src/plugins/printsupport中出的问题），
-    // 如果在构造QPainter对象之前给QPrinter设置为横向，则实际可以横向打印，
-    // 但是这时候手动选择纵向又不会生效。
-    // 所以这里的hack是事先判断图像是“横向”还是“纵向”的，给QPrinter设置默认的纸张方向，
-    // 以满足大部分图片打印的需求。
-    QList<QImage> imgs;
-#ifdef USE_UNIONIMAGE
-    for (const QString &path : paths) {
-        // There're cases that people somehow changed the image file suffixes, like jpg -> png,
-        // we'd better detect that before printing, otherwise we get an empty print.
-        QImage tImg;
-        QString errMsg;
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug() << errMsg;
-            continue;
-        }
-
-        imgs << tImg;
-    }
 #else
-    for (const QString &path : paths) {
-        // There're cases that people somehow changed the image file suffixes, like jpg -> png,
-        // we'd better detect that before printing, otherwise we get an empty print.
-        const QString format = DetectImageFormat(path);
-        if (!img.load(path, format.toLatin1())) {
-            qDebug() << "img load failed" << path;
-            continue;
+        for(const QString &path :paths){
+            QImage imgtmp(path);
+            if(!imgtmp.isNull()){
+                imgs<<imgtmp;
+            }
         }
-
-        imgs << img;
-    }
 #endif
-    if (!imgs.isEmpty()) {
-        QImage img1 = imgs.first();
-        qDebug() << img1.width() << img1.height();
-        if (!img1.isNull() && img1.width() > img1.height()) {
-            printer.setPageOrientation(QPageLayout::Landscape);
-        }
-    }
-    // HACK - end
-
-    auto repaint = [&imgs, &optionsPage, &printer] {
-        QPainter painter(&printer);
-
-        for (const QImage img : imgs)
-        {
-            QRect rect = painter.viewport();
-            QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
-            QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
-
-            if (size.width() < img.width() || size.height() < img.height()) {
-                painter.drawImage(pos.x(), pos.y(), img.scaledToWidth(size.width(), Qt::SmoothTransformation));
-                qDebug() << "painter drawImage normal!    File:" << __FILE__ << "    Line:" << __LINE__;
-            } else {
-                painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
-                painter.setWindow(img.rect());
-                painter.drawImage(0, 0, img);
-                qDebug() << "painter drawImage (0,0)!    File:" << __FILE__ << "    Line:" << __LINE__;
-            }
-
-            if (img != imgs.last()) {
-                printer.newPage();
-                qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
+        int index=0;
+        for(auto img:imgs){
+            QPoint pos(0,0);
+            painter.setWindow(img.rect());
+            int x2=painter.window().right();
+            int y2=painter.window().bottom();
+            painter.drawImage(pos.x(),pos.y(),img,0,0,x2,y2);
+            if(++index !=imgs.size()){
+                _printer->newPage();
             }
         }
-
         painter.end();
-        qDebug() << "painter OK!    File:" << __FILE__ << "    Line:" << __LINE__;
-    };
-
-    QObject::connect(&printDialog, &QPrintPreviewDialog::paintRequested, &printDialog, repaint);
-    QObject::connect(optionsPage, &PrintOptionsPage::valueChanged, optionsPage, [&printDialog] {
-        if (QPrintPreviewWidget *pw = printDialog.findChild<QPrintPreviewWidget *>())
-            pw->updatePreview();
-
-        qDebug() << "painter updatePreview!    File:" << __FILE__ << "    Line:" << __LINE__;
     });
-
-    if (printDialog.exec() == QDialog::Accepted) {
-
-        qDebug() << "send print order succeed!";
-
-        return;
-    }
-
-//    QObject::connect(printDialog, &QPrintPreviewDialog::done, printDialog,
-//                     &QPrintPreviewDialog::deleteLater);
-
-    qDebug() << "print failed!";
+    printDialog2.exec();
 }
 
 QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize)
