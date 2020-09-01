@@ -83,6 +83,13 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat();
 UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat();
 
+/**
+ * @brief suffixisImage
+ * @return const bool
+ * @author lmh
+ * 从后缀名称判断是否为一张图片（包括损坏和不支持图片）
+ */
+UNIONIMAGESHARED_EXPORT bool suffixisImage(const QString &path);
 
 UNIONIMAGESHARED_EXPORT bool isDynamicFormat();
 /**

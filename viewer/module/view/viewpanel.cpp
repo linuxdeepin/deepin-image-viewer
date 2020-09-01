@@ -1383,14 +1383,8 @@ void ViewPanel::dropEvent(QDropEvent *event)
     QStringList paths;
     for (QUrl url : urls) {
         const QString path = url.toLocalFile();
-        if (QFileInfo(path).isDir()) {
-            auto finfos = getImagesInfo(path, false);
-            for (auto finfo : finfos) {
-                if (imageSupportRead(finfo.absoluteFilePath())) {
-                    paths << finfo.absoluteFilePath();
-                }
-            }
-        } else if (imageSupportRead(path)) {
+        //lmh0901判断是否是图片
+        if( suffixisImage(path) ){
             paths << path;
         }
     }

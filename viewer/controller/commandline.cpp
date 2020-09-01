@@ -30,7 +30,6 @@
 #include <QDesktopWidget>
 #include <QDebug>
 #include <QFileInfo>
-#include <QMessageBox>
 
 using namespace Dtk::Widget;
 
@@ -228,6 +227,7 @@ bool CommandLine::processOption()
         DIVDBusController *dc = new DIVDBusController(dApp->signalM);
         Q_UNUSED(dc)
 #endif
+
         using namespace utils::image;
         QString name;
         QString value;
@@ -237,7 +237,6 @@ bool CommandLine::processOption()
             value = m_cmdParser.value(name);
             values = m_cmdParser.values(name);
         }
-
         if (values.isEmpty() && ! pas.isEmpty()) {
             QString path = pas.first();
             qDebug() << "path=" << path;
@@ -272,7 +271,7 @@ bool CommandLine::processOption()
                 for (int i = 0; i < list.count(); i++) {
                     QFileInfo file_info = list.at(i);
                     QString absolute_file_path = file_info.absoluteFilePath();
-                    if (QFileInfo(absolute_file_path).exists() && imageSupportRead(absolute_file_path)) {
+                    if (QFileInfo(absolute_file_path).exists() /*&& imageSupportRead(absolute_file_path)*/) {
                         string_list << absolute_file_path;
                     }
                 }
@@ -292,7 +291,6 @@ bool CommandLine::processOption()
                 values = pas;
             }
         }
-
         bool support = imageSupportRead(value);
 
         if (name == "o" || name == "open") {
@@ -468,7 +466,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
             }
         }
 
-        bool support = imageSupportRead(value);
+        bool support = suffixisImage(value);
 
         if (newflag) {
             if (name == "o" || name == "open") {
@@ -478,7 +476,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
                         if (QUrl(value).isLocalFile())
                             path =  QUrl(value).toLocalFile();
                         const QString ap = QFileInfo(path).absoluteFilePath();
-                        if (QFileInfo(path).exists() && imageSupportRead(ap)) {
+                        if (QFileInfo(path).exists() && suffixisImage(ap)) {
                             aps << ap;
                         }
                     }

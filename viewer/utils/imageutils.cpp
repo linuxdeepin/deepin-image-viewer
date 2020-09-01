@@ -826,6 +826,28 @@ bool imageSupportWallPaper(const QString &path)
     return iRet;
 }
 
+bool suffixisImage(const QString &path)
+{
+#ifdef USE_UNIONIMAGE
+    return UnionImage_NameSpace::suffixisImage(path);
+#else
+    bool iRet=false;
+    QFileInfo info(path);
+    QMimeDatabase db;
+    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
+    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+    QString str = info.suffix();
+    // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
+    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+            mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+        iRet=true;
+    }
+    return iRet;
+#endif
+}
+
+
+
 }  // namespace image
 
 }  //namespace utils

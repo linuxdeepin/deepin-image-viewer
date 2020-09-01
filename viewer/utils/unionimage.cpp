@@ -34,6 +34,7 @@
 #include <QSvgGenerator>
 #include <QImageReader>
 #include <QtSvg/QSvgRenderer>
+#include <QMimeDatabase>
 
 
 #define SAVE_QUAITY_VALUE 100
@@ -231,7 +232,21 @@ UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat()
 {
     return (union_image_private.m_movie_formats.keys());
 }
-
+UNIONIMAGESHARED_EXPORT bool suffixisImage(const QString &path)
+{
+    bool iRet=false;
+    QFileInfo info(path);
+    QMimeDatabase db;
+    QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
+    QMimeType mt1 = db.mimeTypeForFile(path, QMimeDatabase::MatchExtension);
+    QString str = info.suffix();
+    // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
+    if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+            mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+        iRet=true;
+    }
+    return iRet;
+}
 /**
  * @brief size2Human
  * @param bytes

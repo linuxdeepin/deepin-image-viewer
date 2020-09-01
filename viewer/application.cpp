@@ -303,7 +303,7 @@ void ImageLoader::loadInterface(QString path)
         qDebug() << errMsg;
     }
     /*lmh0728线程pixmap安全问题*/
-    QImage img=tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+    QImage img=tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
     QPixmap pixmap = QPixmap::fromImage(img);
 #else
     QImage tImg;
