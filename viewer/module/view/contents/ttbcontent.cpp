@@ -217,7 +217,7 @@ qDebug()<<e->type();
             }
             m_vecPoint.clear();
             m_lastPoint=QPoint(0,0);
-            emit mouseLeftReleased();
+//            emit mouseLeftReleased();
             return false;
         }
         else if(firsttolast>=20 && firsttolast<50){
@@ -279,7 +279,6 @@ qDebug()<<e->type();
                 m_currentImageItem->emitClickEndSig();
             }
             m_lastPoint=QPoint(0,0);
-            dynamic_cast<DWidget *>(m_obj)->resize(dynamic_cast<DWidget *>(m_obj)->width()+1,dynamic_cast<DWidget *>(m_obj)->height());
 
         });
         qDebug()<<"left1:"<<this->geometry().left();
@@ -374,7 +373,7 @@ qDebug()<<e->type();
             m_lastPoint=CurrentcoursePoint;
         }
         bool bleft=true;
-        if((CurrentcoursePoint.x()-m_lastPoint.x())<15 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-15  /*||(CurrentcoursePoint.x()-m_lastPoint.x())>64 ||(CurrentcoursePoint.x()-m_lastPoint.x())<-64*/)
+        if((CurrentcoursePoint.x()-m_lastPoint.x())<32 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-32  /*||(CurrentcoursePoint.x()-m_lastPoint.x())>64 ||(CurrentcoursePoint.x()-m_lastPoint.x())<-64*/)
         {
             return false;
         }
@@ -405,7 +404,7 @@ qDebug()<<e->type();
                     }
                 }
                 /*对于末尾的情况和排头的情况，特殊处理*/
-                if((list.at(3)==m_currentImageItem ||list.at(2)==m_currentImageItem )&&!bleft){
+                if((/*list.at(3)==m_currentImageItem ||*/list.at(2)==m_currentImageItem )&&!bleft){
                     ImageItem *img2=dynamic_cast<ImageItem *>(list.at(2));
                     int left = this->geometry().left() + img2->geometry().left() + listLeft;
                     qDebug()<<"left "<<left<<"middle "<<middle;
@@ -414,7 +413,7 @@ qDebug()<<e->type();
                         m_currentImageItem=img2;
                     }
                 }
-                if((list.at(list.size()-1)==m_currentImageItem ||list.at(list.size()-2)==m_currentImageItem) &&bleft){
+                if((list.at(list.size()-1)==m_currentImageItem /*||list.at(list.size()-2)==m_currentImageItem*/) &&bleft){
                     ImageItem *img2=dynamic_cast<ImageItem *>(list.at(list.size()-1));
                     int right = this->geometry().left() + img2->geometry().right() + listLeft;
                     if (middle > right+32 ){
@@ -422,7 +421,7 @@ qDebug()<<e->type();
                         m_currentImageItem=img2;
                     }
                 }
-                if(img == m_currentImageItem) {
+                if(img != m_currentImageItem) {
                     int left = this->geometry().left() + img->geometry().left() + listLeft;
                     int right = this->geometry().left() + img->geometry().right() + listLeft;
                     if (left <= middle && middle < right) {
@@ -430,40 +429,6 @@ qDebug()<<e->type();
                         img->emitClickSig(img->getPath());
                         m_currentImageItem=img;
                         //                        }
-                        break;
-                    }
-                    else if(bleft && middle > right){
-                        ImageItem *img2;
-                        if((i+1)<list.size()){
-                            img2=dynamic_cast<ImageItem *>(list.at(i+1));
-                        }
-                        else {
-                            img2=dynamic_cast<ImageItem *>(list.at(list.size()-1));
-                        }
-                        if (nullptr == img2) {
-                            continue;
-                        }
-                        if(m_currentImageItem!=img2){
-                            img2->emitClickSig(img->getPath());
-                            m_currentImageItem=img2;
-                        }
-                        break;
-                    }
-                    else if(!bleft && middle < left){
-                        ImageItem *img2;
-                        if((i-1)>2){
-                            img2=dynamic_cast<ImageItem *>(list.at(i-1));
-                        }
-                        else {
-                            img2=dynamic_cast<ImageItem *>(list.at(2));
-                        }
-                        if (nullptr == img2) {
-                            continue;
-                        }
-                        if(m_currentImageItem!=img2){
-                            img2->emitClickSig(img->getPath());
-                            m_currentImageItem=img2;
-                        }
                         break;
                     }
                 }
