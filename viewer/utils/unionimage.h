@@ -217,32 +217,7 @@ UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path);
 
 QT_BEGIN_NAMESPACE
 
-class UnionMovieImagePrivate;
-/**
- * @brief The UnionDynamicImage class
- * @author DJH
- * 用来读取动态图片,使用下标来获取动图的每一帧
- */
-class UNIONIMAGESHARED_EXPORT UnionMovieImage
-{
-public:
-    explicit UnionMovieImage();
-    ~UnionMovieImage();
 
-    void setFileName(const QString &path);
-
-    /**
-     * @brief next
-     * @return QImage
-     * 返回下一帧
-     */
-    QImage next();
-
-private:
-    UnionMovieImagePrivate *const d_ptr;
-    Q_DECLARE_PRIVATE(UnionMovieImage)
-    Q_DISABLE_COPY(UnionMovieImage)
-};
 
 QT_END_NAMESPACE
 

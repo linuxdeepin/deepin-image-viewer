@@ -15,6 +15,7 @@ PKGCONFIG +=   libexif dtkwidget  gio-qt udisks2-qt5
 # PKGCONFIG += xext x11 gio-unix-2.0
  QT += dtkwidget
  QT += dbus
+#CONFIG += object_parallel_to_source
 LIBS += -lfreeimage
 
 #gtk+-2.0

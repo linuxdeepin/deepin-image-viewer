@@ -35,6 +35,7 @@
 #include <QString>
 #include <QtDebug>
 
+
 namespace {
 
 const int TITLE_MAXWIDTH = 72 - 3;
