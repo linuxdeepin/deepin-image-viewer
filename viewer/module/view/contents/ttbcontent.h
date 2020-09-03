@@ -127,6 +127,10 @@ public:
     {
         return _index;
     }
+    inline int getIndexNow()
+    {
+        return _indexNow;
+    }
     /**
      * @brief getPixmap
      * 获取pixmap

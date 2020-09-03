@@ -10,8 +10,11 @@
 #include <QCoreApplication>
 #include <QImageReader>
 #include <QDebug>
+//#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 2, 2, 5))
 #include <dprintpreviewwidget.h>
 #include <dprintpreviewdialog.h>
+//#endif
+
 #ifdef USE_UNIONIMAGE
 #include "unionimage.h"
 #endif
@@ -75,12 +78,12 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     //lmh20200901，全新用dtk的打印
+//#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 2, 2, 5))
     DPrintPreviewDialog printDialog2(nullptr);
     QObject::connect(&printDialog2,&DPrintPreviewDialog::paintRequested,parent,[=](DPrinter *_printer){
         QPainter painter(_printer);
         QList<QImage> imgs;
         QImage img;
-#if USE_UNIONIMAGE
         for(const QString &path :paths){
             QString errMsg;
             UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
@@ -88,14 +91,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 imgs<<img;
             }
         }
-#else
-        for(const QString &path :paths){
-            QImage imgtmp(path);
-            if(!imgtmp.isNull()){
-                imgs<<imgtmp;
-            }
-        }
-#endif
+
         int index=0;
         for(auto img:imgs){
             QPoint pos(0,0);
@@ -110,6 +106,36 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         painter.end();
     });
     printDialog2.exec();
+//#else
+//    QPrinter printer;
+//    QPrintPreviewDialog printDialog2(&printer,nullptr);
+//    QObject::connect(&printDialog2,&QPrintPreviewDialog::paintRequested,parent,[=](QPrinter *_printer){
+//        QPainter painter(_printer);
+//        QList<QImage> imgs;
+//        QImage img;
+//        for(const QString &path :paths){
+//            QString errMsg;
+//            UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
+//            if(!img.isNull()){
+//                imgs<<img;
+//            }
+//        }
+
+//        int index=0;
+//        for(auto img:imgs){
+//            QPoint pos(0,0);
+//            painter.setWindow(img.rect());
+//            int x2=painter.window().right();
+//            int y2=painter.window().bottom();
+//            painter.drawImage(pos.x(),pos.y(),img,0,0,x2,y2);
+//            if(++index !=imgs.size()){
+//                _printer->newPage();
+//            }
+//        }
+//        painter.end();
+//    });
+//    printDialog2.exec();
+//#endif
 }
 
 QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize)

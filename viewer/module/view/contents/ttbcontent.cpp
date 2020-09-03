@@ -282,6 +282,10 @@ qDebug()<<e->type();
             dynamic_cast<DWidget *>(m_obj)->resize(dynamic_cast<DWidget *>(m_obj)->width()+1,dynamic_cast<DWidget *>(m_obj)->height());
 
         });
+        qDebug()<<"left1:"<<this->geometry().left();
+        qDebug()<<"right2:"<<this->geometry().right();
+        int indexTotal=((this->geometry().right()-this->geometry().left())/64)-1;
+        qDebug()<<indexTotal;
         /*lmh0727*/
         QThread *th = QThread::create([=]() {
             if(m_bthreadMutex){
@@ -297,20 +301,32 @@ qDebug()<<e->type();
                 QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
                 int middle = (this->geometry().left() + this->geometry().right()) / 2;
                 int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
+
                 if(list.size()>2){
                     for (int i = 2; i < list.size(); i++) {
                         ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
                         if (nullptr == img) {
                             continue;
                         }
-                        int left = this->geometry().left() + img->geometry().left() + listLeft;
-                        int right = this->geometry().left() + img->geometry().right() + listLeft;
-                        if (left <= middle && middle < right) {
-                            if(m_currentImageItem!=img){
-                                img->emitClickSig(img->getPath());
-                                m_currentImageItem=img;
+                        bool bMiddel=true;
+                        for(int j=0;j<indexTotal;++j){
+                            if(list.at(list.size()-j-1)==m_currentImageItem||list.at(2+j)==m_currentImageItem)
+                            {
+                                bMiddel=false;
+                                break;
                             }
-                            break;
+                        }
+                        if(bMiddel)
+                        {
+                            int left = this->geometry().left() + img->geometry().left() + listLeft;
+                            int right = this->geometry().left() + img->geometry().right() + listLeft;
+                            if (left <= middle && middle < right) {
+                                if(m_currentImageItem!=img){
+                                    img->emitClickSig(img->getPath());
+                                    m_currentImageItem=img;
+                                }
+                                break;
+                            }
                         }
                     }
                 }
@@ -357,9 +373,16 @@ qDebug()<<e->type();
         if(m_lastPoint==QPoint(0,0)){
             m_lastPoint=CurrentcoursePoint;
         }
-        if((CurrentcoursePoint.x()-m_lastPoint.x())<32 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-32  /*||(CurrentcoursePoint.x()-m_lastPoint.x())>64 ||(CurrentcoursePoint.x()-m_lastPoint.x())<-64*/)
+        bool bleft=true;
+        if((CurrentcoursePoint.x()-m_lastPoint.x())<15 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-15  /*||(CurrentcoursePoint.x()-m_lastPoint.x())>64 ||(CurrentcoursePoint.x()-m_lastPoint.x())<-64*/)
         {
             return false;
+        }
+        if(CurrentcoursePoint.x()-m_lastPoint.x()<0){
+            bleft=true;
+        }
+        else {
+            bleft=false;
         }
         m_lastPoint=CurrentcoursePoint;
         /*lmh0727*/
@@ -373,14 +396,76 @@ qDebug()<<e->type();
                 if (nullptr == img) {
                     continue;
                 }
-                int left = this->geometry().left() + img->geometry().left() + listLeft;
-                int right = this->geometry().left() + img->geometry().right() + listLeft;
-                if (left <= middle && middle < right) {
-                    if(m_currentImageItem!=img){
-                        img->emitClickSig(img->getPath());
+                if(m_currentImageItem==nullptr){
+                    ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
+                    qDebug()<<img->getIndexNow();
+                    if(img->getIndexNow()==i-2)
+                    {
                         m_currentImageItem=img;
                     }
-                    break;
+                }
+                /*对于末尾的情况和排头的情况，特殊处理*/
+                if((list.at(3)==m_currentImageItem ||list.at(2)==m_currentImageItem )&&!bleft){
+                    ImageItem *img2=dynamic_cast<ImageItem *>(list.at(2));
+                    int left = this->geometry().left() + img2->geometry().left() + listLeft;
+                    qDebug()<<"left "<<left<<"middle "<<middle;
+                    if (left > middle+32 ){
+                        img2->emitClickSig(img2->getPath());
+                        m_currentImageItem=img2;
+                    }
+                }
+                if((list.at(list.size()-1)==m_currentImageItem ||list.at(list.size()-2)==m_currentImageItem) &&bleft){
+                    ImageItem *img2=dynamic_cast<ImageItem *>(list.at(list.size()-1));
+                    int right = this->geometry().left() + img2->geometry().right() + listLeft;
+                    if (middle > right+32 ){
+                        img2->emitClickSig(img2->getPath());
+                        m_currentImageItem=img2;
+                    }
+                }
+                if(img == m_currentImageItem) {
+                    int left = this->geometry().left() + img->geometry().left() + listLeft;
+                    int right = this->geometry().left() + img->geometry().right() + listLeft;
+                    if (left <= middle && middle < right) {
+                        //                        if(m_currentImageItem!=img){
+                        img->emitClickSig(img->getPath());
+                        m_currentImageItem=img;
+                        //                        }
+                        break;
+                    }
+                    else if(bleft && middle > right){
+                        ImageItem *img2;
+                        if((i+1)<list.size()){
+                            img2=dynamic_cast<ImageItem *>(list.at(i+1));
+                        }
+                        else {
+                            img2=dynamic_cast<ImageItem *>(list.at(list.size()-1));
+                        }
+                        if (nullptr == img2) {
+                            continue;
+                        }
+                        if(m_currentImageItem!=img2){
+                            img2->emitClickSig(img->getPath());
+                            m_currentImageItem=img2;
+                        }
+                        break;
+                    }
+                    else if(!bleft && middle < left){
+                        ImageItem *img2;
+                        if((i-1)>2){
+                            img2=dynamic_cast<ImageItem *>(list.at(i-1));
+                        }
+                        else {
+                            img2=dynamic_cast<ImageItem *>(list.at(2));
+                        }
+                        if (nullptr == img2) {
+                            continue;
+                        }
+                        if(m_currentImageItem!=img2){
+                            img2->emitClickSig(img->getPath());
+                            m_currentImageItem=img2;
+                        }
+                        break;
+                    }
                 }
             }
         }
