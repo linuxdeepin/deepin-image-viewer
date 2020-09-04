@@ -17,10 +17,17 @@
 #ifndef LOCKWIDGET_H
 #define LOCKWIDGET_H
 
+#include <DLabel>
+
 #include <QLabel>
+#include <QMouseEvent>
+
 #include "widgets/themewidget.h"
 
-#include <DLabel>
+class QGestureEvent;
+class QPinchGesture;
+class QSwipeGesture;
+class QPanGesture;
 
 DWIDGET_USE_NAMESPACE
 typedef DLabel QLbtoDLabel;
@@ -29,13 +36,21 @@ class LockWidget : public ThemeWidget {
     Q_OBJECT
 public:
     LockWidget(const QString &darkFile, const QString &lightFile,
-                  QWidget* parent = 0);
+                  QWidget* parent = nullptr);
     ~LockWidget();
-
+signals:
+    void nextRequested();
+    void previousRequested();
 public slots:
     void setContentText(const QString &text);
+    void handleGestureEvent(QGestureEvent *gesture);
 protected:
-
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    bool event(QEvent *event) override;
+private slots:
+    void pinchTriggered(QPinchGesture *gesture);
 private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     QLbtoDLabel* m_thumbnailLabel;
@@ -44,5 +59,7 @@ private:
     bool m_theme;
     QLbtoDLabel *m_bgLabel;
     QLbtoDLabel *m_lockTips;
+    int m_startx = 0;
+    int m_maxTouchPoints = 0;
 };
 #endif // LOCKWIDGET_H

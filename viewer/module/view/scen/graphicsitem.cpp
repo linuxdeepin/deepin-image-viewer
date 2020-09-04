@@ -30,8 +30,9 @@ GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, const QString &suf
 {
     Q_UNUSED(suffix);
     QFileInfo file(fileName);
-
-    if (QImageReader(fileName).format().contains("gif")) {
+    /*lmh0807超界限采用libgif，未超出界限使用QMovie*/
+    QImageReader iReder(fileName);
+    if ((iReder.size().width()>1920||iReder.size().height()>1080)&&iReder.format().contains("gif")) {
         m_index = 0;
         gEffectGifFile = fileName;
         QObject::connect(dApp->signalM, &SignalManager::sigGifImageRe, this, [=] {

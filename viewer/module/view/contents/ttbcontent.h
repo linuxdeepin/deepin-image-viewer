@@ -61,23 +61,6 @@ enum LOAD_DIRECTION {
     LOAD_RIGHT,     //向右加载
     NOT_LOAD        //不加载
 };
-
-class MyImageListWidget : public DWidget
-{
-    Q_OBJECT
-public:
-    MyImageListWidget(QWidget *parent = nullptr);
-    bool ifMouseLeftPressed();
-    void setObj(QObject *obj);
-protected:
-    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
-signals:
-    void mouseLeftReleased();
-private:
-    bool bmouseleftpressed = false;
-    QObject *m_obj = nullptr;
-    QPoint m_prepoint;
-};
 class ImageItem : public DLabel
 {
     Q_OBJECT
@@ -144,10 +127,21 @@ public:
     {
         return _index;
     }
+    /**
+     * @brief getPixmap
+     * 获取pixmap
+     * @return
+     */
+    QPixmap getPixmap()
+    {
+        return _pixmap;
+    }
 
+    void emitClickSig(QString path);
+    void emitClickEndSig();
 signals:
-    void imageItemclicked(int index, int indexNow);
-
+    void imageItemclicked(int index, int indexNow,bool iRet=false);
+    void imageMoveclicked(QString path);
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override
     {
@@ -163,7 +157,7 @@ protected:
         QTimer::singleShot(200, &loop, SLOT(quit()));
         loop.exec();
         if (bmouserelease)
-            emit imageItemclicked(_index, _indexNow);
+            emit imageItemclicked(_index, _indexNow,true);
     }
 
     void paintEvent(QPaintEvent *event) override;
@@ -178,13 +172,13 @@ private:
     QString m_pixmapstring;
     bool bFirstUpdate = true;
     bool bmouserelease = false;
-};
 
+};
 class TTBContent : public QLbtoDLabel
 {
     Q_OBJECT
 public:
-    explicit TTBContent(bool inDB, DBImgInfoList m_infos, QWidget *parent = nullptr);
+    explicit TTBContent(bool inDB, DBImgInfoList m_infos, bool flag,QWidget *parent = nullptr);
 
     /**
      * @brief setWindoeSize 缩略图窗口大小设置
@@ -204,6 +198,7 @@ public:
      */
     void toolbarSigConnection();
 
+
 signals:
     void clicked();
 
@@ -213,6 +208,8 @@ signals:
      * @param addIndex      点击的图元与之前显示图元索引值之差
      */
     void imageClicked(int index, int addIndex);
+    /*lmh0731*/
+    void imageMoveEnded(int index, int addIndex,bool iRet);
     void resetTransform(bool fitWindow);
 
     /**
@@ -240,6 +237,8 @@ signals:
     void showNext();
 
     void ttbcontentClicked();
+
+    void showvaguepixmap(QPixmap,QString path=nullptr);
 
 public slots:
     void setCurrentDir(QString text);
@@ -381,13 +380,22 @@ public slots:
      */
     void clickLoad(const int nCurrent);
 
+    /**
+     * @brief OnUpdateThumbnail
+     * 更新缩略图
+     * @param path
+     * 需要更新的缩略图路径
+     */
+    void OnUpdateThumbnail(QString path);
+
+    void DisEnablettbButton();
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();
 
 protected:
     void resizeEvent(QResizeEvent *event);
-
 private:
 #ifndef LITE_DIV
     PushButton *m_folderBtn;
@@ -428,6 +436,9 @@ private:
     int m_nowIndex = 0;
     int m_imgInfos_size = 0;
     int m_startAnimation = 0;
+
+    /*lmh0728计数*/
+    int m_totalImageItem=0;
     //上一次拖动后移动的X坐标
     int m_nLastMove = 0;
     bool bresized = true;
@@ -435,6 +446,38 @@ private:
     bool badaptScreenBtnChecked = false;
     //heyi test
     bool m_bIsHide = false;
+
+    bool m_bMoving=true;
+
+    bool m_NotImageViewFlag = false;
 };
+
+
+class MyImageListWidget : public DWidget
+{
+    Q_OBJECT
+public:
+    MyImageListWidget(QWidget *parent = nullptr);
+    bool ifMouseLeftPressed();
+    void setObj(QObject *obj);
+protected:
+    bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
+signals:
+    void mouseLeftReleased();
+private:
+    QTimer *m_timer = nullptr;
+    bool bmouseleftpressed = false;
+    QObject *m_obj = nullptr;
+    QPoint m_prepoint;
+    QPoint m_lastPoint;
+    ImageItem *m_currentImageItem=nullptr;
+    bool m_iRet=false;
+    QVector <QPoint> m_vecPoint;
+    QMutex m_threadMutex;
+    bool m_bthreadMutex=false;
+    int m_maxTouchPoints=0;
+};
+
+
 
 #endif // TTLCONTENT_H

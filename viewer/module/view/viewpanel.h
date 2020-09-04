@@ -25,7 +25,6 @@
 #include "thumbnailwidget.h"
 #include "contents/ttbcontent.h"
 #include "contents/ttlcontent.h"
-#include "contents/ttmcontent.h"
 
 #include <DDesktopServices>
 #include <DFileWatcher>
@@ -68,7 +67,6 @@ public:
     QWidget *bottomTopLeftContent();
     QWidget *toolbarTopMiddleContent() Q_DECL_OVERRIDE;
     QWidget *extensionPanelContent() Q_DECL_OVERRIDE;
-    const SignalManager::ViewInfo viewInfo() const;
     int getPicCount()
     {
         return m_infos.count();
@@ -162,6 +160,14 @@ signals:
      */
     void sigsendslideshowlist(bool bflag, DBImgInfoList infosldeshow);
 
+    /**
+     * @brief sigStopshowThread
+     * 停止滑动缩略图加载原图线程
+     */
+    void sigStopshowThread();
+
+    void sigDisenablebutton();
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
@@ -177,6 +183,12 @@ private:
      * @brief initConnect   初始化信号连接
      */
     void initConnect();
+    /**
+     * @brief initConnectOpenImage   启动时间优化，单独拿出filedialog的信号槽函数
+     * @author lmh
+     * @date   0722
+     */
+    void initConnectOpenImage();
 
     void initFileSystemWatcher();
 
@@ -205,7 +217,6 @@ private:
 
     // Floating component
     void initFloatingComponent();
-    void initSwitchButtons();
     void initScaleLabel();
     void initNavigation();
 
@@ -359,6 +370,13 @@ private:
     bool GetPixmapStatus(QString filename);
 
 private slots:
+    /**
+     *
+     * @date 2020/08/28
+     * @auther lmh
+     * @brief 设置第几个栈窗体
+     */
+    void slotCurrentStackWidget(QString &path);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateLocalImages();
 
@@ -424,6 +442,14 @@ private slots:
      */
     void slotGetFirstThumbnailPath(QString &path);
 
+    /**
+     * @brief slotUpdateImageView
+     * 拖动缩略图的时候判断是否需要切换stack窗口
+     * @param path
+     * 切换的路径
+     */
+    void slotUpdateImageView(QString &path);
+
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;
@@ -485,6 +511,11 @@ private:
     volatile bool m_bThreadExit = false;
     //LMH延时Remove
     QTimer *m_dtr = nullptr;
+
+    //lmh0729判断是否判断打开图片与上一张是否相同
+    bool m_bIsOpenPicture=true;
+
+
 
 };
 #endif  // VIEWPANEL_H

@@ -68,13 +68,13 @@ class Importer : public QObject
     Q_OBJECT
 public:
     static Importer *instance();
-    explicit Importer(QObject *parent = 0);
+    explicit Importer(QObject *parent = nullptr);
     bool isRunning() const;
     void appendDir(const QString &path, const QString &album = "");
     void appendFiles(const QStringList &paths, const QString &album = "");
     void stop();
     void stopDirCollect(const QString &dir);
-    void showImportDialog(const QString &album = "");
+//    void showImportDialog(const QString &album = "");
 
 signals:
     void currentImport(const QString &path);

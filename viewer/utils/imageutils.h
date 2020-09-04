@@ -45,9 +45,15 @@ const QFileInfoList                 getImagesInfo(const QString &dir,
                                                   bool recursive = true);
 const QString                       getOrientation(const QString &path);
 const QImage                        getRotatedImage(const QString &path);
+
+/*
+ * lmh0901，根据后缀是否是图片
+**/
+bool                                suffixisImage(const QString &path);
 bool                                imageSupportRead(const QString &path);
 bool                                imageSupportSave(const QString &path);
 bool                                imageSupportWrite(const QString &path);
+bool                                imageSupportWallPaper(const QString &path);
 bool                                rotate(const QString &path, int degree);
 const QImage                        scaleImage(const QString &path,
                                                const QSize &size = QSize(384, 383));

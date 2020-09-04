@@ -21,6 +21,7 @@
 #include <QFutureWatcher>
 #include <QHash>
 #include <QReadWriteLock>
+#include <QTimer>
 #include "controller/viewerthememanager.h"
 
 #include "imagesvgitem.h"
@@ -36,6 +37,7 @@ class QThreadPool;
 class QGestureEvent;
 class QPinchGesture;
 class QSwipeGesture;
+class QPanGesture;
 QT_END_NAMESPACE
 
 #include "dtkwidget_global.h"
@@ -44,6 +46,8 @@ class Toast;
 DWIDGET_END_NAMESPACE
 
 //#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
+Q_PROPERTY(QPointF pos READ pos WRITE setPos)  //移动
+Q_PROPERTY(int rotation READ rotation WRITE setRotation) //旋转
 
 class ImageView : public QGraphicsView
 {
@@ -103,6 +107,8 @@ public:
      */
     const QString path() const;
 
+    void setPath(const QString path);
+
     QPoint mapToImage(const QPoint &p) const;
     QRect mapToImage(const QRect &r) const;
     QRect visibleImageRect() const;
@@ -122,11 +128,11 @@ public:
      */
     void cacheThread(const QString strPath);
 
-    /**
-     * @brief showPixmap    从hash中获取图片并显示
-     * @param strPath       显示的图片路径
-     */
-    void showPixmap(QString strPath);
+//    /**
+//     * @brief showPixmap    从hash中获取图片并显示
+//     * @param strPath       显示的图片路径
+//     */
+//    void showPixmap(QString strPath);
 
     /**
      * @brief judgePictureType  判断当前图片类型
@@ -142,6 +148,7 @@ public:
      * @return                  true为加载成功，false为加载失败
      */
     bool loadPictureByType(PICTURE_TYPE type, const QString strPath);
+
 
 signals:
     void clicked();
@@ -167,6 +174,10 @@ signals:
      * @param vl
      */
     void cacheThreadEndSig(QVariantList vl);
+    void sigShowImage(QImage);
+    void sigUpdateImageView(QString&);
+
+    void sigStackChange(QString&);
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
@@ -182,7 +193,7 @@ public slots:
      * @param nAngel        旋转角度
      * @return              true为加载成功，false为加载失败
      */
-    bool reloadSvgPix(QString strPath, int nAngel);
+    bool reloadSvgPix(QString strPath, int nAngel,bool fitauto = true);
 
     /**
      * @brief rotatePixmap  根据角度旋转pixmap
@@ -213,6 +224,27 @@ public slots:
      * @return
      */
     QStringList removeDiff(QStringList pathsList);
+
+    /**
+     * @brief showVagueImage
+     * 在触屏拖动窗口的时候，显示模糊的缩略图
+     * @param thumbnailpixmap
+     * 缩略图pixmap
+     */
+    void showVagueImage(QPixmap thumbnailpixmap,QString filePath);
+
+    /**
+     * @brief showFileImage
+     * 在视图区域显示文件原图
+     */
+    void showFileImage();
+    /**
+     * @brief startLoadPixmap
+     * 开启线程池加载原图
+     */
+    void startLoadPixmap();
+
+    void SlotStopShowThread();
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
@@ -250,6 +282,12 @@ private slots:
     void pinchTriggered(QPinchGesture *gesture);
     void swipeTriggered(QSwipeGesture *gesture);
 
+    /**
+     * @brief OnFinishPinchAnimal
+     * 旋转图片松开手指回到特殊位置结束动画槽函数
+     */
+    void OnFinishPinchAnimal();
+
 private:
     bool m_isFitImage;
     bool m_isFitWindow;
@@ -260,6 +298,14 @@ private:
     QString m_loadingIconPath;
     QThreadPool *m_pool;
     DTK_WIDGET_NAMESPACE::Toast *m_toast;
+    qreal m_scal = 1.0;
+    qreal m_angle = 0;
+    qreal m_endvalue;
+    bool m_rotateflag = true;
+    bool m_bRoate;
+    //允许二指滑动切换上下一张标记
+    bool m_bnextflag = true;
+    int m_startpointx;
 
     QGraphicsSvgItem *m_svgItem = nullptr;
 
@@ -278,6 +324,17 @@ private:
     bool m_loadingDisplay = false;
     //heyi test 保存旋转的角度
     int m_rotateAngel = 0;
+    qreal m_rotateAngelTouch = 0;
     QImage m_svgimg;
+    QTimer m_timerLoadPixmap;
+    QString timerPath;
+    QString sigPath;
+    bool showImageFlag = false;
+
+    /*lmh0729*/
+    bool isFirstPinch=false;
+    QPointF centerPoint;
+    int m_maxTouchPoints=0;
+    bool m_bStopShowThread = false;
 };
 #endif // SVGVIEW_H
