@@ -77,65 +77,43 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
-    //lmh20200901，全新用dtk的打印
-//#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 2, 2, 5))
-    DPrintPreviewDialog printDialog2(nullptr);
-    QObject::connect(&printDialog2,&DPrintPreviewDialog::paintRequested,parent,[=](DPrinter *_printer){
-        QPainter painter(_printer);
-        QList<QImage> imgs;
-        QImage img;
-        for(const QString &path :paths){
-            QString errMsg;
-            UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
-            if(!img.isNull()){
-                imgs<<img;
-            }
+    QList<QImage> imgs;
+    QImage img;
+    for (const QString &path : paths) {
+        QString errMsg;
+        UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
+        if (!img.isNull()) {
+            imgs << img;
         }
-
-        int index=0;
-        for(auto img:imgs){
-            QPoint pos(0,0);
-            painter.setWindow(img.rect());
-            int x2=painter.window().right();
-            int y2=painter.window().bottom();
-            painter.drawImage(pos.x(),pos.y(),img,0,0,x2,y2);
-            if(++index !=imgs.size()){
+    }
+    DPrintPreviewDialog printDialog2(nullptr);
+    QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
+        QPainter painter(_printer);
+        for (QImage img : imgs) {
+            if (!img.isNull()) {
+                painter.setRenderHint(QPainter::Antialiasing);
+                painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                QRect wRect  = _printer->pageRect();
+                QImage tmpMap;
+                if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                    tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                } else {
+                    tmpMap = img;
+                }
+                QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                          qreal(wRect.height() - tmpMap.height()) / 2,
+                                          tmpMap.width(), tmpMap.height());
+                painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                         tmpMap.height()), tmpMap);
+            }
+            if (img != imgs.last()) {
                 _printer->newPage();
+                qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
             }
         }
         painter.end();
     });
     printDialog2.exec();
-//#else
-//    QPrinter printer;
-//    QPrintPreviewDialog printDialog2(&printer,nullptr);
-//    QObject::connect(&printDialog2,&QPrintPreviewDialog::paintRequested,parent,[=](QPrinter *_printer){
-//        QPainter painter(_printer);
-//        QList<QImage> imgs;
-//        QImage img;
-//        for(const QString &path :paths){
-//            QString errMsg;
-//            UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
-//            if(!img.isNull()){
-//                imgs<<img;
-//            }
-//        }
-
-//        int index=0;
-//        for(auto img:imgs){
-//            QPoint pos(0,0);
-//            painter.setWindow(img.rect());
-//            int x2=painter.window().right();
-//            int y2=painter.window().bottom();
-//            painter.drawImage(pos.x(),pos.y(),img,0,0,x2,y2);
-//            if(++index !=imgs.size()){
-//                _printer->newPage();
-//            }
-//        }
-//        painter.end();
-//    });
-//    printDialog2.exec();
-//#endif
 }
 
 QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize)
