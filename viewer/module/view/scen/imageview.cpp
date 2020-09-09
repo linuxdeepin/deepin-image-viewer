@@ -50,6 +50,7 @@
 #include "utils/imageutils.h"
 #include "utils/snifferimageformat.h"
 #include "widgets/toast.h"
+#include "accessibility/ac-desktop-define.h"
 #include <malloc.h>
 
 #ifndef QT_NO_OPENGL
@@ -314,6 +315,10 @@ ImageView::ImageView(QWidget *parent)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
 {
+#ifdef OPENACCESSIBLE
+    setObjectName(IMAGE_VIEW);
+    setAccessibleName(IMAGE_VIEW);
+#endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     setScene(new QGraphicsScene(this));
     setMouseTracking(true);

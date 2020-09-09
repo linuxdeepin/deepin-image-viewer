@@ -19,6 +19,7 @@
 #include "controller/signalmanager.h"
 #include "utils/imageutils.h"
 #include "widgets/formlabel.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <DApplicationHelper>
 #include <DArrowLineDrawer>
@@ -156,6 +157,10 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
     : QFrame(parent)
     , m_maxTitleWidth(maxTitleWidth())
 {
+#ifdef OPENACCESSIBLE
+    setObjectName(IMAGE_WIDGET);
+    setAccessibleName(IMAGE_WIDGET);
+#endif
     Q_UNUSED(darkStyle);
     Q_UNUSED(lightStyle);
     setFixedWidth(300);

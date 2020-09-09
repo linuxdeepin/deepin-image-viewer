@@ -23,6 +23,7 @@
 //#include "settings/settingswindow.h"
 #include "utils/baseutils.h"
 #include "utils/shortcut.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <dtitlebar.h>
 #include <dwindowclosebutton.h>
@@ -73,6 +74,14 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
 
     initMenu();
     initWidgets();
+#ifdef OPENACCESSIBLE
+    setAccessibleName(TOP_TOOL_BAR);
+    setObjectName(TOP_TOOL_BAR);
+    m_titletxt->setObjectName(TITLE_TEXT);
+    m_titletxt->setAccessibleName(TITLE_TEXT);
+    m_menu->setObjectName(TOP_MENU);
+    m_menu->setAccessibleName(TOP_MENU);
+#endif
 }
 
 

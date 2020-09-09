@@ -38,6 +38,7 @@ include (widgets/widgets.pri)
 include (utils/utils.pri)
 include (controller/controller.pri)
 include (service/service.pri)
+include (third-party/accessibility/accessibility-suite.pri)
 
 !isEmpty(FULL_FUNCTIONALITY) {
     include (settings/settings.pri)
@@ -45,7 +46,9 @@ include (service/service.pri)
 }
 
 HEADERS += \
-    application.h
+    application.h \
+    accessibility/acobjectlist.h \
+    accessibility/ac-desktop-define.h
 
 SOURCES += main.cpp \
     application.cpp

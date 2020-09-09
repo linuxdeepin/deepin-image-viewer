@@ -17,6 +17,7 @@
 #include "application.h"
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
+#include "accessibility/acobjectlist.h"
 
 #include <QApplication>
 #include <DLog>
@@ -33,6 +34,7 @@ int main(int argc, char *argv[])
     Application a(argc, argv);
 
     a.setAttribute(Qt::AA_ForceRasterWidgets);
+    QAccessible::installFactory(accessibleFactory);
 
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();

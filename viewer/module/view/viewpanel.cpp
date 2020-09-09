@@ -30,6 +30,7 @@
 #include "widgets/printhelper.h"
 #include "widgets/printoptionspage.h"
 #include "frame/renamedialog.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -77,6 +78,12 @@ ViewPanel::ViewPanel(QWidget *parent)
 #endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();
+#ifdef OPENACCESSIBLE
+    setObjectName(VIEW_PANEL_WIDGET);
+    setAccessibleName(VIEW_PANEL_WIDGET);
+    m_stack->setObjectName(VIEW_PANEL_STACK);
+    m_stack->setAccessibleName(VIEW_PANEL_STACK);
+#endif
     /*lmh0722*/
     if(0==dApp->m_timer){
         initFloatingComponent();

@@ -16,6 +16,7 @@
  */
 #include "bottomtoolbar.h"
 #include "application.h"
+#include "accessibility/ac-desktop-define.h"
 
 namespace {
 const QColor DARK_COVERCOLOR = QColor(26, 26, 26, 204);
@@ -29,7 +30,10 @@ BottomToolbar::BottomToolbar(QWidget *parent)
     : DFloatingWidget(parent)
 {
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-
+#ifdef OPENACCESSIBLE
+    setObjectName(BUTTOM_TOOL_BAR);
+    setAccessibleName(BUTTOM_TOOL_BAR);
+#endif
     DWidget *widet = new DWidget(this);
     m_mainLayout = new QHBoxLayout(widet);
     m_mainLayout->setContentsMargins(0, 0, 0, 1);

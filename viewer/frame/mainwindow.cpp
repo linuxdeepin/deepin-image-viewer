@@ -38,6 +38,7 @@
 #include "utils/baseutils.h"
 #include "../service/dbusimageview_adaptor.h"
 #include "shortcut.h"
+#include "accessibility/ac-desktop-define.h"
 
 #define IMAGEVIEW 0
 #define SLIDESHOW 1
@@ -77,6 +78,12 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     m_mainWidget = new MainWidget(manager, this);
     m_pCenterWidget->addWidget(m_mainWidget);
     m_pCenterWidget->setCurrentIndex(0);
+#ifdef OPENACCESSIBLE
+    //setObjectName(MAIN_WIDOW);
+    //setAccessibleName(MAIN_WIDOW);
+    m_pCenterWidget->setObjectName(CENTER_WIDGET);
+    m_pCenterWidget->setAccessibleName(CENTER_WIDGET);
+#endif
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
