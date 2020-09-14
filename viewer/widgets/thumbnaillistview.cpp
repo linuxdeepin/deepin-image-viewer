@@ -30,6 +30,7 @@
 #include <QMutex>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPen>
 #include <QScrollBar>
 #include <QStandardItemModel>

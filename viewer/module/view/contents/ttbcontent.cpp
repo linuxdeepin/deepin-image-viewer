@@ -33,6 +33,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QHBoxLayout>
+#include <QPainterPath>
 #include <QTimer>
 #include <QtMath>
 

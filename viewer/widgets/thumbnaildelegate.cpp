@@ -23,6 +23,7 @@
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPixmapCache>
 #include <QStandardItemModel>
 #include <QThread>
