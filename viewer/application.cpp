@@ -485,6 +485,16 @@ Application::~Application()
 
     emit endApplication();
 }
+#include <QMouseEvent>
+#include <QDebug>
+bool Application::notify(QObject *obj, QEvent *e)
+{
+    if(e->type() == QEvent::MouseButtonRelease)
+    {
+        emit sigMouseRelease ();
+    }
+    return QApplication::notify(obj,e);
+}
 
 void Application::initChildren()
 {

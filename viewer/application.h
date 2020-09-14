@@ -128,7 +128,17 @@ public:
 
     /*lmh0806儒码优化*/
     int  m_timer=0;
+
+    /*全局监测线程lmh0914*/
+    bool notify(QObject *obj, QEvent *e);
+
 signals:
+    /**
+     * @brief sigMouseRelease  全局线程释放事件
+     * 2020/09/14 lmh
+     */
+    void sigMouseRelease();
+
     /**
      * @brief sigstartLoad  加载线程启动信号
      */

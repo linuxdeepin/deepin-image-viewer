@@ -464,6 +464,13 @@ public:
     MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
     void setObj(QObject *obj);
+    /**
+     * @brief UpdateThumbnail
+     *
+     * @time 2020/09/14
+     * 更新的缩略图路径
+     */
+    bool UpdateThumbnail();
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
 signals:
@@ -480,6 +487,7 @@ private:
     QMutex m_threadMutex;
     bool m_bthreadMutex=false;
     int m_maxTouchPoints=0;
+    qint64 m_lastReleaseTime{0};
 };
 
 

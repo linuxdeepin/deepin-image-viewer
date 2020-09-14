@@ -126,6 +126,17 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
 {
     setMouseTracking(true);
 
+    //lmh0914
+    QTimer::singleShot(dApp->m_timer,[=]{
+        connect(dApp,&Application::sigMouseRelease,this,[=]{
+            qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+            if(currentTime-100 > m_lastReleaseTime){
+                m_lastReleaseTime=currentTime;
+                UpdateThumbnail();
+                qDebug()<<"UpdateThumbnail" <<m_lastReleaseTime;
+            }
+        });
+    });
     m_timer->setSingleShot(200);
 }
 
@@ -143,6 +154,167 @@ void MyImageListWidget::setObj(QObject *obj)
     static_cast<QWidget *>(m_obj)->setAcceptDrops(false);
     static_cast<QWidget *>(m_obj)->grabGesture(Qt::PinchGesture);
     static_cast<QWidget *>(m_obj)->grabGesture(Qt::SwipeGesture);
+}
+
+bool MyImageListWidget::UpdateThumbnail()
+{
+    bmouseleftpressed = false;
+
+    int firsttolast=0;
+    if(m_vecPoint.size()>0){
+        firsttolast=m_vecPoint.first().x()-m_vecPoint.last().x();
+    }
+
+    m_iRet=true;
+    QPropertyAnimation *animation = new QPropertyAnimation((DWidget *)m_obj, "pos");
+    animation->setEasingCurve(QEasingCurve::NCurveTypes);
+    animation->setStartValue(((DWidget *)m_obj)->pos());
+    if(m_vecPoint.size()<20){
+        animation->deleteLater();
+        m_iRet=false;
+        bMove=false;
+        bmouseleftpressed = false;
+        m_vecPoint.clear();
+        m_lastPoint=QPoint(0,0);
+        emit mouseLeftReleased();
+        return false;
+    }
+    else if(firsttolast<20 && firsttolast>-20 ){
+        animation->deleteLater();
+        m_iRet=false;
+        bMove=false;
+        bmouseleftpressed = false;
+        if(m_currentImageItem){
+            m_currentImageItem->emitClickEndSig();
+        }
+        m_vecPoint.clear();
+        m_lastPoint=QPoint(0,0);
+//            emit mouseLeftReleased();
+        return false;
+    }
+    else if(firsttolast>=20 && firsttolast<50){
+        animation->setDuration(1000);
+        animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-40, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast<=-20 && firsttolast>-50){
+        animation->setDuration(1000);
+        animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+40, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast>=50 && firsttolast<100){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-70, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast<=-50 && firsttolast>-100){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+70, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast>=100 && firsttolast<200){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-130, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()-170, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast<=-100&& firsttolast>-200){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+130, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()+170, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast>=200){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x()-150, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-220, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()-260, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast<=-200){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x()+150, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+220, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()+260, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
+    }
+    connect(animation, &QPropertyAnimation::finished, [=]{
+        m_iRet=false;
+        bMove=false;
+        bmouseleftpressed = false;
+        m_vecPoint.clear();
+        if(m_currentImageItem){
+            m_currentImageItem->emitClickEndSig();
+        }
+        m_lastPoint=QPoint(0,0);
+
+    });
+    qDebug()<<"left1:"<<this->geometry().left();
+    qDebug()<<"right2:"<<this->geometry().right();
+    int indexTotal=((this->geometry().right()-this->geometry().left())/64)-1;
+    qDebug()<<indexTotal;
+    /*lmh0727*/
+    QThread *th = QThread::create([=]() {
+        if(m_bthreadMutex){
+            return;
+        }
+        m_bthreadMutex=true;
+        QMutexLocker locker(&m_threadMutex);
+        while(m_iRet &&bMove)
+        {
+            QThread::msleep(50);
+            /*lmh0727*/
+
+            QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+            int middle = (this->geometry().left() + this->geometry().right()) / 2;
+            int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
+
+            if(list.size()>2){
+                for (int i = 2; i < list.size(); i++) {
+                    ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
+                    if (nullptr == img) {
+                        continue;
+                    }
+                    bool bMiddel=true;
+                    for(int j=0;j<indexTotal;++j){
+                        if(list.at(list.size()-j-1)==m_currentImageItem||list.at(2+j)==m_currentImageItem)
+                        {
+                            bMiddel=false;
+                            break;
+                        }
+                    }
+                    if(bMiddel)
+                    {
+                        int left = this->geometry().left() + img->geometry().left() + listLeft;
+                        int right = this->geometry().left() + img->geometry().right() + listLeft;
+                        if (left <= middle && middle < right) {
+                            if(m_currentImageItem!=img){
+                                img->emitClickSig(img->getPath());
+                                m_currentImageItem=img;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        m_iRet=false;
+        bMove=false;
+        bmouseleftpressed = false;
+        m_vecPoint.clear();
+        if(m_currentImageItem){
+            m_currentImageItem->emitClickEndSig();
+        }
+        m_bthreadMutex=false;
+    });
+    connect(th, &QThread::finished, th, &QObject::deleteLater);
+    th->start();
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
+    return true;
 }
 
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
@@ -186,165 +358,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
     }
 
     if (e->type() == QEvent::MouseButtonRelease) {
-        bmouseleftpressed = false;
-qDebug()<<e->type();
-
-        int firsttolast=0;
-        if(m_vecPoint.size()>0){
-            firsttolast=m_vecPoint.first().x()-m_vecPoint.last().x();
-        }
-
-        m_iRet=true;
-        QPropertyAnimation *animation = new QPropertyAnimation((DWidget *)m_obj, "pos");
-        animation->setEasingCurve(QEasingCurve::NCurveTypes);
-        animation->setStartValue(((DWidget *)m_obj)->pos());
-        if(m_vecPoint.size()<20){
-            animation->deleteLater();
-            m_iRet=false;
-            bMove=false;
-            bmouseleftpressed = false;
-            m_vecPoint.clear();
-            m_lastPoint=QPoint(0,0);
-            emit mouseLeftReleased();
-            return false;
-        }
-        else if(firsttolast<20 && firsttolast>-20 ){
-            animation->deleteLater();
-            m_iRet=false;
-            bMove=false;
-            bmouseleftpressed = false;
-            if(m_currentImageItem){
-                m_currentImageItem->emitClickEndSig();
-            }
-            m_vecPoint.clear();
-            m_lastPoint=QPoint(0,0);
-//            emit mouseLeftReleased();
-            return false;
-        }
-        else if(firsttolast>=20 && firsttolast<50){
-            animation->setDuration(1000);
-            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-40, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast<=-20 && firsttolast>-50){
-            animation->setDuration(1000);
-            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+40, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast>=50 && firsttolast<100){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-70, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast<=-50 && firsttolast>-100){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+70, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast>=100 && firsttolast<200){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-130, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()-170, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast<=-100&& firsttolast>-200){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+130, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()+170, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast>=200){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x()-150, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-220, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()-260, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast<=-200){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x()+150, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+220, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()+260, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
-        }
-        connect(animation, &QPropertyAnimation::finished, [=]{
-            m_iRet=false;
-            bMove=false;
-            bmouseleftpressed = false;
-            m_vecPoint.clear();
-            if(m_currentImageItem){
-                m_currentImageItem->emitClickEndSig();
-            }
-            m_lastPoint=QPoint(0,0);
-
-        });
-        qDebug()<<"left1:"<<this->geometry().left();
-        qDebug()<<"right2:"<<this->geometry().right();
-        int indexTotal=((this->geometry().right()-this->geometry().left())/64)-1;
-        qDebug()<<indexTotal;
-        /*lmh0727*/
-        QThread *th = QThread::create([=]() {
-            if(m_bthreadMutex){
-                return;
-            }
-            m_bthreadMutex=true;
-            QMutexLocker locker(&m_threadMutex);
-            while(m_iRet &&bMove)
-            {
-                QThread::msleep(50);
-                /*lmh0727*/
-
-                QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
-                int middle = (this->geometry().left() + this->geometry().right()) / 2;
-                int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-
-                if(list.size()>2){
-                    for (int i = 2; i < list.size(); i++) {
-                        ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
-                        if (nullptr == img) {
-                            continue;
-                        }
-                        bool bMiddel=true;
-                        for(int j=0;j<indexTotal;++j){
-                            if(list.at(list.size()-j-1)==m_currentImageItem||list.at(2+j)==m_currentImageItem)
-                            {
-                                bMiddel=false;
-                                break;
-                            }
-                        }
-                        if(bMiddel)
-                        {
-                            int left = this->geometry().left() + img->geometry().left() + listLeft;
-                            int right = this->geometry().left() + img->geometry().right() + listLeft;
-                            if (left <= middle && middle < right) {
-                                if(m_currentImageItem!=img){
-                                    img->emitClickSig(img->getPath());
-                                    m_currentImageItem=img;
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            m_iRet=false;
-            bMove=false;
-            bmouseleftpressed = false;
-            m_vecPoint.clear();
-            if(m_currentImageItem){
-                m_currentImageItem->emitClickEndSig();
-            }
-            m_bthreadMutex=false;
-        });
-        connect(th, &QThread::finished, th, &QObject::deleteLater);
-        th->start();
-        animation->start(QAbstractAnimation::DeleteWhenStopped);
-
-//        emit mouseLeftReleased();
+        return false;
+        UpdateThumbnail();
     }
     if (e->type() == QEvent::Leave && obj == m_obj) {
         bmouseleftpressed = false;
@@ -408,7 +423,7 @@ qDebug()<<e->type();
                 if((/*list.at(3)==m_currentImageItem ||*/list.at(2)==m_currentImageItem )&&!bleft){
                     ImageItem *img2=dynamic_cast<ImageItem *>(list.at(2));
                     int left = this->geometry().left() + img2->geometry().left() + listLeft;
-                    qDebug()<<"left "<<left<<"middle "<<middle;
+//                    qDebug()<<"left "<<left<<"middle "<<middle;
                     if (left > middle+32 ){
                         img2->emitClickSig(img2->getPath());
                         m_currentImageItem=img2;
@@ -555,10 +570,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
             //            painter.fillRect(pixmapRect,
             //            QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
-#ifdef OPENACCESSIBLE
-    setObjectName(TTBCONTENT_WIDGET);
-    setAccessibleName(TTBCONTENT_WIDGET);
-#endif
 
         if (themeType == DGuiApplicationHelper::DarkType) {
             if (bFirstUpdate)
@@ -608,6 +619,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
 TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos,bool flag, QWidget *parent)
     : QLbtoDLabel(parent)
 {
+#ifdef OPENACCESSIBLE
+    setObjectName(TTBCONTENT_WIDGET);
+    setAccessibleName(TTBCONTENT_WIDGET);
+#endif
     m_NotImageViewFlag = flag;
     setWindoeSize(inDB, m_infos, parent);
     initBtn();
@@ -1474,6 +1489,8 @@ void TTBContent::OnUpdateThumbnail(QString path)
     if(!imgpix.isNull())
         item->updatePic(imgpix);
 }
+
+
 
 void TTBContent::DisEnablettbButton()
 {
