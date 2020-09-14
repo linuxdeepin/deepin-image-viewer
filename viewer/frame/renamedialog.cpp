@@ -3,6 +3,7 @@
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "application.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <DMessageBox>
 #include <QRegExp>
@@ -107,6 +108,14 @@ RenameDialog::RenameDialog(QString filename, QWidget *parent)
         };
     });
     okbtn->setEnabled(false);
+    setObjectName(RENAME_WIDGET);
+    setAccessibleName(RENAME_WIDGET);
+    m_lineedt->setObjectName(INPUT_EDIT);
+    m_lineedt->setAccessibleName(INPUT_EDIT);
+    okbtn->setObjectName(OK_BUTTON);
+    okbtn->setAccessibleName(OK_BUTTON);
+    cancelbtn->setObjectName(CANCEL_BUTTON);
+    cancelbtn->setAccessibleName(CANCEL_BUTTON);
 }
 
 

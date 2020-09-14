@@ -33,10 +33,10 @@ SET_FORM_ACCESSIBLE(QDialog,m_w->objectName())
 SET_BUTTON_ACCESSIBLE(QPushButton,m_w->objectName())
 SET_SLIDER_ACCESSIBLE(DMainWindow,m_w->objectName())
 SET_SLIDER_ACCESSIBLE(QListWidget,m_w->objectName())
-SET_FORM_ACCESSIBLE(DTitlebar,m_w->objectName())
+//SET_FORM_ACCESSIBLE(DTitlebar,m_w->objectName())
 //SET_FORM_ACCESSIBLE(Frame,m_w->objectName())
 SET_BUTTON_ACCESSIBLE(DIconButton,m_w->objectName())
-SET_FORM_ACCESSIBLE(QMenu,m_w->objectName())
+//SET_FORM_ACCESSIBLE(QMenu,m_w->objectName())
 SET_BUTTON_ACCESSIBLE(DSuggestButton,m_w->objectName())
 
 QAccessibleInterface *accessibleFactory(const QString &classname, QObject *object)
@@ -51,9 +51,9 @@ QAccessibleInterface *accessibleFactory(const QString &classname, QObject *objec
     USE_ACCESSIBLE(classname, QPushButton);
     USE_ACCESSIBLE(classname, DMainWindow);
     USE_ACCESSIBLE(classname, QListWidget);
-    USE_ACCESSIBLE(classname, DTitlebar);
+ //   USE_ACCESSIBLE(classname, DTitlebar);
 //    USE_ACCESSIBLE(classname, Frame);
-    USE_ACCESSIBLE(classname, QMenu);
+  //  USE_ACCESSIBLE(classname, QMenu);
     USE_ACCESSIBLE(classname, DIconButton);
     USE_ACCESSIBLE(classname, DSuggestButton);
 

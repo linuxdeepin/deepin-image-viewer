@@ -34,8 +34,9 @@ int main(int argc, char *argv[])
     Application a(argc, argv);
 
     a.setAttribute(Qt::AA_ForceRasterWidgets);
+#ifdef INSTALLACCESSIBLEFACTORY
     QAccessible::installFactory(accessibleFactory);
-
+#endif
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();

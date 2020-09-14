@@ -12,6 +12,7 @@
 
 // 使用宏定义，方便国际化操作
 #define OPENACCESSIBLE
+#define INSTALLACCESSIBLEFACTORY
 
 #define OPEN_IMAGE QObject::tr("Open Image") // 打开图片按钮
 #define NOT_FOUND_IMAGE QObject::tr("Image file not found") // 图片未找到lab
@@ -47,7 +48,7 @@
 
 #define TOP_TOOL_BAR QObject::tr("top tool bar") //顶部工具栏
 #define TITLE_TEXT QObject::tr("title text") //顶部标题栏
-#define TOP_MENU QObject::tr("top menu") //顶部菜单
+#define TITLE_BAR QObject::tr("title bar") //顶部菜单
 //#define SHADOW_LINE QObject::tr("shadow line") //阴影线
 
 #define EXTENSION_PANEL QObject::tr("ExtensionPanel") //图片信息窗口
@@ -58,5 +59,10 @@
 #define BUTTOM_TOOL_BAR QObject::tr("buttom_tool_bar") //底部区域
 
 #define IMAGE_WIDGET QObject::tr("imageinfo widget") //图片信息显示界面
+
+#define RENAME_WIDGET QObject::tr("rename widget") //图片信息显示界面
+#define INPUT_EDIT QObject::tr("input edit") //图片信息显示界面
+#define OK_BUTTON QObject::tr("ok button") //图片信息显示界面
+#define CANCEL_BUTTON QObject::tr("cancel button") //图片信息显示界面
 
 #endif // DESKTOP_ACCESSIBLE_UI_DEFINE_H
