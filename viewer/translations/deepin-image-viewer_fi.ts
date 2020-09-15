@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
+        <translation>Kuvat</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Kuvien katselu on valokuvien näyttö ja muokkaustyökalu, jossa on moderni käyttöliittymä ja sujuva suorituskyky.</translation>
+        <translation>Kuvat on valokuvien näyttö- ja muokkaustyökalu, jossa on moderni käyttöliittymä ja sujuva työskentely.</translation>
     </message>
 </context>
 <context>
@@ -31,7 +29,7 @@
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -242,14 +240,14 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>dd/MM/yyyy HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Vahvista</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -257,7 +255,7 @@
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Anna uusi nimi</translation>
     </message>
 </context>
 <context>
@@ -326,7 +324,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Kokoruutu</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -410,7 +408,7 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Poistu kokoruudusta</translation>
+        <translation>Poistu koko näytöstä</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -459,7 +457,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Kokoruutu</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -530,11 +528,11 @@
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Tauko</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Toista</translation>
     </message>
     <message>
         <source>Next</source>
@@ -715,11 +713,11 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Poistu kokoruudusta</translation>
+        <translation>Poistu koko näytöstä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Kokoruutu</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -791,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Piirtäminen</translation>
     </message>
 </context>
 </TS>

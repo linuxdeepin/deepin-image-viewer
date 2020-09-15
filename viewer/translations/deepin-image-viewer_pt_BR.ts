@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -584,7 +582,7 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Tamanho 1:1 </translation>
+        <translation>Escala 1:1 </translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -619,7 +617,7 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Proporção 1:1</translation>
+        <translation>Escala 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -791,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Desenho</translation>
     </message>
 </context>
 </TS>

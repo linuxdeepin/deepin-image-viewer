@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer est un programme à visualiser avec une interface moderne puisque des performances superbes.</translation>
+        <translation>Image Viewer est un visualiseur d&apos;images moderne et performant.</translation>
     </message>
 </context>
 <context>
@@ -23,7 +21,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation>Informations sur l&apos;image</translation>
+        <translation>Informations de l&apos;image</translation>
     </message>
     <message>
         <source>Alt+Return</source>
@@ -31,14 +29,14 @@
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Entrée</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informations éssentiels</translation>
+        <translation>Informations de base</translation>
     </message>
     <message>
         <source>Details</source>
@@ -249,7 +247,7 @@
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmer</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -257,7 +255,7 @@
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrer un nouveau nom</translation>
     </message>
 </context>
 <context>
@@ -440,7 +438,7 @@
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Afficher image</translation>
+        <translation>Afficher l&apos;image</translation>
     </message>
     <message>
         <source>Album</source>
@@ -530,11 +528,11 @@
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecture</translation>
     </message>
     <message>
         <source>Next</source>
@@ -588,7 +586,7 @@
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>Adapter au fenêtre courante</translation>
+        <translation>Ajuster à la fenêtre</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
@@ -791,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Dessin</translation>
     </message>
 </context>
 </TS>

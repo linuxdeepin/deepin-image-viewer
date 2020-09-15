@@ -1,791 +1,791 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fa" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Parës Figurash</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>Parësi i figurave është një mjet parjesh figurash me ndërfaqe të hijshme dhe funksionim të rrjedhshëm.</translation>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>تصاویر</translation>
+        <translation>Figura</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>Të dhëna figure</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"/>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"/>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation>Të dhëna elementare</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation>Hollësi</translation>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>این فایلشامل چندین صفحه است ، لطفا از Evince برای مشاهده همه صفحات استفاده کنید.</translation>
+        <translation>Kjo kartelë përmban shumë faqe, ju lutemi, përdorni Evince-n që të shihni krejt faqet.</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>باز کردن دایرکتوری</translation>
+        <translation>Hap Drejtori</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>شما اجازه دیدن تصویر را ندارید</translation>
+        <translation>S’keni leje të shihni figurën</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Anuloje</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>S’u gjet kartelë figure</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>اسم</translation>
+        <translation>Emër</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>نوع</translation>
+        <translation>Lloj</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>تاریخ اصلاح شدن</translation>
+        <translation>Datë kur u ndryshua</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation>ابعاد</translation>
+        <translation>Përmasë</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>حجم فایل</translation>
+        <translation>Madhësi kartele</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>تاریخ گرفتن عکس</translation>
+        <translation>Datë bërjeje</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>حالت نوردهی</translation>
+        <translation>Mënyra e ekspozimit</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>برنامه نوردهی</translation>
+        <translation>Program ekspozimi</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>زمان نوردهی</translation>
+        <translation>Kohëzgjatje ekspozimi</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>فلش</translation>
+        <translation>Blic</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>دیافراگم</translation>
+        <translation>Hapje</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>فاصله کانونی</translation>
+        <translation>Rreze vatrore</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ایزو</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>حداکثر دیافراگم</translation>
+        <translation>Hapje maksimum</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>حالت نورسنجی</translation>
+        <translation>Mënyrë matjeje</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>تراز سفیدی</translation>
+        <translation>Balancë e së bardhës</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>خسارت فلاش</translation>
+        <translation>Kompensim blici</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>مدل لنز</translation>
+        <translation>Model thjerre</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>فضای رنگی</translation>
+        <translation>Hapësirë ngjyrash</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>مدل دوربین</translation>
+        <translation>Model kamere</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>Përmasa</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation>Etiketë</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>بدون مقیاس بندی</translation>
+        <translation>Pa ripërmasim</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>صفحه متناسب با تصویر</translation>
+        <translation>Përshtatja faqen figurës</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>تناسب تصویر با صفحه</translation>
+        <translation>Përshtatja figurën faqes</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>مقیاس به:</translation>
+        <translation>Ripërmasoje në:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>میلی متر</translation>
+        <translation>Milimetra</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>سانتی متر</translation>
+        <translation>Centimetra</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>اینچ</translation>
+        <translation>Inç</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>موقعیت تصویر</translation>
+        <translation>Pozicion Figure</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>مقیاس بندی</translation>
+        <translation>Ripërmasim</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>تنظیمات تصویر</translation>
+        <translation>Rregullime Figurash</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>تنظیمات تصویر</translation>
+        <translation>Rregullime Figurash</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>پرده‌ها</translation>
+        <translation>Grila</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>تعویض کننده</translation>
+        <translation>Këmbyes</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>کشویی</translation>
+        <translation>Rrëshqitje</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>حلقه</translation>
+        <translation>Unazë</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
+        <translation>dd/MM/yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Ripohojeni</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>لغو</translation>
+        <translation>Anuloje</translation>
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>Jepni emër të ri</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>انتخاب دایرکتوری</translation>
+        <translation>Përzgjidhni Drejtori</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>این فهرست برای همگام سازی غیرفعال است</translation>
+        <translation>Njëkohësimi në këtë drejtori është i çaktivizuar</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>اضافه کردن پوشه</translation>
+        <translation>Shtoni dosje</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>همگام سازی مدیریت دایرکتوری</translation>
+        <translation>Administrim Njëkohësimesh Drejtorie</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>لیست دایرکتوری ها خالی است</translation>
+        <translation>Lista e drejtorisë është e zbrazët</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>لغو همگام سازی</translation>
+        <translation>Anuloje njëkohësimin</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>تصاویر</translation>
+        <translation>Figura</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>دستگاه حذف شده است</translation>
+        <translation>Pajisja është hequr</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>این دایرکتوری دیگر وجود ندارد</translation>
+        <translation>Kjo drejtori s’ekziston më</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>در حال محاسبه ...</translation>
+        <translation>Po llogaritet…</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>مشاهده تصویر</translation>
+        <translation>Parje Figurash</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>تنظیمات</translation>
+        <translation>Rregullime</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>Pamje</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>Shfaqje diapozitivash</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>نمایش تمام</translation>
+        <translation>Përfundoje shfaqjen</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>Kopjoje</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>Hiqe nga albumi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>E parapëlqyer</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>Hiqe si të parapëlqyer</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>Rrotulloje në kah orar</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>Rrotulloje në kah kundërorar</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>Vëre si sfond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>Shfaqe në përgjegjës kartelash</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>Të dhëna figure</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>قبلی</translation>
+        <translation>E mëparshmja</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>بعدی</translation>
+        <translation>Pasuesja</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>صفحه قبلی</translation>
+        <translation>Skena e mëparshme</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>صفحه بعدی</translation>
+        <translation>Skena pasuese</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>Album i ri</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>Riemërtojeni</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>راهنما</translation>
+        <translation>Ndihmë</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>نمایش میانبرها</translation>
+        <translation>Shfaq shkurtore</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"/>
+        <translation>Dil nga mënyra sa krejt ekrani</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation>Zmadhoje</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation>Zvogëloje</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Hape</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>لطفا میانبر جدید وارد کنید</translation>
+        <translation>Ju lutemi, jepni shkurtore të re</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>میانبرها</translation>
+        <translation>Shkurtore</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>مشاهده تصویر</translation>
+        <translation>Shihni Foto</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>بازگرداندن پیش‌فرض‌ها</translation>
+        <translation>Rikthe Parazgjedhjet</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>Pamje</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>Shfaqje diapozitivash</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>نمایش تمام</translation>
+        <translation>Përfundoje shfaqjen</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>چاپ</translation>
+        <translation>Shtype</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>Kopjoje</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>Hiqe nga albumi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>E parapëlqyer</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>Hiqe si të parapëlqyer</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>Rrotulloje në kah orar</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>Rrotulloje në kah kundërorar</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>Vëre si sfond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>Shfaqe në përgjegjës kartelash</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>Të dhëna figure</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>Album i ri</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>Riemërtojeni</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Fshije</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Previous</source>
-        <translation>قبلی</translation>
+        <translation>E mëparshmja</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation>Pushoje</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>Luaje</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>بعدی</translation>
+        <translation>Pasuesja</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>خروج</translation>
+        <translation>Dil</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تنظیمات اسلاید</translation>
+        <translation>Rregullime Diapozitivash</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>افکت تعویض کردن</translation>
+        <translation>Këmbeni efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>مدت</translation>
+        <translation>Kohëzgjatje</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>مدت تعویض کردن</translation>
+        <translation>Këmbeni kohëzgjatje</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>ثانیه</translation>
+        <translation>sekondë</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation>E parapëlqyera ime</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>E mëparshmja</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation>Pasuesja</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>Madhësi 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Sa ta nxërë dritarja</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Rrotulloje në kah kundërorar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>Rrotulloje në kah orar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Fshije</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>برگشت</translation>
+        <translation>Mbrapsht</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>مدیریت تصویر</translation>
+        <translation>Administrim figurash</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>مورد علاقه من</translation>
+        <translation>E parapëlqyera ime</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>اندازه 1: 1</translation>
+        <translation>Madhësi 1:1</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>متناسب با پنجره</translation>
+        <translation>Sa ta nxërë dritarja</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>Rrotulloje në kah kundërorar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>Rrotulloje në kah orar</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>Hiqe si të parapëlqyer</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>E parapëlqyer</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Fshije</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>هیچ فایل تصویری یافت نشد</translation>
+        <translation>S’u gjetën kartela figurash</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>باز کردن تصویر</translation>
+        <translation>Hap Figurë</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>S’u gjet kartelë figure</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تنظیمات اسلاید</translation>
+        <translation>Rregullime Diapozitivash</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>افکت</translation>
+        <translation>Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>مدت</translation>
+        <translation>Kohëzgjatje</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>میانبرها</translation>
+        <translation>Shkurtore</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>Shiheni</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>Album i ri</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>تنظیمات</translation>
+        <translation>Rregullime</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>جدول زمانی</translation>
+        <translation>Rrjedhë kohore</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>اضافه کردن به آلبوم</translation>
+        <translation>Shtojeni në album</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>اضافه کردن به آلبوم جدید</translation>
+        <translation>Shtoje në album të ri</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>خروج از تمام صفحه</translation>
+        <translation>Dil nga mënyra sa krejt ekrani</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>Shfaqje diapozitivash</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>چاپ</translation>
+        <translation>Shtype</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>Kopjoje</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>Hiqe nga albumi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>E parapëlqyer</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>Hiqe si të parapëlqyer</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>نمایش پنجره ناوبری</translation>
+        <translation>Shfaq dritare lëvizjesh</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>پنهان کردن پنجره ناوبری</translation>
+        <translation>Fshih dritare lëvizjesh</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>Rrotulloje në kah orar</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>Rrotulloje në kah kundërorar</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>Vëre si sfond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>Shfaqe në përgjegjës kartelash</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>Të dhëna figure</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>باز کردن تصویر</translation>
+        <translation>Hap Figurë</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation>همه تصاویر</translation>
+        <translation>Krejt figurat</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>Riemërtojeni</translation>
     </message>
     <message>
         <source>Draw</source>

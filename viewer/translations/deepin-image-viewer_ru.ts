@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -23,7 +21,7 @@
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation>Информация об изображении</translation>
+        <translation>Информация о изображении</translation>
     </message>
     <message>
         <source>Alt+Return</source>
@@ -31,7 +29,7 @@
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -49,7 +47,7 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>Этот файл содержит несколько страниц, пожалуйста используйте Evince для просмотра всех страниц.</translation>
+        <translation>Этот файл содержит несколько страниц, пожалуйста используйте приложение Evince для просмотра всех страниц.</translation>
     </message>
 </context>
 <context>
@@ -63,7 +61,7 @@
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Вы не имеете прав на просмотр страницы</translation>
+        <translation>Вы не обладаете правами  на просмотр данного изображения </translation>
     </message>
 </context>
 <context>
@@ -85,7 +83,7 @@
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>Название</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <source>Type</source>
@@ -249,7 +247,7 @@
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>Подтвердить</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -257,7 +255,7 @@
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите новое имя</translation>
     </message>
 </context>
 <context>
@@ -268,7 +266,7 @@
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Этот каталог отключен от инхронизации</translation>
+        <translation>Этот каталог отключен от cинхронизации</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -366,7 +364,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Отобразить в менеджере файлов</translation>
+        <translation>Отобразить в  файловом менеджере </translation>
     </message>
     <message>
         <source>Image info</source>
@@ -402,7 +400,7 @@
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Показать сочетания</translation>
+        <translation>Показать сочетания клавиш</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -429,14 +427,14 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Пожалуйста, введите новое сочетание</translation>
+        <translation>Пожалуйста, введите новое сочетание клавиш</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Сочетания</translation>
+        <translation>Сочетания клавиш</translation>
     </message>
     <message>
         <source>View Picture</source>
@@ -530,11 +528,11 @@
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Пауза</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Воспроизведение</translation>
     </message>
     <message>
         <source>Next</source>
@@ -561,7 +559,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Длительность включения</translation>
+        <translation>Продолжительность переключения</translation>
     </message>
     <message>
         <source>second</source>
@@ -677,7 +675,7 @@
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Сочетания</translation>
+        <translation>Сочетания клавиш</translation>
     </message>
     <message>
         <source>View</source>
@@ -711,7 +709,7 @@
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>Добавить новый альбом</translation>
+        <translation>Добавить в новый альбом</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
@@ -747,11 +745,11 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>Показать меню навигации</translation>
+        <translation>Показать окно навигации</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>Скрыть меню навигации</translation>
+        <translation>Скрыть окно навигации</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -767,7 +765,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Отобразить в менеджере файлов</translation>
+        <translation>Отобразить в  файловом менеджере </translation>
     </message>
     <message>
         <source>Image info</source>
@@ -779,7 +777,7 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Открыть Файл Изображения</translation>
+        <translation>Открыть  Изображение</translation>
     </message>
     <message>
         <source>All images</source>
@@ -791,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Рисовать</translation>
     </message>
 </context>
 </TS>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Visor de imágenes es una herramienta de visualización de imágenes con una interfaz de moda y un rendimiento suave.</translation>
+        <translation>Visor de imágenes de Deepin es una herramienta de visualización de imágenes elegante y agradable.</translation>
     </message>
 </context>
 <context>
@@ -93,7 +91,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Fecha modificada</translation>
+        <translation>Fecha de modificación</translation>
     </message>
     <message>
         <source>Dimension</source>
@@ -295,7 +293,7 @@
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>El dispositivo fue quitado</translation>
+        <translation>El dispositivo fue removido</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
@@ -366,7 +364,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en el gestor de archivos</translation>
+        <translation>Mostrar en el administrador de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -503,7 +501,7 @@
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en el gestor de archivos</translation>
+        <translation>Mostrar en el administrador de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -763,11 +761,11 @@
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>&#xa0;Establecer como fondo de pantalla</translation>
+        <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Mostrar en el gestor de archivos</translation>
+        <translation>Mostrar en el administrador de archivos</translation>
     </message>
     <message>
         <source>Image info</source>
@@ -791,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Dibujar</translation>
     </message>
 </context>
 </TS>

@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="it">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
+        <translation>Visualizzatore immagini</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Deepin Image Viewer è un gestore di immagini elegante e veloce.
+        <translation>Il Visualizzatore immagini di Deepin è un gestore di immagini elegante e veloce.
 Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
 </context>
@@ -792,7 +790,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Disegno</translation>
     </message>
 </context>
 </TS>

@@ -1,795 +1,795 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fa" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ug" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>رەسىم كۆرگۈچ</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation>بۇ كۆرۈنۈشى كۆركەم، ئىقتىدارى ياخشى رەسىم كۆرۈش قورالى.</translation>
     </message>
 </context>
 <context>
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>تصاویر</translation>
+        <translation>رەسىملەر</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>رەسىم ئۇچۇرى</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"/>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"/>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation>ئاساسى ئۇچۇر</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation>تەپسىلاتلار</translation>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>این فایلشامل چندین صفحه است ، لطفا از Evince برای مشاهده همه صفحات استفاده کنید.</translation>
+        <translation>بۇ ھۆججەتتە بىر قانچە بەت بار، ھۆججەت كۆرگۈچنى ئىشلىتىپ بارلىق بەتلەرنى كۆرۈش تەۋسىيە قىلىنىدۇ.</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>باز کردن دایرکتوری</translation>
+        <translation>رەسىم مۇندەرىجىسىنى ئېچىش</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>شما اجازه دیدن تصویر را ندارید</translation>
+        <translation>رەسىم كۆرۈش ھوقۇقىڭىز يوق</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>بىكار قىلىش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>رەسىم ھۆججىتى بايقالمىدى</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>اسم</translation>
+        <translation>نامى</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>نوع</translation>
+        <translation>رەسىم تۈرى</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>تاریخ اصلاح شدن</translation>
+        <translation>ئۆزگەرتكەن ۋاقىت</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation>ابعاد</translation>
+        <translation>رازمېرى</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>حجم فایل</translation>
+        <translation>چوڭ-كىچىكلىكى</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>تاریخ گرفتن عکس</translation>
+        <translation>تارتىلغان ۋاقىت</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>حالت نوردهی</translation>
+        <translation>نۇر ئۆتۈش ھالىتى</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>برنامه نوردهی</translation>
+        <translation>نۇر ئۆتۈش پىروگراممىسى</translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>زمان نوردهی</translation>
+        <translation>نۇر ئۆتۈش ۋاقتى</translation>
     </message>
     <message>
         <source>Flash</source>
-        <translation>فلش</translation>
+        <translation>لامپا</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>دیافراگم</translation>
+        <translation>دىئافراگما چوڭ-كىچىكلىكى</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>فاصله کانونی</translation>
+        <translation>فوكۇس ئارىلىقى</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ایزو</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>حداکثر دیافراگم</translation>
+        <translation>ئەڭ چوڭ دىئافراگما قىممىتى</translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>حالت نورسنجی</translation>
+        <translation>سىناش ھالىتى</translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation>تراز سفیدی</translation>
+        <translation>ئاق تەڭپۇڭلۇق</translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>خسارت فلاش</translation>
+        <translation>لامپا تولۇقلاش</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>مدل لنز</translation>
+        <translation>كامېرا تېپى</translation>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>فضای رنگی</translation>
+        <translation>رەڭ بوشلۇقى</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>مدل دوربین</translation>
+        <translation>ئاپپارات تىپى</translation>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>سۈرەت رازمېرى</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation>بەلگە</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>بدون مقیاس بندی</translation>
+        <translation>سوزۇلمىغان</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>صفحه متناسب با تصویر</translation>
+        <translation>بەتنى رەسىمگە ماسلاشتۇرۇش</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>تناسب تصویر با صفحه</translation>
+        <translation>رەسىمنى بەتكە ماسلاشتۇرۇش</translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>مقیاس به:</translation>
+        <translation>سوزۇلغان:</translation>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>میلی متر</translation>
+        <translation>مىللىمېتىر</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>سانتی متر</translation>
+        <translation>سانتىمېتىر</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>اینچ</translation>
+        <translation>دىيۇيم</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>موقعیت تصویر</translation>
+        <translation>رەسىم ئورنى</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>مقیاس بندی</translation>
+        <translation>سوزۇش</translation>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>تنظیمات تصویر</translation>
+        <translation>رەسىم تەڭشىكى</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>تنظیمات تصویر</translation>
+        <translation>رەسىم تەڭشىكى</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>پرده‌ها</translation>
+        <translation>ياپراقلىق ئۈنۈم</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>تعویض کننده</translation>
+        <translation>ئۈزچات</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>کشویی</translation>
+        <translation>سىيرىلىش</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>حلقه</translation>
+        <translation>ھالقا</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>جەزملەش</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>لغو</translation>
+        <translation>بىكار قىلىش</translation>
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>رەسىم نامىنى كىرگۈزۈڭ</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>انتخاب دایرکتوری</translation>
+        <translation>مۇندەرىجە تاللاڭ</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>این فهرست برای همگام سازی غیرفعال است</translation>
+        <translation>بۇ مۇندەرىجە ماسقەدەملەشنى قوللىمايدۇ</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>اضافه کردن پوشه</translation>
+        <translation>قىسقۇچ قوشۇش</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>همگام سازی مدیریت دایرکتوری</translation>
+        <translation>ماسقەدەملەيدىغان مۇندەرىجىنى باشقۇرۇش</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>لیست دایرکتوری ها خالی است</translation>
+        <translation>مۇندەرىجە قۇرۇق</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>لغو همگام سازی</translation>
+        <translation>ماسقەدەملەشنى بىكار قىلىش</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>تصاویر</translation>
+        <translation>رەسىملەر</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>دستگاه حذف شده است</translation>
+        <translation>كۆچمە ئۈسكۈنە ئۆچۈرۈلدى</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>این دایرکتوری دیگر وجود ندارد</translation>
+        <translation>بۇ مۇندەرىجە مەۋجۇت ئەمەس</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>در حال محاسبه ...</translation>
+        <translation>ھېسابلاۋاتىدۇ...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>مشاهده تصویر</translation>
+        <translation>رەسىمنى كۆرۈش</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>ئالبۇم</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>تنظیمات</translation>
+        <translation>تەڭشەكلەر</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>كۆرۈش</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>تولۇق ئىكران</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>پىرويېكسيە قويۇش</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>نمایش تمام</translation>
+        <translation>پىرويېكسيەدىن چېكىنىش</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>كۆچۈرۈش</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>ئالبومدىن چىقىرىۋېتىش</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>ياقتۇرمىدىم</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>تام رەسىمى قىلىپ تەڭشەش</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>رەسىم ئۇچۇرى</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>قبلی</translation>
+        <translation>ئالدىنقى</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>بعدی</translation>
+        <translation>كىيىنكى</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>صفحه قبلی</translation>
+        <translation>ئالدىنقى</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>صفحه بعدی</translation>
+        <translation>كېيىنكى</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>ئالبوم قۇرۇش</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>نام قويۇش</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>راهنما</translation>
+        <translation>ياردەم</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>نمایش میانبرها</translation>
+        <translation>تىزلەتمىلەر كۆرۈنسۇن</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"/>
+        <translation>تولۇق ئىكراندىن چېكىنىش</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation>رەسىمنى چوڭايتىش</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation>رەسىمنى كىچىكلىتىش</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>ئېچىش</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>لطفا میانبر جدید وارد کنید</translation>
+        <translation>يېڭى تېزلەتمىنى كىرگۈزۈڭ</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>میانبرها</translation>
+        <translation>تىزلەتمىلەر</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>مشاهده تصویر</translation>
+        <translation>رەسىمنى كۆرۈش</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>ئالبۇم</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>بازگرداندن پیش‌فرض‌ها</translation>
+        <translation>سۈكۈتتىكىگە قايتۇرۇش</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>كۆرۈش</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>تولۇق ئىكران</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>تام تەسۋىر</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>نمایش تمام</translation>
+        <translation>كۆرۈشنى ئاخىرلاشتۇرۇش</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>چاپ</translation>
+        <translation>بېسىش</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>كۆچۈرۈش</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>ئالبومدىن چىقىرىۋېتىش</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>ياقتۇرمىدىم</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>تام رەسىمى قىلىپ تەڭشەش</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>رەسىم ئۇچۇرى</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>ئالبوم قۇرۇش</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>نام قويۇش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Previous</source>
-        <translation>قبلی</translation>
+        <translation>ئالدىنقى</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation>ۋاقتىنچە توختىتىش</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>قويۇش</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>بعدی</translation>
+        <translation>كىيىنكى</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>خروج</translation>
+        <translation>چېكىنىش</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تنظیمات اسلاید</translation>
+        <translation>تام تەسۋىر تەڭشىكى</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>افکت تعویض کردن</translation>
+        <translation>ئۈنۈم ئالماشتۇرۇش</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>مدت</translation>
+        <translation>ۋاقىت</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>مدت تعویض کردن</translation>
+        <translation>ۋاقىت ئالماشتۇرۇش</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>ثانیه</translation>
+        <translation>سېكونت</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation>ساقلىغانلىرىم</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>ئالدىنقى</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation>كىيىنكى</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>1:1 كۆرۈنسۇن</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>كۆزنەككە ماسلاشسۇن</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>ئۆچۈرۈش</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>برگشت</translation>
+        <translation>قايتىش</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>مدیریت تصویر</translation>
+        <translation>رەسىم باشقۇرۇش</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>مورد علاقه من</translation>
+        <translation>ساقلىغانلىرىم</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>اندازه 1: 1</translation>
+        <translation>1:1 كۆرۈنسۇن</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>متناسب با پنجره</translation>
+        <translation>كۆزنەككە ماسلاشسۇن</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>ياقتۇرمىدىم</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>هیچ فایل تصویری یافت نشد</translation>
+        <translation>رەسىم ھۆججىتى بايقالمىدى</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>باز کردن تصویر</translation>
+        <translation>رەسىمنى ئېچىش</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>رەسىم ھۆججىتى بايقالمىدى</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تنظیمات اسلاید</translation>
+        <translation>تام تەسۋىر تەڭشىكى</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>افکت</translation>
+        <translation>ئۈنۈم</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>مدت</translation>
+        <translation>ۋاقىت</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>میانبرها</translation>
+        <translation>تىزلەتمىلەر</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>كۆرۈش</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>ئالبۇم</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>ئالبوم قۇرۇش</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>تنظیمات</translation>
+        <translation>تەڭشەكلەر</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>جدول زمانی</translation>
+        <translation>ۋاقىت سىزىقى</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>اضافه کردن به آلبوم</translation>
+        <translation>ئالبومغا قوشۇش</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>اضافه کردن به آلبوم جدید</translation>
+        <translation>يېڭى ئالبومغا قوشۇش</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>خروج از تمام صفحه</translation>
+        <translation>تولۇق ئىكراندىن چېكىنىش</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>تولۇق ئىكران</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>تام تەسۋىر</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>چاپ</translation>
+        <translation>بېسىش</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>كۆچۈرۈش</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>ئالبومدىن چىقىرىۋېتىش</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>ساقلاش</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>ياقتۇرمىدىم</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>نمایش پنجره ناوبری</translation>
+        <translation>يول باشلاش كۆزنىكىنى كۆرسەتسۇن</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>پنهان کردن پنجره ناوبری</translation>
+        <translation>يول باشلاش كۆزنىكىنى يوشۇرسۇن</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>سائەت ئىستېرىلكىسى بويىچە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>سائەت ئىستېرىلكىسىغا قارشى يۆنىلىشتە ئايلاندۇرۇش</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>تام رەسىمى قىلىپ تەڭشەش</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>ھۆججەت باشقۇرغۇچتا كۆرسىتىش</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>رەسىم ئۇچۇرى</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>ئۆچۈرۈش</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>باز کردن تصویر</translation>
+        <translation>رەسىمنى ئېچىش</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation>همه تصاویر</translation>
+        <translation>بارلىق رەسىملەر</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>نام قويۇش</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>رەسىم سىزىش</translation>
     </message>
 </context>
 </TS>

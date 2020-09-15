@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fa" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="et" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -14,14 +14,14 @@
     <name>CountingThread</name>
     <message>
         <source>Images</source>
-        <translation>تصاویر</translation>
+        <translation>Pildid</translation>
     </message>
 </context>
 <context>
     <name>ExtensionPanel</name>
     <message>
         <source>Image info</source>
-        <translation type="unfinished"/>
+        <translation>Pildi info</translation>
     </message>
     <message>
         <source>Alt+Return</source>
@@ -29,386 +29,386 @@
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="unfinished"/>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation type="unfinished"/>
+        <translation>Põhiinfo</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished"/>
+        <translation>Üksikasjad</translation>
     </message>
 </context>
 <context>
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>این فایلشامل چندین صفحه است ، لطفا از Evince برای مشاهده همه صفحات استفاده کنید.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>باز کردن دایرکتوری</translation>
+        <translation>Ava kaust</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>شما اجازه دیدن تصویر را ندارید</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Loobu</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Kustuta</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>Pildifaili ei leitud</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>اسم</translation>
+        <translation>Nimi</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>نوع</translation>
+        <translation>Liik</translation>
     </message>
     <message>
         <source>Date modified</source>
-        <translation>تاریخ اصلاح شدن</translation>
+        <translation>Muutmise kuupäev</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation>ابعاد</translation>
+        <translation>Mõõdud</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation>حجم فایل</translation>
+        <translation>Faili suurus</translation>
     </message>
     <message>
         <source>Date captured</source>
-        <translation>تاریخ گرفتن عکس</translation>
+        <translation>Pildistamise kuupäev</translation>
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>حالت نوردهی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>برنامه نوردهی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation>زمان نوردهی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Flash</source>
-        <translation>فلش</translation>
+        <translation>Välk</translation>
     </message>
     <message>
         <source>Aperture</source>
-        <translation>دیافراگم</translation>
+        <translation>Avasuurus</translation>
     </message>
     <message>
         <source>Focal length</source>
-        <translation>فاصله کانونی</translation>
+        <translation>Fookuskaugus</translation>
     </message>
     <message>
         <source>ISO</source>
-        <translation>ایزو</translation>
+        <translation>ISO</translation>
     </message>
     <message>
         <source>Max aperture</source>
-        <translation>حداکثر دیافراگم</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation>حالت نورسنجی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>White balance</source>
-        <translation>تراز سفیدی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>خسارت فلاش</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>مدل لنز</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Colorspace</source>
-        <translation>فضای رنگی</translation>
+        <translation>Värviruum</translation>
     </message>
     <message>
         <source>Camera model</source>
-        <translation>مدل دوربین</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>Mõõdud</translation>
     </message>
     <message>
         <source>Tag</source>
-        <translation type="unfinished"/>
+        <translation>Silt</translation>
     </message>
 </context>
 <context>
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>بدون مقیاس بندی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>صفحه متناسب با تصویر</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>تناسب تصویر با صفحه</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>مقیاس به:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Millimeters</source>
-        <translation>میلی متر</translation>
+        <translation>Millimeetrit</translation>
     </message>
     <message>
         <source>Centimeters</source>
-        <translation>سانتی متر</translation>
+        <translation>Sentimeetrit</translation>
     </message>
     <message>
         <source>Inches</source>
-        <translation>اینچ</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>موقعیت تصویر</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>مقیاس بندی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>تنظیمات تصویر</translation>
+        <translation>Pildi seaded</translation>
     </message>
 </context>
 <context>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>تنظیمات تصویر</translation>
+        <translation>Pildi seaded</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>پرده‌ها</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>تعویض کننده</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>کشویی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Ring</source>
-        <translation>حلقه</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"/>
+        <translation>dd.MM.yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"/>
+        <translation>Kinnita</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>لغو</translation>
+        <translation>Loobu</translation>
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"/>
+        <translation>Sisesta uus nimi</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>انتخاب دایرکتوری</translation>
+        <translation>Vali kaust</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>این فهرست برای همگام سازی غیرفعال است</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>اضافه کردن پوشه</translation>
+        <translation>Lisa kaust</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>همگام سازی مدیریت دایرکتوری</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>لیست دایرکتوری ها خالی است</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>لغو همگام سازی</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Images</source>
-        <translation>تصاویر</translation>
+        <translation>Pildid</translation>
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>دستگاه حذف شده است</translation>
+        <translation>Seade on eemaldatud</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>این دایرکتوری دیگر وجود ندارد</translation>
+        <translation>Seda kausta enam pole olemas</translation>
     </message>
     <message>
         <source>Calculating...</source>
-        <translation>در حال محاسبه ...</translation>
+        <translation>Arvutamine...</translation>
     </message>
 </context>
 <context>
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>مشاهده تصویر</translation>
+        <translation>Pildi vaatamine</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>تنظیمات</translation>
+        <translation>Seaded</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>Vaata</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>Täisekraan</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>Slaidiseanss</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>نمایش تمام</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>Kopeeri</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>Eemalda albumist</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>Lemmik</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>Eemalda lemmikutest</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>Pööra päripäeva</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>Pööra vastupäeva</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>Määra taustapildiks</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>Näita failihalduris</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>Pildi info</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation>قبلی</translation>
+        <translation>Eelmine</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>بعدی</translation>
+        <translation>Järgmine</translation>
     </message>
     <message>
         <source>Previous screen</source>
-        <translation>صفحه قبلی</translation>
+        <translation>Eelmine ekraan</translation>
     </message>
     <message>
         <source>Next screen</source>
-        <translation>صفحه بعدی</translation>
+        <translation>Järgmine ekraan</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>Uus ablum</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>Nimeta ümber</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>راهنما</translation>
+        <translation>Abiinfo</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>نمایش میانبرها</translation>
+        <translation>Näita otseteid</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Kustuta</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation type="unfinished"/>
+        <translation>Välju täisekraanilt</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -420,376 +420,376 @@
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"/>
+        <translation>Ava</translation>
     </message>
 </context>
 <context>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>لطفا میانبر جدید وارد کنید</translation>
+        <translation>Palun sisesta uus otsetee</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>میانبرها</translation>
+        <translation>Otsetee</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>مشاهده تصویر</translation>
+        <translation>Vaata pilti</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>بازگرداندن پیش‌فرض‌ها</translation>
+        <translation>Taasta vaikeväärtused</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>Vaata</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>Täisekraan</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>Slaidiseanss</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>نمایش تمام</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Print</source>
-        <translation>چاپ</translation>
+        <translation>Prindi</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>Kopeeri</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>Eemalda albumist</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>Lemmik</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>Eemalda lemmikutest</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>Pööra päripäeva</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>Pööra vastupäeva</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>Määra taustapildiks</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>Näita failihalduris</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>Pildi info</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>Uus ablum</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>Nimeta ümber</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Kustuta</translation>
     </message>
 </context>
 <context>
     <name>SlideShowBottomBar</name>
     <message>
         <source>Previous</source>
-        <translation>قبلی</translation>
+        <translation>Eelmine</translation>
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"/>
+        <translation>Paus</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"/>
+        <translation>Esita</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation>بعدی</translation>
+        <translation>Järgmine</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation>خروج</translation>
+        <translation>Välju</translation>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تنظیمات اسلاید</translation>
+        <translation>Slaidi seaded</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>افکت تعویض کردن</translation>
+        <translation>Ülemineku efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>مدت</translation>
+        <translation>Kestus</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>مدت تعویض کردن</translation>
+        <translation>Ülemineku kestus</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>ثانیه</translation>
+        <translation>sekund</translation>
     </message>
 </context>
 <context>
     <name>TTBContent</name>
     <message>
         <source>My favorite</source>
-        <translation type="unfinished"/>
+        <translation>nu lemmikud</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished"/>
+        <translation>Eelmine</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation>Järgmine</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation type="unfinished"/>
+        <translation>1:1 Suurus</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation type="unfinished"/>
+        <translation>Mahuta aknasse</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished"/>
+        <translation>Pööra vastupäeva</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished"/>
+        <translation>Pööra päripäeva</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Kustuta</translation>
     </message>
 </context>
 <context>
     <name>TTLContent</name>
     <message>
         <source>Back</source>
-        <translation>برگشت</translation>
+        <translation>Tagasi</translation>
     </message>
     <message>
         <source>Image management</source>
-        <translation>مدیریت تصویر</translation>
+        <translation>Piltide haldamine</translation>
     </message>
     <message>
         <source>My favorite</source>
-        <translation>مورد علاقه من</translation>
+        <translation>nu lemmikud</translation>
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>اندازه 1: 1</translation>
+        <translation>1:1 Suurus</translation>
     </message>
     <message>
         <source>Fit to window</source>
-        <translation>متناسب با پنجره</translation>
+        <translation>Mahuta aknasse</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>Pööra vastupäeva</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>Pööra päripäeva</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>Eemalda lemmikutest</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>Lemmik</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Kustuta</translation>
     </message>
 </context>
 <context>
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>هیچ فایل تصویری یافت نشد</translation>
+        <translation>Ühtegi pildifaili ei leitud</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>باز کردن تصویر</translation>
+        <translation>Ava pilt</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished"/>
+        <translation>Pildifaili ei leitud</translation>
     </message>
 </context>
 <context>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>تنظیمات اسلاید</translation>
+        <translation>Slaidi seaded</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>افکت</translation>
+        <translation>Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>مدت</translation>
+        <translation>Kestus</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>میانبرها</translation>
+        <translation>Otsetee</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>نما</translation>
+        <translation>Vaata</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>آلبوم</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>آلبوم جدید</translation>
+        <translation>Uus ablum</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>تنظیمات</translation>
+        <translation>Seaded</translation>
     </message>
 </context>
 <context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>جدول زمانی</translation>
+        <translation>Ajatelg</translation>
     </message>
     <message>
         <source>Add to album</source>
-        <translation>اضافه کردن به آلبوم</translation>
+        <translation>Lisa albumisse</translation>
     </message>
     <message>
         <source>Add to new album</source>
-        <translation>اضافه کردن به آلبوم جدید</translation>
+        <translation>Lisa uude albumisse</translation>
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>خروج از تمام صفحه</translation>
+        <translation>Välju täisekraanilt</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>تمام صفحه</translation>
+        <translation>Täisekraan</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>نمایش اسلاید</translation>
+        <translation>Slaidiseanss</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>چاپ</translation>
+        <translation>Prindi</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>کپی</translation>
+        <translation>Kopeeri</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>حذف از آلبوم</translation>
+        <translation>Eemalda albumist</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>علاقه مندی</translation>
+        <translation>Lemmik</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>غیر علاقه مندی</translation>
+        <translation>Eemalda lemmikutest</translation>
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>نمایش پنجره ناوبری</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>پنهان کردن پنجره ناوبری</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>چرخش در جهت عقربه های ساعت</translation>
+        <translation>Pööra päripäeva</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>چرخش در جهت خلاف عقربه های ساعت</translation>
+        <translation>Pööra vastupäeva</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>تنظیم به عنوان تصویر پس زمینه</translation>
+        <translation>Määra taustapildiks</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>نمایش در مدیر فایل</translation>
+        <translation>Näita failihalduris</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>اطلاعات تصویر</translation>
+        <translation>Pildi info</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>حذف</translation>
+        <translation>Kustuta</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>باز کردن تصویر</translation>
+        <translation>Ava pilt</translation>
     </message>
     <message>
         <source>All images</source>
-        <translation>همه تصاویر</translation>
+        <translation>Kõik pildid</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>تغییر اسم</translation>
+        <translation>Nimeta ümber</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"/>
+        <translation>Joonista</translation>
     </message>
 </context>
 </TS>

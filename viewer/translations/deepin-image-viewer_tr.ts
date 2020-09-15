@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -703,7 +701,7 @@
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
-        <translation>Zaman tüneli</translation>
+        <translation>Çizelge</translation>
     </message>
     <message>
         <source>Add to album</source>
@@ -791,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Çizim</translation>
     </message>
 </context>
 </TS>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ms">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -93,7 +91,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Tarikh diubahsuai</translation>
+        <translation>Tarikh diubah suai</translation>
     </message>
     <message>
         <source>Dimension</source>
@@ -791,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>
