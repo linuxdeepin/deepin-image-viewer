@@ -89,8 +89,8 @@ manual.files = $$PWD/docs/doc/*
 manual_icon.path = $$MANICONDIR
 manual_icon.files = $$PWD/docs/doc/common/deepin-image-viewer.svg
 
-app_icon.path = $$APPICONDIR
-app_icon.files = $$PWD/assets/images/logo/deepin-image-viewer.svg
+#app_icon.path = $$APPICONDIR
+#app_icon.files = $$PWD/assets/images/logo/deepin-image-viewer.svg
 
 dbus_service.path =  $$PREFIX/share/dbus-1/services
 dbus_service.files += $$PWD/com.deepin.ImageViewer.service
@@ -98,7 +98,8 @@ dbus_service.files += $$PWD/com.deepin.ImageViewer.service
 translations.path = $$APPSHAREDIR/translations
 translations.files = $$PWD/translations/*.qm
 
-INSTALLS = target desktop dbus_service icons manual manual_icon app_icon translations
+#INSTALLS = target desktop dbus_service icons manual manual_icon app_icon translations
+INSTALLS = target desktop dbus_service icons manual manual_icon  translations
 
 DISTFILES += \
     com.deepin.ImageViewer.service
