@@ -257,6 +257,13 @@ QVariantList ImageView::cachePixmap(const QString path)
         qDebug() << errMsg;
     }
     QPixmap p = QPixmap::fromImage(tImg);
+    if(dApp->m_firstLoad)
+    {
+        dApp->m_rectmap.insert(path, p.rect());
+        p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
+        dApp->m_imagemap.insert(path, p);
+        emit dApp->sigFinishLoad(path);
+    }
 //    if (QFileInfo(path).exists() && p.isNull()) {
 //        //判定为损坏图片
 //        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();

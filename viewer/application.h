@@ -37,6 +37,8 @@ class QCloseEvent;
 #undef dApp
 #endif
 #define dApp (static_cast<Application*>(QCoreApplication::instance()))
+/*lmh0728缩略图分辨率IMAGE_HEIGHT_DEFAULT*/
+#define IMAGE_HEIGHT_DEFAULT    300
 
 DWIDGET_USE_NAMESPACE
 
