@@ -1287,8 +1287,8 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
 //                emit imageClicked(index, (index - indexNow));
                 emit imageMoveEnded(index, (index - indexNow),iRet);
                 m_lastIndex=m_nowIndex;
-                onResize();
-                m_imgList->adjustSize();
+//                onResize();
+//                m_imgList->adjustSize();
             });
 
         }
@@ -1657,8 +1657,8 @@ void TTBContent::loadBack(DBImgInfoList infos)
 //                emit imageClicked(index, (index - indexNow));
             emit imageMoveEnded(index, (index - indexNow),iRet);
             m_lastIndex=m_nowIndex;
-            onResize();
-            m_imgList->adjustSize();
+//            onResize();
+//            m_imgList->adjustSize();
         });
 
         m_imgInfos.push_back(info);
@@ -1758,8 +1758,8 @@ void TTBContent::loadFront(DBImgInfoList infos)
 //                emit imageClicked(index, (index - indexNow));
             emit imageMoveEnded(index, (index - indexNow),iRet);
             m_lastIndex=m_nowIndex;
-            onResize();
-            m_imgList->adjustSize();
+//            onResize();
+//            m_imgList->adjustSize();
         });
 
         m_imgInfos.push_front(info);
