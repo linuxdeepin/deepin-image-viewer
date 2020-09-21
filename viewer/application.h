@@ -60,6 +60,7 @@ public:
      */
     void loadInterface(QString strPath);
 
+
     mutable QReadWriteLock m_readlock;
     mutable QReadWriteLock m_writelock;
     mutable QReadWriteLock m_flagLock;
@@ -109,6 +110,12 @@ public:
     {
         return m_rwLock;
     }
+    /**
+     * @brief isWaylandPlatform 判断是否是wayland平台
+     * @datetime 2020/09/21
+     * @return          是否
+     */
+    bool isWaylandPlatform();
 
     ConfigSetter *setter = nullptr;
     //    DBManager *dbM = nullptr;
@@ -123,6 +130,7 @@ public:
 
     QThread *m_LoadThread;
     bool m_firstLoad = true;
+
 signals:
     /**
      * @brief sigstartLoad  加载线程启动信号

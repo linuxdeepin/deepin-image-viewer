@@ -24,7 +24,7 @@
 #include <QDebug>
 #include <QDBusInterface>
 #include <QScreen>
-
+#include "application.h"
 #include <unistd.h>
 
 WallpaperSetter *WallpaperSetter::m_setter = nullptr;
@@ -56,7 +56,14 @@ void WallpaperSetter::setWallpaper(const QString &path)
                                      "/com/deepin/daemon/Appearance",
                                      "com.deepin.daemon.Appearance");
         if (interface.isValid()) {
-            QString screenname = dApp->primaryScreen()->name();
+            QString screenname;
+            //wayland下设置壁纸使用，2020/09/21
+            if (dApp->isWaylandPlatform()) {
+                QDBusInterface interfaceWayland("com.deepin.daemon.Display", "/com/deepin/daemon/Display", "com.deepin.daemon.Display");
+                screenname = qvariant_cast< QString >(interfaceWayland.property("Primary"));
+            } else {
+                screenname = dApp->primaryScreen()->name();
+            }
             QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
             qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
         } else {
