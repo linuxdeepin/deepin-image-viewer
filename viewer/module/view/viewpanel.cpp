@@ -655,13 +655,6 @@ void ViewPanel::recvLoadSignal(bool bFlags)
         }
         m_current = begin;
     }
-
-    int houzi = 0;
-    foreach (DBImgInfo var, m_infos) {
-        if (var.filePath == m_currentImagePath) {
-            houzi++;
-        }
-    }
     // emit sigsendslideshowlist(bFlags, m_infoslideshow);
     emit sendLoadAddInfos(m_infosadd, bFlags);
 

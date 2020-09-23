@@ -53,9 +53,6 @@
 #include "accessibility/ac-desktop-define.h"
 #include <malloc.h>
 
-#ifndef QT_NO_OPENGL
-#include <QGLWidget>
-#endif
 
 #ifdef USE_UNIONIMAGE
 #include "unionimage.h"

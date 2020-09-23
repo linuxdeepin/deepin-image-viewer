@@ -4,9 +4,8 @@
 #
 #-------------------------------------------------
 
-QT += core gui sql dbus concurrent svg  printsupport
+QT += core gui dbus concurrent svg  printsupport
 # QT += x11extras
-qtHaveModule(opengl): QT += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
