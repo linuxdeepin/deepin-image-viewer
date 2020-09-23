@@ -774,7 +774,7 @@ void TTBContent::initBtn()
                   TOOLBAR_HEIGHT));
     }
 
-    m_imgList->setDisabled(false);
+    m_imgList->setEnabled(true);
     m_imglayout = new QHBoxLayout();
     m_imglayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     //    m_imglayout->setMargin(0);
@@ -1475,29 +1475,22 @@ void TTBContent::setBtnAttribute(const QString strPath)
         m_trashBtn->setEnabled(true);
     }
 
-    if ((QFileInfo(strPath).isReadable() && !QFileInfo(strPath).isWritable()) || (QFileInfo(strPath).suffix() == "gif")) {
-        //gif图片可以删除
-        if ((QFileInfo(strPath).suffix() == "gif")) {
-            m_trashBtn->setDisabled(false);
-        } else {
-            m_trashBtn->setDisabled(true);
-
-        }
-
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
+    if ((QFileInfo(strPath).isReadable() && !QFileInfo(strPath).isWritable())) {
+        m_trashBtn->setEnabled(false);
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
     } else {
-        m_trashBtn->setDisabled(false);
+        m_trashBtn->setEnabled(true);
         if (utils::image::imageSupportSave(strPath)) {
-            m_rotateLBtn->setDisabled(false);
-            m_rotateRBtn->setDisabled(false);
+            m_rotateLBtn->setEnabled(true);
+            m_rotateRBtn->setEnabled(true);
         } else {
             if ((QFileInfo(strPath).suffix() == "svg")) {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
+                m_rotateLBtn->setEnabled(true);
+                m_rotateRBtn->setEnabled(true);
             } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
+                m_rotateLBtn->setEnabled(false);
+                m_rotateRBtn->setEnabled(false);
             }
         }
     }
@@ -1540,19 +1533,19 @@ void TTBContent::onChangeHideFlags(bool bFlags)
         m_preButton_spc->hide();
         m_nextButton->hide();
         m_nextButton_spc->hide();
-        m_preButton->setDisabled(true);
-        m_preButton_spc->setDisabled(true);
-        m_nextButton->setDisabled(true);
-        m_nextButton_spc->setDisabled(true);
+        m_preButton->setEnabled(false);
+        m_preButton_spc->setEnabled(false);
+        m_nextButton->setEnabled(false);
+        m_nextButton_spc->setEnabled(false);
     } else {
         m_preButton->show();
         m_nextButton->show();
         m_preButton_spc->show();
         m_nextButton_spc->show();
-        m_preButton->setDisabled(false);
-        m_preButton_spc->setDisabled(false);
-        m_nextButton->setDisabled(false);
-        m_nextButton_spc->setDisabled(false);
+        m_preButton->setEnabled(true);
+        m_preButton_spc->setEnabled(true);
+        m_nextButton->setEnabled(true);
+        m_nextButton_spc->setEnabled(true);
     }
 
     //判断是否加载完成，未完成将旋转和删除按钮禁用
@@ -1566,30 +1559,22 @@ void TTBContent::onChangeHideFlags(bool bFlags)
 //        m_rotateRBtn->setEnabled(true);
 //        m_trashBtn->setEnabled(true);
 //    }
-
-    if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
-        //gif图片可以删除
-        if ((QFileInfo(m_imagePath).suffix() == "gif")) {
-            m_trashBtn->setDisabled(false);
-        } else {
-            m_trashBtn->setDisabled(true);
-
-        }
-
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
+    if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable())) {
+        m_trashBtn->setEnabled(false);
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
     } else {
-        m_trashBtn->setDisabled(false);
+        m_trashBtn->setEnabled(true);
         if (utils::image::imageSupportSave(m_imagePath)) {
-            m_rotateLBtn->setDisabled(false);
-            m_rotateRBtn->setDisabled(false);
+            m_rotateLBtn->setEnabled(true);
+            m_rotateRBtn->setEnabled(true);
         } else {
             if (QFileInfo(m_imagePath).suffix() == "svg") {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
+                m_rotateLBtn->setEnabled(true);
+                m_rotateRBtn->setEnabled(true);
             } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
+                m_rotateLBtn->setEnabled(false);
+                m_rotateRBtn->setEnabled(false);
             }
         }
     }
@@ -1911,33 +1896,33 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
         qDebug() << "reloadItems完成";
 
         if (m_nowIndex == 0) {
-            m_preButton->setDisabled(true);
+            m_preButton->setEnabled(false);
         } else {
-            m_preButton->setDisabled(false);
+            m_preButton->setEnabled(true);
         }
         if (m_nowIndex == m_imgInfos.size() - 1) {
-            m_nextButton->setDisabled(true);
+            m_nextButton->setEnabled(false);
         } else {
-            m_nextButton->setDisabled(false);
+            m_nextButton->setEnabled(true);
         }
 
-        m_adaptImageBtn->setDisabled(true);
-        m_adaptScreenBtn->setDisabled(true);
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
-        m_trashBtn->setDisabled(true);
+        m_adaptImageBtn->setEnabled(false);
+        m_adaptScreenBtn->setEnabled(false);
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
 
-        m_imgList->setDisabled(false);
+        m_imgList->setEnabled(true);
 
     } else {
 #if TTB
-        m_adaptImageBtn->setDisabled(false);
-        m_adaptScreenBtn->setDisabled(false);
+        m_adaptImageBtn->setEnabled(true);
+        m_adaptScreenBtn->setEnabled(true);
 #else
-        //        btAdapt->setDisabled(false);
-        //        btFit->setDisabled(false);
-        m_adaptImageBtn->setDisabled(false);
-        m_adaptScreenBtn->setDisabled(false);
+        //        btAdapt->setEnabled(true);
+        //        btFit->setEnabled(true);
+        m_adaptImageBtn->setEnabled(true);
+        m_adaptScreenBtn->setEnabled(true);
 #endif
 
         if (m_imgInfos.size() > 3) {
@@ -1973,25 +1958,25 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #if TTB
             if (m_nowIndex == 0) {
-                m_preButton->setDisabled(true);
+                m_preButton->setEnabled(false);
             } else {
-                m_preButton->setDisabled(false);
+                m_preButton->setEnabled(true);
             }
             if (m_nowIndex == labelList.size() - 1) {
-                m_nextButton->setDisabled(true);
+                m_nextButton->setEnabled(false);
             } else {
-                m_nextButton->setDisabled(false);
+                m_nextButton->setEnabled(true);
             }
 #else
             if (m_nowIndex == 0) {
-                m_preButton->setDisabled(true);
+                m_preButton->setEnabled(false);
             } else {
-                m_preButton->setDisabled(false);
+                m_preButton->setEnabled(true);
             }
             if (m_nowIndex == m_imgInfos.size() - 1) {
-                m_nextButton->setDisabled(true);
+                m_nextButton->setEnabled(false);
             } else {
-                m_nextButton->setDisabled(false);
+                m_nextButton->setEnabled(true);
             }
 #endif
         } else if (m_imgInfos.size() > 1) {
@@ -2027,25 +2012,25 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #if TTB
             if (m_nowIndex == 0) {
-                m_preButton->setDisabled(true);
+                m_preButton->setEnabled(false);
             } else {
-                m_preButton->setDisabled(false);
+                m_preButton->setEnabled(true);
             }
             if (m_nowIndex == labelList.size() - 1) {
-                m_nextButton->setDisabled(true);
+                m_nextButton->setEnabled(false);
             } else {
-                m_nextButton->setDisabled(false);
+                m_nextButton->setEnabled(true);
             }
 #else
             if (m_nowIndex == 0) {
-                m_preButton->setDisabled(true);
+                m_preButton->setEnabled(false);
             } else {
-                m_preButton->setDisabled(false);
+                m_preButton->setEnabled(true);
             }
             if (m_nowIndex == m_imgInfos.size() - 1) {
-                m_nextButton->setDisabled(true);
+                m_nextButton->setEnabled(false);
             } else {
-                m_nextButton->setDisabled(false);
+                m_nextButton->setEnabled(true);
             }
 #endif
         } else {
@@ -2073,17 +2058,17 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #if TTB
         if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-            m_trashBtn->setDisabled(true);
-            m_rotateLBtn->setDisabled(true);
-            m_rotateRBtn->setDisabled(true);
+            m_trashBtn->setEnabled(false);
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
         } else {
-            m_trashBtn->setDisabled(false);
+            m_trashBtn->setEnabled(true);
             if (utils::image::imageSupportSave(path)) {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
+                m_rotateLBtn->setEnabled(true);
+                m_rotateRBtn->setEnabled(true);
             } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
+                m_rotateLBtn->setEnabled(false);
+                m_rotateRBtn->setEnabled(false);
             }
         }
 #else
@@ -2095,10 +2080,10 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
     }
     if(!m_NotImageViewFlag)
     {
-        m_adaptImageBtn->setDisabled(true);
-        m_adaptScreenBtn->setDisabled(true);
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
+        m_adaptImageBtn->setEnabled(false);
+        m_adaptScreenBtn->setEnabled(false);
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
     }
     m_NotImageViewFlag = true;
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
@@ -2138,14 +2123,14 @@ void TTBContent::updateCollectButton()
     //        return;
 
     //    if (m_imagePath.isEmpty() || !QFileInfo(m_imagePath).exists()) {
-    //        m_clBT->setDisabled(true);
+    //        m_clBT->setEnabled(false);
     //        m_clBT->setChecked(false);
     //    }
     //    else
-    //        m_clBT->setDisabled(false);
+    //        m_clBT->setEnabled(true);
 
     //    if (! m_clBT->isEnabled()) {
-    //        m_clBT->setDisabled(true);
+    //        m_clBT->setEnabled(false);
     //    }
     //#ifndef LITE_DIV
     //    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
@@ -2157,7 +2142,7 @@ void TTBContent::updateCollectButton()
     //    else {
     //        m_clBT->setToolTip(tr("Favorite"));
     //        m_clBT->setChecked(false);
-    //        m_clBT->setDisabled(false);
+    //        m_clBT->setEnabled(true);
     //    }
 }
 
