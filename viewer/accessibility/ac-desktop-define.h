@@ -61,8 +61,9 @@
 #define IMAGE_WIDGET QObject::tr("imageinfo widget") //图片信息显示界面
 
 #define RENAME_WIDGET QObject::tr("rename widget") //图片信息显示界面
-#define INPUT_EDIT QObject::tr("input edit") //图片信息显示界面
-#define OK_BUTTON QObject::tr("ok button") //图片信息显示界面
-#define CANCEL_BUTTON QObject::tr("cancel button") //图片信息显示界面
+#define INPUT_EDIT QObject::tr("input edit") //重命名输入框
+#define OK_BUTTON QObject::tr("Confirm") //重命名Ok按钮
+#define CANCEL_BUTTON QObject::tr("Cancel") //重命名cancel按钮
+#define RENAME_CONTENT QObject::tr("rename content") //重命名cancel按钮
 
 #endif // DESKTOP_ACCESSIBLE_UI_DEFINE_H

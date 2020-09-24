@@ -30,12 +30,12 @@ RenameDialog::RenameDialog(QString filename, QWidget *parent)
     m_lineedt = new DLineEdit(widet);
     QFrame *line = new QFrame(widet);
     QLbtoDLabel *labtitle = new QLbtoDLabel();
-    okbtn = new DSuggestButton(widet);
-    cancelbtn = new DPushButton(widet);
+    okbtn = new DSuggestButton(tr("Confirm"),widet);
+    cancelbtn = new DPushButton(tr("Cancel"),widet);
     m_labformat = new DLabel(widet);
     m_vlayout->setContentsMargins(2, 0, 2, 1);
-    okbtn->setText(tr("Confirm"));
-    cancelbtn->setText(tr("Cancel"));
+//    okbtn->setText();
+//    cancelbtn->setText();
     m_hlayout->addWidget(cancelbtn);
     line->setFrameShape(QFrame::VLine);
     line->setFrameShadow(QFrame::Sunken);
@@ -116,6 +116,8 @@ RenameDialog::RenameDialog(QString filename, QWidget *parent)
     okbtn->setAccessibleName(OK_BUTTON);
     cancelbtn->setObjectName(CANCEL_BUTTON);
     cancelbtn->setAccessibleName(CANCEL_BUTTON);
+    widet->setObjectName(RENAME_CONTENT);
+    widet->setObjectName(RENAME_CONTENT);
 }
 
 

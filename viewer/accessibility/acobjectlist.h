@@ -28,9 +28,9 @@ DWIDGET_USE_NAMESPACE
 //SET_FORM_ACCESSIBLE(WaterMaskFrame,OBJ_NAME_WATER_MASK_FRAME)
 SET_FORM_ACCESSIBLE(QFrame,m_w->objectName())
 SET_FORM_ACCESSIBLE(QWidget,m_w->objectName())
-SET_LABEL_ACCESSIBLE(QLabel,m_w->objectName())
+SET_LABEL_ACCESSIBLE(DLabel,m_w->objectName())
 SET_FORM_ACCESSIBLE(QDialog,m_w->objectName())
-SET_BUTTON_ACCESSIBLE(QPushButton,m_w->objectName())
+//SET_BUTTON_ACCESSIBLE(QPushButton,m_w->objectName())
 SET_SLIDER_ACCESSIBLE(DMainWindow,m_w->objectName())
 SET_SLIDER_ACCESSIBLE(QListWidget,m_w->objectName())
 //SET_FORM_ACCESSIBLE(DTitlebar,m_w->objectName())
@@ -46,9 +46,9 @@ QAccessibleInterface *accessibleFactory(const QString &classname, QObject *objec
 //    USE_ACCESSIBLE(classname, WaterMaskFrame);
     USE_ACCESSIBLE(classname, QFrame);
     USE_ACCESSIBLE(classname, QWidget);
-    USE_ACCESSIBLE(classname, QLabel);
+    USE_ACCESSIBLE(classname, DLabel);
     USE_ACCESSIBLE(classname, QDialog);
-    USE_ACCESSIBLE(classname, QPushButton);
+ //   USE_ACCESSIBLE(classname, QPushButton);
     USE_ACCESSIBLE(classname, DMainWindow);
     USE_ACCESSIBLE(classname, QListWidget);
  //   USE_ACCESSIBLE(classname, DTitlebar);
