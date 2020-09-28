@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sr">
 <context>
     <name>Application</name>
     <message>
@@ -25,11 +27,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation type="vanished">Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -54,7 +60,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Отвори директоријум</translation>
+        <translation type="vanished">Отвори директоријум</translation>
     </message>
 </context>
 <context>
@@ -68,15 +74,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Откажи</translation>
+        <translation type="vanished">Откажи</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Обриши</translation>
+        <translation type="vanished">Обриши</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Датотека слике није пронађена</translation>
+        <translation type="vanished">Датотека слике није пронађена</translation>
     </message>
 </context>
 <context>
@@ -95,7 +101,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Димензије</translation>
+        <translation type="vanished">Димензије</translation>
     </message>
     <message>
         <source>File size</source>
@@ -217,30 +223,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Подешавање слике</translation>
+        <translation type="vanished">Подешавање слике</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Ролетне</translation>
+        <translation type="vanished">Ролетне</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Клапна</translation>
+        <translation type="vanished">Клапна</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Клизање</translation>
+        <translation type="vanished">Клизање</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Прстен</translation>
+        <translation type="vanished">Прстен</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>HH:mm:dd dd/MM/yyyy</translation>
+        <translation type="vanished">HH:mm:dd dd/MM/yyyy</translation>
     </message>
 </context>
 <context>
@@ -427,97 +433,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Молимо унесите нову пречицу</translation>
+        <translation type="vanished">Молимо унесите нову пречицу</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Пречице</translation>
+        <translation type="vanished">Пречице</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Преглед слике</translation>
+        <translation type="vanished">Преглед слике</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Албум</translation>
+        <translation type="vanished">Албум</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Врати Подразумевано</translation>
+        <translation type="vanished">Врати Подразумевано</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Прегледај</translation>
+        <translation type="vanished">Прегледај</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Цео екран</translation>
+        <translation type="vanished">Цео екран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Покретни приказ</translation>
+        <translation type="vanished">Покретни приказ</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Окончај</translation>
+        <translation type="vanished">Окончај</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Штампај</translation>
+        <translation type="vanished">Штампај</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Копирај</translation>
+        <translation type="vanished">Копирај</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Уклони из албума</translation>
+        <translation type="vanished">Уклони из албума</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>У омиљено</translation>
+        <translation type="vanished">У омиљено</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Из омиљеног</translation>
+        <translation type="vanished">Из омиљеног</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Ротирај удесно</translation>
+        <translation type="vanished">Ротирај удесно</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Ротирај улево</translation>
+        <translation type="vanished">Ротирај улево</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Постави као позадину</translation>
+        <translation type="vanished">Постави као позадину</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Прикажи у управнику података</translation>
+        <translation type="vanished">Прикажи у управнику података</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Својства слике</translation>
+        <translation type="vanished">Својства слике</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Нови албум</translation>
+        <translation type="vanished">Нови албум</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Преименуј</translation>
+        <translation type="vanished">Преименуј</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Обриши</translation>
+        <translation type="vanished">Обриши</translation>
     </message>
 </context>
 <context>
@@ -547,23 +553,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Подешавање покретног приказа</translation>
+        <translation type="vanished">Подешавање покретног приказа</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Прелазни ефекти</translation>
+        <translation type="vanished">Прелазни ефекти</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Трајање</translation>
+        <translation type="vanished">Трајање</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Трајање приказа</translation>
+        <translation type="vanished">Трајање приказа</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>секунде</translation>
+        <translation type="vanished">секунде</translation>
     </message>
 </context>
 <context>
@@ -663,38 +669,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Покретни приказ</translation>
+        <translation type="vanished">Покретни приказ</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Ефекат</translation>
+        <translation type="vanished">Ефекат</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Трајање</translation>
+        <translation type="vanished">Трајање</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Пречице</translation>
+        <translation type="vanished">Пречице</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Прегледај</translation>
+        <translation type="vanished">Прегледај</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Албум</translation>
+        <translation type="vanished">Албум</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Нови албум</translation>
+        <translation type="vanished">Нови албум</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Подешавања</translation>
+        <translation type="vanished">Подешавања</translation>
     </message>
 </context>
 <context>
@@ -789,7 +795,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Цртај</translation>
+        <translation type="vanished">Цртај</translation>
     </message>
 </context>
 </TS>

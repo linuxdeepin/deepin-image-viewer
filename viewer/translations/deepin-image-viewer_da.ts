@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="da">
 <context>
     <name>Application</name>
     <message>
@@ -25,11 +27,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Retur</translation>
+        <translation type="vanished">Alt+Retur</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -54,7 +60,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Åbn mappe</translation>
+        <translation type="vanished">Åbn mappe</translation>
     </message>
 </context>
 <context>
@@ -68,15 +74,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Annuller</translation>
+        <translation type="vanished">Annuller</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Slet</translation>
+        <translation type="vanished">Slet</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Billedfil ikke fundet</translation>
+        <translation type="vanished">Billedfil ikke fundet</translation>
     </message>
 </context>
 <context>
@@ -95,7 +101,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Dimension</translation>
+        <translation type="vanished">Dimension</translation>
     </message>
     <message>
         <source>File size</source>
@@ -217,30 +223,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Billedindstillinger</translation>
+        <translation type="vanished">Billedindstillinger</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Persienner</translation>
+        <translation type="vanished">Persienner</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Skifter</translation>
+        <translation type="vanished">Skifter</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Glider</translation>
+        <translation type="vanished">Glider</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Cirkel</translation>
+        <translation type="vanished">Cirkel</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>dd/MM/yyyy HH:mm:dd</translation>
+        <translation type="vanished">dd/MM/yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -427,97 +433,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Indtast venligst en ny genvej</translation>
+        <translation type="vanished">Indtast venligst en ny genvej</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Genveje</translation>
+        <translation type="vanished">Genveje</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Vis billede</translation>
+        <translation type="vanished">Vis billede</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Nulstil standarder</translation>
+        <translation type="vanished">Nulstil standarder</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Vis</translation>
+        <translation type="vanished">Vis</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fuldskærm</translation>
+        <translation type="vanished">Fuldskærm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diasshow</translation>
+        <translation type="vanished">Diasshow</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Afslut show</translation>
+        <translation type="vanished">Afslut show</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Udskriv</translation>
+        <translation type="vanished">Udskriv</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiér</translation>
+        <translation type="vanished">Kopiér</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Fjern fra album</translation>
+        <translation type="vanished">Fjern fra album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Sæt som favorit</translation>
+        <translation type="vanished">Sæt som favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Fjern fra favorit</translation>
+        <translation type="vanished">Fjern fra favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotér med uret</translation>
+        <translation type="vanished">Rotér med uret</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotér mod uret</translation>
+        <translation type="vanished">Rotér mod uret</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Sæt som tapet</translation>
+        <translation type="vanished">Sæt som tapet</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Vis i filhåndtering</translation>
+        <translation type="vanished">Vis i filhåndtering</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Billedinfo</translation>
+        <translation type="vanished">Billedinfo</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nyt album</translation>
+        <translation type="vanished">Nyt album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Omdøb</translation>
+        <translation type="vanished">Omdøb</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Slet</translation>
+        <translation type="vanished">Slet</translation>
     </message>
 </context>
 <context>
@@ -547,23 +553,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diasindstillinger</translation>
+        <translation type="vanished">Diasindstillinger</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Skifteffekt</translation>
+        <translation type="vanished">Skifteffekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Varighed</translation>
+        <translation type="vanished">Varighed</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Skiftvarighed</translation>
+        <translation type="vanished">Skiftvarighed</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>sekund</translation>
+        <translation type="vanished">sekund</translation>
     </message>
 </context>
 <context>
@@ -663,38 +669,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diasindstillinger</translation>
+        <translation type="vanished">Diasindstillinger</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Effekt</translation>
+        <translation type="vanished">Effekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Varighed</translation>
+        <translation type="vanished">Varighed</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Genveje</translation>
+        <translation type="vanished">Genveje</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vis</translation>
+        <translation type="vanished">Vis</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nyt album</translation>
+        <translation type="vanished">Nyt album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Indstillinger</translation>
+        <translation type="vanished">Indstillinger</translation>
     </message>
 </context>
 <context>
@@ -786,10 +792,6 @@
     <message>
         <source>Rename</source>
         <translation>Omdøb</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

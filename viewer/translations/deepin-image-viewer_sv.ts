@@ -26,11 +26,7 @@
         <translation type="unfinished">Bildinformation</translation>
     </message>
     <message>
-        <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+Enter</source>
+        <source>Ctrl+I</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -56,7 +52,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Öppna katalog</translation>
+        <translation type="vanished">Öppna katalog</translation>
     </message>
 </context>
 <context>
@@ -70,15 +66,11 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation type="obsolete">Avbryt</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Radera</translation>
-    </message>
-    <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Radera</translation>
     </message>
 </context>
 <context>
@@ -97,7 +89,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Dimensioner</translation>
+        <translation type="vanished">Dimensioner</translation>
     </message>
     <message>
         <source>File size</source>
@@ -219,30 +211,7 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Bild inställningar</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>Blinds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switcher</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sliding</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ring</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Bild inställningar</translation>
     </message>
 </context>
 <context>
@@ -429,97 +398,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Var god skriv in en ny genväg</translation>
+        <translation type="vanished">Var god skriv in en ny genväg</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Genvägar</translation>
+        <translation type="vanished">Genvägar</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Visa bild</translation>
+        <translation type="vanished">Visa bild</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Återställ förval</translation>
+        <translation type="vanished">Återställ förval</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Visa</translation>
+        <translation type="vanished">Visa</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Fullskärm</translation>
+        <translation type="vanished">Fullskärm</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Bildspel</translation>
+        <translation type="vanished">Bildspel</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Avsluta bildspel</translation>
+        <translation type="vanished">Avsluta bildspel</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Skriv ut</translation>
+        <translation type="vanished">Skriv ut</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiera</translation>
+        <translation type="vanished">Kopiera</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Ta bort från album</translation>
+        <translation type="vanished">Ta bort från album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorit</translation>
+        <translation type="vanished">Favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Ta bort favorit</translation>
+        <translation type="vanished">Ta bort favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotera medurs</translation>
+        <translation type="vanished">Rotera medurs</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotera moturs</translation>
+        <translation type="vanished">Rotera moturs</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Ange som bakgrundsbild</translation>
+        <translation type="vanished">Ange som bakgrundsbild</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visa i filhanteraren</translation>
+        <translation type="vanished">Visa i filhanteraren</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Bildinformation</translation>
+        <translation type="vanished">Bildinformation</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nytt album</translation>
+        <translation type="vanished">Nytt album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Ändra namn</translation>
+        <translation type="vanished">Ändra namn</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Radera</translation>
+        <translation type="vanished">Radera</translation>
     </message>
 </context>
 <context>
@@ -549,23 +518,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Bildspelsinställningar</translation>
+        <translation type="vanished">Bildspelsinställningar</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Växlingseffekt</translation>
+        <translation type="vanished">Växlingseffekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Längd</translation>
+        <translation type="vanished">Längd</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Växlingslängd</translation>
+        <translation type="vanished">Växlingslängd</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>sekund</translation>
+        <translation type="vanished">sekund</translation>
     </message>
 </context>
 <context>
@@ -665,38 +634,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Bildspelsinställningar</translation>
+        <translation type="vanished">Bildspelsinställningar</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Effekt</translation>
+        <translation type="vanished">Effekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Längd</translation>
+        <translation type="vanished">Längd</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Genvägar</translation>
+        <translation type="vanished">Genvägar</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Visa</translation>
+        <translation type="vanished">Visa</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nytt album</translation>
+        <translation type="vanished">Nytt album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Inställningar</translation>
+        <translation type="vanished">Inställningar</translation>
     </message>
 </context>
 <context>
@@ -788,10 +757,6 @@
     <message>
         <source>Rename</source>
         <translation>Ändra namn</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

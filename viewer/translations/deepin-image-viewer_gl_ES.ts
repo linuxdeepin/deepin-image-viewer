@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="gl_ES" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="gl_ES">
 <context>
     <name>Application</name>
     <message>
@@ -25,11 +27,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -54,7 +60,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir cartafol</translation>
+        <translation type="vanished">Abrir cartafol</translation>
     </message>
 </context>
 <context>
@@ -68,15 +74,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation type="vanished">Cancelar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation type="vanished">Eliminar</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Non se atopou a imaxe</translation>
+        <translation type="vanished">Non se atopou a imaxe</translation>
     </message>
 </context>
 <context>
@@ -95,7 +101,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Dimensión</translation>
+        <translation type="vanished">Dimensión</translation>
     </message>
     <message>
         <source>File size</source>
@@ -217,30 +223,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Configuración da imaxe</translation>
+        <translation type="vanished">Configuración da imaxe</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Persiás</translation>
+        <translation type="vanished">Persiás</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Conmutador</translation>
+        <translation type="vanished">Conmutador</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Escorregadizo</translation>
+        <translation type="vanished">Escorregadizo</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Anel</translation>
+        <translation type="vanished">Anel</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy/MM/dd HH:mm:dd</translation>
+        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -427,97 +433,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Por favor insire un novo atallo</translation>
+        <translation type="vanished">Por favor insire un novo atallo</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Atallos</translation>
+        <translation type="vanished">Atallos</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Ver imaxe</translation>
+        <translation type="vanished">Ver imaxe</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation type="vanished">Álbum</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Reestablecer por defecto</translation>
+        <translation type="vanished">Reestablecer por defecto</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Vista</translation>
+        <translation type="vanished">Vista</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation type="vanished">Pantalla completa</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Presentación</translation>
+        <translation type="vanished">Presentación</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Rematar a presentación</translation>
+        <translation type="vanished">Rematar a presentación</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprimir</translation>
+        <translation type="vanished">Imprimir</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation type="vanished">Copiar</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eliminar do álbum</translation>
+        <translation type="vanished">Eliminar do álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Poñer nas favoritas</translation>
+        <translation type="vanished">Poñer nas favoritas</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Quitar das favoritas</translation>
+        <translation type="vanished">Quitar das favoritas</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rotar á dereita</translation>
+        <translation type="vanished">Rotar á dereita</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rotar á esquerda</translation>
+        <translation type="vanished">Rotar á esquerda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Establecer como fondo de pantalla</translation>
+        <translation type="vanished">Establecer como fondo de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Visualizar no xestor de ficheiros</translation>
+        <translation type="vanished">Visualizar no xestor de ficheiros</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información da imaxe</translation>
+        <translation type="vanished">Información da imaxe</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation type="vanished">Novo álbum</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renomear</translation>
+        <translation type="vanished">Renomear</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Eliminar</translation>
+        <translation type="vanished">Eliminar</translation>
     </message>
 </context>
 <context>
@@ -547,23 +553,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración da diapositiva</translation>
+        <translation type="vanished">Configuración da diapositiva</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Cambiar efecto</translation>
+        <translation type="vanished">Cambiar efecto</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation type="vanished">Duración</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Cambiar duración</translation>
+        <translation type="vanished">Cambiar duración</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>segundo</translation>
+        <translation type="vanished">segundo</translation>
     </message>
 </context>
 <context>
@@ -663,38 +669,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Configuración da diapositiva</translation>
+        <translation type="vanished">Configuración da diapositiva</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Efecto</translation>
+        <translation type="vanished">Efecto</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation type="vanished">Duración</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Atallos</translation>
+        <translation type="vanished">Atallos</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vista</translation>
+        <translation type="vanished">Vista</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation type="vanished">Álbum</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Novo álbum</translation>
+        <translation type="vanished">Novo álbum</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Configuracións</translation>
+        <translation type="vanished">Configuracións</translation>
     </message>
 </context>
 <context>
@@ -789,7 +795,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Debuxar</translation>
+        <translation type="vanished">Debuxar</translation>
     </message>
 </context>
 </TS>

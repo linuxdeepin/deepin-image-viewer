@@ -151,9 +151,12 @@ void ViewPanel::initConnect()
         //开启延时删除标志定时器
         connect(&m_timer, &QTimer::timeout, this, [ = ]() {
             m_timer.stop();
-            ttbc->setIsConnectDel(true);
-            m_bAllowDel = true;
-            ttbc->disableDelAct(true);
+            if(ttbc)
+            {
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
+            }
         });
 
         m_timer.start(2000);

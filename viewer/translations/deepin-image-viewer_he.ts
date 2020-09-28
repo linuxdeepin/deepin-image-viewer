@@ -26,11 +26,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+Enter</source>
+        <source>Ctrl+I</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -56,7 +52,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>פתיחת תיקייה</translation>
+        <translation type="vanished">פתיחת תיקייה</translation>
     </message>
 </context>
 <context>
@@ -70,15 +66,7 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">ביטול</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">ביטול</translation>
     </message>
 </context>
 <context>
@@ -94,10 +82,6 @@
     <message>
         <source>Date modified</source>
         <translation>מועד השינוי</translation>
-    </message>
-    <message>
-        <source>Dimension</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File size</source>
@@ -212,36 +196,6 @@
     </message>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>Blinds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switcher</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sliding</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ring</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>yyyy/MM/dd HH:mm:dd</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -426,100 +380,10 @@
     </message>
 </context>
 <context>
-    <name>ShortcutEditor</name>
-    <message>
-        <source>Please enter a new shortcut</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ShortcutFrame</name>
-    <message>
-        <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View Picture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore Defaults</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ShortcutKey</name>
     <message>
-        <source>View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>End show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove from album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Favorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Unfavorite</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rotate clockwise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rotate counterclockwise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set as wallpaper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Display in file manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rename</source>
-        <translation type="unfinished">שינוי שם</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">שינוי שם</translation>
     </message>
 </context>
 <context>
@@ -542,29 +406,6 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SlideshowFrame</name>
-    <message>
-        <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switch effect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switch duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>second</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -662,44 +503,6 @@
     </message>
 </context>
 <context>
-    <name>TitleFrame</name>
-    <message>
-        <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Effect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Album</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TopToolbar</name>
-    <message>
-        <source>New album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ViewPanel</name>
     <message>
         <source>Timeline</source>
@@ -788,10 +591,6 @@
     <message>
         <source>Rename</source>
         <translation>שינוי שם</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

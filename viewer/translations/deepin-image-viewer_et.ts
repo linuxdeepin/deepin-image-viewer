@@ -1,13 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="et" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="et">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -24,12 +26,12 @@
         <translation>Pildi info</translation>
     </message>
     <message>
-        <source>Alt+Return</source>
-        <translation type="unfinished"/>
+        <source>Alt+Enter</source>
+        <translation type="vanished">Alt+Enter</translation>
     </message>
     <message>
-        <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -47,36 +49,36 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Ava kaust</translation>
+        <translation type="vanished">Ava kaust</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Loobu</translation>
+        <translation type="vanished">Loobu</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Kustuta</translation>
+        <translation type="vanished">Kustuta</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Pildifaili ei leitud</translation>
+        <translation type="vanished">Pildifaili ei leitud</translation>
     </message>
 </context>
 <context>
@@ -95,7 +97,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Mõõdud</translation>
+        <translation type="vanished">Mõõdud</translation>
     </message>
     <message>
         <source>File size</source>
@@ -107,15 +109,15 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Exposure time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Flash</source>
@@ -135,23 +137,23 @@
     </message>
     <message>
         <source>Max aperture</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Metering mode</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>White balance</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colorspace</source>
@@ -159,7 +161,7 @@
     </message>
     <message>
         <source>Camera model</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -174,19 +176,19 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scale to:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -198,15 +200,15 @@
     </message>
     <message>
         <source>Inches</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image Settings</source>
@@ -217,30 +219,14 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Pildi seaded</translation>
+        <translation type="vanished">Pildi seaded</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <source>Blinds</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Switcher</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Sliding</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <source>Ring</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>dd.MM.yyyy HH:mm:dd</translation>
+        <translation type="vanished">dd.MM.yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -266,7 +252,7 @@
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -274,18 +260,18 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Images</source>
@@ -332,7 +318,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copy</source>
@@ -412,11 +398,11 @@
     </message>
     <message>
         <source>Zoom in</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open</source>
@@ -427,97 +413,93 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Palun sisesta uus otsetee</translation>
+        <translation type="vanished">Palun sisesta uus otsetee</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Otsetee</translation>
+        <translation type="vanished">Otsetee</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Vaata pilti</translation>
+        <translation type="vanished">Vaata pilti</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Taasta vaikeväärtused</translation>
+        <translation type="vanished">Taasta vaikeväärtused</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Vaata</translation>
+        <translation type="vanished">Vaata</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Täisekraan</translation>
+        <translation type="vanished">Täisekraan</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Slaidiseanss</translation>
-    </message>
-    <message>
-        <source>End show</source>
-        <translation type="unfinished"/>
+        <translation type="vanished">Slaidiseanss</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Prindi</translation>
+        <translation type="vanished">Prindi</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopeeri</translation>
+        <translation type="vanished">Kopeeri</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Eemalda albumist</translation>
+        <translation type="vanished">Eemalda albumist</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Lemmik</translation>
+        <translation type="vanished">Lemmik</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Eemalda lemmikutest</translation>
+        <translation type="vanished">Eemalda lemmikutest</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Pööra päripäeva</translation>
+        <translation type="vanished">Pööra päripäeva</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Pööra vastupäeva</translation>
+        <translation type="vanished">Pööra vastupäeva</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Määra taustapildiks</translation>
+        <translation type="vanished">Määra taustapildiks</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Näita failihalduris</translation>
+        <translation type="vanished">Näita failihalduris</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Pildi info</translation>
+        <translation type="vanished">Pildi info</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Uus ablum</translation>
+        <translation type="vanished">Uus ablum</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Nimeta ümber</translation>
+        <translation type="vanished">Nimeta ümber</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Kustuta</translation>
+        <translation type="vanished">Kustuta</translation>
     </message>
 </context>
 <context>
@@ -547,23 +529,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slaidi seaded</translation>
+        <translation type="vanished">Slaidi seaded</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Ülemineku efekt</translation>
+        <translation type="vanished">Ülemineku efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Kestus</translation>
+        <translation type="vanished">Kestus</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Ülemineku kestus</translation>
+        <translation type="vanished">Ülemineku kestus</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>sekund</translation>
+        <translation type="vanished">sekund</translation>
     </message>
 </context>
 <context>
@@ -663,38 +645,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Slaidi seaded</translation>
+        <translation type="vanished">Slaidi seaded</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Efekt</translation>
+        <translation type="vanished">Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Kestus</translation>
+        <translation type="vanished">Kestus</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Otsetee</translation>
+        <translation type="vanished">Otsetee</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Vaata</translation>
+        <translation type="vanished">Vaata</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Uus ablum</translation>
+        <translation type="vanished">Uus ablum</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Seaded</translation>
+        <translation type="vanished">Seaded</translation>
     </message>
 </context>
 <context>
@@ -745,11 +727,11 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -789,7 +771,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Joonista</translation>
+        <translation type="vanished">Joonista</translation>
     </message>
 </context>
 </TS>

@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pl">
 <context>
     <name>Application</name>
     <message>
@@ -25,11 +27,15 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation>Alt+Return</translation>
+        <translation type="vanished">Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation>Alt+Enter</translation>
+        <translation type="vanished">Alt+Enter</translation>
+    </message>
+    <message>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -54,7 +60,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Otwórz katalog</translation>
+        <translation type="vanished">Otwórz katalog</translation>
     </message>
 </context>
 <context>
@@ -68,15 +74,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation>Anuluj</translation>
+        <translation type="vanished">Anuluj</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation type="vanished">Usuń</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>Nie znaleziono pliku obrazu</translation>
+        <translation type="vanished">Nie znaleziono pliku obrazu</translation>
     </message>
 </context>
 <context>
@@ -95,7 +101,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation>Wymiar</translation>
+        <translation type="vanished">Wymiar</translation>
     </message>
     <message>
         <source>File size</source>
@@ -217,30 +223,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation>Ustawienia obrazu</translation>
+        <translation type="vanished">Ustawienia obrazu</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Żaluzja</translation>
+        <translation type="vanished">Żaluzja</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>Przełącznik</translation>
+        <translation type="vanished">Przełącznik</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Poślizg</translation>
+        <translation type="vanished">Poślizg</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Siatka</translation>
+        <translation type="vanished">Siatka</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy/MM/dd HH:mm:dd</translation>
+        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -427,97 +433,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Prosimy wprowadzić nowy skrót</translation>
+        <translation type="vanished">Prosimy wprowadzić nowy skrót</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Skróty</translation>
+        <translation type="vanished">Skróty</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Podgląd obrazu</translation>
+        <translation type="vanished">Podgląd obrazu</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Przywróć domyślne</translation>
+        <translation type="vanished">Przywróć domyślne</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Podgląd</translation>
+        <translation type="vanished">Podgląd</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pełny ekran</translation>
+        <translation type="vanished">Pełny ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Pokaz zdjęć</translation>
+        <translation type="vanished">Pokaz zdjęć</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>Zakończ pokaz</translation>
+        <translation type="vanished">Zakończ pokaz</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Drukuj</translation>
+        <translation type="vanished">Drukuj</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation type="vanished">Kopiuj</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Usuń z albumu</translation>
+        <translation type="vanished">Usuń z albumu</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Ulubione</translation>
+        <translation type="vanished">Ulubione</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Usuń z ulubionych</translation>
+        <translation type="vanished">Usuń z ulubionych</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Obróć zgodnie z kierunkiem wskazówek zegara</translation>
+        <translation type="vanished">Obróć zgodnie z kierunkiem wskazówek zegara</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Obróć odwrotnie do kierunku wskazówek zegara</translation>
+        <translation type="vanished">Obróć odwrotnie do kierunku wskazówek zegara</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Ustaw jako tło pulpitu</translation>
+        <translation type="vanished">Ustaw jako tło pulpitu</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Wyświetl w menedżerze plików</translation>
+        <translation type="vanished">Wyświetl w menedżerze plików</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Informacje o obrazie</translation>
+        <translation type="vanished">Informacje o obrazie</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Nowy album</translation>
+        <translation type="vanished">Nowy album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Zmień nazwę</translation>
+        <translation type="vanished">Zmień nazwę</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation type="vanished">Usuń</translation>
     </message>
 </context>
 <context>
@@ -547,23 +553,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Ustawienia pokazu</translation>
+        <translation type="vanished">Ustawienia pokazu</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Efekt przejścia</translation>
+        <translation type="vanished">Efekt przejścia</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Czas trwania</translation>
+        <translation type="vanished">Czas trwania</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Przełącz czas trwania</translation>
+        <translation type="vanished">Przełącz czas trwania</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>sekunda</translation>
+        <translation type="vanished">sekunda</translation>
     </message>
 </context>
 <context>
@@ -663,38 +669,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Ustawienia pokazu</translation>
+        <translation type="vanished">Ustawienia pokazu</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>Efekt</translation>
+        <translation type="vanished">Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Czas trwania</translation>
+        <translation type="vanished">Czas trwania</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Skróty</translation>
+        <translation type="vanished">Skróty</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Podgląd</translation>
+        <translation type="vanished">Podgląd</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Album</translation>
+        <translation type="vanished">Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Nowy album</translation>
+        <translation type="vanished">Nowy album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ustawienia</translation>
+        <translation type="vanished">Ustawienia</translation>
     </message>
 </context>
 <context>
@@ -789,7 +795,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation>Rysuj</translation>
+        <translation type="vanished">Rysuj</translation>
     </message>
 </context>
 </TS>
