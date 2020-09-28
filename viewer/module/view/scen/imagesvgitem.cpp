@@ -12,6 +12,11 @@
 #include <QSvgRenderer>
 QT_BEGIN_NAMESPACE
 
+#define Q_DECLARE_PUBLIC(Class)                                    \
+    inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
+    inline const Class* q_func() const { return static_cast<const Class *>(q_ptr); } \
+
+
 class ImageSvgItemPrivate : public QGraphicsItemPrivate
 {
 public:
