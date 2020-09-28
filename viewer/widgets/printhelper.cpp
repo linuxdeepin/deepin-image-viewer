@@ -24,7 +24,8 @@ PrintHelper::PrintHelper(QObject *parent)
 {
 
 }
-
+//暂时没有使用配置文件的快捷键，现在是根据代码中的快捷键
+/*
 static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)
 {
     QAction *last_action = nullptr;
@@ -74,7 +75,7 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 
     return last_action;
 }
-
+*/
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     QList<QImage> imgs;
