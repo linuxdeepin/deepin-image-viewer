@@ -902,6 +902,8 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
 
 void ViewPanel::slotGetLastThumbnailPath(QString &path)
 {
+    int n = m_infos.size();
+    if(m_infos.size()>1)
     path = m_infos[m_infos.size() - 1].filePath;
 }
 
@@ -943,6 +945,7 @@ void ViewPanel::slotLoadTailThumbnailsAndClearFront()
 
 void ViewPanel::slotGetFirstThumbnailPath(QString &path)
 {
+    if(m_infos.size() > 0)
     path = m_infos[0].filePath;
 }
 

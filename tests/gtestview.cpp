@@ -89,8 +89,8 @@ TEST_F(gtestview, mainwindow)
     QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 50);//
 
     QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
-//    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 100);
-//    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 5000);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
 //    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 20);//
 
 

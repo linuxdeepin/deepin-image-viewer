@@ -62,11 +62,11 @@ using namespace UnionImage_NameSpace;
 using namespace utils::base;
 using namespace utils::image;
 
-#define JPEG1 "/data/home/lmh/lmh/0916/动漫/0jll1w.jpg"
-#define GIF2 "/data/home/lmh/lmh/0916/tu/1.gif"
-#define JPEGPATH "/usr/share/wallpapers/deepin/marian-kroell-qElMHWePpok-unsplash.jpg"
-#define SVGPATH "/data/home/lmh/lmh/0916/tu/scc.svg"
-#define DDSPATH "/data/home/lmh/lmh/0916/tu/DDS.dds"
+#define JPEG1 "/usr/share/uosbrowser/product_logo_32.png"
+#define GIF2 "/usr/share/deepin-app-store/web_dist/en-AU/assets/images/loading2.gif"
+#define JPEGPATH "/usr/share/wallpapers/deepin/abc-123.jpg"
+#define SVGPATH "/usr/share/deepin-image-viewer/icons/logo/deepin-image-viewer.svg"
+#define DDSPATH "/data/home/lmh/0916/tu/DDS.dds"
 class gtestview : public ::testing::Test
 {
 public:
