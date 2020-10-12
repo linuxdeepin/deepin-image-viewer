@@ -187,23 +187,23 @@ void ExtensionPanel::paintEvent(QPaintEvent *pe)
 //    painter.drawPath(path);
 //    painter.end();
 //}
-void ExtensionPanel::moveWithAnimation(int x, int y)
-{
-    Q_UNUSED(x);
-    Q_UNUSED(y);
-    //    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    //    animation->setDuration(ANIMATION_DURATION);
-    //    animation->setEasingCurve(ANIMATION_EASING_CURVE);
-    //    animation->setStartValue(pos());
-    //    animation->setEndValue(QPoint(x, y));
-    //    animation->start();
-    //    connect(this, &ExtensionPanel::requestStopAnimation, animation,
-    //    &QPropertyAnimation::stop); connect(this, &ExtensionPanel::requestStopAnimation,
-    //    animation,
-    //            &QPropertyAnimation::deleteLater);
-    //    connect(animation, &QPropertyAnimation::finished, animation,
-    //    &QPropertyAnimation::deleteLater);
-}
+//void ExtensionPanel::moveWithAnimation(int x, int y)
+//{
+//    Q_UNUSED(x);
+//    Q_UNUSED(y);
+//    //    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+//    //    animation->setDuration(ANIMATION_DURATION);
+//    //    animation->setEasingCurve(ANIMATION_EASING_CURVE);
+//    //    animation->setStartValue(pos());
+//    //    animation->setEndValue(QPoint(x, y));
+//    //    animation->start();
+//    //    connect(this, &ExtensionPanel::requestStopAnimation, animation,
+//    //    &QPropertyAnimation::stop); connect(this, &ExtensionPanel::requestStopAnimation,
+//    //    animation,
+//    //            &QPropertyAnimation::deleteLater);
+//    //    connect(animation, &QPropertyAnimation::finished, animation,
+//    //    &QPropertyAnimation::deleteLater);
+//}
 
 void ExtensionPanel::init()
 {

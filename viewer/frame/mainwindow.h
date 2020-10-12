@@ -44,23 +44,23 @@ extern "C" {
 #include <gio/gio.h>
 }
 #define signals public
-#ifndef LITE_DIV
-class Worker : public QObject
-{
-    Q_OBJECT
-public:
-    Worker() {}
-    ~Worker() {}
-public slots:
-    void initRec()
-    {
-        DBManager::instance();
-        Exporter::instance();
-        Importer::instance();
-        qDebug() << "DBManager time";
-    }
-};
-#endif
+//#ifndef LITE_DIV
+//class Worker : public QObject
+//{
+//    Q_OBJECT
+//public:
+//    Worker() {}
+//    ~Worker() {}
+//public slots:
+//    void initRec()
+//    {
+//        DBManager::instance();
+//        Exporter::instance();
+//        Importer::instance();
+//        qDebug() << "DBManager time";
+//    }
+//};
+//#endif
 class DGioVolumeManager;
 class MainWindow : public DMainWindow
 {
@@ -68,7 +68,9 @@ class MainWindow : public DMainWindow
 public:
     // If manager is false, the Manager panel(eg.TimelinePanel) will not be
     // initialize to save resource and avoid DB file lock.
-    MainWindow(bool manager, QWidget *parent = 0);
+    MainWindow(bool manager, QWidget *parent = nullptr);
+
+//    ~MainWindow();
     void initConnection();
     void initshortcut();
     /**
@@ -99,7 +101,7 @@ private:
     SlideShowPanel *m_slidePanel;
     bool m_picInUSB = false;
     bool               m_flag = false;
-    Dbusclient *m_dbus;
+//    Dbusclient *m_dbus{nullptr};//20201012屏蔽掉dbus
     QSharedMemory m_sharememory;
 };
 

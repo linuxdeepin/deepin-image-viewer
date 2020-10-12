@@ -41,7 +41,6 @@ const QString ICON_IMPORT_PHOTO_LIGHT = ":/assets/light/images/icon_import_photo
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFile, QWidget *parent)
     : ThemeWidget(darkFile, lightFile, parent)
 {
-    m_picString = "";
 #ifdef OPENACCESSIBLE
     setObjectName(Thumbnail_Widget);
     setAccessibleName(Thumbnail_Widget);

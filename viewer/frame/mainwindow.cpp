@@ -151,6 +151,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     });
 }
 
+
 void MainWindow::initshortcut()
 {
     QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
@@ -179,7 +180,7 @@ void MainWindow::initshortcut()
 
 void MainWindow::initdbus()
 {
-    m_dbus = new Dbusclient();
+//    m_dbus = new Dbusclient();
 }
 
 

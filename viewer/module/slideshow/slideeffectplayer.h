@@ -26,8 +26,8 @@ class CacheThread : public QThread
 {
     Q_OBJECT
 public:
-    CacheThread(const QString &path)
-        : QThread(NULL)
+    explicit CacheThread(const QString &path)
+        : QThread(nullptr)
         , m_path(path) {}
 
 signals:
@@ -49,13 +49,13 @@ class SlideEffectPlayer : public QObject
 {
     Q_OBJECT
 public:
-    SlideEffectPlayer(QObject *parent = 0);
+    explicit SlideEffectPlayer(QObject *parent = nullptr);
     ~SlideEffectPlayer();
     void setFrameSize(int width, int height);
-    QSize frameSize() const
-    {
-        return QSize(m_w, m_h);
-    }
+//    QSize frameSize() const
+//    {
+//        return QSize(m_w, m_h);
+//    }
     // call setCurrentImage later
     void setImagePaths(const QStringList &paths);
     /**

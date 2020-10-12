@@ -496,8 +496,7 @@ void SlideEffectPlayer::cacheNextBackUp()
             //m_cacheImages.insert(curpath, img);
         }
         if (m_paths.size() > 1) {
-            QString curpath = m_paths[1];
-            if (m_cacheImages.value(curpath).isNull()) {
+            if (m_cacheImages.value(m_paths[1]).isNull()) {
                 //QImage img = utils::image::getRotatedImage(curpath);
                 //m_cacheImages.insert(curpath, img);
             }
@@ -596,10 +595,10 @@ void SlideEffectPlayer::stop()
     {
         m_effect->clearimagemap();
     }
-    for(auto image:m_cacheImages)
-    {
-        image=QImage();
-    }
+//    for(auto image:m_cacheImages)
+//    {
+//        image=QImage();
+//    }
     m_tid = 0;
     m_running = false;
     m_cacheImages.clear();

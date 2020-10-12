@@ -12,14 +12,14 @@
 #include <QSvgRenderer>
 QT_BEGIN_NAMESPACE
 
-#define Q_DECLARE_PUBLIC(Class)                                    \
+#define Q_DECLARE_PUBLIC1(Class)                                    \
     inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
     inline const Class* q_func() const { return static_cast<const Class *>(q_ptr); } \
 
 class ImageSvgItemPrivate : public QGraphicsItemPrivate
 {
 public:
-    Q_DECLARE_PUBLIC(ImageSvgItem)
+    Q_DECLARE_PUBLIC1(ImageSvgItem)
 
     ImageSvgItemPrivate()
         : renderer(nullptr)
@@ -211,9 +211,9 @@ void ImageSvgItem::setCachingEnabled(bool caching)
     setCacheMode(caching ? QGraphicsItem::DeviceCoordinateCache : QGraphicsItem::NoCache);
 }
 
-bool ImageSvgItem::isCachingEnabled() const
-{
-    return cacheMode() != QGraphicsItem::NoCache;
-}
+//bool ImageSvgItem::isCachingEnabled() const
+//{
+//    return cacheMode() != QGraphicsItem::NoCache;
+//}
 
 #endif  // QT_NO_WIDGETS

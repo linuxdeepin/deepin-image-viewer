@@ -29,7 +29,7 @@
 class RawIOHandlerPrivate
 {
 public:
-    RawIOHandlerPrivate(RawIOHandler *qq):
+    explicit RawIOHandlerPrivate(RawIOHandler *qq):
         raw(nullptr),
         stream(nullptr),
         q(qq)

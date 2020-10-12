@@ -47,7 +47,7 @@ QString getMountPoint(const QString& record)
 
 }  // namespace
 
-VolumeMonitor *VolumeMonitor::m_monitor = NULL;
+VolumeMonitor *VolumeMonitor::m_monitor = nullptr;
 VolumeMonitor *VolumeMonitor::instance()
 {
     if (! m_monitor) {

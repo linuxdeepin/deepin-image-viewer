@@ -41,11 +41,11 @@ private slots:
     void onFileChanged();
 
 private:
-    VolumeMonitor(QObject *parent = 0);
+    explicit VolumeMonitor(QObject *parent = nullptr);
 
 private:
     int m_fileKde = -1;
-    QSocketNotifier* m_socketNotifier;
+    QSocketNotifier* m_socketNotifier{nullptr};
     QSet<QString> m_fileContentSet;
     static VolumeMonitor *m_monitor;
 };

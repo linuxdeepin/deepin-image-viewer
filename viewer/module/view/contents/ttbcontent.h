@@ -65,7 +65,7 @@ class ImageItem : public DLabel
 {
     Q_OBJECT
 public:
-    ImageItem(int index = 0, QString path = NULL, char *imageType = NULL, QWidget *parent = 0);
+    ImageItem(int index = 0, QString path = nullptr, char *imageType = nullptr, QWidget *parent = nullptr);
 
     /**
      * @brief setIndexNow   设置当前显示图片索引位置
@@ -77,10 +77,10 @@ public:
 
     }
 
-    void setPic(QImage image)
-    {
-        _image->setPixmap(QPixmap::fromImage(image.scaled(60, 50)));
-    }
+//    void setPic(QImage image)
+//    {
+//        _image->setPixmap(QPixmap::fromImage(image.scaled(60, 50)));
+//    }
 
     /**
      * @brief updatePic     更新图元缩略图
@@ -461,8 +461,8 @@ class MyImageListWidget : public DWidget
 {
     Q_OBJECT
 public:
-    MyImageListWidget(QWidget *parent = nullptr);
-    bool ifMouseLeftPressed();
+    explicit MyImageListWidget(QWidget *parent = nullptr);
+//    bool ifMouseLeftPressed();
     void setObj(QObject *obj);
     /**
      * @brief UpdateThumbnail

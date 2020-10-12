@@ -34,12 +34,12 @@
 #include <QMutex>
 #include <QDebug>
 
-struct DBAlbumInfo {
-    QString name;
-    int count;
-    QDateTime beginTime;
-    QDateTime endTime;
-};
+//struct DBAlbumInfo {
+//    QString name;
+//    int count;
+//    QDateTime beginTime;
+//    QDateTime endTime;
+//};
 
 struct DBImgInfo {
     QString filePath;

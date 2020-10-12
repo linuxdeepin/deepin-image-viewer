@@ -40,7 +40,7 @@ class ImageViewAdaptor: public QDBusAbstractAdaptor
                 "  </interface>\n"
                 "")
 public:
-    ImageViewAdaptor(QObject *parent);
+    explicit ImageViewAdaptor(QObject *parent);
     virtual ~ImageViewAdaptor();
 
 public: // PROPERTIES

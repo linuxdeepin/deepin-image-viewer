@@ -88,7 +88,7 @@ public:
     * @brief refreshPixmap  点击缩略图刷新图片
     * @param strPath        缩略图路径
     */
-    void refreshPixmap(QString strPath);
+//    void refreshPixmap(QString strPath);
 
 signals:
     void updateCollectButton();
@@ -356,10 +356,10 @@ private:
      */
     void disconnectTTbc();
 
-    /**
-     * @brief reConnectTTbc     重新连接TTBC工具栏所有信号
-     */
-    void reConnectTTbc();
+//    /**
+//     * @brief reConnectTTbc     重新连接TTBC工具栏所有信号
+//     */
+//    void reConnectTTbc();
     /**
      * @brief GetPixmapStatus
      * whether the picture is loaded successfully
@@ -399,15 +399,15 @@ private slots:
     void slotExitFullScreen();
     //void slotLoadSlideshow(bool bflag);
 
-    /**
-     * @brief eatImageDirIterator   迭代获取当前文件夹所有图片信息
-     */
-    void eatImageDirIterator();
+//    /**
+//     * @brief eatImageDirIterator   迭代获取当前文件夹所有图片信息
+//     */
+//    void eatImageDirIterator();
 
-    /**
-     * @brief newEatImageDirIterator    备份初始信息读取代码
-     */
-    void newEatImageDirIterator();
+//    /**
+//     * @brief newEatImageDirIterator    备份初始信息读取代码
+//     */
+//    void newEatImageDirIterator();
 
     /**
      * @brief eatImageDirIteratorThread 线程函数，遍历选中文件夹获取所有图片信息

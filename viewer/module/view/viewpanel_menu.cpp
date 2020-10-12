@@ -109,38 +109,38 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
     m_menu->addAction(ac);
 }
 
-#ifndef LITE_DIV
-DMenu *ViewPanel::createAlbumMenu()
-{
-    if (m_infos.isEmpty() || m_current == m_infos.constEnd() || !m_vinfo.inDatabase) {
-        return nullptr;
-    }
+//#ifndef LITE_DIV
+//DMenu *ViewPanel::createAlbumMenu()
+//{
+//    if (m_infos.isEmpty() || m_current == m_infos.constEnd() || !m_vinfo.inDatabase) {
+//        return nullptr;
+//    }
 
-    DMenu *am = new DMenu(tr("Add to album"));
-    QStringList albums = DBManager::instance()->getAllAlbumNames();
-    albums.removeAll(FAVORITES_ALBUM_NAME);
+//    DMenu *am = new DMenu(tr("Add to album"));
+//    QStringList albums = DBManager::instance()->getAllAlbumNames();
+//    albums.removeAll(FAVORITES_ALBUM_NAME);
 
-    QAction *ac = new QAction(am);
-    ac->setProperty("MenuID", IdAddToAlbum);
-    ac->setText(tr("Add to new album"));
-    ac->setData(QString("Add to new album"));
-    am->addAction(ac);
-    am->addSeparator();
-    for (QString album : albums) {
-        const QStringList paths = DBManager::instance()->getPathsByAlbum(album);
-        if (!paths.contains(m_current->filePath)) {
-            QAction *ac = new QAction(am);
-            ac->setProperty("MenuID", IdAddToAlbum);
-            ac->setText(
-                fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
-            ac->setData(album);
-            am->addAction(ac);
-        }
-    }
+//    QAction *ac = new QAction(am);
+//    ac->setProperty("MenuID", IdAddToAlbum);
+//    ac->setText(tr("Add to new album"));
+//    ac->setData(QString("Add to new album"));
+//    am->addAction(ac);
+//    am->addSeparator();
+//    for (QString album : albums) {
+//        const QStringList paths = DBManager::instance()->getPathsByAlbum(album);
+//        if (!paths.contains(m_current->filePath)) {
+//            QAction *ac = new QAction(am);
+//            ac->setProperty("MenuID", IdAddToAlbum);
+//            ac->setText(
+//                fontMetrics().elidedText(QString(album).replace("&", "&&"), Qt::ElideMiddle, 200));
+//            ac->setData(album);
+//            am->addAction(ac);
+//        }
+//    }
 
-    return am;
-}
-#endif
+//    return am;
+//}
+//#endif
 
 void ViewPanel::onMenuItemClicked(QAction *action)
 {

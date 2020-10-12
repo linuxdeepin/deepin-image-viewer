@@ -84,22 +84,22 @@ static MetaData MetaDataDetails[] = {
     {"", ""}
 };
 
-static int maxTitleWidth()
-{
-    int maxWidth = 0;
-    for (const MetaData *i = MetaDataBasics; !i->key.isEmpty(); ++i) {
-        maxWidth = qMax(maxWidth + 1,
-                        utils::base::stringWidth(
-                            DFontSizeManager::instance()->get(DFontSizeManager::T8), i->name));
-    }
-    for (const MetaData *i = MetaDataDetails; !i->key.isEmpty(); ++i) {
-        maxWidth = qMax(maxWidth + 1,
-                        utils::base::stringWidth(
-                            DFontSizeManager::instance()->get(DFontSizeManager::T8), i->name));
-    }
+//static int maxTitleWidth()
+//{
+//    int maxWidth = 0;
+//    for (const MetaData *i = MetaDataBasics; !i->key.isEmpty(); ++i) {
+//        maxWidth = qMax(maxWidth + 1,
+//                        utils::base::stringWidth(
+//                            DFontSizeManager::instance()->get(DFontSizeManager::T8), i->name));
+//    }
+//    for (const MetaData *i = MetaDataDetails; !i->key.isEmpty(); ++i) {
+//        maxWidth = qMax(maxWidth + 1,
+//                        utils::base::stringWidth(
+//                            DFontSizeManager::instance()->get(DFontSizeManager::T8), i->name));
+//    }
 
-    return maxWidth;
-}
+//    return maxWidth;
+//}
 
 }  // namespace
 
@@ -155,7 +155,9 @@ protected:
 ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightStyle,
                                  QWidget *parent)
     : QFrame(parent)
-    , m_maxTitleWidth(maxTitleWidth())
+    ,m_maxFieldWidth(0)
+    ,m_currentFontSize(0)
+//    , m_maxTitleWidth(maxTitleWidth())
 {
 #ifdef OPENACCESSIBLE
     setObjectName(IMAGE_WIDGET);
@@ -530,17 +532,17 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
     });
 }
 
-void ImageInfoWidget::onExpandChanged(const bool &e)
-{
-    DArrowLineDrawer *expand = qobject_cast<DArrowLineDrawer *>(sender());
-    if (expand) {
-        if (e) {
-            expand->setSeparatorVisible(false);
-        } else {
-            QTimer::singleShot(200, expand, [ = ] { expand->setSeparatorVisible(true); });
-        }
-    }
-}
+//void ImageInfoWidget::onExpandChanged(const bool &e)
+//{
+//    DArrowLineDrawer *expand = qobject_cast<DArrowLineDrawer *>(sender());
+//    if (expand) {
+//        if (e) {
+//            expand->setSeparatorVisible(false);
+//        } else {
+//            QTimer::singleShot(200, expand, [ = ] { expand->setSeparatorVisible(true); });
+//        }
+//    }
+//}
 
 int ImageInfoWidget::contentHeight() const
 {

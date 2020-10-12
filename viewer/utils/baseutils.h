@@ -142,7 +142,7 @@ int         stringHeight(const QFont &f, const QString &str);
 
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
 QString     hash(const QString &str);
-QString     wrapStr(const QString &str, const QFont &font, int maxWidth);
+//QString     wrapStr(const QString &str, const QFont &font, int maxWidth);
 QString     SpliteText(const QString& text,const QFont &font,int nLabelSize,bool bReturn = false);
 QString     sizeToHuman(const qlonglong bytes);
 QString     timeToString(const QDateTime &time, bool normalFormat = false);

@@ -366,20 +366,20 @@ QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
     return pathsList;
 }
 
-void ViewPanel::refreshPixmap(QString strPath)
-{
-    QMutexLocker locker(&dApp->getRwLock());
-    if (strPath.isEmpty()) {
-        return;
-    }
-    //dApp->getRwLock().lockForWrite();
-    QPixmap pixmap(strPath);
-    dApp->m_imagemap.insert(strPath, pixmap.scaledToHeight(100,  Qt::FastTransformation));
-   // dApp->getRwLock().unlock();
+//void ViewPanel::refreshPixmap(QString strPath)
+//{
+//    QMutexLocker locker(&dApp->getRwLock());
+//    if (strPath.isEmpty()) {
+//        return;
+//    }
+//    //dApp->getRwLock().lockForWrite();
+//    QPixmap pixmap(strPath);
+//    dApp->m_imagemap.insert(strPath, pixmap.scaledToHeight(100,  Qt::FastTransformation));
+//   // dApp->getRwLock().unlock();
 
-    emit dApp->finishLoadSlot(strPath);
+//    emit dApp->finishLoadSlot(strPath);
 
-}
+//}
 
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
 {
@@ -474,81 +474,80 @@ void ViewPanel::disconnectTTbc()
     }
 }
 
-void ViewPanel::reConnectTTbc()
-{
-    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
-    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
-    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
-    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
-    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::UniqueConnection);
+//void ViewPanel::reConnectTTbc()
+//{
+//    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::UniqueConnection);
 
-    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel, Qt::UniqueConnection);
-    connect(this, &ViewPanel::viewImageFrom, ttbc,
-    [ = ](const QString & dir) {
-        ttbc->setCurrentDir(dir);
-    }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::viewImageFrom, ttbc,
+//    [ = ](const QString & dir) {
+//        ttbc->setCurrentDir(dir);
+//    }, Qt::UniqueConnection);
 
-    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::removed, this, [ = ] {
-        if (m_dtr->isActive()) {
-            return ;
-        }
-        m_dtr->start();
-        if (m_vinfo.inDatabase)
-        {
-            popupDelDialog(m_infos.at(m_current).filePath);
-        } else
-        {
-            const QString path = m_infos.at(m_current).filePath;
-            QFile file(path);
-            if (!file.exists()) {
-                return;
-            }
+//    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::removed, this, [ = ] {
+//        if (m_dtr->isActive()) {
+//            return ;
+//        }
+//        m_dtr->start();
+//        if (m_vinfo.inDatabase)
+//        {
+//            popupDelDialog(m_infos.at(m_current).filePath);
+//        } else
+//        {
+//            QFile file(m_infos.at(m_current).filePath);
+//            if (!file.exists()) {
+//                return;
+//            }
 
-            if (removeCurrentImage()) {
-                DDesktopServices::trash(path);
-                emit dApp->signalM->picDelete();
-                ttbc->setIsConnectDel(true);
-                m_bAllowDel = true;
-                ttbc->disableDelAct(true);
-            }
-        }
-    }, Qt::UniqueConnection);
+//            if (removeCurrentImage()) {
+//                DDesktopServices::trash(m_infos.at(m_current).filePath);
+//                emit dApp->signalM->picDelete();
+//                ttbc->setIsConnectDel(true);
+//                m_bAllowDel = true;
+//                ttbc->disableDelAct(true);
+//            }
+//        }
+//    }, Qt::UniqueConnection);
 
-    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
-        if (fitWindow) {
-            m_viewB->fitWindow_btnclicked();
-        } else {
-            m_viewB->fitImage();
-        }
-        m_viewB->titleBarControl();
-    }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
+//        if (fitWindow) {
+//            m_viewB->fitWindow_btnclicked();
+//        } else {
+//            m_viewB->fitImage();
+//        }
+//        m_viewB->titleBarControl();
+//    }, Qt::UniqueConnection);
 
-    connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
-    connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
-    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
-            &TTBContent::updateCollectButton, Qt::UniqueConnection);
-    connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
-            &TTBContent::updateCollectButton, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
-        this->showPrevious();
-    }, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
-        this->showNext();
-    }, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::imageClicked, this,
-    [ = ](int index, int addIndex) {
-        this->showImage(index, addIndex);
-    }, Qt::UniqueConnection);
-    /*lmh0731*/
-    connect(ttbc, &TTBContent::imageMoveEnded, this,
-                    [ = ](int index, int addIndex,bool iRet) {
-        this->m_bIsOpenPicture=iRet;
-        this->showImage(index, addIndex);
-    }, Qt::UniqueConnection);
-}
+//    connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
+//    connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
+//    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
+//            &TTBContent::updateCollectButton, Qt::UniqueConnection);
+//    connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
+//            &TTBContent::updateCollectButton, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
+//        this->showPrevious();
+//    }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
+//        this->showNext();
+//    }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::imageClicked, this,
+//    [ = ](int index, int addIndex) {
+//        this->showImage(index, addIndex);
+//    }, Qt::UniqueConnection);
+//    /*lmh0731*/
+//    connect(ttbc, &TTBContent::imageMoveEnded, this,
+//                    [ = ](int index, int addIndex,bool iRet) {
+//        this->m_bIsOpenPicture=iRet;
+//        this->showImage(index, addIndex);
+//    }, Qt::UniqueConnection);
+//}
 
 bool ViewPanel::GetPixmapStatus(QString filename)
 {
@@ -724,131 +723,131 @@ bool compareByString(const DBImgInfo &str1, const DBImgInfo &str2)
 }
 
 // 将迭代器中的数据初始化给m_infos
-void ViewPanel::eatImageDirIterator()
-{
-    if (!m_imageDirIterator)
-        return;
+//void ViewPanel::eatImageDirIterator()
+//{
+//    if (!m_imageDirIterator)
+//        return;
 
-    const QString currentImageFile = m_infos.at(m_current).filePath;
-    DBImgInfo infoNow = m_infos.at(m_current);
-    //m_infos.clear();
+//    const QString currentImageFile = m_infos.at(m_current).filePath;
+//    DBImgInfo infoNow = m_infos.at(m_current);
+//    //m_infos.clear();
 
-    //设置初始化加载图片数量
-    int nCurrentNum = 0;
-    while (m_imageDirIterator->hasNext()) {
-        //判断是否达到初始化加载张数
-        if (nCurrentNum >= LOAD_NUMBER) {
-            //break;
-        }
+//    //设置初始化加载图片数量
+//    int nCurrentNum = 0;
+//    while (m_imageDirIterator->hasNext()) {
+//        //判断是否达到初始化加载张数
+//        if (nCurrentNum >= LOAD_NUMBER) {
+//            //break;
+//        }
 
-        DBImgInfo info;
+//        DBImgInfo info;
 
-        info.filePath = m_imageDirIterator->next();
-        info.fileName = m_imageDirIterator->fileInfo().fileName();
+//        info.filePath = m_imageDirIterator->next();
+//        info.fileName = m_imageDirIterator->fileInfo().fileName();
 
-        QMimeDatabase db;
-        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
-        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
-        //qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName()
-        //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
-        QString str = m_imageDirIterator->fileInfo().suffix();
-        //        if (str.isEmpty()) {
-        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                if (!m_infos.contains(info)) {
-                    m_infos.append(info);
-                }
-            } else if (str.isEmpty()) {
-                if (!m_infos.contains(info)) {
-                    m_infos.append(info);
-                }
-            }
+//        QMimeDatabase db;
+//        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
+//        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
+//        //qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName()
+//        //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
+//        QString str = m_imageDirIterator->fileInfo().suffix();
+//        //        if (str.isEmpty()) {
+//        if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+//                mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+//                if (!m_infos.contains(info)) {
+//                    m_infos.append(info);
+//                }
+//            } else if (str.isEmpty()) {
+//                if (!m_infos.contains(info)) {
+//                    m_infos.append(info);
+//                }
+//            }
 
-        }
-        //        } else {
-        //            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-        //                if (utils::image::supportedImageFormats().contains("*." + str,
-        //                Qt::CaseInsensitive)) {
-        //                    m_infos.append(info);
-        //                }
-        //            }
-        //        }
-        nCurrentNum++;
-    }
+//        }
+//        //        } else {
+//        //            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//        //                if (utils::image::supportedImageFormats().contains("*." + str,
+//        //                Qt::CaseInsensitive)) {
+//        //                    m_infos.append(info);
+//        //                }
+//        //            }
+//        //        }
+//        nCurrentNum++;
+//    }
 
-    m_imageDirIterator.reset(nullptr);
-    //std::sort(m_infos.begin(), m_infos.end(), compareByString);
+//    m_imageDirIterator.reset(nullptr);
+//    //std::sort(m_infos.begin(), m_infos.end(), compareByString);
 
-    auto cbegin = 0;
-    m_current = cbegin;
+//    auto cbegin = 0;
+//    m_current = cbegin;
 
-    while (cbegin < m_infos.size()) {
-        if (m_infos.at(cbegin).filePath == currentImageFile) {
-            m_current = cbegin;
-            break;
-        }
+//    while (cbegin < m_infos.size()) {
+//        if (m_infos.at(cbegin).filePath == currentImageFile) {
+//            m_current = cbegin;
+//            break;
+//        }
 
-        ++cbegin;
-    }
-}
+//        ++cbegin;
+//    }
+//}
 
-void ViewPanel::newEatImageDirIterator()
-{
-    if (!m_imageDirIterator)
-        return;
+//void ViewPanel::newEatImageDirIterator()
+//{
+//    if (!m_imageDirIterator)
+//        return;
 
-    const QString currentImageFile = m_infos.at(m_current).filePath;
-    m_infos.clear();
+//    const QString currentImageFile = m_infos.at(m_current).filePath;
+//    m_infos.clear();
 
-    while (m_imageDirIterator->hasNext()) {
-        DBImgInfo info;
+//    while (m_imageDirIterator->hasNext()) {
+//        DBImgInfo info;
 
-        info.filePath = m_imageDirIterator->next();
-        info.fileName = m_imageDirIterator->fileInfo().fileName();
+//        info.filePath = m_imageDirIterator->next();
+//        info.fileName = m_imageDirIterator->fileInfo().fileName();
 
-        QMimeDatabase db;
-        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
-        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
-        //qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName()
-        //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
-        QString str = m_imageDirIterator->fileInfo().suffix();
-        //        if (str.isEmpty()) {
-        if ("icns" != str) {
-            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
-                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                    m_infos.append(info);
-                } else if (str.isEmpty()) {
-                    m_infos.append(info);
-                }
-            }
-        }
-        //        } else {
-        //            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-        //                if (utils::image::supportedImageFormats().contains("*." + str,
-        //                Qt::CaseInsensitive)) {
-        //                    m_infos.append(info);
-        //                }
-        //            }
-        //        }
-    }
+//        QMimeDatabase db;
+//        QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
+//        QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
+//        //qDebug() << info.filePath << "&&&&&&&&&&&&&&" << m_imageDirIterator->fileInfo().fileName()
+//        //<< m_imageDirIterator->fileInfo().filePath() << mt.name() << "mt1" << mt1.name();
+//        QString str = m_imageDirIterator->fileInfo().suffix();
+//        //        if (str.isEmpty()) {
+//        if ("icns" != str) {
+//            if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
+//                    mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//                if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
+//                    m_infos.append(info);
+//                } else if (str.isEmpty()) {
+//                    m_infos.append(info);
+//                }
+//            }
+//        }
+//        //        } else {
+//        //            if (mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
+//        //                if (utils::image::supportedImageFormats().contains("*." + str,
+//        //                Qt::CaseInsensitive)) {
+//        //                    m_infos.append(info);
+//        //                }
+//        //            }
+//        //        }
+//    }
 
-    //m_imageDirIterator.reset(nullptr);
-    std::sort(m_infos.begin(), m_infos.end(), compareByString);
+//    //m_imageDirIterator.reset(nullptr);
+//    std::sort(m_infos.begin(), m_infos.end(), compareByString);
 
-    auto cbegin = 0;
-    m_current = cbegin;
+//    auto cbegin = 0;
+//    m_current = cbegin;
 
-    while (cbegin < m_infos.size()) {
-        if (m_infos.at(cbegin).filePath == currentImageFile) {
-            m_current = cbegin;
-            break;
-        }
+//    while (cbegin < m_infos.size()) {
+//        if (m_infos.at(cbegin).filePath == currentImageFile) {
+//            m_current = cbegin;
+//            break;
+//        }
 
-        ++cbegin;
-    }
-}
+//        ++cbegin;
+//    }
+//}
 
 void ViewPanel::eatImageDirIteratorThread()
 {

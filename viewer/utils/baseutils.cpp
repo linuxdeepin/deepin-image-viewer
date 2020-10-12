@@ -331,30 +331,30 @@ bool trashFile(const QString &file)
 //    return v;
 //}
 
-/*!
- * \brief wrapStr
- * Split info string by Space
- * \param str
- * \param font
- * \param maxWidth
- * \return
- */
-QString wrapStr(const QString &str, const QFont &font, int maxWidth)
-{
-    QFontMetrics fm(font);
-    QString ns;
-    QString ss;
-    for (int i = 0; i < str.length(); i ++) {
-        if (/*str.at(i).isSpace()||*/ fm.boundingRect(ss).width() > maxWidth) {
-            ss = QString();
-            ns += "\n";
-        }
-        ns += str.at(i);
-        ss += str.at(i);
-    }
-    return ns;
-//    return str;
-}
+///*!
+// * \brief wrapStr
+// * Split info string by Space
+// * \param str
+// * \param font
+// * \param maxWidth
+// * \return
+// */
+//QString wrapStr(const QString &str, const QFont &font, int maxWidth)
+//{
+//    QFontMetrics fm(font);
+//    QString ns;
+//    QString ss;
+//    for (int i = 0; i < str.length(); i ++) {
+//        if (/*str.at(i).isSpace()||*/ fm.boundingRect(ss).width() > maxWidth) {
+//            ss = QString();
+//            ns += "\n";
+//        }
+//        ns += str.at(i);
+//        ss += str.at(i);
+//    }
+//    return ns;
+////    return str;
+//}
 
 
 QString SpliteText(const QString &text, const QFont &font, int nLabelSize,bool bReturn)

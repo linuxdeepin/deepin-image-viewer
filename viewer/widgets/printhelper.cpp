@@ -25,55 +25,55 @@ PrintHelper::PrintHelper(QObject *parent)
 
 }
 
-static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)
-{
-    QAction *last_action = nullptr;
+//static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)
+//{
+//    QAction *last_action = nullptr;
 
-    for (QAction *action : bar->actions()) {
-        const QString &text = action->text();
+//    for (QAction *action : bar->actions()) {
+//        const QString &text = action->text();
 
-        if (text.isEmpty())
-            continue;
+//        if (text.isEmpty())
+//            continue;
 
-        // 防止被lupdate扫描出来
-        const char *context = "QPrintPreviewDialog";
-        const char *print = "Print";
+//        // 防止被lupdate扫描出来
+//        const char *context = "QPrintPreviewDialog";
+//        const char *print = "Print";
 
-        const QMap<QString, QString> map {
-            {QCoreApplication::translate(context, "Next page"), QStringLiteral("go-next")},
-            {QCoreApplication::translate(context, "Previous page"), QStringLiteral("go-previous")},
-            {QCoreApplication::translate(context, "First page"), QStringLiteral("go-first")},
-            {QCoreApplication::translate(context, "Last page"), QStringLiteral("go-last")},
-            {QCoreApplication::translate(context, "Fit width"), QStringLiteral("fit-width")},
-            {QCoreApplication::translate(context, "Fit page"), QStringLiteral("fit-page")},
-            {QCoreApplication::translate(context, "Zoom in"), QStringLiteral("zoom-in")},
-            {QCoreApplication::translate(context, "Zoom out"), QStringLiteral("zoom-out")},
-            {QCoreApplication::translate(context, "Portrait"), QStringLiteral("layout-portrait")},
-            {QCoreApplication::translate(context, "Landscape"), QStringLiteral("layout-landscape")},
-            {QCoreApplication::translate(context, "Show single page"), QStringLiteral("view-page-one")},
-            {QCoreApplication::translate(context, "Show facing pages"), QStringLiteral("view-page-sided")},
-            {QCoreApplication::translate(context, "Show overview of all pages"), QStringLiteral("view-page-multi")},
-            {QCoreApplication::translate(context, print), QStringLiteral("print")},
-            {QCoreApplication::translate(context, "Page setup"), QStringLiteral("page-setup")}
-        };
+//        const QMap<QString, QString> map {
+//            {QCoreApplication::translate(context, "Next page"), QStringLiteral("go-next")},
+//            {QCoreApplication::translate(context, "Previous page"), QStringLiteral("go-previous")},
+//            {QCoreApplication::translate(context, "First page"), QStringLiteral("go-first")},
+//            {QCoreApplication::translate(context, "Last page"), QStringLiteral("go-last")},
+//            {QCoreApplication::translate(context, "Fit width"), QStringLiteral("fit-width")},
+//            {QCoreApplication::translate(context, "Fit page"), QStringLiteral("fit-page")},
+//            {QCoreApplication::translate(context, "Zoom in"), QStringLiteral("zoom-in")},
+//            {QCoreApplication::translate(context, "Zoom out"), QStringLiteral("zoom-out")},
+//            {QCoreApplication::translate(context, "Portrait"), QStringLiteral("layout-portrait")},
+//            {QCoreApplication::translate(context, "Landscape"), QStringLiteral("layout-landscape")},
+//            {QCoreApplication::translate(context, "Show single page"), QStringLiteral("view-page-one")},
+//            {QCoreApplication::translate(context, "Show facing pages"), QStringLiteral("view-page-sided")},
+//            {QCoreApplication::translate(context, "Show overview of all pages"), QStringLiteral("view-page-multi")},
+//            {QCoreApplication::translate(context, print), QStringLiteral("print")},
+//            {QCoreApplication::translate(context, "Page setup"), QStringLiteral("page-setup")}
+//        };
 
 
-        const QString &icon_name = map.value(action->text());
+//        const QString &icon_name = map.value(action->text());
 
-        if (icon_name.isEmpty())
-            continue;
+//        if (icon_name.isEmpty())
+//            continue;
 
-        if (pageSetupAction && icon_name == "page-setup") {
-            *pageSetupAction = action;
-        }
+//        if (pageSetupAction && icon_name == "page-setup") {
+//            *pageSetupAction = action;
+//        }
 
-        QIcon icon(QStringLiteral(":/qt-project.org/dialogs/assets/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
-//        action->setIcon(icon);
-        last_action = action;
-    }
+//        QIcon icon(QStringLiteral(":/qt-project.org/dialogs/assets/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
+////        action->setIcon(icon);
+//        last_action = action;
+//    }
 
-    return last_action;
-}
+//    return last_action;
+//}
 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {

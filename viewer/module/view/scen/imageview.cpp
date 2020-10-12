@@ -1395,7 +1395,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
          }else {
             endvalue = 0;
          }
-         if(!m_bRoate) endvalue = 0;
+//         if(!m_bRoate) endvalue = 0;
          m_endvalue=endvalue;
          qreal startvalue;
          if(abs(m_rotateAngelTouch-endvalue)>180)

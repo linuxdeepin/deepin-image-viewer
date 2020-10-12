@@ -48,7 +48,7 @@ public:
     int contentHeight() const;
 //    QSize sizeHint() const override;
 public slots:
-    void onExpandChanged(const bool &e);
+//    void onExpandChanged(const bool &e);
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
@@ -64,7 +64,7 @@ private:
 
 private:
     int m_updateTid = 0;
-    int m_maxTitleWidth;  //For align colon
+//    int m_maxTitleWidth;  //For align colon
     int m_maxFieldWidth;
     int m_currentFontSize; //LMH0609上次显示的字体大小
     bool m_isBaseInfo = false;

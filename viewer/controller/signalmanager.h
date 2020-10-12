@@ -26,22 +26,22 @@ class SignalManager : public QObject
     Q_OBJECT
 public:
     static SignalManager *instance();
-
     // For view images
     struct ViewInfo {
         ModulePanel *lastPanel {nullptr};  // For back to the last panel
         int viewMainWindowID = 0;
         bool fullScreen = false;
         bool slideShow = false;
-#ifndef LITE_DIV
-        bool inDatabase = true;
-#else
+    //#ifndef LITE_DIV
+    //        bool inDatabase = true;
+    //#else
         static constexpr bool inDatabase = false;
-#endif
+    //#endif
         QString album = QString();
         QString path;                       // Specific current open one
         QStringList paths = QStringList();  // Limit the view range
     };
+
 
 signals:
     void enableMainMenu(bool enable);

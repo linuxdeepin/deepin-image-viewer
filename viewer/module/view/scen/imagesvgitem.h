@@ -26,7 +26,7 @@ class ImageSvgItem : public QGraphicsObject
     Q_PROPERTY(QSize maximumCacheSize READ maximumCacheSize WRITE setMaximumCacheSize)
 
 public:
-    ImageSvgItem(QGraphicsItem *parentItem = nullptr);
+    explicit ImageSvgItem(QGraphicsItem *parentItem = nullptr);
     ImageSvgItem(const QString &fileName, QGraphicsItem *parentItem = nullptr);
     void setSharedRenderer(QSvgRenderer *renderer);
     QSvgRenderer *renderer() const;
@@ -35,7 +35,7 @@ public:
     QString elementId() const;
 
     void setCachingEnabled(bool);
-    bool isCachingEnabled() const;
+//    bool isCachingEnabled() const;
 
     void setMaximumCacheSize(const QSize &size);
     QSize maximumCacheSize() const;

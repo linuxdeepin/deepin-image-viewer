@@ -32,7 +32,7 @@ public:
     { return "com.deepin.Draw"; }
 
 public:
-    Dbusclient(QObject *parent = nullptr);
+    explicit Dbusclient(QObject *parent = nullptr);
     ~Dbusclient();
 
 

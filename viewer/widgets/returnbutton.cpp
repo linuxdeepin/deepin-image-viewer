@@ -206,7 +206,7 @@ void ReturnButton::paintEvent(QPaintEvent *e)
     QPainter painter(this);
 
     QMargins m = contentsMargins();
-    int ph = 0;
+
     qreal ration = this->devicePixelRatioF();
     QIcon icon(getPixmap());
 
@@ -218,19 +218,19 @@ void ReturnButton::paintEvent(QPaintEvent *e)
 
     if (! pixmap.isNull()) {
         if (pixWidth > width() || pixHeight > height()) {
-            ph = height() - m.top() - m.bottom();
+            int ph = height() - m.top() - m.bottom();
             const QRect pr(m.left(), (height() - ph) / 2, ph, ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap
                                /*pixmap.scaled(pr.size(), Qt::KeepAspectRatioByExpanding)*/);
         } else {
-            ph = pixHeight;
-            const QRect pr(m.left(), (height() - ph) / 2, pixWidth, ph);
+            int ph = static_cast<int>(pixHeight);
+            const QRect pr(m.left(), (height() - ph) / 2, static_cast<int>(pixWidth), ph);
             painter.drawPixmap(QPoint(pr.x(), pr.y()), pixmap);
         }
     }
 
     QFontMetrics fm(font());
-    int maxWidth = m_maxWidth - pixWidth - 6;
+    int maxWidth = m_maxWidth - static_cast<int>(pixWidth) - 6;
     int textWidth = fm.boundingRect(m_text).width();
     QString mt;
     if (textWidth > maxWidth) {
@@ -239,7 +239,7 @@ void ReturnButton::paintEvent(QPaintEvent *e)
         mt = m_text;
     }
     textWidth = fm.boundingRect(mt).width();
-    setFixedWidth(textWidth + pixWidth + 6);
+    setFixedWidth(static_cast<int>(textWidth + pixWidth) + 6);
 
     int oldWidth = m_buttonWidth;
     m_buttonWidth = std::max(24, int(textWidth + pixWidth + 6));
@@ -247,7 +247,7 @@ void ReturnButton::paintEvent(QPaintEvent *e)
         emit returnBtnWidthChanged(m_buttonWidth);
     }
     const int th = fm.height();
-    QRect textRect = QRect(pixWidth, (height() - th) / 2 - 1, textWidth, pixHeight);
+    QRect textRect = QRect(static_cast<int>(pixWidth), (height() - th) / 2 - 1, textWidth, static_cast<int>(pixHeight));
     painter.setPen(QPen(getTextColor()));
     painter.drawText(textRect, Qt::AlignCenter, mt);
     QWidget::paintEvent(e);

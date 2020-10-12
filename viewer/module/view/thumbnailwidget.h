@@ -71,7 +71,7 @@ private:
 #endif
     QPixmap m_defaultImage;
     QColor m_inBorderColor;
-    QString m_picString;
+    QString m_picString=nullptr;
     bool m_theme;
     bool m_usb = false;
     int m_startx = 0;

@@ -70,7 +70,7 @@ class ToastPrivate: public DTK_CORE_NAMESPACE::DObjectPrivate
 
 {
 public:
-    ToastPrivate(Toast *qq);
+    explicit ToastPrivate(Toast *qq);
 
     QIcon   icon;
     QLabel  *iconLabel      = Q_NULLPTR;

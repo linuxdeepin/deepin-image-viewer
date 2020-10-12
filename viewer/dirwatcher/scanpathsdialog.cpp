@@ -70,7 +70,7 @@ ScanPathsDialog::ScanPathsDialog(QWidget *parent)
     initSinglaFileWatcher();
 }
 
-ScanPathsDialog *ScanPathsDialog::m_dialog = NULL;
+ScanPathsDialog *ScanPathsDialog::m_dialog = nullptr;
 ScanPathsDialog *ScanPathsDialog::instance()
 {
     if (! m_dialog) {
@@ -347,7 +347,7 @@ bool ScanPathsDialog::isLegalPath(const QString &path) const
 bool ScanPathsDialog::isContainByScanPaths(const QString &path) const
 {
     auto paths = scanpaths();
-    for (auto p : paths) {
+    foreach (auto p , paths) {
         if (p == path) {
             return true;
         }
@@ -383,7 +383,7 @@ void ScanPathsDialog::addToScanPaths(const QString &path)
         return;
     paths.append(path);
     QString v;
-    for (auto p : paths) {
+    foreach (auto p , paths) {
         v += p + ",";
     }
     v.remove(v.length() - 1, 1);
@@ -395,7 +395,7 @@ void ScanPathsDialog::removeFromScanPaths(const QString &path)
     auto paths = scanpaths();
     paths.removeAll(path);
     QString v;
-    for (auto p : paths) {
+    foreach (auto p , paths) {
         v += p + ",";
     }
     v.remove(v.length() - 1, 1);

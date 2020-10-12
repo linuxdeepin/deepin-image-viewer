@@ -394,7 +394,7 @@ void DBManager::checkDatabase()
     }
     //if tables not exist, create it.
     if ( ! tableExist ) {
-        QSqlQuery query(db);
+//        QSqlQuery query(db);
         // ImageTable3
         //////////////////////////////////////////////////////////////
         //PathHash           | FilePath | FileName   | Dir  | Time  //

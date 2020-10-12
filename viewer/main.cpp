@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-    Application::loadDXcbPlugin();
+//    Application::loadDXcbPlugin();
     Application a(argc, argv);
 
     a.setAttribute(Qt::AA_ForceRasterWidgets);
