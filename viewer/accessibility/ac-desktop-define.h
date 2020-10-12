@@ -11,8 +11,8 @@
 #include <QObject>
 
 // 使用宏定义，方便国际化操作
-#define INSTALLACCESSIBLEFACTORY
-#define OPENACCESSIBLE
+//#define INSTALLACCESSIBLEFACTORY
+//#define OPENACCESSIBLE
 
 #define OPEN_IMAGE QObject::tr("Open Image") // 打开图片按钮
 #define NOT_FOUND_IMAGE QObject::tr("Image file not found") // 图片未找到lab
