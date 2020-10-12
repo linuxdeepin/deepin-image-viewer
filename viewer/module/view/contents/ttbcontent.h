@@ -462,7 +462,7 @@ class MyImageListWidget : public DWidget
     Q_OBJECT
 public:
     explicit MyImageListWidget(QWidget *parent = nullptr);
-//    bool ifMouseLeftPressed();
+    bool ifMouseLeftPressed();
     void setObj(QObject *obj);
     /**
      * @brief UpdateThumbnail
