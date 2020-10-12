@@ -114,6 +114,7 @@ void ViewPanel::appendAction(int id, const QString &text, const QString &shortcu
     ac->setText(text);
     ac->setProperty("MenuID", id);
     ac->setShortcut(QKeySequence(shortcut));
+    ac->setShortcutVisibleInContextMenu(false);
     m_menu->addAction(ac);
 }
 
