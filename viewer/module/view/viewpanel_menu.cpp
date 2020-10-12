@@ -320,8 +320,9 @@ void ViewPanel::updateMenuContent()
     appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
     //修复打开不支持显示的图片在缩略图中没有，current出现超出界限崩溃问题
     if (m_current >= m_infos.size()) m_current = 0;
-    if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
-            QFileInfo(m_infos.at(m_current).filePath).isWritable())
+    QFileInfo currfileinfo(m_infos.at(m_current).filePath);
+    if (currfileinfo.isReadable() &&
+            currfileinfo.isWritable())
         appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
     appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
 #ifndef LITE_DIV
@@ -335,8 +336,8 @@ void ViewPanel::updateMenuContent()
     m_menu->addSeparator();
     /**************************************************************************/
     appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-    if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
-            QFileInfo(m_infos.at(m_current).filePath).isWritable()) {
+    if (currfileinfo.isReadable() &&
+            currfileinfo.isWritable()) {
         appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
     }
 
@@ -365,8 +366,8 @@ void ViewPanel::updateMenuContent()
                      ss("Hide navigation window", ""));
     }
     /**************************************************************************/
-    if (QFileInfo(m_infos.at(m_current).filePath).isReadable() &&
-            QFileInfo(m_infos.at(m_current).filePath).isWritable() &&
+    if (currfileinfo.isReadable() &&
+            currfileinfo.isWritable() &&
             utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
         m_menu->addSeparator();
         appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));

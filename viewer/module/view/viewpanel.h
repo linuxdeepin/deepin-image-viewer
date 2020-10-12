@@ -485,6 +485,7 @@ private:
     volatile bool m_bThreadExit = false;
     //LMH延时Remove
     QTimer *m_dtr = nullptr;
+    bool m_bOnlyOneiImg=false;
 
 };
 #endif  // VIEWPANEL_H
