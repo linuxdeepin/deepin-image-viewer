@@ -69,6 +69,7 @@ private:
 REGISTER_EFFECTS(SlideEffect_Circle)
 
 SlideEffect_Circle::SlideEffect_Circle()
+    :func(nullptr)
 {
 #ifndef NO_EASINGCURVE
     setEasingCurve(QEasingCurve::InOutQuint);

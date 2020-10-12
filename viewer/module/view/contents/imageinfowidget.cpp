@@ -156,6 +156,8 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
                                  QWidget *parent)
     : QFrame(parent)
     , m_maxTitleWidth(maxTitleWidth())
+    , m_maxFieldWidth(0)
+    , m_currentFontSize(0)
 {
 #ifdef OPENACCESSIBLE
     setObjectName(IMAGE_WIDGET);

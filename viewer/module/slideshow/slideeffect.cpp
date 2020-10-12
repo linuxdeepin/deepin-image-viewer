@@ -33,6 +33,7 @@ QHash<EffectId, std::function<SlideEffect*()> > SlideEffect::effects;
 
 
 ThreadRenderFrame::ThreadRenderFrame()
+    :m_data(SlideEffectThreadData())
 {
     setAutoDelete(true);
 }
@@ -130,6 +131,8 @@ void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
 }
 
 SlideEffect::SlideEffect()
+    :paused(false)
+    ,m_nNum(0)
 {
     duration_ms = 800;
     all_ms = 3000;

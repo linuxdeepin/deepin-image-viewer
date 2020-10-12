@@ -179,7 +179,7 @@ void MainWindow::initshortcut()
 
 void MainWindow::initdbus()
 {
-    m_dbus = new Dbusclient();
+//    m_dbus = new Dbusclient();
 }
 
 

@@ -74,6 +74,7 @@ private:
 REGISTER_EFFECTS(SlideEffect_Switcher)
 
 SlideEffect_Switcher::SlideEffect_Switcher()
+    :func(nullptr)
 {
 #ifndef NO_EASINGCURVE
     setEasingCurve(QEasingCurve::InOutQuint);
