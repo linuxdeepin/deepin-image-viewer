@@ -902,7 +902,6 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
 
 void ViewPanel::slotGetLastThumbnailPath(QString &path)
 {
-    int n = m_infos.size();
     if(m_infos.size()>1)
     path = m_infos[m_infos.size() - 1].filePath;
 }
@@ -1528,6 +1527,12 @@ bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
+    //检查是否是smb网络传输文件，如果是则不需要缩略图
+    if(vinfo.path.indexOf("smb-share:server=") != -1)
+        m_bOnlyOneiImg=true;
+    else {
+        m_bOnlyOneiImg=false;
+    }
     if(dApp->m_LoadThread && dApp->m_LoadThread->isRunning()){
         emit dApp->endThread();
         QThread::msleep(500);
@@ -1658,7 +1663,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
         dApp->m_firstLoad = true;
         //Load 100 pictures while first
-        if (!vinfo.path.isEmpty()) {
+        if (!vinfo.path.isEmpty()&&!m_bOnlyOneiImg) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
             m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
@@ -1679,6 +1684,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 }
             }
             m_current = begin;
+        }else if(m_bOnlyOneiImg){
+            m_current=0;
         }
         openImage(m_infos.at(m_current).filePath);
         //eatImageDirIterator();
@@ -1715,7 +1722,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        if (m_AllPath.size() > m_infos.size()) {
+        if (m_AllPath.size() > m_infos.size() && !m_bOnlyOneiImg) {
             QThread *loadTh = QThread::create([ = ]() {
                 eatImageDirIteratorThread();
             });

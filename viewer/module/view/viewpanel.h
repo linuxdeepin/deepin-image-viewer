@@ -514,6 +514,7 @@ private:
 
     //lmh0729判断是否判断打开图片与上一张是否相同
     bool m_bIsOpenPicture=true;
+    bool m_bOnlyOneiImg=false;
 
 
 
