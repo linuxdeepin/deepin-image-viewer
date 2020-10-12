@@ -15,6 +15,7 @@
 build*/
 include*/
 
+*.txt.user*
 *.pro.user*
 *.DS_Store
 *.qm
