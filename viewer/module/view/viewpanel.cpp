@@ -1446,20 +1446,18 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     } else
         m_infos.clear();
     int nCount = m_AllPath.count();
-    int i = 0;
     int nimgcount = 0;
     //获取前当前位置前50个文件的位置
     int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0;
     if (!bLoadAll)
         m_firstindex = nStartIndex;
-    while (i < nCount && nStartIndex < nCount && !m_bThreadExit) {
+    else
+        nStartIndex = 0;
+    while (nStartIndex < nCount && !m_bThreadExit) {
         if (!bLoadAll) {
             if (nimgcount >= First_Load_Image) {
-                m_lastindex = m_firstindex + nimgcount - 1;
                 break;
             }
-        } else {
-            nStartIndex = i;
         }
         DBImgInfo info;
         info.filePath = m_AllPath.at(nStartIndex).filePath();
@@ -1468,51 +1466,32 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
         QString str = m_AllPath.at(nStartIndex).suffix();
-        nStartIndex++;
+
         // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                 mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                // if (!m_infos.contains(info)) {
-                nimgcount++;
-                if (bLoadAll) {
-                    if (i < m_firstindex)
-                        m_infosHead.append(info);
-                    else if (i > m_lastindex)
-                        m_infosTail.append(info);
-                    m_infosAll.append(info);
-                } else {
-                    m_infos.append(info);
-                    //由于m_infos存在不可查看图片，而且幻灯片打开的时候再筛选容易造成打开幻灯片较卡
-                    if (!m_nosupportformat.contains(str, Qt::CaseSensitive))
-                        m_infoslideshow.append(info);
-                    m_infosAll.append(info);
-                }
-                //}
-            } else if (/*str.isEmpty()*/1) {
-                //if (!m_infos.contains(info)) {
-                nimgcount++;
-                if (bLoadAll) {
-                    if (i < m_firstindex)
-                        m_infosHead.append(info);
-                    else if (i > m_lastindex)
-                        m_infosTail.append(info);
-                    m_infosAll.append(info);
-                } else {
-                    m_infos.append(info);
-                    m_infosAll.append(info);
-                }
+            nimgcount++;
+            if (bLoadAll) {
+                if (nStartIndex < m_firstindex)
+                    m_infosHead.append(info);
+                else if (nStartIndex > m_lastindex)
+                    m_infosTail.append(info);
+                m_infosAll.append(info);
+            } else {
+                m_infos.append(info);
+                m_infosAll.append(info);
             }
         }else {
             //删除不是图片的文件
             m_AllPath.removeOne(info.filePath);
+            //当显示区域前面部分有非文件应该删除并将开始的索引-1;
+            if(bLoadAll && nStartIndex<m_firstindex) {
+                    m_firstindex--;
+            }
             nStartIndex--;
             nCount--;
-            i--;
         }
-
-        // }
-        i++;
+        nStartIndex++;
     }
     if (!bLoadAll) m_lastindex = m_firstindex + nimgcount - 1;
 }
