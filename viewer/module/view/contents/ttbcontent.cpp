@@ -1668,6 +1668,7 @@ void TTBContent::loadBack(DBImgInfoList infos)
         m_imgListView->update();
         m_imgList->move(m_nLastMove, m_imgList->y());
     }
+    m_imgInfos_size = m_imgInfos.size();
 }
 
 void TTBContent::loadFront(DBImgInfoList infos)
@@ -1770,6 +1771,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
         m_imgListView->update();
         m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
     }
+    m_imgInfos_size = m_imgInfos.size();
 }
 
 void TTBContent::ReInitFirstthumbnails(DBImgInfoList infos)
