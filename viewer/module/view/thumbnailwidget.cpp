@@ -195,7 +195,6 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
 void ThumbnailWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() << m_defaultImage;
     if (m_defaultImage.isNull()) {
         if (m_theme) {
             m_defaultImage = m_logo;

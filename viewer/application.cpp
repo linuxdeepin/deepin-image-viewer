@@ -434,7 +434,7 @@ Application::Application(int &argc, char **argv)
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
     setApplicationVersion(DApplication::buildVersion("20190828"));
-    installEventFilter(new GlobalEventFilter());
+    installEventFilter(new GlobalEventFilter(this));
 
 
     initChildren();
@@ -448,7 +448,7 @@ Application::Application(int &argc, char **argv)
 
 //        }
         m_imageloader = new ImageLoader(this, list, path);
-        m_LoadThread = new QThread();
+        m_LoadThread = new QThread(this);
 
         m_imageloader->moveToThread(m_LoadThread);
        //在线程中调用了quit()　会处罚finished信号，　链接此槽函数，会销毁对象，而其他地方在判断对象是否还在运行容易崩溃。

@@ -289,8 +289,8 @@ private slots:
     void OnFinishPinchAnimal();
 
 private:
-    bool m_isFitImage;
-    bool m_isFitWindow;
+    bool m_isFitImage = false;
+    bool m_isFitWindow = false;
     QColor m_backgroundColor;
     RendererType m_renderer;
     QFutureWatcher<QVariantList> m_watcher;
