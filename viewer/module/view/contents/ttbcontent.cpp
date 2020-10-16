@@ -297,22 +297,22 @@ bool MyImageListWidget::UpdateThumbnail()
                         int right = this->geometry().left() + img->geometry().right() + listLeft;
                         if (left <= middle && middle < right) {
                             //lmh0915快速向中间加载
-                            if(img->getIndexNow()-(i-2)>1)
-                            {
-                                ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+1));
-                                img2->emitClickSig(img2->getPath());
-                                m_currentImageItem=img2;
-                            }
-                            else if(img->getIndexNow()-(i-2)<-1)
-                            {
-                                ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+3));
-                                img2->emitClickSig(img2->getPath());
-                                m_currentImageItem=img2;
-                            }
-                            else {
+//                            if(img->getIndexNow()-(i-2)>1)
+//                            {
+//                                ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+1));
+//                                img2->emitClickSig(img2->getPath());
+//                                m_currentImageItem=img2;
+//                            }
+//                            else if(img->getIndexNow()-(i-2)<-1)
+//                            {
+//                                ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+3));
+//                                img2->emitClickSig(img2->getPath());
+//                                m_currentImageItem=img2;
+//                            }
+//                            else {
                                 img->emitClickSig(img->getPath());
                                 m_currentImageItem=img;
-                            }
+//                            }
                             break;
                         }
                     }
@@ -459,22 +459,22 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
                     int right = this->geometry().left() + img->geometry().right() + listLeft;
                     if (left <= middle && middle < right) {
                         //一个一个朝向中间加载
-                        if(img->getIndexNow()-(i-2)>1)
-                        {
-                            ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+1));
-                            img2->emitClickSig(img2->getPath());
-                            m_currentImageItem=img2;
-                        }
-                        else if(img->getIndexNow()-(i-2)<-1)
-                        {
-                            ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+3));
-                            img2->emitClickSig(img2->getPath());
-                            m_currentImageItem=img2;
-                        }
-                        else {
+//                        if(img->getIndexNow()-(i-2)>1)
+//                        {
+//                            ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+1));
+//                            img2->emitClickSig(img2->getPath());
+//                            m_currentImageItem=img2;
+//                        }
+//                        else if(img->getIndexNow()-(i-2)<-1)
+//                        {
+//                            ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+3));
+//                            img2->emitClickSig(img2->getPath());
+//                            m_currentImageItem=img2;
+//                        }
+//                        else {
                             img->emitClickSig(img->getPath());
                             m_currentImageItem=img;
-                        }
+//                        }
                         break;
                     }
                 }
