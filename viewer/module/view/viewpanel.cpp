@@ -568,7 +568,10 @@ void ViewPanel::slotCurrentStackWidget(QString &path)
         pixmapthumb = utils::image::getThumbnail(path);
     }
     if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(pixmapthumb);
+        if(m_infos.isEmpty())
+            m_emptyWidget->setThumbnailImage(pixmapthumb);
+        else
+            m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
         emit sigDisenablebutton();

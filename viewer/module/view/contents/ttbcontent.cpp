@@ -189,7 +189,7 @@ bool MyImageListWidget::UpdateThumbnail()
         }
         m_vecPoint.clear();
         m_lastPoint=QPoint(0,0);
-//            emit mouseLeftReleased();
+            emit mouseLeftReleased();
         return false;
     }
     else if(firsttolast>=20 && firsttolast<50){
@@ -255,7 +255,7 @@ bool MyImageListWidget::UpdateThumbnail()
         });
 
         m_lastPoint=QPoint(0,0);
-
+        emit mouseLeftReleased();
     });
     qDebug()<<"left1:"<<this->geometry().left();
     qDebug()<<"right2:"<<this->geometry().right();
