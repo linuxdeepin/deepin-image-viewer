@@ -255,6 +255,7 @@ bool MyImageListWidget::UpdateThumbnail()
         });
 
         m_lastPoint=QPoint(0,0);
+        emit mouseLeftReleased();
 
     });
     qDebug()<<"left1:"<<this->geometry().left();
