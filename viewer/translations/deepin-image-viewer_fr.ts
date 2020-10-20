@@ -167,7 +167,7 @@
     </message>
     <message>
         <source>Tag</source>
-        <translation>Étiquette</translation>
+        <translation>Tag</translation>
     </message>
 </context>
 <context>

@@ -47,21 +47,21 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>Ez a fájl több oldalt tartalmaz, kérlek használd az Evince-t az összes oldal megtekintéséhez.</translation>
+        <translation>Ez a fájl több oldalt tartalmaz, kérjük használja az Evince alkalmazást az összes oldal megtekintéséhez.</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Mappa megnyitás</translation>
+        <translation>Mappa megnyitása</translation>
     </message>
 </context>
 <context>
     <name>LockWidget</name>
     <message>
         <source>You have no permission to view the image</source>
-        <translation>Nincs engedély a kép megtekintéséhez</translation>
+        <translation>Nincs engedélye a kép megtekintéséhez</translation>
     </message>
 </context>
 <context>
@@ -107,11 +107,11 @@
     </message>
     <message>
         <source>Exposure mode</source>
-        <translation>Exponálás mód</translation>
+        <translation>Exponálási mód</translation>
     </message>
     <message>
         <source>Exposure program</source>
-        <translation>Exponálás program</translation>
+        <translation>Exponálási program</translation>
     </message>
     <message>
         <source>Exposure time</source>
@@ -147,11 +147,11 @@
     </message>
     <message>
         <source>Flash compensation</source>
-        <translation>Vaku viszonzás</translation>
+        <translation>Vaku kompenzáció</translation>
     </message>
     <message>
         <source>Lens model</source>
-        <translation>Lencse minta</translation>
+        <translation>Lencse modell</translation>
     </message>
     <message>
         <source>Colorspace</source>
@@ -159,7 +159,7 @@
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Kamera minta</translation>
+        <translation>Kamera modell</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -174,15 +174,15 @@
     <name>PrintOptionsPage</name>
     <message>
         <source>No scaling</source>
-        <translation>Nincs igazítás</translation>
+        <translation>Nincs méretezés</translation>
     </message>
     <message>
         <source>Fit page to image</source>
-        <translation>Oldal igazítása képhez</translation>
+        <translation>Oldal illesztése a képhez</translation>
     </message>
     <message>
         <source>Fit image to page</source>
-        <translation>Kép igazítása oldalhoz</translation>
+        <translation>Kép illesztése az oldalhoz</translation>
     </message>
     <message>
         <source>Scale to:</source>
@@ -198,15 +198,15 @@
     </message>
     <message>
         <source>Inches</source>
-        <translation>Inch</translation>
+        <translation>Hüvelyk</translation>
     </message>
     <message>
         <source>Image Position</source>
-        <translation>Kép pozíció</translation>
+        <translation>Kép pozíciója</translation>
     </message>
     <message>
         <source>Scaling</source>
-        <translation>Igazítás</translation>
+        <translation>Méretezés</translation>
     </message>
     <message>
         <source>Image Settings</source>
@@ -236,7 +236,7 @@
     </message>
     <message>
         <source>Ring</source>
-        <translation>Gyönyörű</translation>
+        <translation>Gyűrű</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
@@ -251,7 +251,7 @@
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Mégse</translation>
+        <translation>Mégsem</translation>
     </message>
     <message>
         <source>Input a new name</source>
@@ -262,19 +262,19 @@
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Mappa kiválasztás</translation>
+        <translation>Mappa kiválasztása</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>A mappa szinkronizálás tíltva van</translation>
+        <translation>Ennek a könyvtárnak a szinkronizálása tiltva van</translation>
     </message>
     <message>
         <source>Add folder</source>
-        <translation>Új mappa</translation>
+        <translation>Mappa hozzáadása</translation>
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Mappaszinkronizáló kezelés</translation>
+        <translation>Mappaszinkronizáció kezelése</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
@@ -285,7 +285,7 @@
     <name>ScanPathsItem</name>
     <message>
         <source>Cancel sync</source>
-        <translation>Szinkronizálás megszakítás</translation>
+        <translation>Szinkronizálás megszakítása</translation>
     </message>
     <message>
         <source>Images</source>
@@ -293,7 +293,7 @@
     </message>
     <message>
         <source>The device has been removed</source>
-        <translation>Az eszköz törlésre került</translation>
+        <translation>Az eszköz eltávolításra került</translation>
     </message>
     <message>
         <source>This directory no longer exists</source>
@@ -308,7 +308,7 @@
     <name>Shortcut</name>
     <message>
         <source>Image Viewing</source>
-        <translation>Kép megtekintés</translation>
+        <translation>Kép megtekintése</translation>
     </message>
     <message>
         <source>Album</source>
@@ -332,7 +332,7 @@
     </message>
     <message>
         <source>End show</source>
-        <translation>Megtekintés vége</translation>
+        <translation>Diavetítés vége</translation>
     </message>
     <message>
         <source>Copy</source>
@@ -340,7 +340,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Törlés az albumból</translation>
+        <translation>Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -348,19 +348,19 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nem kedvenc</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás jobbra</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás balra</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Beállítás háttérképnek</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -396,11 +396,11 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Súgó</translation>
+        <translation>Segítség</translation>
     </message>
     <message>
         <source>Display shortcuts</source>
-        <translation>Gyorsbillentyűk megtekintése</translation>
+        <translation>Gyorsbillentyűk megjelenítése</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -427,7 +427,7 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Adjunk meg új gyorsbillentyűt</translation>
+        <translation>Kérjük adjon meg egy új gyorsbillentyűt</translation>
     </message>
 </context>
 <context>
@@ -446,7 +446,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Alapértékek visszaállítása</translation>
+        <translation>Alapértelmezések visszaállítása</translation>
     </message>
 </context>
 <context>
@@ -477,7 +477,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Törlés az albumból</translation>
+        <translation>Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -485,27 +485,27 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nem kedvenc</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás jobbra</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás balra</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Beállítás háttérképnek</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Megtekintés fájlkezelőben</translation>
+        <translation>Megtekintés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Képinformáció</translation>
+        <translation>Kép információk</translation>
     </message>
     <message>
         <source>New album</source>
@@ -547,11 +547,11 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavetítés beállítások</translation>
+        <translation>Diavetítési beállítások</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>Hatás kiválasztás</translation>
+        <translation>Effekt kiválasztása</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -559,7 +559,7 @@
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Időtartam kiválasztás</translation>
+        <translation>Időtartam kiválasztása</translation>
     </message>
     <message>
         <source>second</source>
@@ -590,11 +590,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Balra forgatás</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Jobbra forgatás</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -609,7 +609,7 @@
     </message>
     <message>
         <source>Image management</source>
-        <translation>Képkezelő</translation>
+        <translation>Képkezelés</translation>
     </message>
     <message>
         <source>My favorite</source>
@@ -617,7 +617,7 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>Eredeti méret</translation>
+        <translation>1:1 méret</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -625,15 +625,15 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Balra forgatás</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Jobbra forgatás</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nem kedvenc</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -648,7 +648,7 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Nem találhatók képek</translation>
+        <translation>Nem találhatók képfájlok</translation>
     </message>
     <message>
         <source>Open Image</source>
@@ -663,7 +663,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Diavetítés beállítások</translation>
+        <translation>Diavetítési beállítások</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -705,7 +705,7 @@
     </message>
     <message>
         <source>Add to album</source>
-        <translation>Hozzáadás albumhoz</translation>
+        <translation>Hozzáadás az albumhoz</translation>
     </message>
     <message>
         <source>Add to new album</source>
@@ -733,7 +733,7 @@
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Törlés az albumból</translation>
+        <translation>Eltávolítás az albumból</translation>
     </message>
     <message>
         <source>Favorite</source>
@@ -741,7 +741,7 @@
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Nem kedvenc</translation>
+        <translation>Eltávolítás a kedvencekből</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -753,23 +753,23 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Forgatás jobbra</translation>
+        <translation>Forgatás az óramutató járásával megegyezően</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Forgatás balra</translation>
+        <translation>Forgatás az óramutató járásával ellentétes irányba</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Beállítás háttérképnek</translation>
+        <translation>Beállítás háttérképként</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Megtekintés fájlkezelőben</translation>
+        <translation>Megtekintés a fájlkezelőben</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Képinformáció</translation>
+        <translation>Kép információ</translation>
     </message>
     <message>
         <source>Delete</source>

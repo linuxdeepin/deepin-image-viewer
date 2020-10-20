@@ -36,7 +36,7 @@
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>基本訊息</translation>
+        <translation>基本資訊</translation>
     </message>
     <message>
         <source>Details</source>
@@ -713,7 +713,7 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>結束全螢幕</translation>
+        <translation>退出全螢幕</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -745,11 +745,11 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>顯示工具列</translation>
+        <translation>顯示導航視窗</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>隱藏工具列</translation>
+        <translation>隱藏導航視窗</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
