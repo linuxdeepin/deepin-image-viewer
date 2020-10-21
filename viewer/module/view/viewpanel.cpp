@@ -531,6 +531,7 @@ void ViewPanel::reConnectTTbc()
 
     connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
     connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
+    connect(m_viewB, &ImageView::sigRequestShowVaguePix, ttbc, &TTBContent::OnRequestShowVaguePix, Qt::UniqueConnection);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
             &TTBContent::updateCollectButton, Qt::UniqueConnection);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
@@ -1237,6 +1238,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     });
     connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn);
     connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn);
+    connect(m_viewB, &ImageView::sigRequestShowVaguePix, ttbc, &TTBContent::OnRequestShowVaguePix, Qt::UniqueConnection);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
             &TTBContent::updateCollectButton);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
@@ -1259,8 +1261,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
     });
     connect(ttbc, &TTBContent::showvaguepixmap, m_viewB, &ImageView::showVagueImage);
     /*lmh0729*/
-    connect(ttbc, &TTBContent::showvaguepixmap, this, [=](QPixmap pix,QString path){
-        Q_UNUSED(pix);
+    /*shuwenzhi*/
+    //此函数改变了位置索引与上一张写一张切换冲突，因此重新定一个信号
+    connect(ttbc, &TTBContent::sigsetcurrent, this, [=](QString path){
         int begin = 0;
         m_currentImagePath=path;
         for (; begin < m_infos.size(); begin++) {

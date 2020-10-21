@@ -179,6 +179,8 @@ signals:
 
     void sigStackChange(QString&);
 
+    void sigRequestShowVaguePix(QString,bool&);
+
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
 

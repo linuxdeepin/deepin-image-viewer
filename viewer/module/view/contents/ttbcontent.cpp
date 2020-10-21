@@ -908,7 +908,9 @@ void TTBContent::toolbarSigConnection()
     });
 
     connect(m_preButton, &DIconButton::clicked, this, [ = ] { emit showPrevious(); });
-    connect(m_nextButton, &DIconButton::clicked, this, [ = ] { emit showNext(); });
+    connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
+        emit showNext();
+    });
     connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
         m_adaptImageBtn->setChecked(true);
         if (!badaptImageBtnChecked)
@@ -1259,6 +1261,7 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
                             QPixmap pix=img->getPixmap();
                             m_nowIndex=img->getIndex();
                             emit showvaguepixmap(pix,labelList.at(0)->getPath());
+                            emit sigsetcurrent(labelList.at(0)->getPath());
                         }
                     }
                     if(m_lastIndex >-1){
@@ -1524,6 +1527,18 @@ void TTBContent::DisEnablettbButton()
     m_NotImageViewFlag = true;
 }
 
+void TTBContent::OnRequestShowVaguePix(QString filepath,bool& thumbnailflag)
+{
+    ImageItem* item =  m_imgList->findChild<ImageItem *>(filepath);
+    QPixmap pix = item->getPixmap();
+    if(!pix.isNull()){
+        qDebug() << "OnRequestShowVaguePix";
+        emit showvaguepixmap(pix,filepath);
+        thumbnailflag = true;
+    }else
+        thumbnailflag = false;
+}
+
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;
@@ -1615,6 +1630,7 @@ void TTBContent::loadBack(DBImgInfoList infos)
                         QPixmap pix=img->getPixmap();
                         m_nowIndex=img->getIndex();
                         emit showvaguepixmap(pix,labelList.at(0)->getPath());
+                        emit sigsetcurrent(labelList.at(0)->getPath());
                     }
                 }
                 if(m_lastIndex >-1){
@@ -1717,6 +1733,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
                         QPixmap pix=img->getPixmap();
                         m_nowIndex=img->getIndex();
                         emit showvaguepixmap(pix,labelList.at(0)->getPath());
+                        emit sigsetcurrent(labelList.at(0)->getPath());
                     }
                 }
                 if(m_lastIndex >-1){

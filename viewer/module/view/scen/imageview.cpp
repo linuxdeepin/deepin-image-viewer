@@ -257,8 +257,7 @@ QVariantList ImageView::cachePixmap(const QString path)
     if(dApp->m_firstLoad)
     {
         dApp->m_rectmap.insert(path, p.rect());
-        p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
-        dApp->m_imagemap.insert(path, p);
+        dApp->m_imagemap.insert(path, p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
         emit dApp->sigFinishLoad(path);
     }
 //    if (QFileInfo(path).exists() && p.isNull()) {
@@ -861,41 +860,39 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
             connect(th, &QThread::finished, th, &QObject::deleteLater);
             th->start();
 
-//            static bool haha = false;
-//            if (!haha) {
-//                th->start();
-//                haha = true;
-//            }
-
             if (!m_watcher.isRunning()) {
                 //                m_watcher.setFuture(f);
 
                 if (m_loadingDisplay) {
                     m_loadingDisplay = false;
+                    bool thumfalg = false;
+                    emit sigRequestShowVaguePix(strPath,thumfalg);
+                    if(!thumfalg)
+                    {
+                        // show loading gif.
+                        m_pixmapItem = nullptr;
+                        s->clear();
+                        resetTransform();
 
-                    // show loading gif.
-                    m_pixmapItem = nullptr;
-                    s->clear();
-                    resetTransform();
+                        auto spinner = new DSpinner;
+                        spinner->setFixedSize(SPINNER_SIZE);
+                        spinner->start();
+                        QWidget *w = new QWidget();
+                        w->setFixedSize(SPINNER_SIZE);
+                        QHBoxLayout *hLayout = new QHBoxLayout;
+                        hLayout->setMargin(0);
+                        hLayout->setSpacing(0);
+                        hLayout->addWidget(spinner, 0, Qt::AlignCenter);
+                        w->setLayout(hLayout);
 
-                    auto spinner = new DSpinner;
-                    spinner->setFixedSize(SPINNER_SIZE);
-                    spinner->start();
-                    QWidget *w = new QWidget();
-                    w->setFixedSize(SPINNER_SIZE);
-                    QHBoxLayout *hLayout = new QHBoxLayout;
-                    hLayout->setMargin(0);
-                    hLayout->setSpacing(0);
-                    hLayout->addWidget(spinner, 0, Qt::AlignCenter);
-                    w->setLayout(hLayout);
-
-                    // Make sure item show in center of view after reload
-                    setSceneRect(w->rect());
-                    s->addWidget(w);
+                        // Make sure item show in center of view after reload
+                        setSceneRect(w->rect());
+                        s->addWidget(w);
+                    }
                 }
 
-//                f.waitForFinished();
-//                m_watcher.setFuture(f);
+                //                f.waitForFinished();
+                //                m_watcher.setFuture(f);
             }
 
             emit dApp->signalM->hideNavigation();
@@ -912,18 +909,19 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);
+
         //LMH0603解决svg和gif和mng缩略图不显示问题
         if(dApp->m_firstLoad)
         {
+            QPixmap p = m_movieItem->pixmap();
+            dApp->m_rectmap.insert(strPath, p.rect());
+            dApp->m_imagemap.insert(strPath, p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
+            emit dApp->sigFinishLoad(strPath);
             QThread *th = QThread::create([ = ]() {
                 emit imageChanged(strPath);
-              //  bool firstLoad = false;
-              //  if (!firstLoad) {
                 qDebug() << "load cache";
-                    emit cacheEnd();
+                emit cacheEnd();
                 emit sigStackChange(m_path);
-                   // firstLoad = true;
-             //   }
             });
 
             connect(th, &QThread::finished, th, &QObject::deleteLater);
@@ -933,11 +931,12 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         }else {
             emit imageChanged(strPath);
             emit sigStackChange(m_path);
-}
+        }
         break;
     }
 
     }
+    sigPath= strPath;
     return bRet;
 }
 

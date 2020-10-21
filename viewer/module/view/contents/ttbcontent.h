@@ -242,7 +242,9 @@ signals:
 
     void ttbcontentClicked();
 
-    void showvaguepixmap(QPixmap,QString path=nullptr);
+    void showvaguepixmap(QPixmap,QString path);
+
+    void sigsetcurrent(QString path);
 
 public slots:
     void setCurrentDir(QString text);
@@ -393,6 +395,12 @@ public slots:
     void OnUpdateThumbnail(QString path);
 
     void DisEnablettbButton();
+
+    /**
+     * @brief OnRequestShowVaguePix
+     * 获取缩略图并发出显示缩略图的高斯模糊图信号
+     */
+    void OnRequestShowVaguePix(QString filepath,bool& thumbnailflag);
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
