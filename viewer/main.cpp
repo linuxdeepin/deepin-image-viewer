@@ -17,6 +17,7 @@
 #include "application.h"
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
+#include "accessibility/acobjectlist.h"
 
 #include <QApplication>
 #include <DLog>
@@ -29,11 +30,13 @@ int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-    Application::loadDXcbPlugin();
+//    Application::loadDXcbPlugin();
     Application a(argc, argv);
 
     a.setAttribute(Qt::AA_ForceRasterWidgets);
-
+#ifdef INSTALLACCESSIBLEFACTORY
+    QAccessible::installFactory(accessibleFactory);
+#endif
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
@@ -53,7 +56,7 @@ int main(int argc, char *argv[])
     QString teststr = wstime.toString("yyyy-MM-dd hh:mm:ss");
     out << teststr;
     //5.定义size  = buffer.size()
-    int size = buffer.size();
+    int size = static_cast<int>(buffer.size());
     bool newflag = true;
 
     // 创建共享内存段
@@ -67,7 +70,7 @@ int main(int argc, char *argv[])
         QDateTime rstime;
         QString tstr;
         sharedMemory.lock();
-        sbuffer.setData((char *)sharedMemory.constData(), sharedMemory.size());
+        sbuffer.setData(static_cast<const char *>(sharedMemory.constData()), sharedMemory.size());
         sbuffer.open(QBuffer::ReadOnly);
         in >> tstr;
         rstime = QDateTime::fromString(tstr, "yyyy-MM-dd hh:mm:ss");
@@ -81,18 +84,18 @@ int main(int argc, char *argv[])
         //if (sharedMemory.isAttached()) //检测程序当前是否关联共享内存
         //sharedMemory.attach();
         // sharedMemory.lock();
-        char *to = (char *)sharedMemory.data();
+        char *to = static_cast<char *>(sharedMemory.data());
         const char *from = buffer.data().data();
-        memcpy(to, from, qMin(sharedMemory.size(), size));
+        memcpy(to, from, static_cast<size_t>(qMin(sharedMemory.size(), size)));
         sharedMemory.unlock();
         sharedMemory.detach();
         qDebug() << teststr << "   " << tstr << " error " <<  newflag ;
 
     } else {
         sharedMemory.lock();
-        char *to = (char *)sharedMemory.data();
+        char *to = static_cast<char *>(sharedMemory.data());
         const char *from = buffer.data().data();
-        memcpy(to, from, qMin(sharedMemory.size(), size));
+        memcpy(to, from, static_cast<size_t>(qMin(sharedMemory.size(), size)));
         sharedMemory.unlock();
         qDebug() << teststr;
         qDebug() << "create";

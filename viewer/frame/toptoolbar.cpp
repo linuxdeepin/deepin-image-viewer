@@ -23,6 +23,7 @@
 //#include "settings/settingswindow.h"
 #include "utils/baseutils.h"
 #include "utils/shortcut.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <dtitlebar.h>
 #include <dwindowclosebutton.h>
@@ -73,6 +74,12 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
 
     initMenu();
     initWidgets();
+#ifdef OPENACCESSIBLE
+    setAccessibleName(TOP_TOOL_BAR);
+    setObjectName(TOP_TOOL_BAR);
+    m_titlebar->setAccessibleName(TITLE_BAR);
+    m_titlebar->setObjectName(TITLE_BAR);
+#endif
 }
 
 
@@ -82,6 +89,8 @@ void TopToolbar::setMiddleContent(QString path)
     QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),
                                path, width() - 500);
     m_titletxt->setText(a);
+    m_titletxt->setObjectName(a);
+    m_titletxt->setAccessibleName(a);
 }
 
 // Set titlebar background transparent
@@ -208,6 +217,8 @@ void TopToolbar::initWidgets()
     m_titlebar->setTitle("");
     m_titletxt = new DLabel;
     m_titletxt->setText("");
+    m_titletxt->setObjectName("");
+    m_titletxt->setAccessibleName("");
     DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7 /*,QFont::DemiBold*/);
 
 
@@ -223,12 +234,16 @@ void TopToolbar::initWidgets()
                                    filename, width() - 500);
         m_filename = filename;
         m_titletxt->setText(a);
+        m_titletxt->setObjectName(a);
+        m_titletxt->setAccessibleName(a);
     });
     connect(dApp->signalM, &SignalManager::resizeFileName, this, [ = ]() {
         if (m_filename != "") {
             QString b = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),
                                        m_filename, width() - 500);
             m_titletxt->setText(b);
+            m_titletxt->setObjectName(b);
+            m_titletxt->setAccessibleName(b);
         }
     });
 }

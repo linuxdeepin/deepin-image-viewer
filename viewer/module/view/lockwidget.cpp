@@ -23,6 +23,7 @@
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
 #include "application.h"
+#include "accessibility/ac-desktop-define.h"
 
 const QString ICON_PIXMAP_DARK = ":/assets/dark/images/picture damaged_dark.svg";
 const QString ICON_PIXMAP_LIGHT = ":/assets/light/images/picture damaged_light.svg";
@@ -46,6 +47,11 @@ LockWidget::LockWidget(const QString &darkFile,
     m_bgLabel = new QLbtoDLabel();
     m_bgLabel->setFixedSize(151, 151);
     m_bgLabel->setObjectName("BgLabel");
+#ifdef OPENACCESSIBLE
+    setObjectName(Lock_Widget);
+    setAccessibleName(Lock_Widget);
+    m_bgLabel->setAccessibleName("BgLabel");
+#endif
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
                      this, [=]() {
                          DGuiApplicationHelper::ColorType themeType =

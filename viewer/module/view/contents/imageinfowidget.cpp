@@ -19,6 +19,7 @@
 #include "controller/signalmanager.h"
 #include "utils/imageutils.h"
 #include "widgets/formlabel.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <DApplicationHelper>
 #include <DArrowLineDrawer>
@@ -34,6 +35,7 @@
 #include <QScrollBar>
 #include <QString>
 #include <QtDebug>
+
 
 namespace {
 
@@ -154,7 +156,13 @@ ImageInfoWidget::ImageInfoWidget(const QString &darkStyle, const QString &lightS
                                  QWidget *parent)
     : QFrame(parent)
     , m_maxTitleWidth(maxTitleWidth())
+    , m_maxFieldWidth(0)
+    , m_currentFontSize(0)
 {
+#ifdef OPENACCESSIBLE
+    setObjectName(IMAGE_WIDGET);
+    setAccessibleName(IMAGE_WIDGET);
+#endif
     Q_UNUSED(darkStyle);
     Q_UNUSED(lightStyle);
     setFixedWidth(300);

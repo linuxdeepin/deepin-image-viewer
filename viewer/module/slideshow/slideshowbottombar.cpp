@@ -1,5 +1,6 @@
 #include "module/slideshow/slideshowbottombar.h"
 #include "application.h"
+#include "accessibility/ac-desktop-define.h"
 
 DWIDGET_USE_NAMESPACE
 namespace  {
@@ -96,7 +97,18 @@ SlideShowBottomBar::SlideShowBottomBar(QWidget *parent) : DFloatingWidget(parent
     connect(m_cancelButton, &DIconButton::clicked, this, [ = ] {
         emit showCancel();
     });
-
+#ifdef OPENACCESSIBLE
+    setObjectName(SLIDE_SHOW_WIDGET_BUTTOM_BAR);
+    setAccessibleName(SLIDE_SHOW_WIDGET_BUTTOM_BAR);
+    m_preButton->setObjectName(SLIDE_SHOW_PRE_BUTTON);
+    m_preButton->setAccessibleName(SLIDE_SHOW_PRE_BUTTON);
+    m_nextButton->setObjectName(SLIDE_SHOW_NEXT_BUTTON);
+    m_nextButton->setAccessibleName(SLIDE_SHOW_NEXT_BUTTON);
+    m_playpauseButton->setObjectName(SLIDE_SHOW_START_PAUSE_BUTTON);
+    m_playpauseButton->setAccessibleName(SLIDE_SHOW_START_PAUSE_BUTTON);
+    m_cancelButton->setObjectName(SLIDE_SHOW_CANCEL_BUTTON);
+    m_cancelButton->setAccessibleName(SLIDE_SHOW_CANCEL_BUTTON);
+#endif
     setLayout(hb);
 
 }

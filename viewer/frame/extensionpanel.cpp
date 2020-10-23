@@ -19,6 +19,8 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "darrowbutton.h"
+#include "accessibility/ac-desktop-define.h"
+
 #include <DFontSizeManager>
 
 using namespace Dtk::Widget;
@@ -42,6 +44,14 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     : DAbstractDialog(parent)
 {
     init();
+#ifdef OPENACCESSIBLE
+    setObjectName(EXTENSION_PANEL);
+    setAccessibleName(EXTENSION_PANEL);
+    m_titleBar->setObjectName(CONTENT_TITLE_BAR);
+    m_titleBar->setAccessibleName(CONTENT_TITLE_BAR);
+    m_scrollArea->setObjectName(CONTENT_SCROLL_AREA);
+    m_scrollArea->setAccessibleName(CONTENT_SCROLL_AREA);
+#endif
     //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     this->setWindowTitle(tr("Image info"));
     DFontSizeManager::instance()->bind(this, DFontSizeManager::T6, QFont::Medium);
@@ -76,7 +86,13 @@ void ExtensionPanel::setContent(QWidget *content)
 #endif
         m_content = content;
         updateRectWithContent();
-
+#ifdef OPENACCESSIBLE
+        if(m_content)
+        {
+            m_content->setObjectName(CONTENT_WIDGET);
+            m_content->setAccessibleName(CONTENT_WIDGET);
+        }
+#endif
         QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
         if (nullptr != layout)
             layout->addWidget(content);

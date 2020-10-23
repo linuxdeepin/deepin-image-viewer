@@ -26,11 +26,7 @@
         <translation type="unfinished">Πληροφοριες εικονας</translation>
     </message>
     <message>
-        <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+Enter</source>
+        <source>Ctrl+I</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -56,7 +52,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Άνοιγμα τοποθεσίας</translation>
+        <translation type="vanished">Άνοιγμα τοποθεσίας</translation>
     </message>
 </context>
 <context>
@@ -70,15 +66,7 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Ακύρωση</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Ακύρωση</translation>
     </message>
 </context>
 <context>
@@ -94,10 +82,6 @@
     <message>
         <source>Date modified</source>
         <translation>Ημερομηνία επεξεργασίας</translation>
-    </message>
-    <message>
-        <source>Dimension</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File size</source>
@@ -219,30 +203,22 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="unfinished">Ρυθμίσεις εικόνας</translation>
+        <translation type="obsolete">Ρυθμίσεις εικόνας</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Περσίδες</translation>
+        <translation type="vanished">Περσίδες</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>πολυπλέκτης</translation>
+        <translation type="vanished">πολυπλέκτης</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Κύλιση</translation>
-    </message>
-    <message>
-        <source>Ring</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Κύλιση</translation>
     </message>
 </context>
 <context>
@@ -426,100 +402,69 @@
     </message>
 </context>
 <context>
-    <name>ShortcutEditor</name>
-    <message>
-        <source>Please enter a new shortcut</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ShortcutFrame</name>
     <message>
-        <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>View Picture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Album</source>
-        <translation type="unfinished">Άλμπουμ</translation>
-    </message>
-    <message>
-        <source>Restore Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Άλμπουμ</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="unfinished">Προβολή</translation>
+        <translation type="obsolete">Προβολή</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="unfinished">Πλήρης οθόνη</translation>
+        <translation type="obsolete">Πλήρης οθόνη</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="unfinished">Παρουσίαση εικόνων</translation>
+        <translation type="obsolete">Παρουσίαση εικόνων</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="unfinished">Τέλος παρουσίασης</translation>
-    </message>
-    <message>
-        <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Τέλος παρουσίασης</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished">Αντιγραφή</translation>
+        <translation type="obsolete">Αντιγραφή</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="unfinished">Αφαίρεση από το άλμπουμ</translation>
+        <translation type="obsolete">Αφαίρεση από το άλμπουμ</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="unfinished">Αγαπημένο</translation>
+        <translation type="obsolete">Αγαπημένο</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="unfinished">Μη αγαπημένο</translation>
+        <translation type="obsolete">Μη αγαπημένο</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="unfinished">Περιστροφή δεξιά</translation>
+        <translation type="obsolete">Περιστροφή δεξιά</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="unfinished">Περιστροφή αριστερά</translation>
+        <translation type="obsolete">Περιστροφή αριστερά</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="unfinished">Θέσε ως ταπετσαρία</translation>
+        <translation type="obsolete">Θέσε ως ταπετσαρία</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="unfinished">Προβολή στον διαχειριστή αρχείον</translation>
+        <translation type="obsolete">Προβολή στον διαχειριστή αρχείον</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="unfinished">Πληροφοριες εικονας</translation>
-    </message>
-    <message>
-        <source>New album</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Πληροφοριες εικονας</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">Μετονομασία</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Μετονομασία</translation>
     </message>
 </context>
 <context>
@@ -542,29 +487,6 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SlideshowFrame</name>
-    <message>
-        <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switch effect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switch duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>second</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -664,39 +586,19 @@
 <context>
     <name>TitleFrame</name>
     <message>
-        <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Effect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>View</source>
-        <translation type="unfinished">Προβολή</translation>
+        <translation type="obsolete">Προβολή</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished">Άλμπουμ</translation>
+        <translation type="obsolete">Άλμπουμ</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
-        <source>New album</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Settings</source>
-        <translation type="unfinished">Ρυθμίσεις</translation>
+        <translation type="obsolete">Ρυθμίσεις</translation>
     </message>
 </context>
 <context>
@@ -788,10 +690,6 @@
     <message>
         <source>Rename</source>
         <translation>Μετονομασία</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

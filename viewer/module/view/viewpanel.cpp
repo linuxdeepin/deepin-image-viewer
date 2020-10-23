@@ -30,6 +30,7 @@
 #include "widgets/printhelper.h"
 #include "widgets/printoptionspage.h"
 #include "frame/renamedialog.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -77,6 +78,12 @@ ViewPanel::ViewPanel(QWidget *parent)
 #endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();
+#ifdef OPENACCESSIBLE
+    setObjectName(VIEW_PANEL_WIDGET);
+    setAccessibleName(VIEW_PANEL_WIDGET);
+    m_stack->setObjectName(VIEW_PANEL_STACK);
+    m_stack->setAccessibleName(VIEW_PANEL_STACK);
+#endif
     /*lmh0722*/
     if(0==dApp->m_timer){
         initFloatingComponent();
@@ -144,9 +151,12 @@ void ViewPanel::initConnect()
         //开启延时删除标志定时器
         connect(&m_timer, &QTimer::timeout, this, [ = ]() {
             m_timer.stop();
-            ttbc->setIsConnectDel(true);
-            m_bAllowDel = true;
-            ttbc->disableDelAct(true);
+            if(ttbc)
+            {
+                ttbc->setIsConnectDel(true);
+                m_bAllowDel = true;
+                ttbc->disableDelAct(true);
+            }
         });
 
         m_timer.start(2000);
@@ -521,6 +531,7 @@ void ViewPanel::reConnectTTbc()
 
     connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
     connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
+    connect(m_viewB, &ImageView::sigRequestShowVaguePix, ttbc, &TTBContent::OnRequestShowVaguePix, Qt::UniqueConnection);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
             &TTBContent::updateCollectButton, Qt::UniqueConnection);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
@@ -558,7 +569,10 @@ void ViewPanel::slotCurrentStackWidget(QString &path)
         pixmapthumb = utils::image::getThumbnail(path);
     }
     if (!QFileInfo(path).exists()) {
-        m_emptyWidget->setThumbnailImage(pixmapthumb);
+        if(m_infos.isEmpty())
+            m_emptyWidget->setThumbnailImage(pixmapthumb);
+        else
+            m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
         emit sigDisenablebutton();
@@ -647,13 +661,6 @@ void ViewPanel::recvLoadSignal(bool bFlags)
             }
         }
         m_current = begin;
-    }
-
-    int houzi = 0;
-    foreach (DBImgInfo var, m_infos) {
-        if (var.filePath == m_currentImagePath) {
-            houzi++;
-        }
     }
     // emit sigsendslideshowlist(bFlags, m_infoslideshow);
     emit sendLoadAddInfos(m_infosadd, bFlags);
@@ -899,6 +906,7 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
 
 void ViewPanel::slotGetLastThumbnailPath(QString &path)
 {
+    if(m_infos.size()>1)
     path = m_infos[m_infos.size() - 1].filePath;
 }
 
@@ -940,6 +948,7 @@ void ViewPanel::slotLoadTailThumbnailsAndClearFront()
 
 void ViewPanel::slotGetFirstThumbnailPath(QString &path)
 {
+    if(m_infos.size() > 0)
     path = m_infos[0].filePath;
 }
 
@@ -1229,6 +1238,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     });
     connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn);
     connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn);
+    connect(m_viewB, &ImageView::sigRequestShowVaguePix, ttbc, &TTBContent::OnRequestShowVaguePix, Qt::UniqueConnection);
     connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
             &TTBContent::updateCollectButton);
     connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
@@ -1251,8 +1261,9 @@ QWidget *ViewPanel::bottomTopLeftContent()
     });
     connect(ttbc, &TTBContent::showvaguepixmap, m_viewB, &ImageView::showVagueImage);
     /*lmh0729*/
-    connect(ttbc, &TTBContent::showvaguepixmap, this, [=](QPixmap pix,QString path){
-        Q_UNUSED(pix);
+    /*shuwenzhi*/
+    //此函数改变了位置索引与上一张写一张切换冲突，因此重新定一个信号
+    connect(ttbc, &TTBContent::sigsetcurrent, this, [=](QString path){
         int begin = 0;
         m_currentImagePath=path;
         for (; begin < m_infos.size(); begin++) {
@@ -1440,20 +1451,18 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
     } else
         m_infos.clear();
     int nCount = m_AllPath.count();
-    int i = 0;
     int nimgcount = 0;
     //获取前当前位置前50个文件的位置
     int nStartIndex = m_current - First_Load_Image / 2 > 0 ? m_current - First_Load_Image / 2 : 0;
     if (!bLoadAll)
         m_firstindex = nStartIndex;
-    while (i < nCount && nStartIndex < nCount && !m_bThreadExit) {
+    else
+        nStartIndex = 0;
+    while (nStartIndex < nCount && !m_bThreadExit) {
         if (!bLoadAll) {
             if (nimgcount >= First_Load_Image) {
-                m_lastindex = m_firstindex + nimgcount - 1;
                 break;
             }
-        } else {
-            nStartIndex = i;
         }
         DBImgInfo info;
         info.filePath = m_AllPath.at(nStartIndex).filePath();
@@ -1462,51 +1471,32 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
         QMimeType mt = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchContent);
         QMimeType mt1 = db.mimeTypeForFile(info.filePath, QMimeDatabase::MatchExtension);
         QString str = m_AllPath.at(nStartIndex).suffix();
-        nStartIndex++;
+
         // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
         if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
                 mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-            if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive)) {
-                // if (!m_infos.contains(info)) {
-                nimgcount++;
-                if (bLoadAll) {
-                    if (i < m_firstindex)
-                        m_infosHead.append(info);
-                    else if (i > m_lastindex)
-                        m_infosTail.append(info);
-                    m_infosAll.append(info);
-                } else {
-                    m_infos.append(info);
-                    //由于m_infos存在不可查看图片，而且幻灯片打开的时候再筛选容易造成打开幻灯片较卡
-                    if (!m_nosupportformat.contains(str, Qt::CaseSensitive))
-                        m_infoslideshow.append(info);
-                    m_infosAll.append(info);
-                }
-                //}
-            } else if (/*str.isEmpty()*/1) {
-                //if (!m_infos.contains(info)) {
-                nimgcount++;
-                if (bLoadAll) {
-                    if (i < m_firstindex)
-                        m_infosHead.append(info);
-                    else if (i > m_lastindex)
-                        m_infosTail.append(info);
-                    m_infosAll.append(info);
-                } else {
-                    m_infos.append(info);
-                    m_infosAll.append(info);
-                }
+            nimgcount++;
+            if (bLoadAll) {
+                if (nStartIndex < m_firstindex)
+                    m_infosHead.append(info);
+                else if (nStartIndex > m_lastindex)
+                    m_infosTail.append(info);
+                m_infosAll.append(info);
+            } else {
+                m_infos.append(info);
+                m_infosAll.append(info);
             }
         }else {
             //删除不是图片的文件
             m_AllPath.removeOne(info.filePath);
+            //当显示区域前面部分有非文件应该删除并将开始的索引-1;
+            if(bLoadAll && nStartIndex<m_firstindex) {
+                    m_firstindex--;
+            }
             nStartIndex--;
             nCount--;
-            i--;
         }
-
-        // }
-        i++;
+        nStartIndex++;
     }
     if (!bLoadAll) m_lastindex = m_firstindex + nimgcount - 1;
 }
@@ -1522,6 +1512,12 @@ bool compareByFileInfo(const QFileInfo &str1, const QFileInfo &str2)
 
 void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
+    //检查是否是smb网络传输文件，如果是则不需要缩略图
+    if(vinfo.path.indexOf("smb-share:server=") != -1)
+        m_bOnlyOneiImg=true;
+    else {
+        m_bOnlyOneiImg=false;
+    }
     if(dApp->m_LoadThread && dApp->m_LoadThread->isRunning()){
         emit dApp->endThread();
         QThread::msleep(500);
@@ -1652,7 +1648,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
         dApp->m_firstLoad = true;
         //Load 100 pictures while first
-        if (!vinfo.path.isEmpty()) {
+        if (!vinfo.path.isEmpty()&&!m_bOnlyOneiImg) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
             m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
@@ -1673,6 +1669,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 }
             }
             m_current = begin;
+        }else if(m_bOnlyOneiImg){
+            m_current=0;
         }
         openImage(m_infos.at(m_current).filePath);
         //eatImageDirIterator();
@@ -1709,7 +1707,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        if (m_AllPath.size() > m_infos.size()) {
+        if (m_AllPath.size() > m_infos.size() && !m_bOnlyOneiImg) {
             QThread *loadTh = QThread::create([ = ]() {
                 eatImageDirIteratorThread();
             });

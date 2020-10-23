@@ -127,6 +127,10 @@ public:
     {
         return _index;
     }
+    inline int getIndexNow()
+    {
+        return _indexNow;
+    }
     /**
      * @brief getPixmap
      * 获取pixmap
@@ -238,7 +242,9 @@ signals:
 
     void ttbcontentClicked();
 
-    void showvaguepixmap(QPixmap,QString path=nullptr);
+    void showvaguepixmap(QPixmap,QString path);
+
+    void sigsetcurrent(QString path);
 
 public slots:
     void setCurrentDir(QString text);
@@ -390,6 +396,12 @@ public slots:
 
     void DisEnablettbButton();
 
+    /**
+     * @brief OnRequestShowVaguePix
+     * 获取缩略图并发出显示缩略图的高斯模糊图信号
+     */
+    void OnRequestShowVaguePix(QString filepath,bool& thumbnailflag);
+
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateFilenameLayout();
@@ -460,6 +472,13 @@ public:
     MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
     void setObj(QObject *obj);
+    /**
+     * @brief UpdateThumbnail
+     *
+     * @time 2020/09/14
+     * 更新的缩略图路径
+     */
+    bool UpdateThumbnail();
 protected:
     bool eventFilter(QObject *obj, QEvent *e) Q_DECL_OVERRIDE;
 signals:
@@ -476,6 +495,7 @@ private:
     QMutex m_threadMutex;
     bool m_bthreadMutex=false;
     int m_maxTouchPoints=0;
+    qint64 m_lastReleaseTime{0};
 };
 
 

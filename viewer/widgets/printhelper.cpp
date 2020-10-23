@@ -10,8 +10,11 @@
 #include <QCoreApplication>
 #include <QImageReader>
 #include <QDebug>
+//#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 2, 2, 5))
 #include <dprintpreviewwidget.h>
 #include <dprintpreviewdialog.h>
+//#endif
+
 #ifdef USE_UNIONIMAGE
 #include "unionimage.h"
 #endif
@@ -21,7 +24,8 @@ PrintHelper::PrintHelper(QObject *parent)
 {
 
 }
-
+//暂时没有使用配置文件的快捷键，现在是根据代码中的快捷键
+/*
 static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)
 {
     QAction *last_action = nullptr;
@@ -71,40 +75,41 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 
     return last_action;
 }
-
+*/
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
-    //lmh20200901，全新用dtk的打印
+    QList<QImage> imgs;
+    QImage img;
+    for (const QString &path : paths) {
+        QString errMsg;
+        UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
+        if (!img.isNull()) {
+            imgs << img;
+        }
+    }
     DPrintPreviewDialog printDialog2(nullptr);
-    QObject::connect(&printDialog2,&DPrintPreviewDialog::paintRequested,parent,[=](DPrinter *_printer){
+    QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
         QPainter painter(_printer);
-        QList<QImage> imgs;
-        QImage img;
-#if USE_UNIONIMAGE
-        for(const QString &path :paths){
-            QString errMsg;
-            UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
-            if(!img.isNull()){
-                imgs<<img;
+        for (QImage img : imgs) {
+            if (!img.isNull()) {
+                painter.setRenderHint(QPainter::Antialiasing);
+                painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                QRect wRect  = _printer->pageRect();
+                QImage tmpMap;
+                if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                    tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                } else {
+                    tmpMap = img;
+                }
+                QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                          qreal(wRect.height() - tmpMap.height()) / 2,
+                                          tmpMap.width(), tmpMap.height());
+                painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                         tmpMap.height()), tmpMap);
             }
-        }
-#else
-        for(const QString &path :paths){
-            QImage imgtmp(path);
-            if(!imgtmp.isNull()){
-                imgs<<imgtmp;
-            }
-        }
-#endif
-        int index=0;
-        for(auto img:imgs){
-            QPoint pos(0,0);
-            painter.setWindow(img.rect());
-            int x2=painter.window().right();
-            int y2=painter.window().bottom();
-            painter.drawImage(pos.x(),pos.y(),img,0,0,x2,y2);
-            if(++index !=imgs.size()){
+            if (img != imgs.last()) {
                 _printer->newPage();
+                qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
             }
         }
         painter.end();

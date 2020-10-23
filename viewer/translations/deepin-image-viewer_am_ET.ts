@@ -26,11 +26,7 @@
         <translation type="unfinished">የ ምስል መረጃ</translation>
     </message>
     <message>
-        <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+Enter</source>
+        <source>Ctrl+I</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -56,7 +52,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>ዳይሬክቶሪ መክፈቻ</translation>
+        <translation type="vanished">ዳይሬክቶሪ መክፈቻ</translation>
     </message>
 </context>
 <context>
@@ -70,15 +66,11 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">መሰረዣ</translation>
+        <translation type="obsolete">መሰረዣ</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">ማጥፊያ</translation>
-    </message>
-    <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">ማጥፊያ</translation>
     </message>
 </context>
 <context>
@@ -94,10 +86,6 @@
     <message>
         <source>Date modified</source>
         <translation>የ ተሻሻለበት ቀን</translation>
-    </message>
-    <message>
-        <source>Dimension</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File size</source>
@@ -216,33 +204,22 @@
     </message>
 </context>
 <context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>መሸፈኛ</translation>
+        <translation type="vanished">መሸፈኛ</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation>መቀየሪያ</translation>
+        <translation type="vanished">መቀየሪያ</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>ተንሸራታች</translation>
+        <translation type="vanished">ተንሸራታች</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>ቀለበት</translation>
-    </message>
-    <message>
-        <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">ቀለበት</translation>
     </message>
 </context>
 <context>
@@ -429,97 +406,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>እባክዎን አዲስ አቋራጭ ያስገቡ </translation>
+        <translation type="vanished">እባክዎን አዲስ አቋራጭ ያስገቡ </translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>አቋራጭ</translation>
+        <translation type="vanished">አቋራጭ</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>ስእል መመልከቻ</translation>
+        <translation type="vanished">ስእል መመልከቻ</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>አልበም</translation>
+        <translation type="vanished">አልበም</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>ነባር እንደ ነበር መመለሻ</translation>
+        <translation type="vanished">ነባር እንደ ነበር መመለሻ</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>መመልከቻ</translation>
+        <translation type="vanished">መመልከቻ</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>በ ሙሉ መመልከቻ ዘዴ</translation>
+        <translation type="vanished">በ ሙሉ መመልከቻ ዘዴ</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>ተንሸራታች ማሳያ</translation>
+        <translation type="vanished">ተንሸራታች ማሳያ</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation>ማሳያ መጨረሻ</translation>
+        <translation type="vanished">ማሳያ መጨረሻ</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>ማተሚያ</translation>
+        <translation type="vanished">ማተሚያ</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>ኮፒ</translation>
+        <translation type="vanished">ኮፒ</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>ከ አልበም ውስጥ ማስወገጃ</translation>
+        <translation type="vanished">ከ አልበም ውስጥ ማስወገጃ</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>የምወዳቸው</translation>
+        <translation type="vanished">የምወዳቸው</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>የማልወዳቸው</translation>
+        <translation type="vanished">የማልወዳቸው</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
+        <translation type="vanished">ማዞሪያ ከ ግራ ወደ ቀኝ</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
+        <translation type="vanished">ማዞሪያ ከ ቀኝ ወደ ግራ</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>እንደ ግድግዳ ወረቀት ማሰናጃ</translation>
+        <translation type="vanished">እንደ ግድግዳ ወረቀት ማሰናጃ</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>በ ፋይል አስተዳዳሪ ውስጥ ማሳያ</translation>
+        <translation type="vanished">በ ፋይል አስተዳዳሪ ውስጥ ማሳያ</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>የ ምስል መረጃ</translation>
+        <translation type="vanished">የ ምስል መረጃ</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>አዲስ አልበም</translation>
+        <translation type="vanished">አዲስ አልበም</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>እንደገና መሰየሚያ</translation>
+        <translation type="vanished">እንደገና መሰየሚያ</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>ማጥፊያ</translation>
+        <translation type="vanished">ማጥፊያ</translation>
     </message>
 </context>
 <context>
@@ -549,23 +526,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>ተንሸራታች ማሰናጃ</translation>
+        <translation type="vanished">ተንሸራታች ማሰናጃ</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation>ውጤት መቀየሪያ</translation>
+        <translation type="vanished">ውጤት መቀየሪያ</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>የሚፈጀው ጊዜ</translation>
+        <translation type="vanished">የሚፈጀው ጊዜ</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>መቀየሪያ የሚፈጀውን ጊዜ </translation>
+        <translation type="vanished">መቀየሪያ የሚፈጀውን ጊዜ </translation>
     </message>
     <message>
         <source>second</source>
-        <translation>ሰከንድ</translation>
+        <translation type="vanished">ሰከንድ</translation>
     </message>
 </context>
 <context>
@@ -665,38 +642,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>ተንሸራታች ማሰናጃ</translation>
+        <translation type="vanished">ተንሸራታች ማሰናጃ</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation>ውጤት</translation>
+        <translation type="vanished">ውጤት</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>የሚፈጀው ጊዜ</translation>
+        <translation type="vanished">የሚፈጀው ጊዜ</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>አቋራጭ</translation>
+        <translation type="vanished">አቋራጭ</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>መመልከቻ</translation>
+        <translation type="vanished">መመልከቻ</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>አልበም</translation>
+        <translation type="vanished">አልበም</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>አዲስ አልበም</translation>
+        <translation type="vanished">አዲስ አልበም</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>ማሰናጃ</translation>
+        <translation type="vanished">ማሰናጃ</translation>
     </message>
 </context>
 <context>
@@ -788,10 +765,6 @@
     <message>
         <source>Rename</source>
         <translation>እንደገና መሰየሚያ</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

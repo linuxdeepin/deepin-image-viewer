@@ -60,6 +60,7 @@ VolumeMonitor *VolumeMonitor::instance()
 
 VolumeMonitor::VolumeMonitor(QObject *parent)
     : QObject(parent)
+    ,m_socketNotifier(nullptr)
 {
     this->setObjectName("VolumeMonitor");
 }

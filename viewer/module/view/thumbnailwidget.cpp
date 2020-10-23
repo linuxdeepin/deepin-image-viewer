@@ -29,6 +29,7 @@
 #include "controller/signalmanager.h"
 #include "thumbnailwidget.h"
 #include "utils/baseutils.h"
+#include "accessibility/ac-desktop-define.h"
 
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
@@ -41,6 +42,10 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     : ThemeWidget(darkFile, lightFile, parent)
 {
     m_picString = "";
+#ifdef OPENACCESSIBLE
+    setObjectName(Thumbnail_Widget);
+    setAccessibleName(Thumbnail_Widget);
+#endif
     this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
@@ -99,6 +104,14 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     button->setFixedWidth(302);
     button->setFixedHeight(36);
     // button->setShortcut(QKeySequence("Ctrl+O"));
+#ifdef OPENACCESSIBLE
+    m_thumbnailLabel->setObjectName(Thumbnail_Label);
+    m_thumbnailLabel->setAccessibleName(Thumbnail_Label);
+    tips->setObjectName(NOT_FOUND_IMAGE);
+    tips->setAccessibleName(NOT_FOUND_IMAGE);
+    button->setObjectName(OPEN_IMAGE);
+    button->setAccessibleName(OPEN_IMAGE);
+#endif
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 
     connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
@@ -183,7 +196,6 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
 void ThumbnailWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() << m_defaultImage;
     if (m_defaultImage.isNull()) {
         if (m_theme) {
             m_defaultImage = m_logo;

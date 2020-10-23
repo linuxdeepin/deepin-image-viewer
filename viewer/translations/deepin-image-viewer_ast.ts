@@ -26,11 +26,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Alt+Enter</source>
+        <source>Ctrl+I</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -56,7 +52,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir direutoriu</translation>
+        <translation type="vanished">Abrir direutoriu</translation>
     </message>
 </context>
 <context>
@@ -70,15 +66,11 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Encaboxar</translation>
+        <translation type="obsolete">Encaboxar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Desaniciar</translation>
-    </message>
-    <message>
-        <source>Image file not found</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Desaniciar</translation>
     </message>
 </context>
 <context>
@@ -94,10 +86,6 @@
     <message>
         <source>Date modified</source>
         <translation>Data de modificación</translation>
-    </message>
-    <message>
-        <source>Dimension</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File size</source>
@@ -216,33 +204,18 @@
     </message>
 </context>
 <context>
-    <name>PrintPreviewDialog</name>
-    <message>
-        <source>Image Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
-        <source>Blinds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Switcher</source>
-        <translation>Conmutador</translation>
+        <translation type="vanished">Conmutador</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation>Eslizante</translation>
+        <translation type="vanished">Eslizante</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation>Aniellu</translation>
-    </message>
-    <message>
-        <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Aniellu</translation>
     </message>
 </context>
 <context>
@@ -429,97 +402,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation>Introduz un atayu nuevu, por favor</translation>
+        <translation type="vanished">Introduz un atayu nuevu, por favor</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation>Atayos</translation>
+        <translation type="vanished">Atayos</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation>Ver semeya</translation>
+        <translation type="vanished">Ver semeya</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation type="vanished">Álbum</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Reafitar valores</translation>
+        <translation type="vanished">Reafitar valores</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation type="vanished">Ver</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Pantalla completa</translation>
+        <translation type="vanished">Pantalla completa</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Diapositiva</translation>
+        <translation type="vanished">Diapositiva</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="unfinished">Finar presentación</translation>
+        <translation type="obsolete">Finar presentación</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation>Imprentar</translation>
+        <translation type="vanished">Imprentar</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Copiar</translation>
+        <translation type="vanished">Copiar</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation>Desaniciar del álbum</translation>
+        <translation type="vanished">Desaniciar del álbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorita</translation>
+        <translation type="vanished">Favorita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Non favorita</translation>
+        <translation type="vanished">Non favorita</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Voltiar a drecha</translation>
+        <translation type="vanished">Voltiar a drecha</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Voltiar a esquierda</translation>
+        <translation type="vanished">Voltiar a esquierda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Afitar como fondu de pantalla</translation>
+        <translation type="vanished">Afitar como fondu de pantalla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation>Amosar nel xestor de ficheros</translation>
+        <translation type="vanished">Amosar nel xestor de ficheros</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation>Información d&apos;imaxe</translation>
+        <translation type="vanished">Información d&apos;imaxe</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation>Álbum nuevu</translation>
+        <translation type="vanished">Álbum nuevu</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Renomar</translation>
+        <translation type="vanished">Renomar</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Desaniciar</translation>
+        <translation type="vanished">Desaniciar</translation>
     </message>
 </context>
 <context>
@@ -548,24 +521,20 @@
 <context>
     <name>SlideshowFrame</name>
     <message>
-        <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Switch effect</source>
-        <translation>Camudar efeutu</translation>
+        <translation type="vanished">Camudar efeutu</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation type="vanished">Duración</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation>Camudar duración</translation>
+        <translation type="vanished">Camudar duración</translation>
     </message>
     <message>
         <source>second</source>
-        <translation>segundu</translation>
+        <translation type="vanished">segundu</translation>
     </message>
 </context>
 <context>
@@ -664,39 +633,35 @@
 <context>
     <name>TitleFrame</name>
     <message>
-        <source>Slide Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Effect</source>
-        <translation>Efeutu</translation>
+        <translation type="vanished">Efeutu</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation>Duración</translation>
+        <translation type="vanished">Duración</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation>Atayos</translation>
+        <translation type="vanished">Atayos</translation>
     </message>
     <message>
         <source>View</source>
-        <translation>Ver</translation>
+        <translation type="vanished">Ver</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation>Álbum</translation>
+        <translation type="vanished">Álbum</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation>Álbum nuevu</translation>
+        <translation type="vanished">Álbum nuevu</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Axustes</translation>
+        <translation type="vanished">Axustes</translation>
     </message>
 </context>
 <context>
@@ -788,10 +753,6 @@
     <message>
         <source>Rename</source>
         <translation>Renomar</translation>
-    </message>
-    <message>
-        <source>Draw</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

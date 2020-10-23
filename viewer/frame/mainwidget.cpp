@@ -24,6 +24,7 @@
 //#include "module/timeline/timelinepanel.h"
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
+#include "accessibility/ac-desktop-define.h"
 //#include "widgets/dialogs/imginfodialog.h"
 //#include "widgets/processtooltip.h"
 //#include "widgets/separator.h"
@@ -64,6 +65,10 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initPanelStack(manager);
 #else
     Q_UNUSED(manager)
+#ifdef OPENACCESSIBLE
+    setObjectName(MAIN_WIDGET);
+    setAccessibleName(MAIN_WIDGET);
+#endif
     initPanelStack(false);
 #endif
     /*lmh0806儒码*/
@@ -227,7 +232,10 @@ void MainWidget::initPanelStack(bool manager)
     Q_UNUSED(manager)
 #endif
     m_panelStack = new QSWToDStackedWidget(this);
-    m_panelStack->setObjectName("PanelStack");
+#ifdef OPENACCESSIBLE
+    m_panelStack->setObjectName(PANEL_STACK);
+    m_panelStack->setAccessibleName(PANEL_STACK);
+#endif
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);

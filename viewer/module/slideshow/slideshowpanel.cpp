@@ -22,6 +22,8 @@
 #include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
+#include "accessibility/ac-desktop-define.h"
+
 #include <QApplication>
 #include <QDebug>
 #include <QDesktopWidget>
@@ -55,6 +57,10 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 
 {
     setFocusPolicy(Qt::StrongFocus);
+#ifdef OPENACCESSIBLE
+    setObjectName(SLIDE_SHOW_WIDGET);
+    setAccessibleName(SLIDE_SHOW_WIDGET);
+#endif
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_bgColor = DARK_BG_COLOR;
     slideshowbottombar = new SlideShowBottomBar(this);

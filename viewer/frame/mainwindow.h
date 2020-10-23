@@ -99,7 +99,7 @@ private:
     SlideShowPanel *m_slidePanel;
     bool m_picInUSB = false;
     bool               m_flag = false;
-    Dbusclient *m_dbus;
+//    Dbusclient *m_dbus;
     QSharedMemory m_sharememory;
 };
 

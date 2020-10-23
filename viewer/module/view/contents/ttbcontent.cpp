@@ -25,6 +25,7 @@
 #include "widgets/elidedlabel.h"
 #include "widgets/pushbutton.h"
 #include "widgets/returnbutton.h"
+#include "accessibility/ac-desktop-define.h"
 
 #include <DImageButton>
 #include <DSpinner>
@@ -125,6 +126,17 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
 {
     setMouseTracking(true);
 
+    //lmh0914
+    QTimer::singleShot(dApp->m_timer,[=]{
+        connect(dApp,&Application::sigMouseRelease,this,[=]{
+            qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+            if(currentTime-100 > m_lastReleaseTime){
+                m_lastReleaseTime=currentTime;
+                UpdateThumbnail();
+                qDebug()<<"UpdateThumbnail" <<m_lastReleaseTime;
+            }
+        });
+    });
     m_timer->setSingleShot(200);
 }
 
@@ -144,6 +156,184 @@ void MyImageListWidget::setObj(QObject *obj)
     static_cast<QWidget *>(m_obj)->grabGesture(Qt::SwipeGesture);
 }
 
+bool MyImageListWidget::UpdateThumbnail()
+{
+    bmouseleftpressed = false;
+
+    int firsttolast=0;
+    if(m_vecPoint.size()>0){
+        firsttolast=m_vecPoint.first().x()-m_vecPoint.last().x();
+    }
+
+    m_iRet=true;
+    QPropertyAnimation *animation = new QPropertyAnimation((DWidget *)m_obj, "pos");
+    animation->setEasingCurve(QEasingCurve::NCurveTypes);
+    animation->setStartValue(((DWidget *)m_obj)->pos());
+    if(m_vecPoint.size()<20){
+        animation->deleteLater();
+        m_iRet=false;
+        bMove=false;
+        bmouseleftpressed = false;
+        m_vecPoint.clear();
+        m_lastPoint=QPoint(0,0);
+        emit mouseLeftReleased();
+        return false;
+    }
+    else if(firsttolast<20 && firsttolast>-20 ){
+        animation->deleteLater();
+        m_iRet=false;
+        bMove=false;
+        bmouseleftpressed = false;
+        if(m_currentImageItem){
+            m_currentImageItem->emitClickEndSig();
+        }
+        m_vecPoint.clear();
+        m_lastPoint=QPoint(0,0);
+            emit mouseLeftReleased();
+        return false;
+    }
+    else if(firsttolast>=20 && firsttolast<50){
+        animation->setDuration(1000);
+        animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-40, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast<=-20 && firsttolast>-50){
+        animation->setDuration(1000);
+        animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+40, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast>=50 && firsttolast<100){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-70, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast<=-50 && firsttolast>-100){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+70, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast>=100 && firsttolast<200){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-130, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()-170, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast<=-100&& firsttolast>-200){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+130, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()+170, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast>=200){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x()-150, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-220, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()-260, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
+    }
+    else if(firsttolast<=-200){
+        animation->setDuration(800);
+        animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x()+150, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+220, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()+260, ((DWidget *)m_obj)->y()));
+        animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
+        //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
+    }
+    connect(animation, &QPropertyAnimation::finished, [=]{
+        m_iRet=false;
+        bMove=false;
+        bmouseleftpressed = false;
+        m_vecPoint.clear();
+        //lmh0915,加上延时100ms，为了防止动画完了，还在跳转
+        QTimer::singleShot(100,[=]{
+            if(m_currentImageItem){
+                m_currentImageItem->emitClickEndSig();
+            }
+        });
+
+        m_lastPoint=QPoint(0,0);
+        emit mouseLeftReleased();
+    });
+    qDebug()<<"left1:"<<this->geometry().left();
+    qDebug()<<"right2:"<<this->geometry().right();
+    int indexTotal=((this->geometry().right()-this->geometry().left())/64)-1;
+    qDebug()<<indexTotal;
+    /*lmh0727*/
+    QThread *th = QThread::create([=]() {
+        if(m_bthreadMutex){
+            return;
+        }
+        m_bthreadMutex=true;
+        QMutexLocker locker(&m_threadMutex);
+        while(m_iRet &&bMove)
+        {
+            QThread::msleep(50);
+            /*lmh0727*/
+
+            QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
+            int middle = (this->geometry().left() + this->geometry().right()) / 2;
+            int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
+
+            if(list.size()>2){
+                for (int i = 2; i < list.size(); i++) {
+                    ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
+                    if (nullptr == img) {
+                        continue;
+                    }
+                    bool bMiddel=true;
+                    for(int j=0;j<indexTotal;++j){
+                        if(list.at(list.size()-j-1)==m_currentImageItem||list.at(2+j)==m_currentImageItem)
+                        {
+                            bMiddel=false;
+                            break;
+                        }
+                    }
+                    if(bMiddel)
+                    {
+                        int left = this->geometry().left() + img->geometry().left() + listLeft;
+                        int right = this->geometry().left() + img->geometry().right() + listLeft;
+                        if (left <= middle && middle < right) {
+                            //lmh0915快速向中间加载
+//                            if(img->getIndexNow()-(i-2)>1)
+//                            {
+//                                ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+1));
+//                                img2->emitClickSig(img2->getPath());
+//                                m_currentImageItem=img2;
+//                            }
+//                            else if(img->getIndexNow()-(i-2)<-1)
+//                            {
+//                                ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+3));
+//                                img2->emitClickSig(img2->getPath());
+//                                m_currentImageItem=img2;
+//                            }
+//                            else {
+                                img->emitClickSig(img->getPath());
+                                m_currentImageItem=img;
+//                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        m_iRet=false;
+        bMove=false;
+        bmouseleftpressed = false;
+        m_vecPoint.clear();
+        if(m_currentImageItem){
+            m_currentImageItem->emitClickEndSig();
+        }
+        m_bthreadMutex=false;
+    });
+    connect(th, &QThread::finished, th, &QObject::deleteLater);
+    th->start();
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
+    return true;
+}
+
 bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 {
     Q_UNUSED(obj)
@@ -155,180 +345,38 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         qDebug() << "m_prepoint:" << m_prepoint;
     }
     //lmh0819当手指拖动，有另外一只手指介入，则不会触发release事件，所以造成这样，当qt组修复这个问题，可以屏蔽掉代码，解决bug43181
-    if (e->type() == QEvent::TouchBegin || e->type() == QEvent::TouchUpdate ||
-            e->type() == QEvent::TouchEnd) {
-        if(e->type() == QEvent::TouchBegin){
-            m_maxTouchPoints=0;
-        }
-        else if(e->type() == QEvent::TouchUpdate){
-            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(e);
-            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
-            if(touchPoints.size()>m_maxTouchPoints){
-                m_maxTouchPoints=touchPoints.size();
-            }
-        }
-        if(e->type() == QEvent::TouchEnd){
-            if(m_maxTouchPoints>=2){
-                qDebug()<<e->type();
-                m_iRet=false;
-                bMove=false;
-                bmouseleftpressed = false;
-                if(m_currentImageItem){
-                    m_currentImageItem->emitClickEndSig();
-                }
-                m_vecPoint.clear();
-                m_lastPoint=QPoint(0,0);
-                emit mouseLeftReleased();
-                return false;
-            }
-        }
-    }
+//    if (e->type() == QEvent::TouchBegin || e->type() == QEvent::TouchUpdate ||
+//            e->type() == QEvent::TouchEnd) {
+//        if(e->type() == QEvent::TouchBegin){
+//            m_maxTouchPoints=0;
+//        }
+//        else if(e->type() == QEvent::TouchUpdate){
+//            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(e);
+//            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+//            if(touchPoints.size()>m_maxTouchPoints){
+//                m_maxTouchPoints=touchPoints.size();
+//            }
+//        }
+//        if(e->type() == QEvent::TouchEnd){
+//            if(m_maxTouchPoints>=2){
+//                qDebug()<<e->type();
+//                m_iRet=false;
+//                bMove=false;
+//                bmouseleftpressed = false;
+//                if(m_currentImageItem){
+//                    m_currentImageItem->emitClickEndSig();
+//                }
+//                m_vecPoint.clear();
+//                m_lastPoint=QPoint(0,0);
+//                emit mouseLeftReleased();
+//                return false;
+//            }
+//        }
+//    }
 
     if (e->type() == QEvent::MouseButtonRelease) {
-        bmouseleftpressed = false;
-qDebug()<<e->type();
-
-        int firsttolast=0;
-        if(m_vecPoint.size()>0){
-            firsttolast=m_vecPoint.first().x()-m_vecPoint.last().x();
-        }
-
-        m_iRet=true;
-        QPropertyAnimation *animation = new QPropertyAnimation((DWidget *)m_obj, "pos");
-        animation->setEasingCurve(QEasingCurve::NCurveTypes);
-        animation->setStartValue(((DWidget *)m_obj)->pos());
-        if(m_vecPoint.size()<20){
-            animation->deleteLater();
-            m_iRet=false;
-            bMove=false;
-            bmouseleftpressed = false;
-            m_vecPoint.clear();
-            m_lastPoint=QPoint(0,0);
-            emit mouseLeftReleased();
-            return false;
-        }
-        else if(firsttolast<20 && firsttolast>-20 ){
-            animation->deleteLater();
-            m_iRet=false;
-            bMove=false;
-            bmouseleftpressed = false;
-            if(m_currentImageItem){
-                m_currentImageItem->emitClickEndSig();
-            }
-            m_vecPoint.clear();
-            m_lastPoint=QPoint(0,0);
-            emit mouseLeftReleased();
-            return false;
-        }
-        else if(firsttolast>=20 && firsttolast<50){
-            animation->setDuration(1000);
-            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-40, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast<=-20 && firsttolast>-50){
-            animation->setDuration(1000);
-            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+40, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast>=50 && firsttolast<100){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-70, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-100, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast<=-50 && firsttolast>-100){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+70, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+100, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast>=100 && firsttolast<200){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-130, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()-170, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-200, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast<=-100&& firsttolast>-200){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+130, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()+170, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+200, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast>=200){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x()-150, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()-220, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()-260, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-300, ((DWidget *)m_obj)->y()));
-        }
-        else if(firsttolast<=-200){
-            animation->setDuration(800);
-            animation->setKeyValueAt(0.3, QPoint(((DWidget *)m_obj)->x()+150, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.5, QPoint(((DWidget *)m_obj)->x()+220, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(0.7, QPoint(((DWidget *)m_obj)->x()+260, ((DWidget *)m_obj)->y()));
-            animation->setKeyValueAt(1, QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
-            //            animation->setEndValue(QPoint(((DWidget *)m_obj)->x()+300, ((DWidget *)m_obj)->y()));
-        }
-        connect(animation, &QPropertyAnimation::finished, [=]{
-            m_iRet=false;
-            bMove=false;
-            bmouseleftpressed = false;
-            m_vecPoint.clear();
-            if(m_currentImageItem){
-                m_currentImageItem->emitClickEndSig();
-            }
-            m_lastPoint=QPoint(0,0);
-            dynamic_cast<DWidget *>(m_obj)->resize(dynamic_cast<DWidget *>(m_obj)->width()+1,dynamic_cast<DWidget *>(m_obj)->height());
-
-        });
-        /*lmh0727*/
-        QThread *th = QThread::create([=]() {
-            if(m_bthreadMutex){
-                return;
-            }
-            m_bthreadMutex=true;
-            QMutexLocker locker(&m_threadMutex);
-            while(m_iRet &&bMove)
-            {
-                QThread::msleep(50);
-                /*lmh0727*/
-
-                QObjectList list = dynamic_cast<DWidget *>(m_obj)->children();
-                int middle = (this->geometry().left() + this->geometry().right()) / 2;
-                int listLeft = dynamic_cast<DWidget *>(m_obj)->geometry().left();
-                if(list.size()>2){
-                    for (int i = 2; i < list.size(); i++) {
-                        ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
-                        if (nullptr == img) {
-                            continue;
-                        }
-                        int left = this->geometry().left() + img->geometry().left() + listLeft;
-                        int right = this->geometry().left() + img->geometry().right() + listLeft;
-                        if (left <= middle && middle < right) {
-                            if(m_currentImageItem!=img){
-                                img->emitClickSig(img->getPath());
-                                m_currentImageItem=img;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            m_iRet=false;
-            bMove=false;
-            bmouseleftpressed = false;
-            m_vecPoint.clear();
-            if(m_currentImageItem){
-                m_currentImageItem->emitClickEndSig();
-            }
-            m_bthreadMutex=false;
-        });
-        connect(th, &QThread::finished, th, &QObject::deleteLater);
-        th->start();
-        animation->start(QAbstractAnimation::DeleteWhenStopped);
-
-//        emit mouseLeftReleased();
+        return false;
+        UpdateThumbnail();
     }
     if (e->type() == QEvent::Leave && obj == m_obj) {
         bmouseleftpressed = false;
@@ -357,9 +405,16 @@ qDebug()<<e->type();
         if(m_lastPoint==QPoint(0,0)){
             m_lastPoint=CurrentcoursePoint;
         }
-        if((CurrentcoursePoint.x()-m_lastPoint.x())<32 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-32  /*||(CurrentcoursePoint.x()-m_lastPoint.x())>64 ||(CurrentcoursePoint.x()-m_lastPoint.x())<-64*/)
+        bool bleft=true;
+        if((CurrentcoursePoint.x()-m_lastPoint.x())<15 &&(CurrentcoursePoint.x()-m_lastPoint.x())>-15  /*||(CurrentcoursePoint.x()-m_lastPoint.x())>64 ||(CurrentcoursePoint.x()-m_lastPoint.x())<-64*/)
         {
             return false;
+        }
+        if(CurrentcoursePoint.x()-m_lastPoint.x()<0){
+            bleft=true;
+        }
+        else {
+            bleft=false;
         }
         m_lastPoint=CurrentcoursePoint;
         /*lmh0727*/
@@ -373,14 +428,55 @@ qDebug()<<e->type();
                 if (nullptr == img) {
                     continue;
                 }
-                int left = this->geometry().left() + img->geometry().left() + listLeft;
-                int right = this->geometry().left() + img->geometry().right() + listLeft;
-                if (left <= middle && middle < right) {
-                    if(m_currentImageItem!=img){
-                        img->emitClickSig(img->getPath());
+                if(m_currentImageItem==nullptr){
+                    ImageItem *img=dynamic_cast<ImageItem *>(list.at(i));
+                    qDebug()<<img->getIndexNow();
+                    if(img->getIndexNow()==i-2)
+                    {
                         m_currentImageItem=img;
                     }
-                    break;
+                }
+                /*对于末尾的情况和排头的情况，特殊处理*/
+                if((/*list.at(3)==m_currentImageItem ||*/list.at(2)==m_currentImageItem )&&!bleft){
+                    ImageItem *img2=dynamic_cast<ImageItem *>(list.at(2));
+                    int left = this->geometry().left() + img2->geometry().left() + listLeft;
+//                    qDebug()<<"left "<<left<<"middle "<<middle;
+                    if (left > middle+32 ){
+                        img2->emitClickSig(img2->getPath());
+                        m_currentImageItem=img2;
+                    }
+                }
+                if((list.at(list.size()-1)==m_currentImageItem /*||list.at(list.size()-2)==m_currentImageItem*/) &&bleft){
+                    ImageItem *img2=dynamic_cast<ImageItem *>(list.at(list.size()-1));
+                    int right = this->geometry().left() + img2->geometry().right() + listLeft;
+                    if (middle > right+32 ){
+                        img2->emitClickSig(img2->getPath());
+                        m_currentImageItem=img2;
+                    }
+                }
+                if(img != m_currentImageItem) {
+                    int left = this->geometry().left() + img->geometry().left() + listLeft;
+                    int right = this->geometry().left() + img->geometry().right() + listLeft;
+                    if (left <= middle && middle < right) {
+                        //一个一个朝向中间加载
+//                        if(img->getIndexNow()-(i-2)>1)
+//                        {
+//                            ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+1));
+//                            img2->emitClickSig(img2->getPath());
+//                            m_currentImageItem=img2;
+//                        }
+//                        else if(img->getIndexNow()-(i-2)<-1)
+//                        {
+//                            ImageItem *img2=dynamic_cast<ImageItem *>(list.at(img->getIndexNow()+3));
+//                            img2->emitClickSig(img2->getPath());
+//                            m_currentImageItem=img2;
+//                        }
+//                        else {
+                            img->emitClickSig(img->getPath());
+                            m_currentImageItem=img;
+//                        }
+                        break;
+                    }
                 }
             }
         }
@@ -553,6 +649,10 @@ void ImageItem::paintEvent(QPaintEvent *event)
 TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos,bool flag, QWidget *parent)
     : QLbtoDLabel(parent)
 {
+#ifdef OPENACCESSIBLE
+    setObjectName(TTBCONTENT_WIDGET);
+    setAccessibleName(TTBCONTENT_WIDGET);
+#endif
     m_NotImageViewFlag = flag;
     setWindoeSize(inDB, m_infos, parent);
     initBtn();
@@ -674,7 +774,7 @@ void TTBContent::initBtn()
                   TOOLBAR_HEIGHT));
     }
 
-    m_imgList->setDisabled(false);
+    m_imgList->setEnabled(true);
     m_imglayout = new QHBoxLayout();
     m_imglayout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     //    m_imglayout->setMargin(0);
@@ -718,7 +818,22 @@ void TTBContent::initBtn()
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
     m_trashBtn->setIconSize(QSize(36, 36));
     m_trashBtn->setToolTip(tr("Delete"));
-
+#ifdef OPENACCESSIBLE
+    m_adaptImageBtn->setObjectName(ADAPT_BUTTON);
+    m_adaptScreenBtn->setObjectName(ADAPT_SCREEN_BUTTON);
+    m_preButton->setObjectName(PRE_BUTTON);
+    m_nextButton->setObjectName(NEXT_BUTTON);
+    m_rotateRBtn->setObjectName(CLOCKWISE_ROTATION);
+    m_rotateLBtn->setObjectName(COUNTER_CLOCKWISE_ROTATION);
+    m_trashBtn->setObjectName(TRASH_BUTTON);
+    m_adaptImageBtn->setAccessibleName(ADAPT_BUTTON);
+    m_adaptScreenBtn->setAccessibleName(ADAPT_SCREEN_BUTTON);
+    m_preButton->setAccessibleName(PRE_BUTTON);
+    m_nextButton->setAccessibleName(NEXT_BUTTON);
+    m_rotateRBtn->setAccessibleName(CLOCKWISE_ROTATION);
+    m_rotateLBtn->setAccessibleName(COUNTER_CLOCKWISE_ROTATION);
+    m_trashBtn->setAccessibleName(TRASH_BUTTON);
+#endif
     hb->addWidget(m_trashBtn);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     bool theme = false;
@@ -793,7 +908,9 @@ void TTBContent::toolbarSigConnection()
     });
 
     connect(m_preButton, &DIconButton::clicked, this, [ = ] { emit showPrevious(); });
-    connect(m_nextButton, &DIconButton::clicked, this, [ = ] { emit showNext(); });
+    connect(m_nextButton, &DIconButton::clicked, this, [ = ] {
+        emit showNext();
+    });
     connect(m_adaptImageBtn, &DIconButton::clicked, this, [ = ] {
         m_adaptImageBtn->setChecked(true);
         if (!badaptImageBtnChecked)
@@ -1144,6 +1261,7 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
                             QPixmap pix=img->getPixmap();
                             m_nowIndex=img->getIndex();
                             emit showvaguepixmap(pix,labelList.at(0)->getPath());
+                            emit sigsetcurrent(labelList.at(0)->getPath());
                         }
                     }
                     if(m_lastIndex >-1){
@@ -1172,8 +1290,8 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
 //                emit imageClicked(index, (index - indexNow));
                 emit imageMoveEnded(index, (index - indexNow),iRet);
                 m_lastIndex=m_nowIndex;
-                onResize();
-                m_imgList->adjustSize();
+//                onResize();
+//                m_imgList->adjustSize();
             });
 
         }
@@ -1360,29 +1478,22 @@ void TTBContent::setBtnAttribute(const QString strPath)
         m_trashBtn->setEnabled(true);
     }
 
-    if ((QFileInfo(strPath).isReadable() && !QFileInfo(strPath).isWritable()) || (QFileInfo(strPath).suffix() == "gif")) {
-        //gif图片可以删除
-        if ((QFileInfo(strPath).suffix() == "gif")) {
-            m_trashBtn->setDisabled(false);
-        } else {
-            m_trashBtn->setDisabled(true);
-
-        }
-
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
+    if ((QFileInfo(strPath).isReadable() && !QFileInfo(strPath).isWritable())) {
+        m_trashBtn->setEnabled(false);
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
     } else {
-        m_trashBtn->setDisabled(false);
+        m_trashBtn->setEnabled(true);
         if (utils::image::imageSupportSave(strPath)) {
-            m_rotateLBtn->setDisabled(false);
-            m_rotateRBtn->setDisabled(false);
+            m_rotateLBtn->setEnabled(true);
+            m_rotateRBtn->setEnabled(true);
         } else {
             if ((QFileInfo(strPath).suffix() == "svg")) {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
+                m_rotateLBtn->setEnabled(true);
+                m_rotateRBtn->setEnabled(true);
             } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
+                m_rotateLBtn->setEnabled(false);
+                m_rotateRBtn->setEnabled(false);
             }
         }
     }
@@ -1405,6 +1516,8 @@ void TTBContent::OnUpdateThumbnail(QString path)
         item->updatePic(imgpix);
 }
 
+
+
 void TTBContent::DisEnablettbButton()
 {
     m_rotateLBtn->setEnabled(false);
@@ -1412,6 +1525,18 @@ void TTBContent::DisEnablettbButton()
     m_adaptImageBtn->setEnabled(false);
     m_adaptScreenBtn->setEnabled(false);
     m_NotImageViewFlag = true;
+}
+
+void TTBContent::OnRequestShowVaguePix(QString filepath,bool& thumbnailflag)
+{
+    ImageItem* item =  m_imgList->findChild<ImageItem *>(filepath);
+    QPixmap pix = item->getPixmap();
+    if(!pix.isNull()){
+        qDebug() << "OnRequestShowVaguePix";
+        emit showvaguepixmap(pix,filepath);
+        thumbnailflag = true;
+    }else
+        thumbnailflag = false;
 }
 
 void TTBContent::onChangeHideFlags(bool bFlags)
@@ -1423,19 +1548,19 @@ void TTBContent::onChangeHideFlags(bool bFlags)
         m_preButton_spc->hide();
         m_nextButton->hide();
         m_nextButton_spc->hide();
-        m_preButton->setDisabled(true);
-        m_preButton_spc->setDisabled(true);
-        m_nextButton->setDisabled(true);
-        m_nextButton_spc->setDisabled(true);
+        m_preButton->setEnabled(false);
+        m_preButton_spc->setEnabled(false);
+        m_nextButton->setEnabled(false);
+        m_nextButton_spc->setEnabled(false);
     } else {
         m_preButton->show();
         m_nextButton->show();
         m_preButton_spc->show();
         m_nextButton_spc->show();
-        m_preButton->setDisabled(false);
-        m_preButton_spc->setDisabled(false);
-        m_nextButton->setDisabled(false);
-        m_nextButton_spc->setDisabled(false);
+        m_preButton->setEnabled(true);
+        m_preButton_spc->setEnabled(true);
+        m_nextButton->setEnabled(true);
+        m_nextButton_spc->setEnabled(true);
     }
 
     //判断是否加载完成，未完成将旋转和删除按钮禁用
@@ -1449,30 +1574,22 @@ void TTBContent::onChangeHideFlags(bool bFlags)
 //        m_rotateRBtn->setEnabled(true);
 //        m_trashBtn->setEnabled(true);
 //    }
-
-    if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable()) || (QFileInfo(m_imagePath).suffix() == "gif")) {
-        //gif图片可以删除
-        if ((QFileInfo(m_imagePath).suffix() == "gif")) {
-            m_trashBtn->setDisabled(false);
-        } else {
-            m_trashBtn->setDisabled(true);
-
-        }
-
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
+    if ((QFileInfo(m_imagePath).isReadable() && !QFileInfo(m_imagePath).isWritable())) {
+        m_trashBtn->setEnabled(false);
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
     } else {
-        m_trashBtn->setDisabled(false);
+        m_trashBtn->setEnabled(true);
         if (utils::image::imageSupportSave(m_imagePath)) {
-            m_rotateLBtn->setDisabled(false);
-            m_rotateRBtn->setDisabled(false);
+            m_rotateLBtn->setEnabled(true);
+            m_rotateRBtn->setEnabled(true);
         } else {
             if (QFileInfo(m_imagePath).suffix() == "svg") {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
+                m_rotateLBtn->setEnabled(true);
+                m_rotateRBtn->setEnabled(true);
             } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
+                m_rotateLBtn->setEnabled(false);
+                m_rotateRBtn->setEnabled(false);
             }
         }
     }
@@ -1513,6 +1630,7 @@ void TTBContent::loadBack(DBImgInfoList infos)
                         QPixmap pix=img->getPixmap();
                         m_nowIndex=img->getIndex();
                         emit showvaguepixmap(pix,labelList.at(0)->getPath());
+                        emit sigsetcurrent(labelList.at(0)->getPath());
                     }
                 }
                 if(m_lastIndex >-1){
@@ -1540,8 +1658,8 @@ void TTBContent::loadBack(DBImgInfoList infos)
 //                emit imageClicked(index, (index - indexNow));
             emit imageMoveEnded(index, (index - indexNow),iRet);
             m_lastIndex=m_nowIndex;
-            onResize();
-            m_imgList->adjustSize();
+//            onResize();
+//            m_imgList->adjustSize();
         });
 
         m_imgInfos.push_back(info);
@@ -1566,6 +1684,7 @@ void TTBContent::loadBack(DBImgInfoList infos)
         m_imgListView->update();
         m_imgList->move(m_nLastMove, m_imgList->y());
     }
+    m_imgInfos_size = m_imgInfos.size();
 }
 
 void TTBContent::loadFront(DBImgInfoList infos)
@@ -1614,6 +1733,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
                         QPixmap pix=img->getPixmap();
                         m_nowIndex=img->getIndex();
                         emit showvaguepixmap(pix,labelList.at(0)->getPath());
+                        emit sigsetcurrent(labelList.at(0)->getPath());
                     }
                 }
                 if(m_lastIndex >-1){
@@ -1641,8 +1761,8 @@ void TTBContent::loadFront(DBImgInfoList infos)
 //                emit imageClicked(index, (index - indexNow));
             emit imageMoveEnded(index, (index - indexNow),iRet);
             m_lastIndex=m_nowIndex;
-            onResize();
-            m_imgList->adjustSize();
+//            onResize();
+//            m_imgList->adjustSize();
         });
 
         m_imgInfos.push_front(info);
@@ -1668,6 +1788,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
         m_imgListView->update();
         m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
     }
+    m_imgInfos_size = m_imgInfos.size();
 }
 
 void TTBContent::ReInitFirstthumbnails(DBImgInfoList infos)
@@ -1794,33 +1915,33 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
         qDebug() << "reloadItems完成";
 
         if (m_nowIndex == 0) {
-            m_preButton->setDisabled(true);
+            m_preButton->setEnabled(false);
         } else {
-            m_preButton->setDisabled(false);
+            m_preButton->setEnabled(true);
         }
         if (m_nowIndex == m_imgInfos.size() - 1) {
-            m_nextButton->setDisabled(true);
+            m_nextButton->setEnabled(false);
         } else {
-            m_nextButton->setDisabled(false);
+            m_nextButton->setEnabled(true);
         }
 
-        m_adaptImageBtn->setDisabled(true);
-        m_adaptScreenBtn->setDisabled(true);
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
-        m_trashBtn->setDisabled(true);
+        m_adaptImageBtn->setEnabled(false);
+        m_adaptScreenBtn->setEnabled(false);
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
+        m_trashBtn->setEnabled(false);
 
-        m_imgList->setDisabled(false);
+        m_imgList->setEnabled(true);
 
     } else {
 #if TTB
-        m_adaptImageBtn->setDisabled(false);
-        m_adaptScreenBtn->setDisabled(false);
+        m_adaptImageBtn->setEnabled(true);
+        m_adaptScreenBtn->setEnabled(true);
 #else
-        //        btAdapt->setDisabled(false);
-        //        btFit->setDisabled(false);
-        m_adaptImageBtn->setDisabled(false);
-        m_adaptScreenBtn->setDisabled(false);
+        //        btAdapt->setEnabled(true);
+        //        btFit->setEnabled(true);
+        m_adaptImageBtn->setEnabled(true);
+        m_adaptScreenBtn->setEnabled(true);
 #endif
 
         if (m_imgInfos.size() > 3) {
@@ -1856,25 +1977,25 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #if TTB
             if (m_nowIndex == 0) {
-                m_preButton->setDisabled(true);
+                m_preButton->setEnabled(false);
             } else {
-                m_preButton->setDisabled(false);
+                m_preButton->setEnabled(true);
             }
             if (m_nowIndex == labelList.size() - 1) {
-                m_nextButton->setDisabled(true);
+                m_nextButton->setEnabled(false);
             } else {
-                m_nextButton->setDisabled(false);
+                m_nextButton->setEnabled(true);
             }
 #else
             if (m_nowIndex == 0) {
-                m_preButton->setDisabled(true);
+                m_preButton->setEnabled(false);
             } else {
-                m_preButton->setDisabled(false);
+                m_preButton->setEnabled(true);
             }
             if (m_nowIndex == m_imgInfos.size() - 1) {
-                m_nextButton->setDisabled(true);
+                m_nextButton->setEnabled(false);
             } else {
-                m_nextButton->setDisabled(false);
+                m_nextButton->setEnabled(true);
             }
 #endif
         } else if (m_imgInfos.size() > 1) {
@@ -1910,25 +2031,25 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #if TTB
             if (m_nowIndex == 0) {
-                m_preButton->setDisabled(true);
+                m_preButton->setEnabled(false);
             } else {
-                m_preButton->setDisabled(false);
+                m_preButton->setEnabled(true);
             }
             if (m_nowIndex == labelList.size() - 1) {
-                m_nextButton->setDisabled(true);
+                m_nextButton->setEnabled(false);
             } else {
-                m_nextButton->setDisabled(false);
+                m_nextButton->setEnabled(true);
             }
 #else
             if (m_nowIndex == 0) {
-                m_preButton->setDisabled(true);
+                m_preButton->setEnabled(false);
             } else {
-                m_preButton->setDisabled(false);
+                m_preButton->setEnabled(true);
             }
             if (m_nowIndex == m_imgInfos.size() - 1) {
-                m_nextButton->setDisabled(true);
+                m_nextButton->setEnabled(false);
             } else {
-                m_nextButton->setDisabled(false);
+                m_nextButton->setEnabled(true);
             }
 #endif
         } else {
@@ -1956,17 +2077,17 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #if TTB
         if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-            m_trashBtn->setDisabled(true);
-            m_rotateLBtn->setDisabled(true);
-            m_rotateRBtn->setDisabled(true);
+            m_trashBtn->setEnabled(false);
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
         } else {
-            m_trashBtn->setDisabled(false);
+            m_trashBtn->setEnabled(true);
             if (utils::image::imageSupportSave(path)) {
-                m_rotateLBtn->setDisabled(false);
-                m_rotateRBtn->setDisabled(false);
+                m_rotateLBtn->setEnabled(true);
+                m_rotateRBtn->setEnabled(true);
             } else {
-                m_rotateLBtn->setDisabled(true);
-                m_rotateRBtn->setDisabled(true);
+                m_rotateLBtn->setEnabled(false);
+                m_rotateRBtn->setEnabled(false);
             }
         }
 #else
@@ -1978,10 +2099,10 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
     }
     if(!m_NotImageViewFlag)
     {
-        m_adaptImageBtn->setDisabled(true);
-        m_adaptScreenBtn->setDisabled(true);
-        m_rotateLBtn->setDisabled(true);
-        m_rotateRBtn->setDisabled(true);
+        m_adaptImageBtn->setEnabled(false);
+        m_adaptScreenBtn->setEnabled(false);
+        m_rotateLBtn->setEnabled(false);
+        m_rotateRBtn->setEnabled(false);
     }
     m_NotImageViewFlag = true;
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
@@ -2021,14 +2142,14 @@ void TTBContent::updateCollectButton()
     //        return;
 
     //    if (m_imagePath.isEmpty() || !QFileInfo(m_imagePath).exists()) {
-    //        m_clBT->setDisabled(true);
+    //        m_clBT->setEnabled(false);
     //        m_clBT->setChecked(false);
     //    }
     //    else
-    //        m_clBT->setDisabled(false);
+    //        m_clBT->setEnabled(true);
 
     //    if (! m_clBT->isEnabled()) {
-    //        m_clBT->setDisabled(true);
+    //        m_clBT->setEnabled(false);
     //    }
     //#ifndef LITE_DIV
     //    else if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM,
@@ -2040,7 +2161,7 @@ void TTBContent::updateCollectButton()
     //    else {
     //        m_clBT->setToolTip(tr("Favorite"));
     //        m_clBT->setChecked(false);
-    //        m_clBT->setDisabled(false);
+    //        m_clBT->setEnabled(true);
     //    }
 }
 

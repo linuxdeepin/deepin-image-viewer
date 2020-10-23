@@ -6,7 +6,7 @@ HEADERS += \
     $$PWD/imageutils_libexif.h \
     $$PWD/snifferimageformat.h \
     $$PWD/unionimage.h \
-    $$PWD/giflib/cmanagerattributeservice.h
+#    $$PWD/giflib/cmanagerattributeservice.h
 
 SOURCES += \
     $$PWD/imageutils.cpp \
@@ -14,5 +14,5 @@ SOURCES += \
     $$PWD/shortcut.cpp \
     $$PWD/snifferimageformat.cpp \
     $$PWD/unionimage.cpp \
-    $$PWD/giflib/cmanagerattributeservice.cpp
+#    $$PWD/giflib/cmanagerattributeservice.cpp
 

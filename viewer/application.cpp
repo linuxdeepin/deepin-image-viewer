@@ -40,8 +40,6 @@
 namespace {
 
 }  // namespace
-/*lmh0728缩略图分辨率IMAGE_HEIGHT_DEFAULT*/
-#define IMAGE_HEIGHT_DEFAULT    300
 
 //#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
 
@@ -63,7 +61,6 @@ void ImageLoader::startLoading()
 
     int num = 0;
     int array = 0;
-    int count = m_pathlist.size();
 
     for (QString path : m_pathlist) {
         num++;
@@ -74,23 +71,23 @@ void ImageLoader::startLoading()
     }
     dApp->getRwLock().unlock();
     //heyi test
-    QStringList list;
-    for (int i = 0; i < 25; i++) {
-        if ((array - i) > -1) {
-            list.append(m_pathlist.at(array - i));
-        }
-        if ((array + i) < count) {
-            list.append(m_pathlist.at(array + i));
-        }
-    }
+//    QStringList list;
+//    for (int i = 0; i < 25; i++) {
+//        if ((array - i) > -1) {
+//            list.append(m_pathlist.at(array - i));
+//        }
+//        if ((array + i) < count) {
+//            list.append(m_pathlist.at(array + i));
+//        }
+//    }
     listLoad1.clear();
     listLoad2.clear();
     //heyi test 开辟两个线程同时加载,重选中位置往两边加载
     for (int i = 0; i < array; i++) {
         listLoad1.append(m_pathlist.at(i));
     }
-
-    for (int i = array; i < m_pathlist.size(); i++) {
+    //由于打开图片已经裁剪成缩略图所以不需要加载
+    for (int i = array+1; i < m_pathlist.size(); i++) {
         listLoad2.append(m_pathlist.at(i));
     }
 
@@ -484,6 +481,16 @@ Application::~Application()
     }
 
     emit endApplication();
+}
+#include <QMouseEvent>
+#include <QDebug>
+bool Application::notify(QObject *obj, QEvent *e)
+{
+    if(e->type() == QEvent::MouseButtonRelease)
+    {
+        emit sigMouseRelease ();
+    }
+    return QApplication::notify(obj,e);
 }
 
 void Application::initChildren()

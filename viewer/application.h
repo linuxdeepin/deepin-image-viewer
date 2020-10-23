@@ -37,6 +37,8 @@ class QCloseEvent;
 #undef dApp
 #endif
 #define dApp (static_cast<Application*>(QCoreApplication::instance()))
+/*lmh0728缩略图分辨率IMAGE_HEIGHT_DEFAULT*/
+#define IMAGE_HEIGHT_DEFAULT    300
 
 DWIDGET_USE_NAMESPACE
 
@@ -128,7 +130,17 @@ public:
 
     /*lmh0806儒码优化*/
     int  m_timer=0;
+
+    /*全局监测线程lmh0914*/
+    bool notify(QObject *obj, QEvent *e);
+
 signals:
+    /**
+     * @brief sigMouseRelease  全局线程释放事件
+     * 2020/09/14 lmh
+     */
+    void sigMouseRelease();
+
     /**
      * @brief sigstartLoad  加载线程启动信号
      */

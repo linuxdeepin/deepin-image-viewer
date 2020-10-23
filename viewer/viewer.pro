@@ -4,9 +4,8 @@
 #
 #-------------------------------------------------
 
-QT += core gui sql dbus concurrent svg  printsupport
+QT += core gui dbus concurrent svg  printsupport
 # QT += x11extras
-qtHaveModule(opengl): QT += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
@@ -15,6 +14,7 @@ PKGCONFIG +=   libexif dtkwidget  gio-qt udisks2-qt5
 # PKGCONFIG += xext x11 gio-unix-2.0
  QT += dtkwidget
  QT += dbus
+#CONFIG += object_parallel_to_source
 LIBS += -lfreeimage
 
 #gtk+-2.0
@@ -37,6 +37,7 @@ include (widgets/widgets.pri)
 include (utils/utils.pri)
 include (controller/controller.pri)
 include (service/service.pri)
+include (third-party/accessibility/accessibility-suite.pri)
 
 !isEmpty(FULL_FUNCTIONALITY) {
     include (settings/settings.pri)
@@ -44,7 +45,9 @@ include (service/service.pri)
 }
 
 HEADERS += \
-    application.h
+    application.h \
+    accessibility/acobjectlist.h \
+    accessibility/ac-desktop-define.h
 
 SOURCES += main.cpp \
     application.cpp
@@ -106,9 +109,9 @@ DISTFILES += \
     com.deepin.ImageViewer.service
 
 load(dtk_qmake)
-
-QMAKE_CXXFLAGS += -Wl,-as-need -fPIE
-QMAKE_LFLAGS+=-pie
+QMAKE_CXX += -Wl,--as-need
+QMAKE_CXXFLAGS += -Wl,--as-need -fPIE
+QMAKE_LFLAGS+=-Wl,--as-needed -pie
 
 host_sw_64: {
 # 在 sw_64 平台上添加此参数，否则会在旋转图片时崩溃
@@ -118,6 +121,5 @@ host_sw_64: {
 
 host_mips64:{
    QMAKE_CXX += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi
-   QMAKE_CXXFLAGS += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,as-need -fPIE
-   QMAKE_LFLAGS+=-pie
+   QMAKE_CXXFLAGS += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi
 }

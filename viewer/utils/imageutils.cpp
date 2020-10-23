@@ -814,13 +814,14 @@ bool imageSupportWallPaper(const QString &path)
         if(listsupportWallPaper.contains(reader.format())){
             iRet=true;
         }
-        else {
-            const QString suffix = QFileInfo(path).suffix();
-            if(suffix=="ico")
-            {
-                iRet=true;
-            }
-        }
+        //20201012 lmh ico不支持设置壁纸
+//        else {
+//            const QString suffix = QFileInfo(path).suffix();
+//            if(suffix=="ico")
+//            {
+//                iRet=true;
+//            }
+//        }
     }
 
     return iRet;

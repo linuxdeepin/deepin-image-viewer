@@ -20,7 +20,6 @@
 */
 #include "unionimage.h"
 #include <FreeImage.h>
-#include "giflib/cmanagerattributeservice.h"
 
 #include <QObject>
 #include <QMutex>
@@ -688,7 +687,6 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
             res = res_qt;
         }
         else{
-            int n =reader.imageCount();
             res=QImage();
             return false;
         }
@@ -1116,131 +1114,6 @@ bool getThumbnail(QImage &res, const QString &path)
     return true;
 }
 
-class UnionMovieImagePrivate : public QObject
-{
-
-public:
-    explicit UnionMovieImagePrivate(UnionMovieImage *parent): q_ptr(parent)
-    {
-
-    }
-    ~UnionMovieImagePrivate()
-    {
-        CManagerAttributeService::getInstance()->setCouldRun(false);
-        CManagerAttributeService::getInstance()->GifFreeFile();
-    }
-
-
-    void setPathAndBegin(const QString &path)
-    {
-        CManagerAttributeService::getInstance()->setfilePathWithSignalPlay(path);
-        QObject::connect(CManagerAttributeService::getInstance(), &CManagerAttributeService::emitImageSignal, this, [ = ](QImage image, bool isFirst) {
-            Q_UNUSED(isFirst);
-            res = image;
-        });
-    }
-
-    int getCurrent()
-    {
-        return currentIndex;
-    }
-
-    void reset()
-    {
-        CManagerAttributeService::getInstance()->setCouldRun(false);
-        CManagerAttributeService::getInstance()->GifFreeFile();
-
-        delete r;
-        r = nullptr;
-        errMsg = "";
-        res = QImage();
-        currentFormat = FIF_UNKNOWN;
-        currentIndex = 0;
-        frames = 0;
-    }
-
-    void setIndex(int i)
-    {
-        currentIndex = i;
-    }
-public:
-    UnionMovieImage *const q_ptr;
-    Q_DECLARE_PUBLIC(UnionMovieImage)
-    QImageReader *r = nullptr;
-    QString errMsg = "";
-    QImage res;
-    FREE_IMAGE_FORMAT currentFormat = FIF_UNKNOWN;
-    int currentIndex = 0;
-    int frames = 0;
-};
-
-UnionMovieImage::UnionMovieImage(): d_ptr(new UnionMovieImagePrivate(this))
-{
-
-}
-
-UnionMovieImage::~UnionMovieImage()
-{
-    Q_D(UnionMovieImage);
-    delete d;
-}
-
-void UnionMovieImage::setFileName(const QString &path)
-{
-    Q_D(UnionMovieImage);
-    d->reset();
-    QString errMsg;
-    QFileInfo file_info(path);
-    QString file_suffix_upper = file_info.suffix().toUpper();
-    QByteArray temp_path;
-    temp_path.append(path.toUtf8());
-    FREE_IMAGE_FORMAT f = FreeImage_GetFileType(temp_path.data());
-    if (!union_image_private.m_movie_formats.contains(file_suffix_upper) || !union_image_private.m_movie_formats.values().contains(f)) {
-        errMsg = "static Image";
-    } else {
-        switch (f) {
-        case FIF_GIF: {
-            d->setPathAndBegin(path);
-            d->currentFormat = FIF_GIF;
-        }
-        break;
-        case FIF_MNG: {
-            d->r = new QImageReader;
-            d->r->setFileName(path);
-            if (d->r->canRead()) {
-                d->currentFormat = FIF_MNG;
-                d->frames = d->r->imageCount();
-            }
-        }
-        break;
-        default:
-            break;
-        }
-    }
-}
-
-QImage UnionMovieImage::next()
-{
-    Q_D(UnionMovieImage);
-    switch (d->currentFormat) {
-    case FIF_GIF: {
-        return d->res;
-    }
-    case FIF_MNG: {
-        int temp = d->currentIndex;
-        d->setIndex(temp + 1);
-        if (temp + 1 >= d->frames) {
-            d->setIndex(0);
-        }
-        d->res = d->r->read();
-        d->r->jumpToNextImage();
-        break;
-    }
-    default:
-        break;
-    }
-    return d->res;
-}
 
 QString PrivateDetectImageFormat(const QString &filepath)
 {
