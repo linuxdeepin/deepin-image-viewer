@@ -35,7 +35,7 @@
 #include <QScrollBar>
 #include <QString>
 #include <QtDebug>
-
+#include <QPainterPath>
 
 namespace {
 

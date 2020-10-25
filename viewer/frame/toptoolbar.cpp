@@ -38,6 +38,7 @@
 #include <QImageReader>
 #include <QLabel>
 #include <QPainter>
+#include <QPainterPath>
 #include <QProcess>
 #include <QResizeEvent>
 #include <QShortcut>

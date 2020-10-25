@@ -36,6 +36,7 @@
 #include <QHBoxLayout>
 #include <QTimer>
 #include <QtMath>
+#include <QPainterPath>
 
 #define TTB 0
 
