@@ -40,6 +40,8 @@ public:
     explicit GraphicsPixmapItem(const QPixmap &pixmap);
     ~GraphicsPixmapItem();
 
+    void setPixmap(const QPixmap &pixmap);
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 

@@ -25,6 +25,7 @@
 #include "controller/viewerthememanager.h"
 
 #include "imagesvgitem.h"
+#include "../contents/morepicfloatwidget.h"
 
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
@@ -338,5 +339,10 @@ private:
     QPointF centerPoint;
     int m_maxTouchPoints=0;
     bool m_bStopShowThread = false;
+
+    /*lmh20201027新增tiff多图切换窗口*/
+    MorePicFloatWidget *m_morePicFloatWidget{nullptr};
+    QImageReader* m_imageReader{nullptr};
+    int m_currentMoreImageNum{0};
 };
 #endif // SVGVIEW_H

@@ -10,7 +10,8 @@ HEADERS += \
     $$PWD/lockwidget.h \
     $$PWD/contents/ttbcontent.h \
 #    $$PWD/contents/iconbutton.h \
-    $$PWD/scen/imagesvgitem.h
+    $$PWD/scen/imagesvgitem.h \
+    $$PWD/contents/morepicfloatwidget.h
 SOURCES += \
     $$PWD/navigationwidget.cpp \
     $$PWD/viewpanel.cpp \
@@ -25,7 +26,8 @@ SOURCES += \
     $$PWD/lockwidget.cpp \
     $$PWD/contents/ttbcontent.cpp \
 #    $$PWD/contents/iconbutton.cpp \
-    $$PWD/scen/imagesvgitem.cpp
+    $$PWD/scen/imagesvgitem.cpp \
+    $$PWD/contents/morepicfloatwidget.cpp
 
 RESOURCES += \
     $$PWD/viewtheme.qrc

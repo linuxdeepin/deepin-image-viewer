@@ -76,6 +76,12 @@ GraphicsPixmapItem::~GraphicsPixmapItem()
     prepareGeometryChange();
 }
 
+void GraphicsPixmapItem::setPixmap(const QPixmap &pixmap)
+{
+    cachePixmap = qMakePair(cachePixmap.first, pixmap);
+    QGraphicsPixmapItem::setPixmap(pixmap);
+}
+
 void GraphicsPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
