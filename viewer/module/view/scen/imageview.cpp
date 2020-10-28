@@ -38,6 +38,7 @@
 #include <QSvgGenerator>
 #include <QScreen>
 #include <QDesktopWidget>
+#include <QShortcut>
 
 #include <DGuiApplicationHelper>
 #include <DSpinner>
@@ -388,40 +389,11 @@ ImageView::ImageView(QWidget *parent)
     //lmh20201027初始化添加float窗口的初始化
     m_morePicFloatWidget=new MorePicFloatWidget(this);
     m_morePicFloatWidget->initUI();
-    connect(m_morePicFloatWidget->getButtonUp(),&DIconButton::clicked,this,[=]{
-        if(m_pixmapItem || m_imageReader)
-        {
-            if(m_imageReader->currentImageNumber()==0){
-                m_imageReader->jumpToImage(m_imageReader->imageCount()-1);
-            }
-            else {
-                m_imageReader->jumpToImage(m_imageReader->currentImageNumber()-1);
-            }
-            m_pixmapItem->setPixmap(QPixmap::fromImage(m_imageReader->read()));
-            QRectF rect = m_pixmapItem->boundingRect();
-            setSceneRect(rect);
-            autoFit();
-            m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
-            emit dApp->signalM->UpdateNavImg();
-        }
-    });
-    connect(m_morePicFloatWidget->getButtonDown(),&DIconButton::clicked,this,[=]{
-        if(m_pixmapItem || m_imageReader)
-        {
-            if(m_imageReader->currentImageNumber()==m_imageReader->imageCount()-1){
-                m_imageReader->jumpToImage(0);
-            }
-            else {
-                m_imageReader->jumpToNextImage();
-            }
-            m_pixmapItem->setPixmap(QPixmap::fromImage(m_imageReader->read()));
-            QRectF rect = m_pixmapItem->boundingRect();
-            setSceneRect(rect);
-            autoFit();
-            m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
-            emit dApp->signalM->UpdateNavImg();
-        }
-    });
+
+    connect(m_morePicFloatWidget->getButtonUp(),&DIconButton::clicked,this,&ImageView::slotsUp);
+    connect(m_morePicFloatWidget->getButtonDown(),&DIconButton::clicked,this,&ImageView::slotsDown);
+    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Up),this), &QShortcut::activated, this, &ImageView::slotsUp);
+    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Down),this), &QShortcut::activated, this, &ImageView::slotsDown);
     m_morePicFloatWidget->setFixedWidth(70);
     m_morePicFloatWidget->setFixedHeight(140);
     m_morePicFloatWidget->hide();
@@ -1656,6 +1628,44 @@ void ImageView::startLoadPixmap()
 void ImageView::SlotStopShowThread()
 {
     m_bStopShowThread = true;
+}
+
+void ImageView::slotsUp()
+{
+    if(m_pixmapItem && m_imageReader &&m_imageReader->imageCount()>1)
+    {
+        if(m_imageReader->currentImageNumber()==0){
+            m_imageReader->jumpToImage(m_imageReader->imageCount()-1);
+        }
+        else {
+            m_imageReader->jumpToImage(m_imageReader->currentImageNumber()-1);
+        }
+        m_pixmapItem->setPixmap(QPixmap::fromImage(m_imageReader->read()));
+        QRectF rect = m_pixmapItem->boundingRect();
+        setSceneRect(rect);
+        autoFit();
+        m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
+        emit dApp->signalM->UpdateNavImg();
+    }
+}
+
+void ImageView::slotsDown()
+{
+    if(m_pixmapItem && m_imageReader &&m_imageReader->imageCount()>1)
+    {
+        if(m_imageReader->currentImageNumber()==m_imageReader->imageCount()-1){
+            m_imageReader->jumpToImage(0);
+        }
+        else {
+            m_imageReader->jumpToNextImage();
+        }
+        m_pixmapItem->setPixmap(QPixmap::fromImage(m_imageReader->read()));
+        QRectF rect = m_pixmapItem->boundingRect();
+        setSceneRect(rect);
+        autoFit();
+        m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
+        emit dApp->signalM->UpdateNavImg();
+    }
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)

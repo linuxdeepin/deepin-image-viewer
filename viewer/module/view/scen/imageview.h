@@ -249,6 +249,10 @@ public slots:
 
     void SlotStopShowThread();
 
+    void slotsUp();
+
+    void slotsDown();
+
 protected:
     void mouseDoubleClickEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
