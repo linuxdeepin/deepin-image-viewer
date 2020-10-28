@@ -388,7 +388,7 @@ ImageView::ImageView(QWidget *parent)
     //lmh20201027初始化添加float窗口的初始化
     m_morePicFloatWidget=new MorePicFloatWidget(this);
     m_morePicFloatWidget->initUI();
-    connect(m_morePicFloatWidget->getButtonUp(),&DPushButton::clicked,this,[=]{
+    connect(m_morePicFloatWidget->getButtonUp(),&DIconButton::clicked,this,[=]{
         if(m_pixmapItem || m_imageReader)
         {
             if(m_imageReader->currentImageNumber()==0){
@@ -402,10 +402,10 @@ ImageView::ImageView(QWidget *parent)
             setSceneRect(rect);
             autoFit();
             m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
-
+            emit dApp->signalM->UpdateNavImg();
         }
     });
-    connect(m_morePicFloatWidget->getButtonDown(),&DPushButton::clicked,this,[=]{
+    connect(m_morePicFloatWidget->getButtonDown(),&DIconButton::clicked,this,[=]{
         if(m_pixmapItem || m_imageReader)
         {
             if(m_imageReader->currentImageNumber()==m_imageReader->imageCount()-1){
@@ -419,6 +419,7 @@ ImageView::ImageView(QWidget *parent)
             setSceneRect(rect);
             autoFit();
             m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
+            emit dApp->signalM->UpdateNavImg();
         }
     });
     m_morePicFloatWidget->setFixedWidth(70);
