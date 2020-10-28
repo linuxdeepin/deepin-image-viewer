@@ -1687,7 +1687,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 //        }
 
         emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(), (m_infos.size() > 1));
-        emit changeHideFlag(false);
+      //  emit changeHideFlag(false);
         m_bAllowDel = false;
 
         if (m_current == 0) {

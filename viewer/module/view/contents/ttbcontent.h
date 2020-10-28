@@ -420,6 +420,7 @@ private:
     QHBoxLayout *m_imglayout;
 //    DWidget *m_imgListView;
     MyImageListWidget *m_imgListView;
+    //各控件之间的间隔
     DWidget *m_imgListView_prespc;
     DWidget *m_imgListView_spc;
     DWidget *m_preButton_spc;
