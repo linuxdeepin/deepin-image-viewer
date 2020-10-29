@@ -2097,38 +2097,16 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 
 #endif
     }
-    if(!m_NotImageViewFlag)
-    {
-        m_adaptImageBtn->setEnabled(false);
-        m_adaptScreenBtn->setEnabled(false);
-        m_rotateLBtn->setEnabled(false);
-        m_rotateRBtn->setEnabled(false);
-    }
-    m_NotImageViewFlag = true;
-    //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
-    if (m_bIsHide || m_imgInfos.size() <= 1) {
-        m_preButton->hide();
-        m_preButton_spc->hide();
-        m_nextButton->hide();
-        m_nextButton_spc->hide();
-    } else {
-        m_preButton->show();
-        m_nextButton->show();
-        m_preButton_spc->show();
-        m_nextButton_spc->show();
-    }
 
     m_imagePath = path;
     QString fileName = "";
     if (m_imagePath != "") {
-        qDebug() << "1570";
         fileName = QFileInfo(m_imagePath).fileName();
     }
     emit dApp->signalM->updateFileName(fileName);
 
     m_imgList->adjustSize();
     m_strCurImagePath = path;
-    qDebug() << "时间2";
     clickLoad(m_nowIndex);
     /*lmh0728,给m_lastIndex第一次赋值*/
     if(m_nowIndex!=0 &&m_lastIndex==0 ){

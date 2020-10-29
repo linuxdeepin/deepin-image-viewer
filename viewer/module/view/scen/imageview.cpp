@@ -759,7 +759,7 @@ void ImageView::cacheThread(const QString strPath)
         //m_hsSvg.insert(strPath, svgRenderer);
         m_rwCacheLock.unlock();
     } else if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
-               || fi.suffix().toLower() == "webp") {
+               /*|| fi.suffix().toLower() == "webp"*/) {
         GraphicsMovieItem movieItem(strPath, fi.suffix());
         m_rwCacheLock.lockForWrite();
         //m_hsMovie.insert(strPath, movieItem);
@@ -843,7 +843,7 @@ ImageView::PICTURE_TYPE ImageView::judgePictureType(const QString strPath)
     if (strType == "svg" && DSvgRenderer().load(strPath)) {
         pixType = PICTURE_TYPE::SVG;
     } else if (strType == "mng" || strType == "gif"
-               || strType == "webp") {
+               /*|| strType == "webp"*/) {
         pixType = PICTURE_TYPE::KINETOGRAM;
     } else {
         pixType = PICTURE_TYPE::NORMAL;
