@@ -157,7 +157,11 @@ public:
         m_freeiamge_formats["JXR"]     =  FIF_JXR;
         m_movie_formats["MNG"]         =  FIF_MNG;
         m_movie_formats["GIF"]         =  FIF_GIF;
-        m_qtSupported << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
+        m_movie_formats["WEBP"]         =  FIF_WEBP;
+        /*
+         * 由于原设计方案采用多个key对应一个value的方案，在判断可读可写的过程中是通过value去找key因此造成了多种情况而在下方变量中未将key，写完整因此补全
+         * */
+        m_qtSupported << "BMP" << "JPG" << "JPEG" << "JPS" << "JPE" << "PNG" << "PBM"
                       << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
                       << "TIFF" << "BMP" << "XPM"  << "DNG"
@@ -165,14 +169,13 @@ public:
 //                      << "RAW"
                       << "MRW"
                       << "NEF" ;
-//webp　pic有动图暂时排除
-        m_canSave << "BMP" << "JPG" << "JPEG" << "PNG" << "PBM"
-                  << "PGM" << "PPM" << "PNM" << "WBMP"
+        //pic（多张图片） pcx不支持旋转
+        m_canSave << "BMP" << "JPG" << "JPEG"  << "JPS" << "JPE" << "PNG" << "PBM"
+                  << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                   << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
                   << "JNG"
 //                  << "JP2"
                   << "PCD"
-                  << "PCX"
                   << "RAS";
     }
     ~UnionImage_Private()
@@ -570,10 +573,6 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
         if (union_image_private.m_canSave.contains(union_image_private.m_freeiamge_formats.key(fif))) {
             return true;
         }
-    }
-    QImageReader reader(path);
-    if (reader.canRead()) {
-        return true;
     }
     return false;
 }

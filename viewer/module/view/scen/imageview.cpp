@@ -38,6 +38,7 @@
 #include <QSvgGenerator>
 #include <QScreen>
 #include <QDesktopWidget>
+#include <QShortcut>
 
 #include <DGuiApplicationHelper>
 #include <DSpinner>
@@ -384,6 +385,20 @@ ImageView::ImageView(QWidget *parent)
     });
     connect(&m_timerLoadPixmap,SIGNAL(timeout()),this,SLOT(startLoadPixmap()));
     m_timerLoadPixmap.start(300);
+
+    //lmh20201027初始化添加float窗口的初始化
+    m_morePicFloatWidget=new MorePicFloatWidget(this);
+    m_morePicFloatWidget->initUI();
+
+    connect(m_morePicFloatWidget->getButtonUp(),&DIconButton::clicked,this,&ImageView::slotsUp);
+    connect(m_morePicFloatWidget->getButtonDown(),&DIconButton::clicked,this,&ImageView::slotsDown);
+    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Up),this), &QShortcut::activated, this, &ImageView::slotsUp);
+    connect(new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Down),this), &QShortcut::activated, this, &ImageView::slotsDown);
+    m_morePicFloatWidget->setFixedWidth(70);
+    m_morePicFloatWidget->setFixedHeight(140);
+    m_morePicFloatWidget->hide();
+
+
 }
 
 void ImageView::clear()
@@ -744,7 +759,7 @@ void ImageView::cacheThread(const QString strPath)
         //m_hsSvg.insert(strPath, svgRenderer);
         m_rwCacheLock.unlock();
     } else if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
-               || fi.suffix().toLower() == "webp") {
+               /*|| fi.suffix().toLower() == "webp"*/) {
         GraphicsMovieItem movieItem(strPath, fi.suffix());
         m_rwCacheLock.lockForWrite();
         //m_hsMovie.insert(strPath, movieItem);
@@ -828,7 +843,7 @@ ImageView::PICTURE_TYPE ImageView::judgePictureType(const QString strPath)
     if (strType == "svg" && DSvgRenderer().load(strPath)) {
         pixType = PICTURE_TYPE::SVG;
     } else if (strType == "mng" || strType == "gif"
-               || strType == "webp") {
+               /*|| strType == "webp"*/) {
         pixType = PICTURE_TYPE::KINETOGRAM;
     } else {
         pixType = PICTURE_TYPE::NORMAL;
@@ -901,6 +916,9 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     }
 
     case PICTURE_TYPE::KINETOGRAM: {
+        if(m_morePicFloatWidget){
+            m_morePicFloatWidget->setVisible(false);
+        }
         m_pixmapItem = nullptr;
         s->clear();
         resetTransform();
@@ -909,7 +927,6 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         // Make sure item show in center of view after reload
         setSceneRect(m_movieItem->boundingRect());
         s->addItem(m_movieItem);
-
         //LMH0603解决svg和gif和mng缩略图不显示问题
         if(dApp->m_firstLoad)
         {
@@ -1136,7 +1153,11 @@ void ImageView::resizeEvent(QResizeEvent *event)
 {
     qDebug() << "ImageView::resizeEvent";
     m_toast->move(width() / 2 - m_toast->width() / 2, height() - 80 - m_toast->height() / 2 - 11);
-
+    //20201027曾在右侧浮动窗口，关于多图片
+    if(m_morePicFloatWidget)
+    {
+        m_morePicFloatWidget->move(this->width()-80,this->height()/2-50);
+    }
     // when resize window, make titlebar changed.
     if (!image().isNull()) {
 
@@ -1246,6 +1267,21 @@ void ImageView::onCacheFinish(QVariantList vl)
         if (path == m_path) {
             scene()->clear();
             resetTransform();
+            if(m_imageReader){
+                delete m_imageReader;
+                m_imageReader=nullptr;
+            }
+            m_imageReader =new QImageReader(path);
+            if(m_imageReader->imageCount()>1){
+                m_morePicFloatWidget->setVisible(true);
+                m_currentMoreImageNum=0;
+            }
+            else {
+                m_morePicFloatWidget->setVisible(false);
+            }
+            m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
+
+
             m_pixmapItem = new GraphicsPixmapItem(pixmap);
             m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
             connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
@@ -1484,6 +1520,9 @@ void ImageView::OnFinishPinchAnimal()
 #include <QApplication>
 void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
 {
+    if(m_morePicFloatWidget){
+            m_morePicFloatWidget->setVisible(false);
+    }
     qDebug() << "sigpath" << filePath;
     m_bStopShowThread=false;
     //一张图片内重复移动不刷新
@@ -1589,6 +1628,44 @@ void ImageView::startLoadPixmap()
 void ImageView::SlotStopShowThread()
 {
     m_bStopShowThread = true;
+}
+
+void ImageView::slotsUp()
+{
+    if(m_pixmapItem && m_imageReader &&m_imageReader->imageCount()>1)
+    {
+        if(m_imageReader->currentImageNumber()==0){
+            m_imageReader->jumpToImage(m_imageReader->imageCount()-1);
+        }
+        else {
+            m_imageReader->jumpToImage(m_imageReader->currentImageNumber()-1);
+        }
+        m_pixmapItem->setPixmap(QPixmap::fromImage(m_imageReader->read()));
+        QRectF rect = m_pixmapItem->boundingRect();
+        setSceneRect(rect);
+        autoFit();
+        m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
+        emit dApp->signalM->UpdateNavImg();
+    }
+}
+
+void ImageView::slotsDown()
+{
+    if(m_pixmapItem && m_imageReader &&m_imageReader->imageCount()>1)
+    {
+        if(m_imageReader->currentImageNumber()==m_imageReader->imageCount()-1){
+            m_imageReader->jumpToImage(0);
+        }
+        else {
+            m_imageReader->jumpToNextImage();
+        }
+        m_pixmapItem->setPixmap(QPixmap::fromImage(m_imageReader->read()));
+        QRectF rect = m_pixmapItem->boundingRect();
+        setSceneRect(rect);
+        autoFit();
+        m_morePicFloatWidget->setLabelText(QString::number(m_imageReader->currentImageNumber()+1)+"/"+QString::number(m_imageReader->imageCount()));
+        emit dApp->signalM->UpdateNavImg();
+    }
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)

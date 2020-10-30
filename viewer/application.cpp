@@ -341,14 +341,14 @@ void Application::finishLoadSlot(QString mapPath)
 
 void Application::loadPixThread(QStringList paths)
 {
-
-    m_loadPaths = paths;
+//fix 52217  shuwenzhi
+    //m_loadPaths = paths;
 
     //开启线程进行后台加载图片
 
     QThread *th = QThread::create([ = ]() {
 
-        QStringList pathList = m_loadPaths;
+        QStringList pathList = paths;
 
         foreach (QString var, pathList) {
             if (m_bThreadExit) {

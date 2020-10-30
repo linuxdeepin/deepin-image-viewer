@@ -20,7 +20,12 @@
         <file>texts/dcc_previousdark_36px.svg</file>
         <file>texts/dcc_suspend_normal_36px.svg</file>
         <file>texts/next_disabled_dark.svg</file>
+        <file>texts/dcc_down_36px.svg</file>
+        <file>texts/dcc_down_dark_36px.svg</file>
+        <file>texts/dcc_up_36px.svg</file>
+        <file>texts/dcc_up_dark_36px.svg</file>
     </qresource>
     <qresource prefix="/icons/deepin/builtin/light"/>
     <qresource prefix="/icons/deepin/builtin/dark"/>
+    <qresource prefix="/"/>
 </RCC>
