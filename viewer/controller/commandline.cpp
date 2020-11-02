@@ -202,6 +202,7 @@ bool CommandLine::processOption()
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
+    qDebug() << "names pas" << names << pas;
 #ifndef LITE_DIV
     DeepinImageViewerDBus *dvd = new DeepinImageViewerDBus(dApp->signalM);
     if (names.isEmpty() && pas.isEmpty()) {
@@ -375,6 +376,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
+    qDebug() << "names pas" << names << pas;
 #ifndef LITE_DIV
     DeepinImageViewerDBus *dvd = new DeepinImageViewerDBus(dApp->signalM);
     if (names.isEmpty() && pas.isEmpty()) {
