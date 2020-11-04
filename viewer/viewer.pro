@@ -4,14 +4,15 @@
 #
 #-------------------------------------------------
 
-QT += core gui sql dbus concurrent svg x11extras printsupport
+QT += core gui sql dbus concurrent svg  printsupport
+# QT += x11extras
 qtHaveModule(opengl): QT += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += x11 xext libexif dtkwidget gio-unix-2.0 gio-qt udisks2-qt5
-#PKGCONFIG += dtkwidget
+PKGCONFIG +=   libexif dtkwidget  gio-qt udisks2-qt5
+# PKGCONFIG += xext x11 gio-unix-2.0
  QT += dtkwidget
  QT += dbus
 LIBS += -lfreeimage
@@ -23,6 +24,7 @@ INCLUDEPATH += utils
 
 isEmpty(FULL_FUNCTIONALITY) {
     DEFINES += LITE_DIV
+    DEFINES += USE_UNIONIMAGE
 }
 
 isEmpty(PREFIX){
@@ -104,8 +106,18 @@ DISTFILES += \
     com.deepin.ImageViewer.service
 
 load(dtk_qmake)
+
+QMAKE_CXXFLAGS += -Wl,-as-need -fPIE
+QMAKE_LFLAGS+=-pie
+
 host_sw_64: {
 # 在 sw_64 平台上添加此参数，否则会在旋转图片时崩溃
     QMAKE_CFLAGS += -mieee
     QMAKE_CXXFLAGS += -mieee
+}
+
+host_mips64:{
+   QMAKE_CXX += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi
+   QMAKE_CXXFLAGS += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,-as-need -fPIE
+   QMAKE_LFLAGS+=-Wl,--as-needed -pie
 }

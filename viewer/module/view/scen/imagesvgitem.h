@@ -14,7 +14,7 @@ DGUI_USE_NAMESPACE
 #include <QtWidgets/qgraphicsitem.h>
 
 #include <QtSvg/qtsvgglobal.h>
-
+#include <QGraphicsSvgItem>
 class QSvgRenderer;
 class ImageSvgItemPrivate;
 
@@ -28,9 +28,8 @@ class ImageSvgItem : public QGraphicsObject
 public:
     ImageSvgItem(QGraphicsItem *parentItem = nullptr);
     ImageSvgItem(const QString &fileName, QGraphicsItem *parentItem = nullptr);
-
-    void setSharedRenderer(DSvgRenderer *renderer);
-    DSvgRenderer *renderer() const;
+    void setSharedRenderer(QSvgRenderer *renderer);
+    QSvgRenderer *renderer() const;
 
     void setElementId(const QString &id);
     QString elementId() const;

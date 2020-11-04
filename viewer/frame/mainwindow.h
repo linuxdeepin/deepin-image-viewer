@@ -77,7 +77,7 @@ public:
      */
     void initdbus();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    int showDialog();
+//    int showDialog();
 public slots:
     void OpenImage(QString path);
 protected:
@@ -98,7 +98,6 @@ private:
     DDiskManager *m_diskManager;
     SlideShowPanel *m_slidePanel;
     bool m_picInUSB = false;
-    QDateTime          m_currenttime;
     bool               m_flag = false;
     Dbusclient *m_dbus;
     QSharedMemory m_sharememory;

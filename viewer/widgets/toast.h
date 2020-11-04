@@ -53,8 +53,8 @@ public:
     QIcon icon() const;
 
 public Q_SLOTS:
-    void pop();
-    void pack();
+//    void pop();
+//    void pack();
 
     void setText(QString text);
     void setIcon(QString icon);

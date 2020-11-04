@@ -22,6 +22,7 @@
 #include <QReadWriteLock>
 #include <QMutex>
 #include <QList>
+
 class Application;
 class ConfigSetter;
 class DatabaseManager;
@@ -52,7 +53,7 @@ public:
      * @param pathlist          更新的图片路径
      * @param bDirection        旋转方向
      */
-    void updateImageLoader(QStringList pathlist, bool bDirection);
+    void updateImageLoader(QStringList pathlist, bool bDirection,int rotateangle = 90);
 
     /**
      * @brief loadInterface 缩略图加载接口
@@ -119,10 +120,14 @@ public:
     ViewerThemeManager *viewerTheme = nullptr;
 
     QMap<QString, QPixmap> m_imagemap;
+    QMap<QString, QRect> m_rectmap;
     ImageLoader *m_imageloader;
 
     QThread *m_LoadThread;
     bool m_firstLoad = true;
+
+    /*lmh0806儒码优化*/
+    int  m_timer=0;
 signals:
     /**
      * @brief sigstartLoad  加载线程启动信号

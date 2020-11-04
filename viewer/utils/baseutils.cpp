@@ -44,6 +44,9 @@
 #include <DDesktopServices>
 #include <QImageReader>
 
+#ifdef USE_UNIONIMAGE
+#include "unionimage.h"
+#endif
 DWIDGET_USE_NAMESPACE
 
 namespace utils {
@@ -55,6 +58,18 @@ const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QImage tImg(size,QImage::Format_ARGB32);
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+    QPixmap pixmap;
+    pixmap = QPixmap::fromImage(tImg);
+
+    return pixmap;
+#else
     QImageReader reader;
     QPixmap pixmap;
 
@@ -70,6 +85,7 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
     }
 
     return pixmap;
+#endif
 }
 
 QString sizeToHuman(const qlonglong bytes)
@@ -221,18 +237,18 @@ QString getFileContent(const QString &file)
     return fileContent;
 }
 
-bool writeTextFile(QString filePath, QString content)
-{
-    QFile file(filePath);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream in(&file);
-        in << content << endl;
-        file.close();
-        return true;
-    }
+//bool writeTextFile(QString filePath, QString content)
+//{
+//    QFile file(filePath);
+//    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//        QTextStream in(&file);
+//        in << content << endl;
+//        file.close();
+//        return true;
+//    }
 
-    return false;
-}
+//    return false;
+//}
 
 bool trashFile(const QString &file)
 {
@@ -304,16 +320,16 @@ bool trashFile(const QString &file)
 #endif
 }
 
-bool trashFiles(const QStringList &files)
-{
-    bool v = true;
-    for (QString file : files) {
-        if (! trashFile(file))
-            v = false;
-    }
+//bool trashFiles(const QStringList &files)
+//{
+//    bool v = true;
+//    for (QString file : files) {
+//        if (! trashFile(file))
+//            v = false;
+//    }
 
-    return v;
-}
+//    return v;
+//}
 
 /*!
  * \brief wrapStr
@@ -376,15 +392,15 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize,bool b
 }
 
 
-QString symFilePath(const QString &path)
-{
-    QFileInfo fileInfo(path);
-    if (fileInfo.isSymLink()) {
-        return fileInfo.symLinkTarget();
-    } else {
-        return path;
-    }
-}
+//QString symFilePath(const QString &path)
+//{
+//    QFileInfo fileInfo(path);
+//    if (fileInfo.isSymLink()) {
+//        return fileInfo.symLinkTarget();
+//    } else {
+//        return path;
+//    }
+//}
 
 QString hash(const QString &str)
 {
@@ -413,20 +429,20 @@ bool mountDeviceExist(const QString &path)
 
     return QFileInfo(mountPoint).exists();
 }
-bool        isCommandExist(const QString &command)
-{
-    QProcess *proc = new QProcess;
-    QString cm = QString("which %1\n").arg(command);
-    proc->start(cm);
-    proc->waitForFinished(1000);
+//bool        isCommandExist(const QString &command)
+//{
+//    QProcess *proc = new QProcess;
+//    QString cm = QString("which %1\n").arg(command);
+//    proc->start(cm);
+//    proc->waitForFinished(1000);
 
-    if (proc->exitCode() == 0) {
-        return true;
-    } else {
-        return false;
-    }
+//    if (proc->exitCode() == 0) {
+//        return true;
+//    } else {
+//        return false;
+//    }
 
-}
+//}
 }  // namespace base
 
 }  // namespace utils

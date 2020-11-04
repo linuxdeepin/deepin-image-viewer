@@ -37,10 +37,12 @@
 #include <QTransform>
 #include <QSvgGenerator>
 #include <QScreen>
+#include <QDesktopWidget>
 
 #include <DGuiApplicationHelper>
 #include <DSpinner>
 #include <DSvgRenderer>
+
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "graphicsitem.h"
@@ -54,12 +56,19 @@
 #include <QGLWidget>
 #endif
 
+#ifdef USE_UNIONIMAGE
+#include "unionimage.h"
+#endif
+
 DWIDGET_USE_NAMESPACE
 
 namespace {
 
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
+
+const QString ICON_PIXMAP_DARK = ":/assets/dark/images/picture damaged_dark.svg";
+const QString ICON_PIXMAP_LIGHT = ":/assets/light/images/picture damaged_light.svg";
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.029;
@@ -104,6 +113,32 @@ const QSize SPINNER_SIZE = QSize(40, 40);
 //}
 
 }  // namespace
+
+//开启线程加载原图
+QVariantList cacheImage(const QString &path)
+{
+    QImage tImg;
+    QString errMsg;
+#if USE_UNIONIMAGE
+    UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg);
+#else
+    QString format = DetectImageFormat(path);
+            QImageReader readerF(path, format.toLatin1());
+            readerF.setAutoTransform(true);
+            if (readerF.canRead()) {
+                tImg = readerF.read();
+            } else {
+                qWarning() << "can't read image:" << readerF.errorString() << format;
+
+                tImg = QImage(path);
+            }
+#endif
+      QPixmap p = QPixmap::fromImage(tImg);
+
+    QVariantList vl;
+    vl << QVariant(path) << QVariant(p);
+    return vl;
+}
 
 QMimeType determineMimeType(const QString &filename)
 {
@@ -208,8 +243,32 @@ QMimeType determineMimeType(const QString &filename)
 
 QVariantList ImageView::cachePixmap(const QString path)
 {
+    using namespace utils;
+    using namespace image;
+#ifdef USE_UNIONIMAGE
 
-#ifndef PIXMAP_LOAD
+    QImage tImg;
+    QString errMsg;
+    if (!imageSupportRead(path)){
+        tImg= QImage();
+    }
+    else if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+    QPixmap p = QPixmap::fromImage(tImg);
+//    if (QFileInfo(path).exists() && p.isNull()) {
+//        //判定为损坏图片
+//        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
+//        QString picString;
+//        if (themeType == DGuiApplicationHelper::DarkType) {
+//            picString = ICON_PIXMAP_DARK;
+//        } else {
+//            picString = ICON_PIXMAP_LIGHT;
+//        }
+//        UnionImage_NameSpace::loadStaticImageFromFile(picString, tImg, errMsg);
+//        p = QPixmap::fromImage(tImg);
+//    }
+#else
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -239,10 +298,7 @@ QVariantList ImageView::cachePixmap(const QString path)
     }
 
     QPixmap p = QPixmap::fromImage(tImg);
-#else
-    QPixmap p(path);
 #endif
-
     QVariantList vl;
     vl << QVariant(path) << QVariant(p);
     qDebug() << "render缓存结束";
@@ -254,7 +310,7 @@ ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
     , m_pool(new QThreadPool())
-    , m_svgItem(nullptr)
+    , m_imgSvgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
 {
@@ -271,11 +327,11 @@ ImageView::ImageView(QWidget *parent)
     setFrameShape(QFrame::Shape::NoFrame);
 
     viewport()->setCursor(Qt::ArrowCursor);
-
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
-
-    connect(&m_watcher, SIGNAL(finished()), this, SLOT(onCacheFinish()));
+    grabGesture(Qt::PanGesture);
+    connect(&m_watcher, SIGNAL(finished()), this, SLOT(showFileImage()));
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ImageView::onThemeChanged);
     m_pool->setMaxThreadCount(1);
@@ -318,6 +374,8 @@ ImageView::ImageView(QWidget *parent)
             m_loadingDisplay = true;
         }
     });
+    connect(&m_timerLoadPixmap,SIGNAL(timeout()),this,SLOT(startLoadPixmap()));
+    m_timerLoadPixmap.start(300);
 }
 
 void ImageView::clear()
@@ -380,16 +438,21 @@ void ImageView::setRenderer(RendererType type)
 
 void ImageView::setScaleValue(qreal v)
 {
+    //由于矩阵被旋转，通过矩阵获取缩放因子，计算缩放比例错误，因此记录过程中的缩放因子来判断缩放比例
+    m_scal *=v;
+    qDebug() << m_scal;
     scale(v, v);
-    const qreal irs = imageRelativeScale() * devicePixelRatioF();
+    //const qreal irs = imageRelativeScale() * devicePixelRatioF();
     // Rollback
-    if ((v < 1 && irs <= MIN_SCALE_FACTOR)) {
-        const qreal minv = MIN_SCALE_FACTOR / irs;
+    if (v < 1 && /*irs <= MIN_SCALE_FACTOR)*/m_scal<0.03) {
+        const qreal minv = MIN_SCALE_FACTOR / m_scal;
         // if (minv < 1.09) return;
         scale(minv, minv);
-    } else if (v > 1 && irs >= MAX_SCALE_FACTOR) {
-        const qreal maxv = MAX_SCALE_FACTOR / irs;
+        m_scal *=minv;
+    } else if (v > 1 && /*irs >= MAX_SCALE_FACTOR*/m_scal>20) {
+        const qreal maxv = MAX_SCALE_FACTOR / m_scal;
         scale(maxv, maxv);
+        m_scal *=maxv;
     } else {
         m_isFitImage = false;
         m_isFitWindow = false;
@@ -402,7 +465,7 @@ void ImageView::setScaleValue(qreal v)
         emit disCheckAdaptImageBtn();
     }
 
-    emit scaled(imageRelativeScale() * devicePixelRatioF() * 100);
+    emit scaled(/*imageRelativeScale() * devicePixelRatioF() * 100*/m_scal*100);
     emit showScaleLabel();
     emit transformChanged();
 
@@ -453,20 +516,25 @@ void ImageView::titleBarControl()
 
 const QImage ImageView::image(bool brefresh)
 {
-    if (m_movieItem) {  // bit-map
-        return m_movieItem->pixmap().toImage();
-        //        return m_movieItem->getMovie()->currentImage();
-    } else if (m_pixmapItem) {
+       /*lmh0807,解决崩溃的问题*/
+    if (m_pixmapItem) {
         // FIXME: access to m_pixmapItem will crash
         return m_pixmapItem->pixmap().toImage();
         //    } else if (m_svgItem) {    // svg
-    } else if (m_svgItem) {  // svg
+    }
+    else if (m_movieItem) {  // bit-map
+        return m_movieItem->pixmap().toImage();
+        //        return m_movieItem->getMovie()->currentImage();
+    }
+
+
+    else  if (m_imgSvgItem) {  // svg
         if(brefresh)
         {
-            QImage image(m_svgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
+            QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
             image.fill(QColor(0, 0, 0, 0));
             QPainter imagePainter(&image);
-            m_svgItem->renderer()->render(&imagePainter);
+            m_imgSvgItem->renderer()->render(&imagePainter);
             imagePainter.end();
             m_svgimg = image;
         }
@@ -479,6 +547,7 @@ const QImage ImageView::image(bool brefresh)
 void ImageView::fitWindow()
 {
     qreal wrs = windowRelativeScale();
+    m_scal = wrs;
     resetTransform();
     scale(wrs, wrs);
 
@@ -497,6 +566,7 @@ void ImageView::fitWindow_btnclicked()
 {
     qreal wrs = windowRelativeScale_origin();
     resetTransform();
+    m_scal = wrs;
     scale(wrs, wrs);
     if (wrs - 1 > -0.01 && wrs - 1 < 0.01) {
         emit checkAdaptImageBtn();
@@ -516,6 +586,7 @@ void ImageView::fitImage()
     * fitwindow() when use fitImage() picture bottom is over toolbar. so use 0.9 instead. 12-19,bug
     * 9839, change 0.9->1
     */
+    m_scal = 1.0;
     scale(1, 1);
     emit checkAdaptImageBtn();
     m_isFitImage = true;
@@ -606,6 +677,11 @@ const QString ImageView::path() const
     return m_path;
 }
 
+void ImageView::setPath(const QString path)
+{
+    m_path = path;
+}
+
 QPoint ImageView::mapToImage(const QPoint &p) const
 {
     return viewportTransform().inverted().map(p);
@@ -618,7 +694,7 @@ QRect ImageView::mapToImage(const QRect &r) const
 
 QRect ImageView::visibleImageRect() const
 {
-    return mapToImage(rect()) & QRect(0, 0, sceneRect().width(), sceneRect().height());
+    return mapToImage(rect()) & QRect(0, 0, static_cast<int>(sceneRect().width()), static_cast<int>(sceneRect().height()));
 }
 
 bool ImageView::isWholeImageVisible() const
@@ -695,43 +771,42 @@ void ImageView::cacheThread(const QString strPath)
     }
 }
 
-void ImageView::showPixmap(QString path)
-{
-    m_rwCacheLock.lockForRead();
-    QPixmap pixmap = m_hsPixap.value(path);
-    m_rwCacheLock.unlock();
-    pixmap.setDevicePixelRatio(devicePixelRatioF());
-    if (path == m_path) {
-        scene()->clear();
-        resetTransform();
+//void ImageView::showPixmap(QString path)
+//{
+//    m_rwCacheLock.lockForRead();
+//    QPixmap pixmap = m_hsPixap.value(path);
+//    m_rwCacheLock.unlock();
+//    pixmap.setDevicePixelRatio(devicePixelRatioF());
+//    if (path == m_path) {
+//        scene()->clear();
+//        resetTransform();
+//        m_pixmapItem = new GraphicsPixmapItem(pixmap);
+//        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+//        connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
+//            if (!m_pixmapItem) {
+//                qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
+//                update();
+//                return;
+//            }
+//            if (scaledmode) {
+//                m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+//            } else {
+//                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+//                //m_pixmapItem->setTransformationMode(Qt::FastTransformation);
+//            }
+//        });
+//        // Make sure item show in center of view after reload
+//        QRectF rect = m_pixmapItem->boundingRect();
+//        //            rect.setHeight(rect.height() + 50);
+//        setSceneRect(rect);
+//        //            setSceneRect(m_pixmapItem->boundingRect());
+//        scene()->addItem(m_pixmapItem);
 
-        m_pixmapItem = new GraphicsPixmapItem(pixmap);
-        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        connect(dApp->signalM, &SignalManager::enterScaledMode, this, [ = ](bool scaledmode) {
-            if (!m_pixmapItem) {
-                qDebug() << "onCacheFinish.............m_pixmapItem=" << m_pixmapItem;
-                update();
-                return;
-            }
-            if (scaledmode) {
-                m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-            } else {
-                m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-                //m_pixmapItem->setTransformationMode(Qt::FastTransformation);
-            }
-        });
-        // Make sure item show in center of view after reload
-        QRectF rect = m_pixmapItem->boundingRect();
-        //            rect.setHeight(rect.height() + 50);
-        setSceneRect(rect);
-        //            setSceneRect(m_pixmapItem->boundingRect());
-        scene()->addItem(m_pixmapItem);
+//        autoFit();
 
-        autoFit();
-
-        emit imageChanged(path);
-    }
-}
+//        emit imageChanged(path);
+//    }
+//}
 
 ImageView::PICTURE_TYPE ImageView::judgePictureType(const QString strPath)
 {
@@ -758,7 +833,9 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 {
     bool bRet = true;
     QGraphicsScene *s = scene();
+    m_bRoate = UnionImage_NameSpace::isImageSupportRotate(strPath) && QFileInfo(strPath).isWritable();
     switch (type) {
+    case PICTURE_TYPE::SVG:
     case PICTURE_TYPE::NORMAL: {
         m_movieItem = nullptr;
         qDebug() << "cache start!";
@@ -817,43 +894,6 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         break;
     }
 
-    case PICTURE_TYPE::SVG: {
-        m_movieItem = nullptr;
-        m_pixmapItem = nullptr;
-        s->clear();
-        resetTransform();
-        //heyi test
-
-
-
-        QSvgRenderer *svgRenderer = new QSvgRenderer;
-        svgRenderer->load(strPath);
-        m_svgItem = new QGraphicsSvgItem();
-        m_svgItem->setSharedRenderer(svgRenderer);
-        setSceneRect(m_svgItem->boundingRect());
-        s->addItem(m_svgItem);
-
-        //LMH0603解决svg和gif和mng缩略图不显示问题
-        if(dApp->m_firstLoad)
-        {
-            QThread *th = QThread::create([ = ]() {
-                emit imageChanged(strPath);
-              //  bool firstLoad = false;
-              //  if (!firstLoad) {
-                qDebug() << "load cache";
-                    emit cacheEnd();
-                  //  firstLoad = true;
-               // }
-            });
-            connect(th, &QThread::finished, th, &QObject::deleteLater);
-            th->start();
-            dApp->m_firstLoad =false;
-        }else {
-            emit imageChanged(strPath);
-        }
-        break;
-    }
-
     case PICTURE_TYPE::KINETOGRAM: {
         m_pixmapItem = nullptr;
         s->clear();
@@ -872,6 +912,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
               //  if (!firstLoad) {
                 qDebug() << "load cache";
                     emit cacheEnd();
+                emit sigStackChange(m_path);
                    // firstLoad = true;
              //   }
             });
@@ -882,6 +923,7 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
 
         }else {
             emit imageChanged(strPath);
+            emit sigStackChange(m_path);
 }
         break;
     }
@@ -912,33 +954,28 @@ void ImageView::endApp()
     }
 }
 
-bool ImageView::reloadSvgPix(QString strPath, int nAngel)
+bool ImageView::reloadSvgPix(QString strPath, int nAngel,bool fitauto)
 {
     bool bRet = true;
+    QMatrix leftmatrix;
+    QImage img(strPath);
+    leftmatrix.rotate(nAngel);
+    img=img.transformed(leftmatrix,Qt::SmoothTransformation);
     QSvgGenerator generator;
-    QImage pix(strPath);
-
     generator.setFileName(strPath);
-    generator.setViewBox(pix.rect());
+    generator.setViewBox(img.rect());
     QPainter painter;
     painter.begin(&generator);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-    if (nAngel < 0) {
-        painter.translate(0, pix.rect().height());
-    } else {
-        painter.translate(pix.rect().width(), 0);
-    }
-
-    painter.rotate(nAngel);
-    painter.drawImage(pix.rect(), pix.scaled(pix.width(), pix.height()));
-    generator.setSize(pix.size());
+    painter.drawImage(img.rect(),img);
     painter.end();
-    setImage(strPath);
+    if(fitauto)
+        setImage(strPath);
     return  bRet;
 }
 
 void ImageView::rotatePixmap(int nAngel)
 {
+    if(!m_pixmapItem) return;
     QPixmap pixmap = m_pixmapItem->pixmap();
     QMatrix rotate;
     rotate.rotate(nAngel);
@@ -1033,16 +1070,36 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
     QGraphicsView::mouseReleaseEvent(e);
 
     viewport()->setCursor(Qt::ArrowCursor);
+    if(e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints==1)
+    {
+        const QRect &r = visibleImageRect();
+        //double left=r.width()+r.x();
+        const QRectF &sr = sceneRect();
+        //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
+        if((r.width()>=sr.width() &&r.height()>=sr.height())){
+            int xpos = e->pos().x()-m_startpointx;
+            if(abs(xpos)> 200 && m_startpointx!= 0)
+            {
+                if(xpos>0)
+                {
+                    emit previousRequested();
+                }else {
+                    emit nextRequested();
+                }
+            }
+        }
+    }
+    m_startpointx=0;
 }
 
 void ImageView::mousePressEvent(QMouseEvent *e)
 {
     QGraphicsView::mousePressEvent(e);
-
     viewport()->unsetCursor();
     viewport()->setCursor(Qt::ArrowCursor);
 
     emit clicked();
+    m_startpointx = e->pos().x();
 }
 
 void ImageView::mouseMoveEvent(QMouseEvent *e)
@@ -1115,7 +1172,48 @@ void ImageView::drawBackground(QPainter *painter, const QRectF &rect)
 
 bool ImageView::event(QEvent *event)
 {
-    if (event->type() == QEvent::Gesture)
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
+            evType == QEvent::TouchEnd) {
+        if(evType == QEvent::TouchBegin){
+            m_maxTouchPoints=1;
+        }
+        else if(evType == QEvent::TouchUpdate){
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+            if(touchPoints.size()>m_maxTouchPoints){
+                m_maxTouchPoints=touchPoints.size();
+            }
+        }else if (evType == QEvent::TouchEnd) {
+            QTouchEvent *touchEvent = dynamic_cast<QTouchEvent *>(event);
+            QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+
+            if (m_maxTouchPoints <= 1 /*||m_maxTouchPoints > 2*/) {
+                //QPointF centerPointOffset = gesture->centerPoint();
+                qreal offset = touchPoints.at(0).lastPos().x() - touchPoints.at(0).startPos().x();
+                if (qAbs(offset) > 200) {
+                    if (offset > 0) {
+                        emit previousRequested();
+                        qDebug() << "zy------ImageView::event previousRequested";
+                    } else {
+                        emit nextRequested();
+                        qDebug() << "zy------ImageView::event nextRequested";
+                    }
+                }
+            }
+        }
+        /*lmh0804*/
+        const QRect &r = visibleImageRect();
+        //double left=r.width()+r.x();
+        const QRectF &sr = sceneRect();
+        //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
+        if((r.width()>=sr.width() &&r.height()>=sr.height())){
+            //return true;
+        }
+//        if((left-sr.width()>=-1 &&left-sr.width()<=1) ||(r.x()<=1) ||(r.width() >= sr.width())){
+//            return true;
+//        }
+    } else if (event->type() == QEvent::Gesture)
         handleGestureEvent(static_cast<QGestureEvent *>(event));
 
     return QGraphicsView::event(event);
@@ -1179,6 +1277,7 @@ void ImageView::onCacheFinish(QVariantList vl)
 //            }
         }
     }
+    emit sigStackChange(m_path);
 }
 
 void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme)
@@ -1201,7 +1300,6 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 
     // Do the scaling.
     setScaleValue(factor);
-
     // Restore the zoom anchor point.
     //
     // The Basic idea here is we don't care how the scene is scaled or transformed,
@@ -1215,16 +1313,108 @@ void ImageView::scaleAtPoint(QPoint pos, qreal factor)
 
 void ImageView::handleGestureEvent(QGestureEvent *gesture)
 {
-    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
+/*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
         swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-    else if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+    else */if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
 void ImageView::pinchTriggered(QPinchGesture *gesture)
 {
-    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
-    scaleAtPoint(pos, gesture->scaleFactor());
+    //    QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+    //    scaleAtPoint(pos, gesture->scaleFactor());
+    QPinchGesture::ChangeFlags changeFlags = gesture->changeFlags();
+    m_maxTouchPoints = 2;
+    //缩放手势
+    if (changeFlags & QPinchGesture::ScaleFactorChanged) {
+        QPoint pos = mapFromGlobal(gesture->centerPoint().toPoint());
+        if(abs(gesture->scaleFactor()-1)>0.006)
+        {
+            qDebug() << "scaleFactor" << gesture->scaleFactor();
+            scaleAtPoint(pos, gesture->scaleFactor());
+        }
+    }
+    //旋转手势
+    if (changeFlags & QPinchGesture::RotationAngleChanged) {
+        if(!m_bRoate || m_maxTouchPoints>2) return;
+        //释放手指后旋转的位置未结束不能进行下次旋转
+        if(!m_rotateflag)
+        {
+            qDebug() << "ratateflag" << gesture->lastRotationAngle();
+            gesture->setRotationAngle(gesture->lastRotationAngle());
+            return;
+        }
+        qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
+        //防止在旋转过程中触发切换到下一张
+        if(abs(gesture->rotationAngle())>20) m_bnextflag = false;
+        if(abs(rotationDelta)>0.2)
+        {
+            m_rotateAngelTouch = gesture->rotationAngle();
+            rotate(rotationDelta);
+        }
+    }
+
+    if (changeFlags & QPinchGesture::CenterPointChanged) {
+        if (!isFirstPinch) {
+            centerPoint = gesture->centerPoint();
+            isFirstPinch = true;
+        }
+    }
+    if (gesture->state() == Qt::GestureFinished) {
+        isFirstPinch = false;
+        gesture->setCenterPoint(centerPoint);
+      //旋转松开手势操作
+       // m_rotateAngelTouch = m_rotateAngelTouch % 360;
+        //int abs(m_rotateAngelTouch);
+        if(!m_bRoate) return;
+        m_rotateflag = false;
+        QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
+         animation->setDuration(200);
+         if(m_rotateAngelTouch<0) m_rotateAngelTouch += 360;
+         qreal endvalue;
+         if(abs(0-abs(m_rotateAngelTouch))<=10)
+         {
+            endvalue = 0;
+         }else if(abs(360-abs(m_rotateAngelTouch))<=10)
+         {
+             endvalue = 0;
+         }else if(abs(90-abs(m_rotateAngelTouch))<=10)
+         {
+             endvalue = 90;
+         }else if(abs(180-abs(m_rotateAngelTouch))<=10)
+         {
+             endvalue = 180;
+         }else if(abs(270-abs(m_rotateAngelTouch))<=10)
+         {
+             endvalue = 270;
+         }else {
+            endvalue = 0;
+         }
+         if(!m_bRoate) endvalue = 0;
+         m_endvalue=endvalue;
+         qreal startvalue;
+         if(abs(m_rotateAngelTouch-endvalue)>180)
+         {
+             startvalue = m_rotateAngelTouch-360;
+         }else {
+             startvalue =m_rotateAngelTouch;
+         }
+         animation->setStartValue(startvalue);
+         animation->setEndValue(endvalue);
+        // qDebug()<<"angle finish" <<m_rotateAngelTouch << endvalue;
+         connect(animation, &QVariantAnimation::valueChanged, [=](const QVariant &value){
+             qreal angle = value.toReal() - m_rotateAngelTouch;
+             m_rotateAngelTouch = value.toReal();
+             if(static_cast<int>(value.toReal()) != static_cast<int>(endvalue) || m_imgSvgItem)
+                this->rotate(angle);
+             //setPixmap(pixmap.transformed(t));
+         });
+        // animation->setLoopCount(1); //旋转次数
+         connect(animation, SIGNAL(finished()), this, SLOT(OnFinishPinchAnimal()));
+         animation->start(QAbstractAnimation::KeepWhenStopped);
+         qDebug() << "finish";
+
+    }
 }
 
 void ImageView::swipeTriggered(QSwipeGesture *gesture)
@@ -1237,6 +1427,160 @@ void ImageView::swipeTriggered(QSwipeGesture *gesture)
             emit previousRequested();
         }
     }
+}
+
+void ImageView::OnFinishPinchAnimal()
+{
+    m_rotateflag = true;
+    m_bnextflag = true;
+    m_rotateAngelTouch=0;
+    if(m_imgSvgItem)
+    {
+      //  reloadSvgPix(m_path,90,false);
+        m_rotateAngel += m_endvalue;
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,static_cast<int>(m_endvalue));
+        emit dApp->signalM->sigUpdateThunbnail(m_path);
+        return;
+    }
+    if(!m_pixmapItem) return;
+    //QStranform旋转到180度有问题，暂未解决，因此动画结束后旋转Pixmap到180
+    QPixmap pixmap;
+    pixmap = m_pixmapItem->pixmap();
+    QMatrix rotate;
+    rotate.rotate(m_endvalue);
+
+    pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
+    pixmap.setDevicePixelRatio(devicePixelRatioF());
+    scene()->clear();
+    resetTransform();
+    m_pixmapItem = new GraphicsPixmapItem(pixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+
+    scene()->addItem(m_pixmapItem);
+    scale(m_scal,m_scal);
+    if(m_bRoate)
+    {
+        m_rotateAngel += m_endvalue;
+        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,static_cast<int>(m_endvalue));
+        emit dApp->signalM->sigUpdateThunbnail(m_path);
+        emit dApp->signalM->UpdateNavImg();
+    }
+    qDebug() << m_endvalue;
+}
+
+#include <QApplication>
+void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
+{
+    qDebug() << "sigpath" << filePath;
+    m_bStopShowThread=false;
+    //一张图片内重复移动不刷新
+    if(sigPath == filePath) return;
+    sigPath = filePath;
+    scene()->clear();
+    m_movieItem = nullptr;
+    m_imgSvgItem = nullptr;
+    resetTransform();
+    QRect rect1=  dApp->m_rectmap[filePath];
+    //获取主屏幕分辨率lmh0803,如果分辨率大于屏幕分辨率，则采用scaled屏幕分辨率,解决效率问题
+    QRect screenRect = QApplication::desktop()->screenGeometry();
+    if(rect1.width()>screenRect.width()){
+        double dwidth=rect1.width();
+        double dheight=rect1.height();
+        double witchToheight=dwidth/dheight;
+        double hrect=screenRect.width();
+        double h=hrect/witchToheight;
+        thumbnailpixmap = thumbnailpixmap.scaled(screenRect.width(),static_cast<int>(h));
+    }
+    else {
+            thumbnailpixmap = thumbnailpixmap.scaled(rect1.size());
+    }
+    m_pixmapItem = new GraphicsPixmapItem(thumbnailpixmap);
+    m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    // Make sure item show in center of view after reload
+    QRectF rect = m_pixmapItem->boundingRect();
+
+    //            rect.setHeight(rect.height() + 50);
+    setSceneRect(rect);
+    //            setSceneRect(m_pixmapItem->boundingRect());
+    //缩略图显示马赛克较为明显，采用高斯模糊
+    QGraphicsBlurEffect *blurEffect = new QGraphicsBlurEffect(this);
+    blurEffect->setBlurRadius(6);
+    //blurEffect->setBlurHints(QGraphicsBlurEffect::QualityHint);
+    m_pixmapItem->setGraphicsEffect(blurEffect);
+    scene()->addItem(m_pixmapItem);
+
+    if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
+            height() > 0) {
+        fitWindow();
+    } else {
+        fitImage();
+    }
+    /*lmh0804*/
+    //emit imageChanged(filePath);
+    emit dApp->signalM->UpdateNavImg();
+    emit sigUpdateImageView(filePath);
+    QFileInfo fileinfo(filePath);
+    emit dApp->signalM->updateFileName(fileinfo.fileName());
+}
+
+void ImageView::showFileImage()
+{
+    if(m_bStopShowThread) return;
+    QVariantList vl = m_watcher.result();
+    if (vl.length() == 2) {
+        scene()->clear();
+        resetTransform();
+        m_movieItem = nullptr;
+        m_imgSvgItem = nullptr;
+        QPixmap pixmap = vl.last().value<QPixmap>();
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        m_pixmapItem = new GraphicsPixmapItem(pixmap);
+        m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        // Make sure item show in center of view after reload
+        QRectF rect = m_pixmapItem->boundingRect();
+        //            rect.setHeight(rect.height() + 50);
+        setSceneRect(rect);
+        //            setSceneRect(m_pixmapItem->boundingRect());
+        scene()->addItem(m_pixmapItem);
+        autoFit();
+    }
+}
+
+void ImageView::startLoadPixmap()
+{
+    if(timerPath != sigPath || sigPath.isEmpty())
+    {
+        timerPath = sigPath;
+        showImageFlag = false;
+        return;
+    }else {
+        //在缩略图加载完成前不加载原图
+        if((dApp->m_LoadThread && dApp->m_LoadThread->isRunning()) || showImageFlag)
+        {
+            return;
+        }else
+        {
+            //QImage在线程池中内存泄露更小选用线程池
+            if(m_bStopShowThread) return;
+            QFuture<QVariantList> f = QtConcurrent::run(m_pool, cacheImage,timerPath);
+            if (m_watcher.isRunning()) {
+                m_watcher.cancel();
+                m_watcher.waitForFinished();
+            }
+            m_watcher.setFuture(f);
+            showImageFlag = true;
+        }
+    }
+}
+
+void ImageView::SlotStopShowThread()
+{
+    m_bStopShowThread = true;
 }
 
 void ImageView::wheelEvent(QWheelEvent *event)

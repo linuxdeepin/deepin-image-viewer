@@ -24,9 +24,9 @@
 //#include "module/timeline/timelinepanel.h"
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
-#include "widgets/dialogs/imginfodialog.h"
-#include "widgets/processtooltip.h"
-#include "widgets/separator.h"
+//#include "widgets/dialogs/imginfodialog.h"
+//#include "widgets/processtooltip.h"
+//#include "widgets/separator.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -66,11 +66,21 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     Q_UNUSED(manager)
     initPanelStack(false);
 #endif
-    initExtensionPanel();
-    initTopToolbar();
-    initBottomToolbar();
-
-    initConnection();
+    /*lmh0806儒码*/
+    if(0==dApp->m_timer){
+        initExtensionPanel();
+        initTopToolbar();
+        initBottomToolbar();
+        initConnection();
+    }
+    else {
+        QTimer::singleShot(dApp->m_timer, [=]{
+        initExtensionPanel();
+        initTopToolbar();
+        initBottomToolbar();
+        initConnection();
+        });
+    }
 }
 
 MainWidget::~MainWidget() {}
@@ -145,14 +155,10 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         }
 #endif
         // 获取widget左上角坐标的全局坐标
+        //lmh0826,解决bug44826
         QPoint p = this->mapToGlobal(QPoint(0, 0));
-        if (this->window()->isFullScreen() || this->window()->isMaximized()) {
-            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24,
-                                   TOP_TOOLBAR_HEIGHT * 2);
-        } else {
-            m_extensionPanel->move(p + QPoint(this->window()->width() - m_extensionPanel->width() - 24,
-                                              TOP_TOOLBAR_HEIGHT * 2));
-        }
+        m_extensionPanel->move(p + QPoint(this->window()->width() - m_extensionPanel->width() - 24,
+                                          TOP_TOOLBAR_HEIGHT * 2));
     }
     updateTitleShadowGeometry();
 }
@@ -183,12 +189,12 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     m_panelStack->setCurrentWidget(panel);
 }
 
-void MainWidget::onImported(const QString &message, bool success)
-{
-    ProcessTooltip *t = new ProcessTooltip(this);
-    t->showTooltip(message, success);
-    t->move((width() - t->width()) / 2, height() * 4 / 5);
-}
+//void MainWidget::onImported(const QString &message, bool success)
+//{
+//    ProcessTooltip *t = new ProcessTooltip(this);
+//    t->showTooltip(message, success);
+//    t->move((width() - t->width()) / 2, height() * 4 / 5);
+//}
 
 void MainWidget::onShowImageInfo(const QString &path)
 {

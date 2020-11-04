@@ -39,9 +39,12 @@ const QString FAVORITES_ALBUM_NAME = "My favorite";
 
 QString ss(const QString &text, const QString &defaultValue)
 {
-    QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
+    Q_UNUSED(text);
+    //采用代码中快捷键不使用配置文件快捷键
+   // QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
+    QString str = defaultValue;
     str.replace(" ", "");
-    return str;
+    return defaultValue;
 }
 
 enum MenuItemId {
@@ -78,9 +81,8 @@ void ViewPanel::initPopupMenu()
             return;
         QString filePath = m_infos.at(m_current).filePath;
 #ifdef LITE_DIV
-        if (!filePath.isEmpty() && QFileInfo(filePath).exists()
+        if (!filePath.isEmpty() && QFileInfo(filePath).exists())
 #endif
-           )
         {
             updateMenuContent();
             dApp->setOverrideCursor(Qt::ArrowCursor);
@@ -95,16 +97,6 @@ void ViewPanel::initPopupMenu()
             updateMenuContent();
         }
     });
-    //    QShortcut *sc = new QShortcut(QKeySequence("Alt+Enter"), this);
-    //    sc->setContext(Qt::WidgetWithChildrenShortcut);
-    //    connect(sc, &QShortcut::activated, this, [ = ] {
-    //        if (m_isInfoShowed)
-    //            emit dApp->signalM->hideExtensionPanel();
-    //        else
-    //            emit dApp->signalM->showExtensionPanel();
-    //        // Update panel info
-    //        m_info->setImagePath(m_infos.at(m_current).filePath);
-    //    });
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
@@ -203,7 +195,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             emit SetImglistPath(m_current, filename, filepath);
             //修改map维护的数据
             //dApp->getRwLock().lockForWrite();
-            QMutexLocker(&dApp->getRwLock());
+            QMutexLocker locker(&dApp->getRwLock());
             QPixmap pix =  dApp->m_imagemap.value(path);
             dApp->m_imagemap.remove(path);
             dApp->m_imagemap.insert(filepath, pix);
@@ -211,6 +203,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             m_currentImagePath  = filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);
+            m_viewB->setPath(filepath);
         }
         break;
     }
@@ -374,7 +367,7 @@ void ViewPanel::updateMenuContent()
                      ss("Rotate counterclockwise", "Ctrl+Shift+R"));
     }
     /**************************************************************************/
-    if (utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
+    if (utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
         appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
     }
 #ifndef LITE_DIV
@@ -382,27 +375,15 @@ void ViewPanel::updateMenuContent()
 #endif
     {
         appendAction(IdDisplayInFileManager, tr("Display in file manager"),
-                     ss("Display in file manager", "Ctrl+D"));
+                     ss("Display in file manager", "Alt+D"));
     }
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Alt+Return"));
+    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Ctrl+I"));
     //appendAction(IdDraw, tr("Draw"), ss("Draw", ""));
 }
 
 void ViewPanel::initShortcut()
 {
     QShortcut *sc = nullptr;
-    // slove Alt+Enter shortcut
-    sc = new QShortcut(QKeySequence("Alt+Enter"), this);
-    sc->setContext(Qt::WindowShortcut);
-    connect(sc, &QShortcut::activated, this, [ = ] {
-        if (m_isInfoShowed)
-        {
-            emit dApp->signalM->hideExtensionPanel();
-        } else
-        {
-            emit dApp->signalM->showExtensionPanel();
-        }
-    });
     // Delay image toggle
     QTimer *m_dt = new QTimer(this);
     m_dt->setSingleShot(true);
