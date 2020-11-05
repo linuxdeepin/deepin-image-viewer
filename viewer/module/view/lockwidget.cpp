@@ -18,7 +18,6 @@
 
 #include <QVBoxLayout>
 #include <DGuiApplicationHelper>
-#include <QGestureEvent>
 
 #include "controller/signalmanager.h"
 #include "utils/baseutils.h"
@@ -31,10 +30,6 @@ LockWidget::LockWidget(const QString &darkFile,
     const QString &lightFile, QWidget *parent)
     : ThemeWidget(darkFile, lightFile, parent) {
     m_picString = "";
-    this->setAttribute(Qt::WA_AcceptTouchEvents);
-    grabGesture(Qt::PinchGesture);
-    grabGesture(Qt::SwipeGesture);
-    grabGesture(Qt::PanGesture);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
         m_picString = ICON_PIXMAP_DARK;
@@ -71,7 +66,7 @@ LockWidget::LockWidget(const QString &darkFile,
     layout->addStretch(1);
     QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
     m_bgLabel->setPixmap(logo_pix);
-    layout->addWidget(m_bgLabel, 0, Qt::AlignHCenter );
+    layout->addWidget(m_bgLabel, 0, Qt::AlignHCenter | Qt::AlignHCenter);
     //layout->addSpacing(18);
     //layout->addWidget(m_lockTips, 0, Qt::AlignHCenter);
     layout->addStretch(1);
@@ -84,65 +79,6 @@ void LockWidget::setContentText(const QString &text) {
     int textHeight = utils::base::stringHeight(m_lockTips->font(),
                                                m_lockTips->text());
     m_lockTips->setMinimumHeight(textHeight + 2);
-}
-
-void LockWidget::handleGestureEvent(QGestureEvent *gesture)
-{
-    /*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
-            swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-        else */if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
-            pinchTriggered(static_cast<QPinchGesture *>(pinch));
-}
-
-void LockWidget::mouseReleaseEvent(QMouseEvent *e)
-{
-    QWidget::mouseReleaseEvent(e);
-    if(e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1)
-    {
-        int offset = e->pos().x()-m_startx;
-        if (qAbs(offset) > 200) {
-            if (offset > 0) {
-                emit previousRequested();
-                qDebug() << "zy------ThumbnailWidget::event previousRequested";
-            } else {
-                emit nextRequested();
-                qDebug() << "zy------ThumbnailWidget::event nextRequested";
-            }
-        }
-    }
-    m_startx = 0;
-}
-
-void LockWidget::mousePressEvent(QMouseEvent *e)
-{
-    QWidget::mousePressEvent(e);
-    m_startx = e->pos().x();
-}
-
-void LockWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    Q_UNUSED(event);
-}
-
-bool LockWidget::event(QEvent *event)
-{
-    QEvent::Type evType = event->type();
-    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
-            evType == QEvent::TouchEnd) {
-        if(evType == QEvent::TouchBegin)
-        {
-            qDebug() << "QEvent::TouchBegin";
-            m_maxTouchPoints = 1;
-        }
-    } else if (event->type() == QEvent::Gesture)
-        handleGestureEvent(static_cast<QGestureEvent *>(event));
-    return QWidget::event(event);
-}
-
-void LockWidget::pinchTriggered(QPinchGesture *gesture)
-{
-    Q_UNUSED(gesture);
-    m_maxTouchPoints = 2;
 }
 
 void LockWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)

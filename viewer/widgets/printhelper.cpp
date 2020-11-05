@@ -11,10 +11,6 @@
 #include <QImageReader>
 #include <QDebug>
 
-#ifdef USE_UNIONIMAGE
-#include "unionimage.h"
-#endif
-
 PrintHelper::PrintHelper(QObject *parent)
     : QObject(parent)
 {
@@ -135,20 +131,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     // 所以这里的hack是事先判断图像是“横向”还是“纵向”的，给QPrinter设置默认的纸张方向，
     // 以满足大部分图片打印的需求。
     QList<QImage> imgs;
-#ifdef USE_UNIONIMAGE
-    for (const QString &path : paths) {
-        // There're cases that people somehow changed the image file suffixes, like jpg -> png,
-        // we'd better detect that before printing, otherwise we get an empty print.
-        QImage tImg;
-        QString errMsg;
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug() << errMsg;
-            continue;
-        }
 
-        imgs << tImg;
-    }
-#else
     for (const QString &path : paths) {
         // There're cases that people somehow changed the image file suffixes, like jpg -> png,
         // we'd better detect that before printing, otherwise we get an empty print.
@@ -160,7 +143,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 
         imgs << img;
     }
-#endif
+
     if (!imgs.isEmpty()) {
         QImage img1 = imgs.first();
         qDebug() << img1.width() << img1.height();

@@ -34,23 +34,20 @@
 #include <QImage>
 #include <QQueue>
 
-#ifdef USE_UNIONIMAGE
-#include "unionimage.h"
-#endif
 namespace {
 
 }  // namespace
-/*lmh0728缩略图分辨率IMAGE_HEIGHT_DEFAULT*/
-#define IMAGE_HEIGHT_DEFAULT    300
+
+#define IMAGE_HEIGHT_DEFAULT    100
 
 //#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
 
 ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QString path)
-    :m_parent(parent),
-     m_pathlist(pathlist),
-     m_path(path),
-     m_bFlag(true)
 {
+    m_parent = parent;
+    m_pathlist = pathlist;
+    m_path = path;
+    m_bFlag = true; //heyi
 }
 
 void ImageLoader::startLoading()
@@ -204,7 +201,6 @@ void ImageLoader::startLoading()
 
     gettimeofday(&tv, nullptr);
     ms = static_cast<long long>(tv.tv_sec) * 1000 + tv.tv_usec / 1000;
-    QThread::currentThread()->quit();
 }
 
 void ImageLoader::stopThread()
@@ -214,25 +210,7 @@ void ImageLoader::stopThread()
 
 void ImageLoader::addImageLoader(QStringList pathlist)
 {
-    /*lmh0724使用USE_UNIONIMAGE*/
-#if USE_UNIONIMAGE
     for (QString path : pathlist) {
-
-        QImage tImg;
-        QString errMsg;
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug() << errMsg;
-        }
-        //LMH0601加锁
-        QMutexLocker lcoker(&dApp->getRwLock());
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    }
-#else
-
-
-    for (QString path : pathlist) {
-
         QImage tImg;
 
         QString format = DetectImageFormat(path);
@@ -262,14 +240,12 @@ void ImageLoader::addImageLoader(QStringList pathlist)
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
         //dApp->getRwLock().unlock();
     }
-        #endif
-
 }
 //modify by heyi
-void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int rotateangle)
+void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
 {
     for (QString path : pathlist) {
-        QMutexLocker locker(&dApp->getRwLock());
+        QMutexLocker(&dApp->getRwLock());
 //        dApp->getRwLock().lockForWrite();
         QPixmap pixmap = m_parent->m_imagemap[path];
         if (pixmap.isNull()) {
@@ -278,9 +254,9 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int ro
         } else {
             QMatrix rotate;
             if (bDirection) {
-                rotate.rotate(rotateangle);
+                rotate.rotate(90);
             } else {
-                rotate.rotate(0-rotateangle);
+                rotate.rotate(-90);
             }
 
             pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
@@ -295,17 +271,9 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int ro
 
 void ImageLoader::loadInterface(QString path)
 {
-    /*lmh0724使用USE_UNIONIMAGE*/
-#ifdef USE_UNIONIMAGE
-    QImage tImg;
-    QString errMsg;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-        qDebug() << errMsg;
-    }
-    /*lmh0728线程pixmap安全问题*/
-    QImage img=tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-    QPixmap pixmap = QPixmap::fromImage(img);
-#else
+    QMutexLocker(&dApp->getRwLock());
+   // dApp->getRwLock().lockForWrite();
+#ifndef PIXMAP_LOAD
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -328,10 +296,11 @@ void ImageLoader::loadInterface(QString path)
     }
 
     QPixmap pixmap = QPixmap::fromImage(tImg);
+#else
+    QPixmap pixmap(path);
 #endif
-    QMutexLocker locker(&dApp->getRwLock());
-    m_parent->m_rectmap.insert(path, tImg.rect());
-    m_parent->m_imagemap.insert(path, pixmap);
+
+    m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
    // dApp->getRwLock().unlock();
 
     emit sigFinishiLoad(path);
@@ -374,18 +343,9 @@ void Application::loadPixThread(QStringList paths)
 
 void Application::loadInterface(QString path)
 {
-    QMutexLocker locker(&dApp->getRwLock());
+    QMutexLocker(&dApp->getRwLock());
    //  dApp->getRwLock().lockForWrite();
-    /*lmh0724使用USE_UNIONIMAGE*/
-#ifdef USE_UNIONIMAGE
-    QImage tImg;
-    QString errMsg;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-        qDebug() << errMsg;
-    }
-    QImage img=tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-    QPixmap pixmap = QPixmap::fromImage(img);
-#else
+#ifndef PIXMAP_LOAD
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -408,9 +368,11 @@ void Application::loadInterface(QString path)
     }
 
     QPixmap pixmap = QPixmap::fromImage(tImg);
+#else
+    QPixmap pixmap(path);
 #endif
-    m_rectmap.insert(path, tImg.rect());
-    m_imagemap.insert(path, pixmap);
+
+    m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
    // dApp->getRwLock().unlock();
 
     finishLoadSlot(path);
@@ -451,8 +413,8 @@ Application::Application(int &argc, char **argv)
         m_LoadThread = new QThread();
 
         m_imageloader->moveToThread(m_LoadThread);
-       //在线程中调用了quit()　会处罚finished信号，　链接此槽函数，会销毁对象，而其他地方在判断对象是否还在运行容易崩溃。
-      //  connect(m_LoadThread, &QThread::finished, m_LoadThread, &QObject::deleteLater);
+
+        connect(m_LoadThread, &QThread::finished, m_LoadThread, &QObject::deleteLater);
 
         connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
         connect(m_imageloader, SIGNAL(sigFinishiLoad(QString)), this, SLOT(finishLoadSlot(QString)));

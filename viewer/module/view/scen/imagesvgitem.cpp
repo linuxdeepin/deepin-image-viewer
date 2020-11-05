@@ -9,7 +9,7 @@
 
 #include "private/qgraphicsitem_p.h"
 #include "private/qobject_p.h"
-#include <QSvgRenderer>
+
 QT_BEGIN_NAMESPACE
 
 class ImageSvgItemPrivate : public QGraphicsItemPrivate
@@ -27,7 +27,7 @@ public:
     {
         Q_Q(ImageSvgItem);
         q->setParentItem(parent);
-        renderer = new QSvgRenderer(q);
+        renderer = new DSvgRenderer(q);
         //        QObject::connect(renderer, SIGNAL(repaintNeeded()),
         //                         q, SLOT(_q_repaintItem()));
         q->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
@@ -53,14 +53,13 @@ public:
         }
     }
 
-    QSvgRenderer *renderer;
+    DSvgRenderer *renderer;
     QRectF boundingRect;
     bool shared;
     QString elemId;
 };
 
 ImageSvgItem::ImageSvgItem(QGraphicsItem *parent)
-//    :QGraphicsSvgItem(parent)
     : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
 {
     Q_D(ImageSvgItem);
@@ -68,7 +67,6 @@ ImageSvgItem::ImageSvgItem(QGraphicsItem *parent)
 }
 
 ImageSvgItem::ImageSvgItem(const QString &fileName, QGraphicsItem *parent)
-//:QGraphicsSvgItem(parent)
     : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
 {
     Q_D(ImageSvgItem);
@@ -77,7 +75,7 @@ ImageSvgItem::ImageSvgItem(const QString &fileName, QGraphicsItem *parent)
     d->updateDefaultSize();
 }
 
-QSvgRenderer *ImageSvgItem::renderer() const
+DSvgRenderer *ImageSvgItem::renderer() const
 {
     return d_func()->renderer;
 }
@@ -188,7 +186,7 @@ QString ImageSvgItem::elementId() const
     return d->elemId;
 }
 
-void ImageSvgItem::setSharedRenderer(QSvgRenderer *renderer)
+void ImageSvgItem::setSharedRenderer(DSvgRenderer *renderer)
 {
     Q_D(ImageSvgItem);
     if (!d->shared)

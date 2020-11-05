@@ -41,6 +41,7 @@ public:
     void setDisabled(bool d);
 
     void setTooltipVisible(bool visible);
+    bool tooltipVisible();
 
     inline const QString getDisablePic() const { return m_disablePic_; }
 signals:

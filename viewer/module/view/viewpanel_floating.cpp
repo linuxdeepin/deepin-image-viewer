@@ -33,10 +33,62 @@ DWIDGET_USE_NAMESPACE
 
 void ViewPanel::initFloatingComponent()
 {
+//    initSwitchButtons();
     initScaleLabel();
     initNavigation();
 }
 
+void ViewPanel::initSwitchButtons()
+{
+    using namespace utils::base;
+
+    DAnchors<DIconButton> pre_button = new DIconButton(this);
+    DAnchors<DIconButton> next_button = new DIconButton(this);
+
+    pre_button->setObjectName("PreviousButton");
+    next_button->setObjectName("NextButton");
+
+    pre_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
+    pre_button.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
+
+    next_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
+    next_button.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
+
+    pre_button->setFixedSize(100, 200);
+    next_button->setFixedSize(100, 200);
+
+    pre_button->hide();
+    next_button->hide();
+
+    connect(pre_button, &DIconButton::clicked, this, &ViewPanel::showPrevious);
+    connect(next_button, &DIconButton::clicked, this, &ViewPanel::showNext);
+
+
+    connect(this, &ViewPanel::mouseMoved, this, [ = ] {
+        DAnchors<DIconButton> pb = pre_button;
+        if (m_info && m_info->visibleRegion().isNull())
+        {
+            pb.setLeftMargin(0);
+        } else
+        {
+            pb.setLeftMargin(240);
+        }
+
+        QPoint pos = mapFromGlobal(QCursor::pos());
+        QRect left_rect = pre_button->geometry();
+        QRect right_rect = next_button->geometry();
+
+        if (left_rect.contains(pos, true) || right_rect.contains(pos))
+        {
+            pre_button->show();
+            next_button->show();
+        } else
+        {
+            pre_button->hide();
+            next_button->hide();
+        }
+    });
+}
 
 void ViewPanel::initScaleLabel()
 {
@@ -96,10 +148,6 @@ void ViewPanel::initNavigation()
         Q_UNUSED(infos);
         if (path.isEmpty()) m_nav->setVisible(false);
         m_nav->setImage(m_viewB->image(true));
-    });
-    connect(dApp->signalM, &SignalManager::UpdateNavImg, this, [ = ]() {
-        m_nav->setImage(m_viewB->image(true));
-        m_nav->setRectInImage(m_viewB->visibleImageRect());
     });
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
         m_viewB->centerOn(x, y);

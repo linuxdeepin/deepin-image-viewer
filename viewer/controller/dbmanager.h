@@ -82,24 +82,44 @@ class DBManager : public QObject
     Q_OBJECT
 public:
     static DBManager *instance();
-    explicit DBManager(QObject *parent = nullptr);
+    explicit DBManager(QObject *parent = 0);
 
     // TableImage
     const QStringList       getAllPaths() const;
+    const DBImgInfoList     getAllInfos() const;
+    const QStringList       getAllTimelines() const;
     const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
+    const DBImgInfo         getInfoByName(const QString &name) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
+    const DBImgInfo         getInfoByPathHash(const QString &pathHash) const;
+    int                     getImgsCount() const;
+    int                     getImgsCountByDir(const QString &dir) const;
     const QStringList       getPathsByDir(const QString &dir) const;
+    bool                    isImgExist(const QString &path) const;
     void insertImgInfos(const DBImgInfoList &infos);
     void removeImgInfos(const QStringList &paths);
     void removeDir(const QString &dir);
 
     // TableAlbum
+    const DBAlbumInfo       getAlbumInfo(const QString &album) const;
+    const QStringList       getAllAlbumNames() const;
+    const QStringList       getPathsByAlbum(const QString &album) const;
+    const DBImgInfoList     getInfosByAlbum(const QString &album) const;
+    int                     getImgsCountByAlbum(const QString &album) const;
+    int                     getAlbumsCount() const;
+    bool                    isAlbumExistInDB(const QString &album) const;
+    bool                    isImgExistInAlbum(const QString &album, const QString &path) const;
     void insertIntoAlbum(const QString &album, const QStringList &paths);
+    void removeAlbum(const QString &album);
+    void removeFromAlbum(const QString &album, const QStringList &paths);
+    void renameAlbum(const QString &oldAlbum, const QString &newAlbum);
 
 private:
     const DBImgInfoList getImgInfos(const QString &key, const QString &value) const;
     const QSqlDatabase getDatabase() const;
     void checkDatabase();
+    void importVersion1Data();
+    void importVersion2Data();
 
     static DBManager *m_dbManager;
 private:

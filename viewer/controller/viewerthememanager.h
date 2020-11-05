@@ -21,7 +21,7 @@
 
 class ViewerThemeManager : public QObject {
     Q_OBJECT
-    ViewerThemeManager(QObject* parent = nullptr);
+    ViewerThemeManager(QObject* parent = 0);
 public:
     enum AppTheme {
         Dark,

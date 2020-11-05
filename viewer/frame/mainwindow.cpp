@@ -76,7 +76,15 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     m_pCenterWidget = new QSWToDStackedWidget(this);
     m_mainWidget = new MainWidget(manager, this);
     m_pCenterWidget->addWidget(m_mainWidget);
+    m_slidePanel =  new SlideShowPanel();
+    m_pCenterWidget->addWidget(m_slidePanel);
     m_pCenterWidget->setCurrentIndex(0);
+    //    QTimer::singleShot(200, [=]{
+    setCentralWidget(m_pCenterWidget);
+    //    });
+    initConnection();
+    initshortcut();
+    initdbus();
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
@@ -98,16 +106,6 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
         });
     }
 
-    setCentralWidget(m_pCenterWidget);
-    moveFirstWindow();
-
-    /*lmh0806儒码优化*/
-    QTimer::singleShot(dApp->m_timer, [=]{
-        m_slidePanel =  new SlideShowPanel();
-        m_pCenterWidget->addWidget(m_slidePanel);
-        initConnection();
-        initshortcut();
-        initdbus();
 #ifndef LITE_DIV
     QThread *workerThread = new QThread;
     Worker *worker = new Worker();
@@ -141,7 +139,8 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
         }
     });
     new ImageViewAdaptor(this);
-    });
+    m_currenttime = QDateTime::currentDateTime();
+    moveFirstWindow();
 }
 
 void MainWindow::initshortcut()
@@ -355,32 +354,32 @@ void MainWindow::paraOpenImageInfo(QString source, QString &path, QStringList &p
         }
     }
 }
-/*lmh0810 never used*/
-//int MainWindow::showDialog()
-//{
-//    qDebug() << "!!!!!!!!!!!!!!!!!!showDialog!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-//    DDialog *dialog = new DDialog;
 
-//    QPixmap pixmap = utils::base::renderSVG(":/assets/common/warning.svg", QSize(32, 32));
-//    QIcon icon(pixmap);
-//    dialog->setIcon(icon);
+int MainWindow::showDialog()
+{
+    qDebug() << "!!!!!!!!!!!!!!!!!!showDialog!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    DDialog *dialog = new DDialog;
 
-//    //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete
-//    //    the thumbnails of the removable device?"));
-//    dialog->setMessage(tr("Image file not found"));
+    QPixmap pixmap = utils::base::renderSVG(":/assets/common/warning.svg", QSize(32, 32));
+    QIcon icon(pixmap);
+    dialog->setIcon(icon);
 
-//    dialog->addButton(tr("Cancel"));
-//    dialog->addButton(tr("Delete"), true, DDialog::ButtonRecommend);
-//    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-//    effect->setOffset(0, 4);
-//    effect->setColor(QColor(0, 145, 255, 76));
-//    effect->setBlurRadius(4);
-//    dialog->getButton(1)->setGraphicsEffect(effect);
+    //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete
+    //    the thumbnails of the removable device?"));
+    dialog->setMessage(tr("Image file not found"));
 
-//    int mode = dialog->exec();
+    dialog->addButton(tr("Cancel"));
+    dialog->addButton(tr("Delete"), true, DDialog::ButtonRecommend);
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+    effect->setOffset(0, 4);
+    effect->setColor(QColor(0, 145, 255, 76));
+    effect->setBlurRadius(4);
+    dialog->getButton(1)->setGraphicsEffect(effect);
 
-//    return mode;
-//}
+    int mode = dialog->exec();
+
+    return mode;
+}
 
 void MainWindow::OpenImage(QString path)
 {

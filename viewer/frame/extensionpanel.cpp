@@ -223,11 +223,20 @@ void ExtensionPanel::init()
     this->setLayout(m_mainLayout);
 
     m_scImageInfo = new QShortcut(this);
-    m_scImageInfo->setKey(tr("Ctrl+I"));
+    m_scImageInfo->setKey(tr("Alt+Return"));
     m_scImageInfo->setContext(Qt::ApplicationShortcut);
     m_scImageInfo->setAutoRepeat(false);
 
     connect(m_scImageInfo, &QShortcut::activated, this, [this] {
+        emit dApp->signalM->hideExtensionPanel();
+    });
+
+    m_scImageInfonum = new QShortcut(this);
+    m_scImageInfonum->setKey(tr("Alt+Enter"));
+    m_scImageInfonum->setContext(Qt::ApplicationShortcut);
+    m_scImageInfonum->setAutoRepeat(false);
+
+    connect(m_scImageInfonum, &QShortcut::activated, this, [this] {
         emit dApp->signalM->hideExtensionPanel();
     });
     // Esc

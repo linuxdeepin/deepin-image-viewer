@@ -395,6 +395,15 @@ EffectId SlideEffect::type() const
     return effect_type;
 }
 
+void SlideEffect::setSpeed(qreal s)
+{
+    speed = s;
+}
+
+void SlideEffect::setFrames(int frames)
+{
+    frames_total = frames;
+}
 
 int SlideEffect::currentFrameNumber() const
 {
@@ -417,7 +426,25 @@ QSize SlideEffect::size() const
     return QSize(width, height);
 }
 
+void SlideEffect::setBackgroundColor(const QColor &color)
+{
+    this->color = color;
+}
 
+QColor SlideEffect::backgroundColor() const
+{
+    return color;
+}
+
+void SlideEffect::setAspectRatioMode(Qt::AspectRatioMode mode)
+{
+    this->mode = mode;
+}
+
+Qt::AspectRatioMode SlideEffect::aspectRatioMode() const
+{
+    return mode;
+}
 
 void SlideEffect::setImages(const QString &currentPath, const QString &nextPath)
 {

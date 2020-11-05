@@ -396,8 +396,7 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool C
         if ((i->key == "DateTimeOriginal" || i->key == "DateTimeDigitized") &&
                 value.left(1) == QString("0"))
             continue;
-        /*lmh0825真实格式，没有真格式采用后缀名*/
-        if (i->key == "FileFormat" && !suffix.isEmpty() && infos.value(i->key).isNull()) {
+        if (i->key == "FileFormat" && !suffix.isEmpty()) {
             value = fi.suffix();
         }
 

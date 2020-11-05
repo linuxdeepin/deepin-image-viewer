@@ -51,8 +51,6 @@ Shortcut::Shortcut(QObject *parent)
 #endif
         ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen", "F11"))
                       << ShortcutItem(tr("Exit fullscreen"), "Esc") <<
-        ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show", "F5"))
-                      << ShortcutItem(tr("Rename"), "F2") <<
 #ifndef LITE_DIV
         ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))
                       << ShortcutItem(tr("End show"), ss(VIEW_GROUP, "End show")) <<
@@ -70,10 +68,10 @@ Shortcut::Shortcut(QObject *parent)
                       << ShortcutItem(tr("Set as wallpaper"),
                                       ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F9"))
                       << ShortcutItem(tr("Display in file manager"),
-                                      ss(VIEW_GROUP, "Display in file manager", "Alt + D"))
+                                      ss(VIEW_GROUP, "Display in file manager", "Ctrl + D"))
                       <<
         //    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
-        ShortcutItem(tr("Image info"), "Ctrl + I") << ShortcutItem(tr("Previous"), "Left")
+        ShortcutItem(tr("Image info"), "Alt+Enter") << ShortcutItem(tr("Previous"), "Left")
                       << ShortcutItem(tr("Next"), "Right")
                       << ShortcutItem(tr("Zoom in"), "Ctrl+ '+'")
                       << ShortcutItem(tr("Zoom out"), "Ctrl+ '-'")
