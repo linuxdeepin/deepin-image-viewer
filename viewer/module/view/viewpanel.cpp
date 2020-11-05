@@ -2001,10 +2001,16 @@ void ViewPanel::openImage(const QString path, bool inDB)
         }
     });
     QPixmap pixmapthumb = utils::image::getThumbnail(path);
+    qDebug() << "file paht" << path;
     if (!QFileInfo(path).exists()) {
+        qDebug() << "file is not exists, path:" <<path;
         m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
+        if(!QFileInfo(path).isReadable())
+            qDebug() << "file is not Readable, path:" <<path;
+        else if(pixmapthumb.isNull())
+            qDebug() << "pixmapthumb.isNull()" <<path;
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
