@@ -556,7 +556,7 @@ void SlideShowPanel::showFullScreen()
     QFileInfo fileInfo(strPath);
 
     if (m_bFirstImg && fileInfo.suffix() != "svg") {
-        QDesktopWidget *dw = dApp->desktop();
+        QDesktopWidget *dw = dApp->m_app->desktop();
         const int dww = dw->screenGeometry(window()).width();
         const int dwh = dw->screenGeometry(window()).height();
 
@@ -595,7 +595,7 @@ void SlideShowPanel::showFullScreen()
  */
 QImage SlideShowPanel::getFitImage(const QString &path)
 {
-    QDesktopWidget *dw = dApp->desktop();
+    QDesktopWidget *dw = dApp->m_app->desktop();
     const int dww = dw->screenGeometry(window()).width();
     const int dwh = dw->screenGeometry(window()).height();
 

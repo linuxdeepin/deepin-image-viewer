@@ -11,6 +11,7 @@ StartupNotify=false
 Type=Application
 X-Deepin-ManualID=deepin-image-viewer
 X-Deepin-Vendor=deepin
+X-Deepin-TurboType=dtkwidget
 
 # Translations:
 # Do not manually modify!

@@ -36,8 +36,8 @@ class QCloseEvent;
 #if defined(dApp)
 #undef dApp
 #endif
-#define dApp (static_cast<Application*>(QCoreApplication::instance()))
-
+#define dApp (Application::getinstance())
+//#define dAppold (static_cast<Application*>(QCore::instance()))
 DWIDGET_USE_NAMESPACE
 
 class ImageLoader : public QObject
@@ -94,12 +94,13 @@ private:
     QList<QString> listLoad2;
 };
 
-class Application : public DApplication
+class Application : public QObject
 {
     Q_OBJECT
 
 public:
-    Application(int &argc, char **argv);
+    static Application *instance(int& argc, char **argv);
+    static Application *getinstance();
     ~Application();
 
     /**
@@ -126,12 +127,13 @@ public:
     QThread *m_LoadThread;
     bool m_firstLoad = true;
 
+    DApplication* m_app;
     /*lmh0806儒码优化*/
     int  m_timer=0;
-
     /*全局监测线程lmh0914*/
-    bool notify(QObject *obj, QEvent *e);
+   // bool notify(QObject *obj, QEvent *e);
 
+    bool eventFilter(QObject *obj, QEvent *event);
 signals:
     /**
      * @brief sigMouseRelease  全局线程释放事件
@@ -207,6 +209,8 @@ private:
     QStringList m_loadPaths;
     //线程结束标志位
     volatile bool m_bThreadExit = false;
+    static Application *m_signalapp;
+    Application(int &argc, char **argv);
 };
 
 #endif  // APPLICATION_H_

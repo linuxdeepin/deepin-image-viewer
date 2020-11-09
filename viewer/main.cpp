@@ -25,15 +25,16 @@
 #include <DApplicationSettings>
 
 using namespace Dtk::Core;
-
+//Application* a = nullptr;
 int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 //    Application::loadDXcbPlugin();
-    Application a(argc, argv);
+    Application::instance(argc,argv);
 
-    a.setAttribute(Qt::AA_ForceRasterWidgets);
+    dApp->m_app->setAttribute(Qt::AA_ForceRasterWidgets);
+    dApp->m_app->installEventFilter(dApp);
 #ifdef INSTALLACCESSIBLEFACTORY
     QAccessible::installFactory(accessibleFactory);
 #endif
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
     DApplicationSettings saveTheme;
     CommandLine *cl = CommandLine::instance();
     if (cl->processOption()) {
-        return a.exec();
+        return dApp->m_app->exec();
     } else {
         return 0;
     }

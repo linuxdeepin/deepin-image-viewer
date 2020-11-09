@@ -258,7 +258,7 @@ void MainWindow::moveFirstWindow()
              }
              if (processFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
                  QTextStream pidInfo(&processFile);
-                 pidInfo << dApp->applicationPid();
+                 pidInfo << dApp->m_app->applicationPid();
                  processFile.close();
              }
              this->moveCenter();
@@ -266,7 +266,7 @@ void MainWindow::moveFirstWindow()
     } else {
         if (processFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream pidInfo(&processFile);
-            pidInfo << dApp->applicationPid();
+            pidInfo << dApp->m_app->applicationPid();
             processFile.close();
             this->moveCenter();
         } else {
@@ -280,14 +280,14 @@ void MainWindow::moveCenter()
     QPoint pos = QCursor::pos();
     QRect primaryGeometry;
 
-    for (QScreen *screen : dApp->screens()) {
+    for (QScreen *screen : dApp->m_app->screens()) {
         if (screen->geometry().contains(pos)) {
             primaryGeometry = screen->geometry();
         }
     }
 
     if (primaryGeometry.isEmpty()) {
-        primaryGeometry = dApp->primaryScreen()->geometry();
+        primaryGeometry = dApp->m_app->primaryScreen()->geometry();
     }
 
     this->move(primaryGeometry.x() + (primaryGeometry.width() - this->width()) / 2,
@@ -331,7 +331,7 @@ bool MainWindow::windowAtEdge()
     bool atSeperScreenPos = false;
 
     if (currentRect.x() == 0 ||
-            qAbs(currentRect.right() - dApp->primaryScreen()->geometry().width()) <= 5) {
+            qAbs(currentRect.right() - dApp->m_app->primaryScreen()->geometry().width()) <= 5) {
         atSeperScreenPos = true;
     }
 
