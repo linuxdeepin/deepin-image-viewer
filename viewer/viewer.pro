@@ -112,6 +112,7 @@ DISTFILES += \
 load(dtk_qmake)
 
 QMAKE_CXXFLAGS += -Wl,-as-need -Wl,-E -fPIE
+QMAKE_CFLAGS += -Wl,-as-need -Wl,-E -fPIE
 QMAKE_LFLAGS+=-pie
 
 host_sw_64: {
