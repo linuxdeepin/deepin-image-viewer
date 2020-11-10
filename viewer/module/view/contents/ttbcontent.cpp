@@ -124,8 +124,8 @@ char *getImageType(QString filepath)
 MyImageListWidget::MyImageListWidget(QWidget *parent)
     : DWidget(parent), m_timer(new QTimer(this))
 {
+    this->setObjectName(IMAGE_LIST_WIDGET);
     setMouseTracking(true);
-
     //lmh0914
     QTimer::singleShot(dApp->m_timer,[=]{
         connect(dApp,&Application::sigMouseRelease,this,[=]{
@@ -818,7 +818,7 @@ void TTBContent::initBtn()
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
     m_trashBtn->setIconSize(QSize(36, 36));
     m_trashBtn->setToolTip(tr("Delete"));
-#ifdef OPENACCESSIBLE
+
     m_adaptImageBtn->setObjectName(ADAPT_BUTTON);
     m_adaptScreenBtn->setObjectName(ADAPT_SCREEN_BUTTON);
     m_preButton->setObjectName(PRE_BUTTON);
@@ -826,6 +826,9 @@ void TTBContent::initBtn()
     m_rotateRBtn->setObjectName(CLOCKWISE_ROTATION);
     m_rotateLBtn->setObjectName(COUNTER_CLOCKWISE_ROTATION);
     m_trashBtn->setObjectName(TRASH_BUTTON);
+
+#ifdef OPENACCESSIBLE
+
     m_adaptImageBtn->setAccessibleName(ADAPT_BUTTON);
     m_adaptScreenBtn->setAccessibleName(ADAPT_SCREEN_BUTTON);
     m_preButton->setAccessibleName(PRE_BUTTON);

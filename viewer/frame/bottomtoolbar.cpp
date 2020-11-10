@@ -30,8 +30,9 @@ BottomToolbar::BottomToolbar(QWidget *parent)
     : DFloatingWidget(parent)
 {
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-#ifdef OPENACCESSIBLE
     setObjectName(BUTTOM_TOOL_BAR);
+#ifdef OPENACCESSIBLE
+
     setAccessibleName(BUTTOM_TOOL_BAR);
 #endif
     DWidget *widet = new DWidget(this);

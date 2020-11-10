@@ -95,6 +95,9 @@ void WallpaperSetter::setWallpaper(const QString &path)
         t->deleteLater();
     });
     t->start(1000);
+    QTimer::singleShot(1000,[t,tmpImg]{
+        QFile(tmpImg).remove();
+    });
 }
 
 void WallpaperSetter::setDeepinWallpaper(const QString &path)

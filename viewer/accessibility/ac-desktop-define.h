@@ -33,6 +33,7 @@
 
 #define VIEW_PANEL_WIDGET QObject::tr("viewpanel") //图片显示区域
 #define VIEW_PANEL_STACK QObject::tr("viewpanel stack") //图片显示区域堆栈窗口
+#define IMAGE_LIST_WIDGET  QObject::tr("myimagelistwidget") //TTB中缩略图
 #define IMAGE_VIEW QObject::tr("image view") //图片显示控件
 
 #define PANEL_STACK QObject::tr("panelstack") //装有图片显示区域的视图窗口

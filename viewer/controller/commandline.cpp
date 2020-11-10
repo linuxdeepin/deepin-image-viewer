@@ -81,6 +81,11 @@ CommandLine::~CommandLine()
 {
 
 }
+
+MainWindow *CommandLine::getMainWindow()
+{
+    return m_mainWindow;
+}
 QString CommandLine::createOpenImageInfo(QString path, QStringList pathlist, QDateTime stime)
 {
     QJsonObject json;
@@ -151,10 +156,13 @@ void CommandLine::viewImage(const QString path, const QStringList paths)
     if (!QFileInfo(path).exists()) {
         dApp->m_timer=1000;
     }
-    MainWindow *w = new MainWindow(false);
-    w->setWindowRadius(18);
-    w->setBorderWidth(0);
-    w->show();
+    if(!m_mainWindow){
+        m_mainWindow = new MainWindow(false);
+    }
+
+    m_mainWindow->setWindowRadius(18);
+    m_mainWindow->setBorderWidth(0);
+    m_mainWindow->show();
 
     // Load image after all UI elements has been init
     // BottomToolbar pos not correct on init
@@ -164,7 +172,7 @@ void CommandLine::viewImage(const QString path, const QStringList paths)
 //    QTimer::singleShot(300, this, [ = ] {
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerService("com.deepin.ImageViewer");
-    dbus.registerObject("/com/deepin/ImageViewer", w);
+    dbus.registerObject("/com/deepin/ImageViewer", m_mainWindow);
     SignalManager::ViewInfo info;
     info.album = "";
 #ifndef LITE_DIV

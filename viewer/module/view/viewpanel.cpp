@@ -78,10 +78,10 @@ ViewPanel::ViewPanel(QWidget *parent)
 #endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();
-#ifdef OPENACCESSIBLE
     setObjectName(VIEW_PANEL_WIDGET);
-    setAccessibleName(VIEW_PANEL_WIDGET);
     m_stack->setObjectName(VIEW_PANEL_STACK);
+#ifdef OPENACCESSIBLE
+    setAccessibleName(VIEW_PANEL_WIDGET);
     m_stack->setAccessibleName(VIEW_PANEL_STACK);
 #endif
     /*lmh0722*/

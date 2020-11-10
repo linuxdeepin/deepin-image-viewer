@@ -57,8 +57,8 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 
 {
     setFocusPolicy(Qt::StrongFocus);
-#ifdef OPENACCESSIBLE
     setObjectName(SLIDE_SHOW_WIDGET);
+#ifdef OPENACCESSIBLE
     setAccessibleName(SLIDE_SHOW_WIDGET);
 #endif
 //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -153,13 +153,13 @@ void SlideShowPanel::paintEvent(QPaintEvent *e)
 {
     ModulePanel::paintEvent(e);
 
-    if (m_img.isNull())
-        return;
+    if (!m_img.isNull()){
 
-    QPainter p(this);
-//    p.setRenderHint(QPainter::Antialiasing);
-    p.fillRect(this->rect(), QBrush(QColor(m_bgColor)));
-    p.drawPixmap(this->rect(), QPixmap::fromImage(m_img));
+        QPainter p(this);
+        //    p.setRenderHint(QPainter::Antialiasing);
+        p.fillRect(this->rect(), QBrush(QColor(m_bgColor)));
+        p.drawPixmap(this->rect(), QPixmap::fromImage(m_img));
+    }
 }
 
 void SlideShowPanel::resizeEvent(QResizeEvent *e)
@@ -455,61 +455,58 @@ void SlideShowPanel::saveFirstImg(QImage img)
 void SlideShowPanel::startSlideShow(const SignalManager::ViewInfo &vinfo,
                                     bool inDB)
 {
-    if (vinfo.paths.isEmpty()) {
-        qDebug() << "Start SlideShow failed! Paths is empty!";
-        return;
+    if (!vinfo.paths.isEmpty()) {
+        m_vinfo = vinfo;
+        m_player->setImagePaths(vinfo.paths);
+        m_player->setCurrentImage(vinfo.path);
+        QString lastpath,firstpath;
+        emit dApp->signalM->sigGetLastThumbnailPath(lastpath);
+        emit dApp->signalM->sigGetFirstThumbnailpath(firstpath);
+        m_player->SetfirstlastThunbnailpath(firstpath,lastpath);
+        //    m_startTid = startTimer(DELAY_START_INTERVAL);
+
+        this->setCursor(Qt::BlankCursor);
+        m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
+
+        if (!inDB) {
+            qDebug() << "startSlideShow fileMonitor";
+            m_fileSystemMonitor->addPaths(m_vinfo.paths);
+        }
+
+        //    if (m_cancelslideshow != nullptr) {
+        //        int nParentWidth = QApplication::desktop()->screenGeometry().width();
+
+        //        m_cancelslideshow->move(nParentWidth - 50, 0);
+
+        //        m_cancelslideshow->show();
+        //        m_cancelslideshow->raise();
+        //    }
+
+        //    emit dApp->signalM->initButton();
+
+        //    slideshowbottombar->playpauseButton(a);
+
+        if (1 < vinfo.paths.length()) {
+            slideshowbottombar->m_preButton->setEnabled(true);
+            slideshowbottombar->m_nextButton->setEnabled(true);
+            slideshowbottombar->m_playpauseButton->setEnabled(true);
+            emit dApp->signalM->initButton();
+        } else {
+            slideshowbottombar->m_preButton->setEnabled(false);
+            slideshowbottombar->m_nextButton->setEnabled(false);
+            slideshowbottombar->m_playpauseButton->setEnabled(false);
+            emit dApp->signalM->updatePauseButton();
+        }
+
+        int nParentWidth = QApplication::desktop()->screenGeometry().width();
+        int nParentHeight = QApplication::desktop()->screenGeometry().height();
+        slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
+
+        m_player->start();
+
+        //    emit dApp->signalM->gotoPanel(this);
+        showFullScreen();
     }
-
-    m_vinfo = vinfo;
-    m_player->setImagePaths(vinfo.paths);
-    m_player->setCurrentImage(vinfo.path);
-    QString lastpath,firstpath;
-    emit dApp->signalM->sigGetLastThumbnailPath(lastpath);
-    emit dApp->signalM->sigGetFirstThumbnailpath(firstpath);
-    m_player->SetfirstlastThunbnailpath(firstpath,lastpath);
-//    m_startTid = startTimer(DELAY_START_INTERVAL);
-
-    this->setCursor(Qt::BlankCursor);
-    m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
-
-    if (!inDB) {
-        qDebug() << "startSlideShow fileMonitor";
-        m_fileSystemMonitor->addPaths(m_vinfo.paths);
-    }
-
-//    if (m_cancelslideshow != nullptr) {
-//        int nParentWidth = QApplication::desktop()->screenGeometry().width();
-
-//        m_cancelslideshow->move(nParentWidth - 50, 0);
-
-//        m_cancelslideshow->show();
-//        m_cancelslideshow->raise();
-//    }
-
-//    emit dApp->signalM->initButton();
-
-//    slideshowbottombar->playpauseButton(a);
-
-    if (1 < vinfo.paths.length()) {
-        slideshowbottombar->m_preButton->setEnabled(true);
-        slideshowbottombar->m_nextButton->setEnabled(true);
-        slideshowbottombar->m_playpauseButton->setEnabled(true);
-        emit dApp->signalM->initButton();
-    } else {
-        slideshowbottombar->m_preButton->setEnabled(false);
-        slideshowbottombar->m_nextButton->setEnabled(false);
-        slideshowbottombar->m_playpauseButton->setEnabled(false);
-        emit dApp->signalM->updatePauseButton();
-    }
-
-    int nParentWidth = QApplication::desktop()->screenGeometry().width();
-    int nParentHeight = QApplication::desktop()->screenGeometry().height();
-    slideshowbottombar->move((nParentWidth - slideshowbottombar->width()) / 2, nParentHeight);
-
-    m_player->start();
-
-//    emit dApp->signalM->gotoPanel(this);
-    showFullScreen();
 }
 
 void SlideShowPanel::showNormal()

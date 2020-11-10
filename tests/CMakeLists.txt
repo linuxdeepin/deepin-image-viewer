@@ -26,6 +26,8 @@ endif()
 
 # Sources files
 #cmakedefine USE_MYMATH
+set(AllTestQRC
+    ./testqrc/testresource.qrc)
 file(GLOB_RECURSE HEADERSCURRENT "*.h")
 file(GLOB_RECURSE  SOURCESCURRENT  "*.cpp")
 #file(GLOB_RECURSE  SOURCES  "../viewer/*.cpp")
@@ -94,7 +96,7 @@ if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
 endif ()
 
 add_executable( ${TARGET_NAME} ${SOURCES} ${SOURCESC}
-    ${HEADERS}
+    ${HEADERS} ${AllTestQRC}
     ${RESOURCES} ${PROJECT_INCLUDE}
     ${HEADERSCURRENT} ${SOURCESCURRENT}
     ${QM}
@@ -147,6 +149,7 @@ set(OBJECT_DIR ${CMAKE_BINARY_DIR}/CMakeFiles/objects)
 
 add_custom_target(test
     COMMAND mkdir -p coverageResult
+    COMMAND mkdir -p test
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_custom_command(TARGET test
