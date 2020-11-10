@@ -438,7 +438,6 @@ Application::Application(int &argc, char **argv)
 #else
     m_app = DApplication::globalApplication(argc, argv);
 #endif
-    initI18n();
     m_LoadThread = nullptr;
     m_app->setOrganizationName("deepin");
     m_app->setApplicationName("deepin-image-viewer");
@@ -453,6 +452,7 @@ Application::Application(int &argc, char **argv)
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
     m_app->setApplicationVersion(DApplication::buildVersion("20190828"));
+    initI18n();
     installEventFilter(new GlobalEventFilter(this));
 
 
