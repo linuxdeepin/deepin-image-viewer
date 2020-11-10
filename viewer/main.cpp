@@ -26,7 +26,7 @@
 
 using namespace Dtk::Core;
 //Application* a = nullptr;
-int main(int argc, char *argv[])
+Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
@@ -58,4 +58,5 @@ int main(int argc, char *argv[])
     } else {
         return 0;
     }
+  //  return 0;
 }

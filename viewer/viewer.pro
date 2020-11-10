@@ -111,9 +111,9 @@ DISTFILES += \
 
 load(dtk_qmake)
 
-QMAKE_CXXFLAGS += -Wl,-as-need -Wl,-E -fPIE
+QMAKE_CXXFLAGS += -Wl,-as-need -fPIE
 QMAKE_CFLAGS += -Wl,-as-need -Wl,-E -fPIE
-QMAKE_LFLAGS+=-pie
+QMAKE_LFLAGS+=-Wl,-E -pie
 
 host_sw_64: {
 # 在 sw_64 平台上添加此参数，否则会在旋转图片时崩溃
