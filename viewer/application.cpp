@@ -441,6 +441,7 @@ Application::Application(int &argc, char **argv)
     m_LoadThread = nullptr;
     m_app->setOrganizationName("deepin");
     m_app->setApplicationName("deepin-image-viewer");
+    initI18n();
     m_app->setApplicationDisplayName(tr("Image Viewer"));
     m_app->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
 //    setApplicationDescription(QString("%1\n%2\n").arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")).arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")));
@@ -452,7 +453,7 @@ Application::Application(int &argc, char **argv)
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
     m_app->setApplicationVersion(DApplication::buildVersion("20190828"));
-    initI18n();
+
     installEventFilter(new GlobalEventFilter(this));
 
 
