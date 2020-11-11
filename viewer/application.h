@@ -36,7 +36,7 @@ class QCloseEvent;
 #if defined(dApp)
 #undef dApp
 #endif
-#define dApp (static_cast<Application*>(QCoreApplication::instance()))
+#define dApp (Application::getinstance())
 /*lmh0728缩略图分辨率IMAGE_HEIGHT_DEFAULT*/
 #define IMAGE_HEIGHT_DEFAULT    300
 
@@ -96,14 +96,14 @@ private:
     QList<QString> listLoad2;
 };
 
-class Application : public DApplication
+class Application : public QObject
 {
     Q_OBJECT
 
 public:
-    Application(int &argc, char **argv);
     ~Application();
-
+    static Application *instance(int& argc, char **argv);
+    static Application *getinstance();
     /**
      * @brief getRwLock 获取线程安全读写锁，在外部读取map时使用
      * @return          读写锁
@@ -127,12 +127,11 @@ public:
 
     QThread *m_LoadThread;
     bool m_firstLoad = true;
-
+    DApplication* m_app;
     /*lmh0806儒码优化*/
     int  m_timer=0;
 
-    /*全局监测线程lmh0914*/
-    bool notify(QObject *obj, QEvent *e);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 signals:
     /**
@@ -209,6 +208,8 @@ private:
     QStringList m_loadPaths;
     //线程结束标志位
     volatile bool m_bThreadExit = false;
+    static Application *m_signalapp;
+    Application(int &argc, char **argv);
 };
 
 #endif  // APPLICATION_H_

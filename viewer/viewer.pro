@@ -109,9 +109,9 @@ DISTFILES += \
     com.deepin.ImageViewer.service
 
 load(dtk_qmake)
-QMAKE_CXX += -Wl,--as-need
-QMAKE_CXXFLAGS += -Wl,--as-need -fPIE
-QMAKE_LFLAGS+=-Wl,--as-needed -pie
+QMAKE_CXXFLAGS += -Wl,-as-need -fPIE
+QMAKE_CFLAGS += -Wl,-as-need -Wl,-E -fPIE
+QMAKE_LFLAGS+=-Wl,-as-need -Wl,-E -pie
 
 host_sw_64: {
 # 在 sw_64 平台上添加此参数，否则会在旋转图片时崩溃

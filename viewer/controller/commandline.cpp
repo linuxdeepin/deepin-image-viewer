@@ -188,7 +188,7 @@ void CommandLine::viewImage(const QString path, const QStringList paths)
 
 bool CommandLine::processOption()
 {
-    if (! m_cmdParser.parse(dApp->arguments())) {
+    if (! m_cmdParser.parse(dApp->m_app->arguments())) {
         showHelp();
         return false;
     }
@@ -356,7 +356,7 @@ bool CommandLine::processOption()
 
 bool CommandLine::processOption(QDateTime time, bool newflag)
 {
-    if (! m_cmdParser.parse(dApp->arguments())) {
+    if (! m_cmdParser.parse(dApp->m_app->arguments())) {
         showHelp();
         return false;
     }

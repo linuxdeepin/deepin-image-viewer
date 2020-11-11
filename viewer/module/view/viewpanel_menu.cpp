@@ -85,11 +85,11 @@ void ViewPanel::initPopupMenu()
 #endif
         {
             updateMenuContent();
-            dApp->setOverrideCursor(Qt::ArrowCursor);
+            dApp->m_app->setOverrideCursor(Qt::ArrowCursor);
             m_menu->popup(QCursor::pos());
         }
     });
-    connect(m_menu, &DMenu::aboutToHide, this, [ = ] { dApp->restoreOverrideCursor(); });
+    connect(m_menu, &DMenu::aboutToHide, this, [ = ] { dApp->m_app->restoreOverrideCursor(); });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
         if (this && this->isVisible())

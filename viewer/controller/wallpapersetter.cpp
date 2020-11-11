@@ -56,7 +56,7 @@ void WallpaperSetter::setWallpaper(const QString &path)
                                      "/com/deepin/daemon/Appearance",
                                      "com.deepin.daemon.Appearance");
         if (interface.isValid()) {
-            QString screenname = dApp->primaryScreen()->name();
+            QString screenname = dApp->m_app->primaryScreen()->name();
             QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
             qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
         } else {

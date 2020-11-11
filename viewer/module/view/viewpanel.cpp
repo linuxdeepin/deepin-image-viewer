@@ -579,6 +579,10 @@ void ViewPanel::slotCurrentStackWidget(QString &path)
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
+        DRecentData data;
+        data.appName = "Deepin Image Viewer";
+        data.appExec = "deepin-image-viewer";
+        DRecentManager::addItem(path, data);
     } else {
         m_stack->setCurrentIndex(0);
         // open success.
