@@ -322,6 +322,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     Q_UNUSED(event);
     if (m_sharememory.isAttached()) //检测程序当前是否关联共享内存
         m_sharememory.detach();
+    //隐藏详细信息
+    emit dApp->signalM->hideExtensionPanel();
+    emit dApp->endApplication();
 }
 
 bool MainWindow::windowAtEdge()
