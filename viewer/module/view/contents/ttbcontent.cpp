@@ -1500,8 +1500,12 @@ void TTBContent::setBtnAttribute(const QString strPath)
 
 void TTBContent::clickLoad(const int nCurrent)
 {
-    if (nCurrent == m_imgInfos.size() - 1) {
+    if (nCurrent == m_imgInfos.size() - 1 ) {
         dApp->signalM->sendLoadSignal(false);
+    }
+    //增加向前加载判断2020/11/11 lmh修改
+    else if(nCurrent == 0){
+        dApp->signalM->sendLoadSignal(true);
     }
 }
 
@@ -1667,7 +1671,8 @@ void TTBContent::loadBack(DBImgInfoList infos)
 
         m_imgList->update();
         m_imgListView->update();
-        m_imgList->move(m_nLastMove, m_imgList->y());
+        //bug 54009 lmh20201111解决,该操作回弹引起,
+//        m_imgList->move(m_nLastMove, m_imgList->y());
     }
     m_imgInfos_size = m_imgInfos.size();
 }
