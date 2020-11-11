@@ -32,6 +32,7 @@ LockWidget::LockWidget(const QString &darkFile,
     const QString &lightFile, QWidget *parent)
     : ThemeWidget(darkFile, lightFile, parent) {
     m_picString = "";
+    setMouseTracking(true);
     this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
@@ -128,6 +129,7 @@ void LockWidget::mousePressEvent(QMouseEvent *e)
 void LockWidget::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event);
+    emit dApp->signalM->sigMouseMove();
 }
 
 bool LockWidget::event(QEvent *event)
