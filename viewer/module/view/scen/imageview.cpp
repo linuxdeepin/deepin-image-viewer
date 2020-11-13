@@ -1590,6 +1590,12 @@ void ImageView::SlotStopShowThread()
     m_bStopShowThread = true;
 }
 
+void ImageView::setFitState(bool isFitImage, bool isFitWindow)
+{
+    m_isFitImage = isFitImage;
+    m_isFitWindow = isFitWindow;
+}
+
 void ImageView::wheelEvent(QWheelEvent *event)
 {
     qreal factor = qPow(1.2, event->delta() / 240.0);

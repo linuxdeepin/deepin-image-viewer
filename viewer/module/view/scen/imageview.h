@@ -150,6 +150,7 @@ public:
     bool loadPictureByType(PICTURE_TYPE type, const QString strPath);
 
 
+    void setFitState(bool isFitImage=false,bool isFitWindow=false);
 signals:
     void clicked();
     void doubleClicked();

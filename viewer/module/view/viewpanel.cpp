@@ -1028,6 +1028,8 @@ void ViewPanel::showNormal()
 //    window()->setWindowFlags(Qt::Widget);
 //    window()->showNormal();
     emit dApp->signalM->showTopToolbar();
+
+
 }
 
 void ViewPanel::showFullScreen()
@@ -1372,6 +1374,21 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         m_viewB->fitWindow();
         emit dApp->signalM->sigImageOutTitleBar(false);
     }
+
+    //lmh2020/11/13退出自适应
+    if(m_screentoNormal){
+        QRect rect1=  dApp->m_rectmap[m_viewB->path()];
+        if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
+                height() > 0) {
+            m_viewB->fitWindow();
+        } else {
+            m_viewB->fitImage();
+        }
+        m_screentoNormal=false;
+    }
+
+
+
 }
 
 void ViewPanel::timerEvent(QTimerEvent *e)
@@ -1730,6 +1747,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
 void ViewPanel::toggleFullScreen()
 {
+    m_viewB->setFitState(false,false);
     if (window()->isFullScreen()) {
         showNormal();
         killTimer(m_hideCursorTid);
@@ -1742,6 +1760,8 @@ void ViewPanel::toggleFullScreen()
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     }
+    m_screentoNormal=true;
+
 }
 
 bool ViewPanel::showPrevious()
