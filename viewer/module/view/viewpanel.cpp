@@ -555,21 +555,24 @@ bool ViewPanel::GetPixmapStatus(QString filename)
     return !pic.isNull();
 }
 
-void ViewPanel::slotCurrentStackWidget(QString &path)
+void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
 {
+    //bpix表示图片加载成功，不用切换到撕裂图widget
     emit imageChanged(path,m_infos);
     QPixmap pixmapthumb= dApp->m_imagemap.value(path);
     if(pixmapthumb.isNull())
     {
         pixmapthumb = utils::image::getThumbnail(path);
-    }
+        if(!pixmapthumb.isNull()) bpix = true;
+    }else
+        bpix = true;
     if (!QFileInfo(path).exists()) {
         if(m_infos.isEmpty())
             m_emptyWidget->setThumbnailImage(QPixmap());
         else
             m_emptyWidget->setThumbnailImage(pixmapthumb);
         m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
+    } else if (!QFileInfo(path).isReadable() || !bpix) {
         emit sigDisenablebutton();
         //lmh2020/11/12 bug54164
         if(m_viewB){
