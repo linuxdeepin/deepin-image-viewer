@@ -26,6 +26,7 @@
 #include <QScreen>
 
 #include <unistd.h>
+#include "utils/imageutils.h"
 
 WallpaperSetter *WallpaperSetter::m_setter = nullptr;
 WallpaperSetter *WallpaperSetter::instance()
@@ -45,24 +46,26 @@ WallpaperSetter::WallpaperSetter(QObject *parent) : QObject(parent)
 void WallpaperSetter::setWallpaper(const QString &path)
 {
     // gsettings unsupported unicode character
-    const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
-    QFile(path).copy(tmpImg);
+    if(utils::image::imageSupportWallPaper(path))
+    {
+        const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
+        QFile(path).copy(tmpImg);
 
-    //设置壁纸代码改变，采用DBus,原方法保留
-    if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
-        // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
-        qDebug() << "SettingWallpaper: " << "flatpak" << path;
-        QDBusInterface interface("com.deepin.daemon.Appearance",
+        //设置壁纸代码改变，采用DBus,原方法保留
+        if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
+            // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
+            qDebug() << "SettingWallpaper: " << "flatpak" << path;
+            QDBusInterface interface("com.deepin.daemon.Appearance",
                                      "/com/deepin/daemon/Appearance",
                                      "com.deepin.daemon.Appearance");
-        if (interface.isValid()) {
-            QString screenname = dApp->m_app->primaryScreen()->name();
-            QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
-            qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
-        } else {
-            qWarning() << "SettingWallpaper failed" << interface.lastError();
-        }
-    }/* else {
+            if (interface.isValid()) {
+                QString screenname = dApp->m_app->primaryScreen()->name();
+                QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
+                qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+            } else {
+                qWarning() << "SettingWallpaper failed" << interface.lastError();
+            }
+        }/* else {
         DE de = getDE();
         qDebug() << "SettingWallpaper: " << de << path;
         switch (de) {
@@ -87,17 +90,18 @@ void WallpaperSetter::setWallpaper(const QString &path)
     }*/
 
 
-    // Remove the tmp file
-    QTimer *t = new QTimer(this);
-    t->setSingleShot(true);
-    connect(t, &QTimer::timeout, this, [t, tmpImg] {
-        QFile(tmpImg).remove();
-        t->deleteLater();
-    });
-    t->start(1000);
-    QTimer::singleShot(1000,[t,tmpImg]{
-        QFile(tmpImg).remove();
-    });
+        // Remove the tmp file
+        QTimer *t = new QTimer(this);
+        t->setSingleShot(true);
+        connect(t, &QTimer::timeout, this, [t, tmpImg] {
+            QFile(tmpImg).remove();
+            t->deleteLater();
+        });
+        t->start(1000);
+        QTimer::singleShot(1000,[t,tmpImg]{
+            QFile(tmpImg).remove();
+        });
+    }
 }
 
 void WallpaperSetter::setDeepinWallpaper(const QString &path)
