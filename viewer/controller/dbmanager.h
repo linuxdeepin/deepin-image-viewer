@@ -45,6 +45,7 @@ struct DBImgInfo {
     QString filePath;
     QString fileName;
     QString dirHash;
+    QString format;
     QDateTime time;
 
     bool operator==(const DBImgInfo &other)

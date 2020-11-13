@@ -433,11 +433,14 @@ Application *Application::getinstance()
 
 Application::Application(int &argc, char **argv)
 {
-#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
-    m_app = new DApplication(argc, argv);
-#else
-    m_app = DApplication::globalApplication(argc, argv);
-#endif
+    //2020/11/12暂时关闭turbo
+     m_app = new DApplication(argc, argv);
+
+//#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+//    m_app = new DApplication(argc, argv);
+//#else
+//    m_app = DApplication::globalApplication(argc, argv);
+//#endif
     m_LoadThread = nullptr;
     m_app->setOrganizationName("deepin");
     m_app->setApplicationName("deepin-image-viewer");

@@ -571,6 +571,10 @@ void ViewPanel::slotCurrentStackWidget(QString &path)
         m_stack->setCurrentIndex(1);
     } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
         emit sigDisenablebutton();
+        //lmh2020/11/12 bug54164
+        if(m_viewB){
+            emit m_viewB->disCheckAdaptImageBtn();
+        }
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
@@ -1006,7 +1010,7 @@ void ViewPanel::showNormal()
 
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-    pAn->setDuration(200);
+    pAn->setDuration(50);
     pAn->setEasingCurve(QEasingCurve::Linear);
     pAn->setEndValue(1);
     pAn->setStartValue(0);
