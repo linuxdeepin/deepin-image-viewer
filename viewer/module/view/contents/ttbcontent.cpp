@@ -125,9 +125,8 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     : DWidget(parent), m_timer(new QTimer(this))
 {
     setMouseTracking(true);
-
     //lmh0914
-    QTimer::singleShot(dApp->m_timer,[=]{
+  //  QTimer::singleShot(dApp->m_timer,[=]{
         connect(dApp,&Application::sigMouseRelease,this,[=]{
             qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
             if(currentTime-100 > m_lastReleaseTime){
@@ -135,8 +134,8 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
                 UpdateThumbnail();
                 qDebug()<<"UpdateThumbnail" <<m_lastReleaseTime;
             }
-        });
-    });
+        },Qt::UniqueConnection);
+    //});
     m_timer->setSingleShot(200);
 }
 
