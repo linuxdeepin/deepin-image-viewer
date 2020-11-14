@@ -78,10 +78,10 @@ ViewPanel::ViewPanel(QWidget *parent)
 #endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     initStack();
-#ifdef OPENACCESSIBLE
     setObjectName(VIEW_PANEL_WIDGET);
-    setAccessibleName(VIEW_PANEL_WIDGET);
     m_stack->setObjectName(VIEW_PANEL_STACK);
+#ifdef OPENACCESSIBLE
+    setAccessibleName(VIEW_PANEL_WIDGET);
     m_stack->setAccessibleName(VIEW_PANEL_STACK);
 #endif
     /*lmh0722*/
@@ -560,25 +560,36 @@ bool ViewPanel::GetPixmapStatus(QString filename)
     return !pic.isNull();
 }
 
-void ViewPanel::slotCurrentStackWidget(QString &path)
+void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
 {
+    //bpix表示图片加载成功，不用切换到撕裂图widget
     emit imageChanged(path,m_infos);
-    QPixmap pixmapthumb= dApp->m_imagemap.value(path);
-    if(pixmapthumb.isNull())
-    {
-        pixmapthumb = utils::image::getThumbnail(path);
-    }
-    if (!QFileInfo(path).exists()) {
-        if(m_infos.isEmpty())
-            m_emptyWidget->setThumbnailImage(pixmapthumb);
-        else
-            m_emptyWidget->setThumbnailImage(pixmapthumb);
-        m_stack->setCurrentIndex(1);
-    } else if (!QFileInfo(path).isReadable() || pixmapthumb.isNull()) {
-        emit sigDisenablebutton();
+     QPixmap pixmapthumb= dApp->m_imagemap.value(path);
+     if(pixmapthumb.isNull())
+     {
+         pixmapthumb = utils::image::getThumbnail(path);
+         if(!pixmapthumb.isNull()) bpix = true;
+     }else
+         bpix = true;
+     if (!QFileInfo(path).exists()) {
+         if(m_infos.isEmpty())
+             m_emptyWidget->setThumbnailImage(QPixmap());
+         else
+             m_emptyWidget->setThumbnailImage(pixmapthumb);
+         m_stack->setCurrentIndex(1);
+     } else if (!QFileInfo(path).isReadable() || !bpix) {
+         emit sigDisenablebutton();
+         //lmh2020/11/12 bug54164
+         if(m_viewB){
+            emit m_viewB->disCheckAdaptImageBtn();
+        }
         m_stack->setCurrentIndex(2);
     } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
         m_stack->setCurrentIndex(0);
+        DRecentData data;
+        data.appName = "Deepin Image Viewer";
+        data.appExec = "deepin-image-viewer";
+        DRecentManager::addItem(path, data);
     } else {
         m_stack->setCurrentIndex(0);
         // open success.
@@ -1002,7 +1013,7 @@ void ViewPanel::showNormal()
 
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-    pAn->setDuration(200);
+    pAn->setDuration(50);
     pAn->setEasingCurve(QEasingCurve::Linear);
     pAn->setEndValue(1);
     pAn->setStartValue(0);
@@ -1362,6 +1373,18 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     } else if (m_viewB->isFitWindow()) {
         m_viewB->fitWindow();
         emit dApp->signalM->sigImageOutTitleBar(false);
+    }
+
+    //lmh2020/11/13退出自适应
+    if(m_screentoNormal){
+        QRect rect1=  dApp->m_rectmap[m_viewB->path()];
+        if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
+                height() > 0) {
+            m_viewB->fitWindow();
+        } else {
+            m_viewB->fitImage();
+        }
+        m_screentoNormal=false;
     }
 }
 
@@ -1730,6 +1753,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
 void ViewPanel::toggleFullScreen()
 {
+    m_viewB->setFitState(false,false);
+    m_screentoNormal=true;
     if (window()->isFullScreen()) {
         showNormal();
         killTimer(m_hideCursorTid);

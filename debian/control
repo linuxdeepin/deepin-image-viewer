@@ -15,3 +15,4 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5sql5-sqlite, qt5-image-formats-plugins
 Recommends: libqt5libqgtk2, kimageformat-plugins
 Description: Image Viewer is an image viewing tool with fashion interface and smooth performance.
+ Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.

@@ -42,6 +42,7 @@ namespace {
 }  // namespace
 
 //#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
+Application * Application::m_signalapp = nullptr;
 
 ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QString path)
     :m_parent(parent),
@@ -413,24 +414,43 @@ void Application::loadInterface(QString path)
     finishLoadSlot(path);
 }
 
-Application::Application(int &argc, char **argv)
-    : DApplication(argc, argv)
+Application *Application::instance(int& argc, char **argv)
 {
-    initI18n();
+
+    if(m_signalapp == nullptr)
+    {
+        m_signalapp = new Application(argc,argv);
+    }
+    return m_signalapp;
+}
+
+Application *Application::getinstance()
+{
+    return m_signalapp;
+}
+
+Application::Application(int &argc, char **argv)
+{
+#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+    m_app = new DApplication(argc, argv);
+#else
+    m_app = DApplication::globalApplication(argc, argv);
+#endif
     m_LoadThread = nullptr;
-    setOrganizationName("deepin");
-    setApplicationName("deepin-image-viewer");
-    setApplicationDisplayName(tr("Image Viewer"));
-    setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
+    m_app->setOrganizationName("deepin");
+    m_app->setApplicationName("deepin-image-viewer");
+    initI18n();
+    m_app->setApplicationDisplayName(tr("Image Viewer"));
+    m_app->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
 //    setApplicationDescription(QString("%1\n%2\n").arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")).arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")));
 //    setApplicationAcknowledgementPage("https://www.deepin.org/" "acknowledgments/deepin-image-viewer/");
-    setApplicationDescription(tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+    m_app->setApplicationDescription(tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
 
 //    //save theme
 //    DApplicationSettings saveTheme;
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
-    setApplicationVersion(DApplication::buildVersion("20190828"));
+    m_app->setApplicationVersion(DApplication::buildVersion("20190828"));
     installEventFilter(new GlobalEventFilter());
 
 
@@ -438,7 +458,7 @@ Application::Application(int &argc, char **argv)
 
 
 
-    connect(dApp->signalM, &SignalManager::sendPathlist, this, [ = ](QStringList list, QString path) {
+    connect(signalM, &SignalManager::sendPathlist, this, [ = ](QStringList list, QString path) {
 //        if(m_LoadThread && m_LoadThread->isRunning()){
 //            emit endThread();
 //            QThread::msleep(500);
@@ -482,15 +502,14 @@ Application::~Application()
 
     emit endApplication();
 }
-#include <QMouseEvent>
-#include <QDebug>
-bool Application::notify(QObject *obj, QEvent *e)
+
+bool Application::eventFilter(QObject *obj, QEvent *event)
 {
-    if(e->type() == QEvent::MouseButtonRelease)
+    if(event->type() == QEvent::MouseButtonRelease)
     {
         emit sigMouseRelease ();
     }
-    return QApplication::notify(obj,e);
+    return QObject::eventFilter(obj, event);
 }
 
 void Application::initChildren()
@@ -508,5 +527,5 @@ void Application::initI18n()
 //    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
 //                     + QLocale::system().name() + ".qm");
 //    installTranslator(translator);
-    loadTranslator(QList<QLocale>() << QLocale::system());
+    m_app->loadTranslator(QList<QLocale>() << QLocale::system());
 }

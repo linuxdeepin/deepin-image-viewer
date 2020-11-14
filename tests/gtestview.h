@@ -67,14 +67,36 @@ using namespace utils::image;
 #define JPEGPATH "/usr/share/wallpapers/deepin/abc-123.jpg"
 #define SVGPATH "/usr/share/deepin-image-viewer/icons/logo/deepin-image-viewer.svg"
 #define DDSPATH "/data/home/lmh/0916/tu/DDS.dds"
+
+
 class gtestview : public ::testing::Test
 {
 public:
     gtestview();
     virtual void SetUp()
     {
-        list.push_back(GIF2);
-        list.push_back(JPEG1);
+            list.clear();
+            m_SVGPath=QApplication::applicationDirPath()+"/svg.svg";
+            m_JPGPath=QApplication::applicationDirPath()+"/jpg.jpg";
+            m_DDSPath=QApplication::applicationDirPath()+"/dds.dds";
+            m_GIFPath=QApplication::applicationDirPath()+"/gif.gif";
+            m_ICOPath=QApplication::applicationDirPath()+"/ico.ico";
+            m_MNGPath=QApplication::applicationDirPath()+"/mng.mng";
+            m_TIFPath=QApplication::applicationDirPath()+"/tif.tif";
+            m_WBMPPath=QApplication::applicationDirPath()+"/wbmp.wbmp";
+            m_PNGPath=QApplication::applicationDirPath()+"/png.png";
+            m_GIF2Path=QApplication::applicationDirPath()+"/gif2.gif";
+            list.push_back(m_TIFPath);
+            list.push_back(m_SVGPath);
+            list.push_back(m_JPGPath);
+            list.push_back(m_DDSPath);
+            list.push_back(m_GIFPath);
+            list.push_back(m_ICOPath);
+            list.push_back(m_MNGPath);
+            list.push_back(m_WBMPPath);
+            list.push_back(m_PNGPath);
+            list.push_back(m_GIF2Path);
+
 
     }
 
@@ -128,6 +150,17 @@ protected:
 
 //    ScrollBar *m_scrollBar;
     QStringList list;
+
+    QString m_SVGPath{SVGPATH};
+    QString m_JPGPath{JPEGPATH};
+    QString m_DDSPath{DDSPATH};
+    QString m_GIFPath{GIF2};
+    QString m_ICOPath;
+    QString m_MNGPath;
+    QString m_TIFPath;
+    QString m_WBMPPath;
+    QString m_PNGPath;
+    QString m_GIF2Path;
 
 };
 

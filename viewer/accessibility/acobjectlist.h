@@ -7,7 +7,7 @@
 #ifndef DESKTOP_ACCESSIBLE_OBJECT_LIST_H
 #define DESKTOP_ACCESSIBLE_OBJECT_LIST_H
 
-#include "accessiblefunctions.h"
+#include "third-party/accessibility/accessiblefunctions.h"
 #include "ac-desktop-define.h"
 #include "module/view/thumbnailwidget.h"
 #include "module/view/lockwidget.h"

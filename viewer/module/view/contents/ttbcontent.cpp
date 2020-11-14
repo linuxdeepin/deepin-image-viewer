@@ -36,7 +36,6 @@
 #include <QHBoxLayout>
 #include <QTimer>
 #include <QtMath>
-#include <QPainterPath>
 
 #define TTB 0
 
@@ -125,8 +124,8 @@ char *getImageType(QString filepath)
 MyImageListWidget::MyImageListWidget(QWidget *parent)
     : DWidget(parent), m_timer(new QTimer(this))
 {
+    this->setObjectName(IMAGE_LIST_WIDGET);
     setMouseTracking(true);
-
     //lmh0914
     QTimer::singleShot(dApp->m_timer,[=]{
         connect(dApp,&Application::sigMouseRelease,this,[=]{
@@ -819,7 +818,7 @@ void TTBContent::initBtn()
     m_trashBtn->setIcon(QIcon::fromTheme("dcc_delete"));
     m_trashBtn->setIconSize(QSize(36, 36));
     m_trashBtn->setToolTip(tr("Delete"));
-#ifdef OPENACCESSIBLE
+
     m_adaptImageBtn->setObjectName(ADAPT_BUTTON);
     m_adaptScreenBtn->setObjectName(ADAPT_SCREEN_BUTTON);
     m_preButton->setObjectName(PRE_BUTTON);
@@ -827,6 +826,9 @@ void TTBContent::initBtn()
     m_rotateRBtn->setObjectName(CLOCKWISE_ROTATION);
     m_rotateLBtn->setObjectName(COUNTER_CLOCKWISE_ROTATION);
     m_trashBtn->setObjectName(TRASH_BUTTON);
+
+#ifdef OPENACCESSIBLE
+
     m_adaptImageBtn->setAccessibleName(ADAPT_BUTTON);
     m_adaptScreenBtn->setAccessibleName(ADAPT_SCREEN_BUTTON);
     m_preButton->setAccessibleName(PRE_BUTTON);
@@ -1506,6 +1508,10 @@ void TTBContent::clickLoad(const int nCurrent)
     if (nCurrent == m_imgInfos.size() - 1) {
         dApp->signalM->sendLoadSignal(false);
     }
+    //增加向前加载判断2020/11/11 lmh修改
+    else if(nCurrent == 0){
+        dApp->signalM->sendLoadSignal(true);
+    }
 }
 
 void TTBContent::OnUpdateThumbnail(QString path)
@@ -1683,7 +1689,8 @@ void TTBContent::loadBack(DBImgInfoList infos)
 
         m_imgList->update();
         m_imgListView->update();
-        m_imgList->move(m_nLastMove, m_imgList->y());
+        //bug 54009 lmh20201111解决,该操作回弹引起,
+        //m_imgList->move(m_nLastMove, m_imgList->y());
     }
     m_imgInfos_size = m_imgInfos.size();
 }

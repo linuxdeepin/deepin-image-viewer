@@ -1,127 +1,461 @@
 #include "gtestview.h"
-
-
+#define  private public
+#include <QKeySequence>
+#include <QShortcut>
+#include "testapi.h"
+#include <QFile>
+#include <QDir>
+#include "accessibility/ac-desktop-define.h"
 gtestview::gtestview()
 {
 
 }
+TEST_F(gtestview,cpFile)
+{
+     QFile::copy(":/gif.gif",QApplication::applicationDirPath()+"/gif.gif");
+     QFile(QApplication::applicationDirPath()+"/gif.gif").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/gif2.gif",QApplication::applicationDirPath()+"/gif2.gif");
+     QFile(QApplication::applicationDirPath()+"/gif2.gif").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/ico.ico",QApplication::applicationDirPath()+"/ico.ico");
+     QFile(QApplication::applicationDirPath()+"/ico.ico").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/jpg.jpg",QApplication::applicationDirPath()+"/jpg.jpg");
+     QFile(QApplication::applicationDirPath()+"/jpg.jpg").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/mng.mng",QApplication::applicationDirPath()+"/mng.mng");
+     QFile(QApplication::applicationDirPath()+"/mng.mng").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/png.png",QApplication::applicationDirPath()+"/png.png");
+     QFile(QApplication::applicationDirPath()+"/png.png").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/svg.svg",QApplication::applicationDirPath()+"/svg.svg");
+     QFile(QApplication::applicationDirPath()+"/svg.svg").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/tif.tif",QApplication::applicationDirPath()+"/tif.tif");
+     QFile(QApplication::applicationDirPath()+"/tif.tif").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/wbmp.wbmp",QApplication::applicationDirPath()+"/wbmp.wbmp");
+     QFile(QApplication::applicationDirPath()+"/wbmp.wbmp").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/dds.dds",QApplication::applicationDirPath()+"/dds.dds");
+     QFile(QApplication::applicationDirPath()+"/dds.dds").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QDir a(QApplication::applicationDirPath());
+     a.mkdir("test");
+     QFile::copy(":/jpg.jpg",QApplication::applicationDirPath()+"/test/jpg.jpg");
+     QFile(QApplication::applicationDirPath()+"/test/jpg.jpg").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+}
+
 
 //主窗体
 TEST_F(gtestview, mainwindow)
 {
     DApplicationSettings saveTheme;
-    CommandLine *cl = CommandLine::instance();
     //4.将时间写入QDataStream
     QDateTime wstime = QDateTime::currentDateTime();
     QString teststr = wstime.toString("yyyy-MM-dd hh:mm:ss");
     bool newflag = true;
-    cl->processOption(wstime, newflag);
-    dApp->m_timer=0;
-//    m_frameMainWindow = new MainWindow(false);
+    CommandLine::instance()->processOption(wstime, newflag);
+
     if(!m_frameMainWindow)
     {
-        m_frameMainWindow = new MainWindow(false);
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
+    QTest::qWait(1000);
+
+    ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
+    if(panel){
+        // 打开保存绘制的 tif
+        QString TriangleItemPath = QApplication::applicationDirPath() + "/tif.tif";
+        drogPathtoWidget(panel,TriangleItemPath);
+    }
+
     m_frameMainWindow->setWindowRadius(18);
     m_frameMainWindow->setBorderWidth(0);
     m_frameMainWindow->show();
-    emit dApp->signalM->hideBottomToolbar(true);
-    emit dApp->signalM->enableMainMenu(false);
-    SignalManager::ViewInfo info;
-    info.album = "";
-    info.lastPanel = nullptr;
-    info.path = GIF2;
-
-    info.paths << info.path;
-    info.paths <<JPEGPATH;
-    info.paths <<GIF2;
-
-//    emit dApp->signalM->viewImage(info);
-    m_frameMainWindow->OpenImage(GIF2);
-
     QTest::mousePress(m_frameMainWindow, Qt::LeftButton);
     QTest::mouseRelease(m_frameMainWindow, Qt::LeftButton);
     QTest::mouseClick(m_frameMainWindow, Qt::LeftButton);
     QTest::mouseMove(m_frameMainWindow, QPoint(190,50));
     QTest::mouseDClick(m_frameMainWindow,Qt::LeftButton);
 
-
-    static QString cfgGroupName = QStringLiteral("General"),
-    cfgLastOpenPath = QStringLiteral("LastOpenPath");
-    QString pictureFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-    QDir existChecker(pictureFolder);
-    if (!existChecker.exists())
-    {
-        pictureFolder = QDir::currentPath();
-    }
-    pictureFolder =
-    dApp->setter->value(cfgGroupName, cfgLastOpenPath, pictureFolder).toString();
-
-    const QStringList &image_list =list;
-
-    if (image_list.isEmpty())
-        return;
-
-    SignalManager::ViewInfo vinfo;
-
-    vinfo.path = image_list.first();
-    vinfo.paths = image_list;
-
-    QFileInfo firstFileInfo(vinfo.path);
-    dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
-
-    emit dApp->signalM->enterView(true);
-
-//    m_viewPanel->onViewImage(vinfo);
-    emit dApp->signalM->viewImage(vinfo);
-//    QTest::mousePress(m_viewPanel, Qt::LeftButton);
-//    QTest::mouseRelease(m_viewPanel, Qt::LeftButton);
-//    QTest::mouseClick(m_viewPanel, Qt::LeftButton);
-//    QTest::mouseMove(m_viewPanel, QPoint(250,170));
-//    //        QTest::keyClick(m_viewPanel, Qt::Key_Escape, Qt::ShiftModifier, 200);
-//    QTest::mouseDClick(m_viewPanel,Qt::LeftButton);
-
-//    QTest::mouseClick(m_frameMainWindow,Qt::LeftButton,Qt::KeyboardModifiers(),QPoint(600,300),500);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 100);
-     QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 100);
-     QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 100);
-//    QTest::keyClick(m_frameMainWindow, Qt::Key_F1, Qt::NoModifier, 20);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 50);//
-
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 5000);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
-//    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 20);//
+//    m_frameMainWindow->OpenImage(m_GIFPath);
 
 
 
-//    QTimer::singleShot(500,[=]{
-//            QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 0);
-//    });
-//    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 30);
-//    delete m_frameMainWindow;
-//    m_frameMainWindow=nullptr;
+
+
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+
+
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 500);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 500);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 500);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 500);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 500);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 500);
+
+    QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 2000);//
+    int index=0;
+    while(index++<10)
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Plus, Qt::ControlModifier, 50);
+    while(index-->0)
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Minus, Qt::ControlModifier, 50);
+    QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),1000);
+    QTest::mouseMove(m_frameMainWindow, QPoint(200,500),1000);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 1000);
 
 }
-TEST_F(gtestview, ViewPanel)
+TEST_F(gtestview, sliderShow)
 {
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    m_frameMainWindow->showNormal();
+    m_frameMainWindow->resize(800,600);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier , 500);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 5000);
 
-    /*module*/
-//    m_viewPanel=new ViewPanel(nullptr);
-//    m_viewPanel->show();
-//    m_viewPanel->refreshPixmap("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+    QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),1000);
+    QTest::mouseMove(m_frameMainWindow, QPoint(200,500),1000);
 
-//    QString filter = tr("All images");
+    QTest::mousePress(m_frameMainWindow, Qt::LeftButton,Qt::NoModifier,QPoint(100,1020),300);
+    QTest::mouseRelease(m_frameMainWindow, Qt::LeftButton,Qt::NoModifier,QPoint(200,1020),300);
+    QTest::mouseClick(m_frameMainWindow, Qt::LeftButton,Qt::NoModifier,QPoint(300,1020),300);
+    QTest::mouseMove(m_frameMainWindow, QPoint(400,1020),300);
+    QTest::mouseDClick(m_frameMainWindow,Qt::LeftButton,Qt::NoModifier,QPoint(500,1020),300);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_I, Qt::ControlModifier , 500);
 
-//    filter.append('(');
-//    filter.append(utils::image::supportedImageFormats().join(" "));
-//    filter.append(')');
+    QTest::mouseClick(m_frameMainWindow, Qt::RightButton,Qt::NoModifier,QPoint(300,1020),300);
+
+    QTest::mouseClick(m_frameMainWindow, Qt::MidButton,Qt::NoModifier,QPoint(300,1020),300);
+
+
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
+
+    m_frameMainWindow->hide();
+    m_frameMainWindow->showNormal();
 
 
 }
+TEST_F(gtestview, infoWidget)
+{
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
+    m_frameMainWindow->resize(800,600);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_I, Qt::ControlModifier , 500);
+
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
+}
+
+TEST_F(gtestview, iconRotatePic)
+{
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    DIconButton *m_adaptImageBtn=m_frameMainWindow->findChild<DIconButton *>(ADAPT_BUTTON);
+    DIconButton *m_adaptScreenBtn=m_frameMainWindow->findChild<DIconButton *>(ADAPT_SCREEN_BUTTON);
+    DIconButton *m_preButton=m_frameMainWindow->findChild<DIconButton *>(PRE_BUTTON);
+    DIconButton *m_nextButton=m_frameMainWindow->findChild<DIconButton *>(NEXT_BUTTON);
+    DIconButton *m_rotateRBtn=m_frameMainWindow->findChild<DIconButton *>(CLOCKWISE_ROTATION);
+    DIconButton *m_rotateLBtn=m_frameMainWindow->findChild<DIconButton *>(COUNTER_CLOCKWISE_ROTATION);
+    DIconButton *m_trashBtn=m_frameMainWindow->findChild<DIconButton *>(TRASH_BUTTON);
+    ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
+    if(panel){
+        m_adaptImageBtn->click();
+        QTest::qWait(100);
+        m_adaptScreenBtn->click();
+        QTest::qWait(100);
+        m_preButton->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_rotateRBtn->click();
+        QTest::qWait(100);
+        m_rotateLBtn->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_adaptScreenBtn->click();
+        QTest::qWait(100);
+        m_preButton->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_rotateRBtn->click();
+        QTest::qWait(100);
+        m_rotateLBtn->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_adaptScreenBtn->click();
+        QTest::qWait(100);
+        m_preButton->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_rotateRBtn->click();
+        QTest::qWait(100);
+        m_rotateLBtn->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_adaptScreenBtn->click();
+        QTest::qWait(100);
+        m_preButton->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_rotateRBtn->click();
+        QTest::qWait(100);
+        m_rotateLBtn->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_adaptScreenBtn->click();
+        QTest::qWait(100);
+        m_preButton->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_rotateRBtn->click();
+        QTest::qWait(100);
+        m_rotateLBtn->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_adaptScreenBtn->click();
+        QTest::qWait(100);
+        m_preButton->click();
+        QTest::qWait(100);
+        m_nextButton->click();
+        QTest::qWait(100);
+        m_rotateRBtn->click();
+        QTest::qWait(100);
+        m_rotateLBtn->click();
+        QTest::qWait(1000);
+        m_nextButton->click();
+        QTest::qWait(100);
+
+
+
+    }
+
+}
+
+TEST_F(gtestview, onlyonePic)
+{
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    //    SLIDE_SHOW_WIDGET
+    ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
+    if(panel){
+        // 打开 jpg
+        QString TriangleItemPath = QApplication::applicationDirPath() + "/test/jpg.jpg";
+        drogPathtoWidget(panel,TriangleItemPath);
+        QTest::qWait(2000);
+
+//        QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 2000);
+//        QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
+//        m_frameMainWindow->hide();
+//        m_frameMainWindow->showMaximized();
+
+
+
+        DIconButton *m_adaptImageBtn=m_frameMainWindow->findChild<DIconButton *>(ADAPT_BUTTON);
+        DIconButton *m_adaptScreenBtn=m_frameMainWindow->findChild<DIconButton *>(ADAPT_SCREEN_BUTTON);
+//        DIconButton *m_preButton=m_frameMainWindow->findChild<DIconButton *>(PRE_BUTTON);
+//        DIconButton *m_nextButton=m_frameMainWindow->findChild<DIconButton *>(NEXT_BUTTON);
+        DIconButton *m_rotateRBtn=m_frameMainWindow->findChild<DIconButton *>(CLOCKWISE_ROTATION);
+        DIconButton *m_rotateLBtn=m_frameMainWindow->findChild<DIconButton *>(COUNTER_CLOCKWISE_ROTATION);
+        DIconButton *m_trashBtn=m_frameMainWindow->findChild<DIconButton *>(TRASH_BUTTON);
+
+        m_adaptImageBtn->click();
+        QTest::qWait(100);
+        m_adaptScreenBtn->click();
+        QTest::qWait(100);
+        m_rotateRBtn->click();
+        QTest::qWait(100);
+        m_rotateLBtn->click();
+        QTest::qWait(100);
+
+
+//        QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 2000);//
+        int index=0;
+        while(index++<10)
+            QTest::keyClick(m_frameMainWindow, Qt::Key_Plus, Qt::ControlModifier, 50);
+        while(index-->0)
+            QTest::keyClick(m_frameMainWindow, Qt::Key_Minus, Qt::ControlModifier, 50);
+
+        m_frameMainWindow->showFullScreen();
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
+        m_frameMainWindow->showNormal();
+
+        QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 500);
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
+        m_frameMainWindow->showNormal();
+
+        m_trashBtn->click();
+        QTest::qWait(100);
+    }
+
+}
+
+TEST_F(gtestview, sliderSvg)
+{
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    //    SLIDE_SHOW_WIDGET
+    ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
+    if(panel){
+        // 打开 svg
+        QString TriangleItemPath = QApplication::applicationDirPath() + "/svg.svg";
+        drogPathtoWidget(panel,TriangleItemPath);
+    }
+    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 2000);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
+    m_frameMainWindow->hide();
+    m_frameMainWindow->showMaximized();
+    m_frameMainWindow->showNormal();
+}
+TEST_F(gtestview, MyImageListWidget)
+{
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    MyImageListWidget *widget = m_frameMainWindow->findChild<MyImageListWidget *>(IMAGE_LIST_WIDGET);
+    ASSERT_NE(widget,nullptr);
+
+    QTestEventList e;
+    e.addMouseMove(QPoint(100,30), 200);
+    //    e.addKeyPress(Qt::Key_Shift, Qt::NoModifier, 50);
+    e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(100,30), 200);
+    e.addMouseMove(QPoint(150,30), 200);
+    e.addMouseMove(QPoint(200,30), 200);
+    //    e.addKeyRelease(Qt::Key_Shift, Qt::NoModifier, 200);
+    e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(250,30), 200);
+    e.simulate(widget);
+
+    e.clear();
+
+
+}
+TEST_F(gtestview, testDrag)
+{
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
+    if(panel){
+        // 打开图片
+//        QString TriangleItemPath = QApplication::applicationDirPath() + "/jpg.jpg";
+//        drogPathtoWidget(panel,TriangleItemPath);
+
+//        QString TriangleItemPath1 = QApplication::applicationDirPath() + "/mng.mng";
+//        drogPathtoWidget(panel,TriangleItemPath1);
+
+//        QString TriangleItemPath2 = QApplication::applicationDirPath() + "/png.png";
+//        drogPathtoWidget(panel,TriangleItemPath2);
+
+        QTest::qWait(500);
+
+    }
+}
+//设置背景颜色
+TEST_F(gtestview, ViewerThemeManager)
+{
+//     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+
+     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+    /*module*/
+    //    m_viewPanel=new ViewPanel(nullptr);
+    //    m_viewPanel->show();
+    //    m_viewPanel->refreshPixmap("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+
+    //    QString filter = tr("All images");
+
+    //    filter.append('(');
+    //    filter.append(utils::image::supportedImageFormats().join(" "));
+    //    filter.append(')');
+
+
+}
+
+
 TEST_F(gtestview, m_ImageLoader)
 {
-//    m_ImageLoader=new ImageLoader(NULL,QStringList(DDSPATH),JPEGPATH);
+    //    m_ImageLoader=new ImageLoader(NULL,QStringList(DDSPATH),m_JPGPath);
+}
+TEST_F(gtestview, setWallPaper)
+{
+    QString TriangleItemPath = QApplication::applicationDirPath() + "/jpg.jpg";
+
+    dApp->wpSetter->setWallpaper(TriangleItemPath);
+
 }
 TEST_F(gtestview, m_pushbutton)
 {
@@ -142,11 +476,11 @@ TEST_F(gtestview, m_pushbutton)
     m_pushbutton-> getChecked() ;
     m_pushbutton-> setToolTip("TEST");
     m_pushbutton-> setChecked(false);
-    m_pushbutton-> setNormalPic(JPEGPATH);
-    m_pushbutton-> setHoverPic(JPEGPATH);
-    m_pushbutton-> setPressPic(JPEGPATH);
-    m_pushbutton-> setDisablePic(JPEGPATH);
-    m_pushbutton-> setCheckedPic(JPEGPATH);
+    m_pushbutton-> setNormalPic(m_JPGPath);
+    m_pushbutton-> setHoverPic(m_JPGPath);
+    m_pushbutton-> setPressPic(m_JPGPath);
+    m_pushbutton-> setDisablePic(m_JPGPath);
+    m_pushbutton-> setCheckedPic(m_JPGPath);
     m_pushbutton-> setText("test");
     m_pushbutton-> setNormalColor(QColor(120,111,150));
     m_pushbutton-> setHoverColor(QColor(120,180,150));
@@ -155,11 +489,11 @@ TEST_F(gtestview, m_pushbutton)
 
     m_pushbutton-> setToolTip("TEST");
     m_pushbutton-> setChecked(true);
-    m_pushbutton-> setNormalPic(JPEGPATH);
-    m_pushbutton-> setHoverPic(JPEGPATH);
-    m_pushbutton-> setPressPic(JPEGPATH);
-    m_pushbutton-> setDisablePic(JPEGPATH);
-    m_pushbutton-> setCheckedPic(JPEGPATH);
+    m_pushbutton-> setNormalPic(m_JPGPath);
+    m_pushbutton-> setHoverPic(m_JPGPath);
+    m_pushbutton-> setPressPic(m_JPGPath);
+    m_pushbutton-> setDisablePic(m_JPGPath);
+    m_pushbutton-> setCheckedPic(m_JPGPath);
     m_pushbutton-> setText("test");
     m_pushbutton-> setNormalColor(QColor(120,111,150));
     m_pushbutton-> setHoverColor(QColor(120,180,150));
@@ -169,8 +503,8 @@ TEST_F(gtestview, m_pushbutton)
     QTest::mousePress(m_pushbutton, Qt::LeftButton);
     QTest::mouseRelease(m_pushbutton, Qt::LeftButton);
     QTest::mouseClick(m_pushbutton, Qt::LeftButton);
-    QTest::mouseMove(m_pushbutton, QPoint(50,50));
-//    QTest::keyClick(m_pushbutton, Qt::Key_Escape, Qt::ShiftModifier, 30);
+    QTest::mouseMove(m_pushbutton, QPoint(50,50),200);
+        QTest::keyClick(m_pushbutton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_pushbutton,Qt::LeftButton);
 }
 TEST_F(gtestview, m_returnButton)
@@ -192,11 +526,11 @@ TEST_F(gtestview, m_returnButton)
     m_returnButton-> getChecked() ;
     m_returnButton-> setToolTip("TEST");
     m_returnButton-> setChecked(false);
-    m_returnButton-> setNormalPic(JPEGPATH);
-    m_returnButton-> setHoverPic(JPEGPATH);
-    m_returnButton-> setPressPic(JPEGPATH);
-    m_returnButton-> setDisablePic(JPEGPATH);
-    m_returnButton-> setCheckedPic(JPEGPATH);
+    m_returnButton-> setNormalPic(m_JPGPath);
+    m_returnButton-> setHoverPic(m_JPGPath);
+    m_returnButton-> setPressPic(m_JPGPath);
+    m_returnButton-> setDisablePic(m_JPGPath);
+    m_returnButton-> setCheckedPic(m_JPGPath);
     m_returnButton-> setText("test");
     m_returnButton-> setNormalColor(QColor(120,111,150));
     m_returnButton-> setHoverColor(QColor(120,180,150));
@@ -205,11 +539,11 @@ TEST_F(gtestview, m_returnButton)
 
     m_returnButton-> setToolTip("TEST");
     m_returnButton-> setChecked(true);
-    m_returnButton-> setNormalPic(JPEGPATH);
-    m_returnButton-> setHoverPic(JPEGPATH);
-    m_returnButton-> setPressPic(JPEGPATH);
-    m_returnButton-> setDisablePic(JPEGPATH);
-    m_returnButton-> setCheckedPic(JPEGPATH);
+    m_returnButton-> setNormalPic(m_JPGPath);
+    m_returnButton-> setHoverPic(m_JPGPath);
+    m_returnButton-> setPressPic(m_JPGPath);
+    m_returnButton-> setDisablePic(m_JPGPath);
+    m_returnButton-> setCheckedPic(m_JPGPath);
     m_returnButton-> setText("test");
     m_returnButton-> setNormalColor(QColor(120,111,150));
     m_returnButton-> setHoverColor(QColor(120,180,150));
@@ -219,8 +553,8 @@ TEST_F(gtestview, m_returnButton)
     QTest::mousePress(m_returnButton, Qt::LeftButton);
     QTest::mouseRelease(m_returnButton, Qt::LeftButton);
     QTest::mouseClick(m_returnButton, Qt::LeftButton);
-    QTest::mouseMove(m_returnButton, QPoint(50,50));
-    QTest::keyClick(m_returnButton, Qt::Key_Escape, Qt::ShiftModifier, 30);
+    QTest::mouseMove(m_returnButton, QPoint(50,50),200);
+    QTest::keyClick(m_returnButton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_returnButton,Qt::LeftButton);
 
 }
@@ -259,7 +593,7 @@ TEST_F(gtestview, RenameDialog)
     QTest::mouseDClick(m_renameDialog,Qt::LeftButton);
 
     m_renameDialog->onThemeChanged(ViewerThemeManager::Light);
-    //        m_frameMainWindow->OpenImage("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+
     m_renameDialog->onThemeChanged(ViewerThemeManager::Dark);
 }
 TEST_F(gtestview, TopToolbar)
@@ -292,7 +626,7 @@ TEST_F(gtestview, LockWidget)
 }
 TEST_F(gtestview, ThumbnailWidget)
 {
-    m_thumbnailWidget=new ThumbnailWidget(":/assets/dark/images/icon_import_photo dark.svg",":/assets/light/images/icon_import_photo.svg");
+    m_thumbnailWidget=new ThumbnailWidget(m_SVGPath,m_SVGPath);
     m_thumbnailWidget->show();
     QTest::mousePress(m_thumbnailWidget, Qt::LeftButton);
     QTest::mouseRelease(m_thumbnailWidget, Qt::LeftButton);
@@ -315,10 +649,10 @@ TEST_F(gtestview, NavigationWidget)
 TEST_F(gtestview, ImageIconButton)
 {
     m_ImageIconButton1=new ImageIconButton();
-    m_ImageIconButton1->setPropertyPic(":/assets/dark/images/icon_import_photo dark.svg",QVariant(),":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg");
+    m_ImageIconButton1->setPropertyPic(m_SVGPath,QVariant(),m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
     m_ImageIconButton1->show();
-    m_ImageIconButton2=new ImageIconButton(":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg");
-    m_ImageIconButton2->setPropertyPic(":/assets/dark/images/icon_import_photo dark.svg",QVariant(),":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg",":/assets/dark/images/icon_import_photo dark.svg");
+    m_ImageIconButton2=new ImageIconButton(m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
+    m_ImageIconButton2->setPropertyPic(m_SVGPath,QVariant(),m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
     m_ImageIconButton2->show();
     m_ImageIconButton2->setAutoChecked(false);
     m_ImageIconButton2->setTransparent(false);
@@ -326,16 +660,16 @@ TEST_F(gtestview, ImageIconButton)
 TEST_F(gtestview, ImageInfoWidget)
 {
     m_ImageInfoWidget= new ImageInfoWidget("","");
-    m_ImageInfoWidget->setImagePath(JPEGPATH);
+    m_ImageInfoWidget->setImagePath(m_JPGPath);
     m_ImageInfoWidget->onExpandChanged(false);
     m_ImageInfoWidget->contentHeight();
 }
 TEST_F(gtestview, ImageView)
 {
     m_ImageView=new ImageView();
-    m_ImageView->setImage(JPEGPATH);
+    m_ImageView->setImage(m_JPGPath);
     m_ImageView->show();
-    m_ImageView->cachePixmap(JPEGPATH);
+    m_ImageView->cachePixmap(m_JPGPath);
     m_ImageView->fitWindow();
     m_ImageView->fitWindow_btnclicked();
     m_ImageView->fitImage();
@@ -356,8 +690,8 @@ TEST_F(gtestview, ImageView)
     m_ImageView->isFitWindow();
     m_ImageView->rotatePixCurrent();
 
-    //        m_ImageView->showPixmap("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
-    //        m_ImageView->loadPictureByType(m_ImageView->judgePictureType("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg"),"/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+    //        m_ImageView->showPixmap(m_JPGPath);
+    //        m_ImageView->loadPictureByType(m_ImageView->judgePictureType(m_JPGPath),m_JPGPath);
     emit m_ImageView->clicked();
     emit m_ImageView->doubleClicked();
     emit m_ImageView->mouseHoverMoved();
@@ -378,28 +712,28 @@ TEST_F(gtestview, ImageView)
 TEST_F(gtestview, m_ScanPathsItem)
 {
     VolumeMonitor::instance();
-    ScanPathsItem* m_ScanPathsItem=new ScanPathsItem("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+    ScanPathsItem* m_ScanPathsItem=new ScanPathsItem(m_JPGPath);
     m_ScanPathsItem->show();
 }
 TEST_F(gtestview, dapp)
 {
     dApp->getRwLock();
-    dApp->loadInterface("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
-//    dApp->loadPixThread(QStringList("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg"));
+    dApp->loadInterface(m_JPGPath);
+    //    dApp->loadPixThread(QStringList(m_JPGPath));
 
-    dApp->signalM->emit sendPathlist(list,"/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+    dApp->signalM->emit sendPathlist(list,m_JPGPath);
     dApp->wpSetter;
     dApp->viewerTheme;
     dApp->setter;
-    DBManager::instance()->insertIntoAlbum("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg",list);
+    DBManager::instance()->insertIntoAlbum(m_JPGPath,list);
     DBManager::instance()->getAllPaths();
-    DBManager::instance()->getInfosByTimeline("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
-    DBManager::instance()->getInfoByPath("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+    DBManager::instance()->getInfosByTimeline(m_JPGPath);
+    DBManager::instance()->getInfoByPath(m_JPGPath);
 
     Importer::instance()->isRunning();
-    Importer::instance()->appendDir("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg","/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
-    Importer::instance()->appendFiles(list,"/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
-    //        Importer::instance()->showImportDialog("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+    Importer::instance()->appendDir(m_JPGPath,m_JPGPath);
+    Importer::instance()->appendFiles(list,m_JPGPath);
+    //        Importer::instance()->showImportDialog(m_JPGPath);
 }
 TEST_F(gtestview, BlurFrame)
 {
@@ -419,18 +753,19 @@ TEST_F(gtestview, BlurFrame)
     m_blurFrame->setCoverBrush(QBrush());
     m_blurFrame->setPos(QPoint(200,500));
     m_blurFrame->setMoveEnable(true);
+
     QTest::mousePress(m_blurFrame, Qt::LeftButton);
     QTest::mouseRelease(m_blurFrame, Qt::LeftButton);
     QTest::mouseClick(m_blurFrame, Qt::LeftButton);
     QTest::mouseMove(m_blurFrame, QPoint(50,50));
-    QTest::keyClick(m_blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 20);
+    QTest::keyClick(m_blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_blurFrame,Qt::LeftButton);
 }
 TEST_F(gtestview, unionimage)
 {
     //unionimage
     //        UnionImage_NameSpace::noneQImage();
-    QString pppath="/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg";
+    QString pppath=m_PNGPath;
     supportStaticFormat();
     supportMovieFormat();
     isSupportReading(pppath);
@@ -438,17 +773,17 @@ TEST_F(gtestview, unionimage)
     creatNewImage(rimg,800,600,0);
     QImage img2;
     QString errorMsg;
-    loadStaticImageFromFile(DDSPATH,img2,errorMsg);
-    detectImageFormat(DDSPATH);
+    loadStaticImageFromFile(m_DDSPath,img2,errorMsg);
+    detectImageFormat(m_DDSPath);
     isNoneQImage(img2);
     rotateImage(90,img2);
-    QString ddsPath=DDSPATH;
-    QString svgPath=SVGPATH;
-    rotateImageFIle(90,SVGPATH,errorMsg);
+    QString ddsPath=m_DDSPath;
+    QString svgPath=m_SVGPath;
+    rotateImageFIle(90,m_SVGPath,errorMsg);
     rotateImageFIle(90,pppath,errorMsg);
     rotateImageFIleWithImage(90,rimg,"1.jpg",errorMsg);
     rotateImageFIleWithImage(90,rimg,"1.svg",errorMsg);
-    DetectImageFormat(SVGPATH);
+    DetectImageFormat(m_SVGPath);
 }
 TEST_F(gtestview, imageutil)
 {
@@ -456,23 +791,22 @@ TEST_F(gtestview, imageutil)
     //        m_scrollBar->show();
     qDebug()<<"imageutil1";
     showInFileManager("");
-//    showInFileManager("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
+    //    showInFileManager(m_JPGPath);
     qDebug()<<"imageutil22";
     copyImageToClipboard(list);
-    trashFile("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
-    wrapStr("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg",QFont(),20);
-    qDebug()<<"imageutil23";
+    trashFile(m_JPGPath);
+
     SpliteText("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg",QFont(),20,false);
     SpliteText("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg",QFont(),20,true);
 
-     qDebug()<<"imageutil2";
-    QString ppath=JPEGPATH;
+    qDebug()<<"imageutil2";
+    QString ppath=m_JPGPath;
     onMountDevice(ppath);
     mountDeviceExist(ppath);
 
-     qDebug()<<"imageutil3";
+    qDebug()<<"imageutil3";
     //utils::image
-    QString pppath=JPEGPATH;
+    QString pppath=m_JPGPath;
     imageSupportWrite(pppath);
     rotate(pppath,90);
     cutSquareImage(QPixmap(pppath),QSize(50,50));
@@ -480,13 +814,16 @@ TEST_F(gtestview, imageutil)
     bool iRet=false;
     //        utils::image::loadTga(pppath,iRet);
 
-     qDebug()<<"imageutil4";
+    qDebug()<<"imageutil4";
     getRotatedImage(pppath);
     cachePixmap(pppath);
     getThumbnail(pppath,iRet);
     supportedImageFormats();
     imageSupportWallPaper(pppath);
     utils::image::suffixisImage(pppath);
+
+    wrapStr(m_JPGPath,QFont(),20);
+    qDebug()<<"imageutil23";
 }
 
 TEST_F(gtestview, ExtensionPanel)
@@ -520,7 +857,7 @@ TEST_F(gtestview, initTest2)
 //延时推出程序
 TEST_F(gtestview, initTest1)
 {
-    ScanPathsDialog::instance()->addPath(JPEGPATH);
+    ScanPathsDialog::instance()->addPath(m_PNGPath);
 
     QTimer::singleShot(10000,[=]{
         return exit(0);

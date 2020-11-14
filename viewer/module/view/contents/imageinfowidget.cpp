@@ -37,6 +37,7 @@
 #include <QtDebug>
 #include <QPainterPath>
 
+
 namespace {
 
 const int TITLE_MAXWIDTH = 72 - 3;

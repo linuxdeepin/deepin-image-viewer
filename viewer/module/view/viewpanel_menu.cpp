@@ -85,11 +85,11 @@ void ViewPanel::initPopupMenu()
 #endif
         {
             updateMenuContent();
-            dApp->setOverrideCursor(Qt::ArrowCursor);
+            dApp->m_app->setOverrideCursor(Qt::ArrowCursor);
             m_menu->popup(QCursor::pos());
         }
     });
-    connect(m_menu, &DMenu::aboutToHide, this, [ = ] { dApp->restoreOverrideCursor(); });
+    connect(m_menu, &DMenu::aboutToHide, this, [ = ] { dApp->m_app->restoreOverrideCursor(); });
     connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
     connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
         if (this && this->isVisible())
@@ -203,7 +203,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             m_currentImagePath  = filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);
-            m_viewB->setPath(filepath);
+            //setPath改为setImage,2020/11/12 bug54269
+            m_viewB->setImage(filepath);
         }
         break;
     }

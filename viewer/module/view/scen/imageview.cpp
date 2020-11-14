@@ -957,6 +957,12 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     return bRet;
 }
 
+void ImageView::setFitState(bool isFitImage, bool isFitWindow)
+{
+    m_isFitImage = isFitImage;
+    m_isFitWindow = isFitWindow;
+}
+
 void ImageView::setHighQualityAntialiasing(bool highQualityAntialiasing)
 {
 #ifndef QT_NO_OPENGL
@@ -1144,7 +1150,7 @@ void ImageView::mouseMoveEvent(QMouseEvent *e)
 
 void ImageView::leaveEvent(QEvent *e)
 {
-    dApp->restoreOverrideCursor();
+    dApp->m_app->restoreOverrideCursor();
 
     QGraphicsView::leaveEvent(e);
 }
@@ -1257,10 +1263,13 @@ void ImageView::onCacheFinish(QVariantList vl)
     int screen_height = mm.height();
     qDebug() << screen_width << screen_height;
 
+     bool bpix = false;
     //QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
+        if(!pixmap.isNull())
+            bpix = true;
         vl.clear();
        // pixmap = pixmap.scaled(screen_width, screen_height, Qt::KeepAspectRatio);
         pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -1321,7 +1330,7 @@ void ImageView::onCacheFinish(QVariantList vl)
 //            }
         }
     }
-    emit sigStackChange(m_path);
+    emit sigStackChange(m_path,bpix);
 }
 
 void ImageView::onThemeChanged(ViewerThemeManager::AppTheme theme)

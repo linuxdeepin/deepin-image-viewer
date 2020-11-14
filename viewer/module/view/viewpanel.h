@@ -376,7 +376,7 @@ private slots:
      * @auther lmh
      * @brief 设置第几个栈窗体
      */
-    void slotCurrentStackWidget(QString &path);
+    void slotCurrentStackWidget(QString &path,bool bpix);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     void updateLocalImages();
 
@@ -516,6 +516,7 @@ private:
     bool m_bIsOpenPicture=true;
     bool m_bOnlyOneiImg=false;
 
+    bool m_screentoNormal=false;
 
 
 };

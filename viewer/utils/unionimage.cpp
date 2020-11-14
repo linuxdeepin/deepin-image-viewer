@@ -94,6 +94,11 @@ namespace UnionImage_NameSpace {
 //        JXR     =  36
 //    };
 
+//由于freeimage 不支持，而在使用过程中，将qt支持的格式也添加到hash里，所以mrw的value也为0，因此重新定义
+//fix 52612
+enum FIF_QTSUPPORT{
+    FIF_MRW = 37
+};
 
 class UnionImage_Private
 {
@@ -155,6 +160,7 @@ public:
 //        m_freeiamge_formats["RAW"]     =  FIF_RAW;
         m_freeiamge_formats["WEBP"]    =  FIF_WEBP;
         m_freeiamge_formats["JXR"]     =  FIF_JXR;
+        m_freeiamge_formats["MRW"]     =  FIF_MRW;
         m_movie_formats["MNG"]         =  FIF_MNG;
         m_movie_formats["GIF"]         =  FIF_GIF;
         m_movie_formats["WEBP"]         =  FIF_WEBP;

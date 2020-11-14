@@ -20,7 +20,7 @@
 #include <QObject>
 #include <QCommandLineParser>
 
-
+class MainWindow;
 struct CMOption;
 class CommandLine : public QObject
 {
@@ -30,6 +30,7 @@ public:
     bool processOption();
     bool processOption(QDateTime time, bool newflag);
     ~CommandLine();
+    MainWindow *getMainWindow();
 
 private:
     void addOption(const CMOption *option);
@@ -42,6 +43,7 @@ private:
 private:
     static CommandLine *m_commandLine;
     QCommandLineParser m_cmdParser;
+    MainWindow *m_mainWindow{nullptr};
 };
 
 #endif // COMMANDLINE_H
