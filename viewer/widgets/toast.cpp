@@ -33,7 +33,7 @@
 #include "dthememanager.h"
 #include "dgraphicsgloweffect.h"
 #include "dhidpihelper.h"
-
+#include "accessibility/ac-desktop-define.h"
 DWIDGET_BEGIN_NAMESPACE
 
 
@@ -42,7 +42,7 @@ Toast::Toast(QWidget *parent) :
     QFrame(parent), DObject(*new ToastPrivate(this))
 {
     D_D(Toast);
-
+    setObjectName(TOAST_OBJECT);
     DThemeManager::registerWidget(this);
 
     d->initUI();
@@ -101,42 +101,6 @@ void Toast::setOpacity(qreal opacity)
     update();
 }
 
-//void Toast::pop()
-//{
-//    Q_D(Toast);
-
-//    adjustSize();
-//    show();
-
-//    if (d->animation) {
-//        return;
-//    }
-
-//    d->animation = new QPropertyAnimation(this, "opacity");
-//    d->animation->setDuration(2000);
-//    d->animation->setStartValue(0);
-//    d->animation->setKeyValueAt(0.4, 1.0);
-//    d->animation->setKeyValueAt(0.8, 1.0);
-//    d->animation->setEndValue(0);
-//    d->animation->start();
-//    d->animation->connect(d->animation, &QPropertyAnimation::finished,
-//    this, [ = ]() {
-//        hide();
-//        d->animation->deleteLater();
-//        d->animation = Q_NULLPTR;
-//    });
-//}
-
-//void Toast::pack()
-//{
-//    Q_D(Toast);
-//    hide();
-//    if (d->animation) {
-//        d->animation->stop();
-//        d->animation->deleteLater();
-//        d->animation = Q_NULLPTR;
-//    }
-//}
 
 ToastPrivate::ToastPrivate(Toast *qq)
     : DObjectPrivate(qq)

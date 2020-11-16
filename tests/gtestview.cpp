@@ -6,6 +6,9 @@
 #include <QFile>
 #include <QDir>
 #include "accessibility/ac-desktop-define.h"
+#include "widgets/toast.h"
+#include "viewer/widgets/elidedlabel.h"
+#define TEST 1
 gtestview::gtestview()
 {
 
@@ -62,6 +65,16 @@ TEST_F(gtestview,cpFile)
                  QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
                  QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
 
+     QFile::copy(":/tga.tga",QApplication::applicationDirPath()+"/tga.tga");
+     QFile(QApplication::applicationDirPath()+"/tga.tga").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/errorPic.icns",QApplication::applicationDirPath()+"/errorPic.icns");
+     QFile(QApplication::applicationDirPath()+"/errorPic.icns").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
      QDir a(QApplication::applicationDirPath());
      a.mkdir("test");
      QFile::copy(":/jpg.jpg",QApplication::applicationDirPath()+"/test/jpg.jpg");
@@ -70,7 +83,7 @@ TEST_F(gtestview,cpFile)
                  QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
 }
 
-
+#if TEST
 //主窗体
 TEST_F(gtestview, mainwindow)
 {
@@ -127,8 +140,9 @@ TEST_F(gtestview, mainwindow)
     QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
 
-
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
@@ -427,20 +441,9 @@ TEST_F(gtestview, testDrag)
 //设置背景颜色
 TEST_F(gtestview, ViewerThemeManager)
 {
-//     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
 
      dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
      dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-    /*module*/
-    //    m_viewPanel=new ViewPanel(nullptr);
-    //    m_viewPanel->show();
-    //    m_viewPanel->refreshPixmap("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg");
-
-    //    QString filter = tr("All images");
-
-    //    filter.append('(');
-    //    filter.append(utils::image::supportedImageFormats().join(" "));
-    //    filter.append(')');
 
 
 }
@@ -460,7 +463,7 @@ TEST_F(gtestview, setWallPaper)
 TEST_F(gtestview, m_pushbutton)
 {
     m_pushbutton=new PushButton();
-    m_pushbutton->show();
+
     m_pushbutton->normalPic();
     m_pushbutton-> hoverPic() ;
     m_pushbutton-> pressPic() ;
@@ -500,11 +503,13 @@ TEST_F(gtestview, m_pushbutton)
     m_pushbutton-> setPressColor(QColor(120,20,150));
     m_pushbutton-> setDisableColor(QColor(120,123,150));
 
-    QTest::mousePress(m_pushbutton, Qt::LeftButton);
-    QTest::mouseRelease(m_pushbutton, Qt::LeftButton);
-    QTest::mouseClick(m_pushbutton, Qt::LeftButton);
-    QTest::mouseMove(m_pushbutton, QPoint(50,50),200);
-        QTest::keyClick(m_pushbutton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
+    m_pushbutton->show();
+
+    QTest::mousePress(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),1000);
+    QTest::mouseRelease(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),1000);
+    QTest::mouseClick(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),1000);
+    QTest::mouseMove(m_pushbutton, QPoint(20,20),500);
+    QTest::keyClick(m_pushbutton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_pushbutton,Qt::LeftButton);
 }
 TEST_F(gtestview, m_returnButton)
@@ -549,11 +554,14 @@ TEST_F(gtestview, m_returnButton)
     m_returnButton-> setHoverColor(QColor(120,180,150));
     m_returnButton-> setPressColor(QColor(120,20,150));
     m_returnButton-> setDisableColor(QColor(120,123,150));
+    m_returnButton->setMaxWidth(100);
+    m_returnButton->buttonWidth();
+//    m_returnButton->showTooltip(QPos(200,200));
 
-    QTest::mousePress(m_returnButton, Qt::LeftButton);
+    QTest::mousePress(m_returnButton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_returnButton, Qt::LeftButton);
     QTest::mouseClick(m_returnButton, Qt::LeftButton);
-    QTest::mouseMove(m_returnButton, QPoint(50,50),200);
+    QTest::mouseMove(m_returnButton, QPoint(20,20),500);
     QTest::keyClick(m_returnButton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_returnButton,Qt::LeftButton);
 
@@ -563,11 +571,12 @@ TEST_F(gtestview, m_bottomToolbar)
     /*frame*/
     m_bottomToolbar =new BottomToolbar(nullptr);
     m_bottomToolbar->show();
-    QTest::mousePress(m_bottomToolbar, Qt::LeftButton);
+
+    QTest::mousePress(m_bottomToolbar, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_bottomToolbar, Qt::LeftButton);
     QTest::mouseClick(m_bottomToolbar, Qt::LeftButton);
-    QTest::mouseMove(m_bottomToolbar, QPoint(50,50));
-    //        QTest::keyClick(m_bottomToolbar, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseMove(m_bottomToolbar, QPoint(20,20),500);
+    QTest::keyClick(m_bottomToolbar, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_bottomToolbar,Qt::LeftButton);
 }
 TEST_F(gtestview, m_frameMainWidget)
@@ -739,27 +748,60 @@ TEST_F(gtestview, BlurFrame)
 {
     m_printOptionspage=new PrintOptionsPage();
     m_printOptionspage->show();
-    m_blurFrame=new BlurFrame(m_printOptionspage);
-    m_blurFrame->moveWithAnimation( 1200, 1000);
 
-    m_blurFrame->getBorderColor() ;
-    m_blurFrame->getBorderRadius() ;
-    m_blurFrame->getBorderWidth() ;
-    m_blurFrame->show();
-    m_blurFrame->setBorderColor(QColor(200,155,200));
-    m_blurFrame->resize(600,500);
-    m_blurFrame->setBorderRadius(100);
-    m_blurFrame->setBorderWidth(50);
-    m_blurFrame->setCoverBrush(QBrush());
-    m_blurFrame->setPos(QPoint(200,500));
-    m_blurFrame->setMoveEnable(true);
+    QRadioButton *noScaleBtn = m_printOptionspage->getnoScaleBtn();
+    QRadioButton *fitToImageBtn = m_printOptionspage->getfitToImageBtn();
+    QRadioButton *fitToPageBtn = m_printOptionspage->getfitToPageBtn();
+    QRadioButton *scaleBtn = m_printOptionspage->getscaleBtn();
+    if(noScaleBtn &&fitToImageBtn &&fitToPageBtn &&scaleBtn)
+    {
+        noScaleBtn->click();
+        noScaleBtn->toggle();
+        fitToImageBtn->click();
+        fitToImageBtn->toggle();
+        fitToPageBtn->click();
+        fitToPageBtn->toggle();
+        scaleBtn->click();
+        scaleBtn->toggle();
+    }
+    m_printOptionspage->scaleMode();
+    m_printOptionspage->scaleUnit();
+    m_printOptionspage->scaleWidth();
+    m_printOptionspage->scaleHeight();
+    m_printOptionspage->alignment();
 
-    QTest::mousePress(m_blurFrame, Qt::LeftButton);
-    QTest::mouseRelease(m_blurFrame, Qt::LeftButton);
-    QTest::mouseClick(m_blurFrame, Qt::LeftButton);
-    QTest::mouseMove(m_blurFrame, QPoint(50,50));
-    QTest::keyClick(m_blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 1000);
-    QTest::mouseDClick(m_blurFrame,Qt::LeftButton);
+    QTest::qWait(100);
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+        BlurFrame *blurFrame=new BlurFrame(m_frameMainWindow);
+        blurFrame->moveWithAnimation( 150, 150);
+
+        blurFrame->getBorderColor() ;
+        blurFrame->getBorderRadius() ;
+        blurFrame->getBorderWidth() ;
+        blurFrame->show();
+        blurFrame->setBorderColor(QColor(200,155,200));
+        blurFrame->resize(200,200);
+        blurFrame->setBorderRadius(100);
+        blurFrame->setBorderWidth(50);
+        blurFrame->setCoverBrush(QBrush());
+        blurFrame->setPos(QPoint(150,150));
+        blurFrame->setMoveEnable(true);
+
+        blurFrame->update();
+        QTest::mousePress(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+        QTest::mouseRelease(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),500);
+        QTest::mouseClick(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+        QTest::mouseMove(blurFrame, QPoint(50,100),500);
+        QTest::keyClick(blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 500);
+        QTest::mouseDClick(blurFrame,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+
+        QTest::qWait(100);
+        blurFrame->deleteLater();
+        blurFrame=nullptr;
+    }
+
 }
 TEST_F(gtestview, unionimage)
 {
@@ -781,8 +823,8 @@ TEST_F(gtestview, unionimage)
     QString svgPath=m_SVGPath;
     rotateImageFIle(90,m_SVGPath,errorMsg);
     rotateImageFIle(90,pppath,errorMsg);
-    rotateImageFIleWithImage(90,rimg,"1.jpg",errorMsg);
-    rotateImageFIleWithImage(90,rimg,"1.svg",errorMsg);
+    rotateImageFIleWithImage(90,rimg,m_PNGPath,errorMsg);
+    rotateImageFIleWithImage(90,rimg,m_SVGPath,errorMsg);
     DetectImageFormat(m_SVGPath);
 }
 TEST_F(gtestview, imageutil)
@@ -848,18 +890,115 @@ TEST_F(gtestview, ExtensionPanel)
     //        QTest::keyClick(m_extensionPanel, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_extensionPanel,Qt::LeftButton);
 }
-TEST_F(gtestview, initTest2)
+TEST_F(gtestview, Toast)
 {
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    QTest::qWait(1000);
 
-
+    Toast *widget = m_frameMainWindow->findChild<Toast *>(TOAST_OBJECT);
+    if(widget)
+    {
+        widget->icon();
+        widget->setText("toast");
+        widget->text();
+        widget->setOpacity(qreal());
+        widget->opacity();
+    }
 
 }
-//延时推出程序
+
+TEST_F(gtestview, ThemeWidget)
+{
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    QTest::qWait(1000);
+
+    ThemeWidget *widget = m_frameMainWindow->findChild<ThemeWidget *>(THEME_WIDGET);
+    if(widget)
+    {
+        widget->isDeepMode();
+    }
+}
+
+TEST_F(gtestview, Dark)
+{
+    dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+}
+
+TEST_F(gtestview, Light)
+{
+    dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+}
+
+TEST_F(gtestview, PrintHelper)
+{
+    if(!m_frameMainWindow)
+    {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+        PrintHelper *testWidget=new PrintHelper();
+        DDialog * dialog=PrintHelper::showPrintDialog(list, m_frameMainWindow);
+        if(dialog)
+        {
+            dialog->show();
+            QTest::qWait(1000);
+            dialog->close();
+            dialog->deleteLater();
+            dialog=nullptr;
+        }
+    }
+}
+
+TEST_F(gtestview, ImageButton)
+{
+    ImageButton *button=new ImageButton();
+
+    button->setDisablePic(QApplication::applicationDirPath()+"/png.png");
+    button->setDisabled(false);
+    button->setFixedSize(200,200);
+    button->setToolTip("test");
+    button->getDisablePic();
+    button->show();
+    QTest::qWait(100);
+    QTest::mousePress(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+    QTest::mouseRelease(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+    QTest::mouseClick(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+    QTest::mouseMove(button, QPoint(20,20),500);
+    QTest::keyClick(button, Qt::Key_Escape, Qt::ShiftModifier, 1000);
+    QTest::mouseDClick(button,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+
+    if(CommandLine::instance()->getMainWindow())
+    {
+        QTest::mousePress(CommandLine::instance()->getMainWindow(), Qt::LeftButton,Qt::NoModifier,QPoint(300,50),100);
+        QTest::mouseRelease(CommandLine::instance()->getMainWindow(), Qt::LeftButton,Qt::NoModifier,QPoint(300,50),100);
+    }
+
+}
+TEST_F(gtestview, ElidedLabel)
+{
+    if(CommandLine::instance()->getMainWindow())
+    {
+        ElidedLabel *elide=new ElidedLabel(CommandLine::instance()->getMainWindow());
+        elide->setText("test");
+        elide->show();
+        elide->update();
+        QTest::qWait(100);
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+        QTest::qWait(100);
+        dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+        QTest::qWait(100);
+        elide->deleteLater();
+        elide=nullptr;
+    }
+}
+#endif
+//延时退出程序
 TEST_F(gtestview, initTest1)
 {
     ScanPathsDialog::instance()->addPath(m_PNGPath);
 
-    QTimer::singleShot(10000,[=]{
-        return exit(0);
-    });
 }

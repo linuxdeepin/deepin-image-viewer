@@ -86,6 +86,8 @@ public:
             m_WBMPPath=QApplication::applicationDirPath()+"/wbmp.wbmp";
             m_PNGPath=QApplication::applicationDirPath()+"/png.png";
             m_GIF2Path=QApplication::applicationDirPath()+"/gif2.gif";
+            m_ErrorPicPath=QApplication::applicationDirPath()+"/errorPic.icns";
+            m_TgaPath=QApplication::applicationDirPath()+"/tga.tga";
             list.push_back(m_TIFPath);
             list.push_back(m_SVGPath);
             list.push_back(m_JPGPath);
@@ -96,6 +98,8 @@ public:
             list.push_back(m_WBMPPath);
             list.push_back(m_PNGPath);
             list.push_back(m_GIF2Path);
+            list.push_back(m_ErrorPicPath);
+            list.push_back(m_TgaPath);
 
 
     }
@@ -161,6 +165,8 @@ protected:
     QString m_WBMPPath;
     QString m_PNGPath;
     QString m_GIF2Path;
+    QString m_ErrorPicPath;
+    QString m_TgaPath;
 
 };
 

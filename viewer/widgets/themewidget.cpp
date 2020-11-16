@@ -18,7 +18,7 @@
 #include "utils/baseutils.h"
 
 #include "application.h"
-
+#include "accessibility/ac-desktop-define.h"
 ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile,
                          QWidget *parent)
     : QWidget(parent) {
@@ -26,7 +26,7 @@ ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile,
     m_darkStyle = utils::base::getFileContent(darkFile);
     m_lightStyle = utils::base::getFileContent(lightFile);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
-
+    setObjectName(THEME_WIDGET);
     connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
             &ThemeWidget::onThemeChanged);
 }
@@ -45,28 +45,28 @@ void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
     }
 }
 
-ThemeScrollArea::ThemeScrollArea(const QString &darkFile, const QString &lightFile,
-                         QWidget *parent)
-    : QScrollArea(parent) {
+//ThemeScrollArea::ThemeScrollArea(const QString &darkFile, const QString &lightFile,
+//                         QWidget *parent)
+//    : QScrollArea(parent) {
 
-    m_darkStyle = utils::base::getFileContent(darkFile);
-    m_lightStyle = utils::base::getFileContent(lightFile);
-    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
+//    m_darkStyle = utils::base::getFileContent(darkFile);
+//    m_lightStyle = utils::base::getFileContent(lightFile);
+//    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &ThemeScrollArea::onThemeChanged);
-}
+//    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+//            &ThemeScrollArea::onThemeChanged);
+//}
 
-ThemeScrollArea::~ThemeScrollArea() {}
+//ThemeScrollArea::~ThemeScrollArea() {}
 
-void ThemeScrollArea::onThemeChanged(ViewerThemeManager::AppTheme theme) {
-    if (theme == ViewerThemeManager::Dark) {
-        m_deepMode = true;
-    } else {
-        m_deepMode = false;
-    }
-}
+//void ThemeScrollArea::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+//    if (theme == ViewerThemeManager::Dark) {
+//        m_deepMode = true;
+//    } else {
+//        m_deepMode = false;
+//    }
+//}
 
-bool ThemeScrollArea::isDeepMode() {
-    return m_deepMode;
-}
+//bool ThemeScrollArea::isDeepMode() {
+//    return m_deepMode;
+//}

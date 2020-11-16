@@ -174,7 +174,13 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        PrintHelper::showPrintDialog(QStringList(path), this);
+        DDialog * dialog=PrintHelper::showPrintDialog(QStringList(path), this);
+        if(dialog)
+        {
+            dialog->exec();
+            dialog->deleteLater();
+            dialog=nullptr;
+        }
         break;
     }
 
