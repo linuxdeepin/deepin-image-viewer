@@ -953,7 +953,6 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
     }
 
     }
-    sigPath= strPath;
     return bRet;
 }
 
