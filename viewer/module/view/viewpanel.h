@@ -429,6 +429,14 @@ private slots:
     void slotGetLastThumbnailPath(QString &path);
 
     /**
+     * @brief slotThumbnailContainPath
+     * is thumbnail contain path
+     * @param path
+     * @param b
+     */
+    void slotThumbnailContainPath(QString path,bool& b);
+
+    /**
      * @brief slotLoadTailThumbnailsAndClearFront
      * Load tail thumbnails and clear up front thumbnails
      */

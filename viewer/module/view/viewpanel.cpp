@@ -138,6 +138,7 @@ QString ViewPanel::moduleName()
 void ViewPanel::initConnect()
 {
     //heyi  test
+    connect(dApp->signalM, &SignalManager::sigisThumbnailsContainPath, this, &ViewPanel::slotThumbnailContainPath);
     connect(dApp->signalM, &SignalManager::sigGetLastThumbnailPath, this, &ViewPanel::slotGetLastThumbnailPath);
     connect(dApp->signalM, &SignalManager::sigGetFirstThumbnailpath, this, &ViewPanel::slotGetFirstThumbnailPath);
     connect(dApp->signalM, &SignalManager::sigLoadfrontSlideshow, this, &ViewPanel::SlotLoadFrontThumbnailsAndClearTail);
@@ -899,8 +900,8 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
         m_infos.append(info);
         QFileInfo file(info.filePath);
         QString str = file.suffix();
-        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
-            m_infoslideshow.append(info);
+//        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
+//            m_infoslideshow.append(info);
     }
     QStringList pathlist;
     emit dApp->signalM->sigLoadHeadThunbnail(m_infos);
@@ -920,6 +921,11 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
 void ViewPanel::slotGetLastThumbnailPath(QString &path)
 {
     path = m_infos[m_infos.size() - 1].filePath;
+}
+
+void ViewPanel::slotThumbnailContainPath(QString path, bool &b)
+{
+   b = imageIndex(path)==-1?false:true;
 }
 
 void ViewPanel::slotLoadTailThumbnailsAndClearFront()
