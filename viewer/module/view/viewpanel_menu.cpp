@@ -189,6 +189,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             m_infos[m_current].filePath = filepath;
             m_infosAll[allcurrent].fileName = filename;
             m_infosAll[allcurrent].filePath = filepath;
+
+            dApp->m_imagemap.insert(filepath,dApp->m_imagemap[m_viewB->path()]);
+            dApp->m_rectmap.insert(filepath,dApp->m_rectmap[m_viewB->path()]);
             m_rwLock.unlock();
             //修改链表里被修改文件的文件名
             connect(this, &ViewPanel::SetImglistPath, ttbc, &TTBContent::OnSetimglist);
@@ -205,6 +208,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             emit changeitempath(m_current, filepath);
             //setPath改为setImage,2020/11/12 bug54269
             m_viewB->setImage(filepath);
+
         }
         break;
     }
