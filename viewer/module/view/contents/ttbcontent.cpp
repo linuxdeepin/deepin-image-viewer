@@ -125,8 +125,8 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     : DWidget(parent), m_timer(new QTimer(this))
 {
     setMouseTracking(true);
-    //lmh0914
-  //  QTimer::singleShot(dApp->m_timer,[=]{
+    m_startTimer=new QTimer(this);
+    connect(m_startTimer,&QTimer::timeout,this,[=]{
         connect(dApp,&Application::sigMouseRelease,this,[=]{
             qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
             if(currentTime-100 > m_lastReleaseTime){
@@ -135,7 +135,9 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
                 qDebug()<<"UpdateThumbnail" <<m_lastReleaseTime;
             }
         },Qt::UniqueConnection);
-    //});
+    });
+    m_startTimer->start(dApp->m_timer);
+
     m_timer->setSingleShot(200);
 }
 
@@ -1774,7 +1776,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
 
         m_imgList->update();
         m_imgListView->update();
-        m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
+//        m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
     }
     m_imgInfos_size = m_imgInfos.size();
 }
@@ -1866,7 +1868,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(j)->setContentsMargins(1, 5, 1, 5);
         labelList.at(j)->setIndexNow(m_nowIndex);
     }
-    if (labelList.size() > 0) {
+    if (labelList.size() > 0 &&labelList.size()>m_nowIndex) {
         labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
         labelList.at(m_nowIndex)->resize(QSize(58, 58));
         labelList.at(m_nowIndex)->setContentsMargins(0, 0, 0, 0);

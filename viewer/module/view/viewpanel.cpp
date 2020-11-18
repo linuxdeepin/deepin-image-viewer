@@ -1888,6 +1888,7 @@ m_bIsOpenPicture=true;
 
 bool ViewPanel::removeCurrentImage()
 {
+
     if (m_infos.isEmpty() || !m_bAllowDel) {
         return false;
     }
@@ -1900,6 +1901,16 @@ bool ViewPanel::removeCurrentImage()
     // 在删除当前图片之前将图片列表初始化完成
     //eatImageDirIterator();
 #endif
+
+    //lmh2020/11/18解决bug 54962
+    int index=this->width()/36;
+    if(m_infos[m_current].filePath==m_infosAll[m_infosAll.size()-1].filePath && m_infos.size()<=index){
+        dApp->signalM->sendLoadSignal(true);
+    }
+    else if(m_infos.size()<=index){
+        dApp->signalM->sendLoadSignal(false);
+    }
+
     DBImgInfo imginfo = m_infos[m_current];
     m_infos.removeAt(m_current);
     m_infosAll.removeOne(imginfo);

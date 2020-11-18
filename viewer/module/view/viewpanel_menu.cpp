@@ -224,6 +224,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
         //右键菜单删除action和delete快捷键删除图片
+        if (m_dtr->isActive()) {
+            return ;
+        }
+        m_dtr->start();
         if (m_vinfo.inDatabase) {
             popupDelDialog(path);
         } else {
