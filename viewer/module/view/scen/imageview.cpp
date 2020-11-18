@@ -315,12 +315,12 @@ ImageView::ImageView(QWidget *parent)
     : QGraphicsView(parent)
     , m_renderer(Native)
     , m_pool(new QThreadPool())
-    , m_imgSvgItem(nullptr)
+//    , m_imgSvgItem(nullptr)
     , m_movieItem(nullptr)
     , m_pixmapItem(nullptr)
 {
-#ifdef OPENACCESSIBLE
     setObjectName(IMAGE_VIEW);
+#ifdef OPENACCESSIBLE
     setAccessibleName(IMAGE_VIEW);
 #endif
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -523,7 +523,7 @@ void ImageView::titleBarControl()
 
     qreal realHeight = 0.0;
 
-    if (m_movieItem || m_imgSvgItem) {
+    if (m_movieItem /*|| m_imgSvgItem*/) {
         realHeight = image().size().height() * imageRelativeScale() * devicePixelRatioF();
 
     } else {
@@ -551,7 +551,7 @@ const QImage ImageView::image(bool brefresh)
     }
 
 
-    else  if (m_imgSvgItem) {  // svg
+    /*else  if (m_imgSvgItem) {  // svg
         if(brefresh)
         {
             QImage image(m_imgSvgItem->renderer()->defaultSize(), QImage::Format_ARGB32_Premultiplied);
@@ -562,7 +562,7 @@ const QImage ImageView::image(bool brefresh)
             m_svgimg = image;
         }
         return m_svgimg;
-    } else {
+    }*/ else {
         return QImage();
     }
 }
@@ -749,50 +749,50 @@ void ImageView::rotatePixCurrent()
     }
 }
 
-void ImageView::cacheThread(const QString strPath)
-{
-    QFileInfo fi(strPath);
-    if (fi.suffix().toLower() == "svg") {
-        QSvgRenderer svgRenderer;
-        svgRenderer.load(strPath);
-        m_rwCacheLock.lockForWrite();
-        //m_hsSvg.insert(strPath, svgRenderer);
-        m_rwCacheLock.unlock();
-    } else if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
-               /*|| fi.suffix().toLower() == "webp"*/) {
-        GraphicsMovieItem movieItem(strPath, fi.suffix());
-        m_rwCacheLock.lockForWrite();
-        //m_hsMovie.insert(strPath, movieItem);
-        m_rwCacheLock.unlock();
+//void ImageView::cacheThread(const QString strPath)
+//{
+//    QFileInfo fi(strPath);
+//    if (fi.suffix().toLower() == "svg") {
+//        QSvgRenderer svgRenderer;
+//        svgRenderer.load(strPath);
+//        m_rwCacheLock.lockForWrite();
+//        //m_hsSvg.insert(strPath, svgRenderer);
+//        m_rwCacheLock.unlock();
+//    } else if (fi.suffix().toLower() == "mng" || fi.suffix().toLower() == "gif"
+//               /*|| fi.suffix().toLower() == "webp"*/) {
+//        GraphicsMovieItem movieItem(strPath, fi.suffix());
+//        m_rwCacheLock.lockForWrite();
+//        //m_hsMovie.insert(strPath, movieItem);
+//        m_rwCacheLock.unlock();
 
-    } else {
-        QImage tImg;
+//    } else {
+//        QImage tImg;
 
-        QString format = DetectImageFormat(strPath);
-        if (format.isEmpty()) {
-            QImageReader reader(strPath);
-            reader.setAutoTransform(true);
-            if (reader.canRead()) {
-                tImg = reader.read();
-            }
-        } else {
-            QImageReader readerF(strPath, format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                tImg = readerF.read();
-            } else {
-                qWarning() << "can't read image:" << readerF.errorString() << format;
+//        QString format = DetectImageFormat(strPath);
+//        if (format.isEmpty()) {
+//            QImageReader reader(strPath);
+//            reader.setAutoTransform(true);
+//            if (reader.canRead()) {
+//                tImg = reader.read();
+//            }
+//        } else {
+//            QImageReader readerF(strPath, format.toLatin1());
+//            readerF.setAutoTransform(true);
+//            if (readerF.canRead()) {
+//                tImg = readerF.read();
+//            } else {
+//                qWarning() << "can't read image:" << readerF.errorString() << format;
 
-                tImg = QImage(strPath);
-            }
-        }
+//                tImg = QImage(strPath);
+//            }
+//        }
 
-        QPixmap p = QPixmap::fromImage(tImg);
-        m_rwCacheLock.lockForWrite();
-        m_hsPixap.insert(strPath, p);
-        m_rwCacheLock.unlock();
-    }
-}
+//        QPixmap p = QPixmap::fromImage(tImg);
+//        m_rwCacheLock.lockForWrite();
+//        m_hsPixap.insert(strPath, p);
+//        m_rwCacheLock.unlock();
+//    }
+//}
 
 //void ImageView::showPixmap(QString path)
 //{
@@ -1027,34 +1027,34 @@ void ImageView::rotatePixmap(int nAngel)
     m_rotateAngel += nAngel;
 }
 
-void ImageView::recvPathsToCache(const QStringList pathsList)
-{
-    m_rwCacheLock.lockForWrite();
-    m_pathsList = removeDiff(pathsList);
-    m_rwCacheLock.unlock();
+//void ImageView::recvPathsToCache(const QStringList pathsList)
+//{
+//    m_rwCacheLock.lockForWrite();
+//    m_pathsList = removeDiff(pathsList);
+//    m_rwCacheLock.unlock();
 
-    QThread *th = QThread::create([ = ]() {
-        QStringList list;
-        m_rwCacheLock.lockForRead();
-        list = m_pathsList;
-        m_rwCacheLock.unlock();
+//    QThread *th = QThread::create([ = ]() {
+//        QStringList list;
+//        m_rwCacheLock.lockForRead();
+//        list = m_pathsList;
+//        m_rwCacheLock.unlock();
 
-        foreach (QString strPath, list) {
-            if (strPath.isEmpty()) {
-                continue;
-            }
+//        foreach (QString strPath, list) {
+//            if (strPath.isEmpty()) {
+//                continue;
+//            }
 
-            cacheThread(strPath);
-        }
+//            cacheThread(strPath);
+//        }
 
-        QThread::currentThread()->quit();
-        qDebug() << "缓存结束时间：";
+//        QThread::currentThread()->quit();
+//        qDebug() << "缓存结束时间：";
 
-    });
+//    });
 
-    connect(th, &QThread::finished, th, &QObject::deleteLater);
-    th->start();
-}
+//    connect(th, &QThread::finished, th, &QObject::deleteLater);
+//    th->start();
+//}
 
 void ImageView::delCacheFromPath(const QString strPath)
 {
@@ -1070,23 +1070,23 @@ void ImageView::delAllCache()
     m_hsPixap.clear();
 }
 
-QStringList ImageView::removeDiff(QStringList pathsList)
-{
-    QHash<QString, QPixmap> hsPixap;
-    QStringList loadPaths;
-    foreach (QString strPath, pathsList) {
-        if (m_hsPixap.contains(strPath)) {
-            hsPixap.insert(strPath, m_hsPixap.value(strPath));
-        } else {
-            loadPaths.append(strPath);
-        }
-    }
+//QStringList ImageView::removeDiff(QStringList pathsList)
+//{
+//    QHash<QString, QPixmap> hsPixap;
+//    QStringList loadPaths;
+//    foreach (QString strPath, pathsList) {
+//        if (m_hsPixap.contains(strPath)) {
+//            hsPixap.insert(strPath, m_hsPixap.value(strPath));
+//        } else {
+//            loadPaths.append(strPath);
+//        }
+//    }
 
-    m_hsPixap.clear();
-    m_hsPixap = hsPixap;
+//    m_hsPixap.clear();
+//    m_hsPixap = hsPixap;
 
-    return loadPaths;
-}
+//    return loadPaths;
+//}
 
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 {
@@ -1457,7 +1457,7 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
          connect(animation, &QVariantAnimation::valueChanged, [=](const QVariant &value){
              qreal angle = value.toReal() - m_rotateAngelTouch;
              m_rotateAngelTouch = value.toReal();
-             if(static_cast<int>(value.toReal()) != static_cast<int>(endvalue) || m_imgSvgItem)
+             if(static_cast<int>(value.toReal()) != static_cast<int>(endvalue) /*|| m_imgSvgItem*/)
                 this->rotate(angle);
              //setPixmap(pixmap.transformed(t));
          });
@@ -1486,14 +1486,14 @@ void ImageView::OnFinishPinchAnimal()
     m_rotateflag = true;
     m_bnextflag = true;
     m_rotateAngelTouch=0;
-    if(m_imgSvgItem)
-    {
-      //  reloadSvgPix(m_path,90,false);
-        m_rotateAngel += m_endvalue;
-        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,static_cast<int>(m_endvalue));
-        emit dApp->signalM->sigUpdateThunbnail(m_path);
-        return;
-    }
+//    if(m_imgSvgItem)
+//    {
+//      //  reloadSvgPix(m_path,90,false);
+//        m_rotateAngel += m_endvalue;
+//        dApp->m_imageloader->updateImageLoader(QStringList(m_path), true,static_cast<int>(m_endvalue));
+//        emit dApp->signalM->sigUpdateThunbnail(m_path);
+//        return;
+//    }
     if(!m_pixmapItem) return;
     //QStranform旋转到180度有问题，暂未解决，因此动画结束后旋转Pixmap到180
     QPixmap pixmap;
@@ -1538,7 +1538,7 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     sigPath = filePath;
     scene()->clear();
     m_movieItem = nullptr;
-    m_imgSvgItem = nullptr;
+//    m_imgSvgItem = nullptr;
     resetTransform();
     QRect rect1=  dApp->m_rectmap[filePath];
     //获取主屏幕分辨率lmh0803,如果分辨率大于屏幕分辨率，则采用scaled屏幕分辨率,解决效率问题
@@ -1591,7 +1591,7 @@ void ImageView::showFileImage()
         scene()->clear();
         resetTransform();
         m_movieItem = nullptr;
-        m_imgSvgItem = nullptr;
+//        m_imgSvgItem = nullptr;
         QPixmap pixmap = vl.last().value<QPixmap>();
         pixmap.setDevicePixelRatio(devicePixelRatioF());
         m_pixmapItem = new GraphicsPixmapItem(pixmap);

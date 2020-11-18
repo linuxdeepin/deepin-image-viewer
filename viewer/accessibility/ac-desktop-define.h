@@ -67,6 +67,9 @@
 #define CANCEL_BUTTON QObject::tr("Cancel") //重命名cancel按钮
 #define RENAME_CONTENT QObject::tr("rename content") //重命名cancel按钮
 
+
+
+#define SC_VIEW_SHORTCUT QObject::tr("sc_view_shortcut") //重命名cancel按钮
 //其他
 #define TOAST_OBJECT QObject::tr("toast")  //toast
 #define THEME_WIDGET QObject::tr("theme widget")  //themewidget
@@ -75,5 +78,7 @@
 #define FITTOIMAGE_RADIOBUTTON QObject::tr("Fit page to image")
 #define FITTOPAGE_RADIOBUTTON QObject::tr("Fit image to page")
 #define SCALE_RADIOBUTTON QObject::tr("Scale to")
+
+#define TTL_CONTENTS QObject::tr("ttl content") //TTLContent
 
 #endif // DESKTOP_ACCESSIBLE_UI_DEFINE_H

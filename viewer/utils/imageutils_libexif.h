@@ -62,30 +62,30 @@ QDateTime getCreateDateTime(const QString &path)
 
     return QDateTime();
 }
+//LMH20201117 屏蔽没使用代码
+//QSize size(const QString &path) {
+//    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
+//    if (ed) {
+//        int w = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_IMAGE_WIDTH).toInt();
+//        int h = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_IMAGE_LENGTH).toInt();
+//        //Free the EXIF data
+//        exif_data_unref(ed);
+//        return QSize(w, h);
+//    }
+//    return QSize();
+//}
 
-QSize size(const QString &path) {
-    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
-    if (ed) {
-        int w = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_IMAGE_WIDTH).toInt();
-        int h = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_IMAGE_LENGTH).toInt();
-        //Free the EXIF data
-        exif_data_unref(ed);
-        return QSize(w, h);
-    }
-    return QSize();
-}
-
-QString orientation(const QString &path)
-{
-    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
-    if (ed) {
-        QString ot = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_ORIENTATION);
-        //Free the EXIF data
-        exif_data_unref(ed);
-        return ot;
-    }
-    return QString();
-}
+//QString orientation(const QString &path)
+//{
+//    ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
+//    if (ed) {
+//        QString ot = readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_ORIENTATION);
+//        //Free the EXIF data
+//        exif_data_unref(ed);
+//        return ot;
+//    }
+//    return QString();
+//}
 
 }  // namespace libexif
 

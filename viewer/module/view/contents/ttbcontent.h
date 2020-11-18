@@ -203,6 +203,7 @@ public:
     void toolbarSigConnection();
 
 
+    char *getImageType(QString filepath);
 signals:
     void clicked();
 

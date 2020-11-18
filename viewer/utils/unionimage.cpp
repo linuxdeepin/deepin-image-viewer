@@ -437,96 +437,96 @@ UNIONIMAGESHARED_EXPORT QImage FIBitmap2QImage(FIBITMAP *dib)
  * 由QImage转到FreeImage
  */
 
-UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
-{
-    if (img.isNull()) {
-        return nullptr;
-    }
-    int width = img.width();
-    int height = img.height();
-    uint depth = static_cast<uint>(img.depth());
-    QImage::Format format = img.format();
-    switch (format) {
-    //The image is invalid.
-    case QImage::Format_Invalid:
-        return nullptr;
-    //The image is stored using 1-bit per pixel.(MSB)
-    case QImage::Format_Mono:
-    //The image is stored using 1-bit per pixel.(LSB)
-    case QImage::Format_MonoLSB: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth, 0, 0, 0,
-                            true);
-        return res;
-    }
-    /* NOTE: QImage do not support 4-bit*/
+//UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
+//{
+//    if (img.isNull()) {
+//        return nullptr;
+//    }
+//    int width = img.width();
+//    int height = img.height();
+//    uint depth = static_cast<uint>(img.depth());
+//    QImage::Format format = img.format();
+//    switch (format) {
+//    //The image is invalid.
+//    case QImage::Format_Invalid:
+//        return nullptr;
+//    //The image is stored using 1-bit per pixel.(MSB)
+//    case QImage::Format_Mono:
+//    //The image is stored using 1-bit per pixel.(LSB)
+//    case QImage::Format_MonoLSB: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth, 0, 0, 0,
+//                            true);
+//        return res;
+//    }
+//    /* NOTE: QImage do not support 4-bit*/
 
-    //可能会将彩色图转为灰度图
-    //The image is stored using an 8-bit alpha only format.
-    case QImage::Format_Alpha8:
-    //The image is stored using an 8-bit grayscale format.
-    case QImage::Format_Grayscale8:
-    //The image is stored using 8-bit indexes into a colormap.
-    case QImage::Format_Indexed8: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth, 0, 0, 0,
-                            true);
-        return res;
-    }
-    //The image is stored using a 16-bit RGB format (5-6-5)
-    case QImage::Format_RGB16: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), 16,
-                            FI16_565_RED_MASK, FI16_565_GREEN_MASK, FI16_565_BLUE_MASK,
-                            true);
-        return res;
-    }
-    //The image is stored using a 16-bit RGB format (5-5-5). The unused most significant bit is always zero.
-    case QImage::Format_RGB555: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), 16,
-                            FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK,
-                            true);
-        return res;
-    }
+//    //可能会将彩色图转为灰度图
+//    //The image is stored using an 8-bit alpha only format.
+//    case QImage::Format_Alpha8:
+//    //The image is stored using an 8-bit grayscale format.
+//    case QImage::Format_Grayscale8:
+//    //The image is stored using 8-bit indexes into a colormap.
+//    case QImage::Format_Indexed8: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth, 0, 0, 0,
+//                            true);
+//        return res;
+//    }
+//    //The image is stored using a 16-bit RGB format (5-6-5)
+//    case QImage::Format_RGB16: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), 16,
+//                            FI16_565_RED_MASK, FI16_565_GREEN_MASK, FI16_565_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
+//    //The image is stored using a 16-bit RGB format (5-5-5). The unused most significant bit is always zero.
+//    case QImage::Format_RGB555: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), 16,
+//                            FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
 
-    //32-bit
-    case QImage::Format_RGB32: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
-                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-                            true);
-        return res;
-    }
-    case QImage::Format_ARGB32: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
-                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-                            true);
-        return res;
-    }
-    //24-bit
-    case QImage::Format_RGB666:
-    case QImage::Format_ARGB8555_Premultiplied:
-    case QImage::Format_ARGB8565_Premultiplied:
-    case QImage::Format_ARGB6666_Premultiplied:
-    case QImage::Format_RGB888: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
-                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-                            true);
-        return res;
-    }
+//    //32-bit
+//    case QImage::Format_RGB32: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
+//                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
+//    case QImage::Format_ARGB32: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
+//                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
+//    //24-bit
+//    case QImage::Format_RGB666:
+//    case QImage::Format_ARGB8555_Premultiplied:
+//    case QImage::Format_ARGB8565_Premultiplied:
+//    case QImage::Format_ARGB6666_Premultiplied:
+//    case QImage::Format_RGB888: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
+//                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
 
-    //FreeImage is not support
-    //The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.
-    case QImage::Format_RGB444:
-    case QImage::Format_ARGB4444_Premultiplied:
-    default:
-        break;
-    }
-    return nullptr;
-}
+//    //FreeImage is not support
+//    //The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.
+//    case QImage::Format_RGB444:
+//    case QImage::Format_ARGB4444_Premultiplied:
+//    default:
+//        break;
+//    }
+//    return nullptr;
+//}
 
 /**
  * @brief readFile2FIBITMAP

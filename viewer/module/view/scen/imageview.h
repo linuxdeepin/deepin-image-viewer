@@ -123,11 +123,11 @@ public:
      */
     void rotatePixCurrent();
 
-    /**
-     * @brief cacheThread   缓存图片线程，将缩略图的图片缓存到
-     * @param strPath       需要缓存的图片路径
-     */
-    void cacheThread(const QString strPath);
+//    /**
+//     * @brief cacheThread   缓存图片线程，将缩略图的图片缓存到
+//     * @param strPath       需要缓存的图片路径
+//     */
+//    void cacheThread(const QString strPath);
 
 //    /**
 //     * @brief showPixmap    从hash中获取图片并显示
@@ -151,7 +151,8 @@ public:
     bool loadPictureByType(PICTURE_TYPE type, const QString strPath);
 
     void setFitState(bool isFitImage=false,bool isFitWindow=false);
-signals:
+
+    signals:
     void clicked();
     void doubleClicked();
     void imageChanged(QString path);
@@ -204,11 +205,11 @@ public slots:
      */
     void rotatePixmap(int nAngel);
 
-    /**
-     * @brief recvPathsToCache  接收图片路径进行缓存
-     * @param pathsList         需要缓存的图片路径
-     */
-    void recvPathsToCache(const QStringList pathsList);
+//    /**
+//     * @brief recvPathsToCache  接收图片路径进行缓存
+//     * @param pathsList         需要缓存的图片路径
+//     */
+//    void recvPathsToCache(const QStringList pathsList);
 
     /**
      * @brief delCacheFromPath  根据图片路径删除缓存
@@ -221,14 +222,14 @@ public slots:
      */
     void delAllCache();
 
-    /**
-     * @brief removeDiff    判断两次图片路径差异，将差异部分缓存删除并缓存新的图片
-     * @param pathsList     传入的需要缓存的图片
-     * @return
-     */
-    QStringList removeDiff(QStringList pathsList);
+//    /**
+//     * @brief removeDiff    判断两次图片路径差异，将差异部分缓存删除并缓存新的图片
+//     * @param pathsList     传入的需要缓存的图片
+//     * @return
+//     */
+//    QStringList removeDiff(QStringList pathsList);
 
-    /**
+    /**recvPathsToCache
      * @brief showVagueImage
      * 在触屏拖动窗口的时候，显示模糊的缩略图
      * @param thumbnailpixmap
@@ -316,7 +317,7 @@ private:
 
     QGraphicsSvgItem *m_svgItem = nullptr;
 
-    ImageSvgItem *m_imgSvgItem {nullptr};
+//    ImageSvgItem *m_imgSvgItem {nullptr};
 
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;

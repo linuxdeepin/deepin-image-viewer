@@ -2,7 +2,7 @@
 #define  private public
 #include <QKeySequence>
 #include <QShortcut>
-#include "testapi.h"
+
 #include <QFile>
 #include <QDir>
 #include "accessibility/ac-desktop-define.h"
@@ -50,6 +50,21 @@ TEST_F(gtestview,cpFile)
                  QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
                  QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
 
+     QFile::copy(":/svg1.svg",QApplication::applicationDirPath()+"/svg1.svg");
+     QFile(QApplication::applicationDirPath()+"/svg1.svg").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/svg2.svg",QApplication::applicationDirPath()+"/svg2.svg");
+     QFile(QApplication::applicationDirPath()+"/svg2.svg").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
+     QFile::copy(":/svg1.svg",QApplication::applicationDirPath()+"/svg3.svg");
+     QFile(QApplication::applicationDirPath()+"/svg3.svg").setPermissions( \
+                 QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                 QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+
      QFile::copy(":/tif.tif",QApplication::applicationDirPath()+"/tif.tif");
      QFile(QApplication::applicationDirPath()+"/tif.tif").setPermissions( \
                  QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
@@ -85,7 +100,8 @@ TEST_F(gtestview,cpFile)
 
 #if TEST
 //主窗体
-TEST_F(gtestview, mainwindow)
+
+TEST_F(gtestview, CommandLine)
 {
     DApplicationSettings saveTheme;
     //4.将时间写入QDataStream
@@ -93,6 +109,11 @@ TEST_F(gtestview, mainwindow)
     QString teststr = wstime.toString("yyyy-MM-dd hh:mm:ss");
     bool newflag = true;
     CommandLine::instance()->processOption(wstime, newflag);
+    QTest::qWait(500);
+}
+
+TEST_F(gtestview, mainwindow)
+{
 
     if(!m_frameMainWindow)
     {
@@ -104,7 +125,7 @@ TEST_F(gtestview, mainwindow)
     if(panel){
         // 打开保存绘制的 tif
         QString TriangleItemPath = QApplication::applicationDirPath() + "/tif.tif";
-        drogPathtoWidget(panel,TriangleItemPath);
+        TestApi::drogPathtoWidget(panel,TriangleItemPath);
     }
 
     m_frameMainWindow->setWindowRadius(18);
@@ -130,35 +151,22 @@ TEST_F(gtestview, mainwindow)
     QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-
+    int index1=0;
+    while(index1++<20)
+    {
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+    }
+    while(index1-->0)
+    {
+         QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+    }
     QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 500);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 500);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 500);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 500);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 500);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 500);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 300);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 300);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 300);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 300);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 300);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 300);
 
     QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 2000);//
     int index=0;
@@ -166,9 +174,9 @@ TEST_F(gtestview, mainwindow)
         QTest::keyClick(m_frameMainWindow, Qt::Key_Plus, Qt::ControlModifier, 50);
     while(index-->0)
         QTest::keyClick(m_frameMainWindow, Qt::Key_Minus, Qt::ControlModifier, 50);
-    QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),1000);
-    QTest::mouseMove(m_frameMainWindow, QPoint(200,500),1000);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 1000);
+    QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),500);
+    QTest::mouseMove(m_frameMainWindow, QPoint(200,500),500);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
 
 }
 TEST_F(gtestview, sliderShow)
@@ -181,7 +189,7 @@ TEST_F(gtestview, sliderShow)
     m_frameMainWindow->resize(800,600);
     QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
     QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier , 500);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 5000);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 3000);
 
     QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),1000);
     QTest::mouseMove(m_frameMainWindow, QPoint(200,500),1000);
@@ -325,7 +333,7 @@ TEST_F(gtestview, onlyonePic)
     if(panel){
         // 打开 jpg
         QString TriangleItemPath = QApplication::applicationDirPath() + "/test/jpg.jpg";
-        drogPathtoWidget(panel,TriangleItemPath);
+        TestApi::drogPathtoWidget(panel,TriangleItemPath);
         QTest::qWait(2000);
 
 //        QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 2000);
@@ -385,7 +393,7 @@ TEST_F(gtestview, sliderSvg)
     if(panel){
         // 打开 svg
         QString TriangleItemPath = QApplication::applicationDirPath() + "/svg.svg";
-        drogPathtoWidget(panel,TriangleItemPath);
+        TestApi::drogPathtoWidget(panel,TriangleItemPath);
     }
     QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 2000);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
@@ -460,6 +468,36 @@ TEST_F(gtestview, setWallPaper)
     dApp->wpSetter->setWallpaper(TriangleItemPath);
 
 }
+
+TEST_F(gtestview, ImageButton)
+{
+    ImageButton *button=new ImageButton();
+
+    button->setDisablePic(QApplication::applicationDirPath()+"/png.png");
+    button->setDisabled(false);
+//    button->setFixedSize(200,200);
+    button->setToolTip("test");
+    button->getDisablePic();
+    button->show();
+    button->resize(100,100);
+    QTest::qWait(100);
+    QTest::mousePress(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+    QTest::qWait(1000);
+    QTest::mouseRelease(button, Qt::LeftButton);
+    QTest::mouseClick(button, Qt::LeftButton);
+    QTest::mouseMove(button, QPoint(20,20),500);
+    QTest::keyClick(button, Qt::Key_Escape, Qt::ShiftModifier, 1000);
+    QTest::mouseDClick(button,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+
+    button->hide();
+
+//    if(CommandLine::instance()->getMainWindow())
+//    {
+//        QTest::mousePress(CommandLine::instance()->getMainWindow(), Qt::LeftButton,Qt::NoModifier,QPoint(300,50),100);
+//        QTest::mouseRelease(CommandLine::instance()->getMainWindow(), Qt::LeftButton,Qt::NoModifier,QPoint(300,50),100);
+//    }
+
+}
 TEST_F(gtestview, m_pushbutton)
 {
     m_pushbutton=new PushButton();
@@ -511,6 +549,8 @@ TEST_F(gtestview, m_pushbutton)
     QTest::mouseMove(m_pushbutton, QPoint(20,20),500);
     QTest::keyClick(m_pushbutton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_pushbutton,Qt::LeftButton);
+
+    m_pushbutton->hide();
 }
 TEST_F(gtestview, m_returnButton)
 {
@@ -565,6 +605,9 @@ TEST_F(gtestview, m_returnButton)
     QTest::keyClick(m_returnButton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_returnButton,Qt::LeftButton);
 
+
+    m_returnButton->hide();
+
 }
 TEST_F(gtestview, m_bottomToolbar)
 {
@@ -578,42 +621,48 @@ TEST_F(gtestview, m_bottomToolbar)
     QTest::mouseMove(m_bottomToolbar, QPoint(20,20),500);
     QTest::keyClick(m_bottomToolbar, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_bottomToolbar,Qt::LeftButton);
+
+    m_bottomToolbar->hide();
 }
 TEST_F(gtestview, m_frameMainWidget)
 {
     m_frameMainWidget=new MainWidget(false,nullptr);
     m_frameMainWidget->show();
-    QTest::mousePress(m_frameMainWidget, Qt::LeftButton);
+    QTest::mousePress(m_frameMainWidget, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_frameMainWidget, Qt::LeftButton);
     QTest::mouseClick(m_frameMainWidget, Qt::LeftButton);
-    QTest::mouseMove(m_frameMainWidget, QPoint(230,50));
-    //        QTest::keyClick(m_frameMainWidget, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseMove(m_frameMainWidget, QPoint(20,20),500);
+    QTest::keyClick(m_frameMainWidget, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_frameMainWidget,Qt::LeftButton);
+
+    m_frameMainWidget->hide();
 }
 TEST_F(gtestview, RenameDialog)
 {
     m_renameDialog=new RenameDialog(nullptr);
     m_renameDialog->show();
-    QTest::mousePress(m_renameDialog, Qt::LeftButton);
+    QTest::mousePress(m_renameDialog, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_renameDialog, Qt::LeftButton);
     QTest::mouseClick(m_renameDialog, Qt::LeftButton);
-    QTest::mouseMove(m_renameDialog, QPoint(190,100));
-    //        QTest::keyClick(m_renameDialog, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseMove(m_renameDialog, QPoint(20,20),500);
+    QTest::keyClick(m_renameDialog, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_renameDialog,Qt::LeftButton);
 
     m_renameDialog->onThemeChanged(ViewerThemeManager::Light);
 
     m_renameDialog->onThemeChanged(ViewerThemeManager::Dark);
+
+    m_renameDialog->hide();
 }
 TEST_F(gtestview, TopToolbar)
 {
     m_topoolBar=new TopToolbar(false,nullptr);
     m_topoolBar->show();
-    QTest::mousePress(m_topoolBar, Qt::LeftButton);
+    QTest::mousePress(m_topoolBar, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_topoolBar, Qt::LeftButton);
     QTest::mouseClick(m_topoolBar, Qt::LeftButton);
-    QTest::mouseMove(m_topoolBar, QPoint(190,160));
-    //        QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseMove(m_topoolBar, QPoint(20,20),500);
+    QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_topoolBar,Qt::LeftButton);
 
     m_topoolBar->setMiddleContent("test");
@@ -621,50 +670,77 @@ TEST_F(gtestview, TopToolbar)
     m_topoolBar->setTitleBarTransparent(false);
     //        QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_topoolBar,Qt::LeftButton);
+
+    m_topoolBar->hide();
 }
 TEST_F(gtestview, LockWidget)
 {
     m_lockWidget=new LockWidget("","");
     m_lockWidget->show();
-    QTest::mousePress(m_lockWidget, Qt::LeftButton);
+    QTest::mousePress(m_lockWidget, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_lockWidget, Qt::LeftButton);
     QTest::mouseClick(m_lockWidget, Qt::LeftButton);
-    QTest::mouseMove(m_lockWidget, QPoint(50,160));
-    //        QTest::keyClick(m_lockWidget, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseMove(m_lockWidget, QPoint(20,20),500);
+    QTest::keyClick(m_lockWidget, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_lockWidget,Qt::LeftButton);
+
+    m_lockWidget->hide();
 }
 TEST_F(gtestview, ThumbnailWidget)
 {
     m_thumbnailWidget=new ThumbnailWidget(m_SVGPath,m_SVGPath);
     m_thumbnailWidget->show();
-    QTest::mousePress(m_thumbnailWidget, Qt::LeftButton);
+    QTest::mousePress(m_thumbnailWidget, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_thumbnailWidget, Qt::LeftButton);
     QTest::mouseClick(m_thumbnailWidget, Qt::LeftButton);
-    QTest::mouseMove(m_thumbnailWidget, QPoint(130,160));
-    //        QTest::keyClick(m_thumbnailWidget, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseMove(m_thumbnailWidget, QPoint(20,20),500);
+    QTest::keyClick(m_thumbnailWidget, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_thumbnailWidget,Qt::LeftButton);
+
+    m_thumbnailWidget->hide();
 }
 TEST_F(gtestview, NavigationWidget)
 {
     m_navigationWidget=new NavigationWidget();
     m_navigationWidget->show();
-    QTest::mousePress(m_navigationWidget, Qt::LeftButton);
+    QTest::mousePress(m_navigationWidget, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_navigationWidget, Qt::LeftButton);
     QTest::mouseClick(m_navigationWidget, Qt::LeftButton);
-    QTest::mouseMove(m_navigationWidget, QPoint(700,160));
-    //        QTest::keyClick(m_navigationWidget, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseMove(m_navigationWidget, QPoint(20,20),500);
+    QTest::keyClick(m_navigationWidget, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_navigationWidget,Qt::LeftButton);
+
+    m_navigationWidget->hide();
 }
 TEST_F(gtestview, ImageIconButton)
 {
     m_ImageIconButton1=new ImageIconButton();
     m_ImageIconButton1->setPropertyPic(m_SVGPath,QVariant(),m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
     m_ImageIconButton1->show();
+    m_ImageIconButton1->resize(50,50);
+    QTest::mousePress(m_ImageIconButton1, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
+    QTest::mouseRelease(m_ImageIconButton1, Qt::LeftButton);
+    QTest::mouseClick(m_ImageIconButton1, Qt::LeftButton);
+    QTest::mouseMove(m_ImageIconButton1, QPoint(20,20),500);
+    QTest::keyClick(m_ImageIconButton1, Qt::Key_Escape, Qt::ShiftModifier, 1000);
+    QTest::mouseDClick(m_ImageIconButton1,Qt::LeftButton);
+
     m_ImageIconButton2=new ImageIconButton(m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
     m_ImageIconButton2->setPropertyPic(m_SVGPath,QVariant(),m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
     m_ImageIconButton2->show();
     m_ImageIconButton2->setAutoChecked(false);
     m_ImageIconButton2->setTransparent(false);
+    m_ImageIconButton2->resize(50,50);
+
+    QTest::mousePress(m_ImageIconButton2, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
+    QTest::mouseRelease(m_ImageIconButton2, Qt::LeftButton);
+    QTest::mouseClick(m_ImageIconButton2, Qt::LeftButton);
+    QTest::mouseMove(m_ImageIconButton2, QPoint(20,20),500);
+    QTest::keyClick(m_ImageIconButton2, Qt::Key_Escape, Qt::ShiftModifier, 1000);
+    QTest::mouseDClick(m_ImageIconButton2,Qt::LeftButton);
+
+    m_ImageIconButton1->hide();
+    m_ImageIconButton2->hide();
 }
 TEST_F(gtestview, ImageInfoWidget)
 {
@@ -672,6 +748,8 @@ TEST_F(gtestview, ImageInfoWidget)
     m_ImageInfoWidget->setImagePath(m_JPGPath);
     m_ImageInfoWidget->onExpandChanged(false);
     m_ImageInfoWidget->contentHeight();
+
+    m_ImageInfoWidget->hide();
 }
 TEST_F(gtestview, ImageView)
 {
@@ -717,12 +795,18 @@ TEST_F(gtestview, ImageView)
     m_ImageView->centerOn(5,5);
     m_ImageView->setRenderer();
     m_ImageView->setScaleValue(qreal());
+
+
+    m_ImageView->hide();
 }
 TEST_F(gtestview, m_ScanPathsItem)
 {
     VolumeMonitor::instance();
     ScanPathsItem* m_ScanPathsItem=new ScanPathsItem(m_JPGPath);
     m_ScanPathsItem->show();
+
+    QTest::qWait(100);
+    m_ScanPathsItem->hide();
 }
 TEST_F(gtestview, dapp)
 {
@@ -874,13 +958,13 @@ TEST_F(gtestview, ExtensionPanel)
     m_extensionPanel->show();
     m_extensionPanel->setContent(new QWidget());
     m_extensionPanel->setContent(nullptr);
-
-    QTest::mousePress(m_extensionPanel, Qt::LeftButton);
-    QTest::mouseRelease(m_extensionPanel, Qt::LeftButton);
-    QTest::mouseClick(m_extensionPanel, Qt::LeftButton);
-    QTest::mouseMove(m_extensionPanel, QPoint(150,50));
-    //        QTest::keyClick(m_extensionPanel, Qt::Key_Escape, Qt::ShiftModifier, 200);
-    QTest::mouseDClick(m_extensionPanel,Qt::LeftButton);
+    m_extensionPanel->resize(200,200);
+    QTest::mousePress(m_extensionPanel, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+    QTest::mouseRelease(m_extensionPanel, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),500);
+    QTest::mouseClick(m_extensionPanel, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
+    QTest::mouseMove(m_extensionPanel, QPoint(50,100),500);
+    QTest::keyClick(m_extensionPanel, Qt::Key_Escape, Qt::ShiftModifier, 500);
+    QTest::mouseDClick(m_extensionPanel,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
     m_extensionPanel->setContent(new QWidget());
     m_extensionPanel->setContent(nullptr);
     QTest::mousePress(m_extensionPanel, Qt::LeftButton);
@@ -889,6 +973,9 @@ TEST_F(gtestview, ExtensionPanel)
     QTest::mouseMove(m_extensionPanel, QPoint(50,50));
     //        QTest::keyClick(m_extensionPanel, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_extensionPanel,Qt::LeftButton);
+
+
+    m_extensionPanel->hide();
 }
 TEST_F(gtestview, Toast)
 {
@@ -953,31 +1040,7 @@ TEST_F(gtestview, PrintHelper)
     }
 }
 
-TEST_F(gtestview, ImageButton)
-{
-    ImageButton *button=new ImageButton();
 
-    button->setDisablePic(QApplication::applicationDirPath()+"/png.png");
-    button->setDisabled(false);
-    button->setFixedSize(200,200);
-    button->setToolTip("test");
-    button->getDisablePic();
-    button->show();
-    QTest::qWait(100);
-    QTest::mousePress(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
-    QTest::mouseRelease(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
-    QTest::mouseClick(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
-    QTest::mouseMove(button, QPoint(20,20),500);
-    QTest::keyClick(button, Qt::Key_Escape, Qt::ShiftModifier, 1000);
-    QTest::mouseDClick(button,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),500);
-
-    if(CommandLine::instance()->getMainWindow())
-    {
-        QTest::mousePress(CommandLine::instance()->getMainWindow(), Qt::LeftButton,Qt::NoModifier,QPoint(300,50),100);
-        QTest::mouseRelease(CommandLine::instance()->getMainWindow(), Qt::LeftButton,Qt::NoModifier,QPoint(300,50),100);
-    }
-
-}
 TEST_F(gtestview, ElidedLabel)
 {
     if(CommandLine::instance()->getMainWindow())

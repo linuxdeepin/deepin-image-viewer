@@ -58,6 +58,8 @@
 #include <unionimage.h>
 //#include <DLogManager>
 #include <DApplicationSettings>
+
+#include "testapi.h"
 using namespace UnionImage_NameSpace;
 using namespace utils::base;
 using namespace utils::image;
@@ -67,6 +69,7 @@ using namespace utils::image;
 #define JPEGPATH "/usr/share/wallpapers/deepin/abc-123.jpg"
 #define SVGPATH "/usr/share/deepin-image-viewer/icons/logo/deepin-image-viewer.svg"
 #define DDSPATH "/data/home/lmh/0916/tu/DDS.dds"
+
 
 
 class gtestview : public ::testing::Test

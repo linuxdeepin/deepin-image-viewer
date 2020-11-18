@@ -12,5 +12,7 @@
         <file>dds.dds</file>
         <file>tga.tga</file>
         <file>errorPic.icns</file>
+        <file>svg1.svg</file>
+        <file>svg2.svg</file>
     </qresource>
 </RCC>

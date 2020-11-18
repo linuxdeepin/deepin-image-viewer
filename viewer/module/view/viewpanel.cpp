@@ -2063,7 +2063,7 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::sigStackChange, this, &ViewPanel::slotCurrentStackWidget);
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
-    connect(m_viewB, SIGNAL(sigShowImage(QImage)), m_viewB, SLOT(showFileImage(QImage)));
+//    connect(m_viewB, SIGNAL(sigShowImage(QImage)), m_viewB, SLOT(showFileImage(QImage)));
     //heyi  test
     connect(dApp, &Application::endApplication, m_viewB, &ImageView::endApp);
 

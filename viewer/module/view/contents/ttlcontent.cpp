@@ -25,7 +25,7 @@
 #include "controller/configsetter.h"
 #include "widgets/elidedlabel.h"
 #include "controller/signalmanager.h"
-
+#include "accessibility/ac-desktop-define.h"
 #include <QTimer>
 #include <QFileInfo>
 #include <QHBoxLayout>
@@ -45,6 +45,7 @@ const int LEFT_SPACE = 20;
 TTLContent::TTLContent(bool inDB,
                        QWidget *parent) : QLbtoDLabel(parent)
 {
+    setObjectName(TTL_CONTENTS);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     m_windowWidth = std::max(this->window()->width(),
                              ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
