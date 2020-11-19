@@ -136,6 +136,7 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
             }
         },Qt::UniqueConnection);
     });
+    m_startTimer->setSingleShot(true);
     m_startTimer->start(dApp->m_timer);
 
     m_timer->setSingleShot(200);
