@@ -37,6 +37,7 @@
 #include "dthememanager.h"
 #include "dgraphicsgloweffect.h"
 #include <QPropertyAnimation>
+
 DWIDGET_BEGIN_NAMESPACE
 
 class ToastPrivate;

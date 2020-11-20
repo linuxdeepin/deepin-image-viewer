@@ -80,7 +80,7 @@ const unsigned int IMAGE_TYPE_TIFF = 0x49492a00;
 const unsigned int IMAGE_TYPE_BMP = 0x424d;
 }  // namespace
 static bool bMove = false;
-char *getImageType(QString filepath)
+char *TTBContent::getImageType(QString filepath)
 {
     char *ret = nullptr;
     QFile file(filepath);
@@ -127,7 +127,8 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     this->setObjectName(IMAGE_LIST_WIDGET);
     setMouseTracking(true);
     //lmh0914
-    QTimer::singleShot(dApp->m_timer,[=]{
+    m_startTimer=new QTimer(this);
+    connect(m_startTimer,&QTimer::timeout,this,[=]{
         connect(dApp,&Application::sigMouseRelease,this,[=]{
             qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
             if(currentTime-100 > m_lastReleaseTime){
@@ -137,6 +138,8 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
             }
         });
     });
+    m_startTimer->setSingleShot(true);
+    m_startTimer->start(dApp->m_timer);
     m_timer->setSingleShot(200);
 }
 
@@ -649,8 +652,9 @@ void ImageItem::paintEvent(QPaintEvent *event)
 TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos,bool flag, QWidget *parent)
     : QLbtoDLabel(parent)
 {
-#ifdef OPENACCESSIBLE
     setObjectName(TTBCONTENT_WIDGET);
+#ifdef OPENACCESSIBLE
+
     setAccessibleName(TTBCONTENT_WIDGET);
 #endif
     m_NotImageViewFlag = flag;
@@ -1794,7 +1798,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
 
         m_imgList->update();
         m_imgListView->update();
-        m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
+//        m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
     }
     m_imgInfos_size = m_imgInfos.size();
 }
@@ -1886,7 +1890,7 @@ void TTBContent::resizeEvent(QResizeEvent *event)
         labelList.at(j)->setContentsMargins(1, 5, 1, 5);
         labelList.at(j)->setIndexNow(m_nowIndex);
     }
-    if (labelList.size() > 0) {
+    if (labelList.size() > 0 &&labelList.size()>m_nowIndex) {
         labelList.at(m_nowIndex)->setFixedSize(QSize(58, 58));
         labelList.at(m_nowIndex)->resize(QSize(58, 58));
         labelList.at(m_nowIndex)->setContentsMargins(0, 0, 0, 0);

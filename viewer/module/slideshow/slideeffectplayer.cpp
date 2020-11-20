@@ -412,6 +412,14 @@ void SlideEffectPlayer::cacheNext()
         emit dApp->signalM->sigGetLastThumbnailPath(m_LastThumbnailPath);
     }
     QString path = m_paths[current];
+    //修复打开幻灯片第一张后，点击上一张到文件的最后一张，然后再点击开始后退出幻灯片没有动态加载到新的缩略图问题
+    bool b= true;
+    emit dApp->signalM->sigisThumbnailsContainPath(path,b);
+    if(!b)
+    {
+        emit dApp->signalM->sigLoadfrontSlideshow();
+        emit dApp->signalM->sigGetLastThumbnailPath(m_LastThumbnailPath);
+    }
     //Load the following pictures and thumbnails when playing the last thumbnail
     if(path == m_LastThumbnailPath)
     {
@@ -535,6 +543,7 @@ void SlideEffectPlayer::cacheNextBackUp()
 void SlideEffectPlayer::cachePrevious()
 {
     qDebug() << "SlideEffectPlayer::cachePrevious()";
+    if(bfirstrun && m_current == 0) return;
     int current = m_current;
     current--;
     //Load Tail thumbnails when playing the first picture

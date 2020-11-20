@@ -138,6 +138,7 @@ QString ViewPanel::moduleName()
 void ViewPanel::initConnect()
 {
     //heyi  test
+    connect(dApp->signalM, &SignalManager::sigisThumbnailsContainPath, this, &ViewPanel::slotThumbnailContainPath);
     connect(dApp->signalM, &SignalManager::sigGetLastThumbnailPath, this, &ViewPanel::slotGetLastThumbnailPath);
     connect(dApp->signalM, &SignalManager::sigGetFirstThumbnailpath, this, &ViewPanel::slotGetFirstThumbnailPath);
     connect(dApp->signalM, &SignalManager::sigLoadfrontSlideshow, this, &ViewPanel::SlotLoadFrontThumbnailsAndClearTail);
@@ -897,8 +898,8 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
         m_infos.append(info);
         QFileInfo file(info.filePath);
         QString str = file.suffix();
-        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
-            m_infoslideshow.append(info);
+//        if (utils::image::supportedImageFormats().contains("*." + str, Qt::CaseInsensitive))
+//            m_infoslideshow.append(info);
     }
     QStringList pathlist;
     emit dApp->signalM->sigLoadHeadThunbnail(m_infos);
@@ -919,6 +920,11 @@ void ViewPanel::slotGetLastThumbnailPath(QString &path)
 {
     if(m_infos.size()>1)
     path = m_infos[m_infos.size() - 1].filePath;
+}
+
+void ViewPanel::slotThumbnailContainPath(QString path, bool &b)
+{
+   b = imageIndex(path)==-1?false:true;
 }
 
 void ViewPanel::slotLoadTailThumbnailsAndClearFront()
@@ -1899,6 +1905,16 @@ bool ViewPanel::removeCurrentImage()
     // 在删除当前图片之前将图片列表初始化完成
     //eatImageDirIterator();
 #endif
+
+    //lmh2020/11/18解决bug 54962
+    int index=this->width()/36;
+    if(m_infos[m_current].filePath==m_infosAll[m_infosAll.size()-1].filePath && m_infos.size()<=index){
+        dApp->signalM->sendLoadSignal(true);
+    }
+    else if(m_infos.size()<=index){
+        dApp->signalM->sendLoadSignal(false);
+    }
+
     DBImgInfo imginfo = m_infos[m_current];
     m_infos.removeAt(m_current);
     m_infosAll.removeOne(imginfo);
@@ -2063,7 +2079,7 @@ void ViewPanel::initViewContent()
     connect(m_viewB, &ImageView::sigStackChange, this, &ViewPanel::slotCurrentStackWidget);
     connect(m_viewB, &ImageView::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_viewB, &ImageView::nextRequested, this, &ViewPanel::showNext);
-    connect(m_viewB, SIGNAL(sigShowImage(QImage)), m_viewB, SLOT(showFileImage(QImage)));
+//    connect(m_viewB, SIGNAL(sigShowImage(QImage)), m_viewB, SLOT(showFileImage(QImage)));
     //heyi  test
     connect(dApp, &Application::endApplication, m_viewB, &ImageView::endApp);
 

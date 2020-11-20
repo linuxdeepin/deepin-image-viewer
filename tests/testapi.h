@@ -1,5 +1,6 @@
 #ifndef TESTAPI_H
 #define TESTAPI_H
+
 #include <QString>
 #include <QProcess>
 #include <QApplication>
@@ -8,20 +9,13 @@
 #include <QUrl>
 #include <QDragEnterEvent>
 #include <QTest>
-QString linuxCmd(QString strCmd)
+
+class TestApi
 {
+public:
+    TestApi();
 
-    QProcess p;
-    p.start("bash", QStringList() <<"-c" << strCmd);
-    p.waitForFinished();
-    QString strResult = p.readAllStandardOutput();
-    QString strResult1 = p.readAllStandardError();
-
-    return strResult1;
-
-}
-
-bool drogPathtoWidget(QWidget *panel,const QString& path)
+static bool drogPathtoWidget(QWidget *panel,const QString& path)
 {
     bool iRet=false;
     if(panel){
@@ -45,7 +39,7 @@ bool drogPathtoWidget(QWidget *panel,const QString& path)
     return iRet;
 
 }
-
+};
 #endif // TESTAPI_H
 
 

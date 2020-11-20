@@ -76,7 +76,7 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
     return last_action;
 }
 */
-void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
+DDialog* PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     QList<QImage> imgs;
     QImage img;
@@ -87,8 +87,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             imgs << img;
         }
     }
-    DPrintPreviewDialog printDialog2(nullptr);
-    QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
+    DPrintPreviewDialog *printDialog2 =new DPrintPreviewDialog(parent);
+    QObject::connect(printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
         QPainter painter(_printer);
         for (QImage img : imgs) {
             if (!img.isNull()) {
@@ -114,58 +114,60 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         }
         painter.end();
     });
-    printDialog2.exec();
+//    printDialog2->exec();
+    return static_cast<DDialog *>(printDialog2);
+
 }
 
-QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize)
-{
-    PrintOptionsPage::ScaleMode scaleMode = optionsPage->scaleMode();
-    QSize size(img.size());
+//QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize)
+//{
+//    PrintOptionsPage::ScaleMode scaleMode = optionsPage->scaleMode();
+//    QSize size(img.size());
 
-    if (scaleMode == PrintOptionsPage::ScaleToPage) {
-        size.scale(viewportSize, Qt::KeepAspectRatio);
-    } else if (scaleMode == PrintOptionsPage::ScaleToExpanding) {
-        size.scale(viewportSize, Qt::KeepAspectRatioByExpanding);
-    } else if (scaleMode == PrintOptionsPage::ScaleToCustomSize) {
-        double imageWidth = optionsPage->scaleWidth();
-        double imageHeight = optionsPage->scaleHeight();
-        size.setWidth(int(imageWidth * resolution));
-        size.setHeight(int(imageHeight * resolution));
-    } else {
-        const double inchesPerMeter = 100.0 / 2.54;
-        int dpmX = img.dotsPerMeterX();
-        int dpmY = img.dotsPerMeterY();
-        if (dpmX > 0 && dpmY > 0) {
-            double wImg = double(size.width()) / double(dpmX) * inchesPerMeter;
-            double hImg = double(size.height()) / double(dpmY) * inchesPerMeter;
-            size.setWidth(int(wImg * resolution));
-            size.setHeight(int(hImg * resolution));
-        }
-    }
-    qDebug() << "adjustSize:" << size <<"    File:" << __FILE__ << "    Line:" << __LINE__;
-    return size;
-}
+//    if (scaleMode == PrintOptionsPage::ScaleToPage) {
+//        size.scale(viewportSize, Qt::KeepAspectRatio);
+//    } else if (scaleMode == PrintOptionsPage::ScaleToExpanding) {
+//        size.scale(viewportSize, Qt::KeepAspectRatioByExpanding);
+//    } else if (scaleMode == PrintOptionsPage::ScaleToCustomSize) {
+//        double imageWidth = optionsPage->scaleWidth();
+//        double imageHeight = optionsPage->scaleHeight();
+//        size.setWidth(int(imageWidth * resolution));
+//        size.setHeight(int(imageHeight * resolution));
+//    } else {
+//        const double inchesPerMeter = 100.0 / 2.54;
+//        int dpmX = img.dotsPerMeterX();
+//        int dpmY = img.dotsPerMeterY();
+//        if (dpmX > 0 && dpmY > 0) {
+//            double wImg = double(size.width()) / double(dpmX) * inchesPerMeter;
+//            double hImg = double(size.height()) / double(dpmY) * inchesPerMeter;
+//            size.setWidth(int(wImg * resolution));
+//            size.setHeight(int(hImg * resolution));
+//        }
+//    }
+//    qDebug() << "adjustSize:" << size <<"    File:" << __FILE__ << "    Line:" << __LINE__;
+//    return size;
+//}
 
-QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &imageSize, const QSize &viewportSize)
-{
-    Qt::Alignment alignment = optionsPage->alignment();
-    int posX, posY;
+//QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &imageSize, const QSize &viewportSize)
+//{
+//    Qt::Alignment alignment = optionsPage->alignment();
+//    int posX, posY;
 
-    if (alignment & Qt::AlignLeft) {
-        posX = 0;
-    } else if (alignment & Qt::AlignHCenter) {
-        posX = (viewportSize.width() - imageSize.width()) / 2;
-    } else {
-        posX = viewportSize.width() - imageSize.width();
-    }
+//    if (alignment & Qt::AlignLeft) {
+//        posX = 0;
+//    } else if (alignment & Qt::AlignHCenter) {
+//        posX = (viewportSize.width() - imageSize.width()) / 2;
+//    } else {
+//        posX = viewportSize.width() - imageSize.width();
+//    }
 
-    if (alignment & Qt::AlignTop) {
-        posY = 0;
-    } else if (alignment & Qt::AlignVCenter) {
-        posY = (viewportSize.height() - imageSize.height()) / 2;
-    } else {
-        posY = viewportSize.height() - imageSize.height();
-    }
-    qDebug() << "adjustPosition X:" << posX << "Y:" << posY <<"    File:" << __FILE__ << "    Line:" << __LINE__;
-    return QPoint(posX, posY);
-}
+//    if (alignment & Qt::AlignTop) {
+//        posY = 0;
+//    } else if (alignment & Qt::AlignVCenter) {
+//        posY = (viewportSize.height() - imageSize.height()) / 2;
+//    } else {
+//        posY = viewportSize.height() - imageSize.height();
+//    }
+//    qDebug() << "adjustPosition X:" << posX << "Y:" << posY <<"    File:" << __FILE__ << "    Line:" << __LINE__;
+//    return QPoint(posX, posY);
+//}

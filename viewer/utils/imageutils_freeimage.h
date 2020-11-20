@@ -101,36 +101,36 @@ QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
     return mdMap;
 }
 
-const QDateTime getDateTime(const QString &path, bool createTime = true)
-{
-    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
-    auto datas = getMetaData(FIMD_EXIF_EXIF, dib);
-    if (datas.isEmpty()) {
-        QFileInfo info(path);
-        if (createTime) {
-            return info.created();
-        } else {
-            return info.lastModified();
-        }
-    }
+//const QDateTime getDateTime(const QString &path, bool createTime = true)
+//{
+//    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
+//    auto datas = getMetaData(FIMD_EXIF_EXIF, dib);
+//    if (datas.isEmpty()) {
+//        QFileInfo info(path);
+//        if (createTime) {
+//            return info.created();
+//        } else {
+//            return info.lastModified();
+//        }
+//    }
 
-    if (createTime) {
-        return utils::base::stringToDateTime(datas["DateTimeOriginal"]);
-    } else {
-        return utils::base::stringToDateTime(datas["DateTimeDigitized"]);
-    }
-}
+//    if (createTime) {
+//        return utils::base::stringToDateTime(datas["DateTimeOriginal"]);
+//    } else {
+//        return utils::base::stringToDateTime(datas["DateTimeDigitized"]);
+//    }
+//}
 
-const QString getOrientation(const QString &path)
-{
-    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
-    auto datas = getMetaData(FIMD_EXIF_MAIN, dib);
-    if (datas.isEmpty()) {
-        return QString();
-    }
+//const QString getOrientation(const QString &path)
+//{
+//    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
+//    auto datas = getMetaData(FIMD_EXIF_MAIN, dib);
+//    if (datas.isEmpty()) {
+//        return QString();
+//    }
 
-    return datas["Orientation"];
-}
+//    return datas["Orientation"];
+//}
 
 /*!
  * \brief getAllMetaData
@@ -191,238 +191,195 @@ QMap<QString, QString> getAllMetaData(const QString &path)
     return admMap;
 }
 
-FIBITMAP *makeThumbnail(const QString &path, int size)
-{
-    const QByteArray pb = path.toUtf8();
-    const char *pc = pb.data();
-    FIBITMAP *dib = NULL;
-    int flags = 0;              // default load flag
+//FIBITMAP *makeThumbnail(const QString &path, int size)
+//{
+//    const QByteArray pb = path.toUtf8();
+//    const char *pc = pb.data();
+//    FIBITMAP *dib = NULL;
+//    int flags = 0;              // default load flag
 
-    FREE_IMAGE_FORMAT fif = fFormat(path);
-    if (fif == FIF_UNKNOWN) {
-        return NULL;
-    }
+//    FREE_IMAGE_FORMAT fif = fFormat(path);
+//    if (fif == FIF_UNKNOWN) {
+//        return NULL;
+//    }
 
-    // for JPEG images, we can speedup the loading part
-    // Using LibJPEG downsampling feature while loading the image...
-    if (fif == FIF_JPEG) {
-        flags = JPEG_EXIFROTATE;
-        flags |= size << 16;
-        // Load the dib
-        dib = FreeImage_Load(fif, pc, flags);
-        if (! dib) return NULL;
-    } else {
-        // Any cases other than the JPEG case: load the dib ...
-        if (fif == FIF_RAW || fif == FIF_TIFF) {
-            // ... except for RAW images, try to load the embedded JPEG preview
-            // or default to RGB 24-bit ...
-            flags = RAW_PREVIEW;
-            dib = FreeImage_Load(fif, pc, flags);
-            if (!dib) return NULL;
-        } else {
-            // 某些损坏的图片� �式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
-            // 除了上面�� 种可能�� 速缩略图读取的方式，都返回空
-            return NULL;
-        }
-    }
+//    // for JPEG images, we can speedup the loading part
+//    // Using LibJPEG downsampling feature while loading the image...
+//    if (fif == FIF_JPEG) {
+//        flags = JPEG_EXIFROTATE;
+//        flags |= size << 16;
+//        // Load the dib
+//        dib = FreeImage_Load(fif, pc, flags);
+//        if (! dib) return NULL;
+//    } else {
+//        // Any cases other than the JPEG case: load the dib ...
+//        if (fif == FIF_RAW || fif == FIF_TIFF) {
+//            // ... except for RAW images, try to load the embedded JPEG preview
+//            // or default to RGB 24-bit ...
+//            flags = RAW_PREVIEW;
+//            dib = FreeImage_Load(fif, pc, flags);
+//            if (!dib) return NULL;
+//        } else {
+//            // 某些损坏的图片� �式会识别错误，freeimage在load的时候会崩溃，暂时没法解决
+//            // 除了上面�� 种可能�� 速缩略图读取的方式，都返回空
+//            return NULL;
+//        }
+//    }
 
-    // create the requested thumbnail
-    FIBITMAP *thumbnail = FreeImage_MakeThumbnail(dib, size, TRUE);
-    FreeImage_Unload(dib);
-    return thumbnail;
-}
+//    // create the requested thumbnail
+//    FIBITMAP *thumbnail = FreeImage_MakeThumbnail(dib, size, TRUE);
+//    FreeImage_Unload(dib);
+//    return thumbnail;
+//}
 
-bool isSupportsReading(const QString &path)
-{
-    const FREE_IMAGE_FORMAT fif = fFormat(path);
+//bool isSupportsReading(const QString &path)
+//{
+//    const FREE_IMAGE_FORMAT fif = fFormat(path);
 
-    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
-}
+//    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif);
+//}
 
-bool isSupportsWriting(const QString &path)
-{
-    FREE_IMAGE_FORMAT fif = fFormat(path);
+//bool isSupportsWriting(const QString &path)
+//{
+//    FREE_IMAGE_FORMAT fif = fFormat(path);
 
-    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
-}
+//    return (fif != FIF_UNKNOWN) && FreeImage_FIFSupportsWriting(fif);
+//}
 
-bool canSave(FIBITMAP *dib, const QString &path)
-{
-    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    // Try to guess the file format from the file extension
-    fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
-    if (fif != FIF_UNKNOWN) {
-        // Check that the dib can be saved in this format
-        BOOL bCanSave;
-        FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
-        if (image_type == FIT_BITMAP) {
-            // standard bitmap type
-            // check that the plugin has sufficient writing
-            // and export capabilities ...
-            WORD bpp = FreeImage_GetBPP(dib);
-            bCanSave = (FreeImage_FIFSupportsWriting(fif) &&
-                        FreeImage_FIFSupportsExportBPP(fif, bpp));
-        } else {
-            // special bitmap type
-            // check that the plugin has sufficient export capabilities
-            bCanSave = FreeImage_FIFSupportsExportType(fif, image_type);
-        }
-        return bCanSave;
-    }
-    return false;
-}
+//bool canSave(FIBITMAP *dib, const QString &path)
+//{
+//    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+//    // Try to guess the file format from the file extension
+//    fif = FreeImage_GetFIFFromFilename(path.toUtf8().data());
+//    if (fif != FIF_UNKNOWN) {
+//        // Check that the dib can be saved in this format
+//        BOOL bCanSave;
+//        FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
+//        if (image_type == FIT_BITMAP) {
+//            // standard bitmap type
+//            // check that the plugin has sufficient writing
+//            // and export capabilities ...
+//            WORD bpp = FreeImage_GetBPP(dib);
+//            bCanSave = (FreeImage_FIFSupportsWriting(fif) &&
+//                        FreeImage_FIFSupportsExportBPP(fif, bpp));
+//        } else {
+//            // special bitmap type
+//            // check that the plugin has sufficient export capabilities
+//            bCanSave = FreeImage_FIFSupportsExportType(fif, image_type);
+//        }
+//        return bCanSave;
+//    }
+//    return false;
+//}
 
-bool canSave(const QString &path)
-{
-    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
-    bool v = canSave(dib, path);
-    FreeImage_Unload(dib);
-    return v;
-}
+//bool canSave(const QString &path)
+//{
+//    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
+//    bool v = canSave(dib, path);
+//    FreeImage_Unload(dib);
+//    return v;
+//}
 
-bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &path, int flag = 0)
-{
-    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-    BOOL bSuccess = FALSE;
-    const QByteArray ba = path.toUtf8();
-    const char *pc = ba.data();
-    // Try to guess the file format from the file extension
-    fif = FreeImage_GetFIFFromFilename(pc);
-    if (fif != FIF_UNKNOWN && canSave(dib, path)) {
-        bSuccess = FreeImage_Save(fif, dib, pc, flag);
-    }
+//bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &path, int flag = 0)
+//{
+//    FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+//    BOOL bSuccess = FALSE;
+//    const QByteArray ba = path.toUtf8();
+//    const char *pc = ba.data();
+//    // Try to guess the file format from the file extension
+//    fif = FreeImage_GetFIFFromFilename(pc);
+//    if (fif != FIF_UNKNOWN && canSave(dib, path)) {
+//        bSuccess = FreeImage_Save(fif, dib, pc, flag);
+//    }
 
-    return (bSuccess == TRUE) ? true : false;
-}
+//    return (bSuccess == TRUE) ? true : false;
+//}
 
-QImage noneQImage()
-{
-    static QImage none(0, 0, QImage::Format_Invalid);
-    return none;
-}
+//QImage noneQImage()
+//{
+//    static QImage none(0, 0, QImage::Format_Invalid);
+//    return none;
+//}
 
-bool isNoneQImage(const QImage &qi)
-{
-    return qi == noneQImage();
-}
+//bool isNoneQImage(const QImage &qi)
+//{
+//    return qi == noneQImage();
+//}
 
-QImage FIBitmapToQImage(FIBITMAP *dib)
-{
-    if (!dib || FreeImage_GetImageType(dib) != FIT_BITMAP)
-        return noneQImage();
-    int width  = FreeImage_GetWidth(dib);
-    int height = FreeImage_GetHeight(dib);
+//QImage FIBitmapToQImage(FIBITMAP *dib)
+//{
+//    if (!dib || FreeImage_GetImageType(dib) != FIT_BITMAP)
+//        return noneQImage();
+//    int width  = FreeImage_GetWidth(dib);
+//    int height = FreeImage_GetHeight(dib);
 
-    switch (FreeImage_GetBPP(dib)) {
-    case 1: {
-        QImage result(width, height, QImage::Format_Mono);
-        FreeImage_ConvertToRawBits(
-            result.scanLine(0), dib, result.bytesPerLine(), 1, 0, 0, 0, true
-        );
-        return result;
-    }
-    case 4: { /* NOTE: QImage do not support 4-bit, convert it to 8-bit  */
-        QImage result(width, height, QImage::Format_Indexed8);
-        FreeImage_ConvertToRawBits(
-            result.scanLine(0), dib, result.bytesPerLine(), 8, 0, 0, 0, true
-        );
-        return result;
-    }
-    case 8: {
-        QImage result(width, height, QImage::Format_Indexed8);
-        FreeImage_ConvertToRawBits(
-            result.scanLine(0), dib, result.bytesPerLine(), 8, 0, 0, 0, true
-        );
-        return result;
-    }
-    case 16:
-        if ( // 5-5-5
-            (FreeImage_GetRedMask(dib)   == FI16_555_RED_MASK) &&
-            (FreeImage_GetGreenMask(dib) == FI16_555_GREEN_MASK) &&
-            (FreeImage_GetBlueMask(dib)  == FI16_555_BLUE_MASK)) {
-            QImage result(width, height, QImage::Format_RGB555);
-            FreeImage_ConvertToRawBits(
-                result.scanLine(0), dib, result.bytesPerLine(), 16,
-                FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK,
-                true
-            );
-            return result;
-        } else { // 5-6-5
-            QImage result(width, height, QImage::Format_RGB16);
-            FreeImage_ConvertToRawBits(
-                result.scanLine(0), dib, result.bytesPerLine(), 16,
-                FI16_565_RED_MASK, FI16_565_GREEN_MASK, FI16_565_BLUE_MASK,
-                true
-            );
-            return result;
-        }
-    case 24: {
-        QImage result(width, height, QImage::Format_RGB32);
-        FreeImage_ConvertToRawBits(
-            result.scanLine(0), dib, result.bytesPerLine(), 32,
-            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-            true
-        );
-        return result;
-    }
-    case 32: {
-        QImage result(width, height, QImage::Format_ARGB32);
-        FreeImage_ConvertToRawBits(
-            result.scanLine(0), dib, result.bytesPerLine(), 32,
-            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-            true
-        );
-        return result;
-    }
-    default:
-        break;
-    }
-    return noneQImage();
-}
-/**
- * @brief openGiffromPath
- * @param[in]  path
- * @return void *
- * @author LMH
- * @time 2020/05/08
- * 用freeimage打开Gif图片
- */
-void *openGiffromPath(const QString &path)
-{
-    FREE_IMAGE_FORMAT fif = FIF_GIF;
-    FIBITMAP *fiBmp = FreeImage_Load(fif, path.toStdString().c_str(), GIF_DEFAULT);
-    Q_UNUSED(fiBmp);
-    FIMULTIBITMAP *pGIF = FreeImage_OpenMultiBitmap(fif, path.toStdString().c_str(), 0, 1, 0, GIF_PLAYBACK);
-    return pGIF;
-}
-/**
- * @brief getGifImageCount
- * @param[in]  pGIF
- * @return int
- * @author LMH
- * @time 2020/05/08
- * 返回gif一共的帧数
- */
-int getGifImageCount(void *pGIF)
-{
-    return FreeImage_GetPageCount((FIMULTIBITMAP *)pGIF);
-}
-/**
- * @brief getGifImage
- * @param[in]  index
- * @param[in]  pGIF
- * @return QImage
- * @author LMH
- * @time 2020/05/08
- * 返回gif某一帧数的图片
- */
-QImage getGifImage(int index, void *pGIF)
-{
-    FIBITMAP *tmpMap = FreeImage_LockPage((FIMULTIBITMAP *)pGIF, index);
-    QImage image = freeimage::FIBitmapToQImage(tmpMap);
-    FreeImage_UnlockPage((FIMULTIBITMAP *)pGIF, tmpMap, 1);
-    return image;
-}
+//    switch (FreeImage_GetBPP(dib)) {
+//    case 1: {
+//        QImage result(width, height, QImage::Format_Mono);
+//        FreeImage_ConvertToRawBits(
+//            result.scanLine(0), dib, result.bytesPerLine(), 1, 0, 0, 0, true
+//        );
+//        return result;
+//    }
+//    case 4: { /* NOTE: QImage do not support 4-bit, convert it to 8-bit  */
+//        QImage result(width, height, QImage::Format_Indexed8);
+//        FreeImage_ConvertToRawBits(
+//            result.scanLine(0), dib, result.bytesPerLine(), 8, 0, 0, 0, true
+//        );
+//        return result;
+//    }
+//    case 8: {
+//        QImage result(width, height, QImage::Format_Indexed8);
+//        FreeImage_ConvertToRawBits(
+//            result.scanLine(0), dib, result.bytesPerLine(), 8, 0, 0, 0, true
+//        );
+//        return result;
+//    }
+//    case 16:
+//        if ( // 5-5-5
+//            (FreeImage_GetRedMask(dib)   == FI16_555_RED_MASK) &&
+//            (FreeImage_GetGreenMask(dib) == FI16_555_GREEN_MASK) &&
+//            (FreeImage_GetBlueMask(dib)  == FI16_555_BLUE_MASK)) {
+//            QImage result(width, height, QImage::Format_RGB555);
+//            FreeImage_ConvertToRawBits(
+//                result.scanLine(0), dib, result.bytesPerLine(), 16,
+//                FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK,
+//                true
+//            );
+//            return result;
+//        } else { // 5-6-5
+//            QImage result(width, height, QImage::Format_RGB16);
+//            FreeImage_ConvertToRawBits(
+//                result.scanLine(0), dib, result.bytesPerLine(), 16,
+//                FI16_565_RED_MASK, FI16_565_GREEN_MASK, FI16_565_BLUE_MASK,
+//                true
+//            );
+//            return result;
+//        }
+//    case 24: {
+//        QImage result(width, height, QImage::Format_RGB32);
+//        FreeImage_ConvertToRawBits(
+//            result.scanLine(0), dib, result.bytesPerLine(), 32,
+//            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+//            true
+//        );
+//        return result;
+//    }
+//    case 32: {
+//        QImage result(width, height, QImage::Format_ARGB32);
+//        FreeImage_ConvertToRawBits(
+//            result.scanLine(0), dib, result.bytesPerLine(), 32,
+//            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+//            true
+//        );
+//        return result;
+//    }
+//    default:
+//        break;
+//    }
+//    return noneQImage();
+//}
+
 }  // namespace freeimage
 
 }  // namespace image

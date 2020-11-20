@@ -41,6 +41,10 @@ public:
     double scaleHeight();
     Qt::Alignment alignment();
 
+    QRadioButton* getnoScaleBtn();
+    QRadioButton* getfitToImageBtn();
+    QRadioButton* getfitToPageBtn();
+    QRadioButton* getscaleBtn();
 signals:
     void valueChanged();
 

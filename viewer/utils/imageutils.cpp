@@ -577,7 +577,6 @@ QMap<QString, QString> thumbnailAttribute(const QUrl  &url)
             set.insert("Thumb::Image::Width", QString::number(reader.size().width()));
             set.insert("Thumb::Image::Height", QString::number(reader.size().height()));
         }
-        return set;
     } else {
         //TODO for other's scheme
     }
@@ -765,18 +764,7 @@ QStringList supportedImageFormats()
 }
 
 
-void *openGiffromPath(const QString &path)
-{
-    return freeimage::openGiffromPath(path);
-}
-int getGifImageCount(void *pGIF)
-{
-    return freeimage::getGifImageCount(pGIF);
-}
-QImage getGifImage(int index, void *pGIF)
-{
-    return freeimage::getGifImage(index, pGIF);
-}
+
 
 bool imageSupportWallPaper(const QString &path)
 {

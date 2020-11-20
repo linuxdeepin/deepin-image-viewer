@@ -203,6 +203,7 @@ public:
     void toolbarSigConnection();
 
 
+    char *getImageType(QString filepath);
 signals:
     void clicked();
 
@@ -496,6 +497,7 @@ private:
     bool m_bthreadMutex=false;
     int m_maxTouchPoints=0;
     qint64 m_lastReleaseTime{0};
+    QTimer *m_startTimer{nullptr};
 };
 
 

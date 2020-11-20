@@ -5,7 +5,7 @@
 #include <QRadioButton>
 #include <QPushButton>
 #include <QDebug>
-
+#include "accessibility/ac-desktop-define.h"
 DWIDGET_USE_NAMESPACE
 typedef DToolButton QTBToDToolButton;
 typedef DGroupBox QGBToDGroupBox;
@@ -15,9 +15,14 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
       m_settings("deepin", "print-image-option")
 {
     m_noScaleBtn = new QRadioButton(tr("No scaling"));
+    m_noScaleBtn->setObjectName(NO_SCALE_RADIOBUTTON);
     m_fitToImageBtn = new QRadioButton(tr("Fit page to image"));
+    m_fitToImageBtn->setObjectName(FITTOIMAGE_RADIOBUTTON);
     m_fitToPageBtn = new QRadioButton(tr("Fit image to page"));
+    m_fitToPageBtn->setObjectName(FITTOPAGE_RADIOBUTTON);
     m_scaleBtn = new QRadioButton(tr("Scale to:"));
+    m_scaleBtn->setObjectName(SCALE_RADIOBUTTON);
+
     m_printWidth = new QDSBToDDoubleSpinBox;
     m_printHeight = new QDSBToDDoubleSpinBox;
     m_printUnit = new QCBToDComboBox;
@@ -201,6 +206,27 @@ Qt::Alignment PrintOptionsPage::alignment()
 {
     return Qt::Alignment(m_posBtnGroup->checkedId());
 }
+
+QRadioButton *PrintOptionsPage::getnoScaleBtn()
+{
+    return m_noScaleBtn;
+}
+
+QRadioButton *PrintOptionsPage::getfitToImageBtn()
+{
+    return m_fitToImageBtn;
+}
+
+QRadioButton *PrintOptionsPage::getfitToPageBtn()
+{
+    return m_fitToPageBtn;
+}
+
+QRadioButton *PrintOptionsPage::getscaleBtn()
+{
+    return m_scaleBtn;
+}
+
 
 double PrintOptionsPage::unitToInches(PrintOptionsPage::Unit unit)
 {

@@ -149,7 +149,7 @@ set(OBJECT_DIR ${CMAKE_BINARY_DIR}/CMakeFiles/objects)
 
 add_custom_target(test
     COMMAND mkdir -p coverageResult
-    COMMAND mkdir -p test
+    COMMAND mkdir -p tests/test
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_custom_command(TARGET test

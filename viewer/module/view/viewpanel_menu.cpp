@@ -174,7 +174,13 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        PrintHelper::showPrintDialog(QStringList(path), this);
+        DDialog * dialog=PrintHelper::showPrintDialog(QStringList(path), this);
+        if(dialog)
+        {
+            dialog->exec();
+            dialog->deleteLater();
+            dialog=nullptr;
+        }
         break;
     }
 
@@ -196,9 +202,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             //修改map维护的数据
             //dApp->getRwLock().lockForWrite();
             QMutexLocker locker(&dApp->getRwLock());
-            QPixmap pix =  dApp->m_imagemap.value(path);
+            dApp->m_imagemap.insert(filepath,dApp->m_imagemap[m_viewB->path()]);
+            dApp->m_rectmap.insert(filepath,dApp->m_rectmap[m_viewB->path()]);
             dApp->m_imagemap.remove(path);
-            dApp->m_imagemap.insert(filepath, pix);
            // dApp->getRwLock().unlock();
             m_currentImagePath  = filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
@@ -224,6 +230,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     case IdMoveToTrash:
         //右键菜单删除action和delete快捷键删除图片
+        if (m_dtr->isActive()) {
+            return ;
+        }
+        m_dtr->start();
         if (m_vinfo.inDatabase) {
             popupDelDialog(path);
         } else {

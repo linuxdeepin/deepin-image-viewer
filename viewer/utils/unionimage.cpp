@@ -178,11 +178,12 @@ public:
         //pic（多张图片） pcx不支持旋转
         m_canSave << "BMP" << "JPG" << "JPEG"  << "JPS" << "JPE" << "PNG" << "PBM"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
-                  << "SVG" << "TGA" << "XPM" << "ICO" << "G3"
+                  << "SVG" << "TGA" << "XPM" << "ICO"
                   << "JNG"
 //                  << "JP2"
-                  << "PCD"
+//                  << "PCD"
                   << "RAS";
+         m_qtrotate << "ICNS" << "JPG" << "JPEG";
     }
     ~UnionImage_Private()
     {
@@ -193,6 +194,7 @@ public:
     QHash<QString, int> m_freeiamge_formats;
     QHash<QString, int> m_movie_formats;
     QStringList m_canSave;
+    QStringList m_qtrotate;
 };
 
 static UnionImage_Private union_image_private;
@@ -437,96 +439,96 @@ UNIONIMAGESHARED_EXPORT QImage FIBitmap2QImage(FIBITMAP *dib)
  * 由QImage转到FreeImage
  */
 
-UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
-{
-    if (img.isNull()) {
-        return nullptr;
-    }
-    int width = img.width();
-    int height = img.height();
-    uint depth = static_cast<uint>(img.depth());
-    QImage::Format format = img.format();
-    switch (format) {
-    //The image is invalid.
-    case QImage::Format_Invalid:
-        return nullptr;
-    //The image is stored using 1-bit per pixel.(MSB)
-    case QImage::Format_Mono:
-    //The image is stored using 1-bit per pixel.(LSB)
-    case QImage::Format_MonoLSB: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth, 0, 0, 0,
-                            true);
-        return res;
-    }
-    /* NOTE: QImage do not support 4-bit*/
+//UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
+//{
+//    if (img.isNull()) {
+//        return nullptr;
+//    }
+//    int width = img.width();
+//    int height = img.height();
+//    uint depth = static_cast<uint>(img.depth());
+//    QImage::Format format = img.format();
+//    switch (format) {
+//    //The image is invalid.
+//    case QImage::Format_Invalid:
+//        return nullptr;
+//    //The image is stored using 1-bit per pixel.(MSB)
+//    case QImage::Format_Mono:
+//    //The image is stored using 1-bit per pixel.(LSB)
+//    case QImage::Format_MonoLSB: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth, 0, 0, 0,
+//                            true);
+//        return res;
+//    }
+//    /* NOTE: QImage do not support 4-bit*/
 
-    //可能会将彩色图转为灰度图
-    //The image is stored using an 8-bit alpha only format.
-    case QImage::Format_Alpha8:
-    //The image is stored using an 8-bit grayscale format.
-    case QImage::Format_Grayscale8:
-    //The image is stored using 8-bit indexes into a colormap.
-    case QImage::Format_Indexed8: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth, 0, 0, 0,
-                            true);
-        return res;
-    }
-    //The image is stored using a 16-bit RGB format (5-6-5)
-    case QImage::Format_RGB16: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), 16,
-                            FI16_565_RED_MASK, FI16_565_GREEN_MASK, FI16_565_BLUE_MASK,
-                            true);
-        return res;
-    }
-    //The image is stored using a 16-bit RGB format (5-5-5). The unused most significant bit is always zero.
-    case QImage::Format_RGB555: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), 16,
-                            FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK,
-                            true);
-        return res;
-    }
+//    //可能会将彩色图转为灰度图
+//    //The image is stored using an 8-bit alpha only format.
+//    case QImage::Format_Alpha8:
+//    //The image is stored using an 8-bit grayscale format.
+//    case QImage::Format_Grayscale8:
+//    //The image is stored using 8-bit indexes into a colormap.
+//    case QImage::Format_Indexed8: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth, 0, 0, 0,
+//                            true);
+//        return res;
+//    }
+//    //The image is stored using a 16-bit RGB format (5-6-5)
+//    case QImage::Format_RGB16: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), 16,
+//                            FI16_565_RED_MASK, FI16_565_GREEN_MASK, FI16_565_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
+//    //The image is stored using a 16-bit RGB format (5-5-5). The unused most significant bit is always zero.
+//    case QImage::Format_RGB555: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), 16,
+//                            FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
 
-    //32-bit
-    case QImage::Format_RGB32: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
-                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-                            true);
-        return res;
-    }
-    case QImage::Format_ARGB32: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
-                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-                            true);
-        return res;
-    }
-    //24-bit
-    case QImage::Format_RGB666:
-    case QImage::Format_ARGB8555_Premultiplied:
-    case QImage::Format_ARGB8565_Premultiplied:
-    case QImage::Format_ARGB6666_Premultiplied:
-    case QImage::Format_RGB888: {
-        FIBITMAP *res = FreeImage_ConvertFromRawBits(
-                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
-                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
-                            true);
-        return res;
-    }
+//    //32-bit
+//    case QImage::Format_RGB32: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
+//                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
+//    case QImage::Format_ARGB32: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
+//                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
+//    //24-bit
+//    case QImage::Format_RGB666:
+//    case QImage::Format_ARGB8555_Premultiplied:
+//    case QImage::Format_ARGB8565_Premultiplied:
+//    case QImage::Format_ARGB6666_Premultiplied:
+//    case QImage::Format_RGB888: {
+//        FIBITMAP *res = FreeImage_ConvertFromRawBits(
+//                            img.scanLine(0), width, height, img.bytesPerLine(), depth,
+//                            FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK,
+//                            true);
+//        return res;
+//    }
 
-    //FreeImage is not support
-    //The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.
-    case QImage::Format_RGB444:
-    case QImage::Format_ARGB4444_Premultiplied:
-    default:
-        break;
-    }
-    return nullptr;
-}
+//    //FreeImage is not support
+//    //The image is stored using a 16-bit RGB format (4-4-4). The unused bits are always zero.
+//    case QImage::Format_RGB444:
+//    case QImage::Format_ARGB4444_Premultiplied:
+//    default:
+//        break;
+//    }
+//    return nullptr;
+//}
 
 /**
  * @brief readFile2FIBITMAP
@@ -538,9 +540,10 @@ UNIONIMAGESHARED_EXPORT FIBITMAP *QImge2FIBitMap(QImage img)
  */
 UNIONIMAGESHARED_EXPORT FIBITMAP *readFile2FIBITMAP(const QString &path, int flags FI_DEFAULT(0))
 {
-    const QByteArray ba = path.toUtf8();
-    const char *pc = ba.data();
-    const FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(pc);
+    QByteArray b;
+    b.append(path);
+    const char *pc = b.data();
+    const FREE_IMAGE_FORMAT fif = detectImageFormat_f(path);
     if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
         FIBITMAP *dib = FreeImage_Load(fif, pc, flags);
         return dib;
@@ -823,6 +826,114 @@ UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path)
     return res;
 }
 
+FREE_IMAGE_FORMAT detectImageFormat_f(const QString &path)
+{
+    QFileInfo file_info(path);
+    QString file_suffix_upper = file_info.suffix().toUpper();
+    QByteArray temp_path;
+    temp_path.append(path.toUtf8());
+    FREE_IMAGE_FORMAT f = FreeImage_GetFileType(temp_path.data());
+    if (f != FIF_UNKNOWN && f != union_image_private.m_freeiamge_formats[file_suffix_upper]) {
+        file_suffix_upper = union_image_private.m_freeiamge_formats.key(f);
+    }
+    if (f == FIF_TIFF) {
+        file_suffix_upper = "TIFF";
+    }
+    if (file_suffix_upper.isEmpty()) {
+        QFile file(path);
+        if (!file.open(QIODevice::ReadOnly)) {
+            return FIF_UNKNOWN;
+        }
+
+        //    const QByteArray data = file.read(1024);
+        const QByteArray data = file.read(64);
+
+        // Check bmp file.
+        if (data.startsWith("BM")) {
+            return FIF_BMP;
+        }
+
+        // Check dds file.
+        if (data.startsWith("DDS")) {
+            return FIF_DDS;
+        }
+
+        // Check gif file.
+        if (data.startsWith("GIF8")) {
+            return FIF_GIF;
+        }
+
+        // Check Max OS icons file.
+        if (data.startsWith("icns")) {
+            return FIF_UNKNOWN;
+        }
+
+        // Check jpeg file.
+        if (data.startsWith("\xff\xd8")) {
+            return FIF_JPEG;
+        }
+
+        // Check mng file.
+        if (data.startsWith("\x8a\x4d\x4e\x47\x0d\x0a\x1a\x0a")) {
+            return FIF_MNG;
+        }
+
+        // Check net pbm file (BitMap).
+        if (data.startsWith("P1") || data.startsWith("P4")) {
+            return FIF_PBM;
+        }
+
+        // Check pgm file (GrayMap).
+        if (data.startsWith("P2") || data.startsWith("P5")) {
+            return FIF_PGM;
+        }
+
+        // Check ppm file (PixMap).
+        if (data.startsWith("P3") || data.startsWith("P6")) {
+            return FIF_PPM;
+        }
+
+        // Check png file.
+        if (data.startsWith("\x89PNG\x0d\x0a\x1a\x0a")) {
+            return FIF_PNG;
+        }
+
+        // Check svg file.
+        if (data.indexOf("<svg") > -1) {
+            return FIF_UNKNOWN;
+        }
+
+        // TODO(xushaohua): tga file is not supported yet.
+
+        // Check tiff file.
+        if (data.startsWith("MM\x00\x2a") || data.startsWith("II\x2a\x00")) {
+            // big-endian, little-endian.
+            return FIF_TIFF;
+        }
+
+        // TODO(xushaohua): Support wbmp file.
+
+        // Check webp file.
+        if (data.startsWith("RIFFr\x00\x00\x00WEBPVP")) {
+            return FIF_WEBP;
+        }
+
+        // Check xbm file.
+        if (data.indexOf("#define max_width ") > -1 &&
+                data.indexOf("#define max_height ") > -1) {
+            return FIF_XBM;
+        }
+
+        // Check xpm file.
+        if (data.startsWith("/* XPM */")) {
+            return FIF_XPM;
+        }
+        return FIF_UNKNOWN;
+    }
+    f = static_cast<FREE_IMAGE_FORMAT>(union_image_private.m_freeiamge_formats[file_suffix_upper]);
+    return f >= 0 ? f : FIF_UNKNOWN;
+}
+
 UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi)
 {
     return (qi == noneQImage());
@@ -882,15 +993,20 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
         generator.setSize(QSize(image_copy.width(), image_copy.height()));
         rotatePainter.end();
         return true;
-    } else if (format == "JPG" || format == "JPEG") {
-        QImage image_copy(path, "JPG");
+    } else if (union_image_private.m_qtrotate.contains(format)) {
+        QPixmap image_copy(path);
         if (!image_copy.isNull()) {
             QMatrix rotatematrix;
             rotatematrix.rotate(angel);
             image_copy = image_copy.transformed(rotatematrix, Qt::SmoothTransformation);
-            image_copy.save(path, "jpg", SAVE_QUAITY_VALUE);
-            return true;
+            if (image_copy.save(path, format.toLatin1().data(), SAVE_QUAITY_VALUE))
+                return true;
+            else {
+                return false;
+            }
         }
+        erroMsg = "rotate by qt failed";
+        return false;
     }
     FIBITMAP *dib = readFile2FIBITMAP(path);
     if (nullptr == dib) {

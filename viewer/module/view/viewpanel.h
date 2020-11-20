@@ -450,6 +450,7 @@ private slots:
      */
     void slotUpdateImageView(QString &path);
 
+    void slotThumbnailContainPath(QString path, bool &b);
 private:
     int m_hideCursorTid;
     bool m_isInfoShowed;

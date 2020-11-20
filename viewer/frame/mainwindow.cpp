@@ -186,6 +186,7 @@ void MainWindow::initdbus()
 void MainWindow::initConnection()
 {
     QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    scViewShortcut->setObjectName(SC_VIEW_SHORTCUT);
     // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
     connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
         qDebug() << "receive Ctrl+Shift+/";

@@ -36,6 +36,7 @@
 #include <QFileInfo>
 #include <QStringList>
 #include <QMap>
+#include <FreeImage.h>
 
 namespace  UnionImage_NameSpace {
 
@@ -127,6 +128,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
  */
 UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path);
 
+FREE_IMAGE_FORMAT detectImageFormat_f(const QString &path);
 /**
  * @brief isNoneQImage
  * @param[in]           qi
@@ -213,7 +215,21 @@ UNIONIMAGESHARED_EXPORT bool isSupportWritting(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path);
 
+/**
+ * @brief string2DateTime
+ * @param QString
+ * @author LMH
+ * @return QDateTime
+ * 转换时间
+ */
+UNIONIMAGESHARED_EXPORT QDateTime string2DateTime(const QString &time);
 
+
+UNIONIMAGESHARED_EXPORT bool isSupportsReading(const QString &time);
+
+UNIONIMAGESHARED_EXPORT bool isSupportsWriting(const QString &time);
+
+UNIONIMAGESHARED_EXPORT bool getThumbnail(QImage &res, const QString &path);
 
 QT_BEGIN_NAMESPACE
 
