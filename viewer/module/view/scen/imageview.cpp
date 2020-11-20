@@ -840,10 +840,15 @@ ImageView::PICTURE_TYPE ImageView::judgePictureType(const QString strPath)
 
     QFileInfo fi(strPath);
     QString strType = fi.suffix().toLower();
+    int nSize = -1;
+    if(strType == "webp"){
+        QImageReader imgreader(strPath);
+        nSize = imgreader.imageCount();
+    }
     if (strType == "svg" && DSvgRenderer().load(strPath)) {
         pixType = PICTURE_TYPE::SVG;
     } else if (strType == "mng" || strType == "gif"
-               /*|| strType == "webp"*/) {
+              ||(strType == "webp" && nSize > 1)) {
         pixType = PICTURE_TYPE::KINETOGRAM;
     } else {
         pixType = PICTURE_TYPE::NORMAL;

@@ -36,6 +36,7 @@
 #include <QFileInfo>
 #include <QStringList>
 #include <QMap>
+#include <FreeImage.h>
 
 namespace  UnionImage_NameSpace {
 
@@ -127,6 +128,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage 
  */
 UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path);
 
+FREE_IMAGE_FORMAT detectImageFormat_f(const QString &path);
 /**
  * @brief isNoneQImage
  * @param[in]           qi

@@ -497,6 +497,7 @@ private:
     bool m_bthreadMutex=false;
     int m_maxTouchPoints=0;
     qint64 m_lastReleaseTime{0};
+    QTimer *m_startTimer{nullptr};
 };
 
 

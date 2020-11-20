@@ -161,6 +161,13 @@ signals:
      */
     void sigGetLastThumbnailPath(QString& path);
     /**
+     * @brief sigisThumbnailsContainPath
+     * is m_infos contain path
+     * @param path
+     * @param b
+     */
+    void sigisThumbnailsContainPath(QString path,bool& b);
+    /**
      * @brief sigLoadTailThumbnail
      * Load last thumbnails
      * @param infos
