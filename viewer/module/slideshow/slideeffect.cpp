@@ -27,9 +27,10 @@ namespace {
 
 const QString EFFECT_SETTING_GROUP = "SLIDESHOWEFFECT";
 
-} // namespace
+using EffectsType = QHash<EffectId, std::function<SlideEffect*()>>;
+Q_GLOBAL_STATIC(EffectsType, effects);
 
-QHash<EffectId, std::function<SlideEffect*()> > SlideEffect::effects;
+} // namespace
 
 
 ThreadRenderFrame::ThreadRenderFrame()
@@ -100,7 +101,7 @@ SlideEffect *SlideEffect::create(const EffectId &id)
         srand(time(0));
         int count = 0; // To avoid find no match effect
         while (true || count < 100) {
-            QList<std::function<SlideEffect*()>> cs = effects.values();
+            QList<std::function<SlideEffect*()>> cs = effects->values();
             const int idx = rand() % cs.size();
             std::function<SlideEffect*()> c = cs.at(idx);
 
@@ -116,18 +117,18 @@ SlideEffect *SlideEffect::create(const EffectId &id)
         }
         return NULL;
     }
-    if (effects.contains(id))
-        return effects.value(id)();
+    if (effects->contains(id))
+        return effects->value(id)();
     return NULL;
 }
 
 void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
 {
-    if (effects.contains(id)) {
-        effects.remove(id);
+    if (effects->contains(id)) {
+        effects->remove(id);
     }
 
-    effects.insert(id, c);
+    effects->insert(id, c);
 }
 
 SlideEffect::SlideEffect()
