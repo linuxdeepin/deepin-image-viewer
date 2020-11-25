@@ -211,16 +211,16 @@ public slots:
 //     */
 //    void recvPathsToCache(const QStringList pathsList);
 
-    /**
-     * @brief delCacheFromPath  根据图片路径删除缓存
-     * @param strPath           删除的图片路径
-     */
-    void delCacheFromPath(const QString strPath);
+//    /**
+//     * @brief delCacheFromPath  根据图片路径删除缓存
+//     * @param strPath           删除的图片路径
+//     */
+//    void delCacheFromPath(const QString strPath);
 
-    /**
-     * @brief delAllCache   删除所有缓存
-     */
-    void delAllCache();
+//    /**
+//     * @brief delAllCache   删除所有缓存
+//     */
+//    void delAllCache();
 
 //    /**
 //     * @brief removeDiff    判断两次图片路径差异，将差异部分缓存删除并缓存新的图片

@@ -61,7 +61,7 @@
 
 #define IMAGE_WIDGET QObject::tr("imageinfo widget") //图片信息显示界面
 
-#define RENAME_WIDGET QObject::tr("rename widget") //图片信息显示界面
+#define RENAME_WIDGET QObject::tr("rename widget") //重命名界面
 #define INPUT_EDIT QObject::tr("input edit") //重命名输入框
 #define OK_BUTTON QObject::tr("Confirm") //重命名Ok按钮
 #define CANCEL_BUTTON QObject::tr("Cancel") //重命名cancel按钮
@@ -80,5 +80,9 @@
 #define SCALE_RADIOBUTTON QObject::tr("Scale to")
 
 #define TTL_CONTENTS QObject::tr("ttl content") //TTLContent
+
+#define IMAGE_LIST_OBJECT QObject::tr("img list") //imglist
+
+#define SLIDER_SHOW_MENU QObject::tr("slidershow_menu") //缩略图右键菜单
 
 #endif // DESKTOP_ACCESSIBLE_UI_DEFINE_H

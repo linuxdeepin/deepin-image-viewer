@@ -44,8 +44,8 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     : DAbstractDialog(parent)
 {
     init();
-#ifdef OPENACCESSIBLE
     setObjectName(EXTENSION_PANEL);
+#ifdef OPENACCESSIBLE
     setAccessibleName(EXTENSION_PANEL);
     m_titleBar->setObjectName(CONTENT_TITLE_BAR);
     m_titleBar->setAccessibleName(CONTENT_TITLE_BAR);

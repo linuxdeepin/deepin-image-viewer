@@ -7,7 +7,7 @@
 #include "controller/configsetter.h"
 #include "controller/globaleventfilter.h"
 #include "controller/signalmanager.h"
-#include "controller/wallpapersetter.h"
+
 #include "controller/viewerthememanager.h"
 #include "controller/dbmanager.h"
 #include "controller/importer.h"
@@ -28,11 +28,11 @@
 #include "module/view/contents/ttbcontent.h"
 #include "module/view/contents/ttlcontent.h"
 //#include "module/view/contents/ttmcontent.h"
+
 #include "module/view/scen/imageview.h"
 
-#include "dirwatcher/scanpathsdialog.h"
-#include "dirwatcher/volumemonitor.h"
-#include "dirwatcher/scanpathsitem.h"
+
+
 
 //#include "settings/shortcut/shortcuteditor.h"
 //#include "settings/shortcut/shortcutframe.h"
@@ -70,8 +70,16 @@ using namespace utils::image;
 #define SVGPATH "/usr/share/deepin-image-viewer/icons/logo/deepin-image-viewer.svg"
 #define DDSPATH "/data/home/lmh/0916/tu/DDS.dds"
 
-
-
+#define TEST 1
+#define test_module_view_contents 1
+#define test_module_view_scen 1
+#define test_module_view_z 1
+#define test_service 1
+#define test_utils 1
+#define test_z_exit 1
+class ScanPathsDialog;
+class VolumeMonitor;
+class ScanPathsItem;
 class gtestview : public ::testing::Test
 {
 public:

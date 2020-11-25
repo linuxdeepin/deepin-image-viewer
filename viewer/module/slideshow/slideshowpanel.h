@@ -57,6 +57,7 @@ signals:
     void sigpauseclicked();
 private slots:
     void Receiveslideshowpathlst(bool flag,DBImgInfoList slideshowpaths);
+    void onThemeChanged(ViewerThemeManager::AppTheme dark);
 private:
     void slotLoadSlideShow(bool bflag,DBImgInfoList infoslideshow);
     /**
@@ -80,7 +81,7 @@ private:
     void showFullScreen();
     void showNormal();
     void onMenuItemClicked(QAction *action);
-    void onThemeChanged(ViewerThemeManager::AppTheme dark);
+
     void saveFirstImg(QImage);
 
 private:

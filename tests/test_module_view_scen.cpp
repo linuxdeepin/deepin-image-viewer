@@ -1,6 +1,13 @@
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"
+#include <QGestureEvent>
+#include <QPointF>
+#include <QMouseEvent>
+
+#include <QCoreApplication>
 //baseutils utils::base
+
+#if test_module_view_scen
 TEST_F(gtestview, showVagueImage)
 {
 
@@ -90,7 +97,92 @@ TEST_F(gtestview, clear)
         panel->clear();
     }
 }
+TEST_F(gtestview, QGestureEvent)
+{
+    if(!m_frameMainWindow){
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    QTest::qWait(1000);
+
+    ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
+    if(panel){
+
+        QMimeData mimedata;
+//        QList<QUrl> li;
+//        li.append(QUrl::fromLocalFile(TriangleItemPath));
+
+//        mimedata.setUrls(li);
+        QList<QGesture *> gestures;
+        QGestureEvent gestureEvent(gestures);
+        qApp->sendEvent(panel, &gestureEvent);
+
+    }
+}
+
+TEST_F(gtestview, QWheelEvent_1)
+{
+    if(!m_frameMainWindow){
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    QTest::qWait(500);
+
+    ImageView *view = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
+    if(view){
 
 
+//        QList<QUrl> li;
+//        li.append(QUrl::fromLocalFile(TriangleItemPath));
+
+//        mimedata.setUrls(li);
+//        QList<QPinchGesture *> gestures;
+//        QPinchGestureEvent gestureEvent(gestures);
+//        qApp->sendEvent(panel, &gestureEvent);
+
+        QTest::mouseDClick(view,Qt::LeftButton,Qt::NoModifier,QPoint(30,30),100);
+
+        QTest::mouseDClick(view,Qt::MidButton,Qt::NoModifier,QPoint(30,30),100);
+
+        QTest::mousePress(view, Qt::MidButton,Qt::NoModifier,QPoint(40,50),100);
+
+        QTest::mouseRelease(view, Qt::MidButton,Qt::NoModifier,QPoint(80,90),100);
+
+        QTest::mousePress(view, Qt::MiddleButton,Qt::NoModifier,QPoint(40,50),100);
+
+        QTest::mouseRelease(view, Qt::MiddleButton,Qt::NoModifier,QPoint(80,90),100);
+
+        QMouseEvent event(QEvent::MouseButtonDblClick,QPoint(30,30),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+
+        qApp->sendEvent(view, &event);
+
+        QMouseEvent event1(QEvent::MouseButtonPress,QPoint(50,50),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+
+        qApp->sendEvent(view, &event1);
+
+        QMouseEvent event2(QEvent::MouseButtonRelease,QPoint(100,50),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+
+        qApp->sendEvent(view, &event2);
+
+        QMouseEvent event3(QEvent::MouseMove,QPoint(200,150),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+
+        qApp->sendEvent(view, &event3);
+
+        QString TriangleItemPath = "path";
+
+        QMimeData mimedata1;
+        QList<QUrl> li;
+        li.append(QUrl::fromLocalFile(TriangleItemPath));
+
+        mimedata1.setUrls(li);
+
+        const QPoint pos = QPoint(view->pos().x()+200,view->pos().y()+200);
+        QDragEnterEvent eEnter(pos, Qt::IgnoreAction, &mimedata1, Qt::LeftButton, Qt::NoModifier);
+        qApp->sendEvent(view, &eEnter);
+
+        QDropEvent e(pos, Qt::IgnoreAction, &mimedata1, Qt::LeftButton, Qt::NoModifier);
+        qApp->sendEvent(view, &e);
+
+    }
+}
 
 //还没有模拟手指事件
+#endif

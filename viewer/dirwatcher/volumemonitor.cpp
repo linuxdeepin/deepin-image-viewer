@@ -35,15 +35,7 @@ QSet<QString> parseMountFile()
     return QSet<QString>::fromList(fileContent.split("\n"));
 }
 
-QString getMountPoint(const QString& record)
-{
-    const QStringList items = record.split(" ");
-    if (items.length() > 4) {
-        return items.at(1);
-    } else {
-        return "";
-    }
-}
+
 
 }  // namespace
 
@@ -57,7 +49,15 @@ VolumeMonitor *VolumeMonitor::instance()
 
     return m_monitor;
 }
-
+QString VolumeMonitor::getMountPoint(const QString& record)
+{
+    const QStringList items = record.split(" ");
+    if (items.length() > 4) {
+        return items.at(1);
+    } else {
+        return "";
+    }
+}
 VolumeMonitor::VolumeMonitor(QObject *parent)
     : QObject(parent)
     ,m_socketNotifier(nullptr)

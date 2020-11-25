@@ -38,7 +38,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *) override;
 
 private slots:
-    void onThemeChanged(ViewerThemeManager::AppTheme theme);
+//    void onThemeChanged(ViewerThemeManager::AppTheme theme);
 private:
     QColor m_coverBrush;
     QHBoxLayout *m_mainLayout;

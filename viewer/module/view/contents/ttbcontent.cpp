@@ -79,7 +79,7 @@ const unsigned int IMAGE_TYPE_GIF = 0x47494638;
 const unsigned int IMAGE_TYPE_TIFF = 0x49492a00;
 const unsigned int IMAGE_TYPE_BMP = 0x424d;
 }  // namespace
-static bool bMove = false;
+//static bool bMove = false;
 char *TTBContent::getImageType(QString filepath)
 {
     char *ret = nullptr;
@@ -175,7 +175,7 @@ bool MyImageListWidget::UpdateThumbnail()
     if(m_vecPoint.size()<20){
         animation->deleteLater();
         m_iRet=false;
-        bMove=false;
+        dApp->m_bMove=false;
         bmouseleftpressed = false;
         m_vecPoint.clear();
         m_lastPoint=QPoint(0,0);
@@ -185,7 +185,7 @@ bool MyImageListWidget::UpdateThumbnail()
     else if(firsttolast<20 && firsttolast>-20 ){
         animation->deleteLater();
         m_iRet=false;
-        bMove=false;
+        dApp->m_bMove=false;
         bmouseleftpressed = false;
         if(m_currentImageItem){
             m_currentImageItem->emitClickEndSig();
@@ -247,7 +247,7 @@ bool MyImageListWidget::UpdateThumbnail()
     }
     connect(animation, &QPropertyAnimation::finished, [=]{
         m_iRet=false;
-        bMove=false;
+        dApp->m_bMove=false;
         bmouseleftpressed = false;
         m_vecPoint.clear();
         //lmh0915,加上延时100ms，为了防止动画完了，还在跳转
@@ -271,7 +271,7 @@ bool MyImageListWidget::UpdateThumbnail()
         }
         m_bthreadMutex=true;
         QMutexLocker locker(&m_threadMutex);
-        while(m_iRet &&bMove)
+        while(m_iRet &&dApp->m_bMove)
         {
             QThread::msleep(50);
             /*lmh0727*/
@@ -323,7 +323,7 @@ bool MyImageListWidget::UpdateThumbnail()
             }
         }
         m_iRet=false;
-        bMove=false;
+        dApp->m_bMove=false;
         bmouseleftpressed = false;
         m_vecPoint.clear();
         if(m_currentImageItem){
@@ -389,7 +389,7 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
         if(m_iRet){
             return false;
         }
-        bMove=true;
+        dApp->m_bMove=true;
         QMouseEvent *mouseEvent = (QMouseEvent *)e;
         QPoint p = mouseEvent->globalPos();
         if(m_vecPoint.size()<20){
@@ -767,6 +767,7 @@ void TTBContent::initBtn()
     m_imgListView = new MyImageListWidget();
     m_imgList = new DWidget(m_imgListView);
     m_imgListView->setObj(m_imgList);
+    m_imgList->setObjectName(IMAGE_LIST_OBJECT);
     m_imgList->installEventFilter(m_imgListView);
     if (m_imgInfos.size() <= 3) {
         m_imgList->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
@@ -1098,48 +1099,48 @@ void TTBContent::OnChangeItemPath(int currindex, QString path)
     item->setObjectName(path);
 }
 
-void TTBContent::updateFilenameLayout()
-{
-    using namespace utils::base;
-    DFontSizeManager::instance()->bind(m_fileNameLabel, DFontSizeManager::T8);
-    QFontMetrics fm(DFontSizeManager::instance()->get(DFontSizeManager::T8));
-    QString filename = QFileInfo(m_imagePath).fileName();
-    QString name;
+//void TTBContent::updateFilenameLayout()
+//{
+//    using namespace utils::base;
+//    DFontSizeManager::instance()->bind(m_fileNameLabel, DFontSizeManager::T8);
+//    QFontMetrics fm(DFontSizeManager::instance()->get(DFontSizeManager::T8));
+//    QString filename = QFileInfo(m_imagePath).fileName();
+//    QString name;
 
-    int strWidth = fm.boundingRect(filename).width();
-    int leftMargin = 0;
-    int m_leftContentWidth = 0;
-#ifndef LITE_DIV
-    if (m_inDB)
-        m_leftContentWidth =
-            m_returnBtn->buttonWidth() + 6 + (ICON_SIZE.width() + 2) * 6 + LEFT_SPACE;
-    else {
-        m_leftContentWidth = m_folderBtn->width() + 8 + (ICON_SIZE.width() + 2) * 5 + LEFT_SPACE;
-    }
-#else
-    // 39 为logo以及它的左右margin
-    m_leftContentWidth = 5 + (ICON_SIZE.width() + 2) * 5 + 39;
-#endif
+//    int strWidth = fm.boundingRect(filename).width();
+//    int leftMargin = 0;
+//    int m_leftContentWidth = 0;
+//#ifndef LITE_DIV
+//    if (m_inDB)
+//        m_leftContentWidth =
+//            m_returnBtn->buttonWidth() + 6 + (ICON_SIZE.width() + 2) * 6 + LEFT_SPACE;
+//    else {
+//        m_leftContentWidth = m_folderBtn->width() + 8 + (ICON_SIZE.width() + 2) * 5 + LEFT_SPACE;
+//    }
+//#else
+//    // 39 为logo以及它的左右margin
+//    m_leftContentWidth = 5 + (ICON_SIZE.width() + 2) * 5 + 39;
+//#endif
 
-    int ww = dApp->setter->value("MAINWINDOW", "WindowWidth").toInt();
-    m_windowWidth = std::max(std::max(this->window()->geometry().width(), this->width()), ww);
-    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH + 2, 1);
-    setFixedWidth(m_contentWidth);
-    m_contentWidth = this->width() - m_leftContentWidth;
+//    int ww = dApp->setter->value("MAINWINDOW", "WindowWidth").toInt();
+//    m_windowWidth = std::max(std::max(this->window()->geometry().width(), this->width()), ww);
+//    m_contentWidth = std::max(m_windowWidth - RIGHT_TITLEBAR_WIDTH + 2, 1);
+//    setFixedWidth(m_contentWidth);
+//    m_contentWidth = this->width() - m_leftContentWidth;
 
-    if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH) {
-        name = fm.elidedText(filename, Qt::ElideMiddle,
-                             std::min(m_contentWidth - 32, FILENAME_MAX_LENGTH));
-        strWidth = fm.boundingRect(name).width();
-        leftMargin =
-            std::max(0, (m_windowWidth - strWidth) / 2 - m_leftContentWidth - LEFT_MARGIN - 2);
-    } else {
-        leftMargin = std::max(0, (m_windowWidth - strWidth) / 2 - m_leftContentWidth - 6);
-        name = filename;
-    }
+//    if (strWidth > m_contentWidth || strWidth > FILENAME_MAX_LENGTH) {
+//        name = fm.elidedText(filename, Qt::ElideMiddle,
+//                             std::min(m_contentWidth - 32, FILENAME_MAX_LENGTH));
+//        strWidth = fm.boundingRect(name).width();
+//        leftMargin =
+//            std::max(0, (m_windowWidth - strWidth) / 2 - m_leftContentWidth - LEFT_MARGIN - 2);
+//    } else {
+//        leftMargin = std::max(0, (m_windowWidth - strWidth) / 2 - m_leftContentWidth - 6);
+//        name = filename;
+//    }
 
-    m_fileNameLabel->setText(name, leftMargin);
-}
+//    m_fileNameLabel->setText(name, leftMargin);
+//}
 
 bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent)
 {
@@ -1256,7 +1257,7 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
             connect(imageItem, &ImageItem::imageMoveclicked, this,
             [ = ](QString path) {
                 m_bMoving=false;
-                if(bMove){
+                if(dApp->m_bMove){
                     m_lastIndex=m_nowIndex;
                     QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
                     if(labelList.size()>0){
@@ -1629,7 +1630,7 @@ void TTBContent::loadBack(DBImgInfoList infos)
         connect(imageItem, &ImageItem::imageMoveclicked, this,
         [ = ](QString path) {
             m_bMoving=false;
-            if(bMove){
+            if(dApp->m_bMove){
                 m_lastIndex=m_nowIndex;
                 QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
                 if(labelList.size()>0){
@@ -1733,7 +1734,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
         connect(imageItem, &ImageItem::imageMoveclicked, this,
         [ = ](QString path) {
             m_bMoving=false;
-            if(bMove){
+            if(dApp->m_bMove){
                 m_lastIndex=m_nowIndex;
                 QList <ImageItem *>labelList=m_imgList->findChildren<ImageItem *>(path);
                 if(labelList.size()>0){
@@ -1921,7 +1922,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
     if (path.isEmpty() || !QFileInfo(path).exists()) {
         reloadItems(m_imgInfos, path);
         qDebug() << "reloadItems完成";
-        if (!bMove) {
+        if (!dApp->m_bMove) {
             showAnimation();
         }
         qDebug() << "reloadItems完成";
@@ -1965,7 +1966,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
             qDebug() << "reloadItems开始";
             reloadItems(m_imgInfos, path);
             qDebug() << "reloadItems完成";
-            if (!bMove) {
+            if (!dApp->m_bMove) {
                 showAnimation();
             }
             qDebug() << "showAnimation完成";

@@ -405,7 +405,7 @@ public slots:
 
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    void updateFilenameLayout();
+//    void updateFilenameLayout();
 
 protected:
     void resizeEvent(QResizeEvent *event);

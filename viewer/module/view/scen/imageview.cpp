@@ -1061,19 +1061,19 @@ void ImageView::rotatePixmap(int nAngel)
 //    th->start();
 //}
 
-void ImageView::delCacheFromPath(const QString strPath)
-{
-    if (strPath.isEmpty()) {
-        return;
-    }
+//void ImageView::delCacheFromPath(const QString strPath)
+//{
+//    if (strPath.isEmpty()) {
+//        return;
+//    }
 
-    m_hsPixap.remove(strPath);
-}
+//    m_hsPixap.remove(strPath);
+//}
 
-void ImageView::delAllCache()
-{
-    m_hsPixap.clear();
-}
+//void ImageView::delAllCache()
+//{
+//    m_hsPixap.clear();
+//}
 
 //QStringList ImageView::removeDiff(QStringList pathsList)
 //{

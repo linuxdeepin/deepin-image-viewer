@@ -338,52 +338,52 @@ void ViewPanel::initFileSystemWatcher()
 #endif
 
 
-void ViewPanel::AddDataToList(LOAD_DIRECTION Dirction, int pages)
-{
-    DBImgInfo info;
-    if (Dirction == LOAD_LEFT) {
-        for (; m_firstindex < m_infosAll.size(); m_firstindex++) {
-            if (m_infos.at(m_firstindex).fileName == m_infosAll.at(m_firstindex).fileName) {
-                break;
-            }
-        }
-        if (m_firstindex - pages < 0)
-            m_firstindex = 0;
-        else
-            m_firstindex -= pages;
-    }
-}
+//void ViewPanel::AddDataToList(LOAD_DIRECTION Dirction, int pages)
+//{
+//    DBImgInfo info;
+//    if (Dirction == LOAD_LEFT) {
+//        for (; m_firstindex < m_infosAll.size(); m_firstindex++) {
+//            if (m_infos.at(m_firstindex).fileName == m_infosAll.at(m_firstindex).fileName) {
+//                break;
+//            }
+//        }
+//        if (m_firstindex - pages < 0)
+//            m_firstindex = 0;
+//        else
+//            m_firstindex -= pages;
+//    }
+//}
 
-QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
-{
-    QStringList pathsList;
-    if (nCurrent - 1 >= 0) {
-        pathsList.append(m_infos.at(m_current - 1).filePath);
-    }
+//QStringList ViewPanel::getPathsFromCurrent(int nCurrent)
+//{
+//    QStringList pathsList;
+//    if (nCurrent - 1 >= 0) {
+//        pathsList.append(m_infos.at(m_current - 1).filePath);
+//    }
 
-    if (nCurrent + 1 <= m_infos.size() - 1) {
-        pathsList.append(m_infos.at(m_current + 1).filePath);
-    }
-    if (m_infos.size() > m_current)
-        pathsList.append(m_infos.at(m_current).filePath);
+//    if (nCurrent + 1 <= m_infos.size() - 1) {
+//        pathsList.append(m_infos.at(m_current + 1).filePath);
+//    }
+//    if (m_infos.size() > m_current)
+//        pathsList.append(m_infos.at(m_current).filePath);
 
-    return pathsList;
-}
+//    return pathsList;
+//}
 
-void ViewPanel::refreshPixmap(QString strPath)
-{
-    QMutexLocker locker(&dApp->getRwLock());
-    if (strPath.isEmpty()) {
-        return;
-    }
-    //dApp->getRwLock().lockForWrite();
-    QPixmap pixmap(strPath);
-    dApp->m_imagemap.insert(strPath, pixmap.scaledToHeight(100,  Qt::FastTransformation));
-   // dApp->getRwLock().unlock();
+//void ViewPanel::refreshPixmap(QString strPath)
+//{
+//    QMutexLocker locker(&dApp->getRwLock());
+//    if (strPath.isEmpty()) {
+//        return;
+//    }
+//    //dApp->getRwLock().lockForWrite();
+//    QPixmap pixmap(strPath);
+//    dApp->m_imagemap.insert(strPath, pixmap.scaledToHeight(100,  Qt::FastTransformation));
+//   // dApp->getRwLock().unlock();
 
-    emit dApp->finishLoadSlot(strPath);
+//    emit dApp->finishLoadSlot(strPath);
 
-}
+//}
 
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
 {
@@ -471,89 +471,89 @@ void ViewPanel::startFileWatcher()
 
 }
 
-void ViewPanel::disconnectTTbc()
-{
-    if (ttbc) {
-        ttbc->disconnect();
-    }
-}
+//void ViewPanel::disconnectTTbc()
+//{
+//    if (ttbc) {
+//        ttbc->disconnect();
+//    }
+//}
 
-void ViewPanel::reConnectTTbc()
-{
-    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
-    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
-    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
-    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
-    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::UniqueConnection);
+//void ViewPanel::reConnectTTbc()
+//{
+//    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::UniqueConnection);
 
-    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel, Qt::UniqueConnection);
-    connect(this, &ViewPanel::viewImageFrom, ttbc,
-    [ = ](const QString & dir) {
-        ttbc->setCurrentDir(dir);
-    }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel, Qt::UniqueConnection);
+//    connect(this, &ViewPanel::viewImageFrom, ttbc,
+//    [ = ](const QString & dir) {
+//        ttbc->setCurrentDir(dir);
+//    }, Qt::UniqueConnection);
 
-    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::removed, this, [ = ] {
-        if (m_dtr->isActive()) {
-            return ;
-        }
-        m_dtr->start();
-        if (m_vinfo.inDatabase)
-        {
-            popupDelDialog(m_infos.at(m_current).filePath);
-        } else
-        {
-            const QString path = m_infos.at(m_current).filePath;
-            QFile file(path);
-            if (!file.exists()) {
-                return;
-            }
+//    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::removed, this, [ = ] {
+//        if (m_dtr->isActive()) {
+//            return ;
+//        }
+//        m_dtr->start();
+//        if (m_vinfo.inDatabase)
+//        {
+//            popupDelDialog(m_infos.at(m_current).filePath);
+//        } else
+//        {
+//            const QString path = m_infos.at(m_current).filePath;
+//            QFile file(path);
+//            if (!file.exists()) {
+//                return;
+//            }
 
-            if (removeCurrentImage()) {
-                DDesktopServices::trash(path);
-                emit dApp->signalM->picDelete();
-                ttbc->setIsConnectDel(true);
-                m_bAllowDel = true;
-                ttbc->disableDelAct(true);
-            }
-        }
-    }, Qt::UniqueConnection);
+//            if (removeCurrentImage()) {
+//                DDesktopServices::trash(path);
+//                emit dApp->signalM->picDelete();
+//                ttbc->setIsConnectDel(true);
+//                m_bAllowDel = true;
+//                ttbc->disableDelAct(true);
+//            }
+//        }
+//    }, Qt::UniqueConnection);
 
-    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
-        if (fitWindow) {
-            m_viewB->fitWindow_btnclicked();
-        } else {
-            m_viewB->fitImage();
-        }
-        m_viewB->titleBarControl();
-    }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
+//        if (fitWindow) {
+//            m_viewB->fitWindow_btnclicked();
+//        } else {
+//            m_viewB->fitImage();
+//        }
+//        m_viewB->titleBarControl();
+//    }, Qt::UniqueConnection);
 
-    connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
-    connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
-    connect(m_viewB, &ImageView::sigRequestShowVaguePix, ttbc, &TTBContent::OnRequestShowVaguePix, Qt::UniqueConnection);
-    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
-            &TTBContent::updateCollectButton, Qt::UniqueConnection);
-    connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
-            &TTBContent::updateCollectButton, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
-        this->showPrevious();
-    }, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
-        this->showNext();
-    }, Qt::UniqueConnection);
-    connect(ttbc, &TTBContent::imageClicked, this,
-    [ = ](int index, int addIndex) {
-        this->showImage(index, addIndex);
-    }, Qt::UniqueConnection);
-    /*lmh0731*/
-    connect(ttbc, &TTBContent::imageMoveEnded, this,
-                    [ = ](int index, int addIndex,bool iRet) {
-        this->m_bIsOpenPicture=iRet;
-        this->showImage(index, addIndex);
-    }, Qt::UniqueConnection);
-}
+//    connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
+//    connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
+//    connect(m_viewB, &ImageView::sigRequestShowVaguePix, ttbc, &TTBContent::OnRequestShowVaguePix, Qt::UniqueConnection);
+//    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
+//            &TTBContent::updateCollectButton, Qt::UniqueConnection);
+//    connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
+//            &TTBContent::updateCollectButton, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
+//        this->showPrevious();
+//    }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
+//        this->showNext();
+//    }, Qt::UniqueConnection);
+//    connect(ttbc, &TTBContent::imageClicked, this,
+//    [ = ](int index, int addIndex) {
+//        this->showImage(index, addIndex);
+//    }, Qt::UniqueConnection);
+//    /*lmh0731*/
+//    connect(ttbc, &TTBContent::imageMoveEnded, this,
+//                    [ = ](int index, int addIndex,bool iRet) {
+//        this->m_bIsOpenPicture=iRet;
+//        this->showImage(index, addIndex);
+//    }, Qt::UniqueConnection);
+//}
 
 bool ViewPanel::GetPixmapStatus(QString filename)
 {
@@ -601,7 +601,7 @@ void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
     }
 
 }
-
+#ifndef LITE_DIV
 void ViewPanel::updateLocalImages()
 {
     const QString cp = m_infos.at(m_current).filePath;
@@ -613,7 +613,7 @@ void ViewPanel::updateLocalImages()
         }
     }
 }
-
+#endif
 void ViewPanel::sendSignal(DBImgInfoList infos, int nCurrent)
 {
     Q_UNUSED(nCurrent);
@@ -725,7 +725,7 @@ void ViewPanel::slotExitFullScreen()
 //    emit sigsendslideshowlist(bFlags, m_infoslideshow);
 //}
 
-#ifdef LITE_DIV
+#ifndef LITE_DIV
 bool compareByString(const DBImgInfo &str1, const DBImgInfo &str2)
 {
     static QCollator sortCollator;
@@ -861,7 +861,7 @@ void ViewPanel::newEatImageDirIterator()
         ++cbegin;
     }
 }
-
+#endif
 void ViewPanel::eatImageDirIteratorThread()
 {
     //if (m_AllPath.count() < 1) return;
@@ -878,7 +878,7 @@ void ViewPanel::eatImageDirIteratorThread()
     emit sendLoadOver(m_infos, m_current);
 }
 
-#endif
+
 
 void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
 {
@@ -1087,15 +1087,15 @@ DBImgInfoList ViewPanel::getImageInfos(const QFileInfoList &infos)
     return imageInfos;
 }
 
-const QStringList ViewPanel::paths() const
-{
-    QStringList list;
-    for (DBImgInfo info : m_infos) {
-        list << info.filePath;
-    }
+//const QStringList ViewPanel::paths() const
+//{
+//    QStringList list;
+//    for (DBImgInfo info : m_infos) {
+//        list << info.filePath;
+//    }
 
-    return list;
-}
+//    return list;
+//}
 
 const QStringList ViewPanel::slideshowpaths() const
 {
@@ -1107,12 +1107,12 @@ const QStringList ViewPanel::slideshowpaths() const
 
     return list;
 }
-
+#ifndef LITE_DIV
 QFileInfoList ViewPanel::getFileInfos(const QString &path)
 {
     return utils::image::getImagesInfo(QFileInfo(path).path(), false);
 }
-
+#endif
 QWidget *ViewPanel::toolbarBottomContent()
 {
     return nullptr;
@@ -1967,7 +1967,7 @@ bool ViewPanel::removeImagePath(QString path)
     }
     return true;
 }
-
+#ifndef LITE_DIV
 void ViewPanel::viewOnNewProcess(const QStringList &paths)
 {
     const QString pro = "deepin-image-viewer";
@@ -1980,7 +1980,7 @@ void ViewPanel::viewOnNewProcess(const QStringList &paths)
     }
     p->start(pro, options);
 }
-
+#endif
 void ViewPanel::initStack()
 {
     m_stack = new QSWToDStackedWidget;

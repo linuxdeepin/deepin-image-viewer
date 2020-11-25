@@ -29,6 +29,7 @@ public:
     bool isRunning();
     ~VolumeMonitor();
 
+    QString getMountPoint(const QString &record);
 signals:
     void deviceAdded(const QString& addDev);
     void deviceRemoved(const QString& removeDe);

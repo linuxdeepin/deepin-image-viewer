@@ -3,6 +3,8 @@
 #include "service/deepinimageviewerdbus.h"
 #include "service/dbusimageview_adaptor.h"
 //baseutils utils::base
+
+#if test_service
 TEST_F(gtestview, defaultimageviewer)
 {
     service::isDefaultImageViewer();
@@ -33,5 +35,5 @@ TEST_F(gtestview, dbusimageview_adaptor)
     adaptor->deleteLater();
     adaptor=nullptr;
 }
-
+#endif
 

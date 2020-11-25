@@ -52,15 +52,15 @@ BottomToolbar::BottomToolbar(QWidget *parent)
 //            &BottomToolbar::onThemeChanged);
 }
 
-void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme)
-{
-    if (theme == ViewerThemeManager::Dark) {
-        m_coverBrush = DARK_COVERCOLOR;
-    } else {
-        m_coverBrush = LIGHT_COVERCOLOR;
-    }
-//    setCoverBrush(m_coverBrush);
-}
+//void BottomToolbar::onThemeChanged(ViewerThemeManager::AppTheme theme)
+//{
+//    if (theme == ViewerThemeManager::Dark) {
+//        m_coverBrush = DARK_COVERCOLOR;
+//    } else {
+//        m_coverBrush = LIGHT_COVERCOLOR;
+//    }
+////    setCoverBrush(m_coverBrush);
+//}
 void BottomToolbar::setContent(QWidget *content)
 {
     QLayoutItem *child;

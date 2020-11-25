@@ -30,7 +30,7 @@ public:
                   const QVariant value);
     QVariant value(const QString group, const QString key,
                    const QVariant defaultValue = QVariant());
-    QStringList keys(const QString group);
+//    QStringList keys(const QString group);
 
 signals:
     void valueChanged(const QString &group, const QString &key,

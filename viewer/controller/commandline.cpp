@@ -81,7 +81,6 @@ CommandLine::~CommandLine()
 {
 
 }
-
 MainWindow *CommandLine::getMainWindow()
 {
     return m_mainWindow;

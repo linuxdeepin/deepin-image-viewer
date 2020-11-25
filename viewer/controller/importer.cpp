@@ -44,19 +44,19 @@ QStringList collectSubDirs(const QString &path)
     return dirs;
 }
 
-void insertIntoAlbum(QMap<QString, QFileInfoList> vs)
-{
-    QStringList albums = vs.keys();
-    albums.removeAll(" ");
-    for (QString album : albums) {
-        auto infos = vs[album];
-        QStringList paths;
-        for (auto info : infos) {
-            paths << info.absoluteFilePath();
-        }
-       DBManager::instance()->insertIntoAlbum(album, paths);
-    }
-}
+//void insertIntoAlbum(QMap<QString, QFileInfoList> vs)
+//{
+//    QStringList albums = vs.keys();
+//    albums.removeAll(" ");
+//    for (QString album : albums) {
+//        auto infos = vs[album];
+//        QStringList paths;
+//        for (auto info : infos) {
+//            paths << info.absoluteFilePath();
+//        }
+//       DBManager::instance()->insertIntoAlbum(album, paths);
+//    }
+//}
 
 }  // namespace
 
@@ -135,16 +135,16 @@ void Importer::appendFiles(const QStringList &paths, const QString &album)
     m_threads.append(ft);
 }
 
-void Importer::stop()
-{
-    for (auto t : m_threads) {
-        t->quit();
-        t->wait();
-        t->deleteLater();
-    }
+//void Importer::stop()
+//{
+//    for (auto t : m_threads) {
+//        t->quit();
+//        t->wait();
+//        t->deleteLater();
+//    }
 
-    emit imported(true);
-}
+//    emit imported(true);
+//}
 
 void Importer::stopDirCollect(const QString &dir)
 {
@@ -318,7 +318,7 @@ void FilesCollectThread::run()
         emit insertAlbumRequest(m_album, supportPaths);
 }
 
-void FilesCollectThread::setStop(bool stop)
-{
-    m_stop = stop;
-}
+//void FilesCollectThread::setStop(bool stop)
+//{
+//    m_stop = stop;
+//}

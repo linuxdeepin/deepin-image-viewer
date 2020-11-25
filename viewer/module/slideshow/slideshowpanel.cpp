@@ -85,16 +85,16 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
     connect(dApp->signalM, &SignalManager::setFirstImg,
             this, &SlideShowPanel::saveFirstImg);
     qRegisterMetaType<DBImgInfoList>("DBImgInfoList &");
-    connect(dApp->signalM, &SignalManager::imagesRemovedPar, [ = ](
-    const DBImgInfoList & infos) {
-        foreach (DBImgInfo info, infos) {
-            if (m_vinfo.paths.contains(info.filePath)) {
-                m_vinfo.paths.removeOne(info.filePath);
-            }
-        }
+//    connect(dApp->signalM, &SignalManager::imagesRemovedPar, [ = ](
+//    const DBImgInfoList & infos) {
+//        foreach (DBImgInfo info, infos) {
+//            if (m_vinfo.paths.contains(info.filePath)) {
+//                m_vinfo.paths.removeOne(info.filePath);
+//            }
+//        }
 
-        m_player->setImagePaths(m_vinfo.paths);
-    });
+//        m_player->setImagePaths(m_vinfo.paths);
+//    });
     connect(dApp->signalM, &SignalManager::sigESCKeyStopSlide, this, [ = ] {
         if (isVisible())
         {
@@ -269,6 +269,7 @@ void SlideShowPanel::appendAction(int id, const QString &text, const QString &sh
     addAction(ac);
     ac->setText(text);
     ac->setProperty("MenuID", id);
+    ac->setObjectName("MenuID"+QString::number(id));
     ac->setShortcut(QKeySequence(shortcut));
     m_menu->addAction(ac);
 }
@@ -277,6 +278,7 @@ void SlideShowPanel::initMenu()
 {
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     m_menu = new QMenu;
+    m_menu->setObjectName(SLIDER_SHOW_MENU);
     m_menu->setStyle(QStyleFactory::create("dlight"));
     connect(m_menu, &QMenu::triggered, this, &SlideShowPanel::onMenuItemClicked);
     connect(this, &SlideShowPanel::customContextMenuRequested, this, [ = ] {

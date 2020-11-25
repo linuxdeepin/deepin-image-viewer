@@ -71,18 +71,16 @@ void ThreadRenderFrame::run()
     QImage image = mdata.mimage;
     QPainter p(&image);
     image.fill(Qt::transparent);
-    /*
-        Tell me why!
-        if draw the next frame_image first, then it will flick for FromBottom, CoverBottom effect!
-    */
-    //actually we can just paint the next frame_image if no opacity changes
-    if (bstop)
+
+    if (bstop){
         return;
+    }
     p.setClipRegion(mdata.current_region);
     p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**current_image*/mdata.current_image, mdata.current_rect);
 
-    if (bstop)
+    if (bstop){
         return;
+    }
     p.setClipRegion(mdata.next_region);
     p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**next_image*/mdata.next_image, mdata.next_rect);
     if (bstop)
@@ -185,10 +183,7 @@ SlideEffect::~SlideEffect()
 {
 //    qDebug() << "------------SlideEffect start release";
     disconnect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
-//    m_qf.waitForFinished();
-//    for (int i = 0; i < m_qflist.size(); i++) {
-//        m_qflist[i].waitForFinished();
-//    }
+
     if (current_image) {
         delete current_image;
         current_image = nullptr;

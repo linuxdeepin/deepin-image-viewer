@@ -100,7 +100,7 @@ signals:
     void updatePauseButton();
     void sigStartTimer();
     void initButton();
-    void imagesRemovedPar(const DBImgInfoList &infos);
+//    void imagesRemovedPar(const DBImgInfoList &infos);
     void sigESCKeyStopSlide();
     void sigESCKeyActivated();
     void hideSlidePanel();

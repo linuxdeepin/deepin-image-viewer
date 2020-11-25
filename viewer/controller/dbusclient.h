@@ -74,8 +74,8 @@ public Q_SLOTS:
 
         return call(QStringLiteral("openImages"), argumentList);
     }
-private slots:
-    void openDrawingBoard(QStringList paths);
+        void openDrawingBoard(QStringList paths);
+
 
 };
 

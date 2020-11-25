@@ -70,12 +70,12 @@ QVariant ConfigSetter::value(const QString group, const QString key,
     return value;
 }
 
-QStringList ConfigSetter::keys(const QString group)
-{
-    QStringList v;
-    m_settings->beginGroup(group);
-    v = m_settings->childKeys();
-    m_settings->endGroup();
+//QStringList ConfigSetter::keys(const QString group)
+//{
+//    QStringList v;
+//    m_settings->beginGroup(group);
+//    v = m_settings->childKeys();
+//    m_settings->endGroup();
 
-    return v;
-}
+//    return v;
+//}

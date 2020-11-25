@@ -60,10 +60,10 @@ protected:
 private:
     //void calculateRegion_Random(qreal k); //default
 
-    void calculateRegion_FromBottom(qreal k);
+//    void calculateRegion_FromBottom(qreal k);
     void calculateRegion_FromLeft(qreal k);
     void calculateRegion_FromRight(qreal k);
-    void calculateRegion_FromTop(qreal k);
+//    void calculateRegion_FromTop(qreal k);
 
     typedef void (SlideEffect_Enter::*calculateRegion_Func)(qreal);
     calculateRegion_Func calculateRegion_ptr;
@@ -101,11 +101,11 @@ bool SlideEffect_Enter::prepareFrameAt(int frame)
     return true;
 }
 
-void SlideEffect_Enter::calculateRegion_FromBottom(qreal k)
-{
-    next_clip_region = QRegion(0, height * (1.0 - k), width, height * k);
-    next_rect = QRect(0, height * (k - 1.0), width, height);
-}
+//void SlideEffect_Enter::calculateRegion_FromBottom(qreal k)
+//{
+//    next_clip_region = QRegion(0, height * (1.0 - k), width, height * k);
+//    next_rect = QRect(0, height * (k - 1.0), width, height);
+//}
 
 void SlideEffect_Enter::calculateRegion_FromLeft(qreal k)
 {
@@ -120,8 +120,8 @@ void SlideEffect_Enter::calculateRegion_FromRight(qreal k)
     next_rect = QRect(width * (k - 1.0), 0, width, height);
 }
 
-void SlideEffect_Enter::calculateRegion_FromTop(qreal k)
-{
-    next_clip_region = QRegion(0, 0, width, height * k);
-    next_rect = QRect(0, height * (1.0 - k), width, height);
-}
+//void SlideEffect_Enter::calculateRegion_FromTop(qreal k)
+//{
+//    next_clip_region = QRegion(0, 0, width, height * k);
+//    next_rect = QRect(0, height * (1.0 - k), width, height);
+//}

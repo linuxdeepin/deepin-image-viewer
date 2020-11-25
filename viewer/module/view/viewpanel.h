@@ -75,20 +75,20 @@ public:
     {
         return !QFileInfo(m_infos.first().filePath).exists();
     }
-    void AddDataToList(LOAD_DIRECTION Dirction, int pages = 30);
+//    void AddDataToList(LOAD_DIRECTION Dirction, int pages = 30);
 
-    /**
-     * @brief getPathsFromCurrent   获取当前位置和上一张和下一张图片路径
-     * @param nCurrent              当前图片的位置
-     * @return
-     */
-    QStringList getPathsFromCurrent(int nCurrent);
+//    /**
+//     * @brief getPathsFromCurrent   获取当前位置和上一张和下一张图片路径
+//     * @param nCurrent              当前图片的位置
+//     * @return
+//     */
+//    QStringList getPathsFromCurrent(int nCurrent);
 
-    /**
-    * @brief refreshPixmap  点击缩略图刷新图片
-    * @param strPath        缩略图路径
-    */
-    void refreshPixmap(QString strPath);
+//    /**
+//    * @brief refreshPixmap  点击缩略图刷新图片
+//    * @param strPath        缩略图路径
+//    */
+//    void refreshPixmap(QString strPath);
 
 signals:
     void updateCollectButton();
@@ -230,6 +230,8 @@ private:
     void appendAction(int id, const QString &text, const QString &shortcut = "");
 #ifndef LITE_DIV
     DMenu *createAlbumMenu();
+    QFileInfoList getFileInfos(const QString &path);
+    void viewOnNewProcess(const QStringList &paths);
 #endif
 
     /**
@@ -313,7 +315,7 @@ private:
      */
     void showFullScreen();
 
-    void viewOnNewProcess(const QStringList &paths);
+
     /**
      * @brief backToLastPanel
      * quit slideshow
@@ -327,7 +329,7 @@ private:
      */
     int imageIndex(const QString &path);
 
-    QFileInfoList getFileInfos(const QString &path);
+
     /**
      * @brief getImageInfos     根据传入图片信息转换为详细信息
      * @param infos             传入的图片信息
@@ -339,7 +341,7 @@ private:
      * @brief paths 当前显示图片的路径集合
      * @return      返回当前所有图片路径
      */
-    const QStringList paths() const;
+//    const QStringList paths() const;
     const QStringList slideshowpaths() const;
 
     /**
@@ -351,15 +353,15 @@ private:
     bool PopRenameDialog(QString &filepath, QString &filename);
     void startFileWatcher();
 
-    /**
-     * @brief disconnectTTbc   断开ttbc所有的信号连接
-     */
-    void disconnectTTbc();
+//    /**
+//     * @brief disconnectTTbc   断开ttbc所有的信号连接
+//     */
+//    void disconnectTTbc();
 
-    /**
-     * @brief reConnectTTbc     重新连接TTBC工具栏所有信号
-     */
-    void reConnectTTbc();
+//    /**
+//     * @brief reConnectTTbc     重新连接TTBC工具栏所有信号
+//     */
+//    void reConnectTTbc();
     /**
      * @brief GetPixmapStatus
      * whether the picture is loaded successfully
@@ -378,7 +380,17 @@ private slots:
      */
     void slotCurrentStackWidget(QString &path,bool bpix);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
+#ifndef LITE_DIV
     void updateLocalImages();
+    /**
+     * @brief newEatImageDirIterator    备份初始信息读取代码
+     */
+    void newEatImageDirIterator();
+    /**
+     * @brief eatImageDirIterator   迭代获取当前文件夹所有图片信息
+     */
+    void eatImageDirIterator();
+#endif
 
     /**
      * @brief sendSignal    发送显示缩略图的信号
@@ -399,15 +411,9 @@ private slots:
     void slotExitFullScreen();
     //void slotLoadSlideshow(bool bflag);
 
-    /**
-     * @brief eatImageDirIterator   迭代获取当前文件夹所有图片信息
-     */
-    void eatImageDirIterator();
 
-    /**
-     * @brief newEatImageDirIterator    备份初始信息读取代码
-     */
-    void newEatImageDirIterator();
+
+
 
     /**
      * @brief eatImageDirIteratorThread 线程函数，遍历选中文件夹获取所有图片信息

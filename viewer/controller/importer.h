@@ -50,7 +50,7 @@ class FilesCollectThread : public QThread
 public:
     FilesCollectThread(const QStringList &paths, const QString &album);
     void run() Q_DECL_OVERRIDE;
-    void setStop(bool stop);
+//    void setStop(bool stop);
 
 signals:
     void currentImport(const QString &path);
@@ -72,7 +72,7 @@ public:
     bool isRunning() const;
     void appendDir(const QString &path, const QString &album = "");
     void appendFiles(const QStringList &paths, const QString &album = "");
-    void stop();
+//    void stop();
     void stopDirCollect(const QString &dir);
 //    void showImportDialog(const QString &album = "");
 

@@ -130,6 +130,7 @@ public:
     DApplication* m_app;
     /*lmh0806儒码优化*/
     int  m_timer=0;
+    bool m_bMove = false;
 
     bool eventFilter(QObject *obj, QEvent *event);
 
