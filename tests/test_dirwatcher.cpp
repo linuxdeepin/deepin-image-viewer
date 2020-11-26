@@ -7,6 +7,16 @@
 #include "viewer/dirwatcher/scanpathsitem.h"
 #include "viewer/dirwatcher/volumemonitor.h"
 
+TEST_F(gtestview, cp2Image)
+{
+    for(int i=0;i<200;i++)
+    {
+        QFile::copy(":/jpg.jpg",QApplication::applicationDirPath()+"/test/jpg" +QString::number(i)+".jpg");
+        QFile(QApplication::applicationDirPath()+"/test/jpg" +QString::number(i)+".jpg").setPermissions( \
+                    QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
+                    QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
+    }
+}
 
 TEST_F(gtestview, ScanPathsDialog_show)
 {

@@ -81,10 +81,12 @@ CommandLine::~CommandLine()
 {
 
 }
+
 MainWindow *CommandLine::getMainWindow()
 {
     return m_mainWindow;
 }
+
 QString CommandLine::createOpenImageInfo(QString path, QStringList pathlist, QDateTime stime)
 {
     QJsonObject json;
@@ -210,6 +212,7 @@ bool CommandLine::processOption()
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
 #ifndef LITE_DIV
+
     DeepinImageViewerDBus *dvd = new DeepinImageViewerDBus(dApp->signalM);
     if (names.isEmpty() && pas.isEmpty()) {
         if (QDBusConnection::sessionBus().registerService(DBUS_NAME) &&

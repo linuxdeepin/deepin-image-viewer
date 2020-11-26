@@ -7,6 +7,7 @@
 #include <QPinchGesture>
 #include <QSwipeGesture>
 #include <QTouchEvent>
+#include "module/view/scen/imageview.h"
 #if test_module_view_contents
 
 TEST_F(gtestview, QWheelEvent_2)

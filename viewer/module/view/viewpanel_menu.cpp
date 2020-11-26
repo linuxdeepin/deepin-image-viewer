@@ -47,29 +47,7 @@ QString ss(const QString &text, const QString &defaultValue)
     return defaultValue;
 }
 
-enum MenuItemId {
-    IdFullScreen,
-    IdExitFullScreen,
-    IdStartSlideShow,
-    IdRename,
-    IdPrint,
-    IdAddToAlbum,
-    IdCopy,
-    IdMoveToTrash,
-    IdRemoveFromTimeline,
-    IdRemoveFromAlbum,
-    IdAddToFavorites,
-    IdRemoveFromFavorites,
-    IdShowNavigationWindow,
-    IdHideNavigationWindow,
-    IdRotateClockwise,
-    IdRotateCounterclockwise,
-    IdSetAsWallpaper,
-    IdDisplayInFileManager,
-    IdImageInfo,
-    IdSubMenu,
-    IdDraw
-};
+
 
 }  // namespace
 
@@ -77,7 +55,7 @@ void ViewPanel::initPopupMenu()
 {
     m_menu = new DMenu;
     connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
-        if (m_infos.isEmpty())
+        if (m_infos.isEmpty() )
             return;
         QString filePath = m_infos.at(m_current).filePath;
 #ifdef LITE_DIV
@@ -174,13 +152,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
-        DDialog * dialog=PrintHelper::showPrintDialog(QStringList(path), this);
-        if(dialog)
-        {
-            dialog->exec();
-            dialog->deleteLater();
-            dialog=nullptr;
-        }
+        PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     }
 

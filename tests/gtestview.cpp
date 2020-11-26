@@ -11,6 +11,7 @@
 #include "viewer/dirwatcher/scanpathsdialog.h"
 #include "dirwatcher/volumemonitor.h"
 #include "dirwatcher/scanpathsitem.h"
+#include "module/view/scen/imageview.h"
 gtestview::gtestview()
 {
 
@@ -604,11 +605,11 @@ TEST_F(gtestview, m_pushbutton)
 
     m_pushbutton->show();
 
-    QTest::mousePress(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),350);
-    QTest::mouseRelease(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),350);
-    QTest::mouseClick(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),350);
-    QTest::mouseMove(m_pushbutton, QPoint(20,20),350);
-    QTest::keyClick(m_pushbutton, Qt::Key_Escape, Qt::ShiftModifier, 350);
+    QTest::mousePress(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
+    QTest::mouseRelease(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
+    QTest::mouseClick(m_pushbutton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
+    QTest::mouseMove(m_pushbutton, QPoint(20,20),500);
+    QTest::keyClick(m_pushbutton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_pushbutton,Qt::LeftButton);
 
     m_pushbutton->hide();
@@ -659,11 +660,11 @@ TEST_F(gtestview, m_returnButton)
     m_returnButton->buttonWidth();
 //    m_returnButton->showTooltip(QPos(200,200));
 
-    QTest::mousePress(m_returnButton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),350);
+    QTest::mousePress(m_returnButton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_returnButton, Qt::LeftButton);
     QTest::mouseClick(m_returnButton, Qt::LeftButton);
-    QTest::mouseMove(m_returnButton, QPoint(20,20),350);
-    QTest::keyClick(m_returnButton, Qt::Key_Escape, Qt::ShiftModifier, 350);
+    QTest::mouseMove(m_returnButton, QPoint(20,20),500);
+    QTest::keyClick(m_returnButton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_returnButton,Qt::LeftButton);
 
 
@@ -844,12 +845,15 @@ TEST_F(gtestview, ImageView)
     m_ImageView->centerOn(5,5);
     m_ImageView->setRenderer();
     m_ImageView->setScaleValue(qreal());
-    QTest::mousePress(m_ImageView, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-    QTest::mouseRelease(m_ImageView, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
-    QTest::mouseClick(m_ImageView, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-    QTest::mouseMove(m_ImageView, QPoint(50,100),200);
-    QTest::keyClick(m_ImageView, Qt::Key_Escape, Qt::ShiftModifier, 200);
-    QTest::mouseDClick(m_ImageView,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mousePress(m_ImageView->viewport(), Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseRelease(m_ImageView->viewport(), Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
+    QTest::mouseClick(m_ImageView->viewport(), Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseMove(m_ImageView->viewport(), QPoint(50,100),200);
+    QTest::keyClick(m_ImageView->viewport(), Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseDClick(m_ImageView->viewport(),Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    // 打开保存绘制的 tif
+    QString TriangleItemPath = QApplication::applicationDirPath() + "/tif.tif";
+    TestApi::drogPathtoWidget(m_ImageView->viewport(),TriangleItemPath);
 
     m_ImageView->hide();
 }
@@ -1088,15 +1092,9 @@ TEST_F(gtestview, PrintHelper)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
         PrintHelper *testWidget=new PrintHelper();
-        DDialog * dialog=PrintHelper::showPrintDialog(list, m_frameMainWindow);
-        if(dialog)
-        {
-            dialog->show();
-            QTest::qWait(1000);
-            dialog->close();
-            dialog->deleteLater();
-            dialog=nullptr;
-        }
+        PrintHelper::showPrintDialog(list, m_frameMainWindow);
+        QTest::qWait(1000);
+
     }
 }
 
@@ -1127,16 +1125,6 @@ TEST_F(gtestview, initTest1)
 
 
 
-}
-TEST_F(gtestview, cp2Image)
-{
-    for(int i=0;i<200;i++)
-    {
-        QFile::copy(":/jpg.jpg",QApplication::applicationDirPath()+"/test/jpg" +QString::number(i)+".jpg");
-        QFile(QApplication::applicationDirPath()+"/test/jpg" +QString::number(i)+".jpg").setPermissions( \
-                    QFile::WriteUser | QFile::ReadUser |QFile::WriteOther |\
-                    QFile::ReadOther |QFile::ReadGroup|QFile::WriteGroup);
-    }
 }
 
 

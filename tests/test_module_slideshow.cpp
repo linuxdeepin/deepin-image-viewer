@@ -2,6 +2,7 @@
 #include "viewer/module/slideshow/slideeffectplayer.h"
 #include "viewer/module/slideshow/slideeffect.h"
 #include "viewer/module/slideshow/slideshowpanel.h"
+#include "module/view/scen/imageview.h"
 TEST_F(gtestview, Sslideshowpanel1)
 {
 SlideShowPanel *panel=new SlideShowPanel();

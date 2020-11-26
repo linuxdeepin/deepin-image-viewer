@@ -7,6 +7,11 @@ option (LITE_DIV "Use tutorial provided math implementation" ON)
 add_definitions( -DLITE_DIV )
 option (USE_UNIONIMAGE "Use UNIONIMAGE" ON)
 add_definitions( -DUSE_UNIONIMAGE )
+
+option (USE_TEST "Use TESTS" ON)
+add_definitions( -DUSE_TEST )
+
+
 set(TARGET_NAME deepin-image-viewer-test)
 set(CMD_NAME deepin-image-viewer-test)
 set(CMAKE_AUTOMOC ON)

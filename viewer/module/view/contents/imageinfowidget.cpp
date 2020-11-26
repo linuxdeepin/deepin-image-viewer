@@ -31,6 +31,7 @@
 #include <QFileInfo>
 #include <QFormLayout>
 #include <QLabel>
+#include <QPainterPath>
 #include <QPushButton>
 #include <QScrollBar>
 #include <QString>

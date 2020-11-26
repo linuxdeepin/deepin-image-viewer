@@ -3,6 +3,7 @@
 #include "viewer/module/modulepanel.h"
 #include "viewer/widgets/imagebutton.h"
 #include "viewer/module/view/navigationwidget.h"
+#include "viewer/module/view/viewpanel.h"
 #include <QPixmap>
 #include <QImage>
 #if test_module_view_z
@@ -28,22 +29,7 @@ TEST_F(gtestview, moduleName)
     }
 }
 
-TEST_F(gtestview, ViewPanel_menu)
-{
-    if(!m_frameMainWindow)
-    {
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(500);
 
-    ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
-    if(panel)
-    {
-        QTest::mouseClick(panel, Qt::RightButton,Qt::NoModifier,QPoint(50,50),50);
-        panel->customContextMenuRequested(QPoint(300,300));
-
-    }
-}
 TEST_F(gtestview, RenameDialog)
 {
     m_renameDialog=new RenameDialog(QApplication::applicationDirPath()+"/test/jpg52.jpg" );

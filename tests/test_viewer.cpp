@@ -1,9 +1,43 @@
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"
-TEST_F(gtestview, xx3231)
+#include <QObject>
+#include <QSwipeGesture>
+#define private public
+#include "module/view/scen/imageview.h"
+TEST_F(gtestview, m_imageloader_11)
 {
 
-
 }
+// connect(animation, SIGNAL(finished()), this, SLOT(OnFinishPinchAnimal()));
+TEST_F(gtestview, m_OnFinishPinchAnimal)
+{
+    if(!m_frameMainWindow){
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    QTest::qWait(500);
 
+    ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
+    if(panel){
+        panel->OnFinishPinchAnimal();
+        QTest::qWait(100);
+        QList<QGesture *> gestures3;
+        QSwipeGesture *testGest3=new QSwipeGesture();
+        testGest3->setHotSpot(QPoint(300,300));
+        testGest3->setSwipeAngle(qreal(2));
+        gestures3.push_back(testGest3);
+        QGestureEvent *event7=new QGestureEvent(gestures3);
+        qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event7);
 
+        panel->swipeTriggered(testGest3);
+
+        QTest::qWait(100);
+        QList<QGesture *> gestures;
+        QPinchGesture *testGest=new QPinchGesture();
+        testGest->setHotSpot(QPoint(300,300));
+        testGest->setTotalChangeFlags(QPinchGesture::ScaleFactorChanged);
+        gestures.push_back(testGest);
+        QGestureEvent *event4=new QGestureEvent(gestures);
+        panel->handleGestureEvent(event4);
+
+    }
+}

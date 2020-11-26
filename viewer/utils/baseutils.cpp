@@ -218,7 +218,7 @@ void copyImageToClipboard(const QStringList &paths)
 
     // Copy Image Date
     QImage img(paths.first());
-    Q_ASSERT(!img.isNull());
+//    Q_ASSERT(!img.isNull());
     newMimeData->setImageData(img);
 
     // Set the mimedata

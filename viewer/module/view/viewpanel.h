@@ -57,8 +57,33 @@ typedef DStackedWidget QSWToDStackedWidget;
 
 class ViewPanel : public ModulePanel
 {
+
     Q_OBJECT
 public:
+    enum MenuItemId {
+        IdFullScreen,
+        IdExitFullScreen,
+        IdStartSlideShow,
+        IdRename,
+        IdPrint,
+        IdAddToAlbum,
+        IdCopy,
+        IdMoveToTrash,
+        IdRemoveFromTimeline,
+        IdRemoveFromAlbum,
+        IdAddToFavorites,
+        IdRemoveFromFavorites,
+        IdShowNavigationWindow,
+        IdHideNavigationWindow,
+        IdRotateClockwise,
+        IdRotateCounterclockwise,
+        IdSetAsWallpaper,
+        IdDisplayInFileManager,
+        IdImageInfo,
+        IdSubMenu,
+        IdDraw
+    };
+
     explicit ViewPanel(QWidget *parent = nullptr);
 
     QString moduleName() Q_DECL_OVERRIDE;
@@ -74,6 +99,10 @@ public:
     bool getPicExict()
     {
         return !QFileInfo(m_infos.first().filePath).exists();
+    }
+    QMenu * getMenu()
+    {
+        return m_menu;
     }
 //    void AddDataToList(LOAD_DIRECTION Dirction, int pages = 30);
 

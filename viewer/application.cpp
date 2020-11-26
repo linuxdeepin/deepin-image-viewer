@@ -224,7 +224,7 @@ void ImageLoader::addImageLoader(QStringList pathlist)
         //LMH0601加锁
         QMutexLocker lcoker(&dApp->getRwLock());
         QPixmap pixmap = QPixmap::fromImage(tImg);
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
     }
 #else
 
@@ -484,25 +484,6 @@ Application::Application(int &argc, char **argv)
         emit sigstartLoad();
     });
 }
-
-Application::~Application()
-{
-    //隐藏详细信息
-    emit signalM->hideExtensionPanel();
-    if (nullptr !=  m_LoadThread) {
-        if (m_LoadThread->isRunning()) {
-            //结束线程
-            m_LoadThread->requestInterruption();
-            m_bThreadExit = true;
-            emit endThread();
-            QThread::msleep(1000);
-            m_LoadThread->quit();
-        }
-    }
-
-    emit endApplication();
-}
-
 bool Application::eventFilter(QObject *obj, QEvent *event)
 {
     if(event->type() == QEvent::MouseButtonRelease)
@@ -523,9 +504,29 @@ void Application::initChildren()
 void Application::initI18n()
 {
     // install translators
-//    QTranslator *translator = new QTranslator;
-//    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
-//                     + QLocale::system().name() + ".qm");
-//    installTranslator(translator);
+    //    QTranslator *translator = new QTranslator;
+    //    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
+    //                     + QLocale::system().name() + ".qm");
+    //    installTranslator(translator);
     m_app->loadTranslator(QList<QLocale>() << QLocale::system());
 }
+
+Application::~Application()
+{
+    //隐藏详细信息
+    emit signalM->hideExtensionPanel();
+    if (nullptr !=  m_LoadThread) {
+        if (m_LoadThread->isRunning()) {
+            //结束线程
+            m_LoadThread->requestInterruption();
+            m_bThreadExit = true;
+            emit endThread();
+            QThread::msleep(1000);
+            m_LoadThread->quit();
+        }
+    }
+
+    emit endApplication();
+}
+
+

@@ -16,6 +16,7 @@
 //#endif
 
 #ifdef USE_UNIONIMAGE
+#include "printhelper.h"
 #include "unionimage.h"
 #endif
 
@@ -76,7 +77,7 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
     return last_action;
 }
 */
-DDialog* PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
+void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     QList<QImage> imgs;
     QImage img;
@@ -87,8 +88,8 @@ DDialog* PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             imgs << img;
         }
     }
-    DPrintPreviewDialog *printDialog2 =new DPrintPreviewDialog(parent);
-    QObject::connect(printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
+    DPrintPreviewDialog printDialog2(parent);
+    QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
         QPainter painter(_printer);
         for (QImage img : imgs) {
             if (!img.isNull()) {
@@ -114,8 +115,12 @@ DDialog* PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         }
         painter.end();
     });
-//    printDialog2->exec();
-    return static_cast<DDialog *>(printDialog2);
+#ifndef USE_TEST
+    printDialog2.exec();
+#else
+    printDialog2.show();
+#endif
+;
 
 }
 

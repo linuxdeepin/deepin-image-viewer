@@ -388,7 +388,11 @@ void ViewPanel::initFileSystemWatcher()
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
 {
     RenameDialog *renamedlg =  new RenameDialog(filepath);
+#ifndef USE_TEST
     if (renamedlg->exec()) {
+#else
+    if (true) {
+#endif
         //重命名从窗口确定后修改文件名词并修改窗口标题
         QFile file(filepath);
         filepath = renamedlg->GetFilePath();

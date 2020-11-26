@@ -6,7 +6,7 @@
 
 #include <QCoreApplication>
 //baseutils utils::base
-
+#include "module/view/scen/imageview.h"
 #if test_module_view_scen
 TEST_F(gtestview, showVagueImage)
 {
