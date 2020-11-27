@@ -1,7 +1,10 @@
 #include "gtestview.h"
+#define protected public
 #include "viewer/module/slideshow/slideeffectplayer.h"
+
 #include "viewer/module/slideshow/slideeffect.h"
 #include "viewer/module/slideshow/slideshowpanel.h"
+
 #include "module/view/scen/imageview.h"
 TEST_F(gtestview, Sslideshowpanel1)
 {
@@ -39,24 +42,14 @@ TEST_F(gtestview, SlideEffectPlayer_1)
     player->startPrevious();
     player->pause();
     player->stop();
+    player->deleteLater();
+    player=nullptr;
 
 }
 
-TEST_F(gtestview, slideeffect_1)
+TEST_F(gtestview, SlideEffect_Circle_1)
 {
-//     SlideEffect * effect=SlideEffect::create("invalid");
-//     SlideEffect * effect=new  SlideEffect()
-//     effect->setImages(QApplication::applicationDirPath() + "/test/jpg100.jpg",QApplication::applicationDirPath() + "/test/jpg101.jpg");
-//     effect->start();
-//     effect->pause();
-//     effect->stop();
-//     effect->setSize(QSize(200,200));
-//     effect->setType(kRandom);
-//     effect->setAllMs(1000);
 
-//     effect->setDuration(1000);
-//     effect->currentFrame();
-//     effect->clearimagemap();
 }
 
 

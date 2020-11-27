@@ -142,24 +142,24 @@ void TopToolbar::mouseDoubleClickEvent(QMouseEvent *e)
 
     DBlurEffectWidget::mouseDoubleClickEvent(e);
 }
-void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme)
-{
-    QLinearGradient lightLinearGrad;
-    lightLinearGrad.setColorAt(0, QColor(0, 0, 0, 0));
-    lightLinearGrad.setColorAt(1, QColor(0, 0, 0, 0));
-    lightLinearGrad.setStart(x(), y());
-    lightLinearGrad.setFinalStop(x(), y() + height());
+//void TopToolbar::onThemeChanged(ViewerThemeManager::AppTheme curTheme)
+//{
+//    QLinearGradient lightLinearGrad;
+//    lightLinearGrad.setColorAt(0, QColor(0, 0, 0, 0));
+//    lightLinearGrad.setColorAt(1, QColor(0, 0, 0, 0));
+//    lightLinearGrad.setStart(x(), y());
+//    lightLinearGrad.setFinalStop(x(), y() + height());
 
-    if (curTheme == ViewerThemeManager::Dark) {
-        //        setCoverBrush(QBrush(QColor(0, 0, 0, 0)));
-        m_topBorderColor = DARK_TOP_BORDERCOLOR;
-        m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
-    } else {
-        //        setCoverBrush(QBrush(lightLinearGrad));
-        m_topBorderColor = LIGHT_TOP_BORDERCOLOR;
-        m_bottomBorderColor = LIGHT_BOTTOM_BORDERCOLOR;
-    }
-}
+//    if (curTheme == ViewerThemeManager::Dark) {
+//        //        setCoverBrush(QBrush(QColor(0, 0, 0, 0)));
+//        m_topBorderColor = DARK_TOP_BORDERCOLOR;
+//        m_bottomBorderColor = DARK_BOTTOM_BORDERCOLOR;
+//    } else {
+//        //        setCoverBrush(QBrush(lightLinearGrad));
+//        m_topBorderColor = LIGHT_TOP_BORDERCOLOR;
+//        m_bottomBorderColor = LIGHT_BOTTOM_BORDERCOLOR;
+//    }
+//}
 
 void TopToolbar::paintEvent(QPaintEvent *e)
 {

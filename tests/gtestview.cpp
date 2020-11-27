@@ -198,7 +198,7 @@ TEST_F(gtestview, sliderShow)
     QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
     QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier , 500);
     QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 3000);
-
+    QTest::qWait(10000);
     QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),1000);
     QTest::mouseMove(m_frameMainWindow, QPoint(200,500),1000);
     SlideShowPanel * sliderShow = m_frameMainWindow->findChild<SlideShowPanel *>(SLIDE_SHOW_WIDGET);
@@ -913,42 +913,39 @@ TEST_F(gtestview, BlurFrame)
     m_printOptionspage->alignment();
 
     QTest::qWait(100);
-    if(!m_frameMainWindow)
-    {
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-        BlurFrame *blurFrame=new BlurFrame(new QWidget());
-        blurFrame->resize(500,500);
-        blurFrame->show();
-        blurFrame->resize(300,300);
-        blurFrame->update();
-        blurFrame->moveWithAnimation( 150, 150);
+    BlurFrame *blurFrame=new BlurFrame(new QWidget());
+    blurFrame->resize(500,500);
+    blurFrame->show();
+    blurFrame->resize(300,300);
+    blurFrame->update();
+    blurFrame->moveWithAnimation( 150, 150);
 
-        blurFrame->getBorderColor() ;
-        blurFrame->getBorderRadius() ;
-        blurFrame->getBorderWidth() ;
-        blurFrame->show();
-        blurFrame->setBorderColor(QColor(200,155,200));
-        blurFrame->resize(200,200);
-        blurFrame->setBorderRadius(100);
-        blurFrame->setBorderWidth(50);
-        blurFrame->setCoverBrush(QBrush());
-        blurFrame->setPos(QPoint(150,150));
-        blurFrame->setMoveEnable(true);
+    blurFrame->getBorderColor() ;
+    blurFrame->getBorderRadius() ;
+    blurFrame->getBorderWidth() ;
+    blurFrame->show();
+    blurFrame->setBorderColor(QColor(200,155,200));
+    blurFrame->resize(200,200);
+    blurFrame->setBorderRadius(100);
+    blurFrame->setBorderWidth(50);
+    blurFrame->setCoverBrush(QBrush());
+    blurFrame->setPos(QPoint(150,150));
+    blurFrame->setMoveEnable(true);
 
-        blurFrame->update();
-        blurFrame->show();
-        QTest::mousePress(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-        QTest::mouseRelease(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
-        QTest::mouseClick(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-        QTest::mouseMove(blurFrame, QPoint(50,100),200);
-        QTest::keyClick(blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 200);
-        QTest::mouseDClick(blurFrame,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    blurFrame->update();
+    blurFrame->show();
+    QTest::mousePress(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseRelease(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
+    QTest::mouseClick(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseMove(blurFrame, QPoint(50,100),200);
+    QTest::keyClick(blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseDClick(blurFrame,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
 
-        QTest::qWait(100);
-        blurFrame->hide();
-        blurFrame->deleteLater();
-        blurFrame=nullptr;
-    }
+    QTest::qWait(100);
+    blurFrame->hide();
+    blurFrame->deleteLater();
+    blurFrame=nullptr;
+
 
 }
 TEST_F(gtestview, unionimage)
@@ -1106,6 +1103,7 @@ TEST_F(gtestview, ElidedLabel)
         ElidedLabel *elide=new ElidedLabel(new QWidget());
         elide->setText("test");
         elide->show();
+        elide->resize(50,50);
         elide->update();
         QTest::qWait(100);
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);

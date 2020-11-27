@@ -34,25 +34,7 @@
 
 //    m_renameDialog->hide();
 //}
-//TEST_F(gtestview, TopToolbar)
-//{
-//    m_topoolBar=new TopToolbar(false,nullptr);
-//    m_topoolBar->show();
-//    QTest::mousePress(m_topoolBar, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
-//    QTest::mouseRelease(m_topoolBar, Qt::LeftButton);
-//    QTest::mouseClick(m_topoolBar, Qt::LeftButton);
-//    QTest::mouseMove(m_topoolBar, QPoint(20,20),500);
-//    QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 1000);
-//    QTest::mouseDClick(m_topoolBar,Qt::LeftButton);
 
-//    m_topoolBar->setMiddleContent("test");
-//    m_topoolBar->setTitleBarTransparent(true);
-//    m_topoolBar->setTitleBarTransparent(false);
-//    //        QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 200);
-//    QTest::mouseDClick(m_topoolBar,Qt::LeftButton);
-
-//    m_topoolBar->hide();
-//}
 //TEST_F(gtestview, LockWidget)
 //{
 //    m_lockWidget=new LockWidget("","");

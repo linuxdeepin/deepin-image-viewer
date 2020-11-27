@@ -25,7 +25,7 @@ TEST_F(gtestview, Dbusclient1)
 TEST_F(gtestview, DIVDBusController)
 {
     DIVDBusController *control=new DIVDBusController();
-//    control->activeWindow();
+    control->activeWindow();
     control->editImage(QApplication::applicationDirPath() + "/test/jpg102.jpg");
     control->enterAlbum(QApplication::applicationDirPath() + "/test/jpg102.jpg");
     control->searchImage(QApplication::applicationDirPath() + "/test/jpg102.jpg");

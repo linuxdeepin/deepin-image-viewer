@@ -68,7 +68,7 @@ private:
 
 private slots:
 
-    void onThemeChanged(ViewerThemeManager::AppTheme curTheme);
+//    void onThemeChanged(ViewerThemeManager::AppTheme curTheme);
 
 private:
     QColor m_coverBrush;
