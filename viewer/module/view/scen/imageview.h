@@ -235,7 +235,7 @@ public slots:
      * @param thumbnailpixmap
      * 缩略图pixmap
      */
-    void showVagueImage(QPixmap thumbnailpixmap,QString filePath);
+    void showVagueImage(QPixmap thumbnailpixmap,QString filePath,bool bloadpic = true);
 
     /**
      * @brief showFileImage
@@ -349,5 +349,6 @@ private:
     MorePicFloatWidget *m_morePicFloatWidget{nullptr};
     QImageReader* m_imageReader{nullptr};
     int m_currentMoreImageNum{0};
+    QTimer *m_loadTimer = nullptr;
 };
 #endif // SVGVIEW_H

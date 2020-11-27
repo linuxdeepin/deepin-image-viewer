@@ -243,7 +243,7 @@ signals:
 
     void ttbcontentClicked();
 
-    void showvaguepixmap(QPixmap,QString path);
+    void showvaguepixmap(QPixmap,QString path,bool flag = true);
 
     void sigsetcurrent(QString path);
 

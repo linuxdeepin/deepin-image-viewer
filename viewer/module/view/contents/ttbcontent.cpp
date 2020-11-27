@@ -581,7 +581,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
                 m_pixmapstring = LOCMAP_SELECTED_DAMAGED_LIGHT;
         }
 
-        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(60, 60));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
         if (_pixmap.isNull()) {
@@ -604,7 +603,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
             //            painter.fillRect(pixmapRect,
             //            QBrush(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color()));
         }
-
         if (themeType == DGuiApplicationHelper::DarkType) {
             if (bFirstUpdate)
                 m_pixmapstring = LOCMAP_NOT_SELECTED_DARK;
@@ -617,7 +615,6 @@ void ImageItem::paintEvent(QPaintEvent *event)
                 m_pixmapstring = LOCMAP_NOT_SELECTED_DAMAGED_LIGHT;
         }
 
-        QPixmap pixmap = utils::base::renderSVG(m_pixmapstring, QSize(30, 40));
         QPainterPath bg;
         bg.addRoundedRect(pixmapRect, 4, 4);
         if (_pixmap.isNull()) {
@@ -1546,7 +1543,7 @@ void TTBContent::OnRequestShowVaguePix(QString filepath,bool& thumbnailflag)
     QPixmap pix = item->getPixmap();
     if(!pix.isNull()){
         qDebug() << "OnRequestShowVaguePix";
-        emit showvaguepixmap(pix,filepath);
+        emit showvaguepixmap(pix,filepath,false);
         thumbnailflag = true;
     }else
         thumbnailflag = false;

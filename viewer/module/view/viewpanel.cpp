@@ -589,12 +589,6 @@ void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
             emit m_viewB->disCheckAdaptImageBtn();
         }
         m_stack->setCurrentIndex(2);
-    } else if (QFileInfo(path).isReadable() && !QFileInfo(path).isWritable()) {
-        m_stack->setCurrentIndex(0);
-        DRecentData data;
-        data.appName = "Deepin Image Viewer";
-        data.appExec = "deepin-image-viewer";
-        DRecentManager::addItem(path, data);
     } else {
         m_stack->setCurrentIndex(0);
         // open success.
@@ -603,7 +597,7 @@ void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
         data.appExec = "deepin-image-viewer";
         DRecentManager::addItem(path, data);
     }
-
+    updateMenuContent();
 }
 #ifndef LITE_DIV
 void ViewPanel::updateLocalImages()
@@ -2124,6 +2118,7 @@ void ViewPanel::openImage(const QString path, bool inDB)
         int b = dimension.indexOf("x");
         bool c = false;
         bool d = false;
+        bool f = false; //ftp类型
         //bool g=false;
         if (a > 0) {
             double value = fileSize.leftRef(a).toDouble();
@@ -2142,7 +2137,8 @@ void ViewPanel::openImage(const QString path, bool inDB)
                // g = true;
             }
         }
-        if (c && d) {
+        if(path.indexOf("ftp:host") != -1) f = true;
+        if ((c && d) || f) {
             emit dApp->signalM->loadingDisplay(true);
         }
     }
@@ -2153,7 +2149,6 @@ void ViewPanel::openImage(const QString path, bool inDB)
 //        QStringList pathlist = getPathsFromCurrent(m_current);
 //        m_viewB->recvPathsToCache(pathlist);
 //    }
-    updateMenuContent();
 
     if (m_info) {
         qDebug() << path;

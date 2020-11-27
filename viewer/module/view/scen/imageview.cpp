@@ -397,7 +397,18 @@ ImageView::ImageView(QWidget *parent)
     m_morePicFloatWidget->setFixedWidth(70);
     m_morePicFloatWidget->setFixedHeight(140);
     m_morePicFloatWidget->hide();
+    m_loadTimer = new QTimer(this);
+    m_loadTimer->setSingleShot(true);
+    m_loadTimer->setInterval(300);
 
+    connect(m_loadTimer, &QTimer::timeout, this, [ = ] {
+        QThread *th = QThread::create([ = ]() {
+            cachePixmap(m_path);
+        });
+
+        connect(th, &QThread::finished, th, &QObject::deleteLater);
+        th->start();
+    });
 
 }
 
@@ -872,14 +883,6 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
             //fix 26153
             emit dApp->signalM->hideNavigation();
         } else {
-            //QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, strPath);
-            QThread *th = QThread::create([ = ]() {
-                cachePixmap(m_path);
-            });
-
-            connect(th, &QThread::finished, th, &QObject::deleteLater);
-            th->start();
-
             if (!m_watcher.isRunning()) {
                 //                m_watcher.setFuture(f);
 
@@ -914,6 +917,20 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
                 //                f.waitForFinished();
                 //                m_watcher.setFuture(f);
             }
+            if(strPath.indexOf("ftp:host") == -1)
+            {
+                //QFuture<QVariantList> f = QtConcurrent::run(m_pool, cachePixmap, strPath);
+                QThread *th = QThread::create([ = ]() {
+                    cachePixmap(m_path);
+                });
+
+                connect(th, &QThread::finished, th, &QObject::deleteLater);
+                th->start();
+            }else {
+                m_loadTimer->start();
+            }
+
+
 
             emit dApp->signalM->hideNavigation();
         }
@@ -1531,7 +1548,7 @@ void ImageView::OnFinishPinchAnimal()
 }
 
 #include <QApplication>
-void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
+void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath,bool bloadpic)
 {
     if(m_morePicFloatWidget){
             m_morePicFloatWidget->setVisible(false);
@@ -1540,7 +1557,8 @@ void ImageView::showVagueImage(QPixmap thumbnailpixmap,QString filePath)
     m_bStopShowThread=false;
     //一张图片内重复移动不刷新
     if(sigPath == filePath) return;
-    sigPath = filePath;
+    if(bloadpic)
+        sigPath = filePath;
     scene()->clear();
     m_movieItem = nullptr;
 //    m_imgSvgItem = nullptr;
