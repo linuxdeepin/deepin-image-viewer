@@ -1671,7 +1671,12 @@ void ImageView::slotsUp()
         else {
             m_imageReader->jumpToImage(m_imageReader->currentImageNumber()-1);
         }
-        m_pixmapItem->setPixmap(QPixmap::fromImage(m_imageReader->read()));
+        m_pixmapItem = nullptr;
+        scene()->clear();
+
+        m_pixmapItem=new GraphicsPixmapItem(QPixmap::fromImage(m_imageReader->read()));
+        scene()->addItem(m_pixmapItem);
+
         QRectF rect = m_pixmapItem->boundingRect();
         setSceneRect(rect);
         autoFit();
@@ -1690,7 +1695,11 @@ void ImageView::slotsDown()
         else {
             m_imageReader->jumpToNextImage();
         }
-        m_pixmapItem->setPixmap(QPixmap::fromImage(m_imageReader->read()));
+        m_pixmapItem = nullptr;
+        scene()->clear();
+
+        m_pixmapItem=new GraphicsPixmapItem(QPixmap::fromImage(m_imageReader->read()));
+        scene()->addItem(m_pixmapItem);
         QRectF rect = m_pixmapItem->boundingRect();
         setSceneRect(rect);
         autoFit();
