@@ -22,6 +22,7 @@
 #include "controller/wallpapersetter.h"
 #include "controller/viewerthememanager.h"
 #include "utils/snifferimageformat.h"
+#include "frame/mainwindow.h"
 
 #include <QDebug>
 #include <QTranslator>
@@ -33,7 +34,9 @@
 #include <QFile>
 #include <QImage>
 #include <QQueue>
+#include <DVtableHook>
 
+#include "controller/commandline.h"
 #ifdef USE_UNIONIMAGE
 #include "unionimage.h"
 #endif
@@ -436,6 +439,7 @@ Application::Application(int &argc, char **argv)
 #else
     m_app = DApplication::globalApplication(argc, argv);
 #endif
+    Dtk::Core::DVtableHook::overrideVfptrFun(m_app, &DApplication::handleQuitAction, this, &Application::quitApp);
     m_LoadThread = nullptr;
     m_app->setOrganizationName("deepin");
     m_app->setApplicationName("deepin-image-viewer");
@@ -529,4 +533,8 @@ Application::~Application()
     emit endApplication();
 }
 
-
+void Application::quitApp()
+{
+    MainWindow *mainwindow = CommandLine::instance()->getMainWindow();
+    mainwindow->close();
+}

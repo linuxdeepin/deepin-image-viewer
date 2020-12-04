@@ -17,7 +17,9 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
+#define protected public
 #include <DApplication>
+#undef protected
 #include <QThread>
 #include <QReadWriteLock>
 #include <QMutex>
@@ -192,6 +194,8 @@ public slots:
      */
     void loadInterface(QString strPath);
 
+
+    void quitApp();
 private:
     /**
      * @brief initChildren  初始化子类对象

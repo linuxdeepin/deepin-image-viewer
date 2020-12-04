@@ -83,9 +83,20 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     QImage img;
     for (const QString &path : paths) {
         QString errMsg;
-        UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
-        if (!img.isNull()) {
-            imgs << img;
+        QImageReader imgReadreder(path);
+        if(imgReadreder.imageCount()>1)
+        {
+            for(int imgindex=0;imgindex<imgReadreder.imageCount();imgindex++)
+            {
+                imgReadreder.jumpToImage(imgindex);
+                imgs << imgReadreder.read();
+            }
+        }
+        else {
+            UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
+            if (!img.isNull()) {
+                imgs << img;
+            }
         }
     }
     DPrintPreviewDialog printDialog2(parent);

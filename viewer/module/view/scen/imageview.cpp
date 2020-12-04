@@ -1304,6 +1304,12 @@ void ImageView::onCacheFinish(QVariantList vl)
             m_imageReader =new QImageReader(path);
             if(m_imageReader->imageCount()>1){
                 m_morePicFloatWidget->setVisible(true);
+                if(m_morePicFloatWidget->getButtonUp()){
+                    m_morePicFloatWidget->getButtonUp()->setEnabled(false);
+                }
+                if(m_morePicFloatWidget->getButtonDown()){
+                    m_morePicFloatWidget->getButtonDown()->setEnabled(true);
+                }
                 m_currentMoreImageNum=0;
             }
             else {
@@ -1663,10 +1669,22 @@ void ImageView::SlotStopShowThread()
 
 void ImageView::slotsUp()
 {
+    if(m_morePicFloatWidget->getButtonUp()){
+        m_morePicFloatWidget->getButtonUp()->setEnabled(true);
+    }
+    if(m_morePicFloatWidget->getButtonDown()){
+        m_morePicFloatWidget->getButtonDown()->setEnabled(true);
+    }
     if(m_pixmapItem && m_imageReader &&m_imageReader->imageCount()>1)
     {
         if(m_imageReader->currentImageNumber()==0){
             m_imageReader->jumpToImage(m_imageReader->imageCount()-1);
+        }
+        else if(m_imageReader->currentImageNumber()==1){
+            m_imageReader->jumpToImage(0);
+            if(m_morePicFloatWidget->getButtonUp()){
+                m_morePicFloatWidget->getButtonUp()->setEnabled(false);
+            }
         }
         else {
             m_imageReader->jumpToImage(m_imageReader->currentImageNumber()-1);
@@ -1687,10 +1705,23 @@ void ImageView::slotsUp()
 
 void ImageView::slotsDown()
 {
+    if(m_morePicFloatWidget->getButtonUp()){
+        m_morePicFloatWidget->getButtonUp()->setEnabled(true);
+    }
+    if(m_morePicFloatWidget->getButtonDown()){
+        m_morePicFloatWidget->getButtonDown()->setEnabled(true);
+    }
+
     if(m_pixmapItem && m_imageReader &&m_imageReader->imageCount()>1)
     {
         if(m_imageReader->currentImageNumber()==m_imageReader->imageCount()-1){
             m_imageReader->jumpToImage(0);
+        }
+        else if(m_imageReader->currentImageNumber()==m_imageReader->imageCount()-2){
+            m_imageReader->jumpToImage(m_imageReader->imageCount()-1);
+            if(m_morePicFloatWidget->getButtonDown()){
+                m_morePicFloatWidget->getButtonDown()->setEnabled(false);
+            }
         }
         else {
             m_imageReader->jumpToNextImage();
@@ -1716,4 +1747,17 @@ void ImageView::wheelEvent(QWheelEvent *event)
     event->accept();
     qDebug()<<"21312";
     titleBarControl();
+}
+int ImageView::getcurrentImgCount()
+{
+    int ret=0;
+    if(m_imageReader){
+        ret=m_imageReader->imageCount();
+    }
+    return ret;
+}
+
+QImageReader* ImageView::getcurrentImgReader()
+{
+    return m_imageReader;
 }

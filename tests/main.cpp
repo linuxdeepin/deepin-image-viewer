@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
-
+//#include <sanitizer/asan_interface.h>
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
     QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS \
@@ -115,8 +115,10 @@ void QTestMain::cleanupTestCase()
 
 void QTestMain::testGTest()
 {
+    testing::GTEST_FLAG(output) = "xml:./report/report.xml";
     testing::InitGoogleTest();
     int ret = RUN_ALL_TESTS();
+//    __sanitizer_set_report_path("./asan.log");
     Q_UNUSED(ret)
 }
 

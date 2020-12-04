@@ -152,6 +152,19 @@ public:
 
     void setFitState(bool isFitImage=false,bool isFitWindow=false);
 
+
+    /**
+     * @brief getcurrentImgCount
+     * 获得当前imgreader的count
+     */
+    int getcurrentImgCount();
+
+    /**
+     * @brief getcurrentImgReader
+     * 获得当前imgreader
+     */
+    QImageReader* getcurrentImgReader();
+
     signals:
     void clicked();
     void doubleClicked();

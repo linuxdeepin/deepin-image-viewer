@@ -135,6 +135,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         toggleFullScreen();
         break;
     case IdStartSlideShow: {
+        //20201203旋转本地文件
+        m_viewB->rotatePixCurrent();
         auto vinfo = m_vinfo;
         vinfo.fullScreen = window()->isFullScreen();
         vinfo.lastPanel = this;
@@ -145,6 +147,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         //获取当前图片，节省第一张幻灯片加载图片的时间，在龙芯电脑上getFitImage耗时很严重，测试图片5.8M耗时0.6s
 //        QPixmap pix = this->grab(QRect(QPoint( 0, 0 ),QSize( this->size().width(),this->size().height())));
 //        QImage img = pix.toImage();
+        if(m_viewB->getcurrentImgCount()>1){
+            for(int index=1;index<m_viewB->getcurrentImgCount();index++)
+            {
+                m_viewB->slotsUp();
+            }
+        }
         QImage img = m_viewB->image();
         emit dApp->signalM->setFirstImg(img);
         emit dApp->signalM->startSlideShow(vinfo, m_vinfo.inDatabase);
@@ -152,11 +160,15 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         break;
     }
     case IdPrint: {
+        //20201203旋转本地文件
+        m_viewB->rotatePixCurrent();
         PrintHelper::showPrintDialog(QStringList(path), this);
         break;
     }
 
     case IdRename: {
+        //20201203旋转本地文件
+        m_viewB->rotatePixCurrent();
         QString filepath = path;
         QString filename;
         if (PopRenameDialog(filepath, filename)) {
@@ -248,7 +260,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         rotateImage(false);
         break;
     case IdSetAsWallpaper:
-        dApp->wpSetter->setWallpaper(path);
+        if(m_viewB->getcurrentImgCount()>1){
+            dApp->wpSetter->setWallpaper(m_viewB->image(false));
+        }else {
+            dApp->wpSetter->setWallpaper(path);
+        }
         break;
     case IdDisplayInFileManager:
         emit dApp->signalM->showInFileManager(path);

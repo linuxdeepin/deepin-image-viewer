@@ -27,7 +27,6 @@
 
 #include <unistd.h>
 #include "utils/imageutils.h"
-
 WallpaperSetter *WallpaperSetter::m_setter = nullptr;
 WallpaperSetter *WallpaperSetter::instance()
 {
@@ -45,50 +44,25 @@ WallpaperSetter::WallpaperSetter(QObject *parent) : QObject(parent)
 
 void WallpaperSetter::setWallpaper(const QString &path)
 {
-    // gsettings unsupported unicode character
+    //202011/12 bug54279
     if(utils::image::imageSupportWallPaper(path))
     {
+        // gsettings unsupported unicode character
         const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
         QFile(path).copy(tmpImg);
 
-        //设置壁纸代码改变，采用DBus,原方法保留
-        if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
-            // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
-            qDebug() << "SettingWallpaper: " << "flatpak" << path;
-            QDBusInterface interface("com.deepin.daemon.Appearance",
-                                     "/com/deepin/daemon/Appearance",
-                                     "com.deepin.daemon.Appearance");
-            if (interface.isValid()) {
-                QString screenname = dApp->m_app->primaryScreen()->name();
-                QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
-                qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
-            } else {
-                qWarning() << "SettingWallpaper failed" << interface.lastError();
-            }
-        }/* else {
-        DE de = getDE();
-        qDebug() << "SettingWallpaper: " << de << path;
-        switch (de) {
-        case Deepin:
-            setDeepinWallpaper(tmpImg);
-            break;
-        case KDE:
-            setKDEWallpaper(tmpImg);
-            break;
-        case GNOME:
-            setGNOMEWallpaper(tmpImg);
-            break;
-        case LXDE:
-            setLXDEWallpaper(tmpImg);
-            break;
-        case Xfce:
-            setXfaceWallpaper(tmpImg);
-            break;
-        default:
-            setGNOMEShellWallpaper(tmpImg);
+        // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
+        qDebug() << "SettingWallpaper: " << "flatpak" << path;
+        QDBusInterface interface("com.deepin.daemon.Appearance",
+                                 "/com/deepin/daemon/Appearance",
+                                 "com.deepin.daemon.Appearance");
+        if (interface.isValid()) {
+            QString screenname = dApp->m_app->primaryScreen()->name();
+            QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
+            qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+        } else {
+            qWarning() << "SettingWallpaper failed" << interface.lastError();
         }
-    }*/
-
 
         // Remove the tmp file
         QTimer *t = new QTimer(this);
@@ -97,31 +71,57 @@ void WallpaperSetter::setWallpaper(const QString &path)
             QFile(tmpImg).remove();
             t->deleteLater();
         });
-        t->start(1000);
-        QTimer::singleShot(1000,[t,tmpImg]{
-            QFile(tmpImg).remove();
-        });
+        t->start(5000);
     }
+
 }
 
-void WallpaperSetter::setDeepinWallpaper(const QString &path)
+void WallpaperSetter::setWallpaper(QImage img)
 {
-    QString comm = QString("gsettings set "
-                           "com.deepin.wrap.gnome.desktop.background picture-uri %1").arg(path);
-    QProcess::execute(comm);
+    QThread *th1 =QThread::create([=](){
+        if(!img.isNull())
+        {
+            QString path="/tmp/DIVIMG.png";
+            img.save("/tmp/DIVIMG.png","png");
+            //202011/12 bug54279
+            {
+                //设置壁纸代码改变，采用DBus,原方法保留
+                if (/*!qEnvironmentVariableIsEmpty("FLATPAK_APPID")*/1) {
+                    // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
+                    qDebug() << "SettingWallpaper: " << "flatpak" << path;
+                    QDBusInterface interface("com.deepin.daemon.Appearance",
+                                             "/com/deepin/daemon/Appearance",
+                                             "com.deepin.daemon.Appearance");
+                    if (interface.isValid()) {
+                        QString screenname = dApp->m_app->primaryScreen()->name();
+                        QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
+                        qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
+                    } else {
+                        qWarning() << "SettingWallpaper failed" << interface.lastError();
+                    }
+                }
+                // Remove the tmp file
+                QTimer *t = new QTimer(this);
+                t->setSingleShot(true);
+                connect(t, &QTimer::timeout, this, [t, path] {
+                    QFile(path).remove();
+                    t->deleteLater();
+                });
+                t->start(5000);
+
+
+            }
+        }
+    });
+    th1->start();
+
 }
+
 
 void WallpaperSetter::setGNOMEWallpaper(const QString &path)
 {
     QString comm = QString("gconftool-2 --type=string --set "
                            "/desktop/gnome/background/picture_filename %1").arg(path);
-    QProcess::execute(comm);
-}
-
-void WallpaperSetter::setGNOMEShellWallpaper(const QString &path)
-{
-    QString comm = QString("gsettings set "
-                           "org.gnome.desktop.background picture-uri %1").arg(path);
     QProcess::execute(comm);
 }
 

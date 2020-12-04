@@ -196,7 +196,7 @@ void MainWindow::initConnection()
         QStringList shortcutString;
         QString param1 = "-j=" + sc.toStr();
         QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
-        shortcutString << param1 << param2;
+        shortcutString << "-b" << param1 << param2;
         qDebug() << shortcutString;
         QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
     });
