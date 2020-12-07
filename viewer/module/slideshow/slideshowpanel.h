@@ -92,7 +92,7 @@ private:
     QImage               m_img;
     QMenu               *m_menu;
     SlideEffectPlayer   *m_player;
-    bool                 m_isMaximized;
+    bool                 m_isMaximized = false;
     QFileSystemWatcher  *m_fileSystemMonitor;
     //DIconButton         *m_cancelslideshow;//LMH0611没有被用到，且没有被初始化
     QColor               m_bgColor;
