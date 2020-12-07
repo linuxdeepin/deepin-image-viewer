@@ -192,8 +192,6 @@ private:
         return e;
     }
     static void Register(EffectId id, std::function<SlideEffect*()> c);
-
-    static QHash<EffectId, std::function<SlideEffect*()> > effects;
 };
 
 #define REGISTER_EFFECTS(T) \
