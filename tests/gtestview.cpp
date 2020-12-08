@@ -7,8 +7,8 @@
 #include <QDir>
 #include "accessibility/ac-desktop-define.h"
 #include "widgets/toast.h"
-#include "viewer/widgets/elidedlabel.h"
-#include "viewer/dirwatcher/scanpathsdialog.h"
+#include "viewer/src/widgets/elidedlabel.h"
+#include "viewer/src/dirwatcher/scanpathsdialog.h"
 #include "dirwatcher/volumemonitor.h"
 #include "dirwatcher/scanpathsitem.h"
 #include "module/view/scen/imageview.h"

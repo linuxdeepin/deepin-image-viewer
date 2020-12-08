@@ -37,7 +37,7 @@
 
 #include "utils/baseutils.h"
 #include "../service/dbusimageview_adaptor.h"
-#include "shortcut.h"
+#include "utils/shortcut.h"
 #include "accessibility/ac-desktop-define.h"
 
 #define IMAGEVIEW 0

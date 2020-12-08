@@ -1,9 +1,9 @@
 #include "gtestview.h"
 #define protected public
-#include "viewer/module/slideshow/slideeffectplayer.h"
+#include "module/slideshow/slideeffectplayer.h"
 
-#include "viewer/module/slideshow/slideeffect.h"
-#include "viewer/module/slideshow/slideshowpanel.h"
+#include "module/slideshow/slideeffect.h"
+#include "module/slideshow/slideshowpanel.h"
 
 #include "module/view/scen/imageview.h"
 TEST_F(gtestview, Sslideshowpanel1)

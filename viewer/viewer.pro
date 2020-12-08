@@ -20,7 +20,8 @@ LIBS += -lfreeimage
 #gtk+-2.0
 TARGET = deepin-image-viewer
 TEMPLATE = app
-INCLUDEPATH += utils
+INCLUDEPATH += src/utils
+INCLUDEPATH += src
 
 isEmpty(FULL_FUNCTIONALITY) {
     DEFINES += LITE_DIV
@@ -31,30 +32,30 @@ isEmpty(PREFIX){
     PREFIX = /usr
 }
 
-include (frame/frame.pri)
-include (module/modules.pri)
-include (widgets/widgets.pri)
-include (utils/utils.pri)
-include (controller/controller.pri)
-include (service/service.pri)
-include (third-party/accessibility/accessibility-suite.pri)
+include (src/frame/frame.pri)
+include (src/module/modules.pri)
+include (src/widgets/widgets.pri)
+include (src/utils/utils.pri)
+include (src/controller/controller.pri)
+include (src/service/service.pri)
+include (src/third-party/accessibility/accessibility-suite.pri)
 
 !isEmpty(FULL_FUNCTIONALITY) {
-    include (settings/settings.pri)
-    include (dirwatcher/dirwatcher.pri)
+    include (src/settings/settings.pri)
+    include (src/dirwatcher/dirwatcher.pri)
 }
 
 HEADERS += \
-    application.h \
-    accessibility/acobjectlist.h \
-    accessibility/ac-desktop-define.h
+    src/application.h \
+    src/accessibility/acobjectlist.h \
+    src/accessibility/ac-desktop-define.h
 
-SOURCES += main.cpp \
-    application.cpp
+SOURCES += src/main.cpp \
+    src/application.cpp
 
 RESOURCES += \
     resources.qrc \
-    icons/theme-icons.qrc
+    theme-icons.qrc
 
 # Automating generation .qm files from .ts files
 #!system($$PWD/generate_translations.sh): error("Failed to generate translation")
@@ -89,10 +90,10 @@ icons.path = $$APPSHAREDIR/icons
 icons.files = $$PWD/assets/images/*
 
 manual.path = $$MANDIR
-manual.files = $$PWD/docs/doc/*
+manual.files = $$PWD/assets/doc/*
 
 manual_icon.path = $$MANICONDIR
-manual_icon.files = $$PWD/docs/doc/common/deepin-image-viewer.svg
+manual_icon.files = $$PWD/assets/doc/common/deepin-image-viewer.svg
 
 app_icon.path = $$APPICONDIR
 app_icon.files = $$PWD/assets/images/logo/deepin-image-viewer.svg

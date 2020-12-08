@@ -1,7 +1,7 @@
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"
-#include "viewer/module/view/contents/ttbcontent.h"
-#include "viewer/module/view/contents/ttlcontent.h"
+#include "viewer/src/module/view/contents/ttbcontent.h"
+#include "viewer/src/module/view/contents/ttlcontent.h"
 #include <QEvent>
 #include <QGesture>
 #include <QPinchGesture>

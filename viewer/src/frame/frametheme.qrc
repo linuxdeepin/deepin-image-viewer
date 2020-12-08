@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../../assets/frame/common/titlebar.svg</file>
+        <file>../../assets/frame/common/about_logo.png</file>
+        <file>../../assets/frame/common/deepin_logo.png</file>
+        <file>../../assets/frame/common/deepin-image-viewer.svg</file>
+        <file>../../assets/frame/common/synimages.png</file>
+        <file>../../assets/frame/common/titlebar.png</file>
+        <file>../../assets/frame/common/ttb60.svg</file>
+        <file>../../assets/frame/common/warning.svg</file>
+        <file>../../assets/frame/dark/images/del_multi_img.png</file>
+        <file>../../assets/frame/dark/images/del_single_img.png</file>
+        <file>../../assets/frame/dark/images/import_dir.png</file>
+        <file>../../assets/frame/dark/images/item_selected.png</file>
+        <file>../../assets/frame/dark/images/importtip/close_hover.png</file>
+        <file>../../assets/frame/dark/images/importtip/close_normal.png</file>
+        <file>../../assets/frame/dark/images/importtip/close_press.png</file>
+    </qresource>
+</RCC>

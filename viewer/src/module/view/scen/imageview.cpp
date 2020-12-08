@@ -56,7 +56,7 @@
 
 
 #ifdef USE_UNIONIMAGE
-#include "unionimage.h"
+#include "utils/unionimage.h"
 #endif
 
 DWIDGET_USE_NAMESPACE

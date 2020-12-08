@@ -28,21 +28,24 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-file(GLOB_RECURSE  SOURCES  "*.cpp")
-file(GLOB_RECURSE SOURCESC "*.c")
-file(GLOB_RECURSE HEADERS "*.h")
-file(GLOB_RECURSE FORMS "*.ui")
+file(GLOB_RECURSE  SOURCES  "src/*.cpp")
+file(GLOB_RECURSE SOURCESC "src/*.c")
+file(GLOB_RECURSE HEADERS "src/*.h")
+file(GLOB_RECURSE FORMS "src/*.ui")
 file(GLOB_RECURSE RESOURCES "*.qrc")
 
 include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-set(PROJECT_INCLUDE ${PROJECT_SOURCE_DIR}/utils
-    ${PROJECT_SOURCE_DIR}/controller
-    ${PROJECT_SOURCE_DIR}/dirwatcher
-    ${PROJECT_SOURCE_DIR}/widgets
-    ${PROJECT_SOURCE_DIR}/accessibility
-    ${PROJECT_SOURCE_DIR}/third-party/accessibility)
+set(PROJECT_INCLUDE
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/utils
+    ${PROJECT_SOURCE_DIR}/src/controller
+    ${PROJECT_SOURCE_DIR}/src/dirwatcher
+    ${PROJECT_SOURCE_DIR}/src/widgets
+    ${PROJECT_SOURCE_DIR}/src/accessibility
+    ${PROJECT_SOURCE_DIR}/src/third-party/accessibility
+    ${PROJECT_SOURCE_DIR}/src/module)
 
 set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools )
 
@@ -101,11 +104,11 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/images/
     DESTINATION /usr/share/deepin-image-viewer/icons
     FILES_MATCHING PATTERN "*")
 #manual
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/docs/doc/
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/doc/
     DESTINATION /usr/share/dman/deepin-image-viewer
     FILES_MATCHING PATTERN "*")
 #manual_icon
-install(FILES ${PROJECT_SOURCE_DIR}/docs/doc/common/deepin-image-viewer.svg
+install(FILES ${PROJECT_SOURCE_DIR}/assets/doc/common/deepin-image-viewer.svg
     DESTINATION /usr/share/icons/hicolor/scalable/apps)
 #app_icon
 install(FILES ${PROJECT_SOURCE_DIR}/assets/images/logo/deepin-image-viewer.svg

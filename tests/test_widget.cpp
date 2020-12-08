@@ -1,9 +1,9 @@
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"
-#include "viewer/widgets/elidedlabel.h"
-#include "viewer/frame/mainwidget.h"
+#include "viewer/src/widgets/elidedlabel.h"
+#include "viewer/src/frame/mainwidget.h"
 #define private public
-#include "viewer/widgets/toast.h"
+#include "viewer/src/widgets/toast.h"
 TEST_F(gtestview, BlurFrame_1)
 {
     QWidget *widget =new QWidget();

@@ -1,9 +1,9 @@
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"
-#include "viewer/controller/dbusclient.h"
-#include "viewer/controller/divdbuscontroller.h"
+#include "viewer/src/controller/dbusclient.h"
+#include "viewer/src/controller/divdbuscontroller.h"
 #define private public
-#include "viewer/controller/wallpapersetter.h"
+#include "viewer/src/controller/wallpapersetter.h"
 
 TEST_F(gtestview, Dbusclient1)
 {

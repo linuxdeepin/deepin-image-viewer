@@ -38,7 +38,7 @@
 
 #include "controller/commandline.h"
 #ifdef USE_UNIONIMAGE
-#include "unionimage.h"
+#include "utils/unionimage.h"
 #endif
 namespace {
 

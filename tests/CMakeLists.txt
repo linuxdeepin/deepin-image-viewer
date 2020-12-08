@@ -33,20 +33,20 @@ endif()
 #cmakedefine USE_MYMATH
 set(AllTestQRC
     ./testqrc/testresource.qrc)
-file(GLOB_RECURSE HEADERSCURRENT "*.h")
-file(GLOB_RECURSE  SOURCESCURRENT  "*.cpp")
-#file(GLOB_RECURSE  SOURCES  "../viewer/*.cpp")
+file(GLOB_RECURSE HEADERSCURRENT "src/*.h")
+file(GLOB_RECURSE  SOURCESCURRENT  "src/*.cpp")
+#file(GLOB_RECURSE  SOURCES  "../viewer/src/*.cpp")
 file (GLOB_RECURSE SOURCES
-    ../viewer/controller/*.cpp
-    ../viewer/dirwatcher/*.cpp
-    ../viewer/frame/*.cpp
-    ../viewer/icon/*.cpp
-    ../viewer/module/*.cpp
-    ../viewer/service/*.cpp
-    ../viewer/settings/*.cpp
-    ../viewer/utils/*.cpp
-    ../viewer/widgets/*.cpp
-    ../viewer/application.cpp
+    ../viewer/src/controller/*.cpp
+    ../viewer/src/dirwatcher/*.cpp
+    ../viewer/src/frame/*.cpp
+    ../viewer/src/module/*.cpp
+    ../viewer/src/service/*.cpp
+    ../viewer/src/settings/*.cpp
+    ../viewer/src/utils/*.cpp
+    ../viewer/src/widgets/*.cpp
+    ../viewer/src/application.cpp
+    *.cpp
     )
 file(GLOB_RECURSE SOURCESC "../viewer/*.c")
 file(GLOB_RECURSE HEADERS "../viewer/*.h")
@@ -56,11 +56,15 @@ file(GLOB_RECURSE RESOURCES "../viewer/*.qrc")
 include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-set(PROJECT_INCLUDE ${PROJECT_SOURCE_DIR}/../viewer
-    ${PROJECT_SOURCE_DIR}/../viewer/utils
-    ${PROJECT_SOURCE_DIR}/../viewer/controller
-    ${PROJECT_SOURCE_DIR}/../viewer/dirwatcher
-    ${PROJECT_SOURCE_DIR}/../viewer/widgets)
+set(PROJECT_INCLUDE ${PROJECT_SOURCE_DIR}/../viewer/src/
+    ${PROJECT_SOURCE_DIR}/../viewer/src/utils
+    ${PROJECT_SOURCE_DIR}/../viewer/src/controller
+    ${PROJECT_SOURCE_DIR}/../viewer/src/dirwatcher
+    ${PROJECT_SOURCE_DIR}/../viewer/src/widgets
+    ${PROJECT_SOURCE_DIR}/../viewer/src/accessibility
+    ${PROJECT_SOURCE_DIR}/../viewer/src/third-party/accessibility
+    ${PROJECT_SOURCE_DIR}/../viewer/src/module
+    )
 
 find_package(PkgConfig REQUIRED)
 

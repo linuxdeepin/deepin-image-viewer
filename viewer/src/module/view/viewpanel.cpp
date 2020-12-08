@@ -23,7 +23,7 @@
 #include "controller/signalmanager.h"
 #include "navigationwidget.h"
 #include "scen/imageview.h"
-#include "snifferimageformat.h"
+#include "utils/snifferimageformat.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "widgets/imagebutton.h"
@@ -49,7 +49,7 @@
 #include <DMessageBox>
 #include <DRecentManager>
 
-#include "imageutils.h"
+#include "utils/imageutils.h"
 
 using namespace Dtk::Core;
 using namespace Dtk::Widget;

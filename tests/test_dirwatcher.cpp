@@ -3,9 +3,9 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #define private public
-#include "viewer/dirwatcher/scanpathsdialog.h"
-#include "viewer/dirwatcher/scanpathsitem.h"
-#include "viewer/dirwatcher/volumemonitor.h"
+#include "viewer/src/dirwatcher/scanpathsdialog.h"
+#include "viewer/src/dirwatcher/scanpathsitem.h"
+#include "viewer/src/dirwatcher/volumemonitor.h"
 
 TEST_F(gtestview, cp2Image)
 {

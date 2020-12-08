@@ -17,7 +17,7 @@
 
 #ifdef USE_UNIONIMAGE
 #include "printhelper.h"
-#include "unionimage.h"
+#include "utils/unionimage.h"
 #endif
 
 PrintHelper::PrintHelper(QObject *parent)
