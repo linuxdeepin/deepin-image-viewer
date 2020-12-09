@@ -129,8 +129,9 @@ TEST_F(gtestview, exit)
 //        m_frameMainWindow = CommandLine::instance()->getMainWindow();
 //        QTest::keyClick(m_frameMainWindow, Qt::Key_F4, Qt::AltModifier, 1000);
 //    }
-    QTimer::singleShot(10000,[=]{
-        return exit(0);
-    });
+    QTest::qWait(5000);
+//    QTimer::singleShot(10000,[=]{
+//        return exit(0);
+//    });
 }
 #endif
