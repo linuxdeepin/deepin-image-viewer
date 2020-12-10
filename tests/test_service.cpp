@@ -4,7 +4,7 @@
 #include "service/dbusimageview_adaptor.h"
 //baseutils utils::base
 
-#if test_service
+#ifdef test_service
 TEST_F(gtestview, defaultimageviewer)
 {
     service::isDefaultImageViewer();

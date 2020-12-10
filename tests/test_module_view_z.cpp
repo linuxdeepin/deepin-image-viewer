@@ -6,14 +6,14 @@
 #include "viewer/src/module/view/viewpanel.h"
 #include <QPixmap>
 #include <QImage>
-#if test_module_view_z
+#ifdef test_module_view_z
 TEST_F(gtestview, moduleName)
 {
     if(!m_frameMainWindow)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(500);
+    QTest::qWait(300);
 
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
     if(panel)
@@ -24,8 +24,6 @@ TEST_F(gtestview, moduleName)
         emit dApp->signalM->usbOutIn(false);
         emit dApp->signalM->sigUpdateThunbnail(QApplication::applicationDirPath()+"/test/jpg40.jpg");
         emit dApp->signalM->UpdateNavImg();
-//        emit dApp->signalM->gotoPanel(new ModulePanel());
-
     }
 }
 

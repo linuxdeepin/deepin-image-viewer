@@ -114,10 +114,10 @@ TEST_F(gtestview, CommandLine)
     CommandLine::instance()->processOption();
     QTest::qWait(200);
     CommandLine::instance()->processOption(wstime, newflag);
-    QTest::qWait(1000);
+    QTest::qWait(200);
 
 }
-#if TEST
+#ifdef TEST
 TEST_F(gtestview, mainwindow)
 {
 
@@ -125,7 +125,7 @@ TEST_F(gtestview, mainwindow)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(500);
+    QTest::qWait(400);
 
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
     if(panel){
@@ -160,11 +160,11 @@ TEST_F(gtestview, mainwindow)
     int index1=0;
     while(index1++<20)
     {
-        QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 50);
     }
     while(index1-->0)
     {
-         QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+         QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 50);
     }
     QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 300);
@@ -264,36 +264,9 @@ TEST_F(gtestview, sliderShow)
             menu->triggered(action1);
         }
 
-        QAction* action2=   m_frameMainWindow->findChild<QAction *> ("MenuID"+QString::number(SlideShowPanel::IdStopslideshow))  ;
-        if(action2)
-        {
-            menu->triggered(action2);
-
-        }
-        if(menu)
-        {
-            qDebug()<<"menu-menu";
-//            QList<QAction *>actionList = menu->actions();
-//            for(QAction *action :actionList)
-//            {
-//                if(action->property("MenuID").toInt()==SlideShowPanel::IdPlayOrPause)
-//                {
-//                    menu->triggered(action);
-//                    QTest::qWait(300);
-//                    menu->triggered(action);
-//                }
-//            }
-//            for(QAction *action :actionList)
-//            {
-//                if(action->property("MenuID").toInt()==SlideShowPanel::IdStopslideshow)
-//                {
-//                    menu->triggered(action);
-//                }
-//            }
-        }
     }
 
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
 
     m_frameMainWindow->hide();
     m_frameMainWindow->showNormal();
@@ -306,9 +279,9 @@ TEST_F(gtestview, infoWidget)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 100);
     m_frameMainWindow->resize(800,600);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_I, Qt::ControlModifier , 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_I, Qt::ControlModifier , 100);
 
     QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 50);
 }
@@ -415,6 +388,7 @@ TEST_F(gtestview, onlyonePic)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
+    QTest::qWait(200);
     //    SLIDE_SHOW_WIDGET
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
     if(panel){
@@ -423,17 +397,8 @@ TEST_F(gtestview, onlyonePic)
         TestApi::drogPathtoWidget(panel,TriangleItemPath);
         QTest::qWait(2000);
 
-//        QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 2000);
-//        QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
-//        m_frameMainWindow->hide();
-//        m_frameMainWindow->showMaximized();
-
-
-
         DIconButton *m_adaptImageBtn=m_frameMainWindow->findChild<DIconButton *>(ADAPT_BUTTON);
         DIconButton *m_adaptScreenBtn=m_frameMainWindow->findChild<DIconButton *>(ADAPT_SCREEN_BUTTON);
-//        DIconButton *m_preButton=m_frameMainWindow->findChild<DIconButton *>(PRE_BUTTON);
-//        DIconButton *m_nextButton=m_frameMainWindow->findChild<DIconButton *>(NEXT_BUTTON);
         DIconButton *m_rotateRBtn=m_frameMainWindow->findChild<DIconButton *>(CLOCKWISE_ROTATION);
         DIconButton *m_rotateLBtn=m_frameMainWindow->findChild<DIconButton *>(COUNTER_CLOCKWISE_ROTATION);
         DIconButton *m_trashBtn=m_frameMainWindow->findChild<DIconButton *>(TRASH_BUTTON);
@@ -447,13 +412,11 @@ TEST_F(gtestview, onlyonePic)
         m_rotateLBtn->click();
         QTest::qWait(100);
 
-
-//        QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 2000);//
         int index=0;
         while(index++<10)
-            QTest::keyClick(m_frameMainWindow, Qt::Key_Plus, Qt::ControlModifier, 30);
+            QTest::keyClick(m_frameMainWindow, Qt::Key_Plus, Qt::ControlModifier, 20);
         while(index-->0)
-            QTest::keyClick(m_frameMainWindow, Qt::Key_Minus, Qt::ControlModifier, 30);
+            QTest::keyClick(m_frameMainWindow, Qt::Key_Minus, Qt::ControlModifier, 20);
 
         m_frameMainWindow->showFullScreen();
         QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 200);
@@ -464,7 +427,7 @@ TEST_F(gtestview, onlyonePic)
         m_frameMainWindow->showNormal();
 
         m_trashBtn->click();
-        QTest::qWait(100);
+        QTest::qWait(50);
     }
 
 }
@@ -499,14 +462,11 @@ TEST_F(gtestview, MyImageListWidget)
 
     QTestEventList e;
     e.addMouseMove(QPoint(100,30), 200);
-    //    e.addKeyPress(Qt::Key_Shift, Qt::NoModifier, 50);
     e.addMousePress(Qt::LeftButton, Qt::NoModifier, QPoint(100,30), 200);
     e.addMouseMove(QPoint(150,30), 200);
     e.addMouseMove(QPoint(200,30), 200);
-    //    e.addKeyRelease(Qt::Key_Shift, Qt::NoModifier, 200);
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(250,30), 200);
     e.simulate(widget);
-
     e.clear();
 
 
@@ -525,39 +485,26 @@ TEST_F(gtestview, ViewerThemeManager)
 
 }
 
-
-TEST_F(gtestview, m_ImageLoader)
-{
-    //    m_ImageLoader=new ImageLoader(NULL,QStringList(DDSPATH),m_JPGPath);
-}
-
 TEST_F(gtestview, ImageButton)
 {
     ImageButton *button=new ImageButton();
 
     button->setDisablePic(QApplication::applicationDirPath()+"/png.png");
     button->setDisabled(false);
-//    button->setFixedSize(200,200);
     button->setToolTip("test");
     button->getDisablePic();
     button->show();
     button->resize(100,100);
     QTest::qWait(100);
-    QTest::mousePress(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),350);
+    QTest::mousePress(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),250);
     QTest::qWait(100);
     QTest::mouseRelease(button, Qt::LeftButton);
     QTest::mouseClick(button, Qt::LeftButton);
-    QTest::mouseMove(button, QPoint(20,20),350);
+    QTest::mouseMove(button, QPoint(20,20),250);
     QTest::keyClick(button, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(button,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
 
     button->hide();
-
-//    if(CommandLine::instance()->getMainWindow())
-//    {
-//        QTest::mousePress(CommandLine::instance()->getMainWindow(), Qt::LeftButton,Qt::NoModifier,QPoint(300,50),100);
-//        QTest::mouseRelease(CommandLine::instance()->getMainWindow(), Qt::LeftButton,Qt::NoModifier,QPoint(300,50),100);
-//    }
 
 }
 TEST_F(gtestview, m_pushbutton)
@@ -658,7 +605,6 @@ TEST_F(gtestview, m_returnButton)
     m_returnButton-> setDisableColor(QColor(120,123,150));
     m_returnButton->setMaxWidth(100);
     m_returnButton->buttonWidth();
-//    m_returnButton->showTooltip(QPos(200,200));
 
     QTest::mousePress(m_returnButton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
     QTest::mouseRelease(m_returnButton, Qt::LeftButton);
@@ -671,54 +617,7 @@ TEST_F(gtestview, m_returnButton)
     m_returnButton->hide();
 
 }
-//TEST_F(gtestview, m_bottomToolbar)
-//{
-//    /*frame*/
-//    m_bottomToolbar =new BottomToolbar(nullptr);
-//    m_bottomToolbar->show();
 
-//    QTest::mousePress(m_bottomToolbar, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
-//    QTest::mouseRelease(m_bottomToolbar, Qt::LeftButton);
-//    QTest::mouseClick(m_bottomToolbar, Qt::LeftButton);
-//    QTest::mouseMove(m_bottomToolbar, QPoint(20,20),500);
-//    QTest::keyClick(m_bottomToolbar, Qt::Key_Escape, Qt::ShiftModifier, 1000);
-//    QTest::mouseDClick(m_bottomToolbar,Qt::LeftButton);
-
-//    m_bottomToolbar->hide();
-//}
-//TEST_F(gtestview, m_frameMainWidget)
-//{
-//    m_frameMainWidget=new MainWidget(false,nullptr);
-//    m_frameMainWidget->show();
-//    QTest::mousePress(m_frameMainWidget, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
-//    QTest::mouseRelease(m_frameMainWidget, Qt::LeftButton);
-//    QTest::mouseClick(m_frameMainWidget, Qt::LeftButton);
-//    QTest::mouseMove(m_frameMainWidget, QPoint(20,20),500);
-//    QTest::keyClick(m_frameMainWidget, Qt::Key_Escape, Qt::ShiftModifier, 1000);
-//    QTest::mouseDClick(m_frameMainWidget,Qt::LeftButton);
-
-//    m_frameMainWidget->hide();
-//}
-
-//TEST_F(gtestview, TopToolbar)
-//{
-//    m_topoolBar=new TopToolbar(false,nullptr);
-//    m_topoolBar->show();
-//    QTest::mousePress(m_topoolBar, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
-//    QTest::mouseRelease(m_topoolBar, Qt::LeftButton);
-//    QTest::mouseClick(m_topoolBar, Qt::LeftButton);
-//    QTest::mouseMove(m_topoolBar, QPoint(20,20),500);
-//    QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 1000);
-//    QTest::mouseDClick(m_topoolBar,Qt::LeftButton);
-
-//    m_topoolBar->setMiddleContent("test");
-//    m_topoolBar->setTitleBarTransparent(true);
-//    m_topoolBar->setTitleBarTransparent(false);
-//    //        QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 200);
-//    QTest::mouseDClick(m_topoolBar,Qt::LeftButton);
-
-//    m_topoolBar->hide();
-//}
 TEST_F(gtestview, LockWidget)
 {
     m_lockWidget=new LockWidget("","");
@@ -951,7 +850,6 @@ TEST_F(gtestview, BlurFrame)
 TEST_F(gtestview, unionimage)
 {
     //unionimage
-    //        UnionImage_NameSpace::noneQImage();
     QString pppath=m_PNGPath;
     supportStaticFormat();
     supportMovieFormat();
@@ -974,11 +872,8 @@ TEST_F(gtestview, unionimage)
 }
 TEST_F(gtestview, imageutil)
 {
-    //        m_scrollBar=new ScrollBar();
-    //        m_scrollBar->show();
     qDebug()<<"imageutil1";
     showInFileManager("");
-    //    showInFileManager(m_JPGPath);
     qDebug()<<"imageutil22";
     copyImageToClipboard(list);
     trashFile(m_JPGPath);
@@ -986,12 +881,10 @@ TEST_F(gtestview, imageutil)
     SpliteText("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg",QFont(),20,false);
     SpliteText("/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg/usr/share/wallpapers/deepin/Hummingbird_by_Shu_Le.jpg",QFont(),20,true);
 
-    qDebug()<<"imageutil2";
     QString ppath=m_JPGPath;
     onMountDevice(ppath);
     mountDeviceExist(ppath);
 
-    qDebug()<<"imageutil3";
     //utils::image
     QString pppath=m_JPGPath;
     imageSupportWrite(pppath);
@@ -999,9 +892,7 @@ TEST_F(gtestview, imageutil)
     cutSquareImage(QPixmap(pppath),QSize(50,50));
     utils::image::getOrientation(pppath);
     bool iRet=false;
-    //        utils::image::loadTga(pppath,iRet);
 
-    qDebug()<<"imageutil4";
     getRotatedImage(pppath);
     cachePixmap(pppath);
     getThumbnail(pppath,iRet);
@@ -1010,7 +901,7 @@ TEST_F(gtestview, imageutil)
     utils::image::suffixisImage(pppath);
 
     wrapStr(m_JPGPath,QFont(),20);
-    qDebug()<<"imageutil23";
+
 }
 
 TEST_F(gtestview, ExtensionPanel)
@@ -1032,11 +923,13 @@ TEST_F(gtestview, ExtensionPanel)
     QTest::mouseRelease(m_extensionPanel, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),100);
     QTest::mouseClick(m_extensionPanel, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),100);
     QTest::mouseMove(m_extensionPanel, QPoint(50,50),50);
-    //        QTest::keyClick(m_extensionPanel, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_extensionPanel,Qt::LeftButton);
 
     m_extensionPanel->close();
-//    m_extensionPanel->hide();
+    if(m_extensionPanel){
+        m_extensionPanel->deleteLater();
+        m_extensionPanel=nullptr;
+    }
 }
 TEST_F(gtestview, Toast)
 {
@@ -1044,7 +937,7 @@ TEST_F(gtestview, Toast)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(1000);
+    QTest::qWait(300);
 
     Toast *widget = m_frameMainWindow->findChild<Toast *>(TOAST_OBJECT);
     if(widget)
@@ -1064,7 +957,7 @@ TEST_F(gtestview, ThemeWidget)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(1000);
+    QTest::qWait(300);
 
     ThemeWidget *widget = m_frameMainWindow->findChild<ThemeWidget *>(THEME_WIDGET);
     if(widget)
@@ -1083,17 +976,17 @@ TEST_F(gtestview, Light)
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
 }
 
-TEST_F(gtestview, PrintHelper)
-{
-    if(!m_frameMainWindow)
-    {
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-        PrintHelper *testWidget=new PrintHelper();
-        PrintHelper::showPrintDialog(list, m_frameMainWindow);
-        QTest::qWait(1000);
+//TEST_F(gtestview, PrintHelper)
+//{
+//    if(!m_frameMainWindow)
+//    {
+//        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+//        PrintHelper *testWidget=new PrintHelper();
+//        PrintHelper::showPrintDialog(list, m_frameMainWindow);
+//        QTest::qWait(1000);
 
-    }
-}
+//    }
+//}
 
 
 TEST_F(gtestview, ElidedLabel)
@@ -1105,11 +998,11 @@ TEST_F(gtestview, ElidedLabel)
         elide->show();
         elide->resize(50,50);
         elide->update();
-        QTest::qWait(100);
+        QTest::qWait(50);
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-        QTest::qWait(100);
+        QTest::qWait(50);
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-        QTest::qWait(100);
+        QTest::qWait(50);
         elide->deleteLater();
         elide=nullptr;
     }
@@ -1119,10 +1012,6 @@ TEST_F(gtestview, ElidedLabel)
 TEST_F(gtestview, initTest1)
 {
     ScanPathsDialog::instance()->addPath(m_PNGPath);
-
-
-
-
 }
 
 

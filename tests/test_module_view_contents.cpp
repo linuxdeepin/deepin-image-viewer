@@ -8,14 +8,14 @@
 #include <QSwipeGesture>
 #include <QTouchEvent>
 #include "module/view/scen/imageview.h"
-#if test_module_view_contents
+#ifdef test_module_view_contents
 
 TEST_F(gtestview, QWheelEvent_2)
 {
     if(!m_frameMainWindow){
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(500);
+    QTest::qWait(300);
 
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
     if(panel){

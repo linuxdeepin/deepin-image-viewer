@@ -66,7 +66,7 @@ TEST_F(gtestview, MainWidget_1)
 {
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     dApp->signalM->updateBottomToolbar(false);
-    QTest::qWait(200);
+    QTest::qWait(100);
     dApp->m_timer=0;
     MainWidget *widget=new MainWidget(false);
     widget->deleteLater();
@@ -86,7 +86,6 @@ TEST_F(gtestview, TopToolbar)
     m_topoolBar->setMiddleContent("test");
     m_topoolBar->setTitleBarTransparent(true);
     m_topoolBar->setTitleBarTransparent(false);
-    //        QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_topoolBar,Qt::LeftButton);
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     m_topoolBar->setTitleBarTransparent(false);

@@ -1,7 +1,7 @@
 #include "gtestview.h"
 
 //baseutils utils::base
-#if test_utils
+#ifdef test_utils
 TEST_F(gtestview, renderSVG_error)
 {
     utils::base::renderSVG("error",QSize(50,50));

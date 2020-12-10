@@ -150,6 +150,7 @@ include_directories(${PROJECT_SOURCE_DIR})
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+
 # 添加gocv覆盖率文件的输出
 #set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage")

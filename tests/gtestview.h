@@ -70,13 +70,13 @@ using namespace utils::image;
 #define SVGPATH "/usr/share/deepin-image-viewer/icons/logo/deepin-image-viewer.svg"
 #define DDSPATH "/data/home/lmh/0916/tu/DDS.dds"
 
-#define TEST 1
-#define test_module_view_contents 1
-#define test_module_view_scen 1
-#define test_module_view_z 1
-#define test_service 1
-#define test_utils 1
-#define test_z_exit 1
+#define TEST
+#define test_module_view_contents
+#define test_module_view_scen
+#define test_module_view_z
+#define test_service
+#define test_utils
+#define test_z_exit
 class ScanPathsDialog;
 class VolumeMonitor;
 class ScanPathsItem;

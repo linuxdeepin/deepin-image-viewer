@@ -8,14 +8,14 @@
 #include "module/view/scen/imageview.h"
 TEST_F(gtestview, Sslideshowpanel1)
 {
-SlideShowPanel *panel=new SlideShowPanel();
-DBImgInfoList list;
-DBImgInfo info;
-info.format="png";
-info.fileName=QApplication::applicationDirPath() + "/test/jpg100.jpg";
-info.filePath=QApplication::applicationDirPath() + "/test/jpg100.jpg";
-list.push_back(info);
-//panel->Receiveslideshowpathlst(true,list);
+    SlideShowPanel *panel=new SlideShowPanel();
+    DBImgInfoList list;
+    DBImgInfo info;
+    info.format="png";
+    info.fileName=QApplication::applicationDirPath() + "/test/jpg100.jpg";
+    info.filePath=QApplication::applicationDirPath() + "/test/jpg100.jpg";
+    list.push_back(info);
+    //panel->Receiveslideshowpathlst(true,list);
 }
 
 TEST_F(gtestview, SlideEffectPlayer_1)
