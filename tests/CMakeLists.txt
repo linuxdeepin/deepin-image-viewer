@@ -151,7 +151,10 @@ include_directories(${PROJECT_SOURCE_DIR})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # 添加gocv覆盖率文件的输出
-set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+#set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 set(OBJECT_DIR ${CMAKE_BINARY_DIR}/CMakeFiles/objects)
@@ -179,7 +182,5 @@ add_custom_command(TARGET test
     )
 add_dependencies(test ${PROJECT_NAME})
 
-set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+
 
