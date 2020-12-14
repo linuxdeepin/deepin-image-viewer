@@ -112,9 +112,9 @@ TEST_F(gtestview, CommandLine)
     QString teststr = wstime.toString("yyyy-MM-dd hh:mm:ss");
     bool newflag = true;
     CommandLine::instance()->processOption();
-    QTest::qWait(200);
+    QTest::qWait(500);
     CommandLine::instance()->processOption(wstime, newflag);
-    QTest::qWait(200);
+    QTest::qWait(500);
 
 }
 #ifdef TEST
