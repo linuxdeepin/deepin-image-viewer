@@ -74,15 +74,17 @@ TEST_F(gtestview, MainWidget_1)
 }
 TEST_F(gtestview, TopToolbar)
 {
+    qDebug()<<"TopToolbar1";
     m_topoolBar=new TopToolbar(false,nullptr);
     m_topoolBar->show();
-    QTest::mousePress(m_topoolBar, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
-    QTest::mouseRelease(m_topoolBar, Qt::LeftButton,Qt::NoModifier,QPoint(30,20),500);
+    QTest::mousePress(m_topoolBar, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),200);
+    QTest::mouseRelease(m_topoolBar, Qt::LeftButton,Qt::NoModifier,QPoint(30,20),200);
     QTest::mouseClick(m_topoolBar, Qt::LeftButton);
-    QTest::mouseMove(m_topoolBar, QPoint(20,20),500);
-    QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 1000);
+    qDebug()<<"TopToolbar2";
+    QTest::mouseMove(m_topoolBar, QPoint(20,20),200);
+    QTest::keyClick(m_topoolBar, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(m_topoolBar,Qt::LeftButton);
-
+    qDebug()<<"TopToolbar3";
     m_topoolBar->setMiddleContent("test");
     m_topoolBar->setTitleBarTransparent(true);
     m_topoolBar->setTitleBarTransparent(false);
@@ -90,9 +92,11 @@ TEST_F(gtestview, TopToolbar)
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     m_topoolBar->setTitleBarTransparent(false);
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+    qDebug()<<"TopToolbar4";
     m_topoolBar->hide();
     m_topoolBar->deleteLater();
     m_topoolBar=nullptr;
+    qDebug()<<"TopToolbar5";
 }
 TEST_F(gtestview, picInUSB_1)
 {

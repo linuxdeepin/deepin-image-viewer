@@ -178,9 +178,9 @@ TEST_F(gtestview, Gesture_1)
        QTouchEvent *eventTouchEnd=new QTouchEvent(QEvent::TouchEnd ,device,Qt::NoModifier,Qt::TouchPointPressed,touchPoints2);
 
        qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),eventTouchUpdate);
-       QTest::qWait(100);
+
        qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),eventTouchEnd);
-       QTest::qWait(100);
+
 //       QTest::qWait(100);
 //       QEvent *event1=new QEvent(QEvent::TouchBegin);
 //       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event1);
@@ -190,7 +190,7 @@ TEST_F(gtestview, Gesture_1)
 //       QTest::qWait(100);
 //       QEvent *event3=new QEvent(QEvent::TouchEnd );
 //       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event3);
-       QTest::qWait(100);
+
        QList<QGesture *> gestures;
        QPinchGesture *testGest=new QPinchGesture();
        testGest->setHotSpot(QPoint(300,300));
@@ -199,7 +199,6 @@ TEST_F(gtestview, Gesture_1)
        QGestureEvent *event4=new QGestureEvent(gestures);
        qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event4);
 
-       QTest::qWait(100);
        QList<QGesture *> gestures1;
        QPinchGesture *testGest1=new QPinchGesture();
        testGest1->setHotSpot(QPoint(300,300));
@@ -208,7 +207,6 @@ TEST_F(gtestview, Gesture_1)
        QGestureEvent *event5=new QGestureEvent(gestures1);
        qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event5);
 
-       QTest::qWait(100);
        QList<QGesture *> gestures2;
        QPinchGesture *testGest2=new QPinchGesture();
        testGest2->setHotSpot(QPoint(300,300));
@@ -217,7 +215,6 @@ TEST_F(gtestview, Gesture_1)
        QGestureEvent *event6=new QGestureEvent(gestures2);
        qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event6);
 
-       QTest::qWait(100);
        QList<QGesture *> gestures3;
        QSwipeGesture *testGest3=new QSwipeGesture();
        testGest3->setHotSpot(QPoint(300,300));
@@ -243,7 +240,7 @@ TEST_F(gtestview,loadBack)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(500);
+    QTest::qWait(400);
 
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
     if(panel){
@@ -259,11 +256,11 @@ TEST_F(gtestview,loadBack)
     int index1=0;
     while(index1++<60)
     {
-        QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 100);
     }
     while(index1++<180)
     {
-        QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 100);
     }
 }
 TEST_F(gtestview,TTLCONTENTS)
@@ -272,7 +269,7 @@ TEST_F(gtestview,TTLCONTENTS)
         if(!m_frameMainWindow){
             m_frameMainWindow = CommandLine::instance()->getMainWindow();
         }
-        QTest::qWait(1000);
+        QTest::qWait(500);
 
         TTLContent *panel = m_frameMainWindow->findChild<TTLContent *>(TTL_CONTENTS);
         if(panel){
@@ -289,7 +286,7 @@ TEST_F(gtestview,getImageType)
         if(!m_frameMainWindow){
             m_frameMainWindow = CommandLine::instance()->getMainWindow();
         }
-        QTest::qWait(500);
+        QTest::qWait(400);
 
         TTBContent *panel = m_frameMainWindow->findChild<TTBContent *>(TTBCONTENT_WIDGET);
         if(panel){
@@ -303,7 +300,7 @@ TEST_F(gtestview,getImageType)
 //            panel->hide();
 
             emit panel->resetTransform(false);
-            QTest::qWait(100);
+
             emit panel->resetTransform(true);
 
             emit panel->sigsetcurrent(QApplication::applicationDirPath()+"/test/jpg81.jpg");
@@ -333,7 +330,7 @@ TEST_F(gtestview,ImageItemTfind)
             if(!m_frameMainWindow){
                 m_frameMainWindow = CommandLine::instance()->getMainWindow();
             }
-            QTest::qWait(500);
+            QTest::qWait(400);
 
             TTBContent *panel = m_frameMainWindow->findChild<TTBContent *>(TTBCONTENT_WIDGET);
             if(panel){

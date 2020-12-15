@@ -160,26 +160,26 @@ TEST_F(gtestview, mainwindow)
     int index1=0;
     while(index1++<20)
     {
-        QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 50);
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 100);
     }
     while(index1-->0)
     {
-         QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 50);
+         QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 100);
     }
     QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 300);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 300);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 300);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 300);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 300);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 300);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 100);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 100);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 100);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 100);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 100);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 100);
 
     QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 2000);//
     int index=0;
     while(index++<10)
-        QTest::keyClick(m_frameMainWindow, Qt::Key_Plus, Qt::ControlModifier, 50);
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Plus, Qt::ControlModifier, 10);
     while(index-->0)
-        QTest::keyClick(m_frameMainWindow, Qt::Key_Minus, Qt::ControlModifier, 50);
+        QTest::keyClick(m_frameMainWindow, Qt::Key_Minus, Qt::ControlModifier, 10);
     QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),500);
     QTest::mouseMove(m_frameMainWindow, QPoint(200,500),500);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Escape, Qt::NoModifier, 500);
