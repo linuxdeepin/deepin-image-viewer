@@ -153,9 +153,15 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # 添加gocv覆盖率文件的输出
 #set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
-set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage")
-set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
-set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+# 加速编译优化参数
+if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
+    set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
+else()
+    set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage")
+    set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+    set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+endif()
+
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 set(OBJECT_DIR ${CMAKE_BINARY_DIR}/CMakeFiles/objects)

@@ -63,8 +63,9 @@ int main(int argc, char *argv[])
 
 #include <gtest/gtest.h>
 #include <gmock/gmock-matchers.h>
+#ifndef __mips__
 #include <sanitizer/asan_interface.h>
-
+#endif
 #define QMYTEST_MAIN(TestObject) \
     QT_BEGIN_NAMESPACE \
     QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS \
@@ -119,7 +120,9 @@ void QTestMain::testGTest()
     testing::GTEST_FLAG(output) = "xml:./report/report_deepin-image-viewer.xml";
     testing::InitGoogleTest();
     int ret = RUN_ALL_TESTS();
+#ifndef __mips__
     __sanitizer_set_report_path("asan.log");
+#endif
     Q_UNUSED(ret)
 }
 
