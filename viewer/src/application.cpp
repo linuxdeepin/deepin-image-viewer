@@ -377,7 +377,6 @@ void Application::loadInterface(QString path)
 {
     QMutexLocker locker(&dApp->getRwLock());
    //  dApp->getRwLock().lockForWrite();
-    /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
     QImage tImg;
     QString errMsg;
