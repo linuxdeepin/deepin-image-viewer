@@ -48,6 +48,7 @@
 #include <QPainter>
 #include <DMessageBox>
 #include <DRecentManager>
+#include <QImageReader>
 
 #include "utils/imageutils.h"
 
@@ -1381,7 +1382,14 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
     //lmh2020/11/13退出自适应
     if(m_screentoNormal){
-        QRect rect1=  dApp->m_rectmap[m_viewB->path()];
+        QRect rect1;
+        //解决57306 【专业版1031】【看图】【5.6.3.74】tif中分辨率较高的图片，全屏后被放大显示
+        QImageReader* imageReader=m_viewB->getcurrentImgReader();
+        if(imageReader && imageReader->imageCount()>1 ){
+            rect1 = m_viewB->image().rect();
+        }else {
+            rect1 = dApp->m_rectmap[m_viewB->path()];
+        }
         if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
                 height() > 0) {
             m_viewB->fitWindow();
@@ -2100,7 +2108,11 @@ void ViewPanel::openImage(const QString path, bool inDB)
         // Check whether the thumbnail is been rotated in outside
         //        QtConcurrent::run(utils::image::removeThumbnail, path);
     }
-
+    //解决57405 【专业版1031】【看图】【5.6.3.74】在切换tif多页图片的过程中使用快捷键旋转，会使tif图片旋转且无法查看tif中的其余图片
+    if(ttbc){
+        ttbc->setAllEnabled(false);
+    }
+    clearMenu();
     using namespace utils::image;
     using namespace utils::base;
 

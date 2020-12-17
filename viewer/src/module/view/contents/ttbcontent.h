@@ -403,6 +403,11 @@ public slots:
      */
     void OnRequestShowVaguePix(QString filepath,bool& thumbnailflag);
 
+    /**
+     * @brief setAllEnabled
+     * 设置全体按键的状态
+     */
+    void setAllEnabled(bool iRet=false);
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 //    void updateFilenameLayout();

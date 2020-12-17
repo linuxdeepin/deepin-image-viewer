@@ -1549,6 +1549,25 @@ void TTBContent::OnRequestShowVaguePix(QString filepath,bool& thumbnailflag)
         thumbnailflag = false;
 }
 
+void TTBContent::setAllEnabled(bool iRet)
+{
+    if(m_rotateLBtn){
+        m_rotateLBtn->setEnabled(iRet);
+    }
+    if(m_rotateRBtn){
+        m_rotateRBtn->setEnabled(iRet);
+    }
+    if(m_trashBtn){
+        m_trashBtn->setEnabled(iRet);
+    }
+    if(m_adaptImageBtn){
+        m_adaptImageBtn->setEnabled(iRet);
+    }
+    if(m_adaptScreenBtn){
+        m_adaptScreenBtn->setEnabled(iRet);
+    }
+}
+
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;

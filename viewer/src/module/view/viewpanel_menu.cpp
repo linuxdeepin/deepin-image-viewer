@@ -148,10 +148,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 //        QPixmap pix = this->grab(QRect(QPoint( 0, 0 ),QSize( this->size().width(),this->size().height())));
 //        QImage img = pix.toImage();
         if(m_viewB->getcurrentImgCount()>1){
-            for(int index=1;index<m_viewB->getcurrentImgCount();index++)
-            {
-                m_viewB->slotsUp();
-            }
+            m_viewB->setCurrentImage(0);
         }
         QImage img = m_viewB->image();
         emit dApp->signalM->setFirstImg(img);
@@ -263,6 +260,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         if(m_viewB->getcurrentImgCount()>1){
             dApp->wpSetter->setWallpaper(m_viewB->image(false));
         }else {
+            //20201208旋转本地文件 解决57329（旋转图片后设置壁纸，壁纸仍为旋转前状态）
+            m_viewB->rotatePixCurrent();
             dApp->wpSetter->setWallpaper(path);
         }
         break;
@@ -379,6 +378,14 @@ void ViewPanel::updateMenuContent()
     }
     appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Ctrl+I"));
     //appendAction(IdDraw, tr("Draw"), ss("Draw", ""));
+}
+
+void ViewPanel::clearMenu()
+{
+    if(m_menu){
+        m_menu->clear();
+        qDeleteAll(this->actions());
+    }
 }
 
 void ViewPanel::initShortcut()

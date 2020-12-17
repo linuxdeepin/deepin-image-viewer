@@ -165,6 +165,11 @@ public:
      */
     QImageReader* getcurrentImgReader();
 
+    /**
+     * @brief setCurrentImage
+     * 设置一文件多图片得到当前imgcount
+     */
+    void setCurrentImage(int index);
     signals:
     void clicked();
     void doubleClicked();

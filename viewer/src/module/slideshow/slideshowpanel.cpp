@@ -94,6 +94,8 @@ SlideShowPanel::SlideShowPanel(QWidget *parent)
 //        }
 
 //        m_player->setImagePaths(m_vinfo.paths);
+//    m_player->setCurrentImage(m_vinfo.path);
+
 //    });
     connect(dApp->signalM, &SignalManager::sigESCKeyStopSlide, this, [ = ] {
         if (isVisible())
@@ -347,6 +349,7 @@ void SlideShowPanel::initFileSystemMonitor()
         }
 
         m_player->setImagePaths(m_vinfo.paths);
+        m_player->setCurrentImage(m_vinfo.path);
     });
 }
 

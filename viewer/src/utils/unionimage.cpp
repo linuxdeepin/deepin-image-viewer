@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Copyright (C) 2019 ~ 2020 Deepin Technology Co., Ltd.
 *
 * Author: Deng jinhui<dengjinhui@uniontech.com>
@@ -171,12 +171,12 @@ public:
                       << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
                       << "TIFF" << "BMP" << "XPM"  << "DNG"
-                      << "RAF"  << "CR2" << "MEF" << "ORF"
+                      << "RAF"  << "CR2" << "MEF" << "ORF" <<"ICO"
 //                      << "RAW"
                       << "MRW"
                       << "NEF" ;
         //pic（多张图片） pcx不支持旋转
-        m_canSave << "BMP" << "JPG" << "JPEG"  << "JPS" << "JPE" << "PNG" << "PBM"
+        m_canSave << "BMP" << "JPG" << "JPEG"  << "JPS" << "JPE" << "PNG"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                   << "SVG" << "TGA" << "XPM" << "ICO"
                   << "JNG"

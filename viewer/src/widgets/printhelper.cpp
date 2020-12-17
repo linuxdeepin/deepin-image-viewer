@@ -98,10 +98,13 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 imgs << img;
             }
         }
+
+
     }
-    DPrintPreviewDialog printDialog2(parent);
+    DPrintPreviewDialog printDialog2(nullptr);
     QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
         QPainter painter(_printer);
+        int currentIndex=0;
         for (QImage img : imgs) {
             if (!img.isNull()) {
                 painter.setRenderHint(QPainter::Antialiasing);
@@ -118,10 +121,12 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                                           tmpMap.width(), tmpMap.height());
                 painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
                                          tmpMap.height()), tmpMap);
-            }
-            if (img != imgs.last()) {
-                _printer->newPage();
-                qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
+                //解决57331 【专业版1031】【看图】【5.6.3.74】tif中有相同图片时，打印预览会自动去重
+                if(currentIndex!=imgs.count()-1){
+                    _printer->newPage();
+                    qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
+                    currentIndex++;
+                }
             }
         }
         painter.end();

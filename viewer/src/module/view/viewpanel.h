@@ -104,6 +104,10 @@ public:
     {
         return m_menu;
     }
+    /**
+    * @brief clearMenu  清空右键菜单
+    */
+    void clearMenu();
 //    void AddDataToList(LOAD_DIRECTION Dirction, int pages = 30);
 
 //    /**

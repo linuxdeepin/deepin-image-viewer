@@ -21,7 +21,8 @@ void MorePicFloatWidget::initUI()
     m_buttonDown=new  DIconButton(this);
     m_labelNum=new DLabel(this);
     m_pLayout->addWidget(m_labelNum);
-    m_labelNum->setText("   0/0");
+    m_labelNum->setAlignment(Qt::AlignCenter);
+    m_labelNum->setText("0/0");
     m_buttonUp->setIcon(QIcon::fromTheme("dcc_up"));
     m_buttonUp->setIconSize(QSize(40, 40));
     m_buttonDown->setIcon(QIcon::fromTheme("dcc_down"));
@@ -90,5 +91,5 @@ DIconButton *MorePicFloatWidget::getButtonDown()
 
 void MorePicFloatWidget::setLabelText(const QString &num)
 {
-     m_labelNum->setText("   "+num);
+     m_labelNum->setText(num);
 }

@@ -800,7 +800,7 @@ bool imageSupportWallPaper(const QString &path)
     {
         qDebug()<<reader.format();
         //2020/11/12 bug54279
-        if(listsupportWallPaper.contains(reader.format()) &&listsupportWallPaper.contains(QFileInfo(path).suffix())){
+        if(listsupportWallPaper.contains(reader.format().toLower()) &&listsupportWallPaper.contains(QFileInfo(path).suffix().toLower())){
             iRet=true;
         }
         //20201012 lmh ico不支持设置壁纸
