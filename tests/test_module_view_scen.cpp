@@ -10,10 +10,7 @@
 TEST_F(gtestview, showVagueImage)
 {
 
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(1000);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
 
     ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if(panel){
@@ -23,23 +20,18 @@ TEST_F(gtestview, showVagueImage)
 
 TEST_F(gtestview, showFileImage)
 {
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(1000);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
+
 
     ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if(panel){
-//        panel->showFileImage();
+        //        panel->showFileImage();
     }
 }
 
 TEST_F(gtestview, mouse)
 {
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(1000);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
 
     ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if(panel){
@@ -54,11 +46,7 @@ TEST_F(gtestview, mouse)
 
 TEST_F(gtestview, reloadSvgPix)
 {
-    //reloadSvgPix
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(1000);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
 
     ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if(panel){
@@ -72,11 +60,11 @@ TEST_F(gtestview, reloadSvgPix)
 TEST_F(gtestview, setThemeType)
 {
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::LightType);
-    QTest::qWait(1000);
+
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::DarkType);
-    QTest::qWait(1000);
+
     DGuiApplicationHelper::instance()->setThemeType(DGuiApplicationHelper::UnknownType);
-    QTest::qWait(1000);
+
 }
 
 TEST_F(gtestview, loadingDisplay)
@@ -86,10 +74,9 @@ TEST_F(gtestview, loadingDisplay)
 
 TEST_F(gtestview, clear)
 {
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(1000);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
+
+    //    QTest::qWait(400);
 
     ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if(panel){
@@ -98,19 +85,17 @@ TEST_F(gtestview, clear)
 }
 TEST_F(gtestview, QGestureEvent)
 {
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(1000);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
+
 
     ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if(panel){
 
         QMimeData mimedata;
-//        QList<QUrl> li;
-//        li.append(QUrl::fromLocalFile(TriangleItemPath));
+        //        QList<QUrl> li;
+        //        li.append(QUrl::fromLocalFile(TriangleItemPath));
 
-//        mimedata.setUrls(li);
+        //        mimedata.setUrls(li);
         QList<QGesture *> gestures;
         QGestureEvent gestureEvent(gestures);
         qApp->sendEvent(panel, &gestureEvent);
@@ -120,34 +105,22 @@ TEST_F(gtestview, QGestureEvent)
 
 TEST_F(gtestview, QWheelEvent_1)
 {
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(500);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
 
     ImageView *view = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if(view){
 
+        QTest::mouseDClick(view,Qt::LeftButton,Qt::NoModifier,QPoint(30,30),50);
 
-//        QList<QUrl> li;
-//        li.append(QUrl::fromLocalFile(TriangleItemPath));
+        QTest::mouseDClick(view,Qt::MidButton,Qt::NoModifier,QPoint(30,30),50);
 
-//        mimedata.setUrls(li);
-//        QList<QPinchGesture *> gestures;
-//        QPinchGestureEvent gestureEvent(gestures);
-//        qApp->sendEvent(panel, &gestureEvent);
+        QTest::mousePress(view, Qt::MidButton,Qt::NoModifier,QPoint(40,50),50);
 
-        QTest::mouseDClick(view,Qt::LeftButton,Qt::NoModifier,QPoint(30,30),100);
+        QTest::mouseRelease(view, Qt::MidButton,Qt::NoModifier,QPoint(80,90),50);
 
-        QTest::mouseDClick(view,Qt::MidButton,Qt::NoModifier,QPoint(30,30),100);
+        QTest::mousePress(view, Qt::MiddleButton,Qt::NoModifier,QPoint(40,50),50);
 
-        QTest::mousePress(view, Qt::MidButton,Qt::NoModifier,QPoint(40,50),100);
-
-        QTest::mouseRelease(view, Qt::MidButton,Qt::NoModifier,QPoint(80,90),100);
-
-        QTest::mousePress(view, Qt::MiddleButton,Qt::NoModifier,QPoint(40,50),100);
-
-        QTest::mouseRelease(view, Qt::MiddleButton,Qt::NoModifier,QPoint(80,90),100);
+        QTest::mouseRelease(view, Qt::MiddleButton,Qt::NoModifier,QPoint(80,90),50);
 
         QMouseEvent event(QEvent::MouseButtonDblClick,QPoint(30,30),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
 

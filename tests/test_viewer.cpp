@@ -11,15 +11,11 @@ TEST_F(gtestview, m_imageloader_11)
 // connect(animation, SIGNAL(finished()), this, SLOT(OnFinishPinchAnimal()));
 TEST_F(gtestview, m_OnFinishPinchAnimal)
 {
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(500);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
 
     ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
     if(panel){
         panel->OnFinishPinchAnimal();
-        QTest::qWait(100);
         QList<QGesture *> gestures3;
         QSwipeGesture *testGest3=new QSwipeGesture();
         testGest3->setHotSpot(QPoint(300,300));
@@ -30,7 +26,6 @@ TEST_F(gtestview, m_OnFinishPinchAnimal)
 
         panel->swipeTriggered(testGest3);
 
-        QTest::qWait(100);
         QList<QGesture *> gestures;
         QPinchGesture *testGest=new QPinchGesture();
         testGest->setHotSpot(QPoint(300,300));

@@ -9,11 +9,7 @@
 #ifdef test_module_view_z
 TEST_F(gtestview, moduleName)
 {
-    if(!m_frameMainWindow)
-    {
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(300);
+    m_frameMainWindow = CommandLine::instance()->getMainWindow();
 
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
     if(panel)
@@ -34,11 +30,11 @@ TEST_F(gtestview, RenameDialog)
     m_renameDialog->show();
     m_renameDialog->GetFilePath();
     m_renameDialog->GetFileName();
-    QTest::qWait(100);
+
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-    QTest::qWait(100);
+
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-    QTest::qWait(100);
+
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
 
 
@@ -49,8 +45,8 @@ TEST_F(gtestview, RenameDialog)
     QTest::keyClicks(m_renameDialog->m_lineedt,QString("jpg520.jpg"),Qt::NoModifier, 10);
     m_renameDialog->m_lineedt->setText("jpg520.jpg");
 
-    QTest::mouseMove(m_renameDialog->okbtn, QPoint(), 500);
-    QTest::mouseClick(m_renameDialog->okbtn, Qt::LeftButton, Qt::NoModifier,QPoint(), 1000);
+    QTest::mouseMove(m_renameDialog->okbtn, QPoint(), 200);
+    QTest::mouseClick(m_renameDialog->okbtn, Qt::LeftButton, Qt::NoModifier,QPoint(), 200);
 
     m_renameDialog->okbtn->click();
 
