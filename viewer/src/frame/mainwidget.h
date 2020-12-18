@@ -83,6 +83,7 @@ private:
     ViewPanel       *m_viewPanel {nullptr};
 
     DShadowLine     *m_shadowLine {nullptr};
+    QPropertyAnimation *m_bottomAnimation {nullptr};
 };
 
 #endif // MAINWIDGET_H

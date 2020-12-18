@@ -557,7 +557,7 @@ private:
     bool m_bOnlyOneiImg=false;
 
     bool m_screentoNormal=false;
-
+    QTimer* m_tSaveImage = nullptr;//保存旋转图片定时器
 
 };
 #endif  // VIEWPANEL_H

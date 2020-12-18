@@ -74,12 +74,12 @@ public:
     /**
      * @brief rotateClockWise   顺时针旋转90度
      */
-    void rotateClockWise();
+    bool rotateClockWise();
 
     /**
      * @brief rotateCounterclockwise 逆时针旋转90度
      */
-    void rotateCounterclockwise();
+    bool rotateCounterclockwise();
     void centerOn(int x, int y);
 
     /**
@@ -221,7 +221,7 @@ public slots:
      * @brief rotatePixmap  根据角度旋转pixmap
      * @param nAngel        旋转的角度
      */
-    void rotatePixmap(int nAngel);
+    bool rotatePixmap(int nAngel);
 
 //    /**
 //     * @brief recvPathsToCache  接收图片路径进行缓存

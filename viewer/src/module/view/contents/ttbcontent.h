@@ -247,6 +247,8 @@ signals:
 
     void sigsetcurrent(QString path);
 
+    void sigstopmovettb();//stop ttb animal
+
 public slots:
     void setCurrentDir(QString text);
 
@@ -468,6 +470,7 @@ private:
     bool m_bMoving=true;
 
     bool m_NotImageViewFlag = false;
+    QPropertyAnimation* m_AnimalImageList = nullptr; //m_imglst动画
 };
 
 

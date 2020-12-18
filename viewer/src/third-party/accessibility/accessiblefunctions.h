@@ -78,8 +78,9 @@ inline QString getIntelAccessibleName(QWidget *w, QAccessible::Role r, QString f
 {
     // 避免重复生成
     static QMap< QObject *, QString > objnameMap;
-    if (!objnameMap[w].isEmpty())
-        return objnameMap[w];
+    //为了能够动态的修改accessible不需要避免重复生成
+//    if (!objnameMap[w].isEmpty())
+//        return objnameMap[w];
 
     static QMap< QAccessible::Role, QList< QString > > accessibleMap;
     QString oldAccessName = w->accessibleName();

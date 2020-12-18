@@ -378,28 +378,43 @@ void MainWidget::initConnection()
     //    });
     //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
     //            &MainWidget::initStyleSheet);
+    connect(dApp->signalM, &SignalManager::sigStopAnimation, this, [ = ] {
+        if(m_bottomAnimation){
+            m_bottomAnimation->stop();
+            delete m_bottomAnimation;
+            m_bottomAnimation = nullptr;
+        }
+    });
     connect(dApp->signalM, &SignalManager::sigMouseMove, this, [ = ] {
         if (window()->isFullScreen())
         {
             QPoint pos = mapFromGlobal(QCursor::pos());
             if (height() - 20 < pos.y() && height() > pos.y() && height() == m_bottomToolbar->y()) {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
-                animation->setDuration(200);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(
+                m_bottomAnimation = new QPropertyAnimation(m_bottomToolbar, "pos");
+                m_bottomAnimation->setDuration(200);
+                m_bottomAnimation->setEasingCurve(QEasingCurve::NCurveTypes);
+                m_bottomAnimation->setStartValue(
                     QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-                animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2,
+                m_bottomAnimation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2,
                                               height() - m_bottomToolbar->height() - 10));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
+                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [=](){
+                    delete m_bottomAnimation;
+                    m_bottomAnimation = nullptr;
+                });
+                m_bottomAnimation->start();
             } else if (height() - m_bottomToolbar->height() - 10 > pos.y() &&
                        height() - m_bottomToolbar->height() - 10 == m_bottomToolbar->y()) {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
-                animation->setDuration(200);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(
+                m_bottomAnimation = new QPropertyAnimation(m_bottomToolbar, "pos");
+                m_bottomAnimation->setDuration(200);
+                m_bottomAnimation->setEasingCurve(QEasingCurve::NCurveTypes);
+                m_bottomAnimation->setStartValue(
                     QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-                animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
+                m_bottomAnimation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
+                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [=](){
+                    delete m_bottomAnimation;
+                    m_bottomAnimation = nullptr;
+                });
+                m_bottomAnimation->start();
             }
         }
     });

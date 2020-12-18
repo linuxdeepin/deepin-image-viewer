@@ -388,12 +388,20 @@ void ViewPanel::initFileSystemWatcher()
 
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
 {
-    RenameDialog *renamedlg =  new RenameDialog(filepath);
+    RenameDialog *renamedlg =  new RenameDialog(filepath,this);
+    killTimer(m_hideCursorTid);
+    m_hideCursorTid = 0;
+    m_viewB->viewport()->setCursor(Qt::ArrowCursor);
 #ifndef USE_TEST
     if (renamedlg->exec()) {
 #else
     if (true) {
 #endif
+        //点击DTK的关闭按钮返回的是QDialog::Aceepted
+        if (!m_menu->isVisible()) {
+            m_viewB->viewport()->setCursor(Qt::BlankCursor);
+        }
+        m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
         //重命名从窗口确定后修改文件名词并修改窗口标题
         QFile file(filepath);
         filepath = renamedlg->GetFilePath();
@@ -402,6 +410,11 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         if (bOk)
             emit dApp->signalM->updateFileName(renamedlg->GetFileName());
         return bOk;
+    }else {
+        if (!m_menu->isVisible()) {
+            m_viewB->viewport()->setCursor(Qt::BlankCursor);
+        }
+        m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     }
     return false;
 }
@@ -569,7 +582,6 @@ bool ViewPanel::GetPixmapStatus(QString filename)
 void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
 {
     //bpix表示图片加载成功，不用切换到撕裂图widget
-    emit imageChanged(path,m_infos);
      QPixmap pixmapthumb= dApp->m_imagemap.value(path);
      if(pixmapthumb.isNull())
      {
@@ -1325,7 +1337,7 @@ bool ViewPanel::eventFilter(QObject *obj, QEvent *e)
         m_viewB->clear();
     }
 
-    if (e->type() == QEvent::Resize && this->isVisible() && m_finish) {
+    if (e->type() == QEvent::Resize && this->isVisible()/* && m_finish*/) {
         // emit dApp->signalM->updateTopToolbarLeftContent(toolbarTopLeftContent());
         //  emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
         //                                                (m_infos.size() > 1));
@@ -1768,6 +1780,7 @@ void ViewPanel::toggleFullScreen()
     m_viewB->setFitState(false,false);
     m_screentoNormal=true;
     if (window()->isFullScreen()) {
+        emit dApp->signalM->sigStopAnimation();
         showNormal();
         killTimer(m_hideCursorTid);
         m_hideCursorTid = 0;
@@ -1803,13 +1816,6 @@ bool ViewPanel::showPrevious()
     }
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    //LMH0603判断，发送更新缩略图接口信号
-    QStringList pathlist;
-    pathlist.append(m_infos.at(m_current).filePath);
-
-    if (pathlist.size() > 0) {
-        emit sendDynamicLoadPaths(pathlist);
-    }
     return true;
 }
 
@@ -1836,13 +1842,6 @@ bool ViewPanel::showNext()
     }
 
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    //发送更新缩略图接口信号
-    QStringList pathlist;
-    pathlist.append(m_infos.at(m_current).filePath);
-
-    if (pathlist.size() > 0) {
-        emit sendDynamicLoadPaths(pathlist);
-    }
     return true;
 }
 
@@ -1882,17 +1881,6 @@ bool ViewPanel::showImage(int index, int addindex)
     m_currentImagePath = m_infos.at(m_current).filePath;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
 //    dApp->getRwLock().unlock();
-    //发送更新缩略图接口信号
-    QStringList pathlist;
-    pathlist.append(m_infos.at(m_current).filePath);
-
-    if (pathlist.size() > 0) {
-//        ttbc->setIsConnectDel(false);
-//        m_bAllowDel = false;
-//        ttbc->disableDelAct(false);
-     //   refreshPixmap(m_infos.at(m_current).filePath);
-     //   emit sendDynamicLoadPaths(pathlist);
-    }
 m_bIsOpenPicture=true;
     return true;
 }
@@ -2036,12 +2024,24 @@ void ViewPanel::rotateImage(bool clockWise)
     if (m_infos.count() < 1)
         return;
 
+    bool bret = true;
     if (clockWise) {
-        m_viewB->rotateClockWise();
+        bret = m_viewB->rotateClockWise();
     } else {
-        m_viewB->rotateCounterclockwise();
+        bret = m_viewB->rotateCounterclockwise();
     }
 
+    if(!bret) return;
+    //实时保存太卡，因此采用2s后延时保存的问题
+    if(!m_tSaveImage){
+        m_tSaveImage = new QTimer(this);
+        connect(m_tSaveImage,&QTimer::timeout,this,[=](){
+            m_viewB->rotatePixCurrent();
+        });
+    }
+
+    m_tSaveImage->setSingleShot(true);
+    m_tSaveImage->start(2000);
     m_viewB->autoFit();
     m_info->updateInfo();
 

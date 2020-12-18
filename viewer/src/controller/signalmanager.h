@@ -204,6 +204,8 @@ signals:
 
     void UpdateNavImg();
 
+    void sigStopAnimation();
+
 private:
     explicit SignalManager(QObject *parent = nullptr);
 

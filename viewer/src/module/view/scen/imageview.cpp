@@ -258,9 +258,10 @@ QVariantList ImageView::cachePixmap(const QString path)
     if(dApp->m_firstLoad)
     {
         dApp->m_rectmap.insert(path, p.rect());
-        dApp->m_imagemap.insert(path, p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
         emit dApp->sigFinishLoad(path);
     }
+    dApp->m_imagemap.insert(path, p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
+    emit dApp->signalM->sigUpdateThunbnail(path);//为了解决打开两个看图，一个看图旋转另一个看图没有更新缩略图的问题。
 //    if (QFileInfo(path).exists() && p.isNull()) {
 //        //判定为损坏图片
 //        DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
@@ -629,22 +630,26 @@ void ImageView::fitImage()
     emit transformChanged();
 }
 
-void ImageView::rotateClockWise()
+bool ImageView::rotateClockWise()
 {
+    bool bret = true;
     if (QFileInfo(m_path).suffix() == "svg") {
-        reloadSvgPix(m_path, 90);
+        bret = reloadSvgPix(m_path, 90);
     } else {
-        rotatePixmap(90);
+        bret = rotatePixmap(90);
     }
+    return bret;
 }
 
-void ImageView::rotateCounterclockwise()
+bool ImageView::rotateCounterclockwise()
 {
+    bool bret = true;
     if (QFileInfo(m_path).suffix() == "svg") {
-        reloadSvgPix(m_path, -90);
+        bret = reloadSvgPix(m_path, -90);
     } else {
-        rotatePixmap(-90);
+        bret = rotatePixmap(-90);
     }
+    return bret;
 }
 
 void ImageView::centerOn(int x, int y)
@@ -1038,9 +1043,9 @@ bool ImageView::reloadSvgPix(QString strPath, int nAngel,bool fitauto)
     return  bRet;
 }
 
-void ImageView::rotatePixmap(int nAngel)
+bool ImageView::rotatePixmap(int nAngel)
 {
-    if(!m_pixmapItem) return;
+    if(!m_pixmapItem) return false;
     QPixmap pixmap = m_pixmapItem->pixmap();
     QMatrix rotate;
     rotate.rotate(nAngel);
@@ -1060,6 +1065,7 @@ void ImageView::rotatePixmap(int nAngel)
 
     autoFit();
     m_rotateAngel += nAngel;
+    return true;
 }
 
 //void ImageView::recvPathsToCache(const QStringList pathsList)

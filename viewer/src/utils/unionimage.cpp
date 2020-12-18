@@ -583,6 +583,9 @@ UNIONIMAGESHARED_EXPORT bool canSave(const QString &path)
             return true;
         }
     }
+    QFileInfo info(path);
+    if (union_image_private.m_canSave.contains(info.suffix().toUpper()))
+        return true;
     return false;
 }
 
