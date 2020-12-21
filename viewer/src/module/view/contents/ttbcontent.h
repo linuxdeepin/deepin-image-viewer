@@ -454,7 +454,6 @@ private:
     int m_contentWidth;
     int m_lastIndex = 0;
     int m_nowIndex = 0;
-    int m_imgInfos_size = 0;
     int m_startAnimation = 0;
 
     /*lmh0728计数*/

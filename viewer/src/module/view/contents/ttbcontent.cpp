@@ -195,7 +195,7 @@ bool MyImageListWidget::UpdateThumbnail()
         m_lastPoint=QPoint(0,0);
             emit mouseLeftReleased();
         return false;
-    }
+    } 
     else if(firsttolast>=20 && firsttolast<50){
         animation->setDuration(1000);
         animation->setEndValue(QPoint(((DWidget *)m_obj)->x()-40, ((DWidget *)m_obj)->y()));
@@ -667,7 +667,6 @@ void TTBContent::setWindoeSize(bool inDB, DBImgInfoList m_infos, QWidget *parent
     m_windowWidth = std::max(this->window()->width(),
                              ConfigSetter::instance()->value("MAINWINDOW", "WindowWidth").toInt());
     m_imgInfos = m_infos;
-    m_imgInfos_size = m_imgInfos.size();
     if (m_imgInfos.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
     } else if (m_imgInfos.size() <= 3) {
@@ -889,23 +888,22 @@ void TTBContent::toolbarSigConnection()
         {
             emit dApp->signalM->sigShowFullScreen();
         }
-        m_imgInfos_size = m_imgInfos_size - 1;
         int windowWidth = this->window()->geometry().width();
-        if (m_imgInfos_size <= 1)
+        if (m_imgInfos.size() <= 1)
         {
             m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-        } else if (m_imgInfos_size <= 3)
+        } else if (m_imgInfos.size() <= 3)
         {
             m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
             m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
         } else
         {
             m_contentWidth =
-            qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)),
+            qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                  qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) +
             THUMBNAIL_LIST_ADJUST;
             m_imgListView->setFixedSize(
-                QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)),
+                QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                            qMax(windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) -
                       THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
                       TOOLBAR_HEIGHT));
@@ -1733,7 +1731,6 @@ void TTBContent::loadBack(DBImgInfoList infos)
         //bug 54009 lmh20201111解决,该操作回弹引起,
         //m_imgList->move(m_nLastMove, m_imgList->y());
     }
-    m_imgInfos_size = m_imgInfos.size();
 }
 
 void TTBContent::loadFront(DBImgInfoList infos)
@@ -1837,7 +1834,6 @@ void TTBContent::loadFront(DBImgInfoList infos)
         m_imgListView->update();
 //        m_imgList->move(-34 * infos.size() + 100, m_imgList->y());
     }
-    m_imgInfos_size = m_imgInfos.size();
 }
 
 void TTBContent::ReInitFirstthumbnails(DBImgInfoList infos)
@@ -1901,17 +1897,17 @@ void TTBContent::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     m_windowWidth = this->window()->geometry().width();
-    if (m_imgInfos_size <= 1) {
+    if (m_imgInfos.size() <= 1) {
         m_contentWidth = TOOLBAR_JUSTONE_WIDTH;
-    } else if (m_imgInfos_size <= 3) {
+    } else if (m_imgInfos.size() <= 3) {
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
         m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
     } else {
-        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)),
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                               qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) +
                          THUMBNAIL_LIST_ADJUST;
         m_imgListView->setFixedSize(
-            QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)),
+            QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)),
                        qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) -
                   THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST,
                   TOOLBAR_HEIGHT));
@@ -2214,8 +2210,8 @@ void TTBContent::onResize()
         m_contentWidth = TOOLBAR_MINIMUN_WIDTH;
         m_imgListView->setFixedSize(QSize(TOOLBAR_DVALUE, TOOLBAR_HEIGHT));
     } else {
-        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
-        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos_size - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
+        m_contentWidth = qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) + THUMBNAIL_LIST_ADJUST;
+        m_imgListView->setFixedSize(QSize(qMin((TOOLBAR_MINIMUN_WIDTH + THUMBNAIL_ADD_WIDTH * (m_imgInfos.size() - 3)), qMax(m_windowWidth - RT_SPACING, TOOLBAR_MINIMUN_WIDTH)) - THUMBNAIL_VIEW_DVALUE + THUMBNAIL_LIST_ADJUST, TOOLBAR_HEIGHT));
     }
 
     setFixedWidth(m_contentWidth);
