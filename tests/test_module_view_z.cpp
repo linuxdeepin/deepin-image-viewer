@@ -66,7 +66,6 @@ TEST_F(gtestview, NavigationWidget_find)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(500);
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     NavigationWidget *widget= m_frameMainWindow->findChild <NavigationWidget *>();
     if(widget)

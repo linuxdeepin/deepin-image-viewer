@@ -117,7 +117,7 @@ TEST_F(gtestview, CommandLine)
     QTest::qWait(500);
 
 }
-#ifdef TEST
+#ifdef test_main
 TEST_F(gtestview, mainwindow)
 {
 
@@ -762,7 +762,7 @@ TEST_F(gtestview, m_ScanPathsItem)
     ScanPathsItem* m_ScanPathsItem=new ScanPathsItem(m_JPGPath);
     m_ScanPathsItem->show();
 
-    QTest::qWait(100);
+    QTest::qWait(10);
     m_ScanPathsItem->hide();
 }
 TEST_F(gtestview, dapp)
@@ -811,7 +811,6 @@ TEST_F(gtestview, BlurFrame)
     m_printOptionspage->scaleHeight();
     m_printOptionspage->alignment();
 
-    QTest::qWait(100);
     BlurFrame *blurFrame=new BlurFrame(new QWidget());
     blurFrame->resize(500,500);
     blurFrame->show();
@@ -937,7 +936,6 @@ TEST_F(gtestview, Toast)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(300);
 
     Toast *widget = m_frameMainWindow->findChild<Toast *>(TOAST_OBJECT);
     if(widget)
@@ -957,7 +955,6 @@ TEST_F(gtestview, ThemeWidget)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(300);
 
     ThemeWidget *widget = m_frameMainWindow->findChild<ThemeWidget *>(THEME_WIDGET);
     if(widget)

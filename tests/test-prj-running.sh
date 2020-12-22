@@ -17,7 +17,7 @@ mkdir -p tests/test
      echo " ===================CREAT LCOV REPROT==================== "
      mkdir ./CMakeFiles/${PROJECT_REALNAME}.dir
      lcov --directory ./CMakeFiles/${PROJECT_REALNAME}.dir --zerocounters
-     ./tests/${PROJECT_NAME}
+     ./tests/${PROJECT_NAME} --gtest_output=xml:./report/report_deepin-image-viewer.xml
      lcov --directory . --capture --output-file ./html/${PROJECT_REALNAME}_Coverage.info
 
      echo " =================== do filter begin ==================== "

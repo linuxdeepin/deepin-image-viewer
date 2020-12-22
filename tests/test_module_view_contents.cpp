@@ -253,12 +253,25 @@ TEST_F(gtestview,loadBack)
     m_frameMainWindow->setBorderWidth(0);
     m_frameMainWindow->show();
 
+    ImageItem *Item1=m_frameMainWindow->findChild<ImageItem *>(QApplication::applicationDirPath()+"/test/jpg55.jpg");
+    if(Item1)
+    Item1->emitClickSig(QApplication::applicationDirPath()+"/test/jpg55.jpg");
+    QTest::qWait(100);
+    if(Item1)
+    Item1->emitClickEndSig();
     int index1=0;
-    while(index1++<60)
+    while(index1++<10)
     {
         QTest::keyClick(m_frameMainWindow, Qt::Key_Left, Qt::NoModifier, 100);
     }
-    while(index1++<180)
+
+    ImageItem *Item2=m_frameMainWindow->findChild<ImageItem *>(QApplication::applicationDirPath()+"/test/jpg145.jpg");
+    if(Item2)
+    Item2->emitClickSig(QApplication::applicationDirPath()+"/test/jpg145.jpg");
+    QTest::qWait(100);
+    if(Item2)
+    Item2->emitClickEndSig();
+    while(index1++<20)
     {
         QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 100);
     }
@@ -269,7 +282,6 @@ TEST_F(gtestview,TTLCONTENTS)
         if(!m_frameMainWindow){
             m_frameMainWindow = CommandLine::instance()->getMainWindow();
         }
-        QTest::qWait(500);
 
         TTLContent *panel = m_frameMainWindow->findChild<TTLContent *>(TTL_CONTENTS);
         if(panel){
@@ -286,7 +298,6 @@ TEST_F(gtestview,getImageType)
         if(!m_frameMainWindow){
             m_frameMainWindow = CommandLine::instance()->getMainWindow();
         }
-        QTest::qWait(400);
 
         TTBContent *panel = m_frameMainWindow->findChild<TTBContent *>(TTBCONTENT_WIDGET);
         if(panel){
@@ -330,7 +341,6 @@ TEST_F(gtestview,ImageItemTfind)
             if(!m_frameMainWindow){
                 m_frameMainWindow = CommandLine::instance()->getMainWindow();
             }
-            QTest::qWait(400);
 
             TTBContent *panel = m_frameMainWindow->findChild<TTBContent *>(TTBCONTENT_WIDGET);
             if(panel){

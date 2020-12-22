@@ -117,7 +117,6 @@ void QTestMain::cleanupTestCase()
 
 void QTestMain::testGTest()
 {
-    testing::GTEST_FLAG(output) = "xml:./report/report_deepin-image-viewer.xml";
     testing::InitGoogleTest();
     int ret = RUN_ALL_TESTS();
 #ifndef __mips__

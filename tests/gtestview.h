@@ -70,7 +70,7 @@ using namespace utils::image;
 #define SVGPATH "/usr/share/deepin-image-viewer/icons/logo/deepin-image-viewer.svg"
 #define DDSPATH "/data/home/lmh/0916/tu/DDS.dds"
 
-#define TEST
+#define test_main
 #define test_module_view_contents
 #define test_module_view_scen
 #define test_module_view_z
