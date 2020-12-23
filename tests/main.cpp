@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
     QT_END_NAMESPACE \
     int main(int argc, char *argv[]) \
     { \
+        testing::InitGoogleTest(&argc,argv); \
         Application::instance(argc, argv); \
         dApp->m_app->setAttribute(Qt::AA_Use96Dpi, true); \
         QTEST_DISABLE_KEYPAD_NAVIGATION \
@@ -117,7 +118,6 @@ void QTestMain::cleanupTestCase()
 
 void QTestMain::testGTest()
 {
-    testing::InitGoogleTest();
     int ret = RUN_ALL_TESTS();
 #ifndef __mips__
     __sanitizer_set_report_path("asan.log");
