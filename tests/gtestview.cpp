@@ -149,13 +149,14 @@ TEST_F(gtestview, mainwindow)
 
 
 
+
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Up, Qt::ControlModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 200);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Right, Qt::NoModifier, 200);
     int index1=0;
     while(index1++<20)
@@ -787,7 +788,8 @@ TEST_F(gtestview, dapp)
 }
 TEST_F(gtestview, BlurFrame)
 {
-    m_printOptionspage=new PrintOptionsPage();
+    QWidget *testWidget=new QWidget();
+    m_printOptionspage=new PrintOptionsPage(testWidget);
     m_printOptionspage->show();
 
     QRadioButton *noScaleBtn = m_printOptionspage->getnoScaleBtn();
@@ -811,7 +813,7 @@ TEST_F(gtestview, BlurFrame)
     m_printOptionspage->scaleHeight();
     m_printOptionspage->alignment();
 
-    BlurFrame *blurFrame=new BlurFrame(new QWidget());
+    BlurFrame *blurFrame=new BlurFrame(testWidget);
     blurFrame->resize(500,500);
     blurFrame->show();
     blurFrame->resize(300,300);
@@ -843,6 +845,8 @@ TEST_F(gtestview, BlurFrame)
     blurFrame->hide();
     blurFrame->deleteLater();
     blurFrame=nullptr;
+    testWidget->deleteLater();
+    testWidget=nullptr;
 
 
 }

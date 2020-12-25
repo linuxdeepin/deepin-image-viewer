@@ -61,9 +61,17 @@ TEST_F(gtestview, WallPaperSetting1)
 }
 TEST_F(gtestview, collectSubDirs)
 {
-    DirCollectThread *tt=new DirCollectThread(QApplication::applicationDirPath(),"test");
+    DirCollectThread tt(QApplication::applicationDirPath(),"test");
     Importer::instance()->stopDirCollect(QApplication::applicationDirPath());
-    tt->setStop(false);
-    tt->dir();
-}
+    tt.setStop(false);
+    tt.dir();
+//    tt.start();
+    FilesCollectThread ct(QStringList(QApplication::applicationDirPath() + "/test/jpg133.jpg"),"");
 
+    ct.currentImport(QApplication::applicationDirPath() + "/test/jpg133.jpg");
+    ct.resultReady(DBImgInfoList());
+    ct.insertAlbumRequest("",QStringList(QApplication::applicationDirPath() + "/test/jpg133.jpg"));
+//    ct.start();
+//    tt.wait(2000);
+//    ct.wait(2000);
+}

@@ -73,9 +73,9 @@ TEST_F(gtestview, NavigationWidget_find)
         widget->resize(200,200);
         widget->show();
         widget->resize(300,300);
-        QImage *a=new QImage(QApplication::applicationDirPath()+"/png.png");
+        QImage a= QImage(QApplication::applicationDirPath()+"/png.png");
 
-        widget->setImage(*a);
+        widget->setImage(a);
         widget->resize(400,400);
         QTest::mouseMove(widget, QPoint(10,10), 150);
         QTest::mouseMove(widget, QPoint(10,10), 100);

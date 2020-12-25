@@ -479,9 +479,11 @@ const QImage loadTga(QString filePath, bool &success)
         }
 
         img = img.mirrored();
-
+        delete vui8Pixels;
+        vui8Pixels=nullptr;
     }
     success = true;
+
     return img;
 }
 /*!

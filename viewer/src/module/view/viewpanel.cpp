@@ -1755,18 +1755,19 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        if (m_AllPath.size() > m_infos.size() && !m_bOnlyOneiImg) {
-            QThread *loadTh = QThread::create([ = ]() {
-                eatImageDirIteratorThread();
-            });
-
-            if (loadTh && !vinfo.path.isEmpty()) {
+        if (m_AllPath.size() > m_infos.size() && !m_bOnlyOneiImg ) {
+            if(!vinfo.path.isEmpty()){
+                QThread *loadTh = QThread::create([ = ]() {
+                    eatImageDirIteratorThread();
+                });
                 //发送按钮置灰信号
                 //emit disableDel(false);
                 //m_bAllowDel = false;
                 connect(loadTh, &QThread::finished, loadTh, &QObject::deleteLater);
                 loadTh->start();
             }
+
+
         } else {
             m_bFinishFirstLoad = true;
             m_bAllowDel = true;

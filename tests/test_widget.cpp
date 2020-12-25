@@ -4,47 +4,47 @@
 #include "viewer/src/frame/mainwidget.h"
 #define private public
 #include "viewer/src/widgets/toast.h"
-//TEST_F(gtestview, BlurFrame_1)
-//{
-//    QWidget *widget =new QWidget();
-//    BlurFrame * blurFrame=new BlurFrame(widget);
-//    blurFrame->show();
-//    blurFrame->resize(200,200);
-//    QTest::mousePress(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseRelease(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
-//    QTest::mouseClick(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseMove(blurFrame, QPoint(50,100),200);
-//    QTest::keyClick(blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 200);
-//    QTest::mouseDClick(blurFrame,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+TEST_F(gtestview, BlurFrame_1)
+{
+    QWidget *widget =new QWidget();
+    BlurFrame * blurFrame=new BlurFrame(widget);
+    blurFrame->show();
+    blurFrame->resize(200,200);
+    QTest::mousePress(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseRelease(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
+    QTest::mouseClick(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseMove(blurFrame, QPoint(50,100),200);
+    QTest::keyClick(blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseDClick(blurFrame,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
 
-//    QTest::mousePress(widget, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseRelease(widget, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
-//    QTest::mouseClick(widget, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseMove(widget, QPoint(50,100),200);
-//    QTest::keyClick(widget, Qt::Key_Escape, Qt::ShiftModifier, 200);
-//    QTest::mouseDClick(widget,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//}
+    QTest::mousePress(widget, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseRelease(widget, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
+    QTest::mouseClick(widget, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseMove(widget, QPoint(50,100),200);
+    QTest::keyClick(widget, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseDClick(widget,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+}
 
-//TEST_F(gtestview, ElidedLabel_1)
-//{
-//    QWidget *widget =new QWidget();
-//    ElidedLabel * blurFrame=new ElidedLabel(widget);
-//    blurFrame->show();
-//    blurFrame->resize(200,200);
-//    QTest::mousePress(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseRelease(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
-//    QTest::mouseClick(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseMove(blurFrame, QPoint(50,100),200);
-//    QTest::keyClick(blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 200);
-//    QTest::mouseDClick(blurFrame,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+TEST_F(gtestview, ElidedLabel_1)
+{
+    QWidget *widget =new QWidget();
+    ElidedLabel * blurFrame=new ElidedLabel(widget);
+    blurFrame->show();
+    blurFrame->resize(200,200);
+    QTest::mousePress(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseRelease(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
+    QTest::mouseClick(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseMove(blurFrame, QPoint(50,100),200);
+    QTest::keyClick(blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseDClick(blurFrame,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
 
-//    QTest::mousePress(widget, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseRelease(widget, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
-//    QTest::mouseClick(widget, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseMove(widget, QPoint(50,100),200);
-//    QTest::keyClick(widget, Qt::Key_Escape, Qt::ShiftModifier, 200);
-//    QTest::mouseDClick(widget,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//}
+    QTest::mousePress(widget, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseRelease(widget, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
+    QTest::mouseClick(widget, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+    QTest::mouseMove(widget, QPoint(50,100),200);
+    QTest::keyClick(widget, Qt::Key_Escape, Qt::ShiftModifier, 200);
+    QTest::mouseDClick(widget,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+}
 
 TEST_F(gtestview, Toast_1)
 {

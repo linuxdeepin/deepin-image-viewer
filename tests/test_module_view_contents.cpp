@@ -22,17 +22,13 @@ TEST_F(gtestview, QWheelEvent_2)
 //        QWheelEvent(const QPointF &pos, int delta,
 //                    Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers,
 //                    Qt::Orientation orient = Qt::Vertical);
-        QWheelEvent *event=new QWheelEvent(QPointF(300,300),50,Qt::MidButton,Qt::NoModifier);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel),event);
-//       if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
-//               evType == QEvent::TouchEnd) {
-//           if(evType == QEvent::TouchBegin){
-       QTest::qWait(100);
+        QWheelEvent event(QPointF(300,300),50,Qt::MidButton,Qt::NoModifier);
+       qApp->sendEvent(dynamic_cast<QObject *>(panel),&event);
 
-       QTouchDevice *device=new QTouchDevice();
-       device->setType(QTouchDevice::TouchScreen);
-       device->setCapabilities(QTouchDevice::Position);
-       device->setMaximumTouchPoints(40);
+       QTouchDevice device;
+       device.setType(QTouchDevice::TouchScreen);
+       device.setCapabilities(QTouchDevice::Position);
+       device.setMaximumTouchPoints(40);
 
        QList<QTouchEvent::TouchPoint> touchPoints;
        QTouchEvent::TouchPoint point1;
@@ -54,9 +50,9 @@ TEST_F(gtestview, QWheelEvent_2)
        touchPoints.push_back(point2);
        touchPoints.push_back(point3);
 
-       QTouchEvent *eventTouch=new QTouchEvent(QEvent::TouchBegin ,device,Qt::NoModifier,Qt::TouchPointPressed,touchPoints);
+       QTouchEvent eventTouch(QEvent::TouchBegin ,&device,Qt::NoModifier,Qt::TouchPointPressed,touchPoints);
 
-       qApp->sendEvent(dynamic_cast<QObject *>(panel),eventTouch);
+       qApp->sendEvent(dynamic_cast<QObject *>(panel),&eventTouch);
 //       QEvent *event1=new QEvent(QEvent::TouchBegin);
 //       qApp->sendEvent(dynamic_cast<QObject *>(panel),event1);
 //       QTest::qWait(100);
@@ -65,165 +61,39 @@ TEST_F(gtestview, QWheelEvent_2)
 //       QTest::qWait(100);
 //       QEvent *event3=new QEvent(QEvent::TouchEnd );
 //       qApp->sendEvent(dynamic_cast<QObject *>(panel),event3);
-       QTest::qWait(100);
        QList<QGesture *> gestures;
-       QPinchGesture *testGest=new QPinchGesture();
-       testGest->setHotSpot(QPoint(300,300));
-       testGest->setTotalChangeFlags(QPinchGesture::ScaleFactorChanged);
-       gestures.push_back(testGest);
-       QGestureEvent *event4=new QGestureEvent(gestures);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel),event4);
 
-       QTest::qWait(100);
-       QList<QGesture *> gestures1;
-       QPinchGesture *testGest1=new QPinchGesture();
-       testGest1->setHotSpot(QPoint(300,300));
-       testGest1->setTotalChangeFlags(QPinchGesture::RotationAngleChanged);
-       gestures1.push_back(testGest1);
-       QGestureEvent *event5=new QGestureEvent(gestures1);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel),event5);
+       QGestureEvent event4(gestures);
+       qApp->sendEvent(dynamic_cast<QObject *>(panel),&event4);
 
-       QTest::qWait(100);
-       QList<QGesture *> gestures2;
-       QPinchGesture *testGest2=new QPinchGesture();
-       testGest2->setHotSpot(QPoint(300,300));
-       testGest2->setTotalChangeFlags(QPinchGesture::CenterPointChanged);
-       gestures2.push_back(testGest2);
-       QGestureEvent *event6=new QGestureEvent(gestures2);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel),event6);
-
-       QTest::qWait(100);
-       QList<QGesture *> gestures3;
-       QSwipeGesture *testGest3=new QSwipeGesture();
-       testGest3->setHotSpot(QPoint(300,300));
-       testGest3->setSwipeAngle(qreal(2));
-       gestures3.push_back(testGest3);
-       QGestureEvent *event7=new QGestureEvent(gestures3);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel),event7);
-    }
-}
-TEST_F(gtestview, Gesture_1)
-{
-    if(!m_frameMainWindow){
-        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-    }
-    QTest::qWait(500);
-
-    ImageView *panel = m_frameMainWindow->findChild<ImageView *>(IMAGE_VIEW);
-    if(panel){
-//        QWheelEvent(const QPointF &pos, int delta,
-//                    Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers,
-//                    Qt::Orientation orient = Qt::Vertical);
-        QWheelEvent *event=new QWheelEvent(QPointF(300,300),50,Qt::MidButton,Qt::NoModifier);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel),event);
-//       if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
-//               evType == QEvent::TouchEnd) {
-//           if(evType == QEvent::TouchBegin){
-       QTouchDevice *device=new QTouchDevice();
-       device->setType(QTouchDevice::TouchScreen);
-       device->setCapabilities(QTouchDevice::Position);
-       device->setMaximumTouchPoints(40);
-
-       QList<QTouchEvent::TouchPoint> touchPoints;
-       QTouchEvent::TouchPoint point1;
-       point1.setPos(QPoint(100,100));
-       point1.setRect(QRectF(100,100,100,100));
-       point1.setState(Qt::TouchPointPressed);
-
-       QTouchEvent::TouchPoint point2;
-       point2.setPos(QPoint(200,200));
-       point2.setRect(QRectF(200,200,200,200));
-       point2.setState(Qt::TouchPointPressed);
-
-       QTouchEvent::TouchPoint point3;
-       point3.setPos(QPoint(300,300));
-       point3.setRect(QRectF(300,300,300,300));
-       point3.setState(Qt::TouchPointPressed);
-
-       touchPoints.push_back(point1);
-       touchPoints.push_back(point2);
-       touchPoints.push_back(point3);
-
-       QTouchEvent *eventTouch=new QTouchEvent(QEvent::TouchBegin ,device,Qt::NoModifier,Qt::TouchPointPressed,touchPoints);
-
-       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),eventTouch);
-       QTest::qWait(50);
-       QTouchDevice *device2=new QTouchDevice();
-       device2->setType(QTouchDevice::TouchScreen);
-       device2->setCapabilities(QTouchDevice::Position);
-       device2->setMaximumTouchPoints(40);
-
-       QList<QTouchEvent::TouchPoint> touchPoints2;
-       QTouchEvent::TouchPoint pointUpdate1;
-       pointUpdate1.setPos(QPoint(100,100));
-       pointUpdate1.setRect(QRectF(100,100,100,100));
-       pointUpdate1.setState(Qt::TouchPointPressed);
-
-       QTouchEvent::TouchPoint pointUpdate2;
-       pointUpdate2.setPos(QPoint(200,200));
-       pointUpdate2.setRect(QRectF(200,200,200,200));
-       pointUpdate2.setState(Qt::TouchPointPressed);
-
-       QTouchEvent::TouchPoint pointUpdate3;
-       pointUpdate3.setPos(QPoint(300,300));
-       pointUpdate3.setRect(QRectF(300,300,300,300));
-       pointUpdate3.setState(Qt::TouchPointPressed);
-
-       touchPoints2.push_back(pointUpdate1);
-       touchPoints2.push_back(pointUpdate2);
-       touchPoints2.push_back(pointUpdate3);
-
-       QTouchEvent *eventTouchUpdate=new QTouchEvent(QEvent::TouchUpdate ,device,Qt::NoModifier,Qt::TouchPointPressed,touchPoints2);
-
-       QTouchEvent *eventTouchEnd=new QTouchEvent(QEvent::TouchEnd ,device,Qt::NoModifier,Qt::TouchPointPressed,touchPoints2);
-
-       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),eventTouchUpdate);
-
-       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),eventTouchEnd);
-
-//       QTest::qWait(100);
-//       QEvent *event1=new QEvent(QEvent::TouchBegin);
-//       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event1);
-//       QTest::qWait(100);
-//       QEvent *event2=new QEvent(QEvent::TouchUpdate );
-//       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event2);
-//       QTest::qWait(100);
-//       QEvent *event3=new QEvent(QEvent::TouchEnd );
-//       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event3);
-
-       QList<QGesture *> gestures;
-       QPinchGesture *testGest=new QPinchGesture();
-       testGest->setHotSpot(QPoint(300,300));
-       testGest->setTotalChangeFlags(QPinchGesture::ScaleFactorChanged);
-       gestures.push_back(testGest);
-       QGestureEvent *event4=new QGestureEvent(gestures);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event4);
 
        QList<QGesture *> gestures1;
-       QPinchGesture *testGest1=new QPinchGesture();
-       testGest1->setHotSpot(QPoint(300,300));
-       testGest1->setTotalChangeFlags(QPinchGesture::RotationAngleChanged);
-       gestures1.push_back(testGest1);
-       QGestureEvent *event5=new QGestureEvent(gestures1);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event5);
+       QPinchGesture testGest1;
+       testGest1.setHotSpot(QPoint(300,300));
+       testGest1.setTotalChangeFlags(QPinchGesture::RotationAngleChanged);
+       gestures1.push_back(&testGest1);
+       QGestureEvent event5(gestures1);
+       qApp->sendEvent(dynamic_cast<QObject *>(panel),&event5);
+
 
        QList<QGesture *> gestures2;
-       QPinchGesture *testGest2=new QPinchGesture();
-       testGest2->setHotSpot(QPoint(300,300));
-       testGest2->setTotalChangeFlags(QPinchGesture::CenterPointChanged);
-       gestures2.push_back(testGest2);
-       QGestureEvent *event6=new QGestureEvent(gestures2);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event6);
+       QPinchGesture testGest2;
+       testGest2.setHotSpot(QPoint(300,300));
+       testGest2.setTotalChangeFlags(QPinchGesture::CenterPointChanged);
+       gestures2.push_back(&testGest2);
+       QGestureEvent event6(gestures2);
+       qApp->sendEvent(dynamic_cast<QObject *>(panel),&event6);
 
        QList<QGesture *> gestures3;
-       QSwipeGesture *testGest3=new QSwipeGesture();
-       testGest3->setHotSpot(QPoint(300,300));
-       testGest3->setSwipeAngle(qreal(2));
-       gestures3.push_back(testGest3);
-       QGestureEvent *event7=new QGestureEvent(gestures3);
-       qApp->sendEvent(dynamic_cast<QObject *>(panel->viewport()),event7);
+       QSwipeGesture testGest3;
+       testGest3.setHotSpot(QPoint(300,300));
+       testGest3.setSwipeAngle(qreal(2));
+       gestures3.push_back(&testGest3);
+       QGestureEvent event7(gestures3);
+       qApp->sendEvent(dynamic_cast<QObject *>(panel),&event7);
     }
 }
+
 
 TEST_F(gtestview,loadBack)
 {
@@ -240,7 +110,6 @@ TEST_F(gtestview,loadBack)
     {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(400);
 
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
     if(panel){
@@ -259,6 +128,10 @@ TEST_F(gtestview,loadBack)
     QTest::qWait(100);
     if(Item1)
     Item1->emitClickEndSig();
+
+    ImageItem *Item3=m_frameMainWindow->findChild<ImageItem *>(QApplication::applicationDirPath()+"/test/jpg52.jpg");
+    if(Item3)
+    Item3->emitClickEndSig();
     int index1=0;
     while(index1++<10)
     {

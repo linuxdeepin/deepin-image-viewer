@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QProcess>
-#include <QApplication>
+#include "application.h"
 #include <QMimeData>
 #include <QWidget>
 #include <QUrl>

@@ -41,7 +41,6 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
     m_printUnit->addItem(tr("Centimeters"));
     m_printUnit->addItem(tr("Inches"));
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
 
     QGBToDGroupBox *posBtnBox = new QGBToDGroupBox(tr("Image Position"));
 
@@ -96,8 +95,6 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
     groupLayout->addWidget(m_scaleBtn);
     groupLayout->addLayout(scaleToLayout);
 
-    layout->addWidget(posBtnBox);
-    layout->addWidget(groupBox);
 
     setWindowTitle(tr("Image Settings"));
 

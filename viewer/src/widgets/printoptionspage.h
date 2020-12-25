@@ -8,7 +8,7 @@
 #include <DComboBox>
 #include <QCheckBox>
 #include <QSettings>
-
+class QHBoxLayout;
 DWIDGET_USE_NAMESPACE
 typedef DDialog QDlgToDialog;
 typedef DDoubleSpinBox QDSBToDDoubleSpinBox;
@@ -54,16 +54,16 @@ private:
     double unitToInches(Unit unit);
 
 private:
-    QRadioButton *m_noScaleBtn;
-    QRadioButton *m_fitToImageBtn;
-    QRadioButton *m_fitToPageBtn;
-    QRadioButton *m_scaleBtn;
-    QDSBToDDoubleSpinBox *m_printWidth;
-    QDSBToDDoubleSpinBox *m_printHeight;
-    QCBToDComboBox *m_printUnit;
-    QButtonGroup *m_buttonGroup;
-    QButtonGroup *m_posBtnGroup;
-    QSettings m_settings;
+    QRadioButton *m_noScaleBtn{nullptr};
+    QRadioButton *m_fitToImageBtn{nullptr};
+    QRadioButton *m_fitToPageBtn{nullptr};
+    QRadioButton *m_scaleBtn{nullptr};
+    QDSBToDDoubleSpinBox *m_printWidth{nullptr};
+    QDSBToDDoubleSpinBox *m_printHeight{nullptr};
+    QCBToDComboBox *m_printUnit{nullptr};
+    QButtonGroup *m_buttonGroup{nullptr};
+    QButtonGroup *m_posBtnGroup{nullptr};
+    QSettings m_settings{nullptr};
 };
 
 #endif // PRINTOPTIONSPAGE_H
