@@ -131,23 +131,20 @@ void SlideEffect::Register(EffectId id, std::function<SlideEffect*()> c)
 SlideEffect::SlideEffect()
     :paused(false)
     ,m_nNum(0)
+    ,duration_ms(800)
+    ,all_ms(3000)
+    ,tid(0)
+    ,mode(Qt::KeepAspectRatio)
+    ,finished(false)
+    ,progress_(0.0)
+    ,speed(1.0)
+    ,current_frame(0)
+    ,frames_total(17)
+    ,width(0)
+    ,height(0)
+    ,color(Qt::transparent)
+    ,easing_(QEasingCurve(QEasingCurve::OutBack))
 {
-    duration_ms = 800;
-    all_ms = 3000;
-    tid = 0;
-    mode = Qt::KeepAspectRatio;
-    finished = false;
-    progress_ = 0.0;
-    speed = 1.0;
-    current_frame = 0;
-    frames_total = 17;
-    current_image=nullptr;
-    next_image=nullptr;
-    frame_image=nullptr;
-    width = height = 0;
-    color = Qt::transparent;
-
-    easing_ = QEasingCurve(QEasingCurve::OutBack);
     QThreadPool::globalInstance()->setMaxThreadCount(3);
 //    m.setMaxThreadCount(20);
 //    connect(this, &SlideEffect::renderFrameFinish, this, &SlideEffect::slotrenderFrameFinish);
@@ -196,7 +193,7 @@ SlideEffect::~SlideEffect()
         delete frame_image;
         frame_image = nullptr;
     }
-    for(auto image:allImage)
+    for(QImage image:allImage)
     {
         image=QImage();
     }

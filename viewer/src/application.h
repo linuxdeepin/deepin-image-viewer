@@ -50,7 +50,7 @@ class ImageLoader : public QObject
 public:
     explicit ImageLoader(Application *parent, QStringList pathlist, QString path);
 
-    void addImageLoader(QStringList pathlist);
+//    void addImageLoader(QStringList pathlist);
 
     /**
      * @brief updateImageLoader 更新缩略图，如果有旋转并旋转

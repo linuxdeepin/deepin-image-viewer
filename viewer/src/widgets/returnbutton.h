@@ -35,7 +35,7 @@ class ReturnButton : public QWidget
     Q_PROPERTY(QColor disableColor READ disableColor WRITE setDisableColor NOTIFY disableColorChanged)
 
 public:
-    explicit ReturnButton(QWidget *parent = 0);
+    explicit ReturnButton(QWidget *parent = nullptr);
 
     QString normalPic() const;
     QString hoverPic() const;

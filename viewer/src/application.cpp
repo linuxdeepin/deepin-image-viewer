@@ -213,59 +213,59 @@ void ImageLoader::stopThread()
     m_bFlag = false;
 }
 
-void ImageLoader::addImageLoader(QStringList pathlist)
-{
-    /*lmh0724使用USE_UNIONIMAGE*/
-#if USE_UNIONIMAGE
-    for (QString path : pathlist) {
+//void ImageLoader::addImageLoader(QStringList pathlist)
+//{
+//    /*lmh0724使用USE_UNIONIMAGE*/
+//#if USE_UNIONIMAGE
+//    for (QString path : pathlist) {
 
-        QImage tImg;
-        QString errMsg;
-        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
-            qDebug() << errMsg;
-        }
-        //LMH0601加锁
-        QMutexLocker lcoker(&dApp->getRwLock());
-        QPixmap pixmap = QPixmap::fromImage(tImg);
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
-    }
-#else
+//        QImage tImg;
+//        QString errMsg;
+//        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+//            qDebug() << errMsg;
+//        }
+//        //LMH0601加锁
+//        QMutexLocker lcoker(&dApp->getRwLock());
+//        QPixmap pixmap = QPixmap::fromImage(tImg);
+//        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
+//    }
+//#else
 
 
-    for (QString path : pathlist) {
+//    for (QString path : pathlist) {
 
-        QImage tImg;
+//        QImage tImg;
 
-        QString format = DetectImageFormat(path);
-        if (format.isEmpty()) {
-            QImageReader reader(path);
-            reader.setAutoTransform(true);
-            if (reader.canRead()) {
-                tImg = reader.read();
-            }
-        } else {
-            QImageReader readerF(path, format.toLatin1());
-            readerF.setAutoTransform(true);
-            if (readerF.canRead()) {
-                tImg = readerF.read();
-            } else {
-                qWarning() << "can't read image:" << readerF.errorString()
-                           << format;
+//        QString format = DetectImageFormat(path);
+//        if (format.isEmpty()) {
+//            QImageReader reader(path);
+//            reader.setAutoTransform(true);
+//            if (reader.canRead()) {
+//                tImg = reader.read();
+//            }
+//        } else {
+//            QImageReader readerF(path, format.toLatin1());
+//            readerF.setAutoTransform(true);
+//            if (readerF.canRead()) {
+//                tImg = readerF.read();
+//            } else {
+//                qWarning() << "can't read image:" << readerF.errorString()
+//                           << format;
 
-                tImg = QImage(path);
-            }
-        }
-        //LMH0601加锁
-        QMutexLocker(&dApp->getRwLock());
-        //dApp->getRwLock().lockForWrite();
-        QPixmap pixmap = QPixmap::fromImage(tImg);
+//                tImg = QImage(path);
+//            }
+//        }
+//        //LMH0601加锁
+//        QMutexLocker(&dApp->getRwLock());
+//        //dApp->getRwLock().lockForWrite();
+//        QPixmap pixmap = QPixmap::fromImage(tImg);
 
-        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-        //dApp->getRwLock().unlock();
-    }
-        #endif
+//        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+//        //dApp->getRwLock().unlock();
+//    }
+//        #endif
 
-}
+//}
 //modify by heyi
 void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int rotateangle)
 {

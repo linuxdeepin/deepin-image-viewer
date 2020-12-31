@@ -137,7 +137,7 @@ public Q_SLOTS:
     void slotrenderFrameFinish(int num, QImage image);
     void clearimagemap();
 protected:
-    virtual void timerEvent(QTimerEvent *e);
+    virtual void timerEvent(QTimerEvent *e) override;
     virtual bool prepare(); //after all parameters set and before effect start
     virtual bool prepareFrameAt(int frame) = 0;
     /*!

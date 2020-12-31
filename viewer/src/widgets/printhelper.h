@@ -9,9 +9,9 @@ class PrintHelper : public QObject
     Q_OBJECT
 
 public:
-    PrintHelper(QObject *parent = nullptr);
+    explicit PrintHelper(QObject *parent = nullptr);
 
-//    static QSize adjustSize(PrintOptionsPage* optionsPage, QImage img, int resolution, const QSize & viewportSize);
+    //    static QSize adjustSize(PrintOptionsPage* optionsPage, QImage img, int resolution, const QSize & viewportSize);
     //    static QPoint adjustPosition(PrintOptionsPage* optionsPage, const QSize& imageSize, const QSize & viewportSize);
     static void showPrintDialog(const QStringList &paths, QWidget *parent= nullptr);
 };

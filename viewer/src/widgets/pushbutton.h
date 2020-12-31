@@ -36,7 +36,7 @@ class PushButton : public QWidget
     Q_PROPERTY(QColor disableColor READ disableColor WRITE setDisableColor NOTIFY disableColorChanged)
 
 public:
-    explicit PushButton(QWidget *parent = 0);
+    explicit PushButton(QWidget *parent = nullptr);
 
     QString normalPic() const;
     QString hoverPic() const;
