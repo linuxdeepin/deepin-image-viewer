@@ -26,7 +26,7 @@
 #include "module/view/contents/iconbutton.h"
 #include "module/view/contents/imageinfowidget.h"
 #include "module/view/contents/ttbcontent.h"
-#include "module/view/contents/ttlcontent.h"
+
 //#include "module/view/contents/ttmcontent.h"
 
 //#include "module/view/scen/imageview.h"

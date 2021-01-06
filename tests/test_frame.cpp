@@ -6,7 +6,6 @@ TEST_F(gtestview, frame_bottomtoolbar)
     if(!m_frameMainWindow){
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
-    QTest::qWait(100);
 
     BottomToolbar *panel = m_frameMainWindow->findChild<BottomToolbar *>(BUTTOM_TOOL_BAR);
     if(panel)

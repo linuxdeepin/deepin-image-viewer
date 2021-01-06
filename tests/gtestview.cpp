@@ -198,8 +198,8 @@ TEST_F(gtestview, sliderShow)
     m_frameMainWindow->resize(800,600);
     QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
     QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier , 500);
-    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 3000);
-    QTest::qWait(10000);
+    QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 1000);
+    QTest::qWait(30000);
     QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),1000);
     QTest::mouseMove(m_frameMainWindow, QPoint(200,500),1000);
     SlideShowPanel * sliderShow = m_frameMainWindow->findChild<SlideShowPanel *>(SLIDE_SHOW_WIDGET);
@@ -817,6 +817,7 @@ TEST_F(gtestview, BlurFrame)
     blurFrame->resize(500,500);
     blurFrame->show();
     blurFrame->resize(300,300);
+    QTest::qWait(100);
     blurFrame->update();
     blurFrame->moveWithAnimation( 150, 150);
 
@@ -949,6 +950,16 @@ TEST_F(gtestview, Toast)
         widget->text();
         widget->setOpacity(qreal());
         widget->opacity();
+    }else
+    {
+        widget=new Toast();
+        widget->icon();
+        widget->setText("toast");
+        widget->text();
+        widget->setOpacity(qreal());
+        widget->opacity();
+        widget->deleteLater();
+        widget=nullptr;
     }
 
 }
@@ -963,6 +974,10 @@ TEST_F(gtestview, ThemeWidget)
     ThemeWidget *widget = m_frameMainWindow->findChild<ThemeWidget *>(THEME_WIDGET);
     if(widget)
     {
+        widget->isDeepMode();
+    }
+    else {
+        widget=new ThemeWidget("","");
         widget->isDeepMode();
     }
 }

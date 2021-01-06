@@ -1,14 +1,17 @@
 #include "gtestview.h"
 #define protected public
+#define private public
 #include "module/slideshow/slideeffectplayer.h"
 
 #include "module/slideshow/slideeffect.h"
 #include "module/slideshow/slideshowpanel.h"
-
+#include "module/slideshow/slideshowbottombar.h"
 #include "module/view/scen/imageview.h"
 TEST_F(gtestview, Sslideshowpanel1)
 {
     SlideShowPanel *panel=new SlideShowPanel();
+    emit dApp->signalM->sigESCKeyStopSlide();
+//     panel->backToLastPanel();
     DBImgInfoList list;
     DBImgInfo info;
     info.format="png";
@@ -16,6 +19,8 @@ TEST_F(gtestview, Sslideshowpanel1)
     info.filePath=QApplication::applicationDirPath() + "/test/jpg100.jpg";
     list.push_back(info);
     //panel->Receiveslideshowpathlst(true,list);
+    delete panel;
+    panel=nullptr;
 }
 
 TEST_F(gtestview, SlideEffectPlayer_1)
@@ -49,6 +54,35 @@ TEST_F(gtestview, SlideEffectPlayer_1)
 
 TEST_F(gtestview, SlideEffect_Circle_1)
 {
+    SlideEffect *m_effect = SlideEffect::create("");
+
+//    m_effect->prepare();
+
+//    m_effect->resizeImages();
+
+    delete m_effect;
+    m_effect=nullptr;
+}
+
+
+TEST_F(gtestview, PanelTest)
+{
+    emit dApp->signalM->sigLoadTailThumbnail();
+}
+//SlideShowBottomBar
+
+
+TEST_F(gtestview, SlideShowBottomBar1)
+{
+
+    SlideShowBottomBar *bottom=new SlideShowBottomBar();
+    bottom->m_preButton->click();
+    bottom->m_nextButton->click();
+    bottom->m_playpauseButton->click();
+    bottom->m_playpauseButton->click();
+    bottom->m_cancelButton->click();
+    bottom->deleteLater();
+    bottom=nullptr;
 
 }
 
