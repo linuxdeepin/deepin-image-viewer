@@ -115,6 +115,11 @@ public:
         return m_rwLock;
     }
 
+    //20210111判断是否是平板模式
+    bool isPanelDev()
+    {
+        return true;
+    }
     ConfigSetter *setter = nullptr;
     //    DBManager *dbM = nullptr;
     //    Exporter *exporter = nullptr;

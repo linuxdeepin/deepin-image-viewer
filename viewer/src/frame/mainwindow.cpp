@@ -410,7 +410,15 @@ void MainWindow::OpenImage(QString path)
         info.paths = pathlist;
 
         emit dApp->signalM->viewImage(info);
-        m_flag = true;
+
+        //20210111lmh平板可以多次改变，正常模式不需要
+        if(dApp->isPanelDev())
+        {
+            m_flag=false;
+        }
+        else {
+            m_flag = true;
+        }
     }
 
 //    qint64 temptime = m_currenttime.secsTo(stime);

@@ -464,6 +464,8 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                            (m_infos.size() > 1));
             m_stack->setCurrentIndex(1);
+            if(m_emptyWidget)
+                m_emptyWidget->setThumbnailImage(QPixmap());
             emit dApp->signalM->sigImageOutTitleBar(false);
             emit dApp->signalM->changetitletext("");
         } else {
@@ -483,6 +485,8 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                            (m_infos.size() > 1));
             m_stack->setCurrentIndex(1);
+            if(m_emptyWidget)
+                m_emptyWidget->setThumbnailImage(QPixmap());
             emit dApp->signalM->sigImageOutTitleBar(false);
         }
     });
@@ -583,8 +587,7 @@ void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
 {
     //bpix表示图片加载成功，不用切换到撕裂图widget
      QPixmap pixmapthumb= dApp->m_imagemap.value(path);
-     if(pixmapthumb.isNull())
-     {
+     if(pixmapthumb.isNull()||m_infos.count()<=1){
          pixmapthumb = utils::image::getThumbnail(path);
          if(!pixmapthumb.isNull()) bpix = true;
      }else

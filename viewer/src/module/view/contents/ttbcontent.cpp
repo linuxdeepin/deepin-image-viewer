@@ -1567,14 +1567,16 @@ void TTBContent::DisEnablettbButton()
 
 void TTBContent::OnRequestShowVaguePix(QString filepath,bool& thumbnailflag)
 {
+    thumbnailflag = false;
     ImageItem* item =  m_imgList->findChild<ImageItem *>(filepath);
-    QPixmap pix = item->getPixmap();
-    if(!pix.isNull()){
-        qDebug() << "OnRequestShowVaguePix";
-        emit showvaguepixmap(pix,filepath,false);
-        thumbnailflag = true;
-    }else
-        thumbnailflag = false;
+    if(item){
+        QPixmap pix = item->getPixmap();
+        if(!pix.isNull()){
+            qDebug() << "OnRequestShowVaguePix";
+            emit showvaguepixmap(pix,filepath,false);
+            thumbnailflag = true;
+        }
+    }
 }
 
 void TTBContent::setAllEnabled(bool iRet)
