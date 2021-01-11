@@ -53,38 +53,42 @@ QString ss(const QString &text, const QString &defaultValue)
 
 void ViewPanel::initPopupMenu()
 {
-    m_menu = new DMenu;
-    connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
-        if (m_infos.isEmpty() )
-            return;
-        QString filePath = m_infos.at(m_current).filePath;
+    if(!dApp->isPanelDev()){
+        m_menu = new DMenu;
+        connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
+            if (m_infos.isEmpty() )
+                return;
+            QString filePath = m_infos.at(m_current).filePath;
 #ifdef LITE_DIV
-        if (!filePath.isEmpty() && QFileInfo(filePath).exists())
+            if (!filePath.isEmpty() && QFileInfo(filePath).exists())
 #endif
-        {
-            updateMenuContent();
-            dApp->m_app->setOverrideCursor(Qt::ArrowCursor);
-            m_menu->popup(QCursor::pos());
-        }
-    });
-    connect(m_menu, &DMenu::aboutToHide, this, [ = ] { dApp->m_app->restoreOverrideCursor(); });
-    connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
-    connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
-        if (this && this->isVisible())
-        {
-            updateMenuContent();
-        }
-    });
+            {
+                updateMenuContent();
+                dApp->m_app->setOverrideCursor(Qt::ArrowCursor);
+                m_menu->popup(QCursor::pos());
+            }
+        });
+        connect(m_menu, &DMenu::aboutToHide, this, [ = ] { dApp->m_app->restoreOverrideCursor(); });
+        connect(m_menu, &DMenu::triggered, this, &ViewPanel::onMenuItemClicked);
+        connect(dApp->setter, &ConfigSetter::valueChanged, this, [ = ] {
+            if (this && this->isVisible())
+            {
+                updateMenuContent();
+            }
+        });
+    }
 }
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
 {
-    QAction *ac = new QAction(m_menu);
-    addAction(ac);
-    ac->setText(text);
-    ac->setProperty("MenuID", id);
-    ac->setShortcut(QKeySequence(shortcut));
-    m_menu->addAction(ac);
+    if(!dApp->isPanelDev() &&m_menu){
+        QAction *ac = new QAction(m_menu);
+        addAction(ac);
+        ac->setText(text);
+        ac->setProperty("MenuID", id);
+        ac->setShortcut(QKeySequence(shortcut));
+        m_menu->addAction(ac);
+    }
 }
 
 #ifndef LITE_DIV
@@ -292,92 +296,95 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 
 void ViewPanel::updateMenuContent()
 {
+    if(m_menu){
+        m_menu->clear();
+        qDeleteAll(this->actions());
 
-    m_menu->clear();
-    qDeleteAll(this->actions());
-
-    if (m_infos.isEmpty()) {
-        return;
-    }
-
-    if (window()->isFullScreen()) {
-        appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
-    } else {
-        appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
-    }
-#ifndef LITE_DIV
-    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
-#endif
-    appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
-    //修复打开不支持显示的图片在缩略图中没有，current出现超出界限崩溃问题
-    if (m_current >= m_infos.size()) m_current = 0;
-    QFileInfo currfileinfo(m_infos.at(m_current).filePath);
-    if (currfileinfo.isReadable() &&
-            currfileinfo.isWritable())
-        appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
-    appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
-#ifndef LITE_DIV
-    if (m_vinfo.inDatabase) {
-        DMenu *am = createAlbumMenu();
-        if (am) {
-            m_menu->addMenu(am);
+        if (m_infos.isEmpty()) {
+            return;
         }
-    }
-#endif
-    m_menu->addSeparator();
-    /**************************************************************************/
-    appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-    if (currfileinfo.isReadable() &&
-            currfileinfo.isWritable()) {
-        appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
-    }
 
-#ifndef LITE_DIV
-    if (!m_vinfo.album.isEmpty()) {
-        appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
-    }
-    m_menu->addSeparator();
-    /**************************************************************************/
-    if (m_vinfo.inDatabase) {
-        if (m_current != m_infos.constEnd() &&
-                !DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM_NAME, m_current->filePath)) {
-            appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
+        if (window()->isFullScreen()) {
+            appendAction(IdExitFullScreen, tr("Exit fullscreen"), ss("Fullscreen", "F11"));
         } else {
-            appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("UnfappendAction(IdRename, tr("Rename"), ss("Rename", "F2"));avorite"));
+            appendAction(IdFullScreen, tr("Fullscreen"), ss("Fullscreen", "F11"));
         }
-    }
-#endif
-    m_menu->addSeparator();
-    /**************************************************************************/
-    if (!m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden() && GetPixmapStatus(m_currentImagePath)) {
-        appendAction(IdShowNavigationWindow, tr("Show navigation window"),
-                     ss("Show navigation window", ""));
-    } else if (!m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()&& GetPixmapStatus(m_currentImagePath)) {
-        appendAction(IdHideNavigationWindow, tr("Hide navigation window"),
-                     ss("Hide navigation window", ""));
-    }
-    /**************************************************************************/
-    if (m_stack->currentIndex()==0&&currfileinfo.isReadable() &&
-            currfileinfo.isWritable() &&
-            utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
-        m_menu->addSeparator();
-        appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
-        appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"),
-                     ss("Rotate counterclockwise", "Ctrl+Shift+R"));
-    }
-    /**************************************************************************/
-    if (m_stack->currentIndex()==0&&utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
-        appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
-    }
 #ifndef LITE_DIV
-    if (m_vinfo.inDatabase)
+        appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show"));
 #endif
-    {
-        appendAction(IdDisplayInFileManager, tr("Display in file manager"),
-                     ss("Display in file manager", "Alt+D"));
+        appendAction(IdPrint, tr("Print"), ss("Print", "Ctrl+P"));
+        //修复打开不支持显示的图片在缩略图中没有，current出现超出界限崩溃问题
+        if (m_current >= m_infos.size()) m_current = 0;
+        QFileInfo currfileinfo(m_infos.at(m_current).filePath);
+        if (currfileinfo.isReadable() &&
+                currfileinfo.isWritable())
+            appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
+        appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
+#ifndef LITE_DIV
+        if (m_vinfo.inDatabase) {
+            DMenu *am = createAlbumMenu();
+            if (am) {
+                m_menu->addMenu(am);
+            }
+        }
+#endif
+        m_menu->addSeparator();
+        /**************************************************************************/
+        appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
+        if (currfileinfo.isReadable() &&
+                currfileinfo.isWritable()) {
+            appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
+        }
+
+#ifndef LITE_DIV
+        if (!m_vinfo.album.isEmpty()) {
+            appendAction(IdRemoveFromAlbum, tr("Remove from album"), ss("Remove from album"));
+        }
+        m_menu->addSeparator();
+        /**************************************************************************/
+        if (m_vinfo.inDatabase) {
+            if (m_current != m_infos.constEnd() &&
+                    !DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM_NAME, m_current->filePath)) {
+                appendAction(IdAddToFavorites, tr("Favorite"), ss("Favorite"));
+            } else {
+                appendAction(IdRemoveFromFavorites, tr("Unfavorite"), ss("UnfappendAction(IdRename, tr("Rename"), ss("Rename", "F2"));avorite"));
+            }
+        }
+#endif
+        m_menu->addSeparator();
+        /**************************************************************************/
+        if (!m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden() && GetPixmapStatus(m_currentImagePath)) {
+            appendAction(IdShowNavigationWindow, tr("Show navigation window"),
+                         ss("Show navigation window", ""));
+        } else if (!m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()&& GetPixmapStatus(m_currentImagePath)) {
+            appendAction(IdHideNavigationWindow, tr("Hide navigation window"),
+                         ss("Hide navigation window", ""));
+        }
+        /**************************************************************************/
+        if (m_stack->currentIndex()==0&&currfileinfo.isReadable() &&
+                currfileinfo.isWritable() &&
+                utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
+            m_menu->addSeparator();
+            appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
+            appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"),
+                         ss("Rotate counterclockwise", "Ctrl+Shift+R"));
+        }
+        /**************************************************************************/
+        if (m_stack->currentIndex()==0&&utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
+            appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
+        }
+#ifndef LITE_DIV
+        if (m_vinfo.inDatabase)
+#endif
+        {
+            appendAction(IdDisplayInFileManager, tr("Display in file manager"),
+                         ss("Display in file manager", "Alt+D"));
+        }
+        appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Ctrl+I"));
+        //appendAction(IdDraw, tr("Draw"), ss("Draw", ""));
     }
-    appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Ctrl+I"));
-    //appendAction(IdDraw, tr("Draw"), ss("Draw", ""));
+
+
 }
 
 void ViewPanel::clearMenu()

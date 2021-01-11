@@ -500,7 +500,7 @@ private:
     ImageView *m_viewB {nullptr};
     ImageInfoWidget *m_info {nullptr};
     ThumbnailWidget *m_emptyWidget = nullptr;
-    DMenu *m_menu;
+    DMenu *m_menu{nullptr};
     QSWToDStackedWidget *m_stack {nullptr};
     LockWidget *m_lockWidget;
     TTBContent *ttbc = nullptr;

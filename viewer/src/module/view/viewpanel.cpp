@@ -398,7 +398,7 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
     if (true) {
 #endif
         //点击DTK的关闭按钮返回的是QDialog::Aceepted
-        if (!m_menu->isVisible()) {
+        if (!m_menu||!m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
@@ -411,7 +411,7 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
             emit dApp->signalM->updateFileName(renamedlg->GetFileName());
         return bOk;
     }else {
-        if (!m_menu->isVisible()) {
+        if (!m_menu||!m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
@@ -1417,7 +1417,7 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() == m_hideCursorTid && !m_menu->isVisible() && !m_printDialogVisible) {
+    if (e->timerId() == m_hideCursorTid && (!m_menu ||!m_menu->isVisible()) && !m_printDialogVisible) {
         m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
 
@@ -1791,7 +1791,7 @@ void ViewPanel::toggleFullScreen()
         m_viewB->viewport()->setCursor(Qt::ArrowCursor);
     } else {
         showFullScreen();
-        if (!m_menu->isVisible()) {
+        if (!m_menu ||!m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);

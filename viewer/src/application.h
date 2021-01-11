@@ -118,7 +118,7 @@ public:
     //20210111判断是否是平板模式
     bool isPanelDev()
     {
-        return true;
+        return m_bIsPanel;
     }
     ConfigSetter *setter = nullptr;
     //    DBManager *dbM = nullptr;
@@ -138,6 +138,7 @@ public:
     /*lmh0806儒码优化*/
     int  m_timer=0;
     bool m_bMove = false;
+    bool m_bIsPanel=false;
 
     bool eventFilter(QObject *obj, QEvent *event);
 
