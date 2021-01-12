@@ -71,6 +71,7 @@ const QString ICON_PIXMAP_LIGHT = ":/assets/light/images/picture damaged_light.s
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.029;
+const qreal MAX_SCALE_FACTOR_FLAT = 2.0;
 const QSize SPINNER_SIZE = QSize(40, 40);
 
 //QVariantList cachePixmap(const QString path)
@@ -479,18 +480,36 @@ void ImageView::setScaleValue(qreal v)
     scale(v, v);
     //const qreal irs = imageRelativeScale() * devicePixelRatioF();
     // Rollback
-    if (v < 1 && /*irs <= MIN_SCALE_FACTOR)*/m_scal<0.03) {
-        const qreal minv = MIN_SCALE_FACTOR / m_scal;
-        // if (minv < 1.09) return;
-        scale(minv, minv);
-        m_scal *=minv;
-    } else if (v > 1 && /*irs >= MAX_SCALE_FACTOR*/m_scal>20) {
-        const qreal maxv = MAX_SCALE_FACTOR / m_scal;
-        scale(maxv, maxv);
-        m_scal *=maxv;
-    } else {
-        m_isFitImage = false;
-        m_isFitWindow = false;
+    if(dApp->isPanelDev())
+    {
+        if (v < 1 && /*irs <= MIN_SCALE_FACTOR)*/m_scal<0.03) {
+            const qreal minv = MIN_SCALE_FACTOR / m_scal;
+            // if (minv < 1.09) return;
+            scale(minv, minv);
+            m_scal *=minv;
+        } else if (v > 1 && /*irs >= MAX_SCALE_FACTOR*/m_scal>MAX_SCALE_FACTOR_FLAT) {
+            const qreal maxv = MAX_SCALE_FACTOR_FLAT / m_scal;
+            scale(maxv, maxv);
+            m_scal *=maxv;
+        } else {
+            m_isFitImage = false;
+            m_isFitWindow = false;
+        }
+    }else
+    {
+        if (v < 1 && /*irs <= MIN_SCALE_FACTOR)*/m_scal<0.03) {
+            const qreal minv = MIN_SCALE_FACTOR / m_scal;
+            // if (minv < 1.09) return;
+            scale(minv, minv);
+            m_scal *=minv;
+        } else if (v > 1 && /*irs >= MAX_SCALE_FACTOR*/m_scal>MAX_SCALE_FACTOR) {
+            const qreal maxv = MAX_SCALE_FACTOR / m_scal;
+            scale(maxv, maxv);
+            m_scal *=maxv;
+        } else {
+            m_isFitImage = false;
+            m_isFitWindow = false;
+        }
     }
 
     qreal rescale = imageRelativeScale() * devicePixelRatioF();
