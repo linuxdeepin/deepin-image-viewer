@@ -1434,22 +1434,25 @@ void ImageView::pinchTriggered(QPinchGesture *gesture)
         }
     }
     //旋转手势
-    if (changeFlags & QPinchGesture::RotationAngleChanged) {
-        if(!m_bRoate || m_maxTouchPoints>2) return;
-        //释放手指后旋转的位置未结束不能进行下次旋转
-        if(!m_rotateflag)
-        {
-            qDebug() << "ratateflag" << gesture->lastRotationAngle();
-            gesture->setRotationAngle(gesture->lastRotationAngle());
-            return;
-        }
-        qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
-        //防止在旋转过程中触发切换到下一张
-        if(abs(gesture->rotationAngle())>20) m_bnextflag = false;
-        if(abs(rotationDelta)>0.2)
-        {
-            m_rotateAngelTouch = gesture->rotationAngle();
-            rotate(rotationDelta);
+    if(!dApp->isPanelDev())
+    {
+        if (changeFlags & QPinchGesture::RotationAngleChanged) {
+            if(!m_bRoate || m_maxTouchPoints>2) return;
+            //释放手指后旋转的位置未结束不能进行下次旋转
+            if(!m_rotateflag)
+            {
+                qDebug() << "ratateflag" << gesture->lastRotationAngle();
+                gesture->setRotationAngle(gesture->lastRotationAngle());
+                return;
+            }
+            qreal rotationDelta = gesture->rotationAngle() - gesture->lastRotationAngle();
+            //防止在旋转过程中触发切换到下一张
+            if(abs(gesture->rotationAngle())>20) m_bnextflag = false;
+            if(abs(rotationDelta)>0.2)
+            {
+                m_rotateAngelTouch = gesture->rotationAngle();
+                rotate(rotationDelta);
+            }
         }
     }
 
