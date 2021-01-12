@@ -1177,6 +1177,21 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
                     emit nextRequested();
                 }
             }
+        }else{
+            if(dApp->isPanelDev()){
+                QScreen *screen = QGuiApplication::primaryScreen();
+                QSize screen_size = screen->size();
+                int xpos = e->pos().x()-m_startpointx;
+                if(abs(xpos)> screen_size.width()/2 && m_startpointx!= 0)
+                {
+                    if(xpos>0)
+                    {
+                        emit previousRequested();
+                    }else {
+                        emit nextRequested();
+                    }
+                }
+            }
         }
     }
     m_startpointx=0;
