@@ -55,7 +55,7 @@ SOURCES += src/main.cpp \
 
 RESOURCES += \
     resources.qrc \
-    theme-icons.qrc
+    assets/icons/theme-icons.qrc
 
 # Automating generation .qm files from .ts files
 #!system($$PWD/generate_translations.sh): error("Failed to generate translation")
@@ -86,7 +86,7 @@ target.path = $$BINDIR
 desktop.path = $$PREFIX/share/applications/
 desktop.files = $$PWD/deepin-image-viewer.desktop
 
-icons.path = $$APPSHAREDIR/icons
+icons.path = $$APPSHAREDIR/assets/icons
 icons.files = $$PWD/assets/images/*
 
 manual.path = $$MANDIR
