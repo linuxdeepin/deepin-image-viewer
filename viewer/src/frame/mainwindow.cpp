@@ -420,6 +420,8 @@ void MainWindow::OpenImage(QString path)
             m_flag = true;
         }
     }
+    //新的图片打开需要激活窗口20210113
+    activateWindow();
 
 //    qint64 temptime = m_currenttime.secsTo(stime);
 //    if (temptime < 0) return;
