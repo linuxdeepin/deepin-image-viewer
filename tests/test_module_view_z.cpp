@@ -1,9 +1,9 @@
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"
-#include "viewer/src/module/modulepanel.h"
-#include "viewer/src/widgets/imagebutton.h"
-#include "viewer/src/module/view/navigationwidget.h"
-#include "viewer/src/module/view/viewpanel.h"
+#include "src/src/module/modulepanel.h"
+#include "src/src/widgets/imagebutton.h"
+#include "src/src/module/view/navigationwidget.h"
+#include "src/src/module/view/viewpanel.h"
 #include <QPixmap>
 #include <QImage>
 #ifdef test_module_view_z

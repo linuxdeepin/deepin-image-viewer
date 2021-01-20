@@ -114,7 +114,7 @@ install(FILES ${PROJECT_SOURCE_DIR}/assets/doc/common/deepin-image-viewer.svg
 install(FILES ${PROJECT_SOURCE_DIR}/assets/images/logo/deepin-image-viewer.svg
     DESTINATION /usr/share/icons/hicolor/scalable/apps)
 #dbus_service
-install(FILES ${CMAKE_SOURCE_DIR}/viewer/com.deepin.ImageViewer.service
+install(FILES ${PROJECT_SOURCE_DIR}/com.deepin.ImageViewer.service
     DESTINATION /usr/share/dbus-1/services)
 #translations
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations

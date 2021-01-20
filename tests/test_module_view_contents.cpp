@@ -1,9 +1,9 @@
 #define private public
-#include "viewer/src/module/view/contents/ttlcontent.h"
+#include "src/src/module/view/contents/ttlcontent.h"
 #undef private
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"
-#include "viewer/src/module/view/contents/ttbcontent.h"
+#include "src/src/module/view/contents/ttbcontent.h"
 
 #include <QEvent>
 #include <QGesture>

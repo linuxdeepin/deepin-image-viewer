@@ -29,4 +29,4 @@ endif()
 
 
 
-add_subdirectory(viewer)
+add_subdirectory(src)

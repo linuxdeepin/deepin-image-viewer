@@ -1,7 +1,7 @@
 //#include "gtestview.h"
 //#define  private public
-//#include "viewer/widgets/elidedlabel.h"
-//#include "viewer/widgets/toast.h"
+//#include "src/widgets/elidedlabel.h"
+//#include "src/widgets/toast.h"
 //#include "accessibility/ac-desktop-define.h"
 
 ////TEST_F(gtestview, m_frameMainWidget)

@@ -35,35 +35,35 @@ set(AllTestQRC
     ./testqrc/testresource.qrc)
 file(GLOB_RECURSE HEADERSCURRENT "src/*.h")
 file(GLOB_RECURSE  SOURCESCURRENT  "src/*.cpp")
-#file(GLOB_RECURSE  SOURCES  "../viewer/src/*.cpp")
+#file(GLOB_RECURSE  SOURCES  "../src/src/*.cpp")
 file (GLOB_RECURSE SOURCES
-    ../viewer/src/controller/*.cpp
-    ../viewer/src/dirwatcher/*.cpp
-    ../viewer/src/frame/*.cpp
-    ../viewer/src/module/*.cpp
-    ../viewer/src/service/*.cpp
-    ../viewer/src/settings/*.cpp
-    ../viewer/src/utils/*.cpp
-    ../viewer/src/widgets/*.cpp
-    ../viewer/src/application.cpp
+    ../src/src/controller/*.cpp
+    ../src/src/dirwatcher/*.cpp
+    ../src/src/frame/*.cpp
+    ../src/src/module/*.cpp
+    ../src/src/service/*.cpp
+    ../src/src/settings/*.cpp
+    ../src/src/utils/*.cpp
+    ../src/src/widgets/*.cpp
+    ../src/src/application.cpp
     *.cpp
     )
-file(GLOB_RECURSE SOURCESC "../viewer/*.c")
-file(GLOB_RECURSE HEADERS "../viewer/*.h")
-file(GLOB_RECURSE FORMS "../viewer/*.ui")
-file(GLOB_RECURSE RESOURCES "../viewer/*.qrc")
+file(GLOB_RECURSE SOURCESC "../src/*.c")
+file(GLOB_RECURSE HEADERS "../src/*.h")
+file(GLOB_RECURSE FORMS "../src/*.ui")
+file(GLOB_RECURSE RESOURCES "../src/*.qrc")
 
 include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-set(PROJECT_INCLUDE ${PROJECT_SOURCE_DIR}/../viewer/src/
-    ${PROJECT_SOURCE_DIR}/../viewer/src/utils
-    ${PROJECT_SOURCE_DIR}/../viewer/src/controller
-    ${PROJECT_SOURCE_DIR}/../viewer/src/dirwatcher
-    ${PROJECT_SOURCE_DIR}/../viewer/src/widgets
-    ${PROJECT_SOURCE_DIR}/../viewer/src/accessibility
-    ${PROJECT_SOURCE_DIR}/../viewer/src/third-party/accessibility
-    ${PROJECT_SOURCE_DIR}/../viewer/src/module
+set(PROJECT_INCLUDE ${PROJECT_SOURCE_DIR}/../src/src/
+    ${PROJECT_SOURCE_DIR}/../src/src/utils
+    ${PROJECT_SOURCE_DIR}/../src/src/controller
+    ${PROJECT_SOURCE_DIR}/../src/src/dirwatcher
+    ${PROJECT_SOURCE_DIR}/../src/src/widgets
+    ${PROJECT_SOURCE_DIR}/../src/src/accessibility
+    ${PROJECT_SOURCE_DIR}/../src/src/third-party/accessibility
+    ${PROJECT_SOURCE_DIR}/../src/src/module
     )
 
 find_package(PkgConfig REQUIRED)
