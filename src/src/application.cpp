@@ -433,10 +433,17 @@ Application *Application::getinstance()
 
 Application::Application(int &argc, char **argv)
 {
+    //判断DTK版本是否支持Deepin-turbo优化
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     m_app = new DApplication(argc, argv);
 #else
-    m_app = DApplication::globalApplication(argc, argv);
+    m_app = DApplication::globalApplication(argc,argv);
+    //判断DTK版本是否支持平板适配
+#if (DTK_VERSION > DTK_VERSION_CHECK(5, 4, 3, 0))
+    m_bIsPanel = true;
+#else
+    m_bIsPanel = false;
+#endif
 #endif
     Dtk::Core::DVtableHook::overrideVfptrFun(m_app, &DApplication::handleQuitAction, this, &Application::quitApp);
     m_LoadThread = nullptr;

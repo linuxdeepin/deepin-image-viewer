@@ -41,8 +41,6 @@ int main(int argc, char *argv[])
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
-    //设置平板模式启动
-    dApp->m_bIsPanel=true;
     if(dApp->isPanelDev()){
         //进程单例
         QString userpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
