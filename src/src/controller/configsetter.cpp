@@ -45,8 +45,8 @@ ConfigSetter *ConfigSetter::instance()
     return m_setter;
 }
 
-void ConfigSetter::setValue(const QString group, const QString key,
-                            const QVariant value)
+void ConfigSetter::setValue(const QString& group, const QString& key,
+                            const QVariant& value)
 {
 //    QMutexLocker locker(&m_mutex);
 
@@ -57,8 +57,8 @@ void ConfigSetter::setValue(const QString group, const QString key,
     emit valueChanged(group, key, value);
 }
 
-QVariant ConfigSetter::value(const QString group, const QString key,
-                             const QVariant defaultValue)
+QVariant ConfigSetter::value(const QString& group, const QString& key,
+                             const QVariant& defaultValue)
 {
     QMutexLocker locker(&m_mutex);
 

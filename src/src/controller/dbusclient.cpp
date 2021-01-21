@@ -24,7 +24,7 @@ void Dbusclient::propertyChanged(const QDBusMessage &msg)
 }
 
 
-void Dbusclient::openDrawingBoard(QStringList paths)
+void Dbusclient::openDrawingBoard(const QStringList& paths)
 {
     QList<QString> list=paths;
 

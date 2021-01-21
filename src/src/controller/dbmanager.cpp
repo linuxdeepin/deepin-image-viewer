@@ -364,6 +364,8 @@ const QSqlDatabase DBManager::getDatabase() const
             return db;
         }
     }
+    //getDatabase在返回值加上解锁，不加会出现死锁
+    mutex.unlock();
 }
 
 void DBManager::checkDatabase()
@@ -385,6 +387,7 @@ void DBManager::checkDatabase()
     }
     bool tableExist = false;
     QMutexLocker mutex(&m_mutex);
+    //不能直接使用getDatabase，会出现死锁
     QSqlQuery query( db );
     query.setForwardOnly(true);
     query.prepare( "SELECT name FROM sqlite_master "
@@ -392,15 +395,16 @@ void DBManager::checkDatabase()
     if (query.exec() && query.first()) {
         tableExist = ! query.value(0).toString().isEmpty();
     }
+    QSqlQuery query1(db);
     //if tables not exist, create it.
     if ( ! tableExist ) {
-        QSqlQuery query(db);
+
         // ImageTable3
         //////////////////////////////////////////////////////////////
         //PathHash           | FilePath | FileName   | Dir  | Time  //
         //TEXT primari key   | TEXT     | TEXT       | TEXT | TEXT  //
         //////////////////////////////////////////////////////////////
-        query.exec( QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
+        query1.exec( QString("CREATE TABLE IF NOT EXISTS ImageTable3 ( "
                             "PathHash TEXT primary key, "
                             "FilePath TEXT, "
                             "FileName TEXT, "
@@ -412,7 +416,7 @@ void DBManager::checkDatabase()
         //AlbumId               | AlbumName         | PathHash  //
         //INTEGER primari key   | TEXT              | TEXT      //
         //////////////////////////////////////////////////////////
-        query.exec( QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
+        query1.exec( QString("CREATE TABLE IF NOT EXISTS AlbumTable3 ( "
                             "AlbumId INTEGER primary key, "
                             "AlbumName TEXT, "
                             "PathHash TEXT)") );

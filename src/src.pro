@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui dbus concurrent svg  printsupport
+QT += core gui dbus concurrent svg  printsupport sql
 # QT += x11extras
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

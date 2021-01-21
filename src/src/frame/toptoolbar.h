@@ -39,7 +39,7 @@ class TopToolbar : public DBlurEffectWidget
     Q_OBJECT
 public:
     TopToolbar(bool manager, QWidget *parent);
-    void setMiddleContent(QString path);
+    void setMiddleContent(const QString &path);
 
     void setTitleBarTransparent(bool a);
 

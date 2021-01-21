@@ -73,6 +73,8 @@ private:
     QVBoxLayout *m_mainLayout;
     QVBoxLayout *m_pathsLayout;
     QSWToDStackedWidget *m_contentStack;
+    //修复style错误，局部变量赋值问题
+    QStringList m_rmPaths;
 };
 
 #endif // SCANPATHSDIALOG_H

@@ -16,7 +16,7 @@ typedef DLabel QLbtoDLabel;
 
 #define FILENAMEMAXLENGTH 255
 
-RenameDialog::RenameDialog(QString filename, QWidget *parent)
+RenameDialog::RenameDialog(const QString& filename, QWidget *parent)
     : DDialog (parent)
     , m_filenamepath(filename)
 {

@@ -32,7 +32,7 @@ public:
     { return "com.deepin.Draw"; }
 
 public:
-    Dbusclient(QObject *parent = nullptr);
+    explicit Dbusclient(QObject *parent = nullptr);
     ~Dbusclient();
 
 
@@ -74,7 +74,7 @@ public Q_SLOTS:
 
         return call(QStringLiteral("openImages"), argumentList);
     }
-        void openDrawingBoard(QStringList paths);
+        void openDrawingBoard(const QStringList &paths);
 
 
 };

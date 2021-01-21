@@ -84,7 +84,7 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
 }
 
 
-void TopToolbar::setMiddleContent(QString path)
+void TopToolbar::setMiddleContent(const QString& path)
 {
     //修复名字过长显示不完整bug
     QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),

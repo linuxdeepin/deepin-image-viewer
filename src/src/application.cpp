@@ -47,7 +47,7 @@ namespace {
 //#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
 Application * Application::m_signalapp = nullptr;
 
-ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QString path)
+ImageLoader::ImageLoader(Application *parent, const QStringList& pathlist, const QString& path)
     :m_parent(parent),
      m_pathlist(pathlist),
      m_path(path),
@@ -338,12 +338,12 @@ void ImageLoader::loadInterface(QString path)
     emit sigFinishiLoad(path);
 }
 
-void Application::finishLoadSlot(QString mapPath)
+void Application::finishLoadSlot(const QString& mapPath)
 {
     emit sigFinishLoad(mapPath);
 }
 
-void Application::loadPixThread(QStringList paths)
+void Application::loadPixThread(const QStringList& paths)
 {
 //fix 52217  shuwenzhi
     //m_loadPaths = paths;

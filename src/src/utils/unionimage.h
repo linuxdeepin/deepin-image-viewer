@@ -118,7 +118,7 @@ UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width = 0, int heigh
  * 载入失败返回false，如果需要可以读取errorMsg返回错误信息
  * 载入动态图片时，只会返回动态图片的第一帧，如果需要动图请使用UnionDynamicImage
  */
-UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar = "");
+UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage &res, QString &errorMsg, const QString &format_bar = "");
 
 /**
  * @brief detectImageFormat

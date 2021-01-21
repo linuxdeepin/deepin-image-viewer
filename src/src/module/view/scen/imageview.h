@@ -64,7 +64,7 @@ class ImageView : public QGraphicsView
 public:
     enum RendererType { Native, OpenGL };
 
-    ImageView(QWidget *parent = nullptr);
+    explicit ImageView(QWidget *parent = nullptr);
 
     void clear();
     void fitWindow();

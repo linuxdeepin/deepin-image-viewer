@@ -29,7 +29,7 @@ class QIODevice;
 class Datastream: public LibRaw_abstract_datastream
 {
 public:
-    Datastream(QIODevice *device);
+    explicit Datastream(QIODevice *device);
     ~Datastream();
 
     // reimplemented virtual methods:

@@ -79,7 +79,7 @@ public:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 //    int showDialog();
 public slots:
-    void OpenImage(QString path);
+    void OpenImage(const QString &path);
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void closeEvent(QCloseEvent *event) override;

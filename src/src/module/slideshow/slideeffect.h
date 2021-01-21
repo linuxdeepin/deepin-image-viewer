@@ -104,7 +104,7 @@ public:
     int allMs() const;
 
     QImage *currentFrame();
-    void setType(EffectId type);
+    void setType(const EffectId &type);
     EffectId type() const;
     /*!
       Some class may have several effect types.

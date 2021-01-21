@@ -636,7 +636,7 @@ UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width, int height, i
 }
 
 QString PrivateDetectImageFormat(const QString &filepath);
-UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString path, QImage &res, QString &errorMsg, const QString &format_bar)
+UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     /*lmh0806判断后缀名是不支持格式，直接返回空的Image*/
     if(nullptr==format_bar){

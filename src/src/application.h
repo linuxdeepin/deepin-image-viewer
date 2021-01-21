@@ -48,7 +48,7 @@ class ImageLoader : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageLoader(Application *parent, QStringList pathlist, QString path);
+    explicit ImageLoader(Application *parent, const QStringList &pathlist, const QString &path);
 
 //    void addImageLoader(QStringList pathlist);
 
@@ -68,6 +68,7 @@ public:
     mutable QReadWriteLock m_readlock;
     mutable QReadWriteLock m_writelock;
     mutable QReadWriteLock m_flagLock;
+
 public slots:
 
     /**
@@ -186,13 +187,13 @@ public slots:
      * @brief finishLoadSlot    缩略图加载完成信号
      * @param mapPath           加载完成的图片路径
      */
-    void finishLoadSlot(QString mapPath);
+    void finishLoadSlot(const QString &mapPath);
 
     /**
      * @brief loadPixThread 开启动态加载图片线程
      * @param paths         动态加载的图片路径
      */
-    void loadPixThread(QStringList paths);
+    void loadPixThread(const QStringList &paths);
 
     /**
      * @brief loadInterface 缩略图加载接口

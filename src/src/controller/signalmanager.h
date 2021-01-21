@@ -87,7 +87,7 @@ signals:
     void activeWindow();
     void showSlidePanel(int index);
 
-    void imagesInserted(const DBImgInfoList infos);
+    void imagesInserted(const DBImgInfoList &infos);
     void imagesRemoved(const DBImgInfoList &infos);
 
     void editImage(const QString &path);
@@ -128,7 +128,7 @@ signals:
      * @param infos
      * thumbnails files
      */
-    void sigLoadHeadThunbnail(const DBImgInfoList infos);
+    void sigLoadHeadThunbnail(const DBImgInfoList& infos);
     /**
      * @brief sigLoadSlideshow
      * Load first slideshow by files

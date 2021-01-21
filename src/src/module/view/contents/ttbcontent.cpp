@@ -1838,7 +1838,7 @@ void TTBContent::loadFront(DBImgInfoList infos)
     }
 }
 
-void TTBContent::ReInitFirstthumbnails(DBImgInfoList infos)
+void TTBContent::ReInitFirstthumbnails(const DBImgInfoList& infos)
 {
     //clear thumbnails widget
     m_imgInfos.clear();

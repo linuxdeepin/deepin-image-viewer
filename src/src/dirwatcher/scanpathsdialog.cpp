@@ -226,16 +226,16 @@ void ScanPathsDialog::initSinglaFileWatcher()
 
     connect(wc, &QFileSystemWatcher::directoryChanged,
             this, [=] (const QString dir){
-        QStringList rmPaths;
-        QStringList dbPaths = DBManager::instance()->getPathsByDir(QString());
-        for (auto dbp : dbPaths) {
+        //修复style问题
+        m_rmPaths.clear();
+        for (auto dbp : DBManager::instance()->getPathsByDir(QString())) {
             QFileInfo info(dbp);
             if (info.path() == dir && ! info.exists()) {
-                rmPaths << dbp;
+                m_rmPaths << dbp;
             }
         }
         // Remove the images which is not exist
-        DBManager::instance()->removeImgInfos(rmPaths);
+        DBManager::instance()->removeImgInfos(m_rmPaths);
     });
     connect(dApp->signalM, &SignalManager::imagesInserted,
             this, [=] (const DBImgInfoList &infos) {
@@ -346,8 +346,8 @@ bool ScanPathsDialog::isLegalPath(const QString &path) const
 
 bool ScanPathsDialog::isContainByScanPaths(const QString &path) const
 {
-    auto paths = scanpaths();
-    for (auto p : paths) {
+    QStringList paths = scanpaths();
+    foreach (QString p , paths) {
         if (p == path) {
             return true;
         }

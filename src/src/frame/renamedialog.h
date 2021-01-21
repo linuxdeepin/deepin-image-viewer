@@ -15,7 +15,7 @@ class RenameDialog : public DDialog
 {
     Q_OBJECT
 public:
-    RenameDialog(QString filename,QWidget *parent = nullptr);
+    RenameDialog(const QString &filename, QWidget *parent = nullptr);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
     DLineEdit *m_lineedt;
     DSuggestButton *okbtn;

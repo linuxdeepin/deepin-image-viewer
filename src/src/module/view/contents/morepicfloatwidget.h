@@ -12,7 +12,7 @@ DWIDGET_USE_NAMESPACE
 class MorePicFloatWidget : public DFloatingWidget
 {
 public:
-   MorePicFloatWidget(QWidget *parent=nullptr);
+   explicit MorePicFloatWidget(QWidget *parent=nullptr);
     ~MorePicFloatWidget();
    void initUI();
 

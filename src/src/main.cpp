@@ -79,7 +79,8 @@ int main(int argc, char *argv[])
             rstime = QDateTime::fromString(tstr, "yyyy-MM-dd hh:mm:ss");
             //sharedMemory.unlock();
             //sharedMemory.detach();
-            qint64 temptime = rstime.secsTo(wstime);
+            //no used
+//            qint64 temptime = rstime.secsTo(wstime);
             if (!rstime.isValid()) return  0;
 
             //指为false

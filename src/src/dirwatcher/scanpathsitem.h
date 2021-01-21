@@ -31,7 +31,7 @@ typedef DLabel QLbtoDLabel;
 class CountingThread : public QThread {
     Q_OBJECT
 public:
-    CountingThread(const QString &path);
+    explicit CountingThread(const QString &path);
 
     void run() Q_DECL_OVERRIDE;
 
@@ -45,7 +45,7 @@ private:
 class ScanPathsItem : public QFrame {
     Q_OBJECT
 public:
-    ScanPathsItem(const QString &path);
+    explicit ScanPathsItem(const QString &path);
 
 protected:
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE {

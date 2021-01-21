@@ -152,7 +152,7 @@ void CommandLine::showHelp()
     fputs(qPrintable(m_cmdParser.helpText()), stdout);
 }
 
-void CommandLine::viewImage(const QString path, const QStringList paths)
+void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
     if (!QFileInfo(path).exists()) {
         dApp->m_timer=1000;

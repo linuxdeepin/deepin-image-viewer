@@ -392,7 +392,7 @@ void MainWindow::paraOpenImageInfo(QString source, QString &path, QStringList &p
 //    return mode;
 //}
 
-void MainWindow::OpenImage(QString path)
+void MainWindow::OpenImage(const QString& path)
 {
     QString spath;
     QStringList pathlist;

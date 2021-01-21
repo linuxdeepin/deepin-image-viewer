@@ -42,7 +42,7 @@ private slots:
     void onFileChanged();
 
 private:
-    VolumeMonitor(QObject *parent = 0);
+    explicit VolumeMonitor(QObject *parent = nullptr);
 
 private:
     int m_fileKde = -1;

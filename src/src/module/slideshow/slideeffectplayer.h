@@ -26,7 +26,7 @@ class CacheThread : public QThread
 {
     Q_OBJECT
 public:
-    CacheThread(const QString &path)
+    explicit CacheThread(const QString &path)
         : QThread(NULL)
         , m_path(path) {}
 
@@ -49,7 +49,7 @@ class SlideEffectPlayer : public QObject
 {
     Q_OBJECT
 public:
-    SlideEffectPlayer(QObject *parent = 0);
+    explicit SlideEffectPlayer(QObject *parent = nullptr);
     ~SlideEffectPlayer();
     void setFrameSize(int width, int height);
     QSize frameSize() const

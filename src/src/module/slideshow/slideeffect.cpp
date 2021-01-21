@@ -193,10 +193,7 @@ SlideEffect::~SlideEffect()
         delete frame_image;
         frame_image = nullptr;
     }
-    for(QImage image:allImage)
-    {
-        image=QImage();
-    }
+    //清除无用代码
     allImage.clear();
     malloc_trim(0);
     qDebug() << "-------------SlideEffect end release";
@@ -239,9 +236,7 @@ int SlideEffect::duration() const
 
 void SlideEffect::start()
 {
-    for(auto image:allImage){
-        image=QImage();
-    }
+    //清楚没用代码
     allImage.clear();
     allImage[frames_total] = *next_image;
     prepare();
@@ -380,7 +375,7 @@ QImage *SlideEffect::currentFrame()
     return frame_image;
 }
 
-void SlideEffect::setType(EffectId type)
+void SlideEffect::setType(const EffectId& type)
 {
     effect_type = type;
 }
@@ -561,10 +556,7 @@ void SlideEffect::renderFrame(SlideEffectThreadData &data)
 
 void SlideEffect::clearimagemap()
 {
-    for(auto image :allImage)
-    {
-        image=QImage();
-    }
+    //清除无用代码
     allImage.clear();
 }
 
