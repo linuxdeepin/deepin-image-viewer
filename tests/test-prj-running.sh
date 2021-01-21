@@ -1,4 +1,4 @@
-
+export QT_QPA_PLATFORM='offscreen'
 rm -r build-ut
 rm -r ../build-ut
 mkdir ../build-ut
