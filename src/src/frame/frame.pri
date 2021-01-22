@@ -16,4 +16,4 @@ SOURCES += \
     $$PWD/renamedialog.cpp
 
 RESOURCES += \
-    $$PWD/frametheme.qrc
+    $$PWD/../../assets/frame/frametheme.qrc

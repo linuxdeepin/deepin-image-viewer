@@ -54,7 +54,7 @@ SOURCES += src/main.cpp \
     src/application.cpp
 
 RESOURCES += \
-    resources.qrc \
+    assets/images/resources.qrc \
     assets/icons/theme-icons.qrc
 
 # Automating generation .qm files from .ts files

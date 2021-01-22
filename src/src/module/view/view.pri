@@ -30,5 +30,5 @@ SOURCES += \
     $$PWD/contents/morepicfloatwidget.cpp
 
 RESOURCES += \
-    $$PWD/viewtheme.qrc
+    $$PWD/../../../assets/view/viewtheme.qrc
 

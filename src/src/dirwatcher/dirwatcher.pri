@@ -21,4 +21,4 @@ SOURCES += \
     $$PWD/volumemonitor.cpp
 
 RESOURCES += \
-    $$PWD/dirwatcher.qrc
+    $$PWD/../../assets/dirwatcher/dirwatcher.qrc

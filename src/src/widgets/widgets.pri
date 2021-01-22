@@ -50,4 +50,4 @@ SOURCES += \
     $$PWD/printhelper.cpp
 
 RESOURCES += \
-    $$PWD/widgetstheme.qrc
+    $$PWD/../../assets/widgets/widgetstheme.qrc

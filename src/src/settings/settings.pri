@@ -21,4 +21,4 @@
 #    $$PWD/shortcut/shortcuteditor.cpp
 
 RESOURCES += \
-    $$PWD/settings.qrc
+    $$PWD/../../assets/settings/settings.qrc
