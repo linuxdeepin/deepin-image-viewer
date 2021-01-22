@@ -34,8 +34,8 @@
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
-const QString ICON_IMPORT_PHOTO_DARK = ":/assets/dark/images/icon_import_photo dark.svg";
-const QString ICON_IMPORT_PHOTO_LIGHT = ":/assets/light/images/icon_import_photo.svg";
+const QString ICON_IMPORT_PHOTO_DARK = ":/dark/images/icon_import_photo dark.svg";
+const QString ICON_IMPORT_PHOTO_LIGHT = ":/light/images/icon_import_photo.svg";
 }  // namespace
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFile, QWidget *parent)

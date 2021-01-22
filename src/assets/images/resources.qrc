@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/images/logo">
+        <file>logo/deepin-image-viewer.svg</file>
+    </qresource>
+    <qresource prefix="/qt-project.org/dialogs">
+        <file>qprintpreviewdialog/images/fit-page-24.svg</file>
+        <file>qprintpreviewdialog/images/fit-width-24.svg</file>
+        <file>qprintpreviewdialog/images/go-first-24.svg</file>
+        <file>qprintpreviewdialog/images/go-last-24.svg</file>
+        <file>qprintpreviewdialog/images/go-next-24.svg</file>
+        <file>qprintpreviewdialog/images/go-previous-24.svg</file>
+        <file>qprintpreviewdialog/images/layout-landscape-24.svg</file>
+        <file>qprintpreviewdialog/images/layout-portrait-24.svg</file>
+        <file>qprintpreviewdialog/images/page-setup-24.svg</file>
+        <file>qprintpreviewdialog/images/preview-24.svg</file>
+        <file>qprintpreviewdialog/images/print-24.svg</file>
+        <file>qprintpreviewdialog/images/view-page-multi-24.svg</file>
+        <file>qprintpreviewdialog/images/view-page-one-24.svg</file>
+        <file>qprintpreviewdialog/images/view-page-sided-24.svg</file>
+        <file>qprintpreviewdialog/images/zoom-in-24.svg</file>
+        <file>qprintpreviewdialog/images/zoom-out-24.svg</file>
+    </qresource>
+</RCC>

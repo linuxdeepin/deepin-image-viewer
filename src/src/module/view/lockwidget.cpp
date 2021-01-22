@@ -25,8 +25,8 @@
 #include "application.h"
 #include "accessibility/ac-desktop-define.h"
 
-const QString ICON_PIXMAP_DARK = ":/assets/dark/images/picture damaged_dark.svg";
-const QString ICON_PIXMAP_LIGHT = ":/assets/light/images/picture damaged_light.svg";
+const QString ICON_PIXMAP_DARK = ":/dark/images/picture damaged_dark.svg";
+const QString ICON_PIXMAP_LIGHT = ":/light/images/picture damaged_light.svg";
 const QSize THUMBNAIL_SIZE = QSize(151, 151);
 LockWidget::LockWidget(const QString &darkFile,
     const QString &lightFile, QWidget *parent)
