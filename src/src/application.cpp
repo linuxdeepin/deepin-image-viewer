@@ -439,8 +439,8 @@ Application::Application(int &argc, char **argv)
 #else
     m_app = DApplication::globalApplication(argc,argv);
     //判断DTK版本是否支持平板适配
-#if (DTK_VERSION > DTK_VERSION_CHECK(5, 4, 3, 0))
-    m_bIsPanel = true;
+#if (DTK_VERSION > DTK_VERSION_CHECK(5, 4, 4, 0))
+    m_bIsPanel = false;
 #else
     m_bIsPanel = false;
 #endif
