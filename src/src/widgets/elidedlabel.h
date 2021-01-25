@@ -12,7 +12,7 @@ class ElidedLabel : public QLbtoDLabel
 {
     Q_OBJECT
 public:
-    ElidedLabel(QWidget* parent = 0);
+    explicit ElidedLabel(QWidget* parent = nullptr);
     ~ElidedLabel();
 
     void setText(const QString &text, int leftMargin = 0);

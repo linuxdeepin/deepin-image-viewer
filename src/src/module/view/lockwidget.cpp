@@ -30,15 +30,15 @@ const QString ICON_PIXMAP_LIGHT = ":/light/images/picture damaged_light.svg";
 const QSize THUMBNAIL_SIZE = QSize(151, 151);
 LockWidget::LockWidget(const QString &darkFile,
     const QString &lightFile, QWidget *parent)
-    : ThemeWidget(darkFile, lightFile, parent) {
-    m_picString = "";
+    : ThemeWidget(darkFile, lightFile, parent),
+      m_picString("") {
     setMouseTracking(true);
     this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
     grabGesture(Qt::PanGesture);
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::DarkType) {
+    //修复style问题
+    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
         m_picString = ICON_PIXMAP_DARK;
         m_theme = true;
     } else {

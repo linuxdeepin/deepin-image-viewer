@@ -43,7 +43,7 @@ class SlideEffect_Circle : public SlideEffect
 {
 public:
     SlideEffect_Circle();
-    virtual bool prepare();
+    virtual bool prepare() override;
     virtual EffectName effectName() const
     {
         return Circle;

@@ -168,9 +168,9 @@ void SlideEffect::slotrenderFrameFinish(int num, QImage image)
             nCount ++;
             if (iter.value().isNull()){
                 QThread::msleep(5);
-                iter --;
+                --iter ;
             }
-            iter ++;
+            ++iter ;
         }
         tid = startTimer(1);
     }

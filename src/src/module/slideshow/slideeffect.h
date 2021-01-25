@@ -109,9 +109,9 @@ public:
     /*!
       Some class may have several effect types.
     */
-    virtual EffectName effectName() const = 0;
-    virtual QVector<EffectId> supportedTypes() const = 0;
-    int currentFrameNumber() const;
+    virtual EffectName effectName() const = 0 ;
+    virtual QVector<EffectId> supportedTypes() const = 0 ;
+    int currentFrameNumber() const ;
     int frames() const;
 
     void setImages(const QString &currentPath, const QString &nextPath);
@@ -138,16 +138,16 @@ public Q_SLOTS:
     void clearimagemap();
 protected:
     virtual void timerEvent(QTimerEvent *e) override;
-    virtual bool prepare(); //after all parameters set and before effect start
-    virtual bool prepareFrameAt(int frame) = 0;
+    virtual bool prepare() ; //after all parameters set and before effect start
+    virtual bool prepareFrameAt(int frame) = 0 ;
     /*!
         false: no more frames
     */
     bool prepareNextFrame();
 
     void resizeImages(); //resize to given size with given scale type
-    virtual bool isEndFrame(int frame); //TODO: do not change progress
-    virtual void renderFrame(SlideEffectThreadData &data);
+    virtual bool isEndFrame(int frame) ; //TODO: do not change progress
+    virtual void renderFrame(SlideEffectThreadData &data) ;
 
 protected:
     bool finished;

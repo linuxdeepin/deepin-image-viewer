@@ -518,17 +518,17 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
 {
     expand->setFixedHeight(ArrowLineExpand_HIGHT);
     QMargins cm = layout->contentsMargins();
-    QRect rc = contentsRect();
-    expand->setFixedWidth(rc.width() - cm.left() - cm.right());
+    //修复style问题
+    expand->setFixedWidth(contentsRect().width() - cm.left() - cm.right());
     expand->setExpandedSeparatorVisible(false);
     expand->setSeparatorVisible(false);
     layout->addWidget(expand, 0, Qt::AlignTop);
-
+    //修复style问题
     DEnhancedWidget *hanceedWidget = new DEnhancedWidget(expand, expand);
     connect(hanceedWidget, &DEnhancedWidget::heightChanged, hanceedWidget, [ = ]() {
-        QRect rc = geometry();
-        rc.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
-        setGeometry(rc);
+        QRect rc1 = geometry();
+        rc1.setHeight(contentHeight() + ArrowLineExpand_SPACING * 2);
+        setGeometry(rc1);
 
         emit dApp->signalM->extensionPanelHeight(contentHeight() /*+ ArrowLineExpand_SPACING*/);
     });
@@ -549,7 +549,7 @@ void ImageInfoWidget::onExpandChanged(const bool &e)
 int ImageInfoWidget::contentHeight() const
 {
     int expandsHeight = ArrowLineExpand_SPACING;
-    for (const DDrawer *expand : m_expandGroup) {
+    foreach (const DDrawer *expand , m_expandGroup) {
         expandsHeight += expand->height();
     }
     if (m_expandGroup.size() == 2)

@@ -39,9 +39,9 @@ const QString ICON_IMPORT_PHOTO_LIGHT = ":/light/images/icon_import_photo.svg";
 }  // namespace
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFile, QWidget *parent)
-    : ThemeWidget(darkFile, lightFile, parent)
+    : ThemeWidget(darkFile, lightFile, parent),
+      m_picString("")
 {
-    m_picString = "";
 #ifdef OPENACCESSIBLE
     setObjectName(Thumbnail_Widget);
     setAccessibleName(Thumbnail_Widget);
@@ -50,8 +50,8 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     grabGesture(Qt::PinchGesture);
     grabGesture(Qt::SwipeGesture);
     grabGesture(Qt::PanGesture);
-    DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
-    if (themeType == DGuiApplicationHelper::DarkType) {
+    //修复style问题
+    if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::DarkType) {
         m_picString = ICON_IMPORT_PHOTO_DARK;
         m_theme = true;
     } else {
@@ -75,8 +75,8 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
                              m_theme = false;
                          }
 
-                         QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
-                         m_logo = logo_pix;
+                         //修复style风格错误
+                         m_logo = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
                          if (m_isDefaultThumbnail)
                              m_defaultImage = logo_pix;
                          update();

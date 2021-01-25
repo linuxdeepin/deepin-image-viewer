@@ -380,7 +380,8 @@ bool MyImageListWidget::eventFilter(QObject *obj, QEvent *e)
 
     if (e->type() == QEvent::MouseButtonRelease) {
         return false;
-        UpdateThumbnail();
+        //return之后不应该再有函数
+        //UpdateThumbnail();
     }
     if (e->type() == QEvent::Leave && obj == m_obj) {
         bmouseleftpressed = false;
@@ -1137,51 +1138,50 @@ void TTBContent::OnChangeItemPath(int currindex, QString path)
 
 //    m_fileNameLabel->setText(name, leftMargin);
 //}
-
+//修改返回，改为一处返回，复合标准，修复cppcheck style问题
 bool TTBContent::delPictureFromPath(QString strPath, DBImgInfoList infos, int nCurrent)
 {
     bool bRet = true;
     ImageItem *test = m_imgList->findChild<ImageItem *>(strPath);
     if (!test) {
         bRet = false;
-        return bRet;
-    }
+    }else {
+        //qDebug() << "被删除的图片路径：" << test->objectName();
+        m_imglayout->removeWidget(test);
+        test->setParent(nullptr);
+        test->deleteLater();
 
-    //qDebug() << "被删除的图片路径：" << test->objectName();
-    m_imglayout->removeWidget(test);
-    test->setParent(nullptr);
-    test->deleteLater();
+        m_imgInfos = infos;
+        m_nowIndex = nCurrent;
+        //删除当前图片之后将当前图片和之后的所有图片index减一
+        int i = 0;
+        foreach (DBImgInfo var, m_imgInfos) {
+            ImageItem *test = m_imgList->findChild<ImageItem *>(var.filePath);
+            if (test) {
+                test->setIndex(i);
+            }
 
-    m_imgInfos = infos;
-    m_nowIndex = nCurrent;
-    //删除当前图片之后将当前图片和之后的所有图片index减一
-    int i = 0;
-    foreach (DBImgInfo var, m_imgInfos) {
-        ImageItem *test = m_imgList->findChild<ImageItem *>(var.filePath);
-        if (test) {
-            test->setIndex(i);
+            i++;
         }
 
-        i++;
+        //    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
+        //    if (nCurrent != 0) {
+        //        for (int i = nCurrent; i < labelList.size(); i++) {
+        //            labelList.at(i)->setIndex(i);
+        //        }
+        //    } else {
+        //        for (int i = 0; i < labelList.size(); i++) {
+        //            labelList.at(i)->setIndex(i);
+        //        }
+        //    }
+        //    //将所有的NowIndex重置
+        //    for (int i = 0; i < labelList.size(); i++) {
+        //        labelList.at(i)->setIndexNow(nCurrent);
+        //    }
+
+        m_imgList->adjustSize();
+        onResize();
     }
-
-//    QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
-//    if (nCurrent != 0) {
-//        for (int i = nCurrent; i < labelList.size(); i++) {
-//            labelList.at(i)->setIndex(i);
-//        }
-//    } else {
-//        for (int i = 0; i < labelList.size(); i++) {
-//            labelList.at(i)->setIndex(i);
-//        }
-//    }
-//    //将所有的NowIndex重置
-//    for (int i = 0; i < labelList.size(); i++) {
-//        labelList.at(i)->setIndexNow(nCurrent);
-//    }
-
-    m_imgList->adjustSize();
-    onResize();
 
     return bRet;
 }

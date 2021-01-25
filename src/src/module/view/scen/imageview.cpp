@@ -732,7 +732,8 @@ const QRectF ImageView::imageRect() const
 
 const QString ImageView::path() const
 {
-    return m_path;
+    QString path=m_path;
+    return path;
 }
 
 void ImageView::setPath(const QString path)

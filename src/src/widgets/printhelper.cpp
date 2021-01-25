@@ -80,7 +80,6 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
     QList<QImage> imgs;
-    QImage img;
     for (const QString &path : paths) {
         QString errMsg;
         QImageReader imgReadreder(path);
@@ -93,6 +92,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             }
         }
         else {
+            //QImage不应该多次赋值，所以换到这里来，修复style问题
+            QImage img;
             UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
             if (!img.isNull()) {
                 imgs << img;

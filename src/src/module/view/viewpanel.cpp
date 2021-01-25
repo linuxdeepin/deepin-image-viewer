@@ -222,7 +222,7 @@ void ViewPanel::initConnect()
         if (!isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty()) {
             return;
         }
-        for (QString path : paths) {
+        foreach (QString path , paths) {
             if (imageIndex(path) == imageIndex(m_current->filePath)) {
                 removeCurrentImage();
             }
@@ -1443,10 +1443,10 @@ void ViewPanel::dropEvent(QDropEvent *event)
     using namespace utils::image;
     QStringList paths;
     for (QUrl url : urls) {
-        const QString path = url.toLocalFile();
+        //修复style问题，取消了path
         //lmh0901判断是否是图片
-        if( suffixisImage(path) ){
-            paths << path;
+        if( suffixisImage(url.toLocalFile()) ){
+            paths << url.toLocalFile();
         }
     }
 
@@ -1649,7 +1649,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         // Get view range
         if (!vinfo.paths.isEmpty()) {
             QFileInfoList list;
-            for (QString path : vinfo.paths) {
+            foreach (QString path , vinfo.paths) {
                 list << QFileInfo(path);
             }
 
@@ -1973,7 +1973,7 @@ void ViewPanel::viewOnNewProcess(const QStringList &paths)
     connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
 
     QStringList options;
-    for (QString path : paths) {
+    foreach (QString path , paths) {
         options << "-o" << path;
     }
     p->start(pro, options);

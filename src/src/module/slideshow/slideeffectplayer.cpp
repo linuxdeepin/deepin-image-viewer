@@ -46,9 +46,9 @@ SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
 //    QDesktopWidget *desktopWidget = QApplication::desktop();
 //    m_screenrect = desktopWidget->screenGeometry();
     QScreen *screen = QGuiApplication::primaryScreen ();
-    QRect m_screenrect = QRect(0, 0, 0, 0);
     qreal m_ratio = 1;
-    m_screenrect = screen->availableGeometry() ;
+    //修复style为难题，重复赋值
+    QRect m_screenrect = screen->availableGeometry() ;
     m_ratio = screen->devicePixelRatio();
 //    qDebug() << "-----------m_screenrect:" << m_screenrect << " devicePixelRatio:" << screen->devicePixelRatio();
     if ((((qreal)m_screenrect.width())*m_ratio) > 3000 || (((qreal)m_screenrect.height())*m_ratio) > 3000) {
@@ -474,12 +474,10 @@ void SlideEffectPlayer::cacheNextBackUp()
         //Load front pictures when playing the last file
         if (current == m_paths.length()) {
             if (bfirstrun) {
-                current = m_paths.length() - 1;
+                //修复style问题（重复赋值）
                 bneedupdatepausebutton = true;
-                current = 0;
-            } else {
-                current = 0;
             }
+            current = 0;
             LoopPlayoldpath = m_paths[m_current];
             bLoopPlayback = true;
             connect(dApp->signalM, &SignalManager::sigNoneedLoadfrontslideshow, this, [ = ] {
@@ -498,18 +496,19 @@ void SlideEffectPlayer::cacheNextBackUp()
         }
     }
     if (current == 0) {
-        QString curpath = m_paths[0];
-        if (m_cacheImages.value(curpath).isNull()) {
-            //QImage img = utils::image::getRotatedImage(curpath);
-            //m_cacheImages.insert(curpath, img);
-        }
-        if (m_paths.size() > 1) {
-            QString curpath = m_paths[1];
-            if (m_cacheImages.value(curpath).isNull()) {
-                //QImage img = utils::image::getRotatedImage(curpath);
-                //m_cacheImages.insert(curpath, img);
-            }
-        }
+        //根据cppcheck，删除无用代码
+//        QString curpath = m_paths[0];
+//        if (m_cacheImages.value(curpath).isNull()) {
+//            //QImage img = utils::image::getRotatedImage(curpath);
+//            //m_cacheImages.insert(curpath, img);
+//        }
+//        if (m_paths.size() > 1) {
+//            QString curpath = m_paths[1];
+//            if (m_cacheImages.value(curpath).isNull()) {
+//                //QImage img = utils::image::getRotatedImage(curpath);
+//                //m_cacheImages.insert(curpath, img);
+//            }
+//        }
     }
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
@@ -605,10 +604,7 @@ void SlideEffectPlayer::stop()
     {
         m_effect->clearimagemap();
     }
-    for(auto image:m_cacheImages)
-    {
-        image=QImage();
-    }
+    //删除无用代码，修复style问题
     m_tid = 0;
     m_running = false;
     m_cacheImages.clear();

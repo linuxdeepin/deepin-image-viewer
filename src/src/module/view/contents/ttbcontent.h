@@ -65,7 +65,7 @@ class ImageItem : public DLabel
 {
     Q_OBJECT
 public:
-    ImageItem(int index = 0, QString path = NULL, char *imageType = NULL, QWidget *parent = 0);
+    ImageItem(int index = 0, QString path = nullptr, char *imageType = nullptr, QWidget *parent = nullptr);
 
     /**
      * @brief setIndexNow   设置当前显示图片索引位置
@@ -477,7 +477,7 @@ class MyImageListWidget : public DWidget
 {
     Q_OBJECT
 public:
-    MyImageListWidget(QWidget *parent = nullptr);
+    explicit MyImageListWidget(QWidget *parent = nullptr);
     bool ifMouseLeftPressed();
     void setObj(QObject *obj);
     /**

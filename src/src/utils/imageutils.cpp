@@ -391,7 +391,7 @@ const QImage loadTga(QString filePath, bool &success)
         //get variables
         vui8Pixels = new std::vector<std::uint8_t>;
         bool bCompressed;
-        Q_UNUSED(bCompressed);
+
         std::uint32_t ui32IDLength;
         std::uint32_t ui32PicType;
         std::uint32_t ui32PaletteLength;
@@ -408,6 +408,8 @@ const QImage loadTga(QString filePath, bool &success)
         // calculate some more information
         ui32Size = ui32Width * ui32Height * ui32BpP / 8;
         bCompressed = ui32PicType == 9 || ui32PicType == 10;
+        //Q_UNUSED放下面，修复style问题
+        Q_UNUSED(bCompressed);
         vui8Pixels->resize(ui32Size);
 
         // jump to the data block

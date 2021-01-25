@@ -43,19 +43,19 @@ static const EffectId kEnterFromRight = "enter_from_right";
 class SlideEffect_Enter : public SlideEffect
 {
 public:
-    virtual bool prepare();
-    virtual EffectName effectName() const
+    virtual bool prepare() override;
+    virtual EffectName effectName() const override
     {
         return Slide;
     }
-    virtual QVector<EffectId> supportedTypes() const
+    virtual QVector<EffectId> supportedTypes() const override
     {
         return QVector<EffectId>() << kEnterFromBottom << kEnterFromLeft
                << kEnterFromRight  << kEnterFromTop;
 //        return QVector<EffectId>() << kEnterFromLeft << kEnterFromRight;
     }
 protected:
-    virtual bool prepareFrameAt(int frame);
+    virtual bool prepareFrameAt(int frame) override;
 
 private:
     //void calculateRegion_Random(qreal k); //default

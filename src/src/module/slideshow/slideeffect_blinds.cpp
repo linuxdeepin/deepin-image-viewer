@@ -43,18 +43,18 @@ static const QString kBlindsTopToBottom = "blinds_top_to_bottom";
 class SlideEffect_Blinds : public SlideEffect
 {
 public:
-    virtual bool prepare();
-    virtual EffectName effectName() const
+    virtual bool prepare() override;
+    virtual EffectName effectName() const override
     {
         return Blinds;
     }
-    virtual QVector<EffectId> supportedTypes() const
+    virtual QVector<EffectId> supportedTypes() const override
     {
         return QVector<EffectId>() << kBlindsBottomToTop << kBlindsLeftToRight
                << kBlindsRightToLeft << kBlindsTopToBottom;
     }
 protected:
-    virtual bool prepareFrameAt(int frame);
+    virtual bool prepareFrameAt(int frame) override;
 private:
     //void calculateRegion_Random(qreal k); //default
     void calculateRegion_BottomToTop(qreal k);
