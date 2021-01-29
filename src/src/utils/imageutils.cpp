@@ -102,9 +102,9 @@ const QDateTime getCreateDateTime(const QString &path)
     // fallback to metadata.
     if (!dt.isValid()) {
         QString s;
-        s = freeimage::getAllMetaData(path).value("DateTimeOriginal");
+        s = getAllMetaData(path).value("DateTimeOriginal");
         if (s.isEmpty()) {
-            s = freeimage::getAllMetaData(path).value("DateTimeDigitized");
+            s = getAllMetaData(path).value("DateTimeDigitized");
         }
         if (s.isEmpty()) {
             s = QDateTime::currentDateTime().toString();
@@ -200,15 +200,15 @@ bool imageSupportSave(const QString &path)
 #endif
 }
 
-bool imageSupportWrite(const QString &path)
-{
-        /*lmh0724使用USE_UNIONIMAGE*/
-#ifdef USE_UNIONIMAGE
-    return UnionImage_NameSpace::canSave(path);
-#else
-    return freeimage::isSupportsWriting(path);
-#endif
-}
+//bool imageSupportWrite(const QString &path)
+//{
+//        /*lmh0724使用USE_UNIONIMAGE*/
+//#ifdef USE_UNIONIMAGE
+//    return UnionImage_NameSpace::canSave(path);
+//#else
+//    return freeimage::isSupportsWriting(path);
+//#endif
+//}
 
 bool rotate(const QString &path, int degree)
 {

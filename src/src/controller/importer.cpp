@@ -113,27 +113,27 @@ void Importer::appendDir(const QString &path, const QString &album)
     m_threads.append(dt);
 }
 
-void Importer::appendFiles(const QStringList &paths, const QString &album)
-{
-    emit progressChanged();
+//void Importer::appendFiles(const QStringList &paths, const QString &album)
+//{
+//    emit progressChanged();
 
-    FilesCollectThread *ft = new FilesCollectThread(paths, album);
-    connect(ft, &FilesCollectThread::resultReady,
-            DBManager::instance(), &DBManager::insertImgInfos);
-    connect(ft, &FilesCollectThread::insertAlbumRequest,
-            DBManager::instance(), &DBManager::insertIntoAlbum);
-    connect(ft, &FilesCollectThread::currentImport,
-            this, &Importer::currentImport);
-    connect(ft, &FilesCollectThread::finished, this, [=] {
-        m_threads.removeAll(ft);
-        if (m_threads.isEmpty())
-            emit imported(true);
+//    FilesCollectThread *ft = new FilesCollectThread(paths, album);
+//    connect(ft, &FilesCollectThread::resultReady,
+//            DBManager::instance(), &DBManager::insertImgInfos);
+//    connect(ft, &FilesCollectThread::insertAlbumRequest,
+//            DBManager::instance(), &DBManager::insertIntoAlbum);
+//    connect(ft, &FilesCollectThread::currentImport,
+//            this, &Importer::currentImport);
+//    connect(ft, &FilesCollectThread::finished, this, [=] {
+//        m_threads.removeAll(ft);
+//        if (m_threads.isEmpty())
+//            emit imported(true);
 
-        ft->deleteLater();
-    });
-    ft->start();
-    m_threads.append(ft);
-}
+//        ft->deleteLater();
+//    });
+//    ft->start();
+//    m_threads.append(ft);
+//}
 
 //void Importer::stop()
 //{

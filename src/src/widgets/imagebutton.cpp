@@ -48,10 +48,6 @@ ImageButton::ImageButton(const QString &normalPic, const QString &hoverPic,
             &ImageButton::onThemeChanged);
 }
 
-void ImageButton::setDisablePic(const QString &path)
-{
-    m_disablePic_ = path;
-}
 
 void ImageButton::setDisabled(bool d)
 {

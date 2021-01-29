@@ -48,7 +48,7 @@ public:
     int contentHeight() const;
 //    QSize sizeHint() const override;
 public slots:
-    void onExpandChanged(const bool &e);
+//    void onExpandChanged(const bool &e);
 
 protected:
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;

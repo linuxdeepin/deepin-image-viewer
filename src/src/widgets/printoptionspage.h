@@ -35,24 +35,12 @@ public:
 
     explicit PrintOptionsPage(QWidget *parent = nullptr);
 
-    ScaleMode scaleMode();
-    Unit scaleUnit();
-    double scaleWidth();
-    double scaleHeight();
-    Qt::Alignment alignment();
-
-    QRadioButton* getnoScaleBtn();
-    QRadioButton* getfitToImageBtn();
-    QRadioButton* getfitToPageBtn();
-    QRadioButton* getscaleBtn();
 signals:
     void valueChanged();
 
 private:
     void init();
     void updateStatus();
-    double unitToInches(Unit unit);
-
 private:
     QRadioButton *m_noScaleBtn{nullptr};
     QRadioButton *m_fitToImageBtn{nullptr};

@@ -88,29 +88,29 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
 #endif
 }
 
-QString sizeToHuman(const qlonglong bytes)
-{
-    qlonglong sb = 1024;
-    if (bytes < sb) {
-        return QString::number(bytes) + " B";
-    } else if (bytes < sb * sb) {
-        QString vs = QString::number((double)bytes / sb, 'f', 1);
-        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-            return QString::number((int)vs.toDouble()) + " KB";
-        } else {
-            return vs + " KB";
-        }
-    } else if (bytes < sb * sb * sb) {
-        QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
-        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
-            return QString::number((int)vs.toDouble()) + " MB";
-        } else {
-            return vs + " MB";
-        }
-    } else {
-        return QString::number(bytes);
-    }
-}
+//QString sizeToHuman(const qlonglong bytes)
+//{
+//    qlonglong sb = 1024;
+//    if (bytes < sb) {
+//        return QString::number(bytes) + " B";
+//    } else if (bytes < sb * sb) {
+//        QString vs = QString::number((double)bytes / sb, 'f', 1);
+//        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+//            return QString::number((int)vs.toDouble()) + " KB";
+//        } else {
+//            return vs + " KB";
+//        }
+//    } else if (bytes < sb * sb * sb) {
+//        QString vs = QString::number((double)bytes / sb / sb, 'f', 1);
+//        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+//            return QString::number((int)vs.toDouble()) + " MB";
+//        } else {
+//            return vs + " MB";
+//        }
+//    } else {
+//        return QString::number(bytes);
+//    }
+//}
 
 QString timeToString(const QDateTime &time, bool normalFormat)
 {
@@ -331,30 +331,30 @@ bool trashFile(const QString &file)
 //    return v;
 //}
 
-/*!
- * \brief wrapStr
- * Split info string by Space
- * \param str
- * \param font
- * \param maxWidth
- * \return
- */
-QString wrapStr(const QString &str, const QFont &font, int maxWidth)
-{
-    QFontMetrics fm(font);
-    QString ns;
-    QString ss;
-    for (int i = 0; i < str.length(); i ++) {
-        if (/*str.at(i).isSpace()||*/ fm.boundingRect(ss).width() > maxWidth) {
-            ss = QString();
-            ns += "\n";
-        }
-        ns += str.at(i);
-        ss += str.at(i);
-    }
-    return ns;
-//    return str;
-}
+///*!
+// * \brief wrapStr
+// * Split info string by Space
+// * \param str
+// * \param font
+// * \param maxWidth
+// * \return
+// */
+//QString wrapStr(const QString &str, const QFont &font, int maxWidth)
+//{
+//    QFontMetrics fm(font);
+//    QString ns;
+//    QString ss;
+//    for (int i = 0; i < str.length(); i ++) {
+//        if (/*str.at(i).isSpace()||*/ fm.boundingRect(ss).width() > maxWidth) {
+//            ss = QString();
+//            ns += "\n";
+//        }
+//        ns += str.at(i);
+//        ss += str.at(i);
+//    }
+//    return ns;
+////    return str;
+//}
 
 
 QString SpliteText(const QString &text, const QFont &font, int nLabelSize,bool bReturn)

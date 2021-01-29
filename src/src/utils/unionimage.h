@@ -56,20 +56,20 @@ enum SupportType {
     RGBAF       = 12    // 128-bit RGBA float image     : 4 x 32-bit IEEE floating point
 };
 
-/**
- ************************************************************************************************
- *                                                                                              *
- *  Function name:                                                                              *
- *                                                                                              *
- *                                                                                              *
- *                                                                                              *
- *                                                                                              *
- *                                                                                              *
- *                                                                                              *
- *                                                                                              *
- ************************************************************************************************
- */
-UNIONIMAGESHARED_EXPORT QString unionImageVersion();
+///**
+// ************************************************************************************************
+// *                                                                                              *
+// *  Function name:                                                                              *
+// *                                                                                              *
+// *                                                                                              *
+// *                                                                                              *
+// *                                                                                              *
+// *                                                                                              *
+// *                                                                                              *
+// *                                                                                              *
+// ************************************************************************************************
+// */
+//UNIONIMAGESHARED_EXPORT QString unionImageVersion();
 
 
 /**
@@ -81,8 +81,8 @@ UNIONIMAGESHARED_EXPORT QString unionImageVersion();
  * DynamicFormat返回支持的动态图片
  */
 UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat();
-UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat();
-UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat();
+//UNIONIMAGESHARED_EXPORT const QStringList supportStaticFormat();
+//UNIONIMAGESHARED_EXPORT const QStringList supportMovieFormat();
 
 /**
  * @brief suffixisImage
@@ -129,14 +129,14 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage
 UNIONIMAGESHARED_EXPORT QString detectImageFormat(const QString &path);
 
 FREE_IMAGE_FORMAT detectImageFormat_f(const QString &path);
-/**
- * @brief isNoneQImage
- * @param[in]           qi
- * @return bool
- * @author DJH
- * 判断是否为空图
- */
-UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi);
+///**
+// * @brief isNoneQImage
+// * @param[in]           qi
+// * @return bool
+// * @author DJH
+// * 判断是否为空图
+// */
+//UNIONIMAGESHARED_EXPORT bool isNoneQImage(const QImage &qi);
 
 /**
  * @brief rotateImage
@@ -161,19 +161,19 @@ UNIONIMAGESHARED_EXPORT bool rotateImage(int angel, QImage &image);
  */
 UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QString &erroMsg);
 
-/**
- * @brief rotateImageFIle
- * @param[in]           angel
- * @param[in][out]      img
- * @param[in]           path
- * @param[out]          erroMsg
- * @return bool
- * @author DJH
- * 旋转图片文件，旋转成功返回true，失败返回false
- * 旋转成功会同时旋转img
- * 图片为空则不会旋转返回失败,失败时会将错误信息写入erroMsg
- */
-UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, const QString &path, QString &erroMsg);
+///**
+// * @brief rotateImageFIle
+// * @param[in]           angel
+// * @param[in][out]      img
+// * @param[in]           path
+// * @param[out]          erroMsg
+// * @return bool
+// * @author DJH
+// * 旋转图片文件，旋转成功返回true，失败返回false
+// * 旋转成功会同时旋转img
+// * 图片为空则不会旋转返回失败,失败时会将错误信息写入erroMsg
+// */
+//UNIONIMAGESHARED_EXPORT bool rotateImageFIleWithImage(int angel, QImage &img, const QString &path, QString &erroMsg);
 
 /**
  * @brief getAllMetaData
@@ -202,7 +202,7 @@ UNIONIMAGESHARED_EXPORT bool isImageSupportRotate(const QString &path);
  */
 UNIONIMAGESHARED_EXPORT bool canSave(const QString &path);
 
-UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path);
+//UNIONIMAGESHARED_EXPORT bool isSupportReading(const QString &path);
 
 UNIONIMAGESHARED_EXPORT bool isSupportWritting(const QString &path);
 
@@ -222,12 +222,12 @@ UNIONIMAGESHARED_EXPORT const QString getOrientation(const QString &path);
  * @return QDateTime
  * 转换时间
  */
-UNIONIMAGESHARED_EXPORT QDateTime string2DateTime(const QString &time);
+//UNIONIMAGESHARED_EXPORT QDateTime string2DateTime(const QString &time);
 
 
 UNIONIMAGESHARED_EXPORT bool isSupportsReading(const QString &time);
 
-UNIONIMAGESHARED_EXPORT bool isSupportsWriting(const QString &time);
+//UNIONIMAGESHARED_EXPORT bool isSupportsWriting(const QString &time);
 
 UNIONIMAGESHARED_EXPORT bool getThumbnail(QImage &res, const QString &path);
 

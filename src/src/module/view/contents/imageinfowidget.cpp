@@ -534,17 +534,17 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
     });
 }
 
-void ImageInfoWidget::onExpandChanged(const bool &e)
-{
-    DArrowLineDrawer *expand = qobject_cast<DArrowLineDrawer *>(sender());
-    if (expand) {
-        if (e) {
-            expand->setSeparatorVisible(false);
-        } else {
-            QTimer::singleShot(200, expand, [ = ] { expand->setSeparatorVisible(true); });
-        }
-    }
-}
+//void ImageInfoWidget::onExpandChanged(const bool &e)
+//{
+//    DArrowLineDrawer *expand = qobject_cast<DArrowLineDrawer *>(sender());
+//    if (expand) {
+//        if (e) {
+//            expand->setSeparatorVisible(false);
+//        } else {
+//            QTimer::singleShot(200, expand, [ = ] { expand->setSeparatorVisible(true); });
+//        }
+//    }
+//}
 
 int ImageInfoWidget::contentHeight() const
 {

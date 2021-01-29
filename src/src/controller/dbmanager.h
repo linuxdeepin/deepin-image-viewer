@@ -87,7 +87,7 @@ public:
 
     // TableImage
     const QStringList       getAllPaths() const;
-    const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
+//    const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
     const DBImgInfo         getInfoByPath(const QString &path) const;
     const QStringList       getPathsByDir(const QString &dir) const;
     void insertImgInfos(const DBImgInfoList &infos);

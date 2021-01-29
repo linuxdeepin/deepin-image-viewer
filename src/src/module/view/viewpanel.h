@@ -413,17 +413,6 @@ private slots:
      */
     void slotCurrentStackWidget(QString &path,bool bpix);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-#ifndef LITE_DIV
-    void updateLocalImages();
-    /**
-     * @brief newEatImageDirIterator    备份初始信息读取代码
-     */
-    void newEatImageDirIterator();
-    /**
-     * @brief eatImageDirIterator   迭代获取当前文件夹所有图片信息
-     */
-    void eatImageDirIterator();
-#endif
 
     /**
      * @brief sendSignal    发送显示缩略图的信号
@@ -443,10 +432,6 @@ private slots:
      */
     void slotExitFullScreen();
     //void slotLoadSlideshow(bool bflag);
-
-
-
-
 
     /**
      * @brief eatImageDirIteratorThread 线程函数，遍历选中文件夹获取所有图片信息

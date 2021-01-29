@@ -79,21 +79,21 @@ const QStringList DBManager::getAllPaths() const
 }
 
 
-const DBImgInfoList DBManager::getInfosByTimeline(const QString &timeline) const
-{
-    Q_UNUSED(timeline);
-    DBImgInfoList ret;
-    /*
-       const DBImgInfoList list = getImgInfos("Time", timeline);
-       if (list.count() < 1) {
-           return DBImgInfoList();
-       }
-       else {
-           return list;
-       }*/
+//const DBImgInfoList DBManager::getInfosByTimeline(const QString &timeline) const
+//{
+//    Q_UNUSED(timeline);
+//    DBImgInfoList ret;
+//    /*
+//       const DBImgInfoList list = getImgInfos("Time", timeline);
+//       if (list.count() < 1) {
+//           return DBImgInfoList();
+//       }
+//       else {
+//           return list;
+//       }*/
 
-    return ret;
-}
+//    return ret;
+//}
 
 
 const DBImgInfo DBManager::getInfoByPath(const QString &path) const

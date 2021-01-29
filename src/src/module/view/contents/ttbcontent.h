@@ -417,10 +417,6 @@ private slots:
 protected:
     void resizeEvent(QResizeEvent *event);
 private:
-#ifndef LITE_DIV
-    PushButton *m_folderBtn;
-    ReturnButton *m_returnBtn;
-#endif
     bool m_inDB;
 
     DIconButton *m_adaptImageBtn {nullptr};

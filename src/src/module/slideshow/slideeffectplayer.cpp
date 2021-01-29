@@ -144,10 +144,10 @@ void SlideEffectPlayer::setCurrentImage(const QString &path)
 }
 
 
-int SlideEffectPlayer::currentImageIndex() const
-{
-    return m_current;
-}
+//int SlideEffectPlayer::currentImageIndex() const
+//{
+//    return m_current;
+//}
 
 QString SlideEffectPlayer::GetCurrentImagePath()
 {

@@ -7,10 +7,10 @@ TEST_F(gtestview, renderSVG_error)
     utils::base::renderSVG("error",QSize(50,50));
 }
 
-TEST_F(gtestview, sizeToHuman_error)
-{
-    utils::base::sizeToHuman(1000);
-}
+//TEST_F(gtestview, sizeToHuman_error)
+//{
+//    utils::base::sizeToHuman(1000);
+//}
 
 TEST_F(gtestview, timeToString_false)
 {
@@ -129,27 +129,22 @@ TEST_F(gtestview, DetectImageFormat)
 }
 //UnionImage_NameSpace
 #include "utils/unionimage.h"
-TEST_F(gtestview, string2DateTime)
-{
-    UnionImage_NameSpace::string2DateTime(QApplication::applicationDirPath()+"/png.png");
+//TEST_F(gtestview, string2DateTime)
+//{
+////    UnionImage_NameSpace::string2DateTime(QApplication::applicationDirPath()+"/png.png");
 
 
-    UnionImage_NameSpace::string2DateTime(QDateTime::currentDateTime().toString());
-}
+////    UnionImage_NameSpace::string2DateTime(QDateTime::currentDateTime().toString());
+//}
 
-TEST_F(gtestview, QImge2FIBitMap)
-{
-    UnionImage_NameSpace::string2DateTime(QApplication::applicationDirPath()+"/png.png");
+//TEST_F(gtestview, QImge2FIBitMap)
+//{
+////    UnionImage_NameSpace::string2DateTime(QApplication::applicationDirPath()+"/png.png");
 
 
-    UnionImage_NameSpace::string2DateTime(QDateTime::currentDateTime().toString());
-}
+////    UnionImage_NameSpace::string2DateTime(QDateTime::currentDateTime().toString());
+//}
 
-TEST_F(gtestview, isSupportsReading)
-{
-    UnionImage_NameSpace::unionImageVersion();
-
-}
 
 TEST_F(gtestview, detectImageFormat)
 {
@@ -183,40 +178,40 @@ TEST_F(gtestview, rotateImageFIle)
 
 }
 
-TEST_F(gtestview, rotateImageFIleWithImage)
-{
-    QString error;
-    QImage img1(QApplication::applicationDirPath()+"/png.png");
-    UnionImage_NameSpace::rotateImageFIleWithImage(45,img1,QApplication::applicationDirPath()+"/png.png",error);
-    QImage img2(QApplication::applicationDirPath()+"/png.png");
-    UnionImage_NameSpace::rotateImageFIleWithImage(90,img2,QApplication::applicationDirPath()+"/png.png",error);
-    QImage img3(QApplication::applicationDirPath()+"/svg.svg");
-    UnionImage_NameSpace::rotateImageFIleWithImage(90,img3,QApplication::applicationDirPath()+"/svg.svg",error);
-    QImage img4(QApplication::applicationDirPath()+"/jpg.jpg");
-    UnionImage_NameSpace::rotateImageFIleWithImage(90,img4,QApplication::applicationDirPath()+"/jpg.jpg",error);
-    QImage img5(QApplication::applicationDirPath()+"/svg2.svg");
-    UnionImage_NameSpace::rotateImageFIleWithImage(90,img5,QApplication::applicationDirPath()+"/svg2.svg",error);
+//TEST_F(gtestview, rotateImageFIleWithImage)
+//{
+//    QString error;
+//    QImage img1(QApplication::applicationDirPath()+"/png.png");
+//    UnionImage_NameSpace::rotateImageFIleWithImage(45,img1,QApplication::applicationDirPath()+"/png.png",error);
+//    QImage img2(QApplication::applicationDirPath()+"/png.png");
+//    UnionImage_NameSpace::rotateImageFIleWithImage(90,img2,QApplication::applicationDirPath()+"/png.png",error);
+//    QImage img3(QApplication::applicationDirPath()+"/svg.svg");
+//    UnionImage_NameSpace::rotateImageFIleWithImage(90,img3,QApplication::applicationDirPath()+"/svg.svg",error);
+//    QImage img4(QApplication::applicationDirPath()+"/jpg.jpg");
+//    UnionImage_NameSpace::rotateImageFIleWithImage(90,img4,QApplication::applicationDirPath()+"/jpg.jpg",error);
+//    QImage img5(QApplication::applicationDirPath()+"/svg2.svg");
+//    UnionImage_NameSpace::rotateImageFIleWithImage(90,img5,QApplication::applicationDirPath()+"/svg2.svg",error);
 
 
-}
+//}
 
-TEST_F(gtestview, unionisSupportsWriting)
-{
+//TEST_F(gtestview, unionisSupportsWriting)
+//{
 
-    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/png.png");
+//    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/png.png");
 
-    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/png.png");
+//    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/png.png");
 
-    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/svg.svg");
+//    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/svg.svg");
 
-    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/svg1.svg");
+//    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/svg1.svg");
 
-    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/svg3.svg");
+//    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/svg3.svg");
 
-    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/jpg.jpg");
+//    UnionImage_NameSpace::isSupportsWriting(QApplication::applicationDirPath()+"/jpg.jpg");
 
 
-}
+//}
 
 TEST_F(gtestview, unionisSupportsReading)
 {

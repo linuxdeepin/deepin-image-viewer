@@ -50,42 +50,42 @@ ImageIconButton::ImageIconButton(const QString &normalPic, const QString &hoverP
     setPalette(pl);
 }
 
-void ImageIconButton::setPropertyPic(QString propertyName, const QVariant &value,
-                                     const QString &normalPic, const QString &hoverPic, const QString &pressPic, const QString &checkedPic)
-{
-    ImagePicPathInfo curPicPath;
-    curPicPath.normalPicPath = normalPic;
-    curPicPath.hoverPicPath = hoverPic;
-    curPicPath.pressPicPath = pressPic;
-    curPicPath.checkedPicPath = checkedPic;
+//void ImageIconButton::setPropertyPic(QString propertyName, const QVariant &value,
+//                                     const QString &normalPic, const QString &hoverPic, const QString &pressPic, const QString &checkedPic)
+//{
+//    ImagePicPathInfo curPicPath;
+//    curPicPath.normalPicPath = normalPic;
+//    curPicPath.hoverPicPath = hoverPic;
+//    curPicPath.pressPicPath = pressPic;
+//    curPicPath.checkedPicPath = checkedPic;
 
-    if (propertyPicPaths.first == propertyName) {
-        propertyPicPaths.second[value] = curPicPath;
-    } else {
-        QMap<QVariant, ImagePicPathInfo> curPicPathInfo;
-        curPicPathInfo.insert(value, curPicPath);
-        propertyPicPaths.first = propertyName;
-        propertyPicPaths.second = curPicPathInfo;
-    }
-}
+//    if (propertyPicPaths.first == propertyName) {
+//        propertyPicPaths.second[value] = curPicPath;
+//    } else {
+//        QMap<QVariant, ImagePicPathInfo> curPicPathInfo;
+//        curPicPathInfo.insert(value, curPicPath);
+//        propertyPicPaths.first = propertyName;
+//        propertyPicPaths.second = curPicPathInfo;
+//    }
+//}
 
-void ImageIconButton::setPropertyPic(const QString &normalPic, const QString &hoverPic, const QString &pressPic, const QString &checkedPic)
-{
-    defaultPicPath.normalPicPath = normalPic;
-    defaultPicPath.hoverPicPath = hoverPic;
-    defaultPicPath.pressPicPath = pressPic;
-    defaultPicPath.checkedPicPath = checkedPic;
-}
+//void ImageIconButton::setPropertyPic(const QString &normalPic, const QString &hoverPic, const QString &pressPic, const QString &checkedPic)
+//{
+//    defaultPicPath.normalPicPath = normalPic;
+//    defaultPicPath.hoverPicPath = hoverPic;
+//    defaultPicPath.pressPicPath = pressPic;
+//    defaultPicPath.checkedPicPath = checkedPic;
+//}
 
-void ImageIconButton::setTransparent(bool flag)
-{
-    transparent = flag;
-}
+//void ImageIconButton::setTransparent(bool flag)
+//{
+//    transparent = flag;
+//}
 
-void ImageIconButton::setAutoChecked(bool flag)
-{
-    autoChecked = flag;
-}
+//void ImageIconButton::setAutoChecked(bool flag)
+//{
+//    autoChecked = flag;
+//}
 
 void ImageIconButton::paintEvent(QPaintEvent *event)
 {

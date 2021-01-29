@@ -23,17 +23,10 @@
 class PushButton : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QString normalPic READ normalPic WRITE setNormalPic NOTIFY normalPicChanged)
-    Q_PROPERTY(QString hoverPic READ hoverPic WRITE setHoverPic NOTIFY hoverPicChanged)
-    Q_PROPERTY(QString pressPic READ pressPic WRITE setPressPic NOTIFY pressPicChanged)
+
     Q_PROPERTY(QString disablePic READ disablePic WRITE setDisablePic NOTIFY disablePicChanged)
-    Q_PROPERTY(QString checkedPic READ checkedPic WRITE setCheckedPic NOTIFY checkedPicChanged)
 
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-    Q_PROPERTY(QColor normalColor READ normalColor WRITE setNormalColor NOTIFY normalColorChanged)
-    Q_PROPERTY(QColor hoverColor READ hoverColor WRITE setHoverColor NOTIFY hoverColorChanged)
-    Q_PROPERTY(QColor pressColor READ pressColor WRITE setPressColor NOTIFY pressColorChanged)
-    Q_PROPERTY(QColor disableColor READ disableColor WRITE setDisableColor NOTIFY disableColorChanged)
 
 public:
     explicit PushButton(QWidget *parent = nullptr);
@@ -50,26 +43,13 @@ public:
     QColor pressColor() const;
     QColor disableColor() const;
 
-    int getSpacing() const;
-    void setSpacing(int spacing);
-
-    bool getChecked() const;
     void setChecked(bool checked);
 
 
 public slots:
-    void setNormalPic(QString normalPic);
-    void setHoverPic(QString hoverPic);
-    void setPressPic(QString pressPic);
+
     void setDisablePic(QString disablePic);
-    void setCheckedPic(QString checkedPic);
-
     void setText(QString text);
-
-    void setNormalColor(QColor normalColor);
-    void setHoverColor(QColor hoverColor);
-    void setPressColor(QColor pressColor);
-    void setDisableColor(QColor disableColor);
 
 
 signals:

@@ -27,26 +27,26 @@ public:
     void setWallpaper(const QString &path);
     void setWallpaper(QImage img);
 private:
-    enum DE {
-        Deepin,
-        GNOME,
-        GNOMEShell,
-        KDE,
-        LXDE,
-        Xfce,
-        MATE,
-        OthersDE
-    };
+//    enum DE {
+//        Deepin,
+//        GNOME,
+//        GNOMEShell,
+//        KDE,
+//        LXDE,
+//        Xfce,
+//        MATE,
+//        OthersDE
+//    };
 
-    void setGNOMEWallpaper(const QString &path);
-    void setKDEWallpaper(const QString &path);
-    void setLXDEWallpaper(const QString &path);
-    void setXfaceWallpaper(const QString &path);
+//    void setGNOMEWallpaper(const QString &path);
+//    void setKDEWallpaper(const QString &path);
+//    void setLXDEWallpaper(const QString &path);
+//    void setXfaceWallpaper(const QString &path);
 
-    DE getDE();
-    bool testDE(const QString &app);
+//    DE getDE();
+//    bool testDE(const QString &app);
 
-    explicit WallpaperSetter(QObject *parent = 0);
+    explicit WallpaperSetter(QObject *parent = nullptr);
 
 private:
     static WallpaperSetter *m_setter;

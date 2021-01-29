@@ -56,34 +56,7 @@ TTLContent::TTLContent(bool inDB,
     hb->setContentsMargins(LEFT_MARGIN, 0, 0, 0);
     hb->setSpacing(0);
     m_inDB = inDB;
-#ifndef LITE_DIV
-    m_returnBtn = new ReturnButton();
-    m_returnBtn->setMaxWidth(RETURN_BTN_MAX);
-    m_returnBtn->setMaximumWidth(RETURN_BTN_MAX);
-    m_returnBtn->setObjectName("ReturnBtn");
-    m_returnBtn->setToolTip(tr("Back"));
 
-    m_folderBtn = new PushButton();
-    m_folderBtn->setFixedSize(QSize(24, 24));
-    m_folderBtn->setObjectName("FolderBtn");
-    m_folderBtn->setToolTip(tr("Image management"));
-    if (m_inDB) {
-        hb->addWidget(m_returnBtn);
-    } else {
-        hb->addWidget(m_folderBtn);
-    }
-    hb->addSpacing(20);
-
-    connect(m_returnBtn, &ReturnButton::clicked, this, [ = ] {
-        emit clicked();
-    });
-    connect(m_folderBtn, &PushButton::clicked, this, [ = ] {
-        emit clicked();
-    });
-    connect(m_returnBtn, &ReturnButton::returnBtnWidthChanged, this, [ = ] {
-        updateFilenameLayout();
-    });
-#endif
     // Adapt buttons////////////////////////////////////////////////////////////
     m_adaptImageBtn = new PushButton();
     m_adaptImageBtn->setObjectName("AdaptBtn");
@@ -110,22 +83,6 @@ TTLContent::TTLContent(bool inDB,
     m_clBT = new PushButton();
     m_clBT->setFixedSize(ICON_SIZE);
     m_clBT->setObjectName("CollectBtn");
-#ifndef LITE_DIV
-    if (m_inDB) {
-        hb->addWidget(m_clBT);
-        connect(m_clBT, &PushButton::clicked, this, [ = ] {
-            if (DBManager::instance()->isImgExistInAlbum(FAVORITES_ALBUM, m_imagePath))
-            {
-                DBManager::instance()->removeFromAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
-            } else
-            {
-                DBManager::instance()->insertIntoAlbum(FAVORITES_ALBUM, QStringList(m_imagePath));
-            }
-            updateCollectButton();
-        });
-        updateCollectButton();
-    }
-#endif
 
     m_rotateLBtn = new PushButton();
     m_rotateLBtn->setFixedSize(ICON_SIZE);

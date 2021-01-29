@@ -132,64 +132,64 @@ QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
 //    return datas["Orientation"];
 //}
 
-/*!
- * \brief getAllMetaData
- * This function is very fast with FIF_LOAD_NOPIXELS flag
- * \param path
- * \return
- */
-QMap<QString, QString> getAllMetaData(const QString &path)
-{
-    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
-    QMap<QString, QString> admMap;
-    admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_EXIF, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_GPS, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_MAKERNOTE, dib));
-    admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
-    admMap.unite(getMetaData(FIMD_IPTC, dib));
+///*!
+// * \brief getAllMetaData
+// * This function is very fast with FIF_LOAD_NOPIXELS flag
+// * \param path
+// * \return
+// */
+//QMap<QString, QString> getAllMetaData(const QString &path)
+//{
+//    FIBITMAP *dib = readFileToFIBITMAP(path, FIF_LOAD_NOPIXELS);
+//    QMap<QString, QString> admMap;
+//    admMap.unite(getMetaData(FIMD_EXIF_MAIN, dib));
+//    admMap.unite(getMetaData(FIMD_EXIF_EXIF, dib));
+//    admMap.unite(getMetaData(FIMD_EXIF_GPS, dib));
+//    admMap.unite(getMetaData(FIMD_EXIF_MAKERNOTE, dib));
+//    admMap.unite(getMetaData(FIMD_EXIF_INTEROP, dib));
+//    admMap.unite(getMetaData(FIMD_IPTC, dib));
 
-    // Basic extended data
-    QFileInfo info(path);
-    QImageReader reader(path);
-    if (admMap.isEmpty()) {
-        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
-        admMap.insert("DateTimeOriginal",  emptyTime.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-        admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-    } else {
-        // ReFormat the date-time
-        using namespace utils::base;
-        // Exif version 0231
-        QDateTime ot = stringToDateTime(admMap.value("DateTimeOriginal"));
-        QDateTime dt = stringToDateTime(admMap.value("DateTimeDigitized"));
-        if (! ot.isValid()) {
-            // Exif version 0221
-            ot = stringToDateTime(admMap.value("DateTime"));
-            dt = ot;
+//    // Basic extended data
+//    QFileInfo info(path);
+//    QImageReader reader(path);
+//    if (admMap.isEmpty()) {
+//        QDateTime emptyTime(QDate(0, 0, 0), QTime(0, 0, 0));
+//        admMap.insert("DateTimeOriginal",  emptyTime.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+//        admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+//    } else {
+//        // ReFormat the date-time
+//        using namespace utils::base;
+//        // Exif version 0231
+//        QDateTime ot = stringToDateTime(admMap.value("DateTimeOriginal"));
+//        QDateTime dt = stringToDateTime(admMap.value("DateTimeDigitized"));
+//        if (! ot.isValid()) {
+//            // Exif version 0221
+//            ot = stringToDateTime(admMap.value("DateTime"));
+//            dt = ot;
 
-            // NO valid date information
-            if (! ot.isValid()) {
-                admMap.insert("DateTimeOriginal", info.created().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-                admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-            }
-        }
-        admMap.insert("DateTimeOriginal", ot.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-        admMap.insert("DateTimeDigitized", dt.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
-    }
-    // The value of width and height might incorrect
-    int w = reader.size().width();
-    w = w > 0 ? w : FreeImage_GetWidth(dib);
-    int h = reader.size().height();
-    h = h > 0 ? h : FreeImage_GetHeight(dib);
-    admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
-    admMap.insert("FileName", info.fileName());
-    admMap.insert("FileFormat", getFileFormat(path));
-    admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));
+//            // NO valid date information
+//            if (! ot.isValid()) {
+//                admMap.insert("DateTimeOriginal", info.created().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+//                admMap.insert("DateTimeDigitized", info.lastModified().toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+//            }
+//        }
+//        admMap.insert("DateTimeOriginal", ot.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+//        admMap.insert("DateTimeDigitized", dt.toString(QObject::tr("yyyy/MM/dd HH:mm:dd")));
+//    }
+//    // The value of width and height might incorrect
+//    int w = reader.size().width();
+//    w = w > 0 ? w : FreeImage_GetWidth(dib);
+//    int h = reader.size().height();
+//    h = h > 0 ? h : FreeImage_GetHeight(dib);
+//    admMap.insert("Dimension", QString::number(w) + "x" + QString::number(h));
+//    admMap.insert("FileName", info.fileName());
+//    admMap.insert("FileFormat", getFileFormat(path));
+//    admMap.insert("FileSize", utils::base::sizeToHuman(info.size()));
 
-    FreeImage_Unload(dib);
+//    FreeImage_Unload(dib);
 
-    return admMap;
-}
+//    return admMap;
+//}
 
 //FIBITMAP *makeThumbnail(const QString &path, int size)
 //{

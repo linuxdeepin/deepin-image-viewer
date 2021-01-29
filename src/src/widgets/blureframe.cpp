@@ -38,16 +38,16 @@ BlurFrame::BlurFrame(QWidget *parent)
     setRadius(50);
 }
 
-void BlurFrame::setCoverBrush(const QBrush &brush)
-{
-    m_coverBrush = brush;
-    update();
-}
+//void BlurFrame::setCoverBrush(const QBrush &brush)
+//{
+//    m_coverBrush = brush;
+//    update();
+//}
 
-void BlurFrame::setPos(const QPoint &pos)
-{
-    DBlurEffectWidget::move(pos);
-}
+//void BlurFrame::setPos(const QPoint &pos)
+//{
+//    DBlurEffectWidget::move(pos);
+//}
 
 void BlurFrame::paintEvent(QPaintEvent *e)
 {
@@ -78,31 +78,31 @@ void BlurFrame::paintEvent(QPaintEvent *e)
     p.end();
 }
 
-void BlurFrame::moveWithAnimation(int x, int y)
-{
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    animation->setDuration(ANIMATION_DURATION);
-    animation->setEasingCurve(ANIMATION_EASING_CURVE);
-    animation->setStartValue(pos());
-    animation->setEndValue(QPoint(x, y));
-    animation->start();
-    connect(this, &BlurFrame::requestStopAnimation,
-            animation, &QPropertyAnimation::stop);
-    connect(this, &BlurFrame::requestStopAnimation,
-            animation, &QPropertyAnimation::deleteLater);
-    connect(animation, &QPropertyAnimation::finished,
-            animation, &QPropertyAnimation::deleteLater);
-}
+//void BlurFrame::moveWithAnimation(int x, int y)
+//{
+//    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+//    animation->setDuration(ANIMATION_DURATION);
+//    animation->setEasingCurve(ANIMATION_EASING_CURVE);
+//    animation->setStartValue(pos());
+//    animation->setEndValue(QPoint(x, y));
+//    animation->start();
+//    connect(this, &BlurFrame::requestStopAnimation,
+//            animation, &QPropertyAnimation::stop);
+//    connect(this, &BlurFrame::requestStopAnimation,
+//            animation, &QPropertyAnimation::deleteLater);
+//    connect(animation, &QPropertyAnimation::finished,
+//            animation, &QPropertyAnimation::deleteLater);
+//}
 
-QColor BlurFrame::getBorderColor() const
-{
-    return m_borderColor;
-}
+//QColor BlurFrame::getBorderColor() const
+//{
+//    return m_borderColor;
+//}
 
-void BlurFrame::setBorderColor(const QColor &borderColor)
-{
-    m_borderColor = borderColor;
-}
+//void BlurFrame::setBorderColor(const QColor &borderColor)
+//{
+//    m_borderColor = borderColor;
+//}
 
 void BlurFrame::keyPressEvent(QKeyEvent *e)
 {
@@ -119,9 +119,9 @@ void BlurFrame::mousePressEvent(QMouseEvent *event) {
     DBlurEffectWidget::mousePressEvent(event);
 }
 
-void BlurFrame::setMoveEnable(bool move) {
-    m_moveEnable = move;
-}
+//void BlurFrame::setMoveEnable(bool move) {
+//    m_moveEnable = move;
+//}
 void BlurFrame::mouseMoveEvent(QMouseEvent *event) {
     if (m_moveEnable)
         this->move(event->globalPos() - m_dragPos);
@@ -132,22 +132,22 @@ void BlurFrame::mouseReleaseEvent(QMouseEvent *event) {
     DBlurEffectWidget::mouseReleaseEvent(event);
 }
 
-int BlurFrame::getBorderWidth() const
-{
-    return m_borderWidth;
-}
+//int BlurFrame::getBorderWidth() const
+//{
+//    return m_borderWidth;
+//}
 
-void BlurFrame::setBorderWidth(int borderWidth)
-{
-    m_borderWidth = borderWidth;
-}
+//void BlurFrame::setBorderWidth(int borderWidth)
+//{
+//    m_borderWidth = borderWidth;
+//}
 
-int BlurFrame::getBorderRadius() const
-{
-    return m_borderRadius;
-}
+//int BlurFrame::getBorderRadius() const
+//{
+//    return m_borderRadius;
+//}
 
-void BlurFrame::setBorderRadius(int borderRadius)
-{
-    m_borderRadius = borderRadius;
-}
+//void BlurFrame::setBorderRadius(int borderRadius)
+//{
+//    m_borderRadius = borderRadius;
+//}

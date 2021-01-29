@@ -69,7 +69,7 @@ public:
     void setCurrentImage(const QString &path = QString());
     QString currentImagePath() const;
     bool isRunning() const;
-    int currentImageIndex() const;
+//    int currentImageIndex() const;
     QString GetCurrentImagePath();
     QStringList GetPathList();
 

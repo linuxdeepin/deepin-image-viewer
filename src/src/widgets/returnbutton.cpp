@@ -93,99 +93,11 @@ QColor ReturnButton::disableColor() const
     return m_disableColor;
 }
 
-void ReturnButton::setNormalPic(QString normalPic)
-{
-    if (m_normalPic == normalPic)
-        return;
-
-    m_normalPic = normalPic;
-    m_currentPic = normalPic;
-    emit normalPicChanged(normalPic);
-}
-
-void ReturnButton::setHoverPic(QString hoverPic)
-{
-    if (m_hoverPic == hoverPic)
-        return;
-
-    m_hoverPic = hoverPic;
-    emit hoverPicChanged(hoverPic);
-}
-
-void ReturnButton::setPressPic(QString pressPic)
-{
-    if (m_pressPic == pressPic)
-        return;
-
-    m_pressPic = pressPic;
-    emit pressPicChanged(pressPic);
-}
-
-void ReturnButton::setDisablePic(QString disablePic)
-{
-    if (m_disablePic == disablePic)
-        return;
-
-    m_disablePic = disablePic;
-    emit disablePicChanged(disablePic);
-}
-
 void ReturnButton::setText(QString text)
 {
     m_text = text;
     emit textChanged(text);
     update();
-}
-
-void ReturnButton::setNormalColor(QColor normalColor)
-{
-    if (m_normalColor == normalColor)
-        return;
-
-    m_normalColor = normalColor;
-    m_currentColor = normalColor;
-    emit normalColorChanged(normalColor);
-}
-
-void ReturnButton::setHoverColor(QColor hoverColor)
-{
-    if (m_hoverColor == hoverColor)
-        return;
-
-    m_hoverColor = hoverColor;
-    emit hoverColorChanged(hoverColor);
-}
-
-void ReturnButton::setPressColor(QColor pressColor)
-{
-    if (m_pressColor == pressColor)
-        return;
-
-    m_pressColor = pressColor;
-    emit pressColorChanged(pressColor);
-}
-
-void ReturnButton::setDisableColor(QColor disableColor)
-{
-    if (m_disableColor == disableColor)
-        return;
-
-    m_disableColor = disableColor;
-    emit disableColorChanged(disableColor);
-}
-
-void ReturnButton::setMaxWidth(int maxWidth)
-{
-    m_maxWidth = maxWidth;
-}
-
-void ReturnButton::setCheckedPic(QString checkedPic)
-{
-    if (m_checkedPic == checkedPic)
-        return;
-
-    m_checkedPic = checkedPic;
-    emit checkedPicChanged(checkedPic);
 }
 
 bool ReturnButton::event(QEvent *e)
@@ -255,23 +167,6 @@ void ReturnButton::paintEvent(QPaintEvent *e)
 
 int ReturnButton::buttonWidth()
 {
-//    update();
-//    QFontMetrics fm(font());
-//    int pixWidth = QPixmap(getPixmap()).width();
-//    int maxWidth = m_maxWidth - pixWidth;
-//    int textWidth = fm.boundingRect(m_text).width();
-//    QString mt;
-//    if (textWidth > maxWidth)
-//    {
-//        mt = fm.elidedText(m_text, Qt::ElideMiddle, maxWidth - 10);
-
-//    } else {
-//        mt = m_text;
-//    }
-//    textWidth = fm.boundingRect(mt).width();
-//    setFixedWidth(textWidth + pixWidth);
-//    m_buttonWidth = std::max(24, int(textWidth + pixWidth));
-
     return m_buttonWidth;
 }
 
@@ -385,11 +280,6 @@ void ReturnButton::onThemeChanged(ViewerThemeManager::AppTheme theme)
     Q_UNUSED(theme);
 }
 
-bool ReturnButton::getChecked() const
-{
-    return m_checked;
-}
-
 void ReturnButton::setChecked(bool checked)
 {
     m_checked = checked;
@@ -399,11 +289,6 @@ void ReturnButton::setChecked(bool checked)
 QString ReturnButton::checkedPic() const
 {
     return m_checkedPic;
-}
-
-int ReturnButton::getSpacing() const
-{
-    return m_spacing;
 }
 
 void ReturnButton::setSpacing(int spacing)

@@ -490,7 +490,7 @@ TEST_F(gtestview, ImageButton)
 {
     ImageButton *button=new ImageButton();
 
-    button->setDisablePic(QApplication::applicationDirPath()+"/png.png");
+//    button->setDisablePic(QApplication::applicationDirPath()+"/png.png");
     button->setDisabled(false);
     button->setToolTip("test");
     button->getDisablePic();
@@ -522,34 +522,34 @@ TEST_F(gtestview, m_pushbutton)
     m_pushbutton-> hoverColor() ;
     m_pushbutton-> pressColor() ;
     m_pushbutton-> disableColor() ;
-    m_pushbutton-> getSpacing() ;
-    m_pushbutton-> setSpacing(11);
-    m_pushbutton-> getChecked() ;
+//    m_pushbutton-> getSpacing() ;
+//    m_pushbutton-> setSpacing(11);
+//    m_pushbutton-> getChecked() ;
     m_pushbutton-> setToolTip("TEST");
     m_pushbutton-> setChecked(false);
-    m_pushbutton-> setNormalPic(m_JPGPath);
-    m_pushbutton-> setHoverPic(m_JPGPath);
-    m_pushbutton-> setPressPic(m_JPGPath);
+//    m_pushbutton-> setNormalPic(m_JPGPath);
+//    m_pushbutton-> setHoverPic(m_JPGPath);
+//    m_pushbutton-> setPressPic(m_JPGPath);
     m_pushbutton-> setDisablePic(m_JPGPath);
-    m_pushbutton-> setCheckedPic(m_JPGPath);
+//    m_pushbutton-> setCheckedPic(m_JPGPath);
     m_pushbutton-> setText("test");
-    m_pushbutton-> setNormalColor(QColor(120,111,150));
-    m_pushbutton-> setHoverColor(QColor(120,180,150));
-    m_pushbutton-> setPressColor(QColor(120,20,150));
-    m_pushbutton-> setDisableColor(QColor(120,123,150));
+//    m_pushbutton-> setNormalColor(QColor(120,111,150));
+//    m_pushbutton-> setHoverColor(QColor(120,180,150));
+//    m_pushbutton-> setPressColor(QColor(120,20,150));
+//    m_pushbutton-> setDisableColor(QColor(120,123,150));
 
     m_pushbutton-> setToolTip("TEST");
     m_pushbutton-> setChecked(true);
-    m_pushbutton-> setNormalPic(m_JPGPath);
-    m_pushbutton-> setHoverPic(m_JPGPath);
-    m_pushbutton-> setPressPic(m_JPGPath);
+//    m_pushbutton-> setNormalPic(m_JPGPath);
+//    m_pushbutton-> setHoverPic(m_JPGPath);
+//    m_pushbutton-> setPressPic(m_JPGPath);
     m_pushbutton-> setDisablePic(m_JPGPath);
-    m_pushbutton-> setCheckedPic(m_JPGPath);
+//    m_pushbutton-> setCheckedPic(m_JPGPath);
     m_pushbutton-> setText("test");
-    m_pushbutton-> setNormalColor(QColor(120,111,150));
-    m_pushbutton-> setHoverColor(QColor(120,180,150));
-    m_pushbutton-> setPressColor(QColor(120,20,150));
-    m_pushbutton-> setDisableColor(QColor(120,123,150));
+//    m_pushbutton-> setNormalColor(QColor(120,111,150));
+//    m_pushbutton-> setHoverColor(QColor(120,180,150));
+//    m_pushbutton-> setPressColor(QColor(120,20,150));
+//    m_pushbutton-> setDisableColor(QColor(120,123,150));
 
     m_pushbutton->show();
 
@@ -576,35 +576,35 @@ TEST_F(gtestview, m_returnButton)
     m_returnButton-> hoverColor() ;
     m_returnButton-> pressColor() ;
     m_returnButton-> disableColor() ;
-    m_returnButton-> getSpacing() ;
+//    m_returnButton-> getSpacing() ;
     m_returnButton-> setSpacing(11);
-    m_returnButton-> getChecked() ;
+//    m_returnButton-> getChecked() ;
     m_returnButton-> setToolTip("TEST");
     m_returnButton-> setChecked(false);
-    m_returnButton-> setNormalPic(m_JPGPath);
-    m_returnButton-> setHoverPic(m_JPGPath);
-    m_returnButton-> setPressPic(m_JPGPath);
-    m_returnButton-> setDisablePic(m_JPGPath);
-    m_returnButton-> setCheckedPic(m_JPGPath);
+//    m_returnButton-> setNormalPic(m_JPGPath);
+//    m_returnButton-> setHoverPic(m_JPGPath);
+//    m_returnButton-> setPressPic(m_JPGPath);
+//    m_returnButton-> setDisablePic(m_JPGPath);
+//    m_returnButton-> setCheckedPic(m_JPGPath);
     m_returnButton-> setText("test");
-    m_returnButton-> setNormalColor(QColor(120,111,150));
-    m_returnButton-> setHoverColor(QColor(120,180,150));
-    m_returnButton-> setPressColor(QColor(120,20,150));
-    m_returnButton-> setDisableColor(QColor(120,123,150));
+//    m_returnButton-> setNormalColor(QColor(120,111,150));
+//    m_returnButton-> setHoverColor(QColor(120,180,150));
+//    m_returnButton-> setPressColor(QColor(120,20,150));
+//    m_returnButton-> setDisableColor(QColor(120,123,150));
 
     m_returnButton-> setToolTip("TEST");
     m_returnButton-> setChecked(true);
-    m_returnButton-> setNormalPic(m_JPGPath);
-    m_returnButton-> setHoverPic(m_JPGPath);
-    m_returnButton-> setPressPic(m_JPGPath);
-    m_returnButton-> setDisablePic(m_JPGPath);
-    m_returnButton-> setCheckedPic(m_JPGPath);
+//    m_returnButton-> setNormalPic(m_JPGPath);
+//    m_returnButton-> setHoverPic(m_JPGPath);
+//    m_returnButton-> setPressPic(m_JPGPath);
+//    m_returnButton-> setDisablePic(m_JPGPath);
+//    m_returnButton-> setCheckedPic(m_JPGPath);
     m_returnButton-> setText("test");
-    m_returnButton-> setNormalColor(QColor(120,111,150));
-    m_returnButton-> setHoverColor(QColor(120,180,150));
-    m_returnButton-> setPressColor(QColor(120,20,150));
-    m_returnButton-> setDisableColor(QColor(120,123,150));
-    m_returnButton->setMaxWidth(100);
+//    m_returnButton-> setNormalColor(QColor(120,111,150));
+//    m_returnButton-> setHoverColor(QColor(120,180,150));
+//    m_returnButton-> setPressColor(QColor(120,20,150));
+//    m_returnButton-> setDisableColor(QColor(120,123,150));
+//    m_returnButton->setMaxWidth(100);
     m_returnButton->buttonWidth();
 
     QTest::mousePress(m_returnButton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
@@ -661,7 +661,7 @@ TEST_F(gtestview, NavigationWidget)
 TEST_F(gtestview, ImageIconButton)
 {
     m_ImageIconButton1=new ImageIconButton();
-    m_ImageIconButton1->setPropertyPic(m_SVGPath,QVariant(),m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
+//    m_ImageIconButton1->setPropertyPic(m_SVGPath,QVariant(),m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
     m_ImageIconButton1->show();
     m_ImageIconButton1->resize(50,50);
     QTest::mousePress(m_ImageIconButton1, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
@@ -670,15 +670,15 @@ TEST_F(gtestview, ImageIconButton)
     QTest::mouseMove(m_ImageIconButton1, QPoint(20,20),500);
     QTest::keyClick(m_ImageIconButton1, Qt::Key_Escape, Qt::ShiftModifier, 1000);
     QTest::mouseDClick(m_ImageIconButton1,Qt::LeftButton);
-    m_ImageIconButton1->setPropertyPic(m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
+//    m_ImageIconButton1->setPropertyPic(m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
     m_ImageIconButton1->update();
-    m_ImageIconButton1->setPropertyPic("","","","");
+//    m_ImageIconButton1->setPropertyPic("","","","");
     m_ImageIconButton1->update();
     m_ImageIconButton2=new ImageIconButton(m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
-    m_ImageIconButton2->setPropertyPic(m_SVGPath,QVariant(),m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
+//    m_ImageIconButton2->setPropertyPic(m_SVGPath,QVariant(),m_SVGPath,m_SVGPath,m_SVGPath,m_SVGPath);
     m_ImageIconButton2->show();
-    m_ImageIconButton2->setAutoChecked(false);
-    m_ImageIconButton2->setTransparent(false);
+//    m_ImageIconButton2->setAutoChecked(false);
+//    m_ImageIconButton2->setTransparent(false);
     m_ImageIconButton2->resize(50,50);
 
     QTest::mousePress(m_ImageIconButton2, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),200);
@@ -695,7 +695,7 @@ TEST_F(gtestview, ImageInfoWidget)
 {
     m_ImageInfoWidget= new ImageInfoWidget("","");
     m_ImageInfoWidget->setImagePath(m_JPGPath);
-    m_ImageInfoWidget->onExpandChanged(false);
+//    m_ImageInfoWidget->onExpandChanged(false);
     m_ImageInfoWidget->contentHeight();
 
     m_ImageInfoWidget->hide();
@@ -778,12 +778,12 @@ TEST_F(gtestview, dapp)
     dApp->setter;
     DBManager::instance()->insertIntoAlbum(m_JPGPath,list);
     DBManager::instance()->getAllPaths();
-    DBManager::instance()->getInfosByTimeline(m_JPGPath);
+//    DBManager::instance()->getInfosByTimeline(m_JPGPath);
     DBManager::instance()->getInfoByPath(m_JPGPath);
 
     Importer::instance()->isRunning();
     Importer::instance()->appendDir(m_JPGPath,m_JPGPath);
-    Importer::instance()->appendFiles(list,m_JPGPath);
+//    Importer::instance()->appendFiles(list,m_JPGPath);
     //        Importer::instance()->showImportDialog(m_JPGPath);
 }
 TEST_F(gtestview, BlurFrame)
@@ -792,26 +792,26 @@ TEST_F(gtestview, BlurFrame)
     m_printOptionspage=new PrintOptionsPage(testWidget);
     m_printOptionspage->show();
 
-    QRadioButton *noScaleBtn = m_printOptionspage->getnoScaleBtn();
-    QRadioButton *fitToImageBtn = m_printOptionspage->getfitToImageBtn();
-    QRadioButton *fitToPageBtn = m_printOptionspage->getfitToPageBtn();
-    QRadioButton *scaleBtn = m_printOptionspage->getscaleBtn();
-    if(noScaleBtn &&fitToImageBtn &&fitToPageBtn &&scaleBtn)
-    {
-        noScaleBtn->click();
-        noScaleBtn->toggle();
-        fitToImageBtn->click();
-        fitToImageBtn->toggle();
-        fitToPageBtn->click();
-        fitToPageBtn->toggle();
-        scaleBtn->click();
-        scaleBtn->toggle();
-    }
-    m_printOptionspage->scaleMode();
-    m_printOptionspage->scaleUnit();
-    m_printOptionspage->scaleWidth();
-    m_printOptionspage->scaleHeight();
-    m_printOptionspage->alignment();
+//    QRadioButton *noScaleBtn = m_printOptionspage->getnoScaleBtn();
+//    QRadioButton *fitToImageBtn = m_printOptionspage->getfitToImageBtn();
+//    QRadioButton *fitToPageBtn = m_printOptionspage->getfitToPageBtn();
+//    QRadioButton *scaleBtn = m_printOptionspage->getscaleBtn();
+//    if(noScaleBtn &&fitToImageBtn &&fitToPageBtn &&scaleBtn)
+//    {
+//        noScaleBtn->click();
+//        noScaleBtn->toggle();
+//        fitToImageBtn->click();
+//        fitToImageBtn->toggle();
+//        fitToPageBtn->click();
+//        fitToPageBtn->toggle();
+//        scaleBtn->click();
+//        scaleBtn->toggle();
+//    }
+//    m_printOptionspage->scaleMode();
+//    m_printOptionspage->scaleUnit();
+//    m_printOptionspage->scaleWidth();
+//    m_printOptionspage->scaleHeight();
+//    m_printOptionspage->alignment();
 
     BlurFrame *blurFrame=new BlurFrame(testWidget);
     blurFrame->resize(500,500);
@@ -819,19 +819,19 @@ TEST_F(gtestview, BlurFrame)
     blurFrame->resize(300,300);
     QTest::qWait(100);
     blurFrame->update();
-    blurFrame->moveWithAnimation( 150, 150);
+//    blurFrame->moveWithAnimation( 150, 150);
 
-    blurFrame->getBorderColor() ;
-    blurFrame->getBorderRadius() ;
-    blurFrame->getBorderWidth() ;
+//    blurFrame->getBorderColor() ;
+//    blurFrame->getBorderRadius() ;
+//    blurFrame->getBorderWidth() ;
     blurFrame->show();
-    blurFrame->setBorderColor(QColor(200,155,200));
+//    blurFrame->setBorderColor(QColor(200,155,200));
     blurFrame->resize(200,200);
-    blurFrame->setBorderRadius(100);
-    blurFrame->setBorderWidth(50);
-    blurFrame->setCoverBrush(QBrush());
-    blurFrame->setPos(QPoint(150,150));
-    blurFrame->setMoveEnable(true);
+//    blurFrame->setBorderRadius(100);
+//    blurFrame->setBorderWidth(50);
+//    blurFrame->setCoverBrush(QBrush());
+//    blurFrame->setPos(QPoint(150,150));
+//    blurFrame->setMoveEnable(true);
 
     blurFrame->update();
     blurFrame->show();
@@ -855,23 +855,23 @@ TEST_F(gtestview, unionimage)
 {
     //unionimage
     QString pppath=m_PNGPath;
-    supportStaticFormat();
-    supportMovieFormat();
-    isSupportReading(pppath);
+//    supportStaticFormat();
+//    supportMovieFormat();
+//    isSupportReading(pppath);
     QImage rimg(pppath);
     creatNewImage(rimg,800,600,0);
     QImage img2;
     QString errorMsg;
     loadStaticImageFromFile(m_DDSPath,img2,errorMsg);
     detectImageFormat(m_DDSPath);
-    isNoneQImage(img2);
+//    isNoneQImage(img2);
     rotateImage(90,img2);
     QString ddsPath=m_DDSPath;
     QString svgPath=m_SVGPath;
     rotateImageFIle(90,m_SVGPath,errorMsg);
     rotateImageFIle(90,pppath,errorMsg);
-    rotateImageFIleWithImage(90,rimg,m_PNGPath,errorMsg);
-    rotateImageFIleWithImage(90,rimg,m_SVGPath,errorMsg);
+//    rotateImageFIleWithImage(90,rimg,m_PNGPath,errorMsg);
+//    rotateImageFIleWithImage(90,rimg,m_SVGPath,errorMsg);
     DetectImageFormat(m_SVGPath);
 }
 TEST_F(gtestview, imageutil)
@@ -891,7 +891,7 @@ TEST_F(gtestview, imageutil)
 
     //utils::image
     QString pppath=m_JPGPath;
-    imageSupportWrite(pppath);
+//    imageSupportWrite(pppath);
     rotate(pppath,90);
     cutSquareImage(QPixmap(pppath),QSize(50,50));
     utils::image::getOrientation(pppath);
@@ -904,7 +904,7 @@ TEST_F(gtestview, imageutil)
     imageSupportWallPaper(pppath);
     utils::image::suffixisImage(pppath);
 
-    wrapStr(m_JPGPath,QFont(),20);
+//    wrapStr(m_JPGPath,QFont(),20);
 
 }
 
@@ -974,11 +974,11 @@ TEST_F(gtestview, ThemeWidget)
     ThemeWidget *widget = m_frameMainWindow->findChild<ThemeWidget *>(THEME_WIDGET);
     if(widget)
     {
-        widget->isDeepMode();
+//        widget->isDeepMode();
     }
     else {
         widget=new ThemeWidget("","");
-        widget->isDeepMode();
+//        widget->isDeepMode();
     }
 }
 

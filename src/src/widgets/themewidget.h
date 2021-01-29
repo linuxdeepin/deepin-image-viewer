@@ -27,12 +27,12 @@ class ThemeWidget : public QWidget {
     Q_OBJECT
 public:
     ThemeWidget(const QString &darkFile, const QString &lightFile,
-                QWidget* parent = 0);
+                QWidget* parent = nullptr);
     ~ThemeWidget();
 
 public slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    bool isDeepMode();
+//    bool isDeepMode();
 private:
     QString m_darkStyle;
     QString m_lightStyle;

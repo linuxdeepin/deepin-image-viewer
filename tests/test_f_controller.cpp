@@ -46,13 +46,13 @@ TEST_F(gtestview, WallPaperSetting1)
     QString path=QApplication::applicationDirPath() + "/test/jpg102.jpg";
 //    WallpaperSetter::instance()->setDeepinWallpaper(path);
      WallpaperSetter::instance()->setWallpaper(QImage(QApplication::applicationDirPath() + "/test/jpg120.jpg"));
-    WallpaperSetter::instance()->setKDEWallpaper(path);
+//    WallpaperSetter::instance()->setKDEWallpaper(path);
 //    WallpaperSetter::instance()->setGNOMEShellWallpaper(path);
-    WallpaperSetter::instance()->setGNOMEWallpaper(path);
-    WallpaperSetter::instance()->setLXDEWallpaper(path);
-    WallpaperSetter::instance()->setXfaceWallpaper(path);
-    WallpaperSetter::instance()->testDE(path);
-    WallpaperSetter::instance()->getDE();
+//    WallpaperSetter::instance()->setGNOMEWallpaper(path);
+//    WallpaperSetter::instance()->setLXDEWallpaper(path);
+//    WallpaperSetter::instance()->setXfaceWallpaper(path);
+//    WallpaperSetter::instance()->testDE(path);
+//    WallpaperSetter::instance()->getDE();
 
     if(!m_frameMainWindow){
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
