@@ -104,8 +104,8 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/images/
     DESTINATION /usr/share/deepin-image-viewer/icons
     FILES_MATCHING PATTERN "*")
 #manual
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/doc/
-    DESTINATION /usr/share/dman/deepin-image-viewer
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/assets/deepin-image-viewer
+    DESTINATION /usr/share/deepin-manual/manual-assets/application/
     FILES_MATCHING PATTERN "*")
 #manual_icon
 install(FILES ${PROJECT_SOURCE_DIR}/assets/doc/common/deepin-image-viewer.svg
@@ -120,3 +120,6 @@ install(FILES ${PROJECT_SOURCE_DIR}/com.deepin.ImageViewer.service
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/translations
     DESTINATION ${APPSHAREDIR}
     FILES_MATCHING PATTERN "*.qm")
+
+
+
