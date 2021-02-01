@@ -24,8 +24,6 @@ class PushButton : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString disablePic READ disablePic WRITE setDisablePic NOTIFY disablePicChanged)
-
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
 
 public:
@@ -48,7 +46,6 @@ public:
 
 public slots:
 
-    void setDisablePic(QString disablePic);
     void setText(QString text);
 
 

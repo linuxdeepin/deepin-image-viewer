@@ -38,7 +38,7 @@ public:
 
 
 public Q_SLOTS:
-    void propertyChanged(const QDBusMessage &msg);
+//    void propertyChanged(const QDBusMessage &msg);
     /*
     * @bref:openFiles 通过路径打开图片文件
     * @param: filePaths 图片的路径

@@ -92,7 +92,6 @@ public:
     int duration() const;
     bool startNext();
     void cacheNext();
-    void cacheNextBackUp();
     bool startPrevious();
     void cachePrevious();
     void setStartNextFlag(bool flag);
@@ -110,7 +109,7 @@ private:
     int m_current;
 
     QThread m_thread;
-    SlideEffect *m_effect = NULL;
+    SlideEffect *m_effect = nullptr;
     bool b_4k = false;
     bool bfirstrun = true;
     bool bneedupdatepausebutton = false;

@@ -17,7 +17,7 @@ TEST_F(gtestview, Dbusclient1)
     client->openFiles(list);
     client->openImages(listimg);
     client->openDrawingBoard(list);
-    client->propertyChanged(QDBusMessage());
+//    client->propertyChanged(QDBusMessage());
     client->deleteLater();
     client=nullptr;
 }

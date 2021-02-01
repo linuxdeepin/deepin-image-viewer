@@ -43,6 +43,7 @@ static const EffectId kEnterFromRight = "enter_from_right";
 class SlideEffect_Enter : public SlideEffect
 {
 public:
+    SlideEffect_Enter();
     virtual bool prepare() override;
     virtual EffectName effectName() const override
     {
@@ -71,6 +72,14 @@ private:
 
 REGISTER_EFFECTS(SlideEffect_Enter)
 
+//增加构造函数
+SlideEffect_Enter::SlideEffect_Enter()
+    :calculateRegion_ptr(nullptr)
+{
+#ifndef NO_EASINGCURVE
+    setEasingCurve(QEasingCurve::InOutQuint);
+#endif //NO_EASINGCURVE
+}
 bool SlideEffect_Enter::prepare()
 {
     SlideEffect::prepare(); //Important!!!

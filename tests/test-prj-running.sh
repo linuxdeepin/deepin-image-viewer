@@ -2,11 +2,9 @@ export QT_QPA_PLATFORM='offscreen'
 rm -r build-ut
 rm -r ../build-ut
 mkdir ../build-ut
-cppcheck --enable=all --output-file=./../build-ut/cppcheck_deepin-image-viewer.xml --xml ./..
-cppcheck --enable=all --output-file=./../build-ut/cppcheck_deepin-image-viewer.rep ./..
 cd ../build-ut
 cmake -DCMAKE_BUILD_TYPE=Debug ..
-make -j8
+make -j16
 
 workdir=$(cd ../$(dirname $0)/build-ut; pwd)
 PROJECT_NAME=deepin-image-viewer-test #可执行程序的文件名

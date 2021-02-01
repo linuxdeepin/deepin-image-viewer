@@ -530,7 +530,7 @@ TEST_F(gtestview, m_pushbutton)
 //    m_pushbutton-> setNormalPic(m_JPGPath);
 //    m_pushbutton-> setHoverPic(m_JPGPath);
 //    m_pushbutton-> setPressPic(m_JPGPath);
-    m_pushbutton-> setDisablePic(m_JPGPath);
+//    m_pushbutton-> setDisablePic(m_JPGPath);
 //    m_pushbutton-> setCheckedPic(m_JPGPath);
     m_pushbutton-> setText("test");
 //    m_pushbutton-> setNormalColor(QColor(120,111,150));
@@ -543,7 +543,7 @@ TEST_F(gtestview, m_pushbutton)
 //    m_pushbutton-> setNormalPic(m_JPGPath);
 //    m_pushbutton-> setHoverPic(m_JPGPath);
 //    m_pushbutton-> setPressPic(m_JPGPath);
-    m_pushbutton-> setDisablePic(m_JPGPath);
+//    m_pushbutton-> setDisablePic(m_JPGPath);
 //    m_pushbutton-> setCheckedPic(m_JPGPath);
     m_pushbutton-> setText("test");
 //    m_pushbutton-> setNormalColor(QColor(120,111,150));
@@ -859,7 +859,7 @@ TEST_F(gtestview, unionimage)
 //    supportMovieFormat();
 //    isSupportReading(pppath);
     QImage rimg(pppath);
-    creatNewImage(rimg,800,600,0);
+//    creatNewImage(rimg,800,600,0);
     QImage img2;
     QString errorMsg;
     loadStaticImageFromFile(m_DDSPath,img2,errorMsg);

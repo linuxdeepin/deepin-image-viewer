@@ -93,18 +93,18 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat();
 UNIONIMAGESHARED_EXPORT bool suffixisImage(const QString &path);
 
 UNIONIMAGESHARED_EXPORT bool isDynamicFormat();
-/**
- * @brief CreatNewImage
- * @param[out]          res
- * @param[in]           width
- * @param[in]           height
- * @param[in]           depth
- * @param[in]           type
- * @return bool
- * @author DJH
- * 创建一个可以自定义深度和颜色空间的图片
- */
-UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width = 0, int height = 0, int depth = 0, SupportType type = UNKNOWNTYPE);
+///**
+// * @brief CreatNewImage
+// * @param[out]          res
+// * @param[in]           width
+// * @param[in]           height
+// * @param[in]           depth
+// * @param[in]           type
+// * @return bool
+// * @author DJH
+// * 创建一个可以自定义深度和颜色空间的图片
+// */
+//UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width = 0, int height = 0, int depth = 0, SupportType type = UNKNOWNTYPE);
 
 /**
  * @brief LoadImageFromFile

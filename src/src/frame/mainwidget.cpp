@@ -552,39 +552,12 @@ void MainWidget::initExtensionPanel()
                                           TOP_TOOLBAR_HEIGHT * 2));
         }
     });
-#if 0
-    connect(dApp->signalM, &SignalManager::hideExtensionPanel,
-    this, [ = ](bool immediately) {
-        if (immediately) {
-            m_extensionPanel->requestStopAnimation();
-            if (this->window()->isFullScreen()) {
-//                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-//                                              EXTENSION_PANEL_WIDTH), 0);
-                m_extensionPanel->move(width(), 0);
-            } else {
-//                m_extensionPanel->move(- qMax(m_extensionPanel->width(),
-//                                    EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
-                m_extensionPanel->move(width(), TOP_TOOLBAR_HEIGHT);
-            }
-        } else {
-            if (this->window()->isFullScreen()) {
-//                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-//                                                      EXTENSION_PANEL_WIDTH), 0);
-                m_extensionPanel->moveWithAnimation(width(),  0);
-            } else {
-//                m_extensionPanel->moveWithAnimation(- qMax(m_extensionPanel->width(),
-//                                          EXTENSION_PANEL_WIDTH), TOP_TOOLBAR_HEIGHT);
-                m_extensionPanel->moveWithAnimation(width(), TOP_TOOLBAR_HEIGHT);
-            }
-        }
-    });
-#else
+
     connect(dApp->signalM, &SignalManager::hideExtensionPanel, this,
     [ = ](bool immediately) {
         if (immediately) {};
         m_extensionPanel->hide();
     });
-#endif
 }
 
 void MainWidget::updateTitleShadowGeometry()

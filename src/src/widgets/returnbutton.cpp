@@ -118,7 +118,6 @@ void ReturnButton::paintEvent(QPaintEvent *e)
     QPainter painter(this);
 
     QMargins m = contentsMargins();
-    int ph = 0;
     qreal ration = this->devicePixelRatioF();
     QIcon icon(getPixmap());
 
@@ -129,6 +128,8 @@ void ReturnButton::paintEvent(QPaintEvent *e)
     const qreal pixHeight = pixmap.height() / ration;
 
     if (! pixmap.isNull()) {
+        //修复style，把ph放更小的范围
+        int ph = 0;
         if (pixWidth > width() || pixHeight > height()) {
             ph = height() - m.top() - m.bottom();
             const QRect pr(m.left(), (height() - ph) / 2, ph, ph);

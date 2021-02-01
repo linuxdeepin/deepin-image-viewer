@@ -626,14 +626,14 @@ UNIONIMAGESHARED_EXPORT bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &p
 
 
 
-UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width, int height, int depth, SupportType type)
-{
-    Q_UNUSED(type);
-    FIBITMAP *dib = FreeImage_Allocate(width, height, depth);
-    res = FIBitmap2QImage(dib);
-    FreeImage_Unload(dib);
-    return true;
-}
+//UNIONIMAGESHARED_EXPORT bool creatNewImage(QImage &res, int width, int height, int depth, SupportType type)
+//{
+//    Q_UNUSED(type);
+//    FIBITMAP *dib = FreeImage_Allocate(width, height, depth);
+//    res = FIBitmap2QImage(dib);
+//    FreeImage_Unload(dib);
+//    return true;
+//}
 
 QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage &res, QString &errorMsg, const QString &format_bar)

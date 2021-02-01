@@ -44,17 +44,17 @@ class SlideEffect_Circle : public SlideEffect
 public:
     SlideEffect_Circle();
     virtual bool prepare() override;
-    virtual EffectName effectName() const
+    virtual EffectName effectName() const override
     {
         return Circle;
     }
-    virtual QVector<EffectId> supportedTypes() const
+    virtual QVector<EffectId> supportedTypes() const override
     {
         return QVector<EffectId>() << kEllipseClose << kEllipseOpen;
     }
 
 protected:
-    virtual bool prepareFrameAt(int frame);
+    virtual bool prepareFrameAt(int frame) override;
     //virtual bool isEndFrame(int frame);
 
 private:

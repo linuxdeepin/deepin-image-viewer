@@ -18,10 +18,10 @@ Dbusclient::~Dbusclient()
 
 }
 
-void Dbusclient::propertyChanged(const QDBusMessage &msg)
-{
-    Q_UNUSED(msg)
-}
+//void Dbusclient::propertyChanged(const QDBusMessage &msg)
+//{
+//    Q_UNUSED(msg)
+//}
 
 
 void Dbusclient::openDrawingBoard(const QStringList& paths)

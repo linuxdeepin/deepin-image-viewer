@@ -144,11 +144,6 @@ MyImageListWidget::MyImageListWidget(QWidget *parent)
     m_timer->setSingleShot(200);
 }
 
-bool MyImageListWidget::ifMouseLeftPressed()
-{
-    return bmouseleftpressed;
-}
-
 void MyImageListWidget::setObj(QObject *obj)
 {
     m_obj = obj;
@@ -1355,7 +1350,6 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
 
 void TTBContent::showAnimation()
 {
-    int num = 32;
     int a = (qCeil(m_imgListView->width() - 26) / 32) / 2;
     int b = m_imgInfos.size() - (qFloor(m_imgListView->width() - 26) / 32) / 2;
     if (m_nowIndex > a && m_nowIndex < b) {
@@ -1369,6 +1363,8 @@ void TTBContent::showAnimation()
     }
 
     if (1 == m_startAnimation) {
+        //修复style问题，给num更小的范围
+        int num = 32;
         if (bresized) {
             bresized = false;
             m_imgList->move(
@@ -1742,12 +1738,12 @@ void TTBContent::loadFront(DBImgInfoList infos)
     }
     //先将先前的图元index改变为最新的
     int nAddSize = infos.size();
-    int nCurrentIndex = 0;
     m_nowIndex = m_nowIndex + nAddSize;
     //重置图元当前信息
     QList<ImageItem *> labelList = m_imgList->findChildren<ImageItem *>();
     for (int i = 0; i < labelList.size(); i++) {
-        nCurrentIndex = labelList.at(i)->getIndex();
+        //nCurrentIndex放入循环内初始化
+        int nCurrentIndex = labelList.at(i)->getIndex();
         labelList.at(i)->setIndex(nCurrentIndex + nAddSize);
         labelList.at(i)->setIndexNow(m_nowIndex);
     }

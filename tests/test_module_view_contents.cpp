@@ -319,7 +319,7 @@ TEST_F(gtestview,MyImageListWidgetnew)
     if(imgListView)
     {
         emit dApp->sigMouseRelease();
-        imgListView->ifMouseLeftPressed();
+//        imgListView->ifMouseLeftPressed();
 
     }
 

@@ -40,7 +40,7 @@ public:
     explicit ExtensionPanel(QWidget *parent = nullptr);
     void setContent(QWidget *content);
     void updateRectWithContent();
-    void moveWithAnimation(int x, int y);
+//    void moveWithAnimation(int x, int y);
 
     void init();
 signals:
