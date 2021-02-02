@@ -1,7 +1,8 @@
 HEADERS += \
     $$PWD/slideeffect.h \
     $$PWD/slideeffectplayer.h \
-    $$PWD/slideshowpanel.h
+    $$PWD/slideshowpanel.h \
+    $$PWD/slideshowbottombar.h
 
 SOURCES += \
     $$PWD/slideeffect.cpp \
@@ -11,4 +12,5 @@ SOURCES += \
     $$PWD/slideeffect_tile.cpp \
     $$PWD/slideshowpanel.cpp \
     $$PWD/slideeffect_switcher.cpp \
-    $$PWD/slideeffect_circle.cpp
+    $$PWD/slideeffect_circle.cpp \
+    $$PWD/slideshowbottombar.cpp

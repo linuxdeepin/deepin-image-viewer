@@ -18,14 +18,14 @@
 #define IMAGEBUTTON_H
 
 #include <QEvent>
-#include <QLabel>
 
 #include "controller/viewerthememanager.h"
 #include <dimagebutton.h>
+#include <DLabel>
 
 using namespace Dtk::Widget;
+typedef DLabel QLbtoDLabel;
 
-class QLabel;
 class ImageButton : public DImageButton
 {
     Q_OBJECT
@@ -41,7 +41,6 @@ public:
     void setDisabled(bool d);
 
     void setTooltipVisible(bool visible);
-    bool tooltipVisible();
 
     inline const QString getDisablePic() const { return m_disablePic_; }
 signals:

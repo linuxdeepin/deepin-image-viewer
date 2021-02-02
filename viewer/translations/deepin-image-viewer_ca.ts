@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ca">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,7 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt + Retorn</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt + Retorn</translation>
     </message>
 </context>
 <context>
@@ -74,7 +76,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
+        <translation>No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
     </message>
 </context>
 <context>
@@ -239,6 +241,21 @@
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
         <translation>dd/MM/yyyy HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Confirmeu-ho</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancel·la</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Escriviu un nom nou.</translation>
     </message>
 </context>
 <context>
@@ -504,6 +521,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pausa</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Reprodueix</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Següent</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Surt</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -742,6 +782,14 @@
     <message>
         <source>All images</source>
         <translation>Totes les imatges</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Canvia&apos;n el nom</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>Dibuix</translation>
     </message>
 </context>
 </TS>

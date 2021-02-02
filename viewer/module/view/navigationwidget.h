@@ -25,7 +25,7 @@ class NavigationWidget : public QWidget
     Q_OBJECT
 
 public:
-    NavigationWidget(QWidget *parent = 0);
+    explicit NavigationWidget(QWidget *parent = nullptr);
     void setImage(const QImage &img);
     void setRectInImage(const QRect &r);
     void setAlwaysHidden(bool value);

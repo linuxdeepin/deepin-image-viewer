@@ -44,6 +44,9 @@
 #include <DDesktopServices>
 #include <QImageReader>
 
+#ifdef USE_UNIONIMAGE
+#include "unionimage.h"
+#endif
 DWIDGET_USE_NAMESPACE
 
 namespace utils {
@@ -55,6 +58,18 @@ const QString DATETIME_FORMAT_EXIF = "yyyy:MM:dd HH:mm:ss";
 
 QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QImage tImg(size,QImage::Format_ARGB32);
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+    QPixmap pixmap;
+    pixmap = QPixmap::fromImage(tImg);
+
+    return pixmap;
+#else
     QImageReader reader;
     QPixmap pixmap;
 
@@ -70,6 +85,7 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
     }
 
     return pixmap;
+#endif
 }
 
 QString sizeToHuman(const qlonglong bytes)
@@ -131,7 +147,11 @@ void showInFileManager(const QString &path)
         return;
     }
 
+#if 1
     QUrl url = QUrl::fromLocalFile(QFileInfo(path).absoluteFilePath());
+#else
+    QUrl url = QUrl::fromLocalFile(path);
+#endif
     Dtk::Widget::DDesktopServices::showFileItem(url);
 //    QUrl url = QUrl::fromLocalFile(QFileInfo(path).dir().absolutePath());
 //    QUrlQuery query;
@@ -166,8 +186,10 @@ void showInFileManager(const QString &path)
 //    }
 }
 
+
 void copyImageToClipboard(const QStringList &paths)
 {
+
     //  Get clipboard
 //    QClipboard *cb = QApplication::clipboard();
     QClipboard *cb = qApp->clipboard();
@@ -197,13 +219,15 @@ void copyImageToClipboard(const QStringList &paths)
     newMimeData->setData("x-special/gnome-copied-files", gnomeFormat);
 
     // Copy Image Date
-    QImage img(paths.first());
-    Q_ASSERT(!img.isNull());
-    newMimeData->setImageData(img);
+//    QImage img(paths.first());
+//    Q_ASSERT(!img.isNull());
+//    newMimeData->setImageData(img);
 
     // Set the mimedata
 //    cb->setMimeData(newMimeData);
     cb->setMimeData(newMimeData, QClipboard::Clipboard);
+
+
 }
 
 QString getFileContent(const QString &file)
@@ -217,18 +241,18 @@ QString getFileContent(const QString &file)
     return fileContent;
 }
 
-bool writeTextFile(QString filePath, QString content)
-{
-    QFile file(filePath);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream in(&file);
-        in << content << endl;
-        file.close();
-        return true;
-    }
+//bool writeTextFile(QString filePath, QString content)
+//{
+//    QFile file(filePath);
+//    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//        QTextStream in(&file);
+//        in << content << endl;
+//        file.close();
+//        return true;
+//    }
 
-    return false;
-}
+//    return false;
+//}
 
 bool trashFile(const QString &file)
 {
@@ -300,44 +324,44 @@ bool trashFile(const QString &file)
 #endif
 }
 
-bool trashFiles(const QStringList &files)
-{
-    bool v = true;
-    for (QString file : files) {
-        if (! trashFile(file))
-            v = false;
-    }
+//bool trashFiles(const QStringList &files)
+//{
+//    bool v = true;
+//    for (QString file : files) {
+//        if (! trashFile(file))
+//            v = false;
+//    }
 
-    return v;
-}
+//    return v;
+//}
 
-/*!
- * \brief wrapStr
- * Split info string by Space
- * \param str
- * \param font
- * \param maxWidth
- * \return
- */
-QString wrapStr(const QString &str, const QFont &font, int maxWidth)
-{
-    QFontMetrics fm(font);
-    QString ns;
-    QString ss;
-    for (int i = 0; i < str.length(); i ++) {
-        if (/*str.at(i).isSpace()||*/ fm.boundingRect(ss).width() > maxWidth) {
-            ss = QString();
-            ns += "\n";
-        }
-        ns += str.at(i);
-        ss += str.at(i);
-    }
-    return ns;
-//    return str;
-}
+///*!
+// * \brief wrapStr
+// * Split info string by Space
+// * \param str
+// * \param font
+// * \param maxWidth
+// * \return
+// */
+//QString wrapStr(const QString &str, const QFont &font, int maxWidth)
+//{
+//    QFontMetrics fm(font);
+//    QString ns;
+//    QString ss;
+//    for (int i = 0; i < str.length(); i ++) {
+//        if (/*str.at(i).isSpace()||*/ fm.boundingRect(ss).width() > maxWidth) {
+//            ss = QString();
+//            ns += "\n";
+//        }
+//        ns += str.at(i);
+//        ss += str.at(i);
+//    }
+//    return ns;
+////    return str;
+//}
 
 
-QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
+QString SpliteText(const QString &text, const QFont &font, int nLabelSize,bool bReturn)
 {
     QFontMetrics fm(font);
     int nTextSize = fm.width(text);
@@ -356,22 +380,31 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize)
 
         QString qstrLeftData = text.left(nPos);
         QString qstrMidData = text.mid(nPos);
-        if (qstrLeftData != "")
-            return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+        if(bReturn)
+        {
+            qstrLeftData.replace(" ","\n");
+            qstrMidData.replace(" ","\n");
+            if (qstrLeftData != "")
+                return qstrLeftData + SpliteText(qstrMidData, font, nLabelSize);
+        }else
+        {
+            if (qstrLeftData != "")
+                return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
+        }
     }
     return text;
 }
 
 
-QString symFilePath(const QString &path)
-{
-    QFileInfo fileInfo(path);
-    if (fileInfo.isSymLink()) {
-        return fileInfo.symLinkTarget();
-    } else {
-        return path;
-    }
-}
+//QString symFilePath(const QString &path)
+//{
+//    QFileInfo fileInfo(path);
+//    if (fileInfo.isSymLink()) {
+//        return fileInfo.symLinkTarget();
+//    } else {
+//        return path;
+//    }
+//}
 
 QString hash(const QString &str)
 {
@@ -400,20 +433,20 @@ bool mountDeviceExist(const QString &path)
 
     return QFileInfo(mountPoint).exists();
 }
-bool        isCommandExist(const QString &command)
-{
-    QProcess *proc = new QProcess;
-    QString cm = QString("which %1\n").arg(command);
-    proc->start(cm);
-    proc->waitForFinished(1000);
+//bool        isCommandExist(const QString &command)
+//{
+//    QProcess *proc = new QProcess;
+//    QString cm = QString("which %1\n").arg(command);
+//    proc->start(cm);
+//    proc->waitForFinished(1000);
 
-    if (proc->exitCode() == 0) {
-        return true;
-    } else {
-        return false;
-    }
+//    if (proc->exitCode() == 0) {
+//        return true;
+//    } else {
+//        return false;
+//    }
 
-}
+//}
 }  // namespace base
 
 }  // namespace utils

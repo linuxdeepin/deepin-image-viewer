@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
 <context>
     <name>Application</name>
     <message>
         <source>Image Viewer</source>
-        <translation>Image Viewer</translation>
+        <translation>Kuvat</translation>
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>Image Viewer on kuvien katseluohjelma ja muokkaustyökalu, jossa on moderni käyttöliittymä ja sujuva suorituskyky.</translation>
+        <translation>Kuvat on valokuvien näyttö- ja muokkaustyökalu, jossa on moderni käyttöliittymä ja sujuva työskentely.</translation>
     </message>
 </context>
 <context>
@@ -27,7 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Palutus</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -74,7 +76,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Kuvatiedostoa ei löytynyt</translation>
+        <translation>Kuvatiedostoa ei löytynyt</translation>
     </message>
 </context>
 <context>
@@ -89,7 +91,7 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>Muokkauspäivä</translation>
+        <translation>Muokattu</translation>
     </message>
     <message>
         <source>Dimension</source>
@@ -97,7 +99,7 @@
     </message>
     <message>
         <source>File size</source>
-        <translation>Tiedoston koko</translation>
+        <translation>Koko</translation>
     </message>
     <message>
         <source>Date captured</source>
@@ -238,7 +240,22 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>dd/MM/yyyy HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Vahvista</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Peru</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Anna uusi nimi</translation>
     </message>
 </context>
 <context>
@@ -307,7 +324,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Kokoruutu</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -391,7 +408,7 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Poistu kokoruudusta</translation>
+        <translation>Poistu koko näytöstä</translation>
     </message>
     <message>
         <source>Zoom in</source>
@@ -440,7 +457,7 @@
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Kokoruutu</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -501,6 +518,29 @@
     <message>
         <source>Delete</source>
         <translation>Poista</translation>
+    </message>
+</context>
+<context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Edellinen</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Tauko</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Toista</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Seuraava</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Poistu</translation>
     </message>
 </context>
 <context>
@@ -673,11 +713,11 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Poistu kokoruudusta</translation>
+        <translation>Poistu koko näytöstä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation>Kokoruutu</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
@@ -742,6 +782,14 @@
     <message>
         <source>All images</source>
         <translation>Kaikki kuvat</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Nimeä uudelleen</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>Piirtäminen</translation>
     </message>
 </context>
 </TS>

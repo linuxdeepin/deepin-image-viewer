@@ -45,9 +45,15 @@ const QFileInfoList                 getImagesInfo(const QString &dir,
                                                   bool recursive = true);
 const QString                       getOrientation(const QString &path);
 const QImage                        getRotatedImage(const QString &path);
+
+/*
+ * lmh0901，根据后缀是否是图片
+**/
+bool                                suffixisImage(const QString &path);
 bool                                imageSupportRead(const QString &path);
 bool                                imageSupportSave(const QString &path);
 bool                                imageSupportWrite(const QString &path);
+bool                                imageSupportWallPaper(const QString &path);
 bool                                rotate(const QString &path, int degree);
 const QImage                        scaleImage(const QString &path,
                                                const QSize &size = QSize(384, 383));
@@ -61,6 +67,36 @@ const QString                       thumbnailPath(const QString &path, Thumbnail
 bool                                thumbnailExist(const QString &path, ThumbnailType type = ThumbLarge);
 
 QStringList                         supportedImageFormats();
+
+QPixmap getDamagePixmap(bool bLight = true);
+/**
+ * @brief openGiffromPath
+ * @param[in]  path
+ * @return void *
+ * @author LMH
+ * @time 2020/05/08
+ * 用freeimage打开Gif图片
+ */
+void *openGiffromPath(const QString &path);
+/**
+ * @brief getGifImageCount
+ * @param[in]  pGIF
+ * @return int
+ * @author LMH
+ * @time 2020/05/08
+ * 返回gif一共的帧数
+ */
+int getGifImageCount(void *pGIF);
+/**
+ * @brief getGifImage
+ * @param[in]  index
+ * @param[in]  pGIF
+ * @return QImage
+ * @author LMH
+ * @time 2020/05/08
+ * 返回gif某一帧数的图片
+ */
+QImage getGifImage(int index, void *pGIF);
 }  // namespace image
 
 }  // namespace utils

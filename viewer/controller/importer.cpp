@@ -19,10 +19,13 @@
 #include "dirwatcher/scanpathsdialog.h"
 #include "utils/imageutils.h"
 #include <QDirIterator>
-#include <QFileDialog>
+#include <DFileDialog>
 #include <QTimer>
 #include <QDebug>
 #include <QStorageInfo>
+
+DWIDGET_USE_NAMESPACE
+typedef DFileDialog QFDToDFileDialog;
 
 namespace {
 
@@ -159,17 +162,17 @@ void Importer::stopDirCollect(const QString &dir)
     emit imported(true);
 }
 
-void Importer::showImportDialog(const QString &album)
-{
-    QString dir = QFileDialog::getExistingDirectory(
-                nullptr, tr("Open Directory"), QDir::homePath(),
-                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+//void Importer::showImportDialog(const QString &album)
+//{
+//    QString dir = QFDToDFileDialog::getExistingDirectory(
+//                nullptr, tr("Open Directory"), QDir::homePath(),
+//                QFDToDFileDialog::ShowDirsOnly | QFDToDFileDialog::DontResolveSymlinks);
 
-    if (dir.isEmpty()) return;
-    if (ScanPathsDialog::instance()->addPath(dir)) {
-        appendDir(dir, album);
-    }
-}
+//    if (dir.isEmpty()) return;
+//    if (ScanPathsDialog::instance()->addPath(dir)) {
+//        appendDir(dir, album);
+//    }
+//}
 
 DirCollectThread::DirCollectThread(const QString &root, const QString &album)
     :QThread(NULL)

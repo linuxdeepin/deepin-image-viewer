@@ -17,6 +17,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QVBoxLayout>
+#include <QGestureEvent>
 
 #include <DSuggestButton>
 
@@ -28,18 +29,26 @@
 #include "controller/signalmanager.h"
 #include "thumbnailwidget.h"
 #include "utils/baseutils.h"
+#include "accessibility/ac-desktop-define.h"
 
 namespace {
 const QSize THUMBNAIL_BORDERSIZE = QSize(130, 130);
 const QSize THUMBNAIL_SIZE = QSize(128, 128);
-const QString ICON_IMPORT_PHOTO_DARK = ":/resources/dark/images/icon_import_photo dark.svg";
-const QString ICON_IMPORT_PHOTO_LIGHT = ":/resources/light/images/icon_import_photo.svg";
+const QString ICON_IMPORT_PHOTO_DARK = ":/assets/dark/images/icon_import_photo dark.svg";
+const QString ICON_IMPORT_PHOTO_LIGHT = ":/assets/light/images/icon_import_photo.svg";
 }  // namespace
 
 ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFile, QWidget *parent)
     : ThemeWidget(darkFile, lightFile, parent)
 {
-    m_picString = "";
+#ifdef OPENACCESSIBLE
+    setObjectName(Thumbnail_Widget);
+    setAccessibleName(Thumbnail_Widget);
+#endif
+    this->setAttribute(Qt::WA_AcceptTouchEvents);
+    grabGesture(Qt::PinchGesture);
+    grabGesture(Qt::SwipeGesture);
+    grabGesture(Qt::PanGesture);
     DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType();
     if (themeType == DGuiApplicationHelper::DarkType) {
         m_picString = ICON_IMPORT_PHOTO_DARK;
@@ -73,7 +82,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
                      });
 
     setMouseTracking(true);
-    m_thumbnailLabel = new QLabel(this);
+    m_thumbnailLabel = new QLbtoDLabel(this);
     //    m_thumbnailLabel->setObjectName("ThumbnailLabel");
     m_thumbnailLabel->setFixedSize(THUMBNAIL_BORDERSIZE);
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
@@ -93,7 +102,15 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     DSuggestButton *button = new DSuggestButton(tr("Open Image"), this);
     button->setFixedWidth(302);
     button->setFixedHeight(36);
-    button->setShortcut(QKeySequence("Ctrl+O"));
+    // button->setShortcut(QKeySequence("Ctrl+O"));
+#ifdef OPENACCESSIBLE
+    m_thumbnailLabel->setObjectName(Thumbnail_Label);
+    m_thumbnailLabel->setAccessibleName(Thumbnail_Label);
+    tips->setObjectName(NOT_FOUND_IMAGE);
+    tips->setAccessibleName(NOT_FOUND_IMAGE);
+    button->setObjectName(OPEN_IMAGE);
+    button->setAccessibleName(OPEN_IMAGE);
+#endif
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 
     connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
@@ -174,10 +191,6 @@ void ThumbnailWidget::setThumbnailImage(const QPixmap thumbnail)
     update();
 }
 
-bool ThumbnailWidget::isDefaultThumbnail()
-{
-    return m_isDefaultThumbnail;
-}
 
 void ThumbnailWidget::paintEvent(QPaintEvent *event)
 {
@@ -209,11 +222,66 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
     m_icon.paint(&painter, imgRect);
 }
 
+void ThumbnailWidget::mouseReleaseEvent(QMouseEvent *e)
+{
+    QWidget::mouseReleaseEvent(e);
+    if(e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1)
+    {
+        int offset = e->pos().x()-m_startx;
+        if (qAbs(offset) > 200) {
+            if (offset > 0) {
+                emit previousRequested();
+                qDebug() << "zy------ThumbnailWidget::event previousRequested";
+            } else {
+                emit nextRequested();
+                qDebug() << "zy------ThumbnailWidget::event nextRequested";
+            }
+        }
+    }
+    m_startx = 0;
+}
+
+void ThumbnailWidget::mousePressEvent(QMouseEvent *e)
+{
+    QWidget::mousePressEvent(e);
+    m_startx = e->pos().x();
+}
+
 void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    QWidget::mouseMoveEvent(event);
+    Q_UNUSED(event)
+   // QWidget::mouseMoveEvent(event);
 
-    emit mouseHoverMoved();
+  //  emit mouseHoverMoved();
+}
+
+void ThumbnailWidget::handleGestureEvent(QGestureEvent *gesture)
+{
+/*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
+        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+    else */if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+}
+
+bool ThumbnailWidget::event(QEvent *event)
+{
+    QEvent::Type evType = event->type();
+    if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
+            evType == QEvent::TouchEnd) {
+        if(evType == QEvent::TouchBegin)
+        {
+            qDebug() << "QEvent::TouchBegin";
+            m_maxTouchPoints = 1;
+        }
+    } else if (event->type() == QEvent::Gesture)
+        handleGestureEvent(static_cast<QGestureEvent *>(event));
+    return QWidget::event(event);
+}
+
+void ThumbnailWidget::pinchTriggered(QPinchGesture *gesture)
+{
+    Q_UNUSED(gesture);
+    m_maxTouchPoints = 2;
 }
 
 ThumbnailWidget::~ThumbnailWidget() {}

@@ -9,13 +9,17 @@
 
 #include "private/qgraphicsitem_p.h"
 #include "private/qobject_p.h"
-
+#include <QSvgRenderer>
 QT_BEGIN_NAMESPACE
+
+#define Q_DECLARE_PUBLIC1(Class)                                    \
+    inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
+    inline const Class* q_func() const { return static_cast<const Class *>(q_ptr); } \
 
 class ImageSvgItemPrivate : public QGraphicsItemPrivate
 {
 public:
-    Q_DECLARE_PUBLIC(ImageSvgItem)
+    Q_DECLARE_PUBLIC1(ImageSvgItem)
 
     ImageSvgItemPrivate()
         : renderer(nullptr)
@@ -27,7 +31,7 @@ public:
     {
         Q_Q(ImageSvgItem);
         q->setParentItem(parent);
-        renderer = new DSvgRenderer(q);
+        renderer = new QSvgRenderer(q);
         //        QObject::connect(renderer, SIGNAL(repaintNeeded()),
         //                         q, SLOT(_q_repaintItem()));
         q->setCacheMode(QGraphicsItem::DeviceCoordinateCache);
@@ -53,13 +57,14 @@ public:
         }
     }
 
-    DSvgRenderer *renderer;
+    QSvgRenderer *renderer;
     QRectF boundingRect;
     bool shared;
     QString elemId;
 };
 
 ImageSvgItem::ImageSvgItem(QGraphicsItem *parent)
+//    :QGraphicsSvgItem(parent)
     : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
 {
     Q_D(ImageSvgItem);
@@ -67,6 +72,7 @@ ImageSvgItem::ImageSvgItem(QGraphicsItem *parent)
 }
 
 ImageSvgItem::ImageSvgItem(const QString &fileName, QGraphicsItem *parent)
+//:QGraphicsSvgItem(parent)
     : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
 {
     Q_D(ImageSvgItem);
@@ -75,7 +81,7 @@ ImageSvgItem::ImageSvgItem(const QString &fileName, QGraphicsItem *parent)
     d->updateDefaultSize();
 }
 
-DSvgRenderer *ImageSvgItem::renderer() const
+QSvgRenderer *ImageSvgItem::renderer() const
 {
     return d_func()->renderer;
 }
@@ -186,7 +192,7 @@ QString ImageSvgItem::elementId() const
     return d->elemId;
 }
 
-void ImageSvgItem::setSharedRenderer(DSvgRenderer *renderer)
+void ImageSvgItem::setSharedRenderer(QSvgRenderer *renderer)
 {
     Q_D(ImageSvgItem);
     if (!d->shared)
@@ -205,9 +211,9 @@ void ImageSvgItem::setCachingEnabled(bool caching)
     setCacheMode(caching ? QGraphicsItem::DeviceCoordinateCache : QGraphicsItem::NoCache);
 }
 
-bool ImageSvgItem::isCachingEnabled() const
-{
-    return cacheMode() != QGraphicsItem::NoCache;
-}
+//bool ImageSvgItem::isCachingEnabled() const
+//{
+//    return cacheMode() != QGraphicsItem::NoCache;
+//}
 
 #endif  // QT_NO_WIDGETS

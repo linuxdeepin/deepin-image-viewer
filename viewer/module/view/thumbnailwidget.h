@@ -21,8 +21,19 @@
 #include <QPaintEvent>
 #include <QMouseEvent>
 
+
 #include "controller/viewerthememanager.h"
 #include "widgets/themewidget.h"
+
+#include <DLabel>
+
+class QGestureEvent;
+class QPinchGesture;
+class QSwipeGesture;
+class QPanGesture;
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 class ThumbnailWidget : public ThemeWidget {
     Q_OBJECT
@@ -32,30 +43,39 @@ public:
     ~ThumbnailWidget();
 signals:
     void mouseHoverMoved();
+    void nextRequested();
+    void previousRequested();
 #ifdef LITE_DIV
     void openImageInDialog();
 #endif
 
 public slots:
+    void handleGestureEvent(QGestureEvent *gesture);
     void setThumbnailImage(const QPixmap thumbnail);
-    bool isDefaultThumbnail();
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    bool event(QEvent *event) override;
+private slots:
+    void pinchTriggered(QPinchGesture *gesture);
 private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     bool m_isDefaultThumbnail = false;
-    QLabel* m_thumbnailLabel;
+    QLbtoDLabel* m_thumbnailLabel;
     QPixmap m_logo;
 #ifndef LITE_DIV
     QLabel* m_tips;
 #endif
     QPixmap m_defaultImage;
     QColor m_inBorderColor;
-    QString m_picString;
+    QString m_picString=nullptr;
     bool m_theme;
     bool m_usb = false;
+    int m_startx = 0;
+    int m_maxTouchPoints = 0;
 };
 
 #endif // THUMBNAILWIDGET_H

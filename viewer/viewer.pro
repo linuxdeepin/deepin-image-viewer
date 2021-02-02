@@ -4,15 +4,18 @@
 #
 #-------------------------------------------------
 
-QT += core gui sql dbus concurrent svg x11extras printsupport
+QT += core gui sql dbus concurrent svg  printsupport
+# QT += x11extras
 qtHaveModule(opengl): QT += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG -= app_bundle
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += x11 xext libexif dtkwidget gio-unix-2.0 gio-qt udisks2-qt5
-#PKGCONFIG += dtkwidget
+PKGCONFIG +=   libexif dtkwidget  gio-qt udisks2-qt5
+# PKGCONFIG += xext x11 gio-unix-2.0
  QT += dtkwidget
+ QT += dbus
+#CONFIG += object_parallel_to_source
 LIBS += -lfreeimage
 
 #gtk+-2.0
@@ -22,6 +25,7 @@ INCLUDEPATH += utils
 
 isEmpty(FULL_FUNCTIONALITY) {
     DEFINES += LITE_DIV
+    DEFINES += USE_UNIONIMAGE
 }
 
 isEmpty(PREFIX){
@@ -34,6 +38,7 @@ include (widgets/widgets.pri)
 include (utils/utils.pri)
 include (controller/controller.pri)
 include (service/service.pri)
+include (third-party/accessibility/accessibility-suite.pri)
 
 !isEmpty(FULL_FUNCTIONALITY) {
     include (settings/settings.pri)
@@ -41,7 +46,9 @@ include (service/service.pri)
 }
 
 HEADERS += \
-    application.h
+    application.h \
+    accessibility/acobjectlist.h \
+    accessibility/ac-desktop-define.h
 
 SOURCES += main.cpp \
     application.cpp
@@ -80,16 +87,16 @@ desktop.path = $$PREFIX/share/applications/
 desktop.files = $$PWD/deepin-image-viewer.desktop
 
 icons.path = $$APPSHAREDIR/icons
-icons.files = $$PWD/resources/images/*
+icons.files = $$PWD/assets/images/*
 
 manual.path = $$MANDIR
-manual.files = $$PWD/doc/*
+manual.files = $$PWD/docs/doc/*
 
 manual_icon.path = $$MANICONDIR
-manual_icon.files = $$PWD/doc/common/deepin-image-viewer.svg
+manual_icon.files = $$PWD/docs/doc/common/deepin-image-viewer.svg
 
 app_icon.path = $$APPICONDIR
-app_icon.files = $$PWD/resources/images/logo/deepin-image-viewer.svg
+app_icon.files = $$PWD/assets/images/logo/deepin-image-viewer.svg
 
 dbus_service.path =  $$PREFIX/share/dbus-1/services
 dbus_service.files += $$PWD/com.deepin.ImageViewer.service
@@ -103,8 +110,19 @@ DISTFILES += \
     com.deepin.ImageViewer.service
 
 load(dtk_qmake)
+
+QMAKE_CXXFLAGS += -Wl,-as-need -fPIE
+QMAKE_CFLAGS += -Wl,-as-need -Wl,-E -fPIE
+QMAKE_LFLAGS+=-Wl,-E -pie
+
 host_sw_64: {
 # 在 sw_64 平台上添加此参数，否则会在旋转图片时崩溃
     QMAKE_CFLAGS += -mieee
     QMAKE_CXXFLAGS += -mieee
+}
+
+host_mips64:{
+   QMAKE_CXX += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi
+   QMAKE_CXXFLAGS += -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,as-need -fPIE
+   QMAKE_LFLAGS+=-pie
 }

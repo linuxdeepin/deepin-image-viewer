@@ -18,22 +18,22 @@
 #include "application.h"
 #include "controller/configsetter.h"
 #include "controller/importer.h"
-#include "module/album/albumpanel.h"
+//#include "module/album/albumpanel.h"
 //#include "module/edit/EditPanel.h"
 #include "module/slideshow/slideshowpanel.h"
-#include "module/timeline/timelinepanel.h"
+//#include "module/timeline/timelinepanel.h"
 //#include "module/view/viewpanel.h"
 #include "utils/baseutils.h"
-#include "widgets/dialogs/imginfodialog.h"
-#include "widgets/processtooltip.h"
-#include "widgets/separator.h"
+#include "accessibility/ac-desktop-define.h"
+//#include "widgets/dialogs/imginfodialog.h"
+//#include "widgets/processtooltip.h"
+//#include "widgets/separator.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QFile>
 #include <QFileSystemWatcher>
 #include <QHBoxLayout>
-#include <QLabel>
 
 #include <ddialog.h>
 using namespace Dtk::Widget;
@@ -65,13 +65,27 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initPanelStack(manager);
 #else
     Q_UNUSED(manager)
+#ifdef OPENACCESSIBLE
+    setObjectName(MAIN_WIDGET);
+    setAccessibleName(MAIN_WIDGET);
+#endif
     initPanelStack(false);
 #endif
-    initExtensionPanel();
-    initTopToolbar();
-    initBottomToolbar();
-
-    initConnection();
+    /*lmh0806儒码*/
+    if(0==dApp->m_timer){
+        initExtensionPanel();
+        initTopToolbar();
+        initBottomToolbar();
+        initConnection();
+    }
+    else {
+        QTimer::singleShot(dApp->m_timer, [=]{
+        initExtensionPanel();
+        initTopToolbar();
+        initBottomToolbar();
+        initConnection();
+        });
+    }
 }
 
 MainWidget::~MainWidget() {}
@@ -146,14 +160,10 @@ void MainWidget::resizeEvent(QResizeEvent *e)
         }
 #endif
         // 获取widget左上角坐标的全局坐标
+        //lmh0826,解决bug44826
         QPoint p = this->mapToGlobal(QPoint(0, 0));
-        if (this->window()->isFullScreen() || this->window()->isMaximized()) {
-            m_extensionPanel->move(this->window()->width() - m_extensionPanel->width() - 24,
-                                   TOP_TOOLBAR_HEIGHT * 2);
-        } else {
-            m_extensionPanel->move(p + QPoint(this->window()->width() - m_extensionPanel->width() - 24,
-                                              TOP_TOOLBAR_HEIGHT * 2));
-        }
+        m_extensionPanel->move(p + QPoint(this->window()->width() - m_extensionPanel->width() - 24,
+                                          TOP_TOOLBAR_HEIGHT * 2));
     }
     updateTitleShadowGeometry();
 }
@@ -184,12 +194,12 @@ void MainWidget::onGotoPanel(ModulePanel *panel)
     m_panelStack->setCurrentWidget(panel);
 }
 
-void MainWidget::onImported(const QString &message, bool success)
-{
-    ProcessTooltip *t = new ProcessTooltip(this);
-    t->showTooltip(message, success);
-    t->move((width() - t->width()) / 2, height() * 4 / 5);
-}
+//void MainWidget::onImported(const QString &message, bool success)
+//{
+//    ProcessTooltip *t = new ProcessTooltip(this);
+//    t->showTooltip(message, success);
+//    t->move((width() - t->width()) / 2, height() * 4 / 5);
+//}
 
 void MainWidget::onShowImageInfo(const QString &path)
 {
@@ -221,8 +231,11 @@ void MainWidget::initPanelStack(bool manager)
 #else
     Q_UNUSED(manager)
 #endif
-    m_panelStack = new QStackedWidget(this);
-    m_panelStack->setObjectName("PanelStack");
+    m_panelStack = new QSWToDStackedWidget(this);
+#ifdef OPENACCESSIBLE
+    m_panelStack->setObjectName(PANEL_STACK);
+    m_panelStack->setAccessibleName(PANEL_STACK);
+#endif
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
@@ -258,8 +271,17 @@ void MainWidget::initTopToolbar()
     m_topToolbar->move(0, 0);
     m_topToolbar->hide();
     connect(dApp->signalM, &SignalManager::allPicDelete, this, [ = ]() {
-        m_topToolbar = new TopToolbar(false, this);
-        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+       //LMH0609解决31220 【看图】【5.6.3.9】【sp1】删除整个目录的图片后重新打开一个目录，全屏观看图片，展示异常
+        if(nullptr!=m_topToolbar)
+        {
+            m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+        }
+        else {
+            m_topToolbar = new TopToolbar(false, this);
+        }
+    });
+    connect(dApp->signalM, &SignalManager::changetitletext, this, [ = ](QString filename) {
+        m_topToolbar->setMiddleContent(filename);
     });
     connect(dApp->signalM, &SignalManager::enterView, this, [ = ](bool a) {
         if (a) {
@@ -287,11 +309,11 @@ void MainWidget::initTopToolbar()
     //    m_topSeparatorLine->move(0, TOP_TOOLBAR_HEIGHT);
 
     connect(dApp->signalM, &SignalManager::updateTopToolbarLeftContent, this, [ = ](QWidget * c) {
-        //        if (c != nullptr)
+        if (c != nullptr) {};
         //            m_topToolbar->setLeftContent(c);
     });
     connect(dApp->signalM, &SignalManager::updateTopToolbarMiddleContent, this, [ = ](QWidget * c) {
-        //        if (c != nullptr)
+        if (c != nullptr) {};
         //            m_topToolbar->setMiddleContent();
     });
     connect(dApp->signalM, &SignalManager::showTopToolbar, this, [ = ] {
@@ -312,10 +334,14 @@ void MainWidget::initTopToolbar()
 
 void MainWidget::initConnection()
 {
-    QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
-    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+?"), this);
-    connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
+    connect(this, SIGNAL(mainwgtloadslideshowpath(bool)), m_viewPanel, SLOT(recvLoadSignal(bool)));
+    connect(m_viewPanel, SIGNAL(sigsendslideshowlist(bool, DBImgInfoList)), this, SIGNAL(sigmaindgtslideshowpath(bool, DBImgInfoList)));
+    connect(this, SIGNAL(sigExitFullScreen()), m_viewPanel, SLOT(slotExitFullScreen()));
+    //屏蔽CTrl+Q快捷键
+    // QShortcut *scE = new QShortcut(QKeySequence("Ctrl+Q"), this);
+    // QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    //connect(scViewShortcut, SIGNAL(activated()), m_topToolbar, SLOT(onViewShortcut()));
     connect(dApp->signalM, &SignalManager::backToMainPanel, this, [ = ] {
         window()->show();
         window()->raise();
@@ -341,7 +367,6 @@ void MainWidget::initConnection()
         window()->raise();
         window()->activateWindow();
     });
-
     connect(dApp->signalM, &SignalManager::gotoPanel, this, &MainWidget::onGotoPanel);
     connect(dApp->signalM, &SignalManager::showInFileManager, this,
     [ = ](const QString & path) {
@@ -353,28 +378,43 @@ void MainWidget::initConnection()
     //    });
     //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
     //            &MainWidget::initStyleSheet);
+    connect(dApp->signalM, &SignalManager::sigStopAnimation, this, [ = ] {
+        if(m_bottomAnimation){
+            m_bottomAnimation->stop();
+            delete m_bottomAnimation;
+            m_bottomAnimation = nullptr;
+        }
+    });
     connect(dApp->signalM, &SignalManager::sigMouseMove, this, [ = ] {
         if (window()->isFullScreen())
         {
             QPoint pos = mapFromGlobal(QCursor::pos());
             if (height() - 20 < pos.y() && height() > pos.y() && height() == m_bottomToolbar->y()) {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
-                animation->setDuration(200);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(
+                m_bottomAnimation = new QPropertyAnimation(m_bottomToolbar, "pos");
+                m_bottomAnimation->setDuration(200);
+                m_bottomAnimation->setEasingCurve(QEasingCurve::NCurveTypes);
+                m_bottomAnimation->setStartValue(
                     QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-                animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2,
+                m_bottomAnimation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2,
                                               height() - m_bottomToolbar->height() - 10));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
+                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [=](){
+                    delete m_bottomAnimation;
+                    m_bottomAnimation = nullptr;
+                });
+                m_bottomAnimation->start();
             } else if (height() - m_bottomToolbar->height() - 10 > pos.y() &&
                        height() - m_bottomToolbar->height() - 10 == m_bottomToolbar->y()) {
-                QPropertyAnimation *animation = new QPropertyAnimation(m_bottomToolbar, "pos");
-                animation->setDuration(200);
-                animation->setEasingCurve(QEasingCurve::NCurveTypes);
-                animation->setStartValue(
+                m_bottomAnimation = new QPropertyAnimation(m_bottomToolbar, "pos");
+                m_bottomAnimation->setDuration(200);
+                m_bottomAnimation->setEasingCurve(QEasingCurve::NCurveTypes);
+                m_bottomAnimation->setStartValue(
                     QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
-                animation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
-                animation->start(QAbstractAnimation::DeleteWhenStopped);
+                m_bottomAnimation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
+                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [=](){
+                    delete m_bottomAnimation;
+                    m_bottomAnimation = nullptr;
+                });
+                m_bottomAnimation->start();
             }
         }
     });
@@ -390,7 +430,7 @@ void MainWidget::initBottomToolbar()
     m_bottomToolbar->move(
         0, height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
 
-    m_btmSeparatorLine = new QLabel(this);
+    m_btmSeparatorLine = new QLbtoDLabel(this);
 
     connect(dApp->signalM, &SignalManager::updateBottomToolbar, this, [ = ](bool wideMode) {
         if (wideMode) {
@@ -458,7 +498,7 @@ void MainWidget::initBottomToolbar()
         m_bottomToolbar->move(
             (this->width() - m_bottomToolbar->width()) / 2,
             this->height() - BOTTOM_TOOLBAR_HEIGHT - BOTTOM_SPACING + BOTTOM_REPAIR_SPACING);
-    }, Qt::DirectConnection);
+    });
     connect(dApp->signalM, &SignalManager::showBottomToolbar, this, [ = ] {
         m_bottomToolbar->setVisible(true);
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
@@ -541,6 +581,7 @@ void MainWidget::initExtensionPanel()
 #else
     connect(dApp->signalM, &SignalManager::hideExtensionPanel, this,
     [ = ](bool immediately) {
+        if (immediately) {};
         m_extensionPanel->hide();
     });
 #endif

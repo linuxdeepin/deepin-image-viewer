@@ -20,14 +20,15 @@
  */
 #include "toast.h"
 
-#include <DObjectPrivate>
+
 
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QIcon>
-
+#include <DIconButton>
+#include "imagebutton.h"
 #include <dimagebutton.h>
 #include "dthememanager.h"
 #include "dgraphicsgloweffect.h"
@@ -35,29 +36,15 @@
 
 DWIDGET_BEGIN_NAMESPACE
 
-class ToastPrivate: public DTK_CORE_NAMESPACE::DObjectPrivate
-{
-public:
-    ToastPrivate(Toast *qq);
 
-    QIcon   icon;
-    QLabel  *iconLabel      = Q_NULLPTR;
-    QLabel  *textLabel      = Q_NULLPTR;
-    DImageButton *closeBt    = Q_NULLPTR;
-
-    QPropertyAnimation  *animation  = Q_NULLPTR;
-    DGraphicsGlowEffect *effect     = Q_NULLPTR;
-
-    void initUI();
-private:
-    D_DECLARE_PUBLIC(Toast)
-};
 
 Toast::Toast(QWidget *parent) :
     QFrame(parent), DObject(*new ToastPrivate(this))
 {
     D_D(Toast);
+
     DThemeManager::registerWidget(this);
+
     d->initUI();
 }
 
@@ -114,42 +101,42 @@ void Toast::setOpacity(qreal opacity)
     update();
 }
 
-void Toast::pop()
-{
-    Q_D(Toast);
+//void Toast::pop()
+//{
+//    Q_D(Toast);
 
-    adjustSize();
-    show();
+//    adjustSize();
+//    show();
 
-    if (d->animation) {
-        return;
-    }
+//    if (d->animation) {
+//        return;
+//    }
 
-    d->animation = new QPropertyAnimation(this, "opacity");
-    d->animation->setDuration(2000);
-    d->animation->setStartValue(0);
-    d->animation->setKeyValueAt(0.4, 1.0);
-    d->animation->setKeyValueAt(0.8, 1.0);
-    d->animation->setEndValue(0);
-    d->animation->start();
-    d->animation->connect(d->animation, &QPropertyAnimation::finished,
-    this, [ = ]() {
-        hide();
-        d->animation->deleteLater();
-        d->animation = Q_NULLPTR;
-    });
-}
+//    d->animation = new QPropertyAnimation(this, "opacity");
+//    d->animation->setDuration(2000);
+//    d->animation->setStartValue(0);
+//    d->animation->setKeyValueAt(0.4, 1.0);
+//    d->animation->setKeyValueAt(0.8, 1.0);
+//    d->animation->setEndValue(0);
+//    d->animation->start();
+//    d->animation->connect(d->animation, &QPropertyAnimation::finished,
+//    this, [ = ]() {
+//        hide();
+//        d->animation->deleteLater();
+//        d->animation = Q_NULLPTR;
+//    });
+//}
 
-void Toast::pack()
-{
-    Q_D(Toast);
-    hide();
-    if (d->animation) {
-        d->animation->stop();
-        d->animation->deleteLater();
-        d->animation = Q_NULLPTR;
-    }
-}
+//void Toast::pack()
+//{
+//    Q_D(Toast);
+//    hide();
+//    if (d->animation) {
+//        d->animation->stop();
+//        d->animation->deleteLater();
+//        d->animation = Q_NULLPTR;
+//    }
+//}
 
 ToastPrivate::ToastPrivate(Toast *qq)
     : DObjectPrivate(qq)
@@ -171,12 +158,12 @@ void ToastPrivate::initUI()
     textLabel = new QLabel;
     textLabel->setVisible(false);
 
-    closeBt = new DImageButton(":/resources/common/images/input_clear_normal.svg",
-                               ":/resources/common/images/input_clear_hover.svg",
-                               ":/resources/common/images/input_clear_press.svg",
-                               ":/resources/common/images/input_clear_normal.svg");
+    closeBt = new ImageButton(":/assets/common/images/input_clear_normal.svg",
+                               ":/assets/common/images/input_clear_hover.svg",
+                               ":/assets/common/images/input_clear_press.svg",
+                               ":/assets/common/images/input_clear_normal.svg");
 
-    q->connect(closeBt, &DImageButton::clicked, q, [ = ]() {
+    q->connect(closeBt, &ImageButton::clicked, q, [ = ]() {
         q->hide();
         q->setProperty("hide_by_user", true);
     });

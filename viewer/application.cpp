@@ -27,32 +27,43 @@
 #include <QTranslator>
 #include <DApplicationSettings>
 #include <QIcon>
+#include <QPaintDevice>
 #include <QImageReader>
 #include <sys/time.h>
 #include <QFile>
 #include <QImage>
 #include <QQueue>
 
+#include <DVtableHook>
+
+#include "controller/commandline.h"
+
+#ifdef USE_UNIONIMAGE
+#include "unionimage.h"
+#endif
 namespace {
 
 }  // namespace
+/*lmh0728缩略图分辨率IMAGE_HEIGHT_DEFAULT*/
+#define IMAGE_HEIGHT_DEFAULT    300
 
-#define IMAGE_HEIGHT_DEFAULT    100
+//#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
+Application * Application::m_signalapp = nullptr;
 
 ImageLoader::ImageLoader(Application *parent, QStringList pathlist, QString path)
+    :m_parent(parent),
+     m_pathlist(pathlist),
+     m_path(path),
+     m_bFlag(true)
 {
-    m_parent = parent;
-    m_pathlist = pathlist;
-    m_path = path;
-    m_bFlag = true; //heyi
 }
 
 void ImageLoader::startLoading()
 {
     struct timeval tv;
     long long ms;
-    gettimeofday(&tv, NULL);
-    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    gettimeofday(&tv, nullptr);
+    ms = static_cast<long long>(tv.tv_sec) * 1000 + tv.tv_usec / 1000;
     qDebug() << "startLoading start time: " << ms;
 
     int num = 0;
@@ -66,7 +77,7 @@ void ImageLoader::startLoading()
             num = 0;
         }
     }
-
+    dApp->getRwLock().unlock();
     //heyi test
     QStringList list;
     for (int i = 0; i < 25; i++) {
@@ -77,22 +88,29 @@ void ImageLoader::startLoading()
             list.append(m_pathlist.at(array + i));
         }
     }
-
+    listLoad1.clear();
+    listLoad2.clear();
     //heyi test 开辟两个线程同时加载,重选中位置往两边加载
     for (int i = 0; i < array; i++) {
         listLoad1.append(m_pathlist.at(i));
     }
 
-    for (int i = array; i < m_pathlist.size(); i++) {
+    //由于打开图片已经裁剪成缩略图所以不需要加载
+    for (int i = array+1; i < m_pathlist.size(); i++) {
         listLoad2.append(m_pathlist.at(i));
     }
-
     QThread *th1 = QThread::create([ = ]() {
         QString path;
-        while (m_bFlag) {
+        while (1) {
             path.clear();
             m_readlock.lockForWrite();
             if (listLoad1.isEmpty()) {
+                m_readlock.unlock();
+                break;
+            }
+
+            //判断线程标识
+            if (!m_bFlag) {
                 m_readlock.unlock();
                 break;
             }
@@ -105,7 +123,7 @@ void ImageLoader::startLoading()
         }
 
         //帮助另一个线程加载，从左往右加载
-        while (m_bFlag) {
+        while (1) {
             path.clear();
             m_readlock.lockForWrite();
             if (listLoad2.isEmpty()) {
@@ -113,18 +131,25 @@ void ImageLoader::startLoading()
                 break;
             }
 
+            //判断线程标识
+            if (!m_bFlag) {
+                m_readlock.unlock();
+                break;
+            }
+
             path = listLoad2.front();
+//            qDebug() << "线程1当前加载的图片：" << path;
             listLoad2.pop_front();
             m_readlock.unlock();
             loadInterface(path);
         }
-
+        qDebug()<< "th1"<<QThread::currentThreadId();
         QThread::currentThread()->quit();
     });
 
     QThread *th2 = QThread::create([ = ]() {
         QString path;
-        while (m_bFlag) {
+        while (1) {
             path.clear();
             m_readlock.lockForWrite();
             if (listLoad2.isEmpty()) {
@@ -132,7 +157,16 @@ void ImageLoader::startLoading()
                 break;
             }
 
+            //判断线程标识
+            if (!m_bFlag) {
+                m_readlock.unlock();
+                break;
+            }
+
+            m_flagLock.unlock();
+
             path = listLoad2.front();
+//            qDebug() << "线程2当前加载的图片：" << path;
             //加载完成之后删除该图片路径
             listLoad2.pop_front();
             m_readlock.unlock();
@@ -140,7 +174,7 @@ void ImageLoader::startLoading()
         }
 
         //帮助另一个线程加载，从右往左加载
-        while (m_bFlag) {
+        while (1) {
             path.clear();
             m_readlock.lockForWrite();
             if (listLoad1.isEmpty()) {
@@ -148,24 +182,33 @@ void ImageLoader::startLoading()
                 break;
             }
 
+            //判断线程标识
+            if (!m_bFlag) {
+                m_readlock.unlock();
+                break;
+            }
+
+
             path = listLoad1.back();
+            qDebug() << "线程2当前加载的图片：" << path;
             listLoad1.pop_back();
             m_readlock.unlock();
             loadInterface(path);
         }
-
+        qDebug()<<QThread::currentThreadId();
         QThread::currentThread()->quit();
     });
-
+    connect(th1, &QThread::finished, th1, &QObject::deleteLater);
+    connect(th2, &QThread::finished, th2, &QObject::deleteLater);
     th1->start();
     th2->start();
 
     QString map = "";
     emit sigFinishiLoad(map);
 
-    gettimeofday(&tv, NULL);
-    ms = (long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
-    qDebug() << "startLoading end time: " << ms;
+    gettimeofday(&tv, nullptr);
+    ms = static_cast<long long>(tv.tv_sec) * 1000 + tv.tv_usec / 1000;
+    QThread::currentThread()->quit();
 }
 
 void ImageLoader::stopThread()
@@ -175,7 +218,25 @@ void ImageLoader::stopThread()
 
 void ImageLoader::addImageLoader(QStringList pathlist)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#if USE_UNIONIMAGE
     for (QString path : pathlist) {
+
+        QImage tImg;
+        QString errMsg;
+        if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+            qDebug() << errMsg;
+        }
+        //LMH0601加锁
+        QMutexLocker lcoker(&dApp->getRwLock());
+        QPixmap pixmap = QPixmap::fromImage(tImg);
+        m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+    }
+#else
+
+
+    for (QString path : pathlist) {
+
         QImage tImg;
 
         QString format = DetectImageFormat(path);
@@ -197,15 +258,23 @@ void ImageLoader::addImageLoader(QStringList pathlist)
                 tImg = QImage(path);
             }
         }
+        //LMH0601加锁
+        QMutexLocker(&dApp->getRwLock());
+        //dApp->getRwLock().lockForWrite();
         QPixmap pixmap = QPixmap::fromImage(tImg);
 
         m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
+        //dApp->getRwLock().unlock();
     }
+        #endif
+
 }
 //modify by heyi
-void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
+void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int rotateangle)
 {
     for (QString path : pathlist) {
+        QMutexLocker locker(&dApp->getRwLock());
+//        dApp->getRwLock().lockForWrite();
         QPixmap pixmap = m_parent->m_imagemap[path];
         if (pixmap.isNull()) {
             QImage image(path);
@@ -213,9 +282,9 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
         } else {
             QMatrix rotate;
             if (bDirection) {
-                rotate.rotate(90);
+                rotate.rotate(rotateangle);
             } else {
-                rotate.rotate(-90);
+                rotate.rotate(0-rotateangle);
             }
 
             pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
@@ -224,11 +293,23 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection)
         //QImage image(path);
         //QPixmap pixmap = QPixmap::fromImage(image);
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+       // dApp->getRwLock().unlock();
     }
 }
 
 void ImageLoader::loadInterface(QString path)
 {
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QImage tImg;
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+    /*lmh0728线程pixmap安全问题*/
+    QImage img=tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
+    QPixmap pixmap = QPixmap::fromImage(img);
+#else
     QImage tImg;
     QString format = DetectImageFormat(path);
     if (format.isEmpty()) {
@@ -251,73 +332,206 @@ void ImageLoader::loadInterface(QString path)
     }
 
     QPixmap pixmap = QPixmap::fromImage(tImg);
-
-    m_writelock.lockForWrite();
-    m_parent->m_imagemap.insert(path, pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation));
-    m_writelock.unlock();
+#endif
+    QMutexLocker locker(&dApp->getRwLock());
+    m_parent->m_rectmap.insert(path, tImg.rect());
+    m_parent->m_imagemap.insert(path, pixmap);
+   // dApp->getRwLock().unlock();
 
     emit sigFinishiLoad(path);
 }
 
 void Application::finishLoadSlot(QString mapPath)
 {
-    qDebug() << "finishLoadSlot";
     emit sigFinishLoad(mapPath);
 }
 
-Application::Application(int &argc, char **argv)
-    : DApplication(argc, argv)
+void Application::loadPixThread(QStringList paths)
 {
-    initI18n();
+    //fix 52217  shuwenzhi
+    //m_loadPaths = paths;
+
+    //开启线程进行后台加载图片
+
+    QThread *th = QThread::create([ = ]() {
+
+        QStringList pathList = paths;
+
+        foreach (QString var, pathList) {
+            if (m_bThreadExit) {
+                break;
+            }
+
+            loadInterface(var);
+        }
+
+        //发送动态加载完成信号
+        emit dynamicLoadFinished();
+
+        QThread::currentThread()->quit();
+
+    });
+
+    connect(th, &QThread::finished, th, &QObject::deleteLater);
+    th->start();
+}
+
+void Application::loadInterface(QString path)
+{
+    QMutexLocker locker(&dApp->getRwLock());
+   //  dApp->getRwLock().lockForWrite();
+    /*lmh0724使用USE_UNIONIMAGE*/
+#ifdef USE_UNIONIMAGE
+    QImage tImg;
+    QString errMsg;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+        qDebug() << errMsg;
+    }
+    QImage img=tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+    QPixmap pixmap = QPixmap::fromImage(img);
+#else
+    QImage tImg;
+    QString format = DetectImageFormat(path);
+    if (format.isEmpty()) {
+        QImageReader reader(path);
+        reader.setAutoTransform(true);
+        if (reader.canRead()) {
+            tImg = reader.read();
+        }
+    } else {
+        QImageReader readerF(path, format.toLatin1());
+        readerF.setAutoTransform(true);
+        if (readerF.canRead()) {
+            tImg = readerF.read();
+        } else {
+            qWarning() << "can't read image:" << readerF.errorString()
+                       << format;
+
+            tImg = QImage(path);
+        }
+    }
+
+    QPixmap pixmap = QPixmap::fromImage(tImg);
+#endif
+    m_rectmap.insert(path, tImg.rect());
+    m_imagemap.insert(path, pixmap);
+   // dApp->getRwLock().unlock();
+
+    finishLoadSlot(path);
+}
+
+Application *Application::instance(int& argc, char **argv)
+{
+
+    if(m_signalapp == nullptr)
+    {
+        m_signalapp = new Application(argc,argv);
+    }
+    return m_signalapp;
+}
+
+Application *Application::getinstance()
+{
+    return m_signalapp;
+}
+
+Application::Application(int &argc, char **argv)
+{
+    //2020/11/12暂时关闭turbo
+     m_app = new DApplication(argc, argv);
+     Dtk::Core::DVtableHook::overrideVfptrFun(m_app, &DApplication::handleQuitAction, this, &Application::quitApp);
+
+//#if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
+//    m_app = new DApplication(argc, argv);
+//#else
+//    m_app = DApplication::globalApplication(argc, argv);
+//#endif
     m_LoadThread = nullptr;
-    setOrganizationName("deepin");
-    setApplicationName("deepin-image-viewer");
-    setApplicationDisplayName(tr("Image Viewer"));
-    setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
+    m_app->setOrganizationName("deepin");
+    m_app->setApplicationName("deepin-image-viewer");
+    initI18n();
+    m_app->setApplicationDisplayName(tr("Image Viewer"));
+    m_app->setProductIcon(QIcon::fromTheme("deepin-image-viewer"));
 //    setApplicationDescription(QString("%1\n%2\n").arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")).arg(tr("看图是⼀款外观时尚，性能流畅的图片查看工具。")));
 //    setApplicationAcknowledgementPage("https://www.deepin.org/" "acknowledgments/deepin-image-viewer/");
-    setApplicationDescription(tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
+    m_app->setApplicationDescription(tr("Image Viewer is an image viewing tool with fashion interface and smooth performance."));
 
 //    //save theme
 //    DApplicationSettings saveTheme;
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
-    setApplicationVersion(DApplication::buildVersion("20190828"));
-    installEventFilter(new GlobalEventFilter());
+    m_app->setApplicationVersion(DApplication::buildVersion("20190828"));
+
+    installEventFilter(new GlobalEventFilter(this));
 
 
     initChildren();
 
 
 
-    connect(dApp->signalM, &SignalManager::sendPathlist, this, [ = ](QStringList list, QString path) {
+    connect(signalM, &SignalManager::sendPathlist, this, [ = ](QStringList list, QString path) {
+//        if(m_LoadThread && m_LoadThread->isRunning()){
+//            emit endThread();
+//            QThread::msleep(500);
+
+//        }
         m_imageloader = new ImageLoader(this, list, path);
-        m_LoadThread = new QThread();
+        m_LoadThread = new QThread(this);
 
         m_imageloader->moveToThread(m_LoadThread);
-        m_LoadThread->start();
+       //在线程中调用了quit()　会处罚finished信号，　链接此槽函数，会销毁对象，而其他地方在判断对象是否还在运行容易崩溃。
+      //  connect(m_LoadThread, &QThread::finished, m_LoadThread, &QObject::deleteLater);
 
         connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
         connect(m_imageloader, SIGNAL(sigFinishiLoad(QString)), this, SLOT(finishLoadSlot(QString)));
         //heyi
-        connect(this, SIGNAL(endThread()), m_imageloader, SLOT(stopThread()), Qt::DirectConnection);
+        connect(this, SIGNAL(endThread()), m_imageloader, SLOT(stopThread()), Qt::QueuedConnection);
+
+        m_LoadThread->start();
+
+
+
+
         emit sigstartLoad();
     });
-
 }
 
 Application::~Application()
 {
+    //隐藏详细信息
+    emit signalM->hideExtensionPanel();
     if (nullptr !=  m_LoadThread) {
         if (m_LoadThread->isRunning()) {
             //结束线程
             m_LoadThread->requestInterruption();
+            m_bThreadExit = true;
             emit endThread();
-            QThread::msleep(500);
+            QThread::msleep(1000);
             m_LoadThread->quit();
         }
     }
+
+    emit endApplication();
 }
+
+bool Application::eventFilter(QObject *obj, QEvent *event)
+{
+    if(event->type() == QEvent::MouseButtonRelease)
+    {
+        emit sigMouseRelease ();
+    }
+    return QObject::eventFilter(obj, event);
+}
+#include <QMouseEvent>
+#include <QDebug>
+//bool Application::notify(QObject *obj, QEvent *e)
+//{
+//    if(e->type() == QEvent::MouseButtonRelease)
+//    {
+//        emit sigMouseRelease ();
+//    }
+//    return QApplication::notify(obj,e);
+//}
 
 void Application::initChildren()
 {
@@ -334,5 +548,11 @@ void Application::initI18n()
 //    translator->load(APPSHAREDIR"/translations/deepin-image-viewer_"
 //                     + QLocale::system().name() + ".qm");
 //    installTranslator(translator);
-    loadTranslator(QList<QLocale>() << QLocale::system());
+    m_app->loadTranslator(QList<QLocale>() << QLocale::system());
+}
+
+void Application::quitApp()
+{
+    MainWindow *mainwindow = CommandLine::instance()->getMainWindow();
+    mainwindow->close();
 }

@@ -19,12 +19,12 @@
 
 #include <QGraphicsPixmapItem>
 #include <QPointer>
-
+#include <QMovie>
 class QMovie;
 class GraphicsMovieItem : public QGraphicsPixmapItem, QObject
 {
 public:
-    explicit GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent = 0);
+    explicit GraphicsMovieItem(const QString &fileName,const QString &suffix=NULL,QGraphicsItem *parent = 0);
     ~GraphicsMovieItem();
     bool isValid() const;
     void start();

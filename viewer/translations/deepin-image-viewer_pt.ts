@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>O Visualizador de imagens é uma ferramenta com um aspecto elegante e um desempenho fluído.</translation>
+        <translation>O Visualizador de imagens é uma ferramenta com um aspecto elegante e um desempenho suave.</translation>
     </message>
 </context>
 <context>
@@ -27,14 +25,18 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Return</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>Informação básica</translation>
+        <translation>Informações básicas</translation>
     </message>
     <message>
         <source>Details</source>
@@ -45,14 +47,14 @@
     <name>ImageView</name>
     <message>
         <source>This file contains multiple pages, please use Evince to view all pages.</source>
-        <translation>Este ficheiro contém várias páginas, por favor use o Evince para ver todas as páginas.</translation>
+        <translation>Este ficheiro contém várias páginas, use o Evince para ver todas as páginas.</translation>
     </message>
 </context>
 <context>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation>Abrir Diretoria</translation>
+        <translation>Abrir diretório</translation>
     </message>
 </context>
 <context>
@@ -74,7 +76,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">Ficheiro de imagem não encontrado</translation>
+        <translation>Ficheiro de imagem não encontrado</translation>
     </message>
 </context>
 <context>
@@ -157,7 +159,7 @@
     </message>
     <message>
         <source>Camera model</source>
-        <translation>Modelo da Câmera</translation>
+        <translation>Modelo da câmara</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -208,7 +210,7 @@
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Definições da Imagem</translation>
+        <translation>Definições de imagem</translation>
     </message>
 </context>
 <context>
@@ -222,7 +224,7 @@
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation>Estores</translation>
+        <translation>Cortinas</translation>
     </message>
     <message>
         <source>Switcher</source>
@@ -238,18 +240,33 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>aaaa/MM/dd HH:mm:dd</translation>
+        <translation>dd/MM/yyyy HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>Confirmar</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>Introduza um novo nome</translation>
     </message>
 </context>
 <context>
     <name>ScanPathsDialog</name>
     <message>
         <source>Select Directory</source>
-        <translation>Selecionar Diretoria</translation>
+        <translation>Selecionar diretório</translation>
     </message>
     <message>
         <source>This directory is disabled to sync</source>
-        <translation>Esta diretoria está desativada para sincronização</translation>
+        <translation>Este diretório está desativado para sincronização</translation>
     </message>
     <message>
         <source>Add folder</source>
@@ -257,11 +274,11 @@
     </message>
     <message>
         <source>Sync Directory Management</source>
-        <translation>Gestor de Sincronização de Diretorias</translation>
+        <translation>Gestão de diretórios de sincronização</translation>
     </message>
     <message>
         <source>The directory list is empty</source>
-        <translation>A lista de diretorias está vazia</translation>
+        <translation>A lista de diretórios está vazia</translation>
     </message>
 </context>
 <context>
@@ -280,7 +297,7 @@
     </message>
     <message>
         <source>This directory no longer exists</source>
-        <translation>Esta diretoria já não existe</translation>
+        <translation>Este diretório já não existe</translation>
     </message>
     <message>
         <source>Calculating...</source>
@@ -311,7 +328,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de Slides</translation>
+        <translation>Apresentação</translation>
     </message>
     <message>
         <source>End show</source>
@@ -327,23 +344,23 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Não Favorito</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar no sentido dos ponteiros do relógio</translation>
+        <translation>Rodar para a direita</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar no sentido contrário ao dos ponteiros do relógio</translation>
+        <translation>Rodar para a esquerda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como fundo de ecrã</translation>
+        <translation>Definir como papel de parede</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -391,15 +408,15 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>Sair do modo ecrã inteiro</translation>
+        <translation>Sair de ecrã inteiro</translation>
     </message>
     <message>
         <source>Zoom in</source>
-        <translation>Ampliar o zoom</translation>
+        <translation>Ampliar</translation>
     </message>
     <message>
         <source>Zoom out</source>
-        <translation>Reduzir o zoom</translation>
+        <translation>Reduzir</translation>
     </message>
     <message>
         <source>Open</source>
@@ -429,7 +446,7 @@
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation>Restaurar Predefinições</translation>
+        <translation>Restaurar predefinições</translation>
     </message>
 </context>
 <context>
@@ -444,7 +461,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de Slides</translation>
+        <translation>Apresentação</translation>
     </message>
     <message>
         <source>End show</source>
@@ -464,19 +481,19 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Não Favorito</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar no sentido dos ponteiros do relógio</translation>
+        <translation>Rodar para a direita</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar contra o sentido dos ponteiros do relógio</translation>
+        <translation>Rodar para a esquerda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
@@ -504,10 +521,33 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>Anterior</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>Pausa</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>Reproduzir</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Próximo</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Sair</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Definições de Slides</translation>
+        <translation>Definições de apresentação</translation>
     </message>
     <message>
         <source>Switch effect</source>
@@ -550,11 +590,11 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar no sentido anti-horário</translation>
+        <translation>Rodar para a esquerda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar no sentido horário</translation>
+        <translation>Rodar para a direita</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -573,7 +613,7 @@
     </message>
     <message>
         <source>My favorite</source>
-        <translation>Meus favoritos</translation>
+        <translation>O meu favorito</translation>
     </message>
     <message>
         <source>1:1 Size</source>
@@ -585,19 +625,19 @@
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar contra o sentido dos ponteiros do relógio</translation>
+        <translation>Rodar para a esquerda</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodas a favor dos ponteiros do relógio</translation>
+        <translation>Rodar para a direita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Remover favorito</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -608,11 +648,11 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>Sem ficheiros de imagem encontrados</translation>
+        <translation>Nenhum ficheiro de imagem encontrado</translation>
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Abrir Imagem</translation>
+        <translation>Abrir imagem</translation>
     </message>
     <message>
         <source>Image file not found</source>
@@ -623,7 +663,7 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation>Definições de Slides</translation>
+        <translation>Definições de apresentação</translation>
     </message>
     <message>
         <source>Effect</source>
@@ -681,7 +721,7 @@
     </message>
     <message>
         <source>Slide show</source>
-        <translation>Apresentação de Slides</translation>
+        <translation>Apresentação</translation>
     </message>
     <message>
         <source>Print</source>
@@ -697,11 +737,11 @@
     </message>
     <message>
         <source>Favorite</source>
-        <translation>Favorito</translation>
+        <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation>Não Favorito</translation>
+        <translation>Remover dos favoritos</translation>
     </message>
     <message>
         <source>Show navigation window</source>
@@ -713,15 +753,15 @@
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation>Rodar no sentido dos ponteiros do relógio</translation>
+        <translation>Rodar para a direita</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation>Rodar contra o sentido dos ponteiros do relógio</translation>
+        <translation>Rodar para a esquerda</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation>Definir como fundo de ecrã</translation>
+        <translation>Definir como papel de parede</translation>
     </message>
     <message>
         <source>Display in file manager</source>
@@ -737,11 +777,19 @@
     </message>
     <message>
         <source>Open Image</source>
-        <translation>Abrir Imagem</translation>
+        <translation>Abrir imagem</translation>
     </message>
     <message>
         <source>All images</source>
         <translation>Todas as imagens</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>Renomear</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>Desenhar</translation>
     </message>
 </context>
 </TS>

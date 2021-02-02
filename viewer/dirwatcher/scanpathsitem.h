@@ -20,15 +20,18 @@
 #include "utils/imageutils.h"
 #include <QFrame>
 #include <QThread>
+#include <DLabel>
 
 class QHBoxLayout;
-class QLabel;
+
+DWIDGET_USE_NAMESPACE
+typedef DLabel QLbtoDLabel;
 
 // CountingThread
 class CountingThread : public QThread {
     Q_OBJECT
 public:
-    CountingThread(const QString &path);
+    explicit CountingThread(const QString &path);
 
     void run() Q_DECL_OVERRIDE;
 
@@ -42,7 +45,7 @@ private:
 class ScanPathsItem : public QFrame {
     Q_OBJECT
 public:
-    ScanPathsItem(const QString &path);
+    explicit ScanPathsItem(const QString &path);
 
 protected:
     void enterEvent(QEvent *e) Q_DECL_OVERRIDE {
@@ -76,9 +79,9 @@ private:
     int m_countTID;
     CountingThread *m_thread = nullptr;
     QString m_path;
-    QLabel *m_dirLabel;
-    QLabel *m_pathLabel;
-    QLabel *m_countLabel;
+    QLbtoDLabel *m_dirLabel;
+    QLbtoDLabel *m_pathLabel;
+    QLbtoDLabel *m_countLabel;
     QHBoxLayout *m_mainLayout;
 };
 

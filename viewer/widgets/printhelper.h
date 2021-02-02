@@ -9,7 +9,7 @@ class PrintHelper : public QObject
     Q_OBJECT
 
 public:
-    PrintHelper(QObject *parent = nullptr);
+    explicit PrintHelper(QObject *parent = nullptr);
 
     static void showPrintDialog(const QStringList &paths, QWidget *parent = nullptr);
 

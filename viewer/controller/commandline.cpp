@@ -21,7 +21,7 @@
 #include "controller/divdbuscontroller.h"
 #include "controller/configsetter.h"
 #include "service/deepinimageviewerdbus.h"
-#include "frame/mainwindow.h"
+
 #include "utils/imageutils.h"
 #include "utils/baseutils.h"
 
@@ -30,7 +30,6 @@
 #include <QDesktopWidget>
 #include <QDebug>
 #include <QFileInfo>
-#include <QMessageBox>
 
 using namespace Dtk::Widget;
 
@@ -72,9 +71,6 @@ CommandLine *CommandLine::instance()
 CommandLine::CommandLine()
 {
     m_cmdParser.addHelpOption();
-//    m_cmdParser.addVersionOption();
-//    m_cmdParser.addPositionalArgument("value", QCoreApplication::translate(
-//        "main", "Value that use for options."), "[value]");
 
     for (const CMOption *i = options; ! i->shortOption.isEmpty(); ++i) {
         addOption(i);
@@ -84,6 +80,11 @@ CommandLine::CommandLine()
 CommandLine::~CommandLine()
 {
 
+}
+
+MainWindow *CommandLine::getMainWindow()
+{
+    return w;
 }
 QString CommandLine::createOpenImageInfo(QString path, QStringList pathlist, QDateTime stime)
 {
@@ -150,9 +151,13 @@ void CommandLine::showHelp()
     fputs(qPrintable(m_cmdParser.helpText()), stdout);
 }
 
-void CommandLine::viewImage(const QString &path, const QStringList &paths)
+void CommandLine::viewImage(const QString path, const QStringList paths)
 {
-    MainWindow *w = new MainWindow(false);
+    if (!QFileInfo(path).exists()) {
+        dApp->m_timer=1000;
+    }
+    if(!w)
+    w = new MainWindow(false);
     w->setWindowRadius(18);
     w->setBorderWidth(0);
     w->show();
@@ -181,7 +186,12 @@ void CommandLine::viewImage(const QString &path, const QStringList &paths)
 
 bool CommandLine::processOption()
 {
-    if (! m_cmdParser.parse(dApp->arguments())) {
+    if(dApp->m_app == nullptr)
+    {
+        return false;
+    }
+    QStringList strlist = QCoreApplication::arguments();
+    if (!m_cmdParser.parse(dApp->m_app->arguments())) {
         showHelp();
         return false;
     }
@@ -197,15 +207,13 @@ bool CommandLine::processOption()
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
     [](DGuiApplicationHelper::ColorType type) {
-        //        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
-        //            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-        //        } else {
-        //            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-        //        }
+        Q_UNUSED(type);
+
     });
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
+    qDebug() << "names pas" << names << pas;
 #ifndef LITE_DIV
     DeepinImageViewerDBus *dvd = new DeepinImageViewerDBus(dApp->signalM);
     if (names.isEmpty() && pas.isEmpty()) {
@@ -231,6 +239,7 @@ bool CommandLine::processOption()
         DIVDBusController *dc = new DIVDBusController(dApp->signalM);
         Q_UNUSED(dc)
 #endif
+
         using namespace utils::image;
         QString name;
         QString value;
@@ -240,7 +249,6 @@ bool CommandLine::processOption()
             value = m_cmdParser.value(name);
             values = m_cmdParser.values(name);
         }
-
         if (values.isEmpty() && ! pas.isEmpty()) {
             QString path = pas.first();
             qDebug() << "path=" << path;
@@ -275,7 +283,7 @@ bool CommandLine::processOption()
                 for (int i = 0; i < list.count(); i++) {
                     QFileInfo file_info = list.at(i);
                     QString absolute_file_path = file_info.absoluteFilePath();
-                    if (QFileInfo(absolute_file_path).exists() && imageSupportRead(absolute_file_path)) {
+                    if (QFileInfo(absolute_file_path).exists() /*&& imageSupportRead(absolute_file_path)*/) {
                         string_list << absolute_file_path;
                     }
                 }
@@ -295,7 +303,6 @@ bool CommandLine::processOption()
                 values = pas;
             }
         }
-
         bool support = imageSupportRead(value);
 
         if (name == "o" || name == "open") {
@@ -353,7 +360,7 @@ bool CommandLine::processOption()
 
 bool CommandLine::processOption(QDateTime time, bool newflag)
 {
-    if (! m_cmdParser.parse(dApp->arguments())) {
+    if (! m_cmdParser.parse(dApp->m_app->arguments())) {
         showHelp();
         return false;
     }
@@ -367,18 +374,20 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     }
 
-    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-    [](DGuiApplicationHelper::ColorType type) {
-//        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
-//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-//        } else {
-//            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-//        }
-    });
-    //QMessageBox::information(0, "1111", "1111");
+//    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
+//    [](DGuiApplicationHelper::ColorType type) {
+//        Q_UNUSED(type);
+////        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
+////            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+////        } else {
+////            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+////        }
+//    });
+
 
     QStringList names = m_cmdParser.optionNames();
     QStringList pas = m_cmdParser.positionalArguments();
+    qDebug() << "names pas" << names << pas;
 #ifndef LITE_DIV
     DeepinImageViewerDBus *dvd = new DeepinImageViewerDBus(dApp->signalM);
     if (names.isEmpty() && pas.isEmpty()) {
@@ -403,6 +412,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
     } else {
         DIVDBusController *dc = new DIVDBusController(dApp->signalM);
         Q_UNUSED(dc)
+    }
 #endif
         using namespace utils::image;
         QString name;
@@ -469,7 +479,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
             }
         }
 
-        bool support = imageSupportRead(value);
+        bool support = suffixisImage(value);
 
         if (newflag) {
             if (name == "o" || name == "open") {
@@ -479,7 +489,7 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
                         if (QUrl(value).isLocalFile())
                             path =  QUrl(value).toLocalFile();
                         const QString ap = QFileInfo(path).absoluteFilePath();
-                        if (QFileInfo(path).exists() && imageSupportRead(ap)) {
+                        if (QFileInfo(path).exists() && suffixisImage(ap)) {
                             aps << ap;
                         }
                     }
@@ -553,9 +563,6 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
 
 
             }
-            // QProcess::execute("dbus-send --print-reply --dest=com.deepin.ImageViewer "
-            // "/com/deepin/ImageViewer com.deepin.ImageViewer.RaiseWindow");
-            iface.asyncCall("RaiseWindow");
 
             return false;
         }

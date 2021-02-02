@@ -21,6 +21,7 @@
 #include <QStandardPaths>
 #include "application.h"
 #include "controller/configsetter.h"
+#include "controller/dbusclient.h"
 #include "mainwidget.h"
 //#include <QDebug>
 #include <dgiovolumemanager.h>
@@ -32,8 +33,16 @@
 #include <QTimer>
 #include <QJsonParseError>
 #include <QJsonArray>
+#include <QShortcut>
+
 #include "utils/baseutils.h"
 #include "../service/dbusimageview_adaptor.h"
+#include "shortcut.h"
+#include "accessibility/ac-desktop-define.h"
+
+#define IMAGEVIEW 0
+#define SLIDESHOW 1
+
 namespace {
 
 const int MAINWIDGET_MINIMUN_HEIGHT = 335;
@@ -51,10 +60,10 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
                          ? MAINWIDGET_MINIMUN_WIDTH
-                         : dw.geometry().width() * 0.60;
+                         : dw.geometry().width() * 3 / 5;
     const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
                          ? MAINWIDGET_MINIMUN_HEIGHT
-                         : dw.geometry().height() * 0.60;
+                         : dw.geometry().height() * 3 / 5;
     const int ww =
         dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
     const int wh =
@@ -65,12 +74,16 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
 
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, ww);
     dApp->setter->setValue(SETTINGS_GROUP, SETTINGS_WINSIZE_H_KEY, wh);
-
+    m_pCenterWidget = new QSWToDStackedWidget(this);
     m_mainWidget = new MainWidget(manager, this);
-    //    QTimer::singleShot(200, [=]{
-    setCentralWidget(m_mainWidget);
-    //    });
-
+    m_pCenterWidget->addWidget(m_mainWidget);
+    m_pCenterWidget->setCurrentIndex(0);
+#ifdef OPENACCESSIBLE
+    //setObjectName(MAIN_WIDOW);
+    //setAccessibleName(MAIN_WIDOW);
+    m_pCenterWidget->setObjectName(CENTER_WIDGET);
+    m_pCenterWidget->setAccessibleName(CENTER_WIDGET);
+#endif
     if (titlebar()) {
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
@@ -91,8 +104,17 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
             }
         });
     }
+
+    setCentralWidget(m_pCenterWidget);
     moveFirstWindow();
 
+    /*lmh0806儒码优化*/
+    QTimer::singleShot(dApp->m_timer, [=]{
+        m_slidePanel =  new SlideShowPanel();
+        m_pCenterWidget->addWidget(m_slidePanel);
+        initConnection();
+        initshortcut();
+        initdbus();
 #ifndef LITE_DIV
     QThread *workerThread = new QThread;
     Worker *worker = new Worker();
@@ -106,11 +128,14 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
             &MainWindow::onThemeChanged);
 
     m_vfsManager = new DGioVolumeManager;
-    connect(m_vfsManager, &DGioVolumeManager::mountAdded, this, [ = ]() {
+    m_diskManager = new DDiskManager(this);
+    m_diskManager->setWatchChanges(true);
+    //m_vfsManager出现bug 当先插入u盘再打开程序时不能检测到u盘拔出时检测不到 正确做法disk和gio都要链接信号和槽，不能直接链接gio
+    connect(m_diskManager, &DDiskManager::mountAdded, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(true);
     });
-    connect(m_vfsManager, &DGioVolumeManager::mountRemoved, this, [ = ]() {
+    connect(m_diskManager, &DDiskManager::diskDeviceRemoved, this, [ = ]() {
         qDebug() << "!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         emit dApp->signalM->usbOutIn(false);
         if (m_picInUSB) {
@@ -123,7 +148,86 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
         }
     });
     new ImageViewAdaptor(this);
-    m_currenttime = QDateTime::currentDateTime();
+    });
+}
+
+
+void MainWindow::initshortcut()
+{
+    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    esc->setContext(Qt::WindowShortcut);
+    //解决在打开图片后,Ctrl+O快捷键无效，将快捷键实现放到此处，方便鱼其他地方调用
+    QShortcut *ctrlq = new QShortcut(QKeySequence("Ctrl+O"), this);
+    ctrlq->setContext(Qt::WindowShortcut);
+    connect(ctrlq, &QShortcut::activated, this, [=] {
+        emit dApp->signalM->sigOpenFileDialog();
+    });
+    connect(esc, &QShortcut::activated, this, [ = ] {
+        if (IMAGEVIEW == m_pCenterWidget->currentIndex())
+            emit sigExitFull();
+        else
+        {
+            if (window()->isFullScreen()) {
+                emit dApp->signalM->sigESCKeyActivated();
+                emit dApp->signalM->sigESCKeyStopSlide();
+            } else if (0 == m_pCenterWidget->currentIndex()) {
+                this->close();
+            }
+            emit dApp->signalM->hideExtensionPanel();
+        }
+    });
+}
+
+void MainWindow::initdbus()
+{
+//    m_dbus = new Dbusclient();
+}
+
+
+void MainWindow::initConnection()
+{
+    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+    connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
+        qDebug() << "receive Ctrl+Shift+/";
+        QRect rect = window()->geometry();
+        QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+        Shortcut sc;
+        QStringList shortcutString;
+        QString param1 = "-j=" + sc.toStr();
+        QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+        shortcutString << "-b" << param1 << param2;
+        qDebug() << shortcutString;
+        QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
+    });
+    connect(m_slidePanel, SIGNAL(sigloadSlideshowpath(bool)), m_mainWidget, SIGNAL(mainwgtloadslideshowpath(bool)));
+    connect(m_mainWidget, SIGNAL(sigmaindgtslideshowpath(bool, DBImgInfoList)), m_slidePanel, SLOT(Receiveslideshowpathlst(bool, DBImgInfoList)));
+    connect(this, SIGNAL(sigExitFull()), m_mainWidget, SIGNAL(sigExitFullScreen()));
+    //幻灯片显示
+    connect(dApp->signalM, &SignalManager::showSlidePanel, this, [ = ](int index) {
+        Q_UNUSED(index);
+//        if (VIEW_IMAGE != index)
+//        {
+//            m_backIndex = index;
+//        }
+        // m_backIndex_fromSlide = index;
+        titlebar()->setVisible(false);
+        setTitlebarShadowEnabled(false);
+        m_pCenterWidget->setCurrentIndex(SLIDESHOW);
+    });
+    //隐藏幻灯片显示
+    connect(dApp->signalM, &SignalManager::hideSlidePanel, this, [ = ]() {
+        emit dApp->signalM->hideExtensionPanel();
+        //if (0 != m_backIndex_fromSlide) {
+        titlebar()->setVisible(true);
+        setTitlebarShadowEnabled(true);
+        m_pCenterWidget->setCurrentIndex(IMAGEVIEW);
+       // delete m_slidePanel;
+        //   emit dApp->signalM->hideBottomToolbar(false);
+        //  emit dApp->signalM->hideExtensionPanel(false);
+        //  emit dApp->signalM->hideTopToolbar(false);
+
+    });
 }
 
 void MainWindow::moveFirstWindow()
@@ -134,23 +238,35 @@ void MainWindow::moveFirstWindow()
 
     if (processFile.exists()) {
         if (processFile.open(QIODevice::ReadWrite)) {
-            int historyId = processFile.readAll().toInt();
-            QDir hisProcessDir(QString("/proc/%1").arg(historyId));
-            processFile.close();
-            if (hisProcessDir.exists())
-                return;
+            // int historyId = processFile.readAll().toInt();
+            // processFile.close();
+            // QDir hisProcessDir(QString("/proc/%1").arg(historyId));
 
-            if (processFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
-                QTextStream pidInfo(&processFile);
-                pidInfo << dApp->applicationPid();
-                processFile.close();
-            }
-            this->moveCenter();
+            // if (hisProcessDir.exists())
+            //    return;
+             //修复程序退出太慢，关闭程序后台进程退出完成前再次点击窗口未居中
+             m_sharememory.setKey("deepin-image-viewer-siglewindow");
+             //用于上一个进程异常退出共享内存没有释放，再此处释放
+             if(m_sharememory.attach())
+                 m_sharememory.detach();
+             if(!m_sharememory.create(4))
+             {
+                 //创建失败则关联程序
+                 if (!m_sharememory.isAttached()) //检测程序当前是否关联共享内存
+                     m_sharememory.attach();
+                 return;
+             }
+             if (processFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
+                 QTextStream pidInfo(&processFile);
+                 pidInfo << dApp->m_app->applicationPid();
+                 processFile.close();
+             }
+             this->moveCenter();
         }
     } else {
         if (processFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream pidInfo(&processFile);
-            pidInfo << dApp->applicationPid();
+            pidInfo << dApp->m_app->applicationPid();
             processFile.close();
             this->moveCenter();
         } else {
@@ -164,14 +280,14 @@ void MainWindow::moveCenter()
     QPoint pos = QCursor::pos();
     QRect primaryGeometry;
 
-    for (QScreen *screen : dApp->screens()) {
+    for (QScreen *screen : dApp->m_app->screens()) {
         if (screen->geometry().contains(pos)) {
             primaryGeometry = screen->geometry();
         }
     }
 
     if (primaryGeometry.isEmpty()) {
-        primaryGeometry = dApp->primaryScreen()->geometry();
+        primaryGeometry = dApp->m_app->primaryScreen()->geometry();
     }
 
     this->move(primaryGeometry.x() + (primaryGeometry.width() - this->width()) / 2,
@@ -201,6 +317,16 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     DMainWindow::resizeEvent(e);
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event);
+    if (m_sharememory.isAttached()) //检测程序当前是否关联共享内存
+        m_sharememory.detach();
+    //隐藏详细信息
+    emit dApp->signalM->hideExtensionPanel();
+    emit dApp->endApplication();
+}
+
 bool MainWindow::windowAtEdge()
 {
     // TODO: process the multi-screen
@@ -208,7 +334,7 @@ bool MainWindow::windowAtEdge()
     bool atSeperScreenPos = false;
 
     if (currentRect.x() == 0 ||
-            qAbs(currentRect.right() - dApp->primaryScreen()->geometry().width()) <= 5) {
+            qAbs(currentRect.right() - dApp->m_app->primaryScreen()->geometry().width()) <= 5) {
         atSeperScreenPos = true;
     }
 
@@ -240,31 +366,32 @@ void MainWindow::paraOpenImageInfo(QString source, QString &path, QStringList &p
         }
     }
 }
+/*lmh0810 never used*/
+//int MainWindow::showDialog()
+//{
+//    qDebug() << "!!!!!!!!!!!!!!!!!!showDialog!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+//    DDialog *dialog = new DDialog;
 
-int MainWindow::showDialog()
-{
-    qDebug() << "!!!!!!!!!!!!!!!!!!showDialog!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-    DDialog *dialog = new DDialog;
+//    QPixmap pixmap = utils::base::renderSVG(":/assets/common/warning.svg", QSize(32, 32));
+//    QIcon icon(pixmap);
+//    dialog->setIcon(icon);
 
-    QPixmap pixmap = utils::base::renderSVG(":/resources/common/warning.svg", QSize(32, 32));
-    dialog->setIconPixmap(pixmap);
+//    //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete
+//    //    the thumbnails of the removable device?"));
+//    dialog->setMessage(tr("Image file not found"));
 
-    //    dialog->setMessage(tr("The removable device has been plugged out, are you sure to delete
-    //    the thumbnails of the removable device?"));
-    dialog->setMessage(tr("Image file not found"));
+//    dialog->addButton(tr("Cancel"));
+//    dialog->addButton(tr("Delete"), true, DDialog::ButtonRecommend);
+//    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+//    effect->setOffset(0, 4);
+//    effect->setColor(QColor(0, 145, 255, 76));
+//    effect->setBlurRadius(4);
+//    dialog->getButton(1)->setGraphicsEffect(effect);
 
-    dialog->addButton(tr("Cancel"));
-    dialog->addButton(tr("Delete"), true, DDialog::ButtonRecommend);
-    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
-    effect->setOffset(0, 4);
-    effect->setColor(QColor(0, 145, 255, 76));
-    effect->setBlurRadius(4);
-    dialog->getButton(1)->setGraphicsEffect(effect);
+//    int mode = dialog->exec();
 
-    int mode = dialog->exec();
-
-    return mode;
-}
+//    return mode;
+//}
 
 void MainWindow::OpenImage(QString path)
 {

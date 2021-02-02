@@ -14,7 +14,7 @@ const int MAX_WIDTH = 600;
 const int HEIGHT = 39;
 
 ElidedLabel::ElidedLabel(QWidget *parent)
-    : QLabel(parent)
+    : QLbtoDLabel(parent)
     , m_leftMargin(0)
 {
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());

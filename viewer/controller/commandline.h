@@ -19,7 +19,7 @@
 
 #include <QObject>
 #include <QCommandLineParser>
-
+#include "frame/mainwindow.h"
 
 struct CMOption;
 class CommandLine : public QObject
@@ -30,11 +30,11 @@ public:
     bool processOption();
     bool processOption(QDateTime time, bool newflag);
     ~CommandLine();
-
+    MainWindow *getMainWindow();
 private:
     void addOption(const CMOption *option);
     void showHelp();
-    void viewImage(const QString &path, const QStringList &paths);
+    void viewImage(const QString path, const QStringList paths);
 
     explicit CommandLine();
     QString createOpenImageInfo(QString path, QStringList pathlist, QDateTime stime);
@@ -42,6 +42,7 @@ private:
 private:
     static CommandLine *m_commandLine;
     QCommandLineParser m_cmdParser;
+    MainWindow *w{nullptr};
 };
 
 #endif // COMMANDLINE_H

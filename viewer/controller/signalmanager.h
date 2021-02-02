@@ -26,20 +26,22 @@ class SignalManager : public QObject
     Q_OBJECT
 public:
     static SignalManager *instance();
-
     // For view images
     struct ViewInfo {
         ModulePanel *lastPanel {nullptr};  // For back to the last panel
-#ifndef LITE_DIV
-        bool inDatabase = true;
-#else
-        static constexpr bool inDatabase = false;
-#endif
+        int viewMainWindowID = 0;
         bool fullScreen = false;
+        bool slideShow = false;
+    //#ifndef LITE_DIV
+    //        bool inDatabase = true;
+    //#else
+        static constexpr bool inDatabase = false;
+    //#endif
         QString album = QString();
         QString path;                       // Specific current open one
         QStringList paths = QStringList();  // Limit the view range
     };
+
 
 signals:
     void enableMainMenu(bool enable);
@@ -64,17 +66,26 @@ signals:
     void hideNavigation();
     void picInUSB(bool immediately = false);
     void picNotExists(bool immediately = false);
-    void fileDeleted();
+    void fileDeleted(QString);
+
+    /**
+     * @brief fileCreate    被监测的文件夹有新文件加入
+     * @param strFilePath   新加入的文件路径
+     */
+    void fileCreate(QString strFilePath);
+
     void picOneClear();
     void loadingDisplay(bool immediately = false);
     void picDelete();
     void allPicDelete();
+    void changetitletext(QString);
 
     void gotoTimelinePanel();
     void gotoSearchPanel(const QString &keyWord = "");
     void gotoPanel(ModulePanel *panel);
     void backToMainPanel();
     void activeWindow();
+    void showSlidePanel(int index);
 
     void imagesInserted(const DBImgInfoList infos);
     void imagesRemoved(const DBImgInfoList &infos);
@@ -83,6 +94,17 @@ signals:
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
     void startSlideShow(const ViewInfo &vinfo, bool inDB = true);
+    void setFirstImg(const QImage &img);
+    void LoadSlideShow(bool bFlag);
+    void updateButton();
+    void updatePauseButton();
+    void sigStartTimer();
+    void initButton();
+    void imagesRemovedPar(const DBImgInfoList &infos);
+    void sigESCKeyStopSlide();
+    void sigESCKeyActivated();
+    void hideSlidePanel();
+    void viewImageNoNeedReload(QString &filename/*int &fileindex*/);
 
     void viewImage(const ViewInfo &vinfo);
     void updateFileName(const QString &fileName);
@@ -99,8 +121,93 @@ signals:
 
     void sigImageOutTitleBar(bool b);
 
+    // Handle By shuwenzhi
+    /**
+     * @brief sigLoadHeadThunbnail
+     * Load first thumbnail by files
+     * @param infos
+     * thumbnails files
+     */
+    void sigLoadHeadThunbnail(const DBImgInfoList infos);
+    /**
+     * @brief sigLoadSlideshow
+     * Load first slideshow by files
+     */
+    void sigLoadfrontSlideshow();
+    /**
+     * @brief sigNoneedLoadfrontslideshow
+     * No need to load slides
+     */
+    void sigNoneedLoadfrontslideshow();
+    /**
+     * @brief sendLoadSignal    发送向前加载或者向后加载信号
+     * @param bFlags            true为头部加载，false为尾部加载
+     */
+    void sendLoadSignal(bool bFlags);
+
+    /**
+     * @brief sigDrawingBoard
+     * open Deepin-Image-Draw
+     * @param paths
+     * Images Paths
+     */
+    void sigDrawingBoard(QStringList paths);
+
+    /**
+     * @brief sigGetLastThumbnailPath
+     * get last thumbnail path
+     * @param path
+     * last thumbnail path
+     */
+    void sigGetLastThumbnailPath(QString& path);
+    /**
+     * @brief sigisThumbnailsContainPath
+     * is m_infos contain path
+     * @param path
+     * @param b
+     */
+    void sigisThumbnailsContainPath(QString path,bool& b);
+    /**
+     * @brief sigLoadTailThumbnail
+     * Load last thumbnails
+     * @param infos
+     * thumbnails files
+     */
+    void sigLoadTailThumbnail();
+    /**
+     * @brief sigGetFirstThumbnailpath
+     * get first thumbnail
+     * @param path
+     * thumbnail path
+     */
+    void sigGetFirstThumbnailpath(QString& path);
+
+    /**
+     * @brief sigOpenFileDialog
+     * 弹出FileDialog信号
+     */
+    void sigOpenFileDialog();
+    /**
+     * @brief sigGifImage
+     * 发送Qimage更新信号
+     * @author lmh
+     */
+    void sigGifImageRe();
+
+    /**
+     * @brief sigUpdateThunbnail
+     * 改变缩略图信号
+     * @param path
+     * 缩略图路径
+     */
+    void sigUpdateThunbnail(QString path);
+
+    void UpdateNavImg();
+
+    void sigStopAnimation();
+
 private:
-    explicit SignalManager(QObject *parent = 0);
+    explicit SignalManager(QObject *parent = nullptr);
 
 private:
     static SignalManager *m_signalManager;

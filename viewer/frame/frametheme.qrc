@@ -1,19 +1,19 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/common/deepin_logo.png</file>
-        <file>resources/common/deepin-image-viewer.svg</file>
-        <file>resources/common/synimages.png</file>
-        <file>resources/common/titlebar.png</file>
-        <file>resources/dark/images/del_multi_img.png</file>
-        <file>resources/dark/images/del_single_img.png</file>
-        <file>resources/dark/images/import_dir.png</file>
-        <file>resources/dark/images/importtip/close_hover.png</file>
-        <file>resources/dark/images/importtip/close_normal.png</file>
-        <file>resources/dark/images/importtip/close_press.png</file>
-        <file>resources/dark/images/item_selected.png</file>
-        <file>resources/common/about_logo.png</file>
-        <file>resources/common/ttb60.svg</file>
-        <file>resources/common/warning.svg</file>
-        <file>resources/common/titlebar.svg</file>
+        <file>assets/common/titlebar.svg</file>
+        <file>assets/common/about_logo.png</file>
+        <file>assets/common/deepin_logo.png</file>
+        <file>assets/common/deepin-image-viewer.svg</file>
+        <file>assets/common/synimages.png</file>
+        <file>assets/common/titlebar.png</file>
+        <file>assets/common/ttb60.svg</file>
+        <file>assets/common/warning.svg</file>
+        <file>assets/dark/images/del_multi_img.png</file>
+        <file>assets/dark/images/del_single_img.png</file>
+        <file>assets/dark/images/import_dir.png</file>
+        <file>assets/dark/images/item_selected.png</file>
+        <file>assets/dark/images/importtip/close_hover.png</file>
+        <file>assets/dark/images/importtip/close_normal.png</file>
+        <file>assets/dark/images/importtip/close_press.png</file>
     </qresource>
 </RCC>

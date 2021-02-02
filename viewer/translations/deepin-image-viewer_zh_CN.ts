@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -9,7 +7,7 @@
     </message>
     <message>
         <source>Image Viewer is an image viewing tool with fashion interface and smooth performance.</source>
-        <translation>看图是⼀款外观时尚，性能流畅的图⽚查看⼯具。</translation>
+        <translation>看图是一款外观时尚，性能流畅的图片查看工具。</translation>
     </message>
 </context>
 <context>
@@ -27,7 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Return</translation>
+    </message>
+    <message>
+        <source>Alt+Enter</source>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -74,14 +76,14 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="unfinished">没有发现图⽚⽂件</translation>
+        <translation>未发现图片文件</translation>
     </message>
 </context>
 <context>
     <name>MetadataName</name>
     <message>
         <source>Name</source>
-        <translation>图片名称</translation>
+        <translation>名称</translation>
     </message>
     <message>
         <source>Type</source>
@@ -89,19 +91,19 @@
     </message>
     <message>
         <source>Date modified</source>
-        <translation>修改日期</translation>
+        <translation>修改时间</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation>图片尺寸</translation>
+        <translation>尺寸</translation>
     </message>
     <message>
         <source>File size</source>
         <translation>文件大小</translation>
     </message>
     <message>
-        <source>Colorspace</source>
-        <translation>颜色空间</translation>
+        <source>Date captured</source>
+        <translation>拍摄时间</translation>
     </message>
     <message>
         <source>Exposure mode</source>
@@ -148,16 +150,16 @@
         <translation>闪光灯补偿</translation>
     </message>
     <message>
-        <source>Camera model</source>
-        <translation>相机型号</translation>
-    </message>
-    <message>
         <source>Lens model</source>
         <translation>镜头型号</translation>
     </message>
     <message>
-        <source>Date captured</source>
-        <translation>拍摄日期</translation>
+        <source>Colorspace</source>
+        <translation>颜色空间</translation>
+    </message>
+    <message>
+        <source>Camera model</source>
+        <translation>相机型号</translation>
     </message>
     <message>
         <source>Dimensions</source>
@@ -238,7 +240,22 @@
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation>yyyy年MM月dd日 HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
+    </message>
+</context>
+<context>
+    <name>RenameDialog</name>
+    <message>
+        <source>Confirm</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Input a new name</source>
+        <translation>请输入图片名称</translation>
     </message>
 </context>
 <context>
@@ -403,7 +420,7 @@
     </message>
     <message>
         <source>Open</source>
-        <translation>打开图片</translation>
+        <translation>打开</translation>
     </message>
 </context>
 <context>
@@ -504,6 +521,29 @@
     </message>
 </context>
 <context>
+    <name>SlideShowBottomBar</name>
+    <message>
+        <source>Previous</source>
+        <translation>上一张</translation>
+    </message>
+    <message>
+        <source>Pause</source>
+        <translation>暂停</translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation>播放</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>下一张</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>退出</translation>
+    </message>
+</context>
+<context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
@@ -542,7 +582,7 @@
     </message>
     <message>
         <source>1:1 Size</source>
-        <translation>1:1 视图</translation>
+        <translation>1:1视图</translation>
     </message>
     <message>
         <source>Fit to window</source>
@@ -608,7 +648,7 @@
     <name>ThumbnailWidget</name>
     <message>
         <source>No image files found</source>
-        <translation>没有发现图片文件</translation>
+        <translation>未发现图片文件</translation>
     </message>
     <message>
         <source>Open Image</source>
@@ -616,7 +656,7 @@
     </message>
     <message>
         <source>Image file not found</source>
-        <translation>没有发现图⽚⽂件</translation>
+        <translation>未发现图片文件</translation>
     </message>
 </context>
 <context>
@@ -742,6 +782,14 @@
     <message>
         <source>All images</source>
         <translation>所有图片</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>画板</translation>
     </message>
 </context>
 </TS>

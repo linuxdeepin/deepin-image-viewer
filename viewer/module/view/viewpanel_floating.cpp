@@ -33,62 +33,10 @@ DWIDGET_USE_NAMESPACE
 
 void ViewPanel::initFloatingComponent()
 {
-//    initSwitchButtons();
     initScaleLabel();
     initNavigation();
 }
 
-void ViewPanel::initSwitchButtons()
-{
-    using namespace utils::base;
-
-    DAnchors<DImageButton> pre_button = new DImageButton(this);
-    DAnchors<DImageButton> next_button = new DImageButton(this);
-
-    pre_button->setObjectName("PreviousButton");
-    next_button->setObjectName("NextButton");
-
-    pre_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
-    pre_button.setAnchor(Qt::AnchorLeft, this, Qt::AnchorLeft);
-
-    next_button.setAnchor(Qt::AnchorVerticalCenter, this, Qt::AnchorVerticalCenter);
-    next_button.setAnchor(Qt::AnchorRight, this, Qt::AnchorRight);
-
-    pre_button->setFixedSize(100, 200);
-    next_button->setFixedSize(100, 200);
-
-    pre_button->hide();
-    next_button->hide();
-
-    connect(pre_button, &DImageButton::clicked, this, &ViewPanel::showPrevious);
-    connect(next_button, &DImageButton::clicked, this, &ViewPanel::showNext);
-
-
-    connect(this, &ViewPanel::mouseMoved, this, [ = ] {
-        DAnchors<DImageButton> pb = pre_button;
-        if (m_info && m_info->visibleRegion().isNull())
-        {
-            pb.setLeftMargin(0);
-        } else
-        {
-            pb.setLeftMargin(240);
-        }
-
-        QPoint pos = mapFromGlobal(QCursor::pos());
-        QRect left_rect = pre_button->geometry();
-        QRect right_rect = next_button->geometry();
-
-        if (left_rect.contains(pos, true) || right_rect.contains(pos))
-        {
-            pre_button->show();
-            next_button->show();
-        } else
-        {
-            pre_button->hide();
-            next_button->hide();
-        }
-    });
-}
 
 void ViewPanel::initScaleLabel()
 {
@@ -98,7 +46,7 @@ void ViewPanel::initScaleLabel()
 
     QHBoxLayout *layout = new QHBoxLayout();
     scalePerc->setLayout(layout);
-    QLabel *label = new QLabel();
+    QLbtoDLabel *label = new QLbtoDLabel();
     layout->addWidget(label);
     scalePerc->setAttribute(Qt::WA_TransparentForMouseEvents);
     scalePerc.setAnchor(Qt::AnchorHorizontalCenter, this, Qt::AnchorHorizontalCenter);
@@ -115,7 +63,7 @@ void ViewPanel::initScaleLabel()
 
     QTimer *hideT = new QTimer(this);
     hideT->setSingleShot(true);
-    connect(hideT, &QTimer::timeout, scalePerc, &QLabel::hide);
+    connect(hideT, &QTimer::timeout, scalePerc, &QLbtoDLabel::hide);
 
     connect(m_viewB, &ImageView::scaled, this, [ = ](qreal perc) {
         label->setText(QString("%1%").arg(int(perc)));
@@ -145,8 +93,13 @@ void ViewPanel::initNavigation()
     m_nav.setAnchor(Qt::AnchorBottom, this, Qt::AnchorBottom);
 
     connect(this, &ViewPanel::imageChanged, this, [ = ](const QString & path, DBImgInfoList infos) {
+        Q_UNUSED(infos);
         if (path.isEmpty()) m_nav->setVisible(false);
-        m_nav->setImage(m_viewB->image());
+        m_nav->setImage(m_viewB->image(true));
+    });
+    connect(dApp->signalM, &SignalManager::UpdateNavImg, this, [ = ]() {
+        m_nav->setImage(m_viewB->image(true));
+        m_nav->setRectInImage(m_viewB->visibleImageRect());
     });
     connect(m_nav, &NavigationWidget::requestMove, [this](int x, int y) {
         m_viewB->centerOn(x, y);

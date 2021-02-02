@@ -1,22 +1,26 @@
 #include "printoptionspage.h"
 #include <QHBoxLayout>
-#include <QToolButton>
-#include <QGroupBox>
+#include <DToolButton>
+#include <DGroupBox>
 #include <QRadioButton>
 #include <QPushButton>
 #include <QDebug>
 
+DWIDGET_USE_NAMESPACE
+typedef DToolButton QTBToDToolButton;
+typedef DGroupBox QGBToDGroupBox;
+
 PrintOptionsPage::PrintOptionsPage(QWidget *parent)
-    : QDialog(parent),
+    : QDlgToDialog(parent),
       m_settings("deepin", "print-image-option")
 {
     m_noScaleBtn = new QRadioButton(tr("No scaling"));
     m_fitToImageBtn = new QRadioButton(tr("Fit page to image"));
     m_fitToPageBtn = new QRadioButton(tr("Fit image to page"));
     m_scaleBtn = new QRadioButton(tr("Scale to:"));
-    m_printWidth = new QDoubleSpinBox;
-    m_printHeight = new QDoubleSpinBox;
-    m_printUnit = new QComboBox;
+    m_printWidth = new QDSBToDDoubleSpinBox;
+    m_printHeight = new QDSBToDDoubleSpinBox;
+    m_printUnit = new QCBToDComboBox;
     m_buttonGroup = new QButtonGroup;
     m_posBtnGroup = new QButtonGroup;
 
@@ -34,7 +38,7 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
 
     QHBoxLayout *layout = new QHBoxLayout(this);
 
-    QGroupBox *posBtnBox = new QGroupBox(tr("Image Position"));
+    QGBToDGroupBox *posBtnBox = new QGBToDGroupBox(tr("Image Position"));
 
     QVBoxLayout *vLayout = new QVBoxLayout;
     QWidget *btnsWidget = new QWidget;
@@ -47,7 +51,7 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
 
     for (int row = 0; row < 3; ++row) {
         for (int column = 0; column < 3; ++column) {
-            QToolButton *btn = new QToolButton(posBtnBox);
+            QTBToDToolButton *btn = new QTBToDToolButton(posBtnBox);
             btn->setFixedSize(40, 40);
             btn->setCheckable(true);
             btnsLayout->addWidget(btn, row, column);
@@ -56,23 +60,23 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
             if (row == 0) {
                 alignment = Qt::AlignTop;
             } else if (row == 1) {
-                    alignment = Qt::AlignVCenter;
-                } else {
-                    alignment = Qt::AlignBottom;
-                }
-                if (column == 0) {
-                    alignment |= Qt::AlignLeft;
-                } else if (column == 1) {
-                    alignment |= Qt::AlignHCenter;
-                } else {
-                    alignment |= Qt::AlignRight;
-                }
-
-                m_posBtnGroup->addButton(btn, (int) alignment);
+                alignment = Qt::AlignVCenter;
+            } else {
+                alignment = Qt::AlignBottom;
             }
-        }
+            if (column == 0) {
+                alignment |= Qt::AlignLeft;
+            } else if (column == 1) {
+                alignment |= Qt::AlignHCenter;
+            } else {
+                alignment |= Qt::AlignRight;
+            }
 
-    QGroupBox *groupBox = new QGroupBox(tr("Scaling"));
+            m_posBtnGroup->addButton(btn, (int) alignment);
+        }
+    }
+
+    QGBToDGroupBox *groupBox = new QGBToDGroupBox(tr("Scaling"));
     QVBoxLayout *groupLayout = new QVBoxLayout;
     groupBox->setLayout(groupLayout);
 
@@ -93,37 +97,37 @@ PrintOptionsPage::PrintOptionsPage(QWidget *parent)
     setWindowTitle(tr("Image Settings"));
 
     connect(m_noScaleBtn, &QRadioButton::toggled, this,
-            [=] {
-                updateStatus();
-                m_settings.setValue("button_index", 0);
-            });
+    [ = ] {
+        updateStatus();
+        m_settings.setValue("button_index", 0);
+    });
 
     connect(m_fitToImageBtn, &QRadioButton::toggled, this,
-            [=] {
-                updateStatus();
-                m_settings.setValue("button_index", 1);
-            });
+    [ = ] {
+        updateStatus();
+        m_settings.setValue("button_index", 1);
+    });
 
     connect(m_fitToPageBtn, &QRadioButton::toggled, this,
-            [=] {
-                updateStatus();
-                m_settings.setValue("button_index", 2);
-            });
+    [ = ] {
+        updateStatus();
+        m_settings.setValue("button_index", 2);
+    });
 
     connect(m_scaleBtn, &QRadioButton::toggled, this,
-            [=] (bool) {
-                updateStatus();
-                m_settings.setValue("button_index", 3);
-            });
+    [ = ] (bool) {
+        updateStatus();
+        m_settings.setValue("button_index", 3);
+    });
 
-    connect(m_posBtnGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), this, [=] (QAbstractButton *) {
+    connect(m_posBtnGroup, static_cast<void (QButtonGroup::*)(QAbstractButton *)>(&QButtonGroup::buttonClicked), this, [ = ] (QAbstractButton *) {
 //        m_settings.setValue("pos", m_posBtnGroup->checkedId());
         emit valueChanged();
     });
 
-    connect(m_printWidth, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
-    connect(m_printHeight, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
-    connect(m_printUnit, &QComboBox::currentTextChanged, this, &PrintOptionsPage::valueChanged);
+    connect(m_printWidth, static_cast<void(QDSBToDDoubleSpinBox::*)(double)>(&QDSBToDDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
+    connect(m_printHeight, static_cast<void(QDSBToDDoubleSpinBox::*)(double)>(&QDSBToDDoubleSpinBox::valueChanged), this, &PrintOptionsPage::valueChanged);
+    connect(m_printUnit, &QCBToDComboBox::currentTextChanged, this, &PrintOptionsPage::valueChanged);
 
     init();
 }
@@ -200,6 +204,7 @@ Qt::Alignment PrintOptionsPage::alignment()
 
 double PrintOptionsPage::unitToInches(PrintOptionsPage::Unit unit)
 {
+    double ret = 0.0;
     switch (unit) {
     case PrintOptionsPage::Inches:
         return 1;
@@ -208,4 +213,6 @@ double PrintOptionsPage::unitToInches(PrintOptionsPage::Unit unit)
     case PrintOptionsPage::Millimeters:
         return 1 / 25.4;
     }
+
+    return ret;
 }

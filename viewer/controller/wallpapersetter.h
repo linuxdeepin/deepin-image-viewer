@@ -24,8 +24,10 @@ class WallpaperSetter : public QObject
     Q_OBJECT
 public:
     static WallpaperSetter * instance();
+
     void setWallpaper(const QString &path);
 
+    void setWallpaper(QImage img);
 private:
     enum DE {
         Deepin,
@@ -38,9 +40,7 @@ private:
         OthersDE
     };
 
-    void setDeepinWallpaper(const QString &path);
     void setGNOMEWallpaper(const QString &path);
-    void setGNOMEShellWallpaper(const QString &path);
     void setKDEWallpaper(const QString &path);
     void setLXDEWallpaper(const QString &path);
     void setXfaceWallpaper(const QString &path);

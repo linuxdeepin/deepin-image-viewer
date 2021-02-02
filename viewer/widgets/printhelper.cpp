@@ -10,6 +10,14 @@
 #include <QCoreApplication>
 #include <QImageReader>
 #include <QDebug>
+//#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 2, 2, 5))
+#include <dprintpreviewwidget.h>
+#include <dprintpreviewdialog.h>
+//#endif
+
+#ifdef USE_UNIONIMAGE
+#include "unionimage.h"
+#endif
 
 PrintHelper::PrintHelper(QObject *parent)
     : QObject(parent)
@@ -17,191 +25,111 @@ PrintHelper::PrintHelper(QObject *parent)
 
 }
 
-static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)
-{
-    QAction *last_action = nullptr;
+//static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction = nullptr)
+//{
+//    QAction *last_action = nullptr;
 
-    for (QAction *action : bar->actions()) {
-        const QString &text = action->text();
+//    for (QAction *action : bar->actions()) {
+//        const QString &text = action->text();
 
-        if (text.isEmpty())
-            continue;
+//        if (text.isEmpty())
+//            continue;
 
-        // 防止被lupdate扫描出来
-        const char *context = "QPrintPreviewDialog";
-        const char *print = "Print";
+//        // 防止被lupdate扫描出来
+//        const char *context = "QPrintPreviewDialog";
+//        const char *print = "Print";
 
-        const QMap<QString, QString> map {
-            {QCoreApplication::translate(context, "Next page"), QStringLiteral("go-next")},
-            {QCoreApplication::translate(context, "Previous page"), QStringLiteral("go-previous")},
-            {QCoreApplication::translate(context, "First page"), QStringLiteral("go-first")},
-            {QCoreApplication::translate(context, "Last page"), QStringLiteral("go-last")},
-            {QCoreApplication::translate(context, "Fit width"), QStringLiteral("fit-width")},
-            {QCoreApplication::translate(context, "Fit page"), QStringLiteral("fit-page")},
-            {QCoreApplication::translate(context, "Zoom in"), QStringLiteral("zoom-in")},
-            {QCoreApplication::translate(context, "Zoom out"), QStringLiteral("zoom-out")},
-            {QCoreApplication::translate(context, "Portrait"), QStringLiteral("layout-portrait")},
-            {QCoreApplication::translate(context, "Landscape"), QStringLiteral("layout-landscape")},
-            {QCoreApplication::translate(context, "Show single page"), QStringLiteral("view-page-one")},
-            {QCoreApplication::translate(context, "Show facing pages"), QStringLiteral("view-page-sided")},
-            {QCoreApplication::translate(context, "Show overview of all pages"), QStringLiteral("view-page-multi")},
-            {QCoreApplication::translate(context, print), QStringLiteral("print")},
-            {QCoreApplication::translate(context, "Page setup"), QStringLiteral("page-setup")}
-        };
+//        const QMap<QString, QString> map {
+//            {QCoreApplication::translate(context, "Next page"), QStringLiteral("go-next")},
+//            {QCoreApplication::translate(context, "Previous page"), QStringLiteral("go-previous")},
+//            {QCoreApplication::translate(context, "First page"), QStringLiteral("go-first")},
+//            {QCoreApplication::translate(context, "Last page"), QStringLiteral("go-last")},
+//            {QCoreApplication::translate(context, "Fit width"), QStringLiteral("fit-width")},
+//            {QCoreApplication::translate(context, "Fit page"), QStringLiteral("fit-page")},
+//            {QCoreApplication::translate(context, "Zoom in"), QStringLiteral("zoom-in")},
+//            {QCoreApplication::translate(context, "Zoom out"), QStringLiteral("zoom-out")},
+//            {QCoreApplication::translate(context, "Portrait"), QStringLiteral("layout-portrait")},
+//            {QCoreApplication::translate(context, "Landscape"), QStringLiteral("layout-landscape")},
+//            {QCoreApplication::translate(context, "Show single page"), QStringLiteral("view-page-one")},
+//            {QCoreApplication::translate(context, "Show facing pages"), QStringLiteral("view-page-sided")},
+//            {QCoreApplication::translate(context, "Show overview of all pages"), QStringLiteral("view-page-multi")},
+//            {QCoreApplication::translate(context, print), QStringLiteral("print")},
+//            {QCoreApplication::translate(context, "Page setup"), QStringLiteral("page-setup")}
+//        };
 
 
-        const QString &icon_name = map.value(action->text());
+//        const QString &icon_name = map.value(action->text());
 
-        if (icon_name.isEmpty())
-            continue;
+//        if (icon_name.isEmpty())
+//            continue;
 
-        if (pageSetupAction && icon_name == "page-setup") {
-            *pageSetupAction = action;
-        }
+//        if (pageSetupAction && icon_name == "page-setup") {
+//            *pageSetupAction = action;
+//        }
 
-        QIcon icon(QStringLiteral(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
-//        action->setIcon(icon);
-        last_action = action;
-    }
+//        QIcon icon(QStringLiteral(":/qt-project.org/dialogs/assets/images/qprintpreviewdialog/images/%1-24.svg").arg(icon_name));
+////        action->setIcon(icon);
+//        last_action = action;
+//    }
 
-    return last_action;
-}
+//    return last_action;
+//}
 
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
-    qDebug() << "ready to print!    File:" << __FILE__ << "    Line:" << __LINE__;
-    QPrinter printer;
-    QImage img;
-
-    printer.setColorMode(QPrinter::Color);
-
-    QPrintPreviewDialog printDialog(&printer, parent);
-    PrintOptionsPage *optionsPage = new PrintOptionsPage(&printDialog);
-//    printDialog.resize(800, 800);
-
-    QToolBar *toolBar = printDialog.findChild<QToolBar *>();
-    if (toolBar) {
-        QAction *page_setup_action = nullptr;
-        QAction *last_action = hookToolBarActionIcons(toolBar, &page_setup_action);
-        QAction *action = new QAction(QIcon(":/qt-project.org/dialogs/resources/images/qprintpreviewdialog/images/preview-24.svg"),
-                                      QCoreApplication::translate("PrintPreviewDialog", "Image Settings"), toolBar);
-        connect(action, &QAction::triggered, optionsPage, &PrintOptionsPage::show);
-        toolBar->insertAction(last_action, action);
-
-        // 使用QPrintPropertiesDialog代替QPageSetupDialog, 用于解决使用QPageSetupDialog进行打印设置无效的问题
-        if (page_setup_action) {
-            // 先和原有的槽断开连接
-            disconnect(page_setup_action, &QAction::triggered, nullptr, nullptr);
-            // 触发创建QPrintDialog对象
-            connect(page_setup_action, SIGNAL(triggered(bool)), &printDialog, SLOT(_q_print()), Qt::QueuedConnection);
-            // 在QPrintDialog对象被创建后调用，用于触发显示 QPrintPropertiesDialog
-            connect(page_setup_action, &QAction::triggered, &printDialog, [&printDialog] {
-                auto find_child_by_name = [](const QObject * obj, const QByteArray & class_name)
-                {
-                    for (QObject *child : obj->children()) {
-                        if (child->metaObject()->className() == class_name) {
-                            qDebug() << "return child!    File:" << __FILE__ << "    Line:" << __LINE__;
-                            return child;
-                        }
-                    }
-                    qDebug() << "return nullptr!    File:" << __FILE__ << "    Line:" << __LINE__;
-                    return (QObject *)(nullptr);
-                };
-
-                if (QPrintDialog *print_dialog = printDialog.findChild<QPrintDialog *>())
-                {
-                    print_dialog->reject();
-                    qDebug() << "show print_properties_dialog!    File:" << __FILE__ << "    Line:" << __LINE__;
-                    // 显示打印设置对话框
-                    if (QObject *print_properties_dialog = find_child_by_name(print_dialog, "QUnixPrintWidget"))
-                        QMetaObject::invokeMethod(print_properties_dialog, "_q_btnPropertiesClicked");
-                }
-            }, Qt::QueuedConnection);
-        }
-    } else {
-        qDebug() << "optionsPage hide!    File:" << __FILE__ << "    Line:" << __LINE__;
-        optionsPage->hide();
-    }
-
-    // HACK: Qt的打印设置有点bug，属性对话框中手动设置了纸张方向为横向（默认纵向）其实并不生效，
-    //（猜测是透过cups协商出了问题，跟踪src/printsupport里面的代码没有问题，
-    // 应该在src/plugins/printsupport中出的问题），
-    // 如果在构造QPainter对象之前给QPrinter设置为横向，则实际可以横向打印，
-    // 但是这时候手动选择纵向又不会生效。
-    // 所以这里的hack是事先判断图像是“横向”还是“纵向”的，给QPrinter设置默认的纸张方向，
-    // 以满足大部分图片打印的需求。
     QList<QImage> imgs;
-
+    QImage img;
     for (const QString &path : paths) {
-        // There're cases that people somehow changed the image file suffixes, like jpg -> png,
-        // we'd better detect that before printing, otherwise we get an empty print.
-        const QString format = DetectImageFormat(path);
-        if (!img.load(path, format.toLatin1())) {
-            qDebug() << "img load failed" << path;
-            continue;
-        }
-
-        imgs << img;
-    }
-
-    if (!imgs.isEmpty()) {
-        QImage img1 = imgs.first();
-        qDebug() << img1.width() << img1.height();
-        if (!img1.isNull() && img1.width() > img1.height()) {
-            printer.setPageOrientation(QPageLayout::Landscape);
-        }
-    }
-    // HACK - end
-
-    auto repaint = [&imgs, &optionsPage, &printer] {
-        QPainter painter(&printer);
-
-        for (const QImage img : imgs)
+        QString errMsg;
+        QImageReader imgReadreder(path);
+        if(imgReadreder.imageCount()>1)
         {
-            QRect rect = painter.viewport();
-            QSize size = PrintHelper::adjustSize(optionsPage, img, printer.resolution(), rect.size());
-            QPoint pos = PrintHelper::adjustPosition(optionsPage, size, rect.size());
-
-            if (size.width() < img.width() || size.height() < img.height()) {
-                painter.drawImage(pos.x(), pos.y(), img.scaledToWidth(size.width(), Qt::SmoothTransformation));
-                qDebug() << "painter drawImage normal!    File:" << __FILE__ << "    Line:" << __LINE__;
-            } else {
-                painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                painter.setViewport(pos.x(), pos.y(), size.width(), size.height());
-                painter.setWindow(img.rect());
-                painter.drawImage(0, 0, img);
-                qDebug() << "painter drawImage (0,0)!    File:" << __FILE__ << "    Line:" << __LINE__;
+            for(int imgindex=0;imgindex<imgReadreder.imageCount();imgindex++)
+            {
+                imgReadreder.jumpToImage(imgindex);
+                imgs << imgReadreder.read();
             }
-
-            if (img != imgs.last()) {
-                printer.newPage();
-                qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
+        }
+        else {
+            UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
+            if (!img.isNull()) {
+                imgs << img;
             }
         }
 
-        painter.end();
-        qDebug() << "painter OK!    File:" << __FILE__ << "    Line:" << __LINE__;
-    };
 
-    QObject::connect(&printDialog, &QPrintPreviewDialog::paintRequested, &printDialog, repaint);
-    QObject::connect(optionsPage, &PrintOptionsPage::valueChanged, optionsPage, [&printDialog] {
-        if (QPrintPreviewWidget *pw = printDialog.findChild<QPrintPreviewWidget *>())
-            pw->updatePreview();
-
-        qDebug() << "painter updatePreview!    File:" << __FILE__ << "    Line:" << __LINE__;
-    });
-
-    if (printDialog.exec() == QDialog::Accepted) {
-
-        qDebug() << "send print order succeed!";
-
-        return;
     }
-
-//    QObject::connect(printDialog, &QPrintPreviewDialog::done, printDialog,
-//                     &QPrintPreviewDialog::deleteLater);
-
-    qDebug() << "print failed!";
+    DPrintPreviewDialog printDialog2(nullptr);
+    QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
+        QPainter painter(_printer);
+        int currentIndex=0;
+        for (QImage img : imgs) {
+            if (!img.isNull()) {
+                painter.setRenderHint(QPainter::Antialiasing);
+                painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                QRect wRect  = _printer->pageRect();
+                QImage tmpMap;
+                if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                    tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                } else {
+                    tmpMap = img;
+                }
+                QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                          qreal(wRect.height() - tmpMap.height()) / 2,
+                                          tmpMap.width(), tmpMap.height());
+                painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                         tmpMap.height()), tmpMap);
+                //解决57331 【专业版1031】【看图】【5.6.3.74】tif中有相同图片时，打印预览会自动去重
+                if(currentIndex!=imgs.count()-1){
+                    _printer->newPage();
+                    qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
+                    currentIndex++;
+                }
+            }
+        }
+        painter.end();
+    });
+    printDialog2.exec();
 }
 
 QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize)

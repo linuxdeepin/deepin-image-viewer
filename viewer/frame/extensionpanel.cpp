@@ -19,6 +19,8 @@
 #include "application.h"
 #include "controller/signalmanager.h"
 #include "darrowbutton.h"
+#include "accessibility/ac-desktop-define.h"
+
 #include <DFontSizeManager>
 
 using namespace Dtk::Widget;
@@ -42,6 +44,14 @@ ExtensionPanel::ExtensionPanel(QWidget *parent)
     : DAbstractDialog(parent)
 {
     init();
+#ifdef OPENACCESSIBLE
+    setObjectName(EXTENSION_PANEL);
+    setAccessibleName(EXTENSION_PANEL);
+    m_titleBar->setObjectName(CONTENT_TITLE_BAR);
+    m_titleBar->setAccessibleName(CONTENT_TITLE_BAR);
+    m_scrollArea->setObjectName(CONTENT_SCROLL_AREA);
+    m_scrollArea->setAccessibleName(CONTENT_SCROLL_AREA);
+#endif
     //    onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     this->setWindowTitle(tr("Image info"));
     DFontSizeManager::instance()->bind(this, DFontSizeManager::T6, QFont::Medium);
@@ -76,7 +86,13 @@ void ExtensionPanel::setContent(QWidget *content)
 #endif
         m_content = content;
         updateRectWithContent();
-
+#ifdef OPENACCESSIBLE
+        if(m_content)
+        {
+            m_content->setObjectName(CONTENT_WIDGET);
+            m_content->setAccessibleName(CONTENT_WIDGET);
+        }
+#endif
         QVBoxLayout *layout = qobject_cast<QVBoxLayout *>(m_scrollArea->widget()->layout());
         if (nullptr != layout)
             layout->addWidget(content);
@@ -171,21 +187,23 @@ void ExtensionPanel::paintEvent(QPaintEvent *pe)
 //    painter.drawPath(path);
 //    painter.end();
 //}
-void ExtensionPanel::moveWithAnimation(int x, int y)
-{
-    //    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    //    animation->setDuration(ANIMATION_DURATION);
-    //    animation->setEasingCurve(ANIMATION_EASING_CURVE);
-    //    animation->setStartValue(pos());
-    //    animation->setEndValue(QPoint(x, y));
-    //    animation->start();
-    //    connect(this, &ExtensionPanel::requestStopAnimation, animation,
-    //    &QPropertyAnimation::stop); connect(this, &ExtensionPanel::requestStopAnimation,
-    //    animation,
-    //            &QPropertyAnimation::deleteLater);
-    //    connect(animation, &QPropertyAnimation::finished, animation,
-    //    &QPropertyAnimation::deleteLater);
-}
+//void ExtensionPanel::moveWithAnimation(int x, int y)
+//{
+//    Q_UNUSED(x);
+//    Q_UNUSED(y);
+//    //    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
+//    //    animation->setDuration(ANIMATION_DURATION);
+//    //    animation->setEasingCurve(ANIMATION_EASING_CURVE);
+//    //    animation->setStartValue(pos());
+//    //    animation->setEndValue(QPoint(x, y));
+//    //    animation->start();
+//    //    connect(this, &ExtensionPanel::requestStopAnimation, animation,
+//    //    &QPropertyAnimation::stop); connect(this, &ExtensionPanel::requestStopAnimation,
+//    //    animation,
+//    //            &QPropertyAnimation::deleteLater);
+//    //    connect(animation, &QPropertyAnimation::finished, animation,
+//    //    &QPropertyAnimation::deleteLater);
+//}
 
 void ExtensionPanel::init()
 {
@@ -204,7 +222,7 @@ void ExtensionPanel::init()
     m_scrollArea->viewport()->setPalette(palette);
     m_scrollArea->setFrameShape(QFrame::Shape::NoFrame);
 
-    QWidget *scrollContentWidget = new QWidget(m_scrollArea);
+    QWdToDWidget *scrollContentWidget = new QWdToDWidget(m_scrollArea);
     QVBoxLayout *scrollWidgetLayout = new QVBoxLayout;
     scrollWidgetLayout->setContentsMargins(10, 0, 10, 10);
     scrollWidgetLayout->setSpacing(0);
@@ -221,20 +239,11 @@ void ExtensionPanel::init()
     this->setLayout(m_mainLayout);
 
     m_scImageInfo = new QShortcut(this);
-    m_scImageInfo->setKey(tr("Alt+Return"));
+    m_scImageInfo->setKey(tr("Ctrl+I"));
     m_scImageInfo->setContext(Qt::ApplicationShortcut);
     m_scImageInfo->setAutoRepeat(false);
 
     connect(m_scImageInfo, &QShortcut::activated, this, [this] {
-        emit dApp->signalM->hideExtensionPanel();
-    });
-
-    m_scImageInfonum = new QShortcut(this);
-    m_scImageInfonum->setKey(tr("Alt+Enter"));
-    m_scImageInfonum->setContext(Qt::ApplicationShortcut);
-    m_scImageInfonum->setAutoRepeat(false);
-
-    connect(m_scImageInfonum, &QShortcut::activated, this, [this] {
         emit dApp->signalM->hideExtensionPanel();
     });
     // Esc

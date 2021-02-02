@@ -15,13 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "graphicsitem.h"
-#include <QMovie>
+
 #include <QDebug>
 #include <QPainter>
 
-GraphicsMovieItem::GraphicsMovieItem(const QString &fileName, QGraphicsItem *parent)
+GraphicsMovieItem::GraphicsMovieItem(const QString &fileName,const QString &suffix, QGraphicsItem *parent)
     : QGraphicsPixmapItem(fileName, parent)
 {
+    Q_UNUSED(suffix);
     m_movie = new QMovie(fileName);
     QObject::connect(m_movie, &QMovie::frameChanged, this, [ = ] {
         if (m_movie.isNull()) return;
@@ -65,7 +66,7 @@ void GraphicsMovieItem::stop()
 
 
 GraphicsPixmapItem::GraphicsPixmapItem(const QPixmap &pixmap)
-    : QGraphicsPixmapItem(pixmap, NULL)
+    : QGraphicsPixmapItem(pixmap, nullptr)
 {
 
 }
@@ -103,3 +104,6 @@ void GraphicsPixmapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
         QGraphicsPixmapItem::paint(painter, option, widget);
     }
 }
+
+
+

@@ -1,4 +1,4 @@
-/*
+    /*
  * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,22 +19,25 @@
 #include "slideeffect.h"
 #include <QThread>
 #include <QMap>
+#include "application.h"
+#include "controller/signalmanager.h"
 
 class CacheThread : public QThread
 {
     Q_OBJECT
 public:
-    CacheThread(const QString &path)
-        : QThread(NULL)
+    explicit CacheThread(const QString &path)
+        : QThread(nullptr)
         , m_path(path) {}
 
 signals:
     void cached(QString, QImage);
 
 protected:
-    void run() Q_DECL_OVERRIDE
-    {
+    void run() Q_DECL_OVERRIDE {
         QImage img = utils::image::getRotatedImage(m_path);
+//        QImage img = dApp->m_imagemap.value(m_path).toImage();
+        qDebug() << "QImage img = utils::image::getRotatedImage(m_path)" << m_path;
         emit cached(m_path, img);
     }
 
@@ -46,22 +49,38 @@ class SlideEffectPlayer : public QObject
 {
     Q_OBJECT
 public:
-    SlideEffectPlayer(QObject* parent = 0);
+    explicit SlideEffectPlayer(QObject *parent = nullptr);
+    ~SlideEffectPlayer();
     void setFrameSize(int width, int height);
-    QSize frameSize() const { return QSize(m_w, m_h);}
+//    QSize frameSize() const
+//    {
+//        return QSize(m_w, m_h);
+//    }
     // call setCurrentImage later
-    void setImagePaths(const QStringList& paths);
+    void setImagePaths(const QStringList &paths);
+    /**
+     * @brief SetlastThunbnailpath
+     * set last thumbnail path
+     * @param path
+     * last thunbnail path
+     */
+    void SetfirstlastThunbnailpath(const QString firstpath,const QString lastpath);
     // invalid path: black image+1st image
-    void setCurrentImage(const QString& path = QString());
+    void setCurrentImage(const QString &path = QString());
     QString currentImagePath() const;
     bool isRunning() const;
+    int currentImageIndex() const;
+    QString GetCurrentImagePath();
+    QStringList GetPathList();
 
 Q_SIGNALS:
-    void frameReady(const QImage& image);
+    void frameReady(const QImage &image);
     void finished();
-    void currentImageChanged(const QString& path);
+    void currentImageChanged(const QString &path);
     void stepChanged(int steps);
-
+    void updateButton();
+    void sigLoadslideshowpathlst(bool bflag);
+    void sigUpdatePanelName(QString name);
 public Q_SLOTS:
     void start();
     void stop();
@@ -70,20 +89,45 @@ public Q_SLOTS:
 protected:
     void timerEvent(QTimerEvent *e);
 
-private:
+public:
     int duration() const;
     bool startNext();
     void cacheNext();
+    void cacheNextBackUp();
+    bool startPrevious();
+    void cachePrevious();
+    void setStartNextFlag(bool flag);
 
 private:
     bool m_running = false;
     bool m_pausing = false;
     bool m_random = true;
     int m_tid;
+    int m_newtid;
     int m_w, m_h;
     QMap<QString, QImage> m_cacheImages;
     QStringList m_paths;
-    QStringList::ConstIterator m_current;
+//    QStringList::ConstIterator m_current;
+    int m_current;
+
     QThread m_thread;
     SlideEffect *m_effect = NULL;
+    bool b_4k = false;
+    bool bfirstrun = true;
+    bool bneedupdatepausebutton = false;
+
+    //maozhengyu 点击下一张标志
+    bool bstartnext = false;
+    //Loop play flag
+    bool bLoopPlayback = false;
+    //save last image
+    QString LoopPlayoldpath;
+    //last thunbnail path
+    QString m_LastThumbnailPath;
+    //first thumbnail path
+    QString m_FirstThumbnailPath;
+    //slideshow new path
+    QString m_newpath;
+    //slideshow old path
+    QString m_oldpath;
 };

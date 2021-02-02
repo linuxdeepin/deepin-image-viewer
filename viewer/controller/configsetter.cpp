@@ -22,9 +22,9 @@
 #include <QProcess>
 
 const QString CONFIG_PATH =   QDir::homePath() +
-        "/.config/deepin/deepin-image-viewer/config.conf";
+                              "/.config/deepin/deepin-image-viewer/config.conf";
 const QString DB_PATH = QDir::homePath() +
-        "/.local/share/deepin/deepin-image-viewer/deepinimageviewer.db";
+                        "/.local/share/deepin/deepin-image-viewer/deepinimageviewer.db";
 
 ConfigSetter::ConfigSetter(QObject *parent) : QObject(parent)
 {
@@ -45,8 +45,8 @@ ConfigSetter *ConfigSetter::instance()
     return m_setter;
 }
 
-void ConfigSetter::setValue(const QString &group, const QString &key,
-                            const QVariant &value)
+void ConfigSetter::setValue(const QString group, const QString key,
+                            const QVariant value)
 {
 //    QMutexLocker locker(&m_mutex);
 
@@ -57,8 +57,8 @@ void ConfigSetter::setValue(const QString &group, const QString &key,
     emit valueChanged(group, key, value);
 }
 
-QVariant ConfigSetter::value(const QString &group, const QString &key,
-                             const QVariant &defaultValue)
+QVariant ConfigSetter::value(const QString group, const QString key,
+                             const QVariant defaultValue)
 {
     QMutexLocker locker(&m_mutex);
 
@@ -70,7 +70,7 @@ QVariant ConfigSetter::value(const QString &group, const QString &key,
     return value;
 }
 
-QStringList ConfigSetter::keys(const QString &group)
+QStringList ConfigSetter::keys(const QString group)
 {
     QStringList v;
     m_settings->beginGroup(group);

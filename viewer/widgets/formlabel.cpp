@@ -17,7 +17,7 @@
 #include "formlabel.h"
 
 SimpleFormLabel::SimpleFormLabel(const QString &t, QWidget *parent)
-    : QLabel(t, parent)
+    : QLbtoDLabel(t, parent)
 {
     QFont font;
     font.setPixelSize(12);
@@ -33,16 +33,17 @@ void SimpleFormLabel::resizeEvent(QResizeEvent *event)
         // define minimum height
         setMinimumHeight(heightForWidth(width()));
     }
-    QLabel::resizeEvent(event);
+    QLbtoDLabel::resizeEvent(event);
 }
 
 SimpleFormField::SimpleFormField(QWidget *parent)
-    : QLabel(parent)
+    : QLbtoDLabel(parent)
 {
     QFont font;
     font.setPixelSize(12);
     setFont(font);
-    setWordWrap(true);
+    //取消内容信息标签换行
+   // setWordWrap(true);
 }
 
 void SimpleFormField::resizeEvent(QResizeEvent *event)
@@ -53,5 +54,5 @@ void SimpleFormField::resizeEvent(QResizeEvent *event)
         // define minimum height
         setMinimumHeight(heightForWidth(width()));
     }
-    QLabel::resizeEvent(event);
+    QLbtoDLabel::resizeEvent(event);
 }
