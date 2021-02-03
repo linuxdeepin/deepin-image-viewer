@@ -41,52 +41,25 @@ Shortcut::Shortcut(QObject *parent)
     ShortcutGroup group3;
 
     group1.groupName = tr("Image Viewing");
-#ifndef LITE_DIV
-    group2.groupName = tr("Album");
-#endif
+
     group3.groupName = tr("Settings");
-    group1.groupItems <<
-#ifndef LITE_DIV
-        ShortcutItem(tr("View"), "Enter") <<
-#endif
-        ShortcutItem(tr("Fullscreen"), ss(VIEW_GROUP, "Fullscreen", "F11"))
-                      << ShortcutItem(tr("Exit fullscreen"), "Esc") <<
-        ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show", "F5"))
-                      << ShortcutItem(tr("Rename"), "F2") <<
-#ifndef LITE_DIV
-        ShortcutItem(tr("Slide show"), ss(VIEW_GROUP, "Slide show"))
-                      << ShortcutItem(tr("End show"), ss(VIEW_GROUP, "End show")) <<
-#endif
-        ShortcutItem(tr("Copy"), ss(VIEW_GROUP, "Copy", "Ctrl + C"))
-                      << ShortcutItem(tr("Delete"), "Delete") <<
-#ifndef LITE_DIV
-        ShortcutItem(tr("Remove from album"), ss(VIEW_GROUP, "Remove from album"))
-                      << ShortcutItem(tr("Favorite"), ss(VIEW_GROUP, "Favorite"))
-                      << ShortcutItem(tr("Unfavorite"), ss(VIEW_GROUP, "Unfavorite")) <<
-#endif
-        ShortcutItem(tr("Rotate clockwise"), ss(VIEW_GROUP, "Rotate clockwise", "Ctrl + R"))
-                      << ShortcutItem(tr("Rotate counterclockwise"),
-                                      ss(VIEW_GROUP, "Rotate counterclockwise", "Ctrl + Shift + R"))
-                      << ShortcutItem(tr("Set as wallpaper"),
-                                      ss(VIEW_GROUP, "Set as wallpaper", "Ctrl + F9"))
-                      << ShortcutItem(tr("Display in file manager"),
-                                      ss(VIEW_GROUP, "Display in file manager", "Alt + D"))
-                      <<
-        //    ShortcutItem(tr("Image info"), ss(VIEW_GROUP, "Image info", "Alt + Enter"))<<
-        ShortcutItem(tr("Image info"), "Ctrl + I") << ShortcutItem(tr("Previous"), "Left")
+    //整理代码结构，解决显示界面出现和快捷键不一致问题，是由于配置文件导致，但配置文件无效，改为不使用配置文件
+    group1.groupItems << ShortcutItem(tr("Fullscreen"),  "F11")
+                      << ShortcutItem(tr("Exit fullscreen"), "Esc")
+                      << ShortcutItem(tr("Slide show"), "F5")
+                      << ShortcutItem(tr("Rename"), "F2")
+                      << ShortcutItem(tr("Copy"), "Ctrl + C")
+                      << ShortcutItem(tr("Delete"), "Delete")
+                      << ShortcutItem(tr("Rotate clockwise"), "Ctrl + R")
+                      << ShortcutItem(tr("Rotate counterclockwise"),  "Ctrl + Shift + R")
+                      << ShortcutItem(tr("Set as wallpaper"),"Ctrl + F9")
+                      << ShortcutItem(tr("Display in file manager"),"Alt + D")
+                      << ShortcutItem(tr("Image info"), "Ctrl + I")
+                      << ShortcutItem(tr("Previous"), "Left")
                       << ShortcutItem(tr("Next"), "Right")
                       << ShortcutItem(tr("Zoom in"), "Ctrl+ '+'")
                       << ShortcutItem(tr("Zoom out"), "Ctrl+ '-'")
-                      << ShortcutItem(tr("Open"), "Ctrl+O")
-
-#ifndef LITE_DIV
-                      << ShortcutItem(tr("Previous screen"), "PageUp")
-                      << ShortcutItem(tr("Next screen"), "PageDown");
-    group2.groupItems << ShortcutItem(tr("New album"), ss(ALBUM_GROUP, "New album"))
-                      << ShortcutItem(tr("Rename"), ss(ALBUM_GROUP, "Rename"));
-#else
-        ;
-#endif
+                      << ShortcutItem(tr("Open"), "Ctrl+O");
 
     group3.groupItems << ShortcutItem(tr("Help"), "F1")
                       << ShortcutItem(tr("Display shortcuts"), "Ctrl + Shift + ?");
