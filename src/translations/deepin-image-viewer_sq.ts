@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sq">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sq" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Return</translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Hap Drejtori</translation>
+        <translation>Hap Drejtori</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Anuloje</translation>
+        <translation>Anuloje</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Fshije</translation>
+        <translation>Fshije</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">S’u gjet kartelë figure</translation>
+        <translation>S’u gjet kartelë figure</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Përmasë</translation>
+        <translation>Përmasë</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Rregullime Figurash</translation>
+        <translation>Rregullime Figurash</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Grila</translation>
+        <translation>Grila</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Këmbyes</translation>
+        <translation>Këmbyes</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Rrëshqitje</translation>
+        <translation>Rrëshqitje</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Unazë</translation>
+        <translation>Unazë</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">dd/MM/yyyy HH:mm:dd</translation>
+        <translation>dd/MM/yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Ju lutemi, jepni shkurtore të re</translation>
+        <translation>Ju lutemi, jepni shkurtore të re</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Shkurtore</translation>
+        <translation>Shkurtore</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Shihni Foto</translation>
+        <translation>Shihni Foto</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Rikthe Parazgjedhjet</translation>
+        <translation>Rikthe Parazgjedhjet</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Pamje</translation>
+        <translation>Pamje</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Sa krejt ekrani</translation>
+        <translation>Sa krejt ekrani</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Shfaqje diapozitivash</translation>
+        <translation>Shfaqje diapozitivash</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Përfundoje shfaqjen</translation>
+        <translation>Përfundoje shfaqjen</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Shtype</translation>
+        <translation>Shtype</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Kopjoje</translation>
+        <translation>Kopjoje</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Hiqe nga albumi</translation>
+        <translation>Hiqe nga albumi</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">E parapëlqyer</translation>
+        <translation>E parapëlqyer</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Hiqe si të parapëlqyer</translation>
+        <translation>Hiqe si të parapëlqyer</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Rrotulloje në kah orar</translation>
+        <translation>Rrotulloje në kah orar</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Rrotulloje në kah kundërorar</translation>
+        <translation>Rrotulloje në kah kundërorar</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Vëre si sfond</translation>
+        <translation>Vëre si sfond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Shfaqe në përgjegjës kartelash</translation>
+        <translation>Shfaqe në përgjegjës kartelash</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Të dhëna figure</translation>
+        <translation>Të dhëna figure</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Album i ri</translation>
+        <translation>Album i ri</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Riemërtojeni</translation>
+        <translation>Riemërtojeni</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Fshije</translation>
+        <translation>Fshije</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Rregullime Diapozitivash</translation>
+        <translation>Rregullime Diapozitivash</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Këmbeni efekt</translation>
+        <translation>Këmbeni efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Kohëzgjatje</translation>
+        <translation>Kohëzgjatje</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Këmbeni kohëzgjatje</translation>
+        <translation>Këmbeni kohëzgjatje</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">sekondë</translation>
+        <translation>sekondë</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Rregullime Diapozitivash</translation>
+        <translation>Rregullime Diapozitivash</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Efekt</translation>
+        <translation>Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Kohëzgjatje</translation>
+        <translation>Kohëzgjatje</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Shkurtore</translation>
+        <translation>Shkurtore</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Shiheni</translation>
+        <translation>Shiheni</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Album i ri</translation>
+        <translation>Album i ri</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Rregullime</translation>
+        <translation>Rregullime</translation>
     </message>
 </context>
 <context>
@@ -792,6 +786,10 @@
     <message>
         <source>Rename</source>
         <translation>Riemërtojeni</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation>Vizatoni</translation>
     </message>
 </context>
 </TS>

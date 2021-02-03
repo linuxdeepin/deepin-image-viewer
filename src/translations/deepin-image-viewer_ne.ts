@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ne">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ne" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,11 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">अल्त +रीतर्न / Alt +Return</translation>
+        <translation>अल्त +रीतर्न / Alt +Return</translation>
     </message>
     <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <source>Alt+Enter</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -56,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">निर्देशिका खोल्नुहोस्</translation>
+        <translation>निर्देशिका खोल्नुहोस्</translation>
     </message>
 </context>
 <context>
@@ -70,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">रद्द गर्नुहोस्</translation>
+        <translation>रद्द गर्नुहोस्</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">डिलिट गर्नुहोस्  / हटाउनु गर्नुहोस् </translation>
+        <translation>डिलिट गर्नुहोस्  / हटाउनु गर्नुहोस् </translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">तस्वीर फाईल फेला परेन</translation>
+        <translation>तस्वीर फाईल फेला परेन</translation>
     </message>
 </context>
 <context>
@@ -97,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">आयाम</translation>
+        <translation>आयाम</translation>
     </message>
     <message>
         <source>File size</source>
@@ -188,7 +186,7 @@
     </message>
     <message>
         <source>Scale to:</source>
-        <translation>&#xa0;स्केल तु</translation>
+        <translation> स्केल तु</translation>
     </message>
     <message>
         <source>Millimeters</source>
@@ -219,37 +217,37 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">छवि सेटिंग्स</translation>
+        <translation>छवि सेटिंग्स</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">ब्लाइन्डहरू</translation>
+        <translation>ब्लाइन्डहरू</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">स्विचर</translation>
+        <translation>स्विचर</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">स्लाइडि</translation>
+        <translation>स्लाइडि</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">रिङ्ग </translation>
+        <translation>रिङ्ग </translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">वर्षा /महिना /गते  घण्टा :मिनट :दिन</translation>
+        <translation>वर्षा /महिना /गते  घण्टा :मिनट :दिन</translation>
     </message>
 </context>
 <context>
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Cancel</source>
@@ -257,7 +255,7 @@
     </message>
     <message>
         <source>Input a new name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -429,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">कृपया नयाँ सर्टकट प्रविष्ट गर्नुहोस्</translation>
+        <translation>कृपया नयाँ सर्टकट प्रविष्ट गर्नुहोस्</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">सर्टकटहरू</translation>
+        <translation>सर्टकटहरू</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">चित्र हेर्नुहोस्</translation>
+        <translation>चित्र हेर्नुहोस्</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">एल्बम</translation>
+        <translation>एल्बम</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">फेरी पहिलाकै अवस्था मा लैजाऊ</translation>
+        <translation>फेरी पहिलाकै अवस्था मा लैजाऊ</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">हेर्नुहोस्</translation>
+        <translation>हेर्नुहोस्</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">पूर्णस्क्रीन</translation>
+        <translation>पूर्णस्क्रीन</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">स्लाइड शो</translation>
+        <translation>स्लाइड शो</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">अन्त्य कार्यक्रम</translation>
+        <translation>अन्त्य कार्यक्रम</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">प्रिन्ट गर्नुहोस्</translation>
+        <translation>प्रिन्ट गर्नुहोस्</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">कपि</translation>
+        <translation>कपि</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">एल्बमबाट हटाउनुहोस्</translation>
+        <translation>एल्बमबाट हटाउनुहोस्</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">मनपर्ने</translation>
+        <translation>मनपर्ने</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">मन नपर्ने</translation>
+        <translation>मन नपर्ने</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">घडीको दिशामा घुमाउनुहोस्</translation>
+        <translation>घडीको दिशामा घुमाउनुहोस्</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">घडिको उल्टो दिशामा घुमाउनुहोस्</translation>
+        <translation>घडिको उल्टो दिशामा घुमाउनुहोस्</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">वालपेपरको रूपमा सेट गर्नुहोस्</translation>
+        <translation>वालपेपरको रूपमा सेट गर्नुहोस्</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">फाइल प्रबन्धकमा प्रदर्शन गर्नुहोस्</translation>
+        <translation>फाइल प्रबन्धकमा प्रदर्शन गर्नुहोस्</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">छवि जानकारी</translation>
+        <translation>छवि जानकारी</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">नयाँ एल्बम</translation>
+        <translation>नयाँ एल्बम</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">नाम बदल्नुहोस्</translation>
+        <translation>नाम बदल्नुहोस्</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">हटाउनु होस् </translation>
+        <translation>हटाउनु होस् </translation>
     </message>
 </context>
 <context>
@@ -530,11 +528,11 @@
     </message>
     <message>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Next</source>
@@ -542,30 +540,30 @@
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">स्लाइड सेटिंग्स</translation>
+        <translation>स्लाइड सेटिंग्स</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">स्विच प्रभाव</translation>
+        <translation>स्विच प्रभाव</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">अवधि</translation>
+        <translation>अवधि</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">स्विच अवधि</translation>
+        <translation>स्विच अवधि</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">सेकन्ड</translation>
+        <translation>सेकन्ड</translation>
     </message>
 </context>
 <context>
@@ -665,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">स्लाइड सेटिंग्स</translation>
+        <translation>स्लाइड सेटिंग्स</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">एफ्फेक्त </translation>
+        <translation>एफ्फेक्त </translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">अवधि</translation>
+        <translation>अवधि</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">सर्टकटहरू</translation>
+        <translation>सर्टकटहरू</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">हेर्नुहोस्</translation>
+        <translation>हेर्नुहोस्</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">एल्बम</translation>
+        <translation>एल्बम</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">नयाँ एल्बम</translation>
+        <translation>नयाँ एल्बम</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">सेटिंग्स</translation>
+        <translation>सेटिंग्स</translation>
     </message>
 </context>
 <context>
@@ -788,6 +786,10 @@
     <message>
         <source>Rename</source>
         <translation>नाम बदल्नुहोस्</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

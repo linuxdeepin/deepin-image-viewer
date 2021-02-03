@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ko">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Return</translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">디렉토리 열기</translation>
+        <translation>디렉토리 열기</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">취소</translation>
+        <translation>취소</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">삭제</translation>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">이미지 파일을 찾을 수 없음</translation>
+        <translation>이미지 파일을 찾을 수 없음</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">치수</translation>
+        <translation>치수</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">이미지 설정</translation>
+        <translation>이미지 설정</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">블라인드</translation>
+        <translation>블라인드</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">전환도구</translation>
+        <translation>전환도구</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">슬라이딩</translation>
+        <translation>슬라이딩</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">링</translation>
+        <translation>링</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">새 바로가기를 입력하십시오</translation>
+        <translation>새 바로가기를 입력하십시오</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">단축키</translation>
+        <translation>단축키</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">사진 보기</translation>
+        <translation>사진 보기</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">앨범</translation>
+        <translation>앨범</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">기본값 복원</translation>
+        <translation>기본값 복원</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">보기</translation>
+        <translation>보기</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">전체화면</translation>
+        <translation>전체화면</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">슬라이드 표시</translation>
+        <translation>슬라이드 표시</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">표시 종료</translation>
+        <translation>표시 종료</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">인쇄</translation>
+        <translation>인쇄</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">복사</translation>
+        <translation>복사</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">엘범에서 제거</translation>
+        <translation>엘범에서 제거</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">즐겨찾기</translation>
+        <translation>즐겨찾기</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">즐겨찾기 해제</translation>
+        <translation>즐겨찾기 해제</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">시계 방향으로 회전</translation>
+        <translation>시계 방향으로 회전</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">시계 반대 방향으로 회전</translation>
+        <translation>시계 반대 방향으로 회전</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">바탕화면으로 설정</translation>
+        <translation>바탕화면으로 설정</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">파일 관리도구에 표시</translation>
+        <translation>파일 관리도구에 표시</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">이미지 정보</translation>
+        <translation>이미지 정보</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">새 앨범</translation>
+        <translation>새 앨범</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">이름 변경</translation>
+        <translation>이름 변경</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">삭제</translation>
+        <translation>삭제</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">슬라이드 설정</translation>
+        <translation>슬라이드 설정</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">효과 전환</translation>
+        <translation>효과 전환</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">지속시간</translation>
+        <translation>지속시간</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">지속시간 전환</translation>
+        <translation>지속시간 전환</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">초</translation>
+        <translation>초</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">슬라이드 설정</translation>
+        <translation>슬라이드 설정</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">효과</translation>
+        <translation>효과</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">지속시간</translation>
+        <translation>지속시간</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">단축키</translation>
+        <translation>단축키</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">보기</translation>
+        <translation>보기</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">앨범</translation>
+        <translation>앨범</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">새 앨범</translation>
+        <translation>새 앨범</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">설정</translation>
+        <translation>설정</translation>
     </message>
 </context>
 <context>
@@ -795,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">그리기</translation>
+        <translation>그리기</translation>
     </message>
 </context>
 </TS>

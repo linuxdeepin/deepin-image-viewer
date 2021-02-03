@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ar">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Return</translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">فتح الدليل</translation>
+        <translation>فتح الدليل</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">إلغاء</translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">حذف</translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">لم يتم العثور على أي صورة</translation>
+        <translation>لم يتم العثور على أي صورة</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">الأبعاد</translation>
+        <translation>الأبعاد</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">إعدادت الصورة</translation>
+        <translation>إعدادت الصورة</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">إسدال</translation>
+        <translation>إسدال</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">تبديل</translation>
+        <translation>تبديل</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">انزلاق</translation>
+        <translation>انزلاق</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">حلقة</translation>
+        <translation>حلقة</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">السنة/الشهر/اليوم</translation>
+        <translation>السنة/الشهر/اليوم</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">يرجى إضافة اختصار جديد</translation>
+        <translation>يرجى إضافة اختصار جديد</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">الاختصارات</translation>
+        <translation>الاختصارات</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">عرض الصورة</translation>
+        <translation>عرض الصورة</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">ألبوم</translation>
+        <translation>ألبوم</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">استعادة الافتراضيات</translation>
+        <translation>استعادة الافتراضيات</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">عرض</translation>
+        <translation>عرض</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">شاشة كاملة</translation>
+        <translation>شاشة كاملة</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">عرض الشرائح</translation>
+        <translation>عرض الشرائح</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">إنهاء العرض</translation>
+        <translation>إنهاء العرض</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">طباعة</translation>
+        <translation>طباعة</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">نسخ</translation>
+        <translation>نسخ</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">حذف من اﻷلبوم</translation>
+        <translation>حذف من اﻷلبوم</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">المفضلة</translation>
+        <translation>المفضلة</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">إزالة من المفضلة</translation>
+        <translation>إزالة من المفضلة</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">تدوير باتجاه عقارب الساعة</translation>
+        <translation>تدوير باتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">تدوير عكس اتجاه عقارب الساعة</translation>
+        <translation>تدوير عكس اتجاه عقارب الساعة</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">تعيين كخلفية</translation>
+        <translation>تعيين كخلفية</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">عرض في مدير الملفات</translation>
+        <translation>عرض في مدير الملفات</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">معلومات الصورة</translation>
+        <translation>معلومات الصورة</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">ألبوم جديد</translation>
+        <translation>ألبوم جديد</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">إعادة التسمية</translation>
+        <translation>إعادة التسمية</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">حذف</translation>
+        <translation>حذف</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">إعدادات الشريحة</translation>
+        <translation>إعدادات الشريحة</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">تاثيرات الانتقال</translation>
+        <translation>تاثيرات الانتقال</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">المدة</translation>
+        <translation>المدة</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">مدة التبديل</translation>
+        <translation>مدة التبديل</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">ثانية</translation>
+        <translation>ثانية</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">إعدادات الشريحة</translation>
+        <translation>إعدادات الشريحة</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">التأثير</translation>
+        <translation>التأثير</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">المدة</translation>
+        <translation>المدة</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">الاختصارات</translation>
+        <translation>الاختصارات</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">عرض</translation>
+        <translation>عرض</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">ألبوم</translation>
+        <translation>ألبوم</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">ألبوم جديد</translation>
+        <translation>ألبوم جديد</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">الإعدادات</translation>
+        <translation>الإعدادات</translation>
     </message>
 </context>
 <context>
@@ -792,6 +786,10 @@
     <message>
         <source>Rename</source>
         <translation>إعادة التسمية</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

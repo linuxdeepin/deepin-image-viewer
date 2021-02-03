@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Enter</translation>
+        <translation>Alt+Enter</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Otevřít složku</translation>
+        <translation>Otevřít složku</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">Soubor s obrázkem nenalezen.</translation>
+        <translation>Soubor s obrázkem nenalezen.</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Rozměr</translation>
+        <translation>Rozměr</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Nastavení obrázku</translation>
+        <translation>Nastavení obrázku</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Rolování</translation>
+        <translation>Rolování</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Přepínač</translation>
+        <translation>Přepínač</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Promítání</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Prstenec</translation>
+        <translation>Prstenec</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">dd.MM.yyyy hh:mm:ss</translation>
+        <translation>dd.MM.yyyy hh:mm:ss</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Zadejte novou zkratku</translation>
+        <translation>Zadejte novou zkratku</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Zkratky</translation>
+        <translation>Zkratky</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Zobrazit obrázek</translation>
+        <translation>Zobrazit obrázek</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Vrátit na výchozí hodnoty</translation>
+        <translation>Vrátit na výchozí hodnoty</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Pohled</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Celá obrazovka</translation>
+        <translation>Celá obrazovka</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Promítání</translation>
+        <translation>Promítání</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Ukončit promítání</translation>
+        <translation>Ukončit promítání</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Tisk</translation>
+        <translation>Tisk</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Kopírovat</translation>
+        <translation>Kopírovat</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Odstranit z alba</translation>
+        <translation>Odstranit z alba</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Oblíbené</translation>
+        <translation>Oblíbené</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Odebrat z oblíbených</translation>
+        <translation>Odebrat z oblíbených</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Otočit doprava</translation>
+        <translation>Otočit doprava</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Otočit doleva</translation>
+        <translation>Otočit doleva</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Nastavit jako pozadí plochy</translation>
+        <translation>Nastavit jako pozadí plochy</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Zobrazit ve správci souborů</translation>
+        <translation>Zobrazit ve správci souborů</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Informace o obrázku</translation>
+        <translation>Informace o obrázku</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Nové album</translation>
+        <translation>Nové album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Přejmenovat</translation>
+        <translation>Přejmenovat</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Nastavení promítání</translation>
+        <translation>Nastavení promítání</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Efekt přepínání</translation>
+        <translation>Efekt přepínání</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Doba trvání</translation>
+        <translation>Doba trvání</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Doba mezi přepnutími</translation>
+        <translation>Doba mezi přepnutími</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">sekund</translation>
+        <translation>sekund</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Nastavení promítání</translation>
+        <translation>Nastavení promítání</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Efekt</translation>
+        <translation>Efekt</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Doba trvání</translation>
+        <translation>Doba trvání</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Zkratky</translation>
+        <translation>Zkratky</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Pohled</translation>
+        <translation>Pohled</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Nové album</translation>
+        <translation>Nové album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Nastavení</translation>
+        <translation>Nastavení</translation>
     </message>
 </context>
 <context>
@@ -795,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">Kresba</translation>
+        <translation>Kresba</translation>
     </message>
 </context>
 </TS>

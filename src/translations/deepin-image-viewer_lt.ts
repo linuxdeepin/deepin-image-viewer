@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="lt">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,11 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Įvesti</translation>
+        <translation>Alt+Įvesti</translation>
     </message>
     <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <source>Alt+Enter</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -56,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Atverti katalogą</translation>
+        <translation>Atverti katalogą</translation>
     </message>
 </context>
 <context>
@@ -70,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Atsisakyti</translation>
+        <translation>Atsisakyti</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Ištrinti</translation>
+        <translation>Ištrinti</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">Paveikslas nerastas</translation>
+        <translation>Paveikslas nerastas</translation>
     </message>
 </context>
 <context>
@@ -97,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Matmenys</translation>
+        <translation>Matmenys</translation>
     </message>
     <message>
         <source>File size</source>
@@ -219,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Paveikslo nustatymai</translation>
+        <translation>Paveikslo nustatymai</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Langinės</translation>
+        <translation>Langinės</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Perjungiklis</translation>
+        <translation>Perjungiklis</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Slinkimas</translation>
+        <translation>Slinkimas</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Žiedas</translation>
+        <translation>Žiedas</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -429,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Prašome įvesti naują trumpinį</translation>
+        <translation>Prašome įvesti naują trumpinį</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Trumpiniai</translation>
+        <translation>Trumpiniai</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Paveikslo rodymas</translation>
+        <translation>Paveikslo rodymas</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Albumas</translation>
+        <translation>Albumas</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Atkurti numatytuosius</translation>
+        <translation>Atkurti numatytuosius</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Žiūrėti</translation>
+        <translation>Žiūrėti</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Visas ekranas</translation>
+        <translation>Visas ekranas</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Skaidrių rodymas</translation>
+        <translation>Skaidrių rodymas</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Užbaigti rodymą</translation>
+        <translation>Užbaigti rodymą</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Spausdinti</translation>
+        <translation>Spausdinti</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Kopijuoti</translation>
+        <translation>Kopijuoti</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Šalinti iš albumo</translation>
+        <translation>Šalinti iš albumo</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Mėgstamas</translation>
+        <translation>Mėgstamas</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Nebemėgstamas</translation>
+        <translation>Nebemėgstamas</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Pasukti pagal laikrodžio rodyklę</translation>
+        <translation>Pasukti pagal laikrodžio rodyklę</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Pasukti prieš laikrodžio rodyklę</translation>
+        <translation>Pasukti prieš laikrodžio rodyklę</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Nustatyti kaip darbalaukio foną</translation>
+        <translation>Nustatyti kaip darbalaukio foną</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Rodyti failų tvarkytuvėje</translation>
+        <translation>Rodyti failų tvarkytuvėje</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Paveikslo informacija</translation>
+        <translation>Paveikslo informacija</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Naujas albumas</translation>
+        <translation>Naujas albumas</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Pervadinti</translation>
+        <translation>Pervadinti</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Ištrinti</translation>
+        <translation>Ištrinti</translation>
     </message>
 </context>
 <context>
@@ -549,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Slinkimo nustatymai</translation>
+        <translation>Slinkimo nustatymai</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Perjungimo efektas</translation>
+        <translation>Perjungimo efektas</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Trukmė</translation>
+        <translation>Trukmė</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Perjungimo trukmė</translation>
+        <translation>Perjungimo trukmė</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">sekundės</translation>
+        <translation>sekundės</translation>
     </message>
 </context>
 <context>
@@ -665,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Slinkimo nustatymai</translation>
+        <translation>Slinkimo nustatymai</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Efektai</translation>
+        <translation>Efektai</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Trukmė</translation>
+        <translation>Trukmė</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Trumpiniai</translation>
+        <translation>Trumpiniai</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Rodymas</translation>
+        <translation>Rodymas</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Albumas</translation>
+        <translation>Albumas</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Naujas albumas</translation>
+        <translation>Naujas albumas</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Nustatymai</translation>
+        <translation>Nustatymai</translation>
     </message>
 </context>
 <context>
@@ -788,6 +786,10 @@
     <message>
         <source>Rename</source>
         <translation>Pervadinti</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

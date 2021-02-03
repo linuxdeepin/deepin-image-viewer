@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Return</translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Открыть каталог</translation>
+        <translation>Открыть каталог</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">Файл изображения не найден</translation>
+        <translation>Файл изображения не найден</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Измерение</translation>
+        <translation>Измерение</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Настройки Изображения</translation>
+        <translation>Настройки Изображения</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Шторка</translation>
+        <translation>Шторка</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Коммутатор</translation>
+        <translation>Коммутатор</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Скользящий</translation>
+        <translation>Скользящий</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Кольцо</translation>
+        <translation>Кольцо</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">dd.MM.yyyy HH:mm:ss</translation>
+        <translation>dd.MM.yyyy HH:mm:ss</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Пожалуйста, введите новое сочетание клавиш</translation>
+        <translation>Пожалуйста, введите новое сочетание клавиш</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Сочетания клавиш</translation>
+        <translation>Сочетания клавиш</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Просмотр изображения</translation>
+        <translation>Просмотр изображения</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Альбом</translation>
+        <translation>Альбом</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Восстановить значения по Умолчанию</translation>
+        <translation>Восстановить значения по Умолчанию</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Просмотр</translation>
+        <translation>Просмотр</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Полный Зкран</translation>
+        <translation>Полный Зкран</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Слайд-шоу</translation>
+        <translation>Слайд-шоу</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Закончить показ</translation>
+        <translation>Закончить показ</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Распечатать</translation>
+        <translation>Распечатать</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Копировать</translation>
+        <translation>Копировать</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Удалить из альбома</translation>
+        <translation>Удалить из альбома</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Избранное</translation>
+        <translation>Избранное</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Удалить из избранного</translation>
+        <translation>Удалить из избранного</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Повернуть по часовой стрелке</translation>
+        <translation>Повернуть по часовой стрелке</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Повернуть против часовой стрелки</translation>
+        <translation>Повернуть против часовой стрелки</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Установить в качестве обоев</translation>
+        <translation>Установить в качестве обоев</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Отобразить в менеджере файлов</translation>
+        <translation>Отобразить в менеджере файлов</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Информация о изображении</translation>
+        <translation>Информация о изображении</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Новый альбом</translation>
+        <translation>Новый альбом</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Переименовать</translation>
+        <translation>Переименовать</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Настройки Показа</translation>
+        <translation>Настройки Показа</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Переключить эффекты</translation>
+        <translation>Переключить эффекты</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Продолжительность</translation>
+        <translation>Продолжительность</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Продолжительность переключения</translation>
+        <translation>Продолжительность переключения</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">секунда</translation>
+        <translation>секунда</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Настройки Показа</translation>
+        <translation>Настройки Показа</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Эффект</translation>
+        <translation>Эффект</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Продолжительность</translation>
+        <translation>Продолжительность</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Сочетания клавиш</translation>
+        <translation>Сочетания клавиш</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Просмотр</translation>
+        <translation>Просмотр</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Альбом</translation>
+        <translation>Альбом</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Новый альбом</translation>
+        <translation>Новый альбом</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Настройки</translation>
+        <translation>Настройки</translation>
     </message>
 </context>
 <context>
@@ -795,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">Рисовать</translation>
+        <translation>Рисовать</translation>
     </message>
 </context>
 </TS>

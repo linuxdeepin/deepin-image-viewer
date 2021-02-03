@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ms">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ms" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Return</translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Buka Direktori</translation>
+        <translation>Buka Direktori</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Batal</translation>
+        <translation>Batal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Padam</translation>
+        <translation>Padam</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">Fail imej tidak ditemui</translation>
+        <translation>Fail imej tidak ditemui</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Dimensi</translation>
+        <translation>Dimensi</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Tetapan Imej</translation>
+        <translation>Tetapan Imej</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Bidaian</translation>
+        <translation>Bidaian</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Penukar</translation>
+        <translation>Penukar</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Pelungsur</translation>
+        <translation>Pelungsur</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Gelang</translation>
+        <translation>Gelang</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Sila masukkan pintasan baharu</translation>
+        <translation>Sila masukkan pintasan baharu</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Pintasan</translation>
+        <translation>Pintasan</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Lihat Gambar</translation>
+        <translation>Lihat Gambar</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Pulih Lalai</translation>
+        <translation>Pulih Lalai</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Lihat</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Skrin penuh</translation>
+        <translation>Skrin penuh</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Paparan slaid</translation>
+        <translation>Paparan slaid</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Tamat paparan</translation>
+        <translation>Tamat paparan</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Cetak</translation>
+        <translation>Cetak</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Salin</translation>
+        <translation>Salin</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Buang dari album</translation>
+        <translation>Buang dari album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Kegemaran</translation>
+        <translation>Kegemaran</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Nyahgemar</translation>
+        <translation>Nyahgemar</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Putar ikut jam</translation>
+        <translation>Putar ikut jam</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Putar lawan jam</translation>
+        <translation>Putar lawan jam</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Tetapkan sebagai kertas dinding</translation>
+        <translation>Tetapkan sebagai kertas dinding</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Papar dalam pengurus fail</translation>
+        <translation>Papar dalam pengurus fail</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Maklumat imej</translation>
+        <translation>Maklumat imej</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Album baharu</translation>
+        <translation>Album baharu</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Nama semula</translation>
+        <translation>Nama semula</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Padam</translation>
+        <translation>Padam</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Tetapan Slaid</translation>
+        <translation>Tetapan Slaid</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Tukar kesan</translation>
+        <translation>Tukar kesan</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Jangkamasa</translation>
+        <translation>Jangkamasa</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Tukar jangkamasa</translation>
+        <translation>Tukar jangkamasa</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">saat</translation>
+        <translation>saat</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Tetapan Slaid</translation>
+        <translation>Tetapan Slaid</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Kesan</translation>
+        <translation>Kesan</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Jangkamasa</translation>
+        <translation>Jangkamasa</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Pintasan</translation>
+        <translation>Pintasan</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Lihat</translation>
+        <translation>Lihat</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Album baharu</translation>
+        <translation>Album baharu</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Tetapan</translation>
+        <translation>Tetapan</translation>
     </message>
 </context>
 <context>
@@ -792,6 +786,10 @@
     <message>
         <source>Rename</source>
         <translation>Nama semula</translation>
+    </message>
+    <message>
+        <source>Draw</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="tr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Return</translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Dizin Aç</translation>
+        <translation>Dizin Aç</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">İptal</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Sil</translation>
+        <translation>Sil</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">Görsel dosya bulunamadı</translation>
+        <translation>Görsel dosya bulunamadı</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Boyut</translation>
+        <translation>Boyut</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Görsel Ayarları</translation>
+        <translation>Görsel Ayarları</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Panjur</translation>
+        <translation>Panjur</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Değiştirici</translation>
+        <translation>Değiştirici</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Kayar</translation>
+        <translation>Kayar</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Halka</translation>
+        <translation>Halka</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Lütfen yeni bir kısayol gir</translation>
+        <translation>Lütfen yeni bir kısayol gir</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Kısayollar</translation>
+        <translation>Kısayollar</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Görseli Görüntüle</translation>
+        <translation>Görseli Görüntüle</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Albüm</translation>
+        <translation>Albüm</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Varsayılanları Geri Yükle</translation>
+        <translation>Varsayılanları Geri Yükle</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Görünüm</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Tam ekran</translation>
+        <translation>Tam ekran</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Slayt gösterisi</translation>
+        <translation>Slayt gösterisi</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Sunumu bitir</translation>
+        <translation>Sunumu bitir</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Yazdır </translation>
+        <translation>Yazdır </translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Kopyala</translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Albümden kaldır</translation>
+        <translation>Albümden kaldır</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Sık kullanılanlara ekle</translation>
+        <translation>Sık kullanılanlara ekle</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Sık kullanılanlardan kaldır</translation>
+        <translation>Sık kullanılanlardan kaldır</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Saat yönünde döndür</translation>
+        <translation>Saat yönünde döndür</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Saat yönünün tersine döndür</translation>
+        <translation>Saat yönünün tersine döndür</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Duvar kağıdı olarak ayarla</translation>
+        <translation>Duvar kağıdı olarak ayarla</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Dosya yöneticisinde görüntüle</translation>
+        <translation>Dosya yöneticisinde görüntüle</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Görsel bilgisi</translation>
+        <translation>Görsel bilgisi</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Yeni albüm</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Yeniden adlandır</translation>
+        <translation>Yeniden adlandır</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Sil</translation>
+        <translation>Sil</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Slayt Ayarları</translation>
+        <translation>Slayt Ayarları</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Geçiş etkisi</translation>
+        <translation>Geçiş etkisi</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Süre</translation>
+        <translation>Süre</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Geçiş süresi</translation>
+        <translation>Geçiş süresi</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">saniye</translation>
+        <translation>saniye</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Slayt Ayarları</translation>
+        <translation>Slayt Ayarları</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Etki</translation>
+        <translation>Etki</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Süre</translation>
+        <translation>Süre</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Kısayollar</translation>
+        <translation>Kısayollar</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Görünüm</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Albüm</translation>
+        <translation>Albüm</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Yeni albüm</translation>
+        <translation>Yeni albüm</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Ayarlar</translation>
+        <translation>Ayarlar</translation>
     </message>
 </context>
 <context>
@@ -795,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">Çizim</translation>
+        <translation>Çizim</translation>
     </message>
 </context>
 </TS>

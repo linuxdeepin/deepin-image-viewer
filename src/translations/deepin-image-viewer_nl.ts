@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Enter</translation>
+        <translation>Alt+Enter</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Map openen</translation>
+        <translation>Map openen</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Annuleren</translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">Afbeelding niet aangetroffen</translation>
+        <translation>Afbeelding niet aangetroffen</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Afmetingen</translation>
+        <translation>Afmetingen</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Afbeeldingsinstellingen</translation>
+        <translation>Afbeeldingsinstellingen</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Rolgordijn</translation>
+        <translation>Rolgordijn</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Wisselaar</translation>
+        <translation>Wisselaar</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Schuiven</translation>
+        <translation>Schuiven</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Ring</translation>
+        <translation>Ring</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Druk op een nieuwe sneltoets</translation>
+        <translation>Druk op een nieuwe sneltoets</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Sneltoetsen</translation>
+        <translation>Sneltoetsen</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Afbeelding bekijken</translation>
+        <translation>Afbeelding bekijken</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Standaardwaarden herstellen</translation>
+        <translation>Standaardwaarden herstellen</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Bekijken</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Beeldvullend</translation>
+        <translation>Beeldvullend</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Diavoorstelling</translation>
+        <translation>Diavoorstelling</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Diavoorstelling beëindigen</translation>
+        <translation>Diavoorstelling beëindigen</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Afdrukken</translation>
+        <translation>Afdrukken</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Kopiëren</translation>
+        <translation>Kopiëren</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Verwijderen uit album</translation>
+        <translation>Verwijderen uit album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Toev. aan favorieten</translation>
+        <translation>Toev. aan favorieten</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Verw. uit favorieten</translation>
+        <translation>Verw. uit favorieten</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Naar rechts draaien</translation>
+        <translation>Naar rechts draaien</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Naar links draaien</translation>
+        <translation>Naar links draaien</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Instellen als achtergrond</translation>
+        <translation>Instellen als achtergrond</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Tonen in bestandsbeheerder</translation>
+        <translation>Tonen in bestandsbeheerder</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Eigenschappen</translation>
+        <translation>Eigenschappen</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Nieuw album</translation>
+        <translation>Nieuw album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Naam wijzigen</translation>
+        <translation>Naam wijzigen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Verwijderen</translation>
+        <translation>Verwijderen</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Diavoorstellingsinstellingen</translation>
+        <translation>Diavoorstellingsinstellingen</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Overgangseffect</translation>
+        <translation>Overgangseffect</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Duur</translation>
+        <translation>Duur</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Overgangsduur</translation>
+        <translation>Overgangsduur</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">seconde</translation>
+        <translation>seconde</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Diavoorstellingsinstellingen</translation>
+        <translation>Diavoorstellingsinstellingen</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Effect</translation>
+        <translation>Effect</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Duur</translation>
+        <translation>Duur</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Sneltoetsen</translation>
+        <translation>Sneltoetsen</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Bekijken</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Nieuw album</translation>
+        <translation>Nieuw album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Instellingen</translation>
+        <translation>Instellingen</translation>
     </message>
 </context>
 <context>
@@ -795,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">Tekenen</translation>
+        <translation>Tekenen</translation>
     </message>
 </context>
 </TS>

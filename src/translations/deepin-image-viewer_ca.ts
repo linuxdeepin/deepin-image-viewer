@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ca">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ca" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt + Retorn</translation>
+        <translation>Alt + Retorn</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt + Retorn</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt + Retorn</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Obre un directori</translation>
+        <translation>Obre un directori</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Cancel·la</translation>
+        <translation>Cancel·la</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Suprimeix</translation>
+        <translation>Suprimeix</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
+        <translation>No s&apos;ha trobat cap fitxer d&apos;imatge.</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Dimensió</translation>
+        <translation>Dimensió</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Configuració de la imatge</translation>
+        <translation>Configuració de la imatge</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Persianes</translation>
+        <translation>Persianes</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Commutador</translation>
+        <translation>Commutador</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Lliscament</translation>
+        <translation>Lliscament</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Anell</translation>
+        <translation>Anell</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">dd/MM/yyyy HH:mm:dd</translation>
+        <translation>dd/MM/yyyy HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Si us plau, introduïu una drecera nova.</translation>
+        <translation>Si us plau, introduïu una drecera nova.</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Dreceres</translation>
+        <translation>Dreceres</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Mostra la imatge</translation>
+        <translation>Mostra la imatge</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Àlbum</translation>
+        <translation>Àlbum</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Restableix els valors per defecte</translation>
+        <translation>Restableix els valors per defecte</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Visualització</translation>
+        <translation>Visualització</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Pantalla completa</translation>
+        <translation>Pantalla completa</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Presentació de diapositives</translation>
+        <translation>Presentació de diapositives</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Acaba la presentació</translation>
+        <translation>Acaba la presentació</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Imprimeix</translation>
+        <translation>Imprimeix</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Copia</translation>
+        <translation>Copia</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Elimina de l&apos;àlbum</translation>
+        <translation>Elimina de l&apos;àlbum</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Favorit</translation>
+        <translation>Favorit</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">No favorit</translation>
+        <translation>No favorit</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Gira a la dreta</translation>
+        <translation>Gira a la dreta</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Gira a l&apos;esquerra</translation>
+        <translation>Gira a l&apos;esquerra</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Estableix com a fons d&apos;escriptori</translation>
+        <translation>Estableix com a fons d&apos;escriptori</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Mostra al gestor de fitxers</translation>
+        <translation>Mostra al gestor de fitxers</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Informació de la imatge</translation>
+        <translation>Informació de la imatge</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Àlbum nou</translation>
+        <translation>Àlbum nou</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Canvia&apos;n el nom</translation>
+        <translation>Canvia&apos;n el nom</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Elimina</translation>
+        <translation>Elimina</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Paràmetres de la presentació</translation>
+        <translation>Paràmetres de la presentació</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Efecte de canvi</translation>
+        <translation>Efecte de canvi</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Durada</translation>
+        <translation>Durada</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Durada del canvi</translation>
+        <translation>Durada del canvi</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">segon</translation>
+        <translation>segon</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Paràmetres de la presentació</translation>
+        <translation>Paràmetres de la presentació</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Efecte</translation>
+        <translation>Efecte</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Durada</translation>
+        <translation>Durada</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Dreceres</translation>
+        <translation>Dreceres</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Visualitza</translation>
+        <translation>Visualitza</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Àlbum</translation>
+        <translation>Àlbum</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Àlbum nou</translation>
+        <translation>Àlbum nou</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Configuració</translation>
+        <translation>Configuració</translation>
     </message>
 </context>
 <context>
@@ -795,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">Dibuix</translation>
+        <translation>Dibuix</translation>
     </message>
 </context>
 </TS>

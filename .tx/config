@@ -4,15 +4,15 @@ minimum_perc = 80
 mode = developer
 
 [deepin-image-viewer.deepin-image-viewer]
-file_filter = viewer/translations/deepin-image-viewer_<lang>.ts
-source_file = viewer/translations/deepin-image-viewer.ts
+file_filter = src/translations/deepin-image-viewer_<lang>.ts
+source_file = src/translations/deepin-image-viewer.ts
 source_lang = en
 type = QT
 
 [deepin-image-viewer.deepin-image-viewer-desktop-ts]
-file_filter = viewer/translations/desktop/desktop_<lang>.ts
-source_file = viewer/translations/desktop/desktop.ts
-preTranslate_file = viewer/deepin-image-viewer.desktop
+file_filter = src/translations/desktop/desktop_<lang>.ts
+source_file = src/translations/desktop/desktop.ts
+preTranslate_file = src/deepin-image-viewer.desktop
 source_lang = en
 type = QT
 

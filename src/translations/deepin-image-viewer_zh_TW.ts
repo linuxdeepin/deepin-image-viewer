@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_TW">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_TW" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,22 +25,18 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Return</translation>
+        <translation>Alt+Return</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
     <name>ImageInfoWidget</name>
     <message>
         <source>Basic info</source>
-        <translation>基本訊息</translation>
+        <translation>基本資訊</translation>
     </message>
     <message>
         <source>Details</source>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">開啟資料夾</translation>
+        <translation>開啟資料夾</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">刪除</translation>
+        <translation>刪除</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">未發現圖片文件</translation>
+        <translation>未發現圖片文件</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">尺寸</translation>
+        <translation>尺寸</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">圖片設定</translation>
+        <translation>圖片設定</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">百葉窗</translation>
+        <translation>百葉窗</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">自內向外</translation>
+        <translation>自內向外</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">自外向內</translation>
+        <translation>自外向內</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">圓環</translation>
+        <translation>圓環</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">請輸入新快速鍵</translation>
+        <translation>請輸入新快速鍵</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">快速鍵</translation>
+        <translation>快速鍵</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">圖片檢視</translation>
+        <translation>圖片檢視</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">相簿管理</translation>
+        <translation>相簿管理</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">還原預設值</translation>
+        <translation>還原預設值</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">圖片檢視</translation>
+        <translation>圖片檢視</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">全螢幕</translation>
+        <translation>全螢幕</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">開始幻燈片秀</translation>
+        <translation>開始幻燈片秀</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">結束幻燈片秀</translation>
+        <translation>結束幻燈片秀</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">列印</translation>
+        <translation>列印</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">複製</translation>
+        <translation>複製</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">從相簿移除</translation>
+        <translation>從相簿移除</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">加到我的最愛</translation>
+        <translation>加到我的最愛</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">移除我的最愛</translation>
+        <translation>移除我的最愛</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">順時針旋轉</translation>
+        <translation>順時針旋轉</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">逆時針旋轉</translation>
+        <translation>逆時針旋轉</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">設定為桌布</translation>
+        <translation>設定為桌布</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">開啟檔案位置</translation>
+        <translation>開啟檔案位置</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">圖片資訊</translation>
+        <translation>圖片資訊</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">新增相簿</translation>
+        <translation>新增相簿</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">重新命名</translation>
+        <translation>重新命名</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">刪除</translation>
+        <translation>刪除</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">幻燈片秀設定</translation>
+        <translation>幻燈片秀設定</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">切換效果</translation>
+        <translation>切換效果</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">間隔時間</translation>
+        <translation>間隔時間</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">切換間隔時間</translation>
+        <translation>切換間隔時間</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">秒</translation>
+        <translation>秒</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">幻燈片秀設定</translation>
+        <translation>幻燈片秀設定</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">切換效果</translation>
+        <translation>切換效果</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">間隔時間</translation>
+        <translation>間隔時間</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">快速鍵</translation>
+        <translation>快速鍵</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">圖片檢視</translation>
+        <translation>圖片檢視</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">相簿管理</translation>
+        <translation>相簿管理</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">新增相簿</translation>
+        <translation>新增相簿</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">設定</translation>
+        <translation>設定</translation>
     </message>
 </context>
 <context>
@@ -719,7 +713,7 @@
     </message>
     <message>
         <source>Exit fullscreen</source>
-        <translation>結束全螢幕</translation>
+        <translation>退出全螢幕</translation>
     </message>
     <message>
         <source>Fullscreen</source>
@@ -751,11 +745,11 @@
     </message>
     <message>
         <source>Show navigation window</source>
-        <translation>顯示工具列</translation>
+        <translation>顯示導航視窗</translation>
     </message>
     <message>
         <source>Hide navigation window</source>
-        <translation>隱藏工具列</translation>
+        <translation>隱藏導航視窗</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
@@ -795,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">畫板</translation>
+        <translation>畫板</translation>
     </message>
 </context>
 </TS>

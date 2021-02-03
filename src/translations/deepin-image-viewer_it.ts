@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="it">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -28,15 +26,11 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Indietro</translation>
+        <translation>Alt+Indietro</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Invio</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Invio</translation>
     </message>
 </context>
 <context>
@@ -61,7 +55,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Apri cartella</translation>
+        <translation>Apri cartella</translation>
     </message>
 </context>
 <context>
@@ -75,15 +69,15 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Annulla</translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Elimina</translation>
+        <translation>Elimina</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">File immagine non trovato</translation>
+        <translation>File immagine non trovato</translation>
     </message>
 </context>
 <context>
@@ -102,7 +96,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Dimensione</translation>
+        <translation>Dimensione</translation>
     </message>
     <message>
         <source>File size</source>
@@ -224,30 +218,30 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Impostazioni immagine</translation>
+        <translation>Impostazioni immagine</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Oscuramento</translation>
+        <translation>Oscuramento</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Switcher</translation>
+        <translation>Switcher</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Sliding</translation>
+        <translation>Sliding</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Ring</translation>
+        <translation>Ring</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -434,97 +428,97 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Inserisci una nuova scorciatoia</translation>
+        <translation>Inserisci una nuova scorciatoia</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Scorciatoie</translation>
+        <translation>Scorciatoie</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Visualizza immagine</translation>
+        <translation>Visualizza immagine</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Ripristina predefiniti</translation>
+        <translation>Ripristina predefiniti</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Visualizza</translation>
+        <translation>Visualizza</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Schermo intero</translation>
+        <translation>Schermo intero</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Presentazione</translation>
+        <translation>Presentazione</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Termina presentazione</translation>
+        <translation>Termina presentazione</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Stampa</translation>
+        <translation>Stampa</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Copia</translation>
+        <translation>Copia</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Rimuovi dall&apos;album</translation>
+        <translation>Rimuovi dall&apos;album</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Preferita</translation>
+        <translation>Preferita</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Elimina dai preferiti</translation>
+        <translation>Elimina dai preferiti</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Ruota in senso orario</translation>
+        <translation>Ruota in senso orario</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Ruota in senso antiorario</translation>
+        <translation>Ruota in senso antiorario</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Imposta come wallpaper</translation>
+        <translation>Imposta come wallpaper</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Visualizza nel file manager</translation>
+        <translation>Visualizza nel file manager</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Info immagine</translation>
+        <translation>Info immagine</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Nuovo album</translation>
+        <translation>Nuovo album</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Rinomina</translation>
+        <translation>Rinomina</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Elimina</translation>
+        <translation>Elimina</translation>
     </message>
 </context>
 <context>
@@ -554,23 +548,23 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Impostazioni slide</translation>
+        <translation>Impostazioni slide</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Effetto transizione</translation>
+        <translation>Effetto transizione</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Durata</translation>
+        <translation>Durata</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Durata transizione</translation>
+        <translation>Durata transizione</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">secondi</translation>
+        <translation>secondi</translation>
     </message>
 </context>
 <context>
@@ -670,38 +664,38 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Impostazioni slide</translation>
+        <translation>Impostazioni slide</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Effetto</translation>
+        <translation>Effetto</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Durata</translation>
+        <translation>Durata</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Scorciatoie</translation>
+        <translation>Scorciatoie</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Visualizza</translation>
+        <translation>Visualizza</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Album</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Nuovo album</translation>
+        <translation>Nuovo album</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Impostazioni</translation>
+        <translation>Impostazioni</translation>
     </message>
 </context>
 <context>
@@ -796,7 +790,7 @@ Localizzazione italiana a cura di Massimo A. Carofano.</translation>
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">Disegno</translation>
+        <translation>Disegno</translation>
     </message>
 </context>
 </TS>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fi">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fi" version="2.1">
 <context>
     <name>Application</name>
     <message>
@@ -27,15 +25,11 @@
     </message>
     <message>
         <source>Alt+Return</source>
-        <translation type="vanished">Alt+Palutus</translation>
+        <translation>Alt+Palutus</translation>
     </message>
     <message>
         <source>Alt+Enter</source>
-        <translation type="vanished">Alt+Enter</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Enter</translation>
     </message>
 </context>
 <context>
@@ -60,7 +54,7 @@
     <name>Importer</name>
     <message>
         <source>Open Directory</source>
-        <translation type="vanished">Avaa hakemisto</translation>
+        <translation>Avaa hakemisto</translation>
     </message>
 </context>
 <context>
@@ -74,15 +68,15 @@
     <name>MainWindow</name>
     <message>
         <source>Cancel</source>
-        <translation type="vanished">Peru</translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Poista</translation>
+        <translation>Poista</translation>
     </message>
     <message>
         <source>Image file not found</source>
-        <translation type="vanished">Kuvatiedostoa ei löytynyt</translation>
+        <translation>Kuvatiedostoa ei löytynyt</translation>
     </message>
 </context>
 <context>
@@ -101,7 +95,7 @@
     </message>
     <message>
         <source>Dimension</source>
-        <translation type="vanished">Mitat</translation>
+        <translation>Mitat</translation>
     </message>
     <message>
         <source>File size</source>
@@ -223,30 +217,30 @@
     <name>PrintPreviewDialog</name>
     <message>
         <source>Image Settings</source>
-        <translation type="vanished">Kuvan asetukset</translation>
+        <translation>Kuvan asetukset</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Blinds</source>
-        <translation type="vanished">Kaihtimet</translation>
+        <translation>Kaihtimet</translation>
     </message>
     <message>
         <source>Switcher</source>
-        <translation type="vanished">Vaihtaja</translation>
+        <translation>Vaihtaja</translation>
     </message>
     <message>
         <source>Sliding</source>
-        <translation type="vanished">Liukuva</translation>
+        <translation>Liukuva</translation>
     </message>
     <message>
         <source>Ring</source>
-        <translation type="vanished">Ympyrä</translation>
+        <translation>Ympyrä</translation>
     </message>
     <message>
         <source>yyyy/MM/dd HH:mm:dd</source>
-        <translation type="vanished">yyyy/MM/dd HH:mm:dd</translation>
+        <translation>yyyy/MM/dd HH:mm:dd</translation>
     </message>
 </context>
 <context>
@@ -433,97 +427,97 @@
     <name>ShortcutEditor</name>
     <message>
         <source>Please enter a new shortcut</source>
-        <translation type="vanished">Anna uusi pikakuvake</translation>
+        <translation>Anna uusi pikakuvake</translation>
     </message>
 </context>
 <context>
     <name>ShortcutFrame</name>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Pikakuvakkeet</translation>
+        <translation>Pikakuvakkeet</translation>
     </message>
     <message>
         <source>View Picture</source>
-        <translation type="vanished">Näytä kuva</translation>
+        <translation>Näytä kuva</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Albumi</translation>
+        <translation>Albumi</translation>
     </message>
     <message>
         <source>Restore Defaults</source>
-        <translation type="vanished">Palauta oletukset</translation>
+        <translation>Palauta oletukset</translation>
     </message>
 </context>
 <context>
     <name>ShortcutKey</name>
     <message>
         <source>View</source>
-        <translation type="vanished">Näytä</translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <source>Fullscreen</source>
-        <translation type="vanished">Koko näyttö</translation>
+        <translation>Koko näyttö</translation>
     </message>
     <message>
         <source>Slide show</source>
-        <translation type="vanished">Diaesitys</translation>
+        <translation>Diaesitys</translation>
     </message>
     <message>
         <source>End show</source>
-        <translation type="vanished">Lopeta diaesitys</translation>
+        <translation>Lopeta diaesitys</translation>
     </message>
     <message>
         <source>Print</source>
-        <translation type="vanished">Tulosta</translation>
+        <translation>Tulosta</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="vanished">Kopioi</translation>
+        <translation>Kopioi</translation>
     </message>
     <message>
         <source>Remove from album</source>
-        <translation type="vanished">Poista albumista</translation>
+        <translation>Poista albumista</translation>
     </message>
     <message>
         <source>Favorite</source>
-        <translation type="vanished">Suosikkini</translation>
+        <translation>Suosikkini</translation>
     </message>
     <message>
         <source>Unfavorite</source>
-        <translation type="vanished">Poista-suosikki</translation>
+        <translation>Poista-suosikki</translation>
     </message>
     <message>
         <source>Rotate clockwise</source>
-        <translation type="vanished">Kierrä myötäpäivään</translation>
+        <translation>Kierrä myötäpäivään</translation>
     </message>
     <message>
         <source>Rotate counterclockwise</source>
-        <translation type="vanished">Kierrä vastapäivään</translation>
+        <translation>Kierrä vastapäivään</translation>
     </message>
     <message>
         <source>Set as wallpaper</source>
-        <translation type="vanished">Aseta taustakuvaksi</translation>
+        <translation>Aseta taustakuvaksi</translation>
     </message>
     <message>
         <source>Display in file manager</source>
-        <translation type="vanished">Näytä tiedostonhallinnassa</translation>
+        <translation>Näytä tiedostonhallinnassa</translation>
     </message>
     <message>
         <source>Image info</source>
-        <translation type="vanished">Kuvan tiedot</translation>
+        <translation>Kuvan tiedot</translation>
     </message>
     <message>
         <source>New album</source>
-        <translation type="vanished">Uusi albumi</translation>
+        <translation>Uusi albumi</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="vanished">Nimeä uudelleen</translation>
+        <translation>Nimeä uudelleen</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="vanished">Poista</translation>
+        <translation>Poista</translation>
     </message>
 </context>
 <context>
@@ -553,23 +547,23 @@
     <name>SlideshowFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Dian asetukset</translation>
+        <translation>Dian asetukset</translation>
     </message>
     <message>
         <source>Switch effect</source>
-        <translation type="vanished">Vaihda efekti</translation>
+        <translation>Vaihda efekti</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Kesto</translation>
+        <translation>Kesto</translation>
     </message>
     <message>
         <source>Switch duration</source>
-        <translation type="vanished">Säädä kesto</translation>
+        <translation>Säädä kesto</translation>
     </message>
     <message>
         <source>second</source>
-        <translation type="vanished">seuraava</translation>
+        <translation>seuraava</translation>
     </message>
 </context>
 <context>
@@ -669,38 +663,38 @@
     <name>TitleFrame</name>
     <message>
         <source>Slide Settings</source>
-        <translation type="vanished">Dian asetukset</translation>
+        <translation>Dian asetukset</translation>
     </message>
     <message>
         <source>Effect</source>
-        <translation type="vanished">Efekti</translation>
+        <translation>Efekti</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="vanished">Kesto</translation>
+        <translation>Kesto</translation>
     </message>
     <message>
         <source>Shortcuts</source>
-        <translation type="vanished">Pikakuvakkeet</translation>
+        <translation>Pikakuvakkeet</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Näytä</translation>
+        <translation>Näytä</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="vanished">Albumi</translation>
+        <translation>Albumi</translation>
     </message>
 </context>
 <context>
     <name>TopToolbar</name>
     <message>
         <source>New album</source>
-        <translation type="vanished">Uusi albumi</translation>
+        <translation>Uusi albumi</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="vanished">Asetukset</translation>
+        <translation>Asetukset</translation>
     </message>
 </context>
 <context>
@@ -795,7 +789,7 @@
     </message>
     <message>
         <source>Draw</source>
-        <translation type="vanished">Piirtäminen</translation>
+        <translation>Piirtäminen</translation>
     </message>
 </context>
 </TS>
