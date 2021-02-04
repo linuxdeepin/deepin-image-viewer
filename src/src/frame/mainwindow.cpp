@@ -159,7 +159,11 @@ void MainWindow::initshortcut()
     QShortcut *ctrlq = new QShortcut(QKeySequence("Ctrl+O"), this);
     ctrlq->setContext(Qt::WindowShortcut);
     connect(ctrlq, &QShortcut::activated, this, [=] {
-        emit dApp->signalM->sigOpenFileDialog();
+        //修复bug62208，当幻灯片存在的情况下，不打开文管
+        SlideShowPanel* panel =  findChild<SlideShowPanel *>(SLIDE_SHOW_WIDGET);
+        if(panel && !panel->isVisible()){
+            emit dApp->signalM->sigOpenFileDialog();
+        }
     });
     connect(esc, &QShortcut::activated, this, [ = ] {
         if (IMAGEVIEW == m_pCenterWidget->currentIndex())

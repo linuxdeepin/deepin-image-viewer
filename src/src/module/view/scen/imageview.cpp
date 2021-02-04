@@ -614,6 +614,8 @@ void ImageView::fitWindow()
     m_isFitWindow = true;
     scaled(imageRelativeScale() * devicePixelRatioF() * 100);
     emit transformChanged();
+    //20210115lmh因为每次退出全屏需要先reisizeEvent，所以image的尺寸没有刷新，这里需要再次判断
+    titleBarControl();
 }
 
 void ImageView::fitWindow_btnclicked()
@@ -1735,8 +1737,9 @@ void ImageView::slotsUp()
 
     if(m_pixmapItem && m_imageReader &&m_imageReader->imageCount()>1){
         if((0 == m_imageReader->currentImageNumber()) &&(0 == m_currentMoreImageNum)){
-            m_imageReader->jumpToImage(m_imageReader->imageCount()-1);
-            m_currentMoreImageNum=m_imageReader->imageCount()-1;
+            //改为与现在相同按钮点击逻辑相同修改bug62227，第一张图片时候，向上按钮置灰
+            m_morePicFloatWidget->getButtonUp()->setEnabled(false);
+            m_currentMoreImageNum=0;
         }
         else if((1 == m_imageReader->currentImageNumber()) ||(1 == m_currentMoreImageNum)){
             m_imageReader->jumpToImage(0);
@@ -1782,9 +1785,10 @@ void ImageView::slotsDown()
     }
 
     if(m_pixmapItem && m_imageReader &&m_imageReader->imageCount()>1){
-        if((m_imageReader->currentImageNumber()==m_imageReader->imageCount()-1)){
-            m_imageReader->jumpToImage(0);
-            m_currentMoreImageNum=0;
+        if((m_imageReader->currentImageNumber()==m_imageReader->imageCount()-1) ||m_currentMoreImageNum==m_imageReader->imageCount()-1){
+            //改为与现在相同按钮点击逻辑相同修改bug62227，最后一张图片时候，向下按钮置灰
+            m_morePicFloatWidget->getButtonDown()->setEnabled(false);
+            m_currentMoreImageNum=m_imageReader->imageCount()-1;
         }
         else if((m_imageReader->currentImageNumber()==m_imageReader->imageCount()-2)||(m_currentMoreImageNum==m_imageReader->imageCount()-2)){
             m_imageReader->jumpToImage(m_imageReader->imageCount()-1);
