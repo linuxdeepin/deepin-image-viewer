@@ -851,9 +851,9 @@ void TTBContent::toolbarSigConnection()
     //拖动后移动多少
     connect(m_imgListView, &MyImageListWidget::mouseLeftReleased, this, [ = ] {
         int movex = m_imgList->x();
-        if (movex >= 0)
+        if (movex > 0)
         {
-            if (m_imgList->width() < m_imgListView->width()) {
+            if (m_imgList->width() <= m_imgListView->width()) {
                 if (m_imgList->width() + movex > m_imgListView->width()) {
                     movex = (m_imgListView->width() - m_imgList->width()) / 2;
                 } else {
@@ -863,9 +863,9 @@ void TTBContent::toolbarSigConnection()
                 movex = 0;
                 emit dApp->signalM->sendLoadSignal(true);
             }
-        } else
+        } else if(movex < 0)
         {
-            if (m_imgList->width() < m_imgListView->width()) {
+            if (m_imgList->width() <= m_imgListView->width()) {
                 movex = (m_imgListView->width() - m_imgList->width()) / 2;
             } else {
                 if (movex < m_imgListView->width() - m_imgList->width()) {
