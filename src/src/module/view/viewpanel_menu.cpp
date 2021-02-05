@@ -32,6 +32,14 @@
 #include "widgets/printhelper.h"
 
 namespace {
+//LMH0603删除按键延迟
+const int DELAY_DESTROY_TIME=500;
+const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
+// const QSize ICON_SIZE = QSize(48, 40);
+
+}  // namespace
+
+namespace {
 
 const int SWITCH_IMAGE_DELAY = 200;
 const QString SHORTCUTVIEW_GROUP = "SHORTCUTVIEW";
@@ -163,7 +171,14 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     case IdPrint: {
         //20201203旋转本地文件
         m_viewB->rotatePixCurrent();
+        killTimer(m_hideCursorTid);
+        m_hideCursorTid = 0;
+        m_viewB->viewport()->setCursor(Qt::ArrowCursor);
         PrintHelper::showPrintDialog(QStringList(path), this);
+        if (!m_menu->isVisible()) {
+            m_viewB->viewport()->setCursor(Qt::BlankCursor);
+        }
+        m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
         break;
     }
 
