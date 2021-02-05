@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 
-project(deepin-image-viewer)
+project(deepin-image-viewer VERSION 1.0.0)
 
 ##"option"用来定义宏，"ON"表示打开，"OFF"表示关闭
 #option (LITE_DIV "Use tutorial provided math implementation" ON)
@@ -36,6 +36,8 @@ file(GLOB_RECURSE RESOURCES "*.qrc")
 
 include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_BINARY_DIR}/config.h @ONLY)
 
 set(PROJECT_INCLUDE
     ${PROJECT_SOURCE_DIR}/src

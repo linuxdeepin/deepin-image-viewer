@@ -18,6 +18,7 @@
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
 #include "accessibility/acobjectlist.h"
+#include "config.h"
 
 #include <QApplication>
 #include <DLog>
@@ -41,6 +42,8 @@ int main(int argc, char *argv[])
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
+    //增加版本号
+    qApp->setApplicationVersion(DApplication::buildVersion(VERSION));
     if(dApp->isPanelDev()){
         //进程单例
         QString userpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
