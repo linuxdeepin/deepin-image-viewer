@@ -893,6 +893,8 @@ void ViewPanel::onThemeChanged(ViewerThemeManager::AppTheme theme)
 }
 void ViewPanel::showNormal()
 {
+    //修复bug63328,打开文件需要改变状态,需要重新控制状态,全屏切换回正常状态时候需要设置显示顶部栏状态
+    emit dApp->signalM->enterView(true);
 
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
     QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");

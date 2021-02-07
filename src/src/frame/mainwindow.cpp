@@ -163,6 +163,12 @@ void MainWindow::initshortcut()
         SlideShowPanel* panel =  findChild<SlideShowPanel *>(SLIDE_SHOW_WIDGET);
         if(panel && !panel->isVisible()){
             emit dApp->signalM->sigOpenFileDialog();
+            //修复bug63328,打开文件需要改变状态,需要重新控制状态
+            if(window()->isFullScreen()){
+                titlebar()->setVisible(false);
+                emit dApp->signalM->enterView(false);
+                emit dApp->signalM->sigShowFullScreen();
+            }
         }
     });
     connect(esc, &QShortcut::activated, this, [ = ] {
