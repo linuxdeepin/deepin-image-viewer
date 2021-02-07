@@ -165,8 +165,8 @@ void TopToolbar::paintEvent(QPaintEvent *e)
 {
     e->rect();
     QPainter p(this);
-
-    QPixmap pixmap(":/assets/common/titlebar.svg");
+    //因为qrc改变,需要改变资源文件的获取路径,bug63261
+    QPixmap pixmap(":/common/titlebar.svg");
     const QPalette pal = QGuiApplication::palette();  // this->palette();
     QBrush bgColor = QBrush(pixmap.scaled(size().width(), 74));
     QRectF bgRect;

@@ -121,11 +121,11 @@ void ToastPrivate::initUI()
     iconLabel->setVisible(false);
     textLabel = new QLabel;
     textLabel->setVisible(false);
-
-    closeBt = new ImageButton(":/assets/common/images/input_clear_normal.svg",
-                               ":/assets/common/images/input_clear_hover.svg",
-                               ":/assets/common/images/input_clear_press.svg",
-                               ":/assets/common/images/input_clear_normal.svg");
+    //由于qrc路径变更,代码中使用也得变更
+    closeBt = new ImageButton(":/common/images/input_clear_normal.svg",
+                               ":/common/images/input_clear_hover.svg",
+                               ":/common/images/input_clear_press.svg",
+                               ":/common/images/input_clear_normal.svg");
 
     q->connect(closeBt, &ImageButton::clicked, q, [ = ]() {
         q->hide();

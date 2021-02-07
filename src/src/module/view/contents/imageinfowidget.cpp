@@ -45,8 +45,9 @@ const int TITLE_MAXWIDTH = 72 - 3;
 //const
 int TITLE_MAXCNWIDETH = 80; //中文Title宽度
 int TITLE_MAXOTHERWIDETH = 105; //其他语言Title宽度
-const QString ICON_CLOSE_DARK = ":/assets/dark/images/close_normal.svg";
-const QString ICON_CLOSE_LIGHT = ":/assets/light/images/close_normal .svg";
+//因为qrc改变,icon资源路径改变
+const QString ICON_CLOSE_DARK = ":/dark/images/close_normal.svg";
+const QString ICON_CLOSE_LIGHT = ":/light/images/close_normal .svg";
 
 #define ArrowLineExpand_HIGHT 30
 #define ArrowLineExpand_SPACING 10

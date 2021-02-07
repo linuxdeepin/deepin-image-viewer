@@ -66,8 +66,8 @@ namespace {
 const QColor LIGHT_CHECKER_COLOR = QColor("#FFFFFF");
 const QColor DARK_CHECKER_COLOR = QColor("#CCCCCC");
 
-const QString ICON_PIXMAP_DARK = ":/assets/dark/images/picture damaged_dark.svg";
-const QString ICON_PIXMAP_LIGHT = ":/assets/light/images/picture damaged_light.svg";
+const QString ICON_PIXMAP_DARK = ":/dark/images/picture damaged_dark.svg";
+const QString ICON_PIXMAP_LIGHT = ":/light/images/picture damaged_light.svg";
 
 const qreal MAX_SCALE_FACTOR = 20.0;
 const qreal MIN_SCALE_FACTOR = 0.029;

@@ -35,12 +35,13 @@ const QString SETTINGS_GROUP = "VIEWPANEL";
 const QString SETTINGS_ALWAYSHIDDEN_KEY = "NavigationAlwaysHidden";
 const int IMAGE_MARGIN = 5;
 const int IMAGE_MARGIN_BOTTOM = 5;
-const QString ICON_CLOSE_NORMAL_LIGHT = ":/assets/light/images/button_tab_close_normal 2.svg";
-const QString ICON_CLOSE_HOVER_LIGHT = ":/assets/light/images/button_tab_close_hover 2.svg";
-const QString ICON_CLOSE_PRESS_LIGHT = ":/assets/light/images/button_tab_close_press 2.svg";
-const QString ICON_CLOSE_NORMAL_DARK = ":/assets/dark/images/button_tab_close_normal 3.svg";
-const QString ICON_CLOSE_HOVER_DARK = ":/assets/dark/images/button_tab_close_hover 3.svg";
-const QString ICON_CLOSE_PRESS_DARK = ":/assets/dark/images/button_tab_close_press 3.svg";
+//因为qrc改变,需要改变资源文件的获取路径,bug63261
+const QString ICON_CLOSE_NORMAL_LIGHT = ":/light/images/button_tab_close_normal 2.svg";
+const QString ICON_CLOSE_HOVER_LIGHT = ":/light/images/button_tab_close_hover 2.svg";
+const QString ICON_CLOSE_PRESS_LIGHT = ":/light/images/button_tab_close_press 2.svg";
+const QString ICON_CLOSE_NORMAL_DARK = ":/dark/images/button_tab_close_normal 3.svg";
+const QString ICON_CLOSE_HOVER_DARK = ":/dark/images/button_tab_close_hover 3.svg";
+const QString ICON_CLOSE_PRESS_DARK = ":/dark/images/button_tab_close_press 3.svg";
 
 }  // namespace
 
