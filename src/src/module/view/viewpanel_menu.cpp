@@ -334,7 +334,11 @@ void ViewPanel::updateMenuContent()
         if (currfileinfo.isReadable() &&
                 currfileinfo.isWritable())
             appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
-        appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
+
+        //判断图片数量大于1才能执行幻灯片播放
+        if(m_infos.size()>1){
+            appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
+        }
 #ifndef LITE_DIV
         if (m_vinfo.inDatabase) {
             DMenu *am = createAlbumMenu();
