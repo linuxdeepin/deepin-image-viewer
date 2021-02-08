@@ -241,12 +241,23 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             if (!file.exists())
                 break;
             //modify by heyi
-            if (removeCurrentImage()) {
-                DDesktopServices::trash(path);
-                emit dApp->signalM->picDelete();
-                ttbc->setIsConnectDel(true);
-                m_bAllowDel = true;
-                ttbc->disableDelAct(true);
+            //先删除文件，需要判断文件是否删除，如果删除了，再决定看图软件的显示
+            DDesktopServices::trash(path);
+            QFile fileRemove(path);
+            //文件是否被删除的判断bool值
+            bool iRetRemove=false;
+            if (!fileRemove.exists()) {
+                iRetRemove=true;
+            }
+            //如果检测到文件已经被删除了，则选择在看图做对应的操作，否则不进行删除
+            //因为smb和其他的情况受到了dtk的接口DDesktopServices::trash的控制，有时候会有弹出窗口
+            if(iRetRemove){
+                if (removeCurrentImage()) {
+                    emit dApp->signalM->picDelete();
+                    ttbc->setIsConnectDel(true);
+                    m_bAllowDel = true;
+                    ttbc->disableDelAct(true);
+                }
             }
         }
         break;
