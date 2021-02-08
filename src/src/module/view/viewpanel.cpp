@@ -1115,12 +1115,24 @@ QWidget *ViewPanel::bottomTopLeftContent()
             if (!file.exists()) {
                 return;
             }
-            if (removeCurrentImage()) {
-                DDesktopServices::trash(path);
-                emit dApp->signalM->picDelete();
-                ttbc->setIsConnectDel(true);
-                m_bAllowDel = true;
-                ttbc->disableDelAct(true);
+
+            //先删除文件，需要判断文件是否删除，如果删除了，再决定看图软件的显示
+            DDesktopServices::trash(path);
+            QFile fileRemove(path);
+            //文件是否被删除的判断bool值
+            bool iRetRemove=false;
+            if (!fileRemove.exists()) {
+                iRetRemove=true;
+            }
+            //如果检测到文件已经被删除了，则选择在看图做对应的操作，否则不进行删除
+            //因为smb和其他的情况受到了dtk的接口DDesktopServices::trash的控制，有时候会有弹出窗口
+            if(iRetRemove){
+                if (removeCurrentImage()) {
+                    emit dApp->signalM->picDelete();
+                    ttbc->setIsConnectDel(true);
+                    m_bAllowDel = true;
+                    ttbc->disableDelAct(true);
+                }
             }
         }
     });
@@ -1771,7 +1783,8 @@ bool ViewPanel::removeCurrentImage()
 
     //lmh2020/11/18解决bug 54962
     int index=this->width()/36;
-    if(m_infos[m_current].filePath==m_infosAll[m_infosAll.size()-1].filePath && m_infos.size()<=index){
+    //解决bug63372，判断出现问题，m_infosAll和m_infos.size必须检查，否则可能会引发删除崩溃
+    if((m_current<m_infos.size()) && (m_infosAll.size()>0)&& m_infos[m_current].filePath==m_infosAll[m_infosAll.size()-1].filePath && m_infos.size()<=index){
         dApp->signalM->sendLoadSignal(true);
     }
     else if(m_infos.size()<=index){
