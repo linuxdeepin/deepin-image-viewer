@@ -1441,7 +1441,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
     //检查是否是smb网络传输文件，如果是则不需要缩略图
     //检测到通过mtp外设打开不需要缩略图
-    if(vinfo.path.indexOf("smb-share:server=") != -1|| vinfo.path.indexOf("mtp:host=") != -1)
+    //mtp,smb,ptp均不会显示缩略图，卡顿问题
+    if(vinfo.path.indexOf("smb-share:server=") != -1|| vinfo.path.indexOf("mtp:host=") != -1 || vinfo.path.indexOf("gphoto2:host=") != -1)
         m_bOnlyOneiImg=true;
     else {
         m_bOnlyOneiImg=false;
