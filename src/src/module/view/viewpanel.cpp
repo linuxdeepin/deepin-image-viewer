@@ -1441,11 +1441,17 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 {
     //检查是否是smb网络传输文件，如果是则不需要缩略图
     //检测到通过mtp外设打开不需要缩略图
-    //mtp,smb,ptp均不会显示缩略图，卡顿问题
-    if(vinfo.path.indexOf("smb-share:server=") != -1|| vinfo.path.indexOf("mtp:host=") != -1 || vinfo.path.indexOf("gphoto2:host=") != -1)
+    //mtp,smb,ptp均不会显示缩略图，卡顿问题，路径包含gvfs虚拟出的某些路径代表是外设，采用单页图片打开
+    QString path=QFileInfo(vinfo.path).absolutePath();
+    if((path.indexOf("smb-share:server=") != -1|| path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1))
         m_bOnlyOneiImg=true;
     else {
         m_bOnlyOneiImg=false;
+    }
+
+    //apple手机，无旋转和删除权限
+    if(m_bOnlyOneiImg && path.indexOf("gphoto2:host=Apple") != -1){
+        dApp->setIsApplePhone(true);
     }
     if(dApp->m_LoadThread && dApp->m_LoadThread->isRunning()){
         emit dApp->endThread();

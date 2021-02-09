@@ -361,8 +361,9 @@ void ViewPanel::updateMenuContent()
         m_menu->addSeparator();
         /**************************************************************************/
         appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
-        if (currfileinfo.isReadable() &&
-                currfileinfo.isWritable()) {
+
+        //apple phone的delete没有权限
+        if ((currfileinfo.isReadable() && currfileinfo.isWritable()) && !dApp->IsApplePhone()) {
             appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
         }
 
@@ -391,9 +392,12 @@ void ViewPanel::updateMenuContent()
                          ss("Hide navigation window", ""));
         }
         /**************************************************************************/
+
+        //apple手机特殊处理，不具备旋转功能
         if (m_stack->currentIndex()==0&&currfileinfo.isReadable() &&
                 currfileinfo.isWritable() &&
-                utils::image::imageSupportSave(m_infos.at(m_current).filePath)) {
+                utils::image::imageSupportSave(m_infos.at(m_current).filePath) &&
+                !dApp->IsApplePhone()) {
             m_menu->addSeparator();
             appendAction(IdRotateClockwise, tr("Rotate clockwise"), ss("Rotate clockwise", "Ctrl+R"));
             appendAction(IdRotateCounterclockwise, tr("Rotate counterclockwise"),

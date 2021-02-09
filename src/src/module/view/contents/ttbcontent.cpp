@@ -1491,7 +1491,9 @@ void TTBContent::setBtnAttribute(const QString strPath)
         m_rotateRBtn->setEnabled(false);
         m_adaptImageBtn->setEnabled(false);
         m_adaptScreenBtn->setEnabled(false);
-        if(!QFileInfo(strPath).isWritable())
+
+        //apple设备，不能旋转和删除
+        if(!QFileInfo(strPath).isWritable() || dApp->IsApplePhone())
             m_trashBtn->setEnabled(false);
         else
             m_trashBtn->setEnabled(true);
@@ -1507,8 +1509,8 @@ void TTBContent::setBtnAttribute(const QString strPath)
         m_rotateRBtn->setEnabled(true);
         m_trashBtn->setEnabled(true);
     }
-
-    if ((QFileInfo(strPath).isReadable() && !QFileInfo(strPath).isWritable())) {
+    //apple设备，不能旋转和删除
+    if ((QFileInfo(strPath).isReadable() && !QFileInfo(strPath).isWritable())|| dApp->IsApplePhone()) {
         m_trashBtn->setEnabled(false);
         m_rotateLBtn->setEnabled(false);
         m_rotateRBtn->setEnabled(false);

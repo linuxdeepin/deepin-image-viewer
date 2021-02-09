@@ -503,6 +503,16 @@ bool Application::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
+void Application::setIsApplePhone(bool iRet)
+{
+    m_isapplePhone=iRet;
+}
+
+bool Application::IsApplePhone()
+{
+    return m_isapplePhone;
+}
+
 void Application::initChildren()
 {
     viewerTheme = ViewerThemeManager::instance();

@@ -143,6 +143,17 @@ public:
 
     bool eventFilter(QObject *obj, QEvent *event);
 
+    //增加全局判断是否是苹果设备
+    /**
+     * @brief setIsApplePhone
+     * @return          设置苹果设备的bool值
+     */
+    void setIsApplePhone(bool iRet);
+    /**
+     * @brief getIsApplePhone 是否是苹果设备
+     * @return          是否是苹果设备的bool值
+     */
+    bool IsApplePhone();
 signals:
     /**
      * @brief sigMouseRelease  全局线程释放事件
@@ -222,6 +233,7 @@ private:
     volatile bool m_bThreadExit = false;
     static Application *m_signalapp;
     Application(int &argc, char **argv);
+    bool m_isapplePhone =false;
 };
 
 #endif  // APPLICATION_H_
