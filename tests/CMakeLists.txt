@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 
-project(deepin-image-viewer-test VERSION 0.1 LANGUAGES CXX)
+project(deepin-image-viewer-test VERSION 0.1)
 
 #"option"用来定义宏，"ON"表示打开，"OFF"表示关闭
 option (LITE_DIV "Use tutorial provided math implementation" ON)
@@ -10,7 +10,6 @@ add_definitions( -DUSE_UNIONIMAGE )
 
 option (USE_TEST "Use TESTS" ON)
 add_definitions( -DUSE_TEST )
-
 
 set(TARGET_NAME deepin-image-viewer-test)
 set(CMD_NAME deepin-image-viewer-test)
@@ -26,7 +25,7 @@ execute_process(COMMAND uname -m OUTPUT_VARIABLE MACH
 
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
 endif()
 
 # Sources files
@@ -157,8 +156,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
     set(CMAKE_CXX_FLAGS "-g -fprofile-arcs -ftest-coverage")
 else()
-    set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage")
-    set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
+    set(CMAKE_CXX_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -g -fprofile-arcs -ftest-coverage -pthread ")
+    set(CMAKE_C_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer -pthread ")
     set(CMAKE_Ｌ_FLAGS "-fsanitize=undefined,address,leak -fno-omit-frame-pointer")
 endif()
 

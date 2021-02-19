@@ -1,5 +1,5 @@
 [Desktop Entry]
-Categories=Graphics;GTK;DDE;
+Categories=Graphics;GTK;
 Comment=Deepin Image Viewer
 Exec=deepin-image-viewer --new-window %F
 GenericName=Image Viewer
