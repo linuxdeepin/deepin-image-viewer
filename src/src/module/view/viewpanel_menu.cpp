@@ -174,7 +174,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         killTimer(m_hideCursorTid);
         m_hideCursorTid = 0;
         m_viewB->viewport()->setCursor(Qt::ArrowCursor);
-        PrintHelper::showPrintDialog(QStringList(path), this);
+        PrintHelper::getIntance()->showPrintDialog(QStringList(path), this);
         if (!m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }

@@ -10,20 +10,27 @@
 #include <QCoreApplication>
 #include <QImageReader>
 #include <QDebug>
-//#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 2, 2, 5))
-#include <dprintpreviewwidget.h>
-#include <dprintpreviewdialog.h>
-//#endif
 
 #ifdef USE_UNIONIMAGE
 #include "printhelper.h"
 #include "utils/unionimage.h"
 #endif
 
+
+PrintHelper *PrintHelper::m_Printer = nullptr;
+
+PrintHelper *PrintHelper::getIntance()
+{
+    if (!m_Printer) {
+        m_Printer = new PrintHelper();
+    }
+    return m_Printer;
+}
+
 PrintHelper::PrintHelper(QObject *parent)
     : QObject(parent)
 {
-
+    m_re = new RequestedSlot(this);
 }
 //暂时没有使用配置文件的快捷键，现在是根据代码中的快捷键
 /*
@@ -79,7 +86,12 @@ static QAction *hookToolBarActionIcons(QToolBar *bar, QAction **pageSetupAction 
 */
 void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
 {
-    QList<QImage> imgs;
+    Q_UNUSED(parent)
+    m_re->m_paths.clear();
+    m_re->m_imgs.clear();
+
+    m_re->m_paths = paths;
+    QImage imgTemp;
     for (const QString &path : paths) {
         QString errMsg;
         QImageReader imgReadreder(path);
@@ -88,7 +100,7 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             for(int imgindex=0;imgindex<imgReadreder.imageCount();imgindex++)
             {
                 imgReadreder.jumpToImage(imgindex);
-                imgs << imgReadreder.read();
+                m_re->m_imgs << imgReadreder.read();
             }
         }
         else {
@@ -96,100 +108,97 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
             QImage img;
             UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
             if (!img.isNull()) {
-                imgs << img;
+                m_re->m_imgs << img;
             }
         }
 
 
     }
+    //适配打印接口2.0，dtk大于 5.4.4 版才合入最新的2.0打印控件接口
+#if (DTK_VERSION_MAJOR > 5 \
+    || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
+    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH > 4))//5.4.4暂时没有合入
     DPrintPreviewDialog printDialog2(nullptr);
-    QObject::connect(&printDialog2, &DPrintPreviewDialog::paintRequested, parent, [ = ](DPrinter * _printer) {
-        QPainter painter(_printer);
-        int currentIndex=0;
-        for (QImage img : imgs) {
-            if (!img.isNull()) {
-                painter.setRenderHint(QPainter::Antialiasing);
-                painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                QRect wRect  = _printer->pageRect();
-                QImage tmpMap;
-                if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                    tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-                } else {
-                    tmpMap = img;
-                }
-                QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
-                                          qreal(wRect.height() - tmpMap.height()) / 2,
-                                          tmpMap.width(), tmpMap.height());
-                painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                                         tmpMap.height()), tmpMap);
-                //解决57331 【专业版1031】【看图】【5.6.3.74】tif中有相同图片时，打印预览会自动去重
-                if(currentIndex!=imgs.count()-1){
-                    _printer->newPage();
-                    qDebug() << "painter newPage!    File:" << __FILE__ << "    Line:" << __LINE__;
-                    currentIndex++;
-                }
-            }
-        }
-        painter.end();
-    });
+    bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
+    if (suc) {//异步
+        connect(&printDialog2, SIGNAL(paintRequested(DPrinter *, const QVector<int> &)),
+                m_re, SLOT(paintRequestedAsyn(DPrinter *, const QVector<int> &)));
+    } else {//同步
+        connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
+                m_re, SLOT(paintRequestSync(DPrinter *)));
+    }
+#else
+    DPrintPreviewDialog printDialog2(nullptr);
+    connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
+            m_re, SLOT(paintRequestSync(DPrinter *)));
+#endif
 #ifndef USE_TEST
     printDialog2.exec();
 #else
     printDialog2.show();
 #endif
-;
-
+    m_re->m_paths.clear();
+    m_re->m_imgs.clear();
 }
 
-//QSize PrintHelper::adjustSize(PrintOptionsPage *optionsPage, QImage img, int resolution, const QSize &viewportSize)
-//{
-//    PrintOptionsPage::ScaleMode scaleMode = optionsPage->scaleMode();
-//    QSize size(img.size());
+RequestedSlot::RequestedSlot(QObject *parent)
+{
+    Q_UNUSED(parent)
+}
 
-//    if (scaleMode == PrintOptionsPage::ScaleToPage) {
-//        size.scale(viewportSize, Qt::KeepAspectRatio);
-//    } else if (scaleMode == PrintOptionsPage::ScaleToExpanding) {
-//        size.scale(viewportSize, Qt::KeepAspectRatioByExpanding);
-//    } else if (scaleMode == PrintOptionsPage::ScaleToCustomSize) {
-//        double imageWidth = optionsPage->scaleWidth();
-//        double imageHeight = optionsPage->scaleHeight();
-//        size.setWidth(int(imageWidth * resolution));
-//        size.setHeight(int(imageHeight * resolution));
-//    } else {
-//        const double inchesPerMeter = 100.0 / 2.54;
-//        int dpmX = img.dotsPerMeterX();
-//        int dpmY = img.dotsPerMeterY();
-//        if (dpmX > 0 && dpmY > 0) {
-//            double wImg = double(size.width()) / double(dpmX) * inchesPerMeter;
-//            double hImg = double(size.height()) / double(dpmY) * inchesPerMeter;
-//            size.setWidth(int(wImg * resolution));
-//            size.setHeight(int(hImg * resolution));
-//        }
-//    }
-//    qDebug() << "adjustSize:" << size <<"    File:" << __FILE__ << "    Line:" << __LINE__;
-//    return size;
-//}
+RequestedSlot::~RequestedSlot()
+{
 
-//QPoint PrintHelper::adjustPosition(PrintOptionsPage *optionsPage, const QSize &imageSize, const QSize &viewportSize)
-//{
-//    Qt::Alignment alignment = optionsPage->alignment();
-//    int posX, posY;
+}
+void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &pageRange)
+{
+    QPainter painter(_printer);
+    if (pageRange.size() > 0) {
+        QImage img = m_imgs.at(pageRange.at(0) - 1);
+        if (!img.isNull()) {
+            painter.setRenderHint(QPainter::Antialiasing);
+            painter.setRenderHint(QPainter::SmoothPixmapTransform);
+            QRect wRect  = _printer->pageRect();
+            QImage tmpMap;
+            if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            } else {
+                tmpMap = img;
+            }
+            QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                      qreal(wRect.height() - tmpMap.height()) / 2,
+                                      tmpMap.width(), tmpMap.height());
+            painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                     tmpMap.height()), tmpMap);
+        }
+    }
+    painter.end();
+}
 
-//    if (alignment & Qt::AlignLeft) {
-//        posX = 0;
-//    } else if (alignment & Qt::AlignHCenter) {
-//        posX = (viewportSize.width() - imageSize.width()) / 2;
-//    } else {
-//        posX = viewportSize.width() - imageSize.width();
-//    }
+void RequestedSlot::paintRequestSync(DPrinter *_printer)
+{
+    QPainter painter(_printer);
+    for (QImage img : m_imgs) {
+        if (!img.isNull()) {
+            painter.setRenderHint(QPainter::Antialiasing);
+            painter.setRenderHint(QPainter::SmoothPixmapTransform);
+            QRect wRect  = _printer->pageRect();
+            QImage tmpMap;
+            if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            } else {
+                tmpMap = img;
+            }
+            QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                      qreal(wRect.height() - tmpMap.height()) / 2,
+                                      tmpMap.width(), tmpMap.height());
+            painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                     tmpMap.height()), tmpMap);
+        }
+        if (img != m_imgs.last()) {
+            _printer->newPage();
+        }
+    }
+    painter.end();
+}
 
-//    if (alignment & Qt::AlignTop) {
-//        posY = 0;
-//    } else if (alignment & Qt::AlignVCenter) {
-//        posY = (viewportSize.height() - imageSize.height()) / 2;
-//    } else {
-//        posY = viewportSize.height() - imageSize.height();
-//    }
-//    qDebug() << "adjustPosition X:" << posX << "Y:" << posY <<"    File:" << __FILE__ << "    Line:" << __LINE__;
-//    return QPoint(posX, posY);
-//}
