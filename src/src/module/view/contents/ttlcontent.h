@@ -27,7 +27,6 @@ DWIDGET_USE_NAMESPACE
 typedef DLabel QLbtoDLabel;
 
 class PushButton;
-class ReturnButton;
 class ElidedLabel;
 class TTLContent : public QLbtoDLabel
 {
@@ -58,10 +57,6 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
-#ifndef LITE_DIV
-    PushButton *m_folderBtn;
-    ReturnButton *m_returnBtn;
-#endif
     bool m_inDB;
 
     PushButton* m_adaptImageBtn;

@@ -20,7 +20,6 @@
 #include "utils/imageutils.h"
 
 #include "widgets/pushbutton.h"
-#include "widgets/returnbutton.h"
 #include "controller/dbmanager.h"
 #include "controller/configsetter.h"
 #include "widgets/elidedlabel.h"

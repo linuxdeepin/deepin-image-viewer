@@ -42,7 +42,6 @@
 //#include "settings/titleframe.h"
 
 #include "widgets/pushbutton.h"
-#include "widgets/returnbutton.h"
 #include "widgets/printoptionspage.h"
 #include "printhelper.h"
 #include "blureframe.h"
@@ -156,7 +155,6 @@ protected:
 //    ContentsFrame *m_contentsFrame;
 
     PushButton * m_pushbutton{nullptr};
-    ReturnButton *m_returnButton{nullptr};
     PrintOptionsPage *m_printOptionspage{nullptr};
     BlurFrame *m_blurFrame{nullptr};
     CommandLine * m_command{nullptr};

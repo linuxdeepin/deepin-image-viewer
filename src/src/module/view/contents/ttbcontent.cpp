@@ -24,7 +24,6 @@
 #include "controller/signalmanager.h"
 #include "widgets/elidedlabel.h"
 #include "widgets/pushbutton.h"
-#include "widgets/returnbutton.h"
 #include "accessibility/ac-desktop-define.h"
 
 #include <DImageButton>

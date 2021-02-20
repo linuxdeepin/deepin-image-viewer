@@ -562,62 +562,6 @@ TEST_F(gtestview, m_pushbutton)
 
     m_pushbutton->hide();
 }
-TEST_F(gtestview, m_returnButton)
-{
-    m_returnButton=new ReturnButton();
-    m_returnButton->show();
-    m_returnButton->normalPic();
-    m_returnButton-> hoverPic() ;
-    m_returnButton-> pressPic() ;
-    m_returnButton-> disablePic() ;
-    m_returnButton-> checkedPic() ;
-    m_returnButton-> text() ;
-    m_returnButton-> normalColor() ;
-    m_returnButton-> hoverColor() ;
-    m_returnButton-> pressColor() ;
-    m_returnButton-> disableColor() ;
-//    m_returnButton-> getSpacing() ;
-    m_returnButton-> setSpacing(11);
-//    m_returnButton-> getChecked() ;
-    m_returnButton-> setToolTip("TEST");
-    m_returnButton-> setChecked(false);
-//    m_returnButton-> setNormalPic(m_JPGPath);
-//    m_returnButton-> setHoverPic(m_JPGPath);
-//    m_returnButton-> setPressPic(m_JPGPath);
-//    m_returnButton-> setDisablePic(m_JPGPath);
-//    m_returnButton-> setCheckedPic(m_JPGPath);
-    m_returnButton-> setText("test");
-//    m_returnButton-> setNormalColor(QColor(120,111,150));
-//    m_returnButton-> setHoverColor(QColor(120,180,150));
-//    m_returnButton-> setPressColor(QColor(120,20,150));
-//    m_returnButton-> setDisableColor(QColor(120,123,150));
-
-    m_returnButton-> setToolTip("TEST");
-    m_returnButton-> setChecked(true);
-//    m_returnButton-> setNormalPic(m_JPGPath);
-//    m_returnButton-> setHoverPic(m_JPGPath);
-//    m_returnButton-> setPressPic(m_JPGPath);
-//    m_returnButton-> setDisablePic(m_JPGPath);
-//    m_returnButton-> setCheckedPic(m_JPGPath);
-    m_returnButton-> setText("test");
-//    m_returnButton-> setNormalColor(QColor(120,111,150));
-//    m_returnButton-> setHoverColor(QColor(120,180,150));
-//    m_returnButton-> setPressColor(QColor(120,20,150));
-//    m_returnButton-> setDisableColor(QColor(120,123,150));
-//    m_returnButton->setMaxWidth(100);
-    m_returnButton->buttonWidth();
-
-    QTest::mousePress(m_returnButton, Qt::LeftButton,Qt::NoModifier,QPoint(20,20),500);
-    QTest::mouseRelease(m_returnButton, Qt::LeftButton);
-    QTest::mouseClick(m_returnButton, Qt::LeftButton);
-    QTest::mouseMove(m_returnButton, QPoint(20,20),500);
-    QTest::keyClick(m_returnButton, Qt::Key_Escape, Qt::ShiftModifier, 1000);
-    QTest::mouseDClick(m_returnButton,Qt::LeftButton);
-
-
-    m_returnButton->hide();
-
-}
 
 TEST_F(gtestview, LockWidget)
 {

@@ -49,7 +49,6 @@ typedef DLabel QLbtoDLabel;
 //#define HEYI
 
 class PushButton;
-class ReturnButton;
 class ElidedLabel;
 class QAbstractItemModel;
 //class DImageButton;
