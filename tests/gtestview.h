@@ -1,5 +1,12 @@
 #ifndef GTESTVIEW_H
 #define GTESTVIEW_H
+
+#define private public
+#define protected public
+#include "blureframe.h"
+#include "imagebutton.h"
+#undef private
+
 #include "application.h"
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
@@ -41,24 +48,23 @@
 //#include "settings/contentsframe.h"
 //#include "settings/titleframe.h"
 
-#include "widgets/pushbutton.h"
+
 #include "widgets/printoptionspage.h"
 #include "printhelper.h"
-#include "blureframe.h"
-//#include "scrollbar.h"
+
 
 #include <QtTest/QtTest>
 #include <gtest/gtest.h>
-//#include "common/mainwindow.h"
 #include <utils/baseutils.h>
 #include <utils/imageutils.h>
 #include <utils/snifferimageformat.h>
-//#include "utils/imageutils_freeimage.h"
 #include <unionimage.h>
-//#include <DLogManager>
+
 #include <DApplicationSettings>
 
 #include "testapi.h"
+
+
 using namespace UnionImage_NameSpace;
 using namespace utils::base;
 using namespace utils::image;
@@ -76,6 +82,9 @@ using namespace utils::image;
 #define test_service
 #define test_utils
 #define test_z_exit
+
+//class BlurFrame;
+class PushButton;
 class ScanPathsDialog;
 class VolumeMonitor;
 class ScanPathsItem;
@@ -147,13 +156,6 @@ protected:
     VolumeMonitor* m_VolumeMonitor{nullptr};
     ScanPathsItem* m_ScanPathsItem{nullptr};
 
-//    ShortcutFrame *m_shortcutFrame;
-//    ShortcutEditor *m_shortcutEditor;
-
-//    TitleFrame *m_titleFrame;
-//    SettingsWindow *m_settingsWindow;
-//    ContentsFrame *m_contentsFrame;
-
     PushButton * m_pushbutton{nullptr};
     PrintOptionsPage *m_printOptionspage{nullptr};
     BlurFrame *m_blurFrame{nullptr};
@@ -161,7 +163,6 @@ protected:
     ScanPathsDialog *m_ScanDialog{nullptr};
     PrintHelper *m_Print{nullptr};
 
-//    ScrollBar *m_scrollBar;
     QStringList list;
 
     QString m_SVGPath{SVGPATH};

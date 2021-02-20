@@ -1,5 +1,6 @@
 #define private public
 #include "src/src/module/view/contents/ttlcontent.h"
+#include "widgets/pushbutton.h"
 #undef private
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"

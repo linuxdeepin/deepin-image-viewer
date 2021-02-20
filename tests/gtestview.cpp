@@ -7,11 +7,14 @@
 #include <QDir>
 #include "accessibility/ac-desktop-define.h"
 #include "widgets/toast.h"
-#include "src/src/widgets/elidedlabel.h"
 #include "src/src/dirwatcher/scanpathsdialog.h"
 #include "dirwatcher/volumemonitor.h"
 #include "dirwatcher/scanpathsitem.h"
 #include "module/view/scen/imageview.h"
+#define protected public
+#include "widgets/pushbutton.h"
+#include "src/src/widgets/elidedlabel.h"
+
 gtestview::gtestview()
 {
 
@@ -489,6 +492,12 @@ TEST_F(gtestview, ViewerThemeManager)
 TEST_F(gtestview, ImageButton)
 {
     ImageButton *button=new ImageButton();
+    QEnterEvent *event =new QEnterEvent(QPointF(200,200),QPointF(200,200),QPointF(200,200));
+    button->enterEvent(event);
+    button->leaveEvent(event);
+    delete event;
+    event=nullptr;
+    button->showTooltip(QPoint(200,200));
 
 //    button->setDisablePic(QApplication::applicationDirPath()+"/png.png");
     button->setDisabled(false);
@@ -507,11 +516,34 @@ TEST_F(gtestview, ImageButton)
 
     button->hide();
 
+    button->showTooltip(QPoint(200,200));
+
+    button->deleteLater();
+    button=nullptr;
+
 }
+#include <QEnterEvent>
 TEST_F(gtestview, m_pushbutton)
 {
     m_pushbutton=new PushButton();
 
+    m_pushbutton->m_checkedPic=":/common/images/dialog_warning.svg";
+    m_pushbutton->m_currentPic=":/common/images/dialog_warning.svg";
+    m_pushbutton->m_disablePic=":/common/images/dialog_warning.svg";
+    m_pushbutton->m_checked=false;
+    m_pushbutton->setVisible(true);
+    m_pushbutton->getPixmap();
+    m_pushbutton->setVisible(false);
+    m_pushbutton->getPixmap();
+    m_pushbutton->m_checked=true;
+    m_pushbutton->getPixmap();
+    QEnterEvent *event =new QEnterEvent(QPointF(200,200),QPointF(200,200),QPointF(200,200));
+    m_pushbutton->enterEvent(event);
+    m_pushbutton->leaveEvent(event);
+    delete event;
+    event=nullptr;
+
+    m_pushbutton->showTooltip(QPoint(200,200));
     m_pushbutton->normalPic();
     m_pushbutton-> hoverPic() ;
     m_pushbutton-> pressPic() ;
@@ -953,7 +985,8 @@ TEST_F(gtestview, ElidedLabel)
 {
     if(CommandLine::instance()->getMainWindow())
     {
-        ElidedLabel *elide=new ElidedLabel(new QWidget());
+        QWidget *widget=new QWidget();
+        ElidedLabel *elide=new ElidedLabel(widget);
         elide->setText("test");
         elide->show();
         elide->resize(50,50);
@@ -963,8 +996,16 @@ TEST_F(gtestview, ElidedLabel)
         QTest::qWait(50);
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
         QTest::qWait(50);
+        elide->onThemeChanged(ViewerThemeManager::Dark);
+        elide->onThemeChanged(ViewerThemeManager::Light);
+        QPaintEvent *paint=new QPaintEvent(QRect(200,200,200,200));
+        elide->paintEvent(paint);
+        delete paint;
+        paint=nullptr;
         elide->deleteLater();
         elide=nullptr;
+        widget->deleteLater();
+        widget=nullptr;
     }
 }
 

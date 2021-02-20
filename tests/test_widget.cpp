@@ -2,8 +2,12 @@
 #include "accessibility/ac-desktop-define.h"
 #include "src/src/widgets/elidedlabel.h"
 #include "src/src/frame/mainwidget.h"
+
+#include <QMouseEvent>
 #define private public
 #include "src/src/widgets/toast.h"
+#define protected public
+#include "blureframe.h"
 TEST_F(gtestview, BlurFrame_1)
 {
     QWidget *widget =new QWidget();
@@ -23,6 +27,17 @@ TEST_F(gtestview, BlurFrame_1)
     QTest::mouseMove(widget, QPoint(50,100),200);
     QTest::keyClick(widget, Qt::Key_Escape, Qt::ShiftModifier, 200);
     QTest::mouseDClick(widget,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
+
+    blurFrame->update();
+//    QPaintEvent *paint=new QPaintEvent(QRect(200,200,200,200));
+//    blurFrame->paintEvent(paint);
+//    delete paint;
+//    paint=nullptr;
+
+    QMouseEvent *mouse=new QMouseEvent(QMouseEvent::MouseMove,QPointF(200,200),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+    blurFrame->mouseMoveEvent(mouse);
+    delete mouse;
+    mouse=nullptr;
 }
 
 TEST_F(gtestview, ElidedLabel_1)
