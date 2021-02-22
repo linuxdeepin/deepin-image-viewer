@@ -429,7 +429,11 @@ void ImageView::setImage(const QString path)
     }
     QFileInfo fi(path);
 
-    emit dApp->signalM->enterView(true);
+    //修复64154，全屏应该隐藏状态栏
+    if(!window()->isFullScreen()){
+        emit dApp->signalM->enterView(true);
+    }
+
     qDebug() << "emit dApp->signalM->enterView(true)..................ImageView";
     qDebug() << "Path = " << path;
     qDebug() << "FileType = " << determineMimeType(path);
