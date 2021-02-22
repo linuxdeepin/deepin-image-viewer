@@ -130,7 +130,10 @@ bool imageSupportRead(const QString &path)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
-    const QString suffix = QFileInfo(path).suffix();
+    //修正论坛上提出的格式判断错误，应该采用真实格式
+    //20210220真实格式来做判断
+    QMap<QString, QString> dataMap= getAllMetaData(path);
+    const QString suffix = dataMap.value("FileFormat");
     QStringList errorList;
     errorList << "X3F";
     if (errorList.indexOf(suffix.toUpper()) != -1) {

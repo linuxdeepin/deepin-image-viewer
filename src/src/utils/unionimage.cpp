@@ -172,7 +172,7 @@ public:
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
                       << "TIFF" << "BMP" << "XPM"  << "DNG"
                       << "RAF"  << "CR2" << "MEF" << "ORF" <<"ICO"
-//                      << "RAW"
+                      << "RAW"
                       << "MRW"
                       << "NEF" ;
         //pic（多张图片） pcx不支持旋转
@@ -638,19 +638,18 @@ UNIONIMAGESHARED_EXPORT bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &p
 QString PrivateDetectImageFormat(const QString &filepath);
 UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
-    /*lmh0806判断后缀名是不支持格式，直接返回空的Image*/
+    //20210220真实格式来做判断
+    /*判断后缀名是不支持格式，直接返回空的Image*/
+    QMap<QString, QString> dataMap= getAllMetaData(path);
+    QString file_suffix_upper=dataMap.value("FileFormat").toUpper();
     if(nullptr==format_bar){
         QStringList formatlist = UnionImage_NameSpace::unionImageSupportFormat();
-        QFileInfo fileinfo(path);
-        QString format = fileinfo.suffix().toUpper();
-        if(!formatlist.contains(format)){
+        if(!formatlist.contains(file_suffix_upper)){
             res=QImage();
             return false;
         }
     }
 
-    QFileInfo file_info(path);
-    QString file_suffix_upper = file_info.suffix().toUpper();
     QByteArray temp_path;
     temp_path.append(path.toUtf8());
     FREE_IMAGE_FORMAT f = FreeImage_GetFileType(temp_path.data());
