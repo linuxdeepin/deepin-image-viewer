@@ -153,7 +153,12 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.fullScreen = window()->isFullScreen();
         vinfo.lastPanel = this;
         vinfo.path = path;
-        vinfo.paths = slideshowpaths();
+        //检测到只有一张图片的时候选择paths只赋1张
+        if(m_infos.count()>1){
+            vinfo.paths = slideshowpaths();
+        }else {
+            vinfo.paths=QStringList(path);
+        }
         vinfo.viewMainWindowID = 0;
 
         //获取当前图片，节省第一张幻灯片加载图片的时间，在龙芯电脑上getFitImage耗时很严重，测试图片5.8M耗时0.6s
@@ -346,8 +351,8 @@ void ViewPanel::updateMenuContent()
                 currfileinfo.isWritable())
             appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
 
-        //判断图片数量大于1才能执行幻灯片播放
-        if(m_infos.size()>1){
+        //判断图片数量大于0才能执行幻灯片播放
+        if(m_infos.size()>0){
             appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
         }
 #ifndef LITE_DIV
