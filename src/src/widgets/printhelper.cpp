@@ -177,6 +177,7 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)
 {
+    int currentIndex=0;
     QPainter painter(_printer);
     for (QImage img : m_imgs) {
         if (!img.isNull()) {
@@ -195,8 +196,10 @@ void RequestedSlot::paintRequestSync(DPrinter *_printer)
             painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
                                      tmpMap.height()), tmpMap);
         }
-        if (img != m_imgs.last()) {
+        //不应该将多个相同的图片过滤掉
+        if(currentIndex!=m_imgs.count()-1){
             _printer->newPage();
+            currentIndex++;
         }
     }
     painter.end();
