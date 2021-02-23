@@ -690,7 +690,8 @@ void TTBContent::initBtn()
     m_preButton->setIcon(QIcon::fromTheme("dcc_previous"));
     m_preButton->setIconSize(QSize(36, 36));
     m_preButton->setToolTip(tr("Previous"));
-
+    //默认先不显示
+    m_preButton->setVisible(false);
     // nextButton
     m_nextButton = new DIconButton(this);
     m_nextButton->setObjectName("NextButton");
@@ -698,6 +699,8 @@ void TTBContent::initBtn()
     m_nextButton->setIcon(QIcon::fromTheme("dcc_next"));
     m_nextButton->setIconSize(QSize(36, 36));
     m_nextButton->setToolTip(tr("Next"));
+    //默认先不显示
+    m_nextButton->setVisible(false);
 
     m_preButton_spc = new DWidget;
     m_nextButton_spc = new DWidget;
