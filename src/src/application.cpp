@@ -513,6 +513,16 @@ bool Application::IsApplePhone()
     return m_isapplePhone;
 }
 
+void Application::setIsOnlyOnePic(bool iRet)
+{
+    m_isOnlyOnePic=iRet;
+}
+
+bool Application::IsOnlyOnePic()
+{
+    return m_isOnlyOnePic;
+}
+
 void Application::initChildren()
 {
     viewerTheme = ViewerThemeManager::instance();

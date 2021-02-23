@@ -154,6 +154,17 @@ public:
      * @return          是否是苹果设备的bool值
      */
     bool IsApplePhone();
+
+    /**
+     * @brief setIsOnlyOnePic
+     * @return          设置是否是独一张图片
+     */
+    void setIsOnlyOnePic(bool iRet);
+    /**
+     * @brief IsOnlyOnePic 是否是独一张图片
+     * @return          是否是独一张图片的bool值
+     */
+    bool IsOnlyOnePic();
 signals:
     /**
      * @brief sigMouseRelease  全局线程释放事件
@@ -234,6 +245,7 @@ private:
     static Application *m_signalapp;
     Application(int &argc, char **argv);
     bool m_isapplePhone =false;
+    bool m_isOnlyOnePic =false;
 };
 
 #endif  // APPLICATION_H_

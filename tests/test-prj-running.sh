@@ -5,7 +5,7 @@ mkdir ../build-ut
 cd ../build-ut
 cmake -DCMAKE_BUILD_TYPE=Debug ..
 make -j16
-
+export QTEST_FUNCTION_TIMEOUT='400000'
 workdir=$(cd ../$(dirname $0)/build-ut; pwd)
 PROJECT_NAME=deepin-image-viewer-test #可执行程序的文件名
 PROJECT_REALNAME=deepin-image-viewer  #项目名称

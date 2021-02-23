@@ -588,8 +588,14 @@ void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
     //bpix表示图片加载成功，不用切换到撕裂图widget
      QPixmap pixmapthumb= dApp->m_imagemap.value(path);
      if(pixmapthumb.isNull()||m_infos.count()<=1){
-         pixmapthumb = utils::image::getThumbnail(path);
-         if(!pixmapthumb.isNull()) bpix = true;
+         QPixmap pixmapgetthumb = utils::image::getThumbnail(path);
+         //存在线程时序的问题，应该这里如果图片为null，bpix应该设置为false，修复bug64355
+         if(!pixmapthumb.isNull() || !pixmapgetthumb.isNull()) {
+             bpix = true;
+         }
+         else {
+             bpix = false;
+         }
      }else
          bpix = true;
      if (!QFileInfo(path).exists()) {
@@ -1443,10 +1449,16 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     //检测到通过mtp外设打开不需要缩略图
     //mtp,smb,ptp均不会显示缩略图，卡顿问题，路径包含gvfs虚拟出的某些路径代表是外设，采用单页图片打开
     QString path=QFileInfo(vinfo.path).absolutePath();
-    if((path.indexOf("smb-share:server=") != -1|| path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1))
+    if((path.indexOf("smb-share:server=") != -1|| path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)){
         m_bOnlyOneiImg=true;
+        dApp->setIsOnlyOnePic(true);
+    }
     else {
         m_bOnlyOneiImg=false;
+        dApp->setIsOnlyOnePic(false);
+    }
+    if(vinfo.paths.count()<2){
+        dApp->setIsOnlyOnePic(true);
     }
 
     //apple手机，无旋转和删除权限
