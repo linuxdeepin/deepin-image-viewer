@@ -2,9 +2,10 @@
 #define PRINTHELPER_H
 
 #include <QObject>
-#include "printoptionspage.h"
+
 #include <dprintpreviewwidget.h>
 #include <dprintpreviewdialog.h>
+DWIDGET_USE_NAMESPACE
 //重构printhelper，因为dtk更新
 //绘制图片处理类
 class RequestedSlot : public QObject

@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef USE_UNIONIMAGE
 #include "baseutils.h"
 #include <FreeImage.h>
 #include <QDateTime>
@@ -385,3 +386,5 @@ QMap<QString, QString> getMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP *dib)
 }  // namespace image
 
 }  // namespace utils
+
+#endif

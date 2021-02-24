@@ -18,7 +18,7 @@
 #ifndef BOTTOMTOOLBAR_H
 #define BOTTOMTOOLBAR_H
 
-#include "widgets/blureframe.h"
+
 #include "controller/viewerthememanager.h"
 
 #include <QHBoxLayout>
@@ -26,7 +26,7 @@
 #include <DFloatingWidget>
 #include "controller/signalmanager.h"
 
-
+DWIDGET_USE_NAMESPACE
 class BottomToolbar : public DFloatingWidget
 {
     Q_OBJECT

@@ -1,5 +1,5 @@
 #include "printhelper.h"
-#include "printoptionspage.h"
+
 #include "snifferimageformat.h"
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>

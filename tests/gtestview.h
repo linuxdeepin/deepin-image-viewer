@@ -5,6 +5,7 @@
 #define protected public
 #include "blureframe.h"
 #include "imagebutton.h"
+#include "module/view/contents/iconbutton.h"
 #undef private
 
 #include "application.h"
@@ -30,7 +31,6 @@
 #include "module/view/lockwidget.h"
 #include "module/view/navigationwidget.h"
 #include "module/view/thumbnailwidget.h"
-#include "module/view/contents/iconbutton.h"
 #include "module/view/contents/imageinfowidget.h"
 #include "module/view/contents/ttbcontent.h"
 
@@ -157,8 +157,7 @@ protected:
     ScanPathsItem* m_ScanPathsItem{nullptr};
 
     PushButton * m_pushbutton{nullptr};
-    PrintOptionsPage *m_printOptionspage{nullptr};
-    BlurFrame *m_blurFrame{nullptr};
+
     CommandLine * m_command{nullptr};
     ScanPathsDialog *m_ScanDialog{nullptr};
     PrintHelper *m_Print{nullptr};

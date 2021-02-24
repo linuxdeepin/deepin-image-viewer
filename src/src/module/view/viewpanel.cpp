@@ -28,7 +28,7 @@
 #include "utils/imageutils.h"
 #include "widgets/imagebutton.h"
 #include "widgets/printhelper.h"
-#include "widgets/printoptionspage.h"
+
 #include "frame/renamedialog.h"
 #include "accessibility/ac-desktop-define.h"
 

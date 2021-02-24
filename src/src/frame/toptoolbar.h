@@ -18,14 +18,16 @@
 #ifndef TOPTOOLBAR_H
 #define TOPTOOLBAR_H
 
-#include "widgets/blureframe.h"
+
 #include "controller/viewerthememanager.h"
 
 #include <QJsonObject>
 #include <QPointer>
+#include <QGraphicsDropShadowEffect>
+
 #include <DTitlebar>
 #include <DLabel>
-#include <QGraphicsDropShadowEffect>
+#include <DBlurEffectWidget>
 #include <DMenu>
 #include <DShadowLine>
 

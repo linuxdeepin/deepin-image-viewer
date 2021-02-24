@@ -81,6 +81,12 @@ TEST_F(gtestview, SlideShowBottomBar1)
     bottom->m_playpauseButton->click();
     bottom->m_playpauseButton->click();
     bottom->m_cancelButton->click();
+
+    emit bottom->showPrevious();
+    emit bottom->showPause();
+    emit bottom->showNext();
+    emit bottom->showCancel();
+
     bottom->deleteLater();
     bottom=nullptr;
 
