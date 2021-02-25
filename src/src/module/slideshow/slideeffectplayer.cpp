@@ -151,7 +151,12 @@ void SlideEffectPlayer::setCurrentImage(const QString &path)
 
 QString SlideEffectPlayer::GetCurrentImagePath()
 {
-    return m_paths[m_current];
+    //增加边界判断
+    QString rePath;
+    if(m_paths.count()>m_current && m_current > 0){
+        rePath = m_paths[m_current];
+    }
+    return rePath;
 }
 
 QStringList SlideEffectPlayer::GetPathList()
@@ -161,7 +166,12 @@ QStringList SlideEffectPlayer::GetPathList()
 
 QString SlideEffectPlayer::currentImagePath() const
 {
-    return m_paths[m_current];
+    //增加边界判断
+    QString rePath;
+    if(m_paths.count()>m_current && m_current > 0){
+        rePath = m_paths[m_current];
+    }
+    return rePath;
 }
 
 bool SlideEffectPlayer::isRunning() const

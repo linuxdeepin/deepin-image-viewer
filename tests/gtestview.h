@@ -6,6 +6,7 @@
 #include "blureframe.h"
 #include "imagebutton.h"
 #include "module/view/contents/iconbutton.h"
+#include "module/slideshow/slideshowpanel.h"
 #undef private
 
 #include "application.h"
@@ -152,14 +153,14 @@ protected:
 
 
  /*dirwatcher*/
-    ScanPathsDialog* m_ScanPathsDialog{nullptr};
+//    ScanPathsDialog* m_ScanPathsDialog{nullptr};
     VolumeMonitor* m_VolumeMonitor{nullptr};
     ScanPathsItem* m_ScanPathsItem{nullptr};
 
     PushButton * m_pushbutton{nullptr};
 
     CommandLine * m_command{nullptr};
-    ScanPathsDialog *m_ScanDialog{nullptr};
+//    ScanPathsDialog *m_ScanDialog{nullptr};
     PrintHelper *m_Print{nullptr};
 
     QStringList list;

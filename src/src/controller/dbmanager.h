@@ -77,35 +77,35 @@ struct DBImgInfo {
 typedef QList<DBImgInfo> DBImgInfoList;
 Q_DECLARE_METATYPE(DBImgInfoList)
 
-class QSqlDatabase;
-class DBManager : public QObject
-{
-    Q_OBJECT
-public:
-    static DBManager *instance();
-    explicit DBManager(QObject *parent = nullptr);
+//class QSqlDatabase;
+//class DBManager : public QObject
+//{
+//    Q_OBJECT
+//public:
+//    static DBManager *instance();
+//    explicit DBManager(QObject *parent = nullptr);
 
-    // TableImage
-    const QStringList       getAllPaths() const;
-//    const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
-    const DBImgInfo         getInfoByPath(const QString &path) const;
-    const QStringList       getPathsByDir(const QString &dir) const;
-    void insertImgInfos(const DBImgInfoList &infos);
-    void removeImgInfos(const QStringList &paths);
-    void removeDir(const QString &dir);
+//    // TableImage
+//    const QStringList       getAllPaths() const;
+////    const DBImgInfoList     getInfosByTimeline(const QString &timeline) const;
+//    const DBImgInfo         getInfoByPath(const QString &path) const;
+//    const QStringList       getPathsByDir(const QString &dir) const;
+//    void insertImgInfos(const DBImgInfoList &infos);
+//    void removeImgInfos(const QStringList &paths);
+//    void removeDir(const QString &dir);
 
-    // TableAlbum
-    void insertIntoAlbum(const QString &album, const QStringList &paths);
+//    // TableAlbum
+//    void insertIntoAlbum(const QString &album, const QStringList &paths);
 
-private:
-    const DBImgInfoList getImgInfos(const QString &key, const QString &value) const;
-    const QSqlDatabase getDatabase() const;
-    void checkDatabase();
+//private:
+//    const DBImgInfoList getImgInfos(const QString &key, const QString &value) const;
+//    const QSqlDatabase getDatabase() const;
+//    void checkDatabase();
 
-    static DBManager *m_dbManager;
-private:
-    QString m_connectionName;
-    mutable QMutex m_mutex;
-};
+//    static DBManager *m_dbManager;
+//private:
+//    QString m_connectionName;
+//    mutable QMutex m_mutex;
+//};
 
 #endif // DBMANAGER_H

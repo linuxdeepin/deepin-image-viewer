@@ -105,8 +105,8 @@ private:
     int m_w, m_h;
     QMap<QString, QImage> m_cacheImages;
     QStringList m_paths;
-//    QStringList::ConstIterator m_current;
-    int m_current;
+
+    int m_current{0};
 
     QThread m_thread;
     SlideEffect *m_effect = nullptr;

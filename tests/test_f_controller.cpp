@@ -59,7 +59,7 @@ TEST_F(gtestview, WallPaperSetting1)
     }
     m_frameMainWindow->activateWindow();
 }
-TEST_F(gtestview, collectSubDirs)
+/*TEST_F(gtestview, collectSubDirs)
 {
     DirCollectThread tt(QApplication::applicationDirPath(),"test");
     Importer::instance()->stopDirCollect(QApplication::applicationDirPath());
@@ -74,4 +74,4 @@ TEST_F(gtestview, collectSubDirs)
 //    ct.start();
 //    tt.wait(2000);
 //    ct.wait(2000);
-}
+}*/

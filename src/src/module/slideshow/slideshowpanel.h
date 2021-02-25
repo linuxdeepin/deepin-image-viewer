@@ -29,7 +29,7 @@ class SlideShowPanel : public ModulePanel
 {
     Q_OBJECT
 public:
-    explicit SlideShowPanel(QWidget *parent = 0);
+    explicit SlideShowPanel(QWidget *parent = nullptr);
 
     enum MenuItemId {
         IdStopslideshow,
@@ -49,17 +49,16 @@ protected:
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
     void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
     void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
 signals:
     void sigloadSlideshowpath(bool bflag);
     void sigpauseclicked();
 private slots:
-    void Receiveslideshowpathlst(bool flag,DBImgInfoList slideshowpaths);
+//    void Receiveslideshowpathlst(bool flag,DBImgInfoList slideshowpaths);
     void onThemeChanged(ViewerThemeManager::AppTheme dark);
 private:
-    void slotLoadSlideShow(bool bflag,DBImgInfoList infoslideshow);
+//    void slotLoadSlideShow(bool bflag,DBImgInfoList infoslideshow);
     /**
      * @brief backToLastPanel
      * quit slide show

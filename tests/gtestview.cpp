@@ -199,7 +199,7 @@ TEST_F(gtestview, sliderShow)
     QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier | Qt::ShiftModifier, 100);
     QTest::keyClick(m_frameMainWindow, Qt::Key_R, Qt::ControlModifier , 500);
     QTest::keyClick(m_frameMainWindow, Qt::Key_F5, Qt::NoModifier, 1000);
-    QTest::qWait(30000);
+    QTest::qWait(90000);
     QTest::mouseMove(m_frameMainWindow, QPoint(1000,1075),1000);
     QTest::mouseMove(m_frameMainWindow, QPoint(200,500),1000);
     SlideShowPanel * sliderShow = m_frameMainWindow->findChild<SlideShowPanel *>(SLIDE_SHOW_WIDGET);
@@ -430,7 +430,6 @@ TEST_F(gtestview, onlyonePic)
         m_trashBtn->click();
         QTest::qWait(50);
     }
-
 }
 
 TEST_F(gtestview, sliderSvg)
@@ -452,6 +451,7 @@ TEST_F(gtestview, sliderSvg)
     m_frameMainWindow->showMaximized();
     m_frameMainWindow->showNormal();
 }
+
 TEST_F(gtestview, MyImageListWidget)
 {
     if(!m_frameMainWindow)
@@ -469,21 +469,13 @@ TEST_F(gtestview, MyImageListWidget)
     e.addMouseRelease(Qt::LeftButton, Qt::NoModifier, QPoint(250,30), 200);
     e.simulate(widget);
     e.clear();
-
-
 }
-TEST_F(gtestview, testDrag)
-{
 
-}
 //设置背景颜色
 TEST_F(gtestview, ViewerThemeManager)
 {
-
      dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
      dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-
-
 }
 
 TEST_F(gtestview, ImageButton)
@@ -494,14 +486,14 @@ TEST_F(gtestview, ImageButton)
     button->leaveEvent(event);
     delete event;
     event=nullptr;
-    button->showTooltip(QPoint(200,200));
 
-//    button->setDisablePic(QApplication::applicationDirPath()+"/png.png");
+    button->showTooltip(QPoint(200,200));
     button->setDisabled(false);
     button->setToolTip("test");
     button->getDisablePic();
     button->show();
     button->resize(100,100);
+
     QTest::qWait(100);
     QTest::mousePress(button, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),250);
     QTest::qWait(100);
@@ -512,12 +504,9 @@ TEST_F(gtestview, ImageButton)
     QTest::mouseDClick(button,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
 
     button->hide();
-
     button->showTooltip(QPoint(200,200));
-
     button->deleteLater();
     button=nullptr;
-
 }
 
 TEST_F(gtestview, m_pushbutton)
@@ -712,118 +701,29 @@ TEST_F(gtestview, ImageView)
 
     m_ImageView->hide();
 }
-TEST_F(gtestview, m_ScanPathsItem)
-{
-    VolumeMonitor::instance();
-    ScanPathsItem* m_ScanPathsItem=new ScanPathsItem(m_JPGPath);
-    m_ScanPathsItem->show();
 
-    QTest::qWait(10);
-    m_ScanPathsItem->hide();
-}
 TEST_F(gtestview, dapp)
 {
     dApp->getRwLock();
     dApp->loadInterface(m_JPGPath);
-
     dApp->signalM->emit sendPathlist(list,m_JPGPath);
-    dApp->wpSetter;
-    dApp->viewerTheme;
-    dApp->setter;
-    DBManager::instance()->insertIntoAlbum(m_JPGPath,list);
-    DBManager::instance()->getAllPaths();
-    DBManager::instance()->getInfoByPath(m_JPGPath);
-
-    Importer::instance()->isRunning();
-    Importer::instance()->appendDir(m_JPGPath,m_JPGPath);
-
 }
-//TEST_F(gtestview, BlurFrame)
-//{
-//    QWidget *testWidget=new QWidget();
-//    m_printOptionspage=new PrintOptionsPage(testWidget);
-//    m_printOptionspage->show();
 
-////    QRadioButton *noScaleBtn = m_printOptionspage->getnoScaleBtn();
-////    QRadioButton *fitToImageBtn = m_printOptionspage->getfitToImageBtn();
-////    QRadioButton *fitToPageBtn = m_printOptionspage->getfitToPageBtn();
-////    QRadioButton *scaleBtn = m_printOptionspage->getscaleBtn();
-////    if(noScaleBtn &&fitToImageBtn &&fitToPageBtn &&scaleBtn)
-////    {
-////        noScaleBtn->click();
-////        noScaleBtn->toggle();
-////        fitToImageBtn->click();
-////        fitToImageBtn->toggle();
-////        fitToPageBtn->click();
-////        fitToPageBtn->toggle();
-////        scaleBtn->click();
-////        scaleBtn->toggle();
-////    }
-////    m_printOptionspage->scaleMode();
-////    m_printOptionspage->scaleUnit();
-////    m_printOptionspage->scaleWidth();
-////    m_printOptionspage->scaleHeight();
-////    m_printOptionspage->alignment();
-
-//    BlurFrame *blurFrame=new BlurFrame(testWidget);
-//    blurFrame->resize(500,500);
-//    blurFrame->show();
-//    blurFrame->resize(300,300);
-//    QTest::qWait(100);
-//    blurFrame->update();
-////    blurFrame->moveWithAnimation( 150, 150);
-
-////    blurFrame->getBorderColor() ;
-////    blurFrame->getBorderRadius() ;
-////    blurFrame->getBorderWidth() ;
-//    blurFrame->show();
-////    blurFrame->setBorderColor(QColor(200,155,200));
-//    blurFrame->resize(200,200);
-////    blurFrame->setBorderRadius(100);
-////    blurFrame->setBorderWidth(50);
-////    blurFrame->setCoverBrush(QBrush());
-////    blurFrame->setPos(QPoint(150,150));
-////    blurFrame->setMoveEnable(true);
-
-//    blurFrame->update();
-//    blurFrame->show();
-//    QTest::mousePress(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseRelease(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(100,100),200);
-//    QTest::mouseClick(blurFrame, Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-//    QTest::mouseMove(blurFrame, QPoint(50,100),200);
-//    QTest::keyClick(blurFrame, Qt::Key_Escape, Qt::ShiftModifier, 200);
-//    QTest::mouseDClick(blurFrame,Qt::LeftButton,Qt::NoModifier,QPoint(50,50),200);
-
-//    QTest::qWait(100);
-//    blurFrame->hide();
-//    blurFrame->deleteLater();
-//    blurFrame=nullptr;
-//    testWidget->deleteLater();
-//    testWidget=nullptr;
-
-
-//}
 TEST_F(gtestview, unionimage)
 {
     //unionimage
     QString pppath=m_PNGPath;
-//    supportStaticFormat();
-//    supportMovieFormat();
-//    isSupportReading(pppath);
+
     QImage rimg(pppath);
-//    creatNewImage(rimg,800,600,0);
     QImage img2;
     QString errorMsg;
     loadStaticImageFromFile(m_DDSPath,img2,errorMsg);
     detectImageFormat(m_DDSPath);
-//    isNoneQImage(img2);
     rotateImage(90,img2);
     QString ddsPath=m_DDSPath;
     QString svgPath=m_SVGPath;
     rotateImageFIle(90,m_SVGPath,errorMsg);
     rotateImageFIle(90,pppath,errorMsg);
-//    rotateImageFIleWithImage(90,rimg,m_PNGPath,errorMsg);
-//    rotateImageFIleWithImage(90,rimg,m_SVGPath,errorMsg);
     DetectImageFormat(m_SVGPath);
 }
 TEST_F(gtestview, imageutil)
@@ -843,7 +743,6 @@ TEST_F(gtestview, imageutil)
 
     //utils::image
     QString pppath=m_JPGPath;
-//    imageSupportWrite(pppath);
     rotate(pppath,90);
     cutSquareImage(QPixmap(pppath),QSize(50,50));
     utils::image::getOrientation(pppath);
@@ -855,8 +754,6 @@ TEST_F(gtestview, imageutil)
     supportedImageFormats();
     imageSupportWallPaper(pppath);
     utils::image::suffixisImage(pppath);
-
-//    wrapStr(m_JPGPath,QFont(),20);
 
 }
 
@@ -924,13 +821,10 @@ TEST_F(gtestview, ThemeWidget)
     }
 
     ThemeWidget *widget = m_frameMainWindow->findChild<ThemeWidget *>(THEME_WIDGET);
-    if(widget)
-    {
-//        widget->isDeepMode();
-    }
-    else {
+    if(!widget){
         widget=new ThemeWidget("","");
-//        widget->isDeepMode();
+        widget->deleteLater();
+        widget=nullptr;
     }
 }
 
@@ -943,19 +837,6 @@ TEST_F(gtestview, Light)
 {
     dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
 }
-
-//TEST_F(gtestview, PrintHelper)
-//{
-//    if(!m_frameMainWindow)
-//    {
-//        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-//        PrintHelper *testWidget=new PrintHelper();
-//        PrintHelper::showPrintDialog(list, m_frameMainWindow);
-//        QTest::qWait(1000);
-
-//    }
-//}
-
 
 TEST_F(gtestview, ElidedLabel)
 {
@@ -984,12 +865,5 @@ TEST_F(gtestview, ElidedLabel)
         widget=nullptr;
     }
 }
-
-
-TEST_F(gtestview, initTest1)
-{
-    ScanPathsDialog::instance()->addPath(m_PNGPath);
-}
-
 
 #endif

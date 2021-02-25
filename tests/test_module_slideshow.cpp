@@ -2,9 +2,7 @@
 #define protected public
 #define private public
 #include "module/slideshow/slideeffectplayer.h"
-
 #include "module/slideshow/slideeffect.h"
-#include "module/slideshow/slideshowpanel.h"
 #include "module/slideshow/slideshowbottombar.h"
 #include "module/view/scen/imageview.h"
 TEST_F(gtestview, Sslideshowpanel1)
@@ -19,6 +17,33 @@ TEST_F(gtestview, Sslideshowpanel1)
     info.filePath=QApplication::applicationDirPath() + "/test/jpg100.jpg";
     list.push_back(info);
     //panel->Receiveslideshowpathlst(true,list);
+
+    QMenu *m_menu=new QMenu();
+
+    QAction *action=new QAction(m_menu);
+    action->setProperty("MenuID",5);
+    action->trigger();
+
+    QAction *action1=new QAction(m_menu);
+    action1->setProperty("MenuID",SlideShowPanel::IdPlayOrPause);
+    action1->trigger();
+
+    QAction *action2=new QAction(m_menu);
+    action2->setProperty("MenuID",SlideShowPanel::IdStopslideshow);
+    action2->trigger();
+    panel->onMenuItemClicked(action);
+    panel->onMenuItemClicked(action1);
+    panel->onMenuItemClicked(action2);
+    delete m_menu;
+    m_menu=nullptr;
+
+    panel->getFitImage(QApplication::applicationDirPath() + "/test/jpg33.jpg");
+    panel->onThemeChanged(ViewerThemeManager::Dark);
+    panel->onThemeChanged(ViewerThemeManager::Light);
+
+    QTest::mouseMove(panel, QPoint(1000,1075),500);
+    QTest::mouseMove(panel, QPoint(200,500),500);
+
     delete panel;
     panel=nullptr;
 }

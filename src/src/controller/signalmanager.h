@@ -18,6 +18,7 @@
 #define SIGNALMANAGER_H
 
 #include <QObject>
+#include <QDateTime>
 #include "dbmanager.h"
 
 class ModulePanel;

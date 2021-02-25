@@ -1757,31 +1757,24 @@ bool ViewPanel::showImage(int index, int addindex)
         return false;
     }
 
-    //        if(addindex>0){
-    //            for (int i=0;i<addindex;i++) {
-    //                ++m_current;
-    //            }
-    //        }else{
-    //            for (int i=addindex;i<0;i++) {
-    //                --m_current;
-    //            }
-    //        }
     //判断当前图片是否旋转过，如果被旋转就写入本地文件
 
+    //边界判断加上错误处理
     m_lastCurrent = m_current;
-    m_current = index;
-    /*lmh0729加上
-*/
-    if(m_infos.at(m_current).filePath == m_currentImagePath&&m_bIsOpenPicture /*&&NULL!=m_currentImagePath*/)
+    if(index<0){
+        m_current = 0;
+    }
+    else {
+        m_current = index;
+    }
+
+    if(m_infos.count()>m_current && m_infos.at(m_current).filePath == m_currentImagePath&&m_bIsOpenPicture /*&&NULL!=m_currentImagePath*/)
     {
         return false;
     }
-//    dApp->getRwLock().unlock();
-//    dApp->getRwLock().lockForWrite();
     m_currentImagePath = m_infos.at(m_current).filePath;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-//    dApp->getRwLock().unlock();
-m_bIsOpenPicture=true;
+    m_bIsOpenPicture=true;
     return true;
 }
 
