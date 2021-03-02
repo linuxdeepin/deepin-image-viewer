@@ -96,15 +96,12 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     for (const QString &path : paths) {
         QString errMsg;
         QImageReader imgReadreder(path);
-        if(imgReadreder.imageCount()>1)
-        {
-            for(int imgindex=0;imgindex<imgReadreder.imageCount();imgindex++)
-            {
+        if (imgReadreder.imageCount() > 1) {
+            for (int imgindex = 0; imgindex < imgReadreder.imageCount(); imgindex++) {
                 imgReadreder.jumpToImage(imgindex);
                 m_re->m_imgs << imgReadreder.read();
             }
-        }
-        else {
+        } else {
             //QImage不应该多次赋值，所以换到这里来，修复style问题
             QImage img;
             UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
@@ -112,13 +109,13 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
                 m_re->m_imgs << img;
             }
         }
-        tempExsitPaths<<paths;
+        tempExsitPaths << paths;
 
     }
-    //适配打印接口2.0，dtk大于 5.4.7 版才合入最新的2.0打印控件接口
+    //适配打印接口2.0，dtk大于 5.4.10 版才合入最新的2.0打印控件接口
 #if (DTK_VERSION_MAJOR > 5 \
     || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
-    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH > 7))//5.4.4暂时没有合入
+    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
     DPrintPreviewDialog printDialog2(nullptr);
     bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
     //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
@@ -183,7 +180,7 @@ void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &p
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)
 {
-    int currentIndex=0;
+    int currentIndex = 0;
     QPainter painter(_printer);
     for (QImage img : m_imgs) {
         if (!img.isNull()) {
@@ -203,7 +200,7 @@ void RequestedSlot::paintRequestSync(DPrinter *_printer)
                                      tmpMap.height()), tmpMap);
         }
         //不应该将多个相同的图片过滤掉
-        if(currentIndex!=m_imgs.count()-1){
+        if (currentIndex != m_imgs.count() - 1) {
             _printer->newPage();
             currentIndex++;
         }
