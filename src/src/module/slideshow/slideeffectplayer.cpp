@@ -153,7 +153,8 @@ QString SlideEffectPlayer::GetCurrentImagePath()
 {
     //增加边界判断
     QString rePath;
-    if(m_paths.count()>m_current && m_current > 0){
+    //m_current应该是>=0才对
+    if(m_paths.count() > m_current && m_current >= 0){
         rePath = m_paths[m_current];
     }
     return rePath;
@@ -168,7 +169,8 @@ QString SlideEffectPlayer::currentImagePath() const
 {
     //增加边界判断
     QString rePath;
-    if(m_paths.count()>m_current && m_current > 0){
+    //m_current应该是>=0才对
+    if(m_paths.count() > m_current && m_current >= 0){
         rePath = m_paths[m_current];
     }
     return rePath;

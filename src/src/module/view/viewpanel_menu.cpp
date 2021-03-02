@@ -137,6 +137,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     using namespace utils::base;
     using namespace utils::image;
 
+    //m_infos的count大于总和了，需要给总值重新赋值
+    if(m_infos.count() > m_infosAll.count()){
+        m_infosAll=m_infos;
+    }
     if (m_infos.isEmpty())
         return;
     const QString path = m_infos.at(m_current).filePath;
