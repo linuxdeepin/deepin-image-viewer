@@ -45,7 +45,7 @@ SlideEffectPlayer::SlideEffectPlayer(QObject *parent)
 {
 //    QDesktopWidget *desktopWidget = QApplication::desktop();
 //    m_screenrect = desktopWidget->screenGeometry();
-    QScreen *screen = QGuiApplication::primaryScreen ();
+    QScreen *screen = QGuiApplication::primaryScreen();
     qreal m_ratio = 1;
     //修复style为难题，重复赋值
     QRect m_screenrect = screen->availableGeometry() ;
@@ -127,7 +127,7 @@ void SlideEffectPlayer::setImagePaths(const QStringList &paths)
     m_current = 0;
 }
 
-void SlideEffectPlayer::SetfirstlastThunbnailpath(const QString firstpath,const QString lastpath)
+void SlideEffectPlayer::SetfirstlastThunbnailpath(const QString firstpath, const QString lastpath)
 {
     m_FirstThumbnailPath = firstpath;
     m_LastThumbnailPath = lastpath;
@@ -154,7 +154,7 @@ QString SlideEffectPlayer::GetCurrentImagePath()
     //增加边界判断
     QString rePath;
     //m_current应该是>=0才对
-    if(m_paths.count() > m_current && m_current >= 0){
+    if (m_paths.count() > m_current && m_current >= 0) {
         rePath = m_paths[m_current];
     }
     return rePath;
@@ -170,7 +170,7 @@ QString SlideEffectPlayer::currentImagePath() const
     //增加边界判断
     QString rePath;
     //m_current应该是>=0才对
-    if(m_paths.count() > m_current && m_current >= 0){
+    if (m_paths.count() > m_current && m_current >= 0) {
         rePath = m_paths[m_current];
     }
     return rePath;
@@ -191,10 +191,10 @@ void SlideEffectPlayer::start()
     cachePrevious();
     m_running = true;
     if (!b_4k)
-        m_tid = startTimer(ANIMATION_DURATION );
+        m_tid = startTimer(ANIMATION_DURATION);
 //        m_tid = startTimer(2 );
     else
-        m_tid = startTimer(ANIMATION_DURATION_4K );
+        m_tid = startTimer(ANIMATION_DURATION_4K);
 //        m_tid = startTimer(2 );
 }
 
@@ -228,12 +228,12 @@ bool SlideEffectPlayer::startNext()
 //    }
 
     //if (m_cacheImages.value(m_paths[current]).isNull()) {
-        //return false;
+    //return false;
     //}
 
     if (m_effect)
         m_effect->deleteLater();
-    QString oldPath,newPath;
+    QString oldPath, newPath;
     m_oldpath = m_paths[m_current];
 
     if (m_paths.length() > 1) {
@@ -242,9 +242,9 @@ bool SlideEffectPlayer::startNext()
             m_current = 0;
         }
     }
-   // if(m_current+1<m_paths.size())
-   //     newPath = m_paths[m_current+1];
-   // QImage oldImg = m_cacheImages.value(oldPath);
+    // if(m_current+1<m_paths.size())
+    //     newPath = m_paths[m_current+1];
+    // QImage oldImg = m_cacheImages.value(oldPath);
 
     cacheNext();
     m_newpath = m_paths[m_current];
@@ -256,10 +256,10 @@ bool SlideEffectPlayer::startNext()
 //        LoopPlayoldpath = "";
 //        newPath = m_paths[m_current];
 //    }
-   // if(oldImg.isNull())
-     //   oldImg = utils::image::getRotatedImage(oldPath);
-   // if(newPath.isEmpty())
-     //   newPath = m_paths[m_current];
+    // if(oldImg.isNull())
+    //   oldImg = utils::image::getRotatedImage(oldPath);
+    // if(newPath.isEmpty())
+    //   newPath = m_paths[m_current];
     m_effect = SlideEffect::create("");
 //    m_effect = SlideEffect::create("enter_from_right");
 //    if ((m_screenrect.width()*m_ratio) < 3000 && (m_screenrect.height()*m_ratio) < 3000) {
@@ -301,7 +301,7 @@ bool SlideEffectPlayer::startNext()
         m_thread.start();
 
     m_effect->moveToThread(&m_thread);
-    connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
+    connect(m_effect, &SlideEffect::frameReady, this, [ = ](const QImage & img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
@@ -398,7 +398,7 @@ bool SlideEffectPlayer::startPrevious()
         m_thread.start();
 
     m_effect->moveToThread(&m_thread);
-    connect(m_effect, &SlideEffect::frameReady, this, [ = ] (const QImage & img) {
+    connect(m_effect, &SlideEffect::frameReady, this, [ = ](const QImage & img) {
         if (m_running) {
             Q_EMIT frameReady(img);
         }
@@ -413,8 +413,7 @@ void SlideEffectPlayer::cacheNext()
     int current = m_current;
     current ++;
     //Load front pictures when playing the last file
-    if(current == m_paths.length())
-    {
+    if (current == m_paths.length()) {
         if (bfirstrun) {
             bneedupdatepausebutton = true;
         }
@@ -425,26 +424,22 @@ void SlideEffectPlayer::cacheNext()
     }
     QString path = m_paths[current];
     //修复打开幻灯片第一张后，点击上一张到文件的最后一张，然后再点击开始后退出幻灯片没有动态加载到新的缩略图问题
-    bool b= true;
-    emit dApp->signalM->sigisThumbnailsContainPath(path,b);
-    if(!b)
-    {
+    bool b = true;
+    emit dApp->signalM->sigisThumbnailsContainPath(path, b);
+    if (!b) {
         emit dApp->signalM->sigLoadfrontSlideshow();
         emit dApp->signalM->sigGetLastThumbnailPath(m_LastThumbnailPath);
     }
     //Load the following pictures and thumbnails when playing the last thumbnail
-    if(path == m_LastThumbnailPath)
-    {
+    if (path == m_LastThumbnailPath) {
         emit dApp->signalM->sendLoadSignal(false);
         emit dApp->signalM->sigGetLastThumbnailPath(m_LastThumbnailPath);
     }
 
     //Load current pixmap for fix bug 21480
-    if(bfirstrun)
-    {
+    if (bfirstrun) {
         QString curpath = m_paths[m_current];
-        if (m_cacheImages.value(curpath).isNull())
-        {
+        if (m_cacheImages.value(curpath).isNull()) {
             QImage img = utils::image::getRotatedImage(curpath);
             m_cacheImages.insert(curpath, img);
         }
@@ -453,17 +448,16 @@ void SlideEffectPlayer::cacheNext()
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
-        this, [ = ] (const QString path, const QImage img) {
+        this, [ = ](const QString path, const QImage img) {
             //free memory
             //只有一张图片不加载下一张
-            if(m_paths.length()<2) return;
-            int rmindex = m_current-2;
-            if(-1 == rmindex)
-                rmindex = m_paths.length()-1;
-            else if(-2 == rmindex)
-                rmindex = m_paths.length()-2;
-            if(m_paths.length() != 2 && rmindex>-1)
-            {
+            if (m_paths.length() < 2) return;
+            int rmindex = m_current - 2;
+            if (-1 == rmindex)
+                rmindex = m_paths.length() - 1;
+            else if (-2 == rmindex)
+                rmindex = m_paths.length() - 2;
+            if (m_paths.length() != 2 && rmindex > -1) {
                 QString rmpath = m_paths[rmindex];
                 m_cacheImages.remove(rmpath);
             }
@@ -478,7 +472,8 @@ void SlideEffectPlayer::cacheNext()
 void SlideEffectPlayer::cachePrevious()
 {
     qDebug() << "SlideEffectPlayer::cachePrevious()";
-    if(bfirstrun && m_current == 0) return;
+    //修改bug65455，由于没有加载最后一张照片，所以出现该问题，这里应该加载最后一页的图
+    //if (bfirstrun && m_current == 0) return;
     int current = m_current;
     current--;
     //Load Tail thumbnails when playing the first picture
@@ -491,25 +486,23 @@ void SlideEffectPlayer::cachePrevious()
     }
 
     QString path = m_paths[current];
-    if(path == m_FirstThumbnailPath)
-    {
+    if (path == m_FirstThumbnailPath) {
         emit dApp->signalM->sendLoadSignal(true);
         emit dApp->signalM->sigGetFirstThumbnailpath(m_FirstThumbnailPath);
     }
     if (m_cacheImages.value(path).isNull()) {
         CacheThread *t = new CacheThread(path);
         connect(t, &CacheThread::cached,
-        this, [ = ] (const QString path, const QImage img) {
+        this, [ = ](const QString path, const QImage img) {
             //修复只有一张图片不加载上一张
-            if(m_paths.length() < 2) return;
+            if (m_paths.length() < 2) return;
             qDebug() << "m_cacheImagespre.insert(path, img)";
-            int rmindex = m_current+2;
-            if(m_paths.size() == rmindex)
+            int rmindex = m_current + 2;
+            if (m_paths.size() == rmindex)
                 rmindex = 0;
-            else if(m_paths.size()+1 == rmindex)
+            else if (m_paths.size() + 1 == rmindex)
                 rmindex = 1;
-            if(m_paths.length() != 2 && rmindex!= -1)
-            {
+            if (m_paths.length() != 2 && rmindex != -1) {
                 QString rmpath = m_paths[rmindex];
                 m_cacheImages.remove(rmpath);
             }
@@ -536,8 +529,7 @@ void SlideEffectPlayer::stop()
 
     killTimer(m_tid);
     //LMH0601 解决29706 【看图】【5.6.3.5】【sp1】播放幻灯片时，在第一张图片上双击鼠标，应用闪退
-    if(nullptr!=m_effect)
-    {
+    if (nullptr != m_effect) {
         m_effect->clearimagemap();
     }
     //删除无用代码，修复style问题
