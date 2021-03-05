@@ -165,27 +165,35 @@ RequestedSlot::~RequestedSlot()
 }
 void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &pageRange)
 {
+    //修改预览逻辑，考虑到可能传递回来有多张图
     QPainter painter(_printer);
-    if (pageRange.size() > 0) {
-        QImage img = m_imgs.at(pageRange.at(0) - 1);
-        if (!img.isNull()) {
-            painter.setRenderHint(QPainter::Antialiasing);
-            painter.setRenderHint(QPainter::SmoothPixmapTransform);
-            QRect wRect  = _printer->pageRect();
-            QImage tmpMap;
-            if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            } else {
-                tmpMap = img;
+    for (int page : pageRange) {
+        if ((page < m_imgs.count() + 1) && page >= 1) {
+            QImage img = m_imgs.at(page - 1);
+            if (!img.isNull()) {
+                painter.setRenderHint(QPainter::Antialiasing);
+                painter.setRenderHint(QPainter::SmoothPixmapTransform);
+                QRect wRect  = _printer->pageRect();
+                QImage tmpMap;
+
+                if (img.width() > wRect.width() || img.height() > wRect.height()) {
+                    tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                } else {
+                    tmpMap = img;
+                }
+              
+                QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
+                                          qreal(wRect.height() - tmpMap.height()) / 2,
+                                          tmpMap.width(), tmpMap.height());
+
+                painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
+                                         tmpMap.height()), tmpMap);
             }
-            QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
-                                      qreal(wRect.height() - tmpMap.height()) / 2,
-                                      tmpMap.width(), tmpMap.height());
-            painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                                     tmpMap.height()), tmpMap);
+            if (page != m_imgs.count()) {
+                _printer->newPage();
+            }
         }
     }
-    painter.end();
 }
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)

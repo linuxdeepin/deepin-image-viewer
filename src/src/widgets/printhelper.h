@@ -14,7 +14,7 @@ class RequestedSlot : public QObject
 public:
     explicit RequestedSlot(QObject *parent = nullptr);
     ~RequestedSlot();
-public slots:
+private slots:
     void paintRequestedAsyn(DPrinter *_printer, const QVector<int> &pageRange);
     void paintRequestSync(DPrinter *_printer);
 
@@ -32,7 +32,7 @@ public:
 
     //    static QSize adjustSize(PrintOptionsPage* optionsPage, QImage img, int resolution, const QSize & viewportSize);
     //    static QPoint adjustPosition(PrintOptionsPage* optionsPage, const QSize& imageSize, const QSize & viewportSize);
-    void showPrintDialog(const QStringList &paths, QWidget *parent= nullptr);
+    void showPrintDialog(const QStringList &paths, QWidget *parent = nullptr);
 
     RequestedSlot *m_re = nullptr;
 private:
