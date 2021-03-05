@@ -117,19 +117,29 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
     || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
     DPrintPreviewDialog printDialog2(nullptr);
-    bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
-    //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
-    if (tempExsitPaths.size() == 1) {
-        QString docName = QString(QFileInfo(tempExsitPaths.at(0)).baseName());
-        printDialog2.setDocName(docName);
-    }//else 多张照片不设置名称，默认使用print模块的print.pdf
-    if (suc) {//异步
-        connect(&printDialog2, SIGNAL(paintRequested(DPrinter *, const QVector<int> &)),
-                m_re, SLOT(paintRequestedAsyn(DPrinter *, const QVector<int> &)));
-    } else {//同步
+    if (DTK_VERSION_MAJOR > 5 \
+            || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR > 4) \
+            || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10)) {
+        bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
+        //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
+        if (tempExsitPaths.size() == 1) {
+            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).baseName());
+            printDialog2.setDocName(docName);
+        }//else 多张照片不设置名称，默认使用print模块的print.pdf
+        if (suc) {//异步
+            connect(&printDialog2, SIGNAL(paintRequested(DPrinter *, const QVector<int> &)),
+                    m_re, SLOT(paintRequestedAsyn(DPrinter *, const QVector<int> &)));
+        } else {//同步
+            connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
+                    m_re, SLOT(paintRequestSync(DPrinter *)));
+        }
+
+    } else {
+
         connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
                 m_re, SLOT(paintRequestSync(DPrinter *)));
     }
+
 #else
     DPrintPreviewDialog printDialog2(nullptr);
     connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
