@@ -43,7 +43,6 @@ static const QString kBlindsTopToBottom = "blinds_top_to_bottom";
 class SlideEffect_Blinds : public SlideEffect
 {
 public:
-    SlideEffect_Blinds();
     virtual bool prepare() override;
     virtual EffectName effectName() const override
     {
@@ -71,17 +70,6 @@ private:
 };
 
 REGISTER_EFFECTS(SlideEffect_Blinds)
-
-//增加构造函数
-SlideEffect_Blinds::SlideEffect_Blinds()
-    :calculateRegion_ptr(nullptr)
-    ,leafs(0)
-    ,leaf_width(0)
-{
-#ifndef NO_EASINGCURVE
-    setEasingCurve(QEasingCurve::InOutQuint);
-#endif //NO_EASINGCURVE
-}
 
 bool SlideEffect_Blinds::prepare()
 {

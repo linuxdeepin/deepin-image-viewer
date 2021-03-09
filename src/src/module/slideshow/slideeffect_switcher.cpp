@@ -45,19 +45,19 @@ class SlideEffect_Switcher : public SlideEffect
 {
 public:
     SlideEffect_Switcher();
-    virtual bool prepare() override;
-    virtual EffectName effectName() const override
+    virtual bool prepare();
+    virtual EffectName effectName() const
     {
         return Switcher;
     }
-    virtual QVector<EffectId> supportedTypes() const override
+    virtual QVector<EffectId> supportedTypes() const
     {
         return QVector<EffectId>() << kHorizontalOpen << kHorizontalClose
                << kVerticalOpen << kVerticalClose;
     }
 
 protected:
-    virtual bool prepareFrameAt(int frame) override;
+    virtual bool prepareFrameAt(int frame);
     //virtual bool isEndFrame(int frame);
 
 private:

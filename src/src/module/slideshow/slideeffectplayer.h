@@ -92,6 +92,7 @@ public:
     int duration() const;
     bool startNext();
     void cacheNext();
+    void cacheNextBackUp();
     bool startPrevious();
     void cachePrevious();
     void setStartNextFlag(bool flag);
@@ -105,11 +106,11 @@ private:
     int m_w, m_h;
     QMap<QString, QImage> m_cacheImages;
     QStringList m_paths;
-
-    int m_current{0};
+//    QStringList::ConstIterator m_current;
+    int m_current;
 
     QThread m_thread;
-    SlideEffect *m_effect = nullptr;
+    SlideEffect *m_effect = NULL;
     bool b_4k = false;
     bool bfirstrun = true;
     bool bneedupdatepausebutton = false;

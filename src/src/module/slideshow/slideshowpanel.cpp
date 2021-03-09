@@ -383,29 +383,29 @@ void SlideShowPanel::contextMenuEvent(QContextMenuEvent *e)
     backToLastPanel();
 }
 
-//void SlideShowPanel::Receiveslideshowpathlst(bool flag, DBImgInfoList slideshowpaths)
-//{
-//    slotLoadSlideShow(flag, slideshowpaths);
-//}
+void SlideShowPanel::Receiveslideshowpathlst(bool flag, DBImgInfoList slideshowpaths)
+{
+    slotLoadSlideShow(flag, slideshowpaths);
+}
 
-////动态加载后的数据结构给予幻灯片新的播放路径list，重新设置index
-//void SlideShowPanel::slotLoadSlideShow(bool bflag, DBImgInfoList infoslideshow)
-//{
-//    Q_UNUSED(bflag);
-//    if (m_player->GetPathList().size() == 0) return;
-//    QStringList list;
-//    for (DBImgInfo info : infoslideshow) {
+//动态加载后的数据结构给予幻灯片新的播放路径list，重新设置index
+void SlideShowPanel::slotLoadSlideShow(bool bflag, DBImgInfoList infoslideshow)
+{
+    Q_UNUSED(bflag);
+    if (m_player->GetPathList().size() == 0) return;
+    QStringList list;
+    for (DBImgInfo info : infoslideshow) {
 
-//        list << info.filePath;
-//    }
-//    if (list.size() == m_vinfo.paths.size()) return;
-//    m_fileSystemMonitor->removePaths(m_vinfo.paths);
-//    m_vinfo.paths = list;
-//    m_fileSystemMonitor->addPaths(m_vinfo.paths);
-//    QString curpath = m_player->currentImagePath();
-//    m_player->setImagePaths(list);
-//    m_player->setCurrentImage(curpath);
-//}
+        list << info.filePath;
+    }
+    if (list.size() == m_vinfo.paths.size()) return;
+    m_fileSystemMonitor->removePaths(m_vinfo.paths);
+    m_vinfo.paths = list;
+    m_fileSystemMonitor->addPaths(m_vinfo.paths);
+    QString curpath = m_player->currentImagePath();
+    m_player->setImagePaths(list);
+    m_player->setCurrentImage(curpath);
+}
 
 void SlideShowPanel::mouseMoveEvent(QMouseEvent *e)
 {
@@ -631,4 +631,11 @@ void SlideShowPanel::onThemeChanged(ViewerThemeManager::AppTheme dark)
     update();
 }
 
+void SlideShowPanel::keyPressEvent(QKeyEvent *e)
+{
+    Q_UNUSED(e);
+//    if (Qt::Key_Space == e->key()) {
+//        m_player->pause();
+//    }
+}
 

@@ -209,6 +209,11 @@ void SlideEffect::setEasingCurve(QEasingCurve::Type easing_type)
     easing_ = QEasingCurve(easing_type);
 }
 
+QEasingCurve SlideEffect::easingCurve() const
+{
+    return easing_;
+}
+
 void SlideEffect::setDuration(int ms)
 {
     duration_ms = ms;
@@ -217,6 +222,11 @@ void SlideEffect::setDuration(int ms)
 void SlideEffect::setAllMs(int ms)
 {
     all_ms = ms;
+}
+
+int SlideEffect::allMs() const
+{
+    return all_ms;
 }
 
 int SlideEffect::duration() const
@@ -360,6 +370,11 @@ bool SlideEffect::prepareNextFrame()
     return false;
 }
 
+QImage *SlideEffect::currentFrame()
+{
+    return frame_image;
+}
+
 void SlideEffect::setType(const EffectId& type)
 {
     effect_type = type;
@@ -368,6 +383,17 @@ void SlideEffect::setType(const EffectId& type)
 EffectId SlideEffect::type() const
 {
     return effect_type;
+}
+
+
+int SlideEffect::currentFrameNumber() const
+{
+    return current_frame;
+}
+
+int SlideEffect::frames() const
+{
+    return frames_total;
 }
 
 void SlideEffect::setSize(const QSize &s)
@@ -500,6 +526,32 @@ bool SlideEffect::isEndFrame(int frame)
         finished = true;
     }
     return false;
+}
+
+//TODO: alpha blending here
+void SlideEffect::renderFrame(SlideEffectThreadData &data)
+{
+//    Q_ASSERT(frame_image);
+//    QPainter p(frame_image);
+//    frame_image->fill(Qt::transparent);
+    SlideEffectThreadData mdata = data;
+//    qDebug() << "-------renderFrame start num:" << data.num;
+    QImage image = mdata.mimage;
+    QPainter p(&image);
+    image.fill(Qt::transparent);
+    /*
+        Tell me why!
+        if draw the next frame_image first, then it will flick for FromBottom, CoverBottom effect!
+    */
+    //actually we can just paint the next frame_image if no opacity changes
+    p.setClipRegion(mdata.current_region);
+    p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**current_image*/mdata.current_image, mdata.current_rect);
+
+    p.setClipRegion(mdata.next_region);
+    p.drawImage(QRect(0, 0, mdata.width, mdata.height), /**next_image*/mdata.next_image, mdata.next_rect);
+    emit renderFrameFinish(mdata.num, image);
+
+    //    qDebug() << "-------renderFrame end num:" << data.num;
 }
 
 void SlideEffect::clearimagemap()

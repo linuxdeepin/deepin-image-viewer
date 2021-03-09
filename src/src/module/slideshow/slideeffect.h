@@ -97,11 +97,13 @@ public:
 
     void setEasingCurve(const QEasingCurve &easing);
     void setEasingCurve(QEasingCurve::Type easing_type);
-
+    QEasingCurve easingCurve() const;
     void setDuration(int ms);
     int duration() const;
     void setAllMs(int ms);
+    int allMs() const;
 
+    QImage *currentFrame();
     void setType(const EffectId &type);
     EffectId type() const;
     /*!
@@ -109,6 +111,7 @@ public:
     */
     virtual EffectName effectName() const = 0 ;
     virtual QVector<EffectId> supportedTypes() const = 0 ;
+    int currentFrameNumber() const ;
     int frames() const;
 
     void setImages(const QString &currentPath, const QString &nextPath);
@@ -144,6 +147,7 @@ protected:
 
     void resizeImages(); //resize to given size with given scale type
     virtual bool isEndFrame(int frame) ; //TODO: do not change progress
+    virtual void renderFrame(SlideEffectThreadData &data) ;
 
 protected:
     bool finished;

@@ -153,8 +153,7 @@ QString SlideEffectPlayer::GetCurrentImagePath()
 {
     //增加边界判断
     QString rePath;
-    //m_current应该是>=0才对
-    if (m_paths.count() > m_current && m_current >= 0) {
+    if (m_paths.count() > m_current && m_current > 0) {
         rePath = m_paths[m_current];
     }
     return rePath;
@@ -169,8 +168,7 @@ QString SlideEffectPlayer::currentImagePath() const
 {
     //增加边界判断
     QString rePath;
-    //m_current应该是>=0才对
-    if (m_paths.count() > m_current && m_current >= 0) {
+    if (m_paths.count() > m_current && m_current > 0) {
         rePath = m_paths[m_current];
     }
     return rePath;
@@ -469,11 +467,86 @@ void SlideEffectPlayer::cacheNext()
     }
 }
 
+void SlideEffectPlayer::cacheNextBackUp()
+{
+    qDebug() << "SlideEffectPlayer::cacheNext()";
+    int current = m_current;
+    current ++;
+    //Load the following pictures and thumbnails when playing the last thumbnail
+    if (current == m_paths.length()) {
+        emit sigLoadslideshowpathlst(false);
+        //Load front pictures when playing the last file
+        if (current == m_paths.length()) {
+            if (bfirstrun) {
+                //修复style问题（重复赋值）
+                bneedupdatepausebutton = true;
+            }
+            current = 0;
+            LoopPlayoldpath = m_paths[m_current];
+            bLoopPlayback = true;
+            connect(dApp->signalM, &SignalManager::sigNoneedLoadfrontslideshow, this, [ = ] {
+                bLoopPlayback = false;
+            });
+            emit dApp->signalM->sigLoadfrontSlideshow();
+        }
+    }
+    QString path = m_paths[current];
+    //Load current pixmap for fix bug 21480
+    if (current != 0) {
+        QString curpath = m_paths[current - 1];
+        if (m_cacheImages.value(curpath).isNull()) {
+            //QImage img = utils::image::getRotatedImage(curpath);
+            //m_cacheImages.insert(curpath, img);
+        }
+    }
+    if (current == 0) {
+        //根据cppcheck，删除无用代码
+//        QString curpath = m_paths[0];
+//        if (m_cacheImages.value(curpath).isNull()) {
+//            //QImage img = utils::image::getRotatedImage(curpath);
+//            //m_cacheImages.insert(curpath, img);
+//        }
+//        if (m_paths.size() > 1) {
+//            QString curpath = m_paths[1];
+//            if (m_cacheImages.value(curpath).isNull()) {
+//                //QImage img = utils::image::getRotatedImage(curpath);
+//                //m_cacheImages.insert(curpath, img);
+//            }
+//        }
+    }
+    if (m_cacheImages.value(path).isNull()) {
+        CacheThread *t = new CacheThread(path);
+        connect(t, &CacheThread::cached,
+        this, [ = ](const QString path, const QImage img) {
+            Q_UNUSED(path);
+            Q_UNUSED(img);
+//            if(m_paths.size()>3)t
+//            {
+//                int rmindex = current-3;
+//                if(rmindex == -1)
+//                {
+//                    rmindex = m_paths.size()-1;
+//                }else if(rmindex == -2)
+//                {
+//                    rmindex = m_paths.size()-2;
+//                }else if (rmindex == -3) {
+//                    rmindex = m_paths.size()-3;
+//                }
+//                QString rmpath = m_paths[rmindex];
+//                m_cacheImages.remove(rmpath);
+//            }
+//            m_cacheImages.insert(path, img);
+
+        });
+        connect(t, &CacheThread::finished, t, &CacheThread::deleteLater);
+        t->start();
+    }
+}
+
 void SlideEffectPlayer::cachePrevious()
 {
     qDebug() << "SlideEffectPlayer::cachePrevious()";
-    //修改bug65455，由于没有加载最后一张照片，所以出现该问题，这里应该加载最后一页的图
-    //if (bfirstrun && m_current == 0) return;
+    if (bfirstrun && m_current == 0) return;
     int current = m_current;
     current--;
     //Load Tail thumbnails when playing the first picture
