@@ -24,7 +24,6 @@
 #include <QTimer>
 #include "controller/viewerthememanager.h"
 
-#include "imagesvgitem.h"
 #include "../contents/morepicfloatwidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -33,6 +32,7 @@ class QPaintEvent;
 class QFile;
 class GraphicsMovieItem;
 class GraphicsPixmapItem;
+class ImageSvgItem;
 class QGraphicsSvgItem;
 class QThreadPool;
 class QGestureEvent;
@@ -150,7 +150,7 @@ public:
      */
     bool loadPictureByType(PICTURE_TYPE type, const QString strPath);
 
-    void setFitState(bool isFitImage=false,bool isFitWindow=false);
+    void setFitState(bool isFitImage = false, bool isFitWindow = false);
 
 
     /**
@@ -163,14 +163,14 @@ public:
      * @brief getcurrentImgReader
      * 获得当前imgreader
      */
-    QImageReader* getcurrentImgReader();
+    QImageReader *getcurrentImgReader();
 
     /**
      * @brief setCurrentImage
      * 设置一文件多图片得到当前imgcount
      */
     void setCurrentImage(int index);
-    signals:
+signals:
     void clicked();
     void doubleClicked();
     void imageChanged(QString path);
@@ -195,11 +195,11 @@ public:
      */
     void cacheThreadEndSig(QVariantList vl);
     void sigShowImage(QImage);
-    void sigUpdateImageView(QString&);
+    void sigUpdateImageView(QString &);
 
-    void sigStackChange(QString&,bool b =false);
+    void sigStackChange(QString &, bool b = false);
 
-    void sigRequestShowVaguePix(QString,bool&);
+    void sigRequestShowVaguePix(QString, bool &);
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
@@ -215,7 +215,7 @@ public slots:
      * @param nAngel        旋转角度
      * @return              true为加载成功，false为加载失败
      */
-    bool reloadSvgPix(QString strPath, int nAngel,bool fitauto = true);
+    bool reloadSvgPix(QString strPath, int nAngel, bool fitauto = true);
 
     /**
      * @brief rotatePixmap  根据角度旋转pixmap
@@ -253,7 +253,7 @@ public slots:
      * @param thumbnailpixmap
      * 缩略图pixmap
      */
-    void showVagueImage(QPixmap thumbnailpixmap,QString filePath,bool bloadpic = true);
+    void showVagueImage(QPixmap thumbnailpixmap, QString filePath, bool bloadpic = true);
 
     /**
      * @brief showFileImage
@@ -335,10 +335,11 @@ private:
 
     QGraphicsSvgItem *m_svgItem = nullptr;
 
-//    ImageSvgItem *m_imgSvgItem {nullptr};
+    ImageSvgItem *m_imgSvgItem {nullptr};
 
     GraphicsMovieItem *m_movieItem = nullptr;
     GraphicsPixmapItem *m_pixmapItem = nullptr;
+
     //缓存锁
     QReadWriteLock m_rwCacheLock;
     QHash<QString, QPixmap> m_hsPixap;
@@ -358,14 +359,14 @@ private:
     bool showImageFlag = false;
 
     /*lmh0729*/
-    bool isFirstPinch=false;
+    bool isFirstPinch = false;
     QPointF centerPoint;
-    int m_maxTouchPoints=0;
+    int m_maxTouchPoints = 0;
     bool m_bStopShowThread = false;
 
     /*lmh20201027新增tiff多图切换窗口*/
     MorePicFloatWidget *m_morePicFloatWidget{nullptr};
-    QImageReader* m_imageReader{nullptr};
+    QImageReader *m_imageReader{nullptr};
     int m_currentMoreImageNum{0};
     QTimer *m_loadTimer = nullptr;
 };
