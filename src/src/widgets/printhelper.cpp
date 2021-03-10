@@ -112,39 +112,11 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         tempExsitPaths << paths;
 
     }
-    //适配打印接口2.0，dtk大于 5.4.10 版才合入最新的2.0打印控件接口
-#if (DTK_VERSION_MAJOR > 5 \
-    || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
-    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
-    DPrintPreviewDialog printDialog2(nullptr);
-    if (DTK_VERSION_MAJOR > 5 \
-            || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR > 4) \
-            || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10)) {
-        bool suc = printDialog2.setAsynPreview(m_re->m_imgs.size());//设置总页数，异步方式
-        //单张照片设置名称,可能多选照片，但能成功加载的可能只有一张，或从相册中选中的原图片不存在
-        if (tempExsitPaths.size() == 1) {
-            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).baseName());
-            printDialog2.setDocName(docName);
-        }//else 多张照片不设置名称，默认使用print模块的print.pdf
-        if (suc) {//异步
-            connect(&printDialog2, SIGNAL(paintRequested(DPrinter *, const QVector<int> &)),
-                    m_re, SLOT(paintRequestedAsyn(DPrinter *, const QVector<int> &)));
-        } else {//同步
-            connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
-                    m_re, SLOT(paintRequestSync(DPrinter *)));
-        }
-
-    } else {
-
-        connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
-                m_re, SLOT(paintRequestSync(DPrinter *)));
-    }
-
-#else
+    //看图采用同步,因为只有一张图片
     DPrintPreviewDialog printDialog2(nullptr);
     connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
             m_re, SLOT(paintRequestSync(DPrinter *)));
-#endif
+
 #ifndef USE_TEST
     printDialog2.exec();
 #else
@@ -162,38 +134,6 @@ RequestedSlot::RequestedSlot(QObject *parent)
 RequestedSlot::~RequestedSlot()
 {
 
-}
-void RequestedSlot::paintRequestedAsyn(DPrinter *_printer, const QVector<int> &pageRange)
-{
-    //修改预览逻辑，考虑到可能传递回来有多张图
-    QPainter painter(_printer);
-    for (int page : pageRange) {
-        if ((page < m_imgs.count() + 1) && page >= 1) {
-            QImage img = m_imgs.at(page - 1);
-            if (!img.isNull()) {
-                painter.setRenderHint(QPainter::Antialiasing);
-                painter.setRenderHint(QPainter::SmoothPixmapTransform);
-                QRect wRect  = _printer->pageRect();
-                QImage tmpMap;
-
-                if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                    tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-                } else {
-                    tmpMap = img;
-                }
-              
-                QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
-                                          qreal(wRect.height() - tmpMap.height()) / 2,
-                                          tmpMap.width(), tmpMap.height());
-
-                painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                                         tmpMap.height()), tmpMap);
-            }
-            if (page != m_imgs.count()) {
-                _printer->newPage();
-            }
-        }
-    }
 }
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)

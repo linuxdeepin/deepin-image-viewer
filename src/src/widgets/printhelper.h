@@ -15,7 +15,6 @@ public:
     explicit RequestedSlot(QObject *parent = nullptr);
     ~RequestedSlot();
 private slots:
-    void paintRequestedAsyn(DPrinter *_printer, const QVector<int> &pageRange);
     void paintRequestSync(DPrinter *_printer);
 
 public:
