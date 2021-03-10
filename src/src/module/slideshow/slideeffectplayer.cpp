@@ -546,7 +546,8 @@ void SlideEffectPlayer::cacheNextBackUp()
 void SlideEffectPlayer::cachePrevious()
 {
     qDebug() << "SlideEffectPlayer::cachePrevious()";
-    if (bfirstrun && m_current == 0) return;
+    //修改bug65455，由于没有加载最后一张照片，所以出现该问题，这里应该加载最后一页的图
+    //if (bfirstrun && m_current == 0) return;
     int current = m_current;
     current--;
     //Load Tail thumbnails when playing the first picture
