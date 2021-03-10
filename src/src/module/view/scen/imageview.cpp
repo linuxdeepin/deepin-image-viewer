@@ -936,6 +936,8 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         } else {
             emit imageChanged(strPath);
         }
+        //解决66058,svg打开发送更新信号,快捷键,邮件菜单等
+        emit sigStackChange(m_path);
         break;
     }
     case PICTURE_TYPE::NORMAL: {
