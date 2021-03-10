@@ -96,7 +96,7 @@ namespace UnionImage_NameSpace {
 
 //由于freeimage 不支持，而在使用过程中，将qt支持的格式也添加到hash里，所以mrw的value也为0，因此重新定义
 //fix 52612
-enum FIF_QTSUPPORT{
+enum FIF_QTSUPPORT {
     FIF_MRW = 37
 };
 
@@ -150,7 +150,7 @@ public:
         m_freeimage_formats["EXR"]     =  FIF_EXR;
         //m_freeimage_formats["J2K"]     =  FIF_J2K;
         //m_freeimage_formats["J2C"]     =  FIF_J2K;
-       // m_freeimage_formats["JPC"]     =  FIF_J2K;
+        // m_freeimage_formats["JPC"]     =  FIF_J2K;
 //        m_freeimage_formats["JP2"]     =  FIF_JP2;
         //m_freeimage_formats["PFM"]     =  FIF_PFM;covert failed
         m_freeimage_formats["PCT"]     =  FIF_PICT;
@@ -171,7 +171,7 @@ public:
                       << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
                       << "SVG" << "ICNS" << "GIF" << "MNG" << "TIF"
                       << "TIFF" << "BMP" << "XPM"  << "DNG"
-                      << "RAF"  << "CR2" << "MEF" << "ORF" <<"ICO"
+                      << "RAF"  << "CR2" << "MEF" << "ORF" << "ICO"
                       << "RAW"
                       << "MRW"
                       << "NEF" ;
@@ -183,7 +183,7 @@ public:
 //                  << "JP2"
 //                  << "PCD"
                   << "RAS";
-         m_qtrotate << "ICNS" << "JPG" << "JPEG";
+        m_qtrotate << "ICNS" << "JPG" << "JPEG";
     }
     ~UnionImage_Private()
     {
@@ -244,7 +244,7 @@ UNIONIMAGESHARED_EXPORT const QStringList unionImageSupportFormat()
 //}
 UNIONIMAGESHARED_EXPORT bool suffixisImage(const QString &path)
 {
-    bool iRet=false;
+    bool iRet = false;
     QFileInfo info(path);
     QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
@@ -253,7 +253,7 @@ UNIONIMAGESHARED_EXPORT bool suffixisImage(const QString &path)
     // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
     if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
             mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-        iRet=true;
+        iRet = true;
     }
     return iRet;
 }
@@ -298,8 +298,7 @@ UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
 UNIONIMAGESHARED_EXPORT const QString getFileFormat(const QString &path)
 {
     QImageReader reader(path);
-    if(reader.format()!=nullptr)
-    {
+    if (reader.format() != nullptr) {
         return reader.format();
     }
     QFileInfo fi(path);
@@ -606,8 +605,14 @@ UNIONIMAGESHARED_EXPORT bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &p
     const char *pc = ba.data();
     // Try to guess the file format from the file extension
     fif = FreeImage_GetFIFFromFilename(pc);
+    FREE_IMAGE_FORMAT realfif = FIF_UNKNOWN;
+    if (fif == FIF_UNKNOWN) {
+        realfif = FreeImage_GetFileType(pc);
+    }
     if (fif != FIF_UNKNOWN) {
         bSuccess = FreeImage_Save(fif, dib, pc, flag);
+    } else if (realfif != FIF_UNKNOWN) {
+        bSuccess = FreeImage_Save(realfif, dib, pc, flag);
     }
     return bSuccess;
 }
@@ -636,16 +641,16 @@ UNIONIMAGESHARED_EXPORT bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &p
 //}
 
 QString PrivateDetectImageFormat(const QString &filepath);
-UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage &res, QString &errorMsg, const QString &format_bar)
+UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar)
 {
     //20210220真实格式来做判断
     /*判断后缀名是不支持格式，直接返回空的Image*/
-    QMap<QString, QString> dataMap= getAllMetaData(path);
-    QString file_suffix_upper=dataMap.value("FileFormat").toUpper();
-    if(nullptr==format_bar){
+    QMap<QString, QString> dataMap = getAllMetaData(path);
+    QString file_suffix_upper = dataMap.value("FileFormat").toUpper();
+    if (nullptr == format_bar) {
         QStringList formatlist = UnionImage_NameSpace::unionImageSupportFormat();
-        if(!formatlist.contains(file_suffix_upper)){
-            res=QImage();
+        if (!formatlist.contains(file_suffix_upper)) {
+            res = QImage();
             return false;
         }
     }
@@ -660,7 +665,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage
         file_suffix_upper = "TIFF";
     }
     QString file_suffix_lower = file_suffix_upper.toLower();
-    if (f==FIF_RAW ||union_image_private.m_qtSupported.contains(file_suffix_upper)) {
+    if (f == FIF_RAW || union_image_private.m_qtSupported.contains(file_suffix_upper)) {
         QImageReader reader;
         QImage res_qt;
         reader.setFileName(path);
@@ -670,7 +675,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage
             reader.setFormat(format_bar.toLatin1());
         }
         reader.setAutoTransform(true);
-        if(reader.imageCount()>0|| file_suffix_upper!="ICNS"){
+        if (reader.imageCount() > 0 || file_suffix_upper != "ICNS") {
             res_qt = reader.read();
             if (res_qt.isNull()) {
                 //try old loading method
@@ -695,9 +700,8 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString& path, QImage
             }
             errorMsg = "use QImage";
             res = res_qt;
-        }
-        else{
-            res=QImage();
+        } else {
+            res = QImage();
             return false;
         }
         return true;
