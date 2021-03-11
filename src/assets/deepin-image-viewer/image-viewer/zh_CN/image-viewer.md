@@ -1,4 +1,4 @@
-# 看图|../common/deepin_image_viewer_96.svg|
+# 看图|deepin-image-viewer|
 
 ## 概述
 
@@ -108,8 +108,6 @@
 2. 选择 **复制**。
 3. 在桌面或者指定位置，单击鼠标右键。
 4. 选择 **粘贴**，将图片文件复制到该位置。
-
-> ![tips](../common/tips.svg)窍门：单击 **复制** 会同时复制图片路径和内容。
 
 ![0|copy](fig/copy.png)
 

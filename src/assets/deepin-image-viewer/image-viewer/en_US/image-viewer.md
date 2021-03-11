@@ -1,4 +1,4 @@
-# Image Viewer|../common/deepin_image_viewer_96.svg|
+# Image Viewer|deepin-image-viewer|
 
 ## Overview
 
@@ -45,7 +45,7 @@ You can use one of the following ways to open image files:
 
 Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIFF, XPM, GIF, WEBP, CR2, NEF, DNG, RAF, MEF, MRW, XBM, SVG, ORF, MNG, etc.
 
->![notes](../common/notes.svg) Notes: If you are using a  computer equipped with touch-screen, open your two fingers to zoom in on or zoom out of the images being viewed.
+>![notes](../common/notes.svg) Notes: If you are using a  computer equipped with touch-screen, open your two fingers to zoom in and pinch them to zoom out on the touchscreen.
 >
 
 ### Main Interface
@@ -65,7 +65,7 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 > ![tips](../common/tips.svg) Tips: If the image size exceeds the window, a navigation window will appear at the lower left corner of the interface, which helps you fast locate image areas. If you don't want to show the navigation window automatically, you can close it by clicking ![close](../common/close_icon.svg) at the top right corner of the window. You can right-click to select **Hide/Show navigation window** on the Image Viewer interface.
 
-> ![notess](../common/notes.svg) Notes: The Rotate and Delete icons are grayed out and disabled for system images.
+> ![notes](../common/notes.svg) Notes: The Rotate and Delete icons are grayed out and disabled for system images.
 
 ### Print Images
 
@@ -81,7 +81,7 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 2. Input a new name in the pop-up window.
 3. Click **Confirm** to rename the image.
 
-> ![notess](../common/notes.svg) Notes: System images can not be renamed.
+> ![notes](../common/notes.svg) Notes: System images can not be renamed.
 
 ### Show in slides
 
@@ -93,8 +93,6 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 
 1. Right-click the image on the Image Viewer interface and select **Copy**.
 2. On the desktop or in the target place, right-click the blank area and select **Paste** to copy the image to that location.
-
-> ![tips](../common/tips.svg) Tips: Both the path and content of picture are copied.
 
 ![0|copy](fig/copy.png)
 
@@ -126,6 +124,7 @@ You can view detailed information of the image.
 2. The image info window will pop up displaying the detailed information of the Image.
 
 ![1|view info](fig/info.png)
+
 ### Delete Images
 
 You can delete images from Image Viewer in the following ways.
