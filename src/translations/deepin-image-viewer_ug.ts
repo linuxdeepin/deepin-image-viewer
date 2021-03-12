@@ -131,7 +131,7 @@
     </message>
     <message>
         <source>ISO</source>
-        <translation>ISO</translation>
+        <translation>يورۇقلۇق سېزىش دەرىجىسى ISO</translation>
     </message>
     <message>
         <source>Max aperture</source>

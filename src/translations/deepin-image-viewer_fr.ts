@@ -210,7 +210,7 @@
     </message>
     <message>
         <source>Image Settings</source>
-        <translation>Paramètres de l&apos;image</translation>
+        <translation>Paramètres d&apos;image</translation>
     </message>
 </context>
 <context>
