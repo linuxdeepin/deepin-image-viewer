@@ -369,5 +369,7 @@ private:
     QImageReader *m_imageReader{nullptr};
     int m_currentMoreImageNum{0};
     QTimer *m_loadTimer = nullptr;
+
+    qint64 m_clickTime{0};
 };
 #endif // SVGVIEW_H

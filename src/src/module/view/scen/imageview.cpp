@@ -1180,13 +1180,21 @@ bool ImageView::rotatePixmap(int nAngel)
 
 void ImageView::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton)
+    //非平板才能双击,其他是单击全屏
+    if (!dApp->isPanelDev() && e->button() == Qt::LeftButton)
         emit doubleClicked();
     QGraphicsView::mouseDoubleClickEvent(e);
 }
 
 void ImageView::mouseReleaseEvent(QMouseEvent *e)
 {
+    //平板单击全屏需求
+    if (dApp->isPanelDev()) {
+        int xpos = e->pos().x() - m_startpointx;
+        if ((QDateTime::currentMSecsSinceEpoch() - m_clickTime) < 200 && abs(xpos) < 50) {
+            m_clickTime = QDateTime::currentMSecsSinceEpoch();
+        }
+    }
     QGraphicsView::mouseReleaseEvent(e);
 
     viewport()->setCursor(Qt::ArrowCursor);
@@ -1224,6 +1232,10 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
 
 void ImageView::mousePressEvent(QMouseEvent *e)
 {
+    //平板单击全屏需求
+    if (dApp->isPanelDev()) {
+        m_clickTime = QDateTime::currentMSecsSinceEpoch();
+    }
     QGraphicsView::mousePressEvent(e);
     viewport()->unsetCursor();
     viewport()->setCursor(Qt::ArrowCursor);
