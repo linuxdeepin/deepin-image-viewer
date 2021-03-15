@@ -16,8 +16,8 @@ typedef DLabel QLbtoDLabel;
 
 #define FILENAMEMAXLENGTH 255
 
-RenameDialog::RenameDialog(const QString& filename, QWidget *parent)
-    : DDialog (parent)
+RenameDialog::RenameDialog(const QString &filename, QWidget *parent)
+    : DDialog(parent)
     , m_filenamepath(filename)
 {
     this->setIcon(QIcon::fromTheme("deepin-image-viewer"));
@@ -30,8 +30,8 @@ RenameDialog::RenameDialog(const QString& filename, QWidget *parent)
     m_lineedt = new DLineEdit(widet);
     QFrame *line = new QFrame(widet);
     QLbtoDLabel *labtitle = new QLbtoDLabel();
-    okbtn = new DSuggestButton(tr("Confirm"),widet);
-    cancelbtn = new DPushButton(tr("Cancel"),widet);
+    okbtn = new DSuggestButton(tr("Confirm"), widet);
+    cancelbtn = new DPushButton(tr("Cancel"), widet);
     m_labformat = new DLabel(widet);
     m_vlayout->setContentsMargins(2, 0, 2, 1);
 //    okbtn->setText();
@@ -81,23 +81,17 @@ RenameDialog::RenameDialog(const QString& filename, QWidget *parent)
         }
     });
     connect(m_lineedt, &DLineEdit::textEdited, this, [ = ](const QString & arg) {
-
         qDebug() << "textEdited" << arg;
         int len = arg.toLocal8Bit().length();
         QString Interceptstr;
-        if( len> 255 - Dirlen)
-        {
+        if (len > 255 - Dirlen) {
             int num = 0;
             int i = 0;
-            for(;i< arg.size();i++)
-            {
-                if(arg.at(i) >= 0x4e00 && arg.at(i) <= 0x9fa5)
-                {
+            for (; i < arg.size(); i++) {
+                if (arg.at(i) >= 0x4e00 && arg.at(i) <= 0x9fa5) {
                     num += 3;
-                    if(num >= 255 - Dirlen-1) break;
-                }
-                else if(num < 255 - Dirlen)
-                {
+                    if (num >= 255 - Dirlen - 1) break;
+                } else if (num < 255 - Dirlen) {
                     num += 1;
                 } else {
                     break;
@@ -124,8 +118,6 @@ RenameDialog::RenameDialog(const QString& filename, QWidget *parent)
 void RenameDialog::onThemeChanged(ViewerThemeManager::AppTheme theme)
 {
     QPalette pe;
-
-
     if (theme == ViewerThemeManager::Dark) {
         pe.setColor(QPalette::WindowText, Qt::darkGray);
     } else {
@@ -152,7 +144,8 @@ void RenameDialog::InitDlg()
     m_filename = fileinfo.fileName();
     QString format = fileinfo.suffix();
     QString basename;
-    m_basename = fileinfo.baseName();
+    //basename会过滤掉.,那么1.....png就会出现basename为1,completeBaseName不会,修改bug66356
+    m_basename = fileinfo.completeBaseName();
     m_lineedt->setText(m_basename);
     m_labformat->setText("." + format);
 }
