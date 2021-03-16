@@ -129,7 +129,7 @@ signals:
      * @param infos
      * thumbnails files
      */
-    void sigLoadHeadThunbnail(const DBImgInfoList& infos);
+    void sigLoadHeadThunbnail(const DBImgInfoList &infos);
     /**
      * @brief sigLoadSlideshow
      * Load first slideshow by files
@@ -160,14 +160,14 @@ signals:
      * @param path
      * last thumbnail path
      */
-    void sigGetLastThumbnailPath(QString& path);
+    void sigGetLastThumbnailPath(QString &path);
     /**
      * @brief sigisThumbnailsContainPath
      * is m_infos contain path
      * @param path
      * @param b
      */
-    void sigisThumbnailsContainPath(QString path,bool& b);
+    void sigisThumbnailsContainPath(QString path, bool &b);
     /**
      * @brief sigLoadTailThumbnail
      * Load last thumbnails
@@ -181,7 +181,7 @@ signals:
      * @param path
      * thumbnail path
      */
-    void sigGetFirstThumbnailpath(QString& path);
+    void sigGetFirstThumbnailpath(QString &path);
 
     /**
      * @brief sigOpenFileDialog
@@ -206,6 +206,9 @@ signals:
     void UpdateNavImg();
 
     void sigStopAnimation();
+
+    //初始化幻灯片button
+    void initSlideShowButton();
 
 private:
     explicit SignalManager(QObject *parent = nullptr);

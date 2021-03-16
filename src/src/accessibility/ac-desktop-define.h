@@ -10,6 +10,14 @@
 #include <QString>
 #include <QObject>
 
+#ifdef ENABLE_ACCESSIBILITY
+#define AC_SET_ACCESSIBLE_NAME(classObj,accessiblename) classObj->setAccessibleName(accessiblename);
+#else
+#define AC_SET_ACCESSIBLE_NAME(classObj,accessiblename)
+#endif
+
+#define AC_SET_OBJECT_NAME(classObj,objectname) classObj->setObjectName(objectname);
+
 // 使用宏定义，方便国际化操作
 #define INSTALLACCESSIBLEFACTORY
 #define OPENACCESSIBLE
@@ -40,12 +48,18 @@
 #define MAIN_WIDGET QObject::tr("mainwidget") //主界面
 #define MAIN_WIDOW QObject::tr("mainwindow") //主窗口
 #define CENTER_WIDGET QObject::tr("centerwidget") //中心界面
+
 #define SLIDE_SHOW_WIDGET QObject::tr("slide show widget") //幻灯片界面
 #define SLIDE_SHOW_WIDGET_BUTTOM_BAR QObject::tr("slide show widget buttom bar") //幻灯片底部工具栏
 #define SLIDE_SHOW_PRE_BUTTON QObject::tr("slide show previous button") //幻灯片底部工具栏上一张按钮
 #define SLIDE_SHOW_NEXT_BUTTON QObject::tr("slide show next button") //幻灯片底部工具栏下一张按钮
 #define SLIDE_SHOW_START_PAUSE_BUTTON QObject::tr("slide show start pause button") //幻灯片底部工具栏开始暂停按钮
 #define SLIDE_SHOW_CANCEL_BUTTON QObject::tr("slide show cancel button") //幻灯片底部工具栏退出按钮
+//新的幻灯片宏定义
+#define Slider_Pre_Button QObject::tr("slide show previous button") //幻灯片底部工具栏上一张按钮
+#define Slider_Next_Button QObject::tr("slide show next button") //幻灯片底部工具栏下一张按钮
+#define Slider_Play_Pause_Button QObject::tr("slide show start pause button") //幻灯片底部工具栏开始暂停按钮
+#define Slider_Exit_Button QObject::tr("slide show cancel button") //幻灯片底部工具栏退出按钮
 
 #define TOP_TOOL_BAR QObject::tr("top tool bar") //顶部工具栏
 #define TITLE_TEXT QObject::tr("title text") //顶部标题栏
