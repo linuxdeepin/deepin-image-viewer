@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,16 +23,17 @@
 
 #include <QObject>
 
-class ViewerThemeManager : public QObject {
+class ViewerThemeManager : public QObject
+{
     Q_OBJECT
-    explicit ViewerThemeManager(QObject* parent = nullptr);
+    explicit ViewerThemeManager(QObject *parent = nullptr);
 public:
     enum AppTheme {
         Dark,
         Light,
     };
 
-    static ViewerThemeManager* instance();
+    static ViewerThemeManager *instance();
 signals:
     void viewerThemeChanged(AppTheme theme);
 public slots:
@@ -36,7 +41,7 @@ public slots:
     void setCurrentTheme(AppTheme theme);
 
 private:
-    static ViewerThemeManager* m_viewerTheme;
+    static ViewerThemeManager *m_viewerTheme;
     AppTheme m_currentTheme = AppTheme::Light;
 };
 #endif // VIEWERTHEMEMANAGER_H

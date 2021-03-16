@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,24 +67,24 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
     m_logo = logo_pix;
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                     this, [=]() {
-                         DGuiApplicationHelper::ColorType themeType =
-                             DGuiApplicationHelper::instance()->themeType();
-                         m_picString = "";
-                         if (themeType == DGuiApplicationHelper::DarkType) {
-                             m_picString = ICON_IMPORT_PHOTO_DARK;
-                             m_theme = true;
-                         } else {
-                             m_picString = ICON_IMPORT_PHOTO_LIGHT;
-                             m_theme = false;
-                         }
+    this, [ = ]() {
+        DGuiApplicationHelper::ColorType themeType =
+            DGuiApplicationHelper::instance()->themeType();
+        m_picString = "";
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            m_picString = ICON_IMPORT_PHOTO_DARK;
+            m_theme = true;
+        } else {
+            m_picString = ICON_IMPORT_PHOTO_LIGHT;
+            m_theme = false;
+        }
 
-                         //修复style风格错误
-                         m_logo = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
-                         if (m_isDefaultThumbnail)
-                             m_defaultImage = logo_pix;
-                         update();
-                     });
+        //修复style风格错误
+        m_logo = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
+        if (m_isDefaultThumbnail)
+            m_defaultImage = logo_pix;
+        update();
+    });
 
     setMouseTracking(true);
     m_thumbnailLabel = new QLbtoDLabel(this);
@@ -114,7 +118,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
 #endif
     connect(button, &DSuggestButton::clicked, this, &ThumbnailWidget::openImageInDialog);
 
-    connect(dApp->signalM, &SignalManager::usbOutIn, this, [=](bool visible) {
+    connect(dApp->signalM, &SignalManager::usbOutIn, this, [ = ](bool visible) {
         if (button->isVisible())
             return;
         if (visible) {
@@ -132,7 +136,7 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
             m_usb = true;
         }
     });
-    connect(dApp->signalM, &SignalManager::picNotExists, this, [=](bool visible) {
+    connect(dApp->signalM, &SignalManager::picNotExists, this, [ = ](bool visible) {
         if (visible) {
             button->hide();
             tips->show();
@@ -226,9 +230,8 @@ void ThumbnailWidget::paintEvent(QPaintEvent *event)
 void ThumbnailWidget::mouseReleaseEvent(QMouseEvent *e)
 {
     QWidget::mouseReleaseEvent(e);
-    if(e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1)
-    {
-        int offset = e->pos().x()-m_startx;
+    if (e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1) {
+        int offset = e->pos().x() - m_startx;
         if (qAbs(offset) > 200) {
             if (offset > 0) {
                 emit previousRequested();
@@ -251,16 +254,16 @@ void ThumbnailWidget::mousePressEvent(QMouseEvent *e)
 void ThumbnailWidget::mouseMoveEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
-   // QWidget::mouseMoveEvent(event);
+    // QWidget::mouseMoveEvent(event);
 
-  //  emit mouseHoverMoved();
+    //  emit mouseHoverMoved();
 }
 
 void ThumbnailWidget::handleGestureEvent(QGestureEvent *gesture)
 {
-/*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
-        swipeTriggered(static_cast<QSwipeGesture *>(swipe));
-    else */if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
+    /*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
+            swipeTriggered(static_cast<QSwipeGesture *>(swipe));
+        else */if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
@@ -269,8 +272,7 @@ bool ThumbnailWidget::event(QEvent *event)
     QEvent::Type evType = event->type();
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
             evType == QEvent::TouchEnd) {
-        if(evType == QEvent::TouchBegin)
-        {
+        if (evType == QEvent::TouchBegin) {
             qDebug() << "QEvent::TouchBegin";
             m_maxTouchPoints = 1;
         }

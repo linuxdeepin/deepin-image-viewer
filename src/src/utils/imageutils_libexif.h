@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +39,7 @@ QString readExifTag(ExifData *ed, ExifIfd eid, ExifTag tag)
 {
     ExifEntry *entry = exif_content_get_entry(ed->ifd[eid], tag);
 
-    if (entry){
+    if (entry) {
         char buf[1024];
         exif_entry_get_value(entry, buf, sizeof(buf));
 
@@ -53,7 +57,7 @@ QDateTime getCreateDateTime(const QString &path)
     ExifData *ed = exif_data_new_from_file(path.toUtf8().data());
     if (ed) {
         QDateTime dt = utils::base::stringToDateTime(
-                    readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL));
+                           readExifTag(ed, EXIF_IFD_EXIF, EXIF_TAG_DATE_TIME_ORIGINAL));
         //Free the EXIF data
         exif_data_unref(ed);
         if (dt.isValid())

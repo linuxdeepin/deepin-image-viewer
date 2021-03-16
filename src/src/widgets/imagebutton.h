@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,8 +35,8 @@ class ImageButton : public DImageButton
     Q_OBJECT
 public:
     explicit ImageButton(QWidget *parent = nullptr);
-    explicit ImageButton(const QString & normalPic, const QString & hoverPic,
-                         const QString & pressPic, const QString &disablePic,
+    explicit ImageButton(const QString &normalPic, const QString &hoverPic,
+                         const QString &pressPic, const QString &disablePic,
                          QWidget *parent = nullptr);
 
     void setDisabled(bool d);

@@ -1,5 +1,9 @@
 ﻿/*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,11 +39,12 @@ class QPanGesture;
 DWIDGET_USE_NAMESPACE
 typedef DLabel QLbtoDLabel;
 
-class ThumbnailWidget : public ThemeWidget {
+class ThumbnailWidget : public ThemeWidget
+{
     Q_OBJECT
 public:
     ThumbnailWidget(const QString &darkFile, const QString
-                    &lightFile, QWidget* parent = 0);
+                    &lightFile, QWidget *parent = 0);
     ~ThumbnailWidget();
 signals:
     void mouseHoverMoved();
@@ -64,10 +69,10 @@ private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     bool m_isDefaultThumbnail = false;
-    QLbtoDLabel* m_thumbnailLabel;
+    QLbtoDLabel *m_thumbnailLabel;
     QPixmap m_logo;
 #ifndef LITE_DIV
-    QLabel* m_tips;
+    QLabel *m_tips;
 #endif
     QPixmap m_defaultImage;
     QColor m_inBorderColor;

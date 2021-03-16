@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Wuhan Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
  *
- * Author:     yub.wang <yub.wang@deepin.io>
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
  *
- * Maintainer: yub.wang <yub.wang@deepin.io>
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ ImageIconButton::ImageIconButton(QWidget *parent)
 
 ImageIconButton::ImageIconButton(const QString &normalPic, const QString &hoverPic,
                                  const QString &pressPic, const QString &checkedPic, QWidget *parent)
-    : DPushButton (parent)
+    : DPushButton(parent)
 {
     defaultPicPath.normalPicPath = normalPic;
     defaultPicPath.hoverPicPath = hoverPic;

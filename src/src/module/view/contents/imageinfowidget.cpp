@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -330,11 +334,11 @@ void ImageInfoWidget::timerEvent(QTimerEvent *e)
 void ImageInfoWidget::paintEvent(QPaintEvent *event)
 {
     QFont font;
-    int currentSize = DFontSizeManager::instance()->fontPixelSize(font );
+    int currentSize = DFontSizeManager::instance()->fontPixelSize(font);
     //LMH0609判断与上次自体的大小是否一样，不一样则刷新
     if (currentSize != m_currentFontSize) {
         m_currentFontSize = currentSize;
-        TITLE_MAXCNWIDETH = currentSize*4;
+        TITLE_MAXCNWIDETH = currentSize * 4;
         updateInfo();
     }
     QWidget::paintEvent(event);
@@ -382,10 +386,10 @@ void ImageInfoWidget::updateInfo()
     bool CNflag;
     QLocale::Language lan = local.language();
     if (lan == QLocale::Language::Chinese) {
-        m_maxFieldWidth = width() - TITLE_MAXCNWIDETH/* - 20 * 2 */- 10*2-10;
+        m_maxFieldWidth = width() - TITLE_MAXCNWIDETH/* - 20 * 2 */ - 10 * 2 - 10;
         CNflag = true;
     } else {
-        m_maxFieldWidth = width() - TITLE_MAXOTHERWIDETH/* - 20 * 2 */- 10*2-10;
+        m_maxFieldWidth = width() - TITLE_MAXOTHERWIDETH/* - 20 * 2 */ - 10 * 2 - 10;
         CNflag = false;
     }
     updateBaseInfo(mds, CNflag);
@@ -445,9 +449,9 @@ void ImageInfoWidget::updateBaseInfo(const QMap<QString, QString> &infos, bool C
         pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         if (CNflag) {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH,true));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH, true));
         } else {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH,true));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH, true));
         }
         QFontMetrics fm(title->font());
         QStringList list = title->text().split("\n");
@@ -491,9 +495,9 @@ void ImageInfoWidget::updateDetailsInfo(const QMap<QString, QString> &infos, boo
         pa2.setBrush(DPalette::WindowText, pa2.color(DPalette::TextTitle));
         title->setPalette(pa2);
         if (CNflag) {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH,true));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXCNWIDETH, true));
         } else {
-            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH,true));
+            title->setText(SpliteText(trLabel(i->name) + ":", title->font(), TITLE_MAXOTHERWIDETH, true));
         }
 
         m_exifLayout_details->addRow(title, field);
@@ -550,7 +554,7 @@ void ImageInfoWidget::initExpand(QVBoxLayout *layout, DDrawer *expand)
 int ImageInfoWidget::contentHeight() const
 {
     int expandsHeight = ArrowLineExpand_SPACING;
-    foreach (const DDrawer *expand , m_expandGroup) {
+    foreach (const DDrawer *expand, m_expandGroup) {
         expandsHeight += expand->height();
     }
     if (m_expandGroup.size() == 2)

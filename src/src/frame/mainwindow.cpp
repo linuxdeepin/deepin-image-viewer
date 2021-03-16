@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,45 +113,48 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     moveFirstWindow();
 
     /*lmh0806儒码优化*/
-    QTimer::singleShot(dApp->m_timer, [=]{
+    QTimer::singleShot(dApp->m_timer, [ = ] {
         m_slidePanel =  new SlideShowPanel();
         m_pCenterWidget->addWidget(m_slidePanel);
         initConnection();
         initshortcut();
         initdbus();
 #ifndef LITE_DIV
-    QThread *workerThread = new QThread;
-    Worker *worker = new Worker();
-    worker->moveToThread(workerThread);
-    connect(workerThread, &QThread::finished, worker, &Worker::deleteLater);
+        QThread *workerThread = new QThread;
+        Worker *worker = new Worker();
+        worker->moveToThread(workerThread);
+        connect(workerThread, &QThread::finished, worker, &Worker::deleteLater);
 
-    QTimer::singleShot(300, [ = ] { workerThread->start(); });
+        QTimer::singleShot(300, [ = ] { workerThread->start(); });
 #endif
 
-    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
-            &MainWindow::onThemeChanged);
+        connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
+                &MainWindow::onThemeChanged);
 
-    m_vfsManager = new DGioVolumeManager;
-    m_diskManager = new DDiskManager(this);
-    m_diskManager->setWatchChanges(true);
-    //m_vfsManager出现bug 当先插入u盘再打开程序时不能检测到u盘拔出时检测不到 正确做法disk和gio都要链接信号和槽，不能直接链接gio
-    connect(m_diskManager, &DDiskManager::mountAdded, this, [ = ]() {
-        qDebug() << "!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-        emit dApp->signalM->usbOutIn(true);
-    });
-    connect(m_diskManager, &DDiskManager::diskDeviceRemoved, this, [ = ]() {
-        qDebug() << "!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-        emit dApp->signalM->usbOutIn(false);
-        if (m_picInUSB) {
-            m_picInUSB = false;
-        }
-    });
-    connect(dApp->signalM, &SignalManager::picInUSB, this, [ = ](bool immediately) {
-        if (immediately) {
-            m_picInUSB = true;
-        }
-    });
-    new ImageViewAdaptor(this);
+        m_vfsManager = new DGioVolumeManager;
+        m_diskManager = new DDiskManager(this);
+        m_diskManager->setWatchChanges(true);
+        //m_vfsManager出现bug 当先插入u盘再打开程序时不能检测到u盘拔出时检测不到 正确做法disk和gio都要链接信号和槽，不能直接链接gio
+        connect(m_diskManager, &DDiskManager::mountAdded, this, [ = ]()
+        {
+            qDebug() << "!!!!!!!!!!!!!!!!!!USB IN!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            emit dApp->signalM->usbOutIn(true);
+        });
+        connect(m_diskManager, &DDiskManager::diskDeviceRemoved, this, [ = ]()
+        {
+            qDebug() << "!!!!!!!!!!!!!!!!!!USB OUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            emit dApp->signalM->usbOutIn(false);
+            if (m_picInUSB) {
+                m_picInUSB = false;
+            }
+        });
+        connect(dApp->signalM, &SignalManager::picInUSB, this, [ = ](bool immediately)
+        {
+            if (immediately) {
+                m_picInUSB = true;
+            }
+        });
+        new ImageViewAdaptor(this);
     });
 }
 
@@ -158,13 +165,14 @@ void MainWindow::initshortcut()
     //解决在打开图片后,Ctrl+O快捷键无效，将快捷键实现放到此处，方便鱼其他地方调用
     QShortcut *ctrlq = new QShortcut(QKeySequence("Ctrl+O"), this);
     ctrlq->setContext(Qt::WindowShortcut);
-    connect(ctrlq, &QShortcut::activated, this, [=] {
+    connect(ctrlq, &QShortcut::activated, this, [ = ] {
         //修复bug62208，当幻灯片存在的情况下，不打开文管
-        SlideShowPanel* panel =  findChild<SlideShowPanel *>(SLIDE_SHOW_WIDGET);
-        if(panel && !panel->isVisible()){
+        SlideShowPanel *panel =  findChild<SlideShowPanel *>(SLIDE_SHOW_WIDGET);
+        if (panel && !panel->isVisible())
+        {
             emit dApp->signalM->sigOpenFileDialog();
             //修复bug63328,打开文件需要改变状态,需要重新控制状态
-            if(window()->isFullScreen()){
+            if (window()->isFullScreen()) {
                 titlebar()->setVisible(false);
                 emit dApp->signalM->enterView(false);
                 emit dApp->signalM->sigShowFullScreen();
@@ -232,7 +240,7 @@ void MainWindow::initConnection()
         titlebar()->setVisible(true);
         setTitlebarShadowEnabled(true);
         m_pCenterWidget->setCurrentIndex(IMAGEVIEW);
-       // delete m_slidePanel;
+        // delete m_slidePanel;
         //   emit dApp->signalM->hideBottomToolbar(false);
         //  emit dApp->signalM->hideExtensionPanel(false);
         //  emit dApp->signalM->hideTopToolbar(false);
@@ -254,24 +262,23 @@ void MainWindow::moveFirstWindow()
 
             // if (hisProcessDir.exists())
             //    return;
-             //修复程序退出太慢，关闭程序后台进程退出完成前再次点击窗口未居中
-             m_sharememory.setKey("deepin-image-viewer-siglewindow");
-             //用于上一个进程异常退出共享内存没有释放，再此处释放
-             if(m_sharememory.attach())
-                 m_sharememory.detach();
-             if(!m_sharememory.create(4))
-             {
-                 //创建失败则关联程序
-                 if (!m_sharememory.isAttached()) //检测程序当前是否关联共享内存
-                     m_sharememory.attach();
-                 return;
-             }
-             if (processFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
-                 QTextStream pidInfo(&processFile);
-                 pidInfo << dApp->m_app->applicationPid();
-                 processFile.close();
-             }
-             this->moveCenter();
+            //修复程序退出太慢，关闭程序后台进程退出完成前再次点击窗口未居中
+            m_sharememory.setKey("deepin-image-viewer-siglewindow");
+            //用于上一个进程异常退出共享内存没有释放，再此处释放
+            if (m_sharememory.attach())
+                m_sharememory.detach();
+            if (!m_sharememory.create(4)) {
+                //创建失败则关联程序
+                if (!m_sharememory.isAttached()) //检测程序当前是否关联共享内存
+                    m_sharememory.attach();
+                return;
+            }
+            if (processFile.open(QIODevice::ReadWrite | QIODevice::Truncate)) {
+                QTextStream pidInfo(&processFile);
+                pidInfo << dApp->m_app->applicationPid();
+                processFile.close();
+            }
+            this->moveCenter();
         }
     } else {
         if (processFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -402,7 +409,7 @@ void MainWindow::paraOpenImageInfo(QString source, QString &path, QStringList &p
 //    return mode;
 //}
 
-void MainWindow::OpenImage(const QString& path)
+void MainWindow::OpenImage(const QString &path)
 {
     QString spath;
     QStringList pathlist;
@@ -422,11 +429,9 @@ void MainWindow::OpenImage(const QString& path)
         emit dApp->signalM->viewImage(info);
 
         //20210111lmh平板可以多次改变，正常模式不需要
-        if(dApp->isPanelDev())
-        {
-            m_flag=false;
-        }
-        else {
+        if (dApp->isPanelDev()) {
+            m_flag = false;
+        } else {
             m_flag = true;
         }
     }

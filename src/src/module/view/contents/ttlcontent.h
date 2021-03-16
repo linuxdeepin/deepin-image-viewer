@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +50,7 @@ signals:
 
 public slots:
     void setCurrentDir(QString text);
-    void setImage(const QString &path,DBImgInfoList infos);
+    void setImage(const QString &path, DBImgInfoList infos);
     void updateCollectButton();
 
 private slots:
@@ -59,13 +63,13 @@ protected:
 private:
     bool m_inDB;
 
-    PushButton* m_adaptImageBtn;
-    PushButton* m_adaptScreenBtn;
-    PushButton* m_clBT;
-    PushButton* m_rotateLBtn;
-    PushButton* m_rotateRBtn;
-    PushButton* m_trashBtn;
-    ElidedLabel* m_fileNameLabel;
+    PushButton *m_adaptImageBtn;
+    PushButton *m_adaptScreenBtn;
+    PushButton *m_clBT;
+    PushButton *m_rotateLBtn;
+    PushButton *m_rotateRBtn;
+    PushButton *m_trashBtn;
+    ElidedLabel *m_fileNameLabel;
 
     QString m_imagePath;
     int m_windowWidth;

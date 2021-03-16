@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,11 +36,12 @@ class QPanGesture;
 DWIDGET_USE_NAMESPACE
 typedef DLabel QLbtoDLabel;
 
-class LockWidget : public ThemeWidget {
+class LockWidget : public ThemeWidget
+{
     Q_OBJECT
 public:
     LockWidget(const QString &darkFile, const QString &lightFile,
-                  QWidget* parent = nullptr);
+               QWidget *parent = nullptr);
     ~LockWidget();
 signals:
     void nextRequested();
@@ -53,7 +58,7 @@ private slots:
     void pinchTriggered(QPinchGesture *gesture);
 private:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
-    QLbtoDLabel* m_thumbnailLabel;
+    QLbtoDLabel *m_thumbnailLabel;
     QPixmap m_logo;
     QString m_picString;
     bool m_theme;

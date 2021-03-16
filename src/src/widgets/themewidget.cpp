@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +25,8 @@
 #include "accessibility/ac-desktop-define.h"
 ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile,
                          QWidget *parent)
-    : QWidget(parent) {
+    : QWidget(parent)
+{
 
     m_darkStyle = utils::base::getFileContent(darkFile);
     m_lightStyle = utils::base::getFileContent(lightFile);
@@ -37,7 +42,8 @@ ThemeWidget::ThemeWidget(const QString &darkFile, const QString &lightFile,
 
 ThemeWidget::~ThemeWidget() {}
 
-void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme) {
+void ThemeWidget::onThemeChanged(ViewerThemeManager::AppTheme theme)
+{
     if (theme == ViewerThemeManager::Dark) {
         m_deepMode = true;
     } else {

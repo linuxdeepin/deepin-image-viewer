@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -143,7 +147,7 @@ public:
     void emitClickSig(QString path);
     void emitClickEndSig();
 signals:
-    void imageItemclicked(int index, int indexNow,bool iRet=false);
+    void imageItemclicked(int index, int indexNow, bool iRet = false);
     void imageMoveclicked(QString path);
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override
@@ -160,7 +164,7 @@ protected:
         QTimer::singleShot(200, &loop, SLOT(quit()));
         loop.exec();
         if (bmouserelease)
-            emit imageItemclicked(_index, _indexNow,true);
+            emit imageItemclicked(_index, _indexNow, true);
     }
 
     void paintEvent(QPaintEvent *event) override;
@@ -181,7 +185,7 @@ class TTBContent : public QLbtoDLabel
 {
     Q_OBJECT
 public:
-    explicit TTBContent(bool inDB, DBImgInfoList m_infos, bool flag,QWidget *parent = nullptr);
+    explicit TTBContent(bool inDB, DBImgInfoList m_infos, bool flag, QWidget *parent = nullptr);
 
     /**
      * @brief setWindoeSize 缩略图窗口大小设置
@@ -213,7 +217,7 @@ signals:
      */
     void imageClicked(int index, int addIndex);
     /*lmh0731*/
-    void imageMoveEnded(int index, int addIndex,bool iRet);
+    void imageMoveEnded(int index, int addIndex, bool iRet);
     void resetTransform(bool fitWindow);
 
     /**
@@ -242,7 +246,7 @@ signals:
 
     void ttbcontentClicked();
 
-    void showvaguepixmap(QPixmap,QString path,bool flag = true);
+    void showvaguepixmap(QPixmap, QString path, bool flag = true);
 
     void sigsetcurrent(QString path);
 
@@ -402,13 +406,13 @@ public slots:
      * @brief OnRequestShowVaguePix
      * 获取缩略图并发出显示缩略图的高斯模糊图信号
      */
-    void OnRequestShowVaguePix(QString filepath,bool& thumbnailflag);
+    void OnRequestShowVaguePix(QString filepath, bool &thumbnailflag);
 
     /**
      * @brief setAllEnabled
      * 设置全体按键的状态
      */
-    void setAllEnabled(bool iRet=false);
+    void setAllEnabled(bool iRet = false);
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 //    void updateFilenameLayout();
@@ -452,7 +456,7 @@ private:
     int m_startAnimation = 0;
 
     /*lmh0728计数*/
-    int m_totalImageItem=0;
+    int m_totalImageItem = 0;
     //上一次拖动后移动的X坐标
     int m_nLastMove = 0;
     bool bresized = true;
@@ -461,10 +465,10 @@ private:
     //heyi test
     bool m_bIsHide = false;
 
-    bool m_bMoving=true;
+    bool m_bMoving = true;
 
     bool m_NotImageViewFlag = false;
-    QPropertyAnimation* m_AnimalImageList = nullptr; //m_imglst动画
+    QPropertyAnimation *m_AnimalImageList = nullptr; //m_imglst动画
 };
 
 
@@ -491,12 +495,12 @@ private:
     QObject *m_obj = nullptr;
     QPoint m_prepoint;
     QPoint m_lastPoint;
-    ImageItem *m_currentImageItem=nullptr;
-    bool m_iRet=false;
+    ImageItem *m_currentImageItem = nullptr;
+    bool m_iRet = false;
     QVector <QPoint> m_vecPoint;
     QMutex m_threadMutex;
-    bool m_bthreadMutex=false;
-    int m_maxTouchPoints=0;
+    bool m_bthreadMutex = false;
+    int m_maxTouchPoints = 0;
     qint64 m_lastReleaseTime{0};
     QTimer *m_startTimer{nullptr};
 };

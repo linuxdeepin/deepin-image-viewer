@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,18 +27,18 @@
 
 #if QT_VERSION >= 0x050500
 #define TIMER_SINGLESHOT(Time, Code, captured...){ \
-    QTimer::singleShot(Time, [captured] {Code});\
-}
+        QTimer::singleShot(Time, [captured] {Code});\
+    }
 #else
 #define TIMER_SINGLESHOT(Time, Code, captured...){ \
-    QTimer *timer = new QTimer;\
+        QTimer *timer = new QTimer;\
         timer->setSingleShot(true);\
         QObject::connect(timer, &QTimer::timeout, [timer, captured] {\
-        timer->deleteLater();\
-        Code\
-    });\
-    timer->start(Time);\
-}
+                                                                     timer->deleteLater();\
+                                                                     Code\
+                                                                    });\
+        timer->start(Time);\
+    }
 
 #endif
 
@@ -86,11 +90,11 @@ const QString DARK_CREATEALBUM_HOVERPIC = ":/dark/images/"
 const QString DARK_CREATEALBUM_PRESSPIC = ":/dark/images/"
                                           "create_album_press.png";
 const QString LIGHT_CREATEALBUM_NORMALPIC = ":/light/images/"
-                                           "create_album_normal.png";
+                                            "create_album_normal.png";
 const QString LIGHT_CREATEALBUM_HOVERPIC = ":/light/images/"
-                                          "create_album_hover.png";
+                                           "create_album_hover.png";
 const QString LIGHT_CREATEALBUM_PRESSPIC = ":/light/images/"
-                                          "create_album_press.png";
+                                           "create_album_press.png";
 
 const QString DARK_ADDPIC = ":/dark/images/album_add.svg";
 const QString LIGHT_ADDPIC = ":/light/images/album_add.svg";
@@ -101,40 +105,40 @@ const QString DARK_ALBUM_BG_PRESSPIC = ":/dark/images/"
                                        "album_bg_press.png";
 
 const QString LIGHT_ALBUM_BG_NORMALPIC = ":/light/images/"
-                                        "album_bg_normal.svg";
+                                         "album_bg_normal.svg";
 const QString LIGHT_ALBUM_BG_HOVERPIC = ":/light/images/"
-                                       "album_bg_hover.svg";
+                                        "album_bg_hover.svg";
 const QString LIGHT_ALBUM_BG_PRESSPIC = ":/light/images/"
-                                       "album_bg_press.svg";
+                                        "album_bg_press.svg";
 }
 namespace view {
 const QString DARK_DEFAULT_THUMBNAIL =
-        ":/dark/images/empty_defaultThumbnail.png";
+    ":/dark/images/empty_defaultThumbnail.png";
 const QString LIGHT_DEFAULT_THUMBNAIL =
-        ":/light/images/empty_defaultThumbnail.png";
+    ":/light/images/empty_defaultThumbnail.png";
 const QString DARK_LOADINGICON =
-        ":/dark/images/dark_loading.gif";
+    ":/dark/images/dark_loading.gif";
 const QString LIGHT_LOADINGICON =
-        ":/light/images/light_loading.gif";
-    namespace naviwindow {
-        const QString DARK_BG_IMG = ":/dark/images/naviwindow_bg.svg";
-        const QColor DARK_BG_COLOR = QColor(0, 0, 0, 100);
-        const QColor DARK_MR_BG_COLOR = QColor(0, 0, 0, 150);
-        const QColor DARK_MR_BORDER_Color = QColor(255, 255, 255, 80);
-        const QColor DARK_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
+    ":/light/images/light_loading.gif";
+namespace naviwindow {
+const QString DARK_BG_IMG = ":/dark/images/naviwindow_bg.svg";
+const QColor DARK_BG_COLOR = QColor(0, 0, 0, 100);
+const QColor DARK_MR_BG_COLOR = QColor(0, 0, 0, 150);
+const QColor DARK_MR_BORDER_Color = QColor(255, 255, 255, 80);
+const QColor DARK_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
 
-        const QString LIGHT_BG_IMG = ":/light/images/naviwindow_bg.svg";
-        const QColor LIGHT_BG_COLOR = QColor(255, 255, 255, 104);
-        const QColor LIGHT_MR_BG_COLOR = QColor(0, 0, 0, 101);
-        const QColor LIGHT_MR_BORDER_Color = QColor(255, 255, 255, 80);
-        const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
-    }
+const QString LIGHT_BG_IMG = ":/light/images/naviwindow_bg.svg";
+const QColor LIGHT_BG_COLOR = QColor(255, 255, 255, 104);
+const QColor LIGHT_MR_BG_COLOR = QColor(0, 0, 0, 101);
+const QColor LIGHT_MR_BORDER_Color = QColor(255, 255, 255, 80);
+const QColor LIGHT_IMG_R_BORDER_COLOR = QColor(255, 255, 255, 50);
+}
 }
 namespace widgets {
 
 }
 namespace base {
-void        copyOneImageToClipboard(const QString& path);
+void        copyOneImageToClipboard(const QString &path);
 void        copyImageToClipboard(const QStringList &paths);
 void        showInFileManager(const QString &path);
 int         stringWidth(const QFont &f, const QString &str);
@@ -143,7 +147,7 @@ int         stringHeight(const QFont &f, const QString &str);
 QPixmap     renderSVG(const QString &filePath, const QSize &size);
 QString     hash(const QString &str);
 //QString     wrapStr(const QString &str, const QFont &font, int maxWidth);
-QString     SpliteText(const QString& text,const QFont &font,int nLabelSize,bool bReturn = false);
+QString     SpliteText(const QString &text, const QFont &font, int nLabelSize, bool bReturn = false);
 //QString     sizeToHuman(const qlonglong bytes);
 QString     timeToString(const QDateTime &time, bool normalFormat = false);
 QDateTime   stringToDateTime(const QString &time);

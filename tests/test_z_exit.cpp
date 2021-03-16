@@ -1,27 +1,44 @@
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "gtestview.h"
 #include "accessibility/ac-desktop-define.h"
 #ifdef test_z_exit
 
 TEST_F(gtestview, ViewPanel_menu)
 {
-    if(!m_frameMainWindow)
-    {
+    if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
 
     ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
-    if(panel)
-    {
+    if (panel) {
         // 打开保存绘制的 tif
         QString TriangleItemPath = QApplication::applicationDirPath() + "/test/jpg55.jpg";
-        TestApi::drogPathtoWidget(panel,TriangleItemPath);
+        TestApi::drogPathtoWidget(panel, TriangleItemPath);
 
-        QTest::mouseClick(panel, Qt::RightButton,Qt::NoModifier,QPoint(50,50),50);
-        emit panel->customContextMenuRequested(QPoint(300,300));
+        QTest::mouseClick(panel, Qt::RightButton, Qt::NoModifier, QPoint(50, 50), 50);
+        emit panel->customContextMenuRequested(QPoint(300, 300));
 
-        QMenu *m_menu=panel->getMenu();
-        if(m_menu)
-        {
+        QMenu *m_menu = panel->getMenu();
+        if (m_menu) {
             QAction *IdCopy = new QAction(m_menu);
             IdCopy->setProperty("MenuID", ViewPanel::IdCopy);
             m_menu->addAction(IdCopy);
@@ -86,7 +103,7 @@ TEST_F(gtestview, ViewPanel_menu)
 
 TEST_F(gtestview, remove)
 {
-    QProcess::execute("rm -r "+QApplication::applicationDirPath() + "/test");
+    QProcess::execute("rm -r " + QApplication::applicationDirPath() + "/test");
 }
 TEST_F(gtestview, frame_mainwindowtestclose)
 {
@@ -94,12 +111,11 @@ TEST_F(gtestview, frame_mainwindowtestclose)
 
     dApp->signalM->enterView(true);
 
-    if(!m_frameMainWindow){
+    if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
     }
 //    QTest::qWait(100);
-    if(dApp->m_imageloader)
-    {
+    if (dApp->m_imageloader) {
 //        dApp->m_imageloader->addImageLoader(list);
         dApp->m_imageloader->stopThread();
 
@@ -110,8 +126,7 @@ TEST_F(gtestview, frame_mainwindowtestclose)
 
 TEST_F(gtestview, exit)
 {
-    if(!m_frameMainWindow)
-    {
+    if (!m_frameMainWindow) {
         m_frameMainWindow = CommandLine::instance()->getMainWindow();
 //        QTest::keyClick(m_frameMainWindow, Qt::Key_F4, Qt::AltModifier, 1000);
         m_frameMainWindow->close();

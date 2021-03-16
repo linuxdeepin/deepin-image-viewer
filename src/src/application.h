@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,7 +61,7 @@ public:
      * @param pathlist          更新的图片路径
      * @param bDirection        旋转方向
      */
-    void updateImageLoader(QStringList pathlist, bool bDirection,int rotateangle = 90);
+    void updateImageLoader(QStringList pathlist, bool bDirection, int rotateangle = 90);
 
     /**
      * @brief loadInterface 缩略图加载接口
@@ -105,7 +109,7 @@ class Application : public QObject
 
 public:
     ~Application();
-    static Application *instance(int& argc, char **argv);
+    static Application *instance(int &argc, char **argv);
     static Application *getinstance();
     /**
      * @brief getRwLock 获取线程安全读写锁，在外部读取map时使用
@@ -135,11 +139,11 @@ public:
 
     QThread *m_LoadThread;
     bool m_firstLoad = true;
-    DApplication* m_app;
+    DApplication *m_app;
     /*lmh0806儒码优化*/
-    int  m_timer=0;
+    int  m_timer = 0;
     bool m_bMove = false;
-    bool m_bIsPanel=false;
+    bool m_bIsPanel = false;
 
     bool eventFilter(QObject *obj, QEvent *event);
 
@@ -244,8 +248,8 @@ private:
     volatile bool m_bThreadExit = false;
     static Application *m_signalapp;
     Application(int &argc, char **argv);
-    bool m_isapplePhone =false;
-    bool m_isOnlyOnePic =false;
+    bool m_isapplePhone = false;
+    bool m_isOnlyOnePic = false;
 };
 
 #endif  // APPLICATION_H_

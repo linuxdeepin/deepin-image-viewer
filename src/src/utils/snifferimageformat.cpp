@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +25,8 @@
 
 // For more information about image file extension, see:
 // https://en.wikipedia.org/wiki/Image_file_formats
-QString DetectImageFormat(const QString &filepath) {
+QString DetectImageFormat(const QString &filepath)
+{
     QFile file(filepath);
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "DetectImageFormat() failed to open file:" << filepath;
@@ -102,7 +107,7 @@ QString DetectImageFormat(const QString &filepath) {
 
     // Check xbm file.
     if (data.indexOf("#define max_width ") > -1 &&
-        data.indexOf("#define max_height ") > -1) {
+            data.indexOf("#define max_height ") > -1) {
         return "xbm";
     }
 

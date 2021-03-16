@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,18 +76,17 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
     initPanelStack(false);
 #endif
     /*lmh0806儒码*/
-    if(0==dApp->m_timer){
+    if (0 == dApp->m_timer) {
         initExtensionPanel();
         initTopToolbar();
         initBottomToolbar();
         initConnection();
-    }
-    else {
-        QTimer::singleShot(dApp->m_timer, [=]{
-        initExtensionPanel();
-        initTopToolbar();
-        initBottomToolbar();
-        initConnection();
+    } else {
+        QTimer::singleShot(dApp->m_timer, [ = ] {
+            initExtensionPanel();
+            initTopToolbar();
+            initBottomToolbar();
+            initConnection();
         });
     }
 }
@@ -271,12 +274,10 @@ void MainWidget::initTopToolbar()
     m_topToolbar->move(0, 0);
     m_topToolbar->hide();
     connect(dApp->signalM, &SignalManager::allPicDelete, this, [ = ]() {
-       //LMH0609解决31220 【看图】【5.6.3.9】【sp1】删除整个目录的图片后重新打开一个目录，全屏观看图片，展示异常
-        if(nullptr!=m_topToolbar)
-        {
+        //LMH0609解决31220 【看图】【5.6.3.9】【sp1】删除整个目录的图片后重新打开一个目录，全屏观看图片，展示异常
+        if (nullptr != m_topToolbar) {
             m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
-        }
-        else {
+        } else {
             m_topToolbar = new TopToolbar(false, this);
         }
     });
@@ -379,7 +380,8 @@ void MainWidget::initConnection()
     //    connect(dApp->viewerTheme, &ViewerThemeManager::viewerThemeChanged, this,
     //            &MainWidget::initStyleSheet);
     connect(dApp->signalM, &SignalManager::sigStopAnimation, this, [ = ] {
-        if(m_bottomAnimation){
+        if (m_bottomAnimation)
+        {
             m_bottomAnimation->stop();
             delete m_bottomAnimation;
             m_bottomAnimation = nullptr;
@@ -396,8 +398,8 @@ void MainWidget::initConnection()
                 m_bottomAnimation->setStartValue(
                     QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
                 m_bottomAnimation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2,
-                                              height() - m_bottomToolbar->height() - 10));
-                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [=](){
+                                                      height() - m_bottomToolbar->height() - 10));
+                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [ = ]() {
                     delete m_bottomAnimation;
                     m_bottomAnimation = nullptr;
                 });
@@ -410,7 +412,7 @@ void MainWidget::initConnection()
                 m_bottomAnimation->setStartValue(
                     QPoint((width() - m_bottomToolbar->width()) / 2, m_bottomToolbar->y()));
                 m_bottomAnimation->setEndValue(QPoint((width() - m_bottomToolbar->width()) / 2, height()));
-                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [=](){
+                connect(m_bottomAnimation, &QPropertyAnimation::finished, this, [ = ]() {
                     delete m_bottomAnimation;
                     m_bottomAnimation = nullptr;
                 });

@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -155,9 +159,9 @@ void CommandLine::showHelp()
 void CommandLine::viewImage(const QString &path, const QStringList &paths)
 {
     if (!QFileInfo(path).exists()) {
-        dApp->m_timer=1000;
+        dApp->m_timer = 1000;
     }
-    if(!m_mainWindow){
+    if (!m_mainWindow) {
         m_mainWindow = new MainWindow(false);
     }
 
@@ -411,74 +415,128 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
         Q_UNUSED(dc)
     }
 #endif
-        using namespace utils::image;
-        QString name;
-        QString value;
-        QStringList values;
-        if (! names.isEmpty()) {
-            name = names.first();
-            value = m_cmdParser.value(name);
-            values = m_cmdParser.values(name);
+    using namespace utils::image;
+    QString name;
+    QString value;
+    QStringList values;
+    if (! names.isEmpty()) {
+        name = names.first();
+        value = m_cmdParser.value(name);
+        values = m_cmdParser.values(name);
+    }
+
+    if (values.isEmpty() && ! pas.isEmpty()) {
+        QString path = pas.first();
+        qDebug() << "path=" << path;
+
+        bool isFile = false;
+        if (QFileInfo(path).isDir()) {
+            isFile = true;
+            qDebug() << "Yes";
         }
 
-        if (values.isEmpty() && ! pas.isEmpty()) {
-            QString path = pas.first();
-            qDebug() << "path=" << path;
+        if (isFile) {
+            qDebug() << "isFile";
 
-            bool isFile = false;
-            if (QFileInfo(path).isDir()) {
-                isFile = true;
-                qDebug() << "Yes";
+            name = "new-window";
+
+            QDir dir(path);
+            if (!dir.exists()) {
+                qDebug() << "!dir.exists()";
+                return false;
             }
 
-            if (isFile) {
-                qDebug() << "isFile";
+            dir.setFilter(QDir::Files | QDir::NoSymLinks);
+            QFileInfoList list = dir.entryInfoList();
 
-                name = "new-window";
+            int file_count = list.count();
+            if (file_count <= 0) {
+                qDebug() << "file_count <=0";
+                return false;
+            }
 
-                QDir dir(path);
-                if (!dir.exists()) {
-                    qDebug() << "!dir.exists()";
-                    return false;
+            QStringList string_list;
+            for (int i = 0; i < list.count(); i++) {
+                QFileInfo file_info = list.at(i);
+                QString absolute_file_path = file_info.absoluteFilePath();
+                if (QFileInfo(absolute_file_path).exists() && imageSupportRead(absolute_file_path)) {
+                    string_list << absolute_file_path;
                 }
+            }
+            value = string_list.first();
+            values = string_list;
+            qDebug() << "isFile"
+                     << "name" << name
+                     << "value" << value
+                     << "values" << values;
+        } else {
+            name = "o"; // Default operation is open image file
+            value = pas.first();
 
-                dir.setFilter(QDir::Files | QDir::NoSymLinks);
-                QFileInfoList list = dir.entryInfoList();
+            if (QUrl(value).isLocalFile()) {
+                value =  QUrl(value).toLocalFile();
+            }
+            values = pas;
+        }
+    }
 
-                int file_count = list.count();
-                if (file_count <= 0) {
-                    qDebug() << "file_count <=0";
-                    return false;
-                }
+    bool support = suffixisImage(value);
 
-                QStringList string_list;
-                for (int i = 0; i < list.count(); i++) {
-                    QFileInfo file_info = list.at(i);
-                    QString absolute_file_path = file_info.absoluteFilePath();
-                    if (QFileInfo(absolute_file_path).exists() && imageSupportRead(absolute_file_path)) {
-                        string_list << absolute_file_path;
+    if (newflag) {
+        if (name == "o" || name == "open") {
+            if (values.length() > 1) {
+                QStringList aps;
+                for (QString path : values) {
+                    if (QUrl(value).isLocalFile())
+                        path =  QUrl(value).toLocalFile();
+                    const QString ap = QFileInfo(path).absoluteFilePath();
+                    if (QFileInfo(path).exists() && suffixisImage(ap)) {
+                        aps << ap;
                     }
                 }
-                value = string_list.first();
-                values = string_list;
-                qDebug() << "isFile"
-                         << "name" << name
-                         << "value" << value
-                         << "values" << values;
-            } else {
-                name = "o"; // Default operation is open image file
-                value = pas.first();
-
-                if (QUrl(value).isLocalFile()) {
-                    value =  QUrl(value).toLocalFile();
+                if (! aps.isEmpty()) {
+                    viewImage(aps.first(), aps);
+                    return true;
+                } else {
+                    return false;
                 }
-                values = pas;
+            } else if (support) {
+                viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
+                return true;
+            } else {
+                return false;
             }
         }
-
-        bool support = suffixisImage(value);
-
-        if (newflag) {
+#ifndef LITE_DIV
+        else if (name == "a" || name == "album") {
+            dc->enterAlbum(value);
+        } else if (name == "s" || name == "search") {
+            dc->searchImage(value);
+        } else if ((name == "e" || name == "edit") && support) {
+            dc->editImage(QFileInfo(value).absoluteFilePath());
+        }
+#endif
+        else if ((name == "w" || name == "wallpaper") && support) {
+            qDebug() << "Set " << value << " as wallpaper.";
+            dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
+        } else if (name == "new-window") {
+            qDebug() << "new-window" << value << "file";
+            viewImage(value, values);
+            return true;
+        } else if (name.isEmpty()) {
+            viewImage("", {});
+            return true;
+        } else {
+            showHelp();
+        }
+        return false;
+    } else {
+        // show deepin-music
+        QDBusInterface iface("com.deepin.ImageViewer",
+                             "/com/deepin/ImageViewer",
+                             "com.deepin.ImageViewer",
+                             QDBusConnection::sessionBus());
+        if (iface.isValid()) {
             if (name == "o" || name == "open") {
                 if (values.length() > 1) {
                     QStringList aps;
@@ -486,83 +544,29 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
                         if (QUrl(value).isLocalFile())
                             path =  QUrl(value).toLocalFile();
                         const QString ap = QFileInfo(path).absoluteFilePath();
-                        if (QFileInfo(path).exists() && suffixisImage(ap)) {
+                        if (QFileInfo(path).exists() && imageSupportRead(ap)) {
                             aps << ap;
                         }
                     }
                     if (! aps.isEmpty()) {
-                        viewImage(aps.first(), aps);
-                        return true;
-                    } else {
-                        return false;
+                        iface.asyncCall("OpenImage", createOpenImageInfo(aps.first(), aps, time));
+                        iface.asyncCall("OpenImage",  QFileInfo(value).absoluteFilePath());
+                        //viewImage(aps.first(), aps);
                     }
                 } else if (support) {
-                    viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
-                    return true;
-                } else {
-                    return false;
+                    iface.asyncCall("OpenImage", createOpenImageInfo(QFileInfo(value).absoluteFilePath(), QStringList(), time));
+                    //viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
                 }
-            }
-#ifndef LITE_DIV
-            else if (name == "a" || name == "album") {
-                dc->enterAlbum(value);
-            } else if (name == "s" || name == "search") {
-                dc->searchImage(value);
-            } else if ((name == "e" || name == "edit") && support) {
-                dc->editImage(QFileInfo(value).absoluteFilePath());
-            }
-#endif
-            else if ((name == "w" || name == "wallpaper") && support) {
+            } else if ((name == "w" || name == "wallpaper") && support) {
                 qDebug() << "Set " << value << " as wallpaper.";
                 dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
-            } else if (name == "new-window") {
-                qDebug() << "new-window" << value << "file";
-                viewImage(value, values);
-                return true;
-            } else if (name.isEmpty()) {
-                viewImage("", {});
-                return true;
-            } else {
-                showHelp();
-            }
-            return false;
-        } else {
-            // show deepin-music
-            QDBusInterface iface("com.deepin.ImageViewer",
-                                 "/com/deepin/ImageViewer",
-                                 "com.deepin.ImageViewer",
-                                 QDBusConnection::sessionBus());
-            if (iface.isValid()) {
-                if (name == "o" || name == "open") {
-                    if (values.length() > 1) {
-                        QStringList aps;
-                        for (QString path : values) {
-                            if (QUrl(value).isLocalFile())
-                                path =  QUrl(value).toLocalFile();
-                            const QString ap = QFileInfo(path).absoluteFilePath();
-                            if (QFileInfo(path).exists() && imageSupportRead(ap)) {
-                                aps << ap;
-                            }
-                        }
-                        if (! aps.isEmpty()) {
-                            iface.asyncCall("OpenImage", createOpenImageInfo(aps.first(), aps, time));
-                            iface.asyncCall("OpenImage",  QFileInfo(value).absoluteFilePath());
-                            //viewImage(aps.first(), aps);
-                        }
-                    } else if (support) {
-                        iface.asyncCall("OpenImage", createOpenImageInfo(QFileInfo(value).absoluteFilePath(), QStringList(), time));
-                        //viewImage(QFileInfo(value).absoluteFilePath(), QStringList());
-                    }
-                } else if ((name == "w" || name == "wallpaper") && support) {
-                    qDebug() << "Set " << value << " as wallpaper.";
-                    dApp->wpSetter->setWallpaper(QFileInfo(value).absoluteFilePath());
-                }
-
-
             }
 
-            return false;
+
         }
 
+        return false;
     }
+
+}
 

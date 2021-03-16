@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +27,7 @@ const QString THEME_GROUP = "APP";
 const QString THEME_TEXT = "AppTheme";
 }
 
-ViewerThemeManager * ViewerThemeManager::m_viewerTheme = NULL;
+ViewerThemeManager *ViewerThemeManager::m_viewerTheme = NULL;
 ViewerThemeManager *ViewerThemeManager::instance()
 {
     if (m_viewerTheme == NULL) {
@@ -37,11 +41,13 @@ ViewerThemeManager::ViewerThemeManager(QObject *parent) : QObject(parent)
 {
 }
 
-ViewerThemeManager::AppTheme ViewerThemeManager::getCurrentTheme(){
+ViewerThemeManager::AppTheme ViewerThemeManager::getCurrentTheme()
+{
     return m_currentTheme;
 }
 
-void ViewerThemeManager::setCurrentTheme(AppTheme theme) {
+void ViewerThemeManager::setCurrentTheme(AppTheme theme)
+{
     m_currentTheme = theme;
     if (m_currentTheme == Dark)
         dApp->setter->setValue(THEME_GROUP, THEME_TEXT, QVariant("Dark"));

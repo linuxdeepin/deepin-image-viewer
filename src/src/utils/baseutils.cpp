@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,7 +64,7 @@ QPixmap renderSVG(const QString &filePath, const QSize &size)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
-    QImage tImg(size,QImage::Format_ARGB32);
+    QImage tImg(size, QImage::Format_ARGB32);
     QString errMsg;
     if (!UnionImage_NameSpace::loadStaticImageFromFile(filePath, tImg, errMsg)) {
         qDebug() << errMsg;
@@ -357,7 +361,7 @@ bool trashFile(const QString &file)
 //}
 
 
-QString SpliteText(const QString &text, const QFont &font, int nLabelSize,bool bReturn)
+QString SpliteText(const QString &text, const QFont &font, int nLabelSize, bool bReturn)
 {
     QFontMetrics fm(font);
     int nTextSize = fm.width(text);
@@ -376,14 +380,12 @@ QString SpliteText(const QString &text, const QFont &font, int nLabelSize,bool b
 
         QString qstrLeftData = text.left(nPos);
         QString qstrMidData = text.mid(nPos);
-        if(bReturn)
-        {
-            qstrLeftData.replace(" ","\n");
-            qstrMidData.replace(" ","\n");
+        if (bReturn) {
+            qstrLeftData.replace(" ", "\n");
+            qstrMidData.replace(" ", "\n");
             if (qstrLeftData != "")
                 return qstrLeftData + SpliteText(qstrMidData, font, nLabelSize);
-        }else
-        {
+        } else {
             if (qstrLeftData != "")
                 return qstrLeftData + "\n" + SpliteText(qstrMidData, font, nLabelSize);
         }

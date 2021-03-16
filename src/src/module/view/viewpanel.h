@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -100,7 +104,7 @@ public:
     {
         return !QFileInfo(m_infos.first().filePath).exists();
     }
-    QMenu * getMenu()
+    QMenu *getMenu()
     {
         return m_menu;
     }
@@ -411,7 +415,7 @@ private slots:
      * @auther lmh
      * @brief 设置第几个栈窗体
      */
-    void slotCurrentStackWidget(QString &path,bool bpix);
+    void slotCurrentStackWidget(QString &path, bool bpix);
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 
     /**
@@ -538,11 +542,11 @@ private:
     QTimer *m_dtr = nullptr;
 
     //lmh0729判断是否判断打开图片与上一张是否相同
-    bool m_bIsOpenPicture=true;
-    bool m_bOnlyOneiImg=false;
+    bool m_bIsOpenPicture = true;
+    bool m_bOnlyOneiImg = false;
 
-    bool m_screentoNormal=false;
-    QTimer* m_tSaveImage = nullptr;//保存旋转图片定时器
+    bool m_screentoNormal = false;
+    QTimer *m_tSaveImage = nullptr;//保存旋转图片定时器
 
 };
 #endif  // VIEWPANEL_H

@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,8 +56,8 @@ Shortcut::Shortcut(QObject *parent)
                       << ShortcutItem(tr("Delete"), "Delete")
                       << ShortcutItem(tr("Rotate clockwise"), "Ctrl + R")
                       << ShortcutItem(tr("Rotate counterclockwise"),  "Ctrl + Shift + R")
-                      << ShortcutItem(tr("Set as wallpaper"),"Ctrl + F9")
-                      << ShortcutItem(tr("Display in file manager"),"Alt + D")
+                      << ShortcutItem(tr("Set as wallpaper"), "Ctrl + F9")
+                      << ShortcutItem(tr("Display in file manager"), "Alt + D")
                       << ShortcutItem(tr("Image info"), "Ctrl + I")
                       << ShortcutItem(tr("Previous"), "Left")
                       << ShortcutItem(tr("Next"), "Right")

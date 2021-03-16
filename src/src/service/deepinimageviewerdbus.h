@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,35 +25,36 @@
 #include "controller/signalmanager.h"
 #include <QDBusAbstractAdaptor>
 
-class DeepinImageViewerDBus: public QDBusAbstractAdaptor {
+class DeepinImageViewerDBus: public QDBusAbstractAdaptor
+{
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "com.deepin.ImageViewer")
     Q_CLASSINFO("D-Bus Introspection", ""
-"<interface name=\"com.deepin.ImageViewer\">\n"
-    "<method name=\"backToMainWindow\"/>\n"
-    "<method name=\"activeWindow\"/>\n"
-    "<method name=\"enterAlbum\">\n"
-    "   <arg direction=\"in\" type=\"s\"/>\n"
-    "</method>\n"
-    "<method name=\"searchImage\">\n"
-    "   <arg direction=\"in\" type=\"s\"/>\n"
-    "</method>\n"
-    "<method name=\"editImage\">\n"
-    "   <arg direction=\"in\" type=\"s\"/>\n"
-    "</method>\n"
- "</interface>\n")
+                "<interface name=\"com.deepin.ImageViewer\">\n"
+                "<method name=\"backToMainWindow\"/>\n"
+                "<method name=\"activeWindow\"/>\n"
+                "<method name=\"enterAlbum\">\n"
+                "   <arg direction=\"in\" type=\"s\"/>\n"
+                "</method>\n"
+                "<method name=\"searchImage\">\n"
+                "   <arg direction=\"in\" type=\"s\"/>\n"
+                "</method>\n"
+                "<method name=\"editImage\">\n"
+                "   <arg direction=\"in\" type=\"s\"/>\n"
+                "</method>\n"
+                "</interface>\n")
 public:
-    explicit DeepinImageViewerDBus(SignalManager* parent);
+    explicit DeepinImageViewerDBus(SignalManager *parent);
     ~DeepinImageViewerDBus();
 
     inline SignalManager *parent() const
     { return static_cast<SignalManager *>(QObject::parent()); }
 
 public Q_SLOTS:
-     Q_SCRIPTABLE void backToMainWindow() const;
-     Q_SCRIPTABLE void activeWindow();
-     Q_SCRIPTABLE void enterAlbum(const QString &album);
-     Q_SCRIPTABLE void searchImage(const QString &keyWord);
-     Q_SCRIPTABLE void editImage(const QString &path);
+    Q_SCRIPTABLE void backToMainWindow() const;
+    Q_SCRIPTABLE void activeWindow();
+    Q_SCRIPTABLE void enterAlbum(const QString &album);
+    Q_SCRIPTABLE void searchImage(const QString &keyWord);
+    Q_SCRIPTABLE void editImage(const QString &path);
 };
 #endif // DEEPINIMAGEVIEWERDBUS_H

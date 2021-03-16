@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,9 +33,10 @@ const QString ICON_PIXMAP_DARK = ":/dark/images/picture damaged_dark.svg";
 const QString ICON_PIXMAP_LIGHT = ":/light/images/picture damaged_light.svg";
 const QSize THUMBNAIL_SIZE = QSize(151, 151);
 LockWidget::LockWidget(const QString &darkFile,
-    const QString &lightFile, QWidget *parent)
+                       const QString &lightFile, QWidget *parent)
     : ThemeWidget(darkFile, lightFile, parent),
-      m_picString("") {
+      m_picString("")
+{
     setMouseTracking(true);
     this->setAttribute(Qt::WA_AcceptTouchEvents);
     grabGesture(Qt::PinchGesture);
@@ -54,21 +59,21 @@ LockWidget::LockWidget(const QString &darkFile,
     m_bgLabel->setAccessibleName("BgLabel");
 #endif
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged,
-                     this, [=]() {
-                         DGuiApplicationHelper::ColorType themeType =
-                             DGuiApplicationHelper::instance()->themeType();
-                         m_picString = "";
-                         if (themeType == DGuiApplicationHelper::DarkType) {
-                             m_picString = ICON_PIXMAP_DARK;
-                             m_theme = true;
-                         } else {
-                             m_picString = ICON_PIXMAP_LIGHT;
-                             m_theme = false;
-                         }
+    this, [ = ]() {
+        DGuiApplicationHelper::ColorType themeType =
+            DGuiApplicationHelper::instance()->themeType();
+        m_picString = "";
+        if (themeType == DGuiApplicationHelper::DarkType) {
+            m_picString = ICON_PIXMAP_DARK;
+            m_theme = true;
+        } else {
+            m_picString = ICON_PIXMAP_LIGHT;
+            m_theme = false;
+        }
 
-                         QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
-                         m_bgLabel->setPixmap(logo_pix);
-                     });
+        QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
+        m_bgLabel->setPixmap(logo_pix);
+    });
     m_lockTips = new QLbtoDLabel();
     m_lockTips->setObjectName("LockTips");
     setContentText(tr("You have no permission to view the image"));
@@ -78,7 +83,7 @@ LockWidget::LockWidget(const QString &darkFile,
     layout->addStretch(1);
     QPixmap logo_pix = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
     m_bgLabel->setPixmap(logo_pix);
-    layout->addWidget(m_bgLabel, 0, Qt::AlignHCenter );
+    layout->addWidget(m_bgLabel, 0, Qt::AlignHCenter);
     //layout->addSpacing(18);
     //layout->addWidget(m_lockTips, 0, Qt::AlignHCenter);
     layout->addStretch(1);
@@ -86,7 +91,8 @@ LockWidget::LockWidget(const QString &darkFile,
             &LockWidget::onThemeChanged);
 }
 
-void LockWidget::setContentText(const QString &text) {
+void LockWidget::setContentText(const QString &text)
+{
     m_lockTips->setText(text);
     int textHeight = utils::base::stringHeight(m_lockTips->font(),
                                                m_lockTips->text());
@@ -98,15 +104,14 @@ void LockWidget::handleGestureEvent(QGestureEvent *gesture)
     /*    if (QGesture *swipe = gesture->gesture(Qt::SwipeGesture))
             swipeTriggered(static_cast<QSwipeGesture *>(swipe));
         else */if (QGesture *pinch = gesture->gesture(Qt::PinchGesture))
-            pinchTriggered(static_cast<QPinchGesture *>(pinch));
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
 void LockWidget::mouseReleaseEvent(QMouseEvent *e)
 {
     QWidget::mouseReleaseEvent(e);
-    if(e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1)
-    {
-        int offset = e->pos().x()-m_startx;
+    if (e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1) {
+        int offset = e->pos().x() - m_startx;
         if (qAbs(offset) > 200) {
             if (offset > 0) {
                 emit previousRequested();
@@ -137,8 +142,7 @@ bool LockWidget::event(QEvent *event)
     QEvent::Type evType = event->type();
     if (evType == QEvent::TouchBegin || evType == QEvent::TouchUpdate ||
             evType == QEvent::TouchEnd) {
-        if(evType == QEvent::TouchBegin)
-        {
+        if (evType == QEvent::TouchBegin) {
             qDebug() << "QEvent::TouchBegin";
             m_maxTouchPoints = 1;
         }

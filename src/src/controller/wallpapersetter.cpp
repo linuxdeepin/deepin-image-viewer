@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,8 +49,7 @@ WallpaperSetter::WallpaperSetter(QObject *parent) : QObject(parent)
 void WallpaperSetter::setWallpaper(const QString &path)
 {
     //202011/12 bug54279
-    if(utils::image::imageSupportWallPaper(path))
-    {
+    if (utils::image::imageSupportWallPaper(path)) {
         // gsettings unsupported unicode character
         const QString tmpImg = QString("/tmp/DIVIMG.%1").arg(QFileInfo(path).suffix());
         QFile(path).copy(tmpImg);
@@ -54,11 +57,11 @@ void WallpaperSetter::setWallpaper(const QString &path)
         // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
         qDebug() << "SettingWallpaper: " << "flatpak" << path;
         QDBusInterface interface("com.deepin.daemon.Appearance",
-                                 "/com/deepin/daemon/Appearance",
-                                 "com.deepin.daemon.Appearance");
+                                     "/com/deepin/daemon/Appearance",
+                                     "com.deepin.daemon.Appearance");
         if (interface.isValid()) {
             QString screenname = dApp->m_app->primaryScreen()->name();
-            QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
+            QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"), screenname, path);
             qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
         } else {
             qWarning() << "SettingWallpaper failed" << interface.lastError();
@@ -78,11 +81,10 @@ void WallpaperSetter::setWallpaper(const QString &path)
 
 void WallpaperSetter::setWallpaper(QImage img)
 {
-    QThread *th1 =QThread::create([=](){
-        if(!img.isNull())
-        {
-            QString path="/tmp/DIVIMG.png";
-            img.save("/tmp/DIVIMG.png","png");
+    QThread *th1 = QThread::create([ = ]() {
+        if (!img.isNull()) {
+            QString path = "/tmp/DIVIMG.png";
+            img.save("/tmp/DIVIMG.png", "png");
             //202011/12 bug54279
             {
                 //设置壁纸代码改变，采用DBus,原方法保留
@@ -90,11 +92,11 @@ void WallpaperSetter::setWallpaper(QImage img)
                     // gdbus call -e -d com.deepin.daemon.Appearance -o /com/deepin/daemon/Appearance -m com.deepin.daemon.Appearance.Set background /home/test/test.png
                     qDebug() << "SettingWallpaper: " << "flatpak" << path;
                     QDBusInterface interface("com.deepin.daemon.Appearance",
-                                             "/com/deepin/daemon/Appearance",
-                                             "com.deepin.daemon.Appearance");
+                                                 "/com/deepin/daemon/Appearance",
+                                                 "com.deepin.daemon.Appearance");
                     if (interface.isValid()) {
                         QString screenname = dApp->m_app->primaryScreen()->name();
-                        QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"),screenname, path);
+                        QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"), screenname, path);
                         qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
                     } else {
                         qWarning() << "SettingWallpaper failed" << interface.lastError();

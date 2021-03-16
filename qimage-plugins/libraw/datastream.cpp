@@ -17,6 +17,27 @@
  * along with QtRaw.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "datastream.h"
 
 #include <QIODevice>
@@ -38,7 +59,7 @@ int Datastream::valid()
 
 int Datastream::read(void *ptr, size_t size, size_t nmemb)
 {
-    return int(m_device->read((char *)ptr,qint64( size * nmemb)));
+    return int(m_device->read((char *)ptr, qint64(size * nmemb)));
 }
 
 int Datastream::seek(INT64 offset, int whence)
@@ -95,11 +116,11 @@ int Datastream::scanf_one(const char *fmt, void *val)
     if (qstrcmp(fmt, "%d") == 0) {
         int d;
         stream >> d;
-        *(static_cast<int*>(val)) = d;
+        *(static_cast<int *>(val)) = d;
     } else if (qstrcmp(fmt, "%f") == 0) {
         float f;
         stream >> f;
-        *(static_cast<float*>(val)) = f;
+        *(static_cast<float *>(val)) = f;
     } else {
         return 0;
     }

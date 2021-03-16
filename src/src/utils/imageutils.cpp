@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,12 +49,12 @@ namespace image {
 
 const QImage scaleImage(const QString &path, const QSize &size)
 {
-    if (!imageSupportRead(path)){
+    if (!imageSupportRead(path)) {
         return QImage();
     }
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
-    QImage tImg(size,QImage::Format_ARGB32);
+    QImage tImg(size, QImage::Format_ARGB32);
     QString errMsg;
     if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
         qDebug() << errMsg;
@@ -132,7 +136,7 @@ bool imageSupportRead(const QString &path)
 #ifdef USE_UNIONIMAGE
     //修正论坛上提出的格式判断错误，应该采用真实格式
     //20210220真实格式来做判断
-    QMap<QString, QString> dataMap= getAllMetaData(path);
+    QMap<QString, QString> dataMap = getAllMetaData(path);
     const QString suffix = dataMap.value("FileFormat");
     QStringList errorList;
     errorList << "X3F";
@@ -169,8 +173,7 @@ bool imageSupportSave(const QString &path)
 #else
     const QString suffix = QFileInfo(path).suffix();
     //J2K格式暂时不支持
-    if(suffix.toUpper() == "J2K")
-    {
+    if (suffix.toUpper() == "J2K") {
         return false;
     }
     // RAW image decode is too slow, and most of these does not support saving
@@ -215,7 +218,7 @@ bool imageSupportSave(const QString &path)
 
 bool rotate(const QString &path, int degree)
 {
-        /*lmh0724使用USE_UNIONIMAGE*/
+    /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
     QString erroMsg;
     return UnionImage_NameSpace::rotateImageFIle(degree, path, erroMsg);
@@ -268,7 +271,7 @@ bool rotate(const QString &path, int degree)
     removeThumbnail(path);
 
     return v;
- #endif
+#endif
 }
 
 /*!
@@ -485,7 +488,7 @@ const QImage loadTga(QString filePath, bool &success)
 
         img = img.mirrored();
         delete vui8Pixels;
-        vui8Pixels=nullptr;
+        vui8Pixels = nullptr;
     }
     success = true;
 
@@ -631,7 +634,7 @@ const QPixmap getThumbnail(const QString &path, bool cacheOnly)
     else if (QFileInfo(failEncodePath).exists()) {
         qDebug() << "Fail-thumbnail exist, won't regenerate: " ;
         return QPixmap();
-    }else {
+    } else {
         // Try to generate thumbnail and load it later
         if (! cacheOnly && generateThumbnail(path)) {
             return QPixmap(encodePath);
@@ -758,9 +761,9 @@ QStringList supportedImageFormats()
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
     QStringList list ;
-    for(auto str:UnionImage_NameSpace::unionImageSupportFormat()){
-        str="*."+str;
-        list+=str;
+    for (auto str : UnionImage_NameSpace::unionImageSupportFormat()) {
+        str = "*." + str;
+        list += str;
     }
     return list;
 #else
@@ -775,7 +778,7 @@ QStringList supportedImageFormats()
 
 bool imageSupportWallPaper(const QString &path)
 {
-    bool iRet=false;
+    bool iRet = false;
     QStringList listsupportWallPaper;
     listsupportWallPaper << "bmp"
 //                         << "cod"
@@ -800,15 +803,14 @@ bool imageSupportWallPaper(const QString &path)
 //                         << "xbm"
 //                         << "xpm"
 //                         << "xwd"
-                            ;
+                         ;
     //
     QImageReader reader(path);
-    if(reader.imageCount()>0)
-    {
-        qDebug()<<reader.format();
+    if (reader.imageCount() > 0) {
+        qDebug() << reader.format();
         //2020/11/12 bug54279
-        if(listsupportWallPaper.contains(reader.format().toLower()) &&listsupportWallPaper.contains(QFileInfo(path).suffix().toLower())){
-            iRet=true;
+        if (listsupportWallPaper.contains(reader.format().toLower()) && listsupportWallPaper.contains(QFileInfo(path).suffix().toLower())) {
+            iRet = true;
         }
         //20201012 lmh ico不支持设置壁纸
 //        else {
@@ -828,7 +830,7 @@ bool suffixisImage(const QString &path)
 #ifdef USE_UNIONIMAGE
     return UnionImage_NameSpace::suffixisImage(path);
 #else
-    bool iRet=false;
+    bool iRet = false;
     QFileInfo info(path);
     QMimeDatabase db;
     QMimeType mt = db.mimeTypeForFile(path, QMimeDatabase::MatchContent);
@@ -837,7 +839,7 @@ bool suffixisImage(const QString &path)
     // if (!m_nosupportformat.contains(str, Qt::CaseSensitive)) {
     if (mt.name().startsWith("image/") || mt.name().startsWith("video/x-mng") ||
             mt1.name().startsWith("image/") || mt1.name().startsWith("video/x-mng")) {
-        iRet=true;
+        iRet = true;
     }
     return iRet;
 #endif

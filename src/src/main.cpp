@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +36,7 @@ int main(int argc, char *argv[])
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
 //    Application::loadDXcbPlugin();
-    Application::instance(argc,argv);
+    Application::instance(argc, argv);
 
     dApp->m_app->setAttribute(Qt::AA_ForceRasterWidgets);
     dApp->m_app->installEventFilter(dApp);
@@ -44,7 +48,7 @@ int main(int argc, char *argv[])
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
     //增加版本号
     qApp->setApplicationVersion(DApplication::buildVersion(VERSION));
-    if(dApp->isPanelDev()){
+    if (dApp->isPanelDev()) {
         //进程单例
         QString userpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
         QSharedMemory sharedMemory(userpath + QString("deepinimangeviewsingle"));
@@ -117,8 +121,7 @@ int main(int argc, char *argv[])
             return 0;
         }
 
-    }
-    else {
+    } else {
 #ifndef LITE_DIV
         if (!service::isDefaultImageViewer()) {
             qDebug() << "Set defaultImage viewer succeed:" << service::setDefaultImageViewer(true);

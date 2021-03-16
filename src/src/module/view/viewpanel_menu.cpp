@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +37,7 @@
 
 namespace {
 //LMH0603删除按键延迟
-const int DELAY_DESTROY_TIME=500;
+const int DELAY_DESTROY_TIME = 500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 // const QSize ICON_SIZE = QSize(48, 40);
 
@@ -49,7 +53,7 @@ QString ss(const QString &text, const QString &defaultValue)
 {
     Q_UNUSED(text);
     //采用代码中快捷键不使用配置文件快捷键
-   // QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
+    // QString str = dApp->setter->value(SHORTCUTVIEW_GROUP, text, defaultValue).toString();
     QString str = defaultValue;
     str.replace(" ", "");
     return defaultValue;
@@ -61,10 +65,10 @@ QString ss(const QString &text, const QString &defaultValue)
 
 void ViewPanel::initPopupMenu()
 {
-    if(!dApp->isPanelDev()){
+    if (!dApp->isPanelDev()) {
         m_menu = new DMenu;
         connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
-            if (m_infos.isEmpty() )
+            if (m_infos.isEmpty())
                 return;
             QString filePath = m_infos.at(m_current).filePath;
 #ifdef LITE_DIV
@@ -89,7 +93,7 @@ void ViewPanel::initPopupMenu()
 
 void ViewPanel::appendAction(int id, const QString &text, const QString &shortcut)
 {
-    if(!dApp->isPanelDev() &&m_menu){
+    if (!dApp->isPanelDev() && m_menu) {
         QAction *ac = new QAction(m_menu);
         addAction(ac);
         ac->setText(text);
@@ -138,8 +142,8 @@ void ViewPanel::onMenuItemClicked(QAction *action)
     using namespace utils::image;
 
     //m_infos的count大于总和了，需要给总值重新赋值
-    if(m_infos.count() > m_infosAll.count()){
-        m_infosAll=m_infos;
+    if (m_infos.count() > m_infosAll.count()) {
+        m_infosAll = m_infos;
     }
     if (m_infos.isEmpty())
         return;
@@ -158,17 +162,17 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         vinfo.lastPanel = this;
         vinfo.path = path;
         //检测到只有一张图片的时候选择paths只赋1张
-        if(m_infos.count()>1){
+        if (m_infos.count() > 1) {
             vinfo.paths = slideshowpaths();
-        }else {
-            vinfo.paths=QStringList(path);
+        } else {
+            vinfo.paths = QStringList(path);
         }
         vinfo.viewMainWindowID = 0;
 
         //获取当前图片，节省第一张幻灯片加载图片的时间，在龙芯电脑上getFitImage耗时很严重，测试图片5.8M耗时0.6s
 //        QPixmap pix = this->grab(QRect(QPoint( 0, 0 ),QSize( this->size().width(),this->size().height())));
 //        QImage img = pix.toImage();
-        if(m_viewB->getcurrentImgCount()>1){
+        if (m_viewB->getcurrentImgCount() > 1) {
             m_viewB->setCurrentImage(0);
         }
         QImage img = m_viewB->image();
@@ -199,14 +203,14 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         if (PopRenameDialog(filepath, filename)) {
             m_rwLock.lockForWrite();
             //重命名后维护已经加载的文件名
-            int allcurrent=0;
+            int allcurrent = 0;
             //增加判断，防止越界
-            if(m_infosAll.count()>1 && m_infos.count()>m_current){
+            if (m_infosAll.count() > 1 && m_infos.count() > m_current) {
                 allcurrent = m_infosAll.indexOf(m_infos[m_current]);
             }
             m_infos[m_current].fileName = filename;
             m_infos[m_current].filePath = filepath;
-            if(m_infosAll.count()>1){
+            if (m_infosAll.count() > 1) {
                 m_infosAll[allcurrent].fileName = filename;
                 m_infosAll[allcurrent].filePath = filepath;
             }
@@ -217,10 +221,10 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             //修改map维护的数据
             //dApp->getRwLock().lockForWrite();
             QMutexLocker locker(&dApp->getRwLock());
-            dApp->m_imagemap.insert(filepath,dApp->m_imagemap[m_viewB->path()]);
-            dApp->m_rectmap.insert(filepath,dApp->m_rectmap[m_viewB->path()]);
+            dApp->m_imagemap.insert(filepath, dApp->m_imagemap[m_viewB->path()]);
+            dApp->m_rectmap.insert(filepath, dApp->m_rectmap[m_viewB->path()]);
             dApp->m_imagemap.remove(path);
-           // dApp->getRwLock().unlock();
+            // dApp->getRwLock().unlock();
             m_currentImagePath  = filepath;
             connect(this, &ViewPanel::changeitempath, ttbc, &TTBContent::OnChangeItemPath);
             emit changeitempath(m_current, filepath);
@@ -260,13 +264,13 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             DDesktopServices::trash(path);
             QFile fileRemove(path);
             //文件是否被删除的判断bool值
-            bool iRetRemove=false;
+            bool iRetRemove = false;
             if (!fileRemove.exists()) {
-                iRetRemove=true;
+                iRetRemove = true;
             }
             //如果检测到文件已经被删除了，则选择在看图做对应的操作，否则不进行删除
             //因为smb和其他的情况受到了dtk的接口DDesktopServices::trash的控制，有时候会有弹出窗口
-            if(iRetRemove){
+            if (iRetRemove) {
                 if (removeCurrentImage()) {
                     emit dApp->signalM->picDelete();
                     ttbc->setIsConnectDel(true);
@@ -302,9 +306,9 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         rotateImage(false);
         break;
     case IdSetAsWallpaper:
-        if(m_viewB->getcurrentImgCount()>1){
+        if (m_viewB->getcurrentImgCount() > 1) {
             dApp->wpSetter->setWallpaper(m_viewB->image(false));
-        }else {
+        } else {
             //20201208旋转本地文件 解决57329（旋转图片后设置壁纸，壁纸仍为旋转前状态）
             m_viewB->rotatePixCurrent();
             dApp->wpSetter->setWallpaper(path);
@@ -323,11 +327,11 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         }
         break;
     case IdDraw: {
-            QStringList pathlist;
-            pathlist << path;
-            emit dApp->signalM->sigDrawingBoard(pathlist);
-            break;
-        }
+        QStringList pathlist;
+        pathlist << path;
+        emit dApp->signalM->sigDrawingBoard(pathlist);
+        break;
+    }
     default:
         break;
     }
@@ -337,7 +341,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
 
 void ViewPanel::updateMenuContent()
 {
-    if(m_menu){
+    if (m_menu) {
         m_menu->clear();
         qDeleteAll(this->actions());
 
@@ -362,7 +366,7 @@ void ViewPanel::updateMenuContent()
             appendAction(IdRename, tr("Rename"), ss("Rename", "F2"));
 
         //判断图片数量大于0才能执行幻灯片播放
-        if(m_infos.size()>0){
+        if (m_infos.size() > 0) {
             appendAction(IdStartSlideShow, tr("Slide show"), ss("Slide show", "F5"));
         }
 #ifndef LITE_DIV
@@ -402,14 +406,14 @@ void ViewPanel::updateMenuContent()
         if (!m_viewB->isWholeImageVisible() && m_nav->isAlwaysHidden() && GetPixmapStatus(m_currentImagePath)) {
             appendAction(IdShowNavigationWindow, tr("Show navigation window"),
                          ss("Show navigation window", ""));
-        } else if (!m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden()&& GetPixmapStatus(m_currentImagePath)) {
+        } else if (!m_viewB->isWholeImageVisible() && !m_nav->isAlwaysHidden() && GetPixmapStatus(m_currentImagePath)) {
             appendAction(IdHideNavigationWindow, tr("Hide navigation window"),
                          ss("Hide navigation window", ""));
         }
         /**************************************************************************/
 
         //apple手机特殊处理，不具备旋转功能
-        if (m_stack->currentIndex()==0&&currfileinfo.isReadable() &&
+        if (m_stack->currentIndex() == 0 && currfileinfo.isReadable() &&
                 currfileinfo.isWritable() &&
                 utils::image::imageSupportSave(m_infos.at(m_current).filePath) &&
                 !dApp->IsApplePhone()) {
@@ -419,7 +423,7 @@ void ViewPanel::updateMenuContent()
                          ss("Rotate counterclockwise", "Ctrl+Shift+R"));
         }
         /**************************************************************************/
-        if (m_stack->currentIndex()==0&&utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
+        if (m_stack->currentIndex() == 0 && utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
             appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
         }
 #ifndef LITE_DIV
@@ -438,7 +442,7 @@ void ViewPanel::updateMenuContent()
 
 void ViewPanel::clearMenu()
 {
-    if(m_menu){
+    if (m_menu) {
         m_menu->clear();
         qDeleteAll(this->actions());
     }
@@ -479,7 +483,7 @@ void ViewPanel::initShortcut()
     //fix 36530 当图片读取失败时（格式不支持、文件损坏、没有权限），不能进行缩放操作
     connect(sc, &QShortcut::activated, this, [ = ] {
         qDebug() << "Qt::Key_Up:";
-        if(!m_viewB->image().isNull())
+        if (!m_viewB->image().isNull())
         {
             m_viewB->setScaleValue(1.1);
         }

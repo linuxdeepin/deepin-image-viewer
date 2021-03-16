@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,13 +49,13 @@ namespace {
 }  // namespace
 
 //#define PIXMAP_LOAD //用于判断是否采用pixmap加载，qimage加载会有内存泄露
-Application * Application::m_signalapp = nullptr;
+Application *Application::m_signalapp = nullptr;
 
-ImageLoader::ImageLoader(Application *parent, const QStringList& pathlist, const QString& path)
-    :m_parent(parent),
-     m_pathlist(pathlist),
-     m_path(path),
-     m_bFlag(true)
+ImageLoader::ImageLoader(Application *parent, const QStringList &pathlist, const QString &path)
+    : m_parent(parent),
+      m_pathlist(pathlist),
+      m_path(path),
+      m_bFlag(true)
 {
 }
 
@@ -91,7 +95,7 @@ void ImageLoader::startLoading()
         listLoad1.append(m_pathlist.at(i));
     }
     //由于打开图片已经裁剪成缩略图所以不需要加载
-    for (int i = array+1; i < m_pathlist.size(); i++) {
+    for (int i = array + 1; i < m_pathlist.size(); i++) {
         listLoad2.append(m_pathlist.at(i));
     }
 
@@ -140,7 +144,7 @@ void ImageLoader::startLoading()
             m_readlock.unlock();
             loadInterface(path);
         }
-        qDebug()<< "th1"<<QThread::currentThreadId();
+        qDebug() << "th1" << QThread::currentThreadId();
         QThread::currentThread()->quit();
     });
 
@@ -192,7 +196,7 @@ void ImageLoader::startLoading()
             m_readlock.unlock();
             loadInterface(path);
         }
-        qDebug()<<QThread::currentThreadId();
+        qDebug() << QThread::currentThreadId();
         QThread::currentThread()->quit();
     });
     connect(th1, &QThread::finished, th1, &QObject::deleteLater);
@@ -267,7 +271,7 @@ void ImageLoader::stopThread()
 
 //}
 //modify by heyi
-void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int rotateangle)
+void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection, int rotateangle)
 {
     for (QString path : pathlist) {
         QMutexLocker locker(&dApp->getRwLock());
@@ -281,7 +285,7 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int ro
             if (bDirection) {
                 rotate.rotate(rotateangle);
             } else {
-                rotate.rotate(0-rotateangle);
+                rotate.rotate(0 - rotateangle);
             }
 
             pixmap = pixmap.transformed(rotate, Qt::FastTransformation);
@@ -290,7 +294,7 @@ void ImageLoader::updateImageLoader(QStringList pathlist, bool bDirection,int ro
         //QImage image(path);
         //QPixmap pixmap = QPixmap::fromImage(image);
         m_parent->m_imagemap[path] = pixmap.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-       // dApp->getRwLock().unlock();
+        // dApp->getRwLock().unlock();
     }
 }
 
@@ -304,7 +308,7 @@ void ImageLoader::loadInterface(QString path)
         qDebug() << errMsg;
     }
     /*lmh0728线程pixmap安全问题*/
-    QImage img=tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
+    QImage img = tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
     QPixmap pixmap = QPixmap::fromImage(img);
 #else
     QImage tImg;
@@ -333,17 +337,17 @@ void ImageLoader::loadInterface(QString path)
     QMutexLocker locker(&dApp->getRwLock());
     m_parent->m_rectmap.insert(path, tImg.rect());
     m_parent->m_imagemap.insert(path, pixmap);
-   // dApp->getRwLock().unlock();
+    // dApp->getRwLock().unlock();
 
     emit sigFinishiLoad(path);
 }
 
-void Application::finishLoadSlot(const QString& mapPath)
+void Application::finishLoadSlot(const QString &mapPath)
 {
     emit sigFinishLoad(mapPath);
 }
 
-void Application::loadPixThread(const QStringList& paths)
+void Application::loadPixThread(const QStringList &paths)
 {
 //fix 52217  shuwenzhi
     //m_loadPaths = paths;
@@ -376,14 +380,14 @@ void Application::loadPixThread(const QStringList& paths)
 void Application::loadInterface(QString path)
 {
     QMutexLocker locker(&dApp->getRwLock());
-   //  dApp->getRwLock().lockForWrite();
+    //  dApp->getRwLock().lockForWrite();
 #ifdef USE_UNIONIMAGE
     QImage tImg;
     QString errMsg;
     if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
         qDebug() << errMsg;
     }
-    QImage img=tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
+    QImage img = tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
     QPixmap pixmap = QPixmap::fromImage(img);
 #else
     QImage tImg;
@@ -411,17 +415,16 @@ void Application::loadInterface(QString path)
 #endif
     m_rectmap.insert(path, tImg.rect());
     m_imagemap.insert(path, pixmap);
-   // dApp->getRwLock().unlock();
+    // dApp->getRwLock().unlock();
 
     finishLoadSlot(path);
 }
 
-Application *Application::instance(int& argc, char **argv)
+Application *Application::instance(int &argc, char **argv)
 {
 
-    if(m_signalapp == nullptr)
-    {
-        m_signalapp = new Application(argc,argv);
+    if (m_signalapp == nullptr) {
+        m_signalapp = new Application(argc, argv);
     }
     return m_signalapp;
 }
@@ -437,7 +440,7 @@ Application::Application(int &argc, char **argv)
 #if (DTK_VERSION < DTK_VERSION_CHECK(5, 4, 0, 0))
     m_app = new DApplication(argc, argv);
 #else
-    m_app = DApplication::globalApplication(argc,argv);
+    m_app = DApplication::globalApplication(argc, argv);
     //判断DTK版本是否支持平板适配
 #if (DTK_VERSION > DTK_VERSION_CHECK(5, 4, 4, 0))
     m_bIsPanel = false;
@@ -478,8 +481,8 @@ Application::Application(int &argc, char **argv)
         m_LoadThread = new QThread();
 
         m_imageloader->moveToThread(m_LoadThread);
-       //在线程中调用了quit()　会处罚finished信号，　链接此槽函数，会销毁对象，而其他地方在判断对象是否还在运行容易崩溃。
-      //  connect(m_LoadThread, &QThread::finished, m_LoadThread, &QObject::deleteLater);
+        //在线程中调用了quit()　会处罚finished信号，　链接此槽函数，会销毁对象，而其他地方在判断对象是否还在运行容易崩溃。
+        //  connect(m_LoadThread, &QThread::finished, m_LoadThread, &QObject::deleteLater);
 
         connect(this, SIGNAL(sigstartLoad()), m_imageloader, SLOT(startLoading()));
         connect(m_imageloader, SIGNAL(sigFinishiLoad(QString)), this, SLOT(finishLoadSlot(QString)));
@@ -496,16 +499,15 @@ Application::Application(int &argc, char **argv)
 }
 bool Application::eventFilter(QObject *obj, QEvent *event)
 {
-    if(event->type() == QEvent::MouseButtonRelease)
-    {
-        emit sigMouseRelease ();
+    if (event->type() == QEvent::MouseButtonRelease) {
+        emit sigMouseRelease();
     }
     return QObject::eventFilter(obj, event);
 }
 
 void Application::setIsApplePhone(bool iRet)
 {
-    m_isapplePhone=iRet;
+    m_isapplePhone = iRet;
 }
 
 bool Application::IsApplePhone()
@@ -515,7 +517,7 @@ bool Application::IsApplePhone()
 
 void Application::setIsOnlyOnePic(bool iRet)
 {
-    m_isOnlyOnePic=iRet;
+    m_isOnlyOnePic = iRet;
 }
 
 bool Application::IsOnlyOnePic()

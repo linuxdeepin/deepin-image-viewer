@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,82 +26,85 @@
 #include <QDebug>
 
 namespace service {
-    //Config file used to setup default applications for current desktop.
-    //That is $HOME/.config/mimeapps.list
-    const char mimeAppFileName[] = "mimeapps.list";
+//Config file used to setup default applications for current desktop.
+//That is $HOME/.config/mimeapps.list
+const char mimeAppFileName[] = "mimeapps.list";
 
-    //Section names in mimeapps.list
-    const char defaultApplicationsSection[] = "Default Applications";
-    const char addedAssociationsSection[] = "Added Associations";
-    const QString appDesktopFile = "deepin-image-viewer.desktop";
-    const QStringList supportImageFormat = {
-        "image/jpeg",
-    };
+//Section names in mimeapps.list
+const char defaultApplicationsSection[] = "Default Applications";
+const char addedAssociationsSection[] = "Added Associations";
+const QString appDesktopFile = "deepin-image-viewer.desktop";
+const QStringList supportImageFormat = {
+    "image/jpeg",
+};
 
-    QString getMimeAppPath() {
-        QString configPath = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).at(0);
-        QString mimeAppPath = QString("%1/%2").arg(configPath).arg(QString(mimeAppFileName));
-        return mimeAppPath;
+QString getMimeAppPath()
+{
+    QString configPath = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation).at(0);
+    QString mimeAppPath = QString("%1/%2").arg(configPath).arg(QString(mimeAppFileName));
+    return mimeAppPath;
+}
+
+bool isDefaultImageViewer()
+{
+    const QString mimeAppFilePath(getMimeAppPath());
+
+    if (!QFile::exists(mimeAppFilePath)) {
+        return false;
     }
 
-    bool isDefaultImageViewer() {
-        const QString mimeAppFilePath(getMimeAppPath());
+    bool state = true;
+    QSettings settings(mimeAppFilePath, QSettings::IniFormat);
 
-        if (!QFile::exists(mimeAppFilePath)) {
-            return false;
+    settings.beginGroup(defaultApplicationsSection);
+    foreach (const QString &mime, supportImageFormat) {
+        QString appName = settings.value(mime).toString();
+        if (appName != appDesktopFile) {
+            state = false;
+            break;
         }
+    }
+    settings.endGroup();
+    return state;
+}
 
-        bool state = true;
-        QSettings settings(mimeAppFilePath, QSettings::IniFormat);
+bool setDefaultImageViewer(bool isDefault)
+{
+    QString mimeAppFilePath(getMimeAppPath());
+    if (!isDefault && !QFile::exists(mimeAppFilePath)) {
+        return false;
+    }
 
-        settings.beginGroup(defaultApplicationsSection);
-        foreach (const QString& mime, supportImageFormat) {
-            QString appName = settings.value(mime).toString();
-            if (appName != appDesktopFile) {
-                state = false;
-                break;
+    QSettings settings(mimeAppFilePath, QSettings::IniFormat);
+
+    foreach (const QString &mime, supportImageFormat) {
+        if (isDefault) {
+            settings.beginGroup(defaultApplicationsSection);
+            settings.setValue(mime, appDesktopFile);
+            settings.endGroup();
+            settings.sync();
+            settings.beginGroup(addedAssociationsSection);
+            settings.setValue(mime, appDesktopFile);
+            settings.endGroup();
+            settings.sync();
+        } else {
+            settings.beginGroup(defaultApplicationsSection);
+            const QString appName = settings.value(mime).toString();
+
+            if (appName == QString(appDesktopFile)) {
+                settings.beginGroup(defaultApplicationsSection);
+                settings.remove(mime);
+                settings.endGroup();
+            }
+
+            settings.beginGroup(addedAssociationsSection);
+            const QString appName2 = settings.value(mime).toString();
+            if (appName2 == QString(appDesktopFile)) {
+                settings.remove(mime);
             }
         }
-        settings.endGroup();
-        return state;
     }
 
-    bool setDefaultImageViewer(bool isDefault) {
-        QString mimeAppFilePath(getMimeAppPath());
-        if (!isDefault &&!QFile::exists(mimeAppFilePath)) {
-            return false;
-        }
-
-        QSettings settings(mimeAppFilePath, QSettings::IniFormat);
-
-        foreach (const QString& mime, supportImageFormat) {
-            if (isDefault) {
-                settings.beginGroup(defaultApplicationsSection);
-                settings.setValue(mime, appDesktopFile);
-                settings.endGroup();
-                settings.sync();
-                settings.beginGroup(addedAssociationsSection);
-                settings.setValue(mime, appDesktopFile);
-                settings.endGroup();
-                settings.sync();
-            } else {
-                settings.beginGroup(defaultApplicationsSection);
-                const QString appName = settings.value(mime).toString();
-
-                if (appName == QString(appDesktopFile)) {
-                    settings.beginGroup(defaultApplicationsSection);
-                    settings.remove(mime);
-                    settings.endGroup();
-                }
-
-                settings.beginGroup(addedAssociationsSection);
-                const QString appName2 = settings.value(mime).toString();
-                if (appName2 == QString(appDesktopFile)) {
-                    settings.remove(mime);
-                }
-            }
-        }
-
-        return true;
-    }
+    return true;
+}
 }

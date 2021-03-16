@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,8 +49,8 @@ ConfigSetter *ConfigSetter::instance()
     return m_setter;
 }
 
-void ConfigSetter::setValue(const QString& group, const QString& key,
-                            const QVariant& value)
+void ConfigSetter::setValue(const QString &group, const QString &key,
+                            const QVariant &value)
 {
 //    QMutexLocker locker(&m_mutex);
 
@@ -57,8 +61,8 @@ void ConfigSetter::setValue(const QString& group, const QString& key,
     emit valueChanged(group, key, value);
 }
 
-QVariant ConfigSetter::value(const QString& group, const QString& key,
-                             const QVariant& defaultValue)
+QVariant ConfigSetter::value(const QString &group, const QString &key,
+                             const QVariant &defaultValue)
 {
     QMutexLocker locker(&m_mutex);
 

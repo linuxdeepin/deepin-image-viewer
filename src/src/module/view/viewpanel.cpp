@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +62,7 @@ typedef DFileDialog QFDToDFileDialog;
 
 namespace {
 //LMH0603删除按键延迟
-const int DELAY_DESTROY_TIME=500;
+const int DELAY_DESTROY_TIME = 500;
 const int DELAY_HIDE_CURSOR_INTERVAL = 3000;
 // const QSize ICON_SIZE = QSize(48, 40);
 
@@ -86,7 +90,7 @@ ViewPanel::ViewPanel(QWidget *parent)
     m_stack->setAccessibleName(VIEW_PANEL_STACK);
 #endif
     /*lmh0722*/
-    if(0==dApp->m_timer){
+    if (0 == dApp->m_timer) {
         initFloatingComponent();
 
         initConnectOpenImage();
@@ -105,11 +109,10 @@ ViewPanel::ViewPanel(QWidget *parent)
         //heyi test
         qRegisterMetaType<DBImgInfoList>("DBImgInfoList");
         m_nosupportformat << "jp2" << "dds" << "psd" << "pcx" << "exr" << "avi" << "ct" << "pict" << "pic";
-    }
-    else {
+    } else {
         m_stack->setCurrentIndex(1);
         initConnectOpenImage();
-        QTimer::singleShot(dApp->m_timer, [=]{
+        QTimer::singleShot(dApp->m_timer, [ = ] {
             initFloatingComponent();
 
             initConnect();
@@ -153,8 +156,7 @@ void ViewPanel::initConnect()
         //开启延时删除标志定时器
         connect(&m_timer, &QTimer::timeout, this, [ = ]() {
             m_timer.stop();
-            if(ttbc)
-            {
+            if (ttbc) {
                 ttbc->setIsConnectDel(true);
                 m_bAllowDel = true;
                 ttbc->disableDelAct(true);
@@ -164,7 +166,7 @@ void ViewPanel::initConnect()
         m_timer.start(2000);
     });
 
-    connect(this, &ViewPanel::sendDynamicLoadPaths, dApp, &Application::loadPixThread,Qt::QueuedConnection);
+    connect(this, &ViewPanel::sendDynamicLoadPaths, dApp, &Application::loadPixThread, Qt::QueuedConnection);
     connect(dApp->signalM, &SignalManager::updateFileName, this, [ = ](const QString & filename) {
         if (filename != "") {
             m_finish = true;
@@ -222,7 +224,7 @@ void ViewPanel::initConnect()
         if (!isVisible() || album != m_vinfo.album || m_vinfo.album.isEmpty()) {
             return;
         }
-        foreach (QString path , paths) {
+        foreach (QString path, paths) {
             if (imageIndex(path) == imageIndex(m_current->filePath)) {
                 removeCurrentImage();
             }
@@ -247,14 +249,13 @@ void ViewPanel::initConnect()
     connect(this, &ViewPanel::sigStopshowThread, m_viewB, &ImageView::SlotStopShowThread);
     connect(m_emptyWidget, &ThumbnailWidget::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     //接受信号管理器信号，打开FileDialog
-    connect(dApp->signalM, &SignalManager::sigOpenFileDialog, this, [=] {
+    connect(dApp->signalM, &SignalManager::sigOpenFileDialog, this, [ = ] {
         emit m_emptyWidget->openImageInDialog();
     });
 #ifdef LITE_DIV
 
     //LMH
-    if (nullptr == m_dtr)
-    {
+    if (nullptr == m_dtr) {
         m_dtr = new QTimer(this);
         m_dtr->setSingleShot(true);
         m_dtr->setInterval(DELAY_DESTROY_TIME);
@@ -388,7 +389,7 @@ void ViewPanel::initFileSystemWatcher()
 
 bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
 {
-    RenameDialog *renamedlg =  new RenameDialog(filepath,this);
+    RenameDialog *renamedlg =  new RenameDialog(filepath, this);
     killTimer(m_hideCursorTid);
     m_hideCursorTid = 0;
     m_viewB->viewport()->setCursor(Qt::ArrowCursor);
@@ -398,7 +399,7 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
     if (true) {
 #endif
         //点击DTK的关闭按钮返回的是QDialog::Aceepted
-        if (!m_menu||!m_menu->isVisible()) {
+        if (!m_menu || !m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
@@ -410,8 +411,8 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         if (bOk)
             emit dApp->signalM->updateFileName(renamedlg->GetFileName());
         return bOk;
-    }else {
-        if (!m_menu||!m_menu->isVisible()) {
+    } else {
+        if (!m_menu || !m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
@@ -464,7 +465,7 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                            (m_infos.size() > 1));
             m_stack->setCurrentIndex(1);
-            if(m_emptyWidget)
+            if (m_emptyWidget)
                 m_emptyWidget->setThumbnailImage(QPixmap());
             emit dApp->signalM->sigImageOutTitleBar(false);
             emit dApp->signalM->changetitletext("");
@@ -485,7 +486,7 @@ void ViewPanel::startFileWatcher()
             emit dApp->signalM->updateBottomToolbarContent(bottomTopLeftContent(),
                                                            (m_infos.size() > 1));
             m_stack->setCurrentIndex(1);
-            if(m_emptyWidget)
+            if (m_emptyWidget)
                 m_emptyWidget->setThumbnailImage(QPixmap());
             emit dApp->signalM->sigImageOutTitleBar(false);
         }
@@ -583,31 +584,30 @@ bool ViewPanel::GetPixmapStatus(QString filename)
     return !pic.isNull();
 }
 
-void ViewPanel::slotCurrentStackWidget(QString &path,bool bpix)
+void ViewPanel::slotCurrentStackWidget(QString &path, bool bpix)
 {
     //bpix表示图片加载成功，不用切换到撕裂图widget
-     QPixmap pixmapthumb= dApp->m_imagemap.value(path);
-     if(pixmapthumb.isNull()||m_infos.count()<=1){
-         QPixmap pixmapgetthumb = utils::image::getThumbnail(path);
-         //存在线程时序的问题，应该这里如果图片为null，bpix应该设置为false，修复bug64355
-         if(!pixmapthumb.isNull() || !pixmapgetthumb.isNull()) {
-             bpix = true;
-         }
-         else {
-             bpix = false;
-         }
-     }else
-         bpix = true;
-     if (!QFileInfo(path).exists()) {
-         if(m_infos.isEmpty())
-             m_emptyWidget->setThumbnailImage(QPixmap());
-         else
-             m_emptyWidget->setThumbnailImage(pixmapthumb);
-         m_stack->setCurrentIndex(1);
-     } else if (!QFileInfo(path).isReadable() || !bpix) {
-         emit sigDisenablebutton();
-         //lmh2020/11/12 bug54164
-         if(m_viewB){
+    QPixmap pixmapthumb = dApp->m_imagemap.value(path);
+    if (pixmapthumb.isNull() || m_infos.count() <= 1) {
+        QPixmap pixmapgetthumb = utils::image::getThumbnail(path);
+        //存在线程时序的问题，应该这里如果图片为null，bpix应该设置为false，修复bug64355
+        if (!pixmapthumb.isNull() || !pixmapgetthumb.isNull()) {
+            bpix = true;
+        } else {
+            bpix = false;
+        }
+    } else
+        bpix = true;
+    if (!QFileInfo(path).exists()) {
+        if (m_infos.isEmpty())
+            m_emptyWidget->setThumbnailImage(QPixmap());
+        else
+            m_emptyWidget->setThumbnailImage(pixmapthumb);
+        m_stack->setCurrentIndex(1);
+    } else if (!QFileInfo(path).isReadable() || !bpix) {
+        emit sigDisenablebutton();
+        //lmh2020/11/12 bug54164
+        if (m_viewB) {
             emit m_viewB->disCheckAdaptImageBtn();
         }
         m_stack->setCurrentIndex(2);
@@ -801,13 +801,13 @@ void ViewPanel::SlotLoadFrontThumbnailsAndClearTail()
 
 void ViewPanel::slotGetLastThumbnailPath(QString &path)
 {
-    if(m_infos.size()>1)
-    path = m_infos[m_infos.size() - 1].filePath;
+    if (m_infos.size() > 1)
+        path = m_infos[m_infos.size() - 1].filePath;
 }
 
 void ViewPanel::slotThumbnailContainPath(QString path, bool &b)
 {
-   b = imageIndex(path)==-1?false:true;
+    b = imageIndex(path) == -1 ? false : true;
 }
 
 void ViewPanel::slotLoadTailThumbnailsAndClearFront()
@@ -848,15 +848,14 @@ void ViewPanel::slotLoadTailThumbnailsAndClearFront()
 
 void ViewPanel::slotGetFirstThumbnailPath(QString &path)
 {
-    if(m_infos.size() > 0)
-    path = m_infos[0].filePath;
+    if (m_infos.size() > 0)
+        path = m_infos[0].filePath;
 }
 
 void  ViewPanel::slotUpdateImageView(QString &path)
 {
-    QPixmap pixmapthumb= dApp->m_imagemap.value(path);
-    if(pixmapthumb.isNull())
-    {
+    QPixmap pixmapthumb = dApp->m_imagemap.value(path);
+    if (pixmapthumb.isNull()) {
         pixmapthumb = utils::image::getThumbnail(path);
     }
     if (!QFileInfo(path).exists()) {
@@ -930,14 +929,14 @@ void ViewPanel::showFullScreen()
     // Full screen then hide bars because hide animation depends on height()
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
 
-        QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-        pAn->setDuration(50);
-        pAn->setEasingCurve(QEasingCurve::Linear);
-        pAn->setEndValue(1);
-        pAn->setStartValue(0);
-        pAn->start(QAbstractAnimation::DeleteWhenStopped);
+    QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
+    pAn->setDuration(50);
+    pAn->setEasingCurve(QEasingCurve::Linear);
+    pAn->setEndValue(1);
+    pAn->setStartValue(0);
+    pAn->start(QAbstractAnimation::DeleteWhenStopped);
 
-        window()->showFullScreen();
+    window()->showFullScreen();
 
     m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     emit dApp->signalM->sigShowFullScreen();
@@ -1066,11 +1065,11 @@ QWidget *ViewPanel::bottomTopLeftContent()
         ttbc = nullptr;
     }
     bool flag;
-    if(m_stack->currentIndex() != 0)
+    if (m_stack->currentIndex() != 0)
         flag = true;
     else
         flag = false;
-    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, flag,this);
+    ttbc = new TTBContent(m_vinfo.inDatabase, m_infos, flag, this);
 
     if (!ttbc) {
         return nullptr;
@@ -1078,7 +1077,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
 
     connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
     //heyi test 连接更改隐藏上一张按钮信号槽
-    connect(dApp->signalM,&SignalManager::sigUpdateThunbnail,ttbc,&TTBContent::OnUpdateThumbnail);
+    connect(dApp->signalM, &SignalManager::sigUpdateThunbnail, ttbc, &TTBContent::OnUpdateThumbnail);
     connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags);
     connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn);
     connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos);
@@ -1107,7 +1106,8 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); });
     connect(ttbc, &TTBContent::removed, this, [ = ] {
 
-        if (m_dtr->isActive()) {
+        if (m_dtr->isActive())
+        {
             return ;
         }
         m_dtr->start();
@@ -1126,13 +1126,13 @@ QWidget *ViewPanel::bottomTopLeftContent()
             DDesktopServices::trash(path);
             QFile fileRemove(path);
             //文件是否被删除的判断bool值
-            bool iRetRemove=false;
+            bool iRetRemove = false;
             if (!fileRemove.exists()) {
-                iRetRemove=true;
+                iRetRemove = true;
             }
             //如果检测到文件已经被删除了，则选择在看图做对应的操作，否则不进行删除
             //因为smb和其他的情况受到了dtk的接口DDesktopServices::trash的控制，有时候会有弹出窗口
-            if(iRetRemove){
+            if (iRetRemove) {
                 if (removeCurrentImage()) {
                     emit dApp->signalM->picDelete();
                     ttbc->setIsConnectDel(true);
@@ -1169,24 +1169,24 @@ QWidget *ViewPanel::bottomTopLeftContent()
     });
     /*lmh0731*/
     connect(ttbc, &TTBContent::imageMoveEnded, this,
-                    [ = ](int index, int addIndex,bool iRet) {
-        this->m_bIsOpenPicture=iRet;
+    [ = ](int index, int addIndex, bool iRet) {
+        this->m_bIsOpenPicture = iRet;
         this->showImage(index, addIndex);
     });
     connect(ttbc, &TTBContent::showvaguepixmap, m_viewB, &ImageView::showVagueImage);
     /*lmh0729*/
     /*shuwenzhi*/
     //此函数改变了位置索引与上一张写一张切换冲突，因此重新定一个信号
-    connect(ttbc, &TTBContent::sigsetcurrent, this, [=](QString path){
+    connect(ttbc, &TTBContent::sigsetcurrent, this, [ = ](QString path) {
         int begin = 0;
-        m_currentImagePath=path;
+        m_currentImagePath = path;
         for (; begin < m_infos.size(); begin++) {
             if (m_infos.at(begin).filePath == m_currentImagePath) {
                 break;
             }
         }
         m_current = begin;
-        m_bIsOpenPicture=false;
+        m_bIsOpenPicture = false;
     });
     return ttbc;
 }
@@ -1279,13 +1279,13 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
     }
 
     //lmh2020/11/13退出自适应
-    if(m_screentoNormal){
+    if (m_screentoNormal) {
         QRect rect1;
         //解决57306 【专业版1031】【看图】【5.6.3.74】tif中分辨率较高的图片，全屏后被放大显示
-        QImageReader* imageReader=m_viewB->getcurrentImgReader();
-        if(imageReader && imageReader->imageCount()>1 ){
+        QImageReader *imageReader = m_viewB->getcurrentImgReader();
+        if (imageReader && imageReader->imageCount() > 1) {
             rect1 = m_viewB->image().rect();
-        }else {
+        } else {
             rect1 = dApp->m_rectmap[m_viewB->path()];
         }
         if ((rect1.width() >= width() || rect1.height() >= height() - 150) && width() > 0 &&
@@ -1294,13 +1294,13 @@ void ViewPanel::resizeEvent(QResizeEvent *e)
         } else {
             m_viewB->fitImage();
         }
-        m_screentoNormal=false;
+        m_screentoNormal = false;
     }
 }
 
 void ViewPanel::timerEvent(QTimerEvent *e)
 {
-    if (e->timerId() == m_hideCursorTid && (!m_menu ||!m_menu->isVisible()) && !m_printDialogVisible) {
+    if (e->timerId() == m_hideCursorTid && (!m_menu || !m_menu->isVisible()) && !m_printDialogVisible) {
         m_viewB->viewport()->setCursor(Qt::BlankCursor);
     }
 
@@ -1328,7 +1328,7 @@ void ViewPanel::dropEvent(QDropEvent *event)
     for (QUrl url : urls) {
         //修复style问题，取消了path
         //lmh0901判断是否是图片
-        if( suffixisImage(url.toLocalFile()) ){
+        if (suffixisImage(url.toLocalFile())) {
             paths << url.toLocalFile();
         }
     }
@@ -1419,12 +1419,12 @@ void ViewPanel::LoadDirPathFirst(bool bLoadAll)
                 m_infos.append(info);
                 m_infosAll.append(info);
             }
-        }else {
+        } else {
             //删除不是图片的文件
             m_AllPath.removeOne(info.filePath);
             //当显示区域前面部分有非文件应该删除并将开始的索引-1;
-            if(bLoadAll && nStartIndex<m_firstindex) {
-                    m_firstindex--;
+            if (bLoadAll && nStartIndex < m_firstindex) {
+                m_firstindex--;
             }
             nStartIndex--;
             nCount--;
@@ -1448,24 +1448,23 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     //检查是否是smb网络传输文件，如果是则不需要缩略图
     //检测到通过mtp外设打开不需要缩略图
     //mtp,smb,ptp均不会显示缩略图，卡顿问题，路径包含gvfs虚拟出的某些路径代表是外设，采用单页图片打开
-    QString path=QFileInfo(vinfo.path).absolutePath();
-    if((path.indexOf("smb-share:server=") != -1|| path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)){
-        m_bOnlyOneiImg=true;
+    QString path = QFileInfo(vinfo.path).absolutePath();
+    if ((path.indexOf("smb-share:server=") != -1 || path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)) {
+        m_bOnlyOneiImg = true;
         dApp->setIsOnlyOnePic(true);
-    }
-    else {
-        m_bOnlyOneiImg=false;
+    } else {
+        m_bOnlyOneiImg = false;
         dApp->setIsOnlyOnePic(false);
     }
-    if(vinfo.paths.count()<2){
+    if (vinfo.paths.count() < 2) {
         dApp->setIsOnlyOnePic(true);
     }
 
     //apple手机，无旋转和删除权限
-    if(m_bOnlyOneiImg && path.indexOf("gphoto2:host=Apple") != -1){
+    if (m_bOnlyOneiImg && path.indexOf("gphoto2:host=Apple") != -1) {
         dApp->setIsApplePhone(true);
     }
-    if(dApp->m_LoadThread && dApp->m_LoadThread->isRunning()){
+    if (dApp->m_LoadThread && dApp->m_LoadThread->isRunning()) {
         emit dApp->endThread();
         QThread::msleep(500);
         m_infos.clear();
@@ -1476,8 +1475,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         m_bThreadExit = false;
     }
     /*swz0806 解决bug 41526 【专业版 sp3】【看图】【5.6.3.23】打开一个目录的图片后，直接将另一个目录拖拽进应用后，会同时存在两个目录的图片*/
-    if(!vinfo.path.isEmpty())
-    {
+    if (!vinfo.path.isEmpty()) {
         m_infos.clear();
         m_infosadd.clear();
         m_infosHead.clear();
@@ -1545,7 +1543,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         // Get view range
         if (!vinfo.paths.isEmpty()) {
             QFileInfoList list;
-            foreach (QString path , vinfo.paths) {
+            foreach (QString path, vinfo.paths) {
                 list << QFileInfo(path);
             }
 
@@ -1595,12 +1593,12 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
         dApp->m_firstLoad = true;
         //Load 100 pictures while first
-        if (!vinfo.path.isEmpty()&&!m_bOnlyOneiImg) {
+        if (!vinfo.path.isEmpty() && !m_bOnlyOneiImg) {
             QString DirPath = vinfo.path.left(vinfo.path.lastIndexOf("/"));
             QDir _dirinit(DirPath);
             m_AllPath = _dirinit.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoDotAndDotDot);
             //修复Ｑt带后缀排序错误的问题
-            qSort(m_AllPath.begin(),m_AllPath.end(),compareByFileInfo);
+            qSort(m_AllPath.begin(), m_AllPath.end(), compareByFileInfo);
             m_current = 0;
             for (; m_current < m_AllPath.size(); m_current++) {
                 if (m_AllPath.at(m_current).filePath() == vinfo.path) {
@@ -1616,8 +1614,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
                 }
             }
             m_current = begin;
-        }else if(m_bOnlyOneiImg){
-            m_current=0;
+        } else if (m_bOnlyOneiImg) {
+            m_current = 0;
         }
         openImage(m_infos.at(m_current).filePath);
         //eatImageDirIterator();
@@ -1630,8 +1628,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 //        if (pathlist.count() > 0) {
 //            //emit dApp->signalM->sendPathlist(pathlist, vinfo.path);
 //        }
-     //   if(m_infos.size()>0)
-      //      emit m_viewB->cacheEnd();
+        //   if(m_infos.size()>0)
+        //      emit m_viewB->cacheEnd();
 //        QString format;
 //        if(!vinfo.path.isEmpty())
 //        {
@@ -1654,8 +1652,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         }
 
         //开启后台加载所有图片信息
-        if (m_AllPath.size() > m_infos.size() && !m_bOnlyOneiImg ) {
-            if(!vinfo.path.isEmpty()){
+        if (m_AllPath.size() > m_infos.size() && !m_bOnlyOneiImg) {
+            if (!vinfo.path.isEmpty()) {
                 QThread *loadTh = QThread::create([ = ]() {
                     eatImageDirIteratorThread();
                 });
@@ -1677,8 +1675,8 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
 
 void ViewPanel::toggleFullScreen()
 {
-    m_viewB->setFitState(false,false);
-    m_screentoNormal=true;
+    m_viewB->setFitState(false, false);
+    m_screentoNormal = true;
     if (window()->isFullScreen()) {
         emit dApp->signalM->sigStopAnimation();
         showNormal();
@@ -1687,7 +1685,7 @@ void ViewPanel::toggleFullScreen()
         m_viewB->viewport()->setCursor(Qt::ArrowCursor);
     } else {
         showFullScreen();
-        if (!m_menu ||!m_menu->isVisible()) {
+        if (!m_menu || !m_menu->isVisible()) {
             m_viewB->viewport()->setCursor(Qt::BlankCursor);
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
@@ -1761,20 +1759,18 @@ bool ViewPanel::showImage(int index, int addindex)
 
     //边界判断加上错误处理
     m_lastCurrent = m_current;
-    if(index<0){
+    if (index < 0) {
         m_current = 0;
-    }
-    else {
+    } else {
         m_current = index;
     }
 
-    if(m_infos.count()>m_current && m_infos.at(m_current).filePath == m_currentImagePath&&m_bIsOpenPicture /*&&NULL!=m_currentImagePath*/)
-    {
+    if (m_infos.count() > m_current && m_infos.at(m_current).filePath == m_currentImagePath && m_bIsOpenPicture /*&&NULL!=m_currentImagePath*/) {
         return false;
     }
     m_currentImagePath = m_infos.at(m_current).filePath;
     openImage(m_infos.at(m_current).filePath, m_vinfo.inDatabase);
-    m_bIsOpenPicture=true;
+    m_bIsOpenPicture = true;
     return true;
 }
 
@@ -1794,12 +1790,11 @@ bool ViewPanel::removeCurrentImage()
 #endif
 
     //lmh2020/11/18解决bug 54962
-    int index=this->width()/36;
+    int index = this->width() / 36;
     //解决bug63372，判断出现问题，m_infosAll和m_infos.size必须检查，否则可能会引发删除崩溃
-    if((m_current<m_infos.size()) && (m_infosAll.size()>0)&& m_infos[m_current].filePath==m_infosAll[m_infosAll.size()-1].filePath && m_infos.size()<=index){
+    if ((m_current < m_infos.size()) && (m_infosAll.size() > 0) && m_infos[m_current].filePath == m_infosAll[m_infosAll.size() - 1].filePath && m_infos.size() <= index) {
         dApp->signalM->sendLoadSignal(true);
-    }
-    else if(m_infos.size()<=index){
+    } else if (m_infos.size() <= index) {
         dApp->signalM->sendLoadSignal(false);
     }
 
@@ -1823,8 +1818,7 @@ bool ViewPanel::removeCurrentImage()
         if (m_current == m_infos.size()) {
             //LMH0611删除最后一张图片跳转到上一张
             m_current--;
-        }
-        else {
+        } else {
 
         }
         ttbc->delPictureFromPath(m_currentImagePath, m_infos, m_current);
@@ -1863,7 +1857,7 @@ void ViewPanel::viewOnNewProcess(const QStringList &paths)
     connect(p, SIGNAL(finished(int)), p, SLOT(deleteLater()));
 
     QStringList options;
-    foreach (QString path , paths) {
+    foreach (QString path, paths) {
         options << "-o" << path;
     }
     p->start(pro, options);
@@ -1925,11 +1919,11 @@ void ViewPanel::rotateImage(bool clockWise)
         bret = m_viewB->rotateCounterclockwise();
     }
 
-    if(!bret) return;
+    if (!bret) return;
     //实时保存太卡，因此采用2s后延时保存的问题
-    if(!m_tSaveImage){
+    if (!m_tSaveImage) {
         m_tSaveImage = new QTimer(this);
-        connect(m_tSaveImage,&QTimer::timeout,this,[=](){
+        connect(m_tSaveImage, &QTimer::timeout, this, [ = ]() {
             m_viewB->rotatePixCurrent();
         });
     }
@@ -2003,7 +1997,7 @@ void ViewPanel::openImage(const QString path, bool inDB)
         //        QtConcurrent::run(utils::image::removeThumbnail, path);
     }
     //解决57405 【专业版1031】【看图】【5.6.3.74】在切换tif多页图片的过程中使用快捷键旋转，会使tif图片旋转且无法查看tif中的其余图片
-    if(ttbc){
+    if (ttbc) {
         ttbc->setAllEnabled(false);
     }
     clearMenu();
@@ -2040,15 +2034,15 @@ void ViewPanel::openImage(const QString path, bool inDB)
                 d = true;
             }
             if (value1 >= 20000 || value2 >= 15000) {
-               // g = true;
+                // g = true;
             }
         }
-        if(path.indexOf("ftp:host") != -1) f = true;
+        if (path.indexOf("ftp:host") != -1) f = true;
         if ((c && d) || f) {
             emit dApp->signalM->loadingDisplay(true);
         }
     }
-       m_viewB->setImage(path);
+    m_viewB->setImage(path);
 //    //缓存当先现实图片的上一张和下一张
 //    if (!path.isEmpty()) {
 //        qDebug() << "开始判定缓存时间：";
@@ -2080,9 +2074,8 @@ void ViewPanel::openImage(const QString path, bool inDB)
                     emit dApp->signalM->picInUSB(true);
                     emit dApp->signalM->hideNavigation();
                     emit dApp->signalM->hideExtensionPanel();
-                    QPixmap pixmapthumb= dApp->m_imagemap.value(path);
-                    if(pixmapthumb.isNull())
-                    {
+                    QPixmap pixmapthumb = dApp->m_imagemap.value(path);
+                    if (pixmapthumb.isNull()) {
                         pixmapthumb = utils::image::getThumbnail(path);
                     }
                     m_emptyWidget->setThumbnailImage(pixmapthumb);

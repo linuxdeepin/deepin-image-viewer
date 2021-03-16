@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2016 ~ 2018 Deepin Technology Co., Ltd.
+ * Copyright (C) 2020 ~ 2021 Uniontech Software Technology Co., Ltd.
+ *
+ * Author:     LiuMingHang <liuminghang@uniontech.com>
+ *
+ * Maintainer: ZhangYong <ZhangYong@uniontech.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,7 +88,7 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
 }
 
 
-void TopToolbar::setMiddleContent(const QString& path)
+void TopToolbar::setMiddleContent(const QString &path)
 {
     //修复名字过长显示不完整bug
     QString a = geteElidedText(DFontSizeManager::instance()->get(DFontSizeManager::T7),
