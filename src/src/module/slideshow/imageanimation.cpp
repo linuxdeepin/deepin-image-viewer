@@ -655,7 +655,7 @@ void ImageAnimationPrivate::startStatic()
         connect(m_staticTimer, &QTimer::timeout, this, &ImageAnimationPrivate::onStaticTimer);
     }
     m_isAnimationIng = false;
-    m_staticTimer->start(2500);
+    m_staticTimer->start(SLIDER_TIME);
 }
 
 void ImageAnimationPrivate::onContinuousAnimationTimer()

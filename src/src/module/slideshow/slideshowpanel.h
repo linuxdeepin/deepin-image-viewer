@@ -98,6 +98,7 @@ public slots:
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void timerEvent(QTimerEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
 private:
     ImageAnimation *m_animation;
     DMenu *m_menu;

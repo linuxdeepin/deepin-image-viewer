@@ -28,7 +28,8 @@
 #include <QObject>
 
 #define UPDATE_RATE 30
-#define FACTOR_STEP 0.005f
+#define FACTOR_STEP 0.01f
+#define SLIDER_TIME 1500
 
 //#define RENDER_DEVIATION 0.005f
 //#define FACTOR_BEGIN 0.0f

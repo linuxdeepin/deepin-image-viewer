@@ -411,3 +411,12 @@ void SlideShowPanel::timerEvent(QTimerEvent *event)
     QWidget::timerEvent(event);
 }
 
+void SlideShowPanel::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    //解决幻灯片无法使用双击退出问题bug67409
+    if (e->button() == Qt::LeftButton) {
+        backToLastPanel();
+    }
+    QWidget::mouseDoubleClickEvent(e);
+}
+
