@@ -31,6 +31,8 @@
 #include <QImageReader>
 #include <QDebug>
 
+#include <DApplication>
+
 #ifdef USE_UNIONIMAGE
 #include "printhelper.h"
 #include "utils/unionimage.h"
@@ -134,6 +136,17 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     }
     //看图采用同步,因为只有一张图片
     DPrintPreviewDialog printDialog2(nullptr);
+#if (DTK_VERSION_MAJOR > 5 \
+    || (DTK_VERSION_MAJOR >=5 && DTK_VERSION_MINOR > 4) \
+    || (DTK_VERSION_MAJOR >= 5 && DTK_VERSION_MINOR >= 4 && DTK_VERSION_PATCH >= 10))//5.4.4暂时没有合入
+    //增加运行时版本判断
+    if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
+        if (tempExsitPaths.count() > 0) {
+            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).baseName());
+            printDialog2.setDocName(docName);
+        }
+    }
+#endif
     connect(&printDialog2, SIGNAL(paintRequested(DPrinter *)),
             m_re, SLOT(paintRequestSync(DPrinter *)));
 

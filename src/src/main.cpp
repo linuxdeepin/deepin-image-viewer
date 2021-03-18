@@ -22,8 +22,9 @@
 #include "controller/commandline.h"
 #include "service/defaultimageviewer.h"
 #include "accessibility/acobjectlist.h"
+#ifdef CMAKE_BUILD
 #include "config.h"
-
+#endif
 #include <QApplication>
 #include <DLog>
 #include <QTranslator>
@@ -46,8 +47,10 @@ int main(int argc, char *argv[])
     DLogManager::registerConsoleAppender();
     DLogManager::registerFileAppender();
     qDebug() << "LogFile:" << DLogManager::getlogFilePath();
+#ifdef CMAKE_BUILD
     //增加版本号
     qApp->setApplicationVersion(DApplication::buildVersion(VERSION));
+#endif
     if (dApp->isPanelDev()) {
         //进程单例
         QString userpath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);

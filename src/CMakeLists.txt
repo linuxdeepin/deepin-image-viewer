@@ -8,7 +8,7 @@ project(deepin-image-viewer VERSION 1.0.0)
 #option (USE_UNIONIMAGE "Use UNIONIMAGE" ON)
 add_definitions( -DLITE_DIV )
 add_definitions( -DUSE_UNIONIMAGE )
-
+add_definitions( -DCMAKE_BUILD )
 # 加速编译优化参数
 if (CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64")
     SET(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -ftree-vectorize -march=loongson3a -mhard-float -mno-micromips -mno-mips16 -flax-vector-conversions -mloongson-ext2 -mloongson-mmi -Wl,--as-need -fPIE")
