@@ -144,8 +144,11 @@ public:
         m_freeimage_formats["DDS"]     =  FIF_DDS;
         m_freeimage_formats["GIF"]     =  FIF_GIF;
         //m_freeimage_formats["HDR"]     =  FIF_HDR;//FHDR covert failed
-        m_freeimage_formats["FAX"]     =  FIF_FAXG3;
-        m_freeimage_formats["G3"]      =  FIF_FAXG3;//FAXG3
+        //欧拉版本存在这个没有FIF_FAXG3
+        if (FIF_HDR == 26 && FIF_SGI == 28) {
+            m_freeimage_formats["FAX"]     =  FIF_FAXG3;
+            m_freeimage_formats["G3"]      =  FIF_FAXG3;//FAXG3
+        }
         m_freeimage_formats["SGI"]     =  FIF_SGI;
         m_freeimage_formats["EXR"]     =  FIF_EXR;
         //m_freeimage_formats["J2K"]     =  FIF_J2K;
