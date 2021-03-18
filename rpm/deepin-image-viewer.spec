@@ -5,7 +5,7 @@ Summary:        Deepin Image Viewer
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-image-viewer
 Source0:        %{name}_%{version}.tar.gz
-Patch0:			./rpm/fix-for-UnionTech.patch
+Patch0:		    fix-for-UnionTech.patch
  
 BuildRequires:  gcc-c++
 BuildRequires:  freeimage-devel
