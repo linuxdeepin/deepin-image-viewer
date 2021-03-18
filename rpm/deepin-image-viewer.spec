@@ -1,10 +1,11 @@
 Name:           deepin-image-viewer
-Version:        5.0.0
+Version:        5.7.3.2
 Release:        5%{?dist}
 Summary:        Deepin Image Viewer
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-image-viewer
 Source0:        %{name}_%{version}.tar.gz
+Patch0:			./rpm/fix-for-UnionTech.patch
  
 BuildRequires:  gcc-c++
 BuildRequires:  freeimage-devel
@@ -36,7 +37,7 @@ Requires:       hicolor-icon-theme
 %{summary}.
  
 %prep
-%setup -q
+%autosetup -p1
  
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
@@ -59,20 +60,20 @@ export PATH=%{_qt5_bindir}:$PATH
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
  
 %changelog
-* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-5
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.3.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
  
-* Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.0.0-4
+* Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 5.7.3.2-4
 - Rebuild for new LibRaw
  
-* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-3
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.3.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
  
-* Sat Nov 30 2019 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-2
+* Sat Nov 30 2019 Robin Lee <cheeselee@fedoraproject.org> - 5.7.3.2-2
 - BR pkgconfig(xext)
  
-* Mon Aug 05 2019 Robin Lee <cheeselee@fedoraproject.org> - 5.0.0-1
-- Release 5.0.0
+* Mon Aug 05 2019 Robin Lee <cheeselee@fedoraproject.org> - 5.7.3.2-1
+- Release 5.7.3.2
  
 * Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
