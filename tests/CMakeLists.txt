@@ -34,7 +34,7 @@ set(AllTestQRC
     ./testqrc/testresource.qrc)
 file(GLOB_RECURSE HEADERSCURRENT "src/*.h")
 file(GLOB_RECURSE  SOURCESCURRENT  "src/*.cpp")
-#file(GLOB_RECURSE  SOURCES  "../src/src/*.cpp")
+
 file (GLOB_RECURSE SOURCES
     ../src/src/controller/*.cpp
     ../src/src/dirwatcher/*.cpp
@@ -48,7 +48,7 @@ file (GLOB_RECURSE SOURCES
     *.cpp
     )
 file(GLOB_RECURSE SOURCESC "../src/*.c")
-file(GLOB_RECURSE HEADERS "../src/*.h")
+file(GLOB_RECURSE HEADERS "../src/src/module/modulepanel.h")
 file(GLOB_RECURSE FORMS "../src/*.ui")
 file(GLOB_RECURSE RESOURCES "../src/*.qrc")
 
@@ -105,9 +105,8 @@ endif ()
 
 add_executable( ${TARGET_NAME} ${SOURCES} ${SOURCESC}
     ${HEADERS} ${AllTestQRC}
-    ${RESOURCES} ${PROJECT_INCLUDE}
-    ${HEADERSCURRENT} ${SOURCESCURRENT}
-    ${QM}
+    ${RESOURCES} ${HEADERSCURRENT}
+    ${SOURCESCURRENT} ${QM}
     )
 
 target_include_directories(${TARGET_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${PROJECT_INCLUDE} ${GLOB_RECURSE})

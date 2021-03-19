@@ -30,7 +30,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 file(GLOB_RECURSE  SOURCES  "src/*.cpp")
 file(GLOB_RECURSE SOURCESC "src/*.c")
-file(GLOB_RECURSE HEADERS "src/*.h")
+file(GLOB_RECURSE HEADERS "src/module/modulepanel.h")
 file(GLOB_RECURSE FORMS "src/*.ui")
 file(GLOB_RECURSE RESOURCES "*.qrc")
 
@@ -47,7 +47,8 @@ set(PROJECT_INCLUDE
     ${PROJECT_SOURCE_DIR}/src/widgets
     ${PROJECT_SOURCE_DIR}/src/accessibility
     ${PROJECT_SOURCE_DIR}/src/third-party/accessibility
-    ${PROJECT_SOURCE_DIR}/src/module)
+    ${PROJECT_SOURCE_DIR}/src/module
+    )
 
 set(QtModule Core Gui Widgets DBus Sql PrintSupport Svg Concurrent LinguistTools )
 
@@ -78,7 +79,7 @@ endif ()
 # 设置不删除生成的文件夹内容文件
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM 1)
 
-add_executable( ${PROJECT_NAME} ${SOURCES} ${SOURCESC} ${HEADERS} ${RESOURCES} ${PROJECT_INCLUDE} ${QM})
+add_executable( ${PROJECT_NAME} ${SOURCES} ${SOURCESC} ${HEADERS} ${RESOURCES} ${QM})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${3rd_lib_INCLUDE_DIRS} ${PROJECT_INCLUDE} )
 target_link_libraries(${PROJECT_NAME} Qt5::WidgetsPrivate ${3rd_lib_LIBRARIES} pthread freeimage)
