@@ -195,7 +195,20 @@ void ViewPanel::initConnect()
 //        emit imageChanged(filename);
 //        openImage(filename);
         int fileindex = imageIndex(filename);
-        showImage(fileindex, 0);
+        if (fileindex >= 0) {
+            showImage(fileindex, 0);
+        } else {
+            //在判断该路径不为队列中的路径时,选择打开该路径,修复bug67718
+            if (filename.isEmpty())
+                return;
+            SignalManager::ViewInfo vinfo;
+            vinfo.path = filename;
+            vinfo.paths = QStringList(filename);
+            QFileInfo firstFileInfo(vinfo.path);
+            //dApp->setter->setValue(cfgGroupName, cfgLastOpenPath, firstFileInfo.path());
+            emit dApp->signalM->enterView(true);
+            onViewImage(vinfo);
+        }
     });
     connect(dApp->signalM, &SignalManager::viewImage, this,
     [ = ](const SignalManager::ViewInfo & vinfo) {
