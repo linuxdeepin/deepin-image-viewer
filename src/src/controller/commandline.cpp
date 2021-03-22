@@ -209,8 +209,12 @@ bool CommandLine::processOption()
 
     QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
     [](DGuiApplicationHelper::ColorType type) {
-        Q_UNUSED(type);
-
+        //更改主题颜色的信号,图片跟着变化
+        if (type == DGuiApplicationHelper::DarkType) {
+            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+        } else if (type == DGuiApplicationHelper::LightType) {
+            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+        }
     });
 
     QStringList names = m_cmdParser.optionNames();
@@ -375,16 +379,15 @@ bool CommandLine::processOption(QDateTime time, bool newflag)
     } else {
         dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
     }
-
-//    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
-//    [](DGuiApplicationHelper::ColorType type) {
-//        Q_UNUSED(type);
-////        if(DGuiApplicationHelper::LightType == DGuiApplicationHelper::instance()->themeType() ){
-////            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
-////        } else {
-////            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
-////        }
-//    });
+    //更改主题颜色的信号,图片跟着变化
+    QObject::connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::paletteTypeChanged,
+    [](DGuiApplicationHelper::ColorType type) {
+        if (type == DGuiApplicationHelper::DarkType) {
+            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Dark);
+        } else if (type == DGuiApplicationHelper::LightType) {
+            dApp->viewerTheme->setCurrentTheme(ViewerThemeManager::Light);
+        }
+    });
 
 
     QStringList names = m_cmdParser.optionNames();
