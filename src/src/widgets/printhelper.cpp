@@ -142,9 +142,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     //增加运行时版本判断
     if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
         if (tempExsitPaths.count() > 0) {
-            //应该使用completeBaseName(),解决bug67869,baseName在遇到第一个点的时候就返回名称了
-            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).completeBaseName());
-            printDialog2.setDocName(docName);
+            //直接传递为路径,不会有问题
+            printDialog2.setDocName(tempExsitPaths.at(0));
         }
     }
 #endif
