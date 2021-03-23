@@ -284,7 +284,13 @@ UNIONIMAGESHARED_EXPORT QString size2Human(const qlonglong bytes)
             return vs + " MB";
         }
     } else {
-        return QString::number(bytes);
+        //修改了当超过一个G的图片,应该用G返回,不应该返回一堆数字,bug68094
+        QString vs = QString::number(static_cast<double>(bytes) / kb / kb / kb, 'f', 1);
+        if (qCeil(vs.toDouble()) == qFloor(vs.toDouble())) {
+            return QString::number(static_cast<int>(vs.toDouble())) + " GB";
+        } else {
+            return vs + " GB";
+        }
     }
 }
 
