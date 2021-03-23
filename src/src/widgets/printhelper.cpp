@@ -143,7 +143,9 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
     if (DApplication::runtimeDtkVersion() >= DTK_VERSION_CHECK(5, 4, 10, 0)) {
         if (tempExsitPaths.count() > 0) {
             //直接传递为路径,不会有问题
-            printDialog2.setDocName(tempExsitPaths.at(0));
+            QString docName = QString(QFileInfo(tempExsitPaths.at(0)).completeBaseName());
+            docName = docName + ".pdf";
+            printDialog2.setDocName(docName);
         }
     }
 #endif
