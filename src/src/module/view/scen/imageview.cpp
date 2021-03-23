@@ -647,6 +647,9 @@ void ImageView::fitImage()
     m_isFitWindow = false;
     scaled(imageRelativeScale() * devicePixelRatioF() * 100);
     emit transformChanged();
+
+    //20210115lmh因为每次退出全屏需要先reisizeEvent，所以image的尺寸没有刷新，这里需要再次判断,解决68086
+    titleBarControl();
 }
 
 bool ImageView::rotateClockWise()

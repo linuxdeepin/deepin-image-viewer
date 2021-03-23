@@ -29,6 +29,8 @@
 
 #include <QString>
 #include <QObject>
+//打开使用accessibility
+#define ENABLE_ACCESSIBILITY
 
 #ifdef ENABLE_ACCESSIBILITY
 #define AC_SET_ACCESSIBLE_NAME(classObj,accessiblename) classObj->setAccessibleName(accessiblename);
