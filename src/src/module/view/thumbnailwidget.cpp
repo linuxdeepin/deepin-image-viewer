@@ -81,8 +81,10 @@ ThumbnailWidget::ThumbnailWidget(const QString &darkFile, const QString &lightFi
 
         //修复style风格错误
         m_logo = utils::base::renderSVG(m_picString, THUMBNAIL_SIZE);
-        if (m_isDefaultThumbnail)
-            m_defaultImage = logo_pix;
+        if (m_isDefaultThumbnail) {
+            //这里之前修复风格错误,导致bug68248,现在已经修复
+            m_defaultImage = m_logo;
+        }
         update();
     });
 
