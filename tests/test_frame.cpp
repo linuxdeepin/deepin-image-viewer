@@ -36,21 +36,25 @@ TEST_F(gtestview, frame_bottomtoolbar)
 }
 TEST_F(gtestview, frame_mainwindow)
 {
-//    dApp->signalM->enterView(false);
+    if (!m_frameMainWindow) {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+    m_frameMainWindow->m_diskManager->mountAdded("", "");
+    m_frameMainWindow->m_diskManager->diskDeviceRemoved("");
 
-//    dApp->signalM->enterView(true);
-
-//    if(!m_frameMainWindow){
-//        m_frameMainWindow = CommandLine::instance()->getMainWindow();
-//    }
-//    QTest::qWait(500);
-
-//    MainWindow *panel = m_frameMainWindow->findChild<MainWindow *>();
-//    if(panel)
-//    {
-////        panel->close();
-//    }
+    m_frameMainWindow->windowAtEdge();
 
 }
+
+TEST_F(gtestview, frame_picOneClear)
+{
+    emit dApp->signalM->picOneClear();
+}
+
+TEST_F(gtestview, frame_sigOpenFileDialog)
+{
+    emit dApp->signalM->sigOpenFileDialog();
+}
+
 
 

@@ -125,13 +125,6 @@ int main(int argc, char *argv[])
         }
 
     } else {
-#ifndef LITE_DIV
-        if (!service::isDefaultImageViewer()) {
-            qDebug() << "Set defaultImage viewer succeed:" << service::setDefaultImageViewer(true);
-        } else {
-            qDebug() << "Deepin Image Viewer is defaultImage!";
-        }
-#endif
         //save theme
         DApplicationSettings saveTheme;
         CommandLine *cl = CommandLine::instance();

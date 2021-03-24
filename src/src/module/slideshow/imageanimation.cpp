@@ -97,10 +97,10 @@ protected:
     void flipRightToLeft(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
     void outsideToInside(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
     void moveLeftToRightEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
-    void moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
-    void moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
-    void moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
-    void moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
+//    void moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
+//    void moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
+//    void moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
+//    void moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2);
 
     //新增获取当前图片路径
     const QString getCurrentPath();
@@ -371,18 +371,18 @@ void ImageAnimationPrivate::effectPainter(QPainter *painter, const QRect &rect)
     case 4:
         moveLeftToRightEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
         break;
-    case 5:
-        moveRightToLeftEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
-        break;
-    case 6:
-        moveBottomToUpEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
-        break;
-    case 7:
-        moveUpToBottomEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
-        break;
-    case 8:
-        moveBottomToLeftUpEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
-        break;
+//    case 5:
+//        moveRightToLeftEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
+//        break;
+//    case 6:
+//        moveBottomToUpEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
+//        break;
+//    case 7:
+//        moveUpToBottomEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
+//        break;
+//    case 8:
+//        moveBottomToLeftUpEffect(painter, rect, m_factor, m_pixmap1, m_pixmap2);
+//        break;
     }
     painter->end();
 }
@@ -561,41 +561,41 @@ void ImageAnimationPrivate::moveLeftToRightEffect(QPainter *painter, const QRect
     painter->drawPixmap(x, y, pixmap2);
 }
 
-void ImageAnimationPrivate::moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
-{
-    Q_UNUSED(painter);
-    Q_UNUSED(rect);
-    Q_UNUSED(factor);
-    Q_UNUSED(pixmap1);
-    Q_UNUSED(pixmap2);
-}
+//void ImageAnimationPrivate::moveRightToLeftEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
+//{
+//    Q_UNUSED(painter);
+//    Q_UNUSED(rect);
+//    Q_UNUSED(factor);
+//    Q_UNUSED(pixmap1);
+//    Q_UNUSED(pixmap2);
+//}
 
-void ImageAnimationPrivate::moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
-{
-    Q_UNUSED(painter);
-    Q_UNUSED(rect);
-    Q_UNUSED(factor);
-    Q_UNUSED(pixmap1);
-    Q_UNUSED(pixmap2);
-}
+//void ImageAnimationPrivate::moveBottomToUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
+//{
+//    Q_UNUSED(painter);
+//    Q_UNUSED(rect);
+//    Q_UNUSED(factor);
+//    Q_UNUSED(pixmap1);
+//    Q_UNUSED(pixmap2);
+//}
 
-void ImageAnimationPrivate::moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
-{
-    Q_UNUSED(painter);
-    Q_UNUSED(rect);
-    Q_UNUSED(factor);
-    Q_UNUSED(pixmap1);
-    Q_UNUSED(pixmap2);
-}
+//void ImageAnimationPrivate::moveUpToBottomEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
+//{
+//    Q_UNUSED(painter);
+//    Q_UNUSED(rect);
+//    Q_UNUSED(factor);
+//    Q_UNUSED(pixmap1);
+//    Q_UNUSED(pixmap2);
+//}
 
-void ImageAnimationPrivate::moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
-{
-    Q_UNUSED(painter);
-    Q_UNUSED(rect);
-    Q_UNUSED(factor);
-    Q_UNUSED(pixmap1);
-    Q_UNUSED(pixmap2);
-}
+//void ImageAnimationPrivate::moveBottomToLeftUpEffect(QPainter *painter, const QRect &rect, float factor, const QPixmap &pixmap1, const QPixmap &pixmap2)
+//{
+//    Q_UNUSED(painter);
+//    Q_UNUSED(rect);
+//    Q_UNUSED(factor);
+//    Q_UNUSED(pixmap1);
+//    Q_UNUSED(pixmap2);
+//}
 
 const QString ImageAnimationPrivate::getCurrentPath()
 {

@@ -7,10 +7,12 @@
 #include "imagebutton.h"
 #include "module/view/contents/iconbutton.h"
 #include "module/slideshow/slideshowpanel.h"
+#include "controller/commandline.h"
+#include "frame/mainwindow.h"
 #undef private
 
 #include "application.h"
-#include "controller/commandline.h"
+
 #include "service/defaultimageviewer.h"
 
 #include "controller/configsetter.h"
@@ -25,7 +27,7 @@
 #include "frame/bottomtoolbar.h"
 #include "frame/extensionpanel.h"
 #include "frame/mainwidget.h"
-#include "frame/mainwindow.h"
+
 #include "frame/renamedialog.h"
 #include "frame/toptoolbar.h"
 #include "module/view/viewpanel.h"
@@ -95,31 +97,31 @@ public:
     gtestview();
     virtual void SetUp()
     {
-            list.clear();
-            m_SVGPath=QApplication::applicationDirPath()+"/svg.svg";
-            m_JPGPath=QApplication::applicationDirPath()+"/jpg.jpg";
-            m_DDSPath=QApplication::applicationDirPath()+"/dds.dds";
-            m_GIFPath=QApplication::applicationDirPath()+"/gif.gif";
-            m_ICOPath=QApplication::applicationDirPath()+"/ico.ico";
-            m_MNGPath=QApplication::applicationDirPath()+"/mng.mng";
-            m_TIFPath=QApplication::applicationDirPath()+"/tif.tif";
-            m_WBMPPath=QApplication::applicationDirPath()+"/wbmp.wbmp";
-            m_PNGPath=QApplication::applicationDirPath()+"/png.png";
-            m_GIF2Path=QApplication::applicationDirPath()+"/gif2.gif";
-            m_ErrorPicPath=QApplication::applicationDirPath()+"/errorPic.icns";
-            m_TgaPath=QApplication::applicationDirPath()+"/tga.tga";
-            list.push_back(m_TIFPath);
-            list.push_back(m_SVGPath);
-            list.push_back(m_JPGPath);
-            list.push_back(m_DDSPath);
-            list.push_back(m_GIFPath);
-            list.push_back(m_ICOPath);
-            list.push_back(m_MNGPath);
-            list.push_back(m_WBMPPath);
-            list.push_back(m_PNGPath);
-            list.push_back(m_GIF2Path);
-            list.push_back(m_ErrorPicPath);
-            list.push_back(m_TgaPath);
+        list.clear();
+        m_SVGPath = QApplication::applicationDirPath() + "/svg.svg";
+        m_JPGPath = QApplication::applicationDirPath() + "/jpg.jpg";
+        m_DDSPath = QApplication::applicationDirPath() + "/dds.dds";
+        m_GIFPath = QApplication::applicationDirPath() + "/gif.gif";
+        m_ICOPath = QApplication::applicationDirPath() + "/ico.ico";
+        m_MNGPath = QApplication::applicationDirPath() + "/mng.mng";
+        m_TIFPath = QApplication::applicationDirPath() + "/tif.tif";
+        m_WBMPPath = QApplication::applicationDirPath() + "/wbmp.wbmp";
+        m_PNGPath = QApplication::applicationDirPath() + "/png.png";
+        m_GIF2Path = QApplication::applicationDirPath() + "/gif2.gif";
+        m_ErrorPicPath = QApplication::applicationDirPath() + "/errorPic.icns";
+        m_TgaPath = QApplication::applicationDirPath() + "/tga.tga";
+        list.push_back(m_TIFPath);
+        list.push_back(m_SVGPath);
+        list.push_back(m_JPGPath);
+        list.push_back(m_DDSPath);
+        list.push_back(m_GIFPath);
+        list.push_back(m_ICOPath);
+        list.push_back(m_MNGPath);
+        list.push_back(m_WBMPPath);
+        list.push_back(m_PNGPath);
+        list.push_back(m_GIF2Path);
+        list.push_back(m_ErrorPicPath);
+        list.push_back(m_TgaPath);
 
 
     }
@@ -129,37 +131,37 @@ public:
 
     }
 protected:
-    ImageLoader* m_ImageLoader{nullptr};
+    ImageLoader *m_ImageLoader{nullptr};
 
-    BottomToolbar*   m_bottomToolbar{nullptr};
-    ExtensionPanel*  m_extensionPanel{nullptr};
-    MainWidget*      m_frameMainWidget{nullptr};
-    MainWindow*      m_frameMainWindow{nullptr};
-    RenameDialog*    m_renameDialog{nullptr};
-    TopToolbar*      m_topoolBar{nullptr};
+    BottomToolbar   *m_bottomToolbar{nullptr};
+    ExtensionPanel  *m_extensionPanel{nullptr};
+    MainWidget      *m_frameMainWidget{nullptr};
+    MainWindow      *m_frameMainWindow{nullptr};
+    RenameDialog    *m_renameDialog{nullptr};
+    TopToolbar      *m_topoolBar{nullptr};
 
-/*module*/
-    ViewPanel*       m_viewPanel{nullptr};
-    LockWidget*      m_lockWidget{nullptr};
-    ThumbnailWidget* m_thumbnailWidget{nullptr};
-    NavigationWidget* m_navigationWidget{nullptr};
+    /*module*/
+    ViewPanel       *m_viewPanel{nullptr};
+    LockWidget      *m_lockWidget{nullptr};
+    ThumbnailWidget *m_thumbnailWidget{nullptr};
+    NavigationWidget *m_navigationWidget{nullptr};
 
     ImageIconButton *m_ImageIconButton1{nullptr};
     ImageIconButton *m_ImageIconButton2{nullptr};
 
     ImageInfoWidget *m_ImageInfoWidget{nullptr};
 
-    ImageView * m_ImageView{nullptr};
+    ImageView *m_ImageView{nullptr};
 
 
- /*dirwatcher*/
+    /*dirwatcher*/
 //    ScanPathsDialog* m_ScanPathsDialog{nullptr};
-    VolumeMonitor* m_VolumeMonitor{nullptr};
-    ScanPathsItem* m_ScanPathsItem{nullptr};
+    VolumeMonitor *m_VolumeMonitor{nullptr};
+    ScanPathsItem *m_ScanPathsItem{nullptr};
 
-    PushButton * m_pushbutton{nullptr};
+    PushButton *m_pushbutton{nullptr};
 
-    CommandLine * m_command{nullptr};
+    CommandLine *m_command{nullptr};
 //    ScanPathsDialog *m_ScanDialog{nullptr};
     PrintHelper *m_Print{nullptr};
 

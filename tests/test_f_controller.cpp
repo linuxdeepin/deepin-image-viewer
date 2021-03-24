@@ -95,3 +95,13 @@ TEST_F(gtestview, WallPaperSetting1)
 //    tt.wait(2000);
 //    ct.wait(2000);
 }*/
+
+//CommandLine
+TEST_F(gtestview, CommandLine_createOpenImageInfo)
+{
+    QString str = QApplication::applicationDirPath() + "/test/jpg113.jpg";
+    QString jsonStr = CommandLine::instance()->createOpenImageInfo(str, QStringList(str), QDateTime::currentDateTime());
+    QStringList list(str);
+    CommandLine::instance()->paraOpenImageInfo(jsonStr, str, list);
+    CommandLine::instance()->showHelp();
+}

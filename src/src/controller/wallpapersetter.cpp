@@ -63,8 +63,6 @@ void WallpaperSetter::setWallpaper(const QString &path)
             QString screenname = dApp->m_app->primaryScreen()->name();
             QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"), screenname, path);
             qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
-        } else {
-            qWarning() << "SettingWallpaper failed" << interface.lastError();
         }
 
         // Remove the tmp file
@@ -76,7 +74,6 @@ void WallpaperSetter::setWallpaper(const QString &path)
         });
         t->start(5000);
     }
-
 }
 
 void WallpaperSetter::setWallpaper(QImage img)
@@ -98,20 +95,12 @@ void WallpaperSetter::setWallpaper(QImage img)
                         QString screenname = dApp->m_app->primaryScreen()->name();
                         QDBusMessage reply = interface.call(QStringLiteral("SetMonitorBackground"), screenname, path);
                         qDebug() << "SettingWallpaper: replay" << reply.errorMessage();
-                    } else {
-                        qWarning() << "SettingWallpaper failed" << interface.lastError();
                     }
                 }
                 // Remove the tmp file
-                QTimer *t = new QTimer(this);
-                t->setSingleShot(true);
-                connect(t, &QTimer::timeout, this, [t, path] {
+                QTimer::singleShot(5000, [ = ] {
                     QFile(path).remove();
-                    t->deleteLater();
                 });
-                t->start(5000);
-
-
             }
         }
     });

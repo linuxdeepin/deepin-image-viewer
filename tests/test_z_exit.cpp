@@ -89,11 +89,12 @@ TEST_F(gtestview, ViewPanel_menu)
             m_menu->addAction(IdDraw);
             IdDraw->trigger();
 
-//            QAction *IdMoveToTrash = new QAction(m_menu);
-//            IdMoveToTrash->setProperty("MenuID", ViewPanel::IdMoveToTrash);
-//            m_menu->addAction(IdMoveToTrash);
-//            IdMoveToTrash->trigger();
-//            QTest::qWait(100);
+            emit dApp->signalM->sigOpenFileDialog();
+            QAction *IdMoveToTrash = new QAction(m_menu);
+            IdMoveToTrash->setProperty("MenuID", ViewPanel::IdMoveToTrash);
+            m_menu->addAction(IdMoveToTrash);
+            IdMoveToTrash->trigger();
+            QTest::qWait(100);
 
             m_frameMainWindow->activateWindow();
         }
@@ -123,7 +124,10 @@ TEST_F(gtestview, frame_mainwindowtestclose)
     m_frameMainWindow->close();
 
 }
-
+TEST_F(gtestview, setIsApplePhone)
+{
+    dApp->setIsApplePhone(false);
+}
 TEST_F(gtestview, exit)
 {
     if (!m_frameMainWindow) {

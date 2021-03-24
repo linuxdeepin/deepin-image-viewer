@@ -130,7 +130,6 @@ public:
 signals:
     void updateCollectButton();
     void imageChanged(const QString &path, DBImgInfoList infos);
-    void viewImageFrom(QString dir);
     void mouseMoved();
     void updateTopLeftWidthChanged(int width);
     void updateTopLeftContentImage(const QString &path);
@@ -249,7 +248,6 @@ private:
      */
     void initViewContent();
 
-    void popupDelDialog(const QString path);
     void popupPrintDialog(const QString path);
 
     // Floating component
@@ -441,34 +439,6 @@ private slots:
      * @brief eatImageDirIteratorThread 线程函数，遍历选中文件夹获取所有图片信息
      */
     void eatImageDirIteratorThread();
-
-    /**
-     * @brief LoadFrontThumbnailsAndClearTail
-     * Load front thumbnails and clear up tail thumbnails
-     */
-    void SlotLoadFrontThumbnailsAndClearTail();
-
-    /**
-     * @brief slotGetLastThumbnailPath
-     * get last thumbnail path
-     * @param path
-     * last thumbnail path
-     */
-    void slotGetLastThumbnailPath(QString &path);
-
-    /**
-     * @brief slotLoadTailThumbnailsAndClearFront
-     * Load tail thumbnails and clear up front thumbnails
-     */
-    void slotLoadTailThumbnailsAndClearFront();
-
-    /**
-     * @brief slotGetFirstThumbnailPath
-     * get first thumbnail
-     * @param path
-     * first thumbnail path
-     */
-    void slotGetFirstThumbnailPath(QString &path);
 
     /**
      * @brief slotUpdateImageView

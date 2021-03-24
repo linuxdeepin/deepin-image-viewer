@@ -357,4 +357,17 @@ TEST_F(gtestview, emitupdateTopToolbar)
 {
     emit dApp->signalM->updateTopToolbar();
 }
+
+TEST_F(gtestview, ViewPanel_backToLastPanel)
+{
+    if (!m_frameMainWindow) {
+        m_frameMainWindow = CommandLine::instance()->getMainWindow();
+    }
+
+    ViewPanel *panel = m_frameMainWindow->findChild<ViewPanel *>(VIEW_PANEL_WIDGET);
+    if (panel) {
+        panel->backToLastPanel();
+    }
+}
+
 #endif

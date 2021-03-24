@@ -110,10 +110,6 @@ TEST_F(gtestview, Sslideshowpanel1)
 //}
 
 
-TEST_F(gtestview, PanelTest)
-{
-    emit dApp->signalM->sigLoadTailThumbnail();
-}
 //SlideShowBottomBar
 
 
@@ -136,6 +132,38 @@ TEST_F(gtestview, SlideShowBottomBar1)
     bottom = nullptr;
 
 }
+TEST_F(gtestview, ImageAnimation)
+{
+    ImageAnimation *animation = new ImageAnimation();
+    QString path1 = QApplication::applicationDirPath() + "/test/jpg188.jpg";
+    QString path2 = QApplication::applicationDirPath() + "/test/jpg189.jpg";
 
+    QStringList list ;
+    list << path1;
+    list << path2;
+
+    animation->startSlideShow(path1, list);
+    animation->setPaintTarget(ImageAnimation::KeepStatic);
+    QTest::qWait(1000);
+    animation->playAndNext();
+
+    animation->setPaintTarget(ImageAnimation::EffectPlay);
+    QTest::qWait(1000);
+    animation->playAndPre();
+    animation->pauseAndNext();
+
+    animation->setPaintTarget(ImageAnimation::SkipToNext);
+    QTest::qWait(1000);
+    animation->ifPauseAndContinue();
+    animation->currentPath();
+
+    animation->setPaintTarget(ImageAnimation::TurnBackPre);
+    QTest::qWait(1000);
+    animation->getCurScreenGeometry();
+    animation->endSlider();
+
+    animation->deleteLater();
+    animation = nullptr;
+}
 
 

@@ -192,7 +192,9 @@ TEST_F(gtestview, mainwindow)
     QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 100);
     QTest::keyClick(m_frameMainWindow, Qt::Key_Down, Qt::ControlModifier, 100);
 
-    QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 2000);//
+    QTest::keyClick(m_frameMainWindow, Qt::Key_F11, Qt::NoModifier, 1000);//
+    QTest::mouseMove(m_frameMainWindow, QPoint(1000, 1075), 500);
+    QTest::mouseMove(m_frameMainWindow, QPoint(200, 500), 500);
     int index = 0;
     while (index++ < 10)
         QTest::keyClick(m_frameMainWindow, Qt::Key_Plus, Qt::ControlModifier, 10);
