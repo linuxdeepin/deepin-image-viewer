@@ -47,7 +47,6 @@ TEST_F(gtestview, cp2Image)
 //    info.filePath=QApplication::applicationDirPath() + "/test/jpg100.jpg";
 //    list.push_back(info);
 //    dApp->signalM->imagesInserted(list);
-////    dApp->signalM->imagesRemoved(list);
 //}
 //TEST_F(gtestview, ScanPathsItem_1)
 //{

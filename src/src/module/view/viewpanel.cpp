@@ -141,8 +141,6 @@ QString ViewPanel::moduleName()
 
 void ViewPanel::initConnect()
 {
-    //heyi  test
-    connect(dApp->signalM, &SignalManager::sigisThumbnailsContainPath, this, &ViewPanel::slotThumbnailContainPath);
 
     connect(this, &ViewPanel::sendLoadOver, this, &ViewPanel::sendSignal, Qt::QueuedConnection);
     connect(dApp, &Application::endThread, this, [ = ]() {
@@ -219,19 +217,6 @@ void ViewPanel::initConnect()
         // TODO: there will be some others panel
     });
 
-    connect(dApp->signalM, &SignalManager::imagesRemoved, this, [ = ](const DBImgInfoList & infos) {
-        if (m_infos.length() > 0) {
-            removeCurrentImage();
-            ttbc->setIsConnectDel(true);
-            m_bAllowDel = true;
-            ttbc->disableDelAct(true);
-        }
-
-        infos.size();
-        //add by heyi 判断当前图片是否被旋转
-        m_viewB->rotatePixCurrent();
-        updateMenuContent();
-    });
     connect(m_viewB, &ImageView::mouseHoverMoved, this, &ViewPanel::mouseMoved);
     connect(m_viewB, &ImageView::sigUpdateImageView, this, &ViewPanel::slotUpdateImageView);
     connect(this, &ViewPanel::sigStopshowThread, m_viewB, &ImageView::SlotStopShowThread);
@@ -754,11 +739,6 @@ void ViewPanel::eatImageDirIteratorThread()
 //    }
 
     emit sendLoadOver(m_infos, m_current);
-}
-
-void ViewPanel::slotThumbnailContainPath(QString path, bool &b)
-{
-    b = imageIndex(path) == -1 ? false : true;
 }
 
 void  ViewPanel::slotUpdateImageView(QString &path)

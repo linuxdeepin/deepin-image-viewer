@@ -92,9 +92,6 @@ signals:
     void activeWindow();
     void showSlidePanel(int index);
 
-    void imagesInserted(const DBImgInfoList &infos);
-    void imagesRemoved(const DBImgInfoList &infos);
-
     void editImage(const QString &path);
     void showImageInfo(const QString &path);
     void showInFileManager(const QString &path);
@@ -105,7 +102,7 @@ signals:
     void updatePauseButton();
     void sigStartTimer();
     void initButton();
-//    void imagesRemovedPar(const DBImgInfoList &infos);
+
     void sigESCKeyStopSlide();
     void sigESCKeyActivated();
     void hideSlidePanel();
@@ -157,14 +154,6 @@ signals:
      * Images Paths
      */
     void sigDrawingBoard(QStringList paths);
-
-    /**
-     * @brief sigisThumbnailsContainPath
-     * is m_infos contain path
-     * @param path
-     * @param b
-     */
-    void sigisThumbnailsContainPath(QString path, bool &b);
 
     /**
      * @brief sigOpenFileDialog
