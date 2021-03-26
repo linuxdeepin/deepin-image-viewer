@@ -3,6 +3,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMD_NAME xraw)
 #set(CMAKE_CXX_STANDARD 11)
 
+
+
 ADD_DEFINITIONS(-DTORRENT_LIBRARY)
 ADD_DEFINITIONS(-DNO_FREETYPE)
 ADD_DEFINITIONS(-DUNICODE -D_UNICODE)
@@ -34,6 +36,8 @@ list(APPEND SRCS
     datastream.cpp)
 
 add_library(${CMD_NAME} SHARED ${SRCS})
+
+set_target_properties(${CMD_NAME} PROPERTIES VERSION 1.0.0 SOVERSION 1)
 #target_compile_definitions(${CMD_NAME} PRIVATE BUILDING_${CMD_NAME})
 
 target_include_directories(xraw PUBLIC ${RAW_INCLUDE_DIRS}  ${Qt5Gui_INCLUDE_DIRS} ${Qt5Core_INCLUDE_DIRS} )

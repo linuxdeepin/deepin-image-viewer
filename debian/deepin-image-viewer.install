@@ -1,0 +1,7 @@
+usr/bin/deepin-image-viewer
+usr/share/applications/deepin-image-viewer.desktop
+usr/share/dbus-1/services/com.deepin.ImageViewer.service
+usr/share/deepin-manual/*
+usr/share/icons/*
+#usr/share/doc/*
+usr/share/deepin-image-viewer/translations/*.qm

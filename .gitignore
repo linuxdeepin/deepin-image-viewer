@@ -29,7 +29,11 @@ vendor/lib/*
 *.log
 
 # debian
-debian/*
+#debian/*
+debian/.debhelper
+debian/deepin-image-viewer
+debian/files
+debian/deepin-image-viewer.substvars
 !debian/changelog
 !debian/rules
 !debian/control
