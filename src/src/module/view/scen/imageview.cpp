@@ -1373,14 +1373,8 @@ bool ImageView::event(QEvent *event)
 void ImageView::onCacheFinish(QVariantList vl)
 {
     qDebug() << "cache end!";
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QRect mm = screen->availableGeometry() ;
-    int screen_width = mm.width();
-    int screen_height = mm.height();
-    qDebug() << screen_width << screen_height;
 
     bool bpix = false;
-    //QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
@@ -1778,14 +1772,20 @@ void ImageView::slotsUp()
                 m_imageReader->jumpToImage(m_imageReader->currentImageNumber() - 1);
             }
         }
+        //修复bug69273,缩放存在问题
         m_pixmapItem = nullptr;
+        m_pixmapItem = nullptr;
+        m_imgSvgItem = nullptr;
         scene()->clear();
-
-        m_pixmapItem = new GraphicsPixmapItem(QPixmap::fromImage(m_imageReader->read()));
+        resetTransform();
+        QPixmap pixmap = QPixmap::fromImage(m_imageReader->read());
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        m_pixmapItem = new GraphicsPixmapItem(pixmap);
         scene()->addItem(m_pixmapItem);
         QRectF rect = m_pixmapItem->boundingRect();
         setSceneRect(rect);
         autoFit();
+
         if (m_currentMoreImageNum != m_imageReader->currentImageNumber()) {
             m_morePicFloatWidget->setLabelText(QString::number(m_currentMoreImageNum + 1) + "/" + QString::number(m_imageReader->imageCount()));
         } else {
@@ -1820,14 +1820,20 @@ void ImageView::slotsDown()
             m_imageReader->jumpToNextImage();
             m_currentMoreImageNum++;
         }
+        //修复bug69273,缩放存在问题
         m_pixmapItem = nullptr;
+        m_pixmapItem = nullptr;
+        m_imgSvgItem = nullptr;
         scene()->clear();
-
-        m_pixmapItem = new GraphicsPixmapItem(QPixmap::fromImage(m_imageReader->read()));
+        resetTransform();
+        QPixmap pixmap = QPixmap::fromImage(m_imageReader->read());
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        m_pixmapItem = new GraphicsPixmapItem(pixmap);
         scene()->addItem(m_pixmapItem);
         QRectF rect = m_pixmapItem->boundingRect();
         setSceneRect(rect);
         autoFit();
+
         if (m_currentMoreImageNum != m_imageReader->currentImageNumber()) {
             m_morePicFloatWidget->setLabelText(QString::number(m_currentMoreImageNum + 1) + "/" + QString::number(m_imageReader->imageCount()));
         } else {
@@ -1874,7 +1880,9 @@ void ImageView::setCurrentImage(int index)
         m_currentMoreImageNum = 0;
         m_pixmapItem = nullptr;
         scene()->clear();
-        m_pixmapItem = new GraphicsPixmapItem(QPixmap::fromImage(m_imageReader->read()));
+        QPixmap pixmap = QPixmap::fromImage(m_imageReader->read());
+        pixmap.setDevicePixelRatio(devicePixelRatioF());
+        m_pixmapItem = new GraphicsPixmapItem(pixmap);
         scene()->addItem(m_pixmapItem);
         QRectF rect = m_pixmapItem->boundingRect();
         setSceneRect(rect);
