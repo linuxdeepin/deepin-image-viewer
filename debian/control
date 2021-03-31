@@ -17,9 +17,3 @@ Recommends: libqt5libqgtk2, kimageformat-plugins
 Description: Image Viewer is an image viewing tool with fashion interface and smooth performance.
  Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.
 
-Package: libxraw
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Multi-Arch: same
-Description: Image Viewer is an image viewing tool with fashion interface and smooth performance.
- Deepin Image Viewer is an image viewing tool with fashion interface and smooth performance.
