@@ -67,7 +67,8 @@ const int TOOLBAR_JUSTONE_WIDTH = 310;
 const int RT_SPACING = 20 + 5;
 const int TOOLBAR_HEIGHT = 60;
 
-const int TOOLBAR_DVALUE = 114 + 8;
+//解决bug69616，因为TOOLBAR_DVALUE的值过小导致显示不全
+const int TOOLBAR_DVALUE = 154 + 8;
 
 const int THUMBNAIL_WIDTH = 32;
 const int THUMBNAIL_ADD_WIDTH = 32;
