@@ -870,6 +870,17 @@ bool isVaultFile(const QString &path)
 
 }
 
+bool isCanRemove(const QString &path)
+{
+    bool bRet = true;
+    QString trashPath = QDir::homePath() + "/.local/share/Trash";
+    //新增保险箱的判断,回收站判断
+    if (isVaultFile(path) || path.contains(trashPath)) {
+        bRet = false;
+    }
+    return bRet;
+}
+
 
 }  // namespace image
 

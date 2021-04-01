@@ -78,6 +78,8 @@ QStringList                         supportedImageFormats();
 //保险箱地址判断
 QString                             makeVaultLocalPath(const QString &path, const QString &base);
 bool                                isVaultFile(const QString &path);
+//增加该地址能否被删除的api
+bool                                isCanRemove(const QString &path);
 QPixmap getDamagePixmap(bool bLight = true);
 
 

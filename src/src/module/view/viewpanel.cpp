@@ -1316,6 +1316,7 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     //检测到通过mtp外设打开不需要缩略图
     //mtp,smb,ptp均不会显示缩略图，卡顿问题，路径包含gvfs虚拟出的某些路径代表是外设，采用单页图片打开
     QString path = QFileInfo(vinfo.path).absolutePath();
+
     if ((path.indexOf("smb-share:server=") != -1 || path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)) {
         m_bOnlyOneiImg = true;
         dApp->setIsOnlyOnePic(true);

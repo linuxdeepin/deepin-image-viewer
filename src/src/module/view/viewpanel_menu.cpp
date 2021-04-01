@@ -313,8 +313,8 @@ void ViewPanel::updateMenuContent()
         /**************************************************************************/
         appendAction(IdCopy, tr("Copy"), ss("Copy", "Ctrl+C"));
 
-        //apple phone的delete没有权限,保险箱无法删除
-        if ((currfileinfo.isReadable() && currfileinfo.isWritable()) && !dApp->IsApplePhone() && !utils::image::isVaultFile(m_currentImagePath)) {
+        //apple phone的delete没有权限,保险箱无法删除,垃圾箱也无法删除
+        if ((currfileinfo.isReadable() && currfileinfo.isWritable()) && !dApp->IsApplePhone() && utils::image::isCanRemove(m_currentImagePath)) {
             appendAction(IdMoveToTrash, tr("Delete"), ss("Throw to trash", "Delete"));
         }
 

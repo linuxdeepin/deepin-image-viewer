@@ -1192,8 +1192,11 @@ void TTBContent::disableDelAct(bool bFlags)
     //对于只读权限的图片，切换图片后等待5秒左右，删除按钮会激活并删除只读图片
     QFileInfo fileinfo(m_strCurImagePath);
     //新增保险箱的判断，保险箱无法删除
-    if ((fileinfo.isReadable() && fileinfo.isWritable() && bFlags) || !utils::image::isVaultFile(m_strCurImagePath))
+
+    if ((fileinfo.isReadable() && fileinfo.isWritable() && bFlags) || utils::image::isCanRemove(m_strCurImagePath)) {
         m_trashBtn->setEnabled(bFlags);
+    }
+
 }
 
 void TTBContent::recvLoadAddInfos(DBImgInfoList newInfos, bool bFlags)
@@ -1494,8 +1497,8 @@ void TTBContent::setBtnAttribute(const QString strPath)
         m_adaptImageBtn->setEnabled(false);
         m_adaptScreenBtn->setEnabled(false);
 
-        //apple设备，不能旋转和删除 //新增保险箱的判断，保险箱无法删除
-        if (!QFileInfo(strPath).isWritable() || dApp->IsApplePhone() ||  utils::image::isVaultFile(strPath)) {
+        //apple设备，不能旋转和删除 //新增保险箱的判断，保险箱无法删除,回收站也无法删除
+        if (!QFileInfo(strPath).isWritable() || dApp->IsApplePhone() ||  !utils::image::isCanRemove(strPath)) {
             m_trashBtn->setEnabled(false);
         } else {
             m_trashBtn->setEnabled(true);
@@ -1532,8 +1535,8 @@ void TTBContent::setBtnAttribute(const QString strPath)
             }
         }
     }
-    //新增保险箱的判断
-    if (utils::image::isVaultFile(strPath)) {
+    //新增保险箱的判断,回收站判断
+    if (!utils::image::isCanRemove(strPath)) {
         m_trashBtn->setEnabled(false);
     }
 
