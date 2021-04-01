@@ -25,6 +25,10 @@
 #include <QDateTime>
 #include <QFileInfo>
 #include <QPixmap>
+#include <QDir>
+
+#define VAULT_DECRYPT_DIR_NAME          "vault_unlocked"
+#define VAULT_BASE_PATH (QDir::homePath() + QString("/.local/share/applications"))  //! 获取保险箱创建的目录地址
 
 namespace utils {
 
@@ -71,8 +75,14 @@ const QString                       thumbnailPath(const QString &path, Thumbnail
 bool                                thumbnailExist(const QString &path, ThumbnailType type = ThumbLarge);
 
 QStringList                         supportedImageFormats();
-
+//保险箱地址判断
+QString                             makeVaultLocalPath(const QString &path, const QString &base);
+bool                                isVaultFile(const QString &path);
 QPixmap getDamagePixmap(bool bLight = true);
+
+
+
+
 
 }  // namespace image
 
