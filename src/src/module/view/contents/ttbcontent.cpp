@@ -1526,13 +1526,9 @@ void TTBContent::setBtnAttribute(const QString strPath)
             m_rotateLBtn->setEnabled(true);
             m_rotateRBtn->setEnabled(true);
         } else {
-            if ((QFileInfo(strPath).suffix() == "svg")) {
-                m_rotateLBtn->setEnabled(true);
-                m_rotateRBtn->setEnabled(true);
-            } else {
-                m_rotateLBtn->setEnabled(false);
-                m_rotateRBtn->setEnabled(false);
-            }
+            //svg不再支持旋转
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
         }
     }
     //新增保险箱的判断,回收站判断

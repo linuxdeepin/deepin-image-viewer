@@ -178,10 +178,11 @@ public:
         //pic（多张图片） pcx不支持旋转
         m_canSave << "BMP" << "JPG" << "JPEG"  << "JPS" << "JPE" << "PNG"
                   << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
-                  << "SVG" << "TGA" << "XPM" << "ICO"
+                  << "TGA" << "XPM" << "ICO"
                   << "JNG"
-//                  << "JP2"
-//                  << "PCD"
+//                << "SVG" //svg不再支持旋转
+//                << "JP2"
+//                << "PCD"
                   << "RAS";
         m_qtrotate << "ICNS" << "JPG" << "JPEG";
     }
