@@ -173,29 +173,20 @@ RequestedSlot::~RequestedSlot()
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)
 {
-    int currentIndex = 0;
     QPainter painter(_printer);
     for (QImage img : m_imgs) {
         if (!img.isNull()) {
             painter.setRenderHint(QPainter::Antialiasing);
             painter.setRenderHint(QPainter::SmoothPixmapTransform);
             QRect wRect  = _printer->pageRect();
-            QImage tmpMap;
-            if (img.width() > wRect.width() || img.height() > wRect.height()) {
-                tmpMap = img.scaled(wRect.size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            } else {
-                tmpMap = img;
-            }
-            QRectF drawRectF = QRectF(qreal(wRect.width() - tmpMap.width()) / 2,
-                                      qreal(wRect.height() - tmpMap.height()) / 2,
-                                      tmpMap.width(), tmpMap.height());
-            painter.drawImage(QRectF(drawRectF.x(), drawRectF.y(), tmpMap.width(),
-                                     tmpMap.height()), tmpMap);
+
+            qreal ratio = wRect.width() * 1.0 / img.width();
+
+            painter.drawImage(QRectF(0, qreal(wRect.height() - img.height() * ratio) / 2,
+                                     wRect.width(), img.height() * ratio), img);
         }
-        //不应该将多个相同的图片过滤掉
-        if (currentIndex != m_imgs.count() - 1) {
+        if (img != m_imgs.last()) {
             _printer->newPage();
-            currentIndex++;
         }
     }
     painter.end();
