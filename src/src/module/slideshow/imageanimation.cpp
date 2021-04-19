@@ -61,7 +61,7 @@ private:
     QVector<QString> loop_paths;
     QMutex queueMutex;
     bool loop_order;
-    char m_padding[3]; //填充占位,使数据结构内存对齐
+    char m_padding[3] = {'0', '0', '0'}; //填充占位,使数据结构内存对齐
     int loop_pindex;
 };
 
@@ -205,7 +205,7 @@ private:
 //    }
 
 private:
-    char m_padding2[3];                 //填充占位,使数据结构内存对齐
+    char m_padding2[3] = {'0', '0', '0'};;              //填充占位,使数据结构内存对齐
     QSharedPointer<LoopQueue> queue;
     QPointer<QTimer> m_singleanimationTimer;
     QPointer<QTimer> m_continuousanimationTimer;
