@@ -45,8 +45,7 @@ You can use one of the following ways to open image files:
 
 Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIFF, XPM, GIF, WEBP, CR2, NEF, DNG, RAF, MEF, MRW, XBM, SVG, ORF, MNG, etc.
 
->![notes](../common/notes.svg) Notes: If you are using a  computer equipped with touch-screen, open your two fingers to zoom in and pinch them to zoom out on the touchscreen.
->
+
 
 ### Main Interface
 
@@ -101,8 +100,6 @@ Following Image formats are supported: BMP, ICO, JPG/JPE/JPEG, PNG, TGA, TIF/TIF
 
 1. Right-click the image on the Image Viewer interface and select **Rotate clockwise** or **Rotate counterclockwise**.
 2. The image will be rotated clockwise or counterclockwise for 90 degrees.
-
-> ![notes](../common/notes.svg) Notes:  If you are using a computer equipped with touch-screen, place two fingers on the photo and keep a certain distance, and rotate the two fingers at the same time to rotate the photo.
 
 ![0|rotate](fig/rotate.png)
 
