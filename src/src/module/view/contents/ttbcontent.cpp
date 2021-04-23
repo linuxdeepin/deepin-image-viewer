@@ -67,7 +67,6 @@ const int TOOLBAR_JUSTONE_WIDTH = 310;
 const int RT_SPACING = 20 + 5;
 const int TOOLBAR_HEIGHT = 60;
 
-//解决bug69616，因为TOOLBAR_DVALUE的值过小导致显示不全
 const int TOOLBAR_DVALUE = 154 + 8;
 
 const int THUMBNAIL_WIDTH = 32;
@@ -631,6 +630,7 @@ void ImageItem::paintEvent(QPaintEvent *event)
         QPen(DGuiApplicationHelper::instance()->applicationPalette().frameBorder().color(), 1));
     painter.drawRoundedRect(pixmapRect, 4, 4);
     painter.restore();
+
 }
 
 TTBContent::TTBContent(bool inDB, DBImgInfoList m_infos, bool flag, QWidget *parent)
@@ -684,7 +684,11 @@ void TTBContent::initBtn()
     //默认只有一张图片先不显示
     if (dApp->IsOnlyOnePic()) {
         m_preButton->setVisible(false);
+        qDebug() << "686 initBtn";
+    } else {
+        m_preButton->setVisible(true);
     }
+
     // nextButton
     m_nextButton = new DIconButton(this);
     m_nextButton->setObjectName("NextButton");
@@ -695,6 +699,8 @@ void TTBContent::initBtn()
     //默认只有一张图片先不显示
     if (dApp->IsOnlyOnePic()) {
         m_nextButton->setVisible(false);
+    } else {
+        m_nextButton->setVisible(true);
     }
 
     m_preButton_spc = new DWidget;
@@ -1246,52 +1252,10 @@ void TTBContent::reloadItems(DBImgInfoList &inputInfos, QString strCurPath)
             /*LMH0727*/
             // imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
             m_imglayout->addWidget(imageItem);
-            connect(imageItem, &ImageItem::imageMoveclicked, this,
-            [ = ](QString path) {
-                m_bMoving = false;
-                if (dApp->m_bMove) {
-                    m_lastIndex = m_nowIndex;
-                    QList <ImageItem *>labelList = m_imgList->findChildren<ImageItem *>(path);
-                    if (labelList.size() > 0) {
-                        ImageItem *img = labelList.at(0);
-                        if (nullptr != img) {
-                            img->setIndexNow(m_nowIndex);
-                            labelList.at(0)->setFixedSize(QSize(58, 58));
-                            labelList.at(0)->resize(QSize(58, 58));
-                            QPixmap pix = img->getPixmap();
-                            m_nowIndex = img->getIndex();
-                            emit showvaguepixmap(pix, labelList.at(0)->getPath());
-                            emit sigsetcurrent(labelList.at(0)->getPath());
-                        }
-                    }
-                    if (m_lastIndex > -1) {
-                        QList <ImageItem *>lastlabelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
-                        if (lastlabelList.isEmpty()) {
-                        } else {
-                            for (int i = 0; i < lastlabelList.size(); i++) {
-                                if (lastlabelList.at(i)->getIndex() != m_nowIndex) {
-                                    lastlabelList.at(i)->setFixedSize(QSize(32, 40));
-                                    lastlabelList.at(i)->resize(QSize(32, 40));
-                                    lastlabelList.at(i)->setIndexNow(m_nowIndex);
-                                }
-                            }
-                        }
+            connect(imageItem, &ImageItem::imageMoveclicked, this, &TTBContent::slotMovePress);
 
-                    }
+            connect(imageItem, &ImageItem::imageItemclicked, this, &TTBContent::slotClickPress);
 
-                }
-            });
-            connect(imageItem, &ImageItem::imageItemclicked, this,
-            [ = ](int index, int indexNow, bool iRet) {
-                m_bMoving = true;
-
-                m_nowIndex = index;
-//                emit imageClicked(index, (index - indexNow));
-                emit imageMoveEnded(index, (index - indexNow), iRet);
-                m_lastIndex = m_nowIndex;
-//                onResize();
-//                m_imgList->adjustSize();
-            });
 
         }
         if (strCurPath == info.filePath) {
@@ -1602,19 +1566,66 @@ void TTBContent::setAllEnabled(bool iRet)
     }
 }
 
+void TTBContent::slotMovePress(const QString &path)
+{
+    m_bMoving = false;
+    if (dApp->m_bMove) {
+        QString lastPath = m_strCurImagePath;
+        m_strCurImagePath = path;
+        m_lastIndex = m_nowIndex;
+
+        QList <ImageItem *>labelList = m_imgList->findChildren<ImageItem *>(path);
+        if (labelList.size() > 0) {
+            ImageItem *img = labelList.at(0);
+            if (nullptr != img) {
+                img->setIndexNow(m_nowIndex);
+                labelList.at(0)->setFixedSize(QSize(58, 58));
+                labelList.at(0)->resize(QSize(58, 58));
+                QPixmap pix = img->getPixmap();
+                m_nowIndex = img->getIndex();
+                emit showvaguepixmap(pix, labelList.at(0)->getPath());
+                emit sigsetcurrent(labelList.at(0)->getPath());
+            }
+        }
+        QList <ImageItem *>lastlabelList = m_imgList->findChildren<ImageItem *>(lastPath);
+        if (lastlabelList.size() > 0) {
+            ImageItem *img = lastlabelList.at(0);
+            if (nullptr != img) {
+                if (lastlabelList.at(0)->getIndex() != m_nowIndex) {
+                    lastlabelList.at(0)->setFixedSize(QSize(32, 40));
+                    lastlabelList.at(0)->resize(QSize(32, 40));
+                    lastlabelList.at(0)->setIndexNow(m_nowIndex);
+                }
+            }
+        }
+    }
+}
+
+void TTBContent::slotClickPress(int index, int indexNow, bool iRet)
+{
+    m_bMoving = true;
+    m_nowIndex = index;
+    emit imageMoveEnded(index, (index - indexNow), iRet);
+    m_lastIndex = m_nowIndex;
+}
+
 void TTBContent::onChangeHideFlags(bool bFlags)
 {
     m_bIsHide = bFlags;
     //heyi test 判断是否是第一次打开然后隐藏上一张和下一张按钮
     if (bFlags || m_imgInfos.size() <= 1) {
-        m_preButton->hide();
-        m_preButton_spc->hide();
-        m_nextButton->hide();
-        m_nextButton_spc->hide();
-        m_preButton->setEnabled(false);
-        m_preButton_spc->setEnabled(false);
-        m_nextButton->setEnabled(false);
-        m_nextButton_spc->setEnabled(false);
+        //平板下这里存在问题，因为平板默认最大化启动，且m_imgInfos的值存在问题，bug71844
+        if (!dApp->isPanelDev()) {
+            m_preButton->hide();
+            m_preButton_spc->hide();
+            m_nextButton->hide();
+            m_nextButton_spc->hide();
+            m_preButton->setEnabled(false);
+            m_preButton_spc->setEnabled(false);
+            m_nextButton->setEnabled(false);
+            m_nextButton_spc->setEnabled(false);
+            qDebug() << "1622 onchangehideflags";
+        }
     } else {
         m_preButton->show();
         m_nextButton->show();
@@ -1636,13 +1647,9 @@ void TTBContent::onChangeHideFlags(bool bFlags)
             m_rotateLBtn->setEnabled(true);
             m_rotateRBtn->setEnabled(true);
         } else {
-            if (QFileInfo(m_imagePath).suffix() == "svg") {
-                m_rotateLBtn->setEnabled(true);
-                m_rotateRBtn->setEnabled(true);
-            } else {
-                m_rotateLBtn->setEnabled(false);
-                m_rotateRBtn->setEnabled(false);
-            }
+            //svg不再支持旋转
+            m_rotateLBtn->setEnabled(false);
+            m_rotateRBtn->setEnabled(false);
         }
     }
 }
@@ -1667,51 +1674,9 @@ void TTBContent::loadBack(DBImgInfoList infos)
         /*LMH0727*/
         //imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
         m_imglayout->addWidget(imageItem);
-        connect(imageItem, &ImageItem::imageMoveclicked, this,
-        [ = ](QString path) {
-            m_bMoving = false;
-            if (dApp->m_bMove) {
-                m_lastIndex = m_nowIndex;
-                QList <ImageItem *>labelList = m_imgList->findChildren<ImageItem *>(path);
-                if (labelList.size() > 0) {
-                    ImageItem *img = labelList.at(0);
-                    if (nullptr != img) {
-                        img->setIndexNow(m_nowIndex);
-                        labelList.at(0)->setFixedSize(QSize(58, 58));
-                        labelList.at(0)->resize(QSize(58, 58));
-                        QPixmap pix = img->getPixmap();
-                        m_nowIndex = img->getIndex();
-                        emit showvaguepixmap(pix, labelList.at(0)->getPath());
-                        emit sigsetcurrent(labelList.at(0)->getPath());
-                    }
-                }
-                if (m_lastIndex > -1) {
-                    QList <ImageItem *>lastlabelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
-                    if (lastlabelList.isEmpty()) {
-                    } else {
-                        for (int i = 0; i < lastlabelList.size(); i++) {
-                            if (lastlabelList.at(i)->getIndex() != m_nowIndex) {
-                                lastlabelList.at(i)->setFixedSize(QSize(32, 40));
-                                lastlabelList.at(i)->resize(QSize(32, 40));
-                                lastlabelList.at(i)->setIndexNow(m_nowIndex);
-                            }
-                        }
-                    }
+        connect(imageItem, &ImageItem::imageMoveclicked, this, &TTBContent::slotMovePress);
 
-                }
-
-            }
-        });
-        connect(imageItem, &ImageItem::imageItemclicked, this,
-        [ = ](int index, int indexNow, bool iRet) {
-            m_bMoving = true;
-            m_nowIndex = index;
-//                emit imageClicked(index, (index - indexNow));
-            emit imageMoveEnded(index, (index - indexNow), iRet);
-            m_lastIndex = m_nowIndex;
-//            onResize();
-//            m_imgList->adjustSize();
-        });
+        connect(imageItem, &ImageItem::imageItemclicked, this, &TTBContent::slotClickPress);
 
         m_imgInfos.push_back(info);
         m_imgList->adjustSize();
@@ -1769,51 +1734,9 @@ void TTBContent::loadFront(DBImgInfoList infos)
         /*LMH0727*/
         //imageItem->setObjectName(QString("%1").arg(m_totalImageItem++));
         m_imglayout->insertWidget(0, imageItem);
-        connect(imageItem, &ImageItem::imageMoveclicked, this,
-        [ = ](QString path) {
-            m_bMoving = false;
-            if (dApp->m_bMove) {
-                m_lastIndex = m_nowIndex;
-                QList <ImageItem *>labelList = m_imgList->findChildren<ImageItem *>(path);
-                if (labelList.size() > 0) {
-                    ImageItem *img = labelList.at(0);
-                    if (nullptr != img) {
-                        img->setIndexNow(m_nowIndex);
-                        labelList.at(0)->setFixedSize(QSize(58, 58));
-                        labelList.at(0)->resize(QSize(58, 58));
-                        QPixmap pix = img->getPixmap();
-                        m_nowIndex = img->getIndex();
-                        emit showvaguepixmap(pix, labelList.at(0)->getPath());
-                        emit sigsetcurrent(labelList.at(0)->getPath());
-                    }
-                }
-                if (m_lastIndex > -1) {
-                    QList <ImageItem *>lastlabelList = m_imgList->findChildren<ImageItem *>(/*QString("%1").arg(m_lastIndex)*/);
-                    if (lastlabelList.isEmpty()) {
-                    } else {
-                        for (int i = 0; i < lastlabelList.size(); i++) {
-                            if (lastlabelList.at(i)->getIndex() != m_nowIndex) {
-                                lastlabelList.at(i)->setFixedSize(QSize(32, 40));
-                                lastlabelList.at(i)->resize(QSize(32, 40));
-                                lastlabelList.at(i)->setIndexNow(m_nowIndex);
-                            }
-                        }
-                    }
+        connect(imageItem, &ImageItem::imageMoveclicked, this, &TTBContent::slotMovePress);
 
-                }
-
-            }
-        });
-        connect(imageItem, &ImageItem::imageItemclicked, this,
-        [ = ](int index, int indexNow, bool iRet) {
-            m_bMoving = true;
-            m_nowIndex = index;
-//                emit imageClicked(index, (index - indexNow));
-            emit imageMoveEnded(index, (index - indexNow), iRet);
-            m_lastIndex = m_nowIndex;
-//            onResize();
-//            m_imgList->adjustSize();
-        });
+        connect(imageItem, &ImageItem::imageItemclicked, this, &TTBContent::slotClickPress);
 
         m_imgInfos.push_front(info);
         m_imgList->adjustSize();
@@ -2111,6 +2034,7 @@ void TTBContent::setImage(const QString path, DBImgInfoList infos)
 #else
             //            btPre->hide();
             m_preButton->hide();
+            qDebug() << "2116 setImage";
 #endif
             m_preButton_spc->hide();
 #if TTB

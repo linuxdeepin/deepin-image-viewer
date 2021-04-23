@@ -599,6 +599,10 @@ const QImage ImageView::image(bool brefresh)
 void ImageView::fitWindow()
 {
     qreal wrs = windowRelativeScale();
+    //解决bug72018，平板模式下最大为200%缩放
+    if (dApp->isPanelDev() && wrs > 2) {
+        wrs = 2;
+    }
     m_scal = wrs;
     resetTransform();
     scale(wrs, wrs);
@@ -620,6 +624,10 @@ void ImageView::fitWindow_btnclicked()
 {
     qreal wrs = windowRelativeScale_origin();
     resetTransform();
+    //解决bug72018，平板模式下最大为200%缩放
+    if (dApp->isPanelDev() && wrs > 2) {
+        wrs = 2;
+    }
     m_scal = wrs;
     scale(wrs, wrs);
     if (wrs - 1 > -0.01 && wrs - 1 < 0.01) {
@@ -923,6 +931,8 @@ bool ImageView::loadPictureByType(ImageView::PICTURE_TYPE type, const QString st
         svgRenderer->load(strPath);
         m_imgSvgItem = new ImageSvgItem();
         m_imgSvgItem->setSharedRenderer(svgRenderer);
+        //不会出现锯齿
+        m_imgSvgItem->setCacheMode(QGraphicsItem::NoCache);
         setSceneRect(m_imgSvgItem->boundingRect());
         s->addItem(m_imgSvgItem);
 
@@ -1200,6 +1210,7 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
         int xpos = e->pos().x() - m_startpointx;
         if ((QDateTime::currentMSecsSinceEpoch() - m_clickTime) < 200 && abs(xpos) < 50) {
             m_clickTime = QDateTime::currentMSecsSinceEpoch();
+            emit doubleClicked();
         }
     }
     QGraphicsView::mouseReleaseEvent(e);
@@ -1207,7 +1218,7 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
     viewport()->setCursor(Qt::ArrowCursor);
     if (e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1) {
         const QRect &r = visibleImageRect();
-        //double left=r.width()+r.x();
+        double left = r.width() + r.x();
         const QRectF &sr = sceneRect();
         //fix 42660 2020/08/14 单指时间在QEvent处理，双指手势通过手势处理。为了解决图片放大后单指滑动手势冲突的问题
         if ((r.width() >= sr.width() && r.height() >= sr.height())) {
@@ -1221,14 +1232,17 @@ void ImageView::mouseReleaseEvent(QMouseEvent *e)
             }
         } else {
             if (dApp->isPanelDev()) {
-                QScreen *screen = QGuiApplication::primaryScreen();
-                QSize screen_size = screen->size();
-                int xpos = e->pos().x() - m_startpointx;
-                if (abs(xpos) > screen_size.width() / 2 && m_startpointx != 0) {
-                    if (xpos > 0) {
-                        emit previousRequested();
-                    } else {
-                        emit nextRequested();
+                //比较大的图片必须拖动到触碰边界才能滑动
+                if ((left - sr.width() >= -1 && left - sr.width() <= 1) || (r.x() <= 1) || (r.width() >= sr.width())) {
+                    QScreen *screen = QGuiApplication::primaryScreen();
+                    QSize screen_size = screen->size();
+                    int xpos = e->pos().x() - m_startpointx;
+                    if (abs(xpos) > screen_size.width() / 2 && m_startpointx != 0) {
+                        if (xpos > 0) {
+                            emit previousRequested();
+                        } else {
+                            emit nextRequested();
+                        }
                     }
                 }
             }
@@ -1375,6 +1389,7 @@ void ImageView::onCacheFinish(QVariantList vl)
     qDebug() << "cache end!";
 
     bool bpix = false;
+    //QVariantList vl = m_watcher.result();
     if (vl.length() == 2) {
         const QString path = vl.first().toString();
         QPixmap pixmap = vl.last().value<QPixmap>();
@@ -1772,11 +1787,11 @@ void ImageView::slotsUp()
                 m_imageReader->jumpToImage(m_imageReader->currentImageNumber() - 1);
             }
         }
-        //修复bug69273,缩放存在问题
         m_pixmapItem = nullptr;
         m_pixmapItem = nullptr;
         m_imgSvgItem = nullptr;
         scene()->clear();
+
         resetTransform();
         QPixmap pixmap = QPixmap::fromImage(m_imageReader->read());
         pixmap.setDevicePixelRatio(devicePixelRatioF());
@@ -1785,7 +1800,6 @@ void ImageView::slotsUp()
         QRectF rect = m_pixmapItem->boundingRect();
         setSceneRect(rect);
         autoFit();
-
         if (m_currentMoreImageNum != m_imageReader->currentImageNumber()) {
             m_morePicFloatWidget->setLabelText(QString::number(m_currentMoreImageNum + 1) + "/" + QString::number(m_imageReader->imageCount()));
         } else {
@@ -1833,7 +1847,6 @@ void ImageView::slotsDown()
         QRectF rect = m_pixmapItem->boundingRect();
         setSceneRect(rect);
         autoFit();
-
         if (m_currentMoreImageNum != m_imageReader->currentImageNumber()) {
             m_morePicFloatWidget->setLabelText(QString::number(m_currentMoreImageNum + 1) + "/" + QString::number(m_imageReader->imageCount()));
         } else {

@@ -74,6 +74,7 @@ void WallpaperSetter::setWallpaper(const QString &path)
         });
         t->start(5000);
     }
+
 }
 
 void WallpaperSetter::setWallpaper(QImage img)
@@ -101,6 +102,8 @@ void WallpaperSetter::setWallpaper(QImage img)
                 QTimer::singleShot(5000, [ = ] {
                     QFile(path).remove();
                 });
+
+
             }
         }
     });

@@ -93,16 +93,8 @@ MainWidget::MainWidget(bool manager, QWidget *parent)
 
 MainWidget::~MainWidget() {}
 
-void MainWidget::resizeEvent(QResizeEvent *e)
+void MainWidget::bottomWidgetChange()
 {
-    if (m_topToolbar) {
-        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
-        //        m_topSeparatorLine->setVisible(true);
-        emit dApp->signalM->resizeFileName();
-        if (e->oldSize() != e->size()) {
-            emit m_topToolbar->updateMaxBtn();
-        }
-    }
     if (m_bottomToolbar) {
         if (m_bottomToolbar->isVisible()) {
             if (m_viewPanel->getPicCount() <= 1) {
@@ -125,6 +117,19 @@ void MainWidget::resizeEvent(QResizeEvent *e)
             emit dApp->signalM->sigShowFullScreen();
         }
     }
+}
+
+void MainWidget::resizeEvent(QResizeEvent *e)
+{
+    if (m_topToolbar) {
+        m_topToolbar->resize(width(), TOP_TOOLBAR_HEIGHT);
+        //        m_topSeparatorLine->setVisible(true);
+        emit dApp->signalM->resizeFileName();
+        if (e->oldSize() != e->size()) {
+            emit m_topToolbar->updateMaxBtn();
+        }
+    }
+    bottomWidgetChange();
 #ifndef LITE_DIV
     if (m_extensionPanel) {
         m_extensionPanel->setFixedHeight(height());
@@ -320,10 +325,12 @@ void MainWidget::initTopToolbar()
     connect(dApp->signalM, &SignalManager::showTopToolbar, this, [ = ] {
         //        m_topToolbar->moveWithAnimation(0, 0);
         m_topToolbar->move(0, 0);
+        bottomWidgetChange();
     });
     connect(dApp->signalM, &SignalManager::hideTopToolbar, this, [ = ](bool immediately) {
         Q_UNUSED(immediately)
         m_topToolbar->move(0, -TOP_TOOLBAR_HEIGHT);
+        bottomWidgetChange();
         //        if (immediately) {
         //            m_topToolbar->move(0, - TOP_TOOLBAR_HEIGHT);
         //        }
@@ -510,7 +517,7 @@ void MainWidget::initBottomToolbar()
     });
 
     connect(dApp->signalM, &SignalManager::hideBottomToolbar, this, [ = ](bool immediately) {
-        //        m_bottomToolbar->move(0, height());
+        m_bottomToolbar->move(0, height());
         m_bottomToolbar->setVisible(false);
         m_btmSeparatorLine->setVisible(m_bottomToolbar->isVisible());
         Q_UNUSED(immediately)

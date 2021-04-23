@@ -46,9 +46,6 @@ public:
 
     void setPixmap(const QPixmap &pixmap);
 
-protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
-
 private:
     QPair<qreal, QPixmap> cachePixmap;
 };

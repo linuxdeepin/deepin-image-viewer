@@ -82,12 +82,20 @@ public:
     void initdbus();
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 //    int showDialog();
+
+    void initAllViewTabKeyOrder(QObject *obj);
+
+    void initEmptyTabOrder();
+
+    void initNormalPicTabOrder();
+
 public slots:
     void OpenImage(const QString &path);
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void closeEvent(QCloseEvent *event) override;
     //    void showEvent(QShowEvent *event);
+
 signals:
     void sigExitFull();
 private:
@@ -105,6 +113,12 @@ private:
     bool               m_flag = false;
 //    Dbusclient *m_dbus;
     QSharedMemory m_sharememory;
+
+    // 所有空白界面时的taborder
+    QList<QWidget *> m_emptyTabOrder;
+    // 正常图片
+    QList<QWidget *> m_NormalPicTabOrder;
+
 };
 
 #endif  // MAINWINDOW_H

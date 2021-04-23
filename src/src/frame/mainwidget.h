@@ -46,6 +46,8 @@ public:
     MainWidget(bool manager, QWidget *parent = nullptr);
     ~MainWidget();
 
+    //将函数从resizeEvent中剔除出来，然后在全屏切换到普通和普通切换到全屏的时候调用，解决bug71816
+    void bottomWidgetChange();
 protected:
     void resizeEvent(QResizeEvent *e) override;
     void showEvent(QShowEvent *event) override;

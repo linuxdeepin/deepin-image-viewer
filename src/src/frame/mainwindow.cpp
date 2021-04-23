@@ -31,6 +31,7 @@
 #include <dgiovolumemanager.h>
 #include <DDialog>
 #include <DFontSizeManager>
+#include <DStackedWidget>
 #include <QDir>
 #include <QScreen>
 #include <QShortcut>
@@ -63,9 +64,11 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     onThemeChanged(dApp->viewerTheme->getCurrentTheme());
     QDesktopWidget dw;
     const int defaultW = dw.geometry().width() * 0.60 < MAINWIDGET_MINIMUN_WIDTH
-                         ? MAINWIDGET_MINIMUN_WIDTH : dw.geometry().width() * 3 / 5;
+                         ? MAINWIDGET_MINIMUN_WIDTH
+                         : dw.geometry().width() * 3 / 5;
     const int defaultH = dw.geometry().height() * 0.60 < MAINWIDGET_MINIMUN_HEIGHT
-                         ? MAINWIDGET_MINIMUN_HEIGHT : dw.geometry().height() * 3 / 5;
+                         ? MAINWIDGET_MINIMUN_HEIGHT
+                         : dw.geometry().height() * 3 / 5;
     const int ww =
         dApp->setter->value(SETTINGS_GROUP, SETTINGS_WINSIZE_W_KEY, QVariant(defaultW)).toInt();
     const int wh =
@@ -106,6 +109,15 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
             }
         });
     }
+    QList<DTitlebar *>titlebar = findChildren <DTitlebar *>();
+    for (DTitlebar *bar : titlebar) {
+        if (bar) {
+            bar->setFocusPolicy(Qt::ClickFocus);
+        }
+    }
+    connect(dApp, &Application::TabkeyPress, this, [ = ](QObject * obj) {
+        initAllViewTabKeyOrder(obj);
+    }, Qt::DirectConnection);
 
     setCentralWidget(m_pCenterWidget);
     moveFirstWindow();
@@ -201,21 +213,23 @@ void MainWindow::initdbus()
 
 void MainWindow::initConnection()
 {
-    QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
-    scViewShortcut->setObjectName(SC_VIEW_SHORTCUT);
-    // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
-    connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
-        qDebug() << "receive Ctrl+Shift+/";
-        QRect rect = window()->geometry();
-        QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
-        Shortcut sc;
-        QStringList shortcutString;
-        QString param1 = "-j=" + sc.toStr();
-        QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
-        shortcutString << "-b" << param1 << param2;
-        qDebug() << shortcutString;
-        QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
-    });
+    if (!dApp->isPanelDev()) {
+        QShortcut *scViewShortcut = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+        scViewShortcut->setObjectName(SC_VIEW_SHORTCUT);
+        // connect(scE, SIGNAL(activated()), dApp, SLOT(quit()));
+        connect(scViewShortcut, &QShortcut::activated, this, [ = ] {
+            qDebug() << "receive Ctrl+Shift+/";
+            QRect rect = window()->geometry();
+            QPoint pos(rect.x() + rect.width() / 2, rect.y() + rect.height() / 2);
+            Shortcut sc;
+            QStringList shortcutString;
+            QString param1 = "-j=" + sc.toStr();
+            QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+            shortcutString << "-b" << param1 << param2;
+            qDebug() << shortcutString;
+            QProcess::startDetached("deepin-shortcut-viewer", shortcutString);
+        });
+    }
     connect(m_slidePanel, SIGNAL(sigloadSlideshowpath(bool)), m_mainWidget, SIGNAL(mainwgtloadslideshowpath(bool)));
 //    connect(m_mainWidget, SIGNAL(sigmaindgtslideshowpath(bool, DBImgInfoList)), m_slidePanel, SLOT(Receiveslideshowpathlst(bool, DBImgInfoList)));
     connect(this, SIGNAL(sigExitFull()), m_mainWidget, SIGNAL(sigExitFullScreen()));
@@ -244,6 +258,7 @@ void MainWindow::initConnection()
         //  emit dApp->signalM->hideTopToolbar(false);
 
     });
+
 }
 
 void MainWindow::moveFirstWindow()
@@ -316,6 +331,115 @@ void MainWindow::onThemeChanged(ViewerThemeManager::AppTheme theme)
     } else {
         setBorderColor(QColor(0, 0, 0, 38));
     }
+}
+
+void MainWindow::initAllViewTabKeyOrder(QObject *obj)
+{
+    Q_UNUSED(obj);
+    DStackedWidget *stackwidget = findChild<DStackedWidget *>(VIEW_PANEL_STACK);
+    if (stackwidget) {
+        switch (stackwidget->currentIndex()) {
+        case 1: {
+            initEmptyTabOrder();
+            break;
+        }
+        default: {
+            initNormalPicTabOrder();
+            break;
+        }
+        }
+    }
+}
+
+void MainWindow::initEmptyTabOrder()
+{
+    titlebar()->show();
+    m_emptyTabOrder.clear();
+    QWidget *openBtn = findChild<QWidget *>(OPEN_IMAGE);
+    QWidget *optionButton =  titlebar()->findChild<QWidget *>("DTitlebarDWindowOptionButton");
+    QWidget *minButton =  titlebar()->findChild<QWidget *>("DTitlebarDWindowMinButton");
+    QWidget *maxButton =  titlebar()->findChild<QWidget *>("DTitlebarDWindowMaxButton");
+    QWidget *closeButton =  titlebar()->findChild<QWidget *>("DTitlebarDWindowCloseButton");
+    if (openBtn && optionButton && minButton && maxButton && closeButton) {
+        m_emptyTabOrder.insert(0, openBtn);
+        m_emptyTabOrder.insert(1, optionButton);
+        m_emptyTabOrder.insert(2, minButton);
+        m_emptyTabOrder.insert(3, maxButton);
+        m_emptyTabOrder.insert(4, closeButton);
+    }
+    for (int idx = 0; idx < m_emptyTabOrder.count() - 1; idx++) {
+        this->setTabOrder(m_emptyTabOrder.at(idx), m_emptyTabOrder.at(idx + 1));
+    }
+}
+
+void MainWindow::initNormalPicTabOrder()
+{
+    titlebar()->hide();
+    QWidget *view = findChild<QWidget *>(IMAGE_VIEW);
+    if (view) {
+        view->setFocusPolicy(Qt::ClickFocus);
+    }
+    m_NormalPicTabOrder.clear();
+    QWidget *preBtn = findChild<QWidget *>(PRE_BUTTON);
+    QWidget *nextBtn = findChild<QWidget *>(NEXT_BUTTON);
+    QWidget *adaptBtn = findChild<QWidget *>(ADAPT_BUTTON);
+    QWidget *adaptscreenBtn = findChild<QWidget *>(ADAPT_SCREEN_BUTTON);
+    QWidget *clockrightBtn = findChild<QWidget *>(COUNTER_CLOCKWISE_ROTATION);
+    QWidget *clockleftBtn = findChild<QWidget *>(CLOCKWISE_ROTATION);
+    QWidget *trashBtn = findChild<QWidget *>(TRASH_BUTTON);
+    QWidget *optionButton =  titlebar()->findChild<QWidget *>("DTitlebarDWindowOptionButton");
+    QWidget *minButton =  titlebar()->findChild<QWidget *>("DTitlebarDWindowMinButton");
+    QWidget *maxButton =  titlebar()->findChild<QWidget *>("DTitlebarDWindowMaxButton");
+    QWidget *closeButton =  titlebar()->findChild<QWidget *>("DTitlebarDWindowCloseButton");
+    QList<TopToolbar *>titlebar1 = findChildren <TopToolbar *>(TOP_TOOL_BAR);
+
+    for (TopToolbar *bar : titlebar1) {
+        if (bar) {
+            optionButton =  bar->findChild<QWidget *>("DTitlebarDWindowOptionButton");
+            minButton =  bar->findChild<QWidget *>("DTitlebarDWindowMinButton");
+            maxButton =  bar->findChild<QWidget *>("DTitlebarDWindowMaxButton");
+            closeButton =  bar->findChild<QWidget *>("DTitlebarDWindowCloseButton");
+
+        }
+    }
+
+    m_NormalPicTabOrder.insert(0, preBtn);
+    m_NormalPicTabOrder.insert(1, nextBtn);
+    m_NormalPicTabOrder.insert(2, adaptBtn);
+    m_NormalPicTabOrder.insert(3, adaptscreenBtn);
+    m_NormalPicTabOrder.insert(4, clockrightBtn);
+    m_NormalPicTabOrder.insert(5, clockleftBtn);
+    m_NormalPicTabOrder.insert(6, trashBtn);
+    QWidget    *upBtn = findChild<QWidget *>(MOREPIC_UP_BUTTON);
+    QWidget    *downBtn = findChild<QWidget *>(MOREPIC_DOWN_BUTTON);
+    if (upBtn && downBtn) {
+        m_NormalPicTabOrder.push_back(upBtn);
+        m_NormalPicTabOrder.push_back(downBtn);
+    }
+    if (!window()->isFullScreen()) {
+        m_NormalPicTabOrder.push_back(optionButton);
+        m_NormalPicTabOrder.push_back(minButton);
+        m_NormalPicTabOrder.push_back(maxButton);
+        m_NormalPicTabOrder.push_back(closeButton);
+    } else {
+        optionButton->setFocusPolicy(Qt::ClickFocus);
+        minButton->setFocusPolicy(Qt::ClickFocus);
+        maxButton->setFocusPolicy(Qt::ClickFocus);
+        closeButton->setFocusPolicy(Qt::ClickFocus);
+
+        QList<QWidget *>fullBtnlist = findChildren<QWidget *>("DTitlebarDWindowQuitFullscreenButton");
+        for (QWidget *fullBtn : fullBtnlist) {
+            if (fullBtn) {
+                fullBtn->setFocusPolicy(Qt::ClickFocus);
+            }
+        }
+
+    }
+
+    for (int idx = 0; idx < m_NormalPicTabOrder.count() - 1; idx++) {
+        this->setTabOrder(m_NormalPicTabOrder.at(idx), m_NormalPicTabOrder.at(idx + 1));
+    }
+
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)

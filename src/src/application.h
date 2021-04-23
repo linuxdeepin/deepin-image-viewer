@@ -44,7 +44,7 @@ class QCloseEvent;
 #endif
 #define dApp (Application::getinstance())
 /*lmh0728缩略图分辨率IMAGE_HEIGHT_DEFAULT*/
-#define IMAGE_HEIGHT_DEFAULT    300
+#define IMAGE_HEIGHT_DEFAULT    150
 
 DWIDGET_USE_NAMESPACE
 
@@ -208,6 +208,11 @@ signals:
      */
     void dynamicLoadFinished();
 
+
+    /**
+     * @brief TabkeyPress   发送Tab按键按下信号
+     */
+    void TabkeyPress(QObject *obj);
 public slots:
     /**
      * @brief finishLoadSlot    缩略图加载完成信号

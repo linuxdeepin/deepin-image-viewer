@@ -29,7 +29,6 @@
 
 #define VAULT_DECRYPT_DIR_NAME          "vault_unlocked"
 #define VAULT_BASE_PATH (QDir::homePath() + QString("/.local/share/applications"))  //! 获取保险箱创建的目录地址
-
 namespace utils {
 
 namespace image {
@@ -75,16 +74,14 @@ const QString                       thumbnailPath(const QString &path, Thumbnail
 bool                                thumbnailExist(const QString &path, ThumbnailType type = ThumbLarge);
 
 QStringList                         supportedImageFormats();
+
+QPixmap getDamagePixmap(bool bLight = true);
+
 //保险箱地址判断
 QString                             makeVaultLocalPath(const QString &path, const QString &base);
 bool                                isVaultFile(const QString &path);
 //增加该地址能否被删除的api
 bool                                isCanRemove(const QString &path);
-QPixmap getDamagePixmap(bool bLight = true);
-
-
-
-
 
 }  // namespace image
 

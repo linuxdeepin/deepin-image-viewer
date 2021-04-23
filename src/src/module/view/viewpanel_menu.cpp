@@ -65,6 +65,11 @@ QString ss(const QString &text, const QString &defaultValue)
 
 void ViewPanel::initPopupMenu()
 {
+    QShortcut *ctrlm = new QShortcut(QKeySequence("Ctrl+M"), this);
+    ctrlm->setContext(Qt::WindowShortcut);
+    connect(ctrlm, &QShortcut::activated, this, [ = ] {
+        this->customContextMenuRequested(cursor().pos());
+    });
     if (!dApp->isPanelDev()) {
         m_menu = new DMenu;
         connect(this, &ViewPanel::customContextMenuRequested, this, [ = ] {
@@ -200,6 +205,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
         }
         break;
     }
+
     case IdCopy:
         copyImageToClipboard(QStringList(path));
         break;
@@ -234,6 +240,7 @@ void ViewPanel::onMenuItemClicked(QAction *action)
             }
         }
         break;
+
     case IdShowNavigationWindow:
         m_nav->setAlwaysHidden(false);
         break;
@@ -343,8 +350,10 @@ void ViewPanel::updateMenuContent()
         if (m_stack->currentIndex() == 0 && utils::image::imageSupportWallPaper(m_infos.at(m_current).filePath)) {
             appendAction(IdSetAsWallpaper, tr("Set as wallpaper"), ss("Set as wallpaper", "Ctrl+F9"));
         }
-        appendAction(IdDisplayInFileManager, tr("Display in file manager"),
-                     ss("Display in file manager", "Alt+D"));
+        {
+            appendAction(IdDisplayInFileManager, tr("Display in file manager"),
+                         ss("Display in file manager", "Alt+D"));
+        }
         appendAction(IdImageInfo, tr("Image info"), ss("Image info", "Ctrl+I"));
         //appendAction(IdDraw, tr("Draw"), ss("Draw", ""));
     }
@@ -394,6 +403,7 @@ void ViewPanel::initShortcut()
     sc->setContext(Qt::WindowShortcut);
     //fix 36530 当图片读取失败时（格式不支持、文件损坏、没有权限），不能进行缩放操作
     connect(sc, &QShortcut::activated, this, [ = ] {
+        qDebug() << "Qt::Key_Up:";
         if (!m_viewB->image().isNull())
         {
             m_viewB->setScaleValue(1.1);
@@ -415,6 +425,7 @@ void ViewPanel::initShortcut()
     sc = new QShortcut(QKeySequence(Qt::Key_Down), this);
     sc->setContext(Qt::WindowShortcut);
     connect(sc, &QShortcut::activated, this, [ = ] {
+        qDebug() << "Qt::Key_Down:";
         if (QFile(m_viewB->path()).exists() && !m_viewB->image().isNull())
             m_viewB->setScaleValue(0.9);
     });
@@ -424,7 +435,23 @@ void ViewPanel::initShortcut()
         if (QFile(m_viewB->path()).exists() && !m_viewB->image().isNull())
             m_viewB->setScaleValue(0.9);
     });
-
+    // Esc
+//    QShortcut *esc = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+//    esc->setContext(Qt::WindowShortcut);
+//    connect(esc, &QShortcut::activated, this, [ = ] {
+//        if (window()->isFullScreen())
+//        {
+//            toggleFullScreen();
+//        } else
+//        {
+//            if (m_vinfo.inDatabase) {
+//                backToLastPanel();
+//            } else {
+//                dApp->quit();
+//            }
+//        }
+//        emit dApp->signalM->hideExtensionPanel(true);
+//    });
     // 1:1 size
     QShortcut *adaptImage = new QShortcut(QKeySequence("Ctrl+0"), this);
     adaptImage->setContext(Qt::WindowShortcut);

@@ -39,6 +39,7 @@
 #include <QImage>
 #include <QQueue>
 #include <DVtableHook>
+#include <DGuiApplicationHelper>
 
 #include "controller/commandline.h"
 #ifdef USE_UNIONIMAGE
@@ -302,7 +303,7 @@ void ImageLoader::loadInterface(QString path)
 {
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
-    QImage tImg;
+    QImage tImg(IMAGE_HEIGHT_DEFAULT, IMAGE_HEIGHT_DEFAULT, QImage::Format_RGB32);
     QString errMsg;
     if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
         qDebug() << errMsg;
@@ -442,11 +443,12 @@ Application::Application(int &argc, char **argv)
 #else
     m_app = DApplication::globalApplication(argc, argv);
     //判断DTK版本是否支持平板适配
-#if (DTK_VERSION > DTK_VERSION_CHECK(5, 4, 4, 0))
-    m_bIsPanel = false;
+#if (DTK_VERSION >= DTK_VERSION_CHECK(5, 5, 0, 0))
+    m_bIsPanel = Dtk::Gui::DGuiApplicationHelper::isTabletEnvironment();
 #else
     m_bIsPanel = false;
 #endif
+
 #endif
     Dtk::Core::DVtableHook::overrideVfptrFun(m_app, &DApplication::handleQuitAction, this, &Application::quitApp);
     m_LoadThread = nullptr;
@@ -501,6 +503,13 @@ bool Application::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonRelease) {
         emit sigMouseRelease();
+    }
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        // tab键 交互处理
+        if (keyEvent->key() == Qt::Key_Tab) {
+            emit TabkeyPress(obj);
+        }
     }
     return QObject::eventFilter(obj, event);
 }

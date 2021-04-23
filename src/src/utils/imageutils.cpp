@@ -869,7 +869,6 @@ bool isVaultFile(const QString &path)
     return bVaultFile;
 
 }
-
 bool isCanRemove(const QString &path)
 {
     bool bRet = true;
@@ -880,8 +879,6 @@ bool isCanRemove(const QString &path)
     }
     return bRet;
 }
-
-
 }  // namespace image
 
 }  //namespace utils

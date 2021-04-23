@@ -148,7 +148,7 @@ public:
     void emitClickEndSig();
 signals:
     void imageItemclicked(int index, int indexNow, bool iRet = false);
-    void imageMoveclicked(QString path);
+    void imageMoveclicked(const QString &path);
 protected:
     void mouseReleaseEvent(QMouseEvent *ev) override
     {
@@ -413,6 +413,10 @@ public slots:
      * 设置全体按键的状态
      */
     void setAllEnabled(bool iRet = false);
+
+    void slotMovePress(const QString &path);
+
+    void slotClickPress(int index, int indexNow, bool iRet);
 private slots:
     void onThemeChanged(ViewerThemeManager::AppTheme theme);
 //    void updateFilenameLayout();
@@ -421,7 +425,6 @@ protected:
     void resizeEvent(QResizeEvent *event);
 private:
     bool m_inDB;
-
     DIconButton *m_adaptImageBtn {nullptr};
     DIconButton *m_adaptScreenBtn {nullptr};
 //    DIconButton* m_clBT;

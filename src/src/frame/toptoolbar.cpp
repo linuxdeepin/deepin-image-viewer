@@ -82,8 +82,10 @@ TopToolbar::TopToolbar(bool manager, QWidget *parent)
 #ifdef OPENACCESSIBLE
     setAccessibleName(TOP_TOOL_BAR);
     setObjectName(TOP_TOOL_BAR);
+    this->setFocusPolicy(Qt::ClickFocus);
     m_titlebar->setAccessibleName(TITLE_BAR);
     m_titlebar->setObjectName(TITLE_BAR);
+    m_titlebar->setFocusPolicy(Qt::ClickFocus);
 #endif
 }
 
@@ -224,6 +226,7 @@ void TopToolbar::initWidgets()
     m_titletxt->setText("");
     m_titletxt->setObjectName("");
     m_titletxt->setAccessibleName("");
+    m_titletxt->setFocusPolicy(Qt::ClickFocus);
     DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7 /*,QFont::DemiBold*/);
 
 

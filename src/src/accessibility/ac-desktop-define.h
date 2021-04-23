@@ -29,6 +29,7 @@
 
 #include <QString>
 #include <QObject>
+
 //打开使用accessibility
 #define ENABLE_ACCESSIBILITY
 
@@ -120,5 +121,8 @@
 #define IMAGE_LIST_OBJECT QObject::tr("img list") //imglist
 
 #define SLIDER_SHOW_MENU QObject::tr("slidershow_menu") //缩略图右键菜单
+
+#define MOREPIC_UP_BUTTON QObject::tr("morepic_up_button") //多页图向上按键
+#define MOREPIC_DOWN_BUTTON QObject::tr("morepic_down_button") //多页图向下按键
 
 #endif // DESKTOP_ACCESSIBLE_UI_DEFINE_H

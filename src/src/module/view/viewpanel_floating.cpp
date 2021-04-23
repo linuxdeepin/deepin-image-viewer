@@ -109,7 +109,7 @@ void ViewPanel::initNavigation()
         m_viewB->centerOn(x, y);
     });
     connect(m_viewB, &ImageView::transformChanged, [this]() {
-        m_nav->setVisible(! m_nav->isAlwaysHidden() && ! m_viewB->isWholeImageVisible());
+        m_nav->setVisible(dApp->isPanelDev() || (! m_nav->isAlwaysHidden() && ! m_viewB->isWholeImageVisible()));
         m_nav->setRectInImage(m_viewB->visibleImageRect());
     });
     connect(dApp->signalM, &SignalManager::hideNavigation, this, [ = ]() {

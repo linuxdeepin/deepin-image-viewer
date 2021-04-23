@@ -187,8 +187,8 @@ void ViewPanel::initConnect()
     qRegisterMetaType<SignalManager::ViewInfo>("SignalManager::ViewInfo");
     connect(dApp->signalM, &SignalManager::viewImageNoNeedReload,
     this, [ = ](QString & filename) {
-//        emit imageChanged(filename);
-//        openImage(filename);
+        //        emit imageChanged(filename);
+        //        openImage(filename);
         int fileindex = imageIndex(filename);
         if (fileindex >= 0) {
             showImage(fileindex, 0);
@@ -266,7 +266,6 @@ void ViewPanel::initConnectOpenImage()
 #else
         const QStringList image_list = QStringList(QApplication::applicationDirPath() + "/test/jpg113.jpg");
 #endif
-
         if (image_list.isEmpty())
             return;
 
@@ -396,7 +395,6 @@ bool ViewPanel::PopRenameDialog(QString &filepath, QString &filename)
         }
         m_hideCursorTid = startTimer(DELAY_HIDE_CURSOR_INTERVAL);
     }
-
     return false;
 }
 
@@ -473,90 +471,6 @@ void ViewPanel::startFileWatcher()
     });
 
 }
-
-//void ViewPanel::disconnectTTbc()
-//{
-//    if (ttbc) {
-//        ttbc->disconnect();
-//    }
-//}
-
-//void ViewPanel::reConnectTTbc()
-//{
-//    connect(this, &ViewPanel::sigDisenablebutton, ttbc, &TTBContent::DisEnablettbButton, Qt::UniqueConnection);
-//    connect(this, &ViewPanel::changeHideFlag, ttbc, &TTBContent::onChangeHideFlags, Qt::UniqueConnection);
-//    connect(this, &ViewPanel::hidePreNextBtn, ttbc, &TTBContent::onHidePreNextBtn, Qt::UniqueConnection);
-//    connect(this, &ViewPanel::sendAllImageInfos, ttbc, &TTBContent::receveAllIamgeInfos, Qt::UniqueConnection);
-//    connect(this, &ViewPanel::disableDel, ttbc, &TTBContent::disableDelAct, Qt::UniqueConnection);
-
-//    connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel, Qt::UniqueConnection);
-//    connect(this, &ViewPanel::viewImageFrom, ttbc,
-//    [ = ](const QString & dir) {
-//        ttbc->setCurrentDir(dir);
-//    }, Qt::UniqueConnection);
-
-//    connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage, Qt::UniqueConnection);
-//    connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); }, Qt::UniqueConnection);
-//    connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); }, Qt::UniqueConnection);
-//    connect(ttbc, &TTBContent::removed, this, [ = ] {
-//        if (m_dtr->isActive()) {
-//            return ;
-//        }
-//        m_dtr->start();
-//        if (m_vinfo.inDatabase)
-//        {
-//            popupDelDialog(m_infos.at(m_current).filePath);
-//        } else
-//        {
-//            const QString path = m_infos.at(m_current).filePath;
-//            QFile file(path);
-//            if (!file.exists()) {
-//                return;
-//            }
-
-//            if (removeCurrentImage()) {
-//                DDesktopServices::trash(path);
-//                emit dApp->signalM->picDelete();
-//                ttbc->setIsConnectDel(true);
-//                m_bAllowDel = true;
-//                ttbc->disableDelAct(true);
-//            }
-//        }
-//    }, Qt::UniqueConnection);
-
-//    connect(ttbc, &TTBContent::resetTransform, this, [ = ](bool fitWindow) {
-//        if (fitWindow) {
-//            m_viewB->fitWindow_btnclicked();
-//        } else {
-//            m_viewB->fitImage();
-//        }
-//        m_viewB->titleBarControl();
-//    }, Qt::UniqueConnection);
-
-//    connect(m_viewB, &ImageView::disCheckAdaptImageBtn, ttbc, &TTBContent::disCheckAdaptImageBtn, Qt::UniqueConnection);
-//    connect(m_viewB, &ImageView::checkAdaptImageBtn, ttbc, &TTBContent::checkAdaptImageBtn, Qt::UniqueConnection);
-//    connect(m_viewB, &ImageView::sigRequestShowVaguePix, ttbc, &TTBContent::OnRequestShowVaguePix, Qt::UniqueConnection);
-//    connect(dApp->signalM, &SignalManager::insertedIntoAlbum, ttbc,
-//            &TTBContent::updateCollectButton, Qt::UniqueConnection);
-//    connect(dApp->signalM, &SignalManager::removedFromAlbum, ttbc,
-//            &TTBContent::updateCollectButton, Qt::UniqueConnection);
-//    connect(ttbc, &TTBContent::showPrevious, this, [ = ]() {
-//        this->showPrevious();
-//    }, Qt::UniqueConnection);
-//    connect(ttbc, &TTBContent::showNext, this, [ = ]() {
-//        this->showNext();
-//    }, Qt::UniqueConnection);
-//    connect(ttbc, &TTBContent::imageClicked, this,
-//    [ = ](int index, int addIndex) {
-//        this->showImage(index, addIndex);
-//    }, Qt::UniqueConnection);
-//    /*lmh0731*/
-//    connect(ttbc, &TTBContent::imageMoveEnded, this,
-//                    [ = ](int index, int addIndex,bool iRet) {
-//        this->m_bIsOpenPicture=iRet;
-//        this->showImage(index, addIndex);
-//    }, Qt::UniqueConnection);
-//}
 
 bool ViewPanel::GetPixmapStatus(QString filename)
 {
@@ -791,12 +705,14 @@ void ViewPanel::showNormal()
     emit dApp->signalM->enterView(true);
 
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-    QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-    pAn->setDuration(50);
-    pAn->setEasingCurve(QEasingCurve::Linear);
-    pAn->setEndValue(1);
-    pAn->setStartValue(0);
-    pAn->start(QAbstractAnimation::DeleteWhenStopped);
+    if (!dApp->isPanelDev()) {
+        QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
+        pAn->setDuration(50);
+        pAn->setEasingCurve(QEasingCurve::Linear);
+        pAn->setEndValue(1);
+        pAn->setStartValue(0);
+        pAn->start(QAbstractAnimation::DeleteWhenStopped);
+    }
     if (m_isMaximized) {
         window()->showNormal();
         window()->showMaximized();
@@ -808,7 +724,7 @@ void ViewPanel::showNormal()
 //    window()->showNormal();
     emit dApp->signalM->showTopToolbar();
 }
-
+#include <QDesktopWidget>
 void ViewPanel::showFullScreen()
 {
     /*lmh0804改，增加设置窗口置顶*/
@@ -817,13 +733,14 @@ void ViewPanel::showFullScreen()
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
     //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
-
-    QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-    pAn->setDuration(50);
-    pAn->setEasingCurve(QEasingCurve::Linear);
-    pAn->setEndValue(1);
-    pAn->setStartValue(0);
-    pAn->start(QAbstractAnimation::DeleteWhenStopped);
+    if (!dApp->isPanelDev()) {
+        QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
+        pAn->setDuration(2000);
+        pAn->setEasingCurve(QEasingCurve::Linear);
+        pAn->setEndValue(1);
+        pAn->setStartValue(0.9);
+        pAn->start(QAbstractAnimation::DeleteWhenStopped);
+    }
 
     window()->showFullScreen();
 
@@ -968,9 +885,7 @@ QWidget *ViewPanel::bottomTopLeftContent()
     connect(this, &ViewPanel::sendLoadAddInfos, ttbc, &TTBContent::recvLoadAddInfos);
 
     connect(dApp->signalM, &SignalManager::sendLoadSignal, this, &ViewPanel::recvLoadSignal, Qt::UniqueConnection);
-
     connect(ttbc, &TTBContent::clicked, this, &ViewPanel::backToLastPanel);
-
     connect(this, &ViewPanel::imageChanged, ttbc, &TTBContent::setImage);
     connect(ttbc, &TTBContent::rotateClockwise, this, [ = ] { rotateImage(true); });
     connect(ttbc, &TTBContent::rotateCounterClockwise, this, [ = ] { rotateImage(false); });
@@ -990,7 +905,31 @@ QWidget *ViewPanel::bottomTopLeftContent()
             }
 
             //先删除文件，需要判断文件是否删除，如果删除了，再决定看图软件的显示
+//            if (!dApp->isPanelDev()) {
             DDesktopServices::trash(path);
+//            } else {
+//                //新增平板下的删除操作，在平板上DDesktopServices::trash会卡死
+//                QString homePath = QDir::homePath();
+//                QString info = homePath + "/.local/share/Trash/info/" + QFileInfo(path).fileName() + ".trashinfo";
+//                QFile trashfile(homePath + "/.local/share/Trash/files/" + QFileInfo(path).fileName());
+//                trashfile.remove();
+//                bool bReName = QFile::rename(path, homePath + "/.local/share/Trash/files/" + QFileInfo(path).fileName());
+//                if (bReName) {
+//                    QFile tempFile;
+//                    tempFile.setFileName(info);
+//                    if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//                        qDebug() << "打开失败";
+//                    }
+//                    QByteArray array;
+//                    array.append("[Trash Info]\n");
+//                    array.append("Path=").append(path.toUtf8().toPercentEncoding("/")).append("\n");
+//                    QString delTime = QDateTime::currentDateTime().toString(Qt::ISODate);
+//                    array.append("DeletionDate=").append(delTime).append("\n");
+//                    tempFile.write(array);
+//                    tempFile.close();
+//                }
+//            }
+
             QFile fileRemove(path);
             //文件是否被删除的判断bool值
             bool iRetRemove = false;
@@ -1316,7 +1255,6 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
     //检测到通过mtp外设打开不需要缩略图
     //mtp,smb,ptp均不会显示缩略图，卡顿问题，路径包含gvfs虚拟出的某些路径代表是外设，采用单页图片打开
     QString path = QFileInfo(vinfo.path).absolutePath();
-
     if ((path.indexOf("smb-share:server=") != -1 || path.indexOf("mtp:host=") != -1 || path.indexOf("gphoto2:host=") != -1)) {
         m_bOnlyOneiImg = true;
         dApp->setIsOnlyOnePic(true);
@@ -1324,9 +1262,10 @@ void ViewPanel::onViewImage(const SignalManager::ViewInfo &vinfo)
         m_bOnlyOneiImg = false;
         dApp->setIsOnlyOnePic(false);
     }
-    if (vinfo.paths.count() < 2) {
-        dApp->setIsOnlyOnePic(true);
-    }
+    //存在info只有一个情况，这里暂时不做操作
+//    if (vinfo.paths.count() < 2) {
+//        dApp->setIsOnlyOnePic(true);
+//    }
 
     //apple手机，无旋转和删除权限
     if (m_bOnlyOneiImg && path.indexOf("gphoto2:host=Apple") != -1) {
