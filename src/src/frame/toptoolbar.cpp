@@ -226,7 +226,6 @@ void TopToolbar::initWidgets()
     m_titletxt->setText("");
     m_titletxt->setObjectName("");
     m_titletxt->setAccessibleName("");
-    m_titletxt->setFocusPolicy(Qt::ClickFocus);
     DFontSizeManager::instance()->bind(m_titletxt, DFontSizeManager::T7 /*,QFont::DemiBold*/);
 
 
