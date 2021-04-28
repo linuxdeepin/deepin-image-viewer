@@ -32,7 +32,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
  
-Recommends:  qt5-qtimageformats
+Requires:  qt5-qtimageformats
 %description
 %{summary}.
  
