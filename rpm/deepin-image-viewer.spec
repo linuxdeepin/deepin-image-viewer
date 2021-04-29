@@ -1,5 +1,5 @@
 Name:           deepin-image-viewer
-Version:        5.7.8.3
+Version:        5.7.9.8
 Release:        5%{?dist}
 Summary:        Deepin Image Viewer
 License:        GPLv3
@@ -42,10 +42,13 @@ Requires:  qt5-qtimageformats
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
 export PATH=%{_qt5_bindir}:$PATH
-%qmake_qt5 PREFIX=%{_prefix} QMAKE_CFLAGS_ISYSTEM= CONFIG+="DISABLE_FFMPEG DISABLE_ANYTHING"
+mkdir build && pushd build
+%cmake -DCMAKE_BUILD_TYPE=Release -DAPP_VERSION=%{version} -DVERSION=%{version}  ../
 %make_build
+popd
+
 %install
-%make_install INSTALL_ROOT=%{buildroot}
+%make_install -C build INSTALL_ROOT=%{buildroot}
 
  
 %files
