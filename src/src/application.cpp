@@ -465,8 +465,8 @@ Application::Application(int &argc, char **argv)
 //    DApplicationSettings saveTheme;
 
 //    setApplicationVersion(DApplication::buildVersion("1.3"));
-//屏蔽代码注入版本信息
-//    m_app->setApplicationVersion(DApplication::buildVersion("20190828"));
+
+    m_app->setApplicationVersion(DApplication::buildVersion("5.7.10"));
     installEventFilter(new GlobalEventFilter());
 
 
