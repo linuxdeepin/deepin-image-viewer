@@ -1,11 +1,21 @@
+%global debug_package   %{nil}
+%define pkgrelease  1
+%if 0%{?openeuler}
+%define specrelease %{pkgrelease}
+%else
+## allow specrelease to have configurable %%{?dist} tag in other distribution
+%define specrelease %{pkgrelease}%{?dist}
+%endif
+
 Name:           deepin-image-viewer
 Version:        5.7.9.8
-Release:        5%{?dist}
+Release:        %{specrelease}
 Summary:        Deepin Image Viewer
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-image-viewer
-Source0:        %{name}_%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
+BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  freeimage-devel
 BuildRequires:  qt5-linguist
@@ -34,7 +44,7 @@ Requires:       hicolor-icon-theme
  
 Requires:  qt5-qtimageformats
 %description
-%{summary}.
+A deepin image viewer for Linux Deepin.
  
 %prep
 %autosetup -p1
@@ -48,7 +58,7 @@ mkdir build && pushd build
 popd
 
 %install
-%make_install -C build INSTALL_ROOT=%{buildroot}
+%make_install -C build INSTALL_ROOT="%buildroot"
 
  
 %files
@@ -56,6 +66,7 @@ popd
 %license LICENSE
 %{_bindir}/%{name}
 %{_qt5_plugindir}/imageformats/*.so
+%{_datadir}/deepin-manual/manual-assets/application/%{name}/
 %{_datadir}/dbus-1/services/*.service
 %{_datadir}/%{name}/
 %{_datadir}/dman/%{name}/
