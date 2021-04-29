@@ -1,19 +1,11 @@
-%global debug_package   %{nil}
-%define pkgrelease  1
-%if 0%{?openeuler}
-%define specrelease %{pkgrelease}
-%else
-## allow specrelease to have configurable %%{?dist} tag in other distribution
-%define specrelease %{pkgrelease}%{?dist}
-%endif
 
 Name:           deepin-image-viewer
 Version:        5.7.9.8
-Release:        %{specrelease}
+Release:        5%{?dist}
 Summary:        Deepin Image Viewer
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-image-viewer
-Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:        %{name}_%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -58,7 +50,7 @@ mkdir build && pushd build
 popd
 
 %install
-%make_install -C build INSTALL_ROOT="%buildroot"
+%make_install -C build INSTALL_ROOT=%{buildroot}
 
  
 %files
