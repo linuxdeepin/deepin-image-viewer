@@ -61,7 +61,6 @@ popd
 %{_datadir}/deepin-manual/manual-assets/application/%{name}/
 %{_datadir}/dbus-1/services/*.service
 %{_datadir}/%{name}/
-%{_datadir}/dman/%{name}/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
  
