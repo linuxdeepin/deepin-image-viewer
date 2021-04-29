@@ -1,13 +1,11 @@
-
 Name:           deepin-image-viewer
-Version:        5.7.9.8
+Version:        5.7.9.11
 Release:        5%{?dist}
 Summary:        Deepin Image Viewer
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-image-viewer
 Source0:        %{name}_%{version}.tar.gz
 
-BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  freeimage-devel
 BuildRequires:  qt5-linguist
@@ -36,7 +34,7 @@ Requires:       hicolor-icon-theme
  
 Requires:  qt5-qtimageformats
 %description
-A deepin image viewer for Linux Deepin.
+%{summary}.
  
 %prep
 %autosetup -p1
@@ -44,13 +42,10 @@ A deepin image viewer for Linux Deepin.
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
 export PATH=%{_qt5_bindir}:$PATH
-mkdir build && pushd build
-%cmake -DCMAKE_BUILD_TYPE=Release -DAPP_VERSION=%{version} -DVERSION=%{version}  ../
+%qmake_qt5 PREFIX=%{_prefix} DEFINES+="VERSION=%{version}"
 %make_build
-popd
-
 %install
-%make_install -C build INSTALL_ROOT=%{buildroot}
+%make_install INSTALL_ROOT=%{buildroot}
 
  
 %files
@@ -58,12 +53,13 @@ popd
 %license LICENSE
 %{_bindir}/%{name}
 %{_qt5_plugindir}/imageformats/*.so
-%{_datadir}/deepin-manual/manual-assets/application/%{name}/
 %{_datadir}/dbus-1/services/*.service
 %{_datadir}/%{name}/
+%{_datadir}/dman/%{name}/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
- 
+%{_datadir}/deepin-manual/manual-assets/application/*
+
 %changelog
 * Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.7.3.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild

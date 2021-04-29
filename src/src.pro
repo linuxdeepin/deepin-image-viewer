@@ -89,6 +89,9 @@ desktop.files = $$PWD/deepin-image-viewer.desktop
 icons.path = $$APPSHAREDIR/assets/icons
 icons.files = $$PWD/assets/images/*
 
+deepin_manual.path =/usr/share/deepin-manual/manual-assets/application/
+deepin_manual.files=$$PWD/assets/deepin-image-viewer/*
+
 manual.path = $$MANDIR
 manual.files = $$PWD/assets/doc/*
 
@@ -104,7 +107,7 @@ dbus_service.files += $$PWD/com.deepin.ImageViewer.service
 translations.path = $$APPSHAREDIR/translations
 translations.files = $$PWD/translations/*.qm
 
-INSTALLS = target desktop dbus_service icons manual manual_icon app_icon translations
+INSTALLS = target desktop dbus_service icons manual manual_icon app_icon translations deepin_manual
 
 DISTFILES += \
     com.deepin.ImageViewer.service
