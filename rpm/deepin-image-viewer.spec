@@ -42,7 +42,7 @@ Requires:  qt5-qtimageformats
 %build
 # help find (and prefer) qt5 utilities, e.g. qmake, lrelease
 export PATH=%{_qt5_bindir}:$PATH
-%qmake_qt5 PREFIX=%{_prefix} DEFINES+="VERSION=%{Version}"
+%qmake_qt5 PREFIX=%{_prefix} DEFINES+="VERSION=%{version}"
 %make_build
 %install
 %make_install INSTALL_ROOT=%{buildroot}
