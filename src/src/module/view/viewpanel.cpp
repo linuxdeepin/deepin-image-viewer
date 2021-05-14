@@ -732,13 +732,13 @@ void ViewPanel::showFullScreen()
 //    window()->setWindowFlags(Qt::Widget);
     m_isMaximized = window()->isMaximized();
     // Full screen then hide bars because hide animation depends on height()
-    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。
+    //加入动画效果，掩盖左上角展开的视觉效果，以透明度0-1显示。,时间为50ms
     if (!dApp->isPanelDev()) {
         QPropertyAnimation *pAn = new QPropertyAnimation(window(), "windowOpacity");
-        pAn->setDuration(2000);
+        pAn->setDuration(50);
         pAn->setEasingCurve(QEasingCurve::Linear);
         pAn->setEndValue(1);
-        pAn->setStartValue(0.9);
+        pAn->setStartValue(0);
         pAn->start(QAbstractAnimation::DeleteWhenStopped);
     }
 
