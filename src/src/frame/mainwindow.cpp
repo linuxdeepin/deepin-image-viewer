@@ -39,6 +39,7 @@
 #include <QJsonParseError>
 #include <QJsonArray>
 #include <QShortcut>
+#include <QMenu>
 
 #include "utils/baseutils.h"
 #include "../service/dbusimageview_adaptor.h"
@@ -90,6 +91,7 @@ MainWindow::MainWindow(bool manager, QWidget *parent)
     m_pCenterWidget->setAccessibleName(CENTER_WIDGET);
 #endif
     if (titlebar()) {
+        titlebar()->setMenu(new QMenu(this));
         titlebar()->setFixedHeight(50);
         titlebar()->setTitle("");
         titlebar()->setIcon(QIcon::fromTheme("deepin-image-viewer"));
