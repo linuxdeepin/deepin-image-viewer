@@ -169,6 +169,12 @@ public:
      * @return          是否是独一张图片的bool值
      */
     bool IsOnlyOnePic();
+
+    /**
+     * @brief isEuler 是否是欧拉版本
+     * @return          是否是欧拉版本的bool值
+     */
+    bool isEuler();
 signals:
     /**
      * @brief sigMouseRelease  全局线程释放事件
@@ -255,6 +261,7 @@ private:
     Application(int &argc, char **argv);
     bool m_isapplePhone = false;
     bool m_isOnlyOnePic = false;
+    bool m_isEuler = false;
 };
 
 #endif  // APPLICATION_H_

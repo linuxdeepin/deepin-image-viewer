@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "unionimage.h"
+#include "application.h"
 #include <FreeImage.h>
 
 #include <QObject>
@@ -672,7 +673,15 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
         file_suffix_upper = "TIFF";
     }
     QString file_suffix_lower = file_suffix_upper.toLower();
-    if (f == FIF_RAW || union_image_private.m_qtSupported.contains(file_suffix_upper)) {
+    //解决欧拉版对于raw格式问题判断为PICT的问题
+    bool usingQimage = false;
+    if (!dApp->isEuler()) {
+        usingQimage = (f == FIF_RAW);
+    } else {
+        usingQimage = (f == FIF_RAW || f == FIF_PICT);
+    }
+
+    if (usingQimage || union_image_private.m_qtSupported.contains(file_suffix_upper)) {
         QImageReader reader;
         QImage res_qt;
         reader.setFileName(path);

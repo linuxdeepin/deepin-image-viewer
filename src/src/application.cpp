@@ -40,6 +40,7 @@
 #include <QQueue>
 #include <DVtableHook>
 #include <DGuiApplicationHelper>
+#include <DSysInfo>
 
 #include "controller/commandline.h"
 #ifdef USE_UNIONIMAGE
@@ -499,6 +500,8 @@ Application::Application(int &argc, char **argv)
 
         emit sigstartLoad();
     });
+    Dtk::Core::DSysInfo::UosEdition edition =  Dtk::Core::DSysInfo::uosEditionType();
+    m_isEuler =  Dtk::Core::DSysInfo::UosEuler == edition || Dtk::Core::DSysInfo::UosEnterpriseC == edition;
 }
 bool Application::eventFilter(QObject *obj, QEvent *event)
 {
@@ -533,6 +536,11 @@ void Application::setIsOnlyOnePic(bool iRet)
 bool Application::IsOnlyOnePic()
 {
     return m_isOnlyOnePic;
+}
+
+bool Application::isEuler()
+{
+    return m_isEuler;
 }
 
 void Application::initChildren()
