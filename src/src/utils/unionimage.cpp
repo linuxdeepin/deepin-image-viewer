@@ -36,6 +36,7 @@
 #include <QtSvg/QSvgRenderer>
 #include <QMimeDatabase>
 
+#include <DSysInfo>
 
 #define SAVE_QUAITY_VALUE 100
 
@@ -178,13 +179,20 @@ public:
                       << "NEF" ;
         //pic（多张图片） pcx不支持旋转
         m_canSave << "BMP" << "JPG" << "JPEG"  << "JPS" << "JPE" << "PNG"
-                  << "PGM" << "PPM" << "PNM" << "WBMP" << "WEBP"
+                  << "PGM" << "PPM" << "PNM"
                   << "TGA" << "XPM" << "ICO"
                   << "JNG"
 //                << "SVG" //svg不再支持旋转
 //                << "JP2"
 //                << "PCD"
-                  << "RAS";
+                  << "RAS"
+                  << "WBMP";
+        Dtk::Core::DSysInfo::UosEdition edition =  Dtk::Core::DSysInfo::uosEditionType();
+        bool isEuler =  Dtk::Core::DSysInfo::UosEuler == edition || Dtk::Core::DSysInfo::UosEnterpriseC == edition;
+        if (!isEuler) {
+            m_canSave <<   "WEBP";
+        }
+        ;
         m_qtrotate << "ICNS" << "JPG" << "JPEG";
     }
     ~UnionImage_Private()
