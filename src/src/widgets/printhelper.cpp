@@ -173,7 +173,9 @@ RequestedSlot::~RequestedSlot()
 
 void RequestedSlot::paintRequestSync(DPrinter *_printer)
 {
+    //由于之前再度修改了打印的逻辑，导致了相同图片不在被显示，多余多页tiff来说不合理
     QPainter painter(_printer);
+    int indexNum = 0;
     for (QImage img : m_imgs) {
         if (!img.isNull()) {
             painter.setRenderHint(QPainter::Antialiasing);
@@ -185,8 +187,10 @@ void RequestedSlot::paintRequestSync(DPrinter *_printer)
             painter.drawImage(QRectF(0, qreal(wRect.height() - img.height() * ratio) / 2,
                                      wRect.width(), img.height() * ratio), img);
         }
-        if (img != m_imgs.last()) {
+        indexNum++;
+        if (indexNum != m_imgs.size()) {
             _printer->newPage();
+
         }
     }
     painter.end();
