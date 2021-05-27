@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>Application</name>
     <message>
@@ -247,11 +249,11 @@
     <name>RenameDialog</name>
     <message>
         <source>Confirm</source>
-        <translation>确定</translation>
+        <translation>确 定</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation>取 消</translation>
     </message>
     <message>
         <source>Input a new name</source>
