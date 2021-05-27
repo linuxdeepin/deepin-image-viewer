@@ -487,6 +487,8 @@ void ViewPanel::slotCurrentStackWidget(QString &path, bool bpix)
         //存在线程时序的问题，应该这里如果图片为null，bpix应该设置为false，修复bug64355
         if (!pixmapthumb.isNull() || !pixmapgetthumb.isNull()) {
             bpix = true;
+            //解决bug，其他地方删除图片，显示为撕裂图的问题
+            pixmapthumb = pixmapgetthumb;
         } else {
             bpix = false;
         }
