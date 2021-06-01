@@ -48,6 +48,8 @@ class ImageSvgItem : public QGraphicsObject
 public:
     ImageSvgItem(QGraphicsItem *parentItem = nullptr);
     ImageSvgItem(const QString &fileName, QGraphicsItem *parentItem = nullptr);
+    ~ImageSvgItem() override;
+
     void setSharedRenderer(QSvgRenderer *renderer);
     QSvgRenderer *renderer() const;
 

@@ -45,7 +45,6 @@ public:
 
     ImageSvgItemPrivate()
         : renderer(nullptr)
-        , shared(false)
     {
     }
 
@@ -81,13 +80,12 @@ public:
 
     QSvgRenderer *renderer;
     QRectF boundingRect;
-    bool shared;
     QString elemId;
 };
 
 ImageSvgItem::ImageSvgItem(QGraphicsItem *parent)
 //    :QGraphicsSvgItem(parent)
-    : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
+    : QGraphicsObject(*new ImageSvgItemPrivate(), nullptr)
 {
     Q_D(ImageSvgItem);
     d->init(parent);
@@ -95,12 +93,18 @@ ImageSvgItem::ImageSvgItem(QGraphicsItem *parent)
 
 ImageSvgItem::ImageSvgItem(const QString &fileName, QGraphicsItem *parent)
 //:QGraphicsSvgItem(parent)
-    : QGraphicsObject(*new ImageSvgItemPrivate(), 0)
+    : QGraphicsObject(*new ImageSvgItemPrivate(), nullptr)
 {
     Q_D(ImageSvgItem);
     d->init(parent);
     d->renderer->load(fileName);
     d->updateDefaultSize();
+}
+
+ImageSvgItem::~ImageSvgItem()
+{
+    Q_D(ImageSvgItem);
+    delete d->renderer;
 }
 
 QSvgRenderer *ImageSvgItem::renderer() const
@@ -217,11 +221,10 @@ QString ImageSvgItem::elementId() const
 void ImageSvgItem::setSharedRenderer(QSvgRenderer *renderer)
 {
     Q_D(ImageSvgItem);
-    if (!d->shared)
-        delete d->renderer;
+
+    delete d->renderer;
 
     d->renderer = renderer;
-    d->shared = true;
 
     d->updateDefaultSize();
 

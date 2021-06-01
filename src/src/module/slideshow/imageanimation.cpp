@@ -65,8 +65,10 @@ private:
     int loop_pindex;
 };
 
-class ImageAnimationPrivate: public QWidget
+class ImageAnimationPrivate : public QWidget
 {
+    Q_OBJECT
+
 public:
     enum AnimationType {
         FadeEffect = 0,             //图像1渐渐变淡,图像2渐渐显现
@@ -861,3 +863,5 @@ void ImageAnimation::setPaintTarget(PaintTarget target)
 {
     current_target = target;
 }
+
+#include "imageanimation.moc"
