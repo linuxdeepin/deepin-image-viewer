@@ -18,6 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "application.h"
 #include "utils/baseutils.h"
 #include "utils/imageutils.h"
 #include "utils/imageutils_libexif.h"
@@ -621,7 +622,10 @@ QMutex mutex;
 const QPixmap getThumbnail(const QString &path, bool cacheOnly)
 {
     QMutexLocker locker(&mutex);
-
+    //优先读取自身缓存的图片
+    if (dApp->m_imagemap.value(path).isNull()) {
+        return dApp->m_imagemap.value(path);
+    }
     const QString cacheP = thumbnailCachePath();
     const QUrl url = QUrl::fromLocalFile(path);
     const QString md5s = toMd5(url.toString(QUrl::FullyEncoded).toLocal8Bit());

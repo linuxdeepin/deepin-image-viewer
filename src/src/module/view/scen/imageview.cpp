@@ -264,7 +264,10 @@ QVariantList ImageView::cachePixmap(const QString path)
         dApp->m_rectmap.insert(path, p.rect());
         emit dApp->sigFinishLoad(path);
     }
-    dApp->m_imagemap.insert(path, p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
+    //如果图片为空，不会更新
+    if (!p.isNull()) {
+        dApp->m_imagemap.insert(path, p.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation));
+    }
     emit dApp->signalM->sigUpdateThunbnail(path);//为了解决打开两个看图，一个看图旋转另一个看图没有更新缩略图的问题。
 //    if (QFileInfo(path).exists() && p.isNull()) {
 //        //判定为损坏图片
