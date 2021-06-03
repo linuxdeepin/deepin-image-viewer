@@ -109,8 +109,11 @@ void ViewPanel::initNavigation()
         m_viewB->centerOn(x, y);
     });
     connect(m_viewB, &ImageView::transformChanged, [this]() {
-        m_nav->setVisible(dApp->isPanelDev() || (! m_nav->isAlwaysHidden() && ! m_viewB->isWholeImageVisible()));
-        m_nav->setRectInImage(m_viewB->visibleImageRect());
+        //如果stackindex不为2，全屏会出现导航窗口
+        if (m_stack->currentIndex() != 2) {
+            m_nav->setVisible((! m_nav->isAlwaysHidden() && ! m_viewB->isWholeImageVisible()));
+            m_nav->setRectInImage(m_viewB->visibleImageRect());
+        }
     });
     connect(dApp->signalM, &SignalManager::hideNavigation, this, [ = ]() {
         m_nav->setVisible(false);

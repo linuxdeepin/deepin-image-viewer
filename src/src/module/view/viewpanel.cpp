@@ -242,6 +242,8 @@ void ViewPanel::initConnectOpenImage()
     connect(m_emptyWidget, &ThumbnailWidget::nextRequested, this, &ViewPanel::showNext);
     connect(m_lockWidget, &LockWidget::previousRequested, this, &ViewPanel::showPrevious);
     connect(m_lockWidget, &LockWidget::nextRequested, this, &ViewPanel::showNext);
+    connect(m_lockWidget, &LockWidget::showfullScreen, this, &ViewPanel::toggleFullScreen);
+
     connect(m_emptyWidget, &ThumbnailWidget::openImageInDialog, this, [this] {
         QString filter = tr("All images");
 
@@ -907,30 +909,8 @@ QWidget *ViewPanel::bottomTopLeftContent()
             }
 
             //先删除文件，需要判断文件是否删除，如果删除了，再决定看图软件的显示
-//            if (!dApp->isPanelDev()) {
-            DDesktopServices::trash(path);
-//            } else {
-//                //新增平板下的删除操作，在平板上DDesktopServices::trash会卡死
-//                QString homePath = QDir::homePath();
-//                QString info = homePath + "/.local/share/Trash/info/" + QFileInfo(path).fileName() + ".trashinfo";
-//                QFile trashfile(homePath + "/.local/share/Trash/files/" + QFileInfo(path).fileName());
-//                trashfile.remove();
-//                bool bReName = QFile::rename(path, homePath + "/.local/share/Trash/files/" + QFileInfo(path).fileName());
-//                if (bReName) {
-//                    QFile tempFile;
-//                    tempFile.setFileName(info);
-//                    if (!tempFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-//                        qDebug() << "打开失败";
-//                    }
-//                    QByteArray array;
-//                    array.append("[Trash Info]\n");
-//                    array.append("Path=").append(path.toUtf8().toPercentEncoding("/")).append("\n");
-//                    QString delTime = QDateTime::currentDateTime().toString(Qt::ISODate);
-//                    array.append("DeletionDate=").append(delTime).append("\n");
-//                    tempFile.write(array);
-//                    tempFile.close();
-//                }
-//            }
+            //不再采用默认删除,使用utils里面的删除
+            utils::base::trashFile(path);
 
             QFile fileRemove(path);
             //文件是否被删除的判断bool值
@@ -1585,7 +1565,8 @@ bool ViewPanel::showImage(int index, int addindex)
 
 bool ViewPanel::removeCurrentImage()
 {
-    if (m_infos.isEmpty() || !m_bAllowDel) {
+    //删除m_bAllowDel的判断，这是一个异步处理，不符合当前场景，手速快会导致删除成功了，但是显示错误
+    if (m_infos.isEmpty()) {
         return false;
     }
 

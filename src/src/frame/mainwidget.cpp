@@ -395,7 +395,8 @@ void MainWidget::initConnection()
         }
     });
     connect(dApp->signalM, &SignalManager::sigMouseMove, this, [ = ] {
-        if (window()->isFullScreen())
+        //平板全屏不能呼出工具栏
+        if (window()->isFullScreen() && !dApp->isPanelDev())
         {
             QPoint pos = mapFromGlobal(QCursor::pos());
             if (height() - 20 < pos.y() && height() > pos.y() && height() == m_bottomToolbar->y()) {

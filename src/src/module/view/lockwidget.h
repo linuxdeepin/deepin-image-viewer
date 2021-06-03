@@ -46,10 +46,12 @@ public:
 signals:
     void nextRequested();
     void previousRequested();
+    void showfullScreen();
 public slots:
     void setContentText(const QString &text);
     void handleGestureEvent(QGestureEvent *gesture);
 protected:
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -66,5 +68,8 @@ private:
     QLbtoDLabel *m_lockTips;
     int m_startx = 0;
     int m_maxTouchPoints = 0;
+
+    //单击时间
+    qint64 m_clickTime{0};
 };
 #endif // LOCKWIDGET_H

@@ -107,8 +107,24 @@ void LockWidget::handleGestureEvent(QGestureEvent *gesture)
         pinchTriggered(static_cast<QPinchGesture *>(pinch));
 }
 
+void LockWidget::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    //非平板才能双击,其他是单击全屏
+    if (!dApp->isPanelDev() && e->button() == Qt::LeftButton)
+        emit showfullScreen();
+    ThemeWidget::mouseDoubleClickEvent(e);
+}
+
 void LockWidget::mouseReleaseEvent(QMouseEvent *e)
 {
+    //平板单击全屏需求
+    if (dApp->isPanelDev()) {
+        int xpos = e->pos().x() - m_startx;
+        if ((QDateTime::currentMSecsSinceEpoch() - m_clickTime) < 200 && abs(xpos) < 50) {
+            m_clickTime = QDateTime::currentMSecsSinceEpoch();
+            emit showfullScreen();
+        }
+    }
     QWidget::mouseReleaseEvent(e);
     if (e->source() == Qt::MouseEventSynthesizedByQt && m_maxTouchPoints == 1) {
         int offset = e->pos().x() - m_startx;
@@ -127,6 +143,11 @@ void LockWidget::mouseReleaseEvent(QMouseEvent *e)
 
 void LockWidget::mousePressEvent(QMouseEvent *e)
 {
+    //平板单击全屏需求
+    if (dApp->isPanelDev()) {
+        m_clickTime = QDateTime::currentMSecsSinceEpoch();
+    }
+
     QWidget::mousePressEvent(e);
     m_startx = e->pos().x();
 }
