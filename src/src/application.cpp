@@ -306,12 +306,16 @@ void ImageLoader::loadInterface(QString path)
 #ifdef USE_UNIONIMAGE
     QImage tImg(IMAGE_HEIGHT_DEFAULT, IMAGE_HEIGHT_DEFAULT, QImage::Format_RGB32);
     QString errMsg;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+    QSize realSize;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
         qDebug() << errMsg;
     }
     /*lmh0728线程pixmap安全问题*/
-    QImage img = tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
-    QPixmap pixmap = QPixmap::fromImage(img);
+    //wzy0608当loadStaticImageFromFile的快速加载生效时，不重复缩放图片
+    if (tImg.height() != IMAGE_HEIGHT_DEFAULT) {
+        tImg = tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
+    }
+    QPixmap pixmap = QPixmap::fromImage(tImg);
 #else
     QImage tImg;
     QString format = DetectImageFormat(path);
@@ -337,7 +341,8 @@ void ImageLoader::loadInterface(QString path)
     QPixmap pixmap = QPixmap::fromImage(tImg);
 #endif
     QMutexLocker locker(&dApp->getRwLock());
-    m_parent->m_rectmap.insert(path, tImg.rect());
+    //m_parent->m_rectmap.insert(path, tImg.rect());
+    m_parent->m_rectmap.insert(path, QRect(0, 0, realSize.width(), realSize.height()));
     m_parent->m_imagemap.insert(path, pixmap);
     // dApp->getRwLock().unlock();
 
@@ -386,11 +391,14 @@ void Application::loadInterface(QString path)
 #ifdef USE_UNIONIMAGE
     QImage tImg;
     QString errMsg;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+    QSize realSize;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
         qDebug() << errMsg;
     }
-    QImage img = tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::FastTransformation);
-    QPixmap pixmap = QPixmap::fromImage(img);
+    if (tImg.height() != IMAGE_HEIGHT_DEFAULT) {
+        tImg = tImg.scaledToHeight(IMAGE_HEIGHT_DEFAULT,  Qt::SmoothTransformation);
+    }
+    QPixmap pixmap = QPixmap::fromImage(tImg);
 #else
     QImage tImg;
     QString format = DetectImageFormat(path);
@@ -415,7 +423,8 @@ void Application::loadInterface(QString path)
 
     QPixmap pixmap = QPixmap::fromImage(tImg);
 #endif
-    m_rectmap.insert(path, tImg.rect());
+    //m_rectmap.insert(path, tImg.rect());
+    m_rectmap.insert(path, QRect(0, 0, realSize.width(), realSize.height()));
     m_imagemap.insert(path, pixmap);
     // dApp->getRwLock().unlock();
 

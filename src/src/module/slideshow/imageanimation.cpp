@@ -648,7 +648,8 @@ void ImageAnimationPrivate::setImage1(const QString &imageName1_bar)
     m_imageName1 = imageName1_bar;
     QImage tImg;
     QString errMsg;
-    UnionImage_NameSpace::loadStaticImageFromFile(imageName1_bar, tImg, errMsg);
+    QSize realSize;
+    UnionImage_NameSpace::loadStaticImageFromFile(imageName1_bar, tImg, realSize, errMsg);
     QPixmap p1 = QPixmap::fromImage(tImg);
     int beginX = 0, beginY = 0;
     // 多屏显示问题，定位当前屏幕
@@ -694,7 +695,8 @@ void ImageAnimationPrivate::setImage2(const QString &imageName2_bar)
     int beginX = 0, beginY = 0;
     QImage tImg;
     QString errMsg;
-    UnionImage_NameSpace::loadStaticImageFromFile(imageName2_bar, tImg, errMsg);
+    QSize realSize;
+    UnionImage_NameSpace::loadStaticImageFromFile(imageName2_bar, tImg, realSize, errMsg);
     QPixmap p2 = QPixmap::fromImage(tImg);
     // 双屏下或者多屏下
     int screenId = dApp->m_app->desktop()->screenNumber(q_ptr);

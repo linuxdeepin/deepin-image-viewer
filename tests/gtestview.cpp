@@ -724,7 +724,8 @@ TEST_F(gtestview, unionimage)
     QImage rimg(pppath);
     QImage img2;
     QString errorMsg;
-    loadStaticImageFromFile(m_DDSPath, img2, errorMsg);
+    QSize realSize;
+    loadStaticImageFromFile(m_DDSPath, img2, realSize, errorMsg);
     detectImageFormat(m_DDSPath);
     rotateImage(90, img2);
     QString ddsPath = m_DDSPath;

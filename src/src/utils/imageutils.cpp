@@ -57,10 +57,13 @@ const QImage scaleImage(const QString &path, const QSize &size)
 #ifdef USE_UNIONIMAGE
     QImage tImg(size, QImage::Format_ARGB32);
     QString errMsg;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+    QSize realSize;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
         qDebug() << errMsg;
     }
-    tImg = tImg.scaled(size);
+    if (tImg.size() != size) { //调用加速接口失败，主动进行缩放
+        tImg = tImg.scaled(size);
+    }
     return tImg;
 #else
     QImageReader reader(path);
@@ -509,7 +512,8 @@ const QImage getRotatedImage(const QString &path)
     /*lmh0724使用USE_UNIONIMAGE*/
 #ifdef USE_UNIONIMAGE
     QString errMsg;
-    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+    QSize realSize;
+    if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
         qDebug() << errMsg;
     }
 #else

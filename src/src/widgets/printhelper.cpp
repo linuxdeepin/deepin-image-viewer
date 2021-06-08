@@ -126,7 +126,8 @@ void PrintHelper::showPrintDialog(const QStringList &paths, QWidget *parent)
         } else {
             //QImage不应该多次赋值，所以换到这里来，修复style问题
             QImage img;
-            UnionImage_NameSpace::loadStaticImageFromFile(path, img, errMsg);
+            QSize realSize;
+            UnionImage_NameSpace::loadStaticImageFromFile(path, img, realSize, errMsg);
             if (!img.isNull()) {
                 m_re->m_imgs << img;
             }

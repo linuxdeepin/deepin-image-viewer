@@ -275,22 +275,20 @@ TEST_F(gtestview, loadStaticImageFromFile)
 {
     QImage img;
     QString error;
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/jpg.jpg", img, error, "jpg");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/png.png", img, error, "png");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/svg.svg", img, error, "svg");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/tga.tga", img, error, "tga");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/gif.gif", img, error, "gif");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/tif.tif", img, error, "tif");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/mng.mng", img, error, "mng");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/dds.dds", img, error, "dds");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/ico.ico", img, error, "ico");
-    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/wbmp.wbmp", img, error, "wbmp");
-    UnionImage_NameSpace::loadStaticImageFromFile("error", img, error, "svg");
-    UnionImage_NameSpace::loadStaticImageFromFile("error", img, error, "png");
-    UnionImage_NameSpace::loadStaticImageFromFile("error", img, error, "error");
-
-
-
+    QSize realSize;
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/jpg.jpg", img, realSize, error, "jpg");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/png.png", img, realSize, error, "png");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/svg.svg", img, realSize, error, "svg");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/tga.tga", img, realSize, error, "tga");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/gif.gif", img, realSize, error, "gif");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/tif.tif", img, realSize, error, "tif");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/mng.mng", img, realSize, error, "mng");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/dds.dds", img, realSize, error, "dds");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/ico.ico", img, realSize, error, "ico");
+    UnionImage_NameSpace::loadStaticImageFromFile(QApplication::applicationDirPath() + "/wbmp.wbmp", img, realSize, error, "wbmp");
+    UnionImage_NameSpace::loadStaticImageFromFile("error", img, realSize, error, "svg");
+    UnionImage_NameSpace::loadStaticImageFromFile("error", img, realSize, error, "png");
+    UnionImage_NameSpace::loadStaticImageFromFile("error", img, realSize, error, "error");
 }
 
 //TEST_F(gtestview, canSave)

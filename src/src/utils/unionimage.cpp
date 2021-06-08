@@ -657,7 +657,7 @@ UNIONIMAGESHARED_EXPORT bool writeFIBITMAPToFile(FIBITMAP *dib, const QString &p
 //}
 
 QString PrivateDetectImageFormat(const QString &filepath);
-UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar)
+UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QSize &realSize, QString &errorMsg, const QString &format_bar)
 {
     //20210220真实格式来做判断
     /*判断后缀名是不支持格式，直接返回空的Image*/
@@ -693,6 +693,13 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
         QImageReader reader;
         QImage res_qt;
         reader.setFileName(path);
+        realSize = reader.size();
+
+        //当res参数带信息的时候，认为是加载到与之对应大小的尺寸
+        if (!res.isNull()) {
+            reader.setScaledSize(res.size());
+        }
+
         if (format_bar.isEmpty()) {
             reader.setFormat(file_suffix_lower.toLatin1());
         } else {
@@ -720,6 +727,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
                 }
                 errorMsg = "use old method to load QImage";
                 res = try_res;
+                realSize = res.size();
                 return true;
             }
             errorMsg = "use QImage";
@@ -752,6 +760,7 @@ UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage
             }
             FreeImage_Unload(dib);
             errorMsg = "";
+            realSize = res.size();
             return true;
         }
         return false;
@@ -905,7 +914,8 @@ UNIONIMAGESHARED_EXPORT bool rotateImageFIle(int angel, const QString &path, QSt
     QString format = detectImageFormat(path);
     if (format == "SVG") {
         QImage image_copy;
-        if (!loadStaticImageFromFile(path, image_copy, erroMsg)) {
+        QSize realSize;
+        if (!loadStaticImageFromFile(path, image_copy, realSize, erroMsg)) {
             erroMsg = "rotate load QImage faild, path:" + path + "  ,format:+" + format;
             return false;
         }

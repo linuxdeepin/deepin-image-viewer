@@ -124,8 +124,9 @@ QVariantList cacheImage(const QString &path)
 {
     QImage tImg;
     QString errMsg;
+    QSize realSize;
 #if USE_UNIONIMAGE
-    UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg);
+    UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg);
 #else
     QString format = DetectImageFormat(path);
     QImageReader readerF(path, format.toLatin1());
@@ -254,9 +255,10 @@ QVariantList ImageView::cachePixmap(const QString path)
 
     QImage tImg;
     QString errMsg;
+    QSize realSize;
     if (!imageSupportRead(path)) {
         tImg = QImage();
-    } else if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, errMsg)) {
+    } else if (!UnionImage_NameSpace::loadStaticImageFromFile(path, tImg, realSize, errMsg)) {
         qDebug() << errMsg;
     }
     QPixmap p = QPixmap::fromImage(tImg);

@@ -110,6 +110,7 @@ UNIONIMAGESHARED_EXPORT bool isDynamicFormat();
  * @brief LoadImageFromFile
  * @param[in]           path
  * @param[out]          res
+ * @param[out]          realSize
  * @param[out]          errorMsg
  * @return bool
  * @author DJH
@@ -117,8 +118,9 @@ UNIONIMAGESHARED_EXPORT bool isDynamicFormat();
  * 载入成功返回true，图片数据返回到res
  * 载入失败返回false，如果需要可以读取errorMsg返回错误信息
  * 载入动态图片时，只会返回动态图片的第一帧，如果需要动图请使用UnionDynamicImage
+ * 当res传入前设置了大小的时候，会尝试直接按照此大小读取图片（如果尝试失败则直接读取全图），此时图片的真实大小存放在realSize中
  */
-UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QString &errorMsg, const QString &format_bar = "");
+UNIONIMAGESHARED_EXPORT bool loadStaticImageFromFile(const QString &path, QImage &res, QSize &realSize, QString &errorMsg, const QString &format_bar = "");
 
 /**
  * @brief detectImageFormat
