@@ -90,7 +90,7 @@ icons.path = $$APPSHAREDIR/assets/icons
 icons.files = $$PWD/assets/images/*
 
 deepin_manual.path =/usr/share/deepin-manual/manual-assets/application/
-deepin_manual.files=$$PWD/assets/deepin-image-viewer/*
+deepin_manual.files=$$PWD/assets/deepin-image-viewer
 
 manual.path = $$MANDIR
 manual.files = $$PWD/assets/doc/*
